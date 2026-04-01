@@ -1,0 +1,6 @@
+export { DashboardLayout } from "./dashboard-layout"
+export { AppSidebar } from "./app-sidebar"
+export { DashboardHeader } from "./dashboard-header"
+export type { DashboardHeaderProps } from "./dashboard-header"
+export { default as DashboardDetailsPage } from "./dashboard-details-page-layout"
+export type { DashboardDetailsPageLayoutProps, DashboardDetailsTab } from "./dashboard-details-page-layout"

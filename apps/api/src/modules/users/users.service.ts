@@ -1,11 +1,11 @@
 import { Injectable, ConflictException, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '@devloggers/db-prisma/nest';
 import { CreateUserDto, UpdateUserDto } from './dto';
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 
 @Injectable()
 export class UsersService {
-    constructor(private readonly prisma: PrismaService) {}
+    constructor(private readonly prisma: PrismaService) { }
 
     async findAll(tenantId: string, page = 1, limit = 20) {
         const skip = (page - 1) * limit;

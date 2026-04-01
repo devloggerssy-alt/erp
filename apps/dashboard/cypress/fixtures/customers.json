@@ -1,0 +1,47 @@
+{
+  "referral_sources": {
+    "success": true,
+    "data": {
+      "data": [
+        { "id": 1, "name": "Google" },
+        { "id": 2, "name": "Friend Referral" },
+        { "id": 3, "name": "Social Media" }
+      ]
+    }
+  },
+  "payment_terms": {
+    "success": true,
+    "data": {
+      "data": [
+        { "id": 1, "name": "Net 30" },
+        { "id": 2, "name": "Net 60" },
+        { "id": 3, "name": "Due on Receipt" }
+      ]
+    }
+  },
+  "countries": {
+    "success": true,
+    "data": [
+      { "id": 1, "name": "United Arab Emirates" },
+      { "id": 2, "name": "Saudi Arabia" },
+      { "id": 3, "name": "United States" }
+    ]
+  },
+  "states": {
+    "success": true,
+    "data": [
+      { "id": 1, "name": "Dubai" },
+      { "id": 2, "name": "Abu Dhabi" },
+      { "id": 3, "name": "Sharjah" }
+    ]
+  },
+  "customer_created": {
+    "success": true,
+    "data": {
+      "id": 101,
+      "first_name": "John",
+      "last_name": "Doe",
+      "email": "john@example.com"
+    }
+  }
+}

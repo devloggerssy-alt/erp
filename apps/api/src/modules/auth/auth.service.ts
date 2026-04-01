@@ -1,7 +1,7 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from '@devloggers/db-prisma/nest';
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 import { JwtPayload } from './strategies/jwt.strategy';
 
 @Injectable()
@@ -9,7 +9,7 @@ export class AuthService {
     constructor(
         private readonly prisma: PrismaService,
         private readonly jwtService: JwtService,
-    ) {}
+    ) { }
 
     async validateUser(email: string, password: string) {
         const user = await this.prisma.appUser.findFirst({
