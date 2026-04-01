@@ -1,0 +1,17 @@
+// ─── Document Sequence ────────────────────────────────────────────────────────
+model DocumentSequence {
+    id          String   @id @default(uuid())
+    tenantId    String
+    documentType String  // e.g. "PURCHASE_INVOICE", "SALES_INVOICE", "PAYMENT"
+    prefix      String   // e.g. "PUR", "SAL", "PAY"
+    nextNumber  Int      @default(1)
+    padding     Int      @default(5) // zero-pad length, e.g. 5 → 00001
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+
+    tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+    @@unique([tenantId, documentType])
+    @@index([tenantId])
+    @@map("document_sequences")
+}

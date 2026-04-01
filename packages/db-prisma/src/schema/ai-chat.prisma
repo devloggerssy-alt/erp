@@ -1,0 +1,38 @@
+// ─── Message Role Enum ────────────────────────────────────────────────────────
+enum MessageRole {
+    USER
+    ASSISTANT
+}
+
+// ─── AI Chat Session ─────────────────────────────────────────────────────────
+model AiChatSession {
+    id        String   @id @default(uuid())
+    tenantId  String
+    userId    String
+    title     String?
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    tenant   Tenant          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+    messages AiChatMessage[]
+
+    @@index([tenantId])
+    @@index([tenantId, userId])
+    @@map("ai_chat_sessions")
+}
+
+// ─── AI Chat Message ──────────────────────────────────────────────────────────
+model AiChatMessage {
+    id        String      @id @default(uuid())
+    tenantId  String
+    sessionId String
+    role      MessageRole
+    content   String
+    createdAt DateTime    @default(now())
+
+    session AiChatSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+    @@index([tenantId])
+    @@index([sessionId])
+    @@map("ai_chat_messages")
+}

@@ -1,0 +1,89 @@
+// ─── Payment Type Enum ────────────────────────────────────────────────────────
+enum PaymentType {
+    RECEIPT
+    PAYMENT
+    EXPENSE
+    ADJUSTMENT
+}
+
+// ─── Payment Status Enum ──────────────────────────────────────────────────────
+enum PaymentStatus {
+    DRAFT
+    POSTED
+    CANCELLED
+}
+
+// ─── Cashbox ──────────────────────────────────────────────────────────────────
+model Cashbox {
+    id         String   @id @default(uuid())
+    tenantId   String
+    code       String
+    name       String
+    currencyId String
+    balance    Decimal  @default(0) @db.Decimal(18, 4)
+    isActive   Boolean  @default(true)
+    createdAt  DateTime @default(now())
+    updatedAt  DateTime @updatedAt
+
+    tenant   Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+    currency Currency  @relation(fields: [currencyId], references: [id])
+    payments Payment[]
+
+    @@unique([tenantId, code])
+    @@index([tenantId])
+    @@map("cashboxes")
+}
+
+// ─── Payment ──────────────────────────────────────────────────────────────────
+model Payment {
+    id                String        @id @default(uuid())
+    tenantId          String
+    number            String
+    type              PaymentType
+    date              DateTime
+    cashboxId         String
+    partyId           String?
+    currencyId        String
+    fiscalPeriodId    String
+    amount            Decimal       @db.Decimal(18, 4)
+    allocatedAmount   Decimal       @default(0) @db.Decimal(18, 4)
+    unallocatedAmount Decimal       @default(0) @db.Decimal(18, 4)
+    status            PaymentStatus @default(DRAFT)
+    notes             String?
+    postedAt          DateTime?
+    postedBy          String?
+    cancelledAt       DateTime?
+    cancelledBy       String?
+    createdBy         String
+    createdAt         DateTime      @default(now())
+    updatedAt         DateTime      @updatedAt
+
+    tenant       Tenant              @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+    cashbox      Cashbox             @relation(fields: [cashboxId], references: [id])
+    party        Party?              @relation(fields: [partyId], references: [id])
+    currency     Currency            @relation(fields: [currencyId], references: [id])
+    fiscalPeriod FiscalPeriod        @relation(fields: [fiscalPeriodId], references: [id])
+    allocations  PaymentAllocation[]
+
+    @@unique([tenantId, number])
+    @@index([tenantId])
+    @@index([tenantId, status])
+    @@map("payments")
+}
+
+// ─── Payment Allocation ───────────────────────────────────────────────────────
+model PaymentAllocation {
+    id        String   @id @default(uuid())
+    tenantId  String
+    paymentId String
+    invoiceId String
+    amount    Decimal  @db.Decimal(18, 4)
+    createdAt DateTime @default(now())
+
+    payment Payment @relation(fields: [paymentId], references: [id], onDelete: Cascade)
+    invoice Invoice @relation(fields: [invoiceId], references: [id])
+
+    @@index([tenantId])
+    @@index([paymentId])
+    @@map("payment_allocations")
+}

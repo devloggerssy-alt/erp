@@ -1,0 +1,51 @@
+// ─── Stock Count Status Enum ──────────────────────────────────────────────────
+enum StockCountStatus {
+    DRAFT
+    POSTED
+    CANCELLED
+}
+
+// ─── Stock Count ──────────────────────────────────────────────────────────────
+model StockCount {
+    id             String           @id @default(uuid())
+    tenantId       String
+    number         String
+    date           DateTime
+    warehouseId    String
+    fiscalPeriodId String
+    status         StockCountStatus @default(DRAFT)
+    notes          String?
+    postedAt       DateTime?
+    postedBy       String?
+    createdBy      String
+    createdAt      DateTime         @default(now())
+    updatedAt      DateTime         @updatedAt
+
+    tenant       Tenant           @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+    warehouse    Warehouse        @relation(fields: [warehouseId], references: [id])
+    fiscalPeriod FiscalPeriod     @relation(fields: [fiscalPeriodId], references: [id])
+    lines        StockCountLine[]
+
+    @@unique([tenantId, number])
+    @@index([tenantId])
+    @@map("stock_counts")
+}
+
+// ─── Stock Count Line ─────────────────────────────────────────────────────────
+model StockCountLine {
+    id              String   @id @default(uuid())
+    tenantId        String
+    stockCountId    String
+    itemId          String
+    systemQuantity  Decimal  @db.Decimal(18, 4)
+    countedQuantity Decimal  @db.Decimal(18, 4)
+    difference      Decimal  @db.Decimal(18, 4)
+    notes           String?
+
+    stockCount StockCount @relation(fields: [stockCountId], references: [id], onDelete: Cascade)
+    item       Item       @relation(fields: [itemId], references: [id])
+
+    @@index([tenantId])
+    @@index([stockCountId])
+    @@map("stock_count_lines")
+}

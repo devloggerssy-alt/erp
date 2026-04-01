@@ -1,0 +1,43 @@
+# Dependencies
+node_modules
+**/node_modules
+
+# Build outputs
+dist
+**/dist
+*.tsbuildinfo
+**/*.tsbuildinfo
+
+# Development files
+*.log
+*.md
+.git
+.gitignore
+
+# Environment files (should be provided via Coolify)
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+
+# Testing
+coverage
+**/coverage
+*.test.ts
+*.spec.ts
+
+# Other apps (not needed for API build)
+apps/storefront
+apps/store-dashboard
+apps/landing
+
+# Misc
+.DS_Store
+*.pem
+certificates
+

@@ -1,0 +1,30 @@
+// ─── Party ─────────────────────────────────────────────────────────────────────
+enum PartyType {
+    CUSTOMER
+    SUPPLIER
+    CUSTOMER_SUPPLIER
+}
+
+model Party {
+    id             String    @id @default(uuid())
+    tenantId       String
+    code           String?
+    name           String
+    type           PartyType
+    phone          String?
+    email          String?
+    address        String?
+    openingBalance Decimal   @default(0) @db.Decimal(18, 4)
+    isActive       Boolean   @default(true)
+    createdAt      DateTime  @default(now())
+    updatedAt      DateTime  @updatedAt
+
+    tenant   Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+    invoices Invoice[]
+    payments Payment[]
+
+    @@unique([tenantId, code])
+    @@index([tenantId])
+    @@index([tenantId, type])
+    @@map("parties")
+}

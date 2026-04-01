@@ -1,0 +1,21 @@
+// ─── Currency ─────────────────────────────────────────────────────────────────
+model Currency {
+    id        String   @id @default(uuid())
+    tenantId  String
+    code      String   // e.g. SYP, USD
+    name      String   // e.g. Syrian Pound
+    symbol    String?  // e.g. £, $
+    isBase    Boolean  @default(false)
+    isActive  Boolean  @default(true)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    tenant    Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+    cashboxes Cashbox[]
+    invoices  Invoice[]
+    payments  Payment[]
+
+    @@unique([tenantId, code])
+    @@index([tenantId])
+    @@map("currencies")
+}

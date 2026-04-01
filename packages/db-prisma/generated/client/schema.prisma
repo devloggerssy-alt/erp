@@ -1,0 +1,744 @@
+// ─── Account Type Enum ────────────────────────────────────────────────────────
+enum AccountType {
+  ASSET
+  LIABILITY
+  EQUITY
+  REVENUE
+  EXPENSE
+}
+
+// ─── Journal Entry Status Enum ────────────────────────────────────────────────
+enum JournalEntryStatus {
+  DRAFT
+  POSTED
+}
+
+// ─── Chart Of Accounts ───────────────────────────────────────────────────────
+model ChartOfAccount {
+  id        String      @id @default(uuid())
+  tenantId  String
+  code      String
+  name      String
+  type      AccountType
+  parentId  String?
+  isActive  Boolean     @default(true)
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+
+  tenant       Tenant           @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  parent       ChartOfAccount?  @relation("AccountHierarchy", fields: [parentId], references: [id])
+  children     ChartOfAccount[] @relation("AccountHierarchy")
+  journalLines JournalLine[]
+
+  @@unique([tenantId, code])
+  @@index([tenantId])
+  @@map("chart_of_accounts")
+}
+
+// ─── Journal Entry ────────────────────────────────────────────────────────────
+model JournalEntry {
+  id             String             @id @default(uuid())
+  tenantId       String
+  number         String
+  date           DateTime
+  fiscalPeriodId String
+  referenceType  String? // e.g. "invoice", "payment"
+  referenceId    String?
+  description    String?
+  status         JournalEntryStatus @default(DRAFT)
+  postedAt       DateTime?
+  createdBy      String
+  createdAt      DateTime           @default(now())
+  updatedAt      DateTime           @updatedAt
+
+  tenant       Tenant        @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  fiscalPeriod FiscalPeriod  @relation(fields: [fiscalPeriodId], references: [id])
+  lines        JournalLine[]
+
+  @@unique([tenantId, number])
+  @@index([tenantId])
+  @@map("journal_entries")
+}
+
+// ─── Journal Line ─────────────────────────────────────────────────────────────
+model JournalLine {
+  id             String  @id @default(uuid())
+  tenantId       String
+  journalEntryId String
+  accountId      String
+  debit          Decimal @default(0) @db.Decimal(18, 4)
+  credit         Decimal @default(0) @db.Decimal(18, 4)
+  description    String?
+  sortOrder      Int     @default(0)
+
+  journalEntry JournalEntry   @relation(fields: [journalEntryId], references: [id], onDelete: Cascade)
+  account      ChartOfAccount @relation(fields: [accountId], references: [id])
+
+  @@index([tenantId])
+  @@index([journalEntryId])
+  @@map("journal_lines")
+}
+
+// ─── Message Role Enum ────────────────────────────────────────────────────────
+enum MessageRole {
+  USER
+  ASSISTANT
+}
+
+// ─── AI Chat Session ─────────────────────────────────────────────────────────
+model AiChatSession {
+  id        String   @id @default(uuid())
+  tenantId  String
+  userId    String
+  title     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  tenant   Tenant          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  messages AiChatMessage[]
+
+  @@index([tenantId])
+  @@index([tenantId, userId])
+  @@map("ai_chat_sessions")
+}
+
+// ─── AI Chat Message ──────────────────────────────────────────────────────────
+model AiChatMessage {
+  id        String      @id @default(uuid())
+  tenantId  String
+  sessionId String
+  role      MessageRole
+  content   String
+  createdAt DateTime    @default(now())
+
+  session AiChatSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId])
+  @@index([sessionId])
+  @@map("ai_chat_messages")
+}
+
+// ─── Audit Log ────────────────────────────────────────────────────────────────
+model AuditLog {
+  id         String   @id @default(uuid())
+  tenantId   String
+  userId     String
+  action     String // e.g. CREATE, UPDATE, DELETE, POST, CANCEL
+  entityType String // e.g. "invoice", "payment"
+  entityId   String
+  oldValues  Json?
+  newValues  Json?
+  ipAddress  String?
+  createdAt  DateTime @default(now())
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId])
+  @@index([tenantId, entityType, entityId])
+  @@map("audit_logs")
+}
+
+// ─── Payment Type Enum ────────────────────────────────────────────────────────
+enum PaymentType {
+  RECEIPT
+  PAYMENT
+  EXPENSE
+  ADJUSTMENT
+}
+
+// ─── Payment Status Enum ──────────────────────────────────────────────────────
+enum PaymentStatus {
+  DRAFT
+  POSTED
+  CANCELLED
+}
+
+// ─── Cashbox ──────────────────────────────────────────────────────────────────
+model Cashbox {
+  id         String   @id @default(uuid())
+  tenantId   String
+  code       String
+  name       String
+  currencyId String
+  balance    Decimal  @default(0) @db.Decimal(18, 4)
+  isActive   Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  tenant   Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  currency Currency  @relation(fields: [currencyId], references: [id])
+  payments Payment[]
+
+  @@unique([tenantId, code])
+  @@index([tenantId])
+  @@map("cashboxes")
+}
+
+// ─── Payment ──────────────────────────────────────────────────────────────────
+model Payment {
+  id                String        @id @default(uuid())
+  tenantId          String
+  number            String
+  type              PaymentType
+  date              DateTime
+  cashboxId         String
+  partyId           String?
+  currencyId        String
+  fiscalPeriodId    String
+  amount            Decimal       @db.Decimal(18, 4)
+  allocatedAmount   Decimal       @default(0) @db.Decimal(18, 4)
+  unallocatedAmount Decimal       @default(0) @db.Decimal(18, 4)
+  status            PaymentStatus @default(DRAFT)
+  notes             String?
+  postedAt          DateTime?
+  postedBy          String?
+  cancelledAt       DateTime?
+  cancelledBy       String?
+  createdBy         String
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+
+  tenant       Tenant              @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  cashbox      Cashbox             @relation(fields: [cashboxId], references: [id])
+  party        Party?              @relation(fields: [partyId], references: [id])
+  currency     Currency            @relation(fields: [currencyId], references: [id])
+  fiscalPeriod FiscalPeriod        @relation(fields: [fiscalPeriodId], references: [id])
+  allocations  PaymentAllocation[]
+
+  @@unique([tenantId, number])
+  @@index([tenantId])
+  @@index([tenantId, status])
+  @@map("payments")
+}
+
+// ─── Payment Allocation ───────────────────────────────────────────────────────
+model PaymentAllocation {
+  id        String   @id @default(uuid())
+  tenantId  String
+  paymentId String
+  invoiceId String
+  amount    Decimal  @db.Decimal(18, 4)
+  createdAt DateTime @default(now())
+
+  payment Payment @relation(fields: [paymentId], references: [id], onDelete: Cascade)
+  invoice Invoice @relation(fields: [invoiceId], references: [id])
+
+  @@index([tenantId])
+  @@index([paymentId])
+  @@map("payment_allocations")
+}
+
+// ─── Currency ─────────────────────────────────────────────────────────────────
+model Currency {
+  id        String   @id @default(uuid())
+  tenantId  String
+  code      String // e.g. SYP, USD
+  name      String // e.g. Syrian Pound
+  symbol    String? // e.g. £, $
+  isBase    Boolean  @default(false)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  tenant    Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  cashboxes Cashbox[]
+  invoices  Invoice[]
+  payments  Payment[]
+
+  @@unique([tenantId, code])
+  @@index([tenantId])
+  @@map("currencies")
+}
+
+// ─── Document Sequence ────────────────────────────────────────────────────────
+model DocumentSequence {
+  id           String   @id @default(uuid())
+  tenantId     String
+  documentType String // e.g. "PURCHASE_INVOICE", "SALES_INVOICE", "PAYMENT"
+  prefix       String // e.g. "PUR", "SAL", "PAY"
+  nextNumber   Int      @default(1)
+  padding      Int      @default(5) // zero-pad length, e.g. 5 → 00001
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@unique([tenantId, documentType])
+  @@index([tenantId])
+  @@map("document_sequences")
+}
+
+// ─── Fiscal Period ────────────────────────────────────────────────────────────
+model FiscalPeriod {
+  id        String             @id @default(uuid())
+  tenantId  String
+  name      String // e.g. "2026", "Q1 2026"
+  startDate DateTime
+  endDate   DateTime
+  status    FiscalPeriodStatus @default(OPEN)
+  createdAt DateTime           @default(now())
+  updatedAt DateTime           @updatedAt
+
+  tenant         Tenant          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  stockMovements StockMovement[]
+  invoices       Invoice[]
+  payments       Payment[]
+  journalEntries JournalEntry[]
+  stockCounts    StockCount[]
+
+  @@index([tenantId])
+  @@map("fiscal_periods")
+}
+
+enum FiscalPeriodStatus {
+  OPEN
+  CLOSED
+  LOCKED
+}
+
+// ─── Invoice Direction Enum ───────────────────────────────────────────────────
+enum InvoiceDirection {
+  PURCHASE
+  SALE
+}
+
+// ─── Invoice Status Enum ──────────────────────────────────────────────────────
+enum InvoiceStatus {
+  DRAFT
+  POSTED
+  CANCELLED
+}
+
+// ─── Invoice Type ─────────────────────────────────────────────────────────────
+model InvoiceType {
+  id           String           @id @default(uuid())
+  tenantId     String
+  code         String
+  name         String
+  direction    InvoiceDirection
+  affectsStock Boolean          @default(true)
+  isActive     Boolean          @default(true)
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+
+  tenant   Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  invoices Invoice[]
+
+  @@unique([tenantId, code])
+  @@index([tenantId])
+  @@map("invoice_types")
+}
+
+// ─── Invoice ──────────────────────────────────────────────────────────────────
+model Invoice {
+  id             String        @id @default(uuid())
+  tenantId       String
+  invoiceTypeId  String
+  number         String
+  date           DateTime
+  dueDate        DateTime?
+  partyId        String
+  warehouseId    String?
+  fiscalPeriodId String
+  currencyId     String
+  status         InvoiceStatus @default(DRAFT)
+  subtotal       Decimal       @default(0) @db.Decimal(18, 4)
+  discountAmount Decimal       @default(0) @db.Decimal(18, 4)
+  taxAmount      Decimal       @default(0) @db.Decimal(18, 4)
+  total          Decimal       @default(0) @db.Decimal(18, 4)
+  notes          String?
+  postedAt       DateTime?
+  postedBy       String?
+  cancelledAt    DateTime?
+  cancelledBy    String?
+  createdBy      String
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  tenant             Tenant              @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  invoiceType        InvoiceType         @relation(fields: [invoiceTypeId], references: [id])
+  party              Party               @relation(fields: [partyId], references: [id])
+  warehouse          Warehouse?          @relation(fields: [warehouseId], references: [id])
+  fiscalPeriod       FiscalPeriod        @relation(fields: [fiscalPeriodId], references: [id])
+  currency           Currency            @relation(fields: [currencyId], references: [id])
+  lines              InvoiceLine[]
+  paymentAllocations PaymentAllocation[]
+
+  @@unique([tenantId, number])
+  @@index([tenantId])
+  @@index([tenantId, status])
+  @@map("invoices")
+}
+
+// ─── Invoice Line ─────────────────────────────────────────────────────────────
+model InvoiceLine {
+  id              String  @id @default(uuid())
+  tenantId        String
+  invoiceId       String
+  itemId          String
+  unitId          String
+  quantity        Decimal @db.Decimal(18, 4)
+  unitPrice       Decimal @db.Decimal(18, 4)
+  discountPercent Decimal @default(0) @db.Decimal(5, 2)
+  discountAmount  Decimal @default(0) @db.Decimal(18, 4)
+  taxPercent      Decimal @default(0) @db.Decimal(5, 2)
+  taxAmount       Decimal @default(0) @db.Decimal(18, 4)
+  total           Decimal @db.Decimal(18, 4)
+  notes           String?
+  sortOrder       Int     @default(0)
+
+  invoice Invoice @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+  item    Item    @relation(fields: [itemId], references: [id])
+  unit    Unit    @relation(fields: [unitId], references: [id])
+
+  @@index([tenantId])
+  @@index([invoiceId])
+  @@map("invoice_lines")
+}
+
+// ─── Item Category ───────────────────────────────────────────────────────────
+model ItemCategory {
+  id          String   @id @default(uuid())
+  tenantId    String
+  name        String
+  description String?
+  parentId    String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  tenant   Tenant         @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  parent   ItemCategory?  @relation("CategoryHierarchy", fields: [parentId], references: [id])
+  children ItemCategory[] @relation("CategoryHierarchy")
+  items    Item[]
+
+  @@unique([tenantId, name])
+  @@index([tenantId])
+  @@map("item_categories")
+}
+
+// ─── Item ─────────────────────────────────────────────────────────────────────
+model Item {
+  id                  String   @id @default(uuid())
+  tenantId            String
+  code                String
+  name                String
+  barcode             String?
+  categoryId          String
+  baseUnitId          String
+  defaultSellingPrice Decimal? @db.Decimal(18, 4)
+  latestPurchasePrice Decimal? @db.Decimal(18, 4)
+  isActive            Boolean  @default(true)
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  tenant          Tenant           @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  category        ItemCategory     @relation(fields: [categoryId], references: [id])
+  baseUnit        Unit             @relation(fields: [baseUnitId], references: [id])
+  warehouseItems  WarehouseItem[]
+  stockBalances   StockBalance[]
+  stockMovements  StockMovement[]
+  invoiceLines    InvoiceLine[]
+  stockCountLines StockCountLine[]
+
+  @@unique([tenantId, code])
+  @@index([tenantId])
+  @@map("items")
+}
+
+// ─── Party ─────────────────────────────────────────────────────────────────────
+enum PartyType {
+  CUSTOMER
+  SUPPLIER
+  CUSTOMER_SUPPLIER
+}
+
+model Party {
+  id             String    @id @default(uuid())
+  tenantId       String
+  code           String?
+  name           String
+  type           PartyType
+  phone          String?
+  email          String?
+  address        String?
+  openingBalance Decimal   @default(0) @db.Decimal(18, 4)
+  isActive       Boolean   @default(true)
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  tenant   Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  invoices Invoice[]
+  payments Payment[]
+
+  @@unique([tenantId, code])
+  @@index([tenantId])
+  @@index([tenantId, type])
+  @@map("parties")
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../../generated/client"
+}
+
+// ─── Stock Count Status Enum ──────────────────────────────────────────────────
+enum StockCountStatus {
+  DRAFT
+  POSTED
+  CANCELLED
+}
+
+// ─── Stock Count ──────────────────────────────────────────────────────────────
+model StockCount {
+  id             String           @id @default(uuid())
+  tenantId       String
+  number         String
+  date           DateTime
+  warehouseId    String
+  fiscalPeriodId String
+  status         StockCountStatus @default(DRAFT)
+  notes          String?
+  postedAt       DateTime?
+  postedBy       String?
+  createdBy      String
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+
+  tenant       Tenant           @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  warehouse    Warehouse        @relation(fields: [warehouseId], references: [id])
+  fiscalPeriod FiscalPeriod     @relation(fields: [fiscalPeriodId], references: [id])
+  lines        StockCountLine[]
+
+  @@unique([tenantId, number])
+  @@index([tenantId])
+  @@map("stock_counts")
+}
+
+// ─── Stock Count Line ─────────────────────────────────────────────────────────
+model StockCountLine {
+  id              String  @id @default(uuid())
+  tenantId        String
+  stockCountId    String
+  itemId          String
+  systemQuantity  Decimal @db.Decimal(18, 4)
+  countedQuantity Decimal @db.Decimal(18, 4)
+  difference      Decimal @db.Decimal(18, 4)
+  notes           String?
+
+  stockCount StockCount @relation(fields: [stockCountId], references: [id], onDelete: Cascade)
+  item       Item       @relation(fields: [itemId], references: [id])
+
+  @@index([tenantId])
+  @@index([stockCountId])
+  @@map("stock_count_lines")
+}
+
+// ─── Stock Movement Type ──────────────────────────────────────────────────────
+enum StockMovementType {
+  OPENING
+  PURCHASE
+  SALE
+  ADJUSTMENT
+  STOCK_COUNT
+  TRANSFER_IN
+  TRANSFER_OUT
+}
+
+// ─── Stock Balance (projection table for fast reads) ─────────────────────────
+model StockBalance {
+  id          String   @id @default(uuid())
+  tenantId    String
+  warehouseId String
+  itemId      String
+  quantity    Decimal  @default(0) @db.Decimal(18, 4)
+  averageCost Decimal  @default(0) @db.Decimal(18, 4)
+  updatedAt   DateTime @updatedAt
+
+  warehouse Warehouse @relation(fields: [warehouseId], references: [id], onDelete: Cascade)
+  item      Item      @relation(fields: [itemId], references: [id], onDelete: Cascade)
+
+  @@unique([tenantId, warehouseId, itemId])
+  @@index([tenantId])
+  @@map("stock_balances")
+}
+
+// ─── Stock Movement (source of truth ledger) ─────────────────────────────────
+model StockMovement {
+  id             String            @id @default(uuid())
+  tenantId       String
+  warehouseId    String
+  itemId         String
+  fiscalPeriodId String
+  movementType   StockMovementType
+  quantity       Decimal           @db.Decimal(18, 4)
+  unitCost       Decimal           @default(0) @db.Decimal(18, 4)
+  referenceType  String? // e.g. "invoice", "stock_count"
+  referenceId    String?
+  notes          String?
+  createdAt      DateTime          @default(now())
+  createdBy      String
+
+  warehouse    Warehouse    @relation(fields: [warehouseId], references: [id])
+  item         Item         @relation(fields: [itemId], references: [id])
+  fiscalPeriod FiscalPeriod @relation(fields: [fiscalPeriodId], references: [id])
+
+  @@index([tenantId])
+  @@index([tenantId, itemId])
+  @@index([tenantId, warehouseId])
+  @@map("stock_movements")
+}
+
+// ─── Tenant ───────────────────────────────────────────────────────────────────
+model Tenant {
+  id        String   @id @default(uuid())
+  name      String
+  slug      String   @unique
+  address   String?
+  phone     String?
+  email     String?
+  logo      String?
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  users             AppUser[]
+  roles             Role[]
+  currencies        Currency[]
+  fiscalPeriods     FiscalPeriod[]
+  documentSequences DocumentSequence[]
+  itemCategories    ItemCategory[]
+  units             Unit[]
+  items             Item[]
+  parties           Party[]
+  warehouses        Warehouse[]
+  cashboxes         Cashbox[]
+  invoiceTypes      InvoiceType[]
+  invoices          Invoice[]
+  payments          Payment[]
+  chartOfAccounts   ChartOfAccount[]
+  journalEntries    JournalEntry[]
+  stockCounts       StockCount[]
+  auditLogs         AuditLog[]
+  aiChatSessions    AiChatSession[]
+
+  @@map("tenants")
+}
+
+// ─── Unit ─────────────────────────────────────────────────────────────────────
+model Unit {
+  id           String   @id @default(uuid())
+  tenantId     String
+  name         String
+  abbreviation String
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  tenant       Tenant        @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  items        Item[]
+  invoiceLines InvoiceLine[]
+
+  @@unique([tenantId, name])
+  @@index([tenantId])
+  @@map("units")
+}
+
+// ─── App User ─────────────────────────────────────────────────────────────────
+model AppUser {
+  id           String    @id @default(uuid())
+  tenantId     String
+  email        String
+  passwordHash String
+  fullName     String
+  phone        String?
+  isActive     Boolean   @default(true)
+  lastLoginAt  DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  tenant    Tenant     @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  userRoles UserRole[]
+
+  @@unique([tenantId, email])
+  @@index([tenantId])
+  @@map("app_users")
+}
+
+// ─── Role ─────────────────────────────────────────────────────────────────────
+model Role {
+  id          String   @id @default(uuid())
+  tenantId    String
+  name        String
+  description String?
+  isSystem    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  tenant    Tenant     @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  userRoles UserRole[]
+
+  @@unique([tenantId, name])
+  @@index([tenantId])
+  @@map("roles")
+}
+
+// ─── User Role (join table) ──────────────────────────────────────────────────
+model UserRole {
+  id        String   @id @default(uuid())
+  userId    String
+  roleId    String
+  createdAt DateTime @default(now())
+
+  user AppUser @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role Role    @relation(fields: [roleId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, roleId])
+  @@map("user_roles")
+}
+
+// ─── Warehouse ────────────────────────────────────────────────────────────────
+model Warehouse {
+  id        String   @id @default(uuid())
+  tenantId  String
+  code      String
+  name      String
+  address   String?
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  tenant         Tenant          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  warehouseItems WarehouseItem[]
+  stockBalances  StockBalance[]
+  stockMovements StockMovement[]
+  invoices       Invoice[]
+  stockCounts    StockCount[]
+
+  @@unique([tenantId, code])
+  @@index([tenantId])
+  @@map("warehouses")
+}
+
+// ─── Warehouse Item ───────────────────────────────────────────────────────────
+model WarehouseItem {
+  id          String   @id @default(uuid())
+  tenantId    String
+  warehouseId String
+  itemId      String
+  minQuantity Decimal? @db.Decimal(18, 4)
+  maxQuantity Decimal? @db.Decimal(18, 4)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  warehouse Warehouse @relation(fields: [warehouseId], references: [id], onDelete: Cascade)
+  item      Item      @relation(fields: [itemId], references: [id], onDelete: Cascade)
+
+  @@unique([warehouseId, itemId])
+  @@index([tenantId])
+  @@map("warehouse_items")
+}

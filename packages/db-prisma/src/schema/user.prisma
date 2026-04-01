@@ -1,0 +1,52 @@
+// ─── App User ─────────────────────────────────────────────────────────────────
+model AppUser {
+    id           String         @id @default(uuid())
+    tenantId     String
+    email        String
+    passwordHash String
+    fullName     String
+    phone        String?
+    isActive     Boolean        @default(true)
+    lastLoginAt  DateTime?
+    createdAt    DateTime       @default(now())
+    updatedAt    DateTime       @updatedAt
+
+    tenant    Tenant     @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+    userRoles UserRole[]
+
+    @@unique([tenantId, email])
+    @@index([tenantId])
+    @@map("app_users")
+}
+
+// ─── Role ─────────────────────────────────────────────────────────────────────
+model Role {
+    id          String     @id @default(uuid())
+    tenantId    String
+    name        String
+    description String?
+    isSystem    Boolean    @default(false)
+    createdAt   DateTime   @default(now())
+    updatedAt   DateTime   @updatedAt
+
+    tenant    Tenant     @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+    userRoles UserRole[]
+
+    @@unique([tenantId, name])
+    @@index([tenantId])
+    @@map("roles")
+}
+
+// ─── User Role (join table) ──────────────────────────────────────────────────
+model UserRole {
+    id        String   @id @default(uuid())
+    userId    String
+    roleId    String
+    createdAt DateTime @default(now())
+
+    user AppUser @relation(fields: [userId], references: [id], onDelete: Cascade)
+    role Role    @relation(fields: [roleId], references: [id], onDelete: Cascade)
+
+    @@unique([userId, roleId])
+    @@map("user_roles")
+}

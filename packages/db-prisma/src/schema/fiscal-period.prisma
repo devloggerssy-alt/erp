@@ -1,0 +1,27 @@
+// ─── Fiscal Period ────────────────────────────────────────────────────────────
+model FiscalPeriod {
+    id        String             @id @default(uuid())
+    tenantId  String
+    name      String             // e.g. "2026", "Q1 2026"
+    startDate DateTime
+    endDate   DateTime
+    status    FiscalPeriodStatus @default(OPEN)
+    createdAt DateTime           @default(now())
+    updatedAt DateTime           @updatedAt
+
+    tenant         Tenant          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+    stockMovements StockMovement[]
+    invoices       Invoice[]
+    payments       Payment[]
+    journalEntries JournalEntry[]
+    stockCounts    StockCount[]
+
+    @@index([tenantId])
+    @@map("fiscal_periods")
+}
+
+enum FiscalPeriodStatus {
+    OPEN
+    CLOSED
+    LOCKED
+}

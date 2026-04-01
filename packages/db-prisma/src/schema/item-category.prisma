@@ -1,0 +1,20 @@
+// ─── Item Category ───────────────────────────────────────────────────────────
+model ItemCategory {
+    id          String   @id @default(uuid())
+    tenantId    String
+    name        String
+    description String?
+    parentId    String?
+    isActive    Boolean  @default(true)
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+
+    tenant   Tenant         @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+    parent   ItemCategory?  @relation("CategoryHierarchy", fields: [parentId], references: [id])
+    children ItemCategory[] @relation("CategoryHierarchy")
+    items    Item[]
+
+    @@unique([tenantId, name])
+    @@index([tenantId])
+    @@map("item_categories")
+}

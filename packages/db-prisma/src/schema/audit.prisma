@@ -1,0 +1,19 @@
+// ─── Audit Log ────────────────────────────────────────────────────────────────
+model AuditLog {
+    id         String   @id @default(uuid())
+    tenantId   String
+    userId     String
+    action     String   // e.g. CREATE, UPDATE, DELETE, POST, CANCEL
+    entityType String   // e.g. "invoice", "payment"
+    entityId   String
+    oldValues  Json?
+    newValues  Json?
+    ipAddress  String?
+    createdAt  DateTime @default(now())
+
+    tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+    @@index([tenantId])
+    @@index([tenantId, entityType, entityId])
+    @@map("audit_logs")
+}

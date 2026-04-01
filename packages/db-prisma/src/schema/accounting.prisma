@@ -1,0 +1,80 @@
+// ─── Account Type Enum ────────────────────────────────────────────────────────
+enum AccountType {
+    ASSET
+    LIABILITY
+    EQUITY
+    REVENUE
+    EXPENSE
+}
+
+// ─── Journal Entry Status Enum ────────────────────────────────────────────────
+enum JournalEntryStatus {
+    DRAFT
+    POSTED
+}
+
+// ─── Chart Of Accounts ───────────────────────────────────────────────────────
+model ChartOfAccount {
+    id        String      @id @default(uuid())
+    tenantId  String
+    code      String
+    name      String
+    type      AccountType
+    parentId  String?
+    isActive  Boolean     @default(true)
+    createdAt DateTime    @default(now())
+    updatedAt DateTime    @updatedAt
+
+    tenant       Tenant           @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+    parent       ChartOfAccount?  @relation("AccountHierarchy", fields: [parentId], references: [id])
+    children     ChartOfAccount[] @relation("AccountHierarchy")
+    journalLines JournalLine[]
+
+    @@unique([tenantId, code])
+    @@index([tenantId])
+    @@map("chart_of_accounts")
+}
+
+// ─── Journal Entry ────────────────────────────────────────────────────────────
+model JournalEntry {
+    id             String             @id @default(uuid())
+    tenantId       String
+    number         String
+    date           DateTime
+    fiscalPeriodId String
+    referenceType  String?            // e.g. "invoice", "payment"
+    referenceId    String?
+    description    String?
+    status         JournalEntryStatus @default(DRAFT)
+    postedAt       DateTime?
+    createdBy      String
+    createdAt      DateTime           @default(now())
+    updatedAt      DateTime           @updatedAt
+
+    tenant       Tenant       @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+    fiscalPeriod FiscalPeriod @relation(fields: [fiscalPeriodId], references: [id])
+    lines        JournalLine[]
+
+    @@unique([tenantId, number])
+    @@index([tenantId])
+    @@map("journal_entries")
+}
+
+// ─── Journal Line ─────────────────────────────────────────────────────────────
+model JournalLine {
+    id             String   @id @default(uuid())
+    tenantId       String
+    journalEntryId String
+    accountId      String
+    debit          Decimal  @default(0) @db.Decimal(18, 4)
+    credit         Decimal  @default(0) @db.Decimal(18, 4)
+    description    String?
+    sortOrder      Int      @default(0)
+
+    journalEntry JournalEntry   @relation(fields: [journalEntryId], references: [id], onDelete: Cascade)
+    account      ChartOfAccount @relation(fields: [accountId], references: [id])
+
+    @@index([tenantId])
+    @@index([journalEntryId])
+    @@map("journal_lines")
+}

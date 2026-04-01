@@ -1,0 +1,99 @@
+// ─── Invoice Direction Enum ───────────────────────────────────────────────────
+enum InvoiceDirection {
+    PURCHASE
+    SALE
+}
+
+// ─── Invoice Status Enum ──────────────────────────────────────────────────────
+enum InvoiceStatus {
+    DRAFT
+    POSTED
+    CANCELLED
+}
+
+// ─── Invoice Type ─────────────────────────────────────────────────────────────
+model InvoiceType {
+    id           String           @id @default(uuid())
+    tenantId     String
+    code         String
+    name         String
+    direction    InvoiceDirection
+    affectsStock Boolean          @default(true)
+    isActive     Boolean          @default(true)
+    createdAt    DateTime         @default(now())
+    updatedAt    DateTime         @updatedAt
+
+    tenant   Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+    invoices Invoice[]
+
+    @@unique([tenantId, code])
+    @@index([tenantId])
+    @@map("invoice_types")
+}
+
+// ─── Invoice ──────────────────────────────────────────────────────────────────
+model Invoice {
+    id             String        @id @default(uuid())
+    tenantId       String
+    invoiceTypeId  String
+    number         String
+    date           DateTime
+    dueDate        DateTime?
+    partyId        String
+    warehouseId    String?
+    fiscalPeriodId String
+    currencyId     String
+    status         InvoiceStatus @default(DRAFT)
+    subtotal       Decimal       @default(0) @db.Decimal(18, 4)
+    discountAmount Decimal       @default(0) @db.Decimal(18, 4)
+    taxAmount      Decimal       @default(0) @db.Decimal(18, 4)
+    total          Decimal       @default(0) @db.Decimal(18, 4)
+    notes          String?
+    postedAt       DateTime?
+    postedBy       String?
+    cancelledAt    DateTime?
+    cancelledBy    String?
+    createdBy      String
+    createdAt      DateTime      @default(now())
+    updatedAt      DateTime      @updatedAt
+
+    tenant             Tenant              @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+    invoiceType        InvoiceType         @relation(fields: [invoiceTypeId], references: [id])
+    party              Party               @relation(fields: [partyId], references: [id])
+    warehouse          Warehouse?          @relation(fields: [warehouseId], references: [id])
+    fiscalPeriod       FiscalPeriod        @relation(fields: [fiscalPeriodId], references: [id])
+    currency           Currency            @relation(fields: [currencyId], references: [id])
+    lines              InvoiceLine[]
+    paymentAllocations PaymentAllocation[]
+
+    @@unique([tenantId, number])
+    @@index([tenantId])
+    @@index([tenantId, status])
+    @@map("invoices")
+}
+
+// ─── Invoice Line ─────────────────────────────────────────────────────────────
+model InvoiceLine {
+    id              String   @id @default(uuid())
+    tenantId        String
+    invoiceId       String
+    itemId          String
+    unitId          String
+    quantity        Decimal  @db.Decimal(18, 4)
+    unitPrice       Decimal  @db.Decimal(18, 4)
+    discountPercent Decimal  @default(0) @db.Decimal(5, 2)
+    discountAmount  Decimal  @default(0) @db.Decimal(18, 4)
+    taxPercent      Decimal  @default(0) @db.Decimal(5, 2)
+    taxAmount       Decimal  @default(0) @db.Decimal(18, 4)
+    total           Decimal  @db.Decimal(18, 4)
+    notes           String?
+    sortOrder       Int      @default(0)
+
+    invoice Invoice @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+    item    Item    @relation(fields: [itemId], references: [id])
+    unit    Unit    @relation(fields: [unitId], references: [id])
+
+    @@index([tenantId])
+    @@index([invoiceId])
+    @@map("invoice_lines")
+}

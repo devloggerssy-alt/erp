@@ -1,0 +1,41 @@
+// ─── Warehouse ────────────────────────────────────────────────────────────────
+model Warehouse {
+    id        String   @id @default(uuid())
+    tenantId  String
+    code      String
+    name      String
+    address   String?
+    isActive  Boolean  @default(true)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    tenant         Tenant          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+    warehouseItems WarehouseItem[]
+    stockBalances  StockBalance[]
+    stockMovements StockMovement[]
+    invoices       Invoice[]
+    stockCounts    StockCount[]
+
+    @@unique([tenantId, code])
+    @@index([tenantId])
+    @@map("warehouses")
+}
+
+// ─── Warehouse Item ───────────────────────────────────────────────────────────
+model WarehouseItem {
+    id          String   @id @default(uuid())
+    tenantId    String
+    warehouseId String
+    itemId      String
+    minQuantity Decimal? @db.Decimal(18, 4)
+    maxQuantity Decimal? @db.Decimal(18, 4)
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+
+    warehouse Warehouse @relation(fields: [warehouseId], references: [id], onDelete: Cascade)
+    item      Item      @relation(fields: [itemId], references: [id], onDelete: Cascade)
+
+    @@unique([warehouseId, itemId])
+    @@index([tenantId])
+    @@map("warehouse_items")
+}

@@ -1,0 +1,57 @@
+{
+    "name": "@devloggers/db-prisma",
+    "version": "0.0.1",
+    "description": "Database package with Prisma schema and generated client",
+    "main": "./dist/src/index.js",
+    "types": "./dist/src/index.d.ts",
+    "exports": {
+        ".": {
+            "types": "./dist/src/index.d.ts",
+            "import": "./dist/src/index.js",
+            "require": "./dist/src/index.js"
+        },
+        "./client": {
+            "types": "./dist/src/client/index.d.ts",
+            "import": "./dist/src/client/index.js",
+            "require": "./dist/src/client/index.js"
+        },
+        "./nest": {
+            "types": "./dist/src/nest/index.d.ts",
+            "import": "./dist/src/nest/index.js",
+            "require": "./dist/src/nest/index.js"
+        }
+    },
+    "scripts": {
+        "build": "tsc && node -e \"require('fs').cpSync('./generated', './dist/generated', {recursive:true})\"",
+        "dev": "tsc --watch",
+        "clean": "rm -rf dist",
+        "db:generate": "prisma generate --schema=src/schema",
+        "db:migrate:dev": "prisma migrate dev --schema=src/schema",
+        "db:migrate:deploy": "prisma migrate deploy --schema=src/schema",
+        "db:studio": "prisma studio --schema=src/schema",
+        "db:reset": "prisma migrate reset --schema=src/schema",
+        "db:push": "prisma db push --schema=src/schema",
+        "db:seed": "ts-node src/seed/index.ts",
+        "db:seed:clear": "ts-node scripts/clear-seed.ts"
+    },
+    "dependencies": {
+        "@prisma/adapter-pg": "^7.0.0",
+        "@prisma/client": "^7.0.0",
+        "@prisma/config": "^7.0.0",
+        "bcryptjs": "^2.4.3",
+        "pg": "^8.13.1"
+    },
+    "peerDependencies": {
+        "@nestjs/common": "^10.x",
+        "@nestjs/core": "^10.x"
+    },
+    "devDependencies": {
+        "@devloggers/typescript-config": "workspace:*",
+        "@types/bcryptjs": "^2.4.6",
+        "@types/node": "^22.15.3",
+        "@types/pg": "^8.11.10",
+        "prisma": "^7.0.0",
+        "ts-node": "^10.9.2",
+        "typescript": "^5.7.3"
+    }
+}

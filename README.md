@@ -1,135 +1,276 @@
-# Turborepo starter
+````md
+# NestJS Boilerplate – Architecture Documentation
 
-This Turborepo starter is maintained by the Turborepo core team.
+هذا الملف يشرح هيكلية المشروع، مسؤولية كل مجلد، وكيفية استخدامه مع أمثلة بسيطة.  
+الهدف من هذه التقسيمة هو إنشاء Boilerplate احترافي قابل لإعادة الاستخدام في مشاريع SaaS و ERP و E-commerce.
 
-## Using this example
+---
 
-Run the following command:
+## src/
 
-```sh
-npx create-turbo@latest
+الجذر الرئيسي للتطبيق ويحتوي على نقطة التشغيل وربط جميع الوحدات.
+
+### main.ts
+نقطة تشغيل التطبيق (Bootstrap).
+
+### app.module.ts
+يجمع كل الـ Modules الأساسية ولا يحتوي أي Business Logic.
+
+```ts
+@Module({
+  imports: [ConfigModule, UsersModule, AuthModule],
+})
+export class AppModule {}
+````
+
+---
+
+## src/config/
+
+### الهدف
+
+إدارة إعدادات التطبيق بشكل منظم، مع Validation للـ Environment Variables.
+
+### ماذا نضع هنا؟
+
+* قراءة `process.env`
+* التحقق من القيم
+* تقسيم الإعدادات حسب concern (app, db, auth…)
+
+### مثال
+
+```ts
+export default () => ({
+  app: {
+    port: process.env.PORT || 3000,
+  },
+});
 ```
 
-## What's inside?
+قاعدة:
 
-This Turborepo includes the following packages/apps:
+* يمنع استخدام `process.env` مباشرة خارج هذا المجلد.
 
-### Apps and Packages
+---
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+## src/common/
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+### الهدف
 
-### Utilities
+كود مشترك مرتبط بـ NestJS و HTTP lifecycle، بدون أي منطق أعمال.
 
-This Turborepo has some additional tools already setup for you:
+### ماذا نضع هنا؟
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
+* Guards
+* Interceptors
+* Filters
+* Pipes
+* Decorators
+* Base classes
 
-### Build
+### مثال Guard
 
-To build all apps and packages, run the following command:
-
-```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build
-yarn dlx turbo build
-pnpm exec turbo build
+```ts
+@Injectable()
+export class JwtAuthGuard extends AuthGuard('jwt') {}
 ```
 
-You can build a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
+### مثال Decorator
 
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build --filter=docs
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build --filter=docs
-yarn exec turbo build --filter=docs
-pnpm exec turbo build --filter=docs
+```ts
+export const CurrentUser = createParamDecorator(
+  (_, ctx) => ctx.switchToHttp().getRequest().user
+);
 ```
 
-### Develop
+قواعد:
 
-To develop all apps and packages, run the following command:
+* ❌ ممنوع Business Logic
+* ❌ ممنوع التعامل مع Database
+* ✅ مسموح أي شيء مرتبط بالـ Framework
 
-```
-cd my-turborepo
+---
 
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev
+## src/shared/
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev
-yarn exec turbo dev
-pnpm exec turbo dev
-```
+### الهدف
 
-You can develop a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
+منطق مشترك بين أكثر من Module وله معنى على مستوى التطبيق أو الـ Business، وغير مرتبط بـ HTTP.
 
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev --filter=web
+### ماذا نضع هنا؟
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev --filter=web
-yarn exec turbo dev --filter=web
-pnpm exec turbo dev --filter=web
-```
+* Value Objects
+* Services مشتركة
+* Cross-module logic
 
-### Remote Caching
+### مثال Value Object
 
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
+```ts
+export class Money {
+  constructor(
+    public readonly amount: number,
+    public readonly currency: Currency
+  ) {}
 
-Turborepo can use a technique known as [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
-
-```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo login
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo login
-yarn exec turbo login
-pnpm exec turbo login
+  add(other: Money): Money {
+    if (this.currency !== other.currency) {
+      throw new Error('Currency mismatch');
+    }
+    return new Money(this.amount + other.amount, this.currency);
+  }
+}
 ```
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+قاعدة ذهبية:
 
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
+* إذا أزلنا NestJS، يجب أن يبقى هذا المجلد منطقياً وقابلاً للاستخدام.
+
+---
+
+## src/infrastructure/
+
+### الهدف
+
+التعامل مع الأمور التقنية الخارجية فقط.
+
+### ماذا نضع هنا؟
+
+* ORM (Prisma / TypeORM)
+* Redis / Cache
+* Mail
+* Storage
+* Queues
+
+### مثال Repository
+
+```ts
+@Injectable()
+export class UserRepository implements UserRepositoryInterface {
+  findById(id: string) {
+    return this.prisma.user.findUnique({ where: { id } });
+  }
+}
+```
+
+قواعد:
+
+* infrastructure يعرف الـ domain
+* الـ domain لا يعرف infrastructure ❌
+
+---
+
+## src/modules/
+
+### الهدف
+
+كل Module يمثل Feature مستقلة (Users, Orders, Products…).
+
+### هيكلية أي Module
 
 ```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo link
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo link
-yarn exec turbo link
-pnpm exec turbo link
+users/
+├── domain
+├── application
+├── infrastructure
+├── api
+└── users.module.ts
 ```
 
-## Useful Links
+---
 
-Learn more about the power of Turborepo:
+### domain/
 
-- [Tasks](https://turborepo.com/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.com/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.com/docs/reference/configuration)
-- [CLI Usage](https://turborepo.com/docs/reference/command-line-reference)
+يمثل كيان النظام والقواعد الأساسية.
+
+```ts
+export class User {
+  constructor(
+    public id: string,
+    public email: string
+  ) {}
+}
+```
+
+---
+
+### application/
+
+يحتوي Use Cases ومنطق الأعمال.
+
+```ts
+@Injectable()
+export class CreateUserUseCase {
+  execute(dto: CreateUserDto) {
+    // business logic
+  }
+}
+```
+
+قاعدة:
+
+* لا يعرف HTTP
+* لا يعرف Controllers
+
+---
+
+### infrastructure/
+
+تنفيذ فعلي للتعامل مع DB أو Services خارجية داخل هذا الـ Feature.
+
+---
+
+### api/
+
+Controllers و DTO فقط.
+
+```ts
+@Controller('users')
+export class UsersController {
+  @Post()
+  create(@Body() dto: CreateUserDto) {}
+}
+```
+
+قاعدة:
+
+* Controller لا يحتوي Business Logic
+
+---
+
+## src/health/
+
+### الهدف
+
+Health Check Endpoint لمراقبة حالة النظام.
+
+### مثال
+
+```ts
+@Controller('health')
+export class HealthController {
+  @Get()
+  check() {
+    return { status: 'ok' };
+  }
+}
+```
+
+قواعد:
+
+* بدون Auth
+* سريع وخفيف
+
+---
+
+## قواعد معمارية مختصرة
+
+* Feature-Based Architecture
+* Business Logic داخل application فقط
+* Framework Logic داخل common فقط
+* Cross-domain logic داخل shared
+* Infrastructure منفصلة وقابلة للاستبدال
+
+هذه الهيكلية مصممة لتكون أساساً ثابتاً وقابلاً للتوسع في مشاريع كبيرة وطويلة العمر.
+
+```
+```
