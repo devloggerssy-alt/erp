@@ -4,8 +4,8 @@ import { ResourcePage } from "@/shared/data-view/resource-page"
 import { ColumnHeader } from "@/shared/data-view/table-view"
 import FormDialog from "@/shared/components/form-dialog"
 import { VendorForm } from "@/modules/vendors/vendor-form"
-import { VENDOR_ROUTES } from "@garage/api"
-import type { VendorsClient } from "@garage/api"
+import { VENDOR_ROUTES } from "@devloggers/api-client"
+import type { VendorsClient } from "@devloggers/api-client"
 
 export default function VendorsPage() {
     return (

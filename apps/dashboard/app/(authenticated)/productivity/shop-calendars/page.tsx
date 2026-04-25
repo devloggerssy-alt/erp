@@ -4,8 +4,8 @@ import { ResourcePage } from "@/shared/data-view/resource-page"
 import { ColumnHeader } from "@/shared/data-view/table-view"
 import FormDialog from "@/shared/components/form-dialog"
 import { ShopCalendarForm } from "@/modules/shop-calendars/shop-calendar-form"
-import { SHOP_CALENDAR_ROUTES } from "@garage/api"
-import type { ShopCalendarsClient } from "@garage/api"
+import { SHOP_CALENDAR_ROUTES } from "@devloggers/api-client"
+import type { ShopCalendarsClient } from "@devloggers/api-client"
 import { CheckCircle2Icon } from "lucide-react"
 
 export default function ShopCalendarsPage() {

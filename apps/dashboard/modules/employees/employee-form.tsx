@@ -22,7 +22,7 @@ import {
     employeeFormSchema,
     type EmployeeFormValues,
 } from "./employee.schema"
-import { EMPLOYEE_ROUTES, DEPARTMENT_ROUTES, SHOP_TIMING_ROUTES, SHOP_CALENDAR_ROUTES } from "@garage/api"
+import { EMPLOYEE_ROUTES, DEPARTMENT_ROUTES, SHOP_TIMING_ROUTES, SHOP_CALENDAR_ROUTES } from "@devloggers/api-client"
 
 // ── Constants ──
 

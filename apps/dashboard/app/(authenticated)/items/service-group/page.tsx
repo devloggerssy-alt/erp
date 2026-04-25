@@ -5,8 +5,8 @@ import { ColumnHeader } from "@/shared/data-view/table-view"
 import FormDialog from "@/shared/components/form-dialog"
 import { ServiceGroupForm } from "@/modules/service-groups/service-group-form"
 import { Badge } from "@/shared/components/ui/badge"
-import { SERVICE_GROUP_ROUTES } from "@garage/api"
-import type { ServiceGroupsClient } from "@garage/api"
+import { SERVICE_GROUP_ROUTES } from "@devloggers/api-client"
+import type { ServiceGroupsClient } from "@devloggers/api-client"
 
 export default function ServiceGroupPage() {
     return (

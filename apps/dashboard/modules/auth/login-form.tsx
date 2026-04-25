@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { Button } from "@/shared/components/ui/button"
-import { api } from '@garage/api'
+import { api } from '@devloggers/api'
 import {
     Card,
     CardContent,

@@ -1,53 +1,40 @@
 {
-    "name": "@devloggers/api-client",
-    "version": "0.0.1",
-    "description": "Shared API client package for E-Dukan apps (typed fetch layer + React Query hooks)",
-    "main": "./dist/index.js",
-    "types": "./dist/index.d.ts",
-    "exports": {
-        ".": {
-            "types": "./dist/index.d.ts",
-            "import": "./dist/index.js",
-            "require": "./dist/index.js"
-        },
-        "./react": {
-            "types": "./dist/react.d.ts",
-            "import": "./dist/react.js",
-            "require": "./dist/react.js"
-        },
-        "./client": {
-            "types": "./dist/client.d.ts",
-            "import": "./dist/client.js",
-            "require": "./dist/client.js"
-        }
+  "name": "@devloggers/api-client",
+  "version": "0.0.0",
+  "private": true,
+  "exports": {
+    ".": "./src/index.ts",
+    "./infra": "./src/infra/index.ts",
+    "./clients": "./src/clients/index.ts",
+    "./server": "./src/server.ts",
+    "./postman/*": "./postman/*",
+    "./open-api/*": "./open-api/*",
+    "./types": "./types/index.ts",
+    "./types/*": "./types/*"
+  },
+  "scripts": {
+    "generate:types": "node scripts/generate-types.cjs",
+    "generate": "pnpm run generate:types http://localhost:4040/swagger.yaml",
+    "build": "pnpm run generate",
+    "lint": "echo \"No lint configured for @devloggers/api\"",
+    "check-types": "echo \"No typecheck configured for @devloggers/api\""
+  },
+  "dependencies": {
+    "openapi-fetch": "^0.14.0"
+  },
+  "devDependencies": {
+    "openapi-typescript": "^7.10.1"
+  },
+  "peerDependencies": {
+    "next": ">=14",
+    "server-only": "*"
+  },
+  "peerDependenciesMeta": {
+    "next": {
+      "optional": true
     },
-    "scripts": {
-        "build": "tsc",
-        "dev": "tsc --watch",
-        "clean": "rm -rf dist"
-    },
-    "dependencies": {
-        "@devloggers/contracts": "workspace:*",
-        "axios": "^1.13.2"
-    },
-    "peerDependencies": {
-        "react": "^18.0.0 || ^19.0.0",
-        "react-dom": "^18.0.0 || ^19.0.0",
-        "@tanstack/react-query": "^5.0.0"
-    },
-    "devDependencies": {
-        "@devloggers/eslint-config": "workspace:*",
-        "@devloggers/typescript-config": "workspace:*",
-        "@types/react": "^18.3.0 || ^19.0.0",
-        "@types/react-dom": "^18.3.0 || ^19.0.0",
-        "@types/node": "^22.0.0",
-        "ts-node": "^10.9.2",
-        "typescript": "^5.7.3"
-    },
-    "engines": {
-        "node": ">=18.0.0"
-    },
-    "publishConfig": {
-        "access": "public"
+    "server-only": {
+      "optional": true
     }
+  }
 }

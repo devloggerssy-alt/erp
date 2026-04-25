@@ -31,11 +31,14 @@ async function bootstrap() {
     .build();
 
   const document = SwaggerModule.createDocument(app, swaggerConfig, {
-    operationIdFactory: (_controllerKey: string, methodKey: string) => methodKey,
+    operationIdFactory: (controllerKey: string, methodKey: string) =>
+      `${controllerKey.replace('Controller', '')}.${methodKey}`,
   });
 
   SwaggerModule.setup('docs', app, document, {
     customSiteTitle: 'Devloggers ERP API',
+    jsonDocumentUrl: 'swagger.json',
+    yamlDocumentUrl: 'swagger.yaml',
     swaggerOptions: {
       persistAuthorization: true,
       displayRequestDuration: true,
@@ -56,6 +59,7 @@ async function bootstrap() {
   await app.listen(port);
   console.log(`🚀 ERP API running on http://localhost:${port}`);
   console.log(`📚 Swagger docs at http://localhost:${port}/docs`);
+  console.log(`📚 Swagger yaml at http://localhost:${port}/swagger.yaml`);
 }
 
 bootstrap().catch((err) => {

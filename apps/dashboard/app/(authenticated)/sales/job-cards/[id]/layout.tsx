@@ -1,5 +1,5 @@
 import { DashboardDetailsPage } from '@/base/components/layout/dashboard'
-import { getServerApi } from '@garage/api/server'
+import { getServerApi } from '@devloggers/api/server'
 import { JobCardActions } from '@/modules/job-cards/job-card-actions'
 import { JobCardProvider } from '@/modules/job-cards/job-card-context'
 import { JobCardStatusStepper } from '@/modules/job-cards/job-card-status-stepper'

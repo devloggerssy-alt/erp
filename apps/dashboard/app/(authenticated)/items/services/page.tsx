@@ -4,8 +4,8 @@ import { ResourcePage } from "@/shared/data-view/resource-page"
 import { ColumnHeader } from "@/shared/data-view/table-view"
 import FormDialog from "@/shared/components/form-dialog"
 import { ServiceForm } from "@/modules/services/service-form"
-import { SERVICE_ROUTES } from "@garage/api"
-import type { ServicesClient } from "@garage/api"
+import { SERVICE_ROUTES } from "@devloggers/api-client"
+import type { ServicesClient } from "@devloggers/api-client"
 
 export default function ServicesPage() {
     return (

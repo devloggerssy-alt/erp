@@ -1,48 +1,48 @@
-import { ApiQueryOptions, ApiResponse } from "@devloggers/contracts";
+import { ApiQueryOptions } from "@devloggers/contracts";
 import { ApiClient } from "./apiClient";
 import { serializeQueryOptions } from "../utils/querySerializer";
-import { HttpClientOptions } from "./fetchHttpClient";
+import { FetchHttpClientConfig } from "./fetchHttpClient";
 
-export type ApiAction = <RT>(url: string, options?: Partial<HttpClientOptions>) => Promise<RT>;
+export type ApiAction = <RT>(url: string, options?: Partial<FetchHttpClientConfig>) => Promise<RT>;
 
 export class ApiService<ListResponse = any[], ItemResponse = any, CreateDto = any, UpdateDto = any> {
     constructor(protected readonly apiClient: ApiClient, public moduleName: string = '') {
 
     }
 
-    get = <RT>(url: string, options?: Partial<HttpClientOptions> & { query?: ApiQueryOptions }) => {
+    get = <RT>(url: string, options?: Partial<FetchHttpClientConfig> & { query?: ApiQueryOptions }) => {
         return this.apiClient.fetch<RT>(url, options);
     }
 
-    post = <RT>(url: string, options?: Partial<HttpClientOptions>) => {
+    post = <RT>(url: string, options?: Partial<FetchHttpClientConfig>) => {
         return this.apiClient.fetch<RT>(url, {
             method: "POST",
             ...options
         });
     }
 
-    put = <RT>(url: string, options?: Partial<HttpClientOptions>) => {
+    put = <RT>(url: string, options?: Partial<FetchHttpClientConfig>) => {
         return this.apiClient.fetch<RT>(url, {
             method: "PUT",
             ...options
         });
     }
 
-    delete = <RT>(url: string, options?: Partial<HttpClientOptions>) => {
+    delete = <RT>(url: string, options?: Partial<FetchHttpClientConfig>) => {
         return this.apiClient.fetch<RT>(url, {
             method: "DELETE",
             ...options
         });
     }
 
-    patch = <RT>(url: string, options?: Partial<HttpClientOptions>) => {
+    patch = <RT>(url: string, options?: Partial<FetchHttpClientConfig>) => {
         return this.apiClient.fetch<RT>(url, {
             method: "PATCH",
             ...options
         });
     }
 
-    getList = <RT = ListResponse>(query?: ApiQueryOptions, options?: Partial<HttpClientOptions>, url?: string) => {
+    getList = <RT = ListResponse>(query?: ApiQueryOptions, options?: Partial<FetchHttpClientConfig>, url?: string) => {
         const baseUrl = url || `${this.moduleName}`;
         console.log("GET_LIST", baseUrl)
         const queryString = query ? serializeQueryOptions(query) : '';
@@ -51,17 +51,17 @@ export class ApiService<ListResponse = any[], ItemResponse = any, CreateDto = an
         return this.apiClient.fetch<RT>(finalUrl, {
             method: "GET",
             ...options
-        }) as Promise<ApiResponse<RT>>;
+        });
     }
 
-    getOne = <RT = ItemResponse>(id: string, options?: Partial<HttpClientOptions>, url?: string) => {
+    getOne = <RT = ItemResponse>(id: string, options?: Partial<FetchHttpClientConfig>, url?: string) => {
         return this.apiClient.fetch<RT>(url || `${this.moduleName}/${id}`, {
             method: "GET",
             ...options
         });
     }
 
-    create = <RT,>(options?: Partial<HttpClientOptions>, url?: string) => {
+    create = <RT,>(options?: Partial<FetchHttpClientConfig>, url?: string) => {
         return this.apiClient.fetch<RT>(url || `${this.moduleName}`, {
             method: "POST",
             body: JSON.stringify(options?.body),
@@ -69,21 +69,21 @@ export class ApiService<ListResponse = any[], ItemResponse = any, CreateDto = an
         });
     }
 
-    deleteOne = <RT>(id: string, options?: Partial<HttpClientOptions>, url?: string) => {
+    deleteOne = <RT>(id: string, options?: Partial<FetchHttpClientConfig>, url?: string) => {
         return this.apiClient.fetch<RT>(url || `${this.moduleName}/${id}`, {
             method: "DELETE",
             ...options
         });
     }
 
-    deleteMany = <RT>(ids: string[], options?: Partial<HttpClientOptions>, url?: string) => {
+    deleteMany = <RT>(ids: string[], options?: Partial<FetchHttpClientConfig>, url?: string) => {
         return this.apiClient.fetch<RT>(url || `${this.moduleName}`, {
             method: "DELETE",
             ...options
         });
     }
 
-    update = <RT>(id: string, data: any, options?: Partial<HttpClientOptions>, url?: string) => {
+    update = <RT>(id: string, data: any, options?: Partial<FetchHttpClientConfig>, url?: string) => {
         return this.apiClient.fetch<RT>(url || `${this.moduleName}/${id}`, {
             method: "PUT",
             body: JSON.stringify(data),
@@ -92,7 +92,7 @@ export class ApiService<ListResponse = any[], ItemResponse = any, CreateDto = an
     }
 
 
-    updateMany = <RT>(data: any, options?: Partial<HttpClientOptions>, url?: string) => {
+    updateMany = <RT>(data: any, options?: Partial<FetchHttpClientConfig>, url?: string) => {
         return this.apiClient.fetch<RT>(url || `${this.moduleName}/update`, {
             method: "PUT",
             body: JSON.stringify(data),

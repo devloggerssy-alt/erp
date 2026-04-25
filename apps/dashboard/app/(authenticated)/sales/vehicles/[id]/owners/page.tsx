@@ -23,8 +23,8 @@ import { RhfAsyncSelectField } from "@/shared/components/form"
 import { Rhform } from "@/shared/components/form"
 import { useForm } from "react-hook-form"
 import { TableCell, TableRow } from "@/shared/components/ui/table"
-import { ApiResponse, CustomersClient } from "@garage/api"
-import { paths } from "@garage/api/types"
+import { ApiResponse, CustomersClient } from "@devloggers/api-client"
+import { paths } from "@devloggers/api/types"
 import DashboardPage from "@/base/components/layout/dashboard/dashboard-page"
 
 type Owner = {

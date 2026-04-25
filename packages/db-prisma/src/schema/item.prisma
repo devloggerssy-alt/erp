@@ -1,3 +1,12 @@
+enum FieldType {
+    TEXT
+    DATE
+    NUMBER
+    SELECT
+    BOOLEAN
+    MULTI_SELECT
+}
+
 // ─── Item ─────────────────────────────────────────────────────────────────────
 model Item {
     id                  String   @id @default(uuid())
@@ -13,16 +22,53 @@ model Item {
     createdAt           DateTime @default(now())
     updatedAt           DateTime @updatedAt
 
-    tenant          Tenant           @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-    category        ItemCategory     @relation(fields: [categoryId], references: [id])
-    baseUnit        Unit             @relation(fields: [baseUnitId], references: [id])
+    tenant          Tenant             @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+    category        ItemCategory       @relation(fields: [categoryId], references: [id])
+    baseUnit        Unit               @relation(fields: [baseUnitId], references: [id])
     warehouseItems  WarehouseItem[]
     stockBalances   StockBalance[]
     stockMovements  StockMovement[]
     invoiceLines    InvoiceLine[]
     stockCountLines StockCountLine[]
+    customValues    CustomFieldValue[]
 
     @@unique([tenantId, code])
     @@index([tenantId])
     @@map("items")
+}
+
+model CustomField {
+    id           String    @id @default(uuid())
+    tenantId     String
+    module       String
+    name         String
+    label        String
+    type         FieldType
+    defaultValue String? // For boolean true/false as string 
+    placeholder  String?
+    options      String[] // For select field
+    isRequired   Boolean   @default(false)
+    createdAt    DateTime  @default(now())
+
+    values CustomFieldValue[]
+
+    @@unique([tenantId, name, module])
+    @@index([tenantId, module])
+    @@map("custom_fields")
+}
+
+model CustomFieldValue {
+    id       String @id @default(uuid())
+    tenantId String
+    fieldId  String
+    itemId   String
+    value    String
+
+    field CustomField @relation(fields: [fieldId], references: [id], onDelete: Cascade)
+    item  Item        @relation(fields: [itemId], references: [id])
+
+    @@index([itemId])
+    @@index([tenantId, itemId])
+    @@index([fieldId, value])
+    @@map("custom_field_values")
 }

@@ -4,8 +4,8 @@ import { ResourcePage } from "@/shared/data-view/resource-page"
 import { ColumnHeader } from "@/shared/data-view/table-view"
 import FormDialog from "@/shared/components/form-dialog"
 import { ShopTimingForm } from "@/modules/shop-timings/shop-timing-form"
-import { SHOP_TIMING_ROUTES } from "@garage/api"
-import type { ShopTimingsClient } from "@garage/api"
+import { SHOP_TIMING_ROUTES } from "@devloggers/api-client"
+import type { ShopTimingsClient } from "@devloggers/api-client"
 import { CheckCircle2Icon } from "lucide-react"
 
 export default function ShopTimingsPage() {

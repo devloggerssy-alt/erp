@@ -4,8 +4,8 @@ import { ResourcePage } from "@/shared/data-view/resource-page"
 import { ColumnHeader } from "@/shared/data-view/table-view"
 import FormDialog from "@/shared/components/form-dialog"
 import { EmployeeForm } from "@/modules/employees/employee-form"
-import { EMPLOYEE_ROUTES } from "@garage/api"
-import type { EmployeesClient } from "@garage/api"
+import { EMPLOYEE_ROUTES } from "@devloggers/api-client"
+import type { EmployeesClient } from "@devloggers/api-client"
 
 export default function EmployeesPage() {
     return (

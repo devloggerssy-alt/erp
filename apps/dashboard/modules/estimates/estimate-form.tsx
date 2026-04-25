@@ -23,7 +23,7 @@ import {
     estimateFormSchema,
     type EstimateFormValues,
 } from "./estimate.schema"
-import { ESTIMATE_ROUTES, CUSTOMER_ROUTES, VEHICLE_ROUTES, DEPARTMENT_ROUTES, LABEL_ROUTES } from "@garage/api"
+import { ESTIMATE_ROUTES, CUSTOMER_ROUTES, VEHICLE_ROUTES, DEPARTMENT_ROUTES, LABEL_ROUTES } from "@devloggers/api-client"
 
 // ── Props ──
 

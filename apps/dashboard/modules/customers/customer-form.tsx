@@ -21,7 +21,7 @@ import {
     customerFormSchema,
     type CustomerFormValues,
 } from "./customer.schema"
-import { CUSTOMER_ROUTES } from "@garage/api"
+import { CUSTOMER_ROUTES } from "@devloggers/api-client"
 
 // ── Constants ──
 

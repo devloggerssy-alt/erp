@@ -24,7 +24,7 @@ import {
     DISCOUNT_TYPE_OPTIONS,
     DISCOUNT_AT_OPTIONS,
 } from "./job-card.schema"
-import { JOB_CARD_ROUTES, CUSTOMER_ROUTES, VEHICLE_ROUTES } from "@garage/api"
+import { JOB_CARD_ROUTES, CUSTOMER_ROUTES, VEHICLE_ROUTES } from "@devloggers/api-client"
 
 // ── Props ──
 

@@ -4,8 +4,8 @@ import { ResourcePage } from "@/shared/data-view/resource-page"
 import { ColumnHeader } from "@/shared/data-view/table-view"
 import FormDialog from "@/shared/components/form-dialog"
 import { HolidayYearForm } from "@/modules/settings/holiday-year/holiday-year-form"
-import { HOLIDAY_YEAR_ROUTES } from "@garage/api"
-import type { HolidayYearsClient } from "@garage/api"
+import { HOLIDAY_YEAR_ROUTES } from "@devloggers/api-client"
+import type { HolidayYearsClient } from "@devloggers/api-client"
 
 export default function HolidayYearsPage() {
     return (

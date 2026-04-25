@@ -5,8 +5,8 @@ import { ColumnHeader } from "@/shared/data-view/table-view"
 import FormDialog from "@/shared/components/form-dialog"
 import { PartForm } from "@/modules/parts/part-form"
 import { Badge } from "@/shared/components/ui/badge"
-import { PARTS_ROUTES } from "@garage/api"
-import type { PartsClient } from "@garage/api"
+import { PARTS_ROUTES } from "@devloggers/api-client"
+import type { PartsClient } from "@devloggers/api-client"
 
 export default function PartsPage() {
     return (

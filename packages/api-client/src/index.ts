@@ -1,11 +1,12 @@
-export { AuthApi } from './modules/auth.client';
-export { ApiClient } from './apiClient'
-export { FetchHttpClient } from './fetchHttpClient'
-export { createApiRegistry } from './modulesRegistry'
-export * from './modules'
+// ── Infrastructure ──
+export * from "./infra/index"
 
-export type * from './apiClient'
-export type * from './core/apiRegistry'
-export type * from './apiService'
-export type * from './fetchHttpClient'
-export type * from './modulesRegistry'
+// ── Contracts ──
+export * from "./contracts/types"
+
+// ── Domain Clients ──
+export * from "./clients/index"
+
+// ── Factory ──
+export { createApi, api } from "./api"
+

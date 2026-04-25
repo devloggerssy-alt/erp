@@ -22,7 +22,7 @@ import { useFormMutation } from "@/shared/hooks/use-form-mutation"
 import { toId } from "@/shared/lib/utils"
 
 import { partFormSchema, type PartFormValues } from "./part.schema"
-import { PARTS_ROUTES } from "@garage/api"
+import { PARTS_ROUTES } from "@devloggers/api-client"
 
 // ── Props ──
 

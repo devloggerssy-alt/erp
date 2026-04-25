@@ -19,7 +19,7 @@ import {
     shopTimingFormSchema,
     type ShopTimingFormValues,
 } from "./shop-timing.schema"
-import { SHOP_TIMING_ROUTES } from "@garage/api"
+import { SHOP_TIMING_ROUTES } from "@devloggers/api-client"
 
 // ── Props ──
 

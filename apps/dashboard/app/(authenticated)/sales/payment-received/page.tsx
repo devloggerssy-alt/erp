@@ -4,7 +4,7 @@ import { ResourcePage } from "@/shared/data-view/resource-page"
 import { ColumnHeader } from "@/shared/data-view/table-view"
 import FormDialog from "@/shared/components/form-dialog"
 import { PaymentReceivedForm } from "@/modules/payment-received/payment-received-form"
-import { PAYMENT_ROUTES } from "@garage/api"
+import { PAYMENT_ROUTES } from "@devloggers/api-client"
 import {
     BadgeDollarSignIcon,
     CalendarIcon,
@@ -97,9 +97,9 @@ export default function PaymentReceivedPage() {
                         const item = row.original as unknown as PaymentReceivedItem
                         const amount = item.amount_received
                             ? Number(item.amount_received).toLocaleString(undefined, {
-                                  minimumFractionDigits: 2,
-                                  maximumFractionDigits: 2,
-                              })
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2,
+                            })
                             : "—"
                         return (
                             <div className="flex items-center gap-2">
@@ -131,10 +131,10 @@ export default function PaymentReceivedPage() {
                         const item = row.original as unknown as PaymentReceivedItem
                         const formatted = item.payment_date
                             ? new Date(item.payment_date).toLocaleDateString(undefined, {
-                                  year: "numeric",
-                                  month: "short",
-                                  day: "numeric",
-                              })
+                                year: "numeric",
+                                month: "short",
+                                day: "numeric",
+                            })
                             : "—"
                         return (
                             <div className="flex items-center gap-2">

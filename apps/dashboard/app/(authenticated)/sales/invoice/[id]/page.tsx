@@ -1,4 +1,4 @@
-import { getServerApi } from '@garage/api/server'
+import { getServerApi } from '@devloggers/api/server'
 import { InvoiceGeneralInfo } from '@/modules/invoices/invoice-general-info'
 import DashboardPage from '@/base/components/layout/dashboard/dashboard-page'
 

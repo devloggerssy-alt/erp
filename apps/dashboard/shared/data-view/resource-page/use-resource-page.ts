@@ -8,7 +8,7 @@ import { useAuthApi } from "@/shared/useApi"
 import { useFormDialog } from "@/shared/components/form-dialog"
 import { useDataTableQuery, createActionsColumn, type ActionsColumnOptions } from "@/shared/data-view/table-view"
 import type { ColumnDef } from "@tanstack/react-table"
-import type { CrudListItem, BaseCrudItem, CrudListResponse } from "@garage/api"
+import type { CrudListItem, BaseCrudItem, CrudListResponse } from "@devloggers/api-client"
 import type { UseQueryOptions } from "@tanstack/react-query"
 
 type ApiInstance = ReturnType<typeof useAuthApi>

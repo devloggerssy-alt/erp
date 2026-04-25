@@ -1,5 +1,5 @@
 
-import { getServerApi } from '@garage/api/server'
+import { getServerApi } from '@devloggers/api/server'
 import { VehicleGeneralInfo } from '@/modules/vehicles/vehicle-general-info'
 import DashboardPage from '@/base/components/layout/dashboard/dashboard-page'
 
@@ -12,7 +12,7 @@ export default async function page(props: { params: Promise<{ id: string }> }) {
     return <div className="text-muted-foreground">Vehicle not found.</div>
   }
 
-   return <DashboardPage header={null}>
+  return <DashboardPage header={null}>
     <VehicleGeneralInfo vehicle={vehicle.data} />
   </DashboardPage>
 }

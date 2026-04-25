@@ -22,7 +22,7 @@ import {
     invoiceFormSchema,
     type InvoiceFormValues,
 } from "./invoice.schema"
-import { INVOICE_ROUTES, CUSTOMER_ROUTES, VEHICLE_ROUTES, DEPARTMENT_ROUTES } from "@garage/api"
+import { INVOICE_ROUTES, CUSTOMER_ROUTES, VEHICLE_ROUTES, DEPARTMENT_ROUTES } from "@devloggers/api-client"
 
 // ── Constants ──
 

@@ -5,8 +5,8 @@ import { ColumnHeader } from "@/shared/data-view/table-view"
 import FormDialog from "@/shared/components/form-dialog"
 import { ExpenseForm } from "@/modules/expenses/expense-form"
 import { Badge } from "@/shared/components/ui/badge"
-import { EXPENSE_ROUTES } from "@garage/api"
-import type { ExpensesClient } from "@garage/api"
+import { EXPENSE_ROUTES } from "@devloggers/api-client"
+import type { ExpensesClient } from "@devloggers/api-client"
 
 export default function ExpensesPage() {
     return (

@@ -1,5 +1,5 @@
 import { DashboardDetailsPageLayoutProps, DashboardDetailsPage } from '@/base/components/layout/dashboard'
-import { getServerApi } from '@garage/api/server'
+import { getServerApi } from '@devloggers/api/server'
 import { VehicleActions } from '@/modules/vehicles/vehicle-actions'
 import { Car } from 'lucide-react'
 import React from 'react'
