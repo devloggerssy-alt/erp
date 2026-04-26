@@ -138,10 +138,10 @@
     @apply 
     relative
     overflow-hidden
-    data-active:bg-primary/10
-    data-active:text-primary
-    data-active:hover:text-primary
-    data-active:hover:bg-primary/15
+    data-active:bg-primary
+    data-active:text-primary-foreground
+    data-active:hover:text-primary-foreground
+    data-active:hover:bg-primary
     transition-all
     duration-300;
   }
@@ -173,7 +173,7 @@
     duration-200
     data-active:text-primary
     data-active:font-medium
-    data-active:bg-primary/5
+    data-active:bg-primary
     hover:text-primary/80;
   }
 }
