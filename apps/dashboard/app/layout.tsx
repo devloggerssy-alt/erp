@@ -1,12 +1,8 @@
 import { Geist_Mono, Inter } from "next/font/google"
 
 import "./globals.css"
-import { QueryProvider } from "@/shared/components/query-provider"
-import { ThemeProvider } from "@/shared/components/theme-provider"
-import { Toaster } from "@/shared/components/ui/sonner"
-import { ConfirmDialog } from "@/shared/components/confirm-dialog"
-import { NuqsAdapter } from "nuqs/adapters/next/app"
 import { cn } from "@/shared/lib/utils"
+import { Providers } from "@/base/components/providers"
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" })
 
@@ -27,13 +23,9 @@ export default function RootLayout({
       className={cn("antialiased", fontMono.variable, "font-sans", inter.variable)}
     >
       <body>
-        <NuqsAdapter>
-          <ThemeProvider>
-            <QueryProvider>{children}</QueryProvider>
-            <Toaster />
-            <ConfirmDialog />
-          </ThemeProvider>
-        </NuqsAdapter>
+        <Providers>
+          {children}
+        </Providers>
       </body>
     </html>
   )

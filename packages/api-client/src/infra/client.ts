@@ -1,3 +1,4 @@
+import { paths } from "@devloggers/api-contracts"
 import type {
     ApiPath,
     ApiPathByMethod,
@@ -7,7 +8,6 @@ import type {
     ApiResponse,
 } from "./types"
 import createClient from "openapi-fetch"
-import type { paths } from "../../types/index"
 
 type HttpMethod = "get" | "post" | "put" | "delete" | "patch"
 
@@ -53,7 +53,8 @@ export class ApiError extends Error {
 }
 
 export class ApiClient {
-    private client
+    private client;
+
 
     constructor(
         protected baseUrl: string = process.env.NEXT_PUBLIC_API_URL ?? "",
@@ -69,21 +70,21 @@ export class ApiClient {
         method: Method,
         options: ApiRequestOptions<Path, Method> = {} as ApiRequestOptions<Path, Method>,
     ): Promise<ApiResponse<Path, Method>> {
-        const ep = endpoint as never
-        const opts = options as never
-        const body = (options as Record<string, unknown>).body as never
+        const ep = endpoint
+        const opts = options
+        const body = (options as Record<string, unknown>).body
 
         switch (method) {
             case "get":
-                return this.get(ep, opts) as Promise<ApiResponse<Path, Method>>
+                return this.get(ep as never, opts as never) as Promise<ApiResponse<Path, Method>>
             case "post":
-                return this.post(ep, body, opts) as Promise<ApiResponse<Path, Method>>
+                return this.post(ep as never, body, opts as never) as Promise<ApiResponse<Path, Method>>
             case "put":
-                return this.put(ep, body, opts) as Promise<ApiResponse<Path, Method>>
+                return this.put(ep as never, body, opts as never) as Promise<ApiResponse<Path, Method>>
             case "delete":
-                return this.delete(ep, opts) as Promise<ApiResponse<Path, Method>>
+                return this.delete(ep as never, opts as never) as Promise<ApiResponse<Path, Method>>
             case "patch":
-                return this.patch(ep, body, opts) as Promise<ApiResponse<Path, Method>>
+                return this.patch(ep as never, body, opts as never) as Promise<ApiResponse<Path, Method>>
             default:
                 throw new ApiError(0, "Unsupported Method", endpoint, method, {
                     message: `Unsupported method: ${String(method)}`,
@@ -98,7 +99,7 @@ export class ApiClient {
         const requestOptions = this.toFetchOptions(options)
 
         try {
-            const { data, error, response } = await this.client.GET(endpoint, requestOptions as never)
+            const { data, error, response } = await this.client.GET(endpoint, requestOptions as any)
             return this.resolveResult(endpoint, "get", data, error, response)
         } catch (err) {
             if (err instanceof ApiError) throw err
@@ -106,15 +107,17 @@ export class ApiClient {
         }
     }
 
+
+
     async post<Path extends ApiPathByMethod<"post">>(
         endpoint: Path,
-        body: ApiRequestBody<Path, "post"> extends never ? undefined : ApiRequestBody<Path, "post">,
+        body: ApiRequestBody<Path, "post">,
         options: Omit<ApiRequestOptions<Path, "post">, "body"> = {} as Omit<ApiRequestOptions<Path, "post">, "body">,
     ): Promise<ApiResponse<Path, "post">> {
         const requestOptions = this.toFetchOptions({ ...options, body })
 
         try {
-            const { data, error, response } = await this.client.POST(endpoint, requestOptions as never)
+            const { data, error, response } = await this.client.POST(endpoint, requestOptions as any)
             return this.resolveResult(endpoint, "post", data, error, response)
         } catch (err) {
             if (err instanceof ApiError) throw err
@@ -124,13 +127,16 @@ export class ApiClient {
 
     async put<Path extends ApiPathByMethod<"put">>(
         endpoint: Path,
-        body: ApiRequestBody<Path, "put"> extends never ? undefined : ApiRequestBody<Path, "put">,
+        body: ApiRequestBody<Path, "put">,
         options: Omit<ApiRequestOptions<Path, "put">, "body"> = {} as Omit<ApiRequestOptions<Path, "put">, "body">,
     ): Promise<ApiResponse<Path, "put">> {
         const requestOptions = this.toFetchOptions({ ...options, body })
 
+
+
+
         try {
-            const { data, error, response } = await this.client.PUT(endpoint, requestOptions as never)
+            const { data, error, response } = await this.client.PUT(endpoint, requestOptions as any)
             return this.resolveResult(endpoint, "put", data, error, response)
         } catch (err) {
             if (err instanceof ApiError) throw err
@@ -145,7 +151,7 @@ export class ApiClient {
         const requestOptions = this.toFetchOptions(options)
 
         try {
-            const { data, error, response } = await this.client.DELETE(endpoint, requestOptions as never)
+            const { data, error, response } = await this.client.DELETE(endpoint, requestOptions as any)
             return this.resolveResult(endpoint, "delete", data, error, response)
         } catch (err) {
             if (err instanceof ApiError) throw err
@@ -155,13 +161,13 @@ export class ApiClient {
 
     async patch<Path extends ApiPathByMethod<"patch">>(
         endpoint: Path,
-        body: ApiRequestBody<Path, "patch"> extends never ? undefined : ApiRequestBody<Path, "patch">,
+        body: ApiRequestBody<Path, "patch">,
         options: Omit<ApiRequestOptions<Path, "patch">, "body"> = {} as Omit<ApiRequestOptions<Path, "patch">, "body">,
     ): Promise<ApiResponse<Path, "patch">> {
         const requestOptions = this.toFetchOptions({ ...options, body })
 
         try {
-            const { data, error, response } = await this.client.PATCH(endpoint, requestOptions as never)
+            const { data, error, response } = await this.client.PATCH(endpoint, requestOptions as any)
             return this.resolveResult(endpoint, "patch", data, error, response)
         } catch (err) {
             if (err instanceof ApiError) throw err
@@ -222,7 +228,7 @@ export class ApiClient {
         return finalHeaders
     }
 
-    private resolveResult<Path extends ApiPath, Method extends HttpMethod>(
+    private resolveResult<Path extends ApiPath, Method extends keyof paths[Path]>(
         endpoint: Path,
         method: Method,
         data: unknown,
@@ -234,7 +240,7 @@ export class ApiClient {
                 response.status,
                 response.statusText,
                 endpoint,
-                method,
+                method as string,
                 this.normalizeErrorPayload(error),
             )
         }

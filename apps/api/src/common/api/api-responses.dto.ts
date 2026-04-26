@@ -29,3 +29,14 @@ export class ApiMetaDto {
     @ApiPropertyOptional({ type: () => PaginationMetaDto })
     pagination?: PaginationMetaDto;
 }
+
+export class ApiSuccessResponseDto {
+    @ApiProperty({ example: 'success' })
+    status: 'success';
+
+    @ApiProperty({ example: 'Operation successful' })
+    message: string;
+
+    @ApiPropertyOptional({ type: () => ApiMetaDto })
+    meta?: ApiMetaDto;
+}

@@ -1,6 +1,7 @@
 import { createContext } from "react";
-import { ApiClient } from "../core/apiClient";
+import { Api } from "../api";
 
 export const ApiClientContext = createContext({
-    apiClient: null as ApiClient | null,
+    api: null as Api | null,
 })
+

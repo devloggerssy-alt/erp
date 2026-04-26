@@ -187,21 +187,35 @@ Every resource must use the **same query structure**. Do not invent custom query
 
 ---
 
-## 8. Route Constants
+## 8. Resource Definitions (Routes + Paths)
 
-All routes must be defined as constants in `packages/contracts/src/routes/`.
+All domain resources are the single source of truth for routes and NestJS paths.
+Defined in `packages/api-contracts/src/resources/`.
 
-Example pattern:
+**No separate `routes/` folder.** Every resource carries both:
 
 ```ts
-export const ITEMS = {
-  ROOT: "items",
-  BY_ID: "items/:id",
-  STATUS: "items/:id/status",
+export const itemResource = {
+  key: 'items',
+
+  /** Full paths with leading slash — api-client fetch */
+  routes: {
+    list:    '/items',
+    details: '/items/:id',
+    status:  '/items/:id/status',
+  },
+
+  /** Segments without slash — NestJS @Controller / @Get */
+  paths: {
+    root:   'items',
+    byId:   ':id',
+    status: ':id/status',
+  },
 } as const
 ```
 
-Frontend code must **never** hard-code route strings. Always import from contracts.
+Backend controllers use `resource.paths.*`. Frontend and api-client use `resource.routes.*`.
+Neither must ever hard-code route strings.
 
 ---
 
@@ -328,12 +342,14 @@ Feature code resolves API modules via **registry keys**, never by constructing U
 When adding a new resource/domain, follow this sequence:
 
 1. Add/update Prisma schema in `packages/db-prisma`
-2. Define route constants in `packages/contracts/src/routes/`
-3. Define DTOs in `packages/contracts/src/dto/`
-4. Create backend module in `apps/api/src/modules/`
-5. Create API client module in `packages/api-client/src/modules/`
+2. Define the **resource** in `packages/api-contracts/src/resources/` (`key` + `routes` + `paths`)
+3. Define DTOs in `packages/api-contracts/src/dto/`
+4. Create backend module in `apps/api/src/modules/` — use `resource.paths.*` in controllers
+5. Create API client module in `packages/api-client/src/modules/` — use `resource.routes.*`
 6. Register in `modulesRegistry.ts`
-7. Consume from frontend via registry hooks
+7. Consume from frontend via registry hooks — use `resource.key` for React Query
+
+See `skills/add-domain/SKILL.md` for the full checklist.
 
 ---
 
@@ -384,8 +400,9 @@ Read the relevant skill file **before** implementing a feature.
 | `skills/add-domain/` | Adding a full new resource end-to-end |
 | `skills/backend-module/` | Creating a NestJS module (controller/service/repository) |
 | `skills/dto-composition/` | Defining or composing DTOs in contracts |
-| `skills/api-contracts/` | Response format, error codes, HTTP status, query options |
+| `skills/api-contracts/` | Response format, error codes, HTTP status, query options, package exports |
+| `skills/resource-definitions/` | Defining a resource (`key` + `routes` + `paths`) — the single source of truth |
 | `skills/api-client-module/` | Creating and registering an API client module |
 | `skills/frontend-data/` | Frontend mappers, ViewModels, data-view system |
-| `skills/route-constants/` | Defining and using route constant objects |
+| `skills/route-constants/` | ⚠️ Deprecated — see `skills/resource-definitions/` |
 | `skills/shared-enums/` | Defining and using shared enums |

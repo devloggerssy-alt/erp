@@ -1,6 +1,5 @@
 import { create } from "zustand"
-import type { AuthUser } from "@devloggers/api-client"
-import { createApi } from "@devloggers/api-client"
+import { AuthUser } from "@devloggers/api-contracts"
 import {
   setAuthCookies,
   clearAuthCookies,
@@ -15,7 +14,7 @@ type AuthState = {
 
 type AuthActions = {
   login: (token: string, user: AuthUser, expiresIn?: number) => Promise<void>
-  logout: () => Promise<void>
+  // logout: () => Promise<void>
   hydrate: () => Promise<void>
 }
 
@@ -48,6 +47,7 @@ function readInitialUser(): AuthUser | undefined {
 const useAuthStore = create<AuthStore>()((set, get) => {
   const initialToken = readInitialToken()
   const initialUser = readInitialUser()
+
   return {
     token: initialToken,
     user: initialUser,
@@ -58,21 +58,21 @@ const useAuthStore = create<AuthStore>()((set, get) => {
       set({ token, user, isAuthenticated: true })
     },
 
-    logout: async () => {
-      const { token } = get()
-      if (token) {
-        try {
-          const authedApi = createApi({
-            headers: { Authorization: `Bearer ${token}` },
-          })
-          await authedApi.auth.logout()
-        } catch {
-          // proceed with local cleanup even if the API call fails
-        }
-      }
-      await clearAuthCookies()
-      set({ token: undefined, user: undefined, isAuthenticated: false })
-    },
+    // logout: async () => {
+    //   const { token } = get()
+    //   if (token) {
+    //     try {
+    //       const authedApi = createApi({
+    //         headers: { Authorization: `Bearer ${token}` },
+    //       })
+    //       await authedApi.auth.logout()
+    //     } catch {
+    //       // proceed with local cleanup even if the API call fails
+    //     }
+    //   }
+    //   await clearAuthCookies()
+    //   set({ token: undefined, user: undefined, isAuthenticated: false })
+    // },
 
     hydrate: async () => {
       const { token, user } = await getAuthCookies()

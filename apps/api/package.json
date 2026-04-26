@@ -1,5 +1,5 @@
 {
-  "name": "@devloggers/api-client",
+  "name": "@devloggers/api",
   "version": "0.0.1",
   "description": "",
   "author": "",
@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.962.0",
-    "@devloggers/contracts": "workspace:*",
+    "@devloggers/api-contracts": "workspace:*",
     "@devloggers/db-prisma": "workspace:*",
     "@nestjs-modules/mailer": "^2.0.2",
     "@nestjs/common": "^11.0.1",

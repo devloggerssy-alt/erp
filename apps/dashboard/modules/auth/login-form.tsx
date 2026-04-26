@@ -3,7 +3,6 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { Button } from "@/shared/components/ui/button"
-import { api } from '@devloggers/api'
 import {
     Card,
     CardContent,
@@ -29,11 +28,13 @@ import { loginFormSchema, type LoginFormValues } from "./login-form.schema"
 import { useMutation } from "@tanstack/react-query"
 import { Alert, AlertTitle } from "@/shared/components/ui/alert"
 import { AlertTriangle } from "lucide-react"
+import { api } from "@devloggers/api-client"
 
 export function LoginForm({
     className,
     ...props
 }: React.ComponentProps<"div">) {
+
     const lastLoginEmail = useAppStore((state) => state.lastLoginEmail)
     const setLastLoginEmail = useAppStore((state) => state.setLastLoginEmail)
     const login = useAuthStore((state) => state.login)
@@ -45,8 +46,8 @@ export function LoginForm({
     } = useForm<LoginFormValues>({
         resolver: zodResolver(loginFormSchema),
         defaultValues: process.env.NODE_ENV === "development" ? {
-            "email": "admin@admin.com",
-            "password": "12345678"
+            "email": "admin@demo-shop.com",
+            "password": "admin123"
         } : {
             email: lastLoginEmail,
             password: "",
@@ -55,9 +56,9 @@ export function LoginForm({
 
     const { mutate, error, isPending: isSubmitting } = useMutation({
         mutationFn: (values: LoginFormValues) => api.auth.login(values),
-        onSuccess: async (data) => {
-            if (data.token && data.user) {
-                await login(data.token, data.user as Parameters<typeof login>[1])
+        onSuccess: async ({ data }) => {
+            if (data?.accessToken && data.user) {
+                await login(data?.accessToken, data.user)
                 router.push("/")
             }
         },
@@ -74,10 +75,10 @@ export function LoginForm({
             <Card>
                 <CardHeader>
                     <Image
-                        className="mx-auto mb-8 h-20 w-48"
+                        className="mx-auto mb-8 object-contain"
                         alt="Logo"
                         src="/assets/logo.png"
-                        height={200}
+                        height={400}
                         width={200}
                     />
                     <CardTitle>Login to your account</CardTitle>

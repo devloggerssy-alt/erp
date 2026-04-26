@@ -1,14 +1,16 @@
 import "server-only"
+
 import { cookies } from "next/headers"
 import { createApi } from "./api"
-import type { AuthUser } from "./infra/token"
+import { AuthUser } from "@devloggers/api-contracts"
 
 export async function getServerApi() {
     const cookieStore = await cookies()
     const token = cookieStore.get("auth_token")?.value
-
-    return createApi(
-        token ? { headers: { Authorization: `Bearer ${token}` } } : undefined,
+    return createApi({
+        headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+    },
+        process.env.NEXT_PUBLIC_API_BASE_URL
     )
 }
 

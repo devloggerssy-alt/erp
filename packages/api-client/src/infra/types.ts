@@ -1,4 +1,4 @@
-import type { components, operations, paths } from "../../types/index"
+import type { components, operations, paths } from "@devloggers/api-contracts"
 
 type HttpMethod = "get" | "put" | "post" | "delete" | "options" | "head" | "patch" | "trace"
 type NotNeverOrUndefined<T> = [Exclude<T, undefined>] extends [never] ? never : Exclude<T, undefined>
@@ -39,54 +39,56 @@ export type ApiOperations = operations
 
 // ── Path & Method helpers ──
 export type ApiPath = keyof paths
+
 export type ApiMethod<Path extends ApiPath = ApiPath> = {
     [Method in HttpMethod]: OperationFor<Path, Method> extends never ? never : Method
 }[HttpMethod]
+
+
 export type ApiPathByMethod<Method extends HttpMethod> = {
     [Path in ApiPath]: OperationFor<Path, Method> extends never ? never : Path
 }[ApiPath]
 
+
+
 // ── Parameter helpers ──
 export type ApiPathParams<Path extends ApiPath, Method extends HttpMethod> =
     OperationFor<Path, Method> extends { parameters: { path: infer Params } }
-        ? Params
-        : never
+    ? Params
+    : never
 
 export type ApiQueryParams<Path extends ApiPath, Method extends HttpMethod> =
     OperationFor<Path, Method> extends { parameters: { query: infer Params } }
-        ? Params
-        : never
+    ? Params
+    : never
 
 export type ApiHeaderParams<Path extends ApiPath, Method extends HttpMethod> =
     OperationFor<Path, Method> extends { parameters: { header: infer Params } }
-        ? Params
-        : never
+    ? Params
+    : never
 
 export type ApiCookieParams<Path extends ApiPath, Method extends HttpMethod> =
     OperationFor<Path, Method> extends { parameters: { cookie: infer Params } }
-        ? Params
-        : never
+    ? Params
+    : never
 
 // ── Request / Response body helpers ──
-export type ApiRequestBody<Path extends ApiPath, Method extends HttpMethod> =
-    RequestContent<
-        WithContent<
-            OperationFor<Path, Method> extends { requestBody?: infer RequestBody }
-                ? RequestBody
-                : never
-        >
-    >
+export type ApiRequestBody<P extends ApiPath, M extends keyof paths[P]> =
+    Operation<P, M> extends { requestBody: { content: { "application/json": infer J } } }
+    ? J
+    : Operation<P, M> extends { requestBody: { content: { "multipart/form-data": infer J } } }
+    ? J
+    : never;
 
-export type ApiResponse<Path extends ApiPath, Method extends HttpMethod> =
-    JsonContent<
-        WithContent<
-            SuccessResponse<
-                OperationFor<Path, Method> extends { responses: infer Responses }
-                    ? Responses
-                    : never
-            >
-        >
-    >
+type Operation<P extends ApiPath, M extends keyof paths[P]> = paths[P][M];
+export type ApiResponse<P extends ApiPath, M extends keyof paths[P]> =
+    Operation<P, M> extends { responses: infer R }
+    ? {
+        [K in keyof R]: K extends number
+        ? (K extends 200 | 201 | 202 | 204 | 206 ? (R[K] extends { content: { "application/json": infer J } } ? J : never) : never)
+        : K extends "default" ? (R[K] extends { content: { "application/json": infer J } } ? J : never) : never
+    }[keyof R]
+    : never;
 
 // ── Operation-level helpers ──
 export type ApiOperationId = keyof operations
@@ -95,8 +97,8 @@ export type ApiOperationRequestBody<OperationId extends ApiOperationId> =
     RequestContent<
         WithContent<
             operations[OperationId] extends { requestBody?: infer RequestBody }
-                ? RequestBody
-                : never
+            ? RequestBody
+            : never
         >
     >
 
@@ -105,8 +107,8 @@ export type ApiOperationResponse<OperationId extends ApiOperationId> =
         WithContent<
             SuccessResponse<
                 operations[OperationId] extends { responses: infer Responses }
-                    ? Responses
-                    : never
+                ? Responses
+                : never
             >
         >
     >

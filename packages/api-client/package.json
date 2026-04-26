@@ -7,27 +7,35 @@
     "./infra": "./src/infra/index.ts",
     "./clients": "./src/clients/index.ts",
     "./server": "./src/server.ts",
+    "./react": "./src/react.ts",
     "./postman/*": "./postman/*",
-    "./open-api/*": "./open-api/*",
-    "./types": "./types/index.ts",
-    "./types/*": "./types/*"
+    "./open-api/*": "./open-api/*"
   },
   "scripts": {
-    "generate:types": "node scripts/generate-types.cjs",
-    "generate": "pnpm run generate:types http://localhost:4040/swagger.yaml",
-    "build": "pnpm run generate",
+    "dev": "tsc --watch",
+    "build": "tsc",
     "lint": "echo \"No lint configured for @devloggers/api\"",
     "check-types": "echo \"No typecheck configured for @devloggers/api\""
   },
   "dependencies": {
+    "@devloggers/api-contracts": "workspace:*",
+    "@devloggers/typescript-config": "workspace:*",
     "openapi-fetch": "^0.14.0"
   },
   "devDependencies": {
-    "openapi-typescript": "^7.10.1"
+    "@devloggers/typescript-config": "workspace:*",
+    "openapi-typescript": "^7.10.1",
+    "@types/node": "^22.15.3",
+    "@types/react": "19.2.2",
+    "@types/react-dom": "19.2.2",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
   },
   "peerDependencies": {
     "next": ">=14",
-    "server-only": "*"
+    "server-only": "*",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
   },
   "peerDependenciesMeta": {
     "next": {
