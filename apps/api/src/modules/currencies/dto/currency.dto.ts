@@ -2,7 +2,7 @@ import { IsString, IsNotEmpty, IsOptional, IsBoolean } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class CreateCurrencyDto {
-    @ApiProperty({ example: 'SYP', description: 'ISO 4217 currency code' })
+    @ApiProperty({ example: 'SYP' })
     @IsString()
     @IsNotEmpty()
     code: string;
@@ -12,34 +12,34 @@ export class CreateCurrencyDto {
     @IsNotEmpty()
     name: string;
 
-    @ApiPropertyOptional({ example: '£', description: 'Currency symbol for display' })
+    @ApiPropertyOptional({ example: '£' })
     @IsOptional()
     @IsString()
     symbol?: string;
 
-    @ApiPropertyOptional({ example: true, description: 'Whether this is the base (local) currency' })
+    @ApiPropertyOptional({ example: true })
     @IsOptional()
     @IsBoolean()
     isBase?: boolean;
 }
 
 export class UpdateCurrencyDto {
-    @ApiPropertyOptional({ example: 'Syrian Pound (Updated)' })
+    @ApiPropertyOptional()
     @IsOptional()
     @IsString()
     name?: string;
 
-    @ApiPropertyOptional({ example: 'ل.س' })
+    @ApiPropertyOptional()
     @IsOptional()
     @IsString()
     symbol?: string;
 
-    @ApiPropertyOptional({ example: false })
+    @ApiPropertyOptional()
     @IsOptional()
     @IsBoolean()
     isBase?: boolean;
 
-    @ApiPropertyOptional({ example: true })
+    @ApiPropertyOptional()
     @IsOptional()
     @IsBoolean()
     isActive?: boolean;

@@ -37,7 +37,7 @@ import { confirm } from "@/shared/components/confirm-dialog"
 import { toast } from "sonner"
 import { Ellipsis, Pencil, Trash2, CalendarIcon, UserCog, UserCheck, Loader2 } from "lucide-react"
 import { format } from "date-fns"
-import { EMPLOYEE_ROUTES } from "@devloggers/api-client"
+import { EMPLOYEE_ROUTES } from "@garage/api"
 
 type JobCardActionsProps = {
     jobCardId: string

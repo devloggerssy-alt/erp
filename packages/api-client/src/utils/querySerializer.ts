@@ -1,4 +1,4 @@
-import { ApiQueryOptions } from "@devloggers/api-contracts";
+import { ApiQueryOptions } from "@devloggers/contracts";
 
 /**
  * Serializes ApiQueryOptions to URL query string format

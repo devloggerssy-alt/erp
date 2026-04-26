@@ -1,0 +1,39 @@
+{
+  "name": "@garage/api",
+  "version": "0.0.0",
+  "private": true,
+  "exports": {
+    ".": "./src/index.ts",
+    "./infra": "./src/infra/index.ts",
+    "./clients": "./src/clients/index.ts",
+    "./server": "./src/server.ts",
+    "./postman/*": "./postman/*",
+    "./open-api/*": "./open-api/*",
+    "./types": "./types/index.ts",
+    "./types/*": "./types/*"
+  },
+  "scripts": {
+    "prepare:dirs": "node -e \"const fs=require('fs');fs.mkdirSync('open-api',{recursive:true});fs.mkdirSync('types',{recursive:true});\"",
+    "generate:openapi": "pnpm run prepare:dirs && node scripts/generate-openapi.cjs",
+    "generate:types": "node scripts/generate-types.cjs",
+    "generate": "pnpm run generate:openapi && pnpm run generate:types",
+    "dev": "pnpm run generate",
+    "build": "pnpm run generate",
+    "lint": "echo \"No lint configured for @garage/api\"",
+    "check-types": "echo \"No typecheck configured for @garage/api\""
+  },
+  "dependencies": {
+    "openapi-fetch": "^0.14.0"
+  },
+  "devDependencies": {
+    "openapi-typescript": "^7.10.1"
+  },
+  "peerDependencies": {
+    "next": ">=14",
+    "server-only": "*"
+  },
+  "peerDependenciesMeta": {
+    "next": { "optional": true },
+    "server-only": { "optional": true }
+  }
+}

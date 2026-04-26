@@ -1,9 +1,13 @@
+
+import { Suspense } from "react"
+
 import Image from "next/image"
 import { DashboardLayout } from "@/base/components/layout/dashboard"
+import { useAuth } from "@/shared/hooks/use-auth"
 import { navGroups } from "@/config/navGroups"
 import { getAuthCookies } from "@/modules/auth/auth.actions"
 import { redirect } from "next/navigation"
-
+ 
 
 function Logo() {
   return (
@@ -20,7 +24,7 @@ export default async function AuthenticatedLayout({
 }) {
   const { token, user } = await getAuthCookies()
 
-  if (!token || !user) {
+  if(!token || !user ) {
     redirect('/login');
   }
 
@@ -28,7 +32,7 @@ export default async function AuthenticatedLayout({
     ? {
       name: user.name,
       email: user.email,
-      initials: user.fullName.charAt(0).toUpperCase(),
+      initials: user.name.charAt(0).toUpperCase(),
     }
     : undefined
 

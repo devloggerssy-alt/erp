@@ -1,12 +1,11 @@
-// ── Infrastructure ──
-export * from "./infra/index"
+export { AuthApi } from './modules/auth.client';
+export { ApiClient } from './apiClient'
+export { FetchHttpClient } from './fetchHttpClient'
+export { createApiRegistry } from './modulesRegistry'
+export * from './modules'
 
-// ── Contracts ──
-
-
-// ── Domain Clients ──
-export * from "./clients/index"
-
-// ── Factory ──
-export { createApi, api } from "./api"
-
+export type * from './apiClient'
+export type * from './core/apiRegistry'
+export type * from './apiService'
+export type * from './fetchHttpClient'
+export type * from './modulesRegistry'

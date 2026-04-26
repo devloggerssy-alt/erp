@@ -28,7 +28,7 @@ import {
     VEHICLE_ROUTES,
     DEPARTMENT_ROUTES,
     EMPLOYEE_ROUTES,
-} from "@devloggers/api-client"
+} from "@garage/api"
 
 // ── Props ──
 

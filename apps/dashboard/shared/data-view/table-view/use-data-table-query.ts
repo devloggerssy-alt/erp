@@ -4,7 +4,7 @@ import { useQueryStates } from "nuqs"
 import { useQuery, useQueryClient, type UseQueryOptions } from "@tanstack/react-query"
 import type { DataViewChangeEvent, DataViewPaginationState, DataViewSorting } from "./types"
 import { dataTableSearchParams } from "./search-params"
-import { type CrudListResponse } from "@devloggers/api-client"
+import { type CrudListResponse } from "@garage/api"
 
 type DataTableClient = {
     list(query?: any): Promise<any>

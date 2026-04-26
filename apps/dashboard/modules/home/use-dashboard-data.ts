@@ -2,7 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query"
 import { useAuthApi } from "@/shared/useApi"
-import type { HomeDashboardResponse } from "@devloggers/api-client"
+import type { HomeDashboardResponse } from "@garage/api"
 
 export type DashboardData = HomeDashboardResponse
 

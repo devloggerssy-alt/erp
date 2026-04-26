@@ -5,26 +5,26 @@ import {
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class CreateUserDto {
-    @ApiProperty({ example: 'accountant@demo-shop.com', description: 'User email (unique per tenant)' })
+    @ApiProperty({ example: 'user@example.com' })
     @IsEmail()
     email: string;
 
-    @ApiProperty({ example: 'user123', description: 'Password (min 8 characters)' })
+    @ApiProperty({ example: 'password123' })
     @IsString()
     @MinLength(8)
     password: string;
 
-    @ApiProperty({ example: 'Sara Al-Amin', description: 'Full display name' })
+    @ApiProperty({ example: 'Ahmad Ali' })
     @IsString()
     @IsNotEmpty()
     fullName: string;
 
-    @ApiPropertyOptional({ example: '+963-933-111222' })
+    @ApiPropertyOptional()
     @IsOptional()
     @IsString()
     phone?: string;
 
-    @ApiPropertyOptional({ type: [String], example: ['00000000-0000-4000-a100-000000000002'], description: 'Array of role IDs to assign (Accountant role)' })
+    @ApiPropertyOptional({ type: [String] })
     @IsOptional()
     @IsArray()
     @IsString({ each: true })
@@ -32,22 +32,22 @@ export class CreateUserDto {
 }
 
 export class UpdateUserDto {
-    @ApiPropertyOptional({ example: 'newemail@demo-shop.com' })
+    @ApiPropertyOptional()
     @IsOptional()
     @IsEmail()
     email?: string;
 
-    @ApiPropertyOptional({ example: 'Sara Al-Amin (Updated)' })
+    @ApiPropertyOptional()
     @IsOptional()
     @IsString()
     fullName?: string;
 
-    @ApiPropertyOptional({ example: '+963-933-999888' })
+    @ApiPropertyOptional()
     @IsOptional()
     @IsString()
     phone?: string;
 
-    @ApiPropertyOptional({ type: [String], example: ['00000000-0000-4000-a100-000000000002', '00000000-0000-4000-a100-000000000001'], description: 'Updated role IDs' })
+    @ApiPropertyOptional({ type: [String] })
     @IsOptional()
     @IsArray()
     @IsString({ each: true })
@@ -55,7 +55,7 @@ export class UpdateUserDto {
 }
 
 export class UpdateUserStatusDto {
-    @ApiProperty({ example: false, description: 'Set user active/inactive' })
+    @ApiProperty()
     @IsBoolean()
     isActive: boolean;
 }

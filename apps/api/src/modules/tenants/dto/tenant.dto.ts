@@ -2,70 +2,70 @@ import { IsString, IsNotEmpty, IsEmail, IsOptional, MinLength, Matches } from 'c
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class CreateTenantDto {
-    @ApiProperty({ example: 'Demo Shop', description: 'Company / tenant name' })
+    @ApiProperty({ example: 'My Shop' })
     @IsString()
     @IsNotEmpty()
     name: string;
 
-    @ApiProperty({ example: 'demo-shop', description: 'URL-friendly slug (lowercase, alphanumeric, dashes)' })
+    @ApiProperty({ example: 'my-shop' })
     @IsString()
     @IsNotEmpty()
     @Matches(/^[a-z0-9-]+$/, { message: 'Slug must be lowercase alphanumeric with dashes' })
     slug: string;
 
-    @ApiPropertyOptional({ example: 'Damascus, Syria' })
+    @ApiPropertyOptional()
     @IsOptional()
     @IsString()
     address?: string;
 
-    @ApiPropertyOptional({ example: '+963-11-1234567' })
+    @ApiPropertyOptional()
     @IsOptional()
     @IsString()
     phone?: string;
 
-    @ApiPropertyOptional({ example: 'admin@demo-shop.com' })
+    @ApiPropertyOptional()
     @IsOptional()
     @IsEmail()
     email?: string;
 
     // Initial admin user created with tenant
-    @ApiProperty({ example: 'admin@demo-shop.com', description: 'Email for the initial admin user' })
+    @ApiProperty({ example: 'admin@myshop.com' })
     @IsEmail()
     adminEmail: string;
 
-    @ApiProperty({ example: 'admin123', description: 'Password for the initial admin user (min 8 chars)' })
+    @ApiProperty({ example: 'securePassword123' })
     @IsString()
     @MinLength(8)
     adminPassword: string;
 
-    @ApiProperty({ example: 'Admin User', description: 'Full name of the initial admin' })
+    @ApiProperty({ example: 'Ahmad Ali' })
     @IsString()
     @IsNotEmpty()
     adminFullName: string;
 }
 
 export class UpdateTenantDto {
-    @ApiPropertyOptional({ example: 'Demo Shop (Updated)' })
+    @ApiPropertyOptional()
     @IsOptional()
     @IsString()
     name?: string;
 
-    @ApiPropertyOptional({ example: 'Damascus, Syria – Branch 2' })
+    @ApiPropertyOptional()
     @IsOptional()
     @IsString()
     address?: string;
 
-    @ApiPropertyOptional({ example: '+963-11-7654321' })
+    @ApiPropertyOptional()
     @IsOptional()
     @IsString()
     phone?: string;
 
-    @ApiPropertyOptional({ example: 'contact@demo-shop.com' })
+    @ApiPropertyOptional()
     @IsOptional()
     @IsEmail()
     email?: string;
 
-    @ApiPropertyOptional({ example: 'https://cdn.demo-shop.com/logo.png', description: 'Logo URL' })
+    @ApiPropertyOptional()
     @IsOptional()
     @IsString()
     logo?: string;

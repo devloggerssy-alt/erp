@@ -6,7 +6,7 @@ import {
     parseAsStringEnum,
     createSearchParamsCache,
 } from "nuqs/server"
-import { DEFAULT_PER_PAGE } from "@devloggers/api-client"
+import { DEFAULT_PER_PAGE } from "@garage/api"
 
 export const dataTableSearchParams = {
     page: parseAsInteger.withDefault(1),

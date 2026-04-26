@@ -18,7 +18,7 @@ import {
     vendorFormSchema,
     type VendorFormValues,
 } from "./vendor.schema"
-import { VENDOR_ROUTES } from "@devloggers/api-client"
+import { VENDOR_ROUTES } from "@garage/api"
 
 // ── Props ──
 

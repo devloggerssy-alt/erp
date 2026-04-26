@@ -2,23 +2,23 @@ import { IsString, IsNotEmpty, IsOptional, IsInt, Min } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class CreateDocumentSequenceDto {
-    @ApiProperty({ example: 'SALES_INVOICE', description: 'Document type (e.g. PURCHASE_INVOICE, SALES_INVOICE, PAYMENT, RECEIPT, EXPENSE, STOCK_COUNT, JOURNAL_ENTRY)' })
+    @ApiProperty({ example: 'SALES_INVOICE' })
     @IsString()
     @IsNotEmpty()
     documentType: string;
 
-    @ApiProperty({ example: 'SAL', description: 'Prefix for generated document numbers' })
+    @ApiProperty({ example: 'SAL' })
     @IsString()
     @IsNotEmpty()
     prefix: string;
 
-    @ApiPropertyOptional({ example: 1, description: 'Starting number for the sequence' })
+    @ApiPropertyOptional({ example: 1 })
     @IsOptional()
     @IsInt()
     @Min(1)
     nextNumber?: number;
 
-    @ApiPropertyOptional({ example: 5, description: 'Zero-pad length (e.g. 5 → SAL-00001)' })
+    @ApiPropertyOptional({ example: 5, description: 'Zero-pad length' })
     @IsOptional()
     @IsInt()
     @Min(1)
@@ -26,18 +26,18 @@ export class CreateDocumentSequenceDto {
 }
 
 export class UpdateDocumentSequenceDto {
-    @ApiPropertyOptional({ example: 'INV', description: 'Updated prefix' })
+    @ApiPropertyOptional()
     @IsOptional()
     @IsString()
     prefix?: string;
 
-    @ApiPropertyOptional({ example: 100, description: 'Jump sequence to a specific number' })
+    @ApiPropertyOptional()
     @IsOptional()
     @IsInt()
     @Min(1)
     nextNumber?: number;
 
-    @ApiPropertyOptional({ example: 6 })
+    @ApiPropertyOptional()
     @IsOptional()
     @IsInt()
     @Min(1)

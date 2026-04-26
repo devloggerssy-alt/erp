@@ -1,11 +1,19 @@
-import { Geist_Mono, Tajawal } from "next/font/google"
+import { Geist_Mono, Inter } from "next/font/google"
 
 import "./globals.css"
+import { QueryProvider } from "@/shared/components/query-provider"
+import { ThemeProvider } from "@/shared/components/theme-provider"
+import { Toaster } from "@/shared/components/ui/sonner"
+import { ConfirmDialog } from "@/shared/components/confirm-dialog"
+import { NuqsAdapter } from "nuqs/adapters/next/app"
 import { cn } from "@/shared/lib/utils"
-import { Providers } from "@/base/components/providers"
 
-const tajawal = Tajawal({ subsets: ["arabic", 'latin'], variable: "--font-tajwal", weight: ['200', '300', '400', '700', '800', '900'] })
+const inter = Inter({ subsets: ["latin"], variable: "--font-sans" })
 
+const fontMono = Geist_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
+})
 
 export default function RootLayout({
   children,
@@ -14,15 +22,18 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      dir="rtl"
-      lang="ar"
+      lang="en"
       suppressHydrationWarning
-      className={cn("antialiased", "font-tajwal", tajawal.variable)}
+      className={cn("antialiased", fontMono.variable, "font-sans", inter.variable)}
     >
-      <body dir="rtl">
-        <Providers>
-          {children}
-        </Providers>
+      <body>
+        <NuqsAdapter>
+          <ThemeProvider>
+            <QueryProvider>{children}</QueryProvider>
+            <Toaster />
+            <ConfirmDialog />
+          </ThemeProvider>
+        </NuqsAdapter>
       </body>
     </html>
   )

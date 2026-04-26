@@ -7,32 +7,32 @@ export class CreateFiscalPeriodDto {
     @IsNotEmpty()
     name: string;
 
-    @ApiProperty({ example: '2026-01-01', description: 'Period start date (ISO 8601)' })
+    @ApiProperty({ example: '2026-01-01' })
     @IsDateString()
     startDate: string;
 
-    @ApiProperty({ example: '2026-12-31', description: 'Period end date (ISO 8601)' })
+    @ApiProperty({ example: '2026-12-31' })
     @IsDateString()
     endDate: string;
 }
 
 export class UpdateFiscalPeriodDto {
-    @ApiPropertyOptional({ example: '2026 – Extended' })
+    @ApiPropertyOptional()
     @IsOptional()
     @IsString()
     name?: string;
 
-    @ApiPropertyOptional({ example: '2026-01-01' })
+    @ApiPropertyOptional()
     @IsOptional()
     @IsDateString()
     startDate?: string;
 
-    @ApiPropertyOptional({ example: '2026-12-31' })
+    @ApiPropertyOptional()
     @IsOptional()
     @IsDateString()
     endDate?: string;
 
-    @ApiPropertyOptional({ enum: ['OPEN', 'CLOSED', 'LOCKED'], example: 'OPEN' })
+    @ApiPropertyOptional({ enum: ['OPEN', 'CLOSED', 'LOCKED'] })
     @IsOptional()
     @IsIn(['OPEN', 'CLOSED', 'LOCKED'])
     status?: 'OPEN' | 'CLOSED' | 'LOCKED';

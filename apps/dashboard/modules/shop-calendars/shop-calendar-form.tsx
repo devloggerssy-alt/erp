@@ -19,7 +19,7 @@ import {
     shopCalendarFormSchema,
     type ShopCalendarFormValues,
 } from "./shop-calendar.schema"
-import { SHOP_CALENDAR_ROUTES } from "@devloggers/api-client"
+import { SHOP_CALENDAR_ROUTES } from "@garage/api"
 
 // ── Props ──
 

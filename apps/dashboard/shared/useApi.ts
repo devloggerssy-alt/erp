@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { createApi } from "@devloggers/api-client";
+import { createApi } from "@garage/api";
 import { useAuthStore } from "./stores/auth-store";
 
 export const useAuthApi = () => {
