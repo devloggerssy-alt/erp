@@ -23,7 +23,7 @@ import { useFormMutation } from "@/shared/hooks/use-form-mutation"
 import { toId } from "@/shared/lib/utils"
 
 import { serviceGroupFormSchema, type ServiceGroupFormValues } from "./service-group.schema"
-import { SERVICE_GROUP_ROUTES } from "@garage/api"
+import { SERVICE_GROUP_ROUTES } from "@devloggers/api-client"
 
 // ── Props ──
 

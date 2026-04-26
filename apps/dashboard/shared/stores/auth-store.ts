@@ -1,6 +1,5 @@
 import { create } from "zustand"
-import type { AuthUser } from "@garage/api"
-import { createApi } from "@garage/api"
+import { AuthUser } from "@devloggers/api-contracts"
 import {
   setAuthCookies,
   clearAuthCookies,
@@ -15,7 +14,7 @@ type AuthState = {
 
 type AuthActions = {
   login: (token: string, user: AuthUser, expiresIn?: number) => Promise<void>
-  logout: () => Promise<void>
+  // logout: () => Promise<void>
   hydrate: () => Promise<void>
 }
 
@@ -48,41 +47,42 @@ function readInitialUser(): AuthUser | undefined {
 const useAuthStore = create<AuthStore>()((set, get) => {
   const initialToken = readInitialToken()
   const initialUser = readInitialUser()
+
   return {
-  token: initialToken,
-  user: initialUser,
-  isAuthenticated: !!(initialToken && initialUser),
+    token: initialToken,
+    user: initialUser,
+    isAuthenticated: !!(initialToken && initialUser),
 
-  login: async (token, user, expiresIn?) => {
-    await setAuthCookies(token, user, expiresIn)
-    set({ token, user, isAuthenticated: true })
-  },
-
-  logout: async () => {
-    const { token } = get()
-    if (token) {
-      try {
-        const authedApi = createApi({
-          headers: { Authorization: `Bearer ${token}` },
-        })
-        await authedApi.auth.logout()
-      } catch {
-        // proceed with local cleanup even if the API call fails
-      }
-    }
-    await clearAuthCookies()
-    set({ token: undefined, user: undefined, isAuthenticated: false })
-  },
-
-  hydrate: async () => {
-    const { token, user } = await getAuthCookies()
-    if (token && user) {
+    login: async (token, user, expiresIn?) => {
+      await setAuthCookies(token, user, expiresIn)
       set({ token, user, isAuthenticated: true })
-    } else {
-      await clearAuthCookies()
-      set({ token: undefined, user: undefined, isAuthenticated: false })
-    }
-  },
+    },
+
+    // logout: async () => {
+    //   const { token } = get()
+    //   if (token) {
+    //     try {
+    //       const authedApi = createApi({
+    //         headers: { Authorization: `Bearer ${token}` },
+    //       })
+    //       await authedApi.auth.logout()
+    //     } catch {
+    //       // proceed with local cleanup even if the API call fails
+    //     }
+    //   }
+    //   await clearAuthCookies()
+    //   set({ token: undefined, user: undefined, isAuthenticated: false })
+    // },
+
+    hydrate: async () => {
+      const { token, user } = await getAuthCookies()
+      if (token && user) {
+        set({ token, user, isAuthenticated: true })
+      } else {
+        await clearAuthCookies()
+        set({ token: undefined, user: undefined, isAuthenticated: false })
+      }
+    },
   }
 })
 

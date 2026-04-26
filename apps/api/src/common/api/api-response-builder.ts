@@ -7,7 +7,7 @@ export class ApiResponseBuilder {
         message = 'Success',
         meta?: ApiMeta,
     ): ApiResponse<T> {
-        return { message, data, meta };
+        return { status: 'success', message, data, meta };
     }
 
     static error(
@@ -16,6 +16,7 @@ export class ApiResponseBuilder {
         details?: any,
     ): ApiResponse<null> {
         return {
+            status: 'error',
             message,
             data: null,
             error: { code, message, details },

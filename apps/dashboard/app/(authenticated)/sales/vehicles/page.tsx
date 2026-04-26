@@ -5,8 +5,8 @@ import { ResourcePage } from '@/shared/data-view/resource-page'
 import { ColumnHeader } from '@/shared/data-view/table-view'
 import FormDialog from '@/shared/components/form-dialog'
 import { VehicleForm } from '@/modules/vehicles/vehicle-form'
-import { VEHICLE_ROUTES } from '@garage/api'
-import type { VehiclesClient } from '@garage/api'
+import { VEHICLE_ROUTES } from '@devloggers/api'
+import type { VehiclesClient } from '@devloggers/api'
 import { CarIcon } from 'lucide-react'
 
 export default function VehiclesPage() {

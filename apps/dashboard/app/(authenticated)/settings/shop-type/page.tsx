@@ -4,8 +4,8 @@ import { ResourcePage } from "@/shared/data-view/resource-page"
 import { ColumnHeader } from "@/shared/data-view/table-view"
 import FormDialog from "@/shared/components/form-dialog"
 import { ShopTypeForm } from "@/modules/settings/shop-type/shop-type-form"
-import { SHOP_TYPE_ROUTES } from "@garage/api"
-import type { ShopTypesClient } from "@garage/api"
+import { SHOP_TYPE_ROUTES } from "@devloggers/api-client"
+import type { ShopTypesClient } from "@devloggers/api-client"
 import { CheckIcon, XIcon } from "lucide-react"
 
 export default function ShopTypesPage() {

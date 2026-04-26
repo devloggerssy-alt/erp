@@ -9,20 +9,24 @@ import {
     HttpStatus,
 } from '@nestjs/common';
 import * as express from 'express';
-import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
+import { ApiTags, ApiBearerAuth, ApiOperation, ApiOkResponse } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
-import { LoginDto } from './dto';
+import { LoginDto, LoginDataDto, MeDataDto } from './dto';
 import { JwtAuthGuard } from './guards';
 import { CurrentUser, RequestUser } from './decorators';
+import { ApiOkResponseStandard, ApiStandardErrors } from '../../common/decorators/api-swagger.decorators';
 import { ApiResponseBuilder } from '../../common/api/api-response-builder';
 
 @ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
-    constructor(private readonly authService: AuthService) {}
+    constructor(private readonly authService: AuthService) { }
 
     @Post('login')
     @HttpCode(HttpStatus.OK)
+    @ApiOperation({ summary: 'Authenticate user', description: 'Validates email + password, returns a JWT access token and sets it as an HTTP-only cookie for subsequent requests.' })
+    @ApiOkResponseStandard(LoginDataDto, { description: 'Login successful – JWT token returned and set as cookie' })
+    @ApiStandardErrors()
     async login(
         @Body() dto: LoginDto,
         @Res({ passthrough: true }) res: express.Response,
@@ -45,7 +49,15 @@ export class AuthController {
 
     @Post('logout')
     @HttpCode(HttpStatus.OK)
-    async logout(@Res({ passthrough: true }) res: express.Response) {
+    @ApiOperation({ summary: 'Logout user', description: 'Clears the access_token HTTP-only cookie, effectively invalidating the session on the client side.' })
+    @ApiOkResponse({
+        description: 'Logged out – cookie cleared',
+        schema: {
+            example: { status: 'success', message: 'Logged out', data: null },
+        },
+    })
+    @ApiStandardErrors()
+    logout(@Res({ passthrough: true }) res: express.Response) {
         res.clearCookie('access_token');
         return ApiResponseBuilder.success(null, 'Logged out');
     }
@@ -53,6 +65,12 @@ export class AuthController {
     @Get('me')
     @UseGuards(JwtAuthGuard)
     @ApiBearerAuth('JWT-auth')
+    @ApiOperation({
+        summary: 'Get current user profile',
+        description: 'Returns the full profile of the currently authenticated user based on the JWT token.'
+    })
+    @ApiOkResponseStandard(MeDataDto, { description: 'Current user profile returned' })
+    @ApiStandardErrors()
     async me(@CurrentUser() user: RequestUser) {
         const data = await this.authService.getMe(user.id);
         return ApiResponseBuilder.success(data, 'Current user');

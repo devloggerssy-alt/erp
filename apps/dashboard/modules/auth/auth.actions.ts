@@ -1,11 +1,12 @@
 "use server"
 
 import { cookies } from "next/headers"
-import type { AuthUser } from "@garage/api"
 
 const TOKEN_COOKIE = "auth_token"
 const USER_COOKIE = "auth_user"
 const DEFAULT_EXPIRES_IN = 60 * 60 * 24 * 7 // 7 days in seconds
+
+
 
 export async function setAuthCookies(
     token: string,

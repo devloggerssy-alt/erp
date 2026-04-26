@@ -1,5 +1,5 @@
 import { DashboardDetailsPage } from '@/base/components/layout/dashboard'
-import { getServerApi } from '@garage/api/server'
+import { getServerApi } from '@devloggers/api/server'
 import { InvoiceActions } from '@/modules/invoices/invoice-actions'
 import { InvoiceProvider } from '@/modules/invoices/invoice-context'
 import { ReceiptIcon } from 'lucide-react'

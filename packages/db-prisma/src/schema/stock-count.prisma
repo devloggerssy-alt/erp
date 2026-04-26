@@ -7,9 +7,10 @@ enum StockCountStatus {
 
 // ─── Stock Count ──────────────────────────────────────────────────────────────
 model StockCount {
-    id             String           @id @default(uuid())
-    tenantId       String
-    number         String
+    id       String @id @default(uuid())
+    tenantId String
+    number   String
+
     date           DateTime
     warehouseId    String
     fiscalPeriodId String
@@ -33,13 +34,13 @@ model StockCount {
 
 // ─── Stock Count Line ─────────────────────────────────────────────────────────
 model StockCountLine {
-    id              String   @id @default(uuid())
+    id              String  @id @default(uuid())
     tenantId        String
     stockCountId    String
     itemId          String
-    systemQuantity  Decimal  @db.Decimal(18, 4)
-    countedQuantity Decimal  @db.Decimal(18, 4)
-    difference      Decimal  @db.Decimal(18, 4)
+    systemQuantity  Decimal @db.Decimal(18, 4)
+    countedQuantity Decimal @db.Decimal(18, 4)
+    difference      Decimal @db.Decimal(18, 4)
     notes           String?
 
     stockCount StockCount @relation(fields: [stockCountId], references: [id], onDelete: Cascade)

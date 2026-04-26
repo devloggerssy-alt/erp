@@ -17,7 +17,7 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@devloggers/contracts": "workspace:*",
+    "@devloggers/api-contracts": "workspace:*",
     "@devloggers/db-prisma": "workspace:*"
   },
   "peerDependencies": {

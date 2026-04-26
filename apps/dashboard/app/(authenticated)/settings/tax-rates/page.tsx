@@ -4,8 +4,8 @@ import { TaxForm } from "@/modules/settings/tax-rates/tax-form"
 import { ResourcePage } from "@/shared/data-view/resource-page"
 import { ColumnHeader } from "@/shared/data-view/table-view"
 import FormDialog from "@/shared/components/form-dialog"
- import { TAX_ROUTES } from "@garage/api"
-import type { TaxesClient } from "@garage/api"
+import { TAX_ROUTES } from "@devloggers/api-client"
+import type { TaxesClient } from "@devloggers/api-client"
 import { CheckIcon, XIcon } from "lucide-react"
 
 export default function TaxesPage() {

@@ -22,7 +22,7 @@ import {
     expenseFormSchema,
     type ExpenseFormValues,
 } from "./expense.schema"
-import { EXPENSE_ROUTES, JOB_CARD_ROUTES, VENDOR_ROUTES, DEPARTMENT_ROUTES } from "@garage/api"
+import { EXPENSE_ROUTES, JOB_CARD_ROUTES, VENDOR_ROUTES, DEPARTMENT_ROUTES } from "@devloggers/api-client"
 
 // ── Constants ──
 

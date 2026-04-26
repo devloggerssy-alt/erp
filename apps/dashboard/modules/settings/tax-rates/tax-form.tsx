@@ -17,7 +17,7 @@ import { useResourceForm } from "@/shared/hooks/use-resource-form"
 import { useFormMutation } from "@/shared/hooks/use-form-mutation"
 
 import { taxFormSchema, type TaxFormValues } from "./tax.schema"
-import { TAX_ROUTES } from "@garage/api"
+import { TAX_ROUTES } from "@devloggers/api-client"
 
 // ── Props ──
 

@@ -22,7 +22,7 @@ import { useFormMutation } from "@/shared/hooks/use-form-mutation"
 import { toId } from "@/shared/lib/utils"
 
 import { serviceFormSchema, type ServiceFormValues } from "./service.schema"
-import { SERVICE_ROUTES } from "@garage/api"
+import { SERVICE_ROUTES } from "@devloggers/api-client"
 
 // ── Props ──
 

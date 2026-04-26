@@ -48,13 +48,13 @@ export type DashboardHeaderProps = {
 export function DashboardHeader({ actions, className }: DashboardHeaderProps) {
   const { resolvedTheme, setTheme } = useTheme()
   const [searchOpen, setSearchOpen] = useState(false)
-  const { logout, user } = useAuthStore((s) => s)
+  const { user } = useAuthStore((s) => s)
   const router = useRouter()
 
-  const handleLogout = useCallback(async () => {
-    await logout()
-    router.push("/login")
-  }, [logout, router])
+  // const handleLogout = useCallback(async () => {
+  //   await logout()
+  //   router.push("/login")
+  // }, [logout, router])
 
   useEffect(() => {
     function onKeyDown(e: KeyboardEvent) {
@@ -90,13 +90,13 @@ export function DashboardHeader({ actions, className }: DashboardHeaderProps) {
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="flex items-center gap-2 px-2">
               <Avatar >
-                {user?.avatar && <AvatarImage src={user?.avatar as string} alt={user?.name} />}
+                {/* {user?.avatar && <AvatarImage src={user?.avatar as string} alt={user?.name} />} */}
                 <AvatarFallback>
-                  {user?.initials ?? user?.name.charAt(0).toUpperCase()}
+                  {user?.fullName.charAt(0).toUpperCase()}
                 </AvatarFallback>
               </Avatar>
               <span className="hidden text-sm font-medium md:inline-block">
-                {user?.name}
+                {user?.fullName}
               </span>
             </Button>
           </DropdownMenuTrigger>
@@ -106,18 +106,18 @@ export function DashboardHeader({ actions, className }: DashboardHeaderProps) {
             <DropdownMenuLabel className="font-normal">
               <div className="flex items-center gap-3 py-1">
                 <Avatar size="lg">
-                  {user?.avatar && <AvatarImage src={user?.avatar as string} alt={user?.name} />}
+                  {/* {user?.avatar && <AvatarImage src={user?.avatar as string} alt={user?.name} />} */}
                   <AvatarFallback className="text-base">
-                    {user?.initials ?? user?.name.charAt(0).toUpperCase()}
+                    {user?.fullName.charAt(0).toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
                 <div className="flex flex-col">
-                  <span className="text-sm font-medium text-foreground">{user?.name}</span>
+                  <span className="text-sm font-medium text-foreground">{user?.fullName}</span>
                   {user?.email && (
                     <span className="text-xs text-muted-foreground">{user?.email}</span>
                   )}
-                  {user?.role && (
-                    <span className="mt-0.5 text-xs font-medium text-primary">{user?.role}</span>
+                  {user?.roles[0] && (
+                    <span className="mt-0.5 text-xs font-medium text-primary">{user?.roles[0]}</span>
                   )}
                 </div>
               </div>
@@ -136,10 +136,10 @@ export function DashboardHeader({ actions, className }: DashboardHeaderProps) {
 
             <DropdownMenuSeparator />
 
-            <DropdownMenuItem variant="destructive" onSelect={handleLogout}>
+            {/* <DropdownMenuItem variant="destructive" onSelect={handleLogout}>
               <LogOutIcon />
               Logout
-            </DropdownMenuItem>
+            </DropdownMenuItem> */}
           </DropdownMenuContent>
         </DropdownMenu>
         {/* )} */}

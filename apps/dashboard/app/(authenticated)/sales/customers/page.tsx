@@ -4,9 +4,9 @@ import { ResourcePage } from '@/shared/data-view/resource-page'
 import { ColumnHeader } from '@/shared/data-view/table-view'
 import FormDialog from '@/shared/components/form-dialog'
 import { CustomerForm } from '@/modules/customers/customer-form'
-import { CUSTOMER_ROUTES } from '@garage/api'
-import type { CustomersClient } from '@garage/api'
-import { Building2Icon,   UserIcon } from 'lucide-react'
+import { CUSTOMER_ROUTES } from '@devloggers/api'
+import type { CustomersClient } from '@devloggers/api'
+import { Building2Icon, UserIcon } from 'lucide-react'
 
 export default function CustomersPage() {
     return (
@@ -35,10 +35,10 @@ export default function CustomersPage() {
                     cell: ({ row }) => {
                         const customerName = row.original.first_name
                         const isCompany = row.original.customer_type?.name?.toLocaleLowerCase() === "company";
-                        const companyName = row.original.company_name 
+                        const companyName = row.original.company_name
                         const name = isCompany && companyName ? `${customerName} (${row.original.last_name})` : customerName
-                    
-                    return (<div className="flex items-center gap-2">
+
+                        return (<div className="flex items-center gap-2">
                             {isCompany ? <Building2Icon className="text-muted-foreground" /> : <UserIcon className="text-muted-foreground" />}
                             <span>{name}</span>
                         </div>

@@ -4,9 +4,9 @@ import { useContext } from "react"
 import { ApiClientContext } from "./context"
 
 export const useApiClient = () => {
-    const { apiClient } = useContext(ApiClientContext)
-    if (!apiClient) {
-        throw new Error("ApiClient not provided, plz use ApiClientProvider")
+    const { api } = useContext(ApiClientContext)
+    if (!api) {
+        throw new Error("Api not provided, please use ApiClientProvider")
     }
-    return apiClient
+    return api
 }

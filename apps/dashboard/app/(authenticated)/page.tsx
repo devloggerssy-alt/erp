@@ -4,7 +4,7 @@ import { DashboardContent } from "@/modules/home/dashboard-content";
 
 export default function page() {
   return (
-    <DashboardPage header={<DashboardHeader />} title="Dashboard">
+    <DashboardPage header={<DashboardHeader />}>
       <DashboardContent />
     </DashboardPage>
   )

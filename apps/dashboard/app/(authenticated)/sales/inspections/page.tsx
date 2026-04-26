@@ -4,8 +4,8 @@ import { ResourcePage } from "@/shared/data-view/resource-page"
 import { ColumnHeader } from "@/shared/data-view/table-view"
 import FormDialog from "@/shared/components/form-dialog"
 import { InspectionForm } from "@/modules/inspections/inspection-form"
-import { INSPECTION_ROUTES } from "@garage/api"
-import type { InspectionsClient } from "@garage/api"
+import { INSPECTION_ROUTES } from "@devloggers/api-client"
+import type { InspectionsClient } from "@devloggers/api-client"
 
 export default function InspectionsPage() {
     return (

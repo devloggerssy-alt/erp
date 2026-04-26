@@ -5,8 +5,8 @@ import { ResourcePage } from "@/shared/data-view/resource-page"
 import { ColumnHeader } from "@/shared/data-view/table-view"
 import FormDialog from "@/shared/components/form-dialog"
 import { InvoiceForm } from "@/modules/invoices/invoice-form"
-import { INVOICE_ROUTES } from "@garage/api"
-import type { InvoicesClient } from "@garage/api"
+import { INVOICE_ROUTES } from "@devloggers/api-client"
+import type { InvoicesClient } from "@devloggers/api-client"
 
 type InvoiceItem = {
     id: number

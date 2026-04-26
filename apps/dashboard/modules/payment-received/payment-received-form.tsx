@@ -21,7 +21,7 @@ import {
     paymentReceivedFormSchema,
     type PaymentReceivedFormValues,
 } from "./payment-received.schema"
-import { PAYMENT_ROUTES, CUSTOMER_ROUTES, JOB_CARD_ROUTES } from "@garage/api"
+import { PAYMENT_ROUTES, CUSTOMER_ROUTES, JOB_CARD_ROUTES } from "@devloggers/api-client"
 
 // ── Props ──
 

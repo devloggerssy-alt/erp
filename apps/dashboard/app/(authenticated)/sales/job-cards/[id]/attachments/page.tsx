@@ -10,7 +10,7 @@ import { useAuthApi } from "@/shared/useApi"
 import { confirm } from "@/shared/components/confirm-dialog"
 import { Button } from "@/shared/components/ui/button"
 import { Card, CardContent } from "@/shared/components/ui/card"
-import { JOB_CARD_ROUTES } from "@garage/api"
+import { JOB_CARD_ROUTES } from "@devloggers/api-client"
 
 type Attachment = {
     id: number

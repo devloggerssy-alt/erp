@@ -4,8 +4,8 @@ import { ResourcePage } from '@/shared/data-view/resource-page'
 import { ColumnHeader } from '@/shared/data-view/table-view'
 import FormDialog from '@/shared/components/form-dialog'
 import { EstimateForm } from '@/modules/estimates/estimate-form'
-import { ESTIMATE_ROUTES } from '@garage/api'
-import type { EstimatesClient } from '@garage/api'
+import { ESTIMATE_ROUTES } from '@devloggers/api'
+import type { EstimatesClient } from '@devloggers/api'
 import { FileTextIcon } from 'lucide-react'
 
 type EstimateItem = {
@@ -31,7 +31,7 @@ export default function EstimatesPage({ vehicleId }: { vehicleId: string }) {
                         {(resourceId) => (
                             <EstimateForm
                                 resourceId={resourceId}
-                                initialData={{ vehicle:{label: vehicleId, value: vehicleId}}}
+                                initialData={{ vehicle: { label: vehicleId, value: vehicleId } }}
                                 onSuccess={invalidateQuery}
                             />
                         )}

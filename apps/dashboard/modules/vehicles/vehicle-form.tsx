@@ -24,7 +24,7 @@ import { useFormMutation } from "@/shared/hooks/use-form-mutation"
 import { toRelation, toId } from "@/shared/lib/utils"
 
 import { vehicleFormSchema, type VehicleFormValues } from "./vehicle.schema"
-import { VEHICLE_ROUTES } from "@garage/api"
+import { VEHICLE_ROUTES } from "@devloggers/api-client"
 
 // ── Props ──
 

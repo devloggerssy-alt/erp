@@ -18,7 +18,7 @@ import { useResourceForm } from "@/shared/hooks/use-resource-form"
 import { useFormMutation } from "@/shared/hooks/use-form-mutation"
 
 import { shopTypeFormSchema, type ShopTypeFormValues } from "./shop-type.schema"
-import { SHOP_TYPE_ROUTES } from "@garage/api"
+import { SHOP_TYPE_ROUTES } from "@devloggers/api-client"
 
 // ── Props ──
 
