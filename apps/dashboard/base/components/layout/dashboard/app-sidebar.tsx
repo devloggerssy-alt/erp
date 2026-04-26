@@ -152,7 +152,7 @@ function CollapsibleNavItem({ item, isCollapsed }: { item: NavItem; isCollapsed:
                                         href={sub.href}
                                         className={cn(
                                             "flex items-center gap-2",
-                                            isSubActive && "bg-primary/10 text-primary font-medium"
+                                            isSubActive && "bg-primary text-primary font-medium"
                                         )}
                                     >
                                         {sub.icon ? (

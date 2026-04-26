@@ -1,9 +1,5 @@
-
-import { Suspense } from "react"
-
 import Image from "next/image"
 import { DashboardLayout } from "@/base/components/layout/dashboard"
-import { useAuth } from "@/shared/hooks/use-auth"
 import { navGroups } from "@/config/navGroups"
 import { getAuthCookies } from "@/modules/auth/auth.actions"
 import { redirect } from "next/navigation"

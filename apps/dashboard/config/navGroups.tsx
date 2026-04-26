@@ -36,6 +36,11 @@ export const navGroups: NavGroup[] = [
         icon: <LayoutDashboardIcon />,
       },
       {
+        title: "الكاشير",
+        href: "/cashier",
+        icon: <ReceiptIcon />,
+      },
+      {
         title: "المساعد الذكي",
         href: "/ai/chat",
         icon: <MessageSquareIcon />,
