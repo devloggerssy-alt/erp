@@ -1,15 +1,11 @@
-import { Geist_Mono, Inter } from "next/font/google"
+import { Geist_Mono, Tajawal } from "next/font/google"
 
 import "./globals.css"
 import { cn } from "@/shared/lib/utils"
 import { Providers } from "@/base/components/providers"
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-sans" })
+const tajawal = Tajawal({ subsets: ["arabic", 'latin'], variable: "--font-tajwal", weight: ['200', '300', '400', '700', '800', '900'] })
 
-const fontMono = Geist_Mono({
-  subsets: ["latin"],
-  variable: "--font-mono",
-})
 
 export default function RootLayout({
   children,
@@ -18,11 +14,12 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
+      dir="rtl"
+      lang="ar"
       suppressHydrationWarning
-      className={cn("antialiased", fontMono.variable, "font-sans", inter.variable)}
+      className={cn("antialiased", "font-tajwal", tajawal.variable)}
     >
-      <body>
+      <body dir="rtl">
         <Providers>
           {children}
         </Providers>

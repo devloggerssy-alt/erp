@@ -45,13 +45,13 @@ export function AppSidebar({ navGroups, logo, ...props }: AppSidebarProps) {
     const isCollapsed = state === "collapsed" && !isMobile
 
     return (
-        <Sidebar collapsible="icon" {...props} className="bg-card">
+        <Sidebar side="right" collapsible="icon" {...props} className="bg-card border-e">
             {logo && (
                 <SidebarHeader className="flex p-4">
                     {logo}
                 </SidebarHeader>
             )}
-            <SidebarContent className={cn("transition-[padding] duration-200", !isCollapsed && "ps-2")}>
+            <SidebarContent className={cn("transition-[padding] duration-200 gap-0", !isCollapsed && "ps-2")}>
                 {navGroups.map((group, groupIndex) => (
                     <SidebarGroup key={group.label ?? groupIndex}>
                         {group.label && (
@@ -83,7 +83,7 @@ function SimpleNavItem({ item, isCollapsed }: { item: NavItem; isCollapsed: bool
     return (
         <SidebarMenuItem>
             <SidebarMenuButton
-                 
+
                 asChild
                 isActive={isActive}
                 tooltip={item.title}
@@ -114,7 +114,7 @@ function CollapsibleNavItem({ item, isCollapsed }: { item: NavItem; isCollapsed:
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <SidebarMenuButton
-                             
+
                             isActive={isActive}
                             tooltip={item.title}
                             className="dashboard-nav-item"
@@ -183,7 +183,7 @@ function CollapsibleNavItem({ item, isCollapsed }: { item: NavItem; isCollapsed:
         <Collapsible asChild defaultOpen={isActive} className="group/collapsible">
             <SidebarMenuItem>
                 <CollapsibleTrigger asChild>
-                    <SidebarMenuButton   tooltip={item.title} isActive={isActive} className="dashboard-nav-item" data-collapsed={isCollapsed}>
+                    <SidebarMenuButton tooltip={item.title} isActive={isActive} className="dashboard-nav-item" data-collapsed={isCollapsed}>
                         <span
                             className={cn(
                                 "transition-transform duration-300",
@@ -193,12 +193,12 @@ function CollapsibleNavItem({ item, isCollapsed }: { item: NavItem; isCollapsed:
                             {item.icon}
                         </span>
 
-                            
+
                         <span>{item.title}</span>
-                        
+
                         <ChevronRight
                             className={cn(
-                                "ms-auto size-4 shrink-0 transition-transform duration-300 ease-[cubic-bezier(0.87,0,0.13,1)]",
+                                "ms-auto size-4 shrink-0 transition-transform duration-300 ease-[cubic-bezier(0.87,0,0.13,1)] rtl:rotate-180",
                                 "group-data-[state=open]/collapsible:rotate-90"
                             )}
                         />
