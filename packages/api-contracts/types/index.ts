@@ -7,6 +7,7 @@ export interface paths {
     "/auth/login": {
         parameters: {
             query?: never;
+            
             header?: never;
             path?: never;
             cookie?: never;
