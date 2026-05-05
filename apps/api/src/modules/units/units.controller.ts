@@ -9,33 +9,22 @@ import {
 } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth, ApiOperation, ApiOkResponse, ApiCreatedResponse } from '@nestjs/swagger';
 import { UnitsService } from './units.service';
-import { CreateUnitDto, UpdateUnitDto } from './dto';
+import { CreateUnitDto, ListUnitsDto, UpdateUnitDto } from './dto';
 import { JwtAuthGuard } from '../auth/guards';
 import { CurrentUser, RequestUser } from '../auth/decorators';
 import { ApiResponseBuilder } from '../../common/api/api-response-builder';
-import { ApiStandardErrors } from '../../common/decorators/api-swagger.decorators';
+import { ApiOkResponseStandard, ApiStandardErrors } from '../../common/decorators/api-swagger.decorators';
 
 @ApiTags('Units')
 @Controller('units')
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth('JWT-auth')
 export class UnitsController {
-    constructor(private readonly unitsService: UnitsService) {}
+    constructor(private readonly unitsService: UnitsService) { }
 
     @Get()
     @ApiOperation({ summary: 'List all units of measure' })
-    @ApiOkResponse({
-        description: 'Units list retrieved',
-        schema: {
-            example: {
-                message: 'Units list',
-                data: [
-                    { id: '00000000-0000-4000-a800-000000000001', name: 'Piece', abbreviation: 'pc' },
-                    { id: '00000000-0000-4000-a800-000000000002', name: 'Box', abbreviation: 'box' },
-                ],
-            },
-        },
-    })
+    @ApiOkResponseStandard(ListUnitsDto, { description: 'List of units returned' })
     @ApiStandardErrors()
     async findAll(@CurrentUser() user: RequestUser) {
         const result = await this.unitsService.findAll(user.tenantId);

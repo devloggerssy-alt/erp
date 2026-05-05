@@ -1,4 +1,6 @@
-export const currencyResource = {
+import { defineResource } from './resource.types'
+
+export const currencyResource = defineResource({
   key: 'currencies',
 
   routes: {
@@ -11,4 +13,4 @@ export const currencyResource = {
     root: 'currencies',
     byId: ':id',
   },
-} as const
+})

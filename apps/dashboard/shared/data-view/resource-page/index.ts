@@ -1,16 +1,12 @@
-export { useResourcePage } from "./use-resource-page"
-export { ResourcePage } from "./resource-page"
+export { ResourcePage, useResource as useResourcePage } from "../resource"
 
 export type {
-    ResourcePageClient,
+    ResourceClient as ResourcePageClient,
     ResourceItem,
-    UseResourcePageOptions,
-} from "./use-resource-page"
-
-export type {
+    UseResourceOptions as UseResourcePageOptions,
     ResourceFormProps,
-    ResourcePageColumnHelpers,
-    ResourcePageHeaderHelpers,
-    ResourcePageContext,
+    ResourceTableHelpers as ResourcePageColumnHelpers,
+    ResourceHeaderHelpers as ResourcePageHeaderHelpers,
+    ResourceContext as ResourcePageContext,
     ResourcePageProps,
-} from "./resource-page"
+} from "../resource"

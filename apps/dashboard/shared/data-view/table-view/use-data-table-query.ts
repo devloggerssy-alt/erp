@@ -3,30 +3,30 @@
 import { useQueryStates } from "nuqs"
 import { useQuery, useQueryClient, type UseQueryOptions } from "@tanstack/react-query"
 import type { DataViewChangeEvent, DataViewPaginationState, DataViewSorting } from "./types"
-import { dataTableSearchParams } from "./search-params"
+import { dataViewSearchParams } from "./search-params"
 import { type CrudListResponse } from "@devloggers/api-client"
 
-type DataTableClient = {
+type DataViewClient = {
     list(query?: any): Promise<any>
 }
 
-type UseDataTableQueryOptions<C extends DataTableClient> = {
+export type UseDataViewQueryOptions<C extends DataViewClient> = {
     queryKey: string[]
     client: C
     queryOptions?: Omit<UseQueryOptions<CrudListResponse<C>>, "queryKey" | "queryFn">
     extraParams?: Record<string, unknown>
 }
 
-export function useDataTableQuery<C extends DataTableClient>({
+export function useDataViewQuery<C extends DataViewClient>({
     queryKey,
     client,
     queryOptions,
     extraParams,
-}: UseDataTableQueryOptions<C>) {
-    const [params, setParams] = useQueryStates(dataTableSearchParams)
-    const _queryKey = [...queryKey, params, ...(extraParams ? [extraParams] : [])]
+}: UseDataViewQueryOptions<C>) {
+    const [params, setParams] = useQueryStates(dataViewSearchParams)
+    const resolvedQueryKey = [...queryKey, params, ...(extraParams ? [extraParams] : [])]
     const query = useQuery<CrudListResponse<C>>({
-        queryKey: _queryKey,
+        queryKey: resolvedQueryKey,
         queryFn: () => {
             const apiParams: Record<string, unknown> = {
                 page: params.page,
@@ -72,13 +72,14 @@ export function useDataTableQuery<C extends DataTableClient>({
         }
     }
 
-    const queryClient = useQueryClient();
+    const queryClient = useQueryClient()
     const invalidateQuery = () => {
-        queryClient.invalidateQueries({ queryKey: _queryKey })
+        queryClient.invalidateQueries({ queryKey: resolvedQueryKey })
     }
 
     return {
         ...query,
+        query,
         pagination,
         sorting,
         params,
@@ -87,3 +88,5 @@ export function useDataTableQuery<C extends DataTableClient>({
         invalidateQuery,
     }
 }
+
+export const useDataTableQuery = useDataViewQuery

@@ -1,4 +1,6 @@
-export const paymentResource = {
+import { defineResource } from './resource.types'
+
+export const paymentResource = defineResource({
   key: 'payments',
 
   routes: {
@@ -20,4 +22,4 @@ export const paymentResource = {
     allocate: ':id/allocate',
     removeAllocation: ':id/allocations/:allocationId',
   },
-} as const
+})

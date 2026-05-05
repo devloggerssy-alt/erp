@@ -7,8 +7,15 @@ import { redirect } from "next/navigation"
 
 function Logo() {
   return (
-    <div className="flex items-center gap-2">
-      <Image alt="Logo" src={'/assets/logo.png'} height={200} width={200} />
+    <div className="h-14 flex items-center justify-center px-4">
+      <Image
+        src="/assets/logo.png"
+        alt="Logo"
+        width={250}
+        height={100}
+        className="w-full h-auto object-contain"
+        priority
+      />
     </div>
   )
 }

@@ -3,8 +3,13 @@ export { ColumnHeader } from "./column-header"
 export { createActionsColumn } from "./actions-column"
 export { DataViewProvider, useDataView } from "./data-view-context"
 export { DataViewPagination } from "./data-view-pagination"
-export { useDataTableQuery } from "./use-data-table-query"
-export { dataTableSearchParams, dataTableSearchParamsCache } from "./search-params"
+export { useDataTableQuery, useDataViewQuery } from "./use-data-table-query"
+export {
+    dataTableSearchParams,
+    dataTableSearchParamsCache,
+    dataViewSearchParams,
+    dataViewSearchParamsCache,
+} from "./search-params"
 export type {
     DataViewProps,
     DataViewPaginationState,
@@ -13,5 +18,5 @@ export type {
     DataViewChangeEvent,
     DataViewSlots,
 } from "./types"
-export type { DataTableSearchParams } from "./search-params"
+export type { DataTableSearchParams, DataViewSearchParams } from "./search-params"
 export type { ActionsColumnOptions } from "./actions-column"

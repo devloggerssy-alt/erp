@@ -1,7 +1,7 @@
 "use client"
 
 import { TaxForm } from "@/modules/settings/tax-rates/tax-form"
-import { ResourcePage } from "@/shared/data-view/resource-page"
+import { ResourcePage } from "@/shared/data-view/resource"
 import { ColumnHeader } from "@/shared/data-view/table-view"
 import FormDialog from "@/shared/components/form-dialog"
 import { TAX_ROUTES } from "@devloggers/api-client"

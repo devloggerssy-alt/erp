@@ -1,6 +1,6 @@
 "use client"
 
-import { ResourcePage } from "@/shared/data-view/resource-page"
+import { ResourcePage } from "@/shared/data-view/resource"
 import { ColumnHeader } from "@/shared/data-view/table-view"
 import FormDialog from "@/shared/components/form-dialog"
 import { ShopTypeForm } from "@/modules/settings/shop-type/shop-type-form"

@@ -2,13 +2,13 @@
     "name": "@devloggers/api-contracts",
     "version": "0.0.1",
     "description": "Database package with Prisma schema and generated client",
-    "main": "./dist/index.js",
-    "types": "./dist/index.d.ts",
+    "main": "./dist/src/index.js",
+    "types": "./dist/src/index.d.ts",
     "exports": {
         ".": {
-            "types": "./dist/index.d.ts",
-            "import": "./dist/index.js",
-            "require": "./dist/index.js"
+            "types": "./dist/src/index.d.ts",
+            "import": "./dist/src/index.js",
+            "require": "./dist/src/index.js"
         },
         "./types": {
             "types": "./types/index.ts",
@@ -18,8 +18,8 @@
     },
     "scripts": {
         "dev": "tsc --watch",
-        "build": "pnpm run generate",
-        "clean": "rm -rf dist",
+        "build": "tsc",
+        "clean": "node -e \"require('fs').rmSync('./dist', { recursive: true, force: true })\"",
         "generate": "node scripts/generate-types.cjs",
         "generate:dev": "node scripts/generate-types.cjs http://localhost:4040/swagger.yaml"
     },

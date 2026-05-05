@@ -1,3 +1,5 @@
+import { Unit } from "@devloggers/db-prisma";
+
 export interface CreateUnitDto {
     name: string;
     abbreviation: string;
@@ -8,3 +10,5 @@ export interface UpdateUnitDto {
     abbreviation?: string;
     isActive?: boolean;
 }
+
+export interface ListUnitsDto extends Pick<Unit,'name' | 'abbreviation'|'isActive'> {}

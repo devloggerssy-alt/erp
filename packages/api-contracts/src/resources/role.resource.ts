@@ -1,4 +1,6 @@
-export const roleResource = {
+import { defineResource } from './resource.types'
+
+export const roleResource = defineResource({
   key: 'roles',
 
   routes: {
@@ -11,4 +13,4 @@ export const roleResource = {
     root: 'roles',
     byId: ':id',
   },
-} as const
+})

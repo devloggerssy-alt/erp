@@ -1,4 +1,6 @@
-export const tenantResource = {
+import { defineResource } from './resource.types'
+
+export const tenantResource = defineResource({
   key: 'tenants',
 
   routes: {
@@ -11,4 +13,4 @@ export const tenantResource = {
     root: 'tenants',
     current: 'current',
   },
-} as const
+})

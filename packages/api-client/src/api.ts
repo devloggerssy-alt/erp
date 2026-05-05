@@ -1,4 +1,5 @@
 import { AuthClient } from "./clients/auth.client"
+import { UnitsClient } from "./clients/units.client"
 import { ApiClient, type ApiClientOptions } from "./infra/client"
 
 
@@ -7,6 +8,7 @@ export function createApi(options?: ApiClientOptions, baseUrl = 'http://localhos
     return {
         client,
         auth: new AuthClient(client),
+        units : new UnitsClient(client)
     }
 }
 

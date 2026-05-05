@@ -1,4 +1,6 @@
-export const authResource = {
+import { defineResource } from './resource.types'
+
+export const authResource = defineResource({
   key: 'auth',
 
   /** Full URL paths (leading slash) — used by api-client fetch calls */
@@ -15,5 +17,5 @@ export const authResource = {
     logout: 'logout',
     me: 'me',
   },
-} as const
+})
 

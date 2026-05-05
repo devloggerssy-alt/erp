@@ -1,3 +1,5 @@
+export * from './resource.types'
+
 import { authResource } from './auth.resource'
 import { tenantResource } from './tenant.resource'
 import { userResource } from './user.resource'

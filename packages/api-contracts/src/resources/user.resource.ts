@@ -1,4 +1,6 @@
-export const userResource = {
+import { defineResource } from './resource.types'
+
+export const userResource = defineResource({
   key: 'users',
 
   routes: {
@@ -13,4 +15,4 @@ export const userResource = {
     byId: ':id',
     status: ':id/status',
   },
-} as const
+})

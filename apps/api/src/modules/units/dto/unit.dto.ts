@@ -1,16 +1,16 @@
 import { IsString, IsNotEmpty, IsOptional, IsBoolean } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-
+import type { ListUnitsDto as BaseListUnitsDto } from '@devloggers/api-contracts';
 export class CreateUnitDto {
     @ApiProperty({ example: 'Kilogram', description: 'Unit display name' })
     @IsString()
     @IsNotEmpty()
-    name: string;
+    name: string='';
 
     @ApiProperty({ example: 'kg', description: 'Short abbreviation' })
     @IsString()
     @IsNotEmpty()
-    abbreviation: string;
+    abbreviation: string='';
 }
 
 export class UpdateUnitDto {
@@ -28,4 +28,12 @@ export class UpdateUnitDto {
     @IsOptional()
     @IsBoolean()
     isActive?: boolean;
+}
+
+
+export class ListUnitsDto implements BaseListUnitsDto {
+    abbreviation: string = '';
+    isActive: boolean = false;
+    name: string = '';
+
 }

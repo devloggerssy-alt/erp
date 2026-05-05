@@ -7,7 +7,6 @@ export interface paths {
     "/auth/login": {
         parameters: {
             query?: never;
-            
             header?: never;
             path?: never;
             cookie?: never;
@@ -1504,14 +1503,24 @@ export interface components {
             /** @example 6 */
             padding?: number;
         };
+        ListUnitsDto: {
+            /** @default  */
+            abbreviation: string;
+            /** @default false */
+            isActive: boolean;
+            /** @default  */
+            name: string;
+        };
         CreateUnitDto: {
             /**
              * @description Unit display name
+             * @default
              * @example Kilogram
              */
             name: string;
             /**
              * @description Short abbreviation
+             * @default
              * @example kg
              */
             abbreviation: string;
@@ -3643,13 +3652,15 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Units list retrieved */
+            /** @description List of units returned */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["ListUnitsDto"];
+                    };
                 };
             };
             /** @description JWT token is missing, expired, or invalid */
