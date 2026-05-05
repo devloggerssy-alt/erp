@@ -24,12 +24,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 7.3.0
- * Query Engine version: 9d6ad21cbbceab97458517b147a6a09ff43aa735
+ * Prisma Client JS version: 7.6.0
+ * Query Engine version: 75cbdc1eb7150937890ad5465d861175c6624711
  */
 Prisma.prismaVersion = {
-  client: "7.3.0",
-  engine: "9d6ad21cbbceab97458517b147a6a09ff43aa735"
+  client: "7.6.0",
+  engine: "75cbdc1eb7150937890ad5465d861175c6624711"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -350,6 +350,28 @@ exports.Prisma.ItemScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.CustomFieldScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  module: 'module',
+  name: 'name',
+  label: 'label',
+  type: 'type',
+  defaultValue: 'defaultValue',
+  placeholder: 'placeholder',
+  options: 'options',
+  isRequired: 'isRequired',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.CustomFieldValueScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  fieldId: 'fieldId',
+  itemId: 'itemId',
+  value: 'value'
+};
+
 exports.Prisma.PartyScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
@@ -566,6 +588,15 @@ exports.InvoiceStatus = exports.$Enums.InvoiceStatus = {
   CANCELLED: 'CANCELLED'
 };
 
+exports.FieldType = exports.$Enums.FieldType = {
+  TEXT: 'TEXT',
+  DATE: 'DATE',
+  NUMBER: 'NUMBER',
+  SELECT: 'SELECT',
+  BOOLEAN: 'BOOLEAN',
+  MULTI_SELECT: 'MULTI_SELECT'
+};
+
 exports.PartyType = exports.$Enums.PartyType = {
   CUSTOMER: 'CUSTOMER',
   SUPPLIER: 'SUPPLIER',
@@ -606,6 +637,8 @@ exports.Prisma.ModelName = {
   InvoiceLine: 'InvoiceLine',
   ItemCategory: 'ItemCategory',
   Item: 'Item',
+  CustomField: 'CustomField',
+  CustomFieldValue: 'CustomFieldValue',
   Party: 'Party',
   StockCount: 'StockCount',
   StockCountLine: 'StockCountLine',
