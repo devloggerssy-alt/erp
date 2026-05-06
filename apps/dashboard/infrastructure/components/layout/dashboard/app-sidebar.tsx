@@ -4,7 +4,7 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { ChevronRight, Circle } from "lucide-react"
 
-import type { NavGroup, NavItem } from "@/base/types/navigation"
+import type { NavGroup, NavItem } from "@/infrastructure/types/navigation"
 import { cn } from "@/shared/lib/utils"
 import {
     Collapsible,

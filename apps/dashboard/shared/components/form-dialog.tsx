@@ -77,7 +77,7 @@ export default function FormDialog(props: {
                             {props.title}
                         </DialogTitle>
                     </DialogHeader>
-                    <ScrollArea className='max-h-[80vh] px-4'>
+                    <ScrollArea className='max-h-[80vh]'>
                         {props.children(resourceId)}
                     </ScrollArea>
                 </DialogContent>

@@ -59,9 +59,7 @@ export abstract class CrudClient<
     }
 
     async destroy(id: string) {
-        if (!this.deleteEnabled) {
-            throw new Error("Delete is not enabled for this CRUD client.")
-        }
+      
 
         return this.apiClient.delete(this.deleteApiPath, { params: { id } } as never)
     }

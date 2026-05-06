@@ -3,6 +3,7 @@
 import type { FieldValues } from "react-hook-form"
 import { FormProvider } from "react-hook-form"
 import type { RhformProps } from "./types"
+import { cn } from "@/shared/lib/utils"
 
 export function Rhform<TValues extends FieldValues>({
   form,
@@ -15,7 +16,7 @@ export function Rhform<TValues extends FieldValues>({
       <form
         onSubmit={(e) => { e.stopPropagation(); form.handleSubmit(onSubmit)(e) }}
         noValidate
-        className={className}
+        className={cn('p-2',className)}
       >
         {children}
       </form>

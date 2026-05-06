@@ -1,7 +1,7 @@
 "use client"
 import React, { useState, useMemo } from 'react';
 import { Search, Plus, Minus, Trash2, ShoppingCart, CheckCircle2, Tag, Receipt } from 'lucide-react';
-import DashboardPage from '@/base/components/layout/dashboard/dashboard-page';
+import DashboardPage from '@/infrastructure/components/layout/dashboard/dashboard-page';
 
 // تعريف أنواع البيانات
 interface Product {

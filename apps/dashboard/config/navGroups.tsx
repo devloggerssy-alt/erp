@@ -1,4 +1,4 @@
-import type { NavGroup } from "@/base/types/navigation"
+import type { NavGroup } from "@/infrastructure/types/navigation"
 import {
   LayoutDashboardIcon,
   MessageSquareIcon,

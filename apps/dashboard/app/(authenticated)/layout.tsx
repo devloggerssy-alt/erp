@@ -1,5 +1,5 @@
 import Image from "next/image"
-import { DashboardLayout } from "@/base/components/layout/dashboard"
+import { DashboardLayout } from "@/infrastructure/components/layout/dashboard"
 import { navGroups } from "@/config/navGroups"
 import { getAuthCookies } from "@/modules/auth/auth.actions"
 import { redirect } from "next/navigation"

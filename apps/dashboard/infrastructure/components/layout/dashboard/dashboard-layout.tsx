@@ -1,6 +1,6 @@
 "use client"
 
-import type { NavGroup, UserInfo } from "@/base/types/navigation"
+import type { NavGroup, UserInfo } from "@/infrastructure/types/navigation"
 import { SidebarInset, SidebarProvider } from "@/shared/components/ui/sidebar"
 import { TooltipProvider } from "@/shared/components/ui/tooltip"
 import { AppSidebar } from "./app-sidebar"

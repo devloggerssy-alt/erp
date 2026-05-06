@@ -13,7 +13,7 @@ import {
   UserIcon,
 } from "lucide-react"
 
-import type { UserInfo } from "@/base/types/navigation"
+import type { UserInfo } from "@/infrastructure/types/navigation"
 import { useAuthStore } from "@/shared/stores/auth-store"
 import { cn } from "@/shared/lib/utils"
 import { Avatar, AvatarFallback, AvatarImage } from "@/shared/components/ui/avatar"

@@ -1,8 +1,8 @@
 "use client"
 
 import React from "react"
-import DashboardPage from "@/base/components/layout/dashboard/dashboard-page"
-import type { DashboardHeaderProps } from "@/base/components/layout/dashboard"
+import DashboardPage from "@/infrastructure/components/layout/dashboard/dashboard-page"
+import type { DashboardHeaderProps } from "@/infrastructure/components/layout/dashboard"
 import { Card, CardContent } from "@/shared/components/ui/card"
 import { Resource } from "./resource"
 import { ResourceTableView } from "./resource-table-view"
