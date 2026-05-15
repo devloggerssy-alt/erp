@@ -4,7 +4,6 @@ import React from "react"
 import type { CrudCollectionClient } from "@devloggers/api-client"
 import DashboardPage from "@/infrastructure/components/layout/dashboard/dashboard-page"
 import type { DashboardHeaderProps } from "@/infrastructure/components/layout/dashboard"
-import { Card, CardContent } from "@/shared/components/ui/card"
 import { Resource } from "./resource"
 import { ResourceTableView } from "./resource-table-view"
 import type {
