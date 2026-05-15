@@ -1,88 +1,43 @@
-import { Injectable, NotFoundException, ConflictException } from '@nestjs/common';
-import { PrismaService } from '@devloggers/db-prisma/nest';
-import { CreatePartyDto, UpdatePartyDto } from './dto';
+import { Injectable, ConflictException } from '@nestjs/common';
+import { EventEmitter2 } from '@nestjs/event-emitter';
+import { CrudService } from '@devloggers/backend-core';
+import { resources } from '@devloggers/api-contracts';
+import type { Party } from '@devloggers/db-prisma';
+import { PartiesRepository } from './repositories/parties.repository';
+import { PartyPresenter } from './presenters/party.presenter';
+import { CreatePartyDto, UpdatePartyDto, PartyResponseDto } from './dto';
 
 @Injectable()
-export class PartiesService {
-    constructor(private readonly prisma: PrismaService) {}
+export class PartiesService extends CrudService<Party, PartyResponseDto, CreatePartyDto, UpdatePartyDto> {
+    protected readonly resourceName = resources.parties.key;
 
-    async findAll(tenantId: string, type?: 'CUSTOMER' | 'SUPPLIER' | 'CUSTOMER_SUPPLIER', page = 1, limit = 50) {
-        const offset = (page - 1) * limit;
-
-        const where: any = { tenantId };
-        if (type) {
-            where.type = type;
-        }
-
-        const [data, total] = await Promise.all([
-            this.prisma.party.findMany({
-                where,
-                skip: offset,
-                take: limit,
-                orderBy: { createdAt: 'desc' },
-            }),
-            this.prisma.party.count({ where }),
-        ]);
-
-        return { data, total, page, limit };
+    constructor(
+        private readonly partiesRepository: PartiesRepository,
+        private readonly partyPresenter: PartyPresenter,
+        private readonly emitter: EventEmitter2,
+    ) {
+        super(partiesRepository, partyPresenter, emitter);
     }
 
-    async findById(tenantId: string, id: string) {
-        const party = await this.prisma.party.findFirst({
-            where: { id, tenantId },
-        });
-
-        if (!party) {
-            throw new NotFoundException('Party not found');
-        }
-
-        return party;
-    }
-
-    async create(tenantId: string, dto: CreatePartyDto) {
+    protected override async beforeCreate(tenantId: string, dto: CreatePartyDto): Promise<void> {
         if (dto.code) {
-            const existing = await this.prisma.party.findFirst({
-                where: { tenantId, code: dto.code },
-            });
-
-            if (existing) {
-                throw new ConflictException('Party with this code already exists');
+            const taken = await this.partiesRepository.isCodeTaken(tenantId, dto.code);
+            if (taken) {
+                throw new ConflictException(`A party with code "${dto.code}" already exists`);
             }
         }
-
-        return this.prisma.party.create({
-            data: {
-                tenantId,
-                ...dto,
-            },
-        });
     }
 
-    async update(tenantId: string, id: string, dto: UpdatePartyDto) {
-        await this.findById(tenantId, id);
-
+    protected override async beforeUpdate(
+        tenantId: string,
+        id: string,
+        dto: UpdatePartyDto,
+    ): Promise<void> {
         if (dto.code) {
-            const existing = await this.prisma.party.findFirst({
-                where: { tenantId, code: dto.code, id: { not: id } },
-            });
-
-            if (existing) {
-                throw new ConflictException('Party with this code already exists');
+            const taken = await this.partiesRepository.isCodeTaken(tenantId, dto.code, id);
+            if (taken) {
+                throw new ConflictException(`A party with code "${dto.code}" already exists`);
             }
         }
-
-        return this.prisma.party.update({
-            where: { id },
-            data: dto,
-        });
-    }
-
-    async updateStatus(tenantId: string, id: string, isActive: boolean) {
-        await this.findById(tenantId, id);
-
-        return this.prisma.party.update({
-            where: { id },
-            data: { isActive },
-        });
     }
 }

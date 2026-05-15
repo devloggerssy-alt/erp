@@ -2,6 +2,8 @@ import { Injectable, BadRequestException } from '@nestjs/common';
 import { PrismaService } from '@devloggers/db-prisma/nest';
 import { StockMovementType } from '@devloggers/db-prisma';
 import { PostOpeningBalanceDto } from './dto/inventory.dto';
+import { InventoryRepository } from './repositories/inventory.repository';
+import { InventoryPresenter } from './presenters/inventory.presenter';
 
 export interface MovementParams {
     tenantId: string;
@@ -19,7 +21,11 @@ export interface MovementParams {
 
 @Injectable()
 export class InventoryService {
-    constructor(private readonly prisma: PrismaService) {}
+    constructor(
+        private readonly prisma: PrismaService,
+        private readonly inventoryRepository: InventoryRepository,
+        private readonly inventoryPresenter: InventoryPresenter,
+    ) {}
 
     /**
      * The core Posting Engine.
@@ -114,17 +120,7 @@ export class InventoryService {
     }
 
     async getBalances(tenantId: string, filters: { warehouseId?: string; itemId?: string }) {
-        const where: any = { tenantId };
-        if (filters.warehouseId) where.warehouseId = filters.warehouseId;
-        if (filters.itemId) where.itemId = filters.itemId;
-
-        return this.prisma.stockBalance.findMany({
-            where,
-            include: {
-                warehouse: { select: { name: true, code: true } },
-                item: { select: { name: true, code: true } },
-            },
-            orderBy: { updatedAt: 'desc' },
-        });
+        const balances = await this.inventoryRepository.getBalances(tenantId, filters);
+        return this.inventoryPresenter.toResponseList(balances);
     }
 }

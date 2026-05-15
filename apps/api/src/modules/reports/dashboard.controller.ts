@@ -1,8 +1,8 @@
 import { Controller, Get, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth, ApiOperation, ApiOkResponse } from '@nestjs/swagger';
 import { ReportsService } from './reports.service';
-import { JwtAuthGuard } from '../auth/guards';
-import { CurrentUser, RequestUser } from '../auth/decorators';
+import { JwtAuthGuard } from '../identity/auth/guards';
+import { CurrentUser, RequestUser } from '../identity/auth/decorators';
 import { ApiResponseBuilder } from '../../common/api/api-response-builder';
 import { ApiStandardErrors } from '../../common/decorators/api-swagger.decorators';
 

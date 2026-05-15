@@ -6,7 +6,7 @@ import {
   createStandardCrudControllerBase,
   type StandardCrudOpenApi,
 } from '@devloggers/backend-core';
-import { JwtAuthGuard } from '@/modules/auth/guards';
+import { JwtAuthGuard } from '@/modules/identity/auth/guards';
 
 const UNITS_CRUD_OPENAPI = {
   list: {

@@ -9,8 +9,8 @@ import {
 import { ApiTags, ApiBearerAuth, ApiOperation, ApiOkResponse, ApiCreatedResponse } from '@nestjs/swagger';
 import { InventoryService } from './inventory.service';
 import { PostOpeningBalanceDto } from './dto/inventory.dto';
-import { JwtAuthGuard } from '../auth/guards';
-import { CurrentUser, RequestUser } from '../auth/decorators';
+import { JwtAuthGuard } from '../identity/auth/guards';
+import { CurrentUser, RequestUser } from '../identity/auth/decorators';
 import { ApiResponseBuilder } from '../../common/api/api-response-builder';
 import { ApiStandardErrors } from '../../common/decorators/api-swagger.decorators';
 

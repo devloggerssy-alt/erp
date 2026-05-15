@@ -2,8 +2,8 @@ import { Controller, Get, Post, Delete, Body, Param, UseGuards } from '@nestjs/c
 import { ApiTags, ApiBearerAuth, ApiOperation, ApiOkResponse, ApiCreatedResponse } from '@nestjs/swagger';
 import { AiChatService } from './ai-chat.service';
 import { CreateSessionDto, SendMessageDto } from './dto/ai-chat.dto';
-import { JwtAuthGuard } from '../auth/guards';
-import { CurrentUser, RequestUser } from '../auth/decorators';
+import { JwtAuthGuard } from '../identity/auth/guards';
+import { CurrentUser, RequestUser } from '../identity/auth/decorators';
 import { ApiResponseBuilder } from '../../common/api/api-response-builder';
 import { ApiStandardErrors } from '../../common/decorators/api-swagger.decorators';
 

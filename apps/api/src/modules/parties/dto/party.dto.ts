@@ -4,7 +4,7 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 export enum PartyTypeEnum {
     CUSTOMER = 'CUSTOMER',
     SUPPLIER = 'SUPPLIER',
-    CUSTOMER_SUPPLIER = 'CUSTOMER_SUPPLIER'
+    CUSTOMER_SUPPLIER = 'CUSTOMER_SUPPLIER',
 }
 
 export class CreatePartyDto {
@@ -91,4 +91,39 @@ export class UpdatePartyStatusDto {
     @IsBoolean()
     @IsNotEmpty()
     isActive: boolean;
+}
+
+export class PartyResponseDto {
+    @ApiProperty({ example: '00000000-0000-4000-e100-000000000001' })
+    id: string = '';
+
+    @ApiProperty({ example: 'SUPP-001', nullable: true })
+    code: string | null = null;
+
+    @ApiProperty({ example: 'Damascus Import Co.' })
+    name: string = '';
+
+    @ApiProperty({ enum: PartyTypeEnum, example: 'SUPPLIER' })
+    type: string = '';
+
+    @ApiProperty({ example: '+963-11-9876543', nullable: true })
+    phone: string | null = null;
+
+    @ApiProperty({ example: 'info@damsimport.sy', nullable: true })
+    email: string | null = null;
+
+    @ApiProperty({ example: 'Damascus, Industrial Zone', nullable: true })
+    address: string | null = null;
+
+    @ApiProperty({ example: 0 })
+    openingBalance: number = 0;
+
+    @ApiProperty({ example: true })
+    isActive: boolean = true;
+
+    @ApiProperty({ example: '2025-01-01T00:00:00.000Z' })
+    createdAt: string = '';
+
+    @ApiProperty({ example: '2025-01-01T00:00:00.000Z' })
+    updatedAt: string = '';
 }

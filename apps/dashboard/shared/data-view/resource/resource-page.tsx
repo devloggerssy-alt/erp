@@ -91,9 +91,7 @@ export function ResourcePage<TClient extends CrudCollectionClient>({
                         title={pageTitle}
                         toolbar={resolvedToolbar}
                     >
-                        <Card>
-                            <CardContent>{content}</CardContent>
-                        </Card>
+                        {content}
                     </DashboardPage>
                 )
             }}

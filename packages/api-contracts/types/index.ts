@@ -64,6 +64,55 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/roles": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List roles
+         * @description Returns all roles for the authenticated tenant.
+         */
+        get: operations["Roles.list"];
+        put?: never;
+        /**
+         * Create a role
+         * @description Creates a new role. Name must be unique within the tenant.
+         */
+        post: operations["Roles.create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/roles/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get a role by ID */
+        get: operations["Roles.show"];
+        put?: never;
+        post?: never;
+        /**
+         * Delete a role
+         * @description Deletes the role. Will fail if the role is assigned to users.
+         */
+        delete: operations["Roles.delete"];
+        options?: never;
+        head?: never;
+        /**
+         * Update a role
+         * @description Partial update — only provided fields are changed.
+         */
+        patch: operations["Roles.update"];
+        trace?: never;
+    };
     "/tenants": {
         parameters: {
             query?: never;
@@ -157,146 +206,6 @@ export interface paths {
         patch: operations["Users.updateStatus"];
         trace?: never;
     };
-    "/roles": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** List all roles */
-        get: operations["Roles.findAll"];
-        put?: never;
-        /** Create a new role */
-        post: operations["Roles.create"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/roles/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        /** Update a role */
-        patch: operations["Roles.update"];
-        trace?: never;
-    };
-    "/currencies": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** List all currencies */
-        get: operations["Currencies.findAll"];
-        put?: never;
-        /** Create a new currency */
-        post: operations["Currencies.create"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/currencies/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        /** Update a currency */
-        patch: operations["Currencies.update"];
-        trace?: never;
-    };
-    "/fiscal-periods": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** List all fiscal periods */
-        get: operations["FiscalPeriods.findAll"];
-        put?: never;
-        /** Create a new fiscal period */
-        post: operations["FiscalPeriods.create"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/fiscal-periods/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        /** Update a fiscal period */
-        patch: operations["FiscalPeriods.update"];
-        trace?: never;
-    };
-    "/document-sequences": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** List all document sequences */
-        get: operations["DocumentSequences.findAll"];
-        put?: never;
-        /** Create a new document sequence */
-        post: operations["DocumentSequences.create"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/document-sequences/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        /** Update a document sequence */
-        patch: operations["DocumentSequences.update"];
-        trace?: never;
-    };
     "/units": {
         parameters: {
             query?: never;
@@ -353,10 +262,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** List all item categories */
-        get: operations["ItemCategories.findAll"];
+        /** List item categories */
+        get: operations["ItemCategories.list"];
         put?: never;
-        /** Create a new item category */
+        /** Create an item category */
         post: operations["ItemCategories.create"];
         delete?: never;
         options?: never;
@@ -371,11 +280,12 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** Get category by ID */
-        get: operations["ItemCategories.findOne"];
+        /** Get an item category by ID */
+        get: operations["ItemCategories.show"];
         put?: never;
         post?: never;
-        delete?: never;
+        /** Delete an item category */
+        delete: operations["ItemCategories.delete"];
         options?: never;
         head?: never;
         /** Update an item category */
@@ -389,10 +299,13 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** List all items (products) */
-        get: operations["Items.findAll"];
+        /** List catalog items */
+        get: operations["Items.list"];
         put?: never;
-        /** Create a new item */
+        /**
+         * Create an item
+         * @description Item code must be unique within the tenant.
+         */
         post: operations["Items.create"];
         delete?: never;
         options?: never;
@@ -407,127 +320,237 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** Get item by ID */
-        get: operations["Items.findOne"];
+        /** Get an item by ID */
+        get: operations["Items.show"];
         put?: never;
         post?: never;
-        delete?: never;
+        /** Delete an item */
+        delete: operations["Items.delete"];
         options?: never;
         head?: never;
-        /** Update an item */
+        /**
+         * Update an item
+         * @description Partial update — only provided fields are changed.
+         */
         patch: operations["Items.update"];
         trace?: never;
     };
-    "/items/{id}/status": {
+    "/accounting/journal-entries": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        get?: never;
+        /**
+         * List all journal entries
+         * @description Returns a paginated list of journal entries. Journal entries are automatically created when invoices or payments are posted/cancelled.
+         */
+        get: operations["Accounting.findJournalEntries"];
         put?: never;
         post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        /**
-         * Toggle item active status
-         * @description Activates or deactivates an item. Deactivated items cannot be used in new invoices or transactions.
-         */
-        patch: operations["Items.updateStatus"];
-        trace?: never;
-    };
-    "/parties": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** List all parties (customers / suppliers) */
-        get: operations["Parties.findAll"];
-        put?: never;
-        /** Create a new party */
-        post: operations["Parties.create"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/parties/{id}": {
+    "/accounting/journal-entries/{id}": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /** Get party by ID */
-        get: operations["Parties.findOne"];
+        /** Get journal entry by ID */
+        get: operations["Accounting.findJournalEntry"];
         put?: never;
         post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        /** Update a party */
-        patch: operations["Parties.update"];
-        trace?: never;
-    };
-    "/parties/{id}/status": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        /**
-         * Toggle party active status
-         * @description Activates or deactivates a party. Deactivated parties cannot be selected in new invoices or payments.
-         */
-        patch: operations["Parties.updateStatus"];
-        trace?: never;
-    };
-    "/warehouses": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** List all warehouses */
-        get: operations["Warehouses.findAll"];
-        put?: never;
-        /** Create a new warehouse */
-        post: operations["Warehouses.create"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/warehouses/{id}": {
+    "/currencies": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /** Get warehouse by ID */
-        get: operations["Warehouses.findOne"];
+        /** List currencies */
+        get: operations["Currencies.list"];
         put?: never;
-        post?: never;
+        /**
+         * Create a currency
+         * @description Currency code must be unique within the tenant.
+         */
+        post: operations["Currencies.create"];
         delete?: never;
         options?: never;
         head?: never;
-        /** Update a warehouse */
-        patch: operations["Warehouses.update"];
+        patch?: never;
+        trace?: never;
+    };
+    "/currencies/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get a currency by ID */
+        get: operations["Currencies.show"];
+        put?: never;
+        post?: never;
+        /** Delete a currency */
+        delete: operations["Currencies.delete"];
+        options?: never;
+        head?: never;
+        /**
+         * Update a currency
+         * @description Setting isBase=true will unset the previous base currency.
+         */
+        patch: operations["Currencies.update"];
+        trace?: never;
+    };
+    "/fiscal-periods": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List fiscal periods */
+        get: operations["FiscalPeriods.list"];
+        put?: never;
+        /**
+         * Create a fiscal period
+         * @description Start/end dates must not overlap with existing periods.
+         */
+        post: operations["FiscalPeriods.create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/fiscal-periods/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get a fiscal period by ID */
+        get: operations["FiscalPeriods.show"];
+        put?: never;
+        post?: never;
+        /** Delete a fiscal period */
+        delete: operations["FiscalPeriods.delete"];
+        options?: never;
+        head?: never;
+        /**
+         * Update a fiscal period
+         * @description LOCKED periods cannot be modified.
+         */
+        patch: operations["FiscalPeriods.update"];
+        trace?: never;
+    };
+    "/document-sequences": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List document sequences */
+        get: operations["DocumentSequences.list"];
+        put?: never;
+        /**
+         * Create a document sequence
+         * @description Each document type can have only one sequence per tenant.
+         */
+        post: operations["DocumentSequences.create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/document-sequences/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get a document sequence by ID */
+        get: operations["DocumentSequences.show"];
+        put?: never;
+        post?: never;
+        /** Delete a document sequence */
+        delete: operations["DocumentSequences.delete"];
+        options?: never;
+        head?: never;
+        /**
+         * Update a document sequence
+         * @description Update prefix, padding, or manually advance the sequence number.
+         */
+        patch: operations["DocumentSequences.update"];
+        trace?: never;
+    };
+    "/accounting/chart-of-accounts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List chart-of-accounts
+         * @description Returns all accounts for the tenant, ordered by code. Includes the parent account name/code for hierarchical display.
+         */
+        get: operations["Accounts.list"];
+        put?: never;
+        /**
+         * Create a chart-of-account entry
+         * @description Account code must be unique within the tenant.
+         */
+        post: operations["Accounts.create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/accounting/chart-of-accounts/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get an account by ID
+         * @description Returns account details including parent and direct children.
+         */
+        get: operations["Accounts.show"];
+        put?: never;
+        post?: never;
+        /**
+         * Delete a chart-of-account entry
+         * @description Hard-deletes the account. Will fail if the account has journal lines referencing it.
+         */
+        delete: operations["Accounts.delete"];
+        options?: never;
+        head?: never;
+        /**
+         * Update a chart-of-account entry
+         * @description Partial update — only provided fields are changed. Account code is immutable.
+         */
+        patch: operations["Accounts.update"];
         trace?: never;
     };
     "/inventory/balances": {
@@ -570,24 +593,47 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/stock-ledger/movements": {
+    "/warehouses": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /**
-         * List stock movements
-         * @description Returns a paginated history of stock movements (purchases, sales, adjustments, opening balances). Filter by warehouse, item, or movement type.
-         */
-        get: operations["StockLedger.getMovements"];
+        /** List warehouses */
+        get: operations["Warehouses.list"];
         put?: never;
-        post?: never;
+        /**
+         * Create a warehouse
+         * @description Warehouse code must be unique within the tenant.
+         */
+        post: operations["Warehouses.create"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
+        trace?: never;
+    };
+    "/warehouses/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get a warehouse by ID */
+        get: operations["Warehouses.show"];
+        put?: never;
+        post?: never;
+        /** Delete a warehouse */
+        delete: operations["Warehouses.delete"];
+        options?: never;
+        head?: never;
+        /**
+         * Update a warehouse
+         * @description Partial update — only provided fields are changed.
+         */
+        patch: operations["Warehouses.update"];
         trace?: never;
     };
     "/invoice-types": {
@@ -597,10 +643,13 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** List all invoice types */
-        get: operations["InvoiceTypes.findAll"];
+        /** List invoice types */
+        get: operations["InvoiceTypes.list"];
         put?: never;
-        /** Create a new invoice type */
+        /**
+         * Create an invoice type
+         * @description Code must be unique within the tenant.
+         */
         post: operations["InvoiceTypes.create"];
         delete?: never;
         options?: never;
@@ -615,15 +664,56 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** Get invoice type by ID */
-        get: operations["InvoiceTypes.findOne"];
+        /** Get an invoice type by ID */
+        get: operations["InvoiceTypes.show"];
         put?: never;
         post?: never;
-        delete?: never;
+        /** Delete an invoice type */
+        delete: operations["InvoiceTypes.delete"];
         options?: never;
         head?: never;
         /** Update an invoice type */
         patch: operations["InvoiceTypes.update"];
+        trace?: never;
+    };
+    "/cashboxes": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List cashboxes */
+        get: operations["Cashboxes.list"];
+        put?: never;
+        /**
+         * Create a cashbox
+         * @description Cashbox code must be unique within the tenant.
+         */
+        post: operations["Cashboxes.create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/cashboxes/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get a cashbox by ID */
+        get: operations["Cashboxes.show"];
+        put?: never;
+        post?: never;
+        /** Delete a cashbox */
+        delete: operations["Cashboxes.delete"];
+        options?: never;
+        head?: never;
+        /** Update a cashbox */
+        patch: operations["Cashboxes.update"];
         trace?: never;
     };
     "/invoices": {
@@ -700,42 +790,6 @@ export interface paths {
         options?: never;
         head?: never;
         patch?: never;
-        trace?: never;
-    };
-    "/cashboxes": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** List all cashboxes */
-        get: operations["Cashboxes.findAll"];
-        put?: never;
-        /** Create a new cashbox */
-        post: operations["Cashboxes.create"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/cashboxes/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get cashbox by ID */
-        get: operations["Cashboxes.findOne"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        /** Update a cashbox */
-        patch: operations["Cashboxes.update"];
         trace?: never;
     };
     "/payments": {
@@ -854,43 +908,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/accounting/chart-of-accounts": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** List all chart-of-account entries */
-        get: operations["Accounting.findAllAccounts"];
-        put?: never;
-        /** Create a new chart-of-account entry */
-        post: operations["Accounting.createAccount"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/accounting/chart-of-accounts/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get account by ID */
-        get: operations["Accounting.findAccount"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        /** Update a chart-of-account entry */
-        patch: operations["Accounting.updateAccount"];
-        trace?: never;
-    };
-    "/accounting/journal-entries": {
+    "/parties": {
         parameters: {
             query?: never;
             header?: never;
@@ -898,27 +916,59 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * List all journal entries
-         * @description Returns a paginated list of journal entries. Journal entries are automatically created when invoices or payments are posted/cancelled.
+         * List parties
+         * @description Returns a paginated list of customers, suppliers, and combined parties.
          */
-        get: operations["Accounting.findJournalEntries"];
+        get: operations["Parties.list"];
         put?: never;
-        post?: never;
+        /**
+         * Create a party
+         * @description Creates a new customer, supplier, or customer-supplier party.
+         */
+        post: operations["Parties.create"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/accounting/journal-entries/{id}": {
+    "/parties/{id}": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /** Get journal entry by ID */
-        get: operations["Accounting.findJournalEntry"];
+        /** Get a party by ID */
+        get: operations["Parties.show"];
+        put?: never;
+        post?: never;
+        /**
+         * Delete a party
+         * @description Hard-deletes the party. Will fail if the party has associated transactions.
+         */
+        delete: operations["Parties.delete"];
+        options?: never;
+        head?: never;
+        /**
+         * Update a party
+         * @description Partial update — only provided fields are changed.
+         */
+        patch: operations["Parties.update"];
+        trace?: never;
+    };
+    "/stock-ledger/movements": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List stock movements
+         * @description Returns a paginated history of stock movements (purchases, sales, adjustments, opening balances). Filter by warehouse, item, or movement type.
+         */
+        get: operations["StockLedger.getMovements"];
         put?: never;
         post?: never;
         delete?: never;
@@ -1298,6 +1348,56 @@ export interface components {
             phone?: string | null;
             tenant: components["schemas"]["MeTenantDto"];
         };
+        RoleResponseDto: {
+            /**
+             * @default
+             * @example 00000000-0000-4000-b100-000000000001
+             */
+            id: string;
+            /**
+             * @default
+             * @example Accountant
+             */
+            name: string;
+            /**
+             * @default null
+             * @example Accounting and finance access
+             */
+            description: string | null;
+            /**
+             * @default false
+             * @example false
+             */
+            isSystem: boolean;
+            /**
+             * @default
+             * @example 2025-01-01T00:00:00.000Z
+             */
+            createdAt: string;
+            /**
+             * @default
+             * @example 2025-01-01T00:00:00.000Z
+             */
+            updatedAt: string;
+        };
+        CreateRoleDto: {
+            /**
+             * @description Role display name
+             * @example Accountant
+             */
+            name: string;
+            /**
+             * @description Role description
+             * @example Accounting and finance access
+             */
+            description?: string;
+        };
+        UpdateRoleDto: {
+            /** @example Senior Accountant */
+            name?: string;
+            /** @example Full accounting, finance, and reporting access */
+            description?: string;
+        };
         CreateTenantDto: {
             /**
              * @description Company / tenant name
@@ -1406,116 +1506,6 @@ export interface components {
              */
             isActive: boolean;
         };
-        CreateRoleDto: {
-            /**
-             * @description Role display name
-             * @example Accountant
-             */
-            name: string;
-            /**
-             * @description Role description
-             * @example Accounting and finance access
-             */
-            description?: string;
-        };
-        UpdateRoleDto: {
-            /** @example Senior Accountant */
-            name?: string;
-            /** @example Full accounting, finance, and reporting access */
-            description?: string;
-        };
-        CreateCurrencyDto: {
-            /**
-             * @description ISO 4217 currency code
-             * @example SYP
-             */
-            code: string;
-            /** @example Syrian Pound */
-            name: string;
-            /**
-             * @description Currency symbol for display
-             * @example £
-             */
-            symbol?: string;
-            /**
-             * @description Whether this is the base (local) currency
-             * @example true
-             */
-            isBase?: boolean;
-        };
-        UpdateCurrencyDto: {
-            /** @example Syrian Pound (Updated) */
-            name?: string;
-            /** @example ل.س */
-            symbol?: string;
-            /** @example false */
-            isBase?: boolean;
-            /** @example true */
-            isActive?: boolean;
-        };
-        CreateFiscalPeriodDto: {
-            /** @example 2026 */
-            name: string;
-            /**
-             * @description Period start date (ISO 8601)
-             * @example 2026-01-01
-             */
-            startDate: string;
-            /**
-             * @description Period end date (ISO 8601)
-             * @example 2026-12-31
-             */
-            endDate: string;
-        };
-        UpdateFiscalPeriodDto: {
-            /** @example 2026 – Extended */
-            name?: string;
-            /** @example 2026-01-01 */
-            startDate?: string;
-            /** @example 2026-12-31 */
-            endDate?: string;
-            /**
-             * @example OPEN
-             * @enum {string}
-             */
-            status?: "OPEN" | "CLOSED" | "LOCKED";
-        };
-        CreateDocumentSequenceDto: {
-            /**
-             * @description Document type (e.g. PURCHASE_INVOICE, SALES_INVOICE, PAYMENT, RECEIPT, EXPENSE, STOCK_COUNT, JOURNAL_ENTRY)
-             * @example SALES_INVOICE
-             */
-            documentType: string;
-            /**
-             * @description Prefix for generated document numbers
-             * @example SAL
-             */
-            prefix: string;
-            /**
-             * @description Starting number for the sequence
-             * @example 1
-             */
-            nextNumber?: number;
-            /**
-             * @description Zero-pad length (e.g. 5 → SAL-00001)
-             * @example 5
-             */
-            padding?: number;
-        };
-        UpdateDocumentSequenceDto: {
-            /**
-             * @description Updated prefix
-             * @example INV
-             */
-            prefix?: string;
-            /**
-             * @description Jump sequence to a specific number
-             * @example 100
-             */
-            nextNumber?: number;
-            /** @example 6 */
-            padding?: number;
-        };
         UnitResponseDto: {
             /**
              * @default
@@ -1548,40 +1538,6 @@ export interface components {
              */
             updatedAt: string;
         };
-        PaginationOptionsDto: {
-            /**
-             * @default 1
-             * @example 1
-             */
-            page: number;
-            /**
-             * @default 10
-             * @example 10
-             */
-            limit: number;
-        };
-        SortOptionsDto: {
-            /** @example createdAt */
-            field?: string;
-            /**
-             * @default asc
-             * @example asc
-             * @enum {string}
-             */
-            order: "asc" | "desc";
-        };
-        Object: Record<string, never>;
-        SearchOptionsDto: {
-            /** @example keyword */
-            value?: string;
-            /**
-             * @example [
-             *       "name",
-             *       "code"
-             *     ]
-             */
-            keys?: string[];
-        };
         CreateUnitDto: {
             /**
              * @description Unit display name
@@ -1613,19 +1569,80 @@ export interface components {
              */
             isActive?: boolean;
         };
-        CreateItemCategoryDto: {
+        ParentCategoryDto: {
             /**
-             * @description Category display name
+             * @default
+             * @example 00000000-0000-4000-a700-000000000001
+             */
+            id: string;
+            /**
+             * @default
              * @example Electronics
              */
             name: string;
-            /** @example Electronic devices and accessories */
-            description?: string;
+        };
+        ItemCategoryResponseDto: {
             /**
-             * @description Parent category ID for nesting
+             * @default
+             * @example 00000000-0000-4000-a700-000000000002
+             */
+            id: string;
+            /**
+             * @default
+             * @example Electronics
+             */
+            name: string;
+            /**
+             * @default
+             * @example Electronic devices and accessories
+             */
+            description: string;
+            /**
+             * @default null
              * @example 00000000-0000-4000-a700-000000000001
              */
-            parentId?: string;
+            parentId: string | null;
+            /** @description Parent category summary */
+            parent?: components["schemas"]["ParentCategoryDto"] | null;
+            /**
+             * @default true
+             * @example true
+             */
+            isActive: boolean;
+            /**
+             * @default
+             * @example 2025-01-01T00:00:00.000Z
+             */
+            createdAt: string;
+            /**
+             * @default
+             * @example 2025-01-01T00:00:00.000Z
+             */
+            updatedAt: string;
+        };
+        CreateItemCategoryDto: {
+            /**
+             * @description Category display name
+             * @default
+             * @example Electronics
+             */
+            name: string;
+            /**
+             * @default
+             * @example Electronic devices and accessories
+             */
+            description: string;
+            /**
+             * @description Parent category ID for nesting
+             * @default
+             * @example 00000000-0000-4000-a700-000000000001
+             */
+            parentId: string;
+            /**
+             * @default true
+             * @example true
+             */
+            isActive: boolean;
         };
         UpdateItemCategoryDto: {
             /** @example Electronics & Accessories */
@@ -1640,14 +1657,73 @@ export interface components {
             /** @example true */
             isActive?: boolean;
         };
+        ItemResponseDto: {
+            /**
+             * @default
+             * @example 00000000-0000-4000-a900-000000000001
+             */
+            id: string;
+            /**
+             * @default
+             * @example ELEC-001
+             */
+            code: string;
+            /**
+             * @default
+             * @example Laptop 15"
+             */
+            name: string;
+            /**
+             * @default null
+             * @example 6901234567890
+             */
+            barcode: string | null;
+            /**
+             * @default
+             * @example 00000000-0000-4000-a700-000000000001
+             */
+            categoryId: string;
+            /**
+             * @default
+             * @example 00000000-0000-4000-a800-000000000001
+             */
+            baseUnitId: string;
+            /**
+             * @default null
+             * @example 750000
+             */
+            defaultSellingPrice: number | null;
+            /**
+             * @default null
+             * @example 600000
+             */
+            latestPurchasePrice: number | null;
+            /**
+             * @default true
+             * @example true
+             */
+            isActive: boolean;
+            /**
+             * @default
+             * @example 2025-01-01T00:00:00.000Z
+             */
+            createdAt: string;
+            /**
+             * @default
+             * @example 2025-01-01T00:00:00.000Z
+             */
+            updatedAt: string;
+        };
         CreateItemDto: {
             /**
              * @description Unique item code
+             * @default
              * @example ELEC-001
              */
             code: string;
             /**
              * @description Item display name
+             * @default
              * @example Laptop 15"
              */
             name: string;
@@ -1657,22 +1733,24 @@ export interface components {
              */
             barcode?: string;
             /**
-             * @description Category ID (Electronics)
+             * @description Category ID
+             * @default
              * @example 00000000-0000-4000-a700-000000000001
              */
             categoryId: string;
             /**
-             * @description Base unit ID (Piece)
+             * @description Base unit ID
+             * @default
              * @example 00000000-0000-4000-a800-000000000001
              */
             baseUnitId: string;
             /**
-             * @description Default selling price in SYP
+             * @description Default selling price
              * @example 750000
              */
             defaultSellingPrice?: number;
             /**
-             * @description Latest purchase price in SYP
+             * @description Latest purchase price
              * @example 600000
              */
             latestPurchasePrice?: number;
@@ -1684,114 +1762,331 @@ export interface components {
             name?: string;
             /** @example 6901234567890 */
             barcode?: string;
-            /**
-             * @description Category ID
-             * @example 00000000-0000-4000-a700-000000000001
-             */
+            /** @example 00000000-0000-4000-a700-000000000001 */
             categoryId?: string;
-            /**
-             * @description Base unit ID
-             * @example 00000000-0000-4000-a800-000000000001
-             */
+            /** @example 00000000-0000-4000-a800-000000000001 */
             baseUnitId?: string;
-            /**
-             * @description Updated selling price in SYP
-             * @example 780000
-             */
+            /** @example 780000 */
             defaultSellingPrice?: number;
-            /**
-             * @description Updated purchase price in SYP
-             * @example 620000
-             */
+            /** @example 620000 */
             latestPurchasePrice?: number;
             /** @example true */
             isActive?: boolean;
         };
-        UpdateItemStatusDto: {
+        CurrencyResponseDto: {
             /**
-             * @description Set item active/inactive
-             * @example false
+             * @default
+             * @example 00000000-0000-4000-b100-000000000001
              */
-            isActive: boolean;
-        };
-        CreatePartyDto: {
+            id: string;
             /**
-             * @description Auto-generated if omitted
-             * @example SUPP-001
-             */
-            code?: string;
-            /**
-             * @description Party display name
-             * @example Damascus Import Co.
-             */
-            name: string;
-            /**
-             * @example SUPPLIER
-             * @enum {string}
-             */
-            type: "CUSTOMER" | "SUPPLIER" | "CUSTOMER_SUPPLIER";
-            /** @example +963-11-9876543 */
-            phone?: string;
-            /** @example info@damsimport.sy */
-            email?: string;
-            /** @example Damascus, Industrial Zone */
-            address?: string;
-            /**
-             * @description Initial opening balance in base currency
-             * @example 0
-             */
-            openingBalance?: number;
-        };
-        UpdatePartyDto: {
-            /** @example SUPP-001 */
-            code?: string;
-            /** @example Damascus Import Co. (Updated) */
-            name?: string;
-            /**
-             * @example CUSTOMER_SUPPLIER
-             * @enum {string}
-             */
-            type?: "CUSTOMER" | "SUPPLIER" | "CUSTOMER_SUPPLIER";
-            /** @example +963-11-9876544 */
-            phone?: string;
-            /** @example updated@damsimport.sy */
-            email?: string;
-            /** @example Damascus, New Industrial Zone */
-            address?: string;
-            /** @example 500000 */
-            openingBalance?: number;
-            /** @example true */
-            isActive?: boolean;
-        };
-        UpdatePartyStatusDto: {
-            /**
-             * @description Set party active/inactive
-             * @example false
-             */
-            isActive: boolean;
-        };
-        CreateWarehouseDto: {
-            /**
-             * @description Unique warehouse code
-             * @example WH-MAIN
+             * @default
+             * @example SYP
              */
             code: string;
             /**
-             * @description Warehouse display name
-             * @example Main Warehouse
+             * @default
+             * @example Syrian Pound
              */
             name: string;
-            /** @example Damascus Industrial Zone */
-            address?: string;
+            /**
+             * @default null
+             * @example £
+             */
+            symbol: string | null;
+            /**
+             * @default false
+             * @example true
+             */
+            isBase: boolean;
+            /**
+             * @default true
+             * @example true
+             */
+            isActive: boolean;
+            /**
+             * @default
+             * @example 2025-01-01T00:00:00.000Z
+             */
+            createdAt: string;
+            /**
+             * @default
+             * @example 2025-01-01T00:00:00.000Z
+             */
+            updatedAt: string;
         };
-        UpdateWarehouseDto: {
-            /** @example WH-MAIN */
-            code?: string;
-            /** @example Main Warehouse (Renovated) */
+        CreateCurrencyDto: {
+            /**
+             * @description ISO 4217 currency code
+             * @default
+             * @example SYP
+             */
+            code: string;
+            /**
+             * @default
+             * @example Syrian Pound
+             */
+            name: string;
+            /**
+             * @description Currency symbol for display
+             * @example £
+             */
+            symbol?: string;
+            /**
+             * @description Whether this is the base (local) currency
+             * @example true
+             */
+            isBase?: boolean;
+        };
+        UpdateCurrencyDto: {
+            /** @example Syrian Pound (Updated) */
             name?: string;
-            /** @example Damascus Industrial Zone, Building 5 */
-            address?: string;
+            /** @example ل.س */
+            symbol?: string;
+            /** @example false */
+            isBase?: boolean;
             /** @example true */
+            isActive?: boolean;
+        };
+        FiscalPeriodResponseDto: {
+            /**
+             * @default
+             * @example 00000000-0000-4000-b200-000000000001
+             */
+            id: string;
+            /**
+             * @default
+             * @example 2026
+             */
+            name: string;
+            /**
+             * @default
+             * @example 2026-01-01T00:00:00.000Z
+             */
+            startDate: string;
+            /**
+             * @default
+             * @example 2026-12-31T00:00:00.000Z
+             */
+            endDate: string;
+            /**
+             * @default OPEN
+             * @example OPEN
+             * @enum {string}
+             */
+            status: "OPEN" | "CLOSED" | "LOCKED";
+            /**
+             * @default
+             * @example 2025-01-01T00:00:00.000Z
+             */
+            createdAt: string;
+            /**
+             * @default
+             * @example 2025-01-01T00:00:00.000Z
+             */
+            updatedAt: string;
+        };
+        CreateFiscalPeriodDto: {
+            /**
+             * @default
+             * @example 2026
+             */
+            name: string;
+            /**
+             * @description Period start date (ISO 8601)
+             * @default
+             * @example 2026-01-01
+             */
+            startDate: string;
+            /**
+             * @description Period end date (ISO 8601)
+             * @default
+             * @example 2026-12-31
+             */
+            endDate: string;
+        };
+        UpdateFiscalPeriodDto: {
+            /** @example 2026 – Extended */
+            name?: string;
+            /** @example 2026-01-01 */
+            startDate?: string;
+            /** @example 2026-12-31 */
+            endDate?: string;
+            /**
+             * @example OPEN
+             * @enum {string}
+             */
+            status?: "OPEN" | "CLOSED" | "LOCKED";
+        };
+        DocumentSequenceResponseDto: {
+            /**
+             * @default
+             * @example 00000000-0000-4000-b300-000000000001
+             */
+            id: string;
+            /**
+             * @default
+             * @example SALES_INVOICE
+             */
+            documentType: string;
+            /**
+             * @default
+             * @example SAL
+             */
+            prefix: string;
+            /**
+             * @default 1
+             * @example 42
+             */
+            nextNumber: number;
+            /**
+             * @default 5
+             * @example 5
+             */
+            padding: number;
+            /**
+             * @default
+             * @example 2025-01-01T00:00:00.000Z
+             */
+            createdAt: string;
+            /**
+             * @default
+             * @example 2025-01-01T00:00:00.000Z
+             */
+            updatedAt: string;
+        };
+        CreateDocumentSequenceDto: {
+            /**
+             * @description Document type (e.g. SALES_INVOICE, PURCHASE_INVOICE, PAYMENT, STOCK_COUNT)
+             * @default
+             * @example SALES_INVOICE
+             */
+            documentType: string;
+            /**
+             * @description Prefix for generated document numbers
+             * @default
+             * @example SAL
+             */
+            prefix: string;
+            /**
+             * @description Starting number for the sequence
+             * @example 1
+             */
+            nextNumber?: number;
+            /**
+             * @description Zero-pad length (e.g. 5 → SAL-00001)
+             * @example 5
+             */
+            padding?: number;
+        };
+        UpdateDocumentSequenceDto: {
+            /**
+             * @description Updated prefix
+             * @example INV
+             */
+            prefix?: string;
+            /**
+             * @description Jump sequence to a specific number
+             * @example 100
+             */
+            nextNumber?: number;
+            /** @example 6 */
+            padding?: number;
+        };
+        ChartOfAccountResponseDto: {
+            /**
+             * @default
+             * @example 00000000-0000-4000-a601-000000000001
+             */
+            id: string;
+            /**
+             * @default
+             * @example 1110
+             */
+            code: string;
+            /**
+             * @default
+             * @example Cash and Cash Equivalents
+             */
+            name: string;
+            /**
+             * @default
+             * @example ASSET
+             * @enum {string}
+             */
+            type: "ASSET" | "LIABILITY" | "EQUITY" | "REVENUE" | "EXPENSE";
+            /**
+             * @default null
+             * @example 00000000-0000-4000-a601-000000000001
+             */
+            parentId: string | null;
+            /**
+             * @default null
+             * @example 1000
+             */
+            parentCode: string | null;
+            /**
+             * @default null
+             * @example Current Assets
+             */
+            parentName: string | null;
+            /**
+             * @default true
+             * @example true
+             */
+            isActive: boolean;
+            /**
+             * @default
+             * @example 2025-01-01T00:00:00.000Z
+             */
+            createdAt: string;
+            /**
+             * @default
+             * @example 2025-01-01T00:00:00.000Z
+             */
+            updatedAt: string;
+        };
+        CreateChartOfAccountDto: {
+            /**
+             * @description Unique account code within the tenant
+             * @default
+             * @example 1110
+             */
+            code: string;
+            /**
+             * @description Account display name
+             * @default
+             * @example Cash and Cash Equivalents
+             */
+            name: string;
+            /**
+             * @description Account type classification
+             * @default ASSET
+             * @example ASSET
+             * @enum {string}
+             */
+            type: "ASSET" | "LIABILITY" | "EQUITY" | "REVENUE" | "EXPENSE";
+            /**
+             * @description Parent account UUID for hierarchical grouping
+             * @example 00000000-0000-4000-a601-000000000001
+             */
+            parentId?: string;
+        };
+        UpdateChartOfAccountDto: {
+            /**
+             * @description Updated account name
+             * @example Cash and Bank Accounts
+             */
+            name?: string;
+            /**
+             * @description Updated parent account UUID — set to null to make it a root account
+             * @example 00000000-0000-4000-a601-000000000001
+             */
+            parentId?: string | null;
+            /**
+             * @description Deactivate to hide from document selection
+             * @example true
+             */
             isActive?: boolean;
         };
         OpeningBalanceItemDto: {
@@ -1839,35 +2134,206 @@ export interface components {
              */
             items: components["schemas"]["OpeningBalanceItemDto"][];
         };
+        WarehouseResponseDto: {
+            /**
+             * @default
+             * @example 00000000-0000-4000-c100-000000000001
+             */
+            id: string;
+            /**
+             * @default
+             * @example WH-MAIN
+             */
+            code: string;
+            /**
+             * @default
+             * @example Main Warehouse
+             */
+            name: string;
+            /**
+             * @default null
+             * @example Damascus Industrial Zone
+             */
+            address: string | null;
+            /**
+             * @default true
+             * @example true
+             */
+            isActive: boolean;
+            /**
+             * @default
+             * @example 2025-01-01T00:00:00.000Z
+             */
+            createdAt: string;
+            /**
+             * @default
+             * @example 2025-01-01T00:00:00.000Z
+             */
+            updatedAt: string;
+        };
+        CreateWarehouseDto: {
+            /**
+             * @description Unique warehouse code
+             * @default
+             * @example WH-MAIN
+             */
+            code: string;
+            /**
+             * @description Warehouse display name
+             * @default
+             * @example Main Warehouse
+             */
+            name: string;
+            /** @example Damascus Industrial Zone */
+            address?: string;
+        };
+        UpdateWarehouseDto: {
+            /** @example WH-MAIN */
+            code?: string;
+            /** @example Main Warehouse (Renovated) */
+            name?: string;
+            /** @example Damascus Industrial Zone, Building 5 */
+            address?: string;
+            /** @example true */
+            isActive?: boolean;
+        };
+        InvoiceTypeResponseDto: {
+            /**
+             * @default
+             * @example 00000000-0000-4000-d100-000000000001
+             */
+            id: string;
+            /**
+             * @default
+             * @example PINV
+             */
+            code: string;
+            /**
+             * @default
+             * @example Purchase Invoice
+             */
+            name: string;
+            /**
+             * @default
+             * @example PURCHASE
+             * @enum {string}
+             */
+            direction: "PURCHASE" | "SALE";
+            /**
+             * @default true
+             * @example true
+             */
+            affectsStock: boolean;
+            /**
+             * @default true
+             * @example true
+             */
+            isActive: boolean;
+            /**
+             * @default
+             * @example 2025-01-01T00:00:00.000Z
+             */
+            createdAt: string;
+            /**
+             * @default
+             * @example 2025-01-01T00:00:00.000Z
+             */
+            updatedAt: string;
+        };
         CreateInvoiceTypeDto: {
             /**
              * @description Unique invoice type code
+             * @default
              * @example PINV
              */
             code: string;
             /**
              * @description Invoice type display name
+             * @default
              * @example Purchase Invoice
              */
             name: string;
             /**
              * @description PURCHASE = inbound, SALE = outbound
+             * @default PURCHASE
              * @example PURCHASE
              * @enum {string}
              */
             direction: "PURCHASE" | "SALE";
             /**
              * @description Whether this type affects warehouse stock
-             * @default true
              * @example true
              */
-            affectsStock: boolean;
+            affectsStock?: boolean;
         };
         UpdateInvoiceTypeDto: {
             /** @example Purchase Invoice (Standard) */
             name?: string;
             /** @example true */
             affectsStock?: boolean;
+            /** @example true */
+            isActive?: boolean;
+        };
+        CashboxResponseDto: {
+            /**
+             * @default
+             * @example 00000000-0000-4000-d200-000000000001
+             */
+            id: string;
+            /**
+             * @default
+             * @example CASH-SYP
+             */
+            code: string;
+            /**
+             * @default
+             * @example Main Cash (SYP)
+             */
+            name: string;
+            /**
+             * @default
+             * @example 00000000-0000-4000-a300-000000000001
+             */
+            currencyId: string;
+            /**
+             * @default true
+             * @example true
+             */
+            isActive: boolean;
+            /**
+             * @default
+             * @example 2025-01-01T00:00:00.000Z
+             */
+            createdAt: string;
+            /**
+             * @default
+             * @example 2025-01-01T00:00:00.000Z
+             */
+            updatedAt: string;
+        };
+        CreateCashboxDto: {
+            /**
+             * @description Unique cashbox code
+             * @default
+             * @example CASH-SYP
+             */
+            code: string;
+            /**
+             * @description Cashbox display name
+             * @default
+             * @example Main Cash (SYP)
+             */
+            name: string;
+            /**
+             * @description Currency ID
+             * @default
+             * @example 00000000-0000-4000-a300-000000000001
+             */
+            currencyId: string;
+        };
+        UpdateCashboxDto: {
+            /** @example Main Cash Box (SYP) */
+            name?: string;
             /** @example true */
             isActive?: boolean;
         };
@@ -2011,32 +2477,6 @@ export interface components {
              */
             lines?: components["schemas"]["InvoiceLineDto"][];
         };
-        CreateCashboxDto: {
-            /**
-             * @description Unique cashbox code
-             * @example CASH-SYP
-             */
-            code: string;
-            /**
-             * @description Cashbox display name
-             * @example Main Cash (SYP)
-             */
-            name: string;
-            /**
-             * @description Currency ID (SYP)
-             * @example 00000000-0000-4000-a300-000000000001
-             */
-            currencyId: string;
-        };
-        UpdateCashboxDto: {
-            /**
-             * @description Updated cashbox name
-             * @example Main Cash Box (SYP)
-             */
-            name?: string;
-            /** @example true */
-            isActive?: boolean;
-        };
         CreatePaymentDto: {
             /**
              * @description Payment type
@@ -2110,40 +2550,110 @@ export interface components {
              */
             amount: number;
         };
-        CreateChartOfAccountDto: {
+        PartyResponseDto: {
             /**
-             * @description Unique account code
-             * @example 1110
+             * @default
+             * @example 00000000-0000-4000-e100-000000000001
              */
-            code: string;
+            id: string;
             /**
-             * @description Account display name
-             * @example Cash and Cash Equivalents
+             * @default null
+             * @example SUPP-001
+             */
+            code: string | null;
+            /**
+             * @default
+             * @example Damascus Import Co.
              */
             name: string;
             /**
-             * @description Account type
-             * @example ASSET
+             * @default
+             * @example SUPPLIER
              * @enum {string}
              */
-            type: "ASSET" | "LIABILITY" | "EQUITY" | "REVENUE" | "EXPENSE";
+            type: "CUSTOMER" | "SUPPLIER" | "CUSTOMER_SUPPLIER";
             /**
-             * @description Parent account ID (Current Assets)
-             * @example 00000000-0000-4000-a601-000000000001
+             * @default null
+             * @example +963-11-9876543
              */
-            parentId?: string;
+            phone: string | null;
+            /**
+             * @default null
+             * @example info@damsimport.sy
+             */
+            email: string | null;
+            /**
+             * @default null
+             * @example Damascus, Industrial Zone
+             */
+            address: string | null;
+            /**
+             * @default 0
+             * @example 0
+             */
+            openingBalance: number;
+            /**
+             * @default true
+             * @example true
+             */
+            isActive: boolean;
+            /**
+             * @default
+             * @example 2025-01-01T00:00:00.000Z
+             */
+            createdAt: string;
+            /**
+             * @default
+             * @example 2025-01-01T00:00:00.000Z
+             */
+            updatedAt: string;
         };
-        UpdateChartOfAccountDto: {
+        CreatePartyDto: {
             /**
-             * @description Updated account name
-             * @example Cash and Bank Accounts
+             * @description Auto-generated if omitted
+             * @example SUPP-001
              */
+            code?: string;
+            /**
+             * @description Party display name
+             * @example Damascus Import Co.
+             */
+            name: string;
+            /**
+             * @example SUPPLIER
+             * @enum {string}
+             */
+            type: "CUSTOMER" | "SUPPLIER" | "CUSTOMER_SUPPLIER";
+            /** @example +963-11-9876543 */
+            phone?: string;
+            /** @example info@damsimport.sy */
+            email?: string;
+            /** @example Damascus, Industrial Zone */
+            address?: string;
+            /**
+             * @description Initial opening balance in base currency
+             * @example 0
+             */
+            openingBalance?: number;
+        };
+        UpdatePartyDto: {
+            /** @example SUPP-001 */
+            code?: string;
+            /** @example Damascus Import Co. (Updated) */
             name?: string;
             /**
-             * @description Parent account ID
-             * @example 00000000-0000-4000-a601-000000000001
+             * @example CUSTOMER_SUPPLIER
+             * @enum {string}
              */
-            parentId?: string;
+            type?: "CUSTOMER" | "SUPPLIER" | "CUSTOMER_SUPPLIER";
+            /** @example +963-11-9876544 */
+            phone?: string;
+            /** @example updated@damsimport.sy */
+            email?: string;
+            /** @example Damascus, New Industrial Zone */
+            address?: string;
+            /** @example 500000 */
+            openingBalance?: number;
             /** @example true */
             isActive?: boolean;
         };
@@ -2371,6 +2881,366 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
                         data?: components["schemas"]["MeDataDto"];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "Roles.list": {
+        parameters: {
+            query?: {
+                /** @description Page number (1-based) */
+                page?: number;
+                /** @description Number of items per page */
+                limit?: number;
+                /** @description Field name to sort by */
+                sortField?: string;
+                sortOrder?: "asc" | "desc";
+                /** @description Full-text search keyword */
+                search?: string;
+                /** @description Comma-separated field names to search within (e.g. name,symbol) */
+                searchIn?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Paginated list of roles */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["RoleResponseDto"][];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "Roles.create": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateRoleDto"];
+            };
+        };
+        responses: {
+            /** @description Role created successfully */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["RoleResponseDto"];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "Roles.show": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Role UUID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Role details */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["RoleResponseDto"];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "Roles.delete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Role UUID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Role deleted successfully */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "Roles.update": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Role UUID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateRoleDto"];
+            };
+        };
+        responses: {
+            /** @description Updated role */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["RoleResponseDto"];
                     };
                 };
             };
@@ -2903,834 +3773,20 @@ export interface operations {
             };
         };
     };
-    "Roles.findAll": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Roles list retrieved */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description JWT token is missing, expired, or invalid */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Insufficient permissions to perform this action */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description The requested resource was not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Request body validation failed */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description An unexpected internal server error occurred */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-        };
-    };
-    "Roles.create": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["CreateRoleDto"];
-            };
-        };
-        responses: {
-            /** @description Role created */
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description JWT token is missing, expired, or invalid */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Insufficient permissions to perform this action */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description The requested resource was not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Request body validation failed */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description An unexpected internal server error occurred */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-        };
-    };
-    "Roles.update": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["UpdateRoleDto"];
-            };
-        };
-        responses: {
-            /** @description Role updated */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description JWT token is missing, expired, or invalid */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Insufficient permissions to perform this action */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description The requested resource was not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Request body validation failed */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description An unexpected internal server error occurred */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-        };
-    };
-    "Currencies.findAll": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Currencies list retrieved */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description JWT token is missing, expired, or invalid */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Insufficient permissions to perform this action */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description The requested resource was not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Request body validation failed */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description An unexpected internal server error occurred */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-        };
-    };
-    "Currencies.create": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["CreateCurrencyDto"];
-            };
-        };
-        responses: {
-            /** @description Currency created */
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description JWT token is missing, expired, or invalid */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Insufficient permissions to perform this action */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description The requested resource was not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Request body validation failed */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description An unexpected internal server error occurred */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-        };
-    };
-    "Currencies.update": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["UpdateCurrencyDto"];
-            };
-        };
-        responses: {
-            /** @description Currency updated */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description JWT token is missing, expired, or invalid */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Insufficient permissions to perform this action */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description The requested resource was not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Request body validation failed */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description An unexpected internal server error occurred */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-        };
-    };
-    "FiscalPeriods.findAll": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Fiscal periods list retrieved */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description JWT token is missing, expired, or invalid */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Insufficient permissions to perform this action */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description The requested resource was not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Request body validation failed */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description An unexpected internal server error occurred */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-        };
-    };
-    "FiscalPeriods.create": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["CreateFiscalPeriodDto"];
-            };
-        };
-        responses: {
-            /** @description Fiscal period created */
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description JWT token is missing, expired, or invalid */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Insufficient permissions to perform this action */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description The requested resource was not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Request body validation failed */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description An unexpected internal server error occurred */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-        };
-    };
-    "FiscalPeriods.update": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["UpdateFiscalPeriodDto"];
-            };
-        };
-        responses: {
-            /** @description Fiscal period updated */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description JWT token is missing, expired, or invalid */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Insufficient permissions to perform this action */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description The requested resource was not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Request body validation failed */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description An unexpected internal server error occurred */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-        };
-    };
-    "DocumentSequences.findAll": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Document sequences list retrieved */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description JWT token is missing, expired, or invalid */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Insufficient permissions to perform this action */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description The requested resource was not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Request body validation failed */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description An unexpected internal server error occurred */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-        };
-    };
-    "DocumentSequences.create": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["CreateDocumentSequenceDto"];
-            };
-        };
-        responses: {
-            /** @description Document sequence created */
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description JWT token is missing, expired, or invalid */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Insufficient permissions to perform this action */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description The requested resource was not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Request body validation failed */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description An unexpected internal server error occurred */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-        };
-    };
-    "DocumentSequences.update": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["UpdateDocumentSequenceDto"];
-            };
-        };
-        responses: {
-            /** @description Document sequence updated */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description JWT token is missing, expired, or invalid */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Insufficient permissions to perform this action */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description The requested resource was not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Request body validation failed */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description An unexpected internal server error occurred */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-        };
-    };
     "Units.list": {
         parameters: {
             query?: {
-                pagination?: components["schemas"]["PaginationOptionsDto"];
-                sort?: components["schemas"]["SortOptionsDto"];
-                filters?: components["schemas"]["Object"];
-                include?: components["schemas"]["Object"];
-                search?: components["schemas"]["SearchOptionsDto"];
+                /** @description Page number (1-based) */
+                page?: number;
+                /** @description Number of items per page */
+                limit?: number;
+                /** @description Field name to sort by */
+                sortField?: string;
+                sortOrder?: "asc" | "desc";
+                /** @description Full-text search keyword */
+                search?: string;
+                /** @description Comma-separated field names to search within (e.g. name,symbol) */
+                searchIn?: string;
             };
             header?: never;
             path?: never;
@@ -4077,22 +4133,36 @@ export interface operations {
             };
         };
     };
-    "ItemCategories.findAll": {
+    "ItemCategories.list": {
         parameters: {
-            query?: never;
+            query?: {
+                /** @description Page number (1-based) */
+                page?: number;
+                /** @description Number of items per page */
+                limit?: number;
+                /** @description Field name to sort by */
+                sortField?: string;
+                sortOrder?: "asc" | "desc";
+                /** @description Full-text search keyword */
+                search?: string;
+                /** @description Comma-separated field names to search within (e.g. name,symbol) */
+                searchIn?: string;
+            };
             header?: never;
             path?: never;
             cookie?: never;
         };
         requestBody?: never;
         responses: {
-            /** @description Categories list retrieved */
+            /** @description Paginated list of item categories */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["ItemCategoryResponseDto"][];
+                    };
                 };
             };
             /** @description JWT token is missing, expired, or invalid */
@@ -4155,13 +4225,15 @@ export interface operations {
             };
         };
         responses: {
-            /** @description Category created */
+            /** @description Item category created successfully */
             201: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["ItemCategoryResponseDto"];
+                    };
                 };
             };
             /** @description JWT token is missing, expired, or invalid */
@@ -4211,25 +4283,94 @@ export interface operations {
             };
         };
     };
-    "ItemCategories.findOne": {
+    "ItemCategories.show": {
         parameters: {
             query?: never;
             header?: never;
             path: {
+                /** @description Item category UUID */
                 id: string;
             };
             cookie?: never;
         };
         requestBody?: never;
         responses: {
-            /** @description Category details returned */
+            /** @description Item category details */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["ItemCategoryResponseDto"];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
                     "application/json": unknown;
                 };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "ItemCategories.delete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Item category UUID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Item category deleted successfully */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
             /** @description JWT token is missing, expired, or invalid */
             401: {
@@ -4283,6 +4424,7 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
+                /** @description Item category UUID */
                 id: string;
             };
             cookie?: never;
@@ -4293,13 +4435,15 @@ export interface operations {
             };
         };
         responses: {
-            /** @description Category updated */
+            /** @description Updated item category */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["ItemCategoryResponseDto"];
+                    };
                 };
             };
             /** @description JWT token is missing, expired, or invalid */
@@ -4349,11 +4493,20 @@ export interface operations {
             };
         };
     };
-    "Items.findAll": {
+    "Items.list": {
         parameters: {
-            query: {
-                page: number;
-                limit: number;
+            query?: {
+                /** @description Page number (1-based) */
+                page?: number;
+                /** @description Number of items per page */
+                limit?: number;
+                /** @description Field name to sort by */
+                sortField?: string;
+                sortOrder?: "asc" | "desc";
+                /** @description Full-text search keyword */
+                search?: string;
+                /** @description Comma-separated field names to search within (e.g. name,symbol) */
+                searchIn?: string;
             };
             header?: never;
             path?: never;
@@ -4367,7 +4520,9 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["ItemResponseDto"][];
+                    };
                 };
             };
             /** @description JWT token is missing, expired, or invalid */
@@ -4430,13 +4585,15 @@ export interface operations {
             };
         };
         responses: {
-            /** @description Item created */
+            /** @description Item created successfully */
             201: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["ItemResponseDto"];
+                    };
                 };
             };
             /** @description JWT token is missing, expired, or invalid */
@@ -4486,25 +4643,94 @@ export interface operations {
             };
         };
     };
-    "Items.findOne": {
+    "Items.show": {
         parameters: {
             query?: never;
             header?: never;
             path: {
+                /** @description Item UUID */
                 id: string;
             };
             cookie?: never;
         };
         requestBody?: never;
         responses: {
-            /** @description Item details returned */
+            /** @description Item details */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["ItemResponseDto"];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
                     "application/json": unknown;
                 };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "Items.delete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Item UUID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Item deleted successfully */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
             /** @description JWT token is missing, expired, or invalid */
             401: {
@@ -4558,6 +4784,7 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
+                /** @description Item UUID */
                 id: string;
             };
             cookie?: never;
@@ -4568,7 +4795,77 @@ export interface operations {
             };
         };
         responses: {
-            /** @description Item updated */
+            /** @description Updated item */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["ItemResponseDto"];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "Accounting.findJournalEntries": {
+        parameters: {
+            query: {
+                page: number;
+                limit: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Paginated list of journal entries */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -4624,7 +4921,7 @@ export interface operations {
             };
         };
     };
-    "Items.updateStatus": {
+    "Accounting.findJournalEntry": {
         parameters: {
             query?: never;
             header?: never;
@@ -4633,13 +4930,9 @@ export interface operations {
             };
             cookie?: never;
         };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["UpdateItemStatusDto"];
-            };
-        };
+        requestBody?: never;
         responses: {
-            /** @description Item status updated */
+            /** @description Journal entry details with lines */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -4695,12 +4988,20 @@ export interface operations {
             };
         };
     };
-    "Parties.findAll": {
+    "Currencies.list": {
         parameters: {
             query?: {
-                type?: "CUSTOMER" | "SUPPLIER" | "CUSTOMER_SUPPLIER";
+                /** @description Page number (1-based) */
                 page?: number;
+                /** @description Number of items per page */
                 limit?: number;
+                /** @description Field name to sort by */
+                sortField?: string;
+                sortOrder?: "asc" | "desc";
+                /** @description Full-text search keyword */
+                search?: string;
+                /** @description Comma-separated field names to search within (e.g. name,symbol) */
+                searchIn?: string;
             };
             header?: never;
             path?: never;
@@ -4708,13 +5009,15 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Paginated list of parties */
+            /** @description Paginated list of currencies */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["CurrencyResponseDto"][];
+                    };
                 };
             };
             /** @description JWT token is missing, expired, or invalid */
@@ -4764,7 +5067,7 @@ export interface operations {
             };
         };
     };
-    "Parties.create": {
+    "Currencies.create": {
         parameters: {
             query?: never;
             header?: never;
@@ -4773,17 +5076,19 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["CreatePartyDto"];
+                "application/json": components["schemas"]["CreateCurrencyDto"];
             };
         };
         responses: {
-            /** @description Party created */
+            /** @description Currency created successfully */
             201: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["CurrencyResponseDto"];
+                    };
                 };
             };
             /** @description JWT token is missing, expired, or invalid */
@@ -4833,24 +5138,27 @@ export interface operations {
             };
         };
     };
-    "Parties.findOne": {
+    "Currencies.show": {
         parameters: {
             query?: never;
             header?: never;
             path: {
+                /** @description Currency UUID */
                 id: string;
             };
             cookie?: never;
         };
         requestBody?: never;
         responses: {
-            /** @description Party details returned */
+            /** @description Currency details */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["CurrencyResponseDto"];
+                    };
                 };
             };
             /** @description JWT token is missing, expired, or invalid */
@@ -4900,28 +5208,97 @@ export interface operations {
             };
         };
     };
-    "Parties.update": {
+    "Currencies.delete": {
         parameters: {
             query?: never;
             header?: never;
             path: {
+                /** @description Currency UUID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Currency deleted successfully */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "Currencies.update": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Currency UUID */
                 id: string;
             };
             cookie?: never;
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["UpdatePartyDto"];
+                "application/json": components["schemas"]["UpdateCurrencyDto"];
             };
         };
         responses: {
-            /** @description Party updated */
+            /** @description Updated currency */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["CurrencyResponseDto"];
+                    };
                 };
             };
             /** @description JWT token is missing, expired, or invalid */
@@ -4971,93 +5348,36 @@ export interface operations {
             };
         };
     };
-    "Parties.updateStatus": {
+    "FiscalPeriods.list": {
         parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: string;
+            query?: {
+                /** @description Page number (1-based) */
+                page?: number;
+                /** @description Number of items per page */
+                limit?: number;
+                /** @description Field name to sort by */
+                sortField?: string;
+                sortOrder?: "asc" | "desc";
+                /** @description Full-text search keyword */
+                search?: string;
+                /** @description Comma-separated field names to search within (e.g. name,symbol) */
+                searchIn?: string;
             };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["UpdatePartyStatusDto"];
-            };
-        };
-        responses: {
-            /** @description Party status updated */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description JWT token is missing, expired, or invalid */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Insufficient permissions to perform this action */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description The requested resource was not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Request body validation failed */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description An unexpected internal server error occurred */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-        };
-    };
-    "Warehouses.findAll": {
-        parameters: {
-            query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
         requestBody?: never;
         responses: {
-            /** @description Warehouses list retrieved */
+            /** @description Paginated list of fiscal periods */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["FiscalPeriodResponseDto"][];
+                    };
                 };
             };
             /** @description JWT token is missing, expired, or invalid */
@@ -5107,7 +5427,7 @@ export interface operations {
             };
         };
     };
-    "Warehouses.create": {
+    "FiscalPeriods.create": {
         parameters: {
             query?: never;
             header?: never;
@@ -5116,17 +5436,19 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["CreateWarehouseDto"];
+                "application/json": components["schemas"]["CreateFiscalPeriodDto"];
             };
         };
         responses: {
-            /** @description Warehouse created */
+            /** @description Fiscal period created successfully */
             201: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["FiscalPeriodResponseDto"];
+                    };
                 };
             };
             /** @description JWT token is missing, expired, or invalid */
@@ -5176,24 +5498,27 @@ export interface operations {
             };
         };
     };
-    "Warehouses.findOne": {
+    "FiscalPeriods.show": {
         parameters: {
             query?: never;
             header?: never;
             path: {
+                /** @description Fiscal period UUID */
                 id: string;
             };
             cookie?: never;
         };
         requestBody?: never;
         responses: {
-            /** @description Warehouse details returned */
+            /** @description Fiscal period details */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["FiscalPeriodResponseDto"];
+                    };
                 };
             };
             /** @description JWT token is missing, expired, or invalid */
@@ -5243,28 +5568,817 @@ export interface operations {
             };
         };
     };
-    "Warehouses.update": {
+    "FiscalPeriods.delete": {
         parameters: {
             query?: never;
             header?: never;
             path: {
+                /** @description Fiscal period UUID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Fiscal period deleted successfully */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "FiscalPeriods.update": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Fiscal period UUID */
                 id: string;
             };
             cookie?: never;
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["UpdateWarehouseDto"];
+                "application/json": components["schemas"]["UpdateFiscalPeriodDto"];
             };
         };
         responses: {
-            /** @description Warehouse updated */
+            /** @description Updated fiscal period */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["FiscalPeriodResponseDto"];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
                     "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "DocumentSequences.list": {
+        parameters: {
+            query?: {
+                /** @description Page number (1-based) */
+                page?: number;
+                /** @description Number of items per page */
+                limit?: number;
+                /** @description Field name to sort by */
+                sortField?: string;
+                sortOrder?: "asc" | "desc";
+                /** @description Full-text search keyword */
+                search?: string;
+                /** @description Comma-separated field names to search within (e.g. name,symbol) */
+                searchIn?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Paginated list of document sequences */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["DocumentSequenceResponseDto"][];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "DocumentSequences.create": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateDocumentSequenceDto"];
+            };
+        };
+        responses: {
+            /** @description Document sequence created successfully */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["DocumentSequenceResponseDto"];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "DocumentSequences.show": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Document sequence UUID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Document sequence details */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["DocumentSequenceResponseDto"];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "DocumentSequences.delete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Document sequence UUID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Document sequence deleted successfully */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "DocumentSequences.update": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Document sequence UUID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateDocumentSequenceDto"];
+            };
+        };
+        responses: {
+            /** @description Updated document sequence */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["DocumentSequenceResponseDto"];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "Accounts.list": {
+        parameters: {
+            query?: {
+                /** @description Page number (1-based) */
+                page?: number;
+                /** @description Number of items per page */
+                limit?: number;
+                /** @description Field name to sort by */
+                sortField?: string;
+                sortOrder?: "asc" | "desc";
+                /** @description Full-text search keyword */
+                search?: string;
+                /** @description Comma-separated field names to search within (e.g. name,symbol) */
+                searchIn?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Chart-of-accounts list */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["ChartOfAccountResponseDto"][];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "Accounts.create": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateChartOfAccountDto"];
+            };
+        };
+        responses: {
+            /** @description Account created successfully */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["ChartOfAccountResponseDto"];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "Accounts.show": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Account UUID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Account details */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["ChartOfAccountResponseDto"];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "Accounts.delete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Account UUID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Account deleted successfully */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "Accounts.update": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Account UUID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateChartOfAccountDto"];
+            };
+        };
+        responses: {
+            /** @description Updated account */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["ChartOfAccountResponseDto"];
+                    };
                 };
             };
             /** @description JWT token is missing, expired, or invalid */
@@ -5451,14 +6565,20 @@ export interface operations {
             };
         };
     };
-    "StockLedger.getMovements": {
+    "Warehouses.list": {
         parameters: {
             query?: {
-                warehouseId?: string;
-                itemId?: string;
-                movementType?: string;
+                /** @description Page number (1-based) */
                 page?: number;
+                /** @description Number of items per page */
                 limit?: number;
+                /** @description Field name to sort by */
+                sortField?: string;
+                sortOrder?: "asc" | "desc";
+                /** @description Full-text search keyword */
+                search?: string;
+                /** @description Comma-separated field names to search within (e.g. name,symbol) */
+                searchIn?: string;
             };
             header?: never;
             path?: never;
@@ -5466,13 +6586,15 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Paginated list of stock movements */
+            /** @description Paginated list of warehouses */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["WarehouseResponseDto"][];
+                    };
                 };
             };
             /** @description JWT token is missing, expired, or invalid */
@@ -5522,22 +6644,317 @@ export interface operations {
             };
         };
     };
-    "InvoiceTypes.findAll": {
+    "Warehouses.create": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        requestBody?: never;
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateWarehouseDto"];
+            };
+        };
         responses: {
-            /** @description Invoice types list retrieved */
-            200: {
+            /** @description Warehouse created successfully */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["WarehouseResponseDto"];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
                     "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "Warehouses.show": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Warehouse UUID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Warehouse details */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["WarehouseResponseDto"];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "Warehouses.delete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Warehouse UUID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Warehouse deleted successfully */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "Warehouses.update": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Warehouse UUID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateWarehouseDto"];
+            };
+        };
+        responses: {
+            /** @description Updated warehouse */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["WarehouseResponseDto"];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "InvoiceTypes.list": {
+        parameters: {
+            query?: {
+                /** @description Page number (1-based) */
+                page?: number;
+                /** @description Number of items per page */
+                limit?: number;
+                /** @description Field name to sort by */
+                sortField?: string;
+                sortOrder?: "asc" | "desc";
+                /** @description Full-text search keyword */
+                search?: string;
+                /** @description Comma-separated field names to search within (e.g. name,symbol) */
+                searchIn?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Paginated list of invoice types */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["InvoiceTypeResponseDto"][];
+                    };
                 };
             };
             /** @description JWT token is missing, expired, or invalid */
@@ -5600,13 +7017,15 @@ export interface operations {
             };
         };
         responses: {
-            /** @description Invoice type created */
+            /** @description Invoice type created successfully */
             201: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["InvoiceTypeResponseDto"];
+                    };
                 };
             };
             /** @description JWT token is missing, expired, or invalid */
@@ -5656,25 +7075,94 @@ export interface operations {
             };
         };
     };
-    "InvoiceTypes.findOne": {
+    "InvoiceTypes.show": {
         parameters: {
             query?: never;
             header?: never;
             path: {
+                /** @description Invoice type UUID */
                 id: string;
             };
             cookie?: never;
         };
         requestBody?: never;
         responses: {
-            /** @description Invoice type details returned */
+            /** @description Invoice type details */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["InvoiceTypeResponseDto"];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
                     "application/json": unknown;
                 };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "InvoiceTypes.delete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Invoice type UUID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Invoice type deleted successfully */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
             /** @description JWT token is missing, expired, or invalid */
             401: {
@@ -5728,6 +7216,7 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
+                /** @description Invoice type UUID */
                 id: string;
             };
             cookie?: never;
@@ -5738,13 +7227,375 @@ export interface operations {
             };
         };
         responses: {
-            /** @description Invoice type updated */
+            /** @description Updated invoice type */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["InvoiceTypeResponseDto"];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
                     "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "Cashboxes.list": {
+        parameters: {
+            query?: {
+                /** @description Page number (1-based) */
+                page?: number;
+                /** @description Number of items per page */
+                limit?: number;
+                /** @description Field name to sort by */
+                sortField?: string;
+                sortOrder?: "asc" | "desc";
+                /** @description Full-text search keyword */
+                search?: string;
+                /** @description Comma-separated field names to search within (e.g. name,symbol) */
+                searchIn?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Paginated list of cashboxes */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["CashboxResponseDto"][];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "Cashboxes.create": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateCashboxDto"];
+            };
+        };
+        responses: {
+            /** @description Cashbox created successfully */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["CashboxResponseDto"];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "Cashboxes.show": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Cashbox UUID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Cashbox details */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["CashboxResponseDto"];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "Cashboxes.delete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Cashbox UUID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Cashbox deleted successfully */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "Cashboxes.update": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Cashbox UUID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateCashboxDto"];
+            };
+        };
+        responses: {
+            /** @description Updated cashbox */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["CashboxResponseDto"];
+                    };
                 };
             };
             /** @description JWT token is missing, expired, or invalid */
@@ -6170,278 +8021,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
-            };
-            /** @description JWT token is missing, expired, or invalid */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Insufficient permissions to perform this action */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description The requested resource was not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Request body validation failed */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description An unexpected internal server error occurred */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-        };
-    };
-    "Cashboxes.findAll": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Cashboxes list retrieved */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description JWT token is missing, expired, or invalid */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Insufficient permissions to perform this action */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description The requested resource was not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Request body validation failed */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description An unexpected internal server error occurred */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-        };
-    };
-    "Cashboxes.create": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["CreateCashboxDto"];
-            };
-        };
-        responses: {
-            /** @description Cashbox created */
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description JWT token is missing, expired, or invalid */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Insufficient permissions to perform this action */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description The requested resource was not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Request body validation failed */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description An unexpected internal server error occurred */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-        };
-    };
-    "Cashboxes.findOne": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Cashbox details returned */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description JWT token is missing, expired, or invalid */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Insufficient permissions to perform this action */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description The requested resource was not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Request body validation failed */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description An unexpected internal server error occurred */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-        };
-    };
-    "Cashboxes.update": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["UpdateCashboxDto"];
-            };
-        };
-        responses: {
-            /** @description Cashbox updated */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
             };
             /** @description JWT token is missing, expired, or invalid */
             401: {
@@ -7058,22 +8637,36 @@ export interface operations {
             };
         };
     };
-    "Accounting.findAllAccounts": {
+    "Parties.list": {
         parameters: {
-            query?: never;
+            query?: {
+                /** @description Page number (1-based) */
+                page?: number;
+                /** @description Number of items per page */
+                limit?: number;
+                /** @description Field name to sort by */
+                sortField?: string;
+                sortOrder?: "asc" | "desc";
+                /** @description Full-text search keyword */
+                search?: string;
+                /** @description Comma-separated field names to search within (e.g. name,symbol) */
+                searchIn?: string;
+            };
             header?: never;
             path?: never;
             cookie?: never;
         };
         requestBody?: never;
         responses: {
-            /** @description Chart of accounts list retrieved */
+            /** @description Paginated list of parties */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["PartyResponseDto"][];
+                    };
                 };
             };
             /** @description JWT token is missing, expired, or invalid */
@@ -7123,7 +8716,7 @@ export interface operations {
             };
         };
     };
-    "Accounting.createAccount": {
+    "Parties.create": {
         parameters: {
             query?: never;
             header?: never;
@@ -7132,17 +8725,19 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["CreateChartOfAccountDto"];
+                "application/json": components["schemas"]["CreatePartyDto"];
             };
         };
         responses: {
-            /** @description Account created */
+            /** @description Party created successfully */
             201: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["PartyResponseDto"];
+                    };
                 };
             };
             /** @description JWT token is missing, expired, or invalid */
@@ -7192,24 +8787,27 @@ export interface operations {
             };
         };
     };
-    "Accounting.findAccount": {
+    "Parties.show": {
         parameters: {
             query?: never;
             header?: never;
             path: {
+                /** @description Party UUID */
                 id: string;
             };
             cookie?: never;
         };
         requestBody?: never;
         responses: {
-            /** @description Account details returned */
+            /** @description Party details */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["PartyResponseDto"];
+                    };
                 };
             };
             /** @description JWT token is missing, expired, or invalid */
@@ -7259,28 +8857,97 @@ export interface operations {
             };
         };
     };
-    "Accounting.updateAccount": {
+    "Parties.delete": {
         parameters: {
             query?: never;
             header?: never;
             path: {
+                /** @description Party UUID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Party deleted successfully */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "Parties.update": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Party UUID */
                 id: string;
             };
             cookie?: never;
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["UpdateChartOfAccountDto"];
+                "application/json": components["schemas"]["UpdatePartyDto"];
             };
         };
         responses: {
-            /** @description Account updated */
+            /** @description Updated party */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["PartyResponseDto"];
+                    };
                 };
             };
             /** @description JWT token is missing, expired, or invalid */
@@ -7330,11 +8997,14 @@ export interface operations {
             };
         };
     };
-    "Accounting.findJournalEntries": {
+    "StockLedger.getMovements": {
         parameters: {
-            query: {
-                page: number;
-                limit: number;
+            query?: {
+                warehouseId?: string;
+                itemId?: string;
+                movementType?: string;
+                page?: number;
+                limit?: number;
             };
             header?: never;
             path?: never;
@@ -7342,74 +9012,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Paginated list of journal entries */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description JWT token is missing, expired, or invalid */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Insufficient permissions to perform this action */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description The requested resource was not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Request body validation failed */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description An unexpected internal server error occurred */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-        };
-    };
-    "Accounting.findJournalEntry": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Journal entry details with lines */
+            /** @description Paginated list of stock movements */
             200: {
                 headers: {
                     [name: string]: unknown;

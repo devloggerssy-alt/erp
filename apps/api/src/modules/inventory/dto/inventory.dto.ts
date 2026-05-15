@@ -51,3 +51,34 @@ export enum StockMovementTypeEnum {
     TRANSFER_IN = 'TRANSFER_IN',
     TRANSFER_OUT = 'TRANSFER_OUT',
 }
+
+// ── Response DTOs ─────────────────────────────────────────────────────────────
+
+export class BalanceResponseDto {
+    @ApiProperty({ example: '00000000-0000-4000-ab00-000000000001' })
+    warehouseId: string = '';
+
+    @ApiProperty({ example: 'Main Warehouse' })
+    warehouseName: string = '';
+
+    @ApiProperty({ example: 'WH-001' })
+    warehouseCode: string = '';
+
+    @ApiProperty({ example: '00000000-0000-4000-a900-000000000001' })
+    itemId: string = '';
+
+    @ApiProperty({ example: 'Laptop 15"' })
+    itemName: string = '';
+
+    @ApiProperty({ example: 'ITM-001' })
+    itemCode: string = '';
+
+    @ApiProperty({ example: 50 })
+    quantity: number = 0;
+
+    @ApiProperty({ example: 600000 })
+    averageCost: number = 0;
+
+    @ApiProperty({ example: '2026-01-01T00:00:00.000Z' })
+    updatedAt: string = '';
+}
