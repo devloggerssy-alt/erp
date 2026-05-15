@@ -6,11 +6,9 @@ export const documentSequenceResource = defineResource({
   routes: {
     list: '/document-sequences',
     create: '/document-sequences',
-    update: '/document-sequences/:id',
-  },
-
-  paths: {
-    root: 'document-sequences',
-    byId: ':id',
+    update: '/document-sequences/{id}',
   },
 })
+
+
+

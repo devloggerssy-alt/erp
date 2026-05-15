@@ -9,8 +9,5 @@ export const tenantResource = defineResource({
     updateCurrent: '/tenants/current',
   },
 
-  paths: {
-    root: 'tenants',
-    current: 'current',
-  },
+ 
 })

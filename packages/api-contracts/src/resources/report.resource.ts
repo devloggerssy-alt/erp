@@ -11,14 +11,6 @@ export const reportResource = defineResource({
     supplierStatement: '/reports/supplier-statement',
     profitSummary: '/reports/profit-summary',
   },
-
-  paths: {
-    root: 'reports',
-    stockBalance: 'stock-balance',
-    salesSummary: 'sales-summary',
-    purchaseSummary: 'purchase-summary',
-    customerStatement: 'customer-statement',
-    supplierStatement: 'supplier-statement',
-    profitSummary: 'profit-summary',
-  },
 })
+
+

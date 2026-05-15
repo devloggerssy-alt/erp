@@ -6,12 +6,10 @@ export const invoiceTypeResource = defineResource({
   routes: {
     list: '/invoice-types',
     create: '/invoice-types',
-    details: '/invoice-types/:id',
-    update: '/invoice-types/:id',
-  },
-
-  paths: {
-    root: 'invoice-types',
-    byId: ':id',
+    details: '/invoice-types/{id}',
+    update: '/invoice-types/{id}',
   },
 })
+
+
+

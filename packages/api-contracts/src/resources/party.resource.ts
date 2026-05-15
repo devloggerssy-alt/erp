@@ -6,14 +6,11 @@ export const partyResource = defineResource({
   routes: {
     list: '/parties',
     create: '/parties',
-    details: '/parties/:id',
-    update: '/parties/:id',
-    status: '/parties/:id/status',
-  },
-
-  paths: {
-    root: 'parties',
-    byId: ':id',
-    status: ':id/status',
+    details: '/parties/{id}',
+    update: '/parties/{id}',
+    status: '/parties/{id}/status',
   },
 })
+
+
+

@@ -18,5 +18,10 @@ export type {
     DataViewChangeEvent,
     DataViewSlots,
 } from "./types"
-export type { DataTableSearchParams, DataViewSearchParams } from "./search-params"
+export type {
+    DataTableQueryParams,
+    DataTableSearchParams,
+    DataViewQueryParams,
+    DataViewSearchParams,
+} from "./search-params"
 export type { ActionsColumnOptions } from "./actions-column"

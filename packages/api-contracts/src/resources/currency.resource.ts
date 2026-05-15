@@ -6,11 +6,9 @@ export const currencyResource = defineResource({
   routes: {
     list: '/currencies',
     create: '/currencies',
-    update: '/currencies/:id',
-  },
-
-  paths: {
-    root: 'currencies',
-    byId: ':id',
+    update: '/currencies/{id}',
   },
 })
+
+
+

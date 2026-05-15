@@ -6,12 +6,10 @@ export const cashboxResource = defineResource({
   routes: {
     list: '/cashboxes',
     create: '/cashboxes',
-    details: '/cashboxes/:id',
-    update: '/cashboxes/:id',
-  },
-
-  paths: {
-    root: 'cashboxes',
-    byId: ':id',
+    details: '/cashboxes/{id}',
+    update: '/cashboxes/{id}',
   },
 })
+
+
+

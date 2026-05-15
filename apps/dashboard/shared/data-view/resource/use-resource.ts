@@ -12,16 +12,14 @@ import {
     type ActionsColumnOptions,
 } from "@/shared/data-view/table-view"
 import type { ColumnDef } from "@tanstack/react-table"
-import type { CrudListResponse } from "@devloggers/api-client"
+import type { CrudCollectionClient } from "@devloggers/api-client"
 import type {
-    ResourceClient,
     ResourceContext,
     ResourceItem,
-    ResourceQueryParams,
     UseResourceOptions,
 } from "./types"
 
-export function useResource<TClient extends ResourceClient>({
+export function useResource<TClient extends CrudCollectionClient>({
     routeKey,
     getClient,
     queryOptions,
@@ -36,14 +34,14 @@ export function useResource<TClient extends ResourceClient>({
     const [selectedItem, setSelectedItem] = useState<TItem | null>(null)
 
     const query = useDataViewQuery({
-        queryKey: [routeKey],
+        queryKey: [routeKey ?? client.key],
         client,
         queryOptions,
         extraParams,
     })
 
-    const data = query.data as CrudListResponse<TClient> | undefined
-    const items = (data?.data ?? []) as TItem[]
+    const data = query.data
+    const items = Array.from(data?.data ?? [])
 
     const { mutateAsync: deleteItem } = useMutation({
         mutationFn: (id: string) => {
@@ -102,7 +100,7 @@ export function useResource<TClient extends ResourceClient>({
         isFetching: query.isFetching,
         pagination: query.pagination,
         sorting: query.sorting,
-        params: query.params as ResourceQueryParams,
+        params: query.params,
         handleChange: query.handleChange,
         openCreate,
         openEdit,
@@ -110,7 +108,6 @@ export function useResource<TClient extends ResourceClient>({
         closeDialog,
         deleteItem,
         invalidateQuery: query.invalidateQuery,
-        createActionsColumn: buildActionsColumn,
         actionsColumn: buildActionsColumn,
     }
 }

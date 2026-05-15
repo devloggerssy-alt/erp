@@ -31,7 +31,7 @@ Follow these steps **in order**. Each step produces one file. Check the [referen
 Look in `packages/api/src/clients/` for an existing client. Also check `packages/api/src/clients/index.ts` for all registered clients, and `packages/api/src/api.ts` for the factory.
 
 - If client exists → skip to Step 3
-- If client doesn't exist → continue to Step 2
+- If client doesn't exist → continue to
 
 ### Step 2: Create API Client
 

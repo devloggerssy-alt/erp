@@ -6,9 +6,6 @@ export const stockLedgerResource = defineResource({
   routes: {
     movements: '/stock-ledger/movements',
   },
-
-  paths: {
-    root: 'stock-ledger',
-    movements: 'movements',
-  },
 })
+
+

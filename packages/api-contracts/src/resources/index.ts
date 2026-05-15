@@ -1,4 +1,5 @@
-export * from './resource.types'
+export * from './base/crud-resource'
+export * from './base/resource'
 
 import { authResource } from './auth.resource'
 import { tenantResource } from './tenant.resource'
@@ -76,3 +77,4 @@ export const resources = {
   ai: aiResource,
   auditLogs: auditResource,
 } as const
+

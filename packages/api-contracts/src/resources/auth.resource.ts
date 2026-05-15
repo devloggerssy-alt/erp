@@ -10,12 +10,6 @@ export const authResource = defineResource({
     me: '/auth/me',
   },
 
-  /** Path segments (no leading slash) — used by NestJS @Controller / @Get */
-  paths: {
-    root: 'auth',
-    login: 'login',
-    logout: 'logout',
-    me: 'me',
-  },
+  
 })
 

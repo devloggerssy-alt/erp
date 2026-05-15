@@ -6,9 +6,6 @@ export const dashboardResource = defineResource({
   routes: {
     summary: '/dashboard/summary',
   },
-
-  paths: {
-    root: 'dashboard',
-    summary: 'summary',
-  },
 })
+
+

@@ -6,12 +6,10 @@ export const warehouseResource = defineResource({
   routes: {
     list: '/warehouses',
     create: '/warehouses',
-    details: '/warehouses/:id',
-    update: '/warehouses/:id',
-  },
-
-  paths: {
-    root: 'warehouses',
-    byId: ':id',
+    details: '/warehouses/{id}',
+    update: '/warehouses/{id}',
   },
 })
+
+
+

@@ -6,13 +6,10 @@ export const userResource = defineResource({
   routes: {
     list: '/users',
     create: '/users',
-    update: '/users/:id',
-    status: '/users/:id/status',
-  },
-
-  paths: {
-    root: 'users',
-    byId: ':id',
-    status: ':id/status',
+    update: '/users/{id}',
+    status: '/users/{id}/status',
   },
 })
+
+
+

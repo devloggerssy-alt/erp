@@ -8,14 +8,11 @@ export type { ResourcePageProps } from "./resource-page"
 export type { ResourceTableViewProps } from "./resource-table-view"
 
 export type {
-    ResourceClient,
     ResourceColumns,
     ResourceContext,
     ResourceDataViewComponent,
     ResourceFormProps,
-    ResourceHeaderHelpers,
     ResourceItem,
-    ResourceQueryParams,
     ResourceRender,
     ResourceTableHelpers,
     UseResourceOptions,

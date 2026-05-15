@@ -72,7 +72,7 @@ export function UnitsForm({ resourceId, initialData, onSuccess, paramKey }: Unit
 		resourceId,
 		initialize: (id) => api.units.show(id),
 		initialData,
-		queryKey: [unitResource.routes.byId, resourceId],
+		queryKey: [unitResource.routes.show, resourceId],
 		mapToFormValues,
 	})
 
@@ -114,14 +114,14 @@ export function UnitsForm({ resourceId, initialData, onSuccess, paramKey }: Unit
 			<FieldGroup>
 				<RhfTextField
 					name="name"
-					label="Name"
+					label="الأسم"
 					placeholder="e.g. Kilogram"
 					required
 					disabled={isBusy}
 				/>
 				<RhfTextField
 					name="abbreviation"
-					label="Abbreviation"
+					label="الاختصار"
 					placeholder="e.g. kg"
 					required
 					disabled={isBusy}

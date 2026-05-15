@@ -6,7 +6,8 @@ import type {
     ApiQueryParams,
     ApiRequestBody,
     ApiResponse,
-} from "./types"
+} from "@devloggers/api-contracts"
+
 import createClient from "openapi-fetch"
 
 type HttpMethod = "get" | "post" | "put" | "delete" | "patch"
@@ -22,13 +23,13 @@ type ApiRequestOptions<Path extends ApiPath, Method extends HttpMethod> =
         body?: ApiRequestBody<Path, Method> extends never ? never : ApiRequestBody<Path, Method>
     }
 
-type LaravelValidationErrors = Record<string, string[]>
+type ValidationErrors = Record<string, string[]>
 
-type LaravelErrorPayload = {
+type ErrorPayload = {
     success?: boolean
     message?: string
     data?: unknown
-    errors?: LaravelValidationErrors | string[] | Record<string, unknown> | null
+    errors?: ValidationErrors | string[] | Record<string, unknown> | null
     pagination?: Record<string, unknown> | null
 }
 
@@ -40,14 +41,14 @@ export class ApiError extends Error {
         public readonly statusText: string,
         public readonly endpoint: string,
         public readonly method: string,
-        public readonly payload?: LaravelErrorPayload,
+        public readonly payload?: ErrorPayload,
     ) {
         super(payload?.message ?? `${method.toUpperCase()} ${endpoint} failed with ${status} ${statusText}`.trim())
     }
 
-    get validationErrors(): LaravelValidationErrors | undefined {
+    get validationErrors(): ValidationErrors | undefined {
         return this.payload?.errors && !Array.isArray(this.payload.errors)
-            ? (this.payload.errors as LaravelValidationErrors)
+            ? (this.payload.errors as ValidationErrors)
             : undefined
     }
 }
@@ -106,8 +107,6 @@ export class ApiClient {
             throw this.createNetworkError(endpoint, "get")
         }
     }
-
-
 
     async post<Path extends ApiPathByMethod<"post">>(
         endpoint: Path,
@@ -175,11 +174,8 @@ export class ApiClient {
         }
     }
 
-    protected normalizeBaseUrl(baseUrl: string): string {
-        return baseUrl.replace(/\/+$/, "")
-    }
 
-    protected async postFormData(endpoint: string, formData: FormData): Promise<any> {
+    async postFormData(endpoint: string, formData: FormData): Promise<any> {
         const url = `${this.normalizeBaseUrl(this.baseUrl)}${endpoint}`
         const headers = new Headers(this.defaultOptions.headers as Record<string, string>)
         headers.set("Accept", "application/json")
@@ -194,6 +190,9 @@ export class ApiClient {
         }
 
         return data
+    }
+    protected normalizeBaseUrl(baseUrl: string): string {
+        return baseUrl.replace(/\/+$/, "")
     }
 
     private toFetchOptions<Path extends ApiPath, Method extends HttpMethod>(
@@ -248,13 +247,13 @@ export class ApiClient {
         return data as ApiResponse<Path, Method>
     }
 
-    private normalizeErrorPayload(error: unknown): LaravelErrorPayload | undefined {
+    private normalizeErrorPayload(error: unknown): ErrorPayload | undefined {
         if (!error || typeof error !== "object") {
             return undefined
         }
 
         if ("message" in error || "errors" in error) {
-            return error as LaravelErrorPayload
+            return error as ErrorPayload
         }
 
         return {

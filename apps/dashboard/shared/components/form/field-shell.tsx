@@ -14,7 +14,7 @@ export function FieldShell({
   children,
 }: FieldShellProps) {
   return (
-    <Field data-invalid={!!error || undefined}>
+    <Field dir="auto" data-invalid={!!error || undefined}>
       {label && (
         <FieldLabel>
           {label}

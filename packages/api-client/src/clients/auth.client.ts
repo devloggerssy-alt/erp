@@ -1,6 +1,5 @@
-import { authResource } from "@devloggers/api-contracts";
+import { authResource, type ApiRequestBody } from "@devloggers/api-contracts";
 import { ApiClient } from "../infra/client";
-import { ApiRequestBody } from "../infra/types";
 
 
 export class AuthClient {

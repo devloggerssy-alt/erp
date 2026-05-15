@@ -304,10 +304,16 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** List all units of measure */
-        get: operations["Units.findAll"];
+        /**
+         * List units of measure
+         * @description Returns a paginated, filterable list of units belonging to the authenticated tenant.
+         */
+        get: operations["Units.list"];
         put?: never;
-        /** Create a new unit of measure */
+        /**
+         * Create a unit of measure
+         * @description Creates a new unit. Name must be unique within the tenant.
+         */
         post: operations["Units.create"];
         delete?: never;
         options?: never;
@@ -322,14 +328,21 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** Get unit by ID */
-        get: operations["Units.findOne"];
+        /** Get a unit by ID */
+        get: operations["Units.show"];
         put?: never;
         post?: never;
-        delete?: never;
+        /**
+         * Delete a unit of measure
+         * @description Hard-deletes the unit. Will fail if the unit is referenced by active items or invoice lines.
+         */
+        delete: operations["Units.delete"];
         options?: never;
         head?: never;
-        /** Update a unit of measure */
+        /**
+         * Update a unit of measure
+         * @description Partial update — only provided fields are changed.
+         */
         patch: operations["Units.update"];
         trace?: never;
     };
@@ -1503,13 +1516,71 @@ export interface components {
             /** @example 6 */
             padding?: number;
         };
-        ListUnitsDto: {
-            /** @default  */
-            abbreviation: string;
-            /** @default false */
-            isActive: boolean;
-            /** @default  */
+        UnitResponseDto: {
+            /**
+             * @default
+             * @example 018e1234-abcd-7000-a001-000000000001
+             */
+            id: string;
+            /**
+             * @default
+             * @example Kilogram
+             */
             name: string;
+            /**
+             * @default
+             * @example kg
+             */
+            abbreviation: string;
+            /**
+             * @default true
+             * @example true
+             */
+            isActive: boolean;
+            /**
+             * @default
+             * @example 2025-01-01T00:00:00.000Z
+             */
+            createdAt: string;
+            /**
+             * @default
+             * @example 2025-01-01T00:00:00.000Z
+             */
+            updatedAt: string;
+        };
+        PaginationOptionsDto: {
+            /**
+             * @default 1
+             * @example 1
+             */
+            page: number;
+            /**
+             * @default 10
+             * @example 10
+             */
+            limit: number;
+        };
+        SortOptionsDto: {
+            /** @example createdAt */
+            field?: string;
+            /**
+             * @default asc
+             * @example asc
+             * @enum {string}
+             */
+            order: "asc" | "desc";
+        };
+        Object: Record<string, never>;
+        SearchOptionsDto: {
+            /** @example keyword */
+            value?: string;
+            /**
+             * @example [
+             *       "name",
+             *       "code"
+             *     ]
+             */
+            keys?: string[];
         };
         CreateUnitDto: {
             /**
@@ -1519,18 +1590,27 @@ export interface components {
              */
             name: string;
             /**
-             * @description Short abbreviation
+             * @description Short abbreviation used on documents
              * @default
              * @example kg
              */
             abbreviation: string;
         };
         UpdateUnitDto: {
-            /** @example Kilogram (Updated) */
+            /**
+             * @description Updated display name
+             * @example Kilogram (Updated)
+             */
             name?: string;
-            /** @example kg */
+            /**
+             * @description Updated abbreviation
+             * @example kg
+             */
             abbreviation?: string;
-            /** @example true */
+            /**
+             * @description Whether the unit is active
+             * @example true
+             */
             isActive?: boolean;
         };
         CreateItemCategoryDto: {
@@ -3643,23 +3723,29 @@ export interface operations {
             };
         };
     };
-    "Units.findAll": {
+    "Units.list": {
         parameters: {
-            query?: never;
+            query?: {
+                pagination?: components["schemas"]["PaginationOptionsDto"];
+                sort?: components["schemas"]["SortOptionsDto"];
+                filters?: components["schemas"]["Object"];
+                include?: components["schemas"]["Object"];
+                search?: components["schemas"]["SearchOptionsDto"];
+            };
             header?: never;
             path?: never;
             cookie?: never;
         };
         requestBody?: never;
         responses: {
-            /** @description List of units returned */
+            /** @description Paginated list of units */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
                     "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
-                        data?: components["schemas"]["ListUnitsDto"];
+                        data?: components["schemas"]["UnitResponseDto"][];
                     };
                 };
             };
@@ -3723,13 +3809,15 @@ export interface operations {
             };
         };
         responses: {
-            /** @description Unit created */
+            /** @description Unit created successfully */
             201: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["UnitResponseDto"];
+                    };
                 };
             };
             /** @description JWT token is missing, expired, or invalid */
@@ -3779,25 +3867,94 @@ export interface operations {
             };
         };
     };
-    "Units.findOne": {
+    "Units.show": {
         parameters: {
             query?: never;
             header?: never;
             path: {
+                /** @description Unit UUID */
                 id: string;
             };
             cookie?: never;
         };
         requestBody?: never;
         responses: {
-            /** @description Unit details returned */
+            /** @description Unit details */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["UnitResponseDto"];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
                     "application/json": unknown;
                 };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "Units.delete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Unit UUID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Unit deleted successfully */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
             /** @description JWT token is missing, expired, or invalid */
             401: {
@@ -3851,6 +4008,7 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
+                /** @description Unit UUID */
                 id: string;
             };
             cookie?: never;
@@ -3861,13 +4019,15 @@ export interface operations {
             };
         };
         responses: {
-            /** @description Unit updated */
+            /** @description Updated unit */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["UnitResponseDto"];
+                    };
                 };
             };
             /** @description JWT token is missing, expired, or invalid */

@@ -7,10 +7,6 @@ export const inventoryResource = defineResource({
     balances: '/inventory/balances',
     openingBalances: '/inventory/opening-balances',
   },
-
-  paths: {
-    root: 'inventory',
-    balances: 'balances',
-    openingBalances: 'opening-balances',
-  },
 })
+
+

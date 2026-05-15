@@ -27,7 +27,7 @@ export type DataViewSlots = {
 }
 
 export type DataViewProps<TData> = {
-    columns: ColumnDef<TData, any>[]
+    columns: ColumnDef<TData, unknown>[]
     data: TData[]
     pagination: DataViewPaginationState
     sorting?: DataViewSorting

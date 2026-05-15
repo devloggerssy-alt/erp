@@ -1,15 +1,16 @@
 "use client"
 
 import React from "react"
+import type { CrudCollectionClient } from "@devloggers/api-client"
 import { useResource } from "./use-resource"
-import type { ResourceClient, ResourceRender, UseResourceOptions } from "./types"
+import type { ResourceRender, UseResourceOptions } from "./types"
 
-export type ResourceProps<TClient extends ResourceClient> = UseResourceOptions<TClient> & {
+export type ResourceProps<TClient extends CrudCollectionClient> = UseResourceOptions<TClient> & {
     children?: ResourceRender<TClient>
     render?: ResourceRender<TClient>
 }
 
-export function Resource<TClient extends ResourceClient>({
+export function Resource<TClient extends CrudCollectionClient>({
     children,
     render,
     ...options

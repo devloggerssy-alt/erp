@@ -6,8 +6,6 @@ export const auditResource = defineResource({
   routes: {
     list: '/audit-logs',
   },
-
-  paths: {
-    root: 'audit-logs',
-  },
 })
+
+

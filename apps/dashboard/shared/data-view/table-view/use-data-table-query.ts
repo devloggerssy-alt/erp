@@ -2,22 +2,22 @@
 
 import { useQueryStates } from "nuqs"
 import { useQuery, useQueryClient, type UseQueryOptions } from "@tanstack/react-query"
+import {
+    listCrudData,
+    type CrudListClient,
+    type CrudListDataResponse,
+} from "@devloggers/api-client"
 import type { DataViewChangeEvent, DataViewPaginationState, DataViewSorting } from "./types"
 import { dataViewSearchParams } from "./search-params"
-import { type CrudListResponse } from "@devloggers/api-client"
 
-type DataViewClient = {
-    list(query?: any): Promise<any>
-}
-
-export type UseDataViewQueryOptions<C extends DataViewClient> = {
+export type UseDataViewQueryOptions<C extends CrudListClient> = {
     queryKey: string[]
     client: C
-    queryOptions?: Omit<UseQueryOptions<CrudListResponse<C>>, "queryKey" | "queryFn">
+    queryOptions?: Omit<UseQueryOptions<CrudListDataResponse<C>>, "queryKey" | "queryFn">
     extraParams?: Record<string, unknown>
 }
 
-export function useDataViewQuery<C extends DataViewClient>({
+export function useDataViewQuery<C extends CrudListClient>({
     queryKey,
     client,
     queryOptions,
@@ -25,27 +25,29 @@ export function useDataViewQuery<C extends DataViewClient>({
 }: UseDataViewQueryOptions<C>) {
     const [params, setParams] = useQueryStates(dataViewSearchParams)
     const resolvedQueryKey = [...queryKey, params, ...(extraParams ? [extraParams] : [])]
-    const query = useQuery<CrudListResponse<C>>({
+    const query = useQuery<CrudListDataResponse<C>>({
         queryKey: resolvedQueryKey,
         queryFn: () => {
             const apiParams: Record<string, unknown> = {
                 page: params.page,
-                per_page: params.per_page,
+                limit: params.limit,
                 ...extraParams,
             }
             if (params.sort_by) apiParams.sort_by = params.sort_by
             if (params.sort_order) apiParams.sort_order = params.sort_order
 
-            return client.list(apiParams) as Promise<CrudListResponse<C>>
+            return listCrudData(client, apiParams)
         },
         ...queryOptions,
     })
 
+    const meta = query.data?.meta as { last_page?: number; total?: number } | undefined
+
     const pagination: DataViewPaginationState = {
         page: params.page,
-        pageSize: params.per_page,
-        pageCount: (query.data as any)?.meta?.last_page ?? 1,
-        total: (query.data as any)?.meta?.total ?? 0,
+        pageSize: params.limit,
+        pageCount: meta?.last_page ?? 1,
+        total: meta?.total ?? 0,
     }
 
     const sorting: DataViewSorting = params.sort_by
@@ -57,7 +59,7 @@ export function useDataViewQuery<C extends DataViewClient>({
             case "pagination":
                 setParams({
                     page: event.pagination.page,
-                    per_page: event.pagination.pageSize,
+                    limit: event.pagination.pageSize,
                 })
                 break
             case "sorting": {

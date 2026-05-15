@@ -6,11 +6,9 @@ export const fiscalPeriodResource = defineResource({
   routes: {
     list: '/fiscal-periods',
     create: '/fiscal-periods',
-    update: '/fiscal-periods/:id',
-  },
-
-  paths: {
-    root: 'fiscal-periods',
-    byId: ':id',
+    update: '/fiscal-periods/{id}',
   },
 })
+
+
+

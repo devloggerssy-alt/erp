@@ -1,102 +1,94 @@
+import type {
+  CrudResource,
+  ApiRequestBody,
+  ApiQueryParams,
+  ApiPathByMethod,
+  ApiResponse,
+} from "@devloggers/api-contracts"
 import { ApiClient } from "./client"
-import type { ApiPathByMethod, ApiQueryParams, ApiRequestBody, ApiResponse } from "./types"
 
+/**
+ * Generic CRUD client — resource-driven, strongly typed.
+ *
+ * All request/response types are inferred from the resource's route paths
+ * via the generated OpenAPI types. No manual type definitions needed.
+ *
+ * @example
+ * ```ts
+ * class UnitsClient extends CrudClient<typeof unitResource> {
+ *   constructor(api: ApiClient) { super(api, unitResource) }
+ * }
+ * // list() return type, create() body type, etc. — all inferred automatically
+ * ```
+ */
+export class CrudClient<R extends CrudResource> {
+  constructor(
+    protected apiClient: ApiClient,
+    protected resource: R,
+  ) {
+    this.key = resource.key
+  }
 
-type ResourceRouteToApiPath<Route extends string> =
-    Route extends `${infer Start}:${infer Param}/${infer Rest}`
-    ? `${Start}{${Param}}/${ResourceRouteToApiPath<Rest>}`
-    : Route extends `${infer Start}:${infer Param}`
-    ? `${Start}{${Param}}`
-    : Route
+  key: string;
 
-type EnsureSupportedRoute<Route extends string, ApiRoute> = [ApiRoute] extends [never] ? never : Route
+  list(query?: ApiQueryParams<R["routes"]["list"], "get">): Promise<ApiResponse<R["routes"]["list"], "get">> {
+    const route = this.resource.routes.list as ApiPathByMethod<"get">
+    return this.apiClient.get(route, query ? { query } as never : undefined) as any
+  }
 
-type CrudIndexApiPath<Route extends string> = ResourceRouteToApiPath<Route> & ApiPathByMethod<"get"> & ApiPathByMethod<"post">
-type CrudShowApiPath<Route extends string> = ResourceRouteToApiPath<Route> & ApiPathByMethod<"get">
+  show(id: string): Promise<ApiResponse<R["routes"]["show"], "get">> {
+    const route = this.resource.routes.show as ApiPathByMethod<"get">
+    return this.apiClient.get(route, { params: { id } } as never) as any
+  }
 
-export type CrudUpdateMethod = "put" | "patch"
-type CrudUpdateApiPath<Route extends string, Method extends CrudUpdateMethod> = ResourceRouteToApiPath<Route> & ApiPathByMethod<Method>
-type CrudDeleteApiPath<Route extends string> = ResourceRouteToApiPath<Route> & ApiPathByMethod<"delete">
+  create(body: ApiRequestBody<R["routes"]["create"], "post">): Promise<ApiResponse<R["routes"]["create"], "post">> {
+    const route = this.resource.routes.create as ApiPathByMethod<"post">
+    return this.apiClient.post(route, body as never) as any
+  }
 
-export abstract class CrudClient<
-    IndexRoute extends string,
-    ByIdRoute extends string,
-    UpdateMethod extends CrudUpdateMethod = "patch",
-> {
-    private readonly updateMethod: UpdateMethod
-    private readonly deleteEnabled: boolean
+  update(id: string, body: ApiRequestBody<R["routes"]["update"], "patch">): Promise<ApiResponse<R["routes"]["update"], "patch">> {
+    const route = this.resource.routes.update as ApiPathByMethod<"patch">
+    return this.apiClient.patch(route, body as never, { params: { id } } as never) as any
+  }
 
-    constructor(
-        protected apiClient: ApiClient,
-        public indexRoute: EnsureSupportedRoute<IndexRoute, CrudIndexApiPath<IndexRoute>>,
-        public byIdRoute: EnsureSupportedRoute<ByIdRoute, CrudShowApiPath<ByIdRoute> & CrudUpdateApiPath<ByIdRoute, UpdateMethod>>,
-        options: {
-            updateMethod?: UpdateMethod
-            enableDelete?: boolean
-        } = {},
-    ) {
-        this.updateMethod = options.updateMethod ?? ("patch" as UpdateMethod)
-        this.deleteEnabled = options.enableDelete ?? false
-    }
-
-    async list(query?: ApiQueryParams<CrudIndexApiPath<IndexRoute>, "get">) {
-        return this.apiClient.get(this.indexApiPath, query ? { query } as never : undefined)
-    }
-
-    async show(id: string) {
-        return this.apiClient.get(this.showApiPath, { params: { id } } as never)
-    }
-
-    async create(payload: ApiRequestBody<CrudIndexApiPath<IndexRoute>, "post">) {
-        return this.apiClient.post(this.indexApiPath, payload as never)
-    }
-
-    async update(id: string, payload: ApiRequestBody<CrudUpdateApiPath<ByIdRoute, UpdateMethod>, UpdateMethod>) {
-        return this.apiClient.request(this.updateApiPath, this.updateMethod, {
-            params: { id },
-            body: payload,
-        } as never)
-    }
-
-    async destroy(id: string) {
-      
-
-        return this.apiClient.delete(this.deleteApiPath, { params: { id } } as never)
-    }
-
-    private get indexApiPath(): CrudIndexApiPath<IndexRoute> {
-        return this.indexRoute.replace(/:([^/]+)/g, '{$1}') as CrudIndexApiPath<IndexRoute>
-    }
-
-    private get showApiPath(): CrudShowApiPath<ByIdRoute> {
-        return this.byIdRoute.replace(/:([^/]+)/g, '{$1}') as CrudShowApiPath<ByIdRoute>
-    }
-
-    private get updateApiPath(): CrudUpdateApiPath<ByIdRoute, UpdateMethod> {
-        return this.byIdRoute.replace(/:([^/]+)/g, '{$1}') as CrudUpdateApiPath<ByIdRoute, UpdateMethod>
-    }
-
-    private get deleteApiPath(): CrudDeleteApiPath<ByIdRoute> {
-        return this.byIdRoute.replace(/:([^/]+)/g, '{$1}') as CrudDeleteApiPath<ByIdRoute>
-    }
+  destroy(id: string): Promise<ApiResponse<R["routes"]["delete"], "delete">> {
+    const route = this.resource.routes.delete as ApiPathByMethod<"delete">
+    return this.apiClient.delete(route, { params: { id } } as never) as any
+  }
 }
 
-export type BaseCrudItem = { id: number }
+// ── Structural contracts — what resource components actually need ──
 
-/** Extract the list (GET index) response type from a CrudClient subclass. */
-export type CrudListResponse<C> = C extends CrudClient<infer IR, infer _BR, infer _UM>
-    ? ApiResponse<CrudIndexApiPath<IR>, "get">
-    : never
+/** A client that can list resources (used by table/query hooks). */
+export type CrudListClient<R extends CrudResource = CrudResource> = Pick<CrudClient<R>, "list">
 
-/** Extract the show (GET by-id) response type from a CrudClient subclass. */
-export type CrudShowResponse<C> = C extends CrudClient<infer _IR, infer BR, infer _UM>
-    ? ApiResponse<CrudShowApiPath<BR>, "get">
-    : never
+/** A client that can list and delete resources (used by resource page components). */
+export type CrudCollectionClient<R extends CrudResource = CrudResource> = Pick<CrudClient<R>, "list" | "destroy"|'key'>
 
-/** Extract a single item type from the `data` array of a CrudClient list response. */
-export type CrudListItem<C> = CrudListResponse<C> extends { data?: (infer Item)[] } ? Item : never
+// ── Response inference — derived from the client type, no manual definitions ──
 
-/** Extract the query-parameter type accepted by a CrudClient's `list()` method. */
-export type CrudListParams<C> = C extends CrudClient<infer IR, infer _BR, infer _UM>
-    ? ApiQueryParams<CrudIndexApiPath<IR>, "get">
-    : never
+export type BaseCrudItem = { id: string }
+
+/** The resolved response type of a client's list() method. */
+export type CrudListResponse<T extends CrudListClient> = Awaited<ReturnType<T["list"]>>
+
+/** A single item from the list response's data array. */
+export type CrudListItem<T extends CrudListClient> =
+  CrudListResponse<T> extends { data?: ReadonlyArray<infer I> } ? I : never
+
+/** A list item guaranteed to have an id (as required by the resource layer). */
+export type CrudListDataItem<T extends CrudListClient> = CrudListItem<T> & BaseCrudItem
+
+/** The list response narrowed to the standard CRUD envelope used by the dashboard. */
+export type CrudListDataResponse<T extends CrudListClient> = CrudListResponse<T> & {
+  data?: ReadonlyArray<CrudListDataItem<T>>
+  meta?: unknown
+}
+
+/** Call client.list() with a plain query object, returning the narrowed response type. */
+export function listCrudData<T extends CrudListClient>(
+  client: T,
+  query: Record<string, unknown> = {},
+): Promise<CrudListDataResponse<T>> {
+  return client.list(query as unknown as Parameters<T["list"]>[0]) as Promise<CrudListDataResponse<T>>
+}

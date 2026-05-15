@@ -61,16 +61,22 @@ export default function FormDialog(props: {
     children: (resourceId: string | null) => React.ReactNode
     title: string
     paramKey?: string
+    onClose?: () => void
 }) {
     const { isOpen, resourceId, open, close } = useFormDialog(props.paramKey)
 
     return (
         <>
-            <Button size='lg'   onClick={() => open()}>
+            <Button size='lg' onClick={() => open()}>
                 <Plus />
                 {props.title}
             </Button>
-            <Dialog open={isOpen} onOpenChange={(v) => { if (!v) close() }}>
+            <Dialog open={isOpen} onOpenChange={(v) => {
+                if (!v) {
+                    close();
+                    props.onClose?.()
+                }
+            }}>
                 <DialogContent className='min-w-xl'>
                     <DialogHeader>
                         <DialogTitle className='text-2xl font-bold'>
