@@ -18,6 +18,8 @@ import type { useAuthApi } from "@/shared/useApi"
 
 type ApiInstance = ReturnType<typeof useAuthApi>
 
+// ── Core Types ──
+
 export type ResourceItem<TClient extends CrudCollectionClient> = CrudListDataItem<TClient>
 
 export type UseResourceOptions<TClient extends CrudCollectionClient> = {
@@ -73,3 +75,9 @@ export type ResourceFormProps<TClient extends CrudCollectionClient> = {
     initialData: ResourceItem<TClient> | null
     onSuccess: () => void
 }
+
+// ── Alias ──
+export type ResourceContextValue<TClient extends CrudCollectionClient> = ResourceContext<TClient>
+
+// ── Provider Config Alias ──
+export type ResourceProviderConfig<TClient extends CrudCollectionClient> = UseResourceOptions<TClient>

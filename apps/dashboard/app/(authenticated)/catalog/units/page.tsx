@@ -1,9 +1,4 @@
-import { UnitsView } from "@/modules/units"
-
-export default function UnitsPage() {
-
-    return (
-        <UnitsView />
-    )
+import { UnitsPage } from "@/modules/units"
+export default function Page() {
+    return <UnitsPage />
 }
-
