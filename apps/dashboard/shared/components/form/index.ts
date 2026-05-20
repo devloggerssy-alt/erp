@@ -21,6 +21,10 @@ export {
   AsyncSelectField, type AsyncSelectFieldProps,
   AsyncMultiSelectField, type AsyncMultiSelectFieldProps,
 } from "./controls/async-select-field"
+export {
+  ResourceSelectField, type ResourceSelectFieldProps,
+  ResourceMultiSelectField, type ResourceMultiSelectFieldProps,
+} from "./controls/resource-select-field"
 export { FileInputField, type FileInputFieldProps } from "./controls/file-input-field"
 export { ImageInputField, type ImageInputFieldProps } from "./controls/image-input-field"
 export { DocumentInputField, type DocumentInputFieldProps } from "./controls/document-input-field"
@@ -34,4 +38,6 @@ export { RhfFileField } from "./fields/rhf-file-field"
 export { RhfImageField } from "./fields/rhf-image-field"
 export { RhfDocumentField } from "./fields/rhf-document-field"
 export { RhfAsyncSelectField, RhfAsyncMultiSelectField, type InlineCreateFormProps, type InlineCreateConfig } from "./fields/rhf-async-select-field"
+export { RhfResourceSelect, RhfResourceMultiSelect } from "./fields/rhf-resource-select"
+export type { RhfResourceSelectProps, RhfResourceMultiSelectProps } from "./fields/rhf-resource-select"
 export { SimpleTitleForm, type SimpleTitleFormProps } from "./fields/simple-title-form"

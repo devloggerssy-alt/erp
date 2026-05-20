@@ -1,0 +1,373 @@
+"use client"
+
+import { useState, useCallback } from "react"
+import { useInfiniteQuery, type InfiniteData } from "@tanstack/react-query"
+import type { CrudCollectionClient } from "@devloggers/api-client"
+import { useAuthApi } from "@/shared/useApi"
+import type { ResourceItem } from "@/shared/data-view/resource"
+import {
+  Combobox,
+  ComboboxInput,
+  ComboboxContent,
+  ComboboxList,
+  ComboboxItem,
+  ComboboxEmpty,
+} from "@/shared/components/ui/combobox"
+import { Loader2 } from "lucide-react"
+
+type ApiInstance = ReturnType<typeof useAuthApi>
+
+// ── Shared base props ──
+
+type BaseResourceSelectFieldProps<
+  TClient extends CrudCollectionClient = CrudCollectionClient,
+  TValue = string,
+> = {
+  /** CrudCollectionClient instance or factory function */
+  client: TClient | ((api: ApiInstance) => TClient)
+  /** Extract display label from an API item */
+  getLabel: (item: ResourceItem<TClient>) => string
+  /**
+   * Extract the value to store in the form field.
+   * Defaults to `(item) => item.id`.
+   * Pass `(item) => item` to store the full object.
+   */
+  getValue?: (item: ResourceItem<TClient>) => TValue
+  /** Extract a unique primitive key for combobox selection tracking (defaults to `String(item.id)`) */
+  getId?: (item: ResourceItem<TClient>) => string
+  /** Custom TanStack Query key prefix (defaults to `[client.key, "select"]`) */
+  queryKey?: string[]
+  /** Cache duration in ms (defaults to 5 minutes) */
+  staleTime?: number
+  /** Query parameter name for text search (defaults to `"search"`) */
+  searchParam?: string
+  /** Items per page (defaults to 20) */
+  pageSize?: number
+  /** If `true` (default), fetching is deferred until the dropdown opens */
+  lazy?: boolean
+  /** Placeholder text */
+  placeholder?: string
+  /** Disabled state */
+  disabled?: boolean
+  /** Invalid state (shows error styling) */
+  invalid?: boolean
+}
+
+// ── Single Select ──
+
+export type ResourceSelectFieldProps<
+  TClient extends CrudCollectionClient = CrudCollectionClient,
+  TValue = string,
+> = BaseResourceSelectFieldProps<TClient, TValue> & {
+  value?: TValue | null
+  onChange?: (value: TValue | null) => void
+  onBlur?: () => void
+}
+
+export function ResourceSelectField<
+  TClient extends CrudCollectionClient = CrudCollectionClient,
+  TValue = string,
+>({
+  value,
+  onChange,
+  onBlur,
+  disabled,
+  invalid,
+  placeholder = "Search...",
+  client,
+  getLabel,
+  getValue = (item: any) => String(item.id) as unknown as TValue,
+  getId = (item: any) => String(item.id),
+  queryKey,
+  staleTime = 5 * 60 * 1000,
+  searchParam = "search",
+  pageSize = 20,
+  lazy = true,
+}: ResourceSelectFieldProps<TClient, TValue>) {
+  const [isOpen, setIsOpen] = useState(false)
+  const [search, setSearch] = useState("")
+
+  const api = useAuthApi()
+  const resolvedClient = typeof client === "function" ? client(api) : client
+  const resolvedQueryKey = queryKey ?? [resolvedClient.key, "select"]
+
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading,
+  } = useInfiniteQuery<unknown, Error, InfiniteData<unknown>, string[], number>({
+    queryKey: [...resolvedQueryKey, search],
+    queryFn: async ({ pageParam = 1 }) => {
+      const response = await resolvedClient.list({
+        page: pageParam,
+        limit: pageSize,
+        ...(search ? { [searchParam]: search } : {}),
+      } as any)
+      return response
+    },
+    getNextPageParam: (lastPage: any, allPages: any[]) => {
+      const meta = lastPage?.meta as { last_page?: number } | undefined
+      const currentPage = allPages.length
+      if (meta?.last_page && currentPage >= meta.last_page) {
+        return undefined
+      }
+      return currentPage + 1
+    },
+    initialPageParam: 1,
+    enabled: !lazy || isOpen,
+    staleTime,
+  })
+
+  const items = data?.pages.flatMap((page: any) => Array.from(page?.data ?? [])) ?? []
+
+  const options = items.map((item: any) => ({
+    id: getId(item as ResourceItem<TClient>),
+    label: getLabel(item as ResourceItem<TClient>),
+    value: getValue(item as ResourceItem<TClient>),
+    raw: item,
+  }))
+
+  // Build a lookup map from combobox id -> stored value for fast selection resolution
+  const idToValueMap = new Map<string, TValue>()
+  const idToItemMap = new Map<string, ResourceItem<TClient>>()
+  options.forEach((opt) => {
+    idToValueMap.set(opt.id, opt.value)
+    idToItemMap.set(opt.id, opt.raw as ResourceItem<TClient>)
+  })
+
+  // Reverse-lookup: find the combobox id that corresponds to the current form value
+  const selectedId = value !== null && value !== undefined
+    ? options.find((opt) => opt.value === value)?.id ?? null
+    : null
+
+  const handleScroll = useCallback(
+    (e: React.UIEvent<HTMLDivElement>) => {
+      const target = e.currentTarget
+      if (target.scrollTop + target.clientHeight >= target.scrollHeight - 50) {
+        if (hasNextPage && !isFetchingNextPage) {
+          fetchNextPage()
+        }
+      }
+    },
+    [hasNextPage, isFetchingNextPage, fetchNextPage],
+  )
+
+  const handleValueChange = (id: string | null) => {
+    if (id === null) {
+      onChange?.(null)
+    } else {
+      const storedValue = idToValueMap.get(id)
+      if (storedValue !== undefined) {
+        onChange?.(storedValue)
+      }
+    }
+  }
+
+  const handleInputValueChange = (val: string, event: { reason: string }) => {
+    if (event.reason === "input-change") {
+      setSearch(val)
+    }
+  }
+
+  return (
+    <Combobox
+      open={isOpen}
+      onOpenChange={(open) => {
+        setIsOpen(open)
+        if (!open) setSearch("")
+      }}
+      value={selectedId}
+      onValueChange={(val) => handleValueChange(val as string | null)}
+      disabled={disabled}
+      onInputValueChange={handleInputValueChange as any}
+    >
+      <ComboboxInput
+        placeholder={placeholder}
+        showClear={selectedId !== null}
+        onBlur={onBlur}
+        aria-invalid={invalid || undefined}
+      />
+      <ComboboxContent>
+        <ComboboxList onScroll={handleScroll as any}>
+          {isLoading && (
+            <div className="flex items-center justify-center py-4">
+              <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+            </div>
+          )}
+          {!isLoading &&
+            options.map((opt) => (
+              <ComboboxItem key={opt.id} value={opt.id}>
+                {opt.label}
+              </ComboboxItem>
+            ))}
+          {!isLoading && options.length === 0 && (
+            <ComboboxEmpty>No results found</ComboboxEmpty>
+          )}
+          {isFetchingNextPage && (
+            <div className="flex items-center justify-center py-2">
+              <Loader2 className="h-3 w-3 animate-spin text-muted-foreground" />
+            </div>
+          )}
+        </ComboboxList>
+      </ComboboxContent>
+    </Combobox>
+  )
+}
+
+// ── Multi Select ──
+
+export type ResourceMultiSelectFieldProps<
+  TClient extends CrudCollectionClient = CrudCollectionClient,
+  TValue = string,
+> = BaseResourceSelectFieldProps<TClient, TValue> & {
+  value?: TValue[]
+  onChange?: (value: TValue[]) => void
+  onBlur?: () => void
+}
+
+export function ResourceMultiSelectField<
+  TClient extends CrudCollectionClient = CrudCollectionClient,
+  TValue = string,
+>({
+  value,
+  onChange,
+  onBlur,
+  disabled,
+  invalid,
+  placeholder = "Search...",
+  client,
+  getLabel,
+  getValue = (item: any) => String(item.id) as unknown as TValue,
+  getId = (item: any) => String(item.id),
+  queryKey,
+  staleTime = 5 * 60 * 1000,
+  searchParam = "search",
+  pageSize = 20,
+  lazy = true,
+}: ResourceMultiSelectFieldProps<TClient, TValue>) {
+  const [isOpen, setIsOpen] = useState(false)
+  const [search, setSearch] = useState("")
+
+  const api = useAuthApi()
+  const resolvedClient = typeof client === "function" ? client(api) : client
+  const resolvedQueryKey = queryKey ?? [resolvedClient.key, "multi-select"]
+
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading,
+  } = useInfiniteQuery<unknown, Error, InfiniteData<unknown>, string[], number>({
+    queryKey: [...resolvedQueryKey, search],
+    queryFn: async ({ pageParam = 1 }) => {
+      const response = await resolvedClient.list({
+        page: pageParam,
+        limit: pageSize,
+        ...(search ? { [searchParam]: search } : {}),
+      } as any)
+      return response
+    },
+    getNextPageParam: (lastPage: any, allPages: any[]) => {
+      const meta = lastPage?.meta as { last_page?: number } | undefined
+      const currentPage = allPages.length
+      if (meta?.last_page && currentPage >= meta.last_page) {
+        return undefined
+      }
+      return currentPage + 1
+    },
+    initialPageParam: 1,
+    enabled: !lazy || isOpen,
+    staleTime,
+  })
+
+  const items = data?.pages.flatMap((page: any) => Array.from(page?.data ?? [])) ?? []
+
+  const options = items.map((item: any) => ({
+    id: getId(item as ResourceItem<TClient>),
+    label: getLabel(item as ResourceItem<TClient>),
+    value: getValue(item as ResourceItem<TClient>),
+    raw: item,
+  }))
+
+  // Build lookup maps
+  const idToValueMap = new Map<string, TValue>()
+  options.forEach((opt) => idToValueMap.set(opt.id, opt.value))
+
+  // Reverse-lookup: find combobox ids for current form values
+  const selectedIds = (value ?? [])
+    .map((v) => options.find((opt) => opt.value === v)?.id)
+    .filter((id): id is string => id !== undefined)
+
+  const handleScroll = useCallback(
+    (e: React.UIEvent<HTMLDivElement>) => {
+      const target = e.currentTarget
+      if (target.scrollTop + target.clientHeight >= target.scrollHeight - 50) {
+        if (hasNextPage && !isFetchingNextPage) {
+          fetchNextPage()
+        }
+      }
+    },
+    [hasNextPage, isFetchingNextPage, fetchNextPage],
+  )
+
+  const handleValueChange = (ids: string[]) => {
+    const storedValues = ids
+      .map((id) => idToValueMap.get(id))
+      .filter((v): v is TValue => v !== undefined)
+    onChange?.(storedValues)
+  }
+
+  const handleInputValueChange = (val: string, event: { reason: string }) => {
+    if (event.reason === "input-change") {
+      setSearch(val)
+    }
+  }
+
+  return (
+    <Combobox
+      multiple
+      open={isOpen}
+      onOpenChange={(open) => {
+        setIsOpen(open)
+        if (!open) setSearch("")
+      }}
+      value={selectedIds}
+      onValueChange={(val) => handleValueChange(val as string[])}
+      disabled={disabled}
+      onInputValueChange={handleInputValueChange as any}
+    >
+      <ComboboxInput
+        placeholder={placeholder}
+        showClear={selectedIds.length > 0}
+        onBlur={onBlur}
+        aria-invalid={invalid || undefined}
+      />
+      <ComboboxContent>
+        <ComboboxList onScroll={handleScroll as any}>
+          {isLoading && (
+            <div className="flex items-center justify-center py-4">
+              <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+            </div>
+          )}
+          {!isLoading &&
+            options.map((opt) => (
+              <ComboboxItem key={opt.id} value={opt.id}>
+                {opt.label}
+              </ComboboxItem>
+            ))}
+          {!isLoading && options.length === 0 && (
+            <ComboboxEmpty>No results found</ComboboxEmpty>
+          )}
+          {isFetchingNextPage && (
+            <div className="flex items-center justify-center py-2">
+              <Loader2 className="h-3 w-3 animate-spin text-muted-foreground" />
+            </div>
+          )}
+        </ComboboxList>
+      </ComboboxContent>
+    </Combobox>
+  )
+}
