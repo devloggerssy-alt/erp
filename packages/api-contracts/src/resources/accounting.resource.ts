@@ -1,10 +1,7 @@
 import { defineResource } from "./base/resource";
 
- 
- 
 export const accountingResource = defineResource({
   key: 'accounting',
-
   routes: {
     chartOfAccounts: '/accounting/chart-of-accounts',
     createAccount: '/accounting/chart-of-accounts',

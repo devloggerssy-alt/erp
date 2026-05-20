@@ -8,7 +8,7 @@ export const partyResource = defineResource({
     create: '/parties',
     details: '/parties/{id}',
     update: '/parties/{id}',
-    status: '/parties/{id}/status',
+    // status: '/parties/{id}/status',
   },
 })
 

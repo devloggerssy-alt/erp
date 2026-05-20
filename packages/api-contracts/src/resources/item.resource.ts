@@ -8,7 +8,7 @@ export const itemResource = defineResource({
     create: '/items',
     details: '/items/{id}',
     update: '/items/{id}',
-    status: '/items/{id}/status',
+    // status: '/items/{id}/status',
   },
 })
 
