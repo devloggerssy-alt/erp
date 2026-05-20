@@ -1,9 +1,7 @@
-import { itemCategoryResource } from "@devloggers/api-contracts"
 import { AuthClient } from "./clients/auth.client"
 import { UnitsClient } from "./clients/units.client"
 import { ApiClient, type ApiClientOptions } from "./infra/client"
 import { CategoriesClient } from "./clients/categories.client"
-
 
 export function createApi(options?: ApiClientOptions, baseUrl = 'http://localhost:4040') {
     const client = new ApiClient(baseUrl, options)
@@ -11,7 +9,7 @@ export function createApi(options?: ApiClientOptions, baseUrl = 'http://localhos
         client,
         auth: new AuthClient(client),
         units: new UnitsClient(client),
-        categories: new CategoriesClient(client, itemCategoryResource),
+        categories: new CategoriesClient(client),
     }
 }
 
