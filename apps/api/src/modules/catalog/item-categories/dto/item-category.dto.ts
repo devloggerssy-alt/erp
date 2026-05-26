@@ -16,7 +16,7 @@ export class CreateItemCategoryDto {
     @ApiPropertyOptional({ example: '00000000-0000-4000-a700-000000000001', description: 'Parent category ID for nesting' })
     @IsOptional()
     @IsString()
-    parentId: string = '';
+    parentId?: string | null;
 
     @ApiPropertyOptional({ example: true })
     @IsOptional()

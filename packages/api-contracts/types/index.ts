@@ -1634,10 +1634,9 @@ export interface components {
             description: string;
             /**
              * @description Parent category ID for nesting
-             * @default
              * @example 00000000-0000-4000-a700-000000000001
              */
-            parentId: string;
+            parentId?: string | null;
             /**
              * @default true
              * @example true

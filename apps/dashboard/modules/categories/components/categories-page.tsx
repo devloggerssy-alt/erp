@@ -37,7 +37,7 @@ export function CategoriesPage() {
             routeKey="item-categories"
         >
             <ResourceLayout
-                title="Categories"
+                title="الفئات"
                 headerProps={{ actions: <CategoriesHeaderActions /> }}
             >
                 <ResourceTable<CategoriesClient> columns={createCategoriesColumns} />

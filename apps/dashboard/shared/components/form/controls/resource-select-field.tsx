@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useCallback } from "react"
+import { useState, useCallback, useEffect, useMemo } from "react"
 import { useInfiniteQuery, type InfiniteData } from "@tanstack/react-query"
 import type { CrudCollectionClient } from "@devloggers/api-client"
 import { useAuthApi } from "@/shared/useApi"
@@ -89,7 +89,7 @@ export function ResourceSelectField<
 
   const api = useAuthApi()
   const resolvedClient = typeof client === "function" ? client(api) : client
-  const resolvedQueryKey = queryKey ?? [resolvedClient.key, "select"]
+  const resolvedQueryKey = queryKey ?? [resolvedClient.key]
 
   const {
     data,
@@ -108,10 +108,16 @@ export function ResourceSelectField<
       return response
     },
     getNextPageParam: (lastPage: any, allPages: any[]) => {
-      const meta = lastPage?.meta as { last_page?: number } | undefined
+      const meta = lastPage?.meta as { last_page?: number; total?: number; per_page?: number } | undefined
       const currentPage = allPages.length
-      if (meta?.last_page && currentPage >= meta.last_page) {
-        return undefined
+      if (meta?.last_page) {
+        if (currentPage >= meta.last_page) return undefined
+      } else if (meta?.total !== undefined && meta?.per_page) {
+        const lastPage = Math.ceil(meta.total / meta.per_page)
+        if (currentPage >= lastPage) return undefined
+      } else {
+        const items = Array.from(lastPage?.data ?? [])
+        if (items.length < pageSize) return undefined
       }
       return currentPage + 1
     },
@@ -137,10 +143,28 @@ export function ResourceSelectField<
     idToItemMap.set(opt.id, opt.raw as ResourceItem<TClient>)
   })
 
-  // Reverse-lookup: find the combobox id that corresponds to the current form value
-  const selectedId = value !== null && value !== undefined
-    ? options.find((opt) => opt.value === value)?.id ?? null
-    : null
+  // Selected combobox id derived directly from the form value so it stays stable across option changes
+  const selectedId = useMemo(() => {
+    if (value === null || value === undefined) return null
+    if (typeof value === "object" && value !== null) {
+      return getId(value as any)
+    }
+    return String(value)
+  }, [value, getId])
+
+  const [inputValue, setInputValue] = useState("")
+
+  // Sync input display with selected item label when options change or value changes
+  useEffect(() => {
+    if (selectedId === null) {
+      setInputValue("")
+      return
+    }
+    const option = options.find((opt) => opt.id === selectedId)
+    if (option) {
+      setInputValue(option.label)
+    }
+  }, [selectedId, options])
 
   const handleScroll = useCallback(
     (e: React.UIEvent<HTMLDivElement>) => {
@@ -156,17 +180,23 @@ export function ResourceSelectField<
 
   const handleValueChange = (id: string | null) => {
     if (id === null) {
+      setInputValue("")
       onChange?.(null)
     } else {
       const storedValue = idToValueMap.get(id)
+      const option = options.find((opt) => opt.id === id)
       if (storedValue !== undefined) {
+        if (option) {
+          setInputValue(option.label)
+        }
         onChange?.(storedValue)
       }
     }
   }
 
-  const handleInputValueChange = (val: string, event: { reason: string }) => {
-    if (event.reason === "input-change") {
+  const handleInputValueChange = (val: string, eventDetails: { reason: string }) => {
+    setInputValue(val)
+    if (eventDetails.reason === "input-change") {
       setSearch(val)
     }
   }
@@ -176,18 +206,25 @@ export function ResourceSelectField<
       open={isOpen}
       onOpenChange={(open) => {
         setIsOpen(open)
-        if (!open) setSearch("")
+        if (open) {
+          setInputValue("")
+          setSearch("")
+        } else {
+          setSearch("")
+        }
       }}
       value={selectedId}
       onValueChange={(val) => handleValueChange(val as string | null)}
       disabled={disabled}
       onInputValueChange={handleInputValueChange as any}
+      filter={() => true}
     >
       <ComboboxInput
         placeholder={placeholder}
         showClear={selectedId !== null}
         onBlur={onBlur}
         aria-invalid={invalid || undefined}
+        value={inputValue}
       />
       <ComboboxContent>
         <ComboboxList onScroll={handleScroll as any}>
@@ -271,10 +308,16 @@ export function ResourceMultiSelectField<
       return response
     },
     getNextPageParam: (lastPage: any, allPages: any[]) => {
-      const meta = lastPage?.meta as { last_page?: number } | undefined
+      const meta = lastPage?.meta as { last_page?: number; total?: number; per_page?: number } | undefined
       const currentPage = allPages.length
-      if (meta?.last_page && currentPage >= meta.last_page) {
-        return undefined
+      if (meta?.last_page) {
+        if (currentPage >= meta.last_page) return undefined
+      } else if (meta?.total !== undefined && meta?.per_page) {
+        const lastPage = Math.ceil(meta.total / meta.per_page)
+        if (currentPage >= lastPage) return undefined
+      } else {
+        const items = Array.from(lastPage?.data ?? [])
+        if (items.length < pageSize) return undefined
       }
       return currentPage + 1
     },
@@ -296,10 +339,17 @@ export function ResourceMultiSelectField<
   const idToValueMap = new Map<string, TValue>()
   options.forEach((opt) => idToValueMap.set(opt.id, opt.value))
 
-  // Reverse-lookup: find combobox ids for current form values
-  const selectedIds = (value ?? [])
-    .map((v) => options.find((opt) => opt.value === v)?.id)
-    .filter((id): id is string => id !== undefined)
+  // Selected combobox ids derived directly from the form values so they stay stable across option changes
+  const selectedIds = useMemo(() => {
+    return (value ?? [])
+      .map((v) => {
+        if (typeof v === "object" && v !== null) {
+          return getId(v as any)
+        }
+        return String(v)
+      })
+      .filter((id): id is string => id !== undefined && id !== "")
+  }, [value, getId])
 
   const handleScroll = useCallback(
     (e: React.UIEvent<HTMLDivElement>) => {
@@ -320,8 +370,8 @@ export function ResourceMultiSelectField<
     onChange?.(storedValues)
   }
 
-  const handleInputValueChange = (val: string, event: { reason: string }) => {
-    if (event.reason === "input-change") {
+  const handleInputValueChange = (val: string, eventDetails: { reason: string }) => {
+    if (eventDetails.reason === "input-change") {
       setSearch(val)
     }
   }
@@ -338,6 +388,7 @@ export function ResourceMultiSelectField<
       onValueChange={(val) => handleValueChange(val as string[])}
       disabled={disabled}
       onInputValueChange={handleInputValueChange as any}
+      filter={() => true}
     >
       <ComboboxInput
         placeholder={placeholder}

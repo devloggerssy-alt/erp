@@ -29,7 +29,7 @@ function mapCreatePayload(values: CategoryFormValues) {
     return {
         name: values.name.trim(),
         description: values.description?.trim() ?? "",
-        parentId: values.parentId ?? "",
+        parentId: values.parentId ?? null,
         isActive: values.isActive ?? true,
     }
 }
@@ -118,6 +118,7 @@ export function CategoriesForm({ resourceId, initialData, onSuccess, paramKey }:
                     placeholder="Select parent category..."
                     client={(api) => api.categories}
                     getLabel={(item) => item.name}
+                    pageSize={20}
                     disabled={isBusy}
                 />
                 {isEditing && (
