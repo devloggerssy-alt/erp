@@ -22,7 +22,7 @@ export const DEFAULT_CATEGORY_FORM_VALUES: CategoryFormValues = {
     isActive: true,
 }
 
-export function mapCategoryToFormValues(data: CrudShowResponse<CategoriesClient>): CategoryFormValues {
+export function mapCategoryToFormValues(data: any): CategoryFormValues {
     const resolved = data?.data
     return {
         name: resolved?.name ?? "",
