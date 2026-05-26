@@ -4,7 +4,7 @@ import React from "react"
 import type { CrudCollectionClient } from "@devloggers/api-client"
 import DashboardPage from "@/infrastructure/components/layout/dashboard/dashboard-page"
 import type { DashboardHeaderProps } from "@/infrastructure/components/layout/dashboard"
-import { Resource } from "./resource"
+import { LegacyResource } from "./resource"
 import { ResourceTableView } from "./resource-table-view"
 import type {
     ResourceColumns,
@@ -57,7 +57,7 @@ export function ResourcePage<TClient extends CrudCollectionClient>({
     ...props
 }: ResourcePageProps<TClient>) {
     return (
-        <Resource<TClient>
+        <LegacyResource<TClient>
             routeKey={props.routeKey}
             getClient={props.getClient}
             queryOptions={props.queryOptions}
@@ -94,6 +94,6 @@ export function ResourcePage<TClient extends CrudCollectionClient>({
                     </DashboardPage>
                 )
             }}
-        </Resource>
+        </LegacyResource>
     )
 }

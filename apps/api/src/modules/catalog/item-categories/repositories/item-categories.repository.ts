@@ -1,10 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@devloggers/db-prisma/nest';
-import { CrudRepository } from '@devloggers/backend-core';
+import { CrudRepository, FindManyOptions, FindManyResult } from '@devloggers/backend-core';
 import type { ItemCategory } from '@devloggers/db-prisma';
 
+export type ItemCategoryWithParent = ItemCategory & {
+    parent: ItemCategory | null
+}
+
 @Injectable()
-export class ItemCategoriesRepository extends CrudRepository<ItemCategory> {
+export class ItemCategoriesRepository extends CrudRepository<ItemCategoryWithParent> {
     constructor(private readonly prisma: PrismaService) {
         super(prisma.itemCategory);
     }
@@ -19,4 +23,6 @@ export class ItemCategoriesRepository extends CrudRepository<ItemCategory> {
         });
         return count > 0;
     }
+
+  
 }

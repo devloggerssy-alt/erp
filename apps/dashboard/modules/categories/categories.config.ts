@@ -24,7 +24,8 @@ export function mapCategoryToFormValues(data: unknown): CategoryFormValues {
     return {
         name: resolved?.name ?? "",
         description: resolved?.description ?? "",
-        parentId: resolved?.parentId ?? null,
+        // parent: resolved?.parentId ?? null,
+        
         isActive: resolved?.isActive ?? true,
     }
 }
