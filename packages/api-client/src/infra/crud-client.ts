@@ -60,7 +60,7 @@ export class CrudClient<R extends CrudResource> {
 // ── Structural contracts — what resource components actually need ──
 
 /** A client that can list resources (used by table/query hooks). */
-export type CrudListClient<R extends CrudResource = CrudResource> = Pick<CrudClient<R>, "list">
+export type CrudListClient<R extends CrudResource = CrudResource> = Pick<CrudClient<R>, "list" | "show" | 'key'>
 
 /** A client that can list and delete resources (used by resource page components). */
 export type CrudCollectionClient<R extends CrudResource = CrudResource> = Pick<CrudClient<R>, "list" | "destroy"|'key'>
@@ -72,9 +72,12 @@ export type BaseCrudItem = { id: string }
 /** The resolved response type of a client's list() method. */
 export type CrudListResponse<T extends CrudListClient> = Awaited<ReturnType<T["list"]>>
 
+export type CrudShowResponse<T extends CrudListClient> = Awaited<ReturnType<T["show"]>>
+
 /** A single item from the list response's data array. */
 export type CrudListItem<T extends CrudListClient> =
   CrudListResponse<T> extends { data?: ReadonlyArray<infer I> } ? I : never
+
 
 /** A list item guaranteed to have an id (as required by the resource layer). */
 export type CrudListDataItem<T extends CrudListClient> = CrudListItem<T> & BaseCrudItem

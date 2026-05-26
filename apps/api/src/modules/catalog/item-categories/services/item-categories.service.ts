@@ -2,12 +2,11 @@ import { Injectable, ConflictException } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { CrudService } from '@devloggers/backend-core';
 import { resources } from '@devloggers/api-contracts';
-import type { ItemCategory } from '@devloggers/db-prisma';
-import { ItemCategoriesRepository } from '../repositories/item-categories.repository';
+import { ItemCategoriesRepository, ItemCategoryWithParent } from '../repositories/item-categories.repository';
 import { ItemCategoryPresenter } from '../presenters/item-category.presenter';
 import { CreateItemCategoryDto, UpdateItemCategoryDto, ItemCategoryResponseDto } from '../dto';
 @Injectable()
-export class ItemCategoriesService extends CrudService<ItemCategory, ItemCategoryResponseDto, CreateItemCategoryDto, UpdateItemCategoryDto> {
+export class ItemCategoriesService extends CrudService<ItemCategoryWithParent, ItemCategoryResponseDto, CreateItemCategoryDto, UpdateItemCategoryDto> {
     protected readonly resourceName = resources.itemCategories.key;
 
     constructor(

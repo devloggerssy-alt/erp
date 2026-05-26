@@ -17,10 +17,11 @@ import {
     mapCategoryToFormValues,
     type CategoryFormValues,
 } from "../categories.config"
+import { CategoriesClient, CrudShowResponse } from "@devloggers/api-client"
 
 export type CategoriesFormProps = {
     resourceId?: string | null
-    initialData?: unknown
+    initialData?: CrudShowResponse<CategoriesClient> | null
     onSuccess?: () => void
     paramKey?: string
 }
@@ -54,7 +55,7 @@ export function CategoriesForm({ resourceId, initialData, onSuccess, paramKey }:
     const api = useAuthApi()
     const { close } = useFormDialog(paramKey)
 
-    const { form, isEditing, isInitializing } = useResourceForm<CategoryFormValues, unknown>({
+    const { form, isEditing, isInitializing } = useResourceForm<CategoryFormValues, CrudShowResponse<CategoriesClient>>({
         schema: categoryFormSchema,
         defaultValues: DEFAULT_CATEGORY_FORM_VALUES,
         resourceId,
@@ -113,7 +114,7 @@ export function CategoriesForm({ resourceId, initialData, onSuccess, paramKey }:
                     disabled={isBusy}
                 />
                 <RhfResourceSelect
-                    name="parentId"
+                    name="parent"
                     label="Parent Category"
                     placeholder="Select parent category..."
                     client={(api) => api.categories}
@@ -136,6 +137,7 @@ export function CategoriesForm({ resourceId, initialData, onSuccess, paramKey }:
                         : (isEditing ? "Update Category" : "Create Category")}
                 </Button>
             </FieldGroup>
+
         </Rhform>
     )
 }
