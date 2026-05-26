@@ -2,7 +2,7 @@
 
 import { useFormContext, useController } from "react-hook-form"
 import type { FieldValues, FieldPath } from "react-hook-form"
-import type { CrudCollectionClient } from "@devloggers/api-client"
+import type { ICrudClient } from "@devloggers/api-client"
 import { FieldShell } from "../field-shell"
 import {
   ResourceSelectField,
@@ -13,12 +13,10 @@ import {
 
 type OmitControlProps<T> = Omit<T, "value" | "onChange" | "onBlur" | "disabled" | "invalid">
 
-// ── Single Select ──
-
 export type RhfResourceSelectProps<
   TValues extends FieldValues,
   TName extends FieldPath<TValues>,
-  TClient extends CrudCollectionClient = CrudCollectionClient,
+  TClient extends ICrudClient = ICrudClient,
   TValue = string,
 > = {
   name: TName
@@ -31,7 +29,7 @@ export type RhfResourceSelectProps<
 export function RhfResourceSelect<
   TValues extends FieldValues,
   TName extends FieldPath<TValues>,
-  TClient extends CrudCollectionClient = CrudCollectionClient,
+  TClient extends ICrudClient = ICrudClient,
   TValue = string,
 >(props: RhfResourceSelectProps<TValues, TName, TClient, TValue>) {
   const {
@@ -64,12 +62,10 @@ export function RhfResourceSelect<
   )
 }
 
-// ── Multi Select ──
-
 export type RhfResourceMultiSelectProps<
   TValues extends FieldValues,
   TName extends FieldPath<TValues>,
-  TClient extends CrudCollectionClient = CrudCollectionClient,
+  TClient extends ICrudClient = ICrudClient,
   TValue = string,
 > = {
   name: TName
@@ -82,7 +78,7 @@ export type RhfResourceMultiSelectProps<
 export function RhfResourceMultiSelect<
   TValues extends FieldValues,
   TName extends FieldPath<TValues>,
-  TClient extends CrudCollectionClient = CrudCollectionClient,
+  TClient extends ICrudClient = ICrudClient,
   TValue = string,
 >(props: RhfResourceMultiSelectProps<TValues, TName, TClient, TValue>) {
   const {

@@ -1,7 +1,7 @@
 "use client"
 
 import React from "react"
-import type { CrudCollectionClient } from "@devloggers/api-client"
+import type { ICrudClient } from "@devloggers/api-client"
 import DashboardPage from "@/infrastructure/components/layout/dashboard/dashboard-page"
 import type { DashboardHeaderProps } from "@/infrastructure/components/layout/dashboard"
 import { LegacyResource } from "./resource"
@@ -15,41 +15,41 @@ import type {
     UseResourceOptions,
 } from "./types"
 
-type ReactNodeOrRender<TClient extends CrudCollectionClient> = React.ReactNode | ResourceRender<TClient>
+type ReactNodeOrRender<TClient extends ICrudClient> = React.ReactNode | ResourceRender<TClient>
 
-type ResourcePageBaseProps<TClient extends CrudCollectionClient> = UseResourceOptions<TClient> & {
+type ResourcePageBaseProps<TClient extends ICrudClient> = UseResourceOptions<TClient> & {
     headerProps?: DashboardHeaderProps | ((resource: ResourceContext<TClient>) => DashboardHeaderProps)
     header?: ReactNodeOrRender<TClient> | null
     pageTitle?: string
     toolbar?: ReactNodeOrRender<TClient>
 }
 
-type ResourcePageTableProps<TClient extends CrudCollectionClient> = ResourcePageBaseProps<TClient> & {
+type ResourcePageTableProps<TClient extends ICrudClient> = ResourcePageBaseProps<TClient> & {
     columns: ResourceColumns<TClient>
     dataView?: ResourceDataViewComponent<ResourceItem<TClient>>
     onRowClick?: (row: ResourceItem<TClient>) => void
     renderView?: never
 }
 
-type ResourcePageCustomViewProps<TClient extends CrudCollectionClient> = ResourcePageBaseProps<TClient> & {
+type ResourcePageCustomViewProps<TClient extends ICrudClient> = ResourcePageBaseProps<TClient> & {
     renderView: ResourceRender<TClient>
     columns?: never
     dataView?: never
     onRowClick?: never
 }
 
-export type ResourcePageProps<TClient extends CrudCollectionClient> =
+export type ResourcePageProps<TClient extends ICrudClient> =
     | ResourcePageTableProps<TClient>
     | ResourcePageCustomViewProps<TClient>
 
-function resolveNodeOrRender<TClient extends CrudCollectionClient>(
+function resolveNodeOrRender<TClient extends ICrudClient>(
     value: ReactNodeOrRender<TClient> | null | undefined,
     resource: ResourceContext<TClient>,
 ) {
     return typeof value === "function" ? value(resource) : value
 }
 
-export function ResourcePage<TClient extends CrudCollectionClient>({
+export function ResourcePage<TClient extends ICrudClient>({
     headerProps: headerPropsProp,
     header,
     pageTitle,

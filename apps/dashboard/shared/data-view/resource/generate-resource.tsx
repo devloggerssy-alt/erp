@@ -1,7 +1,7 @@
 "use client"
 
 import type { ReactNode } from "react"
-import type { CrudCollectionClient } from "@devloggers/api-client"
+import type { ICrudClient } from "@devloggers/api-client"
 import { ResourceProvider, useResourceContext } from "./resource-context"
 import { ResourcePage } from "./resource-page-v2"
 import { ResourceTable } from "./resource-table"
@@ -17,7 +17,7 @@ import type { ResourceFormDialogProps } from "./resource-form-dialog"
 import type { ResourceCreateButtonProps } from "./resource-create-button"
 import type { ResourceGridProps } from "./resource-grid"
 
-export type ResourceNamespace<TClient extends CrudCollectionClient> = {
+export type ResourceNamespace<TClient extends ICrudClient> = {
     (props: { children: ReactNode } & Partial<ResourceProviderProps<TClient>>): React.JSX.Element
     Provider: typeof ResourceProvider
     Page: (props: ResourcePageProps<TClient>) => React.JSX.Element
@@ -29,7 +29,7 @@ export type ResourceNamespace<TClient extends CrudCollectionClient> = {
     useContext: () => ResourceContext<TClient>
 }
 
-export function generateResource<TClient extends CrudCollectionClient>(
+export function generateResource<TClient extends ICrudClient>(
     config: UseResourceOptions<TClient>,
 ): ResourceNamespace<TClient> {
     function Resource({ children, ...rest }: { children: ReactNode } & Partial<ResourceProviderProps<TClient>>) {

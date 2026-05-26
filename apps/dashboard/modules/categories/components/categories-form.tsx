@@ -17,11 +17,12 @@ import {
     mapCategoryToFormValues,
     type CategoryFormValues,
 } from "../categories.config"
-import { CategoriesClient, CrudShowResponse } from "@devloggers/api-client"
+import { CategoriesClient } from "@devloggers/api-client"
+import type { ResourceItem } from "@/shared/data-view/resource/types"
 
 export type CategoriesFormProps = {
     resourceId?: string | null
-    initialData?: CrudShowResponse<CategoriesClient> | null
+    initialData?: ResourceItem<CategoriesClient> | null
     onSuccess?: () => void
     paramKey?: string
 }
@@ -55,7 +56,7 @@ export function CategoriesForm({ resourceId, initialData, onSuccess, paramKey }:
     const api = useAuthApi()
     const { close } = useFormDialog(paramKey)
 
-    const { form, isEditing, isInitializing } = useResourceForm<CategoryFormValues, CrudShowResponse<CategoriesClient>>({
+    const { form, isEditing, isInitializing } = useResourceForm<CategoryFormValues, unknown>({
         schema: categoryFormSchema,
         defaultValues: DEFAULT_CATEGORY_FORM_VALUES,
         resourceId,

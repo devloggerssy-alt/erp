@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useEffect, useMemo } from "react"
 import { useInfiniteQuery, type InfiniteData } from "@tanstack/react-query"
-import type { CrudCollectionClient } from "@devloggers/api-client"
+import type { ICrudClient } from "@devloggers/api-client"
 import { useAuthApi } from "@/shared/useApi"
 import type { ResourceItem } from "@/shared/data-view/resource"
 import {
@@ -20,10 +20,10 @@ type ApiInstance = ReturnType<typeof useAuthApi>
 // ── Shared base props ──
 
 type BaseResourceSelectFieldProps<
-  TClient extends CrudCollectionClient = CrudCollectionClient,
+  TClient extends ICrudClient = ICrudClient,
   TValue = string,
 > = {
-  /** CrudCollectionClient instance or factory function */
+  /** CrudClient instance or factory function */
   client: TClient | ((api: ApiInstance) => TClient)
   /** Extract display label from an API item */
   getLabel: (item: ResourceItem<TClient>) => string
@@ -56,7 +56,7 @@ type BaseResourceSelectFieldProps<
 // ── Single Select ──
 
 export type ResourceSelectFieldProps<
-  TClient extends CrudCollectionClient = CrudCollectionClient,
+  TClient extends ICrudClient = ICrudClient,
   TValue = string,
 > = BaseResourceSelectFieldProps<TClient, TValue> & {
   value?: TValue | null
@@ -65,7 +65,7 @@ export type ResourceSelectFieldProps<
 }
 
 export function ResourceSelectField<
-  TClient extends CrudCollectionClient = CrudCollectionClient,
+  TClient extends ICrudClient = ICrudClient,
   TValue = string,
 >({
   value,
@@ -256,7 +256,7 @@ export function ResourceSelectField<
 // ── Multi Select ──
 
 export type ResourceMultiSelectFieldProps<
-  TClient extends CrudCollectionClient = CrudCollectionClient,
+  TClient extends ICrudClient = ICrudClient,
   TValue = string,
 > = BaseResourceSelectFieldProps<TClient, TValue> & {
   value?: TValue[]
@@ -265,7 +265,7 @@ export type ResourceMultiSelectFieldProps<
 }
 
 export function ResourceMultiSelectField<
-  TClient extends CrudCollectionClient = CrudCollectionClient,
+  TClient extends ICrudClient = ICrudClient,
   TValue = string,
 >({
   value,

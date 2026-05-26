@@ -1,7 +1,7 @@
 "use client"
 
 import React from "react"
-import type { CrudCollectionClient } from "@devloggers/api-client"
+import type { ICrudClient } from "@devloggers/api-client"
 import { DataTable } from "@/shared/data-view/table-view"
 import type {
     ResourceColumns,
@@ -10,14 +10,14 @@ import type {
     ResourceItem,
 } from "./types"
 
-export type ResourceTableViewProps<TClient extends CrudCollectionClient> = {
+export type ResourceTableViewProps<TClient extends ICrudClient> = {
     resource: ResourceContext<TClient>
     columns: ResourceColumns<TClient>
     view?: ResourceDataViewComponent<ResourceItem<TClient>>
     onRowClick?: (row: ResourceItem<TClient>) => void
 }
 
-export function ResourceTableView<TClient extends CrudCollectionClient>({
+export function ResourceTableView<TClient extends ICrudClient>({
     resource,
     columns: columnsProp,
     view: View = DataTable,

@@ -12,14 +12,14 @@ import {
     type ActionsColumnOptions,
 } from "@/shared/data-view/table-view"
 import type { ColumnDef } from "@tanstack/react-table"
-import type { CrudCollectionClient } from "@devloggers/api-client"
+import type { ICrudClient } from "@devloggers/api-client"
 import type {
     ResourceContext,
     ResourceItem,
     UseResourceOptions,
 } from "./types"
 
-export function useResource<TClient extends CrudCollectionClient>({
+export function useResource<TClient extends ICrudClient>({
     routeKey,
     getClient,
     queryOptions,

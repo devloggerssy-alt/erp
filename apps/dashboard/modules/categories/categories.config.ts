@@ -1,4 +1,4 @@
-import { CategoriesClient, CrudListItem, CrudListResponse, CrudShowResponse } from "@devloggers/api-client"
+import { CategoriesClient, CrudShowResponse } from "@devloggers/api-client"
 import { z } from "zod"
 
 export const categoryFormSchema = z.object({
@@ -23,12 +23,11 @@ export const DEFAULT_CATEGORY_FORM_VALUES: CategoryFormValues = {
 }
 
 export function mapCategoryToFormValues(data: CrudShowResponse<CategoriesClient>): CategoryFormValues {
-    const resolved = data.data
+    const resolved = data?.data
     return {
         name: resolved?.name ?? "",
         description: resolved?.description ?? "",
         parent: resolved?.parent ?? null,
-
         isActive: resolved?.isActive ?? true,
     }
 }

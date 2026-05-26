@@ -4,20 +4,20 @@ import { useQueryStates } from "nuqs"
 import { useQuery, useQueryClient, type UseQueryOptions } from "@tanstack/react-query"
 import {
     listCrudData,
-    type CrudListClient,
+    type ICrudClient,
     type CrudListDataResponse,
 } from "@devloggers/api-client"
 import type { DataViewChangeEvent, DataViewPaginationState, DataViewSorting } from "./types"
 import { dataViewSearchParams } from "./search-params"
 
-export type UseDataViewQueryOptions<C extends CrudListClient> = {
+export type UseDataViewQueryOptions<C extends ICrudClient> = {
     queryKey: string[]
     client: C
     queryOptions?: Omit<UseQueryOptions<CrudListDataResponse<C>>, "queryKey" | "queryFn">
     extraParams?: Record<string, unknown>
 }
 
-export function useDataViewQuery<C extends CrudListClient>({
+export function useDataViewQuery<C extends ICrudClient>({
     queryKey,
     client,
     queryOptions,

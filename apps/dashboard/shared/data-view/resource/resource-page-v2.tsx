@@ -1,17 +1,17 @@
 "use client"
 
 import type { ReactNode } from "react"
-import type { CrudCollectionClient } from "@devloggers/api-client"
+import type { ICrudClient } from "@devloggers/api-client"
 import { ResourceLayout } from "./resource-layout"
 import type { ResourceContext } from "./types"
 
-export type ResourcePageProps<TClient extends CrudCollectionClient> = {
+export type ResourcePageProps<TClient extends ICrudClient> = {
     title: string
     actions?: ReactNode | ((resource: ResourceContext<TClient>) => ReactNode)
     children: ReactNode
 }
 
-export function ResourcePage<TClient extends CrudCollectionClient>({
+export function ResourcePage<TClient extends ICrudClient>({
     title,
     actions,
     children,

@@ -1,6 +1,6 @@
 "use client"
 
-import type { CrudCollectionClient, CrudListDataResponse } from "@devloggers/api-client"
+import type { ICrudClient, CrudListDataResponse } from "@devloggers/api-client"
 import type { UseQueryOptions } from "@tanstack/react-query"
 import { useAuthApi } from "@/shared/useApi"
 import { useDataViewQuery, type DataViewChangeEvent, type DataViewPaginationState, type DataViewSorting, type DataViewQueryParams } from "@/shared/data-view/table-view"
@@ -8,7 +8,7 @@ import type { ResourceItem, UseResourceOptions } from "./types"
 
 type ApiInstance = ReturnType<typeof useAuthApi>
 
-export type UseResourceQueryResult<TClient extends CrudCollectionClient> = {
+export type UseResourceQueryResult<TClient extends ICrudClient> = {
     api: ApiInstance
     client: TClient
     items: ResourceItem<TClient>[]
@@ -23,7 +23,7 @@ export type UseResourceQueryResult<TClient extends CrudCollectionClient> = {
     invalidateQuery: () => void
 }
 
-export function useResourceQuery<TClient extends CrudCollectionClient>(
+export function useResourceQuery<TClient extends ICrudClient>(
     config: UseResourceOptions<TClient>,
 ): UseResourceQueryResult<TClient> {
     const api = useAuthApi()

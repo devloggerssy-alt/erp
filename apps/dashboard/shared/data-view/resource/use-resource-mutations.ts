@@ -2,7 +2,7 @@
 
 import { useMutation } from "@tanstack/react-query"
 import { toast } from "sonner"
-import type { CrudCollectionClient } from "@devloggers/api-client"
+import type { ICrudClient } from "@devloggers/api-client"
 
 export type UseResourceMutationsConfig = {
     invalidateQuery: () => void
@@ -12,7 +12,7 @@ export type UseResourceMutationsResult = {
     deleteItem: (id: string) => Promise<unknown>
 }
 
-export function useResourceMutations<TClient extends CrudCollectionClient>(
+export function useResourceMutations<TClient extends ICrudClient>(
     client: TClient,
     config: UseResourceMutationsConfig,
 ): UseResourceMutationsResult {

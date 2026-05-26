@@ -1,15 +1,15 @@
 "use client"
 
 import type { ReactNode } from "react"
-import type { CrudCollectionClient } from "@devloggers/api-client"
+import type { ICrudClient } from "@devloggers/api-client"
 import DashboardPage from "@/infrastructure/components/layout/dashboard/dashboard-page"
 import type { DashboardHeaderProps } from "@/infrastructure/components/layout/dashboard"
 import type { ResourceContext, ResourceRender } from "./types"
 import { useResourceContext } from "./resource-context"
 
-type ReactNodeOrRender<TClient extends CrudCollectionClient> = ReactNode | ResourceRender<TClient>
+type ReactNodeOrRender<TClient extends ICrudClient> = ReactNode | ResourceRender<TClient>
 
-export type ResourceLayoutProps<TClient extends CrudCollectionClient> = {
+export type ResourceLayoutProps<TClient extends ICrudClient> = {
     title?: string
     headerProps?: DashboardHeaderProps | ((resource: ResourceContext<TClient>) => DashboardHeaderProps)
     header?: ReactNodeOrRender<TClient> | null
@@ -18,14 +18,14 @@ export type ResourceLayoutProps<TClient extends CrudCollectionClient> = {
     children: ReactNode
 }
 
-function resolveNodeOrRender<TClient extends CrudCollectionClient>(
+function resolveNodeOrRender<TClient extends ICrudClient>(
     value: ReactNodeOrRender<TClient> | null | undefined,
     resource: ResourceContext<TClient>,
 ): ReactNode {
     return typeof value === "function" ? value(resource) : value
 }
 
-export function ResourceLayout<TClient extends CrudCollectionClient>({
+export function ResourceLayout<TClient extends ICrudClient>({
     title,
     headerProps: headerPropsProp,
     header,

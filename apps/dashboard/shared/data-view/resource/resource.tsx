@@ -1,6 +1,6 @@
 "use client"
 
-import type { CrudCollectionClient } from "@devloggers/api-client"
+import type { ICrudClient } from "@devloggers/api-client"
 import { ResourceProvider } from "./resource-context"
 import { ResourcePage } from "./resource-page-v2"
 import { ResourceTable } from "./resource-table"
@@ -17,13 +17,12 @@ import type { ResourceFormDialogProps } from "./resource-form-dialog"
 import type { ResourceCreateButtonProps } from "./resource-create-button"
 import type { ResourceGridProps } from "./resource-grid"
 
-// ── Legacy render-prop component (backwards compatible) ──
-export type LegacyResourceProps<TClient extends CrudCollectionClient> = UseResourceOptions<TClient> & {
+export type LegacyResourceProps<TClient extends ICrudClient> = UseResourceOptions<TClient> & {
     children?: ResourceRender<TClient>
     render?: ResourceRender<TClient>
 }
 
-export function LegacyResource<TClient extends CrudCollectionClient>({
+export function LegacyResource<TClient extends ICrudClient>({
     children,
     render,
     ...options

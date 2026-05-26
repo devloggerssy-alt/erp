@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useState, type ReactNode } from "react"
 import type { ColumnDef } from "@tanstack/react-table"
-import type { CrudCollectionClient } from "@devloggers/api-client"
+import type { ICrudClient } from "@devloggers/api-client"
 import { createActionsColumn, type ActionsColumnOptions } from "@/shared/data-view/table-view"
 import { useFormDialog } from "@/shared/components/form-dialog"
 import { confirm } from "@/shared/components/confirm-dialog"
@@ -12,7 +12,7 @@ import { useResourceMutations } from "./use-resource-mutations"
 
 const resourceContext = createContext(null as unknown)
 
-export function useResourceContext<TClient extends CrudCollectionClient>(): ResourceContext<TClient> {
+export function useResourceContext<TClient extends ICrudClient>(): ResourceContext<TClient> {
     const ctx = useContext(resourceContext)
     if (!ctx) {
         throw new Error("useResourceContext must be used within a <ResourceProvider>")
@@ -20,11 +20,11 @@ export function useResourceContext<TClient extends CrudCollectionClient>(): Reso
     return ctx as unknown as ResourceContext<TClient>
 }
 
-export type ResourceProviderProps<TClient extends CrudCollectionClient> = UseResourceOptions<TClient> & {
+export type ResourceProviderProps<TClient extends ICrudClient> = UseResourceOptions<TClient> & {
     children: ReactNode
 }
 
-export function ResourceProvider<TClient extends CrudCollectionClient>({
+export function ResourceProvider<TClient extends ICrudClient>({
     children,
     ...config
 }: ResourceProviderProps<TClient>) {
@@ -92,7 +92,7 @@ export function ResourceProvider<TClient extends CrudCollectionClient>({
     }
 
     return (
-        <resourceContext.Provider value={value as unknown as ResourceContext<CrudCollectionClient>}>
+        <resourceContext.Provider value={value as unknown as ResourceContext<ICrudClient>}>
             {children}
         </resourceContext.Provider>
     )

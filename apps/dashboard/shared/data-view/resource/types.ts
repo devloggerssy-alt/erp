@@ -2,7 +2,7 @@ import type { ComponentType, Dispatch, ReactNode, SetStateAction } from "react"
 import type { UseQueryOptions, UseQueryResult } from "@tanstack/react-query"
 import type { ColumnDef } from "@tanstack/react-table"
 import type {
-    CrudCollectionClient,
+    ICrudClient,
     CrudListDataResponse,
     CrudListDataItem,
 } from "@devloggers/api-client"
@@ -18,11 +18,9 @@ import type { useAuthApi } from "@/shared/useApi"
 
 type ApiInstance = ReturnType<typeof useAuthApi>
 
-// ── Core Types ──
+export type ResourceItem<TClient extends ICrudClient> = CrudListDataItem<TClient>
 
-export type ResourceItem<TClient extends CrudCollectionClient> = CrudListDataItem<TClient>
-
-export type UseResourceOptions<TClient extends CrudCollectionClient> = {
+export type UseResourceOptions<TClient extends ICrudClient> = {
     routeKey?: string
     getClient: (api: ApiInstance) => TClient
     queryOptions?: Omit<UseQueryOptions<CrudListDataResponse<TClient>>, "queryKey" | "queryFn">
@@ -30,7 +28,7 @@ export type UseResourceOptions<TClient extends CrudCollectionClient> = {
     extraParams?: Record<string, unknown>
 }
 
-export type ResourceTableHelpers<TClient extends CrudCollectionClient> = {
+export type ResourceTableHelpers<TClient extends ICrudClient> = {
     actionsColumn: (
         options?: Partial<ActionsColumnOptions<ResourceItem<TClient>>>,
     ) => ColumnDef<ResourceItem<TClient>, unknown>
@@ -38,7 +36,7 @@ export type ResourceTableHelpers<TClient extends CrudCollectionClient> = {
     deleteItem: (id: string) => Promise<unknown>
 }
 
-export type ResourceContext<TClient extends CrudCollectionClient> = ResourceTableHelpers<TClient> & {
+export type ResourceContext<TClient extends ICrudClient> = ResourceTableHelpers<TClient> & {
     api: ApiInstance
     client: TClient
     query: UseQueryResult<CrudListDataResponse<TClient>>
@@ -60,24 +58,22 @@ export type ResourceContext<TClient extends CrudCollectionClient> = ResourceTabl
     invalidateQuery: () => void
 }
 
-export type ResourceColumns<TClient extends CrudCollectionClient> =
+export type ResourceColumns<TClient extends ICrudClient> =
     | ColumnDef<ResourceItem<TClient>>[]
     | ((helpers: ResourceTableHelpers<TClient>) => ColumnDef<ResourceItem<TClient>>[])
 
-export type ResourceRender<TClient extends CrudCollectionClient> = (
+export type ResourceRender<TClient extends ICrudClient> = (
     resource: ResourceContext<TClient>,
 ) => ReactNode
 
 export type ResourceDataViewComponent<TData> = ComponentType<DataViewProps<TData>>
 
-export type ResourceFormProps<TClient extends CrudCollectionClient> = {
+export type ResourceFormProps<TClient extends ICrudClient> = {
     resourceId: string | null
     initialData: ResourceItem<TClient> | null
     onSuccess: () => void
 }
 
-// ── Alias ──
-export type ResourceContextValue<TClient extends CrudCollectionClient> = ResourceContext<TClient>
+export type ResourceContextValue<TClient extends ICrudClient> = ResourceContext<TClient>
 
-// ── Provider Config Alias ──
-export type ResourceProviderConfig<TClient extends CrudCollectionClient> = UseResourceOptions<TClient>
+export type ResourceProviderConfig<TClient extends ICrudClient> = UseResourceOptions<TClient>
