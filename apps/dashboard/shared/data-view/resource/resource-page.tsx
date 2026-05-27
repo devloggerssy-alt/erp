@@ -19,9 +19,6 @@ export function ResourcePage<TClient extends ICrudClient>({
     return (
         <ResourceLayout<TClient>
             title={title}
-            headerProps={(resource) => ({
-                actions: typeof actions === "function" ? actions(resource) : actions,
-            })}
         >
             {children}
         </ResourceLayout>

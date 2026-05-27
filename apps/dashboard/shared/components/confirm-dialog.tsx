@@ -2,6 +2,7 @@
 
 import { create } from "zustand"
 import { Trash2 } from "lucide-react"
+import { useTranslations } from "next-intl"
 import {
     AlertDialog,
     AlertDialogAction,
@@ -77,6 +78,7 @@ export function confirm(options: ConfirmOptions = {}) {
 
 export function ConfirmDialog() {
     const { open, options, _close } = useConfirmStore()
+    const t = useTranslations("system.confirm")
 
     const isDestructive = options.variant === "destructive"
 
@@ -95,7 +97,7 @@ export function ConfirmDialog() {
                         </AlertDialogMedia>
                     )}
                     <AlertDialogTitle>
-                        {options.title ?? "Are you sure?"}
+                        {options.title ?? t("title")}
                     </AlertDialogTitle>
                     {options.description && (
                         <AlertDialogDescription>
@@ -105,13 +107,13 @@ export function ConfirmDialog() {
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                     <AlertDialogCancel onClick={() => _close(false)}>
-                        {options.cancelLabel ?? "Cancel"}
+                        {options.cancelLabel ?? t("cancel")}
                     </AlertDialogCancel>
                     <AlertDialogAction
                         variant={isDestructive ? "destructive" : "default"}
                         onClick={() => _close(true)}
                     >
-                        {options.confirmLabel ?? "Confirm"}
+                        {options.confirmLabel ?? t("confirm")}
                     </AlertDialogAction>
                 </AlertDialogFooter>
             </AlertDialogContent>

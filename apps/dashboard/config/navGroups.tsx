@@ -31,135 +31,231 @@ export const navGroups: NavGroup[] = [
   {
     items: [
       {
-        title: "لوحة التحكم",
+        titleKey: "business.navigation.items.dashboard",
         href: "/",
         icon: <LayoutDashboardIcon />,
       },
       {
-        title: "الكاشير",
+        titleKey: "business.navigation.items.cashier",
         href: "/cashier",
         icon: <ReceiptIcon />,
       },
       {
-        title: "المساعد الذكي",
+        titleKey: "business.navigation.items.aiAssistant",
         href: "/ai/chat",
         icon: <MessageSquareIcon />,
       },
     ],
   },
   {
-    label: "العمليات التجارية",
+    labelKey: "business.navigation.groups.commercial",
     items: [
       {
-        title: "المبيعات",
+        titleKey: "business.navigation.items.sales",
         href: "/invoices/sales",
         icon: <ReceiptIcon />,
         items: [
-          { title: "فواتير المبيعات", href: "/invoices/sales", icon: <ReceiptIcon /> },
-          { title: "العملاء", href: "/parties/customers", icon: <UsersIcon /> },
+          {
+            titleKey: "business.navigation.items.salesInvoices",
+            href: "/invoices/sales",
+            icon: <ReceiptIcon />,
+          },
+          {
+            titleKey: "business.navigation.items.customers",
+            href: "/parties/customers",
+            icon: <UsersIcon />,
+          },
         ],
       },
       {
-        title: "المشتريات",
+        titleKey: "business.navigation.items.purchases",
         href: "/invoices/purchases",
         icon: <ShoppingCartIcon />,
         items: [
-          { title: "فواتير المشتريات", href: "/invoices/purchases", icon: <ShoppingCartIcon /> },
-          { title: "الموردون", href: "/parties/suppliers", icon: <StoreIcon /> },
+          {
+            titleKey: "business.navigation.items.purchaseInvoices",
+            href: "/invoices/purchases",
+            icon: <ShoppingCartIcon />,
+          },
+          {
+            titleKey: "business.navigation.items.suppliers",
+            href: "/parties/suppliers",
+            icon: <StoreIcon />,
+          },
         ],
       },
     ],
   },
   {
-    label: "المخزون والدليل",
+    labelKey: "business.navigation.groups.inventory",
     items: [
       {
-        title: "الأصناف",
+        titleKey: "business.navigation.items.catalog",
         href: "/catalog/items",
         icon: <PackageIcon />,
         items: [
-          { title: "قائمة الأصناف", href: "/catalog/items", icon: <PackageIcon /> },
-          { title: "الفئات", href: "/catalog/categories", icon: <LayersIcon /> },
-          { title: "الوحدات", href: "/catalog/units", icon: <RulerIcon /> },
+          {
+            titleKey: "business.navigation.items.itemsList",
+            href: "/catalog/items",
+            icon: <PackageIcon />,
+          },
+          {
+            titleKey: "business.navigation.items.categories",
+            href: "/catalog/categories",
+            icon: <LayersIcon />,
+          },
+          {
+            titleKey: "business.navigation.items.units",
+            href: "/catalog/units",
+            icon: <RulerIcon />,
+          },
         ],
       },
       {
-        title: "المستودعات",
+        titleKey: "business.navigation.items.warehouses",
         href: "/inventory/warehouses",
         icon: <WarehouseIcon />,
         items: [
-          { title: "قائمة المستودعات", href: "/inventory/warehouses", icon: <WarehouseIcon /> },
-          { title: "أرصدة المخزون", href: "/inventory/stock-balances", icon: <BarChart3Icon /> },
-          { title: "حركات المخزون", href: "/inventory/stock-movements", icon: <ArrowLeftRightIcon /> },
-          { title: "جرد المخزون", href: "/inventory/stock-counts", icon: <ClipboardCheckIcon /> },
-          { title: "أرصدة أول المدة", href: "/inventory/opening-balances", icon: <ScaleIcon /> },
+          {
+            titleKey: "business.navigation.items.warehouseList",
+            href: "/inventory/warehouses",
+            icon: <WarehouseIcon />,
+          },
+          {
+            titleKey: "business.navigation.items.stockBalances",
+            href: "/inventory/stock-balances",
+            icon: <BarChart3Icon />,
+          },
+          {
+            titleKey: "business.navigation.items.stockMovements",
+            href: "/inventory/stock-movements",
+            icon: <ArrowLeftRightIcon />,
+          },
+          {
+            titleKey: "business.navigation.items.stockCounts",
+            href: "/inventory/stock-counts",
+            icon: <ClipboardCheckIcon />,
+          },
+          {
+            titleKey: "business.navigation.items.openingBalances",
+            href: "/inventory/opening-balances",
+            icon: <ScaleIcon />,
+          },
         ],
       },
     ],
   },
   {
-    label: "المالية",
+    labelKey: "business.navigation.groups.finance",
     items: [
       {
-        title: "الخزينة",
+        titleKey: "business.navigation.items.cashboxes",
         href: "/finance/cashboxes",
         icon: <WalletIcon />,
         items: [
-          { title: "صناديق النقد", href: "/finance/cashboxes", icon: <WalletIcon /> },
-          { title: "المدفوعات", href: "/finance/payments", icon: <HandCoinsIcon /> },
+          {
+            titleKey: "business.navigation.items.cashboxesList",
+            href: "/finance/cashboxes",
+            icon: <WalletIcon />,
+          },
+          {
+            titleKey: "business.navigation.items.payments",
+            href: "/finance/payments",
+            icon: <HandCoinsIcon />,
+          },
         ],
       },
       {
-        title: "المحاسبة",
+        titleKey: "business.navigation.items.accounting",
         href: "/finance/chart-of-accounts",
         icon: <BookIcon />,
         items: [
-          { title: "شجرة الحسابات", href: "/finance/chart-of-accounts", icon: <BookIcon /> },
+          {
+            titleKey: "business.navigation.items.chartOfAccounts",
+            href: "/finance/chart-of-accounts",
+            icon: <BookIcon />,
+          },
         ],
       },
     ],
   },
   {
-    label: "التقارير",
+    labelKey: "business.navigation.groups.reports",
     items: [
       {
-        title: "التقارير العامة",
+        titleKey: "business.navigation.items.generalReports",
         href: "/reports",
         icon: <LineChartIcon />,
         items: [
-          { title: "تقارير المخزون", href: "/reports/stock", icon: <BarChart3Icon /> },
-          { title: "تقارير المبيعات", href: "/reports/sales", icon: <LineChartIcon /> },
-          { title: "تقارير المشتريات", href: "/reports/purchases", icon: <LineChartIcon /> },
-          { title: "كشوف الحسابات", href: "/reports/customers", icon: <UsersIcon /> },
+          {
+            titleKey: "business.navigation.items.stockReports",
+            href: "/reports/stock",
+            icon: <BarChart3Icon />,
+          },
+          {
+            titleKey: "business.navigation.items.salesReports",
+            href: "/reports/sales",
+            icon: <LineChartIcon />,
+          },
+          {
+            titleKey: "business.navigation.items.purchaseReports",
+            href: "/reports/purchases",
+            icon: <LineChartIcon />,
+          },
+          {
+            titleKey: "business.navigation.items.accountStatements",
+            href: "/reports/customers",
+            icon: <UsersIcon />,
+          },
         ],
       },
     ],
   },
   {
-    label: "الإعدادات",
+    labelKey: "business.navigation.groups.settings",
     items: [
       {
-        title: "إعدادات الشركة",
+        titleKey: "business.navigation.items.companySettings",
         href: "/settings/company",
         icon: <Building2Icon />,
       },
       {
-        title: "المستخدمين والصلاحيات",
+        titleKey: "business.navigation.items.usersAndPermissions",
         href: "/settings/users",
         icon: <UserCogIcon />,
         items: [
-          { title: "المستخدمين", href: "/settings/users", icon: <UserCogIcon /> },
-          { title: "الأدوار", href: "/settings/roles", icon: <ShieldCheckIcon /> },
+          {
+            titleKey: "business.navigation.items.users",
+            href: "/settings/users",
+            icon: <UserCogIcon />,
+          },
+          {
+            titleKey: "business.navigation.items.roles",
+            href: "/settings/roles",
+            icon: <ShieldCheckIcon />,
+          },
         ],
       },
       {
-        title: "إعدادات النظام",
+        titleKey: "business.navigation.items.systemSettings",
         href: "/settings/currencies",
         icon: <SettingsIcon />,
         items: [
-          { title: "العملات", href: "/settings/currencies", icon: <CoinsIcon /> },
-          { title: "الفترات المالية", href: "/settings/fiscal-periods", icon: <CalendarIcon /> },
-          { title: "تسلسل المستندات", href: "/settings/document-sequences", icon: <HashIcon /> },
+          {
+            titleKey: "business.navigation.items.currencies",
+            href: "/settings/currencies",
+            icon: <CoinsIcon />,
+          },
+          {
+            titleKey: "business.navigation.items.fiscalPeriods",
+            href: "/settings/fiscal-periods",
+            icon: <CalendarIcon />,
+          },
+          {
+            titleKey: "business.navigation.items.documentSequences",
+            href: "/settings/document-sequences",
+            icon: <HashIcon />,
+          },
         ],
       },
     ],

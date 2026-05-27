@@ -23,6 +23,7 @@ import { useAuthStore } from "@/shared/stores/auth-store"
 import { cn } from "@/shared/lib/utils"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
+import { useLocale, useTranslations } from "next-intl"
 
 import { loginFormSchema, type LoginFormValues } from "./login-form.schema"
 import { useMutation } from "@tanstack/react-query"
@@ -34,36 +35,43 @@ export function LoginForm({
     className,
     ...props
 }: React.ComponentProps<"div">) {
+    const t = useTranslations()
+    const locale = useLocale()
+    const router = useRouter()
 
     const lastLoginEmail = useAppStore((state) => state.lastLoginEmail)
     const setLastLoginEmail = useAppStore((state) => state.setLastLoginEmail)
     const login = useAuthStore((state) => state.login)
-    const router = useRouter()
+
+    const localizedHref = (href: string) => (href === "/" ? `/${locale}` : `/${locale}${href}`)
+
     const {
         handleSubmit,
         register,
-        formState: { errors, },
+        formState: { errors },
     } = useForm<LoginFormValues>({
         resolver: zodResolver(loginFormSchema),
-        defaultValues: process.env.NODE_ENV === "development" ? {
-            "email": "admin@demo-shop.com",
-            "password": "admin123"
-        } : {
-            email: lastLoginEmail,
-            password: "",
-        },
+        defaultValues:
+            process.env.NODE_ENV === "development"
+                ? {
+                      email: "admin@demo-shop.com",
+                      password: "admin123",
+                  }
+                : {
+                      email: lastLoginEmail,
+                      password: "",
+                  },
     })
 
     const { mutate, error, isPending: isSubmitting } = useMutation({
         mutationFn: (values: LoginFormValues) => api.auth.login(values),
         onSuccess: async ({ data }) => {
             if (data?.accessToken && data.user) {
-                await login(data?.accessToken, data.user)
-                router.push("/")
+                await login(data.accessToken, data.user)
+                router.push(localizedHref("/"))
             }
         },
     })
-
 
     async function onSubmit(values: LoginFormValues) {
         setLastLoginEmail(values.email)
@@ -76,21 +84,19 @@ export function LoginForm({
                 <CardHeader>
                     <Image
                         className="mx-auto mb-8 object-contain"
-                        alt="Logo"
+                        alt={t("system.common.logoAlt")}
                         src="/assets/logo.png"
                         height={400}
                         width={200}
                     />
-                    <CardTitle>Login to your account</CardTitle>
-                    <CardDescription>
-                        Enter your email below to login to your account
-                    </CardDescription>
+                    <CardTitle>{t("system.auth.login.title")}</CardTitle>
+                    <CardDescription>{t("system.auth.login.description")}</CardDescription>
                 </CardHeader>
                 <CardContent>
                     {error ? (
-                        <Alert variant='destructive' className="mb-4">
+                        <Alert variant="destructive" className="mb-4">
                             <AlertTriangle className="me-2 h-4 w-4" />
-                            <AlertTitle>Login failed</AlertTitle>
+                            <AlertTitle>{t("system.auth.login.errorTitle")}</AlertTitle>
                             {error.message}
                         </Alert>
                     ) : null}
@@ -98,11 +104,11 @@ export function LoginForm({
                     <form onSubmit={handleSubmit(onSubmit)} noValidate>
                         <FieldGroup>
                             <Field>
-                                <FieldLabel htmlFor="email">Email</FieldLabel>
+                                <FieldLabel htmlFor="email">{t("system.auth.login.email")}</FieldLabel>
                                 <Input
                                     id="email"
                                     type="email"
-                                    placeholder="m@example.com"
+                                    placeholder={t("system.auth.login.emailPlaceholder")}
                                     aria-invalid={!!errors.email}
                                     {...register("email")}
                                 />
@@ -110,12 +116,14 @@ export function LoginForm({
                             </Field>
                             <Field>
                                 <div className="flex items-center">
-                                    <FieldLabel htmlFor="password">Password</FieldLabel>
+                                    <FieldLabel htmlFor="password">
+                                        {t("system.auth.login.password")}
+                                    </FieldLabel>
                                     <a
                                         href="#"
                                         className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
                                     >
-                                        Forgot your password?
+                                        {t("system.auth.login.forgotPassword")}
                                     </a>
                                 </div>
                                 <Input
@@ -128,17 +136,18 @@ export function LoginForm({
                             </Field>
                             <Field>
                                 <Button type="submit" disabled={isSubmitting}>
-                                    {isSubmitting ? "Logging in..." : "Login"}
+                                    {isSubmitting
+                                        ? t("system.auth.login.submitting")
+                                        : t("system.auth.login.submit")}
                                 </Button>
 
                                 {lastLoginEmail ? (
                                     <FieldDescription className="text-center">
-                                        Last email used: {lastLoginEmail}
+                                        {t("system.auth.login.lastEmailUsed", {
+                                            email: lastLoginEmail,
+                                        })}
                                     </FieldDescription>
                                 ) : null}
-                                {/* <FieldDescription className="text-center">
-                                    Don&apos;t have an account? <a href="#">Sign up</a>
-                                </FieldDescription> */}
                             </Field>
                         </FieldGroup>
                     </form>

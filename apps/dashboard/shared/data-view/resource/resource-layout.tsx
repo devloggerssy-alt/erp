@@ -26,31 +26,29 @@ function resolveNodeOrRender<TClient extends ICrudClient>(
 }
 
 export function ResourceLayout<TClient extends ICrudClient>({
-    title,
     headerProps: headerPropsProp,
-    header,
-    toolbar,
-    fullscreen,
     children,
 }: ResourceLayoutProps<TClient>) {
-    const resource = useResourceContext<TClient>()
+    // const resource = useResourceContext<TClient>()
 
-    const resolvedHeaderProps = typeof headerPropsProp === "function"
-        ? headerPropsProp(resource)
-        : headerPropsProp
+    // const resolvedHeaderProps = typeof headerPropsProp === "function"
+    //     ? headerPropsProp(resource)
+    //     : headerPropsProp
 
-    const resolvedHeader = resolveNodeOrRender(header, resource)
-    const resolvedToolbar = resolveNodeOrRender(toolbar, resource)
+    // const resolvedHeader = resolveNodeOrRender(header, resource)
+    // const resolvedToolbar = resolveNodeOrRender(toolbar, resource)
 
     return (
-        <DashboardPage
-            header={resolvedHeader}
-            headerProps={resolvedHeaderProps}
-            title={title}
-            toolbar={resolvedToolbar}
-            fullscreen={fullscreen}
-        >
+        // <DashboardPage
+        //     header={resolvedHeader}
+        //     headerProps={resolvedHeaderProps}
+        //     title={title}
+        //     toolbar={resolvedToolbar}
+        //     fullscreen={fullscreen}
+        // >
+        <>
             {children}
-        </DashboardPage>
+            {/* </DashboardPage> */}
+        </>
     )
 }

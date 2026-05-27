@@ -14,7 +14,7 @@ type DashboardPageProps = {
 export default function DashboardPage({ children, header, headerProps, title, fullscreen, toolbar }: DashboardPageProps) {
     const resolvedHeader = header !== undefined
         ? header
-        : <DashboardHeader {...headerProps} />
+        : <DashboardHeader {...headerProps}  />
 
     return (
         <div className='page'>

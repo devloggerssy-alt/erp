@@ -3,19 +3,18 @@
 import type { ReactNode } from "react"
 import type { ICrudClient } from "@devloggers/api-client"
 import { ResourceProvider, useResourceContext } from "./resource-context"
-import { ResourcePage } from "./resource-page-v2"
-import { ResourceTable } from "./resource-table"
+ import { ResourceTable } from "./resource-table"
 import { ResourceFormDialog } from "./resource-form-dialog"
 import { ResourceCreateButton } from "./resource-create-button"
 import { ResourceGrid } from "./resource-grid"
 import { ResourcePagination } from "./resource-pagination"
 import type { UseResourceOptions, ResourceContext, ResourceItem } from "./types"
 import type { ResourceProviderProps } from "./resource-context"
-import type { ResourcePageProps } from "./resource-page-v2"
-import type { ResourceTableProps } from "./resource-table"
+ import type { ResourceTableProps } from "./resource-table"
 import type { ResourceFormDialogProps } from "./resource-form-dialog"
 import type { ResourceCreateButtonProps } from "./resource-create-button"
 import type { ResourceGridProps } from "./resource-grid"
+import { ResourcePage, ResourcePageProps } from "./resource-page"
 
 export type ResourceNamespace<TClient extends ICrudClient> = {
     (props: { children: ReactNode } & Partial<ResourceProviderProps<TClient>>): React.JSX.Element

@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import { useLocale, useTranslations } from "next-intl"
 import { ChevronRight, Circle } from "lucide-react"
 
 import type { NavGroup, NavItem } from "@/infrastructure/types/navigation"
@@ -43,6 +44,22 @@ type AppSidebarProps = React.ComponentProps<typeof Sidebar> & {
 export function AppSidebar({ navGroups, logo, ...props }: AppSidebarProps) {
     const { state, isMobile } = useSidebar()
     const isCollapsed = state === "collapsed" && !isMobile
+    const t = useTranslations()
+    const locale = useLocale()
+    const pathname = usePathname() ?? "/"
+
+    const normalizePathname = (value: string) => {
+        if (value.startsWith(`/${locale}`)) {
+            const stripped = value.slice(locale.length + 1)
+            return stripped.length === 0 ? "/" : stripped
+        }
+        return value
+    }
+
+    const localizedHref = (href: string) =>
+        href === "/" ? `/${locale}` : `/${locale}${href}`
+
+    const normalizedPathname = normalizePathname(pathname)
 
     return (
         <Sidebar side="right" collapsible="icon" {...props} className="bg-card border-e">
@@ -53,18 +70,32 @@ export function AppSidebar({ navGroups, logo, ...props }: AppSidebarProps) {
             )}
             <SidebarContent className={cn("transition-[padding] duration-200 gap-0", !isCollapsed && "ps-2")}>
                 {navGroups.map((group, groupIndex) => (
-                    <SidebarGroup key={group.label ?? groupIndex}>
-                        {group.label && (
+                    <SidebarGroup key={group.labelKey ?? groupIndex}>
+                        {group.labelKey && (
                             <SidebarGroupLabel className="uppercase text-xs tracking-wider text-muted-foreground">
-                                {group.label}
+                                {t(group.labelKey)}
                             </SidebarGroupLabel>
                         )}
                         <SidebarMenu>
                             {group.items.map((item) =>
                                 item.items && item.items.length > 0 ? (
-                                    <CollapsibleNavItem key={item.href} item={item} isCollapsed={isCollapsed} />
+                                    <CollapsibleNavItem
+                                        key={item.href}
+                                        item={item}
+                                        isCollapsed={isCollapsed}
+                                        t={t}
+                                        normalizedPathname={normalizedPathname}
+                                        localizedHref={localizedHref}
+                                    />
                                 ) : (
-                                    <SimpleNavItem key={item.href} item={item} isCollapsed={isCollapsed} />
+                                    <SimpleNavItem
+                                        key={item.href}
+                                        item={item}
+                                        isCollapsed={isCollapsed}
+                                        t={t}
+                                        normalizedPathname={normalizedPathname}
+                                        localizedHref={localizedHref}
+                                    />
                                 )
                             )}
                         </SidebarMenu>
@@ -76,9 +107,20 @@ export function AppSidebar({ navGroups, logo, ...props }: AppSidebarProps) {
     )
 }
 
-function SimpleNavItem({ item, isCollapsed }: { item: NavItem; isCollapsed: boolean }) {
-    const pathname = usePathname()
-    const isActive = item.isActive ?? pathname === item.href
+function SimpleNavItem({
+    item,
+    isCollapsed,
+    t,
+    normalizedPathname,
+    localizedHref,
+}: {
+    item: NavItem
+    isCollapsed: boolean
+    t: ReturnType<typeof useTranslations>
+    normalizedPathname: string
+    localizedHref: (href: string) => string
+}) {
+    const isActive = item.isActive ?? normalizedPathname === item.href
 
     return (
         <SidebarMenuItem>
@@ -86,15 +128,15 @@ function SimpleNavItem({ item, isCollapsed }: { item: NavItem; isCollapsed: bool
 
                 asChild
                 isActive={isActive}
-                tooltip={item.title}
+                tooltip={t(item.titleKey)}
                 className="dashboard-nav-item"
                 data-collapsed={isCollapsed}
             >
-                <Link href={item.href}>
+                <Link href={localizedHref(item.href)}>
                     {item.icon && <span className="dashboard-nav-icon shrink-0">{item.icon}</span>}
                     {
                         !isCollapsed &&
-                        <span>{item.title}</span>
+                        <span>{t(item.titleKey)}</span>
                     }
                 </Link>
             </SidebarMenuButton>
@@ -102,10 +144,21 @@ function SimpleNavItem({ item, isCollapsed }: { item: NavItem; isCollapsed: bool
     )
 }
 
-function CollapsibleNavItem({ item, isCollapsed }: { item: NavItem; isCollapsed: boolean }) {
-    const pathname = usePathname()
-    const isChildActive = item.items?.some((sub) => pathname === sub.href)
-    const isActive = item.isActive ?? (pathname === item.href || isChildActive === true)
+function CollapsibleNavItem({
+    item,
+    isCollapsed,
+    t,
+    normalizedPathname,
+    localizedHref,
+}: {
+    item: NavItem
+    isCollapsed: boolean
+    t: ReturnType<typeof useTranslations>
+    normalizedPathname: string
+    localizedHref: (href: string) => string
+}) {
+    const isChildActive = item.items?.some((sub) => normalizedPathname === sub.href)
+    const isActive = item.isActive ?? (normalizedPathname === item.href || isChildActive === true)
 
     // Collapsed sidebar → flyout dropdown with sub-items
     if (isCollapsed) {
@@ -116,7 +169,7 @@ function CollapsibleNavItem({ item, isCollapsed }: { item: NavItem; isCollapsed:
                         <SidebarMenuButton
 
                             isActive={isActive}
-                            tooltip={item.title}
+                            tooltip={t(item.titleKey)}
                             className="dashboard-nav-item"
                             data-collapsed={isCollapsed}
                         >
@@ -127,7 +180,7 @@ function CollapsibleNavItem({ item, isCollapsed }: { item: NavItem; isCollapsed:
                             )}
                             {
                                 !isCollapsed &&
-                                <span>{item.title}</span>
+                                <span>{t(item.titleKey)}</span>
                             }
                         </SidebarMenuButton>
                     </DropdownMenuTrigger>
@@ -138,15 +191,15 @@ function CollapsibleNavItem({ item, isCollapsed }: { item: NavItem; isCollapsed:
                         className="min-w-45"
                     >
                         <DropdownMenuLabel className="text-xs text-muted-foreground">
-                            {item.title}
+                            {t(item.titleKey)}
                         </DropdownMenuLabel>
                         <DropdownMenuSeparator />
                         {item.items?.map((sub) => {
-                            const isSubActive = sub.isActive ?? pathname === sub.href
+                            const isSubActive = sub.isActive ?? normalizedPathname === sub.href
                             return (
                                 <DropdownMenuItem key={sub.href} asChild>
                                     <Link
-                                        href={sub.href}
+                                        href={localizedHref(sub.href)}
                                         data-active={isSubActive}
                                         className={cn(
                                             "dashboard-nav-dropdown-item flex items-center gap-2"
@@ -161,7 +214,7 @@ function CollapsibleNavItem({ item, isCollapsed }: { item: NavItem; isCollapsed:
                                                 <Circle className="size-1.5 fill-current" />
                                             </span>
                                         )}
-                                        {sub.title}
+                                        {t(sub.titleKey)}
                                     </Link>
                                 </DropdownMenuItem>
                             )
@@ -177,7 +230,7 @@ function CollapsibleNavItem({ item, isCollapsed }: { item: NavItem; isCollapsed:
         <Collapsible asChild defaultOpen={isActive} className="group/collapsible">
             <SidebarMenuItem>
                 <CollapsibleTrigger asChild>
-                    <SidebarMenuButton tooltip={item.title} isActive={isActive} className="dashboard-nav-item" data-collapsed={isCollapsed}>
+                    <SidebarMenuButton tooltip={t(item.titleKey)} isActive={isActive} className="dashboard-nav-item" data-collapsed={isCollapsed}>
                         {item.icon && (
                             <span className="dashboard-nav-icon shrink-0">
                                 {item.icon}
@@ -185,7 +238,7 @@ function CollapsibleNavItem({ item, isCollapsed }: { item: NavItem; isCollapsed:
                         )}
 
 
-                        <span>{item.title}</span>
+                        <span>{t(item.titleKey)}</span>
 
                         <ChevronRight
                             className={cn(
@@ -198,11 +251,11 @@ function CollapsibleNavItem({ item, isCollapsed }: { item: NavItem; isCollapsed:
                 <CollapsibleContent className="overflow-hidden py-2 data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up">
                     <SidebarMenuSub>
                         {item.items?.map((sub) => {
-                            const isSubActive = sub.isActive ?? pathname === sub.href
+                            const isSubActive = sub.isActive ?? normalizedPathname === sub.href
                             return (
                                 <SidebarMenuSubItem key={sub.href}>
                                     <SidebarMenuSubButton asChild isActive={isSubActive} className="dashboard-nav-sub-item my-0.5">
-                                        <Link href={sub.href}>
+                                        <Link href={localizedHref(sub.href)}>
                                             {sub.icon ? (
                                                 <span className="dashboard-nav-sub-icon shrink-0 text-sidebar-foreground/55 [&>svg]:size-4">
                                                     {sub.icon}
@@ -212,7 +265,7 @@ function CollapsibleNavItem({ item, isCollapsed }: { item: NavItem; isCollapsed:
                                                     <Circle className="size-1.5 fill-current" />
                                                 </span>
                                             )}
-                                            <span>{sub.title}</span>
+                                            <span>{t(sub.titleKey)}</span>
                                         </Link>
                                     </SidebarMenuSubButton>
                                 </SidebarMenuSubItem>

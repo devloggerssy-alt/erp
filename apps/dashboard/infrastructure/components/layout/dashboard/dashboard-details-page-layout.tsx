@@ -3,6 +3,7 @@
 import React from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import { useLocale } from "next-intl"
 import { cn } from "@/shared/lib/utils"
 import { Avatar, AvatarFallback, AvatarImage } from "@/shared/components/ui/avatar"
 import { Button } from "@/shared/components/ui/button"
@@ -52,7 +53,14 @@ export default function DashboardDetailsPageLayout({
   children,
   className,
 }: DashboardDetailsPageLayoutProps) {
-  const pathname = usePathname()
+  const pathname = usePathname() ?? "/"
+  const locale = useLocale()
+
+  const normalizedPathname = pathname.startsWith(`/${locale}`)
+    ? pathname.slice(locale.length + 1) || "/"
+    : pathname
+
+  const localizedHref = (href: string) => (href === "/" ? `/${locale}` : `/${locale}${href}`)
 
   return (
     <div className={cn("flex flex-col h-full ")}>
@@ -62,7 +70,7 @@ export default function DashboardDetailsPageLayout({
         <div className="flex items-center gap-3">
           {backHref && (
             <Button variant="ghost" size="icon" asChild>
-              <Link href={backHref}>
+              <Link href={localizedHref(backHref)}>
                 <ArrowLeft className="size-4" />
               </Link>
             </Button>
@@ -101,12 +109,12 @@ export default function DashboardDetailsPageLayout({
       {tabs && tabs.length > 0 && (
         <nav className="flex items-center gap-1 border-b px-4 lg:px-6 bg-card">
           {tabs.map((tab) => {
-            const isActive = pathname === tab.href
+            const isActive = normalizedPathname === tab.href
 
             return (
               <Link
                 key={tab.href}
-                href={tab.href}
+                href={localizedHref(tab.href)}
                 className={cn(
                   "relative inline-flex items-center justify-center px-3 py-2 text-sm font-medium whitespace-nowrap transition-colors",
                   "text-muted-foreground hover:text-foreground",

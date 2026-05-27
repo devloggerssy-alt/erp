@@ -2,7 +2,7 @@ import { ReactNode } from "react"
 
  
 export type NavItem = {
-  title: string
+  titleKey: string
   href: string
   icon?: ReactNode
   isActive?: boolean
@@ -11,14 +11,14 @@ export type NavItem = {
 }
 
 export type NavSubItem = {
-  title: string
+  titleKey: string
   href: string
   icon?: ReactNode
   isActive?: boolean
 }
 
 export type NavGroup = {
-  label?: string
+  labelKey?: string
   items: NavItem[]
 }
 

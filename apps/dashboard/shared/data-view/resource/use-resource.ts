@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { useMutation } from "@tanstack/react-query"
 import { toast } from "sonner"
+import { useTranslations } from "next-intl"
 import { confirm } from "@/shared/components/confirm-dialog"
 import { useAuthApi } from "@/shared/useApi"
 import { useFormDialog } from "@/shared/components/form-dialog"
@@ -28,6 +29,7 @@ export function useResource<TClient extends ICrudClient>({
     type TItem = ResourceItem<TClient>
 
     const api = useAuthApi()
+    const t = useTranslations("system.resource")
     const client = getClient(api)
     const { open: openDialog, close: closeDialog, isOpen, resourceId } = useFormDialog(paramKey)
     const [selectedItem, setSelectedItem] = useState<TItem | null>(null)
@@ -46,9 +48,9 @@ export function useResource<TClient extends ICrudClient>({
         mutationFn: (id: string) => {
             const promise = client.destroy(id)
             toast.promise(promise, {
-                loading: "Deleting...",
-                success: "Deleted successfully",
-                error: "Failed to delete",
+                loading: t("toastDeleting"),
+                success: t("toastDeleted"),
+                error: t("toastDeleteFailed"),
             })
             return promise
         },
@@ -72,9 +74,9 @@ export function useResource<TClient extends ICrudClient>({
             onEdit: openEdit,
             onDelete: async (row) => {
                 const confirmed = await confirm({
-                    title: "Delete this item?",
-                    description: "This action cannot be undone.",
-                    confirmLabel: "Delete",
+                    title: t("deleteTitle"),
+                    description: t("deleteDescription"),
+                    confirmLabel: t("deleteConfirm"),
                     variant: "destructive",
                 })
 

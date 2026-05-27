@@ -3,6 +3,7 @@
 import { createContext, useContext, useState, type ReactNode } from "react"
 import type { ColumnDef } from "@tanstack/react-table"
 import type { ICrudClient } from "@devloggers/api-client"
+import { useTranslations } from "next-intl"
 import { createActionsColumn, type ActionsColumnOptions } from "@/shared/data-view/table-view"
 import { useFormDialog } from "@/shared/components/form-dialog"
 import { confirm } from "@/shared/components/confirm-dialog"
@@ -34,6 +35,7 @@ export function ResourceProvider<TClient extends ICrudClient>({
     const mutations = useResourceMutations(queryState.client, {
         invalidateQuery: queryState.invalidateQuery,
     })
+    const t = useTranslations("system.resource")
     const dialog = useFormDialog(config.paramKey)
     const [selectedItem, setSelectedItem] = useState<TItem | null>(null)
 
@@ -54,9 +56,9 @@ export function ResourceProvider<TClient extends ICrudClient>({
             onEdit: openEdit,
             onDelete: async (row) => {
                 const confirmed = await confirm({
-                    title: "Delete this item?",
-                    description: "This action cannot be undone.",
-                    confirmLabel: "Delete",
+                    title: t("deleteTitle"),
+                    description: t("deleteDescription"),
+                    confirmLabel: t("deleteConfirm"),
                     variant: "destructive",
                 })
                 if (confirmed) {

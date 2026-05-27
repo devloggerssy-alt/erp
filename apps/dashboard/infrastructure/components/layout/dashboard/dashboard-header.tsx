@@ -2,8 +2,8 @@
 
 import { useCallback, useEffect, useState } from "react"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
 import { useTheme } from "next-themes"
+import { useLocale, useTranslations } from "next-intl"
 import {
   BellIcon,
   LogOutIcon,
@@ -49,7 +49,10 @@ export function DashboardHeader({ actions, className }: DashboardHeaderProps) {
   const { resolvedTheme, setTheme } = useTheme()
   const [searchOpen, setSearchOpen] = useState(false)
   const { user } = useAuthStore((s) => s)
-  const router = useRouter()
+  const t = useTranslations()
+  const locale = useLocale()
+
+  const localizedHref = (href: string) => (href === "/" ? `/${locale}` : `/${locale}${href}`)
 
   // const handleLogout = useCallback(async () => {
   //   await logout()
@@ -127,9 +130,9 @@ export function DashboardHeader({ actions, className }: DashboardHeaderProps) {
 
             <DropdownMenuGroup>
               <DropdownMenuItem asChild>
-                <Link href="/profile">
+                <Link href={localizedHref("/profile")}>
                   <UserIcon />
-                  Profile
+                  {t("system.header.profile")}
                 </Link>
               </DropdownMenuItem>
             </DropdownMenuGroup>
@@ -152,7 +155,7 @@ export function DashboardHeader({ actions, className }: DashboardHeaderProps) {
           onClick={() => setSearchOpen(true)}
         >
           <SearchIcon className="size-4" />
-          <span className="text-sm">Search…</span>
+          <span className="text-sm">{t("system.header.search")}</span>
           <kbd className="pointer-events-none ms-auto inline-flex h-5 select-none items-center gap-0.5 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground">
             ⌘K
           </kbd>
@@ -163,7 +166,7 @@ export function DashboardHeader({ actions, className }: DashboardHeaderProps) {
           variant="ghost"
           size="icon-sm"
           className="md:hidden"
-          aria-label="Search"
+          aria-label={t("system.header.search")}
           onClick={() => setSearchOpen(true)}
         >
           <SearchIcon className="size-4" />
@@ -173,7 +176,7 @@ export function DashboardHeader({ actions, className }: DashboardHeaderProps) {
         <Button
           variant="ghost"
           size="icon-sm"
-          aria-label="Toggle theme"
+          aria-label={t("system.header.toggleTheme")}
           onClick={toggleTheme}
         >
           <SunIcon className="size-4 rotate-0 scale-100 transition-transform dark:-rotate-90 dark:scale-0" />
@@ -181,7 +184,7 @@ export function DashboardHeader({ actions, className }: DashboardHeaderProps) {
         </Button>
 
         {/* Notifications */}
-        <Button variant="ghost" size="icon-sm" aria-label="Notifications">
+        <Button variant="ghost" size="icon-sm" aria-label={t("system.header.notifications")}>
           <BellIcon className="size-4" />
         </Button>
       </div>
@@ -189,13 +192,13 @@ export function DashboardHeader({ actions, className }: DashboardHeaderProps) {
       {/* Search command dialog */}
       <CommandDialog open={searchOpen} onOpenChange={setSearchOpen}>
         <Command>
-          <CommandInput placeholder="Type to search…" />
+          <CommandInput placeholder={t("system.header.searchPlaceholder")} />
           <CommandList>
-            <CommandEmpty>No results found.</CommandEmpty>
-            <CommandGroup heading="Quick Actions">
-              <CommandItem>Dashboard</CommandItem>
-              <CommandItem>Job Cards</CommandItem>
-              <CommandItem>Customers</CommandItem>
+            <CommandEmpty>{t("system.header.searchEmpty")}</CommandEmpty>
+            <CommandGroup heading={t("system.header.quickActions")}>
+              <CommandItem>{t("system.header.quickItems.dashboard")}</CommandItem>
+              <CommandItem>{t("system.header.quickItems.jobCards")}</CommandItem>
+              <CommandItem>{t("system.header.quickItems.customers")}</CommandItem>
             </CommandGroup>
           </CommandList>
         </Command>

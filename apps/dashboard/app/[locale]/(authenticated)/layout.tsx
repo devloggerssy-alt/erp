@@ -1,16 +1,19 @@
 import Image from "next/image"
+import { redirect } from "next/navigation"
+import { getLocale, getTranslations } from "next-intl/server"
+
 import { DashboardLayout } from "@/infrastructure/components/layout/dashboard"
 import { navGroups } from "@/config/navGroups"
 import { getAuthCookies } from "@/modules/auth/auth.actions"
-import { redirect } from "next/navigation"
 
+async function Logo() {
+  const t = await getTranslations("system.common")
 
-function Logo() {
   return (
     <div className="h-14 flex items-center justify-center px-4">
       <Image
         src="/assets/logo.png"
-        alt="Logo"
+        alt={t("logoAlt")}
         width={250}
         height={100}
         className="w-full h-auto object-contain"
@@ -26,23 +29,23 @@ export default async function AuthenticatedLayout({
   children: React.ReactNode
 }) {
   const { token, user } = await getAuthCookies()
+  const locale = await getLocale()
 
   if (!token || !user) {
-    redirect('/login');
+    redirect(`/${locale}/login`)
   }
 
   const userInfo = user
     ? {
-      name: user.name,
-      email: user.email,
-      initials: user.fullName.charAt(0).toUpperCase(),
-    }
+        name: user.name,
+        email: user.email,
+        initials: user.fullName.charAt(0).toUpperCase(),
+      }
     : undefined
 
   return (
-    <DashboardLayout navGroups={navGroups} logo={<Logo />} user={userInfo}>
+    <DashboardLayout navGroups={navGroups} logo={await Logo()} user={userInfo}>
       {children}
     </DashboardLayout>
   )
 }
-

@@ -2,8 +2,7 @@
 
 import type { ICrudClient } from "@devloggers/api-client"
 import { ResourceProvider } from "./resource-context"
-import { ResourcePage } from "./resource-page-v2"
-import { ResourceTable } from "./resource-table"
+ import { ResourceTable } from "./resource-table"
 import { ResourceFormDialog } from "./resource-form-dialog"
 import { ResourceCreateButton } from "./resource-create-button"
 import { ResourceGrid } from "./resource-grid"
@@ -11,11 +10,11 @@ import { ResourcePagination } from "./resource-pagination"
 import { useResource } from "./use-resource"
 import type { ResourceRender, UseResourceOptions } from "./types"
 import type { ResourceProviderProps } from "./resource-context"
-import type { ResourcePageProps } from "./resource-page-v2"
-import type { ResourceTableProps } from "./resource-table"
+ import type { ResourceTableProps } from "./resource-table"
 import type { ResourceFormDialogProps } from "./resource-form-dialog"
 import type { ResourceCreateButtonProps } from "./resource-create-button"
 import type { ResourceGridProps } from "./resource-grid"
+import { ResourcePage , ResourcePageProps} from "./resource-page"
 
 export type LegacyResourceProps<TClient extends ICrudClient> = UseResourceOptions<TClient> & {
     children?: ResourceRender<TClient>

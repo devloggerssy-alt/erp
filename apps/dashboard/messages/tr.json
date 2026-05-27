@@ -1,0 +1,108 @@
+{
+  "system": {
+    "common": {
+      "logoAlt": "Oto Parcalari"
+    },
+    "header": {
+      "profile": "Profil",
+      "search": "Ara...",
+      "toggleTheme": "Tema değiştir",
+      "notifications": "Bildirimler",
+      "searchPlaceholder": "Aramak için yazın...",
+      "searchEmpty": "Sonuç bulunamadı.",
+      "quickActions": "Hızlı İşlemler",
+      "quickItems": {
+        "dashboard": "Kontrol Paneli",
+        "jobCards": "İş Kartları",
+        "customers": "Müşteriler"
+      }
+    },
+    "auth": {
+      "login": {
+        "title": "Hesabına giriş yap",
+        "description": "Giriş yapmak için e-postanı gir",
+        "errorTitle": "Giriş başarısız",
+        "email": "E-posta",
+        "emailPlaceholder": "m@example.com",
+        "password": "Şifre",
+        "forgotPassword": "Şifreni mi unuttun?",
+        "submit": "Giriş yap",
+        "submitting": "Giriş yapılıyor...",
+        "lastEmailUsed": "Son kullanılan e-posta: {email}"
+      }
+    },
+    "confirm": {
+      "title": "Emin misin?",
+      "cancel": "İptal",
+      "confirm": "Onayla"
+    },
+    "resourcePagination": {
+      "summary": "Sayfa {page} / {pageCount} (toplam {total})",
+      "rowsPerPage": "Sayfa başı satır"
+    },
+    "resource": {
+      "deleteTitle": "Bu öğe silinsin mi?",
+      "deleteDescription": "Bu işlem geri alınamaz.",
+      "deleteConfirm": "Sil",
+      "toastDeleting": "Siliniyor...",
+      "toastDeleted": "Başarıyla silindi",
+      "toastDeleteFailed": "Silme başarısız"
+    },
+    "tableActions": {
+      "header": "İşlemler",
+      "openMenu": "Menüyü aç",
+      "edit": "Düzenle",
+      "delete": "Sil"
+    }
+  },
+  "business": {
+    "navigation": {
+      "groups": {
+        "commercial": "Ticari İşlemler",
+        "inventory": "Stok ve Katalog",
+        "finance": "Finans",
+        "reports": "Raporlar",
+        "settings": "Ayarlar"
+      },
+      "items": {
+        "dashboard": "Kontrol Paneli",
+        "cashier": "Kasa",
+        "aiAssistant": "Yapay Zeka Asistanı",
+        "sales": "Satışlar",
+        "salesInvoices": "Satış Faturaları",
+        "customers": "Müşteriler",
+        "purchases": "Satın Almalar",
+        "purchaseInvoices": "Satın Alma Faturaları",
+        "suppliers": "Tedarikçiler",
+        "catalog": "Katalog",
+        "itemsList": "Ürün Listesi",
+        "categories": "Kategoriler",
+        "units": "Birimler",
+        "warehouses": "Depolar",
+        "warehouseList": "Depo Listesi",
+        "stockBalances": "Stok Bakiyeleri",
+        "stockMovements": "Stok Hareketleri",
+        "stockCounts": "Stok Sayımları",
+        "openingBalances": "Açılış Bakiyeleri",
+        "cashboxes": "Kasalar",
+        "cashboxesList": "Kasa Listesi",
+        "payments": "Ödemeler",
+        "accounting": "Muhasebe",
+        "chartOfAccounts": "Hesap Planı",
+        "generalReports": "Genel Raporlar",
+        "stockReports": "Stok Raporları",
+        "salesReports": "Satış Raporları",
+        "purchaseReports": "Satın Alma Raporları",
+        "accountStatements": "Hesap Ekstreleri",
+        "companySettings": "Şirket Ayarları",
+        "usersAndPermissions": "Kullanıcılar ve Yetkiler",
+        "users": "Kullanıcılar",
+        "roles": "Roller",
+        "systemSettings": "Sistem Ayarları",
+        "currencies": "Para Birimleri",
+        "fiscalPeriods": "Mali Dönemler",
+        "documentSequences": "Belge Dizileri"
+      }
+    }
+  }
+}

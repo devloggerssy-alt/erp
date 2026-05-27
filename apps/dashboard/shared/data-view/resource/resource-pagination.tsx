@@ -1,6 +1,7 @@
 "use client"
 
 import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from "lucide-react"
+import { useTranslations } from "next-intl"
 import { Button } from "@/shared/components/ui/button"
 import {
     Select,
@@ -14,6 +15,7 @@ import { useResourceContext } from "./resource-context"
 const PAGE_SIZE_OPTIONS = [10, 20, 30, 50, 100]
 
 export function ResourcePagination() {
+    const t = useTranslations("system.resourcePagination")
     const { pagination, handleChange } = useResourceContext()
     const { page, pageSize, pageCount, total } = pagination
 
@@ -37,11 +39,11 @@ export function ResourcePagination() {
     return (
         <div data-slot="resource-pagination" className="flex items-center justify-between px-2">
             <div className="text-sm text-muted-foreground">
-                Page {page} of {pageCount} ({total} total)
+                {t("summary", { page, pageCount, total })}
             </div>
             <div className="flex items-center gap-6 lg:gap-8">
                 <div className="flex items-center gap-2">
-                    <p className="text-sm font-medium">Rows per page</p>
+                    <p className="text-sm font-medium">{t("rowsPerPage")}</p>
                     <Select
                         value={String(pageSize)}
                         onValueChange={(value) => changePageSize(Number(value))}
