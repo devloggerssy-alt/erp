@@ -21,7 +21,6 @@ type ApiInstance = ReturnType<typeof useAuthApi>
 export type ResourceItem<TClient extends ICrudClient> = CrudListDataItem<TClient>
 
 export type UseResourceOptions<TClient extends ICrudClient> = {
-    routeKey?: string
     getClient: (api: ApiInstance) => TClient
     queryOptions?: Omit<UseQueryOptions<CrudListDataResponse<TClient>>, "queryKey" | "queryFn">
     paramKey?: string

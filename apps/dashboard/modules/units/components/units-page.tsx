@@ -9,9 +9,9 @@ export function UnitsPage() {
         <UnitsResource>
             <UnitsResource.Page
                 title="Units"
-                actions={<UnitsResource.CreateButton />}
+                actions={<UnitsResource.FormDialog title={(it) => it?.id ? it.name : "إضافة وحدة"} form={UnitsForm} />}
             >
-                <UnitsResource.FormDialog form={UnitsForm} />
+
                 <UnitsResource.Table columns={createUnitsColumns} />
             </UnitsResource.Page>
         </UnitsResource>

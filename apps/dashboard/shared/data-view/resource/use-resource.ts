@@ -20,7 +20,6 @@ import type {
 } from "./types"
 
 export function useResource<TClient extends ICrudClient>({
-    routeKey,
     getClient,
     queryOptions,
     paramKey,
@@ -34,7 +33,7 @@ export function useResource<TClient extends ICrudClient>({
     const [selectedItem, setSelectedItem] = useState<TItem | null>(null)
 
     const query = useDataViewQuery({
-        queryKey: [routeKey ?? client.key],
+        queryKey: [client.key],
         client,
         queryOptions,
         extraParams,

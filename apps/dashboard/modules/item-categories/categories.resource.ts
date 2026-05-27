@@ -3,5 +3,4 @@ import { type CategoriesClient } from "@devloggers/api-client"
 
 export const CategoriesResource = generateResource<CategoriesClient>({
     getClient: (api) => api.categories,
-    routeKey: "item-categories",
-})
+ })

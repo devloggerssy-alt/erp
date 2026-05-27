@@ -3,5 +3,4 @@ import { type UnitsClient } from "@devloggers/api-client"
 
 export const UnitsResource = generateResource<UnitsClient>({
     getClient: (api) => api.units,
-    routeKey: "units",
-})
+ })

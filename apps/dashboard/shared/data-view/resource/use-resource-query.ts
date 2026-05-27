@@ -30,7 +30,7 @@ export function useResourceQuery<TClient extends ICrudClient>(
     const client = config.getClient(api)
 
     const queryState = useDataViewQuery({
-        queryKey: [config.routeKey ?? client.key],
+        queryKey: [ client.key],
         client,
         queryOptions: config.queryOptions as Omit<UseQueryOptions<CrudListDataResponse<TClient>>, "queryKey" | "queryFn"> | undefined,
         extraParams: config.extraParams,
