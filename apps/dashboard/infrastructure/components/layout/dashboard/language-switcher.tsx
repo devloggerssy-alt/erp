@@ -1,9 +1,9 @@
 "use client"
 
-import Link from "next/link"
-import { useLocale,  useTranslations } from "next-intl"
+import { useLocale, useTranslations } from "next-intl"
 import { Check, GlobeIcon } from "lucide-react"
 
+import { Link } from "@/i18n/navigation"
 import { Button } from "@/shared/components/ui/button"
 import {
   DropdownMenu,
@@ -12,17 +12,12 @@ import {
   DropdownMenuTrigger,
 } from "@/shared/components/ui/dropdown-menu"
 import { cn } from "@/shared/lib/utils"
-import { usePathname } from "next/navigation"
 
 const LOCALES = ["ar", "en", "tr"] as const
 
 export function LanguageSwitcher({ className }: { className?: string }) {
   const t = useTranslations("system.header")
   const locale = useLocale()
-  const pathname = usePathname() ?? "/"
-
-  const switchLocaleHref = (newLocale: string) =>
-    pathname === "/" ? `/${newLocale}` : `/${newLocale}${pathname}`
 
   return (
     <DropdownMenu>
@@ -43,7 +38,8 @@ export function LanguageSwitcher({ className }: { className?: string }) {
         {LOCALES.map((targetLocale) => (
           <DropdownMenuItem key={targetLocale} asChild>
             <Link
-              href={switchLocaleHref(targetLocale)}
+              href="/"
+              locale={targetLocale}
               className={cn(
                 "flex items-center justify-between",
                 targetLocale === locale && "font-semibold",
