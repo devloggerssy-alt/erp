@@ -1,5 +1,6 @@
 "use client"
 
+import { useLocale } from "next-intl"
 import type { NavGroup, UserInfo } from "@/infrastructure/types/navigation"
 import { SidebarInset, SidebarProvider } from "@/shared/components/ui/sidebar"
 import { TooltipProvider } from "@/shared/components/ui/tooltip"
@@ -31,9 +32,12 @@ export function DashboardLayout({
   breadcrumbs,
   defaultOpen = true,
 }: DashboardLayoutProps) {
+  const locale = useLocale()
+  const isRtl = locale === "ar"
+
   return (
     <TooltipProvider>
-      <SidebarProvider defaultOpen={defaultOpen}>
+      <SidebarProvider defaultOpen={defaultOpen} dir={isRtl ? "rtl" : "ltr"}>
         <AppSidebar navGroups={navGroups} logo={logo} />
         <SidebarInset>
           <div>

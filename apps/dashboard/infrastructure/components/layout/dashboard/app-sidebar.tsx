@@ -64,7 +64,7 @@ export function AppSidebar({ navGroups, logo, ...props }: AppSidebarProps) {
     const normalizedPathname = normalizePathname(pathname)
 
     return (
-        <Sidebar side={isRtl ? "right" : "left"} collapsible="icon" {...props} className="bg-card border-e">
+        <Sidebar side={isRtl ? "right" : "left"} collapsible="icon" {...props} className={cn("bg-card", isRtl ? "border-s" : "border-e")}>
                  <SidebarHeader className={cn("flex flex-row items-center gap-2 p-4 justify-center", !isRtl && "flex-row-reverse")}>
                     {
                         open &&
