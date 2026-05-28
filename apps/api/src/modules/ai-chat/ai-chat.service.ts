@@ -73,11 +73,11 @@ export class AiChatService {
         );
 
         if (!response.ok) {
-            const error = await response.json().catch(() => ({})) as any;
+            const error = await response.json().catch(() => ({}));
             throw new BadRequestException(`AI API error: ${error?.error?.message || response.statusText}`);
         }
 
-        const data = await response.json() as any;
+        const data = await response.json();
         const replyText = data?.candidates?.[0]?.content?.parts?.[0]?.text || 'No response';
 
         // Save assistant reply

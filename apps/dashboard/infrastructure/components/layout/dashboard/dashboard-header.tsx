@@ -2,10 +2,12 @@
 
 import { useCallback, useEffect, useState } from "react"
 import Link from "next/link"
+import { usePathname } from "next/navigation"
 import { useTheme } from "next-themes"
 import { useLocale, useTranslations } from "next-intl"
 import {
   BellIcon,
+  GlobeIcon,
   LogOutIcon,
   MoonIcon,
   SearchIcon,
@@ -42,17 +44,26 @@ import { Separator } from "@/shared/components/ui/separator"
 export type DashboardHeaderProps = {
   user?: UserInfo
   actions?: React.ReactNode
+  breadcrumbs?: React.ReactNode
   className?: string
 }
 
-export function DashboardHeader({ actions, className }: DashboardHeaderProps) {
+export function DashboardHeader({  actions, breadcrumbs, className }: DashboardHeaderProps) {
   const { resolvedTheme, setTheme } = useTheme()
   const [searchOpen, setSearchOpen] = useState(false)
   const { user } = useAuthStore((s) => s)
   const t = useTranslations()
   const locale = useLocale()
+  const pathname = usePathname() ?? "/"
 
   const localizedHref = (href: string) => (href === "/" ? `/${locale}` : `/${locale}${href}`)
+  
+  const pathWithoutLocale = pathname.startsWith(`/${locale}`) 
+    ? pathname.slice(locale.length + 1) || "/" 
+    : pathname
+
+  const switchLocaleHref = (newLocale: string) =>
+    pathWithoutLocale === "/" ? `/${newLocale}` : `/${newLocale}${pathWithoutLocale}`
 
   // const handleLogout = useCallback(async () => {
   //   await logout()
@@ -77,39 +88,101 @@ export function DashboardHeader({ actions, className }: DashboardHeaderProps) {
   return (
     <header
       className={cn(
-        "sticky top-0 z-30 flex h-18 shrink-0 items-center gap-2 border-b bg-card px-4",
+        " z-30 flex h-12 shrink-0  items-center justify-between border-b border-border/60 bg-card px-2 shadow-none md:px-3",
         className,
       )}
     >
-      {/* Sidebar toggle — mobile: hamburger, desktop: collapse */}
-      <SidebarTrigger className="-ms-2" />
-      <Separator orientation="vertical" />
+      <div className="flex min-w-0 items-center gap-1">
+        <SidebarTrigger className="-ms-2 md:hidden" />
+        <Separator orientation="vertical" className="md:hidden" />
+        {breadcrumbs && (
+          <div className="hidden md:flex ms-2">
+            {breadcrumbs}
+          </div>
+        )}
+      </div>
 
-      {/* Left side — default actions */}
-      <div className="flex items-center gap-1">
-        {/* User dropdown */}
-        {/* {user && ( */}
+      <div className="flex items-center gap-1 ms-auto">
+        <Button
+          variant="ghost"
+          size="icon-sm"
+          className="size-8"
+          aria-label={t("system.header.toggleTheme")}
+          onClick={toggleTheme}
+        >
+          <SunIcon className="size-3.5 rotate-0 scale-100 transition-transform dark:-rotate-90 dark:scale-0" />
+          <MoonIcon className="absolute size-3.5 rotate-90 scale-0 transition-transform dark:rotate-0 dark:scale-100" />
+        </Button>
+
+        <Button variant="ghost" size="icon-sm" className="size-8" aria-label={t("system.header.notifications")}>
+          <BellIcon className="size-3.5" />
+        </Button>
+
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="flex items-center gap-2 px-2">
-              <Avatar >
-                {/* {user?.avatar && <AvatarImage src={user?.avatar as string} alt={user?.name} />} */}
+            <Button variant="ghost" size="icon-sm" className="size-8">
+              <GlobeIcon className="size-3.5" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-32">
+            <DropdownMenuItem asChild>
+              <Link href={switchLocaleHref("ar")} className={locale === "ar" ? "font-bold" : ""}>
+                العربية
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link href={switchLocaleHref("en")} className={locale === "en" ? "font-bold" : ""}>
+                English
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link href={switchLocaleHref("tr")} className={locale === "tr" ? "font-bold" : ""}>
+                Türkçe
+              </Link>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+
+        <Button
+          variant="outline"
+          className="hidden h-7 w-48 justify-start gap-2 px-2 ms-2 text-muted-foreground md:flex"
+          onClick={() => setSearchOpen(true)}
+        >
+          <SearchIcon className="size-3.5" />
+          <span className="truncate text-sm">{t("system.header.search")}</span>
+          <kbd className="pointer-events-none ms-auto inline-flex h-4 select-none items-center gap-0.5 rounded border bg-muted px-1 font-mono text-[10px] font-medium text-muted-foreground">
+            ⌘K
+          </kbd>
+        </Button>
+
+        <Button
+          variant="ghost"
+          size="icon-sm"
+          className="md:hidden size-8"
+          aria-label={t("system.header.search")}
+          onClick={() => setSearchOpen(true)}
+        >
+          <SearchIcon className="size-3.5" />
+        </Button>
+
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" className="h-8 items-center gap-2 px-2 ms-1">
+              <Avatar>
                 <AvatarFallback>
                   {user?.fullName.charAt(0).toUpperCase()}
                 </AvatarFallback>
               </Avatar>
-              <span className="hidden text-sm font-medium md:inline-block">
+              <span className="hidden truncate text-sm font-medium md:inline-block">
                 {user?.fullName}
               </span>
             </Button>
           </DropdownMenuTrigger>
 
           <DropdownMenuContent align="end" className="w-56">
-            {/* User info header */}
             <DropdownMenuLabel className="font-normal">
               <div className="flex items-center gap-3 py-1">
                 <Avatar size="lg">
-                  {/* {user?.avatar && <AvatarImage src={user?.avatar as string} alt={user?.name} />} */}
                   <AvatarFallback className="text-base">
                     {user?.fullName.charAt(0).toUpperCase()}
                   </AvatarFallback>
@@ -125,9 +198,7 @@ export function DashboardHeader({ actions, className }: DashboardHeaderProps) {
                 </div>
               </div>
             </DropdownMenuLabel>
-
             <DropdownMenuSeparator />
-
             <DropdownMenuGroup>
               <DropdownMenuItem asChild>
                 <Link href={localizedHref("/profile")}>
@@ -136,60 +207,12 @@ export function DashboardHeader({ actions, className }: DashboardHeaderProps) {
                 </Link>
               </DropdownMenuItem>
             </DropdownMenuGroup>
-
             <DropdownMenuSeparator />
-
-            {/* <DropdownMenuItem variant="destructive" onSelect={handleLogout}>
-              <LogOutIcon />
-              Logout
-            </DropdownMenuItem> */}
           </DropdownMenuContent>
         </DropdownMenu>
-        {/* )} */}
-
-
-        {/* Search trigger */}
-        <Button
-          variant="outline"
-          className="hidden h-8 w-56 justify-start gap-2 text-muted-foreground md:flex"
-          onClick={() => setSearchOpen(true)}
-        >
-          <SearchIcon className="size-4" />
-          <span className="text-sm">{t("system.header.search")}</span>
-          <kbd className="pointer-events-none ms-auto inline-flex h-5 select-none items-center gap-0.5 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground">
-            ⌘K
-          </kbd>
-        </Button>
-
-        {/* Mobile search icon */}
-        <Button
-          variant="ghost"
-          size="icon-sm"
-          className="md:hidden"
-          aria-label={t("system.header.search")}
-          onClick={() => setSearchOpen(true)}
-        >
-          <SearchIcon className="size-4" />
-        </Button>
-
-        {/* Theme toggle */}
-        <Button
-          variant="ghost"
-          size="icon-sm"
-          aria-label={t("system.header.toggleTheme")}
-          onClick={toggleTheme}
-        >
-          <SunIcon className="size-4 rotate-0 scale-100 transition-transform dark:-rotate-90 dark:scale-0" />
-          <MoonIcon className="absolute size-4 rotate-90 scale-0 transition-transform dark:rotate-0 dark:scale-100" />
-        </Button>
-
-        {/* Notifications */}
-        <Button variant="ghost" size="icon-sm" aria-label={t("system.header.notifications")}>
-          <BellIcon className="size-4" />
-        </Button>
+ 
       </div>
 
-      {/* Search command dialog */}
       <CommandDialog open={searchOpen} onOpenChange={setSearchOpen}>
         <Command>
           <CommandInput placeholder={t("system.header.searchPlaceholder")} />
@@ -204,10 +227,8 @@ export function DashboardHeader({ actions, className }: DashboardHeaderProps) {
         </Command>
       </CommandDialog>
 
-      {/* Right side — custom actions */}
-      {actions && (
-        <div className="ms-auto flex items-center gap-2">{actions}</div>
-      )}
+   
+  
     </header>
   )
 }

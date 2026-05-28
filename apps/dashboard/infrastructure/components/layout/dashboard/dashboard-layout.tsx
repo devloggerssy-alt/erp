@@ -16,6 +16,8 @@ type DashboardLayoutProps = {
   user?: UserInfo
   /** Custom actions rendered in the header (e.g. session timer, clock-in button) */
   headerActions?: React.ReactNode
+  /** Breadcrumbs to render in the header */
+  breadcrumbs?: React.ReactNode
   /** Default sidebar open state */
   defaultOpen?: boolean
 }
@@ -26,6 +28,7 @@ export function DashboardLayout({
   logo,
   user,
   headerActions,
+  breadcrumbs,
   defaultOpen = true,
 }: DashboardLayoutProps) {
   return (
@@ -34,6 +37,7 @@ export function DashboardLayout({
         <AppSidebar navGroups={navGroups} logo={logo} />
         <SidebarInset>
           <div>
+            <DashboardHeader user={user} actions={headerActions} breadcrumbs={breadcrumbs} />
             {children}
           </div>
         </SidebarInset>

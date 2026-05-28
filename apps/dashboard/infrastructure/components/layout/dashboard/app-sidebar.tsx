@@ -33,6 +33,7 @@ import {
     SidebarMenuSubButton,
     SidebarMenuSubItem,
     SidebarRail,
+    SidebarTrigger,
     useSidebar,
 } from "@/shared/components/ui/sidebar"
 
@@ -42,7 +43,7 @@ type AppSidebarProps = React.ComponentProps<typeof Sidebar> & {
 }
 
 export function AppSidebar({ navGroups, logo, ...props }: AppSidebarProps) {
-    const { state, isMobile } = useSidebar()
+    const { state, isMobile, open } = useSidebar()
     const isCollapsed = state === "collapsed" && !isMobile
     const t = useTranslations()
     const locale = useLocale()
@@ -63,11 +64,14 @@ export function AppSidebar({ navGroups, logo, ...props }: AppSidebarProps) {
 
     return (
         <Sidebar side="right" collapsible="icon" {...props} className="bg-card border-e">
-            {logo && (
-                <SidebarHeader className="flex p-4 ">
-                    {logo}
+                 <SidebarHeader className="flex flex-row items-center gap-2 p-4 justify-center">
+                    {
+                        open &&
+                        <div className="min-w-0 flex-1">{logo}</div>
+                    }
+                    <SidebarTrigger className="hidden shrink-0 md:inline-flex" />
                 </SidebarHeader>
-            )}
+          
             <SidebarContent className={cn("transition-[padding] duration-200 gap-0", !isCollapsed && "ps-2")}>
                 {navGroups.map((group, groupIndex) => (
                     <SidebarGroup key={group.labelKey ?? groupIndex}>
