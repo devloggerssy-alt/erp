@@ -5,6 +5,12 @@
     },
     "header": {
       "profile": "الملف الشخصي",
+      "language": "اللغة",
+      "languages": {
+        "ar": "العربية",
+        "en": "الإنجليزية",
+        "tr": "التركية"
+      },
       "search": "بحث...",
       "toggleTheme": "تبديل النمط",
       "notifications": "الإشعارات",

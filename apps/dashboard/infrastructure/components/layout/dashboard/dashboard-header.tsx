@@ -1,13 +1,10 @@
 "use client"
 
 import { useCallback, useEffect, useState } from "react"
-import Link from "next/link"
-import { usePathname } from "next/navigation"
 import { useTheme } from "next-themes"
 import { useLocale, useTranslations } from "next-intl"
-import {
+ import {
   BellIcon,
-  GlobeIcon,
   LogOutIcon,
   MoonIcon,
   SearchIcon,
@@ -40,6 +37,8 @@ import {
   DropdownMenuTrigger,
 } from "@/shared/components/ui/dropdown-menu"
 import { Separator } from "@/shared/components/ui/separator"
+import { LanguageSwitcher } from "./language-switcher"
+import Link from "next/link"
 
 export type DashboardHeaderProps = {
   user?: UserInfo
@@ -48,22 +47,14 @@ export type DashboardHeaderProps = {
   className?: string
 }
 
-export function DashboardHeader({  actions, breadcrumbs, className }: DashboardHeaderProps) {
+export function DashboardHeader({ actions, breadcrumbs, className }: DashboardHeaderProps) {
   const { resolvedTheme, setTheme } = useTheme()
   const [searchOpen, setSearchOpen] = useState(false)
   const { user } = useAuthStore((s) => s)
   const t = useTranslations()
   const locale = useLocale()
-  const pathname = usePathname() ?? "/"
 
   const localizedHref = (href: string) => (href === "/" ? `/${locale}` : `/${locale}${href}`)
-  
-  const pathWithoutLocale = pathname.startsWith(`/${locale}`) 
-    ? pathname.slice(locale.length + 1) || "/" 
-    : pathname
-
-  const switchLocaleHref = (newLocale: string) =>
-    pathWithoutLocale === "/" ? `/${newLocale}` : `/${newLocale}${pathWithoutLocale}`
 
   // const handleLogout = useCallback(async () => {
   //   await logout()
@@ -118,30 +109,7 @@ export function DashboardHeader({  actions, breadcrumbs, className }: DashboardH
           <BellIcon className="size-3.5" />
         </Button>
 
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon-sm" className="size-8">
-              <GlobeIcon className="size-3.5" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-32">
-            <DropdownMenuItem asChild>
-              <Link href={switchLocaleHref("ar")} className={locale === "ar" ? "font-bold" : ""}>
-                العربية
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem asChild>
-              <Link href={switchLocaleHref("en")} className={locale === "en" ? "font-bold" : ""}>
-                English
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem asChild>
-              <Link href={switchLocaleHref("tr")} className={locale === "tr" ? "font-bold" : ""}>
-                Türkçe
-              </Link>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <LanguageSwitcher className="ms-1" />
 
         <Button
           variant="outline"

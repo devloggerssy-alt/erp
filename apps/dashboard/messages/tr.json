@@ -5,6 +5,12 @@
     },
     "header": {
       "profile": "Profil",
+      "language": "Dil",
+      "languages": {
+        "ar": "Arapça",
+        "en": "İngilizce",
+        "tr": "Türkçe"
+      },
       "search": "Ara...",
       "toggleTheme": "Tema değiştir",
       "notifications": "Bildirimler",

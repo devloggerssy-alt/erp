@@ -48,6 +48,7 @@ export function AppSidebar({ navGroups, logo, ...props }: AppSidebarProps) {
     const t = useTranslations()
     const locale = useLocale()
     const pathname = usePathname() ?? "/"
+    const isRtl = locale === "ar"
 
     const normalizePathname = (value: string) => {
         if (value.startsWith(`/${locale}`)) {
@@ -63,8 +64,8 @@ export function AppSidebar({ navGroups, logo, ...props }: AppSidebarProps) {
     const normalizedPathname = normalizePathname(pathname)
 
     return (
-        <Sidebar side="right" collapsible="icon" {...props} className="bg-card border-e">
-                 <SidebarHeader className="flex flex-row items-center gap-2 p-4 justify-center">
+        <Sidebar side={isRtl ? "right" : "left"} collapsible="icon" {...props} className="bg-card border-e">
+                 <SidebarHeader className={cn("flex flex-row items-center gap-2 p-4 justify-center", !isRtl && "flex-row-reverse")}>
                     {
                         open &&
                         <div className="min-w-0 flex-1">{logo}</div>

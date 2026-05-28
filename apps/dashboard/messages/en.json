@@ -5,6 +5,12 @@
     },
     "header": {
       "profile": "Profile",
+      "language": "Language",
+      "languages": {
+        "ar": "Arabic",
+        "en": "English",
+        "tr": "Turkish"
+      },
       "search": "Search...",
       "toggleTheme": "Toggle theme",
       "notifications": "Notifications",
