@@ -1,15 +1,15 @@
 // ─── App User ─────────────────────────────────────────────────────────────────
 model AppUser {
     id           String         @id @default(uuid())
-    tenantId     String
+    tenantId     String         @map("tenant_id")
     email        String
-    passwordHash String
-    fullName     String
+    passwordHash String         @map("password_hash")
+    fullName     String         @map("full_name")
     phone        String?
-    isActive     Boolean        @default(true)
-    lastLoginAt  DateTime?
-    createdAt    DateTime       @default(now())
-    updatedAt    DateTime       @updatedAt
+    isActive     Boolean        @default(true) @map("is_active")
+    lastLoginAt  DateTime?      @map("last_login_at")
+    createdAt    DateTime       @default(now()) @map("created_at")
+    updatedAt    DateTime       @updatedAt @map("updated_at")
 
     tenant    Tenant     @relation(fields: [tenantId], references: [id], onDelete: Cascade)
     userRoles UserRole[]
@@ -22,12 +22,12 @@ model AppUser {
 // ─── Role ─────────────────────────────────────────────────────────────────────
 model Role {
     id          String     @id @default(uuid())
-    tenantId    String
+    tenantId    String     @map("tenant_id")
     name        String
     description String?
-    isSystem    Boolean    @default(false)
-    createdAt   DateTime   @default(now())
-    updatedAt   DateTime   @updatedAt
+    isSystem    Boolean    @default(false) @map("is_system")
+    createdAt   DateTime   @default(now()) @map("created_at")
+    updatedAt   DateTime   @updatedAt @map("updated_at")
 
     tenant    Tenant     @relation(fields: [tenantId], references: [id], onDelete: Cascade)
     userRoles UserRole[]
@@ -40,9 +40,9 @@ model Role {
 // ─── User Role (join table) ──────────────────────────────────────────────────
 model UserRole {
     id        String   @id @default(uuid())
-    userId    String
-    roleId    String
-    createdAt DateTime @default(now())
+    userId    String   @map("user_id")
+    roleId    String   @map("role_id")
+    createdAt DateTime @default(now()) @map("created_at")
 
     user AppUser @relation(fields: [userId], references: [id], onDelete: Cascade)
     role Role    @relation(fields: [roleId], references: [id], onDelete: Cascade)

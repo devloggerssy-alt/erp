@@ -14,14 +14,14 @@ enum InvoiceStatus {
 // ─── Invoice Type ─────────────────────────────────────────────────────────────
 model InvoiceType {
     id           String           @id @default(uuid())
-    tenantId     String
+    tenantId     String           @map("tenant_id")
     code         String
     name         String
     direction    InvoiceDirection
-    affectsStock Boolean          @default(true)
-    isActive     Boolean          @default(true)
-    createdAt    DateTime         @default(now())
-    updatedAt    DateTime         @updatedAt
+    affectsStock Boolean          @default(true) @map("affects_stock")
+    isActive     Boolean          @default(true) @map("is_active")
+    createdAt    DateTime         @default(now()) @map("created_at")
+    updatedAt    DateTime         @updatedAt @map("updated_at")
 
     tenant   Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
     invoices Invoice[]
@@ -34,28 +34,28 @@ model InvoiceType {
 // ─── Invoice ──────────────────────────────────────────────────────────────────
 model Invoice {
     id             String        @id @default(uuid())
-    tenantId       String
-    invoiceTypeId  String
+    tenantId       String        @map("tenant_id")
+    invoiceTypeId  String        @map("invoice_type_id")
     number         String
     date           DateTime
-    dueDate        DateTime?
-    partyId        String
-    warehouseId    String?
-    fiscalPeriodId String
-    currencyId     String
+    dueDate        DateTime?     @map("due_date")
+    partyId        String        @map("party_id")
+    warehouseId    String?       @map("warehouse_id")
+    fiscalPeriodId String        @map("fiscal_period_id")
+    currencyId     String        @map("currency_id")
     status         InvoiceStatus @default(DRAFT)
     subtotal       Decimal       @default(0) @db.Decimal(18, 4)
-    discountAmount Decimal       @default(0) @db.Decimal(18, 4)
-    taxAmount      Decimal       @default(0) @db.Decimal(18, 4)
+    discountAmount Decimal       @default(0) @map("discount_amount") @db.Decimal(18, 4)
+    taxAmount      Decimal       @default(0) @map("tax_amount") @db.Decimal(18, 4)
     total          Decimal       @default(0) @db.Decimal(18, 4)
     notes          String?
-    postedAt       DateTime?
-    postedBy       String?
-    cancelledAt    DateTime?
-    cancelledBy    String?
-    createdBy      String
-    createdAt      DateTime      @default(now())
-    updatedAt      DateTime      @updatedAt
+    postedAt       DateTime?     @map("posted_at")
+    postedBy       String?       @map("posted_by")
+    cancelledAt    DateTime?     @map("cancelled_at")
+    cancelledBy    String?       @map("cancelled_by")
+    createdBy      String        @map("created_by")
+    createdAt      DateTime      @default(now()) @map("created_at")
+    updatedAt      DateTime      @updatedAt @map("updated_at")
 
     tenant             Tenant              @relation(fields: [tenantId], references: [id], onDelete: Cascade)
     invoiceType        InvoiceType         @relation(fields: [invoiceTypeId], references: [id])
@@ -75,19 +75,19 @@ model Invoice {
 // ─── Invoice Line ─────────────────────────────────────────────────────────────
 model InvoiceLine {
     id              String   @id @default(uuid())
-    tenantId        String
-    invoiceId       String
-    itemId          String
-    unitId          String
+    tenantId        String   @map("tenant_id")
+    invoiceId       String   @map("invoice_id")
+    itemId          String   @map("item_id")
+    unitId          String   @map("unit_id")
     quantity        Decimal  @db.Decimal(18, 4)
-    unitPrice       Decimal  @db.Decimal(18, 4)
-    discountPercent Decimal  @default(0) @db.Decimal(5, 2)
-    discountAmount  Decimal  @default(0) @db.Decimal(18, 4)
-    taxPercent      Decimal  @default(0) @db.Decimal(5, 2)
-    taxAmount       Decimal  @default(0) @db.Decimal(18, 4)
+    unitPrice       Decimal  @map("unit_price") @db.Decimal(18, 4)
+    discountPercent Decimal  @default(0) @map("discount_percent") @db.Decimal(5, 2)
+    discountAmount  Decimal  @default(0) @map("discount_amount") @db.Decimal(18, 4)
+    taxPercent      Decimal  @default(0) @map("tax_percent") @db.Decimal(5, 2)
+    taxAmount       Decimal  @default(0) @map("tax_amount") @db.Decimal(18, 4)
     total           Decimal  @db.Decimal(18, 4)
     notes           String?
-    sortOrder       Int      @default(0)
+    sortOrder       Int      @default(0) @map("sort_order")
 
     invoice Invoice @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
     item    Item    @relation(fields: [itemId], references: [id])

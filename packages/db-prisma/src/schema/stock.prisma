@@ -12,12 +12,12 @@ enum StockMovementType {
 // ─── Stock Balance (projection table for fast reads) ─────────────────────────
 model StockBalance {
     id          String   @id @default(uuid())
-    tenantId    String
-    warehouseId String
-    itemId      String
+    tenantId    String   @map("tenant_id")
+    warehouseId String   @map("warehouse_id")
+    itemId      String   @map("item_id")
     quantity    Decimal  @default(0) @db.Decimal(18, 4)
-    averageCost Decimal  @default(0) @db.Decimal(18, 4)
-    updatedAt   DateTime @updatedAt
+    averageCost Decimal  @default(0) @map("average_cost") @db.Decimal(18, 4)
+    updatedAt   DateTime @updatedAt @map("updated_at")
 
     warehouse Warehouse @relation(fields: [warehouseId], references: [id], onDelete: Cascade)
     item      Item      @relation(fields: [itemId], references: [id], onDelete: Cascade)
@@ -30,18 +30,18 @@ model StockBalance {
 // ─── Stock Movement (source of truth ledger) ─────────────────────────────────
 model StockMovement {
     id             String            @id @default(uuid())
-    tenantId       String
-    warehouseId    String
-    itemId         String
-    fiscalPeriodId String
-    movementType   StockMovementType
+    tenantId       String            @map("tenant_id")
+    warehouseId    String            @map("warehouse_id")
+    itemId         String            @map("item_id")
+    fiscalPeriodId String            @map("fiscal_period_id")
+    movementType   StockMovementType @map("movement_type")
     quantity       Decimal           @db.Decimal(18, 4)
-    unitCost       Decimal           @default(0) @db.Decimal(18, 4)
-    referenceType  String?           // e.g. "invoice", "stock_count"
-    referenceId    String?
+    unitCost       Decimal           @default(0) @map("unit_cost") @db.Decimal(18, 4)
+    referenceType  String?           @map("reference_type") // e.g. "invoice", "stock_count"
+    referenceId    String?           @map("reference_id")
     notes          String?
-    createdAt      DateTime          @default(now())
-    createdBy      String
+    createdAt      DateTime          @default(now()) @map("created_at")
+    createdBy      String            @map("created_by")
 
     warehouse    Warehouse    @relation(fields: [warehouseId], references: [id])
     item         Item         @relation(fields: [itemId], references: [id])

@@ -7,7 +7,7 @@ import {
     createSearchParamsCache,
     type inferParserType,
 } from "nuqs/server"
- 
+
 export const dataTableSearchParams = {
     page: parseAsInteger.withDefault(1),
     limit: parseAsInteger.withDefault(20),

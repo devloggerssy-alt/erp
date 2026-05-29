@@ -16,14 +16,14 @@ enum JournalEntryStatus {
 // ─── Chart Of Accounts ───────────────────────────────────────────────────────
 model ChartOfAccount {
   id        String      @id @default(uuid())
-  tenantId  String
+  tenantId  String      @map("tenant_id")
   code      String
   name      String
   type      AccountType
-  parentId  String?
-  isActive  Boolean     @default(true)
-  createdAt DateTime    @default(now())
-  updatedAt DateTime    @updatedAt
+  parentId  String?     @map("parent_id")
+  isActive  Boolean     @default(true) @map("is_active")
+  createdAt DateTime    @default(now()) @map("created_at")
+  updatedAt DateTime    @updatedAt @map("updated_at")
 
   tenant       Tenant           @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   parent       ChartOfAccount?  @relation("AccountHierarchy", fields: [parentId], references: [id])
@@ -38,18 +38,18 @@ model ChartOfAccount {
 // ─── Journal Entry ────────────────────────────────────────────────────────────
 model JournalEntry {
   id             String             @id @default(uuid())
-  tenantId       String
+  tenantId       String             @map("tenant_id")
   number         String
   date           DateTime
-  fiscalPeriodId String
-  referenceType  String? // e.g. "invoice", "payment"
-  referenceId    String?
+  fiscalPeriodId String             @map("fiscal_period_id")
+  referenceType  String?            @map("reference_type") // e.g. "invoice", "payment"
+  referenceId    String?            @map("reference_id")
   description    String?
   status         JournalEntryStatus @default(DRAFT)
-  postedAt       DateTime?
-  createdBy      String
-  createdAt      DateTime           @default(now())
-  updatedAt      DateTime           @updatedAt
+  postedAt       DateTime?          @map("posted_at")
+  createdBy      String             @map("created_by")
+  createdAt      DateTime           @default(now()) @map("created_at")
+  updatedAt      DateTime           @updatedAt @map("updated_at")
 
   tenant       Tenant        @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   fiscalPeriod FiscalPeriod  @relation(fields: [fiscalPeriodId], references: [id])
@@ -63,13 +63,13 @@ model JournalEntry {
 // ─── Journal Line ─────────────────────────────────────────────────────────────
 model JournalLine {
   id             String  @id @default(uuid())
-  tenantId       String
-  journalEntryId String
-  accountId      String
+  tenantId       String  @map("tenant_id")
+  journalEntryId String  @map("journal_entry_id")
+  accountId      String  @map("account_id")
   debit          Decimal @default(0) @db.Decimal(18, 4)
   credit         Decimal @default(0) @db.Decimal(18, 4)
   description    String?
-  sortOrder      Int     @default(0)
+  sortOrder      Int     @default(0) @map("sort_order")
 
   journalEntry JournalEntry   @relation(fields: [journalEntryId], references: [id], onDelete: Cascade)
   account      ChartOfAccount @relation(fields: [accountId], references: [id])
@@ -88,11 +88,11 @@ enum MessageRole {
 // ─── AI Chat Session ─────────────────────────────────────────────────────────
 model AiChatSession {
   id        String   @id @default(uuid())
-  tenantId  String
-  userId    String
+  tenantId  String   @map("tenant_id")
+  userId    String   @map("user_id")
   title     String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
   tenant   Tenant          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   messages AiChatMessage[]
@@ -105,11 +105,11 @@ model AiChatSession {
 // ─── AI Chat Message ──────────────────────────────────────────────────────────
 model AiChatMessage {
   id        String      @id @default(uuid())
-  tenantId  String
-  sessionId String
+  tenantId  String      @map("tenant_id")
+  sessionId String      @map("session_id")
   role      MessageRole
   content   String
-  createdAt DateTime    @default(now())
+  createdAt DateTime    @default(now()) @map("created_at")
 
   session AiChatSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
 
@@ -121,15 +121,15 @@ model AiChatMessage {
 // ─── Audit Log ────────────────────────────────────────────────────────────────
 model AuditLog {
   id         String   @id @default(uuid())
-  tenantId   String
-  userId     String
+  tenantId   String   @map("tenant_id")
+  userId     String   @map("user_id")
   action     String // e.g. CREATE, UPDATE, DELETE, POST, CANCEL
-  entityType String // e.g. "invoice", "payment"
-  entityId   String
-  oldValues  Json?
-  newValues  Json?
-  ipAddress  String?
-  createdAt  DateTime @default(now())
+  entityType String   @map("entity_type") // e.g. "invoice", "payment"
+  entityId   String   @map("entity_id")
+  oldValues  Json?    @map("old_values")
+  newValues  Json?    @map("new_values")
+  ipAddress  String?  @map("ip_address")
+  createdAt  DateTime @default(now()) @map("created_at")
 
   tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
 
@@ -156,14 +156,14 @@ enum PaymentStatus {
 // ─── Cashbox ──────────────────────────────────────────────────────────────────
 model Cashbox {
   id         String   @id @default(uuid())
-  tenantId   String
+  tenantId   String   @map("tenant_id")
   code       String
   name       String
-  currencyId String
+  currencyId String   @map("currency_id")
   balance    Decimal  @default(0) @db.Decimal(18, 4)
-  isActive   Boolean  @default(true)
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  isActive   Boolean  @default(true) @map("is_active")
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
 
   tenant   Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   currency Currency  @relation(fields: [currencyId], references: [id])
@@ -177,26 +177,26 @@ model Cashbox {
 // ─── Payment ──────────────────────────────────────────────────────────────────
 model Payment {
   id                String        @id @default(uuid())
-  tenantId          String
+  tenantId          String        @map("tenant_id")
   number            String
   type              PaymentType
   date              DateTime
-  cashboxId         String
-  partyId           String?
-  currencyId        String
-  fiscalPeriodId    String
+  cashboxId         String        @map("cashbox_id")
+  partyId           String?       @map("party_id")
+  currencyId        String        @map("currency_id")
+  fiscalPeriodId    String        @map("fiscal_period_id")
   amount            Decimal       @db.Decimal(18, 4)
-  allocatedAmount   Decimal       @default(0) @db.Decimal(18, 4)
-  unallocatedAmount Decimal       @default(0) @db.Decimal(18, 4)
+  allocatedAmount   Decimal       @default(0) @map("allocated_amount") @db.Decimal(18, 4)
+  unallocatedAmount Decimal       @default(0) @map("unallocated_amount") @db.Decimal(18, 4)
   status            PaymentStatus @default(DRAFT)
   notes             String?
-  postedAt          DateTime?
-  postedBy          String?
-  cancelledAt       DateTime?
-  cancelledBy       String?
-  createdBy         String
-  createdAt         DateTime      @default(now())
-  updatedAt         DateTime      @updatedAt
+  postedAt          DateTime?     @map("posted_at")
+  postedBy          String?       @map("posted_by")
+  cancelledAt       DateTime?     @map("cancelled_at")
+  cancelledBy       String?       @map("cancelled_by")
+  createdBy         String        @map("created_by")
+  createdAt         DateTime      @default(now()) @map("created_at")
+  updatedAt         DateTime      @updatedAt @map("updated_at")
 
   tenant       Tenant              @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   cashbox      Cashbox             @relation(fields: [cashboxId], references: [id])
@@ -214,11 +214,11 @@ model Payment {
 // ─── Payment Allocation ───────────────────────────────────────────────────────
 model PaymentAllocation {
   id        String   @id @default(uuid())
-  tenantId  String
-  paymentId String
-  invoiceId String
+  tenantId  String   @map("tenant_id")
+  paymentId String   @map("payment_id")
+  invoiceId String   @map("invoice_id")
   amount    Decimal  @db.Decimal(18, 4)
-  createdAt DateTime @default(now())
+  createdAt DateTime @default(now()) @map("created_at")
 
   payment Payment @relation(fields: [paymentId], references: [id], onDelete: Cascade)
   invoice Invoice @relation(fields: [invoiceId], references: [id])
@@ -231,14 +231,14 @@ model PaymentAllocation {
 // ─── Currency ─────────────────────────────────────────────────────────────────
 model Currency {
   id        String   @id @default(uuid())
-  tenantId  String
+  tenantId  String   @map("tenant_id")
   code      String // e.g. SYP, USD
   name      String // e.g. Syrian Pound
   symbol    String? // e.g. £, $
-  isBase    Boolean  @default(false)
-  isActive  Boolean  @default(true)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  isBase    Boolean  @default(false) @map("is_base")
+  isActive  Boolean  @default(true) @map("is_active")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
   tenant    Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   cashboxes Cashbox[]
@@ -253,13 +253,13 @@ model Currency {
 // ─── Document Sequence ────────────────────────────────────────────────────────
 model DocumentSequence {
   id           String   @id @default(uuid())
-  tenantId     String
-  documentType String // e.g. "PURCHASE_INVOICE", "SALES_INVOICE", "PAYMENT"
+  tenantId     String   @map("tenant_id")
+  documentType String   @map("document_type") // e.g. "PURCHASE_INVOICE", "SALES_INVOICE", "PAYMENT"
   prefix       String // e.g. "PUR", "SAL", "PAY"
-  nextNumber   Int      @default(1)
+  nextNumber   Int      @default(1) @map("next_number")
   padding      Int      @default(5) // zero-pad length, e.g. 5 → 00001
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
 
   tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
 
@@ -271,13 +271,13 @@ model DocumentSequence {
 // ─── Fiscal Period ────────────────────────────────────────────────────────────
 model FiscalPeriod {
   id        String             @id @default(uuid())
-  tenantId  String
+  tenantId  String             @map("tenant_id")
   name      String // e.g. "2026", "Q1 2026"
-  startDate DateTime
-  endDate   DateTime
+  startDate DateTime           @map("start_date")
+  endDate   DateTime           @map("end_date")
   status    FiscalPeriodStatus @default(OPEN)
-  createdAt DateTime           @default(now())
-  updatedAt DateTime           @updatedAt
+  createdAt DateTime           @default(now()) @map("created_at")
+  updatedAt DateTime           @updatedAt @map("updated_at")
 
   tenant         Tenant          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   stockMovements StockMovement[]
@@ -312,14 +312,14 @@ enum InvoiceStatus {
 // ─── Invoice Type ─────────────────────────────────────────────────────────────
 model InvoiceType {
   id           String           @id @default(uuid())
-  tenantId     String
+  tenantId     String           @map("tenant_id")
   code         String
   name         String
   direction    InvoiceDirection
-  affectsStock Boolean          @default(true)
-  isActive     Boolean          @default(true)
-  createdAt    DateTime         @default(now())
-  updatedAt    DateTime         @updatedAt
+  affectsStock Boolean          @default(true) @map("affects_stock")
+  isActive     Boolean          @default(true) @map("is_active")
+  createdAt    DateTime         @default(now()) @map("created_at")
+  updatedAt    DateTime         @updatedAt @map("updated_at")
 
   tenant   Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   invoices Invoice[]
@@ -332,28 +332,28 @@ model InvoiceType {
 // ─── Invoice ──────────────────────────────────────────────────────────────────
 model Invoice {
   id             String        @id @default(uuid())
-  tenantId       String
-  invoiceTypeId  String
+  tenantId       String        @map("tenant_id")
+  invoiceTypeId  String        @map("invoice_type_id")
   number         String
   date           DateTime
-  dueDate        DateTime?
-  partyId        String
-  warehouseId    String?
-  fiscalPeriodId String
-  currencyId     String
+  dueDate        DateTime?     @map("due_date")
+  partyId        String        @map("party_id")
+  warehouseId    String?       @map("warehouse_id")
+  fiscalPeriodId String        @map("fiscal_period_id")
+  currencyId     String        @map("currency_id")
   status         InvoiceStatus @default(DRAFT)
   subtotal       Decimal       @default(0) @db.Decimal(18, 4)
-  discountAmount Decimal       @default(0) @db.Decimal(18, 4)
-  taxAmount      Decimal       @default(0) @db.Decimal(18, 4)
+  discountAmount Decimal       @default(0) @map("discount_amount") @db.Decimal(18, 4)
+  taxAmount      Decimal       @default(0) @map("tax_amount") @db.Decimal(18, 4)
   total          Decimal       @default(0) @db.Decimal(18, 4)
   notes          String?
-  postedAt       DateTime?
-  postedBy       String?
-  cancelledAt    DateTime?
-  cancelledBy    String?
-  createdBy      String
-  createdAt      DateTime      @default(now())
-  updatedAt      DateTime      @updatedAt
+  postedAt       DateTime?     @map("posted_at")
+  postedBy       String?       @map("posted_by")
+  cancelledAt    DateTime?     @map("cancelled_at")
+  cancelledBy    String?       @map("cancelled_by")
+  createdBy      String        @map("created_by")
+  createdAt      DateTime      @default(now()) @map("created_at")
+  updatedAt      DateTime      @updatedAt @map("updated_at")
 
   tenant             Tenant              @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   invoiceType        InvoiceType         @relation(fields: [invoiceTypeId], references: [id])
@@ -373,19 +373,19 @@ model Invoice {
 // ─── Invoice Line ─────────────────────────────────────────────────────────────
 model InvoiceLine {
   id              String  @id @default(uuid())
-  tenantId        String
-  invoiceId       String
-  itemId          String
-  unitId          String
+  tenantId        String  @map("tenant_id")
+  invoiceId       String  @map("invoice_id")
+  itemId          String  @map("item_id")
+  unitId          String  @map("unit_id")
   quantity        Decimal @db.Decimal(18, 4)
-  unitPrice       Decimal @db.Decimal(18, 4)
-  discountPercent Decimal @default(0) @db.Decimal(5, 2)
-  discountAmount  Decimal @default(0) @db.Decimal(18, 4)
-  taxPercent      Decimal @default(0) @db.Decimal(5, 2)
-  taxAmount       Decimal @default(0) @db.Decimal(18, 4)
+  unitPrice       Decimal @map("unit_price") @db.Decimal(18, 4)
+  discountPercent Decimal @default(0) @map("discount_percent") @db.Decimal(5, 2)
+  discountAmount  Decimal @default(0) @map("discount_amount") @db.Decimal(18, 4)
+  taxPercent      Decimal @default(0) @map("tax_percent") @db.Decimal(5, 2)
+  taxAmount       Decimal @default(0) @map("tax_amount") @db.Decimal(18, 4)
   total           Decimal @db.Decimal(18, 4)
   notes           String?
-  sortOrder       Int     @default(0)
+  sortOrder       Int     @default(0) @map("sort_order")
 
   invoice Invoice @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
   item    Item    @relation(fields: [itemId], references: [id])
@@ -399,13 +399,13 @@ model InvoiceLine {
 // ─── Item Category ───────────────────────────────────────────────────────────
 model ItemCategory {
   id          String   @id @default(uuid())
-  tenantId    String
+  tenantId    String   @map("tenant_id")
   name        String
   description String?
-  parentId    String?
-  isActive    Boolean  @default(true)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  parentId    String?  @map("parent_id")
+  isActive    Boolean  @default(true) @map("is_active")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
 
   tenant   Tenant         @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   parent   ItemCategory?  @relation("CategoryHierarchy", fields: [parentId], references: [id])
@@ -429,17 +429,17 @@ enum FieldType {
 // ─── Item ─────────────────────────────────────────────────────────────────────
 model Item {
   id                  String   @id @default(uuid())
-  tenantId            String
+  tenantId            String   @map("tenant_id")
   code                String
   name                String
   barcode             String?
-  categoryId          String
-  baseUnitId          String
-  defaultSellingPrice Decimal? @db.Decimal(18, 4)
-  latestPurchasePrice Decimal? @db.Decimal(18, 4)
-  isActive            Boolean  @default(true)
-  createdAt           DateTime @default(now())
-  updatedAt           DateTime @updatedAt
+  categoryId          String   @map("category_id")
+  baseUnitId          String   @map("base_unit_id")
+  defaultSellingPrice Decimal? @map("default_selling_price") @db.Decimal(18, 4)
+  latestPurchasePrice Decimal? @map("latest_purchase_price") @db.Decimal(18, 4)
+  isActive            Boolean  @default(true) @map("is_active")
+  createdAt           DateTime @default(now()) @map("created_at")
+  updatedAt           DateTime @updatedAt @map("updated_at")
 
   tenant          Tenant             @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   category        ItemCategory       @relation(fields: [categoryId], references: [id])
@@ -458,16 +458,16 @@ model Item {
 
 model CustomField {
   id           String    @id @default(uuid())
-  tenantId     String
+  tenantId     String    @map("tenant_id")
   module       String
   name         String
   label        String
   type         FieldType
-  defaultValue String? // For boolean true/false as string 
+  defaultValue String?   @map("default_value") // For boolean true/false as string
   placeholder  String?
   options      String[] // For select field
-  isRequired   Boolean   @default(false)
-  createdAt    DateTime  @default(now())
+  isRequired   Boolean   @default(false) @map("is_required")
+  createdAt    DateTime  @default(now()) @map("created_at")
 
   values CustomFieldValue[]
 
@@ -478,9 +478,9 @@ model CustomField {
 
 model CustomFieldValue {
   id       String @id @default(uuid())
-  tenantId String
-  fieldId  String
-  itemId   String
+  tenantId String @map("tenant_id")
+  fieldId  String @map("field_id")
+  itemId   String @map("item_id")
   value    String
 
   field CustomField @relation(fields: [fieldId], references: [id], onDelete: Cascade)
@@ -501,17 +501,17 @@ enum PartyType {
 
 model Party {
   id             String    @id @default(uuid())
-  tenantId       String
+  tenantId       String    @map("tenant_id")
   code           String?
   name           String
   type           PartyType
   phone          String?
   email          String?
   address        String?
-  openingBalance Decimal   @default(0) @db.Decimal(18, 4)
-  isActive       Boolean   @default(true)
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
+  openingBalance Decimal   @default(0) @map("opening_balance") @db.Decimal(18, 4)
+  isActive       Boolean   @default(true) @map("is_active")
+  createdAt      DateTime  @default(now()) @map("created_at")
+  updatedAt      DateTime  @updatedAt @map("updated_at")
 
   tenant   Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   invoices Invoice[]
@@ -542,19 +542,19 @@ enum StockCountStatus {
 // ─── Stock Count ──────────────────────────────────────────────────────────────
 model StockCount {
   id       String @id @default(uuid())
-  tenantId String
+  tenantId String @map("tenant_id")
   number   String
 
   date           DateTime
-  warehouseId    String
-  fiscalPeriodId String
+  warehouseId    String           @map("warehouse_id")
+  fiscalPeriodId String           @map("fiscal_period_id")
   status         StockCountStatus @default(DRAFT)
   notes          String?
-  postedAt       DateTime?
-  postedBy       String?
-  createdBy      String
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
+  postedAt       DateTime?        @map("posted_at")
+  postedBy       String?          @map("posted_by")
+  createdBy      String           @map("created_by")
+  createdAt      DateTime         @default(now()) @map("created_at")
+  updatedAt      DateTime         @updatedAt @map("updated_at")
 
   tenant       Tenant           @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   warehouse    Warehouse        @relation(fields: [warehouseId], references: [id])
@@ -569,11 +569,11 @@ model StockCount {
 // ─── Stock Count Line ─────────────────────────────────────────────────────────
 model StockCountLine {
   id              String  @id @default(uuid())
-  tenantId        String
-  stockCountId    String
-  itemId          String
-  systemQuantity  Decimal @db.Decimal(18, 4)
-  countedQuantity Decimal @db.Decimal(18, 4)
+  tenantId        String  @map("tenant_id")
+  stockCountId    String  @map("stock_count_id")
+  itemId          String  @map("item_id")
+  systemQuantity  Decimal @map("system_quantity") @db.Decimal(18, 4)
+  countedQuantity Decimal @map("counted_quantity") @db.Decimal(18, 4)
   difference      Decimal @db.Decimal(18, 4)
   notes           String?
 
@@ -599,12 +599,12 @@ enum StockMovementType {
 // ─── Stock Balance (projection table for fast reads) ─────────────────────────
 model StockBalance {
   id          String   @id @default(uuid())
-  tenantId    String
-  warehouseId String
-  itemId      String
+  tenantId    String   @map("tenant_id")
+  warehouseId String   @map("warehouse_id")
+  itemId      String   @map("item_id")
   quantity    Decimal  @default(0) @db.Decimal(18, 4)
-  averageCost Decimal  @default(0) @db.Decimal(18, 4)
-  updatedAt   DateTime @updatedAt
+  averageCost Decimal  @default(0) @map("average_cost") @db.Decimal(18, 4)
+  updatedAt   DateTime @updatedAt @map("updated_at")
 
   warehouse Warehouse @relation(fields: [warehouseId], references: [id], onDelete: Cascade)
   item      Item      @relation(fields: [itemId], references: [id], onDelete: Cascade)
@@ -617,18 +617,18 @@ model StockBalance {
 // ─── Stock Movement (source of truth ledger) ─────────────────────────────────
 model StockMovement {
   id             String            @id @default(uuid())
-  tenantId       String
-  warehouseId    String
-  itemId         String
-  fiscalPeriodId String
-  movementType   StockMovementType
+  tenantId       String            @map("tenant_id")
+  warehouseId    String            @map("warehouse_id")
+  itemId         String            @map("item_id")
+  fiscalPeriodId String            @map("fiscal_period_id")
+  movementType   StockMovementType @map("movement_type")
   quantity       Decimal           @db.Decimal(18, 4)
-  unitCost       Decimal           @default(0) @db.Decimal(18, 4)
-  referenceType  String? // e.g. "invoice", "stock_count"
-  referenceId    String?
+  unitCost       Decimal           @default(0) @map("unit_cost") @db.Decimal(18, 4)
+  referenceType  String?           @map("reference_type") // e.g. "invoice", "stock_count"
+  referenceId    String?           @map("reference_id")
   notes          String?
-  createdAt      DateTime          @default(now())
-  createdBy      String
+  createdAt      DateTime          @default(now()) @map("created_at")
+  createdBy      String            @map("created_by")
 
   warehouse    Warehouse    @relation(fields: [warehouseId], references: [id])
   item         Item         @relation(fields: [itemId], references: [id])
@@ -649,9 +649,9 @@ model Tenant {
   phone     String?
   email     String?
   logo      String?
-  isActive  Boolean  @default(true)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  isActive  Boolean  @default(true) @map("is_active")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
   users             AppUser[]
   roles             Role[]
@@ -679,12 +679,12 @@ model Tenant {
 // ─── Unit ─────────────────────────────────────────────────────────────────────
 model Unit {
   id           String   @id @default(uuid())
-  tenantId     String
+  tenantId     String   @map("tenant_id")
   name         String
   abbreviation String
-  isActive     Boolean  @default(true)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  isActive     Boolean  @default(true) @map("is_active")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
 
   tenant       Tenant        @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   items        Item[]
@@ -698,15 +698,15 @@ model Unit {
 // ─── App User ─────────────────────────────────────────────────────────────────
 model AppUser {
   id           String    @id @default(uuid())
-  tenantId     String
+  tenantId     String    @map("tenant_id")
   email        String
-  passwordHash String
-  fullName     String
+  passwordHash String    @map("password_hash")
+  fullName     String    @map("full_name")
   phone        String?
-  isActive     Boolean   @default(true)
-  lastLoginAt  DateTime?
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
+  isActive     Boolean   @default(true) @map("is_active")
+  lastLoginAt  DateTime? @map("last_login_at")
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
 
   tenant    Tenant     @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   userRoles UserRole[]
@@ -719,12 +719,12 @@ model AppUser {
 // ─── Role ─────────────────────────────────────────────────────────────────────
 model Role {
   id          String   @id @default(uuid())
-  tenantId    String
+  tenantId    String   @map("tenant_id")
   name        String
   description String?
-  isSystem    Boolean  @default(false)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  isSystem    Boolean  @default(false) @map("is_system")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
 
   tenant    Tenant     @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   userRoles UserRole[]
@@ -737,9 +737,9 @@ model Role {
 // ─── User Role (join table) ──────────────────────────────────────────────────
 model UserRole {
   id        String   @id @default(uuid())
-  userId    String
-  roleId    String
-  createdAt DateTime @default(now())
+  userId    String   @map("user_id")
+  roleId    String   @map("role_id")
+  createdAt DateTime @default(now()) @map("created_at")
 
   user AppUser @relation(fields: [userId], references: [id], onDelete: Cascade)
   role Role    @relation(fields: [roleId], references: [id], onDelete: Cascade)
@@ -751,13 +751,13 @@ model UserRole {
 // ─── Warehouse ────────────────────────────────────────────────────────────────
 model Warehouse {
   id        String   @id @default(uuid())
-  tenantId  String
+  tenantId  String   @map("tenant_id")
   code      String
   name      String
   address   String?
-  isActive  Boolean  @default(true)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  isActive  Boolean  @default(true) @map("is_active")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
   tenant         Tenant          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   warehouseItems WarehouseItem[]
@@ -774,13 +774,13 @@ model Warehouse {
 // ─── Warehouse Item ───────────────────────────────────────────────────────────
 model WarehouseItem {
   id          String   @id @default(uuid())
-  tenantId    String
-  warehouseId String
-  itemId      String
-  minQuantity Decimal? @db.Decimal(18, 4)
-  maxQuantity Decimal? @db.Decimal(18, 4)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  tenantId    String   @map("tenant_id")
+  warehouseId String   @map("warehouse_id")
+  itemId      String   @map("item_id")
+  minQuantity Decimal? @map("min_quantity") @db.Decimal(18, 4)
+  maxQuantity Decimal? @map("max_quantity") @db.Decimal(18, 4)
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
 
   warehouse Warehouse @relation(fields: [warehouseId], references: [id], onDelete: Cascade)
   item      Item      @relation(fields: [itemId], references: [id], onDelete: Cascade)
