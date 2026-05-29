@@ -24,6 +24,7 @@ export function ResourceFormDialog<TClient extends ICrudClient>({
     return (
         <FormDialog
             title={resolvedTitle}
+            paramKey={resource.paramKey}
             onClose={() => resource.setSelectedItem(null)}
         >
             {(resourceId) => (

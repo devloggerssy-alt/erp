@@ -18,6 +18,12 @@ import type { useAuthApi } from "@/shared/useApi"
 
 type ApiInstance = ReturnType<typeof useAuthApi>
 
+export type ResourceListConfig = {
+    searchIn?: string[]
+    defaultSort?: { field: string; order: "asc" | "desc" }
+    pageSize?: number
+}
+
 export type ResourceItem<TClient extends ICrudClient> = CrudListDataItem<TClient>
 
 export type UseResourceOptions<TClient extends ICrudClient> = {
@@ -25,6 +31,7 @@ export type UseResourceOptions<TClient extends ICrudClient> = {
     queryOptions?: Omit<UseQueryOptions<CrudListDataResponse<TClient>>, "queryKey" | "queryFn">
     paramKey?: string
     extraParams?: Record<string, unknown>
+    list?: ResourceListConfig
 }
 
 export type ResourceTableHelpers<TClient extends ICrudClient> = {
@@ -38,6 +45,8 @@ export type ResourceTableHelpers<TClient extends ICrudClient> = {
 export type ResourceContext<TClient extends ICrudClient> = ResourceTableHelpers<TClient> & {
     api: ApiInstance
     client: TClient
+    paramKey?: string
+    list?: ResourceListConfig
     query: UseQueryResult<CrudListDataResponse<TClient>>
     data: CrudListDataResponse<TClient> | undefined
     items: ResourceItem<TClient>[]
@@ -50,6 +59,7 @@ export type ResourceContext<TClient extends ICrudClient> = ResourceTableHelpers<
     pagination: DataViewPaginationState
     sorting: DataViewSorting
     params: DataViewQueryParams
+    setParams: (params: Partial<DataViewQueryParams>) => void
     handleChange: (event: DataViewChangeEvent) => void
     openCreate: () => void
     openDialog: (resourceId?: string) => void

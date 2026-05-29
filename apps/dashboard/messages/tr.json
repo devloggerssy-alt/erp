@@ -46,6 +46,10 @@
       "summary": "Sayfa {page} / {pageCount} (toplam {total})",
       "rowsPerPage": "Sayfa başı satır"
     },
+    "resourceSearch": {
+      "placeholder": "Ara...",
+      "clear": "Aramayı temizle"
+    },
     "resource": {
       "deleteTitle": "Bu öğe silinsin mi?",
       "deleteDescription": "Bu işlem geri alınamaz.",

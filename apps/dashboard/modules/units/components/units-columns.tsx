@@ -9,10 +9,12 @@ export function createUnitsColumns(
     return [
         {
             accessorKey: "name",
+            enableSorting: true,
             header: ({ column }) => <ColumnHeader column={column} title="Name" />,
         },
         {
             accessorKey: "abbreviation",
+            enableSorting: true,
             header: ({ column }) => <ColumnHeader column={column} title="Abbreviation" />,
         },
         helpers.actionsColumn(),

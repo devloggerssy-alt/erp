@@ -25,6 +25,7 @@ export function useResource<TClient extends ICrudClient>({
     queryOptions,
     paramKey,
     extraParams,
+    list,
 }: UseResourceOptions<TClient>): ResourceContext<TClient> {
     type TItem = ResourceItem<TClient>
 
@@ -39,6 +40,7 @@ export function useResource<TClient extends ICrudClient>({
         client,
         queryOptions,
         extraParams,
+        list: list ? { searchIn: list.searchIn } : undefined,
     })
 
     const data = query.data
@@ -90,6 +92,8 @@ export function useResource<TClient extends ICrudClient>({
     return {
         api,
         client,
+        paramKey,
+        list,
         query: query.query,
         data,
         items,
@@ -102,6 +106,7 @@ export function useResource<TClient extends ICrudClient>({
         pagination: query.pagination,
         sorting: query.sorting,
         params: query.params,
+        setParams: query.setParams,
         handleChange: query.handleChange,
         openCreate,
         openEdit,

@@ -9,12 +9,14 @@ import {
 } from "@devloggers/api-client"
 import type { DataViewChangeEvent, DataViewPaginationState, DataViewSorting } from "./types"
 import { dataViewSearchParams } from "./search-params"
+import { toApiListParams, parsePaginationMeta, type ListQueryOptions } from "./list-query.utils"
 
 export type UseDataViewQueryOptions<C extends ICrudClient> = {
     queryKey: string[]
     client: C
     queryOptions?: Omit<UseQueryOptions<CrudListDataResponse<C>>, "queryKey" | "queryFn">
     extraParams?: Record<string, unknown>
+    list?: ListQueryOptions
 }
 
 export function useDataViewQuery<C extends ICrudClient>({
@@ -22,36 +24,34 @@ export function useDataViewQuery<C extends ICrudClient>({
     client,
     queryOptions,
     extraParams,
+    list,
 }: UseDataViewQueryOptions<C>) {
     const [params, setParams] = useQueryStates(dataViewSearchParams)
     const resolvedQueryKey = [...queryKey, params, ...(extraParams ? [extraParams] : [])]
+
     const query = useQuery<CrudListDataResponse<C>>({
         queryKey: resolvedQueryKey,
         queryFn: () => {
-            const apiParams: Record<string, unknown> = {
-                page: params.page,
-                limit: params.limit,
+            const apiParams = {
+                ...toApiListParams(params, list),
                 ...extraParams,
             }
-            if (params.sort_by) apiParams.sort_by = params.sort_by
-            if (params.sort_order) apiParams.sort_order = params.sort_order
-
             return listCrudData(client, apiParams)
         },
         ...queryOptions,
     })
 
-    const meta = query.data?.meta as { last_page?: number; total?: number } | undefined
+    const { pageCount, total } = parsePaginationMeta(query.data?.meta, params.limit)
 
     const pagination: DataViewPaginationState = {
         page: params.page,
         pageSize: params.limit,
-        pageCount: meta?.last_page ?? 1,
-        total: meta?.total ?? 0,
+        pageCount,
+        total,
     }
 
-    const sorting: DataViewSorting = params.sort_by
-        ? [{ id: params.sort_by, desc: params.sort_order === "desc" }]
+    const sorting: DataViewSorting = params.sortField
+        ? [{ id: params.sortField, desc: params.sortOrder === "desc" }]
         : []
 
     const handleChange = (event: DataViewChangeEvent) => {
@@ -65,18 +65,24 @@ export function useDataViewQuery<C extends ICrudClient>({
             case "sorting": {
                 const sort = event.sorting[0]
                 setParams({
-                    sort_by: sort?.id ?? null,
-                    sort_order: sort ? (sort.desc ? "desc" : "asc") : null,
+                    sortField: sort?.id ?? null,
+                    sortOrder: sort ? (sort.desc ? "desc" : "asc") : null,
                     page: 1,
                 })
                 break
             }
+            case "search":
+                setParams({
+                    search: event.search,
+                    page: 1,
+                })
+                break
         }
     }
 
     const queryClient = useQueryClient()
     const invalidateQuery = () => {
-        queryClient.invalidateQueries({ queryKey: resolvedQueryKey })
+        queryClient.invalidateQueries({ queryKey })
     }
 
     return {

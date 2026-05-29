@@ -18,6 +18,7 @@ export type DataViewState = {
 export type DataViewChangeEvent =
     | { type: "pagination"; pagination: DataViewPaginationState }
     | { type: "sorting"; sorting: DataViewSorting }
+    | { type: "search"; search: string | null }
 
 export type DataViewSlots = {
     actions?: ReactNode

@@ -46,6 +46,10 @@
       "summary": "Page {page} of {pageCount} ({total} total)",
       "rowsPerPage": "Rows per page"
     },
+    "resourceSearch": {
+      "placeholder": "Search...",
+      "clear": "Clear search"
+    },
     "resource": {
       "deleteTitle": "Delete this item?",
       "deleteDescription": "This action cannot be undone.",

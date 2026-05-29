@@ -9,57 +9,87 @@ import { useResourceContext } from "./resource-context"
 
 type ReactNodeOrRender<TClient extends ICrudClient> = ReactNode | ResourceRender<TClient>
 
-export type ResourcePageProps<TClient extends ICrudClient = any> = ResourceListPageProps<TClient> & {
-  /** Page title */
-  title?: string
-  /** Optional page description */
-  description?: string
-  /** Optional header actions */
-  headerActions?: ReactNodeOrRender<TClient>
-  /** Page padding */
-  padding?: "none" | "sm" | "md" | "lg"
-  /** Fullscreen mode */
-  fullscreen?: boolean
+export type ResourcePageProps<TClient extends ICrudClient = ICrudClient> =
+    ResourceListPageProps<TClient> & {
+        /** Page title */
+        title?: string
+        /** Optional page description */
+        description?: string
+        /** Header actions in the page title row (separate from list toolbar actions) */
+        headerActions?: ReactNodeOrRender<TClient>
+        /** Page padding passed to ResourceLayout */
+        padding?: "none" | "sm" | "md" | "lg"
+        /** Fullscreen mode */
+        fullscreen?: boolean
+    }
+
+function useOptionalResourceContext<TClient extends ICrudClient>() {
+    try {
+        return useResourceContext<TClient>()
+    } catch {
+        return undefined
+    }
 }
 
-export function ResourcePage<TClient extends ICrudClient = any>({
-  title,
-  description,
-  headerActions: headerActionsProp,
-  padding = "md",
-  fullscreen = false,
-  ...listPageProps
-}: ResourcePageProps<TClient>) {
-  // Try to get resource context (will fail gracefully if not in ResourceProvider)
-  let resource
-  try {
-    resource = useResourceContext<TClient>()
-  } catch {
-    resource = undefined
-  }
-
-  // Resolve function-based props
-  const resolveNodeOrRender = (
-    value: ReactNodeOrRender<TClient> | null | undefined
-  ): ReactNode => {
+function resolveNodeOrRender<TClient extends ICrudClient>(
+    value: ReactNodeOrRender<TClient> | null | undefined,
+    resource: ReturnType<typeof useOptionalResourceContext<TClient>>,
+): ReactNode {
     if (!value) return null
     if (typeof value === "function" && resource) {
-      return value(resource) as ReactNode
+        return (value as ResourceRender<TClient>)(resource)
     }
     return value as ReactNode
-  }
+}
 
-  const headerActions = resolveNodeOrRender(headerActionsProp)
+export function ResourcePage<TClient extends ICrudClient = ICrudClient>({
+    title,
+    description,
+    headerActions: headerActionsProp,
+    padding = "md",
+    fullscreen = false,
+    toolbar,
+    showSearch,
+    onSearchChange,
+    children,
+    ...listPageProps
+}: ResourcePageProps<TClient>) {
+    const resource = useOptionalResourceContext<TClient>()
 
-  return (
-    <ResourceLayout
-      title={title}
-      description={description}
-      headerActions={headerActions}
-      padding={padding}
-      fullscreen={fullscreen}
-    >
-      <ResourceListPage {...listPageProps} />
-    </ResourceLayout>
-  )
+    const headerActions = resolveNodeOrRender(headerActionsProp, resource)
+
+    // Custom toolbar (e.g. ResourceSearch) replaces the built-in list search bar
+    const resolvedShowSearch = showSearch ?? (toolbar ? false : true)
+
+    const resolvedOnSearchChange =
+        onSearchChange ??
+        (resource
+            ? (value: string) => {
+                  resource.handleChange({
+                      type: "search",
+                      search: value.trim() || null,
+                  })
+              }
+            : undefined)
+
+    return (
+        <ResourceLayout
+            title={title}
+            description={description}
+            headerActions={headerActions}
+            padding={padding}
+            fullscreen={fullscreen}
+        >
+            <div className="flex min-h-0 flex-1 flex-col">
+                <ResourceListPage
+                    {...listPageProps}
+                    toolbar={toolbar}
+                    showSearch={resolvedShowSearch}
+                    onSearchChange={resolvedOnSearchChange}
+                >
+                    {children}
+                </ResourceListPage>
+            </div>
+        </ResourceLayout>
+    )
 }

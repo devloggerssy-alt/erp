@@ -11,8 +11,9 @@ import {
 export const dataTableSearchParams = {
     page: parseAsInteger.withDefault(1),
     limit: parseAsInteger.withDefault(20),
-    sort_by: parseAsString,
-    sort_order: parseAsStringEnum(["asc", "desc"] as const),
+    sortField: parseAsString,
+    sortOrder: parseAsStringEnum(["asc", "desc"] as string[]),
+    search: parseAsString,
 }
 
 export const dataViewSearchParams = dataTableSearchParams

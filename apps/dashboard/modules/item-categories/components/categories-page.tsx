@@ -9,9 +9,17 @@ export function CategoriesPage() {
         <CategoriesResource>
             <CategoriesResource.Page
                 title="الفئات"
-                actions={<CategoriesResource.FormDialog
-                    title={data => data?.id ? 'تعديل فئة' : 'إضافة فئة'}
-                    form={CategoriesForm} />}
+                toolbar={
+                    <CategoriesResource.Toolbar>
+                        <CategoriesResource.Search />
+                    </CategoriesResource.Toolbar>
+                }
+                actions={
+                    <CategoriesResource.FormDialog
+                        title={(data) => (data?.id ? "تعديل فئة" : "إضافة فئة")}
+                        form={CategoriesForm}
+                    />
+                }
             >
                 <CategoriesResource.Table columns={createCategoriesColumns} />
             </CategoriesResource.Page>

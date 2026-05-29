@@ -7,6 +7,8 @@ import { ResourceFormDialog } from "./resource-form-dialog"
 import { ResourceCreateButton } from "./resource-create-button"
 import { ResourceGrid } from "./resource-grid"
 import { ResourcePagination } from "./resource-pagination"
+import { ResourceSearch } from "./resource-search"
+import { ResourceToolbar } from "./resource-toolbar"
 import { useResource } from "./use-resource"
 import type { ResourceRender, UseResourceOptions } from "./types"
 import type { ResourceProviderProps } from "./resource-context"
@@ -45,6 +47,8 @@ type ResourceComponent = typeof ResourceProvider & {
     CreateButton: typeof ResourceCreateButton
     Grid: typeof ResourceGrid
     Pagination: typeof ResourcePagination
+    Search: typeof ResourceSearch
+    Toolbar: typeof ResourceToolbar
 }
 
 const Resource = ResourceProvider as ResourceComponent
@@ -56,6 +60,8 @@ Resource.FormDialog = ResourceFormDialog
 Resource.CreateButton = ResourceCreateButton
 Resource.Grid = ResourceGrid
 Resource.Pagination = ResourcePagination
+Resource.Search = ResourceSearch
+Resource.Toolbar = ResourceToolbar
 
 export { Resource }
 

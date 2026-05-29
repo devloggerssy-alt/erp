@@ -19,6 +19,7 @@ export type UseResourceQueryResult<TClient extends ICrudClient> = {
     pagination: DataViewPaginationState
     sorting: DataViewSorting
     params: DataViewQueryParams
+    setParams: (params: Partial<DataViewQueryParams>) => void
     handleChange: (event: DataViewChangeEvent) => void
     invalidateQuery: () => void
 }
@@ -30,10 +31,11 @@ export function useResourceQuery<TClient extends ICrudClient>(
     const client = config.getClient(api)
 
     const queryState = useDataViewQuery({
-        queryKey: [ client.key],
+        queryKey: [client.key],
         client,
         queryOptions: config.queryOptions as Omit<UseQueryOptions<CrudListDataResponse<TClient>>, "queryKey" | "queryFn"> | undefined,
         extraParams: config.extraParams,
+        list: config.list ? { searchIn: config.list.searchIn } : undefined,
     })
 
     const items = Array.from(queryState.data?.data ?? []) as ResourceItem<TClient>[]
@@ -49,6 +51,7 @@ export function useResourceQuery<TClient extends ICrudClient>(
         pagination: queryState.pagination,
         sorting: queryState.sorting,
         params: queryState.params,
+        setParams: queryState.setParams,
         handleChange: queryState.handleChange,
         invalidateQuery: queryState.invalidateQuery,
     }

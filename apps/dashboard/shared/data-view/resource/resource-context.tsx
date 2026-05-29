@@ -71,6 +71,8 @@ export function ResourceProvider<TClient extends ICrudClient>({
     const value: ResourceContext<TClient> = {
         api: queryState.api,
         client: queryState.client,
+        paramKey: config.paramKey,
+        list: config.list,
         query: queryState.query,
         data: queryState.data,
         items: queryState.items,
@@ -79,6 +81,7 @@ export function ResourceProvider<TClient extends ICrudClient>({
         pagination: queryState.pagination,
         sorting: queryState.sorting,
         params: queryState.params,
+        setParams: queryState.setParams,
         handleChange: queryState.handleChange,
         invalidateQuery: queryState.invalidateQuery,
         deleteItem: mutations.deleteItem,

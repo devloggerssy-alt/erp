@@ -7,8 +7,20 @@ import { createUnitsColumns } from "./units-columns"
 export function UnitsPage() {
     return (
         <UnitsResource>
-            <UnitsResource.Page >
-
+            <UnitsResource.Page
+                title="Units"
+                toolbar={
+                    <UnitsResource.Toolbar>
+                        <UnitsResource.Search />
+                    </UnitsResource.Toolbar>
+                }
+                actions={
+                    <UnitsResource.FormDialog
+                        title={(it) => (it?.id ? it.name : "إضافة وحدة")}
+                        form={UnitsForm}
+                    />
+                }
+            >
                 <UnitsResource.Table columns={createUnitsColumns} />
             </UnitsResource.Page>
         </UnitsResource>

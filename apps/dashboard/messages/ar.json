@@ -46,6 +46,10 @@
       "summary": "الصفحة {page} من {pageCount} (الإجمالي {total})",
       "rowsPerPage": "عدد الصفوف لكل صفحة"
     },
+    "resourceSearch": {
+      "placeholder": "بحث...",
+      "clear": "مسح البحث"
+    },
     "resource": {
       "deleteTitle": "حذف هذا العنصر؟",
       "deleteDescription": "لا يمكن التراجع عن هذا الإجراء.",
