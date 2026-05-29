@@ -1,15 +1,15 @@
 // ─── Audit Log ────────────────────────────────────────────────────────────────
 model AuditLog {
     id         String   @id @default(uuid())
-    tenantId   String
-    userId     String
+    tenantId   String   @map("tenant_id")
+    userId     String   @map("user_id")
     action     String   // e.g. CREATE, UPDATE, DELETE, POST, CANCEL
-    entityType String   // e.g. "invoice", "payment"
-    entityId   String
-    oldValues  Json?
-    newValues  Json?
-    ipAddress  String?
-    createdAt  DateTime @default(now())
+    entityType String   @map("entity_type") // e.g. "invoice", "payment"
+    entityId   String   @map("entity_id")
+    oldValues  Json?    @map("old_values")
+    newValues  Json?    @map("new_values")
+    ipAddress  String?  @map("ip_address")
+    createdAt  DateTime @default(now()) @map("created_at")
 
     tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
 

@@ -7,11 +7,11 @@ enum MessageRole {
 // ─── AI Chat Session ─────────────────────────────────────────────────────────
 model AiChatSession {
     id        String   @id @default(uuid())
-    tenantId  String
-    userId    String
+    tenantId  String   @map("tenant_id")
+    userId    String   @map("user_id")
     title     String?
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
 
     tenant   Tenant          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
     messages AiChatMessage[]
@@ -24,11 +24,11 @@ model AiChatSession {
 // ─── AI Chat Message ──────────────────────────────────────────────────────────
 model AiChatMessage {
     id        String      @id @default(uuid())
-    tenantId  String
-    sessionId String
+    tenantId  String      @map("tenant_id")
+    sessionId String      @map("session_id")
     role      MessageRole
     content   String
-    createdAt DateTime    @default(now())
+    createdAt DateTime    @default(now()) @map("created_at")
 
     session AiChatSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
 

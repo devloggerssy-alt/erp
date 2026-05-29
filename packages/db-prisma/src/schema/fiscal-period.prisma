@@ -1,13 +1,13 @@
 // ─── Fiscal Period ────────────────────────────────────────────────────────────
 model FiscalPeriod {
     id        String             @id @default(uuid())
-    tenantId  String
+    tenantId  String             @map("tenant_id")
     name      String             // e.g. "2026", "Q1 2026"
-    startDate DateTime
-    endDate   DateTime
+    startDate DateTime           @map("start_date")
+    endDate   DateTime           @map("end_date")
     status    FiscalPeriodStatus @default(OPEN)
-    createdAt DateTime           @default(now())
-    updatedAt DateTime           @updatedAt
+    createdAt DateTime           @default(now()) @map("created_at")
+    updatedAt DateTime           @updatedAt @map("updated_at")
 
     tenant         Tenant          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
     stockMovements StockMovement[]

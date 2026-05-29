@@ -16,14 +16,14 @@ enum PaymentStatus {
 // ─── Cashbox ──────────────────────────────────────────────────────────────────
 model Cashbox {
     id         String   @id @default(uuid())
-    tenantId   String
+    tenantId   String   @map("tenant_id")
     code       String
     name       String
-    currencyId String
+    currencyId String   @map("currency_id")
     balance    Decimal  @default(0) @db.Decimal(18, 4)
-    isActive   Boolean  @default(true)
-    createdAt  DateTime @default(now())
-    updatedAt  DateTime @updatedAt
+    isActive   Boolean  @default(true) @map("is_active")
+    createdAt  DateTime @default(now()) @map("created_at")
+    updatedAt  DateTime @updatedAt @map("updated_at")
 
     tenant   Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
     currency Currency  @relation(fields: [currencyId], references: [id])
@@ -37,26 +37,26 @@ model Cashbox {
 // ─── Payment ──────────────────────────────────────────────────────────────────
 model Payment {
     id                String        @id @default(uuid())
-    tenantId          String
+    tenantId          String        @map("tenant_id")
     number            String
     type              PaymentType
     date              DateTime
-    cashboxId         String
-    partyId           String?
-    currencyId        String
-    fiscalPeriodId    String
+    cashboxId         String        @map("cashbox_id")
+    partyId           String?       @map("party_id")
+    currencyId        String        @map("currency_id")
+    fiscalPeriodId    String        @map("fiscal_period_id")
     amount            Decimal       @db.Decimal(18, 4)
-    allocatedAmount   Decimal       @default(0) @db.Decimal(18, 4)
-    unallocatedAmount Decimal       @default(0) @db.Decimal(18, 4)
+    allocatedAmount   Decimal       @default(0) @map("allocated_amount") @db.Decimal(18, 4)
+    unallocatedAmount Decimal       @default(0) @map("unallocated_amount") @db.Decimal(18, 4)
     status            PaymentStatus @default(DRAFT)
     notes             String?
-    postedAt          DateTime?
-    postedBy          String?
-    cancelledAt       DateTime?
-    cancelledBy       String?
-    createdBy         String
-    createdAt         DateTime      @default(now())
-    updatedAt         DateTime      @updatedAt
+    postedAt          DateTime?     @map("posted_at")
+    postedBy          String?       @map("posted_by")
+    cancelledAt       DateTime?     @map("cancelled_at")
+    cancelledBy       String?       @map("cancelled_by")
+    createdBy         String        @map("created_by")
+    createdAt         DateTime      @default(now()) @map("created_at")
+    updatedAt         DateTime      @updatedAt @map("updated_at")
 
     tenant       Tenant              @relation(fields: [tenantId], references: [id], onDelete: Cascade)
     cashbox      Cashbox             @relation(fields: [cashboxId], references: [id])
@@ -74,11 +74,11 @@ model Payment {
 // ─── Payment Allocation ───────────────────────────────────────────────────────
 model PaymentAllocation {
     id        String   @id @default(uuid())
-    tenantId  String
-    paymentId String
-    invoiceId String
+    tenantId  String   @map("tenant_id")
+    paymentId String   @map("payment_id")
+    invoiceId String   @map("invoice_id")
     amount    Decimal  @db.Decimal(18, 4)
-    createdAt DateTime @default(now())
+    createdAt DateTime @default(now()) @map("created_at")
 
     payment Payment @relation(fields: [paymentId], references: [id], onDelete: Cascade)
     invoice Invoice @relation(fields: [invoiceId], references: [id])

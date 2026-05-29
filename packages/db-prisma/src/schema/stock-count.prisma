@@ -8,19 +8,19 @@ enum StockCountStatus {
 // ─── Stock Count ──────────────────────────────────────────────────────────────
 model StockCount {
     id       String @id @default(uuid())
-    tenantId String
+    tenantId String @map("tenant_id")
     number   String
 
     date           DateTime
-    warehouseId    String
-    fiscalPeriodId String
+    warehouseId    String           @map("warehouse_id")
+    fiscalPeriodId String           @map("fiscal_period_id")
     status         StockCountStatus @default(DRAFT)
     notes          String?
-    postedAt       DateTime?
-    postedBy       String?
-    createdBy      String
-    createdAt      DateTime         @default(now())
-    updatedAt      DateTime         @updatedAt
+    postedAt       DateTime?        @map("posted_at")
+    postedBy       String?          @map("posted_by")
+    createdBy      String           @map("created_by")
+    createdAt      DateTime         @default(now()) @map("created_at")
+    updatedAt      DateTime         @updatedAt @map("updated_at")
 
     tenant       Tenant           @relation(fields: [tenantId], references: [id], onDelete: Cascade)
     warehouse    Warehouse        @relation(fields: [warehouseId], references: [id])
@@ -35,11 +35,11 @@ model StockCount {
 // ─── Stock Count Line ─────────────────────────────────────────────────────────
 model StockCountLine {
     id              String  @id @default(uuid())
-    tenantId        String
-    stockCountId    String
-    itemId          String
-    systemQuantity  Decimal @db.Decimal(18, 4)
-    countedQuantity Decimal @db.Decimal(18, 4)
+    tenantId        String  @map("tenant_id")
+    stockCountId    String  @map("stock_count_id")
+    itemId          String  @map("item_id")
+    systemQuantity  Decimal @map("system_quantity") @db.Decimal(18, 4)
+    countedQuantity Decimal @map("counted_quantity") @db.Decimal(18, 4)
     difference      Decimal @db.Decimal(18, 4)
     notes           String?
 

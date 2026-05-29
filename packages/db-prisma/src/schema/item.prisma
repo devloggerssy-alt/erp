@@ -10,17 +10,17 @@ enum FieldType {
 // ─── Item ─────────────────────────────────────────────────────────────────────
 model Item {
     id                  String   @id @default(uuid())
-    tenantId            String
+    tenantId            String   @map("tenant_id")
     code                String
     name                String
     barcode             String?
-    categoryId          String
-    baseUnitId          String
-    defaultSellingPrice Decimal? @db.Decimal(18, 4)
-    latestPurchasePrice Decimal? @db.Decimal(18, 4)
-    isActive            Boolean  @default(true)
-    createdAt           DateTime @default(now())
-    updatedAt           DateTime @updatedAt
+    categoryId          String   @map("category_id")
+    baseUnitId          String   @map("base_unit_id")
+    defaultSellingPrice Decimal? @map("default_selling_price") @db.Decimal(18, 4)
+    latestPurchasePrice Decimal? @map("latest_purchase_price") @db.Decimal(18, 4)
+    isActive            Boolean  @default(true) @map("is_active")
+    createdAt           DateTime @default(now()) @map("created_at")
+    updatedAt           DateTime @updatedAt @map("updated_at")
 
     tenant          Tenant             @relation(fields: [tenantId], references: [id], onDelete: Cascade)
     category        ItemCategory       @relation(fields: [categoryId], references: [id])
@@ -39,16 +39,16 @@ model Item {
 
 model CustomField {
     id           String    @id @default(uuid())
-    tenantId     String
+    tenantId     String    @map("tenant_id")
     module       String
     name         String
     label        String
     type         FieldType
-    defaultValue String? // For boolean true/false as string 
+    defaultValue String?   @map("default_value") // For boolean true/false as string
     placeholder  String?
     options      String[] // For select field
-    isRequired   Boolean   @default(false)
-    createdAt    DateTime  @default(now())
+    isRequired   Boolean   @default(false) @map("is_required")
+    createdAt    DateTime  @default(now()) @map("created_at")
 
     values CustomFieldValue[]
 
@@ -59,9 +59,9 @@ model CustomField {
 
 model CustomFieldValue {
     id       String @id @default(uuid())
-    tenantId String
-    fieldId  String
-    itemId   String
+    tenantId String @map("tenant_id")
+    fieldId  String @map("field_id")
+    itemId   String @map("item_id")
     value    String
 
     field CustomField @relation(fields: [fieldId], references: [id], onDelete: Cascade)

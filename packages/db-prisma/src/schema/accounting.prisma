@@ -16,14 +16,14 @@ enum JournalEntryStatus {
 // ─── Chart Of Accounts ───────────────────────────────────────────────────────
 model ChartOfAccount {
     id        String      @id @default(uuid())
-    tenantId  String
+    tenantId  String      @map("tenant_id")
     code      String
     name      String
     type      AccountType
-    parentId  String?
-    isActive  Boolean     @default(true)
-    createdAt DateTime    @default(now())
-    updatedAt DateTime    @updatedAt
+    parentId  String?     @map("parent_id")
+    isActive  Boolean     @default(true) @map("is_active")
+    createdAt DateTime    @default(now()) @map("created_at")
+    updatedAt DateTime    @updatedAt @map("updated_at")
 
     tenant       Tenant           @relation(fields: [tenantId], references: [id], onDelete: Cascade)
     parent       ChartOfAccount?  @relation("AccountHierarchy", fields: [parentId], references: [id])
@@ -38,18 +38,18 @@ model ChartOfAccount {
 // ─── Journal Entry ────────────────────────────────────────────────────────────
 model JournalEntry {
     id             String             @id @default(uuid())
-    tenantId       String
+    tenantId       String             @map("tenant_id")
     number         String
     date           DateTime
-    fiscalPeriodId String
-    referenceType  String?            // e.g. "invoice", "payment"
-    referenceId    String?
+    fiscalPeriodId String             @map("fiscal_period_id")
+    referenceType  String?            @map("reference_type") // e.g. "invoice", "payment"
+    referenceId    String?            @map("reference_id")
     description    String?
     status         JournalEntryStatus @default(DRAFT)
-    postedAt       DateTime?
-    createdBy      String
-    createdAt      DateTime           @default(now())
-    updatedAt      DateTime           @updatedAt
+    postedAt       DateTime?          @map("posted_at")
+    createdBy      String             @map("created_by")
+    createdAt      DateTime           @default(now()) @map("created_at")
+    updatedAt      DateTime           @updatedAt @map("updated_at")
 
     tenant       Tenant       @relation(fields: [tenantId], references: [id], onDelete: Cascade)
     fiscalPeriod FiscalPeriod @relation(fields: [fiscalPeriodId], references: [id])
@@ -63,13 +63,13 @@ model JournalEntry {
 // ─── Journal Line ─────────────────────────────────────────────────────────────
 model JournalLine {
     id             String   @id @default(uuid())
-    tenantId       String
-    journalEntryId String
-    accountId      String
+    tenantId       String   @map("tenant_id")
+    journalEntryId String   @map("journal_entry_id")
+    accountId      String   @map("account_id")
     debit          Decimal  @default(0) @db.Decimal(18, 4)
     credit         Decimal  @default(0) @db.Decimal(18, 4)
     description    String?
-    sortOrder      Int      @default(0)
+    sortOrder      Int      @default(0) @map("sort_order")
 
     journalEntry JournalEntry   @relation(fields: [journalEntryId], references: [id], onDelete: Cascade)
     account      ChartOfAccount @relation(fields: [accountId], references: [id])

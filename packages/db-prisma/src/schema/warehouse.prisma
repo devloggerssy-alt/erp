@@ -1,13 +1,13 @@
 // ─── Warehouse ────────────────────────────────────────────────────────────────
 model Warehouse {
     id        String   @id @default(uuid())
-    tenantId  String
+    tenantId  String   @map("tenant_id")
     code      String
     name      String
     address   String?
-    isActive  Boolean  @default(true)
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    isActive  Boolean  @default(true) @map("is_active")
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
 
     tenant         Tenant          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
     warehouseItems WarehouseItem[]
@@ -24,13 +24,13 @@ model Warehouse {
 // ─── Warehouse Item ───────────────────────────────────────────────────────────
 model WarehouseItem {
     id          String   @id @default(uuid())
-    tenantId    String
-    warehouseId String
-    itemId      String
-    minQuantity Decimal? @db.Decimal(18, 4)
-    maxQuantity Decimal? @db.Decimal(18, 4)
-    createdAt   DateTime @default(now())
-    updatedAt   DateTime @updatedAt
+    tenantId    String   @map("tenant_id")
+    warehouseId String   @map("warehouse_id")
+    itemId      String   @map("item_id")
+    minQuantity Decimal? @map("min_quantity") @db.Decimal(18, 4)
+    maxQuantity Decimal? @map("max_quantity") @db.Decimal(18, 4)
+    createdAt   DateTime @default(now()) @map("created_at")
+    updatedAt   DateTime @updatedAt @map("updated_at")
 
     warehouse Warehouse @relation(fields: [warehouseId], references: [id], onDelete: Cascade)
     item      Item      @relation(fields: [itemId], references: [id], onDelete: Cascade)
