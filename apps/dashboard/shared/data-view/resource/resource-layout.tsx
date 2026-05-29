@@ -1,54 +1,70 @@
 "use client"
 
-import type { ReactNode } from "react"
-import type { ICrudClient } from "@devloggers/api-client"
-import DashboardPage from "@/infrastructure/components/layout/dashboard/dashboard-page"
-import type { DashboardHeaderProps } from "@/infrastructure/components/layout/dashboard"
-import type { ResourceContext, ResourceRender } from "./types"
-import { useResourceContext } from "./resource-context"
+import { ReactNode } from "react"
+import { cn } from "@/shared/lib/utils"
 
-type ReactNodeOrRender<TClient extends ICrudClient> = ReactNode | ResourceRender<TClient>
-
-export type ResourceLayoutProps<TClient extends ICrudClient> = {
-    title?: string
-    headerProps?: DashboardHeaderProps | ((resource: ResourceContext<TClient>) => DashboardHeaderProps)
-    header?: ReactNodeOrRender<TClient> | null
-    toolbar?: ReactNodeOrRender<TClient>
-    fullscreen?: boolean
-    children: ReactNode
+export type ResourceLayoutProps = {
+  /** Page title */
+  title?: string
+  /** Optional page description */
+  description?: string
+  /** Optional header actions */
+  headerActions?: ReactNode
+  /** Main content area */
+  children: ReactNode
+  /** Page padding */
+  padding?: "none" | "sm" | "md" | "lg"
+  /** Full screen mode */
+  fullscreen?: boolean
+  /** Custom className for main container */
+  className?: string
 }
 
-function resolveNodeOrRender<TClient extends ICrudClient>(
-    value: ReactNodeOrRender<TClient> | null | undefined,
-    resource: ResourceContext<TClient>,
-): ReactNode {
-    return typeof value === "function" ? value(resource) : value
-}
+export function ResourceLayout({
+  title,
+  description,
+  headerActions,
+  children,
+  padding = "md",
+  fullscreen = false,
+  className,
+}: ResourceLayoutProps) {
+  const paddingClass = {
+    none: "",
+    sm: "p-2",
+    md: "p-4",
+    lg: "p-6",
+  }[padding]
 
-export function ResourceLayout<TClient extends ICrudClient>({
-    headerProps: headerPropsProp,
-    children,
-}: ResourceLayoutProps<TClient>) {
-    // const resource = useResourceContext<TClient>()
+  return (
+    <div className={cn("page", fullscreen && "h-screen", className)}>
+      <main
+        className={cn(
+          "w-full h-full flex flex-col",
+          paddingClass,
+          fullscreen && "p-0 lg:p-0"
+        )}
+      >
+        {/* Header Section: Title + Description + Actions */}
+        {(title || description || headerActions) && (
+          <div className="mb-6 flex items-start justify-between gap-4">
+            <div className="flex-1 min-w-0">
+              {title && (
+                <h1 className="text-3xl font-bold tracking-tight">{title}</h1>
+              )}
+              {description && (
+                <p className="text-muted-foreground mt-1">{description}</p>
+              )}
+            </div>
+            {headerActions && (
+              <div className="shrink-0">{headerActions}</div>
+            )}
+          </div>
+        )}
 
-    // const resolvedHeaderProps = typeof headerPropsProp === "function"
-    //     ? headerPropsProp(resource)
-    //     : headerPropsProp
-
-    // const resolvedHeader = resolveNodeOrRender(header, resource)
-    // const resolvedToolbar = resolveNodeOrRender(toolbar, resource)
-
-    return (
-        // <DashboardPage
-        //     header={resolvedHeader}
-        //     headerProps={resolvedHeaderProps}
-        //     title={title}
-        //     toolbar={resolvedToolbar}
-        //     fullscreen={fullscreen}
-        // >
-        <>
-            {children}
-            {/* </DashboardPage> */}
-        </>
-    )
+        {/* Content Area */}
+        <div className="flex-1 overflow-auto">{children}</div>
+      </main>
+    </div>
+  )
 }
