@@ -11,6 +11,8 @@ import {
   ApiExtraModels,
 } from '@nestjs/swagger';
 import { ApiSuccessResponseDto } from '../api/api-responses.dto.js';
+import type { FilterSchema } from '../api/filter-schema.js';
+import { buildListFilterOptionsExample } from '../api/filter-swagger.js';
 
 /**
  * Applies standardized error-response decorators (401/403/404/422/500) to a controller method.
@@ -137,8 +139,12 @@ export function ApiCreatedResponseStandard<T extends Type<any>>(
  */
 export function ApiOkResponsePaginated<T extends Type<any>>(
   model: T,
-  options: { description?: string } = {},
+  options: { description?: string; filterSchema?: FilterSchema } = {},
 ): MethodDecorator {
+  const filterOptionsExample = options.filterSchema?.length
+    ? buildListFilterOptionsExample(options.filterSchema)
+    : undefined;
+
   return applyDecorators(
     ApiExtraModels(ApiSuccessResponseDto, model),
     ApiOkResponse({
@@ -152,6 +158,28 @@ export function ApiOkResponsePaginated<T extends Type<any>>(
                 type: 'array',
                 items: { $ref: getSchemaPath(model) },
               },
+              ...(filterOptionsExample
+                ? {
+                    meta: {
+                      type: 'object',
+                      properties: {
+                        pagination: {
+                          type: 'object',
+                          properties: {
+                            total: { type: 'number', example: 0 },
+                            page: { type: 'number', example: 1 },
+                            limit: { type: 'number', example: 10 },
+                            totalPages: { type: 'number', example: 0 },
+                          },
+                        },
+                        filterOptions: {
+                          type: 'array',
+                          example: filterOptionsExample,
+                        },
+                      },
+                    },
+                  }
+                : {}),
             },
           },
         ],

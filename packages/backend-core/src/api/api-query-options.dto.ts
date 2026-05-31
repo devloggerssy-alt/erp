@@ -46,13 +46,13 @@ export class ApiQueryOptionsDto implements ApiQueryOptions {
   @IsEnum(['asc', 'desc'])
   sortOrder?: SortOrder;
 
-  @ApiPropertyOptional({ example: 'kilogram', description: 'Full-text search keyword' })
+  @ApiPropertyOptional({ example: '', description: 'Full-text search keyword' })
   @IsOptional()
   @IsString()
   search?: string;
 
   @ApiPropertyOptional({
-    example: 'name,symbol',
+    example: '',
     description: 'Comma-separated field names to search within (e.g. name,symbol)',
   })
   @IsOptional()

@@ -36,6 +36,7 @@ const ItemCategoriesCrudBase = createCrudController({
     createDto: CreateItemCategoryDto,
     updateDto: UpdateItemCategoryDto,
     openApi: ITEM_CATEGORIES_OPENAPI,
+    
 });
 
 @ApiTags('Catalog / Item Categories')

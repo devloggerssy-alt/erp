@@ -1,58 +1,73 @@
 import { applyDecorators } from '@nestjs/common';
 import { ApiQuery } from '@nestjs/swagger';
 import {
+  buildExampleConditionForField,
+  buildFilterQueryDescription,
+  buildFiltersSwaggerExample,
+  exampleValueForOperator,
+} from '../api/filter-swagger.js';
+import {
   getAllowedOperators,
   type FilterFieldDef,
+  type FilterOperator,
   type FilterSchema,
 } from '../api/filter-schema.js';
 
-function buildFieldSchema(def: FilterFieldDef): object {
-  const ops = getAllowedOperators(def);
-  const properties: Record<string, object> = {};
+function buildOperatorProperty(def: FilterFieldDef, op: FilterOperator): object | undefined {
+  const example = exampleValueForOperator(def, op);
+  const withExample = (schema: object) =>
+    example !== undefined ? { ...schema, example } : schema;
 
-  if (ops.includes('$eq')) {
+  if (op === '$eq') {
     if (def.type === 'enum' && def.enumValues) {
-      properties['$eq'] = { type: 'string', enum: def.enumValues };
-    } else if (def.type === 'number') {
-      properties['$eq'] = { type: 'number' };
-    } else if (def.type === 'boolean') {
-      properties['$eq'] = { type: 'boolean' };
-    } else {
-      properties['$eq'] = { type: 'string' };
+      return withExample({ type: 'string', enum: def.enumValues });
     }
+    if (def.type === 'number') return withExample({ type: 'number' });
+    if (def.type === 'boolean') return withExample({ type: 'boolean' });
+    return withExample({ type: 'string' });
   }
-  if (ops.includes('$like')) {
-    properties['$like'] = { type: 'string' };
-  }
-  if (ops.includes('$gte')) {
-    properties['$gte'] = {
+  if (op === '$like') return withExample({ type: 'string' });
+  if (op === '$gte') {
+    return withExample({
       type: def.type === 'date' ? 'string' : 'number',
-      ...(def.type === 'date' ? { format: 'date-time', example: '2024-01-01T00:00:00.000Z' } : { example: 10 }),
-    };
+      ...(def.type === 'date' ? { format: 'date-time' } : {}),
+    });
   }
-  if (ops.includes('$lte')) {
-    properties['$lte'] = {
+  if (op === '$lte') {
+    return withExample({
       type: def.type === 'date' ? 'string' : 'number',
-      ...(def.type === 'date' ? { format: 'date-time', example: '2024-12-31T23:59:59.999Z' } : { example: 100 }),
-    };
+      ...(def.type === 'date' ? { format: 'date-time' } : {}),
+    });
   }
-  if (ops.includes('$in')) {
-    properties['$in'] = {
+  if (op === '$in') {
+    return withExample({
       type: 'array',
       items:
         def.type === 'enum' && def.enumValues
           ? { type: 'string', enum: def.enumValues }
           : { type: 'string' },
-    };
+    });
   }
-  if (ops.includes('$isNull')) {
-    properties['$isNull'] = { type: 'boolean', enum: [true] };
+  if (op === '$isNull') return withExample({ type: 'boolean', enum: [true] });
+  return undefined;
+}
+
+function buildFieldSchema(def: FilterFieldDef): object {
+  const ops = getAllowedOperators(def);
+  const properties: Record<string, object> = {};
+
+  for (const op of ops) {
+    const prop = buildOperatorProperty(def, op);
+    if (prop) properties[op] = prop;
   }
+
+  const fieldExample = buildExampleConditionForField(def);
 
   return {
     type: 'object',
     description: `Filter on \`${def.field}\` (${def.type})`,
     properties,
+    ...(fieldExample ? { example: fieldExample } : {}),
   };
 }
 
@@ -72,10 +87,12 @@ export function ApiFilterQuery(schema: FilterSchema): MethodDecorator {
       required: false,
       style: 'deepObject',
       explode: true,
-      description:
-        'Structured filters. Use one operator per field, e.g. ' +
-        'filters[name][$like]=widget&filters[price][$gte]=10&filters[status][$in][]=active',
-      schema: { type: 'object', properties },
+      description: buildFilterQueryDescription(schema),
+      schema: {
+        type: 'object',
+        properties,
+        example: buildFiltersSwaggerExample(schema),
+      },
     }),
   );
 }

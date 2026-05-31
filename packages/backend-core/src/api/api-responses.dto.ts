@@ -4,6 +4,7 @@
  * NOTE: These are reference types only — used for documentation purposes.
  * The actual runtime responses are built by ApiResponseBuilder.
  */
+import { resources } from '@devloggers/api-contracts';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class PaginationMetaDto {
@@ -37,7 +38,7 @@ export class ListFilterFieldDto {
   @ApiPropertyOptional({ example: ['active', 'draft'], type: [String] })
   enumValues?: string[];
 
-  @ApiPropertyOptional({ example: 'categories', description: 'Resource key for related lookup options' })
+  @ApiPropertyOptional({ example: Object.values(resources).map(v=>v.key).join('|'),  })
   foreignResourceKey?: string;
 }
 

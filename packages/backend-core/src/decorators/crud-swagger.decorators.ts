@@ -1,5 +1,6 @@
 import { applyDecorators, HttpCode, HttpStatus, Type } from '@nestjs/common';
 import { ApiNoContentResponse, ApiOperation, ApiParam } from '@nestjs/swagger';
+import type { FilterSchema } from '../api/filter-schema.js';
 import {
   ApiCreatedResponseStandard,
   ApiOkResponsePaginated,
@@ -45,11 +46,15 @@ export function CrudList<T extends Type<unknown>>(
   options: {
     operation: CrudOperationDoc;
     responseDescription?: string;
+    filterSchema?: FilterSchema;
   },
 ): MethodDecorator {
   return applyDecorators(
     apiOperationFrom(options.operation),
-    ApiOkResponsePaginated(model, { description: options.responseDescription }),
+    ApiOkResponsePaginated(model, {
+      description: options.responseDescription,
+      filterSchema: options.filterSchema,
+    }),
     ApiStandardErrors(),
   );
 }

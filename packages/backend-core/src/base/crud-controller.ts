@@ -119,7 +119,7 @@ export function createCrudController<TResponse, TCreateDto, TUpdateDto>(
     protected async afterUpdate(_user: RequestUser, _item: TResponse): Promise<void> { }
 
     @Get()
-    @CrudList(responseDto, openApi.list)
+    @CrudList(responseDto, { ...openApi.list, filterSchema })
     async list(@CurrentUser() user: RequestUser, @Query() query: ApiQueryOptionsDto) {
       const options = this.buildListOptions(user, query);
       const result = await this.service.list(user.tenantId, options);
