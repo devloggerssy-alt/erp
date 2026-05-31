@@ -1,6 +1,7 @@
-import { Type } from 'class-transformer';
-import { IsEnum, IsInt, IsOptional, IsString, Min } from 'class-validator';
-import { ApiPropertyOptional } from '@nestjs/swagger';
+import { Transform, Type } from 'class-transformer';
+import { IsEnum, IsInt, IsObject, IsOptional, IsString, Min } from 'class-validator';
+import { ApiHideProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import type { ParsedFilters } from './filter-schema.js';
 
 export type SortOrder = 'asc' | 'desc';
 
@@ -8,8 +9,19 @@ export type SortOrder = 'asc' | 'desc';
  * Standard flat query parameters for list endpoints.
  *
  * Usage: GET /units?page=1&limit=10&sortField=name&sortOrder=asc&search=kg&searchIn=name,symbol
+ * Filters: filters[name][$like]=kg&filters[isActive][$eq]=true
  */
-export class ApiQueryOptionsDto {
+export interface ApiQueryOptions {
+  page?: number;
+  limit?: number;
+  sortField?: string;
+  sortOrder?: SortOrder;
+  search?: string;
+  searchIn?: string;
+  filters?: ParsedFilters;
+}
+
+export class ApiQueryOptionsDto implements ApiQueryOptions {
   @ApiPropertyOptional({ example: 1, default: 1, description: 'Page number (1-based)' })
   @IsOptional()
   @Type(() => Number)
@@ -46,4 +58,11 @@ export class ApiQueryOptionsDto {
   @IsOptional()
   @IsString()
   searchIn?: string;
+
+  /** Documented per-resource via {@link ApiFilterQuery} when a filter schema is configured. */
+  @ApiHideProperty()
+  @IsOptional()
+  @IsObject()
+  @Transform(({ value }) => value ?? {})
+  filters?: ParsedFilters;
 }

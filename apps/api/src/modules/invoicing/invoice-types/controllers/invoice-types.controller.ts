@@ -2,7 +2,7 @@ import { Controller, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { InvoiceTypesService } from '../services/invoice-types.service';
 import { CreateInvoiceTypeDto, UpdateInvoiceTypeDto, InvoiceTypeResponseDto } from '../dto';
-import { createStandardCrudControllerBase, type StandardCrudOpenApi } from '@devloggers/backend-core';
+import { createCrudController, type CrudOpenApi } from '@devloggers/backend-core';
 import { JwtAuthGuard } from '@/modules/identity/auth/guards';
 
 const INVOICE_TYPES_OPENAPI = {
@@ -29,9 +29,9 @@ const INVOICE_TYPES_OPENAPI = {
         noContentDescription: 'Invoice type deleted successfully',
         idParam: { description: 'Invoice type UUID' },
     },
-} satisfies StandardCrudOpenApi;
+} satisfies CrudOpenApi;
 
-const InvoiceTypesCrudBase = createStandardCrudControllerBase({
+const InvoiceTypesCrudBase = createCrudController({
     responseDto: InvoiceTypeResponseDto,
     createDto: CreateInvoiceTypeDto,
     updateDto: UpdateInvoiceTypeDto,

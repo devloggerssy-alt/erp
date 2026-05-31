@@ -47,13 +47,23 @@ export interface IEventEmitter {
  * only for **additional** side effects (send email, invalidate cache, etc.) —
  * not for event re-emission which the base already handles.
  */
+
+export interface ICrudService<TResponse, TCreateDto, TUpdateDto> {
+  list(tenantId: string, options: Record<string, any>): Promise<{ data: TResponse[]; total: number }>;
+  findById(tenantId: string, id: string): Promise<TResponse>;
+  create(tenantId: string, dto: TCreateDto): Promise<TResponse>;
+  update(tenantId: string, id: string, dto: TUpdateDto): Promise<TResponse>;
+  delete(tenantId: string, id: string): Promise<void>;
+}
+
+
 @Injectable()
 export abstract class CrudService<
   TEntity extends TenantEntity,
   TResponse,
   TCreateDto,
   TUpdateDto,
-> {
+> implements ICrudService<TResponse, TCreateDto, TUpdateDto> {
   protected abstract readonly resourceName: string;
 
   constructor(

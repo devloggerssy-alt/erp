@@ -3,8 +3,8 @@ import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { UnitsService } from '../services/units.service';
 import { CreateUnitDto, UpdateUnitDto, UnitResponseDto } from '../dto';
 import {
-  createStandardCrudControllerBase,
-  type StandardCrudOpenApi,
+  createCrudController,
+  type CrudOpenApi,
 } from '@devloggers/backend-core';
 import { JwtAuthGuard } from '@/modules/identity/auth/guards';
 
@@ -46,19 +46,25 @@ const UNITS_CRUD_OPENAPI = {
     noContentDescription: 'Unit deleted successfully',
     idParam: { description: 'Unit UUID' },
   },
-} satisfies StandardCrudOpenApi;
+} satisfies CrudOpenApi;
 
-const UnitsCrudBase = createStandardCrudControllerBase({
+const UnitsCrudBase = createCrudController({
   responseDto: UnitResponseDto,
   createDto: CreateUnitDto,
   updateDto: UpdateUnitDto,
+  filterSchema: [
+    { field: 'name', type: 'string' },
+    { field: 'abbreviation', type: 'string' },
+    { field: 'isActive', type: 'boolean' },
+    { field: 'createdAt', type: 'date' },
+  ],
   openApi: UNITS_CRUD_OPENAPI,
 });
 
 /**
  * Units of measure controller.
  *
- * Standard CRUD HTTP surface comes from {@link createStandardCrudControllerBase}; this class
+ * Standard CRUD HTTP surface comes from {@link createCrudController}; this class
  * only pins the path, auth, and service wiring.
  */
 @ApiTags('Catalog / Units')

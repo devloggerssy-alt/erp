@@ -18,7 +18,7 @@ Domain Module (e.g. catalog)
     ├── repositories/            ← Data access layer (extends CrudRepository)
     ├── services/                ← Business logic (extends CrudService)
     ├── presenters/              ← Entity → Response mapping (extends CrudPresenter)
-    └── controllers/             ← HTTP layer (createStandardCrudControllerBase factory)
+    └── controllers/             ← HTTP layer (createCrudController factory)
 ```
 
 ### Layer Responsibilities
@@ -28,13 +28,13 @@ Domain Module (e.g. catalog)
 | Repository | `{resource}s.repository.ts` | All Prisma queries. Scoped to tenant. No business logic. |
 | Service | `{resource}s.service.ts` | Business rules, validation hooks. Base class emits domain events. |
 | Presenter | `{resource}.presenter.ts` | Maps Prisma entity → response DTO. Single responsibility. |
-| Controller | `{resource}s.controller.ts` | HTTP class built from `createStandardCrudControllerBase()` factory. |
+| Controller | `{resource}s.controller.ts` | HTTP class built from `createCrudController()` factory. |
 
 ### Key Infrastructure Packages
 
 | Import | Purpose |
 |--------|---------|
-| `@devloggers/backend-core` | `CrudRepository`, `CrudService`, `CrudPresenter`, `createStandardCrudControllerBase`, `StandardCrudOpenApi`, event classes |
+| `@devloggers/backend-core` | `CrudRepository`, `CrudService`, `CrudPresenter`, `createCrudController`, `CrudOpenApi`, event classes |
 | `@devloggers/db-prisma` | Prisma entity types (e.g. `Unit`) |
 | `@devloggers/db-prisma/nest` | `PrismaService` for DI |
 | `@devloggers/api-contracts` | `resources` constant — provides the canonical `key` for each resource |
@@ -387,7 +387,7 @@ This string is used in:
 
 **File:** `modules/{domain}/{resource}/controllers/{resource}s.controller.ts`
 
-The controller uses the `createStandardCrudControllerBase()` factory from `@devloggers/backend-core`.
+The controller uses the `createCrudController()` factory from `@devloggers/backend-core`.
 This factory returns a base class with all 5 CRUD routes, Swagger decorators, pagination, and
 `ApiResponseBuilder` envelopes already wired. The concrete controller class only adds:
 - Class-level decorators (`@ApiTags`, `@Controller`, `@UseGuards`, `@ApiBearerAuth`)
@@ -398,8 +398,8 @@ This factory returns a base class with all 5 CRUD routes, Swagger decorators, pa
 import { Controller, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import {
-  createStandardCrudControllerBase,
-  type StandardCrudOpenApi,
+  createCrudController,
+  type CrudOpenApi,
 } from '@devloggers/backend-core';
 import { UnitsService } from '../services/units.service';
 import { CreateUnitDto, UpdateUnitDto, UnitResponseDto } from '../dto';
@@ -445,13 +445,13 @@ const UNITS_CRUD_OPENAPI = {
     noContentDescription: 'Unit deleted successfully',
     idParam: { description: 'Unit UUID' },
   },
-} satisfies StandardCrudOpenApi;
+} satisfies CrudOpenApi;
 
 // ── Base class from factory ───────────────────────────────────────────────────
 // Pass the three DTO types and the OpenAPI config.
 // The returned class has @Get, @Post, @Patch, @Delete methods already defined.
 
-const UnitsCrudBase = createStandardCrudControllerBase({
+const UnitsCrudBase = createCrudController({
   responseDto: UnitResponseDto,
   createDto: CreateUnitDto,
   updateDto: UpdateUnitDto,
@@ -472,10 +472,10 @@ export class UnitsController extends UnitsCrudBase {
 }
 ```
 
-#### `StandardCrudOpenApi` shape
+#### `CrudOpenApi` shape
 
 ```typescript
-type StandardCrudOpenApi = {
+type CrudOpenApi = {
   list:   { operation: CrudOperationDoc; responseDescription?: string; };
   show:   { operation: CrudOperationDoc; responseDescription?: string; idParam?: CrudIdParamDoc; };
   create: { operation: CrudOperationDoc; responseDescription?: string; };
@@ -588,7 +588,7 @@ apps/api/src/modules/catalog/units/
 ├── services/
 │   └── units.service.ts     ← extends CrudService<Unit, ...>
 ├── controllers/
-│   └── units.controller.ts  ← createStandardCrudControllerBase() + concrete class
+│   └── units.controller.ts  ← createCrudController() + concrete class
 └── units.module.ts
 ```
 
@@ -597,7 +597,7 @@ Base classes (all from `@devloggers/backend-core`):
 - `packages/backend-core/src/base/crud-service.ts` — `CrudService<TEntity, TResponse, TCreate, TUpdate>`
 - `packages/backend-core/src/base/crud-presenter.ts` — `CrudPresenter<TEntity, TResponse>`
 - `packages/backend-core/src/base/crud-events.ts` — `ResourceCreatedEvent`, `ResourceUpdatedEvent`, `ResourceDeletedEvent`
-- `packages/backend-core/src/base/standard-crud-controller-base.ts` — `createStandardCrudControllerBase()`
+- `packages/backend-core/src/base/standard-crud-controller-base.ts` — `createCrudController()`
 - `packages/backend-core/src/decorators/crud-swagger.decorators.ts` — `CrudList`, `CrudShow`, `CrudCreate`, `CrudUpdate`, `CrudDelete`
 
 ---
@@ -666,7 +666,7 @@ Before declaring a module done, verify:
 - [ ] `{resource}s.repository.ts` extends `CrudRepository<T>` and passes `prisma.{model}` to `super()`
 - [ ] `{resource}.presenter.ts` extends `CrudPresenter<Entity, ResponseDto>` and implements `toResponse()`
 - [ ] `{resource}s.service.ts` extends `CrudService<...>`, sets `resourceName = resources.X.key`, implements `before*` hooks for business rules only
-- [ ] `{resource}s.controller.ts` uses `createStandardCrudControllerBase()` factory, concrete class has only class decorators + constructor
+- [ ] `{resource}s.controller.ts` uses `createCrudController()` factory, concrete class has only class decorators + constructor
 - [ ] `{resource}s.module.ts` lists all providers and exports the service
 - [ ] Domain `{domain}.module.ts` imports the new feature module
 - [ ] `app.module.ts` imports the domain module (or it already did)

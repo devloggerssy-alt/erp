@@ -1,5 +1,45 @@
 import { ApiQueryOptions } from "@devloggers/api-contracts";
 
+/** Structured filter condition (matches backend FilterCondition DSL). */
+type FilterConditionPayload = {
+  $eq?: string | number | boolean;
+  $like?: string;
+  $gte?: string | number;
+  $lte?: string | number;
+  $in?: (string | number)[];
+  $isNull?: true;
+};
+
+function appendFilterCondition(
+  params: URLSearchParams,
+  field: string,
+  condition: FilterConditionPayload,
+): void {
+  if (condition.$eq !== undefined) {
+    params.append(`filters[${field}][$eq]`, String(condition.$eq));
+    return;
+  }
+  if (condition.$like !== undefined) {
+    params.append(`filters[${field}][$like]`, condition.$like);
+    return;
+  }
+  if (condition.$gte !== undefined) {
+    params.append(`filters[${field}][$gte]`, String(condition.$gte));
+    return;
+  }
+  if (condition.$lte !== undefined) {
+    params.append(`filters[${field}][$lte]`, String(condition.$lte));
+    return;
+  }
+  if (condition.$in !== undefined) {
+    condition.$in.forEach((v) => params.append(`filters[${field}][$in][]`, String(v)));
+    return;
+  }
+  if (condition.$isNull === true) {
+    params.append(`filters[${field}][$isNull]`, "true");
+  }
+}
+
 /**
  * Serializes ApiQueryOptions to URL query string format
  * Compatible with NestJS class-transformer query parsing
@@ -7,7 +47,6 @@ import { ApiQueryOptions } from "@devloggers/api-contracts";
 export function serializeQueryOptions(query: ApiQueryOptions): string {
   const params = new URLSearchParams();
 
-  // Pagination
   if (query.pagination) {
     if (query.pagination.page !== undefined) {
       params.append("pagination[page]", String(query.pagination.page));
@@ -17,7 +56,6 @@ export function serializeQueryOptions(query: ApiQueryOptions): string {
     }
   }
 
-  // Sort
   if (query.sort) {
     if (query.sort.field) {
       params.append("sort[field]", query.sort.field);
@@ -27,16 +65,14 @@ export function serializeQueryOptions(query: ApiQueryOptions): string {
     }
   }
 
-  // Filters
   if (query.filters) {
-    Object.entries(query.filters).forEach(([key, value]) => {
-      if (value !== undefined && value !== null) {
-        params.append(`filters[${key}]`, String(value));
+    Object.entries(query.filters).forEach(([field, condition]) => {
+      if (condition && typeof condition === "object") {
+        appendFilterCondition(params, field, condition as FilterConditionPayload);
       }
     });
   }
 
-  // Include
   if (query.include) {
     Object.entries(query.include).forEach(([key, value]) => {
       if (value !== undefined && value !== null) {
@@ -45,7 +81,6 @@ export function serializeQueryOptions(query: ApiQueryOptions): string {
     });
   }
 
-  // Search
   if (query.search) {
     if (query.search.value) {
       params.append("search[value]", query.search.value);
@@ -59,12 +94,3 @@ export function serializeQueryOptions(query: ApiQueryOptions): string {
 
   return params.toString();
 }
-
-
-
-
-
-
-
-
-

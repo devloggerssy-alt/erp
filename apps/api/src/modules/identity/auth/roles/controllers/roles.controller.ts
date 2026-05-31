@@ -2,7 +2,7 @@ import { Controller, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { RolesService } from '../services/roles.service';
 import { CreateRoleDto, UpdateRoleDto, RoleResponseDto } from '../dto';
-import { createStandardCrudControllerBase, type StandardCrudOpenApi } from '@devloggers/backend-core';
+import { createCrudController, type CrudOpenApi } from '@devloggers/backend-core';
 import { JwtAuthGuard } from '../../guards';
 
 const ROLES_CRUD_OPENAPI = {
@@ -29,9 +29,9 @@ const ROLES_CRUD_OPENAPI = {
         noContentDescription: 'Role deleted successfully',
         idParam: { description: 'Role UUID' },
     },
-} satisfies StandardCrudOpenApi;
+} satisfies CrudOpenApi;
 
-const RolesCrudBase = createStandardCrudControllerBase({
+const RolesCrudBase = createCrudController({
     responseDto: RoleResponseDto,
     createDto: CreateRoleDto,
     updateDto: UpdateRoleDto,

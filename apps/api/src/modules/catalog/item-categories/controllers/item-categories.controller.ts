@@ -2,7 +2,7 @@ import { Controller, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { ItemCategoriesService } from '../services/item-categories.service';
 import { CreateItemCategoryDto, UpdateItemCategoryDto, ItemCategoryResponseDto } from '../dto';
-import { createStandardCrudControllerBase, type StandardCrudOpenApi } from '@devloggers/backend-core';
+import { createCrudController, type CrudOpenApi } from '@devloggers/backend-core';
 import { JwtAuthGuard } from '@/modules/identity/auth/guards';
 
 const ITEM_CATEGORIES_OPENAPI = {
@@ -29,9 +29,9 @@ const ITEM_CATEGORIES_OPENAPI = {
         noContentDescription: 'Item category deleted successfully',
         idParam: { description: 'Item category UUID' },
     },
-} satisfies StandardCrudOpenApi;
+} satisfies CrudOpenApi;
 
-const ItemCategoriesCrudBase = createStandardCrudControllerBase({
+const ItemCategoriesCrudBase = createCrudController({
     responseDto: ItemCategoryResponseDto,
     createDto: CreateItemCategoryDto,
     updateDto: UpdateItemCategoryDto,

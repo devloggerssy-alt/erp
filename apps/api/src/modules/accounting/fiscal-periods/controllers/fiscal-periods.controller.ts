@@ -2,7 +2,7 @@ import { Controller, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { FiscalPeriodsService } from '../services/fiscal-periods.service';
 import { CreateFiscalPeriodDto, UpdateFiscalPeriodDto, FiscalPeriodResponseDto } from '../dto';
-import { createStandardCrudControllerBase, type StandardCrudOpenApi } from '@devloggers/backend-core';
+import { createCrudController, type CrudOpenApi } from '@devloggers/backend-core';
 import { JwtAuthGuard } from '@/modules/identity/auth/guards';
 
 const FISCAL_PERIODS_OPENAPI = {
@@ -29,9 +29,9 @@ const FISCAL_PERIODS_OPENAPI = {
         noContentDescription: 'Fiscal period deleted successfully',
         idParam: { description: 'Fiscal period UUID' },
     },
-} satisfies StandardCrudOpenApi;
+} satisfies CrudOpenApi;
 
-const FiscalPeriodsCrudBase = createStandardCrudControllerBase({
+const FiscalPeriodsCrudBase = createCrudController({
     responseDto: FiscalPeriodResponseDto,
     createDto: CreateFiscalPeriodDto,
     updateDto: UpdateFiscalPeriodDto,

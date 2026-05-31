@@ -2,7 +2,7 @@ import { Controller, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { CurrenciesService } from '../services/currencies.service';
 import { CreateCurrencyDto, UpdateCurrencyDto, CurrencyResponseDto } from '../dto';
-import { createStandardCrudControllerBase, type StandardCrudOpenApi } from '@devloggers/backend-core';
+import { createCrudController, type CrudOpenApi } from '@devloggers/backend-core';
 import { JwtAuthGuard } from '@/modules/identity/auth/guards';
 
 const CURRENCIES_OPENAPI = {
@@ -29,9 +29,9 @@ const CURRENCIES_OPENAPI = {
         noContentDescription: 'Currency deleted successfully',
         idParam: { description: 'Currency UUID' },
     },
-} satisfies StandardCrudOpenApi;
+} satisfies CrudOpenApi;
 
-const CurrenciesCrudBase = createStandardCrudControllerBase({
+const CurrenciesCrudBase = createCrudController({
     responseDto: CurrencyResponseDto,
     createDto: CreateCurrencyDto,
     updateDto: UpdateCurrencyDto,

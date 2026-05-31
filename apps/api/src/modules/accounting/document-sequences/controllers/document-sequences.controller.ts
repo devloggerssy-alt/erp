@@ -2,7 +2,7 @@ import { Controller, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { DocumentSequencesService } from '../services/document-sequences.service';
 import { CreateDocumentSequenceDto, UpdateDocumentSequenceDto, DocumentSequenceResponseDto } from '../dto';
-import { createStandardCrudControllerBase, type StandardCrudOpenApi } from '@devloggers/backend-core';
+import { createCrudController, type CrudOpenApi } from '@devloggers/backend-core';
 import { JwtAuthGuard } from '@/modules/identity/auth/guards';
 
 const DOCUMENT_SEQUENCES_OPENAPI = {
@@ -29,9 +29,9 @@ const DOCUMENT_SEQUENCES_OPENAPI = {
         noContentDescription: 'Document sequence deleted successfully',
         idParam: { description: 'Document sequence UUID' },
     },
-} satisfies StandardCrudOpenApi;
+} satisfies CrudOpenApi;
 
-const DocumentSequencesCrudBase = createStandardCrudControllerBase({
+const DocumentSequencesCrudBase = createCrudController({
     responseDto: DocumentSequenceResponseDto,
     createDto: CreateDocumentSequenceDto,
     updateDto: UpdateDocumentSequenceDto,

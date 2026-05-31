@@ -2,8 +2,9 @@ import { Controller, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { ItemsService } from '../services/items.service';
 import { CreateItemDto, UpdateItemDto, ItemResponseDto } from '../dto';
-import { createStandardCrudControllerBase, type StandardCrudOpenApi } from '@devloggers/backend-core';
+import { createCrudController, type CrudOpenApi } from '@devloggers/backend-core';
 import { JwtAuthGuard } from '@/modules/identity/auth/guards';
+import { itemCategoryResource, itemResource } from '@devloggers/api-contracts';
 
 const ITEMS_OPENAPI = {
     list: {
@@ -29,12 +30,20 @@ const ITEMS_OPENAPI = {
         noContentDescription: 'Item deleted successfully',
         idParam: { description: 'Item UUID' },
     },
-} satisfies StandardCrudOpenApi;
+} satisfies CrudOpenApi;
 
-const ItemsCrudBase = createStandardCrudControllerBase({
+const ItemsCrudBase = createCrudController({
     responseDto: ItemResponseDto,
     createDto: CreateItemDto,
     updateDto: UpdateItemDto,
+    filterSchema: [
+        { field: 'categoryId', type: 'id', foreignResourceKey: itemCategoryResource.key },
+        { field: 'name', type: 'string' },
+        { field: 'code', type: 'string' },
+        { field: 'defaultSellingPrice', type: 'number' },
+        { field: 'isActive', type: 'boolean' },
+        { field: 'createdAt', type: 'date' },
+    ],
     openApi: ITEMS_OPENAPI,
 });
 

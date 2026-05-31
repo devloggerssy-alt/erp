@@ -2,7 +2,7 @@ import { Controller, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { WarehousesService } from '../services/warehouses.service';
 import { CreateWarehouseDto, UpdateWarehouseDto, WarehouseResponseDto } from '../dto';
-import { createStandardCrudControllerBase, type StandardCrudOpenApi } from '@devloggers/backend-core';
+import { createCrudController, type CrudOpenApi } from '@devloggers/backend-core';
 import { JwtAuthGuard } from '@/modules/identity/auth/guards';
 
 const WAREHOUSES_OPENAPI = {
@@ -29,9 +29,9 @@ const WAREHOUSES_OPENAPI = {
         noContentDescription: 'Warehouse deleted successfully',
         idParam: { description: 'Warehouse UUID' },
     },
-} satisfies StandardCrudOpenApi;
+} satisfies CrudOpenApi;
 
-const WarehousesCrudBase = createStandardCrudControllerBase({
+const WarehousesCrudBase = createCrudController({
     responseDto: WarehouseResponseDto,
     createDto: CreateWarehouseDto,
     updateDto: UpdateWarehouseDto,

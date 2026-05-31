@@ -20,9 +20,37 @@ export class PaginationMetaDto {
   totalPages?: number;
 }
 
+export class ListFilterFieldDto {
+  @ApiProperty({ example: 'name' })
+  field: string = '';
+
+  @ApiProperty({ example: 'string', enum: ['string', 'number', 'boolean', 'date', 'enum', 'id'] })
+  type: string = 'string';
+
+  @ApiProperty({
+    example: ['$eq', '$like', '$in', '$isNull'],
+    enum: ['$eq', '$like', '$gte', '$lte', '$in', '$isNull'],
+    isArray: true,
+  })
+  operators: string[] = [];
+
+  @ApiPropertyOptional({ example: ['active', 'draft'], type: [String] })
+  enumValues?: string[];
+
+  @ApiPropertyOptional({ example: 'categories', description: 'Resource key for related lookup options' })
+  foreignResourceKey?: string;
+}
+
 export class ApiMetaDto {
   @ApiPropertyOptional({ type: () => PaginationMetaDto })
   pagination?: PaginationMetaDto;
+
+  @ApiPropertyOptional({
+    type: () => ListFilterFieldDto,
+    isArray: true,
+    description: 'Filterable fields and allowed operators for this list resource',
+  })
+  filterOptions?: ListFilterFieldDto[];
 }
 
 export class ApiSuccessResponseDto {

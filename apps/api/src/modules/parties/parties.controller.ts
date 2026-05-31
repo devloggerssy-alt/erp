@@ -2,7 +2,7 @@ import { Controller, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { PartiesService } from './parties.service';
 import { CreatePartyDto, UpdatePartyDto, PartyResponseDto } from './dto';
-import { createStandardCrudControllerBase, type StandardCrudOpenApi } from '@devloggers/backend-core';
+import { createCrudController, type CrudOpenApi } from '@devloggers/backend-core';
 import { JwtAuthGuard } from '../identity/auth/guards';
 
 const PARTIES_CRUD_OPENAPI = {
@@ -29,9 +29,9 @@ const PARTIES_CRUD_OPENAPI = {
         noContentDescription: 'Party deleted successfully',
         idParam: { description: 'Party UUID' },
     },
-} satisfies StandardCrudOpenApi;
+} satisfies CrudOpenApi;
 
-const PartiesCrudBase = createStandardCrudControllerBase({
+const PartiesCrudBase = createCrudController({
     responseDto: PartyResponseDto,
     createDto: CreatePartyDto,
     updateDto: UpdatePartyDto,

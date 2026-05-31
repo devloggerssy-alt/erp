@@ -1,6 +1,6 @@
 import { Controller, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
-import { createStandardCrudControllerBase, type StandardCrudOpenApi } from '@devloggers/backend-core';
+import { createCrudController, type CrudOpenApi } from '@devloggers/backend-core';
 import { AccountsService } from '../services/accounts.service';
 import { CreateChartOfAccountDto, UpdateChartOfAccountDto, ChartOfAccountResponseDto } from '../dto';
 import { JwtAuthGuard } from '@/modules/identity/auth/guards';
@@ -43,11 +43,11 @@ const ACCOUNTS_CRUD_OPENAPI = {
         noContentDescription: 'Account deleted successfully',
         idParam: { description: 'Account UUID' },
     },
-} satisfies StandardCrudOpenApi;
+} satisfies CrudOpenApi;
 
 // ── Base class from factory ───────────────────────────────────────────────────
 
-const AccountsCrudBase = createStandardCrudControllerBase({
+const AccountsCrudBase = createCrudController({
     responseDto: ChartOfAccountResponseDto,
     createDto: CreateChartOfAccountDto,
     updateDto: UpdateChartOfAccountDto,

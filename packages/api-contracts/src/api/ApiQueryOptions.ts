@@ -1,29 +1,41 @@
+import type { ParsedFilters } from './FilterSchema.js';
+
 export type SortOrder = 'asc' | 'desc';
 
 export interface PaginationOptions {
-    page?: number;
-    limit?: number;
+  page?: number;
+  limit?: number;
 }
 
 export interface SortOptions<TFields extends string = string> {
-    field?: TFields;
-    order?: SortOrder;
+  field?: TFields;
+  order?: SortOrder;
 }
-
-export type FilterOptions<TFields extends string = string> = Partial<
-    Record<TFields, any>
->;
 
 export interface IncludeOptions {
-    [relation: string]: boolean;
+  [relation: string]: boolean;
 }
 
-export type SearchOptions<TFields extends string = string> = { value: string, keys: TFields[] }
+export type SearchOptions<TFields extends string = string> = {
+  value: string;
+  keys: TFields[];
+};
 
 export interface ApiQueryOptions<TFields extends string = string> {
-    pagination?: PaginationOptions;
-    sort?: SortOptions<TFields>;
-    filters?: FilterOptions;
-    include?: IncludeOptions;
-    search?: SearchOptions;
+  pagination?: PaginationOptions;
+  sort?: SortOptions<TFields>;
+  /** Structured filter DSL: one operator per field. */
+  filters?: ParsedFilters;
+  include?: IncludeOptions;
+  search?: SearchOptions;
 }
+
+export type {
+  FilterCondition,
+  FilterFieldDef,
+  FilterFieldType,
+  FilterOperator,
+  FilterSchema,
+  ListFilterField,
+  ParsedFilters,
+} from './FilterSchema.js';

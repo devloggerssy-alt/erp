@@ -4,19 +4,11 @@ export interface ApiError {
   details?: any;
 }
 
-export interface PaginationMeta {
-  total: number;
-  page: number;
-  limit: number;
-  totalPages?: number;
-}
+import type { ApiMeta, Cursor, Pagination } from '@devloggers/api-contracts';
 
-export interface ApiMeta {
-  pagination?: PaginationMeta;
-  info?: string;
-}
+export type { ApiMeta, Cursor, Pagination as PaginationMeta };
 
-export interface ApiResponse<T = any> {
+export interface ApiResponse<T = unknown> {
   status: 'success' | 'error';
   message: string;
   data: T;

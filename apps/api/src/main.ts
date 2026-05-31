@@ -55,6 +55,7 @@ async function bootstrap() {
     origin: true, // Allow all origins in development
     credentials: true,
   });
+  app.set('query parser', 'extended'); // qs with deepObject support — default in Express but explicit is safer
 
   await app.listen(port);
   console.log(`🚀 ERP API running on http://localhost:${port}`);

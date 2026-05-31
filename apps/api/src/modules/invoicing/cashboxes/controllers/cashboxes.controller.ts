@@ -2,7 +2,7 @@ import { Controller, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { CashboxesService } from '../services/cashboxes.service';
 import { CreateCashboxDto, UpdateCashboxDto, CashboxResponseDto } from '../dto';
-import { createStandardCrudControllerBase, type StandardCrudOpenApi } from '@devloggers/backend-core';
+import { createCrudController, type CrudOpenApi } from '@devloggers/backend-core';
 import { JwtAuthGuard } from '@/modules/identity/auth/guards';
 
 const CASHBOXES_OPENAPI = {
@@ -29,9 +29,9 @@ const CASHBOXES_OPENAPI = {
         noContentDescription: 'Cashbox deleted successfully',
         idParam: { description: 'Cashbox UUID' },
     },
-} satisfies StandardCrudOpenApi;
+} satisfies CrudOpenApi;
 
-const CashboxesCrudBase = createStandardCrudControllerBase({
+const CashboxesCrudBase = createCrudController({
     responseDto: CashboxResponseDto,
     createDto: CreateCashboxDto,
     updateDto: UpdateCashboxDto,
