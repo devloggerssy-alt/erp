@@ -81,6 +81,7 @@ export type ResourceFormProps<TClient extends ICrudClient> = {
     resourceId: string | null
     initialData: ResourceItem<TClient> | null
     onSuccess: () => void
+    paramKey?: string
 }
 
 export type ResourceContextValue<TClient extends ICrudClient> = ResourceContext<TClient>

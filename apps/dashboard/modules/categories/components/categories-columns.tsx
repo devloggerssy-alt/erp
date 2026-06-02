@@ -9,6 +9,7 @@ export function createCategoriesColumns(
     return [
         {
             accessorKey: "name",
+            enableSorting: true,
             header: ({ column }) => <ColumnHeader column={column} title="Name" />,
         },
         {

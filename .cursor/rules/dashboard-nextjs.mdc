@@ -1,0 +1,34 @@
+---
+description: Dashboard Next.js routing, modules, and resource UI conventions
+globs: apps/dashboard/**
+alwaysApply: false
+---
+
+# Dashboard (Next.js)
+
+## Routing
+- App Router: `app/[locale]/`
+- `(authenticated)/` — protected; `(auth)/` — login
+- `@breadcrumbs/` — parallel route for breadcrumb slots
+- **Thin pages:** `page.tsx` only imports from `@/modules/<feature>`
+
+## Folder roles
+| Path | Purpose |
+|------|---------|
+| `modules/<feature>/` | Page, form, columns, `*.resource.ts`, `*.config.ts` |
+| `shared/` | UI, hooks, `data-view/resource`, forms |
+| `infrastructure/` | Layout, providers, auth |
+| `config/` | `navGroups.tsx` |
+| `messages/` | i18n (`en.json`, `tr.json`) via next-intl |
+
+## CRUD list pages
+Use `generateResource<Client>()` from `@/shared/data-view/resource` + `@devloggers/api-client`.
+Reference: `modules/units/`.
+
+## i18n + RTL
+- User strings → `messages/*.json` + `useTranslations()`
+- Nav: `config/navGroups.tsx` (`titleKey`, `labelKey`)
+- RTL: `locale === "ar"` in layout/sidebar
+
+## Config files
+`*.config.ts` — Zod schema, defaults, mappers only (no JSX). Columns in `*.tsx`.

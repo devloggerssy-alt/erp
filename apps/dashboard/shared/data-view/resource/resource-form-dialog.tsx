@@ -32,6 +32,7 @@ export function ResourceFormDialog<TClient extends ICrudClient>({
                     resourceId={resourceId}
                     initialData={resourceId ? resource.selectedItem : null}
                     onSuccess={resource.invalidateQuery}
+                    paramKey={resource.paramKey}
                 />
             )}
         </FormDialog>

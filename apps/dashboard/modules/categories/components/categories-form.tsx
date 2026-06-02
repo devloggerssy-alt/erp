@@ -2,6 +2,7 @@
 
 import { AlertTriangle, Plus, Save } from "lucide-react"
 import { toast } from "sonner"
+import type { CreateItemCategoryDto, UpdateItemCategoryDto } from "@devloggers/api-contracts"
 import { itemCategoryResource } from "@devloggers/api-contracts"
 import { Rhform, RhfCheckboxField, RhfTextField, RhfResourceSelect } from "@/shared/components/form"
 import { useFormDialog } from "@/shared/components/form-dialog"
@@ -17,39 +18,29 @@ import {
     mapCategoryToFormValues,
     type CategoryFormValues,
 } from "../categories.config"
-import { CategoriesClient } from "@devloggers/api-client"
-import type { ResourceItem } from "@/shared/data-view/resource/types"
 
 export type CategoriesFormProps = {
     resourceId?: string | null
-    initialData?: ResourceItem<CategoriesClient> | null
+    initialData?: unknown
     onSuccess?: () => void
     paramKey?: string
 }
 
-function mapCreatePayload(values: CategoryFormValues) {
+function mapCreatePayload(values: CategoryFormValues): CreateItemCategoryDto {
     return {
         name: values.name.trim(),
-        description: values.description?.trim() ?? "",
-        parentId: values.parentId ?? null,
-        isActive: values.isActive ?? true,
+        description: values.description?.trim() || undefined,
+        parentId: values.parentId || undefined,
     }
 }
 
-function mapUpdatePayload(values: CategoryFormValues) {
-    const payload: Record<string, unknown> = {
+function mapUpdatePayload(values: CategoryFormValues): UpdateItemCategoryDto {
+    return {
         name: values.name.trim(),
+        description: values.description?.trim() || undefined,
+        parentId: values.parentId || undefined,
+        isActive: values.isActive ?? true,
     }
-    if (values.description?.trim()) {
-        payload.description = values.description.trim()
-    }
-    if (values.parentId) {
-        payload.parentId = values.parentId
-    }
-    if (values.isActive !== undefined) {
-        payload.isActive = values.isActive
-    }
-    return payload
 }
 
 export function CategoriesForm({ resourceId, initialData, onSuccess, paramKey }: CategoriesFormProps) {
@@ -115,7 +106,7 @@ export function CategoriesForm({ resourceId, initialData, onSuccess, paramKey }:
                     disabled={isBusy}
                 />
                 <RhfResourceSelect
-                    name="parent"
+                    name="parentId"
                     label="Parent Category"
                     placeholder="Select parent category..."
                     client={(api) => api.categories}
@@ -138,7 +129,6 @@ export function CategoriesForm({ resourceId, initialData, onSuccess, paramKey }:
                         : (isEditing ? "Update Category" : "Create Category")}
                 </Button>
             </FieldGroup>
-
         </Rhform>
     )
 }

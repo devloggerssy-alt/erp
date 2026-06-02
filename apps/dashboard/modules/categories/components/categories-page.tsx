@@ -16,7 +16,7 @@ export function CategoriesPage() {
                 }
                 actions={
                     <CategoriesResource.FormDialog
-                        title={(data) => (data?.id ? "تعديل فئة" : "إضافة فئة")}
+                        title={(it) => (it?.id ? it.name : "إضافة فئة")}
                         form={CategoriesForm}
                     />
                 }
