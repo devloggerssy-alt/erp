@@ -2,6 +2,7 @@ import { AuthClient } from "./clients/auth.client"
 import { UnitsClient } from "./clients/units.client"
 import { ApiClient, type ApiClientOptions } from "./infra/client"
 import { CategoriesClient } from "./clients/categories.client"
+import { WarehousesClient } from "./clients/warehouses.client"
 
 export function createApi(options?: ApiClientOptions, baseUrl = 'http://localhost:4040') {
     const client = new ApiClient(baseUrl, options)
@@ -10,6 +11,7 @@ export function createApi(options?: ApiClientOptions, baseUrl = 'http://localhos
         auth: new AuthClient(client),
         units: new UnitsClient(client),
         categories: new CategoriesClient(client),
+        warehouses: new WarehousesClient(client),
     }
 }
 
