@@ -50,6 +50,24 @@
       "placeholder": "Ara...",
       "clear": "Aramayı temizle"
     },
+    "resourceFilter": {
+      "button": "Filtre",
+      "title": "Bu görünümde kayıtları göster",
+      "where": "Koşul",
+      "and": "Ve",
+      "addFilter": "Filtre ekle",
+      "clearAll": "Tüm filtreleri temizle",
+      "apply": "Filtreleri uygula",
+      "removeRule": "Filtreyi kaldır",
+      "operators": {
+        "eq": "eşittir",
+        "like": "içerir",
+        "gte": "büyük veya eşit",
+        "lte": "küçük veya eşit",
+        "in": "herhangi biri",
+        "isNull": "boş"
+      }
+    },
     "resource": {
       "deleteTitle": "Bu öğe silinsin mi?",
       "deleteDescription": "Bu işlem geri alınamaz.",

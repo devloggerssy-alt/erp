@@ -77,6 +77,12 @@ export function useDataViewQuery<C extends ICrudClient>({
                     page: 1,
                 })
                 break
+            case "filters":
+                setParams({
+                    filters: event.filters,
+                    page: 1,
+                })
+                break
         }
     }
 

@@ -50,6 +50,24 @@
       "placeholder": "بحث...",
       "clear": "مسح البحث"
     },
+    "resourceFilter": {
+      "button": "تصفية",
+      "title": "في هذا العرض اعرض السجلات",
+      "where": "حيث",
+      "and": "و",
+      "addFilter": "إضافة تصفية",
+      "clearAll": "مسح كل التصفيات",
+      "apply": "تطبيق التصفيات",
+      "removeRule": "إزالة التصفية",
+      "operators": {
+        "eq": "يساوي",
+        "like": "يحتوي على",
+        "gte": "أكبر من أو يساوي",
+        "lte": "أصغر من أو يساوي",
+        "in": "أي من",
+        "isNull": "فارغ"
+      }
+    },
     "resource": {
       "deleteTitle": "حذف هذا العنصر؟",
       "deleteDescription": "لا يمكن التراجع عن هذا الإجراء.",

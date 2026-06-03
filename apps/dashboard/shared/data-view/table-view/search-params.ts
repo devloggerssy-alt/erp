@@ -7,6 +7,7 @@ import {
     createSearchParamsCache,
     type inferParserType,
 } from "nuqs/server"
+import { parseAsFilters } from "@/shared/data-view/filter/filter-parsers"
 
 export const dataTableSearchParams = {
     page: parseAsInteger.withDefault(1),
@@ -14,6 +15,7 @@ export const dataTableSearchParams = {
     sortField: parseAsString,
     sortOrder: parseAsStringEnum(["asc", "desc"] as string[]),
     search: parseAsString,
+    filters: parseAsFilters,
 }
 
 export const dataViewSearchParams = dataTableSearchParams

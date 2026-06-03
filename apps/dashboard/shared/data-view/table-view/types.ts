@@ -15,10 +15,13 @@ export type DataViewState = {
     sorting: DataViewSorting
 }
 
+import type { ParsedFilters } from "@devloggers/api-contracts"
+
 export type DataViewChangeEvent =
     | { type: "pagination"; pagination: DataViewPaginationState }
     | { type: "sorting"; sorting: DataViewSorting }
     | { type: "search"; search: string | null }
+    | { type: "filters"; filters: ParsedFilters | null }
 
 export type DataViewSlots = {
     actions?: ReactNode

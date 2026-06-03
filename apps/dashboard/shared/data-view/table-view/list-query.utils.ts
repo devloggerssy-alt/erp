@@ -1,3 +1,6 @@
+import type { ApiMeta } from "@devloggers/api-contracts"
+import type { ListFilterField } from "@devloggers/api-contracts"
+import { appendFiltersToParams } from "@/shared/data-view/filter/filter.utils"
 import type { DataViewQueryParams } from "./search-params"
 
 export type ListQueryOptions = {
@@ -23,7 +26,14 @@ export function toApiListParams(
         }
     }
 
+    appendFiltersToParams(apiParams, params.filters)
+
     return apiParams
+}
+
+export function parseFilterOptions(meta: unknown): ListFilterField[] {
+    const filterOptions = (meta as ApiMeta | undefined)?.filterOptions
+    return filterOptions ?? []
 }
 
 export function parsePaginationMeta(

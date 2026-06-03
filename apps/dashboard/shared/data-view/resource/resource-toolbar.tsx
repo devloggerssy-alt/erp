@@ -12,7 +12,10 @@ export function ResourceToolbar({ children, className }: ResourceToolbarProps) {
     return (
         <div
             data-slot="resource-toolbar"
-            className={cn("flex flex-wrap items-center gap-3", className)}
+            className={cn(
+                "flex w-full flex-wrap items-center gap-2 border-b border-border/60 pb-4",
+                className,
+            )}
         >
             {children}
         </div>

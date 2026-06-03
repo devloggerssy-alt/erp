@@ -11,7 +11,10 @@ export function UnitsPage() {
                 title="Units"
                 toolbar={
                     <UnitsResource.Toolbar>
-                        <UnitsResource.Search />
+                        <UnitsResource.Filter />
+                        <div className="ms-auto w-full max-w-sm sm:w-auto">
+                            <UnitsResource.Search />
+                        </div>
                     </UnitsResource.Toolbar>
                 }
                 actions={

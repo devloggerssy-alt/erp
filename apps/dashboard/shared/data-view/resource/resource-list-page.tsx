@@ -50,7 +50,6 @@ export function ResourceListPage<TClient extends ICrudClient = any>({
   const locale = useLocale()
   const isRtl = locale === "ar"
 
-  // Try to get resource context (will fail gracefully if not in ResourceProvider)
   let resource
   try {
     resource = useResourceContext<TClient>()
@@ -58,7 +57,6 @@ export function ResourceListPage<TClient extends ICrudClient = any>({
     resource = undefined
   }
 
-  // Resolve function-based props
   const resolveNodeOrRender = (
     value: ReactNodeOrRender<TClient> | null | undefined
   ): ReactNode => {
@@ -72,21 +70,20 @@ export function ResourceListPage<TClient extends ICrudClient = any>({
   const resolvedToolbar = resolveNodeOrRender(toolbar)
   const resolvedActions = resolveNodeOrRender(actions)
 
-  // Determine if we need the operations toolbar
-  const hasOperations =
-    showSearch || showFilters || showExport || resolvedToolbar || resolvedActions
+  const hasLegacyOperations =
+    !resolvedToolbar && (showSearch || showFilters || showExport || resolvedActions)
 
   return (
     <>
-      {/* List Operations Toolbar */}
-      {hasOperations && (
+      {resolvedToolbar}
+
+      {hasLegacyOperations && (
         <div
           className={cn(
-            "flex flex-col gap-4 mb-6",
+            "mb-6 flex flex-col gap-4",
             "md:flex-row md:items-center md:justify-between"
           )}
         >
-          {/* Left: Search and Filters */}
           <div
             className={cn(
               "flex items-center gap-2",
@@ -125,17 +122,12 @@ export function ResourceListPage<TClient extends ICrudClient = any>({
             )}
           </div>
 
-          {/* Right: Toolbar, Export and Custom Actions */}
           <div
             className={cn(
               "flex items-center gap-2",
               isRtl ? "flex-row-reverse" : "flex-row"
             )}
           >
-            {resolvedToolbar && (
-              <div className="flex items-center gap-2">{resolvedToolbar}</div>
-            )}
-
             {showExport && (
               <Button
                 variant="outline"
@@ -155,7 +147,17 @@ export function ResourceListPage<TClient extends ICrudClient = any>({
         </div>
       )}
 
-      {/* Content Area */}
+      {!hasLegacyOperations && resolvedActions && (
+        <div
+          className={cn(
+            "mb-4 flex items-center justify-end gap-2",
+            isRtl ? "flex-row-reverse" : "flex-row"
+          )}
+        >
+          {resolvedActions}
+        </div>
+      )}
+
       <div className="flex-1 overflow-auto">{children}</div>
     </>
   )

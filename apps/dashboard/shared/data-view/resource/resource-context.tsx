@@ -82,6 +82,7 @@ export function ResourceProvider<TClient extends ICrudClient>({
         sorting: queryState.sorting,
         params: queryState.params,
         setParams: queryState.setParams,
+        filterOptions: queryState.filterOptions,
         handleChange: queryState.handleChange,
         invalidateQuery: queryState.invalidateQuery,
         deleteItem: mutations.deleteItem,

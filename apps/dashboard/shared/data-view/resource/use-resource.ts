@@ -10,6 +10,7 @@ import { useFormDialog } from "@/shared/components/form-dialog"
 import {
     createActionsColumn,
     useDataViewQuery,
+    parseFilterOptions,
     type ActionsColumnOptions,
 } from "@/shared/data-view/table-view"
 import type { ColumnDef } from "@tanstack/react-table"
@@ -45,6 +46,7 @@ export function useResource<TClient extends ICrudClient>({
 
     const data = query.data
     const items = Array.from(data?.data ?? [])
+    const filterOptions = parseFilterOptions(data?.meta)
 
     const { mutateAsync: deleteItem } = useMutation({
         mutationFn: (id: string) => {
@@ -107,6 +109,7 @@ export function useResource<TClient extends ICrudClient>({
         sorting: query.sorting,
         params: query.params,
         setParams: query.setParams,
+        filterOptions,
         handleChange: query.handleChange,
         openCreate,
         openEdit,

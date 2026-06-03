@@ -8,6 +8,7 @@ import { ResourceCreateButton } from "./resource-create-button"
 import { ResourceGrid } from "./resource-grid"
 import { ResourcePagination } from "./resource-pagination"
 import { ResourceSearch } from "./resource-search"
+import { ResourceFilter } from "./resource-filter"
 import { ResourceToolbar } from "./resource-toolbar"
 import { useResource } from "./use-resource"
 import type { ResourceRender, UseResourceOptions } from "./types"
@@ -48,6 +49,7 @@ type ResourceComponent = typeof ResourceProvider & {
     Grid: typeof ResourceGrid
     Pagination: typeof ResourcePagination
     Search: typeof ResourceSearch
+    Filter: typeof ResourceFilter
     Toolbar: typeof ResourceToolbar
 }
 
@@ -61,6 +63,7 @@ Resource.CreateButton = ResourceCreateButton
 Resource.Grid = ResourceGrid
 Resource.Pagination = ResourcePagination
 Resource.Search = ResourceSearch
+Resource.Filter = ResourceFilter
 Resource.Toolbar = ResourceToolbar
 
 export { Resource }

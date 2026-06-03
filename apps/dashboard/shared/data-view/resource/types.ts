@@ -14,6 +14,7 @@ import type {
     DataViewProps,
     DataViewSorting,
 } from "@/shared/data-view/table-view"
+import type { ListFilterField } from "@devloggers/api-contracts"
 import type { useAuthApi } from "@/shared/useApi"
 
 type ApiInstance = ReturnType<typeof useAuthApi>
@@ -60,6 +61,7 @@ export type ResourceContext<TClient extends ICrudClient> = ResourceTableHelpers<
     sorting: DataViewSorting
     params: DataViewQueryParams
     setParams: (params: Partial<DataViewQueryParams>) => void
+    filterOptions: ListFilterField[]
     handleChange: (event: DataViewChangeEvent) => void
     openCreate: () => void
     openDialog: (resourceId?: string) => void

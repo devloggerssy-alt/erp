@@ -35,8 +35,12 @@ const ItemCategoriesCrudBase = createCrudController({
     responseDto: ItemCategoryResponseDto,
     createDto: CreateItemCategoryDto,
     updateDto: UpdateItemCategoryDto,
+    filterSchema: [
+        { field: 'name', type: 'string' },
+        { field: 'isActive', type: 'boolean' },
+        { field: 'createdAt', type: 'date' },
+    ],
     openApi: ITEM_CATEGORIES_OPENAPI,
-    
 });
 
 @ApiTags('Catalog / Item Categories')

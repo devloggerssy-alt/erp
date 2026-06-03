@@ -58,8 +58,9 @@ export function ResourcePage<TClient extends ICrudClient = ICrudClient>({
 
     const headerActions = resolveNodeOrRender(headerActionsProp, resource)
 
-    // Custom toolbar (e.g. ResourceSearch) replaces the built-in list search bar
+    // Custom toolbar (e.g. ResourceSearch + ResourceFilter) replaces the built-in list search bar
     const resolvedShowSearch = showSearch ?? (toolbar ? false : true)
+    const resolvedShowFilters = listPageProps.showFilters ?? (toolbar ? false : true)
 
     const resolvedOnSearchChange =
         onSearchChange ??
@@ -85,6 +86,7 @@ export function ResourcePage<TClient extends ICrudClient = ICrudClient>({
                     {...listPageProps}
                     toolbar={toolbar}
                     showSearch={resolvedShowSearch}
+                    showFilters={resolvedShowFilters}
                     onSearchChange={resolvedOnSearchChange}
                 >
                     {children}

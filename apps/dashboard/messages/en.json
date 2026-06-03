@@ -50,6 +50,24 @@
       "placeholder": "Search...",
       "clear": "Clear search"
     },
+    "resourceFilter": {
+      "button": "Filter",
+      "title": "In this view show records",
+      "where": "Where",
+      "and": "And",
+      "addFilter": "Add filter",
+      "clearAll": "Clear all filters",
+      "apply": "Apply filters",
+      "removeRule": "Remove filter",
+      "operators": {
+        "eq": "is",
+        "like": "contains",
+        "gte": "is greater than or equal",
+        "lte": "is less than or equal",
+        "in": "is any of",
+        "isNull": "is empty"
+      }
+    },
     "resource": {
       "deleteTitle": "Delete this item?",
       "deleteDescription": "This action cannot be undone.",

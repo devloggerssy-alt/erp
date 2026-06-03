@@ -4,7 +4,7 @@ export { createActionsColumn } from "./actions-column"
 export { DataViewProvider, useDataView } from "./data-view-context"
 export { DataViewPagination } from "./data-view-pagination"
 export { useDataTableQuery, useDataViewQuery } from "./use-data-table-query"
-export { toApiListParams, parsePaginationMeta } from "./list-query.utils"
+export { toApiListParams, parsePaginationMeta, parseFilterOptions } from "./list-query.utils"
 export type { ListQueryOptions } from "./list-query.utils"
 export {
     dataTableSearchParams,

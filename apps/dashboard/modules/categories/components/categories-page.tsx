@@ -11,7 +11,10 @@ export function CategoriesPage() {
                 title="الفئات"
                 toolbar={
                     <CategoriesResource.Toolbar>
-                        <CategoriesResource.Search />
+                        <CategoriesResource.Filter />
+                        <div className="ms-auto w-full max-w-sm sm:w-auto">
+                            <CategoriesResource.Search />
+                        </div>
                     </CategoriesResource.Toolbar>
                 }
                 actions={
