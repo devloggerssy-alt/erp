@@ -81,6 +81,23 @@
       "openMenu": "Menüyü aç",
       "edit": "Düzenle",
       "delete": "Sil"
+    },
+    "dataView": {
+      "empty": "Sonuç bulunamadı",
+      "emptyDescription": "Arama veya filtrelerinizi değiştirmeyi deneyin.",
+      "sortMenu": "Sütunu sırala",
+      "sortAsc": "Artan sıralama",
+      "sortDesc": "Azalan sıralama",
+      "clearSort": "Sıralamayı temizle",
+      "hideColumn": "Sütunu gizle",
+      "firstPage": "İlk sayfa",
+      "previousPage": "Önceki sayfa",
+      "nextPage": "Sonraki sayfa",
+      "lastPage": "Son sayfa"
+    },
+    "booleanCell": {
+      "active": "Aktif",
+      "inactive": "Pasif"
     }
   },
   "business": {

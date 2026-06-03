@@ -35,8 +35,15 @@ The resource system is built on the **Compound Component Pattern** using React C
 | `resource-context.tsx` | `ResourceProvider` (context provider) + `useResourceContext()` hook |
 | `use-resource-query.ts` | `useResourceQuery()` — focused hook for data fetching, pagination, sorting |
 | `use-resource-mutations.ts` | `useResourceMutations()` — focused hook for delete mutation |
-| `resource-layout.tsx` | `ResourceLayout` — page shell (header, toolbar, content area) |
-| `resource-table.tsx` | `ResourceTable` — table view component (reads from context) |
+| `resource-layout.tsx` | `ResourceLayout` + `ResourcePageHeader` — page title (accent bar, no divider) |
+| `resource-list-page.tsx` | `ResourceListPage` — built-in or custom toolbar + content slot |
+| `resource-page.tsx` | `ResourcePage` — layout + list page composition |
+| `resource-toolbar.tsx` | `ResourceToolbar` with `.Start` / `.Center` / `.End` slots |
+| `resource-search.tsx` | Debounced search input wired to context |
+| `resource-filter.tsx` | Filter panel trigger wired to context |
+| `resource-form-dialog.tsx` | Create/edit dialog + add button |
+| `generate-resource.tsx` | `generateResource()` namespace factory |
+| `resource-table.tsx` | `ResourceTable` — table view (reads from context) |
 | `resource-grid.tsx` | `ResourceGrid` — card grid view component (reads from context) |
 | `resource-pagination.tsx` | `ResourcePagination` — standalone pagination (reads from context) |
 | `index.ts` | Barrel exports for all components, hooks, and types |
@@ -49,6 +56,23 @@ The resource system is built on the **Compound Component Pattern** using React C
 | `resource-page.tsx` | Legacy `ResourcePage` monolithic component |
 | `resource-table-view.tsx` | Legacy `ResourceTableView` |
 | `use-resource.ts` | Legacy `useResource` hook (monolithic) |
+
+### Shared Infrastructure: `apps/dashboard/shared/data-view/table-view/`
+
+| File | Role |
+|---|---|
+| `data-table.tsx` | Card-style `DataTable` — loading skeletons, empty state, row hover |
+| `column-header.tsx` | Sortable header with tooltips + i18n dropdown menu |
+| `boolean-cell.tsx` | `BooleanCell` — active/inactive status badge |
+| `actions-column.tsx` | `createActionsColumn()` — row edit/delete menu with tooltips |
+| `data-view-pagination.tsx` | Pagination footer with i18n + nav tooltips |
+| `index.ts` | Barrel exports |
+
+### Shared helpers
+
+| File | Role |
+|---|---|
+| `shared/components/icon-tooltip.tsx` | `IconTooltip` — reusable tooltip wrapper for icon buttons |
 
 ---
 
@@ -119,7 +143,7 @@ This file contains JSX (`<ColumnHeader>`) so it MUST be `.tsx`:
 import type { ColumnDef } from "@tanstack/react-table"
 import type { UnitsClient } from "@devloggers/api-client"
 import type { ResourceItem, ResourceTableHelpers } from "@/shared/data-view/resource"
-import { ColumnHeader } from "@/shared/data-view/table-view"
+import { ColumnHeader, BooleanCell } from "@/shared/data-view/table-view"
 
 export function createUnitsColumns(
     helpers: ResourceTableHelpers<UnitsClient>,
@@ -133,6 +157,11 @@ export function createUnitsColumns(
             accessorKey: "abbreviation",
             header: ({ column }) => <ColumnHeader column={column} title="Abbreviation" />,
         },
+        {
+            accessorKey: "isActive",
+            header: ({ column }) => <ColumnHeader column={column} title="Active" />,
+            cell: ({ row }) => <BooleanCell value={row.getValue("isActive") as boolean} />,
+        },
         helpers.actionsColumn(),
     ]
 }
@@ -140,57 +169,60 @@ export function createUnitsColumns(
 
 #### 4. Create the page component (`components/units-page.tsx`)
 
-This is the **composition root** — it assembles all pieces using the compound pattern:
+Preferred: **`generateResource`** shorthand (see `units.resource.ts`):
 
 ```tsx
 "use client"
 
-import { type UnitsClient } from "@devloggers/api-client"
-import {
-    ResourceProvider,
-    ResourceLayout,
-    ResourceTable,
-    useResourceContext,
-} from "@/shared/data-view/resource"
-import FormDialog from "@/shared/components/form-dialog"
+import { UnitsResource } from "../units.resource"
 import { UnitsForm } from "./units-form"
 import { createUnitsColumns } from "./units-columns"
 
-function UnitsHeaderActions() {
-    const resource = useResourceContext<UnitsClient>()
-
-    return (
-        <FormDialog
-            title={resource.selectedItem ? `Edit ${resource.selectedItem?.name}` : "Add Unit"}
-            onClose={() => resource.setSelectedItem(null)}
-        >
-            {(resourceId) => (
-                <UnitsForm
-                    resourceId={resourceId}
-                    initialData={resourceId ? resource.selectedItem : null}
-                    onSuccess={resource.invalidateQuery}
-                />
-            )}
-        </FormDialog>
-    )
-}
-
 export function UnitsPage() {
     return (
-        <ResourceProvider<UnitsClient>
-            getClient={(api) => api.units}
-            routeKey="units"
-        >
-            <ResourceLayout
+        <UnitsResource>
+            <UnitsResource.Page
                 title="Units"
-                headerProps={{ actions: <UnitsHeaderActions /> }}
+                actions={
+                    <UnitsResource.FormDialog
+                        title={(it) => (it?.id ? it.name : "Add unit")}
+                        form={UnitsForm}
+                    />
+                }
             >
-                <ResourceTable<UnitsClient> columns={createUnitsColumns} />
-            </ResourceLayout>
-        </ResourceProvider>
+                <UnitsResource.Table columns={createUnitsColumns} />
+            </UnitsResource.Page>
+        </UnitsResource>
     )
 }
 ```
+
+**Default toolbar** (no `toolbar` prop): Filter (start) · Search (center) · `actions` (end).
+
+**Custom toolbar** with debounced search + filter panel:
+
+```tsx
+<UnitsResource.Page
+    title="Units"
+    toolbar={
+        <UnitsResource.Toolbar>
+            <UnitsResource.Toolbar.Start>
+                <UnitsResource.Filter />
+            </UnitsResource.Toolbar.Start>
+            <UnitsResource.Toolbar.Center>
+                <UnitsResource.Search />
+            </UnitsResource.Toolbar.Center>
+        </UnitsResource.Toolbar>
+    }
+    actions={<UnitsResource.FormDialog title={...} form={UnitsForm} />}
+>
+    <UnitsResource.Table columns={createUnitsColumns} />
+</UnitsResource.Page>
+```
+
+`ResourceListPage` merges `actions` into `Toolbar.End` automatically.
+
+Alternative: explicit `ResourceProvider` + `ResourceLayout` (see composition diagram below).
 
 #### 5. Create the form component (`components/units-form.tsx`)
 
@@ -346,23 +378,44 @@ From `@/shared/data-view/resource`:
 
 ## Component Composition Diagram
 
+### Preferred (`generateResource`)
+
 ```
-<ResourceProvider<TClient>          ← Provides context
-    getClient={(api) => api.xxx}   ← Resolves API client
-    routeKey="xxx"
+<UnitsResource>                           ← generateResource provider + namespace
+  <UnitsResource.Page title="...">        ← ResourceLayout + ResourceListPage
+    [toolbar: Filter · Search · actions]    ← built-in or Resource.Toolbar slots
+    <UnitsResource.Table columns={...} /> ← DataTable via context
+  </UnitsResource.Page>
+</UnitsResource>
+```
+
+### Explicit provider (custom layouts)
+
+```
+<ResourceProvider<TClient>
+    getClient={(api) => api.xxx}
+    paramKey="xxx"
 >
-    <ResourceLayout                 ← Page shell (header + content)
-        title="..."
-        headerProps={{ actions: <FormDialog>...</FormDialog> }}
-    >
-        <ResourceTable<TClient>>     ← Table view (reads context)
-        ─ OR ─
-        <ResourceGrid<TItem>>       ← Card grid (reads context)
-        ─ OR ─
-        <CustomView />             ← Anything reading useResourceContext()
+    <ResourceLayout title="...">          ← ResourcePageHeader (no divider)
+        <ResourceListPage actions={...}>  ← toolbar row
+            <ResourceTable<TClient> />    ← table view
+        </ResourceListPage>
     </ResourceLayout>
 </ResourceProvider>
 ```
+
+---
+
+## UI Conventions (resource + table)
+
+- **Page title:** `ResourcePageHeader` — primary accent bar, semibold title, **no** header divider.
+- **Toolbar:** 3-column grid — start (filter) · center (search) · end (create/`actions`).
+- **Search:** `ResourceSearch` debounces to context; primary focus ring on input.
+- **Table:** card container, muted header row, row hover, i18n empty state.
+- **Columns:** `ColumnHeader` for sort; `BooleanCell` for booleans; `helpers.actionsColumn()` for row menu.
+- **Tooltips:** `IconTooltip` on icon-only controls (clear search, pagination, row menu).
+- **Theme:** use design tokens (`primary`, `card`, `muted`, `border`) — no hardcoded colors in modules.
+- **i18n:** `system.dataView`, `system.booleanCell`, `system.resourceSearch`, etc. in all locale files.
 
 ---
 
@@ -376,3 +429,8 @@ From `@/shared/data-view/resource`:
 6. **Never access the context outside `ResourceProvider`** — `useResourceContext()` will throw if used without a provider
 7. **For standalone data access without UI**, use `useResourceQuery` and `useResourceMutations` directly instead of the provider
 8. **When adding a new resource**, you MUST also add the API client and resource definition first (see api-contracts and api-client skills)
+9. **Use `generateResource` + `Resource.Page`** for new modules unless a custom layout requires explicit `ResourceProvider`
+10. **Put the create button in `actions`**, not in the title row — it renders in the toolbar end column
+11. **Use `BooleanCell` for boolean columns** — never display raw `true`/`false` in tables
+12. **Extend `shared/data-view/` for UI changes** — do not restyle tables or toolbars inside `modules/`
+13. **Type generics with `ICrudClient`**, not `any`; optional context: `ResourceContext<TClient> | undefined`

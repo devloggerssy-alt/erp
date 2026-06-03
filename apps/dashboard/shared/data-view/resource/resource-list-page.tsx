@@ -1,18 +1,18 @@
 "use client"
 
-import { ReactNode } from "react"
+import { ReactNode, isValidElement, cloneElement } from "react"
 import type { ICrudClient } from "@devloggers/api-client"
-import { useLocale } from "next-intl"
+import { useLocale, useTranslations } from "next-intl"
 import { cn } from "@/shared/lib/utils"
 import { Button } from "@/shared/components/ui/button"
 import { Input } from "@/shared/components/ui/input"
 import { SlidersHorizontalIcon, SearchIcon, DownloadIcon } from "lucide-react"
 import { useResourceContext } from "./resource-context"
-import type { ResourceRender } from "./types"
+import type { ResourceContext, ResourceRender } from "./types"
 
 type ReactNodeOrRender<TClient extends ICrudClient> = ReactNode | ResourceRender<TClient>
 
-export type ResourceListPageProps<TClient extends ICrudClient = any> = {
+export type ResourceListPageProps<TClient extends ICrudClient = ICrudClient> = {
   /** Main content area (table, grid, etc.) */
   children: ReactNode
   /** Search bar placeholder text */
@@ -35,9 +35,9 @@ export type ResourceListPageProps<TClient extends ICrudClient = any> = {
   actions?: ReactNodeOrRender<TClient>
 }
 
-export function ResourceListPage<TClient extends ICrudClient = any>({
+export function ResourceListPage<TClient extends ICrudClient = ICrudClient>({
   children,
-  searchPlaceholder = "Search...",
+  searchPlaceholder,
   onSearchChange,
   showSearch = true,
   showFilters = true,
@@ -48,9 +48,11 @@ export function ResourceListPage<TClient extends ICrudClient = any>({
   actions,
 }: ResourceListPageProps<TClient>) {
   const locale = useLocale()
+  const tSearch = useTranslations("system.resourceSearch")
+  const tFilter = useTranslations("system.resourceFilter")
   const isRtl = locale === "ar"
 
-  let resource
+  let resource: ResourceContext<TClient> | undefined
   try {
     resource = useResourceContext<TClient>()
   } catch {
@@ -70,62 +72,77 @@ export function ResourceListPage<TClient extends ICrudClient = any>({
   const resolvedToolbar = resolveNodeOrRender(toolbar)
   const resolvedActions = resolveNodeOrRender(actions)
 
+  const toolbarWithActions =
+    resolvedToolbar && resolvedActions
+      ? isValidElement(resolvedToolbar)
+        ? cloneElement(
+              resolvedToolbar as React.ReactElement<{ actions?: ReactNode }>,
+              { actions: resolvedActions },
+          )
+        : resolvedToolbar
+      : resolvedToolbar
+
   const hasLegacyOperations =
     !resolvedToolbar && (showSearch || showFilters || showExport || resolvedActions)
 
   return (
     <>
-      {resolvedToolbar}
+      {toolbarWithActions}
 
       {hasLegacyOperations && (
         <div
           className={cn(
-            "mb-6 flex flex-col gap-4",
-            "md:flex-row md:items-center md:justify-between"
+            "mb-4 grid grid-cols-1 gap-3 rounded-xl border border-border/80 bg-muted/30 p-3 shadow-sm",
+            "md:grid-cols-[auto_minmax(0,1fr)_auto] md:items-center",
           )}
         >
           <div
             className={cn(
               "flex items-center gap-2",
-              isRtl ? "flex-row-reverse" : "flex-row"
+              isRtl ? "flex-row-reverse" : "flex-row",
             )}
           >
-            {showSearch && (
-              <div className="relative flex-1 md:flex-none md:w-64">
-                <SearchIcon
-                  className={cn(
-                    "absolute size-4 text-muted-foreground pointer-events-none",
-                    isRtl ? "right-3" : "left-3"
-                  )}
-                />
-                <Input
-                  type="text"
-                  placeholder={searchPlaceholder}
-                  onChange={(e) => onSearchChange?.(e.target.value)}
-                  className={cn("h-9", isRtl ? "pr-10" : "pl-10")}
-                />
-              </div>
-            )}
-
             {showFilters && (
               <Button
                 variant="outline"
                 size="sm"
                 onClick={onFiltersClick}
-                className="h-9"
+                className="h-10 bg-background"
               >
-                <SlidersHorizontalIcon
-                  className={cn("size-4", showSearch && "me-2")}
-                />
-                {showSearch && "Filters"}
+                <SlidersHorizontalIcon className="size-4 me-2" />
+                {tFilter("button")}
               </Button>
             )}
           </div>
 
+          {showSearch && (
+            <div className="flex w-full min-w-0 justify-center px-1 md:px-4">
+              <div className="group relative w-full max-w-md">
+                <SearchIcon
+                  aria-hidden
+                  className={cn(
+                    "absolute top-1/2 size-4 -translate-y-1/2 text-muted-foreground transition-colors group-focus-within:text-primary",
+                    isRtl ? "end-3" : "start-3",
+                  )}
+                />
+                <Input
+                  type="text"
+                  placeholder={searchPlaceholder ?? tSearch("placeholder")}
+                  onChange={(e) => onSearchChange?.(e.target.value)}
+                  className={cn(
+                    "h-10 border-border/80 bg-background shadow-sm",
+                    "focus-visible:border-primary/40 focus-visible:ring-primary/15",
+                    isRtl ? "pe-10 ps-3" : "ps-10 pe-3",
+                  )}
+                />
+              </div>
+            </div>
+          )}
+
           <div
             className={cn(
-              "flex items-center gap-2",
-              isRtl ? "flex-row-reverse" : "flex-row"
+              "flex items-center justify-end gap-2",
+              isRtl ? "flex-row-reverse" : "flex-row",
             )}
           >
             {showExport && (
@@ -133,28 +150,15 @@ export function ResourceListPage<TClient extends ICrudClient = any>({
                 variant="outline"
                 size="sm"
                 onClick={onExport}
-                className="h-9"
+                className="h-10 bg-background"
               >
                 <DownloadIcon className="size-4 me-2" />
                 Export
               </Button>
             )}
 
-            {resolvedActions && (
-              <div className="flex items-center gap-2">{resolvedActions}</div>
-            )}
+            {resolvedActions && resolvedActions}
           </div>
-        </div>
-      )}
-
-      {!hasLegacyOperations && resolvedActions && (
-        <div
-          className={cn(
-            "mb-4 flex items-center justify-end gap-2",
-            isRtl ? "flex-row-reverse" : "flex-row"
-          )}
-        >
-          {resolvedActions}
         </div>
       )}
 

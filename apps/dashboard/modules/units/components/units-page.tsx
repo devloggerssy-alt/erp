@@ -9,14 +9,6 @@ export function UnitsPage() {
         <UnitsResource>
             <UnitsResource.Page
                 title="Units"
-                toolbar={
-                    <UnitsResource.Toolbar>
-                        <UnitsResource.Filter />
-                        <div className="ms-auto w-full max-w-sm sm:w-auto">
-                            <UnitsResource.Search />
-                        </div>
-                    </UnitsResource.Toolbar>
-                }
                 actions={
                     <UnitsResource.FormDialog
                         title={(it) => (it?.id ? it.name : "إضافة وحدة")}

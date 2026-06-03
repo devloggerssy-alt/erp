@@ -81,6 +81,23 @@
       "openMenu": "فتح القائمة",
       "edit": "تعديل",
       "delete": "حذف"
+    },
+    "dataView": {
+      "empty": "لا توجد نتائج",
+      "emptyDescription": "جرّب تعديل البحث أو التصفيات.",
+      "sortMenu": "ترتيب العمود",
+      "sortAsc": "ترتيب تصاعدي",
+      "sortDesc": "ترتيب تنازلي",
+      "clearSort": "مسح الترتيب",
+      "hideColumn": "إخفاء العمود",
+      "firstPage": "الصفحة الأولى",
+      "previousPage": "الصفحة السابقة",
+      "nextPage": "الصفحة التالية",
+      "lastPage": "الصفحة الأخيرة"
+    },
+    "booleanCell": {
+      "active": "نشط",
+      "inactive": "غير نشط"
     }
   },
   "business": {

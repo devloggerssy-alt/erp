@@ -26,10 +26,13 @@
 - [ ] `*.resource.ts` — `generateResource<Client>`
 - [ ] `*.config.ts` — zod + defaults + mapper
 - [ ] `*-page.tsx`, `*-form.tsx`, `*-columns.tsx`
+- [ ] Page uses `Resource.Page` + `actions` (`FormDialog`) + `Resource.Table`
+- [ ] Columns use `ColumnHeader`; boolean fields use `BooleanCell`
+- [ ] Custom toolbar only if needed: `Toolbar.Start` / `.Center` + `actions` for `.End`
 - [ ] `index.ts` barrel
 - [ ] Thin `page.tsx` under `app/[locale]/(authenticated)/`
 - [ ] `navGroups.tsx` entry
-- [ ] i18n keys in `messages/`
+- [ ] i18n keys in `messages/` (`en`, `ar`, `tr`) under `system.*`
 - [ ] Breadcrumb slot if detail page (`@breadcrumbs/`)
 
 ## QA

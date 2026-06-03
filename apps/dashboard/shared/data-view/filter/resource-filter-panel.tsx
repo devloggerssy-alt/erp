@@ -84,7 +84,11 @@ export function ResourceFilterPanel({
                     type="button"
                     variant="outline"
                     size="sm"
-                    className={cn("h-9", activeCount > 0 && "border-primary text-primary", className)}
+                    className={cn(
+                        "h-10 bg-background",
+                        activeCount > 0 && "border-primary/50 text-primary shadow-sm",
+                        className,
+                    )}
                 >
                     <ListFilterIcon className="size-4 me-2" />
                     {t("button")}

@@ -20,6 +20,46 @@ export type ResourceLayoutProps = {
     className?: string
 }
 
+type ResourcePageHeaderProps = {
+    title?: string
+    description?: string
+    headerActions?: ReactNode
+}
+
+function ResourcePageHeader({
+    title,
+    description,
+    headerActions,
+}: ResourcePageHeaderProps) {
+    return (
+        <header className="mb-4 flex items-start justify-between gap-4">
+            <div className="flex min-w-0 items-start gap-3">
+                {title && (
+                    <span
+                        aria-hidden
+                        className="mt-1.5 hidden h-8 w-1 shrink-0 rounded-full bg-primary shadow-[0_0_10px_-2px] shadow-primary/60 sm:block"
+                    />
+                )}
+                <div className="min-w-0">
+                    {title && (
+                        <h1 className="text-xl font-semibold leading-tight tracking-tight text-foreground sm:text-2xl">
+                            {title}
+                        </h1>
+                    )}
+                    {description && (
+                        <p className="mt-1 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+                            {description}
+                        </p>
+                    )}
+                </div>
+            </div>
+            {headerActions && (
+                <div className="shrink-0">{headerActions}</div>
+            )}
+        </header>
+    )
+}
+
 export function ResourceLayout({
     title,
     description,
@@ -36,6 +76,8 @@ export function ResourceLayout({
         lg: "p-6",
     }[padding]
 
+    const showHeader = Boolean(title || description || headerActions)
+
     return (
         <div className={cn("page", fullscreen && "h-screen", className)}>
             <main
@@ -45,20 +87,12 @@ export function ResourceLayout({
                     fullscreen && "p-0 lg:p-0",
                 )}
             >
-                {(title || description || headerActions) && (
-                    <div className="mb-6 flex items-start justify-between gap-4">
-                        <div className="min-w-0 flex-1">
-                            {title && (
-                                <h1 className="text-3xl font-bold tracking-tight">{title}</h1>
-                            )}
-                            {description && (
-                                <p className="mt-1 text-muted-foreground">{description}</p>
-                            )}
-                        </div>
-                        {headerActions && (
-                            <div className="shrink-0">{headerActions}</div>
-                        )}
-                    </div>
+                {showHeader && (
+                    <ResourcePageHeader
+                        title={title}
+                        description={description}
+                        headerActions={headerActions}
+                    />
                 )}
 
                 <div className="min-h-0 flex-1 overflow-auto">{children}</div>
@@ -66,3 +100,5 @@ export function ResourceLayout({
         </div>
     )
 }
+
+export { ResourcePageHeader }

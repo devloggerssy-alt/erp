@@ -51,8 +51,10 @@ Many routes in `config/navGroups.tsx` are **planned** — only implement pages t
 ## Shared dashboard systems
 | Path | Role |
 |------|------|
-| `shared/data-view/resource/` | `generateResource`, table, form dialog |
-| `shared/data-view/table-view/` | DataTable, pagination, sorting |
+| `shared/data-view/resource/` | `generateResource`, `Resource.Page`, toolbar (Start/Center/End), search, filter, form dialog |
+| `shared/data-view/table-view/` | `DataTable`, `ColumnHeader`, `BooleanCell`, `createActionsColumn`, pagination |
+| `shared/data-view/filter/` | Filter panel for `Resource.Filter` |
+| `shared/components/icon-tooltip.tsx` | `IconTooltip` for icon-only controls |
 | `shared/components/form/` | RHF fields + zod |
 | `shared/useApi.ts` | `useAuthApi()` |
 

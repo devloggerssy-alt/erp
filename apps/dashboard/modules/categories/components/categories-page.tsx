@@ -9,14 +9,6 @@ export function CategoriesPage() {
         <CategoriesResource>
             <CategoriesResource.Page
                 title="الفئات"
-                toolbar={
-                    <CategoriesResource.Toolbar>
-                        <CategoriesResource.Filter />
-                        <div className="ms-auto w-full max-w-sm sm:w-auto">
-                            <CategoriesResource.Search />
-                        </div>
-                    </CategoriesResource.Toolbar>
-                }
                 actions={
                     <CategoriesResource.FormDialog
                         title={(it) => (it?.id ? it.name : "إضافة فئة")}

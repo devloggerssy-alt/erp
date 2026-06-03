@@ -56,4 +56,13 @@ pnpm turbo run build
 |-------|-------------|
 | `erp-project-map` | Explore repo, find files, understand domains |
 | `add-crud-feature` | End-to-end new entity |
-| `dashboard-resource-page` | Dashboard CRUD UI only |
+| `dashboard-resource-page` | Dashboard CRUD list UI (`generateResource`, toolbar, columns) |
+| `frontend-resource-pattern` | Compound resource architecture + `shared/data-view/table-view` |
+
+## Dashboard CRUD UI (summary)
+
+- **Provider:** `generateResource<Client>()` in `modules/<feature>/<feature>.resource.ts`
+- **Page:** `Resource.Page` + `actions` (`FormDialog`) + `Resource.Table`
+- **Toolbar:** built-in Filter · Search (center) · Add (end); or `Resource.Toolbar.Start/Center` + `actions`
+- **Table:** `ColumnHeader`, `BooleanCell`, `helpers.actionsColumn()` from `@/shared/data-view/table-view`
+- **Docs:** `.cursor/rules/dashboard-nextjs.mdc`, skills above

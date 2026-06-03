@@ -6,6 +6,8 @@ import {
     flexRender,
     type ColumnDef,
 } from "@tanstack/react-table"
+import { Inbox } from "lucide-react"
+import { useTranslations } from "next-intl"
 import {
     Table,
     TableHeader,
@@ -15,10 +17,11 @@ import {
     TableRow,
     TableCell,
 } from "@/shared/components/ui/table"
-import { DataViewProvider } from "./data-view-context"
- import type { DataViewProps } from "./types"
-import { DataViewPagination } from "./data-view-pagination"
 import { Skeleton } from "@/shared/components/ui/skeleton"
+import { cn } from "@/shared/lib/utils"
+import { DataViewProvider } from "./data-view-context"
+import type { DataViewProps } from "./types"
+import { DataViewPagination } from "./data-view-pagination"
 
 export function DataTable<TData>({
     columns,
@@ -30,6 +33,8 @@ export function DataTable<TData>({
     onRowClick,
     slots,
 }: DataViewProps<TData>) {
+    const t = useTranslations("system.dataView")
+
     const table = useReactTable({
         data,
         columns: columns as ColumnDef<TData, unknown>[],
@@ -70,17 +75,21 @@ export function DataTable<TData>({
             onChange={onChange}
             isLoading={isLoading}
         >
-            <div data-slot="data-view" className="flex flex-col gap-2">
+            <div data-slot="data-view" className="flex flex-col gap-3">
                 {slots?.actions && (
                     <div data-slot="data-view-actions">{slots.actions}</div>
                 )}
-                <div className="rounded-md border overflow-auto">
+
+                <div className="overflow-hidden rounded-xl border border-border/80 bg-card shadow-sm">
                     <Table className="w-full">
-                        <TableHeader>
+                        <TableHeader className="bg-muted/40 [&_tr]:border-b [&_tr]:border-border/60">
                             {table.getHeaderGroups().map((headerGroup) => (
-                                <TableRow key={headerGroup.id}>
+                                <TableRow key={headerGroup.id} className="hover:bg-transparent">
                                     {headerGroup.headers.map((header) => (
-                                        <TableHead key={header.id}>
+                                        <TableHead
+                                            key={header.id}
+                                            className="h-11 px-4 text-xs font-semibold tracking-wide uppercase text-muted-foreground"
+                                        >
                                             {header.isPlaceholder
                                                 ? null
                                                 : flexRender(
@@ -93,50 +102,77 @@ export function DataTable<TData>({
                             ))}
                             {slots?.extraHeader}
                         </TableHeader>
+
                         <TableBody>
                             {isLoading ? (
-                                Array.from({ length: pagination.pageSize }).map((_, i) => (
-                                    <TableRow key={`skeleton-${i}`}>
-                                        {columns.map((_, j) => (
-                                            <TableCell key={`skeleton-${i}-${j}`}>
-                                                <Skeleton className="h-10 w-full" />
-                                            </TableCell>
-                                        ))}
-                                    </TableRow>
-                                ))
+                                Array.from({ length: Math.min(pagination.pageSize, 8) }).map(
+                                    (_, i) => (
+                                        <TableRow key={`skeleton-${i}`} className="hover:bg-transparent">
+                                            {columns.map((_, j) => (
+                                                <TableCell key={`skeleton-${i}-${j}`} className="px-4 py-3">
+                                                    <Skeleton className="h-5 w-full max-w-48 rounded-md" />
+                                                </TableCell>
+                                            ))}
+                                        </TableRow>
+                                    ),
+                                )
                             ) : table.getRowModel().rows.length ? (
                                 table.getRowModel().rows.map((row) => (
                                     <TableRow
                                         key={row.id}
                                         data-state={row.getIsSelected() && "selected"}
-                                        className={onRowClick ? "cursor-pointer" : undefined}
+                                        className={cn(
+                                            "group/table-row border-border/50 transition-colors",
+                                            "hover:bg-muted/35 data-[state=selected]:bg-primary/5",
+                                            onRowClick && "cursor-pointer",
+                                        )}
                                         onClick={() => onRowClick?.(row.original)}
                                     >
                                         {row.getVisibleCells().map((cell) => (
-                                            <TableCell key={cell.id}>
-                                                {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                            <TableCell
+                                                key={cell.id}
+                                                className="px-4 py-3 text-sm text-foreground"
+                                            >
+                                                {flexRender(
+                                                    cell.column.columnDef.cell,
+                                                    cell.getContext(),
+                                                )}
                                             </TableCell>
                                         ))}
                                     </TableRow>
                                 ))
                             ) : (
-                                <TableRow>
+                                <TableRow className="hover:bg-transparent">
                                     <TableCell
                                         colSpan={columns.length}
-                                        className="h-24 text-center text-muted-foreground"
+                                        className="h-40 px-4 py-8"
                                     >
-                                        No results.
+                                        <div className="flex flex-col items-center justify-center gap-2 text-center">
+                                            <div className="flex size-12 items-center justify-center rounded-full bg-muted">
+                                                <Inbox className="size-5 text-muted-foreground" />
+                                            </div>
+                                            <p className="text-sm font-medium text-foreground">
+                                                {t("empty")}
+                                            </p>
+                                            <p className="max-w-sm text-sm text-muted-foreground">
+                                                {t("emptyDescription")}
+                                            </p>
+                                        </div>
                                     </TableCell>
                                 </TableRow>
                             )}
                             {slots?.extraBody}
                         </TableBody>
+
                         {slots?.footer && (
                             <TableFooter>{slots.footer}</TableFooter>
                         )}
                     </Table>
                 </div>
-                <DataViewPagination table={table} />
+
+                <div className="rounded-xl border border-border/60 bg-muted/20 px-3 py-2.5">
+                    <DataViewPagination table={table} />
+                </div>
             </div>
         </DataViewProvider>
     )

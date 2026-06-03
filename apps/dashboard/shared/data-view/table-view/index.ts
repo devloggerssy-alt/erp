@@ -1,5 +1,6 @@
 export { DataTable } from "./data-table"
 export { ColumnHeader } from "./column-header"
+export { BooleanCell } from "./boolean-cell"
 export { createActionsColumn } from "./actions-column"
 export { DataViewProvider, useDataView } from "./data-view-context"
 export { DataViewPagination } from "./data-view-pagination"

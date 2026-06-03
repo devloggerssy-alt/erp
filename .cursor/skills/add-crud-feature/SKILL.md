@@ -43,10 +43,14 @@ Copy [checklist.md](checklist.md) and mark items as you go.
 - `apps/dashboard/modules/<entities>/` — resource, config, page, form, columns
 - Thin route: `app/[locale]/(authenticated)/<path>/page.tsx`
 - Nav: `config/navGroups.tsx`
-- i18n: `messages/en.json` (+ `tr.json`)
+- i18n: `messages/en.json`, `ar.json`, `tr.json` (`system.*` keys for resource/table UI)
+
+**Page pattern:** `generateResource` → `Resource.Page` (title + `actions`) → `Resource.Table`. Built-in toolbar: Filter · Search · Add.
+
+**Columns:** `ColumnHeader`, `BooleanCell` for booleans, `helpers.actionsColumn()`. UI changes go in `shared/data-view/`, not modules.
 
 **Skills:** `dashboard-resource-page`, `frontend-resource-pattern`  
-**Reference:** `apps/dashboard/modules/units/`
+**Reference:** `apps/dashboard/modules/units/`, `apps/dashboard/modules/categories/`
 
 ### 6. Verify
 ```bash

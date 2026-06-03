@@ -11,7 +11,6 @@ import { ResourcePagination } from "./resource-pagination"
 import { ResourceSearch } from "./resource-search"
 import { ResourceFilter } from "./resource-filter"
 import { ResourceToolbar } from "./resource-toolbar"
-import type { UseResourceOptions, ResourceContext, ResourceItem } from "./types"
 import type { ResourceProviderProps } from "./resource-context"
 import type { ResourceTableProps } from "./resource-table"
 import type { ResourceFormDialogProps } from "./resource-form-dialog"
@@ -20,6 +19,7 @@ import type { ResourceGridProps } from "./resource-grid"
 import type { ResourceSearchProps } from "./resource-search"
 import type { ResourceFilterProps } from "./resource-filter"
 import type { ResourceToolbarProps } from "./resource-toolbar"
+import type { UseResourceOptions, ResourceContext, ResourceItem } from "./types"
 import { ResourcePage, ResourcePageProps } from "./resource-page"
 
 export type ResourceNamespace<TClient extends ICrudClient> = {
@@ -33,7 +33,7 @@ export type ResourceNamespace<TClient extends ICrudClient> = {
     Pagination: () => React.JSX.Element
     Search: (props: ResourceSearchProps) => React.JSX.Element
     Filter: (props: ResourceFilterProps) => React.JSX.Element
-    Toolbar: (props: ResourceToolbarProps) => React.JSX.Element
+    Toolbar: typeof ResourceToolbar
     useContext: () => ResourceContext<TClient>
 }
 
@@ -57,7 +57,7 @@ export function generateResource<TClient extends ICrudClient>(
     Resource.Pagination = ResourcePagination as () => React.JSX.Element
     Resource.Search = ResourceSearch as (props: ResourceSearchProps) => React.JSX.Element
     Resource.Filter = ResourceFilter as (props: ResourceFilterProps) => React.JSX.Element
-    Resource.Toolbar = ResourceToolbar as (props: ResourceToolbarProps) => React.JSX.Element
+    Resource.Toolbar = ResourceToolbar
     Resource.useContext = useResourceContext as unknown as () => ResourceContext<TClient>
 
     return Resource as ResourceNamespace<TClient>

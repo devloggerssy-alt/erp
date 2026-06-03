@@ -2,6 +2,7 @@
 
 import type { Column } from "@tanstack/react-table"
 import { ArrowDown, ArrowUp, ArrowUpDown, EyeOff, X } from "lucide-react"
+import { useTranslations } from "next-intl"
 import { cn } from "@/shared/lib/utils"
 import { Button } from "@/shared/components/ui/button"
 import {
@@ -11,6 +12,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/shared/components/ui/dropdown-menu"
+import { IconTooltip } from "@/shared/components/icon-tooltip"
 
 interface ColumnHeaderProps<TData, TValue> extends React.ComponentProps<"div"> {
     column: Column<TData, TValue>
@@ -22,61 +24,81 @@ export function ColumnHeader<TData, TValue>({
     title,
     className,
 }: ColumnHeaderProps<TData, TValue>) {
+    const t = useTranslations("system.dataView")
     const isSortable = column.getCanSort()
-    const hasDropdown = isSortable
+    const sorted = column.getIsSorted()
+
+    if (!isSortable) {
+        return (
+            <span
+                data-slot="column-header"
+                className={cn("text-xs font-semibold uppercase tracking-wide", className)}
+            >
+                {title}
+            </span>
+        )
+    }
+
+    const sortLabel =
+        sorted === "asc"
+            ? t("sortAsc")
+            : sorted === "desc"
+              ? t("sortDesc")
+              : t("sortMenu")
 
     return (
-        <div data-slot="column-header" className={cn("flex items-center gap-1", className)}>
-            {hasDropdown ? (
-                <DropdownMenu>
+        <div data-slot="column-header" className={cn("flex items-center", className)}>
+            <DropdownMenu>
+                <IconTooltip label={sortLabel} side="top">
                     <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="sm" className="-ml-2 h-8 gap-1">
+                        <Button
+                            variant="ghost"
+                            size="sm"
+                            className={cn(
+                                "-ms-2 h-8 gap-1.5 px-2 font-semibold uppercase tracking-wide",
+                                sorted && "text-primary hover:text-primary",
+                            )}
+                        >
                             <span>{title}</span>
-                            {column.getIsSorted() === "desc" ? (
-                                <ArrowDown className="size-3.5" />
-                            ) : column.getIsSorted() === "asc" ? (
-                                <ArrowUp className="size-3.5" />
+                            {sorted === "desc" ? (
+                                <ArrowDown className="size-3.5 text-primary" />
+                            ) : sorted === "asc" ? (
+                                <ArrowUp className="size-3.5 text-primary" />
                             ) : (
-                                <ArrowUpDown className="size-3.5" />
+                                <ArrowUpDown className="size-3.5 text-muted-foreground/70" />
                             )}
                         </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="start">
-                        {isSortable && (
-                            <>
-                                <DropdownMenuItem onClick={() => column.toggleSorting(false)}>
-                                    <ArrowUp className="size-3.5 text-muted-foreground" />
-                                    Asc
-                                </DropdownMenuItem>
-                                <DropdownMenuItem onClick={() => column.toggleSorting(true)}>
-                                    <ArrowDown className="size-3.5 text-muted-foreground" />
-                                    Desc
-                                </DropdownMenuItem>
-                                {column.getIsSorted() && (
-                                    <>
-                                        <DropdownMenuSeparator />
-                                        <DropdownMenuItem onClick={() => column.clearSorting()}>
-                                            <X className="size-3.5 text-muted-foreground" />
-                                            Clear
-                                        </DropdownMenuItem>
-                                    </>
-                                )}
-                            </>
-                        )}
-                        {column.getCanHide() && (
-                            <>
-                                <DropdownMenuSeparator />
-                                <DropdownMenuItem onClick={() => column.toggleVisibility(false)}>
-                                    <EyeOff className="size-3.5 text-muted-foreground" />
-                                    Hide
-                                </DropdownMenuItem>
-                            </>
-                        )}
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            ) : (
-                <span className="text-sm font-medium">{title}</span>
-            )}
+                </IconTooltip>
+                <DropdownMenuContent align="start" className="min-w-36">
+                    <DropdownMenuItem onClick={() => column.toggleSorting(false)}>
+                        <ArrowUp className="size-3.5 text-muted-foreground" />
+                        {t("sortAsc")}
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => column.toggleSorting(true)}>
+                        <ArrowDown className="size-3.5 text-muted-foreground" />
+                        {t("sortDesc")}
+                    </DropdownMenuItem>
+                    {sorted && (
+                        <>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem onClick={() => column.clearSorting()}>
+                                <X className="size-3.5 text-muted-foreground" />
+                                {t("clearSort")}
+                            </DropdownMenuItem>
+                        </>
+                    )}
+                    {column.getCanHide() && (
+                        <>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem onClick={() => column.toggleVisibility(false)}>
+                                <EyeOff className="size-3.5 text-muted-foreground" />
+                                {t("hideColumn")}
+                            </DropdownMenuItem>
+                        </>
+                    )}
+                </DropdownMenuContent>
+            </DropdownMenu>
         </div>
     )
 }
