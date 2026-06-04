@@ -231,7 +231,7 @@ The form imports schema/defaults/mappers from the config file and uses `useResou
 ```tsx
 "use client"
 
-import { useAuthApi } from "@/shared/useApi"
+import { useApi } from "@/shared/useApi"
 import { unitResource } from "@devloggers/api-contracts"
 import type { CreateUnitDto, UpdateUnitDto } from "@devloggers/api-contracts"
 import { Rhform, RhfTextField, RhfCheckboxField } from "@/shared/components/form"
@@ -246,7 +246,7 @@ import {
 } from "../units.config"
 
 export function UnitsForm({ resourceId, initialData, onSuccess, paramKey }) {
-    const api = useAuthApi()
+    const api = useApi()
     const { close } = useFormDialog(paramKey)
 
     const { form, isEditing, isInitializing } = useResourceForm<UnitFormValues, unknown>({

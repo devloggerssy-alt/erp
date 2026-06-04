@@ -5,7 +5,7 @@ import { useMutation } from "@tanstack/react-query"
 import { toast } from "sonner"
 import { useTranslations } from "next-intl"
 import { confirm } from "@/shared/components/confirm-dialog"
-import { useAuthApi } from "@/shared/useApi"
+import { useApi } from "@/shared/useApi"
 import { useFormDialog } from "@/shared/components/form-dialog"
 import {
     createActionsColumn,
@@ -30,7 +30,7 @@ export function useResource<TClient extends ICrudClient>({
 }: UseResourceOptions<TClient>): ResourceContext<TClient> {
     type TItem = ResourceItem<TClient>
 
-    const api = useAuthApi()
+    const api = useApi()
     const t = useTranslations("system.resource")
     const client = getClient(api)
     const { open: openDialog, close: closeDialog, isOpen, resourceId } = useFormDialog(paramKey)

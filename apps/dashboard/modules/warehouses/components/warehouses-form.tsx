@@ -11,7 +11,7 @@ import { Button } from "@/shared/components/ui/button"
 import { FieldGroup } from "@/shared/components/ui/field"
 import { useFormMutation } from "@/shared/hooks/use-form-mutation"
 import { useResourceForm } from "@/shared/hooks/use-resource-form"
-import { useAuthApi } from "@/shared/useApi"
+import { useApi } from "@/shared/useApi"
 import {
     warehouseFormSchema,
     DEFAULT_WAREHOUSE_FORM_VALUES,
@@ -44,7 +44,7 @@ function mapUpdatePayload(values: WarehouseFormValues): UpdateWarehouseDto {
 }
 
 export function WarehousesForm({ resourceId, initialData, onSuccess, paramKey }: WarehousesFormProps) {
-    const api = useAuthApi()
+    const api = useApi()
     const { close } = useFormDialog(paramKey)
 
     const { form, isEditing, isInitializing } = useResourceForm<WarehouseFormValues, unknown>({

@@ -15,9 +15,9 @@ import type {
     DataViewSorting,
 } from "@/shared/data-view/table-view"
 import type { ListFilterField } from "@devloggers/api-contracts"
-import type { useAuthApi } from "@/shared/useApi"
+import type { useApi } from "@/shared/useApi"
 
-type ApiInstance = ReturnType<typeof useAuthApi>
+type ApiInstance = ReturnType<typeof useApi>
 
 export type ResourceListConfig = {
     searchIn?: string[]

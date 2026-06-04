@@ -83,7 +83,7 @@ export function createApi(options?: ApiClientOptions, baseUrl = 'http://localhos
 export type Api = ReturnType<typeof createApi>
 ```
 
-After this, `api.products` is immediately available throughout the dashboard via `useAuthApi()`.
+After this, `api.products` is immediately available throughout the dashboard via `useApi()`.
 
 ---
 
@@ -163,14 +163,14 @@ export class AuthClient {
 
 ## Dashboard Integration
 
-### `useAuthApi()` — The primary way to get the API instance
+### `useApi()` — The primary way to get the API instance
 
 ```ts
 // In any component or hook:
-import { useAuthApi } from "@/shared/useApi"
+import { useApi } from "@/shared/useApi"
 
 function MyComponent() {
-    const api = useAuthApi()
+    const api = useApi()
     const units = await api.units.list({ page: 1, limit: 20 })
 }
 ```
@@ -209,7 +209,7 @@ CrudResource definition (api-contracts)
 CrudClient<typeof resource>  (generic parameter)
     ↓ method inference
 UnitsClient                                                  (concrete subclass)
-    ↓ useAuthApi().units
+    ↓ useApi().units
 CrudCollectionClient constraint                              (dashboard context)
     ↓ resource context
 ResourceProvider<UnitsClient>                                (provider generic)

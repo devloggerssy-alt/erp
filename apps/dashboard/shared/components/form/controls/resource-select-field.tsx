@@ -3,7 +3,7 @@
 import { useState, useCallback, useEffect, useMemo } from "react"
 import { useInfiniteQuery, type InfiniteData } from "@tanstack/react-query"
 import type { ICrudClient } from "@devloggers/api-client"
-import { useAuthApi } from "@/shared/useApi"
+import { useApi } from "@/shared/useApi"
 import type { ResourceItem } from "@/shared/data-view/resource"
 import {
   Combobox,
@@ -15,7 +15,7 @@ import {
 } from "@/shared/components/ui/combobox"
 import { Loader2 } from "lucide-react"
 
-type ApiInstance = ReturnType<typeof useAuthApi>
+type ApiInstance = ReturnType<typeof useApi>
 
 // ── Shared base props ──
 
@@ -87,7 +87,7 @@ export function ResourceSelectField<
   const [isOpen, setIsOpen] = useState(false)
   const [search, setSearch] = useState("")
 
-  const api = useAuthApi()
+  const api = useApi()
   const resolvedClient = typeof client === "function" ? client(api) : client
   const resolvedQueryKey = queryKey ?? [resolvedClient.key]
 
@@ -287,7 +287,7 @@ export function ResourceMultiSelectField<
   const [isOpen, setIsOpen] = useState(false)
   const [search, setSearch] = useState("")
 
-  const api = useAuthApi()
+  const api = useApi()
   const resolvedClient = typeof client === "function" ? client(api) : client
   const resolvedQueryKey = queryKey ?? [resolvedClient.key, "multi-select"]
 

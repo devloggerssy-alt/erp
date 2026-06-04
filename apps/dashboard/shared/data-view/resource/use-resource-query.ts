@@ -2,13 +2,13 @@
 
 import type { ICrudClient, CrudListDataResponse } from "@devloggers/api-client"
 import type { UseQueryOptions } from "@tanstack/react-query"
-import { useAuthApi } from "@/shared/useApi"
+import { useApi } from "@/shared/useApi"
 import { useDataViewQuery, type DataViewChangeEvent, type DataViewPaginationState, type DataViewSorting, type DataViewQueryParams } from "@/shared/data-view/table-view"
 import { parseFilterOptions } from "@/shared/data-view/table-view/list-query.utils"
 import type { ListFilterField } from "@devloggers/api-contracts"
 import type { ResourceItem, UseResourceOptions } from "./types"
 
-type ApiInstance = ReturnType<typeof useAuthApi>
+type ApiInstance = ReturnType<typeof useApi>
 
 export type UseResourceQueryResult<TClient extends ICrudClient> = {
     api: ApiInstance
@@ -30,7 +30,7 @@ export type UseResourceQueryResult<TClient extends ICrudClient> = {
 export function useResourceQuery<TClient extends ICrudClient>(
     config: UseResourceOptions<TClient>,
 ): UseResourceQueryResult<TClient> {
-    const api = useAuthApi()
+    const api = useApi()
     const client = config.getClient(api)
 
     const queryState = useDataViewQuery({

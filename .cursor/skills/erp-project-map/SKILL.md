@@ -56,7 +56,7 @@ Many routes in `config/navGroups.tsx` are **planned** — only implement pages t
 | `shared/data-view/filter/` | Filter panel for `Resource.Filter` |
 | `shared/components/icon-tooltip.tsx` | `IconTooltip` for icon-only controls |
 | `shared/components/form/` | RHF fields + zod |
-| `shared/useApi.ts` | `useAuthApi()` |
+| `shared/useApi.ts` | `useApi()` |
 
 ## Layer skills (detailed procedures)
 | Task | Skill |

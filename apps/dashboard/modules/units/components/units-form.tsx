@@ -11,7 +11,7 @@ import { Button } from "@/shared/components/ui/button"
 import { FieldGroup } from "@/shared/components/ui/field"
 import { useFormMutation } from "@/shared/hooks/use-form-mutation"
 import { useResourceForm } from "@/shared/hooks/use-resource-form"
-import { useAuthApi } from "@/shared/useApi"
+import { useApi } from "@/shared/useApi"
 import {
     unitFormSchema,
     DEFAULT_UNIT_FORM_VALUES,
@@ -42,7 +42,7 @@ function mapUpdatePayload(values: UnitFormValues): UpdateUnitDto {
 }
 
 export function UnitsForm({ resourceId, initialData, onSuccess, paramKey }: UnitsFormProps) {
-    const api = useAuthApi()
+    const api = useApi()
     const { close } = useFormDialog(paramKey)
 
     const { form, isEditing, isInitializing } = useResourceForm<UnitFormValues, unknown>({

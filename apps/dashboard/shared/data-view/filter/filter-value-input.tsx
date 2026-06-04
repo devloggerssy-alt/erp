@@ -10,7 +10,7 @@ import {
     SelectValue,
 } from "@/shared/components/ui/select"
 import { ResourceSelectField } from "@/shared/components/form/controls/resource-select-field"
-import { useAuthApi } from "@/shared/useApi"
+import { useApi } from "@/shared/useApi"
 import { resolveResourceClient, getResourceLabel } from "./resource-client-registry"
 import type { FilterRule } from "./filter.utils"
 import { operatorNeedsValue } from "./filter.utils"
@@ -79,7 +79,7 @@ function IdValueInput({
     onChange,
     disabled,
 }: Pick<FilterValueInputProps, "field" | "value" | "onChange" | "disabled">) {
-    const api = useAuthApi()
+    const api = useApi()
 
     if (!field.foreignResourceKey) {
         return (

@@ -197,7 +197,7 @@ import { Button } from "@/shared/components/ui/button"
 import { FieldGroup } from "@/shared/components/ui/field"
 import { useFormMutation } from "@/shared/hooks/use-form-mutation"
 import { useResourceForm } from "@/shared/hooks/use-resource-form"
-import { useAuthApi } from "@/shared/useApi"
+import { useApi } from "@/shared/useApi"
 import {
     categoryFormSchema,
     DEFAULT_CATEGORY_FORM_VALUES,
@@ -230,7 +230,7 @@ function mapUpdatePayload(values: CategoryFormValues): UpdateItemCategoryDto {
 }
 
 export function CategoriesForm({ resourceId, initialData, onSuccess, paramKey }: CategoriesFormProps) {
-    const api = useAuthApi()
+    const api = useApi()
     const { close } = useFormDialog(paramKey)
 
     const { form, isEditing, isInitializing } = useResourceForm<CategoryFormValues, unknown>({
