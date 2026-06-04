@@ -33,7 +33,7 @@ function ResourcePageHeader({
 }: ResourcePageHeaderProps) {
     return (
         <header className="mb-4 flex items-start justify-between gap-4">
-            <div className="flex min-w-0 items-start gap-3">
+            <div className="flex min-w-0 items-center gap-3">
                 {title && (
                     <span
                         aria-hidden

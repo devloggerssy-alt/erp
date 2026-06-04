@@ -8,7 +8,8 @@ import { Button } from "@/shared/components/ui/button"
 import { Input } from "@/shared/components/ui/input"
 import { SlidersHorizontalIcon, SearchIcon, DownloadIcon } from "lucide-react"
 import { useResourceContext } from "./resource-context"
-import type { ResourceContext, ResourceRender } from "./types"
+import { ResourceFilter } from "./resource-filter"
+import type { ResourceRender } from "./types"
 
 type ReactNodeOrRender<TClient extends ICrudClient> = ReactNode | ResourceRender<TClient>
 
@@ -52,12 +53,7 @@ export function ResourceListPage<TClient extends ICrudClient = ICrudClient>({
   const tFilter = useTranslations("system.resourceFilter")
   const isRtl = locale === "ar"
 
-  let resource: ResourceContext<TClient> | undefined
-  try {
-    resource = useResourceContext<TClient>()
-  } catch {
-    resource = undefined
-  }
+  const resource = useResourceContext<TClient>()
 
   const resolveNodeOrRender = (
     value: ReactNodeOrRender<TClient> | null | undefined
@@ -85,6 +81,20 @@ export function ResourceListPage<TClient extends ICrudClient = ICrudClient>({
   const hasLegacyOperations =
     !resolvedToolbar && (showSearch || showFilters || showExport || resolvedActions)
 
+  const filterControl = onFiltersClick ? (
+    <Button
+      variant="outline"
+      size="sm"
+      onClick={onFiltersClick}
+      className="h-10 bg-background"
+    >
+      <SlidersHorizontalIcon className="size-4 me-2" />
+      {tFilter("button")}
+    </Button>
+  ) : (
+    <ResourceFilter className="h-10 bg-background" />
+  )
+
   return (
     <>
       {toolbarWithActions}
@@ -92,7 +102,7 @@ export function ResourceListPage<TClient extends ICrudClient = ICrudClient>({
       {hasLegacyOperations && (
         <div
           className={cn(
-            "mb-4 grid grid-cols-1 gap-3 rounded-xl border border-border/80 bg-muted/30 p-3 shadow-sm",
+            "mb-4 grid grid-cols-3 gap-3 rounded-xl border border-border/80 bg-muted/30 p-3 shadow-sm",
             "md:grid-cols-[auto_minmax(0,1fr)_auto] md:items-center",
           )}
         >
@@ -102,27 +112,17 @@ export function ResourceListPage<TClient extends ICrudClient = ICrudClient>({
               isRtl ? "flex-row-reverse" : "flex-row",
             )}
           >
-            {showFilters && (
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={onFiltersClick}
-                className="h-10 bg-background"
-              >
-                <SlidersHorizontalIcon className="size-4 me-2" />
-                {tFilter("button")}
-              </Button>
-            )}
+            {showFilters && filterControl}
           </div>
 
           {showSearch && (
-            <div className="flex w-full min-w-0 justify-center px-1 md:px-4">
+            <div className="flex col-span-3 order-3 md:col-span-1 md:order-2 w-full min-w-0 justify-center px-1 md:px-4">
               <div className="group relative w-full max-w-md">
                 <SearchIcon
                   aria-hidden
                   className={cn(
                     "absolute top-1/2 size-4 -translate-y-1/2 text-muted-foreground transition-colors group-focus-within:text-primary",
-                    isRtl ? "end-3" : "start-3",
+                    isRtl ? "inset-e-3" : "inset-s-3",
                   )}
                 />
                 <Input
@@ -141,7 +141,7 @@ export function ResourceListPage<TClient extends ICrudClient = ICrudClient>({
 
           <div
             className={cn(
-              "flex items-center justify-end gap-2",
+              "flex items-center justify-end gap-2 order-2 md:order-3",
               isRtl ? "flex-row-reverse" : "flex-row",
             )}
           >
