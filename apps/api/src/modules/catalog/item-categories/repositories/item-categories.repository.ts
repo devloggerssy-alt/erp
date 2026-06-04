@@ -22,7 +22,7 @@ export class ItemCategoriesRepository extends CrudRepository<ItemCategoryWithPar
     }
 
     /** Detail view includes parent category. */
-    override async findById(tenantId: string, id: string): Promise<ItemCategoryWithParent | null> {
+    override   findById(tenantId: string, id: string): Promise<ItemCategoryWithParent | null> {
         return this.prisma.itemCategory.findFirst({
             where: { id, tenantId },
             include: { parent: { select: { id: true, name: true } } },
@@ -40,5 +40,5 @@ export class ItemCategoriesRepository extends CrudRepository<ItemCategoryWithPar
         return count > 0;
     }
 
-  
+
 }

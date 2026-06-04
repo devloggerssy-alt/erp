@@ -26,7 +26,7 @@ export class AccountsRepository extends CrudRepository<ChartOfAccount> {
                 parent: { select: { id: true, code: true, name: true } },
                 children: { select: { id: true, code: true, name: true, type: true, isActive: true }, orderBy: { code: 'asc' } },
             },
-        }) as any;
+        });
     }
 
     async isCodeTaken(tenantId: string, code: string, excludeId?: string): Promise<boolean> {

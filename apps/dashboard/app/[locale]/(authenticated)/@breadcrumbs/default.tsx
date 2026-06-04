@@ -17,8 +17,8 @@ import {
 
 // Flattens the navGroups to make lookups by href easier
 function getBreadcrumbPath(pathname: string, locale: string) {
-  const normalizedPath = pathname.startsWith(`/${locale}`) 
-    ? pathname.slice(locale.length + 1) || "/" 
+  const normalizedPath = pathname.startsWith(`/${locale}`)
+    ? pathname.slice(locale.length + 1) || "/"
     : pathname
 
   let foundItem: { titleKey: string; href: string } | null = null
@@ -116,28 +116,28 @@ export default function BreadcrumbsSlot() {
           </BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
-        
+
         {foundParent && (
           <>
             <BreadcrumbItem>
               {foundParent.href ? (
                 <BreadcrumbLink asChild>
                   <Link href={localizedHref(foundParent.href)}>
-                    {t(foundParent.titleKey as any)}
+                    {t(foundParent.titleKey)}
                   </Link>
                 </BreadcrumbLink>
               ) : (
                 <BreadcrumbPage className="text-muted-foreground font-normal">
-                  {t(foundParent.titleKey as any)}
+                  {t(foundParent.titleKey)}
                 </BreadcrumbPage>
               )}
             </BreadcrumbItem>
             <BreadcrumbSeparator />
           </>
         )}
-        
+
         <BreadcrumbItem>
-          <BreadcrumbPage>{t(foundItem.titleKey as any)}</BreadcrumbPage>
+          <BreadcrumbPage>{t(foundItem.titleKey)}</BreadcrumbPage>
         </BreadcrumbItem>
       </BreadcrumbList>
     </Breadcrumb>

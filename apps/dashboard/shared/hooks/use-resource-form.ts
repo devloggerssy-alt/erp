@@ -42,14 +42,14 @@ export function useResourceForm<TFormValues extends FieldValues, TApiData = unkn
     const resolvedData = queriedData ?? (isEditing ? initialData : undefined)
 
     const form = useForm<TFormValues>({
-        resolver: zodResolver(schema) as any,
+        resolver: zodResolver(schema)  ,
         defaultValues,
     })
 
     useEffect(() => {
         if (!isEditing) {
             if (initialData) {
-                form.reset({ ...defaultValues, ...initialData } as any)
+                form.reset({ ...defaultValues, ...initialData }  )
             } else {
                 form.reset(defaultValues)
             }
@@ -57,7 +57,7 @@ export function useResourceForm<TFormValues extends FieldValues, TApiData = unkn
         }
 
         if (resolvedData) {
-            form.reset(mapToFormValues(resolvedData) as any)
+            form.reset(mapToFormValues(resolvedData)  )
         }
     }, [isEditing, resolvedData, initialData]) // eslint-disable-line react-hooks/exhaustive-deps
 
