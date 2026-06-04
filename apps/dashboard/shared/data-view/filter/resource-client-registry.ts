@@ -5,7 +5,8 @@ type ApiInstance = ReturnType<typeof createApi>
 
 const RESOURCE_CLIENT_RESOLVERS: Record<string, (api: ApiInstance) => ICrudClient> = {
     units: (api) => api.units,
-    "item-categories": (api) => api.categories,
+    "item-categories": (api) => api["item-categories"],
+    warehouses: (api) => api.warehouses,
 }
 
 export function resolveResourceClient(

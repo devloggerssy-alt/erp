@@ -9,7 +9,10 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/shared/components/ui/select"
-import { ResourceSelectField } from "@/shared/components/form/controls/resource-select-field"
+import {
+    ResourceSelectField,
+    ResourceMultiSelectField,
+} from "@/shared/components/form/controls/resource-select-field"
 import { useApi } from "@/shared/useApi"
 import { resolveResourceClient, getResourceLabel } from "./resource-client-registry"
 import type { FilterRule } from "./filter.utils"
@@ -75,10 +78,11 @@ function EnumValueInput({
 
 function IdValueInput({
     field,
+    operator,
     value,
     onChange,
     disabled,
-}: Pick<FilterValueInputProps, "field" | "value" | "onChange" | "disabled">) {
+}: Pick<FilterValueInputProps, "field" | "operator" | "value" | "onChange" | "disabled">) {
     const api = useApi()
 
     if (!field.foreignResourceKey) {
@@ -102,6 +106,21 @@ function IdValueInput({
                 placeholder="Enter value..."
                 disabled={disabled}
                 className="h-8 flex-1"
+            />
+        )
+    }
+
+    if (operator === "$in") {
+        const arrayValue = Array.isArray(value) ? (value as string[]) : []
+        return (
+            <ResourceMultiSelectField
+                client={client}
+                getLabel={getResourceLabel}
+                value={arrayValue}
+                onChange={(next) => onChange(next)}
+                placeholder="Select..."
+                disabled={disabled}
+                lazy
             />
         )
     }
@@ -182,7 +201,7 @@ export function FilterValueInput(props: FilterValueInputProps) {
         case "enum":
             return <EnumValueInput {...props} />
         case "id":
-            return <IdValueInput {...props} />
+            return <IdValueInput field={props.field} operator={props.operator} value={props.value} onChange={props.onChange} disabled={props.disabled} />
         default:
             return <ScalarValueInput {...props} />
     }

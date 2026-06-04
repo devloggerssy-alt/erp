@@ -51,7 +51,7 @@ export function CategoriesForm({ resourceId, initialData, onSuccess, paramKey }:
         schema: categoryFormSchema,
         defaultValues: DEFAULT_CATEGORY_FORM_VALUES,
         resourceId,
-        initialize: (id) => api.categories.show(id),
+        initialize: (id) => api[itemCategoryResource.key].show(id),
         initialData,
         queryKey: [itemCategoryResource.routes.show, resourceId],
         mapToFormValues: mapCategoryToFormValues,
@@ -60,8 +60,8 @@ export function CategoriesForm({ resourceId, initialData, onSuccess, paramKey }:
     const { mutate, error, isPending } = useFormMutation(form, {
         mutationFn: (values: CategoryFormValues) => {
             const promise = isEditing && resourceId
-                ? api.categories.update(resourceId, mapUpdatePayload(values))
-                : api.categories.create(mapCreatePayload(values))
+                ? api[itemCategoryResource.key].update(resourceId, mapUpdatePayload(values))
+                : api[itemCategoryResource.key].create(mapCreatePayload(values))
 
             toast.promise(promise, {
                 loading: isEditing ? "Updating category..." : "Creating category...",
@@ -109,7 +109,7 @@ export function CategoriesForm({ resourceId, initialData, onSuccess, paramKey }:
                     name="parentId"
                     label="Parent Category"
                     placeholder="Select parent category..."
-                    client={(api) => api.categories}
+                    client={(api) => api[itemCategoryResource.key]}
                     getLabel={(item) => item.name}
                     pageSize={20}
                     disabled={isBusy}

@@ -63,6 +63,17 @@ export class ApiClient {
     ) {
         this.client = createClient<paths>({
             baseUrl: `${this.normalizeBaseUrl(baseUrl)}/`,
+            querySerializer(queryParams) {
+                const params = new URLSearchParams()
+                for (const [key, value] of Object.entries(queryParams as Record<string, unknown>)) {
+                    if (Array.isArray(value)) {
+                        value.forEach((v) => params.append(key, String(v)))
+                    } else if (value !== null && value !== undefined) {
+                        params.append(key, String(value))
+                    }
+                }
+                return params.toString()
+            },
         })
     }
 

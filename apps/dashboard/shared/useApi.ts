@@ -1,11 +1,3 @@
-import { useMemo } from "react";
-import { createApi } from "@devloggers/api-client";
-import { useAuthStore } from "./stores/auth-store";
+import { useApi as useApiClient } from "@devloggers/api-client/react";
 
-export const useApi = () => {
-    const token = useAuthStore(s => s.token)
-    return useMemo(
-        () => createApi({ headers: token ? { Authorization: `Bearer ${token}` } : undefined }),
-        [token],
-    )
-}
+export const useApi = useApiClient;

@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { NuqsAdapter } from "nuqs/adapters/next/app"
-import { ApiClientProvider } from '@devloggers/api-client/react'
+import { ApiProvider } from '@devloggers/api-client/react'
 
 import { QueryProvider } from "@/shared/components/query-provider"
 import { ThemeProvider } from "@/shared/components/theme-provider"
@@ -18,20 +18,22 @@ interface ProvidersProps {
 export function Providers({ children }: ProvidersProps) {
   const { token } = useAuth()
 
+  const options = React.useMemo(() => ({
+    headers: {
+      'Authorization': token ? `Bearer ${token}` : ""
+    }
+  }), [token])
+
   return (
     <NuqsAdapter>
       <ThemeProvider>
         <QueryProvider>
-          <ApiClientProvider 
+          <ApiProvider 
             baseUrl={CONSTANTS.apiUrl} 
-            options={{
-              headers: {
-                'Authorization': token ? `Bearer ${token}` : ""
-              }
-            }}
+            options={options}
           >
             {children}
-          </ApiClientProvider>
+          </ApiProvider>
         </QueryProvider>
         <Toaster />
         <ConfirmDialog />

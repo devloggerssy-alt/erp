@@ -1,10 +1,10 @@
 "use client"
 import React, { useMemo } from 'react'
-import { ApiClientContext } from "./context"
+import { ApiContext } from "./context"
 import { createApi } from "../api"
 import { ApiClientOptions } from '../infra/client'
 
-export const ApiClientProvider = ({ 
+export const ApiProvider = ({ 
     children, 
     options, 
     baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL 
@@ -15,5 +15,5 @@ export const ApiClientProvider = ({
 }) => {
     const api = useMemo(() => createApi(options, baseUrl), [options, baseUrl])
 
-    return <ApiClientContext.Provider value={{ api }}> {children} </ApiClientContext.Provider>
+    return <ApiContext.Provider value={{ api }}> {children} </ApiContext.Provider>
 }

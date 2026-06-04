@@ -4,6 +4,7 @@ import { ItemCategoriesService } from '../services/item-categories.service';
 import { CreateItemCategoryDto, UpdateItemCategoryDto, ItemCategoryResponseDto } from '../dto';
 import { createCrudController, type CrudOpenApi } from '@devloggers/backend-core';
 import { JwtAuthGuard } from '@/modules/identity/auth/guards';
+import { itemCategoryResource } from '@devloggers/api-contracts';
 
 const ITEM_CATEGORIES_OPENAPI = {
     list: {
@@ -39,6 +40,7 @@ const ItemCategoriesCrudBase = createCrudController({
         { field: 'name', type: 'string' },
         { field: 'isActive', type: 'boolean' },
         { field: 'createdAt', type: 'date' },
+        { field: 'parentId', type: 'id', foreignResourceKey: itemCategoryResource.key },
     ],
     openApi: ITEM_CATEGORIES_OPENAPI,
 });

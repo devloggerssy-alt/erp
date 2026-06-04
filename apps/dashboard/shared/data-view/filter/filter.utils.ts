@@ -140,9 +140,7 @@ export function appendFiltersToParams(
         } else if ("$lte" in condition) {
             params[`filters[${field}][$lte]`] = condition.$lte
         } else if ("$in" in condition) {
-            for (const value of condition.$in) {
-                params[`filters[${field}][$in][]`] = value
-            }
+            params[`filters[${field}][$in][]`] = condition.$in
         } else if ("$isNull" in condition) {
             params[`filters[${field}][$isNull]`] = "true"
         }

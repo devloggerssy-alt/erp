@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useCallback, useEffect, useMemo } from "react"
+import { useState, useCallback, useEffect, useMemo, useRef } from "react"
 import { useInfiniteQuery, type InfiniteData } from "@tanstack/react-query"
 import type { ICrudClient } from "@devloggers/api-client"
 import { useApi } from "@/shared/useApi"
@@ -12,6 +12,10 @@ import {
   ComboboxList,
   ComboboxItem,
   ComboboxEmpty,
+  ComboboxChips,
+  ComboboxChip,
+  ComboboxChipsInput,
+  useComboboxAnchor,
 } from "@/shared/components/ui/combobox"
 import { Loader2 } from "lucide-react"
 
@@ -286,6 +290,7 @@ export function ResourceMultiSelectField<
 }: ResourceMultiSelectFieldProps<TClient, TValue>) {
   const [isOpen, setIsOpen] = useState(false)
   const [search, setSearch] = useState("")
+  const anchorRef = useComboboxAnchor()
 
   const api = useApi()
   const resolvedClient = typeof client === "function" ? client(api) : client
@@ -326,7 +331,11 @@ export function ResourceMultiSelectField<
     staleTime,
   })
 
-  const items = data?.pages.flatMap((page: any) => Array.from(page?.data ?? [])) ?? []
+  // Stable reference per fetch — prevents useEffect/useMemo churn on every render
+  const items = useMemo(
+    () => data?.pages.flatMap((page: any) => Array.from(page?.data ?? [])) ?? [],
+    [data],
+  )
 
   const options = items.map((item: any) => ({
     id: getId(item as ResourceItem<TClient>),
@@ -335,17 +344,28 @@ export function ResourceMultiSelectField<
     raw: item,
   }))
 
-  // Build lookup maps
+  // Map from ID → stored value for currently loaded options
   const idToValueMap = new Map<string, TValue>()
   options.forEach((opt) => idToValueMap.set(opt.id, opt.value))
 
-  // Selected combobox ids derived directly from the form values so they stay stable across option changes
+  // Stable map from ID → stored value for already-selected items so they survive search changes
+  const valueBySelectedId = useMemo(() => {
+    const map = new Map<string, TValue>()
+    ;(value ?? []).forEach((v) => {
+      const id = typeof v === "object" && v !== null ? getId(v as any) : String(v)
+      map.set(id, v)
+    })
+    return map
+  }, [value, getId])
+
+  // Accumulate labels in a ref — no setState means no re-render loop
+  const labelRef = useRef<Map<string, string>>(new Map())
+  options.forEach((opt) => labelRef.current.set(opt.id, opt.label))
+
   const selectedIds = useMemo(() => {
     return (value ?? [])
       .map((v) => {
-        if (typeof v === "object" && v !== null) {
-          return getId(v as any)
-        }
+        if (typeof v === "object" && v !== null) return getId(v as any)
         return String(v)
       })
       .filter((id): id is string => id !== undefined && id !== "")
@@ -365,7 +385,7 @@ export function ResourceMultiSelectField<
 
   const handleValueChange = (ids: string[]) => {
     const storedValues = ids
-      .map((id) => idToValueMap.get(id))
+      .map((id) => idToValueMap.get(id) ?? valueBySelectedId.get(id))
       .filter((v): v is TValue => v !== undefined)
     onChange?.(storedValues)
   }
@@ -390,13 +410,18 @@ export function ResourceMultiSelectField<
       onInputValueChange={handleInputValueChange as any}
       filter={() => true}
     >
-      <ComboboxInput
-        placeholder={placeholder}
-        showClear={selectedIds.length > 0}
-        onBlur={onBlur}
-        aria-invalid={invalid || undefined}
-      />
-      <ComboboxContent>
+      <ComboboxChips ref={anchorRef} aria-invalid={invalid || undefined}>
+        {selectedIds.map((id) => (
+          <ComboboxChip key={id}>
+            {labelRef.current.get(id) ?? id}
+          </ComboboxChip>
+        ))}
+        <ComboboxChipsInput
+          placeholder={selectedIds.length === 0 ? placeholder : ""}
+          onBlur={onBlur}
+        />
+      </ComboboxChips>
+      <ComboboxContent anchor={anchorRef}>
         <ComboboxList onScroll={handleScroll as any}>
           {isLoading && (
             <div className="flex items-center justify-center py-4">
