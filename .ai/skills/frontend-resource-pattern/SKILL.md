@@ -5,7 +5,7 @@ description: Use ONLY when creating, refactoring, or debugging resource CRUD pag
 
 # Frontend Resource Pattern
 
-> **Canonical docs:** `.cursor/skills/frontend-resource-pattern/SKILL.md` (kept in sync with the dashboard codebase).
+> **Canonical docs:** `.ai/skills/frontend-resource-pattern/SKILL.md` (mirrored to `.cursor/skills/`).
 
 ## Quick reference
 

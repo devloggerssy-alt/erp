@@ -2,26 +2,47 @@
 
 Turborepo + **pnpm** monorepo for an ERP system.
 
-| Layer | Package / path |
-|-------|----------------|
-| Database | `@devloggers/db-prisma` → `packages/db-prisma` |
-| Contracts | `@devloggers/api-contracts` → `packages/api-contracts` |
-| API | `@devloggers/api` → `apps/api` |
-| HTTP clients | `@devloggers/api-client` → `packages/api-client` |
-| Dashboard | `@devloggers/dashboard` → `apps/dashboard` |
+## Stack
+
+| Layer | Package | Path |
+|-------|---------|------|
+| Database | `@devloggers/db-prisma` | `packages/db-prisma` |
+| Contracts | `@devloggers/api-contracts` | `packages/api-contracts` |
+| API | `@devloggers/api` | `apps/api` |
+| HTTP clients | `@devloggers/api-client` | `packages/api-client` |
+| Dashboard | `@devloggers/dashboard` | `apps/dashboard` |
 
 ## Before you change code
 
-1. Read **`.cursor/rules/`** — monorepo rules apply globally; layer rules apply per path.
-2. For **where things live**, use skill **`erp-project-map`**.
-3. For a **new CRUD entity**, use skill **`add-crud-feature`** and copy the **units** vertical slice.
-4. For **layer-specific steps**, use skills in **`.cursor/skills/`** (mirrored from `.ai/skills/`):
-   - `api-contracts` — resources + DTOs
-   - `api-client` — CrudClient + factory
-   - `backend-resource-module` — NestJS 4-layer module
-   - `frontend-resource-pattern` — ResourceProvider / compound components
+1. Load **`.ai/rules/monorepo.md`** — applies always.
+2. Load the **path-scoped rule** from `.ai/rules/` that matches the files you're editing.
+3. For **where things live**, use skill **`erp-project-map`** (`.ai/skills/erp-project-map/`).
+4. For a **new CRUD entity end-to-end**, use skill **`add-crud-feature`** (`.ai/skills/add-crud-feature/`).
+5. For a **single layer**, use the relevant skill from `.ai/skills/`.
 
-## Golden reference: Units
+## Rules (`.ai/rules/`)
+
+| File | Load when |
+|------|-----------|
+| `monorepo.md` | Always — cross-cutting architecture constraints |
+| `api.md` | Editing `apps/api/**` |
+| `dashboard.md` | Editing `apps/dashboard/**` |
+| `database.md` | Editing `packages/db-prisma/**` |
+| `packages.md` | Editing `packages/**` |
+
+## Skills (`.ai/skills/`)
+
+| Skill | When to use |
+|-------|-------------|
+| `erp-project-map` | Explore repo, find files, understand domains |
+| `add-crud-feature` | End-to-end new entity (full-stack checklist) |
+| `api-contracts` | Resources + DTOs in `packages/api-contracts` |
+| `api-client` | CrudClient + factory in `packages/api-client` |
+| `backend-resource-module` | NestJS 4-layer module in `apps/api` |
+| `dashboard-resource-page` | Dashboard CRUD list page |
+| `frontend-resource-pattern` | Compound resource architecture + data-view |
+
+## Golden reference: Units vertical slice
 
 ```
 packages/db-prisma/src/schema/unit.prisma
@@ -41,28 +62,3 @@ pnpm --filter @devloggers/api dev
 pnpm --filter @devloggers/db-prisma db:migrate:dev
 pnpm turbo run build
 ```
-
-## Rules (non-negotiable)
-
-- **Never duplicate** routes/types — `api-contracts` is the source of truth.
-- **Shared code** → `packages/`.
-- **Prisma migrations** for all schema changes; idempotent seeds.
-- **NestJS** modules with DI — no loose Express in features.
-- **Thin Next.js pages** — logic in `apps/dashboard/modules/`.
-
-## Cursor skills (`.cursor/skills/`)
-
-| Skill | When to use |
-|-------|-------------|
-| `erp-project-map` | Explore repo, find files, understand domains |
-| `add-crud-feature` | End-to-end new entity |
-| `dashboard-resource-page` | Dashboard CRUD list UI (`generateResource`, toolbar, columns) |
-| `frontend-resource-pattern` | Compound resource architecture + `shared/data-view/table-view` |
-
-## Dashboard CRUD UI (summary)
-
-- **Provider:** `generateResource<Client>()` in `modules/<feature>/<feature>.resource.ts`
-- **Page:** `Resource.Page` + `actions` (`FormDialog`) + `Resource.Table`
-- **Toolbar:** built-in Filter · Search (center) · Add (end); or `Resource.Toolbar.Start/Center` + `actions`
-- **Table:** `ColumnHeader`, `BooleanCell`, `helpers.actionsColumn()` from `@/shared/data-view/table-view`
-- **Docs:** `.cursor/rules/dashboard-nextjs.mdc`, skills above

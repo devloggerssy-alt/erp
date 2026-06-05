@@ -1,0 +1,50 @@
+{
+  "name": "@devloggers/i18n",
+  "version": "0.0.0",
+  "description": "locales shared files for ERP system",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./next-intl": {
+      "types": "./dist/next-intl/index.d.ts",
+      "default": "./dist/next-intl/index.js"
+    },
+    "./next-intl/request": {
+      "types": "./dist/next-intl/request.d.ts",
+      "default": "./dist/next-intl/request.js"
+    },
+    "./next-intl/routing": {
+      "types": "./dist/next-intl/routing.d.ts",
+      "default": "./dist/next-intl/routing.js"
+    },
+    "./next-intl/navigation": {
+      "types": "./dist/next-intl/navigation.d.ts",
+      "default": "./dist/next-intl/navigation.js"
+    },
+    "./next-intl/*": {
+      "types": "./dist/next-intl/*.d.ts",
+      "default": "./dist/next-intl/*.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "next-intl": "^4.3.9"
+  },
+  "devDependencies": {
+    "@e-dukan/typescript-config": "workspace:*",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/node": "^22.19.0"
+  }
+}

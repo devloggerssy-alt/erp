@@ -34,3 +34,4 @@ Make sure to set the `DATABASE_URL` environment variable:
 ```env
 DATABASE_URL="postgresql://username:password@localhost:5432/e-dukan"
 ```
+
