@@ -26,6 +26,7 @@
   "dependencies": {
     "@aws-sdk/client-s3": "^3.962.0",
     "@devloggers/api-contracts": "workspace:*",
+    "@devloggers/i18n": "workspace:*",
     "@devloggers/backend-core": "workspace:^",
     "@devloggers/db-prisma": "workspace:*",
     "@nestjs-modules/mailer": "^2.0.2",

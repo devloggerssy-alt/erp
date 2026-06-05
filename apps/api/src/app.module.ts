@@ -1,5 +1,6 @@
 import { Module, ValidationPipe } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { I18nModule } from '@devloggers/i18n/nest';
 import { APP_PIPE } from '@nestjs/core';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { PrismaModule } from '@devloggers/db-prisma/nest';
@@ -30,6 +31,7 @@ import { envValidationSchema } from './config/envValidator';
       load: [configuration],
     }),
     EventEmitterModule.forRoot({ wildcard: false, delimiter: '.', global: true }),
+    I18nModule,
     PrismaModule,
     AuthModule,
     TenantsModule,
