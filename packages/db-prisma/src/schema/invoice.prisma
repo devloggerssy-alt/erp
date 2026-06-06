@@ -16,7 +16,7 @@ model InvoiceType {
     id           String           @id @default(uuid())
     tenantId     String           @map("tenant_id")
     code         String
-    name         String
+    name         Json     @db.JsonB // LocalizedString: { ar: string; en?: string }
     direction    InvoiceDirection
     affectsStock Boolean          @default(true) @map("affects_stock")
     isActive     Boolean          @default(true) @map("is_active")

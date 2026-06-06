@@ -1,18 +1,11 @@
 {
-    "extends": "@e-dukan/typescript-config/base.json",
+    "extends": "@devloggers/typescript-config/base.json",
     "compilerOptions": {
-        "module": "Node16",
-        "moduleResolution": "Node16",
         "outDir": "./dist",
         "rootDir": "./src",
-        "declaration": true,
-        "declarationMap": true,
-        "sourceMap": true,
         "types": [
             "node"
         ],
-        "skipLibCheck": true,
-        "resolveJsonModule": true,
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true
     },

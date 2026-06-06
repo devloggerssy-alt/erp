@@ -9,11 +9,11 @@ export class RolesRepository extends CrudRepository<Role> {
         super(prisma.role);
     }
 
-    async isNameTaken(tenantId: string, name: string, excludeId?: string): Promise<boolean> {
+    async isNameTaken(tenantId: string, nameAr: string, excludeId?: string): Promise<boolean> {
         const count = await this.prisma.role.count({
             where: {
                 tenantId,
-                name,
+                name: { path: ['ar'], equals: nameAr },
                 ...(excludeId ? { id: { not: excludeId } } : {}),
             },
         });

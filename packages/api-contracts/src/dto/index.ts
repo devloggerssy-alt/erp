@@ -1,3 +1,4 @@
+export * from './i18n.dto';
 export * from './auth.dto';
 export * from './tenant.dto';
 export * from './user.dto';

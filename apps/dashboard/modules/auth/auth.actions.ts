@@ -1,6 +1,7 @@
 "use server"
 
 import { cookies } from "next/headers"
+import type { AuthUser } from "@devloggers/api-contracts"
 
 const TOKEN_COOKIE = "auth_token"
 const USER_COOKIE = "auth_user"

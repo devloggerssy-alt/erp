@@ -1,5 +1,7 @@
-import { IsString, IsNotEmpty, IsOptional, IsBoolean } from 'class-validator';
+import { IsString, IsNotEmpty, IsOptional, IsBoolean, ValidateNested } from 'class-validator';
+import { Type } from 'class-transformer';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { LocalizedStringDto } from '@devloggers/backend-core';
 
 export class CreateCurrencyDto {
     @ApiProperty({ example: 'SYP', description: 'ISO 4217 currency code' })
@@ -7,15 +9,16 @@ export class CreateCurrencyDto {
     @IsNotEmpty()
     code: string = '';
 
-    @ApiProperty({ example: 'Syrian Pound' })
-    @IsString()
-    @IsNotEmpty()
-    name: string = '';
+    @ApiProperty({ type: LocalizedStringDto })
+    @ValidateNested()
+    @Type(() => LocalizedStringDto)
+    name: LocalizedStringDto = new LocalizedStringDto();
 
-    @ApiPropertyOptional({ example: '£', description: 'Currency symbol for display' })
+    @ApiPropertyOptional({ type: LocalizedStringDto, description: 'Currency symbol for display' })
     @IsOptional()
-    @IsString()
-    symbol?: string;
+    @ValidateNested()
+    @Type(() => LocalizedStringDto)
+    symbol?: LocalizedStringDto;
 
     @ApiPropertyOptional({ example: true, description: 'Whether this is the base (local) currency' })
     @IsOptional()
@@ -24,15 +27,17 @@ export class CreateCurrencyDto {
 }
 
 export class UpdateCurrencyDto {
-    @ApiPropertyOptional({ example: 'Syrian Pound (Updated)' })
+    @ApiPropertyOptional({ type: LocalizedStringDto })
     @IsOptional()
-    @IsString()
-    name?: string;
+    @ValidateNested()
+    @Type(() => LocalizedStringDto)
+    name?: LocalizedStringDto;
 
-    @ApiPropertyOptional({ example: 'ل.س' })
+    @ApiPropertyOptional({ type: LocalizedStringDto })
     @IsOptional()
-    @IsString()
-    symbol?: string;
+    @ValidateNested()
+    @Type(() => LocalizedStringDto)
+    symbol?: LocalizedStringDto;
 
     @ApiPropertyOptional({ example: false })
     @IsOptional()
@@ -52,11 +57,17 @@ export class CurrencyResponseDto {
     @ApiProperty({ example: 'SYP' })
     code: string = '';
 
-    @ApiProperty({ example: 'Syrian Pound' })
+    @ApiProperty({ example: 'الليرة السورية' })
     name: string = '';
+
+    @ApiProperty({ type: LocalizedStringDto })
+    nameI18n: LocalizedStringDto = new LocalizedStringDto();
 
     @ApiProperty({ example: '£', nullable: true })
     symbol: string | null = null;
+
+    @ApiPropertyOptional({ type: LocalizedStringDto, nullable: true })
+    symbolI18n: LocalizedStringDto | null = null;
 
     @ApiProperty({ example: true })
     isBase: boolean = false;

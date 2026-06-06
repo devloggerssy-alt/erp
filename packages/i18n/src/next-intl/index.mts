@@ -1,6 +1,6 @@
 import createMiddleware from 'next-intl/middleware';
-import { createSharedNavigation } from './navigation';
-import { routing, locales } from './routing';
+import { createSharedNavigation } from './navigation.mjs';
+import { routing, locales } from './routing.mjs';
 
 export { routing, locales };
 
@@ -21,7 +21,6 @@ export {
   useTimeZone,
   useFormatter,
   NextIntlClientProvider,
-  
 } from 'next-intl';
 export { getRequestConfig, getMessages, getTranslations } from 'next-intl/server';
 export { default as createNextIntlMiddleware } from 'next-intl/middleware';

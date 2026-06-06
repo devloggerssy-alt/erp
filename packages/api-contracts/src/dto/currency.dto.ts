@@ -1,13 +1,15 @@
+import type { LocalizedString } from './i18n.dto';
+
 export interface CreateCurrencyDto {
     code: string;
-    name: string;
-    symbol?: string;
+    name: LocalizedString;
+    symbol?: LocalizedString;
     isBase?: boolean;
 }
 
 export interface UpdateCurrencyDto {
-    name?: string;
-    symbol?: string;
+    name?: LocalizedString;
+    symbol?: LocalizedString;
     isBase?: boolean;
     isActive?: boolean;
 }

@@ -14,6 +14,7 @@ type HttpMethod = "get" | "post" | "put" | "delete" | "patch"
 
 export type ApiClientOptions = {
     headers?: Record<string, string>
+    locale?: string
 }
 
 type ApiRequestOptions<Path extends ApiPath, Method extends HttpMethod> =
@@ -232,6 +233,9 @@ export class ApiClient {
     private withDefaultHeaders(headers?: HeadersInit): Headers {
         const finalHeaders = new Headers(this.defaultOptions.headers)
         finalHeaders.set("Accept", "application/json")
+        if (this.defaultOptions.locale) {
+            finalHeaders.set("Accept-Language", this.defaultOptions.locale)
+        }
         if (headers) {
             new Headers(headers).forEach((value, key) => finalHeaders.set(key, value))
         }

@@ -18,7 +18,7 @@ model Cashbox {
     id         String   @id @default(uuid())
     tenantId   String   @map("tenant_id")
     code       String
-    name       String
+    name       Json     @db.JsonB // LocalizedString: { ar: string; en?: string }
     currencyId String   @map("currency_id")
     balance    Decimal  @default(0) @db.Decimal(18, 4)
     isActive   Boolean  @default(true) @map("is_active")

@@ -1,8 +1,8 @@
-import arShared from './ar-SY/shared.json' with { type: 'json' };
-import arSystem from './ar-SY/system.json' with { type: 'json' };
+import arShared from './ar/shared.json';
+import arSystem from './ar/system.json';
 
-import enShared from './en/shared.json' with { type: 'json' };
-import enSystem from './en/system.json' with { type: 'json' };
+import enShared from './en/shared.json';
+import enSystem from './en/system.json';
 
 export const ar = {
   shared: arShared,
@@ -15,8 +15,8 @@ export const en = {
 } as const;
 
 export const locales = {
-  'ar-SY': ar,
-  en,
+  'ar': ar,
+  'en': en,
 } as const;
 
 export type Locale = keyof typeof locales;

@@ -3,8 +3,8 @@ model Currency {
     id        String   @id @default(uuid())
     tenantId  String   @map("tenant_id")
     code      String   // e.g. SYP, USD
-    name      String   // e.g. Syrian Pound
-    symbol    String?  // e.g. £, $
+    name      Json     @db.JsonB // LocalizedString: { ar: string; en?: string }
+    symbol    Json?    @db.JsonB // LocalizedString: { ar: string; en?: string }
     isBase    Boolean  @default(false) @map("is_base")
     isActive  Boolean  @default(true) @map("is_active")
     createdAt DateTime @default(now()) @map("created_at")

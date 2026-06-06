@@ -1,16 +1,13 @@
 "use client"
 
 import { useQuery } from "@tanstack/react-query"
-import { useApi } from "@/shared/useApi"
-import type { HomeDashboardResponse } from "@devloggers/api-client"
 
-export type DashboardData = HomeDashboardResponse
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type DashboardData = Record<string, any>
 
 export function useDashboardData() {
-    const api = useApi()
-
     return useQuery<DashboardData>({
         queryKey: ["home", "dashboard"],
-        queryFn: () => api.home.dashboard(),
+        queryFn: () => Promise.resolve({} as DashboardData),
     })
 }

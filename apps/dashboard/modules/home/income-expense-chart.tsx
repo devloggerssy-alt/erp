@@ -33,7 +33,7 @@ export function IncomeExpenseChart({ data }: Props) {
     const series = data.chart?.series ?? []
     const currency = data.chart?.currency ?? ""
 
-    const chartData = series.map((item) => ({
+    const chartData = series.map((item: { date?: string; income?: number; expense?: number }) => ({
         date: item.date ?? "",
         income: item.income ?? 0,
         expense: item.expense ?? 0,

@@ -1,5 +1,7 @@
-import { IsString, IsNotEmpty, IsOptional, IsBoolean, IsEnum } from 'class-validator';
+import { IsString, IsNotEmpty, IsOptional, IsBoolean, IsEnum, ValidateNested } from 'class-validator';
+import { Type } from 'class-transformer';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { LocalizedStringDto } from '@devloggers/backend-core';
 
 // ── Enum ──────────────────────────────────────────────────────────────────────
 
@@ -19,10 +21,10 @@ export class CreateChartOfAccountDto {
     @IsNotEmpty()
     code: string = '';
 
-    @ApiProperty({ example: 'Cash and Cash Equivalents', description: 'Account display name' })
-    @IsString()
-    @IsNotEmpty()
-    name: string = '';
+    @ApiProperty({ type: LocalizedStringDto, description: 'Account display name' })
+    @ValidateNested()
+    @Type(() => LocalizedStringDto)
+    name: LocalizedStringDto = new LocalizedStringDto();
 
     @ApiProperty({ enum: AccountTypeEnum, example: 'ASSET', description: 'Account type classification' })
     @IsEnum(AccountTypeEnum)
@@ -37,11 +39,11 @@ export class CreateChartOfAccountDto {
 // ── Update DTO ────────────────────────────────────────────────────────────────
 
 export class UpdateChartOfAccountDto {
-    @ApiPropertyOptional({ example: 'Cash and Bank Accounts', description: 'Updated account name' })
+    @ApiPropertyOptional({ type: LocalizedStringDto, description: 'Updated account name' })
     @IsOptional()
-    @IsString()
-    @IsNotEmpty()
-    name?: string;
+    @ValidateNested()
+    @Type(() => LocalizedStringDto)
+    name?: LocalizedStringDto;
 
     @ApiPropertyOptional({ example: '00000000-0000-4000-a601-000000000001', nullable: true, description: 'Updated parent account UUID — set to null to make it a root account' })
     @IsOptional()
@@ -63,8 +65,11 @@ export class ChartOfAccountResponseDto {
     @ApiProperty({ example: '1110' })
     code: string = '';
 
-    @ApiProperty({ example: 'Cash and Cash Equivalents' })
+    @ApiProperty({ example: 'نقد وما يعادله' })
     name: string = '';
+
+    @ApiProperty({ type: LocalizedStringDto })
+    nameI18n: LocalizedStringDto = new LocalizedStringDto();
 
     @ApiProperty({ enum: AccountTypeEnum, example: 'ASSET' })
     type: string = '';
@@ -75,7 +80,7 @@ export class ChartOfAccountResponseDto {
     @ApiPropertyOptional({ example: '1000', nullable: true })
     parentCode: string | null = null;
 
-    @ApiPropertyOptional({ example: 'Current Assets', nullable: true })
+    @ApiPropertyOptional({ example: 'الأصول المتداولة', nullable: true })
     parentName: string | null = null;
 
     @ApiProperty({ example: true })

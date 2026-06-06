@@ -1,7 +1,7 @@
 import { hasLocale } from 'next-intl';
 import { getRequestConfig } from 'next-intl/server';
-import { getMessages, locales as localeMessages } from '../index';
-import { routing } from './routing';
+import { getMessages, locales as localeMessages } from '../index.js';
+import { routing } from './routing.mjs';
 
 export const createSharedRequestConfig = () =>
   getRequestConfig(async ({ requestLocale }) => {

@@ -1,5 +1,7 @@
-import { IsString, IsNotEmpty, IsOptional, IsBoolean, IsEnum } from 'class-validator';
+import { IsString, IsNotEmpty, IsOptional, IsBoolean, IsEnum, ValidateNested } from 'class-validator';
+import { Type } from 'class-transformer';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { LocalizedStringDto } from '@devloggers/backend-core';
 
 export enum InvoiceDirectionEnum {
     PURCHASE = 'PURCHASE',
@@ -12,10 +14,10 @@ export class CreateInvoiceTypeDto {
     @IsNotEmpty()
     code: string = '';
 
-    @ApiProperty({ example: 'Purchase Invoice', description: 'Invoice type display name' })
-    @IsString()
-    @IsNotEmpty()
-    name: string = '';
+    @ApiProperty({ type: LocalizedStringDto, description: 'Invoice type display name' })
+    @ValidateNested()
+    @Type(() => LocalizedStringDto)
+    name: LocalizedStringDto = new LocalizedStringDto();
 
     @ApiProperty({ enum: InvoiceDirectionEnum, example: 'PURCHASE', description: 'PURCHASE = inbound, SALE = outbound' })
     @IsEnum(InvoiceDirectionEnum)
@@ -29,10 +31,11 @@ export class CreateInvoiceTypeDto {
 }
 
 export class UpdateInvoiceTypeDto {
-    @ApiPropertyOptional({ example: 'Purchase Invoice (Standard)' })
+    @ApiPropertyOptional({ type: LocalizedStringDto })
     @IsOptional()
-    @IsString()
-    name?: string;
+    @ValidateNested()
+    @Type(() => LocalizedStringDto)
+    name?: LocalizedStringDto;
 
     @ApiPropertyOptional({ example: true })
     @IsOptional()
@@ -52,8 +55,11 @@ export class InvoiceTypeResponseDto {
     @ApiProperty({ example: 'PINV' })
     code: string = '';
 
-    @ApiProperty({ example: 'Purchase Invoice' })
+    @ApiProperty({ example: 'فاتورة شراء' })
     name: string = '';
+
+    @ApiProperty({ type: LocalizedStringDto })
+    nameI18n: LocalizedStringDto = new LocalizedStringDto();
 
     @ApiProperty({ enum: InvoiceDirectionEnum, example: 'PURCHASE' })
     direction: string = '';

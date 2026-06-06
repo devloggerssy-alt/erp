@@ -1,39 +1,50 @@
-import { IsString, IsNotEmpty, IsOptional } from 'class-validator';
+import { IsOptional, ValidateNested } from 'class-validator';
+import { Type } from 'class-transformer';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { LocalizedStringDto } from '@devloggers/backend-core';
 
 export class CreateRoleDto {
-    @ApiProperty({ example: 'Accountant', description: 'Role display name' })
-    @IsString()
-    @IsNotEmpty()
-    name: string;
+    @ApiProperty({ type: LocalizedStringDto, description: 'Role display name' })
+    @ValidateNested()
+    @Type(() => LocalizedStringDto)
+    name: LocalizedStringDto = new LocalizedStringDto();
 
-    @ApiPropertyOptional({ example: 'Accounting and finance access', description: 'Role description' })
+    @ApiPropertyOptional({ type: LocalizedStringDto, description: 'Role description' })
     @IsOptional()
-    @IsString()
-    description?: string;
+    @ValidateNested()
+    @Type(() => LocalizedStringDto)
+    description?: LocalizedStringDto;
 }
 
 export class UpdateRoleDto {
-    @ApiPropertyOptional({ example: 'Senior Accountant' })
+    @ApiPropertyOptional({ type: LocalizedStringDto })
     @IsOptional()
-    @IsString()
-    name?: string;
+    @ValidateNested()
+    @Type(() => LocalizedStringDto)
+    name?: LocalizedStringDto;
 
-    @ApiPropertyOptional({ example: 'Full accounting, finance, and reporting access' })
+    @ApiPropertyOptional({ type: LocalizedStringDto })
     @IsOptional()
-    @IsString()
-    description?: string;
+    @ValidateNested()
+    @Type(() => LocalizedStringDto)
+    description?: LocalizedStringDto;
 }
 
 export class RoleResponseDto {
     @ApiProperty({ example: '00000000-0000-4000-b100-000000000001' })
     id: string = '';
 
-    @ApiProperty({ example: 'Accountant' })
+    @ApiProperty({ example: 'محاسب' })
     name: string = '';
 
-    @ApiProperty({ example: 'Accounting and finance access', nullable: true })
+    @ApiProperty({ type: LocalizedStringDto })
+    nameI18n: LocalizedStringDto = new LocalizedStringDto();
+
+    @ApiProperty({ example: 'صلاحيات المحاسبة والمالية', nullable: true })
     description: string | null = null;
+
+    @ApiPropertyOptional({ type: LocalizedStringDto, nullable: true })
+    descriptionI18n: LocalizedStringDto | null = null;
 
     @ApiProperty({ example: false })
     isSystem: boolean = false;

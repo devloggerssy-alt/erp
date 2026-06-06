@@ -1,5 +1,7 @@
-import { IsString, IsNotEmpty, IsOptional, IsBoolean } from 'class-validator';
+import { IsString, IsNotEmpty, IsOptional, IsBoolean, ValidateNested } from 'class-validator';
+import { Type } from 'class-transformer';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { LocalizedStringDto } from '@devloggers/backend-core';
 
 export class CreateCashboxDto {
     @ApiProperty({ example: 'CASH-SYP', description: 'Unique cashbox code' })
@@ -7,10 +9,10 @@ export class CreateCashboxDto {
     @IsNotEmpty()
     code: string = '';
 
-    @ApiProperty({ example: 'Main Cash (SYP)', description: 'Cashbox display name' })
-    @IsString()
-    @IsNotEmpty()
-    name: string = '';
+    @ApiProperty({ type: LocalizedStringDto, description: 'Cashbox display name' })
+    @ValidateNested()
+    @Type(() => LocalizedStringDto)
+    name: LocalizedStringDto = new LocalizedStringDto();
 
     @ApiProperty({ example: '00000000-0000-4000-a300-000000000001', description: 'Currency ID' })
     @IsString()
@@ -19,10 +21,11 @@ export class CreateCashboxDto {
 }
 
 export class UpdateCashboxDto {
-    @ApiPropertyOptional({ example: 'Main Cash Box (SYP)' })
+    @ApiPropertyOptional({ type: LocalizedStringDto })
     @IsOptional()
-    @IsString()
-    name?: string;
+    @ValidateNested()
+    @Type(() => LocalizedStringDto)
+    name?: LocalizedStringDto;
 
     @ApiPropertyOptional({ example: true })
     @IsOptional()
@@ -37,8 +40,11 @@ export class CashboxResponseDto {
     @ApiProperty({ example: 'CASH-SYP' })
     code: string = '';
 
-    @ApiProperty({ example: 'Main Cash (SYP)' })
+    @ApiProperty({ example: 'الصندوق الرئيسي' })
     name: string = '';
+
+    @ApiProperty({ type: LocalizedStringDto })
+    nameI18n: LocalizedStringDto = new LocalizedStringDto();
 
     @ApiProperty({ example: '00000000-0000-4000-a300-000000000001' })
     currencyId: string = '';

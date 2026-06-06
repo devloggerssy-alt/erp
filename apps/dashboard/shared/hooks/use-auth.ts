@@ -19,6 +19,5 @@ export function useAuth() {
     user: store.user,
     isAuthenticated: store.isAuthenticated,
     login: store.login,
-    logout: store.logout,
   }
 }

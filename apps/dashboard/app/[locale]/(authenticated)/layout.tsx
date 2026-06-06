@@ -38,7 +38,7 @@ export default async function AuthenticatedLayout({
 
   const userInfo = user
     ? {
-      name: user.name,
+      name: user.fullName,
       email: user.email,
       initials: user.fullName.charAt(0).toUpperCase(),
     }

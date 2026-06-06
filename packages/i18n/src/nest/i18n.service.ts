@@ -25,9 +25,13 @@ export class I18nService {
   resolveLocale(acceptLanguage?: string): Locale {
     if (!acceptLanguage) return 'en';
     const supported = Object.keys(locales) as Locale[];
-    for (const lang of acceptLanguage.split(',').map((l) => l.split(';')[0].trim())) {
+    for (const raw of acceptLanguage.split(',')) {
+      const lang = raw.split(';')[0]?.trim();
+      if (!lang) continue;
       if (supported.includes(lang as Locale)) return lang as Locale;
-      const prefix = supported.find((l) => l.startsWith(lang.split('-')[0]));
+      const langPrefix = lang.split('-')[0];
+      if (!langPrefix) continue;
+      const prefix = supported.find((l) => l.startsWith(langPrefix));
       if (prefix) return prefix;
     }
     return 'en';

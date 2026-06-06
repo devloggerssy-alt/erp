@@ -18,7 +18,7 @@ model ChartOfAccount {
     id        String      @id @default(uuid())
     tenantId  String      @map("tenant_id")
     code      String
-    name      String
+    name      Json     @db.JsonB // LocalizedString: { ar: string; en?: string }
     type      AccountType
     parentId  String?     @map("parent_id")
     isActive  Boolean     @default(true) @map("is_active")

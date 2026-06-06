@@ -12,7 +12,7 @@ db-prisma
     ↓
 backend-core ← api
     ↑
-api-contracts
+api-contracts -> db-prisma
     ↓
 api-client ← dashboard
 ```

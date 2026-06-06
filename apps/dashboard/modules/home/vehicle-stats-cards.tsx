@@ -26,12 +26,12 @@ export function VehicleStatsCards({ data }: Props) {
     const bodyTypes = data.body_types_vehicle_totals ?? []
     const makes = data.make_model_vehicle_totals?.makes ?? []
 
-    const bodyData = bodyTypes.map((bt) => ({
+    const bodyData = bodyTypes.map((bt: { body_type?: string; vehicles_count?: number }) => ({
         name: bt.body_type ?? "Unknown",
         vehicles_count: bt.vehicles_count ?? 0,
     }))
 
-    const makeData = makes.map((m) => ({
+    const makeData = makes.map((m: { make?: string; vehicles_count?: number }) => ({
         name: m.make ?? "Unknown",
         vehicles_count: m.vehicles_count ?? 0,
     }))
@@ -57,7 +57,7 @@ export function VehicleStatsCards({ data }: Props) {
                                 <YAxis type="category" dataKey="name" tickLine={false} axisLine={false} width={80} />
                                 <ChartTooltip content={<ChartTooltipContent />} />
                                 <Bar dataKey="vehicles_count" radius={[0, 6, 6, 0]} barSize={24}>
-                                    {bodyData.map((_entry, index) => (
+                                    {bodyData.map((_entry: unknown, index: number) => (
                                         <Cell key={index} fill={COLORS[index % COLORS.length]} />
                                     ))}
                                 </Bar>
@@ -88,7 +88,7 @@ export function VehicleStatsCards({ data }: Props) {
                                 <YAxis type="category" dataKey="name" tickLine={false} axisLine={false} width={80} />
                                 <ChartTooltip content={<ChartTooltipContent />} />
                                 <Bar dataKey="vehicles_count" radius={[0, 6, 6, 0]} barSize={24}>
-                                    {makeData.map((_entry, index) => (
+                                    {makeData.map((_entry: unknown, index: number) => (
                                         <Cell key={index} fill={COLORS[index % COLORS.length]} />
                                     ))}
                                 </Bar>

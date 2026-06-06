@@ -20,28 +20,23 @@
     },
     "./next-intl": {
       "types": "./dist/next-intl/index.d.ts",
-      "import": "./dist/next-intl/index.js",
-      "require": "./dist/next-intl/index.js"
+      "import": "./dist/next-intl/index.mjs"
     },
     "./next-intl/request": {
       "types": "./dist/next-intl/request.d.ts",
-      "import": "./dist/next-intl/request.js",
-      "require": "./dist/next-intl/request.js"
+      "import": "./dist/next-intl/request.mjs"
     },
     "./next-intl/routing": {
       "types": "./dist/next-intl/routing.d.ts",
-      "import": "./dist/next-intl/routing.js",
-      "require": "./dist/next-intl/routing.js"
+      "import": "./dist/next-intl/routing.mjs"
     },
     "./next-intl/navigation": {
       "types": "./dist/next-intl/navigation.d.ts",
-      "import": "./dist/next-intl/navigation.js",
-      "require": "./dist/next-intl/navigation.js"
+      "import": "./dist/next-intl/navigation.mjs"
     },
     "./next-intl/*": {
       "types": "./dist/next-intl/*.d.ts",
-      "import": "./dist/next-intl/*.js",
-      "require": "./dist/next-intl/*.js"
+      "import": "./dist/next-intl/*.mjs"
     }
   },
   "scripts": {
@@ -61,8 +56,9 @@
     "@nestjs/core": { "optional": true }
   },
   "devDependencies": {
-    "@e-dukan/typescript-config": "workspace:*",
-    "@types/bcryptjs": "^2.4.6",
+    "@devloggers/typescript-config": "workspace:*",
+    "@nestjs/common": "^11.0.1",
+    "@nestjs/core": "^11.0.1",
     "@types/node": "^22.19.0"
   }
 }

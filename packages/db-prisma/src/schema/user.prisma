@@ -23,8 +23,8 @@ model AppUser {
 model Role {
     id          String     @id @default(uuid())
     tenantId    String     @map("tenant_id")
-    name        String
-    description String?
+    name        Json       @db.JsonB // LocalizedString: { ar: string; en?: string }
+    description Json?      @db.JsonB // LocalizedString: { ar: string; en?: string }
     isSystem    Boolean    @default(false) @map("is_system")
     createdAt   DateTime   @default(now()) @map("created_at")
     updatedAt   DateTime   @updatedAt @map("updated_at")
@@ -32,7 +32,7 @@ model Role {
     tenant    Tenant     @relation(fields: [tenantId], references: [id], onDelete: Cascade)
     userRoles UserRole[]
 
-    @@unique([tenantId, name])
+    // Note: unique on (tenantId, name->>'ar') enforced via expression index in migration SQL
     @@index([tenantId])
     @@map("roles")
 }

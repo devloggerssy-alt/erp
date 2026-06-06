@@ -36,7 +36,7 @@ export function WorkOrdersStatusCard({ data }: Props) {
                 </div>
             </CardHeader>
             <CardContent className="space-y-3">
-                {cards.map((card) => {
+                {cards.map((card: { count?: number; status?: string; label?: string; orders_text?: string; amount_text?: string }) => {
                     const percentage = totalOrders > 0 ? ((card.count ?? 0) / totalOrders) * 100 : 0
                     return (
                         <div key={card.status} className="space-y-1.5">

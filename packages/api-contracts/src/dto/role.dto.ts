@@ -1,9 +1,11 @@
+import type { LocalizedString } from './i18n.dto';
+
 export interface CreateRoleDto {
-    name: string;
-    description?: string;
+    name: LocalizedString;
+    description?: LocalizedString;
 }
 
 export interface UpdateRoleDto {
-    name?: string;
-    description?: string;
+    name?: LocalizedString;
+    description?: LocalizedString;
 }

@@ -23,7 +23,7 @@ export function FinancialSummaryChart({ data }: Props) {
     const summary = data.financial_summary
     const currency = summary?.currency ?? ""
 
-    const chartData = (summary?.chart ?? []).map((item) => ({
+    const chartData = (summary?.chart ?? []).map((item: { label?: string; amount?: number; count?: number }) => ({
         label: item.label ?? "",
         amount: item.amount ?? 0,
         count: item.count ?? 0,
@@ -63,7 +63,7 @@ export function FinancialSummaryChart({ data }: Props) {
                             fill="var(--color-amount)"
                             barSize={48}
                         >
-                            {chartData.map((_entry, index) => (
+                            {chartData.map((_entry: unknown, index: number) => (
                                 <rect key={index} fill={colors[index % colors.length]} />
                             ))}
                         </Bar>

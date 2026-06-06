@@ -32,6 +32,9 @@ importers:
       '@devloggers/db-prisma':
         specifier: workspace:*
         version: link:../../packages/db-prisma
+      '@devloggers/i18n':
+        specifier: workspace:*
+        version: link:../../packages/i18n
       '@nestjs-modules/mailer':
         specifier: ^2.0.2
         version: 2.3.4(@nestjs/common@11.1.17(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.17(@nestjs/common@11.1.17(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/platform-express@11.1.17)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/event-emitter@3.1.0(@nestjs/common@11.1.17(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.17(@nestjs/common@11.1.17(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/platform-express@11.1.17)(reflect-metadata@0.2.2)(rxjs@7.8.2)))(chokidar@4.0.3)(nodemailer@7.0.13)(svgo@4.0.1)(terser@5.46.1)(typescript@5.9.3)
@@ -527,6 +530,25 @@ importers:
       typescript-eslint:
         specifier: ^8.50.0
         version: 8.58.0(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3)
+
+  packages/i18n:
+    dependencies:
+      next-intl:
+        specifier: ^4.3.9
+        version: 4.12.0(@swc/helpers@0.5.15)(next@16.1.7(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)(typescript@5.9.2)
+    devDependencies:
+      '@devloggers/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
+      '@nestjs/common':
+        specifier: ^11.0.1
+        version: 11.1.17(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      '@nestjs/core':
+        specifier: ^11.0.1
+        version: 11.1.17(@nestjs/common@11.1.17(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/platform-express@11.1.17)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      '@types/node':
+        specifier: ^22.19.0
+        version: 22.19.15
 
   packages/typescript-config: {}
 
@@ -16953,6 +16975,23 @@ snapshots:
       use-intl: 4.12.0(react@19.2.4)
     optionalDependencies:
       typescript: 5.9.3
+    transitivePeerDependencies:
+      - '@swc/helpers'
+
+  next-intl@4.12.0(@swc/helpers@0.5.15)(next@16.1.7(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)(typescript@5.9.2):
+    dependencies:
+      '@formatjs/intl-localematcher': 0.8.9
+      '@parcel/watcher': 2.5.6
+      '@swc/core': 1.15.40(@swc/helpers@0.5.15)
+      icu-minify: 4.12.0
+      negotiator: 1.0.0
+      next: 16.1.7(@babel/core@7.29.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      next-intl-swc-plugin-extractor: 4.12.0
+      po-parser: 2.1.1
+      react: 19.2.4
+      use-intl: 4.12.0(react@19.2.4)
+    optionalDependencies:
+      typescript: 5.9.2
     transitivePeerDependencies:
       - '@swc/helpers'
 

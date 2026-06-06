@@ -2,7 +2,7 @@
 
 import { useRef } from "react"
 import { useAuthStore } from "@/shared/stores/auth-store"
-import type { AuthUser } from "@devloggers/api-client"
+import type { AuthUser } from "@devloggers/api-contracts"
 
 /**
  * Synchronously initializes the auth store from server-side token/user before

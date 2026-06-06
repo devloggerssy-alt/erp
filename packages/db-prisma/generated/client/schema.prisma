@@ -18,7 +18,7 @@ model ChartOfAccount {
   id        String      @id @default(uuid())
   tenantId  String      @map("tenant_id")
   code      String
-  name      String
+  name      Json        @db.JsonB // LocalizedString: { ar: string; en?: string }
   type      AccountType
   parentId  String?     @map("parent_id")
   isActive  Boolean     @default(true) @map("is_active")
@@ -158,7 +158,7 @@ model Cashbox {
   id         String   @id @default(uuid())
   tenantId   String   @map("tenant_id")
   code       String
-  name       String
+  name       Json     @db.JsonB // LocalizedString: { ar: string; en?: string }
   currencyId String   @map("currency_id")
   balance    Decimal  @default(0) @db.Decimal(18, 4)
   isActive   Boolean  @default(true) @map("is_active")
@@ -233,8 +233,8 @@ model Currency {
   id        String   @id @default(uuid())
   tenantId  String   @map("tenant_id")
   code      String // e.g. SYP, USD
-  name      String // e.g. Syrian Pound
-  symbol    String? // e.g. £, $
+  name      Json     @db.JsonB // LocalizedString: { ar: string; en?: string }
+  symbol    Json?    @db.JsonB // LocalizedString: { ar: string; en?: string }
   isBase    Boolean  @default(false) @map("is_base")
   isActive  Boolean  @default(true) @map("is_active")
   createdAt DateTime @default(now()) @map("created_at")
@@ -314,7 +314,7 @@ model InvoiceType {
   id           String           @id @default(uuid())
   tenantId     String           @map("tenant_id")
   code         String
-  name         String
+  name         Json             @db.JsonB // LocalizedString: { ar: string; en?: string }
   direction    InvoiceDirection
   affectsStock Boolean          @default(true) @map("affects_stock")
   isActive     Boolean          @default(true) @map("is_active")
@@ -460,18 +460,18 @@ model CustomField {
   id           String    @id @default(uuid())
   tenantId     String    @map("tenant_id")
   module       String
-  name         String
-  label        String
+  name         Json      @db.JsonB // LocalizedString: { ar: string; en?: string }
+  label        Json      @db.JsonB // LocalizedString: { ar: string; en?: string }
   type         FieldType
   defaultValue String?   @map("default_value") // For boolean true/false as string
-  placeholder  String?
+  placeholder  Json?     @db.JsonB // LocalizedString: { ar: string; en?: string }
   options      String[] // For select field
   isRequired   Boolean   @default(false) @map("is_required")
   createdAt    DateTime  @default(now()) @map("created_at")
 
   values CustomFieldValue[]
 
-  @@unique([tenantId, name, module])
+  // Note: unique on (tenantId, name->>'ar', module) enforced via expression index in migration SQL
   @@index([tenantId, module])
   @@map("custom_fields")
 }
@@ -720,8 +720,8 @@ model AppUser {
 model Role {
   id          String   @id @default(uuid())
   tenantId    String   @map("tenant_id")
-  name        String
-  description String?
+  name        Json     @db.JsonB // LocalizedString: { ar: string; en?: string }
+  description Json?    @db.JsonB // LocalizedString: { ar: string; en?: string }
   isSystem    Boolean  @default(false) @map("is_system")
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")
@@ -729,7 +729,7 @@ model Role {
   tenant    Tenant     @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   userRoles UserRole[]
 
-  @@unique([tenantId, name])
+  // Note: unique on (tenantId, name->>'ar') enforced via expression index in migration SQL
   @@index([tenantId])
   @@map("roles")
 }

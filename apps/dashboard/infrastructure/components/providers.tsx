@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { useLocale } from "next-intl"
 import { NuqsAdapter } from "nuqs/adapters/next/app"
 import { ApiProvider } from '@devloggers/api-client/react'
 
@@ -17,12 +18,14 @@ interface ProvidersProps {
 
 export function Providers({ children }: ProvidersProps) {
   const { token } = useAuth()
+  const locale = useLocale()
 
   const options = React.useMemo(() => ({
     headers: {
       'Authorization': token ? `Bearer ${token}` : ""
-    }
-  }), [token])
+    },
+    locale,
+  }), [token, locale])
 
   return (
     <NuqsAdapter>

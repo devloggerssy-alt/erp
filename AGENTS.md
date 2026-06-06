@@ -15,16 +15,19 @@ Turborepo + **pnpm** monorepo for an ERP system.
 ## Before you change code
 
 1. Load **`.ai/rules/monorepo.md`** — applies always.
-2. Load the **path-scoped rule** from `.ai/rules/` that matches the files you're editing.
-3. For **where things live**, use skill **`erp-project-map`** (`.ai/skills/erp-project-map/`).
-4. For a **new CRUD entity end-to-end**, use skill **`add-crud-feature`** (`.ai/skills/add-crud-feature/`).
-5. For a **single layer**, use the relevant skill from `.ai/skills/`.
+2. Load **`.ai/rules/code-quality.md`** — applies always (surgical changes + verify-before-complete + lint).
+3. Load the **path-scoped rule** from `.ai/rules/` that matches the files you're editing.
+4. For **where things live**, use skill **`erp-project-map`** (`.ai/skills/erp-project-map/`).
+5. For a **new CRUD entity end-to-end**, use skill **`add-crud-feature`** (`.ai/skills/add-crud-feature/`).
+6. For a **single layer**, use the relevant skill from `.ai/skills/`.
+7. For **imported best-practice skills** (NestJS, Prisma, Next.js, testing, DDD, security, …), see `.ai/skills/_imports/README.md`.
 
 ## Rules (`.ai/rules/`)
 
 | File | Load when |
 |------|-----------|
 | `monorepo.md` | Always — cross-cutting architecture constraints |
+| `code-quality.md` | Always — karpathy + verify-before-complete + lint gates |
 | `api.md` | Editing `apps/api/**` |
 | `dashboard.md` | Editing `apps/dashboard/**` |
 | `database.md` | Editing `packages/db-prisma/**` |
@@ -41,6 +44,23 @@ Turborepo + **pnpm** monorepo for an ERP system.
 | `backend-resource-module` | NestJS 4-layer module in `apps/api` |
 | `dashboard-resource-page` | Dashboard CRUD list page |
 | `frontend-resource-pattern` | Compound resource architecture + data-view |
+
+## Imported skills (`.ai/skills/_imports/`)
+
+28 curated skills imported from
+[`sickn33/antigravity-awesome-skills`](https://github.com/sickn33/antigravity-awesome-skills)
+(MIT, V12.0.0). Each is a wrapper with an ERP-specific trigger + the upstream
+body verbatim. Refresh procedure & roll-back: `.ai/skills/_imports/README.md`.
+
+| Group | Skills |
+|-------|--------|
+| Stack | `nestjs-expert`, `prisma-expert`, `monorepo-architect`, `turborepo-caching`, `zod-validation-expert`, `openapi-spec-generation`, `nextjs-app-router-patterns`, `typescript-expert` |
+| Backend / API | `backend-dev-guidelines`, `api-design-principles`, `api-patterns`, `database-migration` |
+| Frontend | `frontend-developer`, `react-best-practices`, `shadcn` |
+| Architecture / DDD | `ddd-tactical-patterns`, `architecture-patterns`, `architecture-decision-records` |
+| Testing / quality | `test-driven-development`, `systematic-debugging`, `e2e-testing-patterns`, `playwright-skill`, `code-review-checklist` |
+| Security | `api-security-best-practices`, `auth-implementation-patterns` |
+| Anti-slop (also in `code-quality.md`) | `andrej-karpathy`, `verification-before-completion`, `lint-and-validate` |
 
 ## Golden reference: Units vertical slice
 

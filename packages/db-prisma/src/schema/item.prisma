@@ -41,18 +41,18 @@ model CustomField {
     id           String    @id @default(uuid())
     tenantId     String    @map("tenant_id")
     module       String
-    name         String
-    label        String
+    name         Json      @db.JsonB // LocalizedString: { ar: string; en?: string }
+    label        Json      @db.JsonB // LocalizedString: { ar: string; en?: string }
     type         FieldType
     defaultValue String?   @map("default_value") // For boolean true/false as string
-    placeholder  String?
+    placeholder  Json?     @db.JsonB // LocalizedString: { ar: string; en?: string }
     options      String[] // For select field
     isRequired   Boolean   @default(false) @map("is_required")
     createdAt    DateTime  @default(now()) @map("created_at")
 
     values CustomFieldValue[]
 
-    @@unique([tenantId, name, module])
+    // Note: unique on (tenantId, name->>'ar', module) enforced via expression index in migration SQL
     @@index([tenantId, module])
     @@map("custom_fields")
 }

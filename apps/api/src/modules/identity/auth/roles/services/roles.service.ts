@@ -20,9 +20,9 @@ export class RolesService extends CrudService<Role, RoleResponseDto, CreateRoleD
     }
 
     protected override async beforeCreate(tenantId: string, dto: CreateRoleDto): Promise<void> {
-        const taken = await this.rolesRepository.isNameTaken(tenantId, dto.name);
+        const taken = await this.rolesRepository.isNameTaken(tenantId, dto.name.ar);
         if (taken) {
-            throw new ConflictException(`A role with name "${dto.name}" already exists`);
+            throw new ConflictException(`A role with name "${dto.name.ar}" already exists`);
         }
     }
 
@@ -32,9 +32,9 @@ export class RolesService extends CrudService<Role, RoleResponseDto, CreateRoleD
         dto: UpdateRoleDto,
     ): Promise<void> {
         if (dto.name) {
-            const taken = await this.rolesRepository.isNameTaken(tenantId, dto.name, id);
+            const taken = await this.rolesRepository.isNameTaken(tenantId, dto.name.ar, id);
             if (taken) {
-                throw new ConflictException(`A role with name "${dto.name}" already exists`);
+                throw new ConflictException(`A role with name "${dto.name.ar}" already exists`);
             }
         }
     }
