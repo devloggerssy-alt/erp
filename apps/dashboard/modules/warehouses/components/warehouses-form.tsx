@@ -8,7 +8,7 @@ import { useResourceFormController } from "@/shared/hooks/use-resource-form-cont
 import { warehousesFormConfig, type WarehouseFormValues } from "../warehouses.config"
 
 export function WarehousesForm({ resourceId, initialData, onSuccess, paramKey }: ResourceFormProps<WarehousesClient>) {
-    const t = useTranslations("system.forms.warehouses")
+    const t = useTranslations("business.resources.warehouses")
     const tf = useTranslations("system.resourceForm")
 
     const ctrl = useResourceFormController<WarehousesClient, WarehouseFormValues>({
@@ -46,7 +46,7 @@ export function WarehousesForm({ resourceId, initialData, onSuccess, paramKey }:
             {ctrl.isEditing && (
                 <RhfCheckboxField
                     name="isActive"
-                    label={tf("active")}
+                    label={t("active")}
                     description={tf("activeDescription")}
                     disabled={ctrl.isBusy}
                 />

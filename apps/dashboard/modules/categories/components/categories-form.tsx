@@ -9,7 +9,7 @@ import { useResourceFormController } from "@/shared/hooks/use-resource-form-cont
 import { categoriesFormConfig, type CategoryFormValues } from "../categories.config"
 
 export function CategoriesForm({ resourceId, initialData, onSuccess, paramKey }: ResourceFormProps<CategoriesClient>) {
-    const t = useTranslations("system.forms.categories")
+    const t = useTranslations("business.resources.categories")
     const tf = useTranslations("system.resourceForm")
 
     const ctrl = useResourceFormController<CategoriesClient, CategoryFormValues>({
@@ -50,7 +50,7 @@ export function CategoriesForm({ resourceId, initialData, onSuccess, paramKey }:
             {ctrl.isEditing && (
                 <RhfCheckboxField
                     name="isActive"
-                    label={tf("active")}
+                    label={t("active")}
                     description={tf("activeDescription")}
                     disabled={ctrl.isBusy}
                 />

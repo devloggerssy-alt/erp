@@ -8,7 +8,7 @@ import { useResourceFormController } from "@/shared/hooks/use-resource-form-cont
 import { unitsFormConfig, type UnitFormValues } from "../units.config"
 
 export function UnitsForm({ resourceId, initialData, onSuccess, paramKey }: ResourceFormProps<UnitsClient>) {
-    const t = useTranslations("system.forms.units")
+    const t = useTranslations("business.resources.units")
     const tf = useTranslations("system.resourceForm")
 
     const ctrl = useResourceFormController<UnitsClient, UnitFormValues>({
@@ -40,7 +40,7 @@ export function UnitsForm({ resourceId, initialData, onSuccess, paramKey }: Reso
             {ctrl.isEditing && (
                 <RhfCheckboxField
                     name="isActive"
-                    label={tf("active")}
+                    label={t("active")}
                     description={tf("activeDescription")}
                     disabled={ctrl.isBusy}
                 />

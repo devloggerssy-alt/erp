@@ -1,0 +1,86 @@
+{
+  "navigation": {
+    "groups": {
+      "commercial": "العمليات التجارية",
+      "inventory": "المخزون والدليل",
+      "finance": "المالية",
+      "reports": "التقارير",
+      "settings": "الإعدادات"
+    },
+    "items": {
+      "dashboard": "لوحة التحكم",
+      "cashier": "الكاشير",
+      "aiAssistant": "المساعد الذكي",
+      "sales": "المبيعات",
+      "salesInvoices": "فواتير المبيعات",
+      "customers": "العملاء",
+      "purchases": "المشتريات",
+      "purchaseInvoices": "فواتير المشتريات",
+      "suppliers": "الموردون",
+      "catalog": "الأصناف",
+      "itemsList": "قائمة الأصناف",
+      "categories": "الفئات",
+      "units": "الوحدات",
+      "warehouses": "المستودعات",
+      "warehouseList": "قائمة المستودعات",
+      "stockBalances": "أرصدة المخزون",
+      "stockMovements": "حركات المخزون",
+      "stockCounts": "جرد المخزون",
+      "openingBalances": "أرصدة أول المدة",
+      "cashboxes": "الخزينة",
+      "cashboxesList": "صناديق النقد",
+      "payments": "المدفوعات",
+      "accounting": "المحاسبة",
+      "chartOfAccounts": "شجرة الحسابات",
+      "generalReports": "التقارير العامة",
+      "stockReports": "تقارير المخزون",
+      "salesReports": "تقارير المبيعات",
+      "purchaseReports": "تقارير المشتريات",
+      "accountStatements": "كشوف الحسابات",
+      "companySettings": "إعدادات الشركة",
+      "usersAndPermissions": "المستخدمين والصلاحيات",
+      "users": "المستخدمين",
+      "roles": "الأدوار",
+      "systemSettings": "إعدادات النظام",
+      "currencies": "العملات",
+      "fiscalPeriods": "الفترات المالية",
+      "documentSequences": "تسلسل المستندات"
+    }
+  },
+  "resources": {
+    "units": {
+      "title": "الوحدات",
+      "addAction": "إضافة وحدة",
+      "entity": "وحدة",
+      "name": "الاسم",
+      "namePlaceholder": "مثال: كيلوغرام",
+      "abbreviation": "الاختصار",
+      "abbreviationPlaceholder": "مثال: كغ",
+      "active": "نشط"
+    },
+    "categories": {
+      "title": "الفئات",
+      "addAction": "إضافة فئة",
+      "entity": "فئة",
+      "name": "الاسم",
+      "namePlaceholder": "مثال: إلكترونيات",
+      "description": "الوصف",
+      "descriptionPlaceholder": "وصف الفئة",
+      "parent": "الفئة الأصلية",
+      "parentPlaceholder": "اختر الفئة الأصلية...",
+      "active": "نشط"
+    },
+    "warehouses": {
+      "title": "المستودعات",
+      "addAction": "إضافة مستودع",
+      "entity": "مستودع",
+      "code": "الرمز",
+      "codePlaceholder": "مثال: WH-01",
+      "name": "الاسم",
+      "namePlaceholder": "مثال: المستودع الرئيسي",
+      "address": "العنوان",
+      "addressPlaceholder": "موقع المستودع",
+      "active": "نشط"
+    }
+  }
+}

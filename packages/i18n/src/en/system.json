@@ -1,1 +1,112 @@
-{}
+{
+  "common": {
+    "logoAlt": "Auto Parts"
+  },
+  "header": {
+    "profile": "Profile",
+    "language": "Language",
+    "languages": {
+      "ar": "Arabic",
+      "en": "English",
+      "tr": "Turkish"
+    },
+    "search": "Search...",
+    "toggleTheme": "Toggle theme",
+    "notifications": "Notifications",
+    "searchPlaceholder": "Type to search...",
+    "searchEmpty": "No results found.",
+    "quickActions": "Quick Actions",
+    "quickItems": {
+      "dashboard": "Dashboard",
+      "jobCards": "Job Cards",
+      "customers": "Customers"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Login to your account",
+      "description": "Enter your email below to login to your account",
+      "errorTitle": "Login failed",
+      "email": "Email",
+      "emailPlaceholder": "m@example.com",
+      "password": "Password",
+      "forgotPassword": "Forgot your password?",
+      "submit": "Login",
+      "submitting": "Logging in...",
+      "lastEmailUsed": "Last email used: {email}"
+    }
+  },
+  "confirm": {
+    "title": "Are you sure?",
+    "cancel": "Cancel",
+    "confirm": "Confirm"
+  },
+  "resourcePagination": {
+    "summary": "Page {page} of {pageCount} ({total} total)",
+    "rowsPerPage": "Rows per page"
+  },
+  "resourceSearch": {
+    "placeholder": "Search...",
+    "clear": "Clear search"
+  },
+  "resourceFilter": {
+    "button": "Filter",
+    "title": "In this view show records",
+    "where": "Where",
+    "and": "And",
+    "addFilter": "Add filter",
+    "clearAll": "Clear all filters",
+    "apply": "Apply filters",
+    "removeRule": "Remove filter",
+    "operators": {
+      "eq": "is",
+      "like": "contains",
+      "gte": "is greater than or equal",
+      "lte": "is less than or equal",
+      "in": "is any of",
+      "isNull": "is empty"
+    }
+  },
+  "resource": {
+    "deleteTitle": "Delete this item?",
+    "deleteDescription": "This action cannot be undone.",
+    "deleteConfirm": "Delete",
+    "toastDeleting": "Deleting...",
+    "toastDeleted": "Deleted successfully",
+    "toastDeleteFailed": "Failed to delete"
+  },
+  "tableActions": {
+    "header": "Actions",
+    "openMenu": "Open menu",
+    "edit": "Edit",
+    "delete": "Delete"
+  },
+  "dataView": {
+    "empty": "No results found",
+    "emptyDescription": "Try adjusting your search or filters.",
+    "sortMenu": "Sort column",
+    "sortAsc": "Sort ascending",
+    "sortDesc": "Sort descending",
+    "clearSort": "Clear sorting",
+    "hideColumn": "Hide column",
+    "firstPage": "First page",
+    "previousPage": "Previous page",
+    "nextPage": "Next page",
+    "lastPage": "Last page"
+  },
+  "booleanCell": {
+    "active": "Active",
+    "inactive": "Inactive"
+  },
+  "resourceForm": {
+    "creating": "Creating...",
+    "updating": "Updating...",
+    "created": "{entity} created successfully",
+    "updated": "{entity} updated successfully",
+    "createFailed": "Failed to create {entity}",
+    "updateFailed": "Failed to update {entity}",
+    "create": "Create {entity}",
+    "update": "Update {entity}",
+    "activeDescription": "Inactive records remain available historically but are hidden from active choices."
+  }
+}

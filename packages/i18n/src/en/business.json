@@ -1,0 +1,86 @@
+{
+  "navigation": {
+    "groups": {
+      "commercial": "Commercial Operations",
+      "inventory": "Inventory & Catalog",
+      "finance": "Finance",
+      "reports": "Reports",
+      "settings": "Settings"
+    },
+    "items": {
+      "dashboard": "Dashboard",
+      "cashier": "Cashier",
+      "aiAssistant": "AI Assistant",
+      "sales": "Sales",
+      "salesInvoices": "Sales Invoices",
+      "customers": "Customers",
+      "purchases": "Purchases",
+      "purchaseInvoices": "Purchase Invoices",
+      "suppliers": "Suppliers",
+      "catalog": "Catalog",
+      "itemsList": "Items List",
+      "categories": "Categories",
+      "units": "Units",
+      "warehouses": "Warehouses",
+      "warehouseList": "Warehouse List",
+      "stockBalances": "Stock Balances",
+      "stockMovements": "Stock Movements",
+      "stockCounts": "Stock Counts",
+      "openingBalances": "Opening Balances",
+      "cashboxes": "Cashboxes",
+      "cashboxesList": "Cashboxes",
+      "payments": "Payments",
+      "accounting": "Accounting",
+      "chartOfAccounts": "Chart of Accounts",
+      "generalReports": "General Reports",
+      "stockReports": "Stock Reports",
+      "salesReports": "Sales Reports",
+      "purchaseReports": "Purchase Reports",
+      "accountStatements": "Account Statements",
+      "companySettings": "Company Settings",
+      "usersAndPermissions": "Users & Permissions",
+      "users": "Users",
+      "roles": "Roles",
+      "systemSettings": "System Settings",
+      "currencies": "Currencies",
+      "fiscalPeriods": "Fiscal Periods",
+      "documentSequences": "Document Sequences"
+    }
+  },
+  "resources": {
+    "units": {
+      "title": "Units",
+      "addAction": "Add Unit",
+      "entity": "Unit",
+      "name": "Name",
+      "namePlaceholder": "e.g. Kilogram",
+      "abbreviation": "Abbreviation",
+      "abbreviationPlaceholder": "e.g. kg",
+      "active": "Active"
+    },
+    "categories": {
+      "title": "Categories",
+      "addAction": "Add Category",
+      "entity": "Category",
+      "name": "Name",
+      "namePlaceholder": "e.g. Electronics",
+      "description": "Description",
+      "descriptionPlaceholder": "Category description",
+      "parent": "Parent Category",
+      "parentPlaceholder": "Select parent category...",
+      "active": "Active"
+    },
+    "warehouses": {
+      "title": "Warehouses",
+      "addAction": "Add Warehouse",
+      "entity": "Warehouse",
+      "code": "Code",
+      "codePlaceholder": "e.g. WH-01",
+      "name": "Name",
+      "namePlaceholder": "e.g. Main Warehouse",
+      "address": "Address",
+      "addressPlaceholder": "Warehouse location",
+      "active": "Active"
+    }
+  }
+}

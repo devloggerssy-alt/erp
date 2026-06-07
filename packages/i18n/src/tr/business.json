@@ -1,0 +1,86 @@
+{
+  "navigation": {
+    "groups": {
+      "commercial": "Ticari İşlemler",
+      "inventory": "Stok ve Katalog",
+      "finance": "Finans",
+      "reports": "Raporlar",
+      "settings": "Ayarlar"
+    },
+    "items": {
+      "dashboard": "Kontrol Paneli",
+      "cashier": "Kasa",
+      "aiAssistant": "Yapay Zeka Asistanı",
+      "sales": "Satışlar",
+      "salesInvoices": "Satış Faturaları",
+      "customers": "Müşteriler",
+      "purchases": "Satın Almalar",
+      "purchaseInvoices": "Satın Alma Faturaları",
+      "suppliers": "Tedarikçiler",
+      "catalog": "Katalog",
+      "itemsList": "Ürün Listesi",
+      "categories": "Kategoriler",
+      "units": "Birimler",
+      "warehouses": "Depolar",
+      "warehouseList": "Depo Listesi",
+      "stockBalances": "Stok Bakiyeleri",
+      "stockMovements": "Stok Hareketleri",
+      "stockCounts": "Stok Sayımları",
+      "openingBalances": "Açılış Bakiyeleri",
+      "cashboxes": "Kasalar",
+      "cashboxesList": "Kasa Listesi",
+      "payments": "Ödemeler",
+      "accounting": "Muhasebe",
+      "chartOfAccounts": "Hesap Planı",
+      "generalReports": "Genel Raporlar",
+      "stockReports": "Stok Raporları",
+      "salesReports": "Satış Raporları",
+      "purchaseReports": "Satın Alma Raporları",
+      "accountStatements": "Hesap Ekstreleri",
+      "companySettings": "Şirket Ayarları",
+      "usersAndPermissions": "Kullanıcılar ve Yetkiler",
+      "users": "Kullanıcılar",
+      "roles": "Roller",
+      "systemSettings": "Sistem Ayarları",
+      "currencies": "Para Birimleri",
+      "fiscalPeriods": "Mali Dönemler",
+      "documentSequences": "Belge Dizileri"
+    }
+  },
+  "resources": {
+    "units": {
+      "title": "Birimler",
+      "addAction": "Birim Ekle",
+      "entity": "Birim",
+      "name": "Ad",
+      "namePlaceholder": "örn. Kilogram",
+      "abbreviation": "Kısaltma",
+      "abbreviationPlaceholder": "örn. kg",
+      "active": "Aktif"
+    },
+    "categories": {
+      "title": "Kategoriler",
+      "addAction": "Kategori Ekle",
+      "entity": "Kategori",
+      "name": "Ad",
+      "namePlaceholder": "örn. Elektronik",
+      "description": "Açıklama",
+      "descriptionPlaceholder": "Kategori açıklaması",
+      "parent": "Üst Kategori",
+      "parentPlaceholder": "Üst kategori seçin...",
+      "active": "Aktif"
+    },
+    "warehouses": {
+      "title": "Depolar",
+      "addAction": "Depo Ekle",
+      "entity": "Depo",
+      "code": "Kod",
+      "codePlaceholder": "örn. WH-01",
+      "name": "Ad",
+      "namePlaceholder": "örn. Ana Depo",
+      "address": "Adres",
+      "addressPlaceholder": "Depo konumu",
+      "active": "Aktif"
+    }
+  }
+}

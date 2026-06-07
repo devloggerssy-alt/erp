@@ -204,6 +204,9 @@ importers:
       '@devloggers/api-contracts':
         specifier: workspace:*
         version: link:../../packages/api-contracts
+      '@devloggers/i18n':
+        specifier: workspace:^
+        version: link:../../packages/i18n
       '@hookform/resolvers':
         specifier: ^5.2.2
         version: 5.2.2(react-hook-form@7.72.0(react@19.2.4))
