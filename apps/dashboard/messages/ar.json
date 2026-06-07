@@ -98,6 +98,45 @@
     "booleanCell": {
       "active": "نشط",
       "inactive": "غير نشط"
+    },
+    "resourceForm": {
+      "creating": "جارٍ الإنشاء...",
+      "updating": "جارٍ التحديث...",
+      "created": "تم إنشاء {entity} بنجاح",
+      "updated": "تم تحديث {entity} بنجاح",
+      "createFailed": "فشل إنشاء {entity}",
+      "updateFailed": "فشل تحديث {entity}",
+      "create": "إنشاء {entity}",
+      "update": "تحديث {entity}",
+      "active": "نشط",
+      "activeDescription": "تبقى السجلات غير النشطة متاحة تاريخياً ولكنها مخفية من الخيارات النشطة."
+    },
+    "forms": {
+      "units": {
+        "entity": "وحدة",
+        "name": "الاسم",
+        "namePlaceholder": "مثال: كيلوغرام",
+        "abbreviation": "الاختصار",
+        "abbreviationPlaceholder": "مثال: كغ"
+      },
+      "categories": {
+        "entity": "فئة",
+        "name": "الاسم",
+        "namePlaceholder": "مثال: إلكترونيات",
+        "description": "الوصف",
+        "descriptionPlaceholder": "وصف الفئة",
+        "parent": "الفئة الأصلية",
+        "parentPlaceholder": "اختر الفئة الأصلية..."
+      },
+      "warehouses": {
+        "entity": "مستودع",
+        "code": "الرمز",
+        "codePlaceholder": "مثال: WH-01",
+        "name": "الاسم",
+        "namePlaceholder": "مثال: المستودع الرئيسي",
+        "address": "العنوان",
+        "addressPlaceholder": "موقع المستودع"
+      }
     }
   },
   "business": {

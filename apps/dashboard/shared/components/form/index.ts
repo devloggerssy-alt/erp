@@ -2,6 +2,7 @@
 export { Rhform } from "./rhform"
 export { RhfField } from "./rhf-field"
 export { FieldShell } from "./field-shell"
+export { ResourceFormShell, type ResourceFormShellProps } from "./resource-form-shell"
 
 // ── Types ──
 export type {

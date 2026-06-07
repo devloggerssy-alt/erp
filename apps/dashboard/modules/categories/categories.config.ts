@@ -1,4 +1,7 @@
 import { z } from "zod"
+import type { CreateItemCategoryDto, UpdateItemCategoryDto } from "@devloggers/api-contracts"
+import type { ResourceFormConfig } from "@/shared/hooks/use-resource-form-controller"
+import { unwrapApiData } from "@/shared/hooks/unwrap-api-data"
 
 const categoryParentSchema = z.object({
     id: z.string(),
@@ -23,14 +26,28 @@ export const DEFAULT_CATEGORY_FORM_VALUES: CategoryFormValues = {
 }
 
 export function mapCategoryToFormValues(data: unknown): CategoryFormValues {
-    const resolved = (data && typeof data === "object" && "data" in data
-        ? (data as { data?: Partial<CategoryFormValues> }).data
-        : data) as Partial<CategoryFormValues> | null | undefined
-
+    const resolved = unwrapApiData<CategoryFormValues>(data)
     return {
-        name: resolved?.name ?? "",
-        description: resolved?.description ?? "",
-        parent: resolved?.parent ?? null,
-        isActive: resolved?.isActive ?? true,
+        name: resolved.name ?? "",
+        description: resolved.description ?? "",
+        parent: resolved.parent ?? null,
+        isActive: resolved.isActive ?? true,
     }
+}
+
+export const categoriesFormConfig: ResourceFormConfig<CategoryFormValues, CreateItemCategoryDto, UpdateItemCategoryDto> = {
+    schema: categoryFormSchema,
+    defaultValues: DEFAULT_CATEGORY_FORM_VALUES,
+    mapToFormValues: mapCategoryToFormValues,
+    toCreate: (values) => ({
+        name: values.name.trim(),
+        description: values.description?.trim() || undefined,
+        parentId: values.parent?.id || undefined,
+    }),
+    toUpdate: (values) => ({
+        name: values.name.trim(),
+        description: values.description?.trim() || undefined,
+        parentId: values.parent?.id || undefined,
+        isActive: values.isActive ?? true,
+    }),
 }

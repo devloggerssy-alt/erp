@@ -98,6 +98,45 @@
     "booleanCell": {
       "active": "Aktif",
       "inactive": "Pasif"
+    },
+    "resourceForm": {
+      "creating": "Oluşturuluyor...",
+      "updating": "Güncelleniyor...",
+      "created": "{entity} başarıyla oluşturuldu",
+      "updated": "{entity} başarıyla güncellendi",
+      "createFailed": "{entity} oluşturulamadı",
+      "updateFailed": "{entity} güncellenemedi",
+      "create": "{entity} Oluştur",
+      "update": "{entity} Güncelle",
+      "active": "Aktif",
+      "activeDescription": "Pasif kayıtlar geçmişte kullanılabilir kalır ancak aktif seçeneklerden gizlenir."
+    },
+    "forms": {
+      "units": {
+        "entity": "Birim",
+        "name": "Ad",
+        "namePlaceholder": "örn. Kilogram",
+        "abbreviation": "Kısaltma",
+        "abbreviationPlaceholder": "örn. kg"
+      },
+      "categories": {
+        "entity": "Kategori",
+        "name": "Ad",
+        "namePlaceholder": "örn. Elektronik",
+        "description": "Açıklama",
+        "descriptionPlaceholder": "Kategori açıklaması",
+        "parent": "Üst Kategori",
+        "parentPlaceholder": "Üst kategori seçin..."
+      },
+      "warehouses": {
+        "entity": "Depo",
+        "code": "Kod",
+        "codePlaceholder": "örn. WH-01",
+        "name": "Ad",
+        "namePlaceholder": "örn. Ana Depo",
+        "address": "Adres",
+        "addressPlaceholder": "Depo konumu"
+      }
     }
   },
   "business": {

@@ -98,6 +98,45 @@
     "booleanCell": {
       "active": "Active",
       "inactive": "Inactive"
+    },
+    "resourceForm": {
+      "creating": "Creating...",
+      "updating": "Updating...",
+      "created": "{entity} created successfully",
+      "updated": "{entity} updated successfully",
+      "createFailed": "Failed to create {entity}",
+      "updateFailed": "Failed to update {entity}",
+      "create": "Create {entity}",
+      "update": "Update {entity}",
+      "active": "Active",
+      "activeDescription": "Inactive records remain available historically but are hidden from active choices."
+    },
+    "forms": {
+      "units": {
+        "entity": "Unit",
+        "name": "Name",
+        "namePlaceholder": "e.g. Kilogram",
+        "abbreviation": "Abbreviation",
+        "abbreviationPlaceholder": "e.g. kg"
+      },
+      "categories": {
+        "entity": "Category",
+        "name": "Name",
+        "namePlaceholder": "e.g. Electronics",
+        "description": "Description",
+        "descriptionPlaceholder": "Category description",
+        "parent": "Parent Category",
+        "parentPlaceholder": "Select parent category..."
+      },
+      "warehouses": {
+        "entity": "Warehouse",
+        "code": "Code",
+        "codePlaceholder": "e.g. WH-01",
+        "name": "Name",
+        "namePlaceholder": "e.g. Main Warehouse",
+        "address": "Address",
+        "addressPlaceholder": "Warehouse location"
+      }
     }
   },
   "business": {
