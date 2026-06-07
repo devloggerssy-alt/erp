@@ -123,12 +123,12 @@ export default function BreadcrumbsSlot() {
               {foundParent.href ? (
                 <BreadcrumbLink asChild>
                   <Link href={localizedHref(foundParent.href)}>
-                    {t(foundParent.titleKey as any)}
+                    {t(foundParent.titleKey )}
                   </Link>
                 </BreadcrumbLink>
               ) : (
                 <BreadcrumbPage className="text-muted-foreground font-normal">
-                  {t(foundParent.titleKey as any)}
+                  {t(foundParent.titleKey )}
                 </BreadcrumbPage>
               )}
             </BreadcrumbItem>
@@ -137,7 +137,7 @@ export default function BreadcrumbsSlot() {
         )}
         
         <BreadcrumbItem>
-          <BreadcrumbPage>{t(foundItem.titleKey as any)}</BreadcrumbPage>
+          <BreadcrumbPage>{t(foundItem.titleKey  )}</BreadcrumbPage>
         </BreadcrumbItem>
       </BreadcrumbList>
     </Breadcrumb>

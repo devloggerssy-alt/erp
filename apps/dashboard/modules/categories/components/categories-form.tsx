@@ -30,7 +30,7 @@ function mapCreatePayload(values: CategoryFormValues): CreateItemCategoryDto {
     return {
         name: values.name.trim(),
         description: values.description?.trim() || undefined,
-        parentId: values.parentId || undefined,
+        parentId: values.parent?.id || undefined,
     }
 }
 
@@ -38,7 +38,7 @@ function mapUpdatePayload(values: CategoryFormValues): UpdateItemCategoryDto {
     return {
         name: values.name.trim(),
         description: values.description?.trim() || undefined,
-        parentId: values.parentId || undefined,
+        parentId: values.parent?.id || undefined,
         isActive: values.isActive ?? true,
     }
 }
@@ -106,11 +106,12 @@ export function CategoriesForm({ resourceId, initialData, onSuccess, paramKey }:
                     disabled={isBusy}
                 />
                 <RhfResourceSelect
-                    name="parentId"
+                    name="parent"
                     label="Parent Category"
                     placeholder="Select parent category..."
                     client={(api) => api[itemCategoryResource.key]}
                     getLabel={(item) => item.name}
+                    getValue={(item) => item}
                     pageSize={20}
                     disabled={isBusy}
                 />

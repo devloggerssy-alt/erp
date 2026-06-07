@@ -1,0 +1,210 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-06-06T00:00:00.000Z",
+  "title": "Design System: DevLoggers ERP",
+  "extensions": {
+    "colorMeta": {
+      "signal-green": {
+        "role": "primary",
+        "displayName": "Signal Green",
+        "canonical": "oklch(77.17% 0.20466 129.029)",
+        "tonalRamp": [
+          "oklch(15% 0.14 129)",
+          "oklch(25% 0.16 129)",
+          "oklch(38% 0.18 129)",
+          "oklch(52% 0.20 129)",
+          "oklch(65% 0.21 129)",
+          "oklch(77.17% 0.20466 129.029)",
+          "oklch(87% 0.14 129)",
+          "oklch(95% 0.06 129)"
+        ]
+      },
+      "ember": {
+        "role": "primary-dark",
+        "displayName": "Ember",
+        "canonical": "oklch(75.417% 0.14818 18.15)",
+        "tonalRamp": [
+          "oklch(15% 0.10 18)",
+          "oklch(25% 0.12 18)",
+          "oklch(38% 0.14 18)",
+          "oklch(52% 0.15 18)",
+          "oklch(65% 0.15 18)",
+          "oklch(75.417% 0.14818 18.15)",
+          "oklch(87% 0.10 18)",
+          "oklch(95% 0.04 18)"
+        ]
+      },
+      "operational-canvas": {
+        "role": "neutral-bg",
+        "displayName": "Operational Canvas",
+        "canonical": "oklch(96.416% 0.00011 271.152)",
+        "tonalRamp": [
+          "oklch(40% 0 271)",
+          "oklch(55% 0 271)",
+          "oklch(68% 0 271)",
+          "oklch(78% 0 271)",
+          "oklch(86% 0 271)",
+          "oklch(92% 0 271)",
+          "oklch(96.416% 0.00011 271.152)",
+          "oklch(100% 0 0)"
+        ]
+      },
+      "operator-ink": {
+        "role": "neutral-fg",
+        "displayName": "Operator Ink",
+        "canonical": "oklch(6.2% 0 0)",
+        "tonalRamp": [
+          "oklch(6.2% 0 0)",
+          "oklch(14.5% 0 0)",
+          "oklch(20.5% 0 0)",
+          "oklch(28% 0 0)",
+          "oklch(38% 0 0)",
+          "oklch(50% 0 0)",
+          "oklch(60% 0 0)",
+          "oklch(70.8% 0 0)"
+        ]
+      },
+      "alert-red": {
+        "role": "destructive",
+        "displayName": "Alert Red",
+        "canonical": "oklch(57.7% 0.245 27.325)",
+        "tonalRamp": [
+          "oklch(18% 0.18 27)",
+          "oklch(28% 0.20 27)",
+          "oklch(38% 0.22 27)",
+          "oklch(48% 0.24 27)",
+          "oklch(57.7% 0.245 27.325)",
+          "oklch(68% 0.22 27)",
+          "oklch(78% 0.16 27)",
+          "oklch(92% 0.07 27)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Page-level titles and report headings. One per page at most." },
+      "headline": { "displayName": "Headline", "purpose": "Section headings, modal titles, dashboard card headers." },
+      "title": { "displayName": "Title", "purpose": "Subsection labels, card titles, form section headers." },
+      "body": { "displayName": "Body", "purpose": "Table cell data, form content, list items. Default for the application." },
+      "label": { "displayName": "Label", "purpose": "Form field labels, badge text, table column headers, metadata." }
+    },
+    "shadows": [
+      {
+        "name": "primary-cta-glow",
+        "value": "0 0 15px -5px oklch(77.17% 0.20466 129.029)",
+        "valueHover": "0 0 20px 0px oklch(77.17% 0.20466 129.029)",
+        "purpose": "Primary button only. The signature tactile moment of this system."
+      },
+      {
+        "name": "elevation-layer",
+        "value": "0 4px 24px oklch(0% 0 0 / 12%)",
+        "purpose": "Dialogs, dropdowns, sheets. Ambient separation, not structural."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-standard",
+        "value": "cubic-bezier(0.4, 0, 0.2, 1)",
+        "duration": "200ms",
+        "purpose": "Default for color, background, and box-shadow state transitions."
+      },
+      {
+        "name": "reduced-motion-fallback",
+        "value": "prefers-reduced-motion: reduce → transition: none or opacity crossfade only",
+        "purpose": "Every animation must have a reduced-motion alternative."
+      }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" },
+      { "name": "xl", "value": "1280px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Primary call-to-action. Signal Green background with signature lime glow. One per screen.",
+      "html": "<button class=\"ds-btn-primary\">حفظ التغييرات</button>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; justify-content: center; height: 2.25rem; padding: 0 0.625rem; background-color: oklch(77.17% 0.20466 129.029); color: oklch(98.5% 0 0); font-family: Tajawal, sans-serif; font-size: 0.875rem; font-weight: 500; border: 1px solid transparent; border-radius: 0.5rem; box-shadow: 0 1px 2px 0 oklch(0% 0 0 / 5%), 0 0 15px -5px oklch(77.17% 0.20466 129.029); cursor: pointer; transition: background-color 200ms cubic-bezier(0.4,0,0.2,1), box-shadow 200ms cubic-bezier(0.4,0,0.2,1); white-space: nowrap; user-select: none; } .ds-btn-primary:hover { background-color: oklch(62% 0.18 129); box-shadow: 0 0 20px 0px oklch(77.17% 0.20466 129.029); } .ds-btn-primary:focus-visible { outline: none; border-color: oklch(70.8% 0 0); box-shadow: 0 0 0 3px oklch(70.8% 0 0 / 50%); } .ds-btn-primary:active { transform: translateY(1px); } .ds-btn-primary:disabled { opacity: 0.5; pointer-events: none; } @media (prefers-reduced-motion: reduce) { .ds-btn-primary { transition: none; } .ds-btn-primary:active { transform: none; } }"
+    },
+    {
+      "name": "Outline Button",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "Secondary action. Bordered, transparent fill. The workhorse of secondary CTAs.",
+      "html": "<button class=\"ds-btn-outline\">إلغاء</button>",
+      "css": ".ds-btn-outline { display: inline-flex; align-items: center; justify-content: center; height: 2.25rem; padding: 0 0.625rem; background-color: transparent; color: oklch(6.2% 0 0); font-family: Tajawal, sans-serif; font-size: 0.875rem; font-weight: 500; border: 1px solid oklch(92.2% 0 0); border-radius: 0.5rem; cursor: pointer; transition: background-color 200ms cubic-bezier(0.4,0,0.2,1), color 200ms cubic-bezier(0.4,0,0.2,1); white-space: nowrap; user-select: none; } .ds-btn-outline:hover { background-color: oklch(94.9% 0 0); } .ds-btn-outline:focus-visible { outline: none; border-color: oklch(70.8% 0 0); box-shadow: 0 0 0 3px oklch(70.8% 0 0 / 50%); } .ds-btn-outline:disabled { opacity: 0.5; pointer-events: none; } @media (prefers-reduced-motion: reduce) { .ds-btn-outline { transition: none; } }"
+    },
+    {
+      "name": "Destructive Button",
+      "kind": "button",
+      "refersTo": "button-destructive",
+      "description": "Irreversible actions (delete, remove). Soft red fill, always paired with confirmation.",
+      "html": "<button class=\"ds-btn-destructive\">حذف</button>",
+      "css": ".ds-btn-destructive { display: inline-flex; align-items: center; justify-content: center; height: 2.25rem; padding: 0 0.625rem; background-color: oklch(57.7% 0.245 27.325 / 10%); color: oklch(57.7% 0.245 27.325); font-family: Tajawal, sans-serif; font-size: 0.875rem; font-weight: 500; border: 1px solid transparent; border-radius: 0.5rem; cursor: pointer; transition: background-color 200ms; white-space: nowrap; user-select: none; } .ds-btn-destructive:hover { background-color: oklch(57.7% 0.245 27.325 / 20%); } .ds-btn-destructive:focus-visible { outline: none; border-color: oklch(57.7% 0.245 27.325 / 40%); box-shadow: 0 0 0 3px oklch(57.7% 0.245 27.325 / 20%); } @media (prefers-reduced-motion: reduce) { .ds-btn-destructive { transition: none; } }"
+    },
+    {
+      "name": "Text Input",
+      "kind": "input",
+      "refersTo": "input-default",
+      "description": "Standard text field. Transparent fill, bordered, neutral focus ring.",
+      "html": "<input class=\"ds-input\" type=\"text\" placeholder=\"ابحث...\" />",
+      "css": ".ds-input { display: block; width: 100%; height: 2.25rem; padding: 0.25rem 0.625rem; background-color: transparent; color: oklch(6.2% 0 0); font-family: Tajawal, sans-serif; font-size: 0.875rem; font-weight: 400; border: 1px solid oklch(92.2% 0 0); border-radius: 0.5rem; box-shadow: 0 1px 2px 0 oklch(0% 0 0 / 3%); transition: border-color 200ms, box-shadow 200ms; outline: none; } .ds-input::placeholder { color: oklch(60% 0 0); } .ds-input:focus-visible { border-color: oklch(70.8% 0 0); box-shadow: 0 0 0 3px oklch(70.8% 0 0 / 50%); } .ds-input[aria-invalid='true'] { border-color: oklch(57.7% 0.245 27.325); box-shadow: 0 0 0 3px oklch(57.7% 0.245 27.325 / 20%); } .ds-input:disabled { opacity: 0.5; cursor: not-allowed; pointer-events: none; } @media (prefers-reduced-motion: reduce) { .ds-input { transition: none; } }"
+    },
+    {
+      "name": "Surface Card",
+      "kind": "card",
+      "description": "Standard container for grouped content. Flat at rest, no shadow.",
+      "html": "<div class=\"ds-card\"><div class=\"ds-card-header\">إجمالي المبيعات</div><div class=\"ds-card-value\">٢٤٫٥٠٠ ر.س</div></div>",
+      "css": ".ds-card { background-color: oklch(97.5% 0 0); border: 1px solid oklch(92.2% 0 0); border-radius: 0.625rem; padding: 1rem; } .ds-card-header { font-family: Tajawal, sans-serif; font-size: 0.75rem; font-weight: 500; color: oklch(60% 0 0); letter-spacing: 0.01em; margin-block-end: 0.5rem; } .ds-card-value { font-family: Tajawal, sans-serif; font-size: 1.5rem; font-weight: 600; color: oklch(6.2% 0 0); line-height: 1.25; }"
+    },
+    {
+      "name": "Active Nav Item",
+      "kind": "nav",
+      "description": "Sidebar navigation item in its active/selected state. Lime-green bleeds into the sidebar at low opacity.",
+      "html": "<a class=\"ds-nav-item ds-nav-item--active\" href=\"#\"><svg class=\"ds-nav-icon\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><rect x=\"3\" y=\"3\" width=\"7\" height=\"7\"/><rect x=\"14\" y=\"3\" width=\"7\" height=\"7\"/><rect x=\"3\" y=\"14\" width=\"7\" height=\"7\"/><rect x=\"14\" y=\"14\" width=\"7\" height=\"7\"/></svg><span>لوحة القيادة</span></a>",
+      "css": ".ds-nav-item { display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 0.75rem; border-radius: 0.5rem; font-family: Tajawal, sans-serif; font-size: 0.875rem; font-weight: 400; color: oklch(14.5% 0 0); text-decoration: none; transition: background-color 200ms, box-shadow 200ms; cursor: pointer; } .ds-nav-item:hover { background-color: oklch(94% 0 0); } .ds-nav-item--active { background-color: color-mix(in oklab, oklch(77.17% 0.20466 129.029) 12%, oklch(97.5% 0 0) 88%); box-shadow: inset 0 0 0 1px color-mix(in oklab, oklch(77.17% 0.20466 129.029) 28%, oklch(92.2% 0 0) 72%); } .ds-nav-icon { flex-shrink: 0; width: 1rem; height: 1rem; color: color-mix(in oklab, oklch(77.17% 0.20466 129.029) 74%, oklch(14.5% 0 0) 26%); } @media (prefers-reduced-motion: reduce) { .ds-nav-item { transition: none; } }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Control Tower",
+    "overview": "This is a system built for operators who need to see everything and act on anything without hesitation. The interface gives the business owner altitude — a commanding view over sales, inventory, finances, and operations — while keeping controls within immediate reach. Numbers are the hero. Every pixel of chrome earns its presence by serving the data it surrounds.\n\nThe brand color, Signal Green, is not decoration. It marks where action lives: primary buttons, active nav states, key indicators. Its restraint on any given screen is what makes it effective. A lime-green glow on the primary button is a deliberate moment — the hand reaching for the trigger. Everything else is Operational Canvas and Operator Ink: high-contrast, honest, built for sustained work.\n\nThis system explicitly rejects two failure modes: the hyped-startup aesthetic (dark terminal UIs, purple gradients, glassmorphism, neon accents) and banking conservatism (navy palettes, heavy serifs, formal stiffness). The Control Tower is functional authority — the confidence of a professional workspace, with the directness of a product built for MENA SMB operators.",
+    "keyCharacteristics": [
+      "Information-dense layouts with deliberate breathing room via spacing rhythm, not white-space for its own sake",
+      "Arabic-native: Tajawal as the sole typeface, RTL as primary flow direction, logical CSS properties throughout",
+      "Signal Green reserved for interactive anchors and active states — never decorative",
+      "Flat surfaces by default; lime-green glow on primary button is the signature tactile moment",
+      "Light and dark modes are peer citizens; dark uses Ember (warm coral) as primary, not Signal Green"
+    ],
+    "rules": [
+      { "name": "The One-Trigger Rule", "body": "Signal Green (light) and Ember (dark) appear on primary interactive elements and active states only. If it's green and it doesn't invite action, it's wrong.", "section": "colors" },
+      { "name": "The No Cream Rule", "body": "Operational Canvas has near-zero chroma. Any warm-tinted near-white (hue 40–100, chroma > 0.02) is categorically wrong for this system.", "section": "colors" },
+      { "name": "The Single Stack Rule", "body": "Tajawal only. No secondary typeface for any reason. Hierarchy is achieved through weight contrast and size steps.", "section": "typography" },
+      { "name": "The Arabic-First Verification Rule", "body": "Before declaring any component or layout complete, verify appearance with Arabic content at the longest realistic string length.", "section": "typography" },
+      { "name": "The Flat-By-Default Rule", "body": "Cards, panels, and list items have no box-shadow at rest. If an element needs elevation without a shadow, adjust background color. Shadows are reserved for state (primary CTA hover) and portals (dialogs, dropdowns).", "section": "elevation" }
+    ],
+    "dos": [
+      "Do use Signal Green exclusively for primary buttons, active nav indicators, and key action anchors — one per screen.",
+      "Do verify every text element's contrast ratio: body text ≥ 4.5:1 against its background, including Subdued Ink at small sizes.",
+      "Do use logical CSS properties (padding-inline-start, margin-inline-end, text-align: start) everywhere.",
+      "Do verify layouts and typography with realistic Arabic content at longest expected string lengths.",
+      "Do use BooleanCell for all boolean columns in data tables — raw true/false strings are forbidden.",
+      "Do extend shared/data-view/ for table and resource UI changes, never style tables inside module files.",
+      "Do cap line length at 72ch for paragraph content.",
+      "Do include @media (prefers-reduced-motion: reduce) alternatives for every animation."
+    ],
+    "donts": [
+      "Don't use a warm-tinted near-white (hue 40–100, chroma > 0.02) as a background. Operational Canvas is neutral.",
+      "Don't build a hyped-startup interface: no dark-mode-first design, no terminal aesthetic, no purple/violet gradients, no glassmorphism, no neon accents.",
+      "Don't build a banking/fintech-conservative interface: no heavy serif display faces, no navy-and-gold color schemes, no formal stiffness.",
+      "Don't apply the Signal Green glow to any element other than the primary button.",
+      "Don't use gradient text (background-clip: text with a gradient). Single solid color for all text.",
+      "Don't put a colored border-left or border-right greater than 1px as a stripe accent on cards or list items.",
+      "Don't mix typefaces. Tajawal is the single font stack.",
+      "Don't render raw boolean values (true, false) in data tables — always use BooleanCell.",
+      "Don't hardcode left/right in CSS or component props — use logical properties for RTL support."
+    ]
+  }
+}

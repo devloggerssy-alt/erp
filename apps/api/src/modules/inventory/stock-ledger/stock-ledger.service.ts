@@ -7,12 +7,12 @@ export class StockLedgerService {
     constructor(
         private readonly stockLedgerRepository: StockLedgerRepository,
         private readonly stockMovementPresenter: StockMovementPresenter,
-    ) {}
+    ) { }
 
     async findMovements(tenantId: string, filters: StockMovementFilters) {
         const result = await this.stockLedgerRepository.findMovements(tenantId, filters);
         return {
-            data: this.stockMovementPresenter.toResponseList(result.data as any),
+            data: this.stockMovementPresenter.toResponseList(result.data),
             total: result.total,
             page: result.page,
             limit: result.limit,

@@ -158,7 +158,9 @@ export function ResourceSelectField<
 
   const [inputValue, setInputValue] = useState("")
 
-  // Sync input display with selected item label when options change or value changes
+  // Sync input display with selected item label when options change or value changes.
+  // Falls back to deriving the label from the stored value itself (e.g. when it's the
+  // full object) so the name shows immediately, before matching options have loaded.
   useEffect(() => {
     if (selectedId === null) {
       setInputValue("")
@@ -167,8 +169,10 @@ export function ResourceSelectField<
     const option = options.find((opt) => opt.id === selectedId)
     if (option) {
       setInputValue(option.label)
+    } else if (value !== null && value !== undefined && typeof value === "object") {
+      setInputValue(getLabel(value as ResourceItem<TClient>))
     }
-  }, [selectedId, options])
+  }, [selectedId, options, value, getLabel])
 
   const handleScroll = useCallback(
     (e: React.UIEvent<HTMLDivElement>) => {
