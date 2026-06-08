@@ -218,6 +218,28 @@ export const navGroups: NavGroup[] = [
         titleKey: "business.navigation.items.companySettings",
         href: "/settings/company",
         icon: <Building2Icon />,
+        items: [
+          {
+            titleKey: "business.navigation.items.companySettings",
+            href: "/settings/company",
+            icon: <Building2Icon />,
+          },
+          {
+            titleKey: "business.settings.localization.navLabel",
+            href: "/settings/localization",
+            icon: <SettingsIcon />,
+          },
+          {
+            titleKey: "business.settings.financial.navLabel",
+            href: "/settings/financial",
+            icon: <ScaleIcon />,
+          },
+          {
+            titleKey: "business.settings.documents.navLabel",
+            href: "/settings/documents",
+            icon: <ReceiptIcon />,
+          },
+        ],
       },
       {
         titleKey: "business.navigation.items.usersAndPermissions",
