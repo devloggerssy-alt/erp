@@ -19,8 +19,9 @@ Turborepo + **pnpm** monorepo for an ERP system.
 3. Load the **path-scoped rule** from `.ai/rules/` that matches the files you're editing.
 4. For **where things live**, use skill **`erp-project-map`** (`.ai/skills/erp-project-map/`).
 5. For a **new CRUD entity end-to-end**, use skill **`add-crud-feature`** (`.ai/skills/add-crud-feature/`).
-6. For a **single layer**, use the relevant skill from `.ai/skills/`.
-7. For **imported best-practice skills** (NestJS, Prisma, Next.js, testing, DDD, security, …), see `.ai/skills/_imports/README.md`.
+6. For a **dashboard form** (create/edit dialog, schema, mappers), use skill **`dashboard-form`** (`.ai/skills/dashboard-form/`) — the full architecture lives at `.ai/docs/forms-architecture.md`.
+7. For a **single layer**, use the relevant skill from `.ai/skills/`.
+8. For **imported best-practice skills** (NestJS, Prisma, Next.js, testing, DDD, security, …), see `.ai/skills/_imports/README.md`.
 
 ## Rules (`.ai/rules/`)
 
@@ -43,6 +44,7 @@ Turborepo + **pnpm** monorepo for an ERP system.
 | `api-client` | CrudClient + factory in `packages/api-client` |
 | `backend-resource-module` | NestJS 4-layer module in `apps/api` |
 | `dashboard-resource-page` | Dashboard CRUD list page |
+| `dashboard-form` | Dashboard CRUD forms (config + form component + controller hook) |
 | `frontend-resource-pattern` | Compound resource architecture + data-view |
 
 ## Imported skills (`.ai/skills/_imports/`)
