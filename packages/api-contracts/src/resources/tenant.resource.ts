@@ -7,7 +7,7 @@ export const tenantResource = defineResource({
     create: '/tenants',
     current: '/tenants/current',
     updateCurrent: '/tenants/current',
+    settings: '/settings',
+    updateSettings: '/settings',
   },
-
- 
 })

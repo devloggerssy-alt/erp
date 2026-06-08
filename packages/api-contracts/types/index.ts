@@ -151,6 +151,30 @@ export interface paths {
         patch: operations["Tenants.updateCurrent"];
         trace?: never;
     };
+    "/settings": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get tenant settings
+         * @description Returns tenant-wide preferences grouped by category, with registry defaults filling unset keys.
+         */
+        get: operations["Settings.getAll"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /**
+         * Update tenant settings
+         * @description Partial update of preference keys. Each key is validated against the settings registry; invalid keys return 422.
+         */
+        patch: operations["Settings.update"];
+        trace?: never;
+    };
     "/users": {
         parameters: {
             query?: never;
@@ -180,7 +204,10 @@ export interface paths {
         get: operations["Users.findOne"];
         put?: never;
         post?: never;
-        /** Delete a user */
+        /**
+         * Delete a user
+         * @description Hard-deletes the user and all role assignments.
+         */
         delete: operations["Users.remove"];
         options?: never;
         head?: never;
@@ -1283,8 +1310,37 @@ export interface components {
             /** @example 5 */
             totalPages?: number;
         };
+        ListFilterFieldDto: {
+            /** @example name */
+            field: string;
+            /**
+             * @example string
+             * @enum {string}
+             */
+            type: "string" | "number" | "boolean" | "date" | "enum" | "id";
+            /**
+             * @example [
+             *       "$eq",
+             *       "$like",
+             *       "$in",
+             *       "$isNull"
+             *     ]
+             */
+            operators: ("$eq" | "$like" | "$gte" | "$lte" | "$in" | "$isNull")[];
+            /**
+             * @example [
+             *       "active",
+             *       "draft"
+             *     ]
+             */
+            enumValues?: string[];
+            /** @example auth|tenants|users|roles|currencies|fiscal-periods|document-sequences|units|item-categories|items|parties|warehouses|inventory|stock-ledger|invoice-types|invoices|cashboxes|payments|accounting|chart-of-accounts|stock-counts|reports|dashboard|ai|audit-logs */
+            foreignResourceKey?: string;
+        };
         ApiMetaDto: {
             pagination?: components["schemas"]["PaginationMetaDto"];
+            /** @description Filterable fields and allowed operators for this list resource */
+            filterOptions?: components["schemas"]["ListFilterFieldDto"][];
         };
         ApiSuccessResponseDto: {
             /** @example success */
@@ -1350,6 +1406,12 @@ export interface components {
             phone?: string | null;
             tenant: components["schemas"]["MeTenantDto"];
         };
+        LocalizedStringDto: {
+            /** @example الليرة السورية */
+            ar: string;
+            /** @example Syrian Pound */
+            en?: string;
+        };
         RoleResponseDto: {
             /**
              * @default
@@ -1358,14 +1420,22 @@ export interface components {
             id: string;
             /**
              * @default
-             * @example Accountant
+             * @example محاسب
              */
             name: string;
             /**
+             * @default {
+             *       "ar": ""
+             *     }
+             */
+            nameI18n: components["schemas"]["LocalizedStringDto"];
+            /**
              * @default null
-             * @example Accounting and finance access
+             * @example صلاحيات المحاسبة والمالية
              */
             description: string | null;
+            /** @default null */
+            descriptionI18n: components["schemas"]["LocalizedStringDto"] | null;
             /**
              * @default false
              * @example false
@@ -1385,20 +1455,17 @@ export interface components {
         CreateRoleDto: {
             /**
              * @description Role display name
-             * @example Accountant
+             * @default {
+             *       "ar": ""
+             *     }
              */
-            name: string;
-            /**
-             * @description Role description
-             * @example Accounting and finance access
-             */
-            description?: string;
+            name: components["schemas"]["LocalizedStringDto"];
+            /** @description Role description */
+            description?: components["schemas"]["LocalizedStringDto"];
         };
         UpdateRoleDto: {
-            /** @example Senior Accountant */
-            name?: string;
-            /** @example Full accounting, finance, and reporting access */
-            description?: string;
+            name?: components["schemas"]["LocalizedStringDto"];
+            description?: components["schemas"]["LocalizedStringDto"];
         };
         CreateTenantDto: {
             /**
@@ -1454,6 +1521,22 @@ export interface components {
              * @example https://cdn.demo-shop.com/logo.png
              */
             logo?: string;
+            /** @example Demo Shop LLC */
+            legalName?: string;
+            /** @example TAX-123456 */
+            taxNumber?: string;
+            /** @example https://demo-shop.com */
+            website?: string;
+            /**
+             * @description Base currency id
+             * @example 00000000-0000-4000-a300-000000000001
+             */
+            baseCurrencyId?: string;
+            /**
+             * @description Default sales sequence id
+             * @example 00000000-0000-4000-a400-000000000001
+             */
+            defaultSalesSequenceId?: string;
         };
         CreateUserDto: {
             /**
@@ -1787,14 +1870,22 @@ export interface components {
             code: string;
             /**
              * @default
-             * @example Syrian Pound
+             * @example الليرة السورية
              */
             name: string;
+            /**
+             * @default {
+             *       "ar": ""
+             *     }
+             */
+            nameI18n: components["schemas"]["LocalizedStringDto"];
             /**
              * @default null
              * @example £
              */
             symbol: string | null;
+            /** @default null */
+            symbolI18n: components["schemas"]["LocalizedStringDto"] | null;
             /**
              * @default false
              * @example true
@@ -1824,15 +1915,13 @@ export interface components {
              */
             code: string;
             /**
-             * @default
-             * @example Syrian Pound
+             * @default {
+             *       "ar": ""
+             *     }
              */
-            name: string;
-            /**
-             * @description Currency symbol for display
-             * @example £
-             */
-            symbol?: string;
+            name: components["schemas"]["LocalizedStringDto"];
+            /** @description Currency symbol for display */
+            symbol?: components["schemas"]["LocalizedStringDto"];
             /**
              * @description Whether this is the base (local) currency
              * @example true
@@ -1840,10 +1929,8 @@ export interface components {
             isBase?: boolean;
         };
         UpdateCurrencyDto: {
-            /** @example Syrian Pound (Updated) */
-            name?: string;
-            /** @example ل.س */
-            symbol?: string;
+            name?: components["schemas"]["LocalizedStringDto"];
+            symbol?: components["schemas"]["LocalizedStringDto"];
             /** @example false */
             isBase?: boolean;
             /** @example true */
@@ -2007,9 +2094,15 @@ export interface components {
             code: string;
             /**
              * @default
-             * @example Cash and Cash Equivalents
+             * @example نقد وما يعادله
              */
             name: string;
+            /**
+             * @default {
+             *       "ar": ""
+             *     }
+             */
+            nameI18n: components["schemas"]["LocalizedStringDto"];
             /**
              * @default
              * @example ASSET
@@ -2028,7 +2121,7 @@ export interface components {
             parentCode: string | null;
             /**
              * @default null
-             * @example Current Assets
+             * @example الأصول المتداولة
              */
             parentName: string | null;
             /**
@@ -2056,10 +2149,11 @@ export interface components {
             code: string;
             /**
              * @description Account display name
-             * @default
-             * @example Cash and Cash Equivalents
+             * @default {
+             *       "ar": ""
+             *     }
              */
-            name: string;
+            name: components["schemas"]["LocalizedStringDto"];
             /**
              * @description Account type classification
              * @default ASSET
@@ -2074,11 +2168,8 @@ export interface components {
             parentId?: string;
         };
         UpdateChartOfAccountDto: {
-            /**
-             * @description Updated account name
-             * @example Cash and Bank Accounts
-             */
-            name?: string;
+            /** @description Updated account name */
+            name?: components["schemas"]["LocalizedStringDto"];
             /**
              * @description Updated parent account UUID — set to null to make it a root account
              * @example 00000000-0000-4000-a601-000000000001
@@ -2211,9 +2302,15 @@ export interface components {
             code: string;
             /**
              * @default
-             * @example Purchase Invoice
+             * @example فاتورة شراء
              */
             name: string;
+            /**
+             * @default {
+             *       "ar": ""
+             *     }
+             */
+            nameI18n: components["schemas"]["LocalizedStringDto"];
             /**
              * @default
              * @example PURCHASE
@@ -2250,10 +2347,11 @@ export interface components {
             code: string;
             /**
              * @description Invoice type display name
-             * @default
-             * @example Purchase Invoice
+             * @default {
+             *       "ar": ""
+             *     }
              */
-            name: string;
+            name: components["schemas"]["LocalizedStringDto"];
             /**
              * @description PURCHASE = inbound, SALE = outbound
              * @default PURCHASE
@@ -2268,8 +2366,7 @@ export interface components {
             affectsStock?: boolean;
         };
         UpdateInvoiceTypeDto: {
-            /** @example Purchase Invoice (Standard) */
-            name?: string;
+            name?: components["schemas"]["LocalizedStringDto"];
             /** @example true */
             affectsStock?: boolean;
             /** @example true */
@@ -2288,9 +2385,15 @@ export interface components {
             code: string;
             /**
              * @default
-             * @example Main Cash (SYP)
+             * @example الصندوق الرئيسي
              */
             name: string;
+            /**
+             * @default {
+             *       "ar": ""
+             *     }
+             */
+            nameI18n: components["schemas"]["LocalizedStringDto"];
             /**
              * @default
              * @example 00000000-0000-4000-a300-000000000001
@@ -2321,10 +2424,11 @@ export interface components {
             code: string;
             /**
              * @description Cashbox display name
-             * @default
-             * @example Main Cash (SYP)
+             * @default {
+             *       "ar": ""
+             *     }
              */
-            name: string;
+            name: components["schemas"]["LocalizedStringDto"];
             /**
              * @description Currency ID
              * @default
@@ -2333,8 +2437,7 @@ export interface components {
             currencyId: string;
         };
         UpdateCashboxDto: {
-            /** @example Main Cash Box (SYP) */
-            name?: string;
+            name?: components["schemas"]["LocalizedStringDto"];
             /** @example true */
             isActive?: boolean;
         };
@@ -3495,20 +3598,146 @@ export interface operations {
             };
         };
     };
+    "Settings.getAll": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Tenant settings */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "Settings.update": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Partial map of registry keys to new values */
+        requestBody: {
+            content: {
+                "application/json": {
+                    [key: string]: unknown;
+                };
+            };
+        };
+        responses: {
+            /** @description Updated tenant settings */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
     "Users.findAll": {
         parameters: {
-            query?: {
-                /** @description Page number (1-based) */
-                page?: number;
-                /** @description Number of items per page */
-                limit?: number;
-                /** @description Field name to sort by */
-                sortField?: string;
-                sortOrder?: "asc" | "desc";
-                /** @description Full-text search keyword */
-                search?: string;
-                /** @description Comma-separated field names to search within */
-                searchIn?: string;
+            query: {
+                page: number;
+                limit: number;
             };
             header?: never;
             path?: never;
@@ -3522,19 +3751,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data?: readonly {
-                            id: string;
-                            email: string;
-                            fullName: string;
-                            phone: string | null;
-                            isActive: boolean;
-                            lastLoginAt: string | null;
-                            createdAt: string;
-                            roles: { id: string; name: string }[];
-                        }[];
-                        meta?: unknown;
-                    };
+                    "application/json": unknown;
                 };
             };
             /** @description JWT token is missing, expired, or invalid */
@@ -3603,10 +3820,139 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data?: { id: string };
-                    };
+                    "application/json": unknown;
                 };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "Users.findOne": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description User details */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "Users.remove": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
             /** @description JWT token is missing, expired, or invalid */
             401: {
@@ -3676,9 +4022,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data?: { id: string };
-                    };
+                    "application/json": unknown;
                 };
             };
             /** @description JWT token is missing, expired, or invalid */
@@ -3799,122 +4143,6 @@ export interface operations {
             };
         };
     };
-    "Users.findOne": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description User details */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        data?: { id: string };
-                    };
-                };
-            };
-            /** @description JWT token is missing, expired, or invalid */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Insufficient permissions to perform this action */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description The requested resource was not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description An unexpected internal server error occurred */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-        };
-    };
-    "Users.remove": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description User deleted successfully */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description JWT token is missing, expired, or invalid */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Insufficient permissions to perform this action */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description The requested resource was not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description An unexpected internal server error occurred */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-        };
-    };
     "Units.list": {
         parameters: {
             query?: {
@@ -3929,6 +4157,67 @@ export interface operations {
                 search?: string;
                 /** @description Comma-separated field names to search within (e.g. name,symbol) */
                 searchIn?: string;
+                /** @description Structured filters. Example: filters[name][$like]=sample-name&filters[abbreviation][$like]=sample-abbreviation&filters[isActive][$eq]=true&filters[createdAt][$gte]=2024-01-01T00%3A00%3A00.000Z */
+                filters?: {
+                    /**
+                     * @description Filter on `name` (string)
+                     * @example {
+                     *       "$like": "sample-name"
+                     *     }
+                     */
+                    name?: {
+                        $eq?: string;
+                        /** @example sample-name */
+                        $like?: string;
+                        $in?: string[];
+                        /** @enum {boolean} */
+                        $isNull?: true;
+                    };
+                    /**
+                     * @description Filter on `abbreviation` (string)
+                     * @example {
+                     *       "$like": "sample-abbreviation"
+                     *     }
+                     */
+                    abbreviation?: {
+                        $eq?: string;
+                        /** @example sample-abbreviation */
+                        $like?: string;
+                        $in?: string[];
+                        /** @enum {boolean} */
+                        $isNull?: true;
+                    };
+                    /**
+                     * @description Filter on `isActive` (boolean)
+                     * @example {
+                     *       "$eq": true
+                     *     }
+                     */
+                    isActive?: {
+                        /** @example true */
+                        $eq?: boolean;
+                        /** @enum {boolean} */
+                        $isNull?: true;
+                    };
+                    /**
+                     * @description Filter on `createdAt` (date)
+                     * @example {
+                     *       "$gte": "2024-01-01T00:00:00.000Z"
+                     *     }
+                     */
+                    createdAt?: {
+                        $eq?: string;
+                        /**
+                         * Format: date-time
+                         * @example 2024-01-01T00:00:00.000Z
+                         */
+                        $gte?: string;
+                        /** Format: date-time */
+                        $lte?: string;
+                        /** @enum {boolean} */
+                        $isNull?: true;
+                    };
+                };
             };
             header?: never;
             path?: never;
@@ -3944,6 +4233,61 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
                         data?: components["schemas"]["UnitResponseDto"][];
+                        meta?: {
+                            pagination?: {
+                                /** @example 0 */
+                                total?: number;
+                                /** @example 1 */
+                                page?: number;
+                                /** @example 10 */
+                                limit?: number;
+                                /** @example 0 */
+                                totalPages?: number;
+                            };
+                            /**
+                             * @example [
+                             *       {
+                             *         "field": "name",
+                             *         "type": "string",
+                             *         "operators": [
+                             *           "$eq",
+                             *           "$like",
+                             *           "$in",
+                             *           "$isNull"
+                             *         ]
+                             *       },
+                             *       {
+                             *         "field": "abbreviation",
+                             *         "type": "string",
+                             *         "operators": [
+                             *           "$eq",
+                             *           "$like",
+                             *           "$in",
+                             *           "$isNull"
+                             *         ]
+                             *       },
+                             *       {
+                             *         "field": "isActive",
+                             *         "type": "boolean",
+                             *         "operators": [
+                             *           "$eq",
+                             *           "$isNull"
+                             *         ]
+                             *       },
+                             *       {
+                             *         "field": "createdAt",
+                             *         "type": "date",
+                             *         "operators": [
+                             *           "$eq",
+                             *           "$gte",
+                             *           "$lte",
+                             *           "$isNull"
+                             *         ]
+                             *       }
+                             *     ]
+                             */
+                            filterOptions?: unknown[];
+                        };
                     };
                 };
             };
@@ -4289,6 +4633,66 @@ export interface operations {
                 search?: string;
                 /** @description Comma-separated field names to search within (e.g. name,symbol) */
                 searchIn?: string;
+                /** @description Structured filters. Example: filters[name][$like]=sample-name&filters[isActive][$eq]=true&filters[createdAt][$gte]=2024-01-01T00%3A00%3A00.000Z&filters[parentId][$eq]=018e1234-abcd-7000-a001-000000000001 */
+                filters?: {
+                    /**
+                     * @description Filter on `name` (string)
+                     * @example {
+                     *       "$like": "sample-name"
+                     *     }
+                     */
+                    name?: {
+                        $eq?: string;
+                        /** @example sample-name */
+                        $like?: string;
+                        $in?: string[];
+                        /** @enum {boolean} */
+                        $isNull?: true;
+                    };
+                    /**
+                     * @description Filter on `isActive` (boolean)
+                     * @example {
+                     *       "$eq": true
+                     *     }
+                     */
+                    isActive?: {
+                        /** @example true */
+                        $eq?: boolean;
+                        /** @enum {boolean} */
+                        $isNull?: true;
+                    };
+                    /**
+                     * @description Filter on `createdAt` (date)
+                     * @example {
+                     *       "$gte": "2024-01-01T00:00:00.000Z"
+                     *     }
+                     */
+                    createdAt?: {
+                        $eq?: string;
+                        /**
+                         * Format: date-time
+                         * @example 2024-01-01T00:00:00.000Z
+                         */
+                        $gte?: string;
+                        /** Format: date-time */
+                        $lte?: string;
+                        /** @enum {boolean} */
+                        $isNull?: true;
+                    };
+                    /**
+                     * @description Filter on `parentId` (id)
+                     * @example {
+                     *       "$eq": "018e1234-abcd-7000-a001-000000000001"
+                     *     }
+                     */
+                    parentId?: {
+                        /** @example 018e1234-abcd-7000-a001-000000000001 */
+                        $eq?: string;
+                        $in?: string[];
+                        /** @enum {boolean} */
+                        $isNull?: true;
+                    };
+                };
             };
             header?: never;
             path?: never;
@@ -4304,6 +4708,61 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
                         data?: components["schemas"]["ItemCategoryResponseDto"][];
+                        meta?: {
+                            pagination?: {
+                                /** @example 0 */
+                                total?: number;
+                                /** @example 1 */
+                                page?: number;
+                                /** @example 10 */
+                                limit?: number;
+                                /** @example 0 */
+                                totalPages?: number;
+                            };
+                            /**
+                             * @example [
+                             *       {
+                             *         "field": "name",
+                             *         "type": "string",
+                             *         "operators": [
+                             *           "$eq",
+                             *           "$like",
+                             *           "$in",
+                             *           "$isNull"
+                             *         ]
+                             *       },
+                             *       {
+                             *         "field": "isActive",
+                             *         "type": "boolean",
+                             *         "operators": [
+                             *           "$eq",
+                             *           "$isNull"
+                             *         ]
+                             *       },
+                             *       {
+                             *         "field": "createdAt",
+                             *         "type": "date",
+                             *         "operators": [
+                             *           "$eq",
+                             *           "$gte",
+                             *           "$lte",
+                             *           "$isNull"
+                             *         ]
+                             *       },
+                             *       {
+                             *         "field": "parentId",
+                             *         "type": "id",
+                             *         "operators": [
+                             *           "$eq",
+                             *           "$in",
+                             *           "$isNull"
+                             *         ],
+                             *         "foreignResourceKey": "item-categories"
+                             *       }
+                             *     ]
+                             */
+                            filterOptions?: unknown[];
+                        };
                     };
                 };
             };
@@ -4649,6 +5108,95 @@ export interface operations {
                 search?: string;
                 /** @description Comma-separated field names to search within (e.g. name,symbol) */
                 searchIn?: string;
+                /** @description Structured filters. Example: filters[categoryId][$eq]=018e1234-abcd-7000-a001-000000000001&filters[name][$like]=sample-name&filters[code][$like]=sample-code&filters[defaultSellingPrice][$gte]=10&filters[isActive][$eq]=true&filters[createdAt][$gte]=2024-01-01T00%3A00%3A00.000Z */
+                filters?: {
+                    /**
+                     * @description Filter on `categoryId` (id)
+                     * @example {
+                     *       "$eq": "018e1234-abcd-7000-a001-000000000001"
+                     *     }
+                     */
+                    categoryId?: {
+                        /** @example 018e1234-abcd-7000-a001-000000000001 */
+                        $eq?: string;
+                        $in?: string[];
+                        /** @enum {boolean} */
+                        $isNull?: true;
+                    };
+                    /**
+                     * @description Filter on `name` (string)
+                     * @example {
+                     *       "$like": "sample-name"
+                     *     }
+                     */
+                    name?: {
+                        $eq?: string;
+                        /** @example sample-name */
+                        $like?: string;
+                        $in?: string[];
+                        /** @enum {boolean} */
+                        $isNull?: true;
+                    };
+                    /**
+                     * @description Filter on `code` (string)
+                     * @example {
+                     *       "$like": "sample-code"
+                     *     }
+                     */
+                    code?: {
+                        $eq?: string;
+                        /** @example sample-code */
+                        $like?: string;
+                        $in?: string[];
+                        /** @enum {boolean} */
+                        $isNull?: true;
+                    };
+                    /**
+                     * @description Filter on `defaultSellingPrice` (number)
+                     * @example {
+                     *       "$gte": 10
+                     *     }
+                     */
+                    defaultSellingPrice?: {
+                        $eq?: number;
+                        /** @example 10 */
+                        $gte?: number;
+                        $lte?: number;
+                        $in?: string[];
+                        /** @enum {boolean} */
+                        $isNull?: true;
+                    };
+                    /**
+                     * @description Filter on `isActive` (boolean)
+                     * @example {
+                     *       "$eq": true
+                     *     }
+                     */
+                    isActive?: {
+                        /** @example true */
+                        $eq?: boolean;
+                        /** @enum {boolean} */
+                        $isNull?: true;
+                    };
+                    /**
+                     * @description Filter on `createdAt` (date)
+                     * @example {
+                     *       "$gte": "2024-01-01T00:00:00.000Z"
+                     *     }
+                     */
+                    createdAt?: {
+                        $eq?: string;
+                        /**
+                         * Format: date-time
+                         * @example 2024-01-01T00:00:00.000Z
+                         */
+                        $gte?: string;
+                        /** Format: date-time */
+                        $lte?: string;
+                        /** @enum {boolean} */
+                        $isNull?: true;
+                    };
+                };
             };
             header?: never;
             path?: never;
@@ -4664,6 +5212,82 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
                         data?: components["schemas"]["ItemResponseDto"][];
+                        meta?: {
+                            pagination?: {
+                                /** @example 0 */
+                                total?: number;
+                                /** @example 1 */
+                                page?: number;
+                                /** @example 10 */
+                                limit?: number;
+                                /** @example 0 */
+                                totalPages?: number;
+                            };
+                            /**
+                             * @example [
+                             *       {
+                             *         "field": "categoryId",
+                             *         "type": "id",
+                             *         "operators": [
+                             *           "$eq",
+                             *           "$in",
+                             *           "$isNull"
+                             *         ],
+                             *         "foreignResourceKey": "item-categories"
+                             *       },
+                             *       {
+                             *         "field": "name",
+                             *         "type": "string",
+                             *         "operators": [
+                             *           "$eq",
+                             *           "$like",
+                             *           "$in",
+                             *           "$isNull"
+                             *         ]
+                             *       },
+                             *       {
+                             *         "field": "code",
+                             *         "type": "string",
+                             *         "operators": [
+                             *           "$eq",
+                             *           "$like",
+                             *           "$in",
+                             *           "$isNull"
+                             *         ]
+                             *       },
+                             *       {
+                             *         "field": "defaultSellingPrice",
+                             *         "type": "number",
+                             *         "operators": [
+                             *           "$eq",
+                             *           "$gte",
+                             *           "$lte",
+                             *           "$in",
+                             *           "$isNull"
+                             *         ]
+                             *       },
+                             *       {
+                             *         "field": "isActive",
+                             *         "type": "boolean",
+                             *         "operators": [
+                             *           "$eq",
+                             *           "$isNull"
+                             *         ]
+                             *       },
+                             *       {
+                             *         "field": "createdAt",
+                             *         "type": "date",
+                             *         "operators": [
+                             *           "$eq",
+                             *           "$gte",
+                             *           "$lte",
+                             *           "$isNull"
+                             *         ]
+                             *       }
+                             *     ]
+                             */
+                            filterOptions?: unknown[];
+                        };
                     };
                 };
             };
@@ -8793,6 +9417,83 @@ export interface operations {
                 search?: string;
                 /** @description Comma-separated field names to search within (e.g. name,symbol) */
                 searchIn?: string;
+                /** @description Structured filters. Example: filters[name][$like]=sample-name&filters[code][$like]=sample-code&filters[type][$eq]=CUSTOMER&filters[isActive][$eq]=true&filters[createdAt][$gte]=2024-01-01T00%3A00%3A00.000Z */
+                filters?: {
+                    /**
+                     * @description Filter on `name` (string)
+                     * @example {
+                     *       "$like": "sample-name"
+                     *     }
+                     */
+                    name?: {
+                        $eq?: string;
+                        /** @example sample-name */
+                        $like?: string;
+                        $in?: string[];
+                        /** @enum {boolean} */
+                        $isNull?: true;
+                    };
+                    /**
+                     * @description Filter on `code` (string)
+                     * @example {
+                     *       "$like": "sample-code"
+                     *     }
+                     */
+                    code?: {
+                        $eq?: string;
+                        /** @example sample-code */
+                        $like?: string;
+                        $in?: string[];
+                        /** @enum {boolean} */
+                        $isNull?: true;
+                    };
+                    /**
+                     * @description Filter on `type` (enum)
+                     * @example {
+                     *       "$eq": "CUSTOMER"
+                     *     }
+                     */
+                    type?: {
+                        /**
+                         * @example CUSTOMER
+                         * @enum {string}
+                         */
+                        $eq?: "CUSTOMER" | "SUPPLIER" | "CUSTOMER_SUPPLIER";
+                        $in?: ("CUSTOMER" | "SUPPLIER" | "CUSTOMER_SUPPLIER")[];
+                        /** @enum {boolean} */
+                        $isNull?: true;
+                    };
+                    /**
+                     * @description Filter on `isActive` (boolean)
+                     * @example {
+                     *       "$eq": true
+                     *     }
+                     */
+                    isActive?: {
+                        /** @example true */
+                        $eq?: boolean;
+                        /** @enum {boolean} */
+                        $isNull?: true;
+                    };
+                    /**
+                     * @description Filter on `createdAt` (date)
+                     * @example {
+                     *       "$gte": "2024-01-01T00:00:00.000Z"
+                     *     }
+                     */
+                    createdAt?: {
+                        $eq?: string;
+                        /**
+                         * Format: date-time
+                         * @example 2024-01-01T00:00:00.000Z
+                         */
+                        $gte?: string;
+                        /** Format: date-time */
+                        $lte?: string;
+                        /** @enum {boolean} */
+                        $isNull?: true;
+                    };
+                };
             };
             header?: never;
             path?: never;
@@ -8808,6 +9509,75 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
                         data?: components["schemas"]["PartyResponseDto"][];
+                        meta?: {
+                            pagination?: {
+                                /** @example 0 */
+                                total?: number;
+                                /** @example 1 */
+                                page?: number;
+                                /** @example 10 */
+                                limit?: number;
+                                /** @example 0 */
+                                totalPages?: number;
+                            };
+                            /**
+                             * @example [
+                             *       {
+                             *         "field": "name",
+                             *         "type": "string",
+                             *         "operators": [
+                             *           "$eq",
+                             *           "$like",
+                             *           "$in",
+                             *           "$isNull"
+                             *         ]
+                             *       },
+                             *       {
+                             *         "field": "code",
+                             *         "type": "string",
+                             *         "operators": [
+                             *           "$eq",
+                             *           "$like",
+                             *           "$in",
+                             *           "$isNull"
+                             *         ]
+                             *       },
+                             *       {
+                             *         "field": "type",
+                             *         "type": "enum",
+                             *         "operators": [
+                             *           "$eq",
+                             *           "$in",
+                             *           "$isNull"
+                             *         ],
+                             *         "enumValues": [
+                             *           "CUSTOMER",
+                             *           "SUPPLIER",
+                             *           "CUSTOMER_SUPPLIER"
+                             *         ]
+                             *       },
+                             *       {
+                             *         "field": "isActive",
+                             *         "type": "boolean",
+                             *         "operators": [
+                             *           "$eq",
+                             *           "$isNull"
+                             *         ]
+                             *       },
+                             *       {
+                             *         "field": "createdAt",
+                             *         "type": "date",
+                             *         "operators": [
+                             *           "$eq",
+                             *           "$gte",
+                             *           "$lte",
+                             *           "$isNull"
+                             *         ]
+                             *       }
+                             *     ]
+                             */
+                            filterOptions?: unknown[];
+                        };
                     };
                 };
             };
