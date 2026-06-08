@@ -69,6 +69,31 @@ export class UpdateTenantDto {
     @IsOptional()
     @IsString()
     logo?: string;
+
+    @ApiPropertyOptional({ example: 'Demo Shop LLC' })
+    @IsOptional()
+    @IsString()
+    legalName?: string;
+
+    @ApiPropertyOptional({ example: 'TAX-123456' })
+    @IsOptional()
+    @IsString()
+    taxNumber?: string;
+
+    @ApiPropertyOptional({ example: 'https://demo-shop.com' })
+    @IsOptional()
+    @IsString()
+    website?: string;
+
+    @ApiPropertyOptional({ example: '00000000-0000-4000-a300-000000000001', description: 'Base currency id' })
+    @IsOptional()
+    @IsString()
+    baseCurrencyId?: string;
+
+    @ApiPropertyOptional({ example: '00000000-0000-4000-a400-000000000001', description: 'Default sales sequence id' })
+    @IsOptional()
+    @IsString()
+    defaultSalesSequenceId?: string;
 }
 
 export class TenantResponseDto {
@@ -85,6 +110,11 @@ export class TenantResponseDto {
     @ApiPropertyOptional({ nullable: true }) phone: string | null = null;
     @ApiPropertyOptional({ nullable: true }) email: string | null = null;
     @ApiPropertyOptional({ nullable: true }) logo: string | null = null;
+    @ApiPropertyOptional({ nullable: true }) legalName: string | null = null;
+    @ApiPropertyOptional({ nullable: true }) taxNumber: string | null = null;
+    @ApiPropertyOptional({ nullable: true }) website: string | null = null;
+    @ApiPropertyOptional({ nullable: true }) baseCurrencyId: string | null = null;
+    @ApiPropertyOptional({ nullable: true }) defaultSalesSequenceId: string | null = null;
 
     @ApiProperty({ example: '2025-01-01T00:00:00.000Z' })
     createdAt: string = '';

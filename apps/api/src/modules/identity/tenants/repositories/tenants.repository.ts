@@ -63,7 +63,21 @@ export class TenantsRepository {
         });
     }
 
-    async update(tenantId: string, data: { name?: string; address?: string; phone?: string; email?: string; logo?: string }) {
+    async update(
+        tenantId: string,
+        data: {
+            name?: string;
+            address?: string;
+            phone?: string;
+            email?: string;
+            logo?: string;
+            legalName?: string;
+            taxNumber?: string;
+            website?: string;
+            baseCurrencyId?: string;
+            defaultSalesSequenceId?: string;
+        },
+    ) {
         return this.prisma.tenant.update({ where: { id: tenantId }, data });
     }
 }
