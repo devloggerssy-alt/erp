@@ -45,4 +45,11 @@ describe("settings registry helpers", () => {
     expect(errors.defaultTaxRate?.length).toBeGreaterThan(0)
     expect(errors.nope).toEqual(['Unknown setting "nope"'])
   })
+
+  it("validateSettingsPatch puts an invalid value for a known key in errors, not values", () => {
+    const { values, errors } = validateSettingsPatch({ timezone: "" }) // z.string().min(1) fails
+    expect(values).toEqual({})
+    expect(errors.timezone).toBeDefined()
+    expect(errors.timezone!.length).toBeGreaterThan(0)
+  })
 })
