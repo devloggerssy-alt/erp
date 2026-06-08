@@ -4,7 +4,8 @@ import { ApiClient, type ApiClientOptions } from "./infra/client"
 import { CategoriesClient } from "./clients/categories.client"
 import { WarehousesClient } from "./clients/warehouses.client"
 import { PartiesClient } from "./clients/parties.client"
-import { authResource, itemCategoryResource, unitResource, warehouseResource, partyResource } from "@devloggers/api-contracts"
+import { AccountsClient } from "./clients/account.client"
+import { authResource, itemCategoryResource, unitResource, warehouseResource, partyResource, accountResource } from "@devloggers/api-contracts"
 
 export function createApi(options?: ApiClientOptions, baseUrl = 'http://localhost:4040') {
     const client = new ApiClient(baseUrl, options)
@@ -15,6 +16,7 @@ export function createApi(options?: ApiClientOptions, baseUrl = 'http://localhos
         [itemCategoryResource.key]: new CategoriesClient(client),
         [warehouseResource.key]: new WarehousesClient(client),
         [partyResource.key]: new PartiesClient(client),
+        [accountResource.key]: new AccountsClient(client),
     } as const
 }
 
