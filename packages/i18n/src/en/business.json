@@ -47,6 +47,11 @@
       "documentSequences": "Document Sequences"
     }
   },
+  "settings": {
+    "save": "Save Changes",
+    "saving": "Saving…",
+    "saveFailed": "Save failed"
+  },
   "resources": {
     "units": {
       "title": "Units",

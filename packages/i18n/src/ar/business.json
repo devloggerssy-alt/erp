@@ -47,6 +47,11 @@
       "documentSequences": "تسلسل المستندات"
     }
   },
+  "settings": {
+    "save": "حفظ التغييرات",
+    "saving": "جارٍ الحفظ…",
+    "saveFailed": "فشل الحفظ"
+  },
   "resources": {
     "units": {
       "title": "الوحدات",

@@ -47,6 +47,11 @@
       "documentSequences": "Belge Dizileri"
     }
   },
+  "settings": {
+    "save": "Değişiklikleri Kaydet",
+    "saving": "Kaydediliyor…",
+    "saveFailed": "Kaydetme başarısız"
+  },
   "resources": {
     "units": {
       "title": "Birimler",
