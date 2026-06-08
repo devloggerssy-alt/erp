@@ -1,16 +1,13 @@
-import { defineResource } from './resource.types'
+import { defineCrudResource } from './base/crud-resource'
 
-export const partyResource = defineResource({
+export const partyResource = defineCrudResource({
   key: 'parties',
 
   routes: {
     list: '/parties',
+    show: '/parties/{id}',
     create: '/parties',
-    details: '/parties/{id}',
     update: '/parties/{id}',
-    // status: '/parties/{id}/status',
+    delete: '/parties/{id}',
   },
 })
-
-
-

@@ -1,0 +1,5 @@
+export { CustomersPage } from "./components/customers-page"
+export { CustomersForm } from "./components/customers-form"
+export { CustomersResource } from "./customers.resource"
+export { useCustomersResource } from "./hooks"
+export type { CustomersResourceContext } from "./hooks"

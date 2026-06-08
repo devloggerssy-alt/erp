@@ -35,6 +35,13 @@ const PartiesCrudBase = createCrudController({
     responseDto: PartyResponseDto,
     createDto: CreatePartyDto,
     updateDto: UpdatePartyDto,
+    filterSchema: [
+        { field: 'name', type: 'string' },
+        { field: 'code', type: 'string' },
+        { field: 'type', type: 'enum', enumValues: ['CUSTOMER', 'SUPPLIER', 'CUSTOMER_SUPPLIER'] },
+        { field: 'isActive', type: 'boolean' },
+        { field: 'createdAt', type: 'date' },
+    ],
     openApi: PARTIES_CRUD_OPENAPI,
 });
 
