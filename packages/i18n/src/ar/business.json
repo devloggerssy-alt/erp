@@ -127,6 +127,41 @@
       "openingBalance": "الرصيد الافتتاحي",
       "openingBalancePlaceholder": "مثال: 0",
       "active": "نشط"
+    },
+    "accounts": {
+      "title": "شجرة الحسابات",
+      "addAction": "إضافة حساب",
+      "editTitle": "تعديل الحساب",
+      "entity": "حساب",
+      "code": "الرمز",
+      "codePlaceholder": "مثال: 1110",
+      "name": "الاسم",
+      "type": "النوع",
+      "parent": "الحساب الأب",
+      "selectAccount": "اختر حساباً…",
+      "searchPlaceholder": "ابحث بالرمز أو الاسم…",
+      "addChild": "إضافة حساب فرعي",
+      "edit": "تعديل",
+      "delete": "حذف",
+      "expand": "توسيع",
+      "collapse": "طي",
+      "inactive": "غير مفعّل",
+      "active": "مفعّل",
+      "loading": "جارٍ التحميل…",
+      "noResults": "لا توجد حسابات مطابقة لبحثك",
+      "empty": "لا توجد حسابات بعد. أضف أول حساب لبدء بناء شجرة حساباتك.",
+      "clear": "مسح",
+      "ok": "حسناً",
+      "deleteTitle": "حذف الحساب",
+      "deleteDescription": "حذف \"{name}\"؟ لا يمكن التراجع عن هذا الإجراء.",
+      "deleteFailed": "تعذّر حذف الحساب",
+      "types": {
+        "ASSET": "الأصول",
+        "LIABILITY": "الخصوم",
+        "EQUITY": "حقوق الملكية",
+        "REVENUE": "الإيرادات",
+        "EXPENSE": "المصروفات"
+      }
     }
   }
 }

@@ -127,6 +127,41 @@
       "openingBalance": "Opening Balance",
       "openingBalancePlaceholder": "e.g. 0",
       "active": "Active"
+    },
+    "accounts": {
+      "title": "Chart of Accounts",
+      "addAction": "Add Account",
+      "editTitle": "Edit Account",
+      "entity": "Account",
+      "code": "Code",
+      "codePlaceholder": "e.g. 1110",
+      "name": "Name",
+      "type": "Type",
+      "parent": "Parent Account",
+      "selectAccount": "Select account…",
+      "searchPlaceholder": "Search by code or name…",
+      "addChild": "Add sub-account",
+      "edit": "Edit",
+      "delete": "Delete",
+      "expand": "Expand",
+      "collapse": "Collapse",
+      "inactive": "Inactive",
+      "active": "Active",
+      "loading": "Loading…",
+      "noResults": "No accounts match your search",
+      "empty": "No accounts yet. Add your first account to start building your chart.",
+      "clear": "Clear",
+      "ok": "OK",
+      "deleteTitle": "Delete account",
+      "deleteDescription": "Delete \"{name}\"? This cannot be undone.",
+      "deleteFailed": "Couldn't delete account",
+      "types": {
+        "ASSET": "Assets",
+        "LIABILITY": "Liabilities",
+        "EQUITY": "Equity",
+        "REVENUE": "Revenue",
+        "EXPENSE": "Expenses"
+      }
     }
   }
 }

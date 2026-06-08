@@ -127,6 +127,41 @@
       "openingBalance": "Açılış Bakiyesi",
       "openingBalancePlaceholder": "örn. 0",
       "active": "Aktif"
+    },
+    "accounts": {
+      "title": "Hesap Planı",
+      "addAction": "Hesap Ekle",
+      "editTitle": "Hesabı Düzenle",
+      "entity": "Hesap",
+      "code": "Kod",
+      "codePlaceholder": "örn. 1110",
+      "name": "Ad",
+      "type": "Tür",
+      "parent": "Üst Hesap",
+      "selectAccount": "Hesap seçin…",
+      "searchPlaceholder": "Koda veya ada göre ara…",
+      "addChild": "Alt hesap ekle",
+      "edit": "Düzenle",
+      "delete": "Sil",
+      "expand": "Genişlet",
+      "collapse": "Daralt",
+      "inactive": "Pasif",
+      "active": "Aktif",
+      "loading": "Yükleniyor…",
+      "noResults": "Aramanızla eşleşen hesap yok",
+      "empty": "Henüz hesap yok. Planınızı oluşturmaya başlamak için ilk hesabınızı ekleyin.",
+      "clear": "Temizle",
+      "ok": "Tamam",
+      "deleteTitle": "Hesabı sil",
+      "deleteDescription": "\"{name}\" silinsin mi? Bu işlem geri alınamaz.",
+      "deleteFailed": "Hesap silinemedi",
+      "types": {
+        "ASSET": "Varlıklar",
+        "LIABILITY": "Yükümlülükler",
+        "EQUITY": "Özkaynak",
+        "REVENUE": "Gelir",
+        "EXPENSE": "Giderler"
+      }
     }
   }
 }
