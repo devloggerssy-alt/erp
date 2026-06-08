@@ -1,5 +1,5 @@
 import { Controller, Get, Patch, Body, UseGuards } from '@nestjs/common';
-import { ApiTags, ApiBearerAuth, ApiOperation, ApiOkResponse } from '@nestjs/swagger';
+import { ApiTags, ApiBearerAuth, ApiOperation, ApiOkResponse, ApiBody } from '@nestjs/swagger';
 import { SettingsService } from '../services/settings.service';
 import { JwtAuthGuard } from '../../auth/guards';
 import { CurrentUser, RequestUser } from '../../auth/decorators';
@@ -42,13 +42,18 @@ export class SettingsController {
         summary: 'Update tenant settings',
         description: 'Partial update of preference keys. Each key is validated against the settings registry; invalid keys return 422.',
     })
+    @ApiBody({
+        schema: { type: 'object', additionalProperties: true, example: { defaultTaxRate: 15, timezone: 'Europe/Istanbul' } },
+        description: 'Partial map of registry keys to new values',
+    })
     @ApiOkResponse({ description: 'Updated tenant settings' })
     @ApiStandardErrors()
     async update(
         @CurrentUser() user: RequestUser,
         @Body() body: Record<string, unknown>,
     ) {
-        const settings = await this.settingsService.update(user.tenantId, body ?? {});
+        const safeBody = body && typeof body === 'object' && !Array.isArray(body) ? body : {};
+        const settings = await this.settingsService.update(user.tenantId, safeBody);
         return ApiResponseBuilder.success(settings, 'Tenant settings updated');
     }
 }

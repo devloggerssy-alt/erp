@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@devloggers/db-prisma/nest';
+import { Prisma } from '@devloggers/db-prisma';
 
 export interface SettingUpsert {
     key: string;
@@ -29,9 +30,9 @@ export class TenantSettingsRepository {
                         tenantId,
                         key: entry.key,
                         category: entry.category,
-                        value: entry.value as object,
+                        value: entry.value as Prisma.InputJsonValue,
                     },
-                    update: { value: entry.value as object, category: entry.category },
+                    update: { value: entry.value as Prisma.InputJsonValue, category: entry.category },
                 }),
             ),
         );
