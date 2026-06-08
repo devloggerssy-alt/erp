@@ -21,17 +21,21 @@
         "build": "tsc",
         "clean": "node -e \"require('fs').rmSync('./dist', { recursive: true, force: true })\"",
         "generate": "node scripts/generate-types.cjs",
-        "generate:dev": "node scripts/generate-types.cjs http://localhost:4040/swagger.yaml"
+        "generate:dev": "node scripts/generate-types.cjs http://localhost:4040/swagger.yaml",
+        "test": "vitest run",
+        "typecheck": "tsc --noEmit"
     },
     "dependencies": {
         "@devloggers/db-prisma": "workspace:*",
-        "openapi-typescript": "^7.10.1"
+        "openapi-typescript": "^7.10.1",
+        "zod": "^4.3.6"
     },
     "devDependencies": {
         "@devloggers/typescript-config": "workspace:*",
         "@types/node": "^22.0.0",
         "prisma": "^6.7.0",
         "ts-node": "^10.9.2",
-        "typescript": "^5.7.3"
+        "typescript": "^5.7.3",
+        "vitest": "^4.1.8"
     }
 }
