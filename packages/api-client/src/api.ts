@@ -10,7 +10,8 @@ import { FiscalPeriodsClient } from "./clients/fiscal-periods.client"
 import { DocumentSequencesClient } from "./clients/document-sequences.client"
 import { RolesClient } from "./clients/roles.client"
 import { UsersClient } from "./clients/users.client"
-import { authResource, itemCategoryResource, unitResource, warehouseResource, partyResource, accountResource, currencyResource, fiscalPeriodResource, documentSequenceResource, roleResource, userResource } from "@devloggers/api-contracts"
+import { TenantsClient } from "./clients/tenants.client"
+import { authResource, itemCategoryResource, unitResource, warehouseResource, partyResource, accountResource, currencyResource, fiscalPeriodResource, documentSequenceResource, roleResource, userResource, tenantResource } from "@devloggers/api-contracts"
 
 export function createApi(options?: ApiClientOptions, baseUrl = 'http://localhost:4040') {
     const client = new ApiClient(baseUrl, options)
@@ -27,6 +28,7 @@ export function createApi(options?: ApiClientOptions, baseUrl = 'http://localhos
         [documentSequenceResource.key]: new DocumentSequencesClient(client),
         [roleResource.key]: new RolesClient(client),
         [userResource.key]: new UsersClient(client),
+        [tenantResource.key]: new TenantsClient(client),
     } as const
 }
 
