@@ -1,6 +1,6 @@
 "use client"
 
-import { useMemo, useState, useEffect } from "react"
+import { useMemo, useState } from "react"
 import { useLocale, useTranslations } from "next-intl"
 import { cn } from "@/shared/lib/utils"
 import { Badge } from "@/shared/components/ui/badge"
@@ -44,16 +44,22 @@ export function AccountsTree({
     const buckets = useMemo(() => buildAccountTree(visibleItems, locale), [visibleItems, locale])
     const { buckets: filtered, expandIds } = useMemo(() => filterAccountTree(buckets, query), [buckets, query])
 
-    // Type buckets expand by default; matched ancestors force-expand during search.
+    // Manually toggled nodes (persists across searches); matched ancestors are
+    // additionally force-expanded while a search is active (merged at render time
+    // so we don't need to synchronize state from a derived value in an effect).
     const [expanded, setExpanded] = useState<Set<string>>(new Set())
-    useEffect(() => {
-        if (expandIds.size > 0) setExpanded((prev) => new Set([...prev, ...expandIds]))
-    }, [expandIds])
+    const effectiveExpanded = useMemo(() => {
+        if (expandIds.size === 0) return expanded
+        const merged = new Set(expanded)
+        for (const id of expandIds) merged.add(id)
+        return merged
+    }, [expanded, expandIds])
 
     const toggle = (id: string) =>
         setExpanded((prev) => {
             const next = new Set(prev)
-            next.has(id) ? next.delete(id) : next.add(id)
+            if (next.has(id)) next.delete(id)
+            else next.add(id)
             return next
         })
 
@@ -82,7 +88,7 @@ export function AccountsTree({
                                     key={node.id}
                                     node={node}
                                     mode={mode}
-                                    expanded={expanded}
+                                    expanded={effectiveExpanded}
                                     onToggle={toggle}
                                     selectedId={selectedId}
                                     selectable={selectable}
