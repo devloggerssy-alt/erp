@@ -20,6 +20,7 @@ import { invoiceResource } from './invoice.resource'
 import { cashboxResource } from './cashbox.resource'
 import { paymentResource } from './payment.resource'
 import { accountingResource } from './accounting.resource'
+import { accountResource } from './account.resource'
 import { stockCountResource } from './stock-count.resource'
 import { reportResource } from './report.resource'
 import { dashboardResource } from './dashboard.resource'
@@ -45,6 +46,7 @@ export * from './invoice.resource'
 export * from './cashbox.resource'
 export * from './payment.resource'
 export * from './accounting.resource'
+export * from './account.resource'
 export * from './stock-count.resource'
 export * from './report.resource'
 export * from './dashboard.resource'
@@ -71,6 +73,7 @@ export const resources = {
   cashboxes: cashboxResource,
   payments: paymentResource,
   accounting: accountingResource,
+  accounts: accountResource,
   stockCounts: stockCountResource,
   reports: reportResource,
   dashboard: dashboardResource,
