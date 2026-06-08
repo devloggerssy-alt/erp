@@ -126,10 +126,12 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get?: never;
+        /** Get a user by ID */
+        get: operations["Users.findOne"];
         put?: never;
         post?: never;
-        delete?: never;
+        /** Delete a user */
+        delete: operations["Users.remove"];
         options?: never;
         head?: never;
         /** Update a user */
@@ -2463,9 +2465,18 @@ export interface operations {
     };
     "Users.findAll": {
         parameters: {
-            query: {
-                page: number;
-                limit: number;
+            query?: {
+                /** @description Page number (1-based) */
+                page?: number;
+                /** @description Number of items per page */
+                limit?: number;
+                /** @description Field name to sort by */
+                sortField?: string;
+                sortOrder?: "asc" | "desc";
+                /** @description Full-text search keyword */
+                search?: string;
+                /** @description Comma-separated field names to search within */
+                searchIn?: string;
             };
             header?: never;
             path?: never;
@@ -2479,7 +2490,19 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": {
+                        data?: readonly {
+                            id: string;
+                            email: string;
+                            fullName: string;
+                            phone: string | null;
+                            isActive: boolean;
+                            lastLoginAt: string | null;
+                            createdAt: string;
+                            roles: { id: string; name: string }[];
+                        }[];
+                        meta?: unknown;
+                    };
                 };
             };
             /** @description JWT token is missing, expired, or invalid */
@@ -2722,6 +2745,122 @@ export interface operations {
             };
             /** @description Request body validation failed */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "Users.findOne": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description User details */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data?: { id: string };
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "Users.remove": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description User deleted successfully */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
                 headers: {
                     [name: string]: unknown;
                 };

@@ -164,6 +164,75 @@
         "REVENUE": "الإيرادات",
         "EXPENSE": "المصروفات"
       }
+    },
+    "currencies": {
+      "title": "العملات",
+      "addAction": "إضافة عملة",
+      "entity": "عملة",
+      "code": "الرمز",
+      "codePlaceholder": "مثال: SYP",
+      "name": "الاسم",
+      "namePlaceholderAr": "مثال: الليرة السورية",
+      "namePlaceholderEn": "مثال: Syrian Pound",
+      "symbol": "الرمز المختصر",
+      "symbolPlaceholderAr": "مثال: £",
+      "symbolPlaceholderEn": "مثال: SP",
+      "isBase": "العملة الأساسية",
+      "isBaseDescription": "العملة الأساسية (المحلية) لهذه المنشأة. يمكن تعيين عملة واحدة فقط كعملة أساسية.",
+      "active": "نشط"
+    },
+    "fiscalPeriods": {
+      "title": "الفترات المالية",
+      "addAction": "إضافة فترة مالية",
+      "entity": "فترة مالية",
+      "name": "الاسم",
+      "namePlaceholder": "مثال: 2026",
+      "startDate": "تاريخ البدء",
+      "endDate": "تاريخ انتهاء",
+      "status": "الحالة",
+      "status_OPEN": "مفتوحة",
+      "status_CLOSED": "مغلقة",
+      "status_LOCKED": "مقفلة"
+    },
+    "documentSequences": {
+      "title": "تسلسل المستندات",
+      "addAction": "إضافة تسلسل مستند",
+      "entity": "تسلسل مستند",
+      "documentType": "نوع المستند",
+      "documentTypePlaceholder": "مثال: SALES_INVOICE",
+      "prefix": "البادئة",
+      "prefixPlaceholder": "مثال: SAL",
+      "nextNumber": "الرقم التالي",
+      "nextNumberPlaceholder": "مثال: 1",
+      "padding": "عدد الخانات",
+      "paddingPlaceholder": "مثال: 5"
+    },
+    "users": {
+      "title": "المستخدمون",
+      "addAction": "إضافة مستخدم",
+      "entity": "مستخدم",
+      "email": "البريد الإلكتروني",
+      "emailPlaceholder": "مثال: user@example.com",
+      "password": "كلمة المرور",
+      "passwordPlaceholder": "8 أحرف على الأقل",
+      "fullName": "الاسم الكامل",
+      "fullNamePlaceholder": "مثال: أحمد محمد",
+      "phone": "الهاتف",
+      "phonePlaceholder": "مثال: +963-933-123456",
+      "roles": "الأدوار",
+      "rolesPlaceholder": "اختر الأدوار...",
+      "active": "نشط"
+    },
+    "roles": {
+      "title": "الأدوار",
+      "addAction": "إضافة دور",
+      "entity": "دور",
+      "name": "الاسم",
+      "namePlaceholderAr": "مثال: محاسب",
+      "namePlaceholderEn": "مثال: Accountant",
+      "description": "الوصف",
+      "descriptionPlaceholderAr": "مثال: صلاحيات المحاسبة",
+      "descriptionPlaceholderEn": "مثال: Accounting permissions"
     }
   }
 }

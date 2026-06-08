@@ -113,7 +113,6 @@ export function AccountsPage() {
                 toolbar={<AccountsResource.Toolbar>{null}</AccountsResource.Toolbar>}
                 actions={
                     <div className="flex items-center gap-2">
-                        <AddRootButton />
                         <AccountsResource.FormDialog
                             title={(it) => (it?.id ? t("editTitle") : t("addAction"))}
                             form={AccountsForm}

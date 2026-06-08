@@ -3,10 +3,13 @@ import {
     Get,
     Post,
     Patch,
+    Delete,
     Body,
     Param,
     Query,
     UseGuards,
+    HttpCode,
+    HttpStatus,
 } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth, ApiOperation, ApiOkResponse, ApiCreatedResponse } from '@nestjs/swagger';
 import { UsersService } from './users.service';
@@ -111,5 +114,30 @@ export class UsersController {
     ) {
         const updated = await this.usersService.updateStatus(user.tenantId, id, dto.isActive);
         return ApiResponseBuilder.success(updated, 'User status updated');
+    }
+
+    @Get(':id')
+    @ApiOperation({ summary: 'Get a user by ID' })
+    @ApiOkResponse({
+        description: 'User details',
+        schema: {
+            example: {
+                message: 'User details',
+                data: { id: '00000000-0000-4000-a100-000000000001', email: 'admin@demo-shop.com', fullName: 'Admin User', isActive: true, roles: [] },
+            },
+        },
+    })
+    @ApiStandardErrors()
+    async findOne(@CurrentUser() user: RequestUser, @Param('id') id: string) {
+        const result = await this.usersService.findById(user.tenantId, id);
+        return ApiResponseBuilder.success(result, 'User details');
+    }
+
+    @Delete(':id')
+    @HttpCode(HttpStatus.NO_CONTENT)
+    @ApiOperation({ summary: 'Delete a user', description: 'Hard-deletes the user and all role assignments.' })
+    @ApiStandardErrors()
+    async remove(@CurrentUser() user: RequestUser, @Param('id') id: string) {
+        await this.usersService.delete(user.tenantId, id);
     }
 }

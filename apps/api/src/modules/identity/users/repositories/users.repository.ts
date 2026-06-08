@@ -44,11 +44,17 @@ export class UsersRepository {
     async findByIdInTenant(tenantId: string, userId: string) {
         const user = await this.prisma.appUser.findFirst({
             where: { id: userId, tenantId },
+            select: userSelect,
         });
         if (!user) {
             throw new NotFoundException('User not found');
         }
         return user;
+    }
+
+    async deleteUser(tenantId: string, userId: string) {
+        await this.findByIdInTenant(tenantId, userId);
+        await this.prisma.appUser.delete({ where: { id: userId } });
     }
 
     async createUser(data: {

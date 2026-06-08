@@ -63,4 +63,13 @@ export class UsersService {
         await this.usersRepository.findByIdInTenant(tenantId, userId);
         return this.usersRepository.updateStatus(userId, isActive);
     }
+
+    async findById(tenantId: string, userId: string) {
+        const user = await this.usersRepository.findByIdInTenant(tenantId, userId);
+        return this.userPresenter.toResponse(user);
+    }
+
+    async delete(tenantId: string, userId: string) {
+        await this.usersRepository.deleteUser(tenantId, userId);
+    }
 }

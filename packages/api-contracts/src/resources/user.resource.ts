@@ -1,15 +1,13 @@
-import { defineResource } from './resource.types'
+import { defineCrudResource } from './base/crud-resource'
 
-export const userResource = defineResource({
+export const userResource = defineCrudResource({
   key: 'users',
 
   routes: {
     list: '/users',
+    show: '/users/{id}',
     create: '/users',
     update: '/users/{id}',
-    status: '/users/{id}/status',
+    delete: '/users/{id}',
   },
 })
-
-
-

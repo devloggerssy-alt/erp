@@ -164,6 +164,75 @@
         "REVENUE": "Gelir",
         "EXPENSE": "Giderler"
       }
+    },
+    "currencies": {
+      "title": "Para Birimleri",
+      "addAction": "Para Birimi Ekle",
+      "entity": "Para Birimi",
+      "code": "Kod",
+      "codePlaceholder": "örn. SYP",
+      "name": "Ad",
+      "namePlaceholderAr": "örn. الليرة السورية",
+      "namePlaceholderEn": "örn. Syrian Pound",
+      "symbol": "Sembol",
+      "symbolPlaceholderAr": "örn. £",
+      "symbolPlaceholderEn": "örn. SP",
+      "isBase": "Baz Para Birimi",
+      "isBaseDescription": "Bu işletme için baz (yerel) para birimi. Yalnızca bir para birimi baz olabilir.",
+      "active": "Aktif"
+    },
+    "fiscalPeriods": {
+      "title": "Mali Dönemler",
+      "addAction": "Mali Dönem Ekle",
+      "entity": "Mali Dönem",
+      "name": "Ad",
+      "namePlaceholder": "örn. 2026",
+      "startDate": "Başlangıç Tarihi",
+      "endDate": "Bitiş Tarihi",
+      "status": "Durum",
+      "status_OPEN": "Açık",
+      "status_CLOSED": "Kapalı",
+      "status_LOCKED": "Kilitli"
+    },
+    "documentSequences": {
+      "title": "Belge Dizileri",
+      "addAction": "Belge Dizisi Ekle",
+      "entity": "Belge Dizisi",
+      "documentType": "Belge Türü",
+      "documentTypePlaceholder": "örn. SALES_INVOICE",
+      "prefix": "Ön Ek",
+      "prefixPlaceholder": "örn. SAL",
+      "nextNumber": "Sonraki Numara",
+      "nextNumberPlaceholder": "örn. 1",
+      "padding": "Basamak Sayısı",
+      "paddingPlaceholder": "örn. 5"
+    },
+    "users": {
+      "title": "Kullanıcılar",
+      "addAction": "Kullanıcı Ekle",
+      "entity": "Kullanıcı",
+      "email": "E-posta",
+      "emailPlaceholder": "örn. kullanici@ornek.com",
+      "password": "Şifre",
+      "passwordPlaceholder": "En az 8 karakter",
+      "fullName": "Ad Soyad",
+      "fullNamePlaceholder": "örn. Ahmet Yılmaz",
+      "phone": "Telefon",
+      "phonePlaceholder": "örn. +90-533-1234567",
+      "roles": "Roller",
+      "rolesPlaceholder": "Rolleri seçin...",
+      "active": "Aktif"
+    },
+    "roles": {
+      "title": "Roller",
+      "addAction": "Rol Ekle",
+      "entity": "Rol",
+      "name": "Ad",
+      "namePlaceholderAr": "örn. محاسب",
+      "namePlaceholderEn": "örn. Accountant",
+      "description": "Açıklama",
+      "descriptionPlaceholderAr": "örn. صلاحيات المحاسبة",
+      "descriptionPlaceholderEn": "örn. Accounting permissions"
     }
   }
 }

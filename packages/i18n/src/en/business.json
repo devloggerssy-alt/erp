@@ -164,6 +164,75 @@
         "REVENUE": "Revenue",
         "EXPENSE": "Expenses"
       }
+    },
+    "currencies": {
+      "title": "Currencies",
+      "addAction": "Add Currency",
+      "entity": "Currency",
+      "code": "Code",
+      "codePlaceholder": "e.g. SYP",
+      "name": "Name",
+      "namePlaceholderAr": "e.g. الليرة السورية",
+      "namePlaceholderEn": "e.g. Syrian Pound",
+      "symbol": "Symbol",
+      "symbolPlaceholderAr": "e.g. £",
+      "symbolPlaceholderEn": "e.g. SP",
+      "isBase": "Base Currency",
+      "isBaseDescription": "The base (local) currency for this tenant. Only one currency can be the base.",
+      "active": "Active"
+    },
+    "fiscalPeriods": {
+      "title": "Fiscal Periods",
+      "addAction": "Add Fiscal Period",
+      "entity": "Fiscal Period",
+      "name": "Name",
+      "namePlaceholder": "e.g. 2026",
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "status": "Status",
+      "status_OPEN": "Open",
+      "status_CLOSED": "Closed",
+      "status_LOCKED": "Locked"
+    },
+    "documentSequences": {
+      "title": "Document Sequences",
+      "addAction": "Add Document Sequence",
+      "entity": "Document Sequence",
+      "documentType": "Document Type",
+      "documentTypePlaceholder": "e.g. SALES_INVOICE",
+      "prefix": "Prefix",
+      "prefixPlaceholder": "e.g. SAL",
+      "nextNumber": "Next Number",
+      "nextNumberPlaceholder": "e.g. 1",
+      "padding": "Padding",
+      "paddingPlaceholder": "e.g. 5"
+    },
+    "users": {
+      "title": "Users",
+      "addAction": "Add User",
+      "entity": "User",
+      "email": "Email",
+      "emailPlaceholder": "e.g. user@example.com",
+      "password": "Password",
+      "passwordPlaceholder": "Minimum 8 characters",
+      "fullName": "Full Name",
+      "fullNamePlaceholder": "e.g. John Doe",
+      "phone": "Phone",
+      "phonePlaceholder": "e.g. +963-933-123456",
+      "roles": "Roles",
+      "rolesPlaceholder": "Select roles...",
+      "active": "Active"
+    },
+    "roles": {
+      "title": "Roles",
+      "addAction": "Add Role",
+      "entity": "Role",
+      "name": "Name",
+      "namePlaceholderAr": "e.g. محاسب",
+      "namePlaceholderEn": "e.g. Accountant",
+      "description": "Description",
+      "descriptionPlaceholderAr": "e.g. صلاحيات المحاسبة",
+      "descriptionPlaceholderEn": "e.g. Accounting permissions"
     }
   }
 }

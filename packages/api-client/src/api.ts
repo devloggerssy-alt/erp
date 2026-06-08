@@ -5,7 +5,12 @@ import { CategoriesClient } from "./clients/categories.client"
 import { WarehousesClient } from "./clients/warehouses.client"
 import { PartiesClient } from "./clients/parties.client"
 import { AccountsClient } from "./clients/account.client"
-import { authResource, itemCategoryResource, unitResource, warehouseResource, partyResource, accountResource } from "@devloggers/api-contracts"
+import { CurrenciesClient } from "./clients/currencies.client"
+import { FiscalPeriodsClient } from "./clients/fiscal-periods.client"
+import { DocumentSequencesClient } from "./clients/document-sequences.client"
+import { RolesClient } from "./clients/roles.client"
+import { UsersClient } from "./clients/users.client"
+import { authResource, itemCategoryResource, unitResource, warehouseResource, partyResource, accountResource, currencyResource, fiscalPeriodResource, documentSequenceResource, roleResource, userResource } from "@devloggers/api-contracts"
 
 export function createApi(options?: ApiClientOptions, baseUrl = 'http://localhost:4040') {
     const client = new ApiClient(baseUrl, options)
@@ -17,6 +22,11 @@ export function createApi(options?: ApiClientOptions, baseUrl = 'http://localhos
         [warehouseResource.key]: new WarehousesClient(client),
         [partyResource.key]: new PartiesClient(client),
         [accountResource.key]: new AccountsClient(client),
+        [currencyResource.key]: new CurrenciesClient(client),
+        [fiscalPeriodResource.key]: new FiscalPeriodsClient(client),
+        [documentSequenceResource.key]: new DocumentSequencesClient(client),
+        [roleResource.key]: new RolesClient(client),
+        [userResource.key]: new UsersClient(client),
     } as const
 }
 
