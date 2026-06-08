@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest"
-import { buildAccountTree, filterAccountTree, collectDescendantIds } from "./build-account-tree"
+import { buildAccountTree, filterAccountTree, collectDescendantIds, findNodeById, collectExpandableIds } from "./build-account-tree"
 import type { AccountListItem } from "../accounts.types"
 
 function acc(partial: Partial<AccountListItem> & Pick<AccountListItem, "id" | "code" | "type">): AccountListItem {
@@ -51,6 +51,16 @@ describe("buildAccountTree", () => {
         expect(buckets.find((b) => b.type === "LIABILITY")!.count).toBe(1)
     })
 
+    it("is cycle-safe: a parent/child cycle does not hang and yields finite buckets", () => {
+        const cyclic: AccountListItem[] = [
+            acc({ id: "a", code: "1000", type: "ASSET", name: "A", parentId: "b" }),
+            acc({ id: "b", code: "1100", type: "ASSET", name: "B", parentId: "a" }),
+        ]
+        const buckets = buildAccountTree(cyclic, "en")
+        expect(buckets).toHaveLength(5)
+        expect(buckets.every((b) => Number.isFinite(b.count))).toBe(true)
+    })
+
     it("resolves the localized label and builds a lowercased haystack", () => {
         const items = [acc({ id: "x", code: "5000", type: "EXPENSE", name: "fallback", nameI18n: { ar: "مصروف", en: "Expense" } })]
         const en = buildAccountTree(items, "en")[4].nodes[0]
@@ -93,5 +103,27 @@ describe("collectDescendantIds", () => {
         const root = buckets.find((b) => b.type === "ASSET")!.nodes.find((n) => n.id === "a")!
         const ids = collectDescendantIds(root)
         expect([...ids].sort()).toEqual(["a", "a1", "a2"])
+    })
+})
+
+describe("findNodeById", () => {
+    it("finds a nested node by id", () => {
+        const buckets = buildAccountTree(sample, "en")
+        const found = findNodeById(buckets, "a1")
+        expect(found?.id).toBe("a1")
+        expect(found?.account.code).toBe("1100")
+    })
+
+    it("returns null for a missing id", () => {
+        const buckets = buildAccountTree(sample, "en")
+        expect(findNodeById(buckets, "does-not-exist")).toBeNull()
+    })
+})
+
+describe("collectExpandableIds", () => {
+    it("returns ids of every node that has children", () => {
+        const buckets = buildAccountTree(sample, "en")
+        const ids = collectExpandableIds(buckets)
+        expect(ids.sort()).toEqual(["a"])
     })
 })

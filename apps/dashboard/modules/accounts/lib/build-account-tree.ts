@@ -2,8 +2,10 @@ import { localize } from "@/shared/lib/localize"
 import type { AccountListItem, AccountTreeNode, AccountTypeBucket } from "../accounts.types"
 import { ACCOUNT_TYPE_ORDER } from "./account-types"
 
-function subtreeSize(node: AccountTreeNode): number {
-    return 1 + node.children.reduce((sum, c) => sum + subtreeSize(c), 0)
+function subtreeSize(node: AccountTreeNode, visited: Set<string> = new Set()): number {
+    if (visited.has(node.id)) return 0
+    visited.add(node.id)
+    return 1 + node.children.reduce((sum, c) => sum + subtreeSize(c, visited), 0)
 }
 
 /** Flat account list → five type buckets with nested, code-sorted nodes. */
@@ -36,12 +38,16 @@ export function buildAccountTree(items: AccountListItem[], locale: string): Acco
     }
 
     const byCode = (a: AccountTreeNode, b: AccountTreeNode) => a.account.code.localeCompare(b.account.code)
-    const assignDepth = (node: AccountTreeNode, depth: number) => {
+    const assignDepth = (node: AccountTreeNode, depth: number, path: Set<string>) => {
         node.depth = depth
         node.children.sort(byCode)
-        for (const child of node.children) assignDepth(child, depth + 1)
+        const nextPath = new Set(path).add(node.id)
+        for (const child of node.children) {
+            if (nextPath.has(child.id)) continue // back-edge: cycle, skip to avoid infinite recursion
+            assignDepth(child, depth + 1, nextPath)
+        }
     }
-    roots.forEach((r) => assignDepth(r, 0))
+    roots.forEach((r) => assignDepth(r, 0, new Set()))
     roots.sort(byCode)
 
     return ACCOUNT_TYPE_ORDER.map((type) => {
@@ -89,5 +95,38 @@ export function collectDescendantIds(node: AccountTreeNode): Set<string> {
     for (const child of node.children) {
         for (const id of collectDescendantIds(child)) ids.add(id)
     }
+    return ids
+}
+
+/** Search every bucket's node tree for a matching id (or null if not found). */
+export function findNodeById(buckets: AccountTypeBucket[], id: string): AccountTreeNode | null {
+    const search = (node: AccountTreeNode): AccountTreeNode | null => {
+        if (node.id === id) return node
+        for (const child of node.children) {
+            const found = search(child)
+            if (found) return found
+        }
+        return null
+    }
+
+    for (const bucket of buckets) {
+        for (const root of bucket.nodes) {
+            const found = search(root)
+            if (found) return found
+        }
+    }
+    return null
+}
+
+/** Every node id (across all buckets) that has at least one child. */
+export function collectExpandableIds(buckets: AccountTypeBucket[]): string[] {
+    const ids: string[] = []
+    const visit = (node: AccountTreeNode) => {
+        if (node.children.length > 0) {
+            ids.push(node.id)
+            node.children.forEach(visit)
+        }
+    }
+    for (const bucket of buckets) bucket.nodes.forEach(visit)
     return ids
 }

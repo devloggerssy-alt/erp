@@ -1,20 +1,26 @@
 "use client"
 
 import { useEffect, useMemo } from "react"
-import { useTranslations } from "next-intl"
+import { useLocale, useTranslations } from "next-intl"
+import { useQuery } from "@tanstack/react-query"
 import { type AccountsClient } from "@devloggers/api-client"
 import { accountResource } from "@devloggers/api-contracts"
 import { ResourceFormShell, RhfTextField, RhfLocalizedTextField, RhfCheckboxField, RhfSelectField } from "@/shared/components/form"
 import type { ResourceFormProps } from "@/shared/data-view/resource"
 import { useResourceFormController } from "@/shared/hooks/use-resource-form-controller"
+import { useApi } from "@/shared/useApi"
 import { accountsFormConfig, type AccountFormValues } from "../accounts.config"
 import { ACCOUNT_TYPES } from "../lib/account-types"
 import { useAccountDraftStore } from "../accounts-draft.store"
+import { buildAccountTree, collectDescendantIds, findNodeById } from "../lib/build-account-tree"
+import type { AccountListItem } from "../accounts.types"
 import { RhfAccountField } from "./account-picker"
 
 export function AccountsForm({ resourceId, initialData, onSuccess, paramKey }: ResourceFormProps<AccountsClient>) {
     const t = useTranslations("business.resources.accounts")
     const tf = useTranslations("system.resourceForm")
+    const locale = useLocale()
+    const api = useApi()
     const draft = useAccountDraftStore((s) => s.draft)
 
     const ctrl = useResourceFormController<AccountsClient, AccountFormValues>({
@@ -45,12 +51,23 @@ export function AccountsForm({ resourceId, initialData, onSuccess, paramKey }: R
         [t],
     )
 
-    // The edited node cannot be its own parent (descendant guard is best-effort here:
-    // the picker excludes the node id; full-subtree exclusion is enforced server-side too).
-    const excludeIds = useMemo(
-        () => (resourceId ? new Set([resourceId]) : undefined),
-        [resourceId],
-    )
+    // When editing, the parent picker must exclude the edited account's entire
+    // descendant subtree (otherwise selecting a descendant as parent would create a cycle).
+    // Shares the picker's query key/cache so this doesn't trigger an extra request.
+    const { data: pickerData } = useQuery({
+        queryKey: [accountResource.key, "list", "picker"],
+        queryFn: () => api[accountResource.key].list({ page: 1, limit: 500 }),
+        enabled: !!resourceId,
+        staleTime: 60_000,
+    })
+
+    const excludeIds = useMemo(() => {
+        if (!resourceId) return undefined
+        const items = ((pickerData?.data ?? []) as unknown) as AccountListItem[]
+        const buckets = buildAccountTree(items, locale)
+        const node = findNodeById(buckets, resourceId)
+        return node ? collectDescendantIds(node) : new Set([resourceId])
+    }, [resourceId, pickerData, locale])
 
     return (
         <ResourceFormShell ctrl={ctrl}>

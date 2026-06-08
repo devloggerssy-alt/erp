@@ -2,9 +2,12 @@
 
 import { useMemo, useState } from "react"
 import { useLocale, useTranslations } from "next-intl"
+import { ChevronsDownUp, ChevronsUpDown } from "lucide-react"
 import { cn } from "@/shared/lib/utils"
 import { Badge } from "@/shared/components/ui/badge"
-import { buildAccountTree, filterAccountTree } from "../lib/build-account-tree"
+import { Button } from "@/shared/components/ui/button"
+import { IconTooltip } from "@/shared/components/icon-tooltip"
+import { buildAccountTree, filterAccountTree, collectExpandableIds } from "../lib/build-account-tree"
 import { ACCOUNT_TYPE_ORDER, accountTypeMeta } from "../lib/account-types"
 import type { AccountListItem, AccountTreeNode } from "../accounts.types"
 import { AccountTreeNodeRow, type AccountNodeActions } from "./account-tree-node"
@@ -58,10 +61,13 @@ export function AccountsTree({
     const toggle = (id: string) =>
         setExpanded((prev) => {
             const next = new Set(prev)
-            if (next.has(id)) next.delete(id)
+            if (effectiveExpanded.has(id)) next.delete(id)
             else next.add(id)
             return next
         })
+
+    const expandAll = () => setExpanded(new Set(collectExpandableIds(buckets)))
+    const collapseAll = () => setExpanded(new Set())
 
     const isEmpty = filtered.every((b) => b.nodes.length === 0)
     if (isEmpty) {
@@ -70,6 +76,20 @@ export function AccountsTree({
 
     return (
         <div className="space-y-4">
+            {mode === "manage" && (
+                <div className="flex items-center gap-1">
+                    <IconTooltip label={t("expandAll")}>
+                        <Button type="button" variant="ghost" size="icon" onClick={expandAll}>
+                            <ChevronsUpDown className="size-4" />
+                        </Button>
+                    </IconTooltip>
+                    <IconTooltip label={t("collapseAll")}>
+                        <Button type="button" variant="ghost" size="icon" onClick={collapseAll}>
+                            <ChevronsDownUp className="size-4" />
+                        </Button>
+                    </IconTooltip>
+                </div>
+            )}
             {ACCOUNT_TYPE_ORDER.map((type) => {
                 const bucket = filtered.find((b) => b.type === type)!
                 if (bucket.nodes.length === 0) return null

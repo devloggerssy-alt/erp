@@ -145,6 +145,8 @@
       "delete": "Sil",
       "expand": "Genişlet",
       "collapse": "Daralt",
+      "expandAll": "Tümünü genişlet",
+      "collapseAll": "Tümünü daralt",
       "inactive": "Pasif",
       "active": "Aktif",
       "loading": "Yükleniyor…",

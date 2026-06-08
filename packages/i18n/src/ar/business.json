@@ -145,6 +145,8 @@
       "delete": "حذف",
       "expand": "توسيع",
       "collapse": "طي",
+      "expandAll": "توسيع الكل",
+      "collapseAll": "طي الكل",
       "inactive": "غير مفعّل",
       "active": "مفعّل",
       "loading": "جارٍ التحميل…",

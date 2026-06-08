@@ -145,6 +145,8 @@
       "delete": "Delete",
       "expand": "Expand",
       "collapse": "Collapse",
+      "expandAll": "Expand all",
+      "collapseAll": "Collapse all",
       "inactive": "Inactive",
       "active": "Active",
       "loading": "Loading…",
