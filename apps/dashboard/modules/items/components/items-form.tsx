@@ -7,6 +7,8 @@ import { ResourceFormShell, RhfCheckboxField, RhfResourceSelect, RhfTextField } 
 import type { ResourceFormProps } from "@/shared/data-view/resource"
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/components/ui/card"
 import { useResourceFormController } from "@/shared/hooks/use-resource-form-controller"
+import { customFieldModules } from "@devloggers/api-contracts"
+import { CustomFieldsFormSection } from "@/shared/custom-fields"
 import { itemsFormConfig, type ItemFormValues } from "../items.config"
 
 export type ItemsFormProps = ResourceFormProps<ItemsClient> & {
@@ -114,6 +116,8 @@ export function ItemsForm({
                         />
                     </CardContent>
                 </Card>
+
+                <CustomFieldsFormSection module={customFieldModules.items} disabled={ctrl.isBusy} />
 
                 {ctrl.isEditing && (
                     <Card>

@@ -20,6 +20,7 @@ import { StockCountsModule } from './modules/inventory/stock-counts/stock-counts
 import { ReportsModule } from './modules/reports/reports.module';
 import { AiChatModule } from './modules/ai-chat/ai-chat.module';
 import { AuditModule } from './modules/audit/audit.module';
+import { CustomFieldsModule } from './modules/custom-fields/custom-fields.module';
 import configuration from './config/configuration';
 import { envValidationSchema } from './config/envValidator';
 
@@ -39,6 +40,7 @@ import { envValidationSchema } from './config/envValidator';
     SettingsModule,
     UsersModule,
     CatalogModule,
+    CustomFieldsModule,
     AccountingModule,
     InventoryModule,
     InvoicingModule,

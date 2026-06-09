@@ -16,6 +16,7 @@ export class ItemPresenter extends CrudPresenter<Item, ItemResponseDto> {
             defaultSellingPrice: entity.defaultSellingPrice ?? null,
             latestPurchasePrice: entity.latestPurchasePrice ?? null,
             isActive: entity.isActive,
+            customFields: {},
             createdAt: entity.createdAt.toISOString(),
             updatedAt: entity.updatedAt.toISOString(),
         };

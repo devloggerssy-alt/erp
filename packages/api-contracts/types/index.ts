@@ -364,6 +364,54 @@ export interface paths {
         patch: operations["Items.update"];
         trace?: never;
     };
+    "/custom-fields": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["CustomFields.list"];
+        put?: never;
+        post: operations["CustomFields.create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/custom-fields/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["CustomFields.show"];
+        put?: never;
+        post?: never;
+        delete: operations["CustomFields.delete"];
+        options?: never;
+        head?: never;
+        patch: operations["CustomFields.update"];
+        trace?: never;
+    };
+    "/custom-fields/by-module": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["CustomFields.listByModule"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/accounting/journal-entries": {
         parameters: {
             query?: never;
@@ -1787,6 +1835,9 @@ export interface components {
              * @example true
              */
             isActive: boolean;
+            customFields?: {
+                [key: string]: string | number | boolean | string[] | null;
+            };
             /**
              * @default
              * @example 2025-01-01T00:00:00.000Z
@@ -1797,6 +1848,19 @@ export interface components {
              * @example 2025-01-01T00:00:00.000Z
              */
             updatedAt: string;
+        };
+        CustomFieldResponseDto: {
+            id: string;
+            module: string;
+            name: components["schemas"]["LocalizedStringDto"];
+            label: components["schemas"]["LocalizedStringDto"];
+            type: string;
+            defaultValue: string | null;
+            placeholder: components["schemas"]["LocalizedStringDto"] | null;
+            options: string[];
+            isRequired: boolean;
+            showInList: boolean;
+            createdAt: string;
         };
         CreateItemDto: {
             /**
@@ -5615,6 +5679,116 @@ export interface operations {
                 };
                 content: {
                     "application/json": unknown;
+                };
+            };
+        };
+    };
+    "CustomFields.list": {
+        parameters: {
+            query?: Record<string, never>;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: { [name: string]: unknown };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["CustomFieldResponseDto"][];
+                    };
+                };
+            };
+        };
+    };
+    "CustomFields.show": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: { id: string };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: { [name: string]: unknown };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["CustomFieldResponseDto"];
+                    };
+                };
+            };
+        };
+    };
+    "CustomFields.create": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            201: {
+                headers: { [name: string]: unknown };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["CustomFieldResponseDto"];
+                    };
+                };
+            };
+        };
+    };
+    "CustomFields.update": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: { id: string };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: { [name: string]: unknown };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["CustomFieldResponseDto"];
+                    };
+                };
+            };
+        };
+    };
+    "CustomFields.delete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: { id: string };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            204: {
+                headers: { [name: string]: unknown };
+                content?: never;
+            };
+        };
+    };
+    "CustomFields.listByModule": {
+        parameters: {
+            query?: { module?: string };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: { [name: string]: unknown };
+                content: {
+                    "application/json": {
+                        data?: components["schemas"]["CustomFieldResponseDto"][];
+                    };
                 };
             };
         };

@@ -98,6 +98,10 @@
     "active": "Active",
     "inactive": "Inactive"
   },
+  "customFields": {
+    "sectionTitle": "Custom Fields",
+    "noOptions": "No options configured"
+  },
   "resourceForm": {
     "creating": "Creating...",
     "updating": "Updating...",

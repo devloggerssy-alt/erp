@@ -98,6 +98,10 @@
     "active": "نشط",
     "inactive": "غير نشط"
   },
+  "customFields": {
+    "sectionTitle": "الحقول المخصصة",
+    "noOptions": "لا توجد خيارات"
+  },
   "resourceForm": {
     "creating": "جارٍ الإنشاء...",
     "updating": "جارٍ التحديث...",

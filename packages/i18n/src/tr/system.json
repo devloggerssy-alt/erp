@@ -98,6 +98,10 @@
     "active": "Aktif",
     "inactive": "Pasif"
   },
+  "customFields": {
+    "sectionTitle": "Özel Alanlar",
+    "noOptions": "Yapılandırılmış seçenek yok"
+  },
   "resourceForm": {
     "creating": "Oluşturuluyor...",
     "updating": "Güncelleniyor...",

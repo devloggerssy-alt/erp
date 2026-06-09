@@ -21,6 +21,7 @@
       "itemsList": "قائمة الأصناف",
       "categories": "الفئات",
       "units": "الوحدات",
+      "customFields": "الحقول المخصصة",
       "warehouses": "المستودعات",
       "warehouseList": "قائمة المستودعات",
       "stockBalances": "أرصدة المخزون",
@@ -122,6 +123,23 @@
     }
   },
   "resources": {
+    "customFields": {
+      "title": "الحقول المخصصة",
+      "description": "عرّف حقولاً إضافية لأصناف الكتالوج. تظهر القيم في نماذج إنشاء/تعديل الصنف واختيارياً في قائمة الأصناف.",
+      "addAction": "إضافة حقل",
+      "editAction": "تعديل حقل",
+      "entity": "حقل مخصص",
+      "name": "الاسم الداخلي",
+      "label": "التسمية",
+      "type": "النوع",
+      "options": "الخيارات",
+      "optionsPlaceholder": "مفصولة بفواصل، مثال: أحمر، أزرق، أخضر",
+      "defaultValue": "القيمة الافتراضية",
+      "defaultValuePlaceholder": "افتراضي اختياري",
+      "placeholder": "نص توضيحي",
+      "required": "إلزامي",
+      "showInList": "إظهار في القائمة"
+    },
     "units": {
       "title": "الوحدات",
       "addAction": "إضافة وحدة",

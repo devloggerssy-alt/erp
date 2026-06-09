@@ -1,8 +1,9 @@
 import { Injectable, ConflictException } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { CrudService } from '@devloggers/backend-core';
-import { resources } from '@devloggers/api-contracts';
+import { customFieldModules, resources } from '@devloggers/api-contracts';
 import type { Item } from '@devloggers/db-prisma';
+import { CustomFieldValuesService } from '@/modules/custom-fields/services/custom-field-values.service';
 import { ItemsRepository } from '../repositories/items.repository';
 import { ItemPresenter } from '../presenters/item.presenter';
 import { CreateItemDto, UpdateItemDto, ItemResponseDto } from '../dto';
@@ -14,9 +15,66 @@ export class ItemsService extends CrudService<Item, ItemResponseDto, CreateItemD
     constructor(
         private readonly itemsRepository: ItemsRepository,
         private readonly itemPresenter: ItemPresenter,
+        private readonly customFieldValuesService: CustomFieldValuesService,
         private readonly emitter: EventEmitter2,
     ) {
         super(itemsRepository, itemPresenter, emitter);
+    }
+
+    override async list(
+        tenantId: string,
+        options: Record<string, any> = {},
+    ): Promise<{ data: ItemResponseDto[]; total: number }> {
+        const result = await super.list(tenantId, options);
+        const customFieldsByItem = await this.customFieldValuesService.getForEntities(
+            tenantId,
+            customFieldModules.items,
+            result.data.map((item) => item.id),
+        );
+
+        return {
+            total: result.total,
+            data: result.data.map((item) => ({
+                ...item,
+                customFields: customFieldsByItem[item.id] ?? {},
+            })),
+        };
+    }
+
+    override async findById(tenantId: string, id: string): Promise<ItemResponseDto> {
+        const item = await super.findById(tenantId, id);
+        const customFields = await this.customFieldValuesService.getForEntity(
+            tenantId,
+            customFieldModules.items,
+            id,
+        );
+        return { ...item, customFields };
+    }
+
+    override async create(tenantId: string, dto: CreateItemDto): Promise<ItemResponseDto> {
+        const { customFields, ...itemDto } = dto;
+        const created = await super.create(tenantId, itemDto as CreateItemDto);
+        await this.customFieldValuesService.sync(
+            tenantId,
+            customFieldModules.items,
+            created.id,
+            customFields,
+        );
+        return this.findById(tenantId, created.id);
+    }
+
+    override async update(tenantId: string, id: string, dto: UpdateItemDto): Promise<ItemResponseDto> {
+        const { customFields, ...itemDto } = dto;
+        await super.update(tenantId, id, itemDto as UpdateItemDto);
+        if (customFields !== undefined) {
+            await this.customFieldValuesService.sync(
+                tenantId,
+                customFieldModules.items,
+                id,
+                customFields,
+            );
+        }
+        return this.findById(tenantId, id);
     }
 
     protected override async beforeCreate(tenantId: string, dto: CreateItemDto): Promise<void> {

@@ -21,6 +21,7 @@
       "itemsList": "Items List",
       "categories": "Categories",
       "units": "Units",
+      "customFields": "Custom Fields",
       "warehouses": "Warehouses",
       "warehouseList": "Warehouse List",
       "stockBalances": "Stock Balances",
@@ -122,6 +123,23 @@
     }
   },
   "resources": {
+    "customFields": {
+      "title": "Custom Fields",
+      "description": "Define extra fields for catalog items. Values appear on item create/edit forms and optionally in the items list.",
+      "addAction": "Add Field",
+      "editAction": "Edit Field",
+      "entity": "Custom Field",
+      "name": "Internal Name",
+      "label": "Label",
+      "type": "Type",
+      "options": "Options",
+      "optionsPlaceholder": "Comma-separated, e.g. Red, Blue, Green",
+      "defaultValue": "Default Value",
+      "defaultValuePlaceholder": "Optional default",
+      "placeholder": "Placeholder",
+      "required": "Required",
+      "showInList": "Show in list"
+    },
     "units": {
       "title": "Units",
       "addAction": "Add Unit",

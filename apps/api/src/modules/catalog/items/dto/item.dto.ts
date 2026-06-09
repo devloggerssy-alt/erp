@@ -1,5 +1,6 @@
-import { IsString, IsNotEmpty, IsOptional, IsBoolean, IsNumber } from 'class-validator';
+import { IsString, IsNotEmpty, IsOptional, IsBoolean, IsNumber, IsObject } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import type { CustomFieldValuesMap } from '@devloggers/api-contracts';
 
 export class CreateItemDto {
     @ApiProperty({ example: 'ELEC-001', description: 'Unique item code' })
@@ -36,6 +37,15 @@ export class CreateItemDto {
     @IsOptional()
     @IsNumber()
     latestPurchasePrice?: number;
+
+    @ApiPropertyOptional({
+        description: 'Custom field values keyed by field ID',
+        type: 'object',
+        additionalProperties: true,
+    })
+    @IsOptional()
+    @IsObject()
+    customFields?: CustomFieldValuesMap;
 }
 
 export class UpdateItemDto {
@@ -78,6 +88,15 @@ export class UpdateItemDto {
     @IsOptional()
     @IsBoolean()
     isActive?: boolean;
+
+    @ApiPropertyOptional({
+        description: 'Custom field values keyed by field ID',
+        type: 'object',
+        additionalProperties: true,
+    })
+    @IsOptional()
+    @IsObject()
+    customFields?: CustomFieldValuesMap;
 }
 
 export class ItemResponseDto {
@@ -107,6 +126,13 @@ export class ItemResponseDto {
 
     @ApiProperty({ example: true })
     isActive: boolean = true;
+
+    @ApiProperty({
+        type: 'object',
+        additionalProperties: true,
+        example: {},
+    })
+    customFields: CustomFieldValuesMap = {};
 
     @ApiProperty({ example: '2025-01-01T00:00:00.000Z' })
     createdAt: string = '';

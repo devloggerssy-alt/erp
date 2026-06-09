@@ -9,6 +9,7 @@ export * from './document-sequence.dto';
 export * from './unit.dto';
 export * from './item-category.dto';
 export * from './item.dto';
+export * from './custom-field.dto';
 export * from './party.dto';
 export * from './warehouse.dto';
 export * from './inventory.dto';
