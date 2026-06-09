@@ -1,0 +1,44 @@
+enum FieldType {
+    TEXT
+    DATE
+    NUMBER
+    SELECT
+    BOOLEAN
+    MULTI_SELECT
+}
+
+model CustomField {
+    id           String    @id @default(uuid())
+    tenantId     String    @map("tenant_id")
+    module       String
+    name         Json      @db.JsonB // LocalizedString: { ar: string; en?: string }
+    label        Json      @db.JsonB // LocalizedString: { ar: string; en?: string }
+    type         FieldType
+    defaultValue String?   @map("default_value")
+    placeholder  Json?     @db.JsonB // LocalizedString: { ar: string; en?: string }
+    options      String[]
+    isRequired   Boolean   @default(false) @map("is_required")
+    showInList   Boolean   @default(false) @map("show_in_list")
+    createdAt    DateTime  @default(now()) @map("created_at")
+
+    values CustomFieldValue[]
+
+    @@index([tenantId, module])
+    @@map("custom_fields")
+}
+
+model CustomFieldValue {
+    id         String @id @default(uuid())
+    tenantId   String @map("tenant_id")
+    fieldId    String @map("field_id")
+    entityType String @map("entity_type")
+    entityId   String @map("entity_id")
+    value      String
+
+    field CustomField @relation(fields: [fieldId], references: [id], onDelete: Cascade)
+
+    @@unique([tenantId, fieldId, entityId])
+    @@index([tenantId, entityType, entityId])
+    @@index([fieldId, value])
+    @@map("custom_field_values")
+}

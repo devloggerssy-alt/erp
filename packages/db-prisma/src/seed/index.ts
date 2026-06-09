@@ -13,6 +13,7 @@ import { seedChartOfAccounts } from './seeds/chart-of-accounts.seed'
 import { seedItemCategories } from './seeds/item-categories.seed'
 import { seedUnits } from './seeds/units.seed'
 import { seedItems } from './seeds/items.seed'
+import { seedCustomFields } from './seeds/custom-fields.seed'
 import { seedParties } from './seeds/parties.seed'
 import { seedWarehouses } from './seeds/warehouses.seed'
 import { seedCashboxes } from './seeds/cashboxes.seed'
@@ -62,6 +63,9 @@ async function main() {
 
         console.log('  → Creating items...')
         await seedItems(prisma, tenantId)
+
+        console.log('  → Creating custom fields...')
+        await seedCustomFields(prisma, tenantId)
 
         console.log('  → Creating parties...')
         await seedParties(prisma, tenantId)
