@@ -7,8 +7,7 @@ import type { Control, UseFormSetValue, UseFormGetValues } from "react-hook-form
 import { Trash2Icon } from "lucide-react"
 import type { ItemsClient, UnitsClient } from "@devloggers/api-client"
 import { Button } from "@/shared/components/ui/button"
-import { RhfTextField } from "@/shared/components/form"
-import { RhfResourceSelect } from "@/shared/components/form"
+import { RhfTextField, RhfResourceSelect } from "@/shared/components/form"
 import { computeLineTotals } from "../invoices.config"
 import type {
     InvoiceFormValues,
