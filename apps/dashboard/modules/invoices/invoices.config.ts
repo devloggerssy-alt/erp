@@ -1,11 +1,51 @@
 import { z } from "zod"
+import type { InvoiceStatus } from "@devloggers/api-contracts"
 import type { CreateInvoiceDto, UpdateInvoiceDto } from "@devloggers/api-contracts"
 import { unwrapApiData } from "@/shared/hooks/unwrap-api-data"
+
+// Re-export InvoiceStatus from contracts so module consumers have one import point
+export type { InvoiceStatus }
+
+// ── New shared types ───────────────────────────────────────────────────────────
+
+export type InvoiceDirection = "SALE" | "PURCHASE"
+
+/** Full item object stored in the virtual _item field before mapping to itemId.
+ *  Fields match ItemResponseDto from the OpenAPI schema. */
+export interface InvoiceItemOption {
+    id: string
+    name: string
+    code: string
+    baseUnitId: string
+    latestPurchasePrice: number | null
+    defaultSellingPrice: number | null
+}
+
+/** Named return type for computeInvoiceTotals */
+export interface InvoiceTotals {
+    subtotal: number
+    discountAmount: number
+    taxAmount: number
+    total: number
+}
+
+/** Typed shape for raw API line data coming back from the server */
+interface InvoiceLineApiData {
+    itemId?: string
+    itemName?: string
+    itemCode?: string
+    unitId?: string
+    quantity?: number | string
+    unitPrice?: number | string
+    discountPercent?: number | string
+    taxPercent?: number | string
+    notes?: string
+    sortOrder?: number
+}
 
 // ── Line item schema ───────────────────────────────────────────────────────────
 
 export const invoiceLineSchema = z.object({
-    // _item stores the full item object for display + auto-fill; excluded from API payload
     _item: z.object({
         id: z.string(),
         name: z.string().optional(),
@@ -70,17 +110,17 @@ export const DEFAULT_INVOICE_FORM_VALUES: InvoiceFormValues = {
 // ── Mapper ─────────────────────────────────────────────────────────────────────
 
 export function mapInvoiceToFormValues(data: unknown): InvoiceFormValues {
-    const resolved = unwrapApiData<any>(data)
+    const resolved = unwrapApiData<{ [key: string]: unknown; lines?: InvoiceLineApiData[] }>(data)
     return {
-        invoiceTypeId: resolved?.invoiceTypeId ?? "",
-        date: resolved?.date ? new Date(resolved.date).toISOString().split("T")[0]! : "",
-        dueDate: resolved?.dueDate ? new Date(resolved.dueDate).toISOString().split("T")[0]! : "",
-        partyId: resolved?.partyId ?? "",
-        warehouseId: resolved?.warehouseId ?? "",
-        fiscalPeriodId: resolved?.fiscalPeriodId ?? "",
-        currencyId: resolved?.currencyId ?? "",
-        notes: resolved?.notes ?? "",
-        lines: (resolved?.lines ?? [{ ...DEFAULT_INVOICE_LINE }]).map((line: any) => ({
+        invoiceTypeId: (resolved?.invoiceTypeId as string) ?? "",
+        date: resolved?.date ? new Date(resolved.date as string).toISOString().split("T")[0]! : "",
+        dueDate: resolved?.dueDate ? new Date(resolved.dueDate as string).toISOString().split("T")[0]! : "",
+        partyId: (resolved?.partyId as string) ?? "",
+        warehouseId: (resolved?.warehouseId as string) ?? "",
+        fiscalPeriodId: (resolved?.fiscalPeriodId as string) ?? "",
+        currencyId: (resolved?.currencyId as string) ?? "",
+        notes: (resolved?.notes as string) ?? "",
+        lines: (resolved?.lines ?? [{ ...DEFAULT_INVOICE_LINE }]).map((line) => ({
             _item: line.itemId ? {
                 id: line.itemId,
                 name: line.itemName,
@@ -159,7 +199,7 @@ export function computeLineTotals(line: Pick<InvoiceLineFormValues, "quantity" |
     }
 }
 
-export function computeInvoiceTotals(lines: InvoiceLineFormValues[]) {
+export function computeInvoiceTotals(lines: InvoiceLineFormValues[]): InvoiceTotals {
     let subtotal = 0
     let discountAmount = 0
     let taxAmount = 0
