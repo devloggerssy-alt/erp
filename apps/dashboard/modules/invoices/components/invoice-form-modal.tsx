@@ -10,7 +10,7 @@ import {
 } from "@/shared/components/ui/dialog"
 import { Button } from "@/shared/components/ui/button"
 import { useInvoiceForm } from "../hooks/use-invoice-form"
-import type { InvoiceDirection } from "../invoices.config"
+import { DEFAULT_INVOICE_FORM_VALUES, type InvoiceDirection, type InvoiceTotals } from "../invoices.config"
 import { InvoiceStatusBadge } from "./invoice-status-badge"
 import { InvoiceForm } from "./invoice-form"
 
@@ -24,6 +24,30 @@ type InvoiceFormModalProps = {
     onSuccess?: () => void
 }
 
+// ── Footer totals display ──────────────────────────────────────────────────────
+
+function ModalTotals({ totals, t }: { totals: InvoiceTotals; t: (k: string) => string }) {
+    const fmt = (n: number) => n.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+    return (
+        <div className="flex items-center gap-4 text-sm tabular-nums">
+            <span className="text-muted-foreground">
+                {t("totals.subtotal")}: <span className="text-foreground font-medium">{fmt(totals.subtotal)}</span>
+            </span>
+            {totals.discountAmount > 0 && (
+                <span className="text-muted-foreground">
+                    {t("totals.discount")}: <span className="text-foreground font-medium">-{fmt(totals.discountAmount)}</span>
+                </span>
+            )}
+            {totals.taxAmount > 0 && (
+                <span className="text-muted-foreground">
+                    {t("totals.tax")}: <span className="text-foreground font-medium">{fmt(totals.taxAmount)}</span>
+                </span>
+            )}
+            <span className="font-semibold text-base">{t("totals.total")}: {fmt(totals.total)}</span>
+        </div>
+    )
+}
+
 // ── Modal ──────────────────────────────────────────────────────────────────────
 
 export function InvoiceFormModal({
@@ -35,7 +59,6 @@ export function InvoiceFormModal({
 }: InvoiceFormModalProps) {
     const t = useTranslations("business.resources.invoices")
     const tf = useTranslations("system.resourceForm")
-
     const ctrl = useInvoiceForm({ invoiceId, direction, open, onSuccess, onClose })
 
     return (
@@ -60,19 +83,16 @@ export function InvoiceFormModal({
                     <div className="flex items-center gap-2">
                         {ctrl.status === "DRAFT" && ctrl.isEditing && (
                             <Button type="button" size="sm" onClick={ctrl.postInvoice} disabled={ctrl.isPending}>
-                                <SendIcon className="me-1.5 h-3.5 w-3.5" />
-                                {t("actions.post")}
+                                <SendIcon className="me-1.5 h-3.5 w-3.5" />{t("actions.post")}
                             </Button>
                         )}
                         {ctrl.status === "POSTED" && ctrl.isEditing && (
                             <Button type="button" size="sm" variant="destructive" onClick={ctrl.cancelInvoice} disabled={ctrl.isPending}>
-                                <XCircleIcon className="me-1.5 h-3.5 w-3.5" />
-                                {t("actions.cancel")}
+                                <XCircleIcon className="me-1.5 h-3.5 w-3.5" />{t("actions.cancel")}
                             </Button>
                         )}
                         <Button type="button" variant="ghost" size="icon-sm" onClick={onClose}>
-                            <XIcon className="h-4 w-4" />
-                            <span className="sr-only">Close</span>
+                            <XIcon className="h-4 w-4" /><span className="sr-only">Close</span>
                         </Button>
                     </div>
                 </div>
@@ -86,59 +106,22 @@ export function InvoiceFormModal({
                 <div className="flex items-center justify-between px-6 py-3 border-t bg-muted/30 shrink-0">
                     <div>
                         {!ctrl.isEditing && (
-                            <Button
-                                type="button"
-                                variant="ghost"
-                                size="sm"
-                                onClick={() => ctrl.form.reset()}
+                            <Button type="button" variant="ghost" size="sm"
+                                onClick={() => ctrl.form.reset(DEFAULT_INVOICE_FORM_VALUES)}
                                 disabled={ctrl.isPending}
                             >
-                                {/* TODO(Task 8): replace with tf("discard") once system.resourceForm.discard key is added */}
+                                {/* TODO(Task 8): replace with tf("discard") once system.resourceForm.discard is added */}
                                 Discard
                             </Button>
                         )}
                     </div>
-
                     <div className="flex items-center gap-6">
-                        <div className="flex items-center gap-4 text-sm tabular-nums">
-                            <span className="text-muted-foreground">
-                                {t("totals.subtotal")}:{" "}
-                                <span className="text-foreground font-medium">
-                                    {ctrl.totals.subtotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                                </span>
-                            </span>
-                            {ctrl.totals.discountAmount > 0 && (
-                                <span className="text-muted-foreground">
-                                    {t("totals.discount")}:{" "}
-                                    <span className="text-foreground font-medium">
-                                        -{ctrl.totals.discountAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                                    </span>
-                                </span>
-                            )}
-                            {ctrl.totals.taxAmount > 0 && (
-                                <span className="text-muted-foreground">
-                                    {t("totals.tax")}:{" "}
-                                    <span className="text-foreground font-medium">
-                                        {ctrl.totals.taxAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                                    </span>
-                                </span>
-                            )}
-                            <span className="font-semibold text-base">
-                                {t("totals.total")}: {ctrl.totals.total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                            </span>
-                        </div>
-
+                        <ModalTotals totals={ctrl.totals} t={t} />
                         {!ctrl.isReadOnly && (
-                            <Button
-                                type="button"
-                                onClick={ctrl.onSubmit}
-                                disabled={ctrl.isBusy}
-                            >
+                            <Button type="button" onClick={ctrl.onSubmit} disabled={ctrl.isBusy}>
                                 {ctrl.isBusy
                                     ? (ctrl.isEditing ? tf("updating") : tf("creating"))
-                                    : (ctrl.isEditing
-                                        ? tf("update", { entity: t("entity") })
-                                        : tf("create", { entity: t("entity") }))}
+                                    : (ctrl.isEditing ? tf("update", { entity: t("entity") }) : tf("create", { entity: t("entity") }))}
                             </Button>
                         )}
                     </div>
