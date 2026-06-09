@@ -45,6 +45,8 @@ export type UseResourceFormControllerOptions<
     initialData?: unknown
     paramKey?: string
     onSuccess?: () => void
+    /** When false, skips closing the URL-backed form dialog on success (use on full-page forms). */
+    closeOnSuccess?: boolean
     /** Override the react-query key used to load the edited entity. */
     queryKey?: QueryKey
 }
@@ -76,6 +78,7 @@ export function useResourceFormController<
     initialData,
     paramKey,
     onSuccess,
+    closeOnSuccess = true,
     queryKey,
 }: UseResourceFormControllerOptions<TClient, TValues, TCreate, TUpdate>): ResourceFormController<TValues> {
     const api = useApi()
@@ -113,7 +116,9 @@ export function useResourceFormController<
         },
         onSuccess: () => {
             form.reset(config.defaultValues)
-            close()
+            if (closeOnSuccess) {
+                close()
+            }
             onSuccess?.()
         },
     })
