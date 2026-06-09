@@ -45,22 +45,55 @@ modules/invoices/
 
 ## Layer 1 — Type additions in `invoices.config.ts`
 
-```ts
-// Replaces all `string` status usages
-export type InvoiceStatus = "DRAFT" | "POSTED" | "CANCELLED"
+**`InvoiceStatus` already exists** in `@devloggers/api-contracts` (`dto/invoice.dto.ts`). Import it from there — do NOT redefine it.
 
-// Typed shape for the _item virtual field
+```ts
+import type { InvoiceStatus } from "@devloggers/api-contracts"
+```
+
+Add these to `invoices.config.ts`:
+
+```ts
+// Virtual field shape — the full item object stored in _item before mapping to itemId
+// Matches the fields we read off ResourceItem<ItemsClient> (all present in ItemResponseDto)
 export interface InvoiceItemOption {
   id: string
-  name?: string
-  code?: string
-  baseUnitId?: string
-  latestPurchasePrice?: number | null
-  defaultSellingPrice?: number | null
+  name: string
+  code: string
+  baseUnitId: string
+  latestPurchasePrice: number | null
+  defaultSellingPrice: number | null
+}
+
+// Move here from the inline type in invoice-form-modal.tsx
+export type InvoiceDirection = "SALE" | "PURCHASE"
+
+// Named return type for computeInvoiceTotals
+export interface InvoiceTotals {
+  subtotal: number
+  discountAmount: number
+  taxAmount: number
+  total: number
+}
+
+// Typed shape for the raw API line data in mapInvoiceToFormValues (replaces `line: any`)
+interface InvoiceLineApiData {
+  itemId?: string
+  itemName?: string
+  itemCode?: string
+  unitId?: string
+  quantity?: number | string
+  unitPrice?: number | string
+  discountPercent?: number | string
+  taxPercent?: number | string
+  notes?: string
+  sortOrder?: number
 }
 ```
 
-Update `invoiceLineSchema` to use `z.instanceof` — no change to runtime, just tighten the `_item` zod type to reference `InvoiceItemOption`-shaped keys.
+Update `computeInvoiceTotals` return type annotation to `InvoiceTotals`.
+Update `mapInvoiceToFormValues` to replace `line: any` with `line: InvoiceLineApiData`.
+The zod schema itself does not change — runtime behaviour is identical.
 
 ---
 
@@ -112,13 +145,31 @@ type InvoiceFormController = {
 - `useInvoiceActions` — post/cancel (delegates `onClose` to the callback)
 - `useEffect([open])` — reset-on-close
 
-### Key typing fix
-Cache read typed via the api-contracts response shape:
+### Key typing decisions
+
+**Cache read** — `InvoicesClient.show` returns `any` (the client itself uses `as any` internally). Define a local interface so at least our consumer is typed:
+
 ```ts
-type CachedInvoice = ApiResponse<"/invoices/{id}", "get">
-const cached = queryClient.getQueryData<CachedInvoice>([api.invoices.key, "show", invoiceId])
-const status = (cached?.data?.status ?? cached?.status) as InvoiceStatus | undefined
+// Local to use-invoice-form.ts — documents what we expect from the cache
+interface CachedInvoiceEntry {
+  data?: { status?: InvoiceStatus; number?: string }
+  // flat shape (some API wrappers hoist data fields)
+  status?: InvoiceStatus
+  number?: string
+}
+
+const cached = queryClient.getQueryData<CachedInvoiceEntry>(
+  [api.invoices.key, "show", invoiceId]
+)
+const status: InvoiceStatus | undefined = cached?.data?.status ?? cached?.status
+const invoiceNumber: string | undefined = cached?.data?.number ?? cached?.number
 ```
+
+No `as any` cast. The `status` and `number` variables are inferred as the correct types from the interface.
+
+**`useInvoiceActions` callback** — `useInvoiceActions` already accepts `onSuccess?: () => void`. Pass `() => { onSuccess?.(); onClose() }` as the callback instead of duplicating those calls in two places.
+
+**`api.invoices.key` query key** — use `api.invoices.key` (string literal `"invoices"`) directly — already typed via `InvoicesClient.key`.
 
 ---
 
@@ -150,9 +201,36 @@ type InvoiceLineRowProps = {
 }
 ```
 
-No `form` object passed wholesale. The `_item` auto-fill `useEffect` reads `useWatch({ control, name: \`lines.${index}._item\` })` typed as `InvoiceItemOption | null`.
+No `form` object passed wholesale. The `_item` auto-fill `useEffect` reads:
+```ts
+const itemOption = useWatch({ control, name: `lines.${index}._item` }) as InvoiceItemOption | null
+```
 
-**Typed item select:** `client` prop uses `(api: ReturnType<typeof useApi>) => api.items` — no `any` cast. `getValue` returns `InvoiceItemOption` (the full object), `getLabel`/`getId` are typed against `ResourceItem<ItemsClient>`.
+**Typed item select** — `ResourceItem<ItemsClient>` is fully typed from the OpenAPI schema. `ItemResponseDto` contains `id`, `code`, `name`, `baseUnitId`, `defaultSellingPrice`, `latestPurchasePrice` — all present in the generated types. So `getLabel`, `getValue`, `getId` receive typed items with zero `any`:
+
+```tsx
+<RhfResourceSelect<
+  InvoiceFormValues,
+  `lines.${number}._item`,
+  ItemsClient,
+  InvoiceItemOption
+>
+  name={`lines.${index}._item` as `lines.${number}._item`}
+  client={(api) => api.items}
+  getLabel={(it) => `${it.code} ${it.name}`.trim()}
+  getValue={(it) => ({
+    id: it.id,
+    name: it.name,
+    code: it.code,
+    baseUnitId: it.baseUnitId,
+    latestPurchasePrice: it.latestPurchasePrice,
+    defaultSellingPrice: it.defaultSellingPrice,
+  })}
+  getId={(it) => it.id}
+/>
+```
+
+The `name` cast `as \`lines.${number}._item\`` is a narrow template-literal cast (not `as any`) asserting that this dynamic string is a valid field path shape.
 
 No translation prop — calls `useTranslations` itself.
 
@@ -211,14 +289,20 @@ Submit button calls `ctrl.onSubmit()` (type="button"), stays outside `<Rhform>` 
 
 ## TypeScript Invariants
 
-| Before | After |
-|---|---|
-| `(api: any) => api.items` | `(api) => api.items` — `api` typed via `useApi()` return |
-| `status: string \| undefined` | `InvoiceStatus \| undefined` |
-| `t: (k: string) => string` | removed from all sub-component props |
-| `cachedInvoice as any` | generic `getQueryData<CachedInvoice>` |
-| `ReturnType<typeof useForm<InvoiceFormValues>>` as prop | `Control<…>`, `UseFormSetValue<…>`, `UseFormGetValues<…>` |
-| `line: any` in mapper | `line: InvoiceLineApiShape` (local interface in config) |
+| Location | Before | After |
+|---|---|---|
+| `InvoiceLineRow` props | `form: ReturnType<typeof useForm<InvoiceFormValues>>` | `control`, `setValue`, `getValues` — minimum surface only |
+| `RhfResourceSelect` client | `(api: any) => api.items` | `(api) => api.items` — `api` inferred as `Api` from `useApi()` |
+| `RhfResourceSelect` for `invoice-types`, `fiscal-periods` | `(api as any)["invoice-types"]` | `(api) => api["invoice-types"]` — key is a typed literal on `Api` |
+| Status variable | `status: string \| undefined` | `InvoiceStatus \| undefined` — imported from `@devloggers/api-contracts` |
+| Cache read | `cachedInvoice as any` | `getQueryData<CachedInvoiceEntry>` — local typed interface |
+| `t` prop on sub-components | `t: (k: string) => string` | removed — each component calls `useTranslations()` itself |
+| Mapper line | `line: any` | `line: InvoiceLineApiData` — local interface in config |
+| `name` on dynamic fields | `\`lines.\${index}._item\` as any` | `as \`lines.\${number}._item\`` — narrow template-literal cast |
+| `InvoiceDirection` | defined inline in modal | moved to `invoices.config.ts`, re-exported from `index.ts` |
+| Totals return type | inferred `{}` | named `InvoiceTotals` interface |
+
+**One remaining internal `as any` that is acceptable:** `RhfResourceSelect` itself spreads `{...controlProps as any}` inside its implementation — this is inside the shared library, not in our module code. Our call sites are fully typed.
 
 ---
 
