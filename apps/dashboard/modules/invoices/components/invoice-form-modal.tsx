@@ -12,6 +12,7 @@ import { useResourceForm } from "@/shared/hooks/use-resource-form"
 import {
     Dialog,
     DialogContent,
+    DialogDescription,
     DialogTitle,
 } from "@/shared/components/ui/dialog"
 import { Button } from "@/shared/components/ui/button"
@@ -280,8 +281,12 @@ export function InvoiceFormModal({
         <Dialog open={open} onOpenChange={(v) => { if (!v) onClose() }}>
             <DialogContent
                 showCloseButton={false}
-                className="inset-0 top-0 start-0 translate-x-0 translate-y-0 max-w-full w-full h-screen max-h-screen rounded-none flex flex-col p-0 gap-0"
+                aria-describedby={undefined}
+                className="inset-0 translate-x-0 rtl:translate-x-0 translate-y-0 max-w-none sm:max-w-none h-screen max-h-screen rounded-none flex flex-col p-0 gap-0"
             >
+                <DialogDescription className="sr-only">
+                    {isEditing ? (invoiceNumber ?? t("entity")) : t("newInvoice")}
+                </DialogDescription>
                 {/* Zone 1: Sticky header bar */}
                 <div className="flex items-center justify-between px-6 py-3 border-b bg-background shrink-0">
                     <div className="flex items-center gap-3">
@@ -503,7 +508,9 @@ export function InvoiceFormModal({
                             >
                                 {isPending
                                     ? (isEditing ? tf("updating") : tf("creating"))
-                                    : (isEditing ? tf("update") : tf("create"))}
+                                    : (isEditing
+                                        ? tf("update", { entity: t("entity") })
+                                        : tf("create", { entity: t("entity") }))}
                             </Button>
                         )}
                     </div>
