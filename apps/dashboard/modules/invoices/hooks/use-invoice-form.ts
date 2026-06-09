@@ -74,11 +74,10 @@ export function useInvoiceForm({
     const tf = useTranslations("system.resourceForm")
     const t = useTranslations("business.resources.invoices")
     const queryClient = useQueryClient()
-    const isEditing = !!invoiceId
 
     // ── Form init ──────────────────────────────────────────────────────────────
 
-    const { form, isInitializing } = useResourceForm<InvoiceFormValues, unknown>({
+    const { form, isEditing, isInitializing } = useResourceForm<InvoiceFormValues, unknown>({
         schema: invoiceFormSchema,
         defaultValues: DEFAULT_INVOICE_FORM_VALUES,
         resourceId: invoiceId,
@@ -120,8 +119,8 @@ export function useInvoiceForm({
 
     const { mutate, isPending } = useFormMutation(form, {
         mutationFn: (values: InvoiceFormValues) => {
-            const promise = isEditing
-                ? api.invoices.update(invoiceId!, toUpdateInvoiceDto(values))
+            const promise = isEditing && invoiceId
+                ? api.invoices.update(invoiceId, toUpdateInvoiceDto(values))
                 : api.invoices.create(toCreateInvoiceDto(values))
 
             toast.promise(promise, {
