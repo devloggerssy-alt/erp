@@ -5,8 +5,8 @@ export const invoiceResource = defineResource({
 
   routes: {
     list: '/invoices',
+    show: '/invoices/{id}',
     create: '/invoices',
-    details: '/invoices/{id}',
     update: '/invoices/{id}',
     post: '/invoices/{id}/post',
     cancel: '/invoices/{id}/cancel',

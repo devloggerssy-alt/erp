@@ -23,3 +23,7 @@
 @.ai/skills/dashboard-resource-page/SKILL.md
 
 @.ai/skills/frontend-resource-pattern/SKILL.md
+
+@.ai/skills/_imports/typescript-expert/SKILL.md
+
+@.ai/skills/_imports/andrej-karpathy/SKILL.md

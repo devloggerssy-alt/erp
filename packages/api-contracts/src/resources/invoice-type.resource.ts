@@ -1,13 +1,14 @@
-import { defineResource } from './resource.types'
+import { defineCrudResource } from './base/crud-resource'
 
-export const invoiceTypeResource = defineResource({
+export const invoiceTypeResource = defineCrudResource({
   key: 'invoice-types',
 
   routes: {
     list: '/invoice-types',
+    show: '/invoice-types/{id}',
     create: '/invoice-types',
-    details: '/invoice-types/{id}',
     update: '/invoice-types/{id}',
+    delete: '/invoice-types/{id}',
   },
 })
 

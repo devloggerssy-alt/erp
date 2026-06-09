@@ -28,7 +28,8 @@ function InvoiceHeaderFields({ disabled }: { disabled: boolean }) {
                 name="invoiceTypeId"
                 label={t("invoiceType")}
                 client={(api) => api["invoice-types"]}
-                getLabel={(it) => `${(it as { code?: string }).code ?? ""} — ${(it as { name?: { en?: string; ar?: string } }).name?.en ?? (it as { name?: { ar?: string } }).name?.ar ?? ""}`}
+                
+                getLabel={(it) => `${it.name} (${it.code})`}
                 getValue={(it) => it.id}
                 required
                 disabled={disabled}
