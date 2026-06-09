@@ -1,16 +1,18 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { forwardRef, useImperativeHandle, useMemo, useState } from "react"
 import { useLocale, useTranslations } from "next-intl"
-import { ChevronsDownUp, ChevronsUpDown } from "lucide-react"
 import { cn } from "@/shared/lib/utils"
 import { Badge } from "@/shared/components/ui/badge"
-import { Button } from "@/shared/components/ui/button"
-import { IconTooltip } from "@/shared/components/icon-tooltip"
 import { buildAccountTree, filterAccountTree, collectExpandableIds } from "../lib/build-account-tree"
 import { ACCOUNT_TYPE_ORDER, accountTypeMeta } from "../lib/account-types"
 import type { AccountListItem, AccountTreeNode } from "../accounts.types"
 import { AccountTreeNodeRow, type AccountNodeActions } from "./account-tree-node"
+
+export interface AccountsTreeHandle {
+    expandAll(): void
+    collapseAll(): void
+}
 
 type Props = {
     items: AccountListItem[]
@@ -26,7 +28,7 @@ type Props = {
 
 const defaultSelectable = (node: AccountTreeNode) => node.isLeaf && node.account.isActive
 
-export function AccountsTree({
+export const AccountsTree = forwardRef<AccountsTreeHandle, Props>(function AccountsTree({
     items,
     query,
     mode,
@@ -35,7 +37,7 @@ export function AccountsTree({
     selectable = defaultSelectable,
     actions,
     hideInactive = false,
-}: Props) {
+}, ref) {
     const locale = useLocale()
     const t = useTranslations("business.resources.accounts")
 
@@ -69,6 +71,8 @@ export function AccountsTree({
     const expandAll = () => setExpanded(new Set(collectExpandableIds(buckets)))
     const collapseAll = () => setExpanded(new Set())
 
+    useImperativeHandle(ref, () => ({ expandAll, collapseAll }), [buckets])
+
     const isEmpty = filtered.every((b) => b.nodes.length === 0)
     if (isEmpty) {
         return <p className="px-3 py-10 text-center text-sm text-muted-foreground">{t("noResults")}</p>
@@ -76,20 +80,6 @@ export function AccountsTree({
 
     return (
         <div className="space-y-6">
-            {mode === "manage" && (
-                <div className="flex items-center gap-1">
-                    <IconTooltip label={t("expandAll")}>
-                        <Button type="button" variant="ghost" size="icon" onClick={expandAll}>
-                            <ChevronsUpDown className="size-4" />
-                        </Button>
-                    </IconTooltip>
-                    <IconTooltip label={t("collapseAll")}>
-                        <Button type="button" variant="ghost" size="icon" onClick={collapseAll}>
-                            <ChevronsDownUp className="size-4" />
-                        </Button>
-                    </IconTooltip>
-                </div>
-            )}
             {ACCOUNT_TYPE_ORDER.map((type) => {
                 const bucket = filtered.find((b) => b.type === type)!
                 if (bucket.nodes.length === 0) return null
@@ -122,6 +112,6 @@ export function AccountsTree({
             })}
         </div>
     )
-}
+})
 
 export { defaultSelectable }

@@ -1,11 +1,12 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useTranslations } from "next-intl"
-import { BookOpen, Plus, Search, X } from "lucide-react"
+import { BookOpen, ChevronsDownUp, ChevronsUpDown, Plus, Search, X } from "lucide-react"
 import { confirm } from "@/shared/components/confirm-dialog"
 import { Button } from "@/shared/components/ui/button"
 import { Empty, EmptyDescription, EmptyHeader, EmptyMedia } from "@/shared/components/ui/empty"
+import { IconTooltip } from "@/shared/components/icon-tooltip"
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from "@/shared/components/ui/input-group"
 import { Skeleton } from "@/shared/components/ui/skeleton"
 import { ApiError } from "@devloggers/api-client"
@@ -13,7 +14,7 @@ import { AccountsResource } from "../accounts.resource"
 import { useAccountsResource } from "../hooks"
 import { useAccountDraftStore } from "../accounts-draft.store"
 import { AccountsForm } from "./accounts-form"
-import { AccountsTree } from "./accounts-tree"
+import { AccountsTree, type AccountsTreeHandle } from "./accounts-tree"
 import type { AccountListItem, AccountTreeNode } from "../accounts.types"
 
 function TreeSkeleton() {
@@ -43,16 +44,20 @@ function TreeSkeleton() {
     )
 }
 
-function AccountsTreePanel() {
+function AccountsTreePanel({
+    query,
+    treeRef,
+}: {
+    query: string
+    treeRef: React.RefObject<AccountsTreeHandle | null>
+}) {
     const t = useTranslations("business.resources.accounts")
     const resource = useAccountsResource()
     const setDraft = useAccountDraftStore((s) => s.setDraft)
     const clearDraft = useAccountDraftStore((s) => s.clear)
-    const [query, setQuery] = useState("")
 
     const items = ((resource.items ?? []) as unknown) as AccountListItem[]
 
-    // Clear the add-child draft whenever the form dialog closes.
     useEffect(() => {
         if (!resource.isDialogOpen) clearDraft()
     }, [resource.isDialogOpen, clearDraft])
@@ -90,46 +95,28 @@ function AccountsTreePanel() {
     }
 
     return (
-        <div className="space-y-4">
-            <InputGroup className="max-w-sm">
-                <InputGroupAddon>
-                    <Search className="size-4" />
-                </InputGroupAddon>
-                <InputGroupInput
-                    value={query}
-                    onChange={(e) => setQuery(e.target.value)}
-                    placeholder={t("searchPlaceholder")}
+        <div className="rounded-lg border bg-card p-3">
+            {resource.isLoading ? (
+                <TreeSkeleton />
+            ) : items.length === 0 ? (
+                <Empty className="border-0 py-10">
+                    <EmptyHeader>
+                        <EmptyMedia variant="icon">
+                            <BookOpen />
+                        </EmptyMedia>
+                        <EmptyDescription>{t("empty")}</EmptyDescription>
+                    </EmptyHeader>
+                    <AddRootButton />
+                </Empty>
+            ) : (
+                <AccountsTree
+                    ref={treeRef}
+                    items={items}
+                    query={query}
+                    mode="manage"
+                    actions={{ onAddChild, onEdit, onDelete }}
                 />
-                {query && (
-                    <InputGroupAddon align="inline-end">
-                        <InputGroupButton onClick={() => setQuery("")} aria-label={t("clear")}>
-                            <X className="size-3.5" />
-                        </InputGroupButton>
-                    </InputGroupAddon>
-                )}
-            </InputGroup>
-            <div className="rounded-lg border bg-card p-4">
-                {resource.isLoading ? (
-                    <TreeSkeleton />
-                ) : items.length === 0 ? (
-                    <Empty className="border-0 py-10">
-                        <EmptyHeader>
-                            <EmptyMedia variant="icon">
-                                <BookOpen />
-                            </EmptyMedia>
-                            <EmptyDescription>{t("empty")}</EmptyDescription>
-                        </EmptyHeader>
-                        <AddRootButton />
-                    </Empty>
-                ) : (
-                    <AccountsTree
-                        items={items}
-                        query={query}
-                        mode="manage"
-                        actions={{ onAddChild, onEdit, onDelete }}
-                    />
-                )}
-            </div>
+            )}
         </div>
     )
 }
@@ -151,21 +138,71 @@ function AddRootButton() {
 
 export function AccountsPage() {
     const t = useTranslations("business.resources.accounts")
+    const [query, setQuery] = useState("")
+    const treeRef = useRef<AccountsTreeHandle>(null)
+
     return (
         <AccountsResource>
             <AccountsResource.Page
                 title={t("title")}
-                toolbar={<AccountsResource.Toolbar>{null}</AccountsResource.Toolbar>}
+                toolbar={
+                    <AccountsResource.Toolbar>
+                        <AccountsResource.Toolbar.Start>
+                            <div className="flex items-center gap-1">
+                                <IconTooltip label={t("expandAll")}>
+                                    <Button
+                                        type="button"
+                                        variant="ghost"
+                                        size="icon"
+                                        onClick={() => treeRef.current?.expandAll()}
+                                    >
+                                        <ChevronsUpDown className="size-4" />
+                                    </Button>
+                                </IconTooltip>
+                                <IconTooltip label={t("collapseAll")}>
+                                    <Button
+                                        type="button"
+                                        variant="ghost"
+                                        size="icon"
+                                        onClick={() => treeRef.current?.collapseAll()}
+                                    >
+                                        <ChevronsDownUp className="size-4" />
+                                    </Button>
+                                </IconTooltip>
+                            </div>
+                        </AccountsResource.Toolbar.Start>
+                        <AccountsResource.Toolbar.Center>
+                            <InputGroup>
+                                <InputGroupAddon>
+                                    <Search className="size-4" />
+                                </InputGroupAddon>
+                                <InputGroupInput
+                                    value={query}
+                                    onChange={(e) => setQuery(e.target.value)}
+                                    placeholder={t("searchPlaceholder")}
+                                />
+                                {query && (
+                                    <InputGroupAddon align="inline-end">
+                                        <InputGroupButton
+                                            onClick={() => setQuery("")}
+                                            aria-label={t("clear")}
+                                        >
+                                            <X className="size-3.5" />
+                                        </InputGroupButton>
+                                    </InputGroupAddon>
+                                )}
+                            </InputGroup>
+                        </AccountsResource.Toolbar.Center>
+                    </AccountsResource.Toolbar>
+                }
                 actions={
-                    <div className="flex items-center gap-2">
-                        <AccountsResource.FormDialog
-                            title={(it) => (it?.id ? t("editTitle") : t("addAction"))}
-                            form={AccountsForm}
-                        />
-                    </div>
+                    <AccountsResource.FormDialog
+                        title={(it) => (it?.id ? t("editTitle") : t("addAction"))}
+                        form={AccountsForm}
+                    />
                 }
             >
-                <AccountsTreePanel />
+                <AccountsTreePanel query={query} treeRef={treeRef} />
             </AccountsResource.Page>
         </AccountsResource>
     )
