@@ -75,7 +75,7 @@ export function AccountsTree({
     }
 
     return (
-        <div className="space-y-4">
+        <div className="space-y-6">
             {mode === "manage" && (
                 <div className="flex items-center gap-1">
                     <IconTooltip label={t("expandAll")}>
@@ -97,7 +97,7 @@ export function AccountsTree({
                 const Icon = meta.icon
                 return (
                     <section key={type}>
-                        <header className="mb-1 flex items-center gap-2 px-1">
+                        <header className="mb-2 flex items-center gap-2 px-1">
                             <Icon className={cn("size-4", meta.badgeClass.split(" ").find((c) => c.startsWith("text-")))} />
                             <h3 className="text-sm font-semibold">{t(`types.${meta.labelKey}`)}</h3>
                             <Badge variant="outline" className={cn("text-[10px] tabular-nums", meta.badgeClass)}>{bucket.count}</Badge>

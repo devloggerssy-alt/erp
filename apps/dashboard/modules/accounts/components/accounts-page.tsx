@@ -2,10 +2,12 @@
 
 import { useEffect, useState } from "react"
 import { useTranslations } from "next-intl"
-import { Plus } from "lucide-react"
+import { BookOpen, Plus, Search, X } from "lucide-react"
 import { confirm } from "@/shared/components/confirm-dialog"
 import { Button } from "@/shared/components/ui/button"
-import { Input } from "@/shared/components/ui/input"
+import { Empty, EmptyDescription, EmptyHeader, EmptyMedia } from "@/shared/components/ui/empty"
+import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from "@/shared/components/ui/input-group"
+import { Skeleton } from "@/shared/components/ui/skeleton"
 import { ApiError } from "@devloggers/api-client"
 import { AccountsResource } from "../accounts.resource"
 import { useAccountsResource } from "../hooks"
@@ -13,6 +15,33 @@ import { useAccountDraftStore } from "../accounts-draft.store"
 import { AccountsForm } from "./accounts-form"
 import { AccountsTree } from "./accounts-tree"
 import type { AccountListItem, AccountTreeNode } from "../accounts.types"
+
+function TreeSkeleton() {
+    return (
+        <div className="space-y-6">
+            <div className="space-y-1">
+                <div className="mb-2 flex items-center gap-2 px-1">
+                    <Skeleton className="size-4 rounded" />
+                    <Skeleton className="h-4 w-14" />
+                    <Skeleton className="h-4 w-6 rounded-full" />
+                </div>
+                <Skeleton className="h-8 w-full rounded-md" />
+                <Skeleton className="h-8 w-[calc(100%-1.25rem)] rounded-md ms-5" />
+                <Skeleton className="h-8 w-[calc(100%-2.5rem)] rounded-md ms-10" />
+                <Skeleton className="h-8 w-full rounded-md" />
+            </div>
+            <div className="space-y-1">
+                <div className="mb-2 flex items-center gap-2 px-1">
+                    <Skeleton className="size-4 rounded" />
+                    <Skeleton className="h-4 w-20" />
+                    <Skeleton className="h-4 w-6 rounded-full" />
+                </div>
+                <Skeleton className="h-8 w-full rounded-md" />
+                <Skeleton className="h-8 w-[calc(100%-1.25rem)] rounded-md ms-5" />
+            </div>
+        </div>
+    )
+}
 
 function AccountsTreePanel() {
     const t = useTranslations("business.resources.accounts")
@@ -61,21 +90,37 @@ function AccountsTreePanel() {
     }
 
     return (
-        <div className="space-y-3">
-            <Input
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder={t("searchPlaceholder")}
-                className="max-w-sm"
-            />
-            <div className="rounded-lg border bg-card p-3">
+        <div className="space-y-4">
+            <InputGroup className="max-w-sm">
+                <InputGroupAddon>
+                    <Search className="size-4" />
+                </InputGroupAddon>
+                <InputGroupInput
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                    placeholder={t("searchPlaceholder")}
+                />
+                {query && (
+                    <InputGroupAddon align="inline-end">
+                        <InputGroupButton onClick={() => setQuery("")} aria-label={t("clear")}>
+                            <X className="size-3.5" />
+                        </InputGroupButton>
+                    </InputGroupAddon>
+                )}
+            </InputGroup>
+            <div className="rounded-lg border bg-card p-4">
                 {resource.isLoading ? (
-                    <p className="px-3 py-10 text-center text-sm text-muted-foreground">{t("loading")}</p>
+                    <TreeSkeleton />
                 ) : items.length === 0 ? (
-                    <div className="flex flex-col items-center gap-3 px-3 py-12 text-center">
-                        <p className="text-sm text-muted-foreground">{t("empty")}</p>
+                    <Empty className="border-0 py-10">
+                        <EmptyHeader>
+                            <EmptyMedia variant="icon">
+                                <BookOpen />
+                            </EmptyMedia>
+                            <EmptyDescription>{t("empty")}</EmptyDescription>
+                        </EmptyHeader>
                         <AddRootButton />
-                    </div>
+                    </Empty>
                 ) : (
                     <AccountsTree
                         items={items}

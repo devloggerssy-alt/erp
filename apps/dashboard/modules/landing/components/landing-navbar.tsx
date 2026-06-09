@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useTranslations } from 'next-intl'
-import { MenuIcon, XIcon } from 'lucide-react'
+import { MenuIcon, XIcon, UserCircle, Rocket } from 'lucide-react'
 import { Link } from '@/i18n/navigation'
 import { Button } from '@/shared/components/ui/button'
 
@@ -84,11 +84,12 @@ export function LandingNavbar() {
             <Link
               href="/login"
               className={[
-                'text-sm font-medium transition-colors duration-200 hover:opacity-70',
+                'text-sm font-medium transition-colors duration-200 hover:opacity-70 flex items-center gap-1.5',
                 'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-sm',
                 solid ? 'text-[oklch(6.2%_0_0)]' : 'text-white',
               ].join(' ')}
             >
+              <UserCircle className="h-4 w-4" />
               {t('login')}
             </Link>
 
@@ -98,7 +99,10 @@ export function LandingNavbar() {
                 size="sm"
                 className="h-9 px-5 font-semibold shadow-[0_0_15px_-5px_oklch(77.17%_0.20466_129.029)] hover:opacity-90 hover:shadow-[0_0_20px_0px_oklch(77.17%_0.20466_129.029)]"
               >
-                <Link href="/register">{t('register')}</Link>
+                <Link href="/register">
+                  {t('register')}
+                  <Rocket className="ms-1.5 h-4 w-4 rtl:-scale-x-100" />
+                </Link>
               </Button>
             ) : (
               <Button
@@ -107,7 +111,10 @@ export function LandingNavbar() {
                 size="sm"
                 className="h-9 border-white/60 bg-white/10 px-5 font-semibold text-white hover:bg-white/20 hover:text-white focus-visible:ring-white"
               >
-                <Link href="/register">{t('register')}</Link>
+                <Link href="/register">
+                  {t('register')}
+                  <Rocket className="ms-1.5 h-4 w-4 rtl:-scale-x-100" />
+                </Link>
               </Button>
             )}
           </nav>
@@ -155,8 +162,9 @@ export function LandingNavbar() {
           <Link
             href="/login"
             onClick={() => setMenuOpen(false)}
-            className="flex h-11 items-center justify-center rounded-lg text-sm font-medium text-[oklch(6.2%_0_0)] transition-colors hover:bg-[oklch(94.9%_0_0)]"
+            className="flex h-11 items-center justify-center gap-1.5 rounded-lg text-sm font-medium text-[oklch(6.2%_0_0)] transition-colors hover:bg-[oklch(94.9%_0_0)]"
           >
+            <UserCircle className="h-4 w-4" />
             {t('login')}
           </Link>
           <Button
@@ -165,6 +173,7 @@ export function LandingNavbar() {
           >
             <Link href="/register" onClick={() => setMenuOpen(false)}>
               {t('register')}
+              <Rocket className="ms-1.5 h-4 w-4 rtl:-scale-x-100" />
             </Link>
           </Button>
         </div>

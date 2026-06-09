@@ -35,7 +35,10 @@ export default async function RootLayout({
         geistMono.variable,
       )}
     >
-      <body dir={isRtl ? "rtl" : "ltr"}>{children}</body>
+      <body dir={isRtl ? "rtl" : "ltr"}>{children}{/* impeccable-live-start */}
+<script src="http://localhost:8400/live.js"></script>
+{/* impeccable-live-end */}
+</body>
     </html>
   )
 }

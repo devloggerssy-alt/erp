@@ -1,4 +1,5 @@
 import { getTranslations } from 'next-intl/server'
+import { Rocket } from 'lucide-react'
 import { Button } from '@/shared/components/ui/button'
 import { Link } from '@/i18n/navigation'
 
@@ -111,7 +112,10 @@ export async function HeroSection() {
                   asChild
                   className="h-14 px-10 text-lg font-bold shadow-[0_4px_28px_oklch(0%_0_0_/_25%)]"
                 >
-                  <Link href="/register">{t('cta')}</Link>
+                  <Link href="/register">
+                    {t('cta')}
+                    <Rocket className="ms-2 h-5 w-5 rtl:-scale-x-100" />
+                  </Link>
                 </Button>
               </div>
             </div>
