@@ -117,7 +117,7 @@ function InvoiceLineRow({
             <td className="p-1 min-w-[180px]">
                 <RhfResourceSelect<InvoiceFormValues, any, any, any>
                     name={`lines.${index}._item` as any}
-                    client={(api) => api.items as any}
+                    client={(api: any) => api.items}
                     getLabel={(it: any) => `${it.code ?? ""} ${it.name ?? ""}`.trim()}
                     getValue={(it: any) => it}
                     getId={(it: any) => String(it.id)}
@@ -323,14 +323,14 @@ export function InvoiceFormModal({
 
                 {/* Zone 2: Scrollable body */}
                 <div className="flex-1 overflow-y-auto">
-                    <Rhform form={form} onSubmit={(v) => mutate(v)} id="invoice-form">
+                    <Rhform form={form} onSubmit={(v) => mutate(v)}>
                         <div className="p-6 grid grid-cols-1 lg:grid-cols-2 gap-8">
                             {/* Left column: Header fields */}
                             <div className="space-y-4">
                                 <RhfResourceSelect<InvoiceFormValues, "invoiceTypeId", any, string>
                                     name="invoiceTypeId"
                                     label={t("invoiceType")}
-                                    client={(api) => (api as any)["invoice-types"]}
+                                    client={(api: any) => api["invoice-types"]}
                                     getLabel={(it: any) => `${it.code ?? ""} — ${it.name?.en ?? it.name?.ar ?? it.code ?? ""}`}
                                     getValue={(it: any) => it.id}
                                     required
@@ -497,8 +497,8 @@ export function InvoiceFormModal({
 
                         {!isReadOnly && (
                             <Button
-                                type="submit"
-                                form="invoice-form"
+                                type="button"
+                                onClick={() => form.handleSubmit((values) => mutate(values))()}
                                 disabled={isPending || isBusy}
                             >
                                 {isPending

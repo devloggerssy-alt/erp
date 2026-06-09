@@ -107,7 +107,7 @@ export function createInvoicesColumns(
     _helpers: ResourceTableHelpers<InvoicesClient>,
     t: ColumnTranslator,
     actions: InvoiceColumnActions,
-): ColumnDef<InvoiceItem>[] {
+): ColumnDef<any>[] {
     return [
         {
             accessorKey: "number",
