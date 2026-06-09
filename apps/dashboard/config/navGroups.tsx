@@ -52,12 +52,12 @@ export const navGroups: NavGroup[] = [
     items: [
       {
         titleKey: "business.navigation.items.sales",
-        href: "/invoices/sales",
+        href: "/sales/invoices",
         icon: <ReceiptIcon />,
         items: [
           {
             titleKey: "business.navigation.items.salesInvoices",
-            href: "/invoices/sales",
+            href: "/sales/invoices",
             icon: <ReceiptIcon />,
           },
           {
@@ -69,12 +69,12 @@ export const navGroups: NavGroup[] = [
       },
       {
         titleKey: "business.navigation.items.purchases",
-        href: "/invoices/purchases",
+        href: "/purchases/invoices",
         icon: <ShoppingCartIcon />,
         items: [
           {
             titleKey: "business.navigation.items.purchaseInvoices",
-            href: "/invoices/purchases",
+            href: "/purchases/invoices",
             icon: <ShoppingCartIcon />,
           },
           {

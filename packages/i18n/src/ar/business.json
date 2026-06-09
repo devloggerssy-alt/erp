@@ -307,6 +307,53 @@
       "description": "الوصف",
       "descriptionPlaceholderAr": "مثال: صلاحيات المحاسبة",
       "descriptionPlaceholderEn": "مثال: Accounting permissions"
+    },
+    "invoices": {
+      "entity": "فاتورة",
+      "salesInvoices": "فواتير المبيعات",
+      "purchaseInvoices": "فواتير المشتريات",
+      "newInvoice": "فاتورة جديدة",
+      "number": "الرقم",
+      "party": "الطرف",
+      "date": "التاريخ",
+      "dueDate": "تاريخ الاستحقاق",
+      "invoiceType": "نوع الفاتورة",
+      "warehouse": "المستودع",
+      "fiscalPeriod": "الفترة المالية",
+      "currency": "العملة",
+      "notes": "ملاحظات",
+      "status": {
+        "draft": "مسودة",
+        "posted": "مرحَّلة",
+        "cancelled": "ملغاة"
+      },
+      "actions": {
+        "post": "ترحيل الفاتورة",
+        "cancel": "إلغاء الفاتورة",
+        "edit": "تعديل",
+        "view": "عرض",
+        "postConfirm": "سيؤدي هذا إلى قفل الفاتورة وتحديث المخزون. لا يمكن التراجع عن هذا الإجراء.",
+        "cancelConfirm": "سيؤدي هذا إلى عكس حركات المخزون. ستُوضع الفاتورة كملغاة.",
+        "postTitle": "ترحيل الفاتورة؟",
+        "cancelTitle": "إلغاء الفاتورة؟"
+      },
+      "lines": {
+        "item": "الصنف",
+        "unit": "الوحدة",
+        "quantity": "الكمية",
+        "unitPrice": "سعر الوحدة",
+        "discountPercent": "خصم %",
+        "taxPercent": "ضريبة %",
+        "total": "الإجمالي",
+        "addLine": "إضافة سطر",
+        "notes": "ملاحظات"
+      },
+      "totals": {
+        "subtotal": "المجموع الفرعي",
+        "discount": "الخصم",
+        "tax": "الضريبة",
+        "total": "الإجمالي"
+      }
     }
   },
   "landing": {

@@ -307,6 +307,53 @@
       "description": "Description",
       "descriptionPlaceholderAr": "e.g. صلاحيات المحاسبة",
       "descriptionPlaceholderEn": "e.g. Accounting permissions"
+    },
+    "invoices": {
+      "entity": "Invoice",
+      "salesInvoices": "Sales Invoices",
+      "purchaseInvoices": "Purchase Invoices",
+      "newInvoice": "New Invoice",
+      "number": "Number",
+      "party": "Party",
+      "date": "Date",
+      "dueDate": "Due Date",
+      "invoiceType": "Invoice Type",
+      "warehouse": "Warehouse",
+      "fiscalPeriod": "Fiscal Period",
+      "currency": "Currency",
+      "notes": "Notes",
+      "status": {
+        "draft": "Draft",
+        "posted": "Posted",
+        "cancelled": "Cancelled"
+      },
+      "actions": {
+        "post": "Post Invoice",
+        "cancel": "Cancel Invoice",
+        "edit": "Edit",
+        "view": "View",
+        "postConfirm": "This will lock the invoice and update stock. This cannot be undone.",
+        "cancelConfirm": "This will reverse stock movements. The invoice will be marked as cancelled.",
+        "postTitle": "Post Invoice?",
+        "cancelTitle": "Cancel Invoice?"
+      },
+      "lines": {
+        "item": "Item",
+        "unit": "Unit",
+        "quantity": "Qty",
+        "unitPrice": "Unit Price",
+        "discountPercent": "Disc %",
+        "taxPercent": "Tax %",
+        "total": "Total",
+        "addLine": "Add line",
+        "notes": "Notes"
+      },
+      "totals": {
+        "subtotal": "Subtotal",
+        "discount": "Discount",
+        "tax": "Tax",
+        "total": "Total"
+      }
     }
   }
 }

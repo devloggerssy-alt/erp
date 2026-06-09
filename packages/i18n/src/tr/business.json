@@ -307,6 +307,53 @@
       "description": "Açıklama",
       "descriptionPlaceholderAr": "örn. صلاحيات المحاسبة",
       "descriptionPlaceholderEn": "örn. Accounting permissions"
+    },
+    "invoices": {
+      "entity": "Fatura",
+      "salesInvoices": "Satış Faturaları",
+      "purchaseInvoices": "Satın Alma Faturaları",
+      "newInvoice": "Yeni Fatura",
+      "number": "Numara",
+      "party": "Taraf",
+      "date": "Tarih",
+      "dueDate": "Vade Tarihi",
+      "invoiceType": "Fatura Türü",
+      "warehouse": "Depo",
+      "fiscalPeriod": "Mali Dönem",
+      "currency": "Para Birimi",
+      "notes": "Notlar",
+      "status": {
+        "draft": "Taslak",
+        "posted": "Gönderildi",
+        "cancelled": "İptal Edildi"
+      },
+      "actions": {
+        "post": "Faturayı Gönder",
+        "cancel": "Faturayı İptal Et",
+        "edit": "Düzenle",
+        "view": "Görüntüle",
+        "postConfirm": "Bu işlem faturayı kilitleyecek ve stoku güncelleyecektir. Bu işlem geri alınamaz.",
+        "cancelConfirm": "Bu işlem stok hareketlerini tersine çevirecektir. Fatura iptal olarak işaretlenecektir.",
+        "postTitle": "Fatura Gönderilsin mi?",
+        "cancelTitle": "Fatura İptal Edilsin mi?"
+      },
+      "lines": {
+        "item": "Ürün",
+        "unit": "Birim",
+        "quantity": "Miktar",
+        "unitPrice": "Birim Fiyat",
+        "discountPercent": "İndirim %",
+        "taxPercent": "Vergi %",
+        "total": "Toplam",
+        "addLine": "Satır ekle",
+        "notes": "Notlar"
+      },
+      "totals": {
+        "subtotal": "Ara Toplam",
+        "discount": "İndirim",
+        "tax": "Vergi",
+        "total": "Toplam"
+      }
     }
   }
 }
