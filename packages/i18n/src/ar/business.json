@@ -50,7 +50,76 @@
   "settings": {
     "save": "حفظ التغييرات",
     "saving": "جارٍ الحفظ…",
-    "saveFailed": "فشل الحفظ"
+    "saveFailed": "فشل الحفظ",
+    "groups": {
+      "company": "الشركة",
+      "preferences": "التفضيلات",
+      "systemData": "بيانات النظام"
+    },
+    "currencies": { "navLabel": "العملات" },
+    "fiscalPeriods": { "navLabel": "الفترات المالية" },
+    "documentSequences": { "navLabel": "تسلسلات المستندات" },
+    "profile": {
+      "navLabel": "ملف الشركة",
+      "title": "ملف الشركة",
+      "description": "هوية مؤسستك وبيانات الاتصال الخاصة بها.",
+      "saving": "جارٍ حفظ الملف…",
+      "saved": "تم حفظ الملف",
+      "failed": "تعذّر حفظ الملف",
+      "name": "الاسم المعروض",
+      "legalName": "الاسم القانوني",
+      "taxNumber": "الرقم الضريبي / رقم التسجيل",
+      "website": "الموقع الإلكتروني",
+      "address": "العنوان",
+      "phone": "الهاتف",
+      "email": "البريد الإلكتروني",
+      "logo": "رابط الشعار",
+      "logoHint": "الصق رابطًا لصورة شعارك."
+    },
+    "localization": {
+      "navLabel": "الأقلمة",
+      "title": "الأقلمة",
+      "description": "اللغة والمنطقة الزمنية وإعدادات تنسيق الأرقام والتواريخ الافتراضية.",
+      "saving": "جارٍ الحفظ…",
+      "saved": "تم حفظ إعدادات الأقلمة",
+      "failed": "تعذّر حفظ إعدادات الأقلمة",
+      "timezone": "المنطقة الزمنية",
+      "locale": "اللغة الافتراضية",
+      "locale_en": "الإنجليزية",
+      "locale_ar": "العربية",
+      "locale_tr": "التركية",
+      "dateFormat": "تنسيق التاريخ",
+      "numberFormat": "تنسيق الأرقام",
+      "firstDayOfWeek": "أول أيام الأسبوع",
+      "day_0": "الأحد",
+      "day_1": "الاثنين",
+      "day_6": "السبت"
+    },
+    "financial": {
+      "navLabel": "المالية",
+      "title": "الإعدادات المالية الافتراضية",
+      "description": "العملة الأساسية وسلوك الضريبة والتقريب الافتراضي.",
+      "saving": "جارٍ الحفظ…",
+      "saved": "تم حفظ الإعدادات المالية",
+      "failed": "تعذّر حفظ الإعدادات المالية",
+      "baseCurrency": "العملة الأساسية",
+      "baseCurrencyPlaceholder": "اختر عملة",
+      "defaultTaxRate": "نسبة الضريبة الافتراضية (%)",
+      "roundingPrecision": "دقة التقريب",
+      "fiscalYearStartMonth": "شهر بداية السنة المالية"
+    },
+    "documents": {
+      "navLabel": "المستندات",
+      "title": "تفضيلات الفواتير والمستندات",
+      "description": "النص الافتراضي والعلامة التجارية للمستندات المطبوعة.",
+      "saving": "جارٍ الحفظ…",
+      "saved": "تم حفظ إعدادات المستندات",
+      "failed": "تعذّر حفظ إعدادات المستندات",
+      "invoiceDefaultNotes": "ملاحظات الفاتورة الافتراضية",
+      "invoiceDefaultTerms": "الشروط الافتراضية",
+      "documentFooter": "تذييل المستند",
+      "showLogoOnDocuments": "إظهار الشعار على المستندات"
+    }
   },
   "resources": {
     "units": {

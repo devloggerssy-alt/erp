@@ -50,7 +50,76 @@
   "settings": {
     "save": "Değişiklikleri Kaydet",
     "saving": "Kaydediliyor…",
-    "saveFailed": "Kaydetme başarısız"
+    "saveFailed": "Kaydetme başarısız",
+    "groups": {
+      "company": "Şirket",
+      "preferences": "Tercihler",
+      "systemData": "Sistem verileri"
+    },
+    "currencies": { "navLabel": "Para birimleri" },
+    "fiscalPeriods": { "navLabel": "Mali dönemler" },
+    "documentSequences": { "navLabel": "Belge sıraları" },
+    "profile": {
+      "navLabel": "Şirket profili",
+      "title": "Şirket profili",
+      "description": "Kuruluşunuzun kimliği ve iletişim bilgileri.",
+      "saving": "Profil kaydediliyor…",
+      "saved": "Profil kaydedildi",
+      "failed": "Profil kaydedilemedi",
+      "name": "Görünen ad",
+      "legalName": "Yasal ad",
+      "taxNumber": "Vergi / sicil numarası",
+      "website": "Web sitesi",
+      "address": "Adres",
+      "phone": "Telefon",
+      "email": "E-posta",
+      "logo": "Logo URL'si",
+      "logoHint": "Logo görselinizin bağlantısını yapıştırın."
+    },
+    "localization": {
+      "navLabel": "Yerelleştirme",
+      "title": "Yerelleştirme",
+      "description": "Dil, saat dilimi ve sayı/tarih biçimlendirme varsayılanları.",
+      "saving": "Kaydediliyor…",
+      "saved": "Yerelleştirme kaydedildi",
+      "failed": "Yerelleştirme kaydedilemedi",
+      "timezone": "Saat dilimi",
+      "locale": "Varsayılan dil",
+      "locale_en": "İngilizce",
+      "locale_ar": "Arapça",
+      "locale_tr": "Türkçe",
+      "dateFormat": "Tarih biçimi",
+      "numberFormat": "Sayı biçimi",
+      "firstDayOfWeek": "Haftanın ilk günü",
+      "day_0": "Pazar",
+      "day_1": "Pazartesi",
+      "day_6": "Cumartesi"
+    },
+    "financial": {
+      "navLabel": "Finansal",
+      "title": "Finansal varsayılanlar",
+      "description": "Ana para birimi ve varsayılan vergi/yuvarlama davranışı.",
+      "saving": "Kaydediliyor…",
+      "saved": "Finansal ayarlar kaydedildi",
+      "failed": "Finansal ayarlar kaydedilemedi",
+      "baseCurrency": "Ana para birimi",
+      "baseCurrencyPlaceholder": "Bir para birimi seçin",
+      "defaultTaxRate": "Varsayılan vergi oranı (%)",
+      "roundingPrecision": "Yuvarlama hassasiyeti",
+      "fiscalYearStartMonth": "Mali yıl başlangıç ayı"
+    },
+    "documents": {
+      "navLabel": "Belgeler",
+      "title": "Fatura ve belge tercihleri",
+      "description": "Yazdırılan belgeler için varsayılan metin ve marka.",
+      "saving": "Kaydediliyor…",
+      "saved": "Belge ayarları kaydedildi",
+      "failed": "Belge ayarları kaydedilemedi",
+      "invoiceDefaultNotes": "Varsayılan fatura notları",
+      "invoiceDefaultTerms": "Varsayılan şartlar",
+      "documentFooter": "Belge alt bilgisi",
+      "showLogoOnDocuments": "Belgelerde logoyu göster"
+    }
   },
   "resources": {
     "units": {

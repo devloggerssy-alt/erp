@@ -50,7 +50,76 @@
   "settings": {
     "save": "Save Changes",
     "saving": "Saving…",
-    "saveFailed": "Save failed"
+    "saveFailed": "Save failed",
+    "groups": {
+      "company": "Company",
+      "preferences": "Preferences",
+      "systemData": "System data"
+    },
+    "currencies": { "navLabel": "Currencies" },
+    "fiscalPeriods": { "navLabel": "Fiscal periods" },
+    "documentSequences": { "navLabel": "Document sequences" },
+    "profile": {
+      "navLabel": "Company profile",
+      "title": "Company profile",
+      "description": "Your organisation's identity and contact details.",
+      "saving": "Saving profile…",
+      "saved": "Profile saved",
+      "failed": "Could not save profile",
+      "name": "Display name",
+      "legalName": "Legal name",
+      "taxNumber": "Tax / registration number",
+      "website": "Website",
+      "address": "Address",
+      "phone": "Phone",
+      "email": "Email",
+      "logo": "Logo URL",
+      "logoHint": "Paste a link to your logo image."
+    },
+    "localization": {
+      "navLabel": "Localization",
+      "title": "Localization",
+      "description": "Language, timezone, and number/date formatting defaults.",
+      "saving": "Saving…",
+      "saved": "Localization saved",
+      "failed": "Could not save localization",
+      "timezone": "Timezone",
+      "locale": "Default language",
+      "locale_en": "English",
+      "locale_ar": "Arabic",
+      "locale_tr": "Turkish",
+      "dateFormat": "Date format",
+      "numberFormat": "Number format",
+      "firstDayOfWeek": "First day of week",
+      "day_0": "Sunday",
+      "day_1": "Monday",
+      "day_6": "Saturday"
+    },
+    "financial": {
+      "navLabel": "Financial",
+      "title": "Financial defaults",
+      "description": "Base currency and default tax/rounding behaviour.",
+      "saving": "Saving…",
+      "saved": "Financial settings saved",
+      "failed": "Could not save financial settings",
+      "baseCurrency": "Base currency",
+      "baseCurrencyPlaceholder": "Select a currency",
+      "defaultTaxRate": "Default tax rate (%)",
+      "roundingPrecision": "Rounding precision",
+      "fiscalYearStartMonth": "Fiscal year start month"
+    },
+    "documents": {
+      "navLabel": "Documents",
+      "title": "Invoice & document preferences",
+      "description": "Default text and branding for printed documents.",
+      "saving": "Saving…",
+      "saved": "Document settings saved",
+      "failed": "Could not save document settings",
+      "invoiceDefaultNotes": "Default invoice notes",
+      "invoiceDefaultTerms": "Default terms",
+      "documentFooter": "Document footer",
+      "showLogoOnDocuments": "Show logo on documents"
+    }
   },
   "resources": {
     "units": {
