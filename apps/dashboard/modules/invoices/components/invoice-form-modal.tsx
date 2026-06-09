@@ -110,8 +110,7 @@ export function InvoiceFormModal({
                                 onClick={() => ctrl.form.reset(DEFAULT_INVOICE_FORM_VALUES)}
                                 disabled={ctrl.isPending}
                             >
-                                {/* TODO(Task 8): replace with tf("discard") once system.resourceForm.discard is added */}
-                                Discard
+                                {tf("discard")}
                             </Button>
                         )}
                     </div>

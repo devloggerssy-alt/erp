@@ -107,6 +107,7 @@
     "updateFailed": "{entity} güncellenemedi",
     "create": "{entity} Oluştur",
     "update": "{entity} Güncelle",
-    "activeDescription": "Pasif kayıtlar geçmişte kullanılabilir kalır ancak aktif seçeneklerden gizlenir."
+    "activeDescription": "Pasif kayıtlar geçmişte kullanılabilir kalır ancak aktif seçeneklerden gizlenir.",
+    "discard": "Vazgeç"
   }
 }

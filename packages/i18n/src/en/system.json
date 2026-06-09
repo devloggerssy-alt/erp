@@ -107,6 +107,7 @@
     "updateFailed": "Failed to update {entity}",
     "create": "Create {entity}",
     "update": "Update {entity}",
-    "activeDescription": "Inactive records remain available historically but are hidden from active choices."
+    "activeDescription": "Inactive records remain available historically but are hidden from active choices.",
+    "discard": "Discard"
   }
 }
