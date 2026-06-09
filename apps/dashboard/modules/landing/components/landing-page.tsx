@@ -1,3 +1,4 @@
+import { LandingNavbar } from './landing-navbar'
 import { HeroSection } from './hero-section'
 import { PainPointsSection } from './pain-points-section'
 import { FeaturesSection } from './features-section'
@@ -8,14 +9,17 @@ import { FinalCtaSection } from './final-cta-section'
 
 export async function LandingPage() {
   return (
-    <main>
-      <HeroSection />
-      <PainPointsSection />
-      <FeaturesSection />
-      <HowItWorksSection />
-      <MobilePaymentsSection />
-      <AffordabilityStrip />
-      <FinalCtaSection />
-    </main>
+    <>
+      <LandingNavbar />
+      <main>
+        <HeroSection />
+        <PainPointsSection />
+        <FeaturesSection />
+        <HowItWorksSection />
+        <MobilePaymentsSection />
+        <AffordabilityStrip />
+        <FinalCtaSection />
+      </main>
+    </>
   )
 }
