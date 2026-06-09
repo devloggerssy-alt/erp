@@ -10,6 +10,7 @@ model DocumentSequence {
     updatedAt    DateTime @updatedAt @map("updated_at")
 
     tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+    defaultSalesForTenants Tenant[] @relation("TenantDefaultSalesSequence")
 
     @@unique([tenantId, documentType])
     @@index([tenantId])

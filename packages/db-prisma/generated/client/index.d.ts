@@ -134,6 +134,11 @@ export type StockBalance = $Result.DefaultSelection<Prisma.$StockBalancePayload>
  */
 export type StockMovement = $Result.DefaultSelection<Prisma.$StockMovementPayload>
 /**
+ * Model TenantSetting
+ * 
+ */
+export type TenantSetting = $Result.DefaultSelection<Prisma.$TenantSettingPayload>
+/**
  * Model Tenant
  * 
  */
@@ -699,6 +704,16 @@ export class PrismaClient<
   get stockMovement(): Prisma.StockMovementDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.tenantSetting`: Exposes CRUD operations for the **TenantSetting** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more TenantSettings
+    * const tenantSettings = await prisma.tenantSetting.findMany()
+    * ```
+    */
+  get tenantSetting(): Prisma.TenantSettingDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.tenant`: Exposes CRUD operations for the **Tenant** model.
     * Example usage:
     * ```ts
@@ -1225,6 +1240,7 @@ export namespace Prisma {
     StockCountLine: 'StockCountLine',
     StockBalance: 'StockBalance',
     StockMovement: 'StockMovement',
+    TenantSetting: 'TenantSetting',
     Tenant: 'Tenant',
     Unit: 'Unit',
     AppUser: 'AppUser',
@@ -1247,7 +1263,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "chartOfAccount" | "journalEntry" | "journalLine" | "aiChatSession" | "aiChatMessage" | "auditLog" | "cashbox" | "payment" | "paymentAllocation" | "currency" | "documentSequence" | "fiscalPeriod" | "invoiceType" | "invoice" | "invoiceLine" | "itemCategory" | "item" | "customField" | "customFieldValue" | "party" | "stockCount" | "stockCountLine" | "stockBalance" | "stockMovement" | "tenant" | "unit" | "appUser" | "role" | "userRole" | "warehouse" | "warehouseItem"
+      modelProps: "chartOfAccount" | "journalEntry" | "journalLine" | "aiChatSession" | "aiChatMessage" | "auditLog" | "cashbox" | "payment" | "paymentAllocation" | "currency" | "documentSequence" | "fiscalPeriod" | "invoiceType" | "invoice" | "invoiceLine" | "itemCategory" | "item" | "customField" | "customFieldValue" | "party" | "stockCount" | "stockCountLine" | "stockBalance" | "stockMovement" | "tenantSetting" | "tenant" | "unit" | "appUser" | "role" | "userRole" | "warehouse" | "warehouseItem"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -3027,6 +3043,80 @@ export namespace Prisma {
           }
         }
       }
+      TenantSetting: {
+        payload: Prisma.$TenantSettingPayload<ExtArgs>
+        fields: Prisma.TenantSettingFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.TenantSettingFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TenantSettingPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.TenantSettingFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TenantSettingPayload>
+          }
+          findFirst: {
+            args: Prisma.TenantSettingFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TenantSettingPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.TenantSettingFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TenantSettingPayload>
+          }
+          findMany: {
+            args: Prisma.TenantSettingFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TenantSettingPayload>[]
+          }
+          create: {
+            args: Prisma.TenantSettingCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TenantSettingPayload>
+          }
+          createMany: {
+            args: Prisma.TenantSettingCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.TenantSettingCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TenantSettingPayload>[]
+          }
+          delete: {
+            args: Prisma.TenantSettingDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TenantSettingPayload>
+          }
+          update: {
+            args: Prisma.TenantSettingUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TenantSettingPayload>
+          }
+          deleteMany: {
+            args: Prisma.TenantSettingDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.TenantSettingUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.TenantSettingUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TenantSettingPayload>[]
+          }
+          upsert: {
+            args: Prisma.TenantSettingUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TenantSettingPayload>
+          }
+          aggregate: {
+            args: Prisma.TenantSettingAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTenantSetting>
+          }
+          groupBy: {
+            args: Prisma.TenantSettingGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TenantSettingGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.TenantSettingCountArgs<ExtArgs>
+            result: $Utils.Optional<TenantSettingCountAggregateOutputType> | number
+          }
+        }
+      }
       Tenant: {
         payload: Prisma.$TenantPayload<ExtArgs>
         fields: Prisma.TenantFieldRefs
@@ -3677,6 +3767,7 @@ export namespace Prisma {
     stockCountLine?: StockCountLineOmit
     stockBalance?: StockBalanceOmit
     stockMovement?: StockMovementOmit
+    tenantSetting?: TenantSettingOmit
     tenant?: TenantOmit
     unit?: UnitOmit
     appUser?: AppUserOmit
@@ -3931,12 +4022,14 @@ export namespace Prisma {
     cashboxes: number
     invoices: number
     payments: number
+    baseForTenants: number
   }
 
   export type CurrencyCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     cashboxes?: boolean | CurrencyCountOutputTypeCountCashboxesArgs
     invoices?: boolean | CurrencyCountOutputTypeCountInvoicesArgs
     payments?: boolean | CurrencyCountOutputTypeCountPaymentsArgs
+    baseForTenants?: boolean | CurrencyCountOutputTypeCountBaseForTenantsArgs
   }
 
   // Custom InputTypes
@@ -3969,6 +4062,44 @@ export namespace Prisma {
    */
   export type CurrencyCountOutputTypeCountPaymentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: PaymentWhereInput
+  }
+
+  /**
+   * CurrencyCountOutputType without action
+   */
+  export type CurrencyCountOutputTypeCountBaseForTenantsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TenantWhereInput
+  }
+
+
+  /**
+   * Count Type DocumentSequenceCountOutputType
+   */
+
+  export type DocumentSequenceCountOutputType = {
+    defaultSalesForTenants: number
+  }
+
+  export type DocumentSequenceCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    defaultSalesForTenants?: boolean | DocumentSequenceCountOutputTypeCountDefaultSalesForTenantsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * DocumentSequenceCountOutputType without action
+   */
+  export type DocumentSequenceCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentSequenceCountOutputType
+     */
+    select?: DocumentSequenceCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * DocumentSequenceCountOutputType without action
+   */
+  export type DocumentSequenceCountOutputTypeCountDefaultSalesForTenantsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TenantWhereInput
   }
 
 
@@ -4352,6 +4483,7 @@ export namespace Prisma {
     stockCounts: number
     auditLogs: number
     aiChatSessions: number
+    settings: number
   }
 
   export type TenantCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4374,6 +4506,7 @@ export namespace Prisma {
     stockCounts?: boolean | TenantCountOutputTypeCountStockCountsArgs
     auditLogs?: boolean | TenantCountOutputTypeCountAuditLogsArgs
     aiChatSessions?: boolean | TenantCountOutputTypeCountAiChatSessionsArgs
+    settings?: boolean | TenantCountOutputTypeCountSettingsArgs
   }
 
   // Custom InputTypes
@@ -4518,6 +4651,13 @@ export namespace Prisma {
    */
   export type TenantCountOutputTypeCountAiChatSessionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: AiChatSessionWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountSettingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TenantSettingWhereInput
   }
 
 
@@ -15436,6 +15576,7 @@ export namespace Prisma {
     cashboxes?: boolean | Currency$cashboxesArgs<ExtArgs>
     invoices?: boolean | Currency$invoicesArgs<ExtArgs>
     payments?: boolean | Currency$paymentsArgs<ExtArgs>
+    baseForTenants?: boolean | Currency$baseForTenantsArgs<ExtArgs>
     _count?: boolean | CurrencyCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["currency"]>
 
@@ -15483,6 +15624,7 @@ export namespace Prisma {
     cashboxes?: boolean | Currency$cashboxesArgs<ExtArgs>
     invoices?: boolean | Currency$invoicesArgs<ExtArgs>
     payments?: boolean | Currency$paymentsArgs<ExtArgs>
+    baseForTenants?: boolean | Currency$baseForTenantsArgs<ExtArgs>
     _count?: boolean | CurrencyCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type CurrencyIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -15499,6 +15641,7 @@ export namespace Prisma {
       cashboxes: Prisma.$CashboxPayload<ExtArgs>[]
       invoices: Prisma.$InvoicePayload<ExtArgs>[]
       payments: Prisma.$PaymentPayload<ExtArgs>[]
+      baseForTenants: Prisma.$TenantPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -15908,6 +16051,7 @@ export namespace Prisma {
     cashboxes<T extends Currency$cashboxesArgs<ExtArgs> = {}>(args?: Subset<T, Currency$cashboxesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CashboxPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     invoices<T extends Currency$invoicesArgs<ExtArgs> = {}>(args?: Subset<T, Currency$invoicesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     payments<T extends Currency$paymentsArgs<ExtArgs> = {}>(args?: Subset<T, Currency$paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    baseForTenants<T extends Currency$baseForTenantsArgs<ExtArgs> = {}>(args?: Subset<T, Currency$baseForTenantsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -16419,6 +16563,30 @@ export namespace Prisma {
   }
 
   /**
+   * Currency.baseForTenants
+   */
+  export type Currency$baseForTenantsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Tenant
+     */
+    select?: TenantSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Tenant
+     */
+    omit?: TenantOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TenantInclude<ExtArgs> | null
+    where?: TenantWhereInput
+    orderBy?: TenantOrderByWithRelationInput | TenantOrderByWithRelationInput[]
+    cursor?: TenantWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TenantScalarFieldEnum | TenantScalarFieldEnum[]
+  }
+
+  /**
    * Currency without action
    */
   export type CurrencyDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -16664,6 +16832,8 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    defaultSalesForTenants?: boolean | DocumentSequence$defaultSalesForTenantsArgs<ExtArgs>
+    _count?: boolean | DocumentSequenceCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["documentSequence"]>
 
   export type DocumentSequenceSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -16704,6 +16874,8 @@ export namespace Prisma {
   export type DocumentSequenceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "documentType" | "prefix" | "nextNumber" | "padding" | "createdAt" | "updatedAt", ExtArgs["result"]["documentSequence"]>
   export type DocumentSequenceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    defaultSalesForTenants?: boolean | DocumentSequence$defaultSalesForTenantsArgs<ExtArgs>
+    _count?: boolean | DocumentSequenceCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type DocumentSequenceIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
@@ -16716,6 +16888,7 @@ export namespace Prisma {
     name: "DocumentSequence"
     objects: {
       tenant: Prisma.$TenantPayload<ExtArgs>
+      defaultSalesForTenants: Prisma.$TenantPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -17121,6 +17294,7 @@ export namespace Prisma {
   export interface Prisma__DocumentSequenceClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    defaultSalesForTenants<T extends DocumentSequence$defaultSalesForTenantsArgs<ExtArgs> = {}>(args?: Subset<T, DocumentSequence$defaultSalesForTenantsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -17556,6 +17730,30 @@ export namespace Prisma {
      * Limit how many DocumentSequences to delete.
      */
     limit?: number
+  }
+
+  /**
+   * DocumentSequence.defaultSalesForTenants
+   */
+  export type DocumentSequence$defaultSalesForTenantsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Tenant
+     */
+    select?: TenantSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Tenant
+     */
+    omit?: TenantOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TenantInclude<ExtArgs> | null
+    where?: TenantWhereInput
+    orderBy?: TenantOrderByWithRelationInput | TenantOrderByWithRelationInput[]
+    cursor?: TenantWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TenantScalarFieldEnum | TenantScalarFieldEnum[]
   }
 
   /**
@@ -33421,6 +33619,1091 @@ export namespace Prisma {
 
 
   /**
+   * Model TenantSetting
+   */
+
+  export type AggregateTenantSetting = {
+    _count: TenantSettingCountAggregateOutputType | null
+    _min: TenantSettingMinAggregateOutputType | null
+    _max: TenantSettingMaxAggregateOutputType | null
+  }
+
+  export type TenantSettingMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    category: string | null
+    key: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type TenantSettingMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    category: string | null
+    key: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type TenantSettingCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    category: number
+    key: number
+    value: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type TenantSettingMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    category?: true
+    key?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type TenantSettingMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    category?: true
+    key?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type TenantSettingCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    category?: true
+    key?: true
+    value?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type TenantSettingAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TenantSetting to aggregate.
+     */
+    where?: TenantSettingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TenantSettings to fetch.
+     */
+    orderBy?: TenantSettingOrderByWithRelationInput | TenantSettingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: TenantSettingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TenantSettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TenantSettings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned TenantSettings
+    **/
+    _count?: true | TenantSettingCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TenantSettingMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TenantSettingMaxAggregateInputType
+  }
+
+  export type GetTenantSettingAggregateType<T extends TenantSettingAggregateArgs> = {
+        [P in keyof T & keyof AggregateTenantSetting]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTenantSetting[P]>
+      : GetScalarType<T[P], AggregateTenantSetting[P]>
+  }
+
+
+
+
+  export type TenantSettingGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TenantSettingWhereInput
+    orderBy?: TenantSettingOrderByWithAggregationInput | TenantSettingOrderByWithAggregationInput[]
+    by: TenantSettingScalarFieldEnum[] | TenantSettingScalarFieldEnum
+    having?: TenantSettingScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TenantSettingCountAggregateInputType | true
+    _min?: TenantSettingMinAggregateInputType
+    _max?: TenantSettingMaxAggregateInputType
+  }
+
+  export type TenantSettingGroupByOutputType = {
+    id: string
+    tenantId: string
+    category: string
+    key: string
+    value: JsonValue
+    createdAt: Date
+    updatedAt: Date
+    _count: TenantSettingCountAggregateOutputType | null
+    _min: TenantSettingMinAggregateOutputType | null
+    _max: TenantSettingMaxAggregateOutputType | null
+  }
+
+  type GetTenantSettingGroupByPayload<T extends TenantSettingGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TenantSettingGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TenantSettingGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TenantSettingGroupByOutputType[P]>
+            : GetScalarType<T[P], TenantSettingGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type TenantSettingSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    category?: boolean
+    key?: boolean
+    value?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["tenantSetting"]>
+
+  export type TenantSettingSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    category?: boolean
+    key?: boolean
+    value?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["tenantSetting"]>
+
+  export type TenantSettingSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    category?: boolean
+    key?: boolean
+    value?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["tenantSetting"]>
+
+  export type TenantSettingSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    category?: boolean
+    key?: boolean
+    value?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type TenantSettingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "category" | "key" | "value" | "createdAt" | "updatedAt", ExtArgs["result"]["tenantSetting"]>
+  export type TenantSettingInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type TenantSettingIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type TenantSettingIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+
+  export type $TenantSettingPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "TenantSetting"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      category: string
+      key: string
+      value: Prisma.JsonValue
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["tenantSetting"]>
+    composites: {}
+  }
+
+  type TenantSettingGetPayload<S extends boolean | null | undefined | TenantSettingDefaultArgs> = $Result.GetResult<Prisma.$TenantSettingPayload, S>
+
+  type TenantSettingCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<TenantSettingFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TenantSettingCountAggregateInputType | true
+    }
+
+  export interface TenantSettingDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['TenantSetting'], meta: { name: 'TenantSetting' } }
+    /**
+     * Find zero or one TenantSetting that matches the filter.
+     * @param {TenantSettingFindUniqueArgs} args - Arguments to find a TenantSetting
+     * @example
+     * // Get one TenantSetting
+     * const tenantSetting = await prisma.tenantSetting.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends TenantSettingFindUniqueArgs>(args: SelectSubset<T, TenantSettingFindUniqueArgs<ExtArgs>>): Prisma__TenantSettingClient<$Result.GetResult<Prisma.$TenantSettingPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one TenantSetting that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {TenantSettingFindUniqueOrThrowArgs} args - Arguments to find a TenantSetting
+     * @example
+     * // Get one TenantSetting
+     * const tenantSetting = await prisma.tenantSetting.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends TenantSettingFindUniqueOrThrowArgs>(args: SelectSubset<T, TenantSettingFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TenantSettingClient<$Result.GetResult<Prisma.$TenantSettingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TenantSetting that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TenantSettingFindFirstArgs} args - Arguments to find a TenantSetting
+     * @example
+     * // Get one TenantSetting
+     * const tenantSetting = await prisma.tenantSetting.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends TenantSettingFindFirstArgs>(args?: SelectSubset<T, TenantSettingFindFirstArgs<ExtArgs>>): Prisma__TenantSettingClient<$Result.GetResult<Prisma.$TenantSettingPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TenantSetting that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TenantSettingFindFirstOrThrowArgs} args - Arguments to find a TenantSetting
+     * @example
+     * // Get one TenantSetting
+     * const tenantSetting = await prisma.tenantSetting.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends TenantSettingFindFirstOrThrowArgs>(args?: SelectSubset<T, TenantSettingFindFirstOrThrowArgs<ExtArgs>>): Prisma__TenantSettingClient<$Result.GetResult<Prisma.$TenantSettingPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more TenantSettings that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TenantSettingFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all TenantSettings
+     * const tenantSettings = await prisma.tenantSetting.findMany()
+     * 
+     * // Get first 10 TenantSettings
+     * const tenantSettings = await prisma.tenantSetting.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const tenantSettingWithIdOnly = await prisma.tenantSetting.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends TenantSettingFindManyArgs>(args?: SelectSubset<T, TenantSettingFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TenantSettingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a TenantSetting.
+     * @param {TenantSettingCreateArgs} args - Arguments to create a TenantSetting.
+     * @example
+     * // Create one TenantSetting
+     * const TenantSetting = await prisma.tenantSetting.create({
+     *   data: {
+     *     // ... data to create a TenantSetting
+     *   }
+     * })
+     * 
+     */
+    create<T extends TenantSettingCreateArgs>(args: SelectSubset<T, TenantSettingCreateArgs<ExtArgs>>): Prisma__TenantSettingClient<$Result.GetResult<Prisma.$TenantSettingPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many TenantSettings.
+     * @param {TenantSettingCreateManyArgs} args - Arguments to create many TenantSettings.
+     * @example
+     * // Create many TenantSettings
+     * const tenantSetting = await prisma.tenantSetting.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends TenantSettingCreateManyArgs>(args?: SelectSubset<T, TenantSettingCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many TenantSettings and returns the data saved in the database.
+     * @param {TenantSettingCreateManyAndReturnArgs} args - Arguments to create many TenantSettings.
+     * @example
+     * // Create many TenantSettings
+     * const tenantSetting = await prisma.tenantSetting.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many TenantSettings and only return the `id`
+     * const tenantSettingWithIdOnly = await prisma.tenantSetting.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends TenantSettingCreateManyAndReturnArgs>(args?: SelectSubset<T, TenantSettingCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TenantSettingPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a TenantSetting.
+     * @param {TenantSettingDeleteArgs} args - Arguments to delete one TenantSetting.
+     * @example
+     * // Delete one TenantSetting
+     * const TenantSetting = await prisma.tenantSetting.delete({
+     *   where: {
+     *     // ... filter to delete one TenantSetting
+     *   }
+     * })
+     * 
+     */
+    delete<T extends TenantSettingDeleteArgs>(args: SelectSubset<T, TenantSettingDeleteArgs<ExtArgs>>): Prisma__TenantSettingClient<$Result.GetResult<Prisma.$TenantSettingPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one TenantSetting.
+     * @param {TenantSettingUpdateArgs} args - Arguments to update one TenantSetting.
+     * @example
+     * // Update one TenantSetting
+     * const tenantSetting = await prisma.tenantSetting.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends TenantSettingUpdateArgs>(args: SelectSubset<T, TenantSettingUpdateArgs<ExtArgs>>): Prisma__TenantSettingClient<$Result.GetResult<Prisma.$TenantSettingPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more TenantSettings.
+     * @param {TenantSettingDeleteManyArgs} args - Arguments to filter TenantSettings to delete.
+     * @example
+     * // Delete a few TenantSettings
+     * const { count } = await prisma.tenantSetting.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends TenantSettingDeleteManyArgs>(args?: SelectSubset<T, TenantSettingDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TenantSettings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TenantSettingUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many TenantSettings
+     * const tenantSetting = await prisma.tenantSetting.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends TenantSettingUpdateManyArgs>(args: SelectSubset<T, TenantSettingUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TenantSettings and returns the data updated in the database.
+     * @param {TenantSettingUpdateManyAndReturnArgs} args - Arguments to update many TenantSettings.
+     * @example
+     * // Update many TenantSettings
+     * const tenantSetting = await prisma.tenantSetting.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more TenantSettings and only return the `id`
+     * const tenantSettingWithIdOnly = await prisma.tenantSetting.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends TenantSettingUpdateManyAndReturnArgs>(args: SelectSubset<T, TenantSettingUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TenantSettingPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one TenantSetting.
+     * @param {TenantSettingUpsertArgs} args - Arguments to update or create a TenantSetting.
+     * @example
+     * // Update or create a TenantSetting
+     * const tenantSetting = await prisma.tenantSetting.upsert({
+     *   create: {
+     *     // ... data to create a TenantSetting
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the TenantSetting we want to update
+     *   }
+     * })
+     */
+    upsert<T extends TenantSettingUpsertArgs>(args: SelectSubset<T, TenantSettingUpsertArgs<ExtArgs>>): Prisma__TenantSettingClient<$Result.GetResult<Prisma.$TenantSettingPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of TenantSettings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TenantSettingCountArgs} args - Arguments to filter TenantSettings to count.
+     * @example
+     * // Count the number of TenantSettings
+     * const count = await prisma.tenantSetting.count({
+     *   where: {
+     *     // ... the filter for the TenantSettings we want to count
+     *   }
+     * })
+    **/
+    count<T extends TenantSettingCountArgs>(
+      args?: Subset<T, TenantSettingCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TenantSettingCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a TenantSetting.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TenantSettingAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TenantSettingAggregateArgs>(args: Subset<T, TenantSettingAggregateArgs>): Prisma.PrismaPromise<GetTenantSettingAggregateType<T>>
+
+    /**
+     * Group by TenantSetting.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TenantSettingGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TenantSettingGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TenantSettingGroupByArgs['orderBy'] }
+        : { orderBy?: TenantSettingGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TenantSettingGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTenantSettingGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the TenantSetting model
+   */
+  readonly fields: TenantSettingFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for TenantSetting.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__TenantSettingClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the TenantSetting model
+   */
+  interface TenantSettingFieldRefs {
+    readonly id: FieldRef<"TenantSetting", 'String'>
+    readonly tenantId: FieldRef<"TenantSetting", 'String'>
+    readonly category: FieldRef<"TenantSetting", 'String'>
+    readonly key: FieldRef<"TenantSetting", 'String'>
+    readonly value: FieldRef<"TenantSetting", 'Json'>
+    readonly createdAt: FieldRef<"TenantSetting", 'DateTime'>
+    readonly updatedAt: FieldRef<"TenantSetting", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * TenantSetting findUnique
+   */
+  export type TenantSettingFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TenantSetting
+     */
+    select?: TenantSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TenantSetting
+     */
+    omit?: TenantSettingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TenantSettingInclude<ExtArgs> | null
+    /**
+     * Filter, which TenantSetting to fetch.
+     */
+    where: TenantSettingWhereUniqueInput
+  }
+
+  /**
+   * TenantSetting findUniqueOrThrow
+   */
+  export type TenantSettingFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TenantSetting
+     */
+    select?: TenantSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TenantSetting
+     */
+    omit?: TenantSettingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TenantSettingInclude<ExtArgs> | null
+    /**
+     * Filter, which TenantSetting to fetch.
+     */
+    where: TenantSettingWhereUniqueInput
+  }
+
+  /**
+   * TenantSetting findFirst
+   */
+  export type TenantSettingFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TenantSetting
+     */
+    select?: TenantSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TenantSetting
+     */
+    omit?: TenantSettingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TenantSettingInclude<ExtArgs> | null
+    /**
+     * Filter, which TenantSetting to fetch.
+     */
+    where?: TenantSettingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TenantSettings to fetch.
+     */
+    orderBy?: TenantSettingOrderByWithRelationInput | TenantSettingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TenantSettings.
+     */
+    cursor?: TenantSettingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TenantSettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TenantSettings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TenantSettings.
+     */
+    distinct?: TenantSettingScalarFieldEnum | TenantSettingScalarFieldEnum[]
+  }
+
+  /**
+   * TenantSetting findFirstOrThrow
+   */
+  export type TenantSettingFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TenantSetting
+     */
+    select?: TenantSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TenantSetting
+     */
+    omit?: TenantSettingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TenantSettingInclude<ExtArgs> | null
+    /**
+     * Filter, which TenantSetting to fetch.
+     */
+    where?: TenantSettingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TenantSettings to fetch.
+     */
+    orderBy?: TenantSettingOrderByWithRelationInput | TenantSettingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TenantSettings.
+     */
+    cursor?: TenantSettingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TenantSettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TenantSettings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TenantSettings.
+     */
+    distinct?: TenantSettingScalarFieldEnum | TenantSettingScalarFieldEnum[]
+  }
+
+  /**
+   * TenantSetting findMany
+   */
+  export type TenantSettingFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TenantSetting
+     */
+    select?: TenantSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TenantSetting
+     */
+    omit?: TenantSettingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TenantSettingInclude<ExtArgs> | null
+    /**
+     * Filter, which TenantSettings to fetch.
+     */
+    where?: TenantSettingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TenantSettings to fetch.
+     */
+    orderBy?: TenantSettingOrderByWithRelationInput | TenantSettingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing TenantSettings.
+     */
+    cursor?: TenantSettingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TenantSettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TenantSettings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TenantSettings.
+     */
+    distinct?: TenantSettingScalarFieldEnum | TenantSettingScalarFieldEnum[]
+  }
+
+  /**
+   * TenantSetting create
+   */
+  export type TenantSettingCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TenantSetting
+     */
+    select?: TenantSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TenantSetting
+     */
+    omit?: TenantSettingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TenantSettingInclude<ExtArgs> | null
+    /**
+     * The data needed to create a TenantSetting.
+     */
+    data: XOR<TenantSettingCreateInput, TenantSettingUncheckedCreateInput>
+  }
+
+  /**
+   * TenantSetting createMany
+   */
+  export type TenantSettingCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many TenantSettings.
+     */
+    data: TenantSettingCreateManyInput | TenantSettingCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * TenantSetting createManyAndReturn
+   */
+  export type TenantSettingCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TenantSetting
+     */
+    select?: TenantSettingSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TenantSetting
+     */
+    omit?: TenantSettingOmit<ExtArgs> | null
+    /**
+     * The data used to create many TenantSettings.
+     */
+    data: TenantSettingCreateManyInput | TenantSettingCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TenantSettingIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * TenantSetting update
+   */
+  export type TenantSettingUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TenantSetting
+     */
+    select?: TenantSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TenantSetting
+     */
+    omit?: TenantSettingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TenantSettingInclude<ExtArgs> | null
+    /**
+     * The data needed to update a TenantSetting.
+     */
+    data: XOR<TenantSettingUpdateInput, TenantSettingUncheckedUpdateInput>
+    /**
+     * Choose, which TenantSetting to update.
+     */
+    where: TenantSettingWhereUniqueInput
+  }
+
+  /**
+   * TenantSetting updateMany
+   */
+  export type TenantSettingUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update TenantSettings.
+     */
+    data: XOR<TenantSettingUpdateManyMutationInput, TenantSettingUncheckedUpdateManyInput>
+    /**
+     * Filter which TenantSettings to update
+     */
+    where?: TenantSettingWhereInput
+    /**
+     * Limit how many TenantSettings to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * TenantSetting updateManyAndReturn
+   */
+  export type TenantSettingUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TenantSetting
+     */
+    select?: TenantSettingSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TenantSetting
+     */
+    omit?: TenantSettingOmit<ExtArgs> | null
+    /**
+     * The data used to update TenantSettings.
+     */
+    data: XOR<TenantSettingUpdateManyMutationInput, TenantSettingUncheckedUpdateManyInput>
+    /**
+     * Filter which TenantSettings to update
+     */
+    where?: TenantSettingWhereInput
+    /**
+     * Limit how many TenantSettings to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TenantSettingIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * TenantSetting upsert
+   */
+  export type TenantSettingUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TenantSetting
+     */
+    select?: TenantSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TenantSetting
+     */
+    omit?: TenantSettingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TenantSettingInclude<ExtArgs> | null
+    /**
+     * The filter to search for the TenantSetting to update in case it exists.
+     */
+    where: TenantSettingWhereUniqueInput
+    /**
+     * In case the TenantSetting found by the `where` argument doesn't exist, create a new TenantSetting with this data.
+     */
+    create: XOR<TenantSettingCreateInput, TenantSettingUncheckedCreateInput>
+    /**
+     * In case the TenantSetting was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<TenantSettingUpdateInput, TenantSettingUncheckedUpdateInput>
+  }
+
+  /**
+   * TenantSetting delete
+   */
+  export type TenantSettingDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TenantSetting
+     */
+    select?: TenantSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TenantSetting
+     */
+    omit?: TenantSettingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TenantSettingInclude<ExtArgs> | null
+    /**
+     * Filter which TenantSetting to delete.
+     */
+    where: TenantSettingWhereUniqueInput
+  }
+
+  /**
+   * TenantSetting deleteMany
+   */
+  export type TenantSettingDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TenantSettings to delete
+     */
+    where?: TenantSettingWhereInput
+    /**
+     * Limit how many TenantSettings to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * TenantSetting without action
+   */
+  export type TenantSettingDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TenantSetting
+     */
+    select?: TenantSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TenantSetting
+     */
+    omit?: TenantSettingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TenantSettingInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model Tenant
    */
 
@@ -33438,6 +34721,11 @@ export namespace Prisma {
     phone: string | null
     email: string | null
     logo: string | null
+    legalName: string | null
+    taxNumber: string | null
+    website: string | null
+    baseCurrencyId: string | null
+    defaultSalesSequenceId: string | null
     isActive: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -33451,6 +34739,11 @@ export namespace Prisma {
     phone: string | null
     email: string | null
     logo: string | null
+    legalName: string | null
+    taxNumber: string | null
+    website: string | null
+    baseCurrencyId: string | null
+    defaultSalesSequenceId: string | null
     isActive: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -33464,6 +34757,11 @@ export namespace Prisma {
     phone: number
     email: number
     logo: number
+    legalName: number
+    taxNumber: number
+    website: number
+    baseCurrencyId: number
+    defaultSalesSequenceId: number
     isActive: number
     createdAt: number
     updatedAt: number
@@ -33479,6 +34777,11 @@ export namespace Prisma {
     phone?: true
     email?: true
     logo?: true
+    legalName?: true
+    taxNumber?: true
+    website?: true
+    baseCurrencyId?: true
+    defaultSalesSequenceId?: true
     isActive?: true
     createdAt?: true
     updatedAt?: true
@@ -33492,6 +34795,11 @@ export namespace Prisma {
     phone?: true
     email?: true
     logo?: true
+    legalName?: true
+    taxNumber?: true
+    website?: true
+    baseCurrencyId?: true
+    defaultSalesSequenceId?: true
     isActive?: true
     createdAt?: true
     updatedAt?: true
@@ -33505,6 +34813,11 @@ export namespace Prisma {
     phone?: true
     email?: true
     logo?: true
+    legalName?: true
+    taxNumber?: true
+    website?: true
+    baseCurrencyId?: true
+    defaultSalesSequenceId?: true
     isActive?: true
     createdAt?: true
     updatedAt?: true
@@ -33591,6 +34904,11 @@ export namespace Prisma {
     phone: string | null
     email: string | null
     logo: string | null
+    legalName: string | null
+    taxNumber: string | null
+    website: string | null
+    baseCurrencyId: string | null
+    defaultSalesSequenceId: string | null
     isActive: boolean
     createdAt: Date
     updatedAt: Date
@@ -33621,6 +34939,11 @@ export namespace Prisma {
     phone?: boolean
     email?: boolean
     logo?: boolean
+    legalName?: boolean
+    taxNumber?: boolean
+    website?: boolean
+    baseCurrencyId?: boolean
+    defaultSalesSequenceId?: boolean
     isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -33643,6 +34966,9 @@ export namespace Prisma {
     stockCounts?: boolean | Tenant$stockCountsArgs<ExtArgs>
     auditLogs?: boolean | Tenant$auditLogsArgs<ExtArgs>
     aiChatSessions?: boolean | Tenant$aiChatSessionsArgs<ExtArgs>
+    baseCurrency?: boolean | Tenant$baseCurrencyArgs<ExtArgs>
+    defaultSalesSequence?: boolean | Tenant$defaultSalesSequenceArgs<ExtArgs>
+    settings?: boolean | Tenant$settingsArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["tenant"]>
 
@@ -33654,9 +34980,16 @@ export namespace Prisma {
     phone?: boolean
     email?: boolean
     logo?: boolean
+    legalName?: boolean
+    taxNumber?: boolean
+    website?: boolean
+    baseCurrencyId?: boolean
+    defaultSalesSequenceId?: boolean
     isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    baseCurrency?: boolean | Tenant$baseCurrencyArgs<ExtArgs>
+    defaultSalesSequence?: boolean | Tenant$defaultSalesSequenceArgs<ExtArgs>
   }, ExtArgs["result"]["tenant"]>
 
   export type TenantSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -33667,9 +35000,16 @@ export namespace Prisma {
     phone?: boolean
     email?: boolean
     logo?: boolean
+    legalName?: boolean
+    taxNumber?: boolean
+    website?: boolean
+    baseCurrencyId?: boolean
+    defaultSalesSequenceId?: boolean
     isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    baseCurrency?: boolean | Tenant$baseCurrencyArgs<ExtArgs>
+    defaultSalesSequence?: boolean | Tenant$defaultSalesSequenceArgs<ExtArgs>
   }, ExtArgs["result"]["tenant"]>
 
   export type TenantSelectScalar = {
@@ -33680,12 +35020,17 @@ export namespace Prisma {
     phone?: boolean
     email?: boolean
     logo?: boolean
+    legalName?: boolean
+    taxNumber?: boolean
+    website?: boolean
+    baseCurrencyId?: boolean
+    defaultSalesSequenceId?: boolean
     isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type TenantOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "slug" | "address" | "phone" | "email" | "logo" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["tenant"]>
+  export type TenantOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "slug" | "address" | "phone" | "email" | "logo" | "legalName" | "taxNumber" | "website" | "baseCurrencyId" | "defaultSalesSequenceId" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["tenant"]>
   export type TenantInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     users?: boolean | Tenant$usersArgs<ExtArgs>
     roles?: boolean | Tenant$rolesArgs<ExtArgs>
@@ -33706,10 +35051,19 @@ export namespace Prisma {
     stockCounts?: boolean | Tenant$stockCountsArgs<ExtArgs>
     auditLogs?: boolean | Tenant$auditLogsArgs<ExtArgs>
     aiChatSessions?: boolean | Tenant$aiChatSessionsArgs<ExtArgs>
+    baseCurrency?: boolean | Tenant$baseCurrencyArgs<ExtArgs>
+    defaultSalesSequence?: boolean | Tenant$defaultSalesSequenceArgs<ExtArgs>
+    settings?: boolean | Tenant$settingsArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }
-  export type TenantIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
-  export type TenantIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type TenantIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    baseCurrency?: boolean | Tenant$baseCurrencyArgs<ExtArgs>
+    defaultSalesSequence?: boolean | Tenant$defaultSalesSequenceArgs<ExtArgs>
+  }
+  export type TenantIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    baseCurrency?: boolean | Tenant$baseCurrencyArgs<ExtArgs>
+    defaultSalesSequence?: boolean | Tenant$defaultSalesSequenceArgs<ExtArgs>
+  }
 
   export type $TenantPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Tenant"
@@ -33733,6 +35087,9 @@ export namespace Prisma {
       stockCounts: Prisma.$StockCountPayload<ExtArgs>[]
       auditLogs: Prisma.$AuditLogPayload<ExtArgs>[]
       aiChatSessions: Prisma.$AiChatSessionPayload<ExtArgs>[]
+      baseCurrency: Prisma.$CurrencyPayload<ExtArgs> | null
+      defaultSalesSequence: Prisma.$DocumentSequencePayload<ExtArgs> | null
+      settings: Prisma.$TenantSettingPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -33742,6 +35099,11 @@ export namespace Prisma {
       phone: string | null
       email: string | null
       logo: string | null
+      legalName: string | null
+      taxNumber: string | null
+      website: string | null
+      baseCurrencyId: string | null
+      defaultSalesSequenceId: string | null
       isActive: boolean
       createdAt: Date
       updatedAt: Date
@@ -34158,6 +35520,9 @@ export namespace Prisma {
     stockCounts<T extends Tenant$stockCountsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$stockCountsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StockCountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     auditLogs<T extends Tenant$auditLogsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$auditLogsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AuditLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     aiChatSessions<T extends Tenant$aiChatSessionsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$aiChatSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AiChatSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    baseCurrency<T extends Tenant$baseCurrencyArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$baseCurrencyArgs<ExtArgs>>): Prisma__CurrencyClient<$Result.GetResult<Prisma.$CurrencyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    defaultSalesSequence<T extends Tenant$defaultSalesSequenceArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$defaultSalesSequenceArgs<ExtArgs>>): Prisma__DocumentSequenceClient<$Result.GetResult<Prisma.$DocumentSequencePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    settings<T extends Tenant$settingsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$settingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TenantSettingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -34194,6 +35559,11 @@ export namespace Prisma {
     readonly phone: FieldRef<"Tenant", 'String'>
     readonly email: FieldRef<"Tenant", 'String'>
     readonly logo: FieldRef<"Tenant", 'String'>
+    readonly legalName: FieldRef<"Tenant", 'String'>
+    readonly taxNumber: FieldRef<"Tenant", 'String'>
+    readonly website: FieldRef<"Tenant", 'String'>
+    readonly baseCurrencyId: FieldRef<"Tenant", 'String'>
+    readonly defaultSalesSequenceId: FieldRef<"Tenant", 'String'>
     readonly isActive: FieldRef<"Tenant", 'Boolean'>
     readonly createdAt: FieldRef<"Tenant", 'DateTime'>
     readonly updatedAt: FieldRef<"Tenant", 'DateTime'>
@@ -34451,6 +35821,10 @@ export namespace Prisma {
      */
     data: TenantCreateManyInput | TenantCreateManyInput[]
     skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TenantIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -34521,6 +35895,10 @@ export namespace Prisma {
      * Limit how many Tenants to update.
      */
     limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TenantIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -35043,6 +36421,68 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: AiChatSessionScalarFieldEnum | AiChatSessionScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.baseCurrency
+   */
+  export type Tenant$baseCurrencyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Currency
+     */
+    select?: CurrencySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Currency
+     */
+    omit?: CurrencyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CurrencyInclude<ExtArgs> | null
+    where?: CurrencyWhereInput
+  }
+
+  /**
+   * Tenant.defaultSalesSequence
+   */
+  export type Tenant$defaultSalesSequenceArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentSequence
+     */
+    select?: DocumentSequenceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentSequence
+     */
+    omit?: DocumentSequenceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentSequenceInclude<ExtArgs> | null
+    where?: DocumentSequenceWhereInput
+  }
+
+  /**
+   * Tenant.settings
+   */
+  export type Tenant$settingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TenantSetting
+     */
+    select?: TenantSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TenantSetting
+     */
+    omit?: TenantSettingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TenantSettingInclude<ExtArgs> | null
+    where?: TenantSettingWhereInput
+    orderBy?: TenantSettingOrderByWithRelationInput | TenantSettingOrderByWithRelationInput[]
+    cursor?: TenantSettingWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TenantSettingScalarFieldEnum | TenantSettingScalarFieldEnum[]
   }
 
   /**
@@ -42336,6 +43776,19 @@ export namespace Prisma {
   export type StockMovementScalarFieldEnum = (typeof StockMovementScalarFieldEnum)[keyof typeof StockMovementScalarFieldEnum]
 
 
+  export const TenantSettingScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    category: 'category',
+    key: 'key',
+    value: 'value',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type TenantSettingScalarFieldEnum = (typeof TenantSettingScalarFieldEnum)[keyof typeof TenantSettingScalarFieldEnum]
+
+
   export const TenantScalarFieldEnum: {
     id: 'id',
     name: 'name',
@@ -42344,6 +43797,11 @@ export namespace Prisma {
     phone: 'phone',
     email: 'email',
     logo: 'logo',
+    legalName: 'legalName',
+    taxNumber: 'taxNumber',
+    website: 'website',
+    baseCurrencyId: 'baseCurrencyId',
+    defaultSalesSequenceId: 'defaultSalesSequenceId',
     isActive: 'isActive',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -43531,6 +44989,7 @@ export namespace Prisma {
     cashboxes?: CashboxListRelationFilter
     invoices?: InvoiceListRelationFilter
     payments?: PaymentListRelationFilter
+    baseForTenants?: TenantListRelationFilter
   }
 
   export type CurrencyOrderByWithRelationInput = {
@@ -43547,6 +45006,7 @@ export namespace Prisma {
     cashboxes?: CashboxOrderByRelationAggregateInput
     invoices?: InvoiceOrderByRelationAggregateInput
     payments?: PaymentOrderByRelationAggregateInput
+    baseForTenants?: TenantOrderByRelationAggregateInput
   }
 
   export type CurrencyWhereUniqueInput = Prisma.AtLeast<{
@@ -43567,6 +45027,7 @@ export namespace Prisma {
     cashboxes?: CashboxListRelationFilter
     invoices?: InvoiceListRelationFilter
     payments?: PaymentListRelationFilter
+    baseForTenants?: TenantListRelationFilter
   }, "id" | "tenantId_code">
 
   export type CurrencyOrderByWithAggregationInput = {
@@ -43612,6 +45073,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"DocumentSequence"> | Date | string
     updatedAt?: DateTimeFilter<"DocumentSequence"> | Date | string
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    defaultSalesForTenants?: TenantListRelationFilter
   }
 
   export type DocumentSequenceOrderByWithRelationInput = {
@@ -43624,6 +45086,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     tenant?: TenantOrderByWithRelationInput
+    defaultSalesForTenants?: TenantOrderByRelationAggregateInput
   }
 
   export type DocumentSequenceWhereUniqueInput = Prisma.AtLeast<{
@@ -43640,6 +45103,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"DocumentSequence"> | Date | string
     updatedAt?: DateTimeFilter<"DocumentSequence"> | Date | string
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    defaultSalesForTenants?: TenantListRelationFilter
   }, "id" | "tenantId_documentType">
 
   export type DocumentSequenceOrderByWithAggregationInput = {
@@ -44906,6 +46370,72 @@ export namespace Prisma {
     createdBy?: StringWithAggregatesFilter<"StockMovement"> | string
   }
 
+  export type TenantSettingWhereInput = {
+    AND?: TenantSettingWhereInput | TenantSettingWhereInput[]
+    OR?: TenantSettingWhereInput[]
+    NOT?: TenantSettingWhereInput | TenantSettingWhereInput[]
+    id?: StringFilter<"TenantSetting"> | string
+    tenantId?: StringFilter<"TenantSetting"> | string
+    category?: StringFilter<"TenantSetting"> | string
+    key?: StringFilter<"TenantSetting"> | string
+    value?: JsonFilter<"TenantSetting">
+    createdAt?: DateTimeFilter<"TenantSetting"> | Date | string
+    updatedAt?: DateTimeFilter<"TenantSetting"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+  }
+
+  export type TenantSettingOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    category?: SortOrder
+    key?: SortOrder
+    value?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+  }
+
+  export type TenantSettingWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tenantId_key?: TenantSettingTenantIdKeyCompoundUniqueInput
+    AND?: TenantSettingWhereInput | TenantSettingWhereInput[]
+    OR?: TenantSettingWhereInput[]
+    NOT?: TenantSettingWhereInput | TenantSettingWhereInput[]
+    tenantId?: StringFilter<"TenantSetting"> | string
+    category?: StringFilter<"TenantSetting"> | string
+    key?: StringFilter<"TenantSetting"> | string
+    value?: JsonFilter<"TenantSetting">
+    createdAt?: DateTimeFilter<"TenantSetting"> | Date | string
+    updatedAt?: DateTimeFilter<"TenantSetting"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+  }, "id" | "tenantId_key">
+
+  export type TenantSettingOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    category?: SortOrder
+    key?: SortOrder
+    value?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: TenantSettingCountOrderByAggregateInput
+    _max?: TenantSettingMaxOrderByAggregateInput
+    _min?: TenantSettingMinOrderByAggregateInput
+  }
+
+  export type TenantSettingScalarWhereWithAggregatesInput = {
+    AND?: TenantSettingScalarWhereWithAggregatesInput | TenantSettingScalarWhereWithAggregatesInput[]
+    OR?: TenantSettingScalarWhereWithAggregatesInput[]
+    NOT?: TenantSettingScalarWhereWithAggregatesInput | TenantSettingScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"TenantSetting"> | string
+    tenantId?: StringWithAggregatesFilter<"TenantSetting"> | string
+    category?: StringWithAggregatesFilter<"TenantSetting"> | string
+    key?: StringWithAggregatesFilter<"TenantSetting"> | string
+    value?: JsonWithAggregatesFilter<"TenantSetting">
+    createdAt?: DateTimeWithAggregatesFilter<"TenantSetting"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"TenantSetting"> | Date | string
+  }
+
   export type TenantWhereInput = {
     AND?: TenantWhereInput | TenantWhereInput[]
     OR?: TenantWhereInput[]
@@ -44917,6 +46447,11 @@ export namespace Prisma {
     phone?: StringNullableFilter<"Tenant"> | string | null
     email?: StringNullableFilter<"Tenant"> | string | null
     logo?: StringNullableFilter<"Tenant"> | string | null
+    legalName?: StringNullableFilter<"Tenant"> | string | null
+    taxNumber?: StringNullableFilter<"Tenant"> | string | null
+    website?: StringNullableFilter<"Tenant"> | string | null
+    baseCurrencyId?: StringNullableFilter<"Tenant"> | string | null
+    defaultSalesSequenceId?: StringNullableFilter<"Tenant"> | string | null
     isActive?: BoolFilter<"Tenant"> | boolean
     createdAt?: DateTimeFilter<"Tenant"> | Date | string
     updatedAt?: DateTimeFilter<"Tenant"> | Date | string
@@ -44939,6 +46474,9 @@ export namespace Prisma {
     stockCounts?: StockCountListRelationFilter
     auditLogs?: AuditLogListRelationFilter
     aiChatSessions?: AiChatSessionListRelationFilter
+    baseCurrency?: XOR<CurrencyNullableScalarRelationFilter, CurrencyWhereInput> | null
+    defaultSalesSequence?: XOR<DocumentSequenceNullableScalarRelationFilter, DocumentSequenceWhereInput> | null
+    settings?: TenantSettingListRelationFilter
   }
 
   export type TenantOrderByWithRelationInput = {
@@ -44949,6 +46487,11 @@ export namespace Prisma {
     phone?: SortOrderInput | SortOrder
     email?: SortOrderInput | SortOrder
     logo?: SortOrderInput | SortOrder
+    legalName?: SortOrderInput | SortOrder
+    taxNumber?: SortOrderInput | SortOrder
+    website?: SortOrderInput | SortOrder
+    baseCurrencyId?: SortOrderInput | SortOrder
+    defaultSalesSequenceId?: SortOrderInput | SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -44971,6 +46514,9 @@ export namespace Prisma {
     stockCounts?: StockCountOrderByRelationAggregateInput
     auditLogs?: AuditLogOrderByRelationAggregateInput
     aiChatSessions?: AiChatSessionOrderByRelationAggregateInput
+    baseCurrency?: CurrencyOrderByWithRelationInput
+    defaultSalesSequence?: DocumentSequenceOrderByWithRelationInput
+    settings?: TenantSettingOrderByRelationAggregateInput
   }
 
   export type TenantWhereUniqueInput = Prisma.AtLeast<{
@@ -44984,6 +46530,11 @@ export namespace Prisma {
     phone?: StringNullableFilter<"Tenant"> | string | null
     email?: StringNullableFilter<"Tenant"> | string | null
     logo?: StringNullableFilter<"Tenant"> | string | null
+    legalName?: StringNullableFilter<"Tenant"> | string | null
+    taxNumber?: StringNullableFilter<"Tenant"> | string | null
+    website?: StringNullableFilter<"Tenant"> | string | null
+    baseCurrencyId?: StringNullableFilter<"Tenant"> | string | null
+    defaultSalesSequenceId?: StringNullableFilter<"Tenant"> | string | null
     isActive?: BoolFilter<"Tenant"> | boolean
     createdAt?: DateTimeFilter<"Tenant"> | Date | string
     updatedAt?: DateTimeFilter<"Tenant"> | Date | string
@@ -45006,6 +46557,9 @@ export namespace Prisma {
     stockCounts?: StockCountListRelationFilter
     auditLogs?: AuditLogListRelationFilter
     aiChatSessions?: AiChatSessionListRelationFilter
+    baseCurrency?: XOR<CurrencyNullableScalarRelationFilter, CurrencyWhereInput> | null
+    defaultSalesSequence?: XOR<DocumentSequenceNullableScalarRelationFilter, DocumentSequenceWhereInput> | null
+    settings?: TenantSettingListRelationFilter
   }, "id" | "slug">
 
   export type TenantOrderByWithAggregationInput = {
@@ -45016,6 +46570,11 @@ export namespace Prisma {
     phone?: SortOrderInput | SortOrder
     email?: SortOrderInput | SortOrder
     logo?: SortOrderInput | SortOrder
+    legalName?: SortOrderInput | SortOrder
+    taxNumber?: SortOrderInput | SortOrder
+    website?: SortOrderInput | SortOrder
+    baseCurrencyId?: SortOrderInput | SortOrder
+    defaultSalesSequenceId?: SortOrderInput | SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -45035,6 +46594,11 @@ export namespace Prisma {
     phone?: StringNullableWithAggregatesFilter<"Tenant"> | string | null
     email?: StringNullableWithAggregatesFilter<"Tenant"> | string | null
     logo?: StringNullableWithAggregatesFilter<"Tenant"> | string | null
+    legalName?: StringNullableWithAggregatesFilter<"Tenant"> | string | null
+    taxNumber?: StringNullableWithAggregatesFilter<"Tenant"> | string | null
+    website?: StringNullableWithAggregatesFilter<"Tenant"> | string | null
+    baseCurrencyId?: StringNullableWithAggregatesFilter<"Tenant"> | string | null
+    defaultSalesSequenceId?: StringNullableWithAggregatesFilter<"Tenant"> | string | null
     isActive?: BoolWithAggregatesFilter<"Tenant"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"Tenant"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Tenant"> | Date | string
@@ -46304,6 +47868,7 @@ export namespace Prisma {
     cashboxes?: CashboxCreateNestedManyWithoutCurrencyInput
     invoices?: InvoiceCreateNestedManyWithoutCurrencyInput
     payments?: PaymentCreateNestedManyWithoutCurrencyInput
+    baseForTenants?: TenantCreateNestedManyWithoutBaseCurrencyInput
   }
 
   export type CurrencyUncheckedCreateInput = {
@@ -46319,6 +47884,7 @@ export namespace Prisma {
     cashboxes?: CashboxUncheckedCreateNestedManyWithoutCurrencyInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutCurrencyInput
     payments?: PaymentUncheckedCreateNestedManyWithoutCurrencyInput
+    baseForTenants?: TenantUncheckedCreateNestedManyWithoutBaseCurrencyInput
   }
 
   export type CurrencyUpdateInput = {
@@ -46334,6 +47900,7 @@ export namespace Prisma {
     cashboxes?: CashboxUpdateManyWithoutCurrencyNestedInput
     invoices?: InvoiceUpdateManyWithoutCurrencyNestedInput
     payments?: PaymentUpdateManyWithoutCurrencyNestedInput
+    baseForTenants?: TenantUpdateManyWithoutBaseCurrencyNestedInput
   }
 
   export type CurrencyUncheckedUpdateInput = {
@@ -46349,6 +47916,7 @@ export namespace Prisma {
     cashboxes?: CashboxUncheckedUpdateManyWithoutCurrencyNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutCurrencyNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutCurrencyNestedInput
+    baseForTenants?: TenantUncheckedUpdateManyWithoutBaseCurrencyNestedInput
   }
 
   export type CurrencyCreateManyInput = {
@@ -46395,6 +47963,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     tenant: TenantCreateNestedOneWithoutDocumentSequencesInput
+    defaultSalesForTenants?: TenantCreateNestedManyWithoutDefaultSalesSequenceInput
   }
 
   export type DocumentSequenceUncheckedCreateInput = {
@@ -46406,6 +47975,7 @@ export namespace Prisma {
     padding?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    defaultSalesForTenants?: TenantUncheckedCreateNestedManyWithoutDefaultSalesSequenceInput
   }
 
   export type DocumentSequenceUpdateInput = {
@@ -46417,6 +47987,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: TenantUpdateOneRequiredWithoutDocumentSequencesNestedInput
+    defaultSalesForTenants?: TenantUpdateManyWithoutDefaultSalesSequenceNestedInput
   }
 
   export type DocumentSequenceUncheckedUpdateInput = {
@@ -46428,6 +47999,7 @@ export namespace Prisma {
     padding?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    defaultSalesForTenants?: TenantUncheckedUpdateManyWithoutDefaultSalesSequenceNestedInput
   }
 
   export type DocumentSequenceCreateManyInput = {
@@ -47787,6 +49359,75 @@ export namespace Prisma {
     createdBy?: StringFieldUpdateOperationsInput | string
   }
 
+  export type TenantSettingCreateInput = {
+    id?: string
+    category: string
+    key: string
+    value: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutSettingsInput
+  }
+
+  export type TenantSettingUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    category: string
+    key: string
+    value: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TenantSettingUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    value?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutSettingsNestedInput
+  }
+
+  export type TenantSettingUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    value?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TenantSettingCreateManyInput = {
+    id?: string
+    tenantId: string
+    category: string
+    key: string
+    value: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TenantSettingUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    value?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TenantSettingUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    value?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type TenantCreateInput = {
     id?: string
     name: string
@@ -47795,6 +49436,9 @@ export namespace Prisma {
     phone?: string | null
     email?: string | null
     logo?: string | null
+    legalName?: string | null
+    taxNumber?: string | null
+    website?: string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -47817,6 +49461,9 @@ export namespace Prisma {
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionCreateNestedManyWithoutTenantInput
+    baseCurrency?: CurrencyCreateNestedOneWithoutBaseForTenantsInput
+    defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
+    settings?: TenantSettingCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateInput = {
@@ -47827,6 +49474,11 @@ export namespace Prisma {
     phone?: string | null
     email?: string | null
     logo?: string | null
+    legalName?: string | null
+    taxNumber?: string | null
+    website?: string | null
+    baseCurrencyId?: string | null
+    defaultSalesSequenceId?: string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -47849,6 +49501,7 @@ export namespace Prisma {
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
+    settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUpdateInput = {
@@ -47859,6 +49512,9 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -47881,6 +49537,9 @@ export namespace Prisma {
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUpdateManyWithoutTenantNestedInput
+    baseCurrency?: CurrencyUpdateOneWithoutBaseForTenantsNestedInput
+    defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
+    settings?: TenantSettingUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateInput = {
@@ -47891,6 +49550,11 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    baseCurrencyId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultSalesSequenceId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -47913,6 +49577,7 @@ export namespace Prisma {
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
+    settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateManyInput = {
@@ -47923,6 +49588,11 @@ export namespace Prisma {
     phone?: string | null
     email?: string | null
     logo?: string | null
+    legalName?: string | null
+    taxNumber?: string | null
+    website?: string | null
+    baseCurrencyId?: string | null
+    defaultSalesSequenceId?: string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -47936,6 +49606,9 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -47949,6 +49622,11 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    baseCurrencyId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultSalesSequenceId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -49301,11 +50979,21 @@ export namespace Prisma {
     none?: InvoiceWhereInput
   }
 
+  export type TenantListRelationFilter = {
+    every?: TenantWhereInput
+    some?: TenantWhereInput
+    none?: TenantWhereInput
+  }
+
   export type CashboxOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
   export type InvoiceOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type TenantOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -50356,6 +52044,39 @@ export namespace Prisma {
     _max?: NestedEnumStockMovementTypeFilter<$PrismaModel>
   }
 
+  export type TenantSettingTenantIdKeyCompoundUniqueInput = {
+    tenantId: string
+    key: string
+  }
+
+  export type TenantSettingCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    category?: SortOrder
+    key?: SortOrder
+    value?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TenantSettingMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    category?: SortOrder
+    key?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TenantSettingMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    category?: SortOrder
+    key?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
   export type AppUserListRelationFilter = {
     every?: AppUserWhereInput
     some?: AppUserWhereInput
@@ -50422,6 +52143,22 @@ export namespace Prisma {
     none?: AiChatSessionWhereInput
   }
 
+  export type CurrencyNullableScalarRelationFilter = {
+    is?: CurrencyWhereInput | null
+    isNot?: CurrencyWhereInput | null
+  }
+
+  export type DocumentSequenceNullableScalarRelationFilter = {
+    is?: DocumentSequenceWhereInput | null
+    isNot?: DocumentSequenceWhereInput | null
+  }
+
+  export type TenantSettingListRelationFilter = {
+    every?: TenantSettingWhereInput
+    some?: TenantSettingWhereInput
+    none?: TenantSettingWhereInput
+  }
+
   export type AppUserOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -50466,6 +52203,10 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
+  export type TenantSettingOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type TenantCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
@@ -50474,6 +52215,11 @@ export namespace Prisma {
     phone?: SortOrder
     email?: SortOrder
     logo?: SortOrder
+    legalName?: SortOrder
+    taxNumber?: SortOrder
+    website?: SortOrder
+    baseCurrencyId?: SortOrder
+    defaultSalesSequenceId?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -50487,6 +52233,11 @@ export namespace Prisma {
     phone?: SortOrder
     email?: SortOrder
     logo?: SortOrder
+    legalName?: SortOrder
+    taxNumber?: SortOrder
+    website?: SortOrder
+    baseCurrencyId?: SortOrder
+    defaultSalesSequenceId?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -50500,6 +52251,11 @@ export namespace Prisma {
     phone?: SortOrder
     email?: SortOrder
     logo?: SortOrder
+    legalName?: SortOrder
+    taxNumber?: SortOrder
+    website?: SortOrder
+    baseCurrencyId?: SortOrder
+    defaultSalesSequenceId?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -51333,6 +53089,13 @@ export namespace Prisma {
     connect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
   }
 
+  export type TenantCreateNestedManyWithoutBaseCurrencyInput = {
+    create?: XOR<TenantCreateWithoutBaseCurrencyInput, TenantUncheckedCreateWithoutBaseCurrencyInput> | TenantCreateWithoutBaseCurrencyInput[] | TenantUncheckedCreateWithoutBaseCurrencyInput[]
+    connectOrCreate?: TenantCreateOrConnectWithoutBaseCurrencyInput | TenantCreateOrConnectWithoutBaseCurrencyInput[]
+    createMany?: TenantCreateManyBaseCurrencyInputEnvelope
+    connect?: TenantWhereUniqueInput | TenantWhereUniqueInput[]
+  }
+
   export type CashboxUncheckedCreateNestedManyWithoutCurrencyInput = {
     create?: XOR<CashboxCreateWithoutCurrencyInput, CashboxUncheckedCreateWithoutCurrencyInput> | CashboxCreateWithoutCurrencyInput[] | CashboxUncheckedCreateWithoutCurrencyInput[]
     connectOrCreate?: CashboxCreateOrConnectWithoutCurrencyInput | CashboxCreateOrConnectWithoutCurrencyInput[]
@@ -51352,6 +53115,13 @@ export namespace Prisma {
     connectOrCreate?: PaymentCreateOrConnectWithoutCurrencyInput | PaymentCreateOrConnectWithoutCurrencyInput[]
     createMany?: PaymentCreateManyCurrencyInputEnvelope
     connect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+  }
+
+  export type TenantUncheckedCreateNestedManyWithoutBaseCurrencyInput = {
+    create?: XOR<TenantCreateWithoutBaseCurrencyInput, TenantUncheckedCreateWithoutBaseCurrencyInput> | TenantCreateWithoutBaseCurrencyInput[] | TenantUncheckedCreateWithoutBaseCurrencyInput[]
+    connectOrCreate?: TenantCreateOrConnectWithoutBaseCurrencyInput | TenantCreateOrConnectWithoutBaseCurrencyInput[]
+    createMany?: TenantCreateManyBaseCurrencyInputEnvelope
+    connect?: TenantWhereUniqueInput | TenantWhereUniqueInput[]
   }
 
   export type TenantUpdateOneRequiredWithoutCurrenciesNestedInput = {
@@ -51404,6 +53174,20 @@ export namespace Prisma {
     deleteMany?: PaymentScalarWhereInput | PaymentScalarWhereInput[]
   }
 
+  export type TenantUpdateManyWithoutBaseCurrencyNestedInput = {
+    create?: XOR<TenantCreateWithoutBaseCurrencyInput, TenantUncheckedCreateWithoutBaseCurrencyInput> | TenantCreateWithoutBaseCurrencyInput[] | TenantUncheckedCreateWithoutBaseCurrencyInput[]
+    connectOrCreate?: TenantCreateOrConnectWithoutBaseCurrencyInput | TenantCreateOrConnectWithoutBaseCurrencyInput[]
+    upsert?: TenantUpsertWithWhereUniqueWithoutBaseCurrencyInput | TenantUpsertWithWhereUniqueWithoutBaseCurrencyInput[]
+    createMany?: TenantCreateManyBaseCurrencyInputEnvelope
+    set?: TenantWhereUniqueInput | TenantWhereUniqueInput[]
+    disconnect?: TenantWhereUniqueInput | TenantWhereUniqueInput[]
+    delete?: TenantWhereUniqueInput | TenantWhereUniqueInput[]
+    connect?: TenantWhereUniqueInput | TenantWhereUniqueInput[]
+    update?: TenantUpdateWithWhereUniqueWithoutBaseCurrencyInput | TenantUpdateWithWhereUniqueWithoutBaseCurrencyInput[]
+    updateMany?: TenantUpdateManyWithWhereWithoutBaseCurrencyInput | TenantUpdateManyWithWhereWithoutBaseCurrencyInput[]
+    deleteMany?: TenantScalarWhereInput | TenantScalarWhereInput[]
+  }
+
   export type CashboxUncheckedUpdateManyWithoutCurrencyNestedInput = {
     create?: XOR<CashboxCreateWithoutCurrencyInput, CashboxUncheckedCreateWithoutCurrencyInput> | CashboxCreateWithoutCurrencyInput[] | CashboxUncheckedCreateWithoutCurrencyInput[]
     connectOrCreate?: CashboxCreateOrConnectWithoutCurrencyInput | CashboxCreateOrConnectWithoutCurrencyInput[]
@@ -51446,10 +53230,38 @@ export namespace Prisma {
     deleteMany?: PaymentScalarWhereInput | PaymentScalarWhereInput[]
   }
 
+  export type TenantUncheckedUpdateManyWithoutBaseCurrencyNestedInput = {
+    create?: XOR<TenantCreateWithoutBaseCurrencyInput, TenantUncheckedCreateWithoutBaseCurrencyInput> | TenantCreateWithoutBaseCurrencyInput[] | TenantUncheckedCreateWithoutBaseCurrencyInput[]
+    connectOrCreate?: TenantCreateOrConnectWithoutBaseCurrencyInput | TenantCreateOrConnectWithoutBaseCurrencyInput[]
+    upsert?: TenantUpsertWithWhereUniqueWithoutBaseCurrencyInput | TenantUpsertWithWhereUniqueWithoutBaseCurrencyInput[]
+    createMany?: TenantCreateManyBaseCurrencyInputEnvelope
+    set?: TenantWhereUniqueInput | TenantWhereUniqueInput[]
+    disconnect?: TenantWhereUniqueInput | TenantWhereUniqueInput[]
+    delete?: TenantWhereUniqueInput | TenantWhereUniqueInput[]
+    connect?: TenantWhereUniqueInput | TenantWhereUniqueInput[]
+    update?: TenantUpdateWithWhereUniqueWithoutBaseCurrencyInput | TenantUpdateWithWhereUniqueWithoutBaseCurrencyInput[]
+    updateMany?: TenantUpdateManyWithWhereWithoutBaseCurrencyInput | TenantUpdateManyWithWhereWithoutBaseCurrencyInput[]
+    deleteMany?: TenantScalarWhereInput | TenantScalarWhereInput[]
+  }
+
   export type TenantCreateNestedOneWithoutDocumentSequencesInput = {
     create?: XOR<TenantCreateWithoutDocumentSequencesInput, TenantUncheckedCreateWithoutDocumentSequencesInput>
     connectOrCreate?: TenantCreateOrConnectWithoutDocumentSequencesInput
     connect?: TenantWhereUniqueInput
+  }
+
+  export type TenantCreateNestedManyWithoutDefaultSalesSequenceInput = {
+    create?: XOR<TenantCreateWithoutDefaultSalesSequenceInput, TenantUncheckedCreateWithoutDefaultSalesSequenceInput> | TenantCreateWithoutDefaultSalesSequenceInput[] | TenantUncheckedCreateWithoutDefaultSalesSequenceInput[]
+    connectOrCreate?: TenantCreateOrConnectWithoutDefaultSalesSequenceInput | TenantCreateOrConnectWithoutDefaultSalesSequenceInput[]
+    createMany?: TenantCreateManyDefaultSalesSequenceInputEnvelope
+    connect?: TenantWhereUniqueInput | TenantWhereUniqueInput[]
+  }
+
+  export type TenantUncheckedCreateNestedManyWithoutDefaultSalesSequenceInput = {
+    create?: XOR<TenantCreateWithoutDefaultSalesSequenceInput, TenantUncheckedCreateWithoutDefaultSalesSequenceInput> | TenantCreateWithoutDefaultSalesSequenceInput[] | TenantUncheckedCreateWithoutDefaultSalesSequenceInput[]
+    connectOrCreate?: TenantCreateOrConnectWithoutDefaultSalesSequenceInput | TenantCreateOrConnectWithoutDefaultSalesSequenceInput[]
+    createMany?: TenantCreateManyDefaultSalesSequenceInputEnvelope
+    connect?: TenantWhereUniqueInput | TenantWhereUniqueInput[]
   }
 
   export type TenantUpdateOneRequiredWithoutDocumentSequencesNestedInput = {
@@ -51458,6 +53270,34 @@ export namespace Prisma {
     upsert?: TenantUpsertWithoutDocumentSequencesInput
     connect?: TenantWhereUniqueInput
     update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutDocumentSequencesInput, TenantUpdateWithoutDocumentSequencesInput>, TenantUncheckedUpdateWithoutDocumentSequencesInput>
+  }
+
+  export type TenantUpdateManyWithoutDefaultSalesSequenceNestedInput = {
+    create?: XOR<TenantCreateWithoutDefaultSalesSequenceInput, TenantUncheckedCreateWithoutDefaultSalesSequenceInput> | TenantCreateWithoutDefaultSalesSequenceInput[] | TenantUncheckedCreateWithoutDefaultSalesSequenceInput[]
+    connectOrCreate?: TenantCreateOrConnectWithoutDefaultSalesSequenceInput | TenantCreateOrConnectWithoutDefaultSalesSequenceInput[]
+    upsert?: TenantUpsertWithWhereUniqueWithoutDefaultSalesSequenceInput | TenantUpsertWithWhereUniqueWithoutDefaultSalesSequenceInput[]
+    createMany?: TenantCreateManyDefaultSalesSequenceInputEnvelope
+    set?: TenantWhereUniqueInput | TenantWhereUniqueInput[]
+    disconnect?: TenantWhereUniqueInput | TenantWhereUniqueInput[]
+    delete?: TenantWhereUniqueInput | TenantWhereUniqueInput[]
+    connect?: TenantWhereUniqueInput | TenantWhereUniqueInput[]
+    update?: TenantUpdateWithWhereUniqueWithoutDefaultSalesSequenceInput | TenantUpdateWithWhereUniqueWithoutDefaultSalesSequenceInput[]
+    updateMany?: TenantUpdateManyWithWhereWithoutDefaultSalesSequenceInput | TenantUpdateManyWithWhereWithoutDefaultSalesSequenceInput[]
+    deleteMany?: TenantScalarWhereInput | TenantScalarWhereInput[]
+  }
+
+  export type TenantUncheckedUpdateManyWithoutDefaultSalesSequenceNestedInput = {
+    create?: XOR<TenantCreateWithoutDefaultSalesSequenceInput, TenantUncheckedCreateWithoutDefaultSalesSequenceInput> | TenantCreateWithoutDefaultSalesSequenceInput[] | TenantUncheckedCreateWithoutDefaultSalesSequenceInput[]
+    connectOrCreate?: TenantCreateOrConnectWithoutDefaultSalesSequenceInput | TenantCreateOrConnectWithoutDefaultSalesSequenceInput[]
+    upsert?: TenantUpsertWithWhereUniqueWithoutDefaultSalesSequenceInput | TenantUpsertWithWhereUniqueWithoutDefaultSalesSequenceInput[]
+    createMany?: TenantCreateManyDefaultSalesSequenceInputEnvelope
+    set?: TenantWhereUniqueInput | TenantWhereUniqueInput[]
+    disconnect?: TenantWhereUniqueInput | TenantWhereUniqueInput[]
+    delete?: TenantWhereUniqueInput | TenantWhereUniqueInput[]
+    connect?: TenantWhereUniqueInput | TenantWhereUniqueInput[]
+    update?: TenantUpdateWithWhereUniqueWithoutDefaultSalesSequenceInput | TenantUpdateWithWhereUniqueWithoutDefaultSalesSequenceInput[]
+    updateMany?: TenantUpdateManyWithWhereWithoutDefaultSalesSequenceInput | TenantUpdateManyWithWhereWithoutDefaultSalesSequenceInput[]
+    deleteMany?: TenantScalarWhereInput | TenantScalarWhereInput[]
   }
 
   export type TenantCreateNestedOneWithoutFiscalPeriodsInput = {
@@ -52755,6 +54595,20 @@ export namespace Prisma {
     update?: XOR<XOR<FiscalPeriodUpdateToOneWithWhereWithoutStockMovementsInput, FiscalPeriodUpdateWithoutStockMovementsInput>, FiscalPeriodUncheckedUpdateWithoutStockMovementsInput>
   }
 
+  export type TenantCreateNestedOneWithoutSettingsInput = {
+    create?: XOR<TenantCreateWithoutSettingsInput, TenantUncheckedCreateWithoutSettingsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutSettingsInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type TenantUpdateOneRequiredWithoutSettingsNestedInput = {
+    create?: XOR<TenantCreateWithoutSettingsInput, TenantUncheckedCreateWithoutSettingsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutSettingsInput
+    upsert?: TenantUpsertWithoutSettingsInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutSettingsInput, TenantUpdateWithoutSettingsInput>, TenantUncheckedUpdateWithoutSettingsInput>
+  }
+
   export type AppUserCreateNestedManyWithoutTenantInput = {
     create?: XOR<AppUserCreateWithoutTenantInput, AppUserUncheckedCreateWithoutTenantInput> | AppUserCreateWithoutTenantInput[] | AppUserUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: AppUserCreateOrConnectWithoutTenantInput | AppUserCreateOrConnectWithoutTenantInput[]
@@ -52888,6 +54742,25 @@ export namespace Prisma {
     connect?: AiChatSessionWhereUniqueInput | AiChatSessionWhereUniqueInput[]
   }
 
+  export type CurrencyCreateNestedOneWithoutBaseForTenantsInput = {
+    create?: XOR<CurrencyCreateWithoutBaseForTenantsInput, CurrencyUncheckedCreateWithoutBaseForTenantsInput>
+    connectOrCreate?: CurrencyCreateOrConnectWithoutBaseForTenantsInput
+    connect?: CurrencyWhereUniqueInput
+  }
+
+  export type DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput = {
+    create?: XOR<DocumentSequenceCreateWithoutDefaultSalesForTenantsInput, DocumentSequenceUncheckedCreateWithoutDefaultSalesForTenantsInput>
+    connectOrCreate?: DocumentSequenceCreateOrConnectWithoutDefaultSalesForTenantsInput
+    connect?: DocumentSequenceWhereUniqueInput
+  }
+
+  export type TenantSettingCreateNestedManyWithoutTenantInput = {
+    create?: XOR<TenantSettingCreateWithoutTenantInput, TenantSettingUncheckedCreateWithoutTenantInput> | TenantSettingCreateWithoutTenantInput[] | TenantSettingUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: TenantSettingCreateOrConnectWithoutTenantInput | TenantSettingCreateOrConnectWithoutTenantInput[]
+    createMany?: TenantSettingCreateManyTenantInputEnvelope
+    connect?: TenantSettingWhereUniqueInput | TenantSettingWhereUniqueInput[]
+  }
+
   export type AppUserUncheckedCreateNestedManyWithoutTenantInput = {
     create?: XOR<AppUserCreateWithoutTenantInput, AppUserUncheckedCreateWithoutTenantInput> | AppUserCreateWithoutTenantInput[] | AppUserUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: AppUserCreateOrConnectWithoutTenantInput | AppUserCreateOrConnectWithoutTenantInput[]
@@ -53019,6 +54892,13 @@ export namespace Prisma {
     connectOrCreate?: AiChatSessionCreateOrConnectWithoutTenantInput | AiChatSessionCreateOrConnectWithoutTenantInput[]
     createMany?: AiChatSessionCreateManyTenantInputEnvelope
     connect?: AiChatSessionWhereUniqueInput | AiChatSessionWhereUniqueInput[]
+  }
+
+  export type TenantSettingUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<TenantSettingCreateWithoutTenantInput, TenantSettingUncheckedCreateWithoutTenantInput> | TenantSettingCreateWithoutTenantInput[] | TenantSettingUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: TenantSettingCreateOrConnectWithoutTenantInput | TenantSettingCreateOrConnectWithoutTenantInput[]
+    createMany?: TenantSettingCreateManyTenantInputEnvelope
+    connect?: TenantSettingWhereUniqueInput | TenantSettingWhereUniqueInput[]
   }
 
   export type AppUserUpdateManyWithoutTenantNestedInput = {
@@ -53287,6 +55167,40 @@ export namespace Prisma {
     deleteMany?: AiChatSessionScalarWhereInput | AiChatSessionScalarWhereInput[]
   }
 
+  export type CurrencyUpdateOneWithoutBaseForTenantsNestedInput = {
+    create?: XOR<CurrencyCreateWithoutBaseForTenantsInput, CurrencyUncheckedCreateWithoutBaseForTenantsInput>
+    connectOrCreate?: CurrencyCreateOrConnectWithoutBaseForTenantsInput
+    upsert?: CurrencyUpsertWithoutBaseForTenantsInput
+    disconnect?: CurrencyWhereInput | boolean
+    delete?: CurrencyWhereInput | boolean
+    connect?: CurrencyWhereUniqueInput
+    update?: XOR<XOR<CurrencyUpdateToOneWithWhereWithoutBaseForTenantsInput, CurrencyUpdateWithoutBaseForTenantsInput>, CurrencyUncheckedUpdateWithoutBaseForTenantsInput>
+  }
+
+  export type DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput = {
+    create?: XOR<DocumentSequenceCreateWithoutDefaultSalesForTenantsInput, DocumentSequenceUncheckedCreateWithoutDefaultSalesForTenantsInput>
+    connectOrCreate?: DocumentSequenceCreateOrConnectWithoutDefaultSalesForTenantsInput
+    upsert?: DocumentSequenceUpsertWithoutDefaultSalesForTenantsInput
+    disconnect?: DocumentSequenceWhereInput | boolean
+    delete?: DocumentSequenceWhereInput | boolean
+    connect?: DocumentSequenceWhereUniqueInput
+    update?: XOR<XOR<DocumentSequenceUpdateToOneWithWhereWithoutDefaultSalesForTenantsInput, DocumentSequenceUpdateWithoutDefaultSalesForTenantsInput>, DocumentSequenceUncheckedUpdateWithoutDefaultSalesForTenantsInput>
+  }
+
+  export type TenantSettingUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<TenantSettingCreateWithoutTenantInput, TenantSettingUncheckedCreateWithoutTenantInput> | TenantSettingCreateWithoutTenantInput[] | TenantSettingUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: TenantSettingCreateOrConnectWithoutTenantInput | TenantSettingCreateOrConnectWithoutTenantInput[]
+    upsert?: TenantSettingUpsertWithWhereUniqueWithoutTenantInput | TenantSettingUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: TenantSettingCreateManyTenantInputEnvelope
+    set?: TenantSettingWhereUniqueInput | TenantSettingWhereUniqueInput[]
+    disconnect?: TenantSettingWhereUniqueInput | TenantSettingWhereUniqueInput[]
+    delete?: TenantSettingWhereUniqueInput | TenantSettingWhereUniqueInput[]
+    connect?: TenantSettingWhereUniqueInput | TenantSettingWhereUniqueInput[]
+    update?: TenantSettingUpdateWithWhereUniqueWithoutTenantInput | TenantSettingUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: TenantSettingUpdateManyWithWhereWithoutTenantInput | TenantSettingUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: TenantSettingScalarWhereInput | TenantSettingScalarWhereInput[]
+  }
+
   export type AppUserUncheckedUpdateManyWithoutTenantNestedInput = {
     create?: XOR<AppUserCreateWithoutTenantInput, AppUserUncheckedCreateWithoutTenantInput> | AppUserCreateWithoutTenantInput[] | AppUserUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: AppUserCreateOrConnectWithoutTenantInput | AppUserCreateOrConnectWithoutTenantInput[]
@@ -53551,6 +55465,20 @@ export namespace Prisma {
     update?: AiChatSessionUpdateWithWhereUniqueWithoutTenantInput | AiChatSessionUpdateWithWhereUniqueWithoutTenantInput[]
     updateMany?: AiChatSessionUpdateManyWithWhereWithoutTenantInput | AiChatSessionUpdateManyWithWhereWithoutTenantInput[]
     deleteMany?: AiChatSessionScalarWhereInput | AiChatSessionScalarWhereInput[]
+  }
+
+  export type TenantSettingUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<TenantSettingCreateWithoutTenantInput, TenantSettingUncheckedCreateWithoutTenantInput> | TenantSettingCreateWithoutTenantInput[] | TenantSettingUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: TenantSettingCreateOrConnectWithoutTenantInput | TenantSettingCreateOrConnectWithoutTenantInput[]
+    upsert?: TenantSettingUpsertWithWhereUniqueWithoutTenantInput | TenantSettingUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: TenantSettingCreateManyTenantInputEnvelope
+    set?: TenantSettingWhereUniqueInput | TenantSettingWhereUniqueInput[]
+    disconnect?: TenantSettingWhereUniqueInput | TenantSettingWhereUniqueInput[]
+    delete?: TenantSettingWhereUniqueInput | TenantSettingWhereUniqueInput[]
+    connect?: TenantSettingWhereUniqueInput | TenantSettingWhereUniqueInput[]
+    update?: TenantSettingUpdateWithWhereUniqueWithoutTenantInput | TenantSettingUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: TenantSettingUpdateManyWithWhereWithoutTenantInput | TenantSettingUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: TenantSettingScalarWhereInput | TenantSettingScalarWhereInput[]
   }
 
   export type TenantCreateNestedOneWithoutUnitsInput = {
@@ -54529,6 +56457,9 @@ export namespace Prisma {
     phone?: string | null
     email?: string | null
     logo?: string | null
+    legalName?: string | null
+    taxNumber?: string | null
+    website?: string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -54550,6 +56481,9 @@ export namespace Prisma {
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionCreateNestedManyWithoutTenantInput
+    baseCurrency?: CurrencyCreateNestedOneWithoutBaseForTenantsInput
+    defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
+    settings?: TenantSettingCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutChartOfAccountsInput = {
@@ -54560,6 +56494,11 @@ export namespace Prisma {
     phone?: string | null
     email?: string | null
     logo?: string | null
+    legalName?: string | null
+    taxNumber?: string | null
+    website?: string | null
+    baseCurrencyId?: string | null
+    defaultSalesSequenceId?: string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -54581,6 +56520,7 @@ export namespace Prisma {
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
+    settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutChartOfAccountsInput = {
@@ -54704,6 +56644,9 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -54725,6 +56668,9 @@ export namespace Prisma {
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUpdateManyWithoutTenantNestedInput
+    baseCurrency?: CurrencyUpdateOneWithoutBaseForTenantsNestedInput
+    defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
+    settings?: TenantSettingUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutChartOfAccountsInput = {
@@ -54735,6 +56681,11 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    baseCurrencyId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultSalesSequenceId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -54756,6 +56707,7 @@ export namespace Prisma {
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
+    settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ChartOfAccountUpsertWithoutChildrenInput = {
@@ -54864,6 +56816,9 @@ export namespace Prisma {
     phone?: string | null
     email?: string | null
     logo?: string | null
+    legalName?: string | null
+    taxNumber?: string | null
+    website?: string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -54885,6 +56840,9 @@ export namespace Prisma {
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionCreateNestedManyWithoutTenantInput
+    baseCurrency?: CurrencyCreateNestedOneWithoutBaseForTenantsInput
+    defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
+    settings?: TenantSettingCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutJournalEntriesInput = {
@@ -54895,6 +56853,11 @@ export namespace Prisma {
     phone?: string | null
     email?: string | null
     logo?: string | null
+    legalName?: string | null
+    taxNumber?: string | null
+    website?: string | null
+    baseCurrencyId?: string | null
+    defaultSalesSequenceId?: string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -54916,6 +56879,7 @@ export namespace Prisma {
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
+    settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutJournalEntriesInput = {
@@ -55007,6 +56971,9 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -55028,6 +56995,9 @@ export namespace Prisma {
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUpdateManyWithoutTenantNestedInput
+    baseCurrency?: CurrencyUpdateOneWithoutBaseForTenantsNestedInput
+    defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
+    settings?: TenantSettingUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutJournalEntriesInput = {
@@ -55038,6 +57008,11 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    baseCurrencyId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultSalesSequenceId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -55059,6 +57034,7 @@ export namespace Prisma {
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
+    settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type FiscalPeriodUpsertWithoutJournalEntriesInput = {
@@ -55274,6 +57250,9 @@ export namespace Prisma {
     phone?: string | null
     email?: string | null
     logo?: string | null
+    legalName?: string | null
+    taxNumber?: string | null
+    website?: string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -55295,6 +57274,9 @@ export namespace Prisma {
     journalEntries?: JournalEntryCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogCreateNestedManyWithoutTenantInput
+    baseCurrency?: CurrencyCreateNestedOneWithoutBaseForTenantsInput
+    defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
+    settings?: TenantSettingCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAiChatSessionsInput = {
@@ -55305,6 +57287,11 @@ export namespace Prisma {
     phone?: string | null
     email?: string | null
     logo?: string | null
+    legalName?: string | null
+    taxNumber?: string | null
+    website?: string | null
+    baseCurrencyId?: string | null
+    defaultSalesSequenceId?: string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -55326,6 +57313,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTenantInput
+    settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAiChatSessionsInput = {
@@ -55378,6 +57366,9 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -55399,6 +57390,9 @@ export namespace Prisma {
     journalEntries?: JournalEntryUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUpdateManyWithoutTenantNestedInput
+    baseCurrency?: CurrencyUpdateOneWithoutBaseForTenantsNestedInput
+    defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
+    settings?: TenantSettingUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAiChatSessionsInput = {
@@ -55409,6 +57403,11 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    baseCurrencyId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultSalesSequenceId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -55430,6 +57429,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutTenantNestedInput
+    settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type AiChatMessageUpsertWithWhereUniqueWithoutSessionInput = {
@@ -55520,6 +57520,9 @@ export namespace Prisma {
     phone?: string | null
     email?: string | null
     logo?: string | null
+    legalName?: string | null
+    taxNumber?: string | null
+    website?: string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -55541,6 +57544,9 @@ export namespace Prisma {
     journalEntries?: JournalEntryCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionCreateNestedManyWithoutTenantInput
+    baseCurrency?: CurrencyCreateNestedOneWithoutBaseForTenantsInput
+    defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
+    settings?: TenantSettingCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAuditLogsInput = {
@@ -55551,6 +57557,11 @@ export namespace Prisma {
     phone?: string | null
     email?: string | null
     logo?: string | null
+    legalName?: string | null
+    taxNumber?: string | null
+    website?: string | null
+    baseCurrencyId?: string | null
+    defaultSalesSequenceId?: string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -55572,6 +57583,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
+    settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAuditLogsInput = {
@@ -55598,6 +57610,9 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -55619,6 +57634,9 @@ export namespace Prisma {
     journalEntries?: JournalEntryUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUpdateManyWithoutTenantNestedInput
+    baseCurrency?: CurrencyUpdateOneWithoutBaseForTenantsNestedInput
+    defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
+    settings?: TenantSettingUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAuditLogsInput = {
@@ -55629,6 +57647,11 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    baseCurrencyId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultSalesSequenceId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -55650,6 +57673,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
+    settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCashboxesInput = {
@@ -55660,6 +57684,9 @@ export namespace Prisma {
     phone?: string | null
     email?: string | null
     logo?: string | null
+    legalName?: string | null
+    taxNumber?: string | null
+    website?: string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -55681,6 +57708,9 @@ export namespace Prisma {
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionCreateNestedManyWithoutTenantInput
+    baseCurrency?: CurrencyCreateNestedOneWithoutBaseForTenantsInput
+    defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
+    settings?: TenantSettingCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCashboxesInput = {
@@ -55691,6 +57721,11 @@ export namespace Prisma {
     phone?: string | null
     email?: string | null
     logo?: string | null
+    legalName?: string | null
+    taxNumber?: string | null
+    website?: string | null
+    baseCurrencyId?: string | null
+    defaultSalesSequenceId?: string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -55712,6 +57747,7 @@ export namespace Prisma {
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
+    settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCashboxesInput = {
@@ -55731,6 +57767,7 @@ export namespace Prisma {
     tenant: TenantCreateNestedOneWithoutCurrenciesInput
     invoices?: InvoiceCreateNestedManyWithoutCurrencyInput
     payments?: PaymentCreateNestedManyWithoutCurrencyInput
+    baseForTenants?: TenantCreateNestedManyWithoutBaseCurrencyInput
   }
 
   export type CurrencyUncheckedCreateWithoutCashboxesInput = {
@@ -55745,6 +57782,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     invoices?: InvoiceUncheckedCreateNestedManyWithoutCurrencyInput
     payments?: PaymentUncheckedCreateNestedManyWithoutCurrencyInput
+    baseForTenants?: TenantUncheckedCreateNestedManyWithoutBaseCurrencyInput
   }
 
   export type CurrencyCreateOrConnectWithoutCashboxesInput = {
@@ -55829,6 +57867,9 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -55850,6 +57891,9 @@ export namespace Prisma {
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUpdateManyWithoutTenantNestedInput
+    baseCurrency?: CurrencyUpdateOneWithoutBaseForTenantsNestedInput
+    defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
+    settings?: TenantSettingUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCashboxesInput = {
@@ -55860,6 +57904,11 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    baseCurrencyId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultSalesSequenceId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -55881,6 +57930,7 @@ export namespace Prisma {
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
+    settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type CurrencyUpsertWithoutCashboxesInput = {
@@ -55906,6 +57956,7 @@ export namespace Prisma {
     tenant?: TenantUpdateOneRequiredWithoutCurrenciesNestedInput
     invoices?: InvoiceUpdateManyWithoutCurrencyNestedInput
     payments?: PaymentUpdateManyWithoutCurrencyNestedInput
+    baseForTenants?: TenantUpdateManyWithoutBaseCurrencyNestedInput
   }
 
   export type CurrencyUncheckedUpdateWithoutCashboxesInput = {
@@ -55920,6 +57971,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     invoices?: InvoiceUncheckedUpdateManyWithoutCurrencyNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutCurrencyNestedInput
+    baseForTenants?: TenantUncheckedUpdateManyWithoutBaseCurrencyNestedInput
   }
 
   export type PaymentUpsertWithWhereUniqueWithoutCashboxInput = {
@@ -55973,6 +58025,9 @@ export namespace Prisma {
     phone?: string | null
     email?: string | null
     logo?: string | null
+    legalName?: string | null
+    taxNumber?: string | null
+    website?: string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -55994,6 +58049,9 @@ export namespace Prisma {
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionCreateNestedManyWithoutTenantInput
+    baseCurrency?: CurrencyCreateNestedOneWithoutBaseForTenantsInput
+    defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
+    settings?: TenantSettingCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPaymentsInput = {
@@ -56004,6 +58062,11 @@ export namespace Prisma {
     phone?: string | null
     email?: string | null
     logo?: string | null
+    legalName?: string | null
+    taxNumber?: string | null
+    website?: string | null
+    baseCurrencyId?: string | null
+    defaultSalesSequenceId?: string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -56025,6 +58088,7 @@ export namespace Prisma {
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
+    settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPaymentsInput = {
@@ -56110,6 +58174,7 @@ export namespace Prisma {
     tenant: TenantCreateNestedOneWithoutCurrenciesInput
     cashboxes?: CashboxCreateNestedManyWithoutCurrencyInput
     invoices?: InvoiceCreateNestedManyWithoutCurrencyInput
+    baseForTenants?: TenantCreateNestedManyWithoutBaseCurrencyInput
   }
 
   export type CurrencyUncheckedCreateWithoutPaymentsInput = {
@@ -56124,6 +58189,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     cashboxes?: CashboxUncheckedCreateNestedManyWithoutCurrencyInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutCurrencyInput
+    baseForTenants?: TenantUncheckedCreateNestedManyWithoutBaseCurrencyInput
   }
 
   export type CurrencyCreateOrConnectWithoutPaymentsInput = {
@@ -56211,6 +58277,9 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -56232,6 +58301,9 @@ export namespace Prisma {
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUpdateManyWithoutTenantNestedInput
+    baseCurrency?: CurrencyUpdateOneWithoutBaseForTenantsNestedInput
+    defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
+    settings?: TenantSettingUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPaymentsInput = {
@@ -56242,6 +58314,11 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    baseCurrencyId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultSalesSequenceId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -56263,6 +58340,7 @@ export namespace Prisma {
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
+    settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type CashboxUpsertWithoutPaymentsInput = {
@@ -56366,6 +58444,7 @@ export namespace Prisma {
     tenant?: TenantUpdateOneRequiredWithoutCurrenciesNestedInput
     cashboxes?: CashboxUpdateManyWithoutCurrencyNestedInput
     invoices?: InvoiceUpdateManyWithoutCurrencyNestedInput
+    baseForTenants?: TenantUpdateManyWithoutBaseCurrencyNestedInput
   }
 
   export type CurrencyUncheckedUpdateWithoutPaymentsInput = {
@@ -56380,6 +58459,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     cashboxes?: CashboxUncheckedUpdateManyWithoutCurrencyNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutCurrencyNestedInput
+    baseForTenants?: TenantUncheckedUpdateManyWithoutBaseCurrencyNestedInput
   }
 
   export type FiscalPeriodUpsertWithoutPaymentsInput = {
@@ -56695,6 +58775,9 @@ export namespace Prisma {
     phone?: string | null
     email?: string | null
     logo?: string | null
+    legalName?: string | null
+    taxNumber?: string | null
+    website?: string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -56716,6 +58799,9 @@ export namespace Prisma {
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionCreateNestedManyWithoutTenantInput
+    baseCurrency?: CurrencyCreateNestedOneWithoutBaseForTenantsInput
+    defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
+    settings?: TenantSettingCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCurrenciesInput = {
@@ -56726,6 +58812,11 @@ export namespace Prisma {
     phone?: string | null
     email?: string | null
     logo?: string | null
+    legalName?: string | null
+    taxNumber?: string | null
+    website?: string | null
+    baseCurrencyId?: string | null
+    defaultSalesSequenceId?: string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -56747,6 +58838,7 @@ export namespace Prisma {
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
+    settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCurrenciesInput = {
@@ -56910,6 +59002,90 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type TenantCreateWithoutBaseCurrencyInput = {
+    id?: string
+    name: string
+    slug: string
+    address?: string | null
+    phone?: string | null
+    email?: string | null
+    logo?: string | null
+    legalName?: string | null
+    taxNumber?: string | null
+    website?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: AppUserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    currencies?: CurrencyCreateNestedManyWithoutTenantInput
+    fiscalPeriods?: FiscalPeriodCreateNestedManyWithoutTenantInput
+    documentSequences?: DocumentSequenceCreateNestedManyWithoutTenantInput
+    itemCategories?: ItemCategoryCreateNestedManyWithoutTenantInput
+    units?: UnitCreateNestedManyWithoutTenantInput
+    items?: ItemCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    cashboxes?: CashboxCreateNestedManyWithoutTenantInput
+    invoiceTypes?: InvoiceTypeCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    chartOfAccounts?: ChartOfAccountCreateNestedManyWithoutTenantInput
+    journalEntries?: JournalEntryCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountCreateNestedManyWithoutTenantInput
+    auditLogs?: AuditLogCreateNestedManyWithoutTenantInput
+    aiChatSessions?: AiChatSessionCreateNestedManyWithoutTenantInput
+    defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
+    settings?: TenantSettingCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutBaseCurrencyInput = {
+    id?: string
+    name: string
+    slug: string
+    address?: string | null
+    phone?: string | null
+    email?: string | null
+    logo?: string | null
+    legalName?: string | null
+    taxNumber?: string | null
+    website?: string | null
+    defaultSalesSequenceId?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    currencies?: CurrencyUncheckedCreateNestedManyWithoutTenantInput
+    fiscalPeriods?: FiscalPeriodUncheckedCreateNestedManyWithoutTenantInput
+    documentSequences?: DocumentSequenceUncheckedCreateNestedManyWithoutTenantInput
+    itemCategories?: ItemCategoryUncheckedCreateNestedManyWithoutTenantInput
+    units?: UnitUncheckedCreateNestedManyWithoutTenantInput
+    items?: ItemUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    cashboxes?: CashboxUncheckedCreateNestedManyWithoutTenantInput
+    invoiceTypes?: InvoiceTypeUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    chartOfAccounts?: ChartOfAccountUncheckedCreateNestedManyWithoutTenantInput
+    journalEntries?: JournalEntryUncheckedCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTenantInput
+    aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
+    settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutBaseCurrencyInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutBaseCurrencyInput, TenantUncheckedCreateWithoutBaseCurrencyInput>
+  }
+
+  export type TenantCreateManyBaseCurrencyInputEnvelope = {
+    data: TenantCreateManyBaseCurrencyInput | TenantCreateManyBaseCurrencyInput[]
+    skipDuplicates?: boolean
+  }
+
   export type TenantUpsertWithoutCurrenciesInput = {
     update: XOR<TenantUpdateWithoutCurrenciesInput, TenantUncheckedUpdateWithoutCurrenciesInput>
     create: XOR<TenantCreateWithoutCurrenciesInput, TenantUncheckedCreateWithoutCurrenciesInput>
@@ -56929,6 +59105,9 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -56950,6 +59129,9 @@ export namespace Prisma {
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUpdateManyWithoutTenantNestedInput
+    baseCurrency?: CurrencyUpdateOneWithoutBaseForTenantsNestedInput
+    defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
+    settings?: TenantSettingUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCurrenciesInput = {
@@ -56960,6 +59142,11 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    baseCurrencyId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultSalesSequenceId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -56981,6 +59168,7 @@ export namespace Prisma {
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
+    settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type CashboxUpsertWithWhereUniqueWithoutCurrencyInput = {
@@ -57075,6 +59263,43 @@ export namespace Prisma {
     data: XOR<PaymentUpdateManyMutationInput, PaymentUncheckedUpdateManyWithoutCurrencyInput>
   }
 
+  export type TenantUpsertWithWhereUniqueWithoutBaseCurrencyInput = {
+    where: TenantWhereUniqueInput
+    update: XOR<TenantUpdateWithoutBaseCurrencyInput, TenantUncheckedUpdateWithoutBaseCurrencyInput>
+    create: XOR<TenantCreateWithoutBaseCurrencyInput, TenantUncheckedCreateWithoutBaseCurrencyInput>
+  }
+
+  export type TenantUpdateWithWhereUniqueWithoutBaseCurrencyInput = {
+    where: TenantWhereUniqueInput
+    data: XOR<TenantUpdateWithoutBaseCurrencyInput, TenantUncheckedUpdateWithoutBaseCurrencyInput>
+  }
+
+  export type TenantUpdateManyWithWhereWithoutBaseCurrencyInput = {
+    where: TenantScalarWhereInput
+    data: XOR<TenantUpdateManyMutationInput, TenantUncheckedUpdateManyWithoutBaseCurrencyInput>
+  }
+
+  export type TenantScalarWhereInput = {
+    AND?: TenantScalarWhereInput | TenantScalarWhereInput[]
+    OR?: TenantScalarWhereInput[]
+    NOT?: TenantScalarWhereInput | TenantScalarWhereInput[]
+    id?: StringFilter<"Tenant"> | string
+    name?: StringFilter<"Tenant"> | string
+    slug?: StringFilter<"Tenant"> | string
+    address?: StringNullableFilter<"Tenant"> | string | null
+    phone?: StringNullableFilter<"Tenant"> | string | null
+    email?: StringNullableFilter<"Tenant"> | string | null
+    logo?: StringNullableFilter<"Tenant"> | string | null
+    legalName?: StringNullableFilter<"Tenant"> | string | null
+    taxNumber?: StringNullableFilter<"Tenant"> | string | null
+    website?: StringNullableFilter<"Tenant"> | string | null
+    baseCurrencyId?: StringNullableFilter<"Tenant"> | string | null
+    defaultSalesSequenceId?: StringNullableFilter<"Tenant"> | string | null
+    isActive?: BoolFilter<"Tenant"> | boolean
+    createdAt?: DateTimeFilter<"Tenant"> | Date | string
+    updatedAt?: DateTimeFilter<"Tenant"> | Date | string
+  }
+
   export type TenantCreateWithoutDocumentSequencesInput = {
     id?: string
     name: string
@@ -57083,6 +59308,9 @@ export namespace Prisma {
     phone?: string | null
     email?: string | null
     logo?: string | null
+    legalName?: string | null
+    taxNumber?: string | null
+    website?: string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -57104,6 +59332,9 @@ export namespace Prisma {
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionCreateNestedManyWithoutTenantInput
+    baseCurrency?: CurrencyCreateNestedOneWithoutBaseForTenantsInput
+    defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
+    settings?: TenantSettingCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDocumentSequencesInput = {
@@ -57114,6 +59345,11 @@ export namespace Prisma {
     phone?: string | null
     email?: string | null
     logo?: string | null
+    legalName?: string | null
+    taxNumber?: string | null
+    website?: string | null
+    baseCurrencyId?: string | null
+    defaultSalesSequenceId?: string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -57135,11 +59371,96 @@ export namespace Prisma {
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
+    settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDocumentSequencesInput = {
     where: TenantWhereUniqueInput
     create: XOR<TenantCreateWithoutDocumentSequencesInput, TenantUncheckedCreateWithoutDocumentSequencesInput>
+  }
+
+  export type TenantCreateWithoutDefaultSalesSequenceInput = {
+    id?: string
+    name: string
+    slug: string
+    address?: string | null
+    phone?: string | null
+    email?: string | null
+    logo?: string | null
+    legalName?: string | null
+    taxNumber?: string | null
+    website?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: AppUserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    currencies?: CurrencyCreateNestedManyWithoutTenantInput
+    fiscalPeriods?: FiscalPeriodCreateNestedManyWithoutTenantInput
+    documentSequences?: DocumentSequenceCreateNestedManyWithoutTenantInput
+    itemCategories?: ItemCategoryCreateNestedManyWithoutTenantInput
+    units?: UnitCreateNestedManyWithoutTenantInput
+    items?: ItemCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    cashboxes?: CashboxCreateNestedManyWithoutTenantInput
+    invoiceTypes?: InvoiceTypeCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    chartOfAccounts?: ChartOfAccountCreateNestedManyWithoutTenantInput
+    journalEntries?: JournalEntryCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountCreateNestedManyWithoutTenantInput
+    auditLogs?: AuditLogCreateNestedManyWithoutTenantInput
+    aiChatSessions?: AiChatSessionCreateNestedManyWithoutTenantInput
+    baseCurrency?: CurrencyCreateNestedOneWithoutBaseForTenantsInput
+    settings?: TenantSettingCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutDefaultSalesSequenceInput = {
+    id?: string
+    name: string
+    slug: string
+    address?: string | null
+    phone?: string | null
+    email?: string | null
+    logo?: string | null
+    legalName?: string | null
+    taxNumber?: string | null
+    website?: string | null
+    baseCurrencyId?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    currencies?: CurrencyUncheckedCreateNestedManyWithoutTenantInput
+    fiscalPeriods?: FiscalPeriodUncheckedCreateNestedManyWithoutTenantInput
+    documentSequences?: DocumentSequenceUncheckedCreateNestedManyWithoutTenantInput
+    itemCategories?: ItemCategoryUncheckedCreateNestedManyWithoutTenantInput
+    units?: UnitUncheckedCreateNestedManyWithoutTenantInput
+    items?: ItemUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    cashboxes?: CashboxUncheckedCreateNestedManyWithoutTenantInput
+    invoiceTypes?: InvoiceTypeUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    chartOfAccounts?: ChartOfAccountUncheckedCreateNestedManyWithoutTenantInput
+    journalEntries?: JournalEntryUncheckedCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTenantInput
+    aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
+    settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutDefaultSalesSequenceInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutDefaultSalesSequenceInput, TenantUncheckedCreateWithoutDefaultSalesSequenceInput>
+  }
+
+  export type TenantCreateManyDefaultSalesSequenceInputEnvelope = {
+    data: TenantCreateManyDefaultSalesSequenceInput | TenantCreateManyDefaultSalesSequenceInput[]
+    skipDuplicates?: boolean
   }
 
   export type TenantUpsertWithoutDocumentSequencesInput = {
@@ -57161,6 +59482,9 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -57182,6 +59506,9 @@ export namespace Prisma {
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUpdateManyWithoutTenantNestedInput
+    baseCurrency?: CurrencyUpdateOneWithoutBaseForTenantsNestedInput
+    defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
+    settings?: TenantSettingUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDocumentSequencesInput = {
@@ -57192,6 +59519,11 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    baseCurrencyId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultSalesSequenceId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -57213,6 +59545,23 @@ export namespace Prisma {
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
+    settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUpsertWithWhereUniqueWithoutDefaultSalesSequenceInput = {
+    where: TenantWhereUniqueInput
+    update: XOR<TenantUpdateWithoutDefaultSalesSequenceInput, TenantUncheckedUpdateWithoutDefaultSalesSequenceInput>
+    create: XOR<TenantCreateWithoutDefaultSalesSequenceInput, TenantUncheckedCreateWithoutDefaultSalesSequenceInput>
+  }
+
+  export type TenantUpdateWithWhereUniqueWithoutDefaultSalesSequenceInput = {
+    where: TenantWhereUniqueInput
+    data: XOR<TenantUpdateWithoutDefaultSalesSequenceInput, TenantUncheckedUpdateWithoutDefaultSalesSequenceInput>
+  }
+
+  export type TenantUpdateManyWithWhereWithoutDefaultSalesSequenceInput = {
+    where: TenantScalarWhereInput
+    data: XOR<TenantUpdateManyMutationInput, TenantUncheckedUpdateManyWithoutDefaultSalesSequenceInput>
   }
 
   export type TenantCreateWithoutFiscalPeriodsInput = {
@@ -57223,6 +59572,9 @@ export namespace Prisma {
     phone?: string | null
     email?: string | null
     logo?: string | null
+    legalName?: string | null
+    taxNumber?: string | null
+    website?: string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -57244,6 +59596,9 @@ export namespace Prisma {
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionCreateNestedManyWithoutTenantInput
+    baseCurrency?: CurrencyCreateNestedOneWithoutBaseForTenantsInput
+    defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
+    settings?: TenantSettingCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutFiscalPeriodsInput = {
@@ -57254,6 +59609,11 @@ export namespace Prisma {
     phone?: string | null
     email?: string | null
     logo?: string | null
+    legalName?: string | null
+    taxNumber?: string | null
+    website?: string | null
+    baseCurrencyId?: string | null
+    defaultSalesSequenceId?: string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -57275,6 +59635,7 @@ export namespace Prisma {
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
+    settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutFiscalPeriodsInput = {
@@ -57547,6 +59908,9 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -57568,6 +59932,9 @@ export namespace Prisma {
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUpdateManyWithoutTenantNestedInput
+    baseCurrency?: CurrencyUpdateOneWithoutBaseForTenantsNestedInput
+    defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
+    settings?: TenantSettingUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutFiscalPeriodsInput = {
@@ -57578,6 +59945,11 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    baseCurrencyId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultSalesSequenceId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -57599,6 +59971,7 @@ export namespace Prisma {
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
+    settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type StockMovementUpsertWithWhereUniqueWithoutFiscalPeriodInput = {
@@ -57746,6 +60119,9 @@ export namespace Prisma {
     phone?: string | null
     email?: string | null
     logo?: string | null
+    legalName?: string | null
+    taxNumber?: string | null
+    website?: string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -57767,6 +60143,9 @@ export namespace Prisma {
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionCreateNestedManyWithoutTenantInput
+    baseCurrency?: CurrencyCreateNestedOneWithoutBaseForTenantsInput
+    defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
+    settings?: TenantSettingCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutInvoiceTypesInput = {
@@ -57777,6 +60156,11 @@ export namespace Prisma {
     phone?: string | null
     email?: string | null
     logo?: string | null
+    legalName?: string | null
+    taxNumber?: string | null
+    website?: string | null
+    baseCurrencyId?: string | null
+    defaultSalesSequenceId?: string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -57798,6 +60182,7 @@ export namespace Prisma {
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
+    settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutInvoiceTypesInput = {
@@ -57888,6 +60273,9 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -57909,6 +60297,9 @@ export namespace Prisma {
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUpdateManyWithoutTenantNestedInput
+    baseCurrency?: CurrencyUpdateOneWithoutBaseForTenantsNestedInput
+    defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
+    settings?: TenantSettingUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutInvoiceTypesInput = {
@@ -57919,6 +60310,11 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    baseCurrencyId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultSalesSequenceId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -57940,6 +60336,7 @@ export namespace Prisma {
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
+    settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type InvoiceUpsertWithWhereUniqueWithoutInvoiceTypeInput = {
@@ -57966,6 +60363,9 @@ export namespace Prisma {
     phone?: string | null
     email?: string | null
     logo?: string | null
+    legalName?: string | null
+    taxNumber?: string | null
+    website?: string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -57987,6 +60387,9 @@ export namespace Prisma {
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionCreateNestedManyWithoutTenantInput
+    baseCurrency?: CurrencyCreateNestedOneWithoutBaseForTenantsInput
+    defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
+    settings?: TenantSettingCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutInvoicesInput = {
@@ -57997,6 +60400,11 @@ export namespace Prisma {
     phone?: string | null
     email?: string | null
     logo?: string | null
+    legalName?: string | null
+    taxNumber?: string | null
+    website?: string | null
+    baseCurrencyId?: string | null
+    defaultSalesSequenceId?: string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -58018,6 +60426,7 @@ export namespace Prisma {
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
+    settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutInvoicesInput = {
@@ -58173,6 +60582,7 @@ export namespace Prisma {
     tenant: TenantCreateNestedOneWithoutCurrenciesInput
     cashboxes?: CashboxCreateNestedManyWithoutCurrencyInput
     payments?: PaymentCreateNestedManyWithoutCurrencyInput
+    baseForTenants?: TenantCreateNestedManyWithoutBaseCurrencyInput
   }
 
   export type CurrencyUncheckedCreateWithoutInvoicesInput = {
@@ -58187,6 +60597,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     cashboxes?: CashboxUncheckedCreateNestedManyWithoutCurrencyInput
     payments?: PaymentUncheckedCreateNestedManyWithoutCurrencyInput
+    baseForTenants?: TenantUncheckedCreateNestedManyWithoutBaseCurrencyInput
   }
 
   export type CurrencyCreateOrConnectWithoutInvoicesInput = {
@@ -58281,6 +60692,9 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -58302,6 +60716,9 @@ export namespace Prisma {
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUpdateManyWithoutTenantNestedInput
+    baseCurrency?: CurrencyUpdateOneWithoutBaseForTenantsNestedInput
+    defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
+    settings?: TenantSettingUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutInvoicesInput = {
@@ -58312,6 +60729,11 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    baseCurrencyId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultSalesSequenceId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -58333,6 +60755,7 @@ export namespace Prisma {
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
+    settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type InvoiceTypeUpsertWithoutInvoicesInput = {
@@ -58518,6 +60941,7 @@ export namespace Prisma {
     tenant?: TenantUpdateOneRequiredWithoutCurrenciesNestedInput
     cashboxes?: CashboxUpdateManyWithoutCurrencyNestedInput
     payments?: PaymentUpdateManyWithoutCurrencyNestedInput
+    baseForTenants?: TenantUpdateManyWithoutBaseCurrencyNestedInput
   }
 
   export type CurrencyUncheckedUpdateWithoutInvoicesInput = {
@@ -58532,6 +60956,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     cashboxes?: CashboxUncheckedUpdateManyWithoutCurrencyNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutCurrencyNestedInput
+    baseForTenants?: TenantUncheckedUpdateManyWithoutBaseCurrencyNestedInput
   }
 
   export type InvoiceLineUpsertWithWhereUniqueWithoutInvoiceInput = {
@@ -58874,6 +61299,9 @@ export namespace Prisma {
     phone?: string | null
     email?: string | null
     logo?: string | null
+    legalName?: string | null
+    taxNumber?: string | null
+    website?: string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -58895,6 +61323,9 @@ export namespace Prisma {
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionCreateNestedManyWithoutTenantInput
+    baseCurrency?: CurrencyCreateNestedOneWithoutBaseForTenantsInput
+    defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
+    settings?: TenantSettingCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutItemCategoriesInput = {
@@ -58905,6 +61336,11 @@ export namespace Prisma {
     phone?: string | null
     email?: string | null
     logo?: string | null
+    legalName?: string | null
+    taxNumber?: string | null
+    website?: string | null
+    baseCurrencyId?: string | null
+    defaultSalesSequenceId?: string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -58926,6 +61362,7 @@ export namespace Prisma {
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
+    settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutItemCategoriesInput = {
@@ -59065,6 +61502,9 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -59086,6 +61526,9 @@ export namespace Prisma {
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUpdateManyWithoutTenantNestedInput
+    baseCurrency?: CurrencyUpdateOneWithoutBaseForTenantsNestedInput
+    defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
+    settings?: TenantSettingUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutItemCategoriesInput = {
@@ -59096,6 +61539,11 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    baseCurrencyId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultSalesSequenceId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -59117,6 +61565,7 @@ export namespace Prisma {
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
+    settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ItemCategoryUpsertWithoutChildrenInput = {
@@ -59226,6 +61675,9 @@ export namespace Prisma {
     phone?: string | null
     email?: string | null
     logo?: string | null
+    legalName?: string | null
+    taxNumber?: string | null
+    website?: string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -59247,6 +61699,9 @@ export namespace Prisma {
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionCreateNestedManyWithoutTenantInput
+    baseCurrency?: CurrencyCreateNestedOneWithoutBaseForTenantsInput
+    defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
+    settings?: TenantSettingCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutItemsInput = {
@@ -59257,6 +61712,11 @@ export namespace Prisma {
     phone?: string | null
     email?: string | null
     logo?: string | null
+    legalName?: string | null
+    taxNumber?: string | null
+    website?: string | null
+    baseCurrencyId?: string | null
+    defaultSalesSequenceId?: string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -59278,6 +61738,7 @@ export namespace Prisma {
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
+    settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutItemsInput = {
@@ -59554,6 +62015,9 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -59575,6 +62039,9 @@ export namespace Prisma {
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUpdateManyWithoutTenantNestedInput
+    baseCurrency?: CurrencyUpdateOneWithoutBaseForTenantsNestedInput
+    defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
+    settings?: TenantSettingUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutItemsInput = {
@@ -59585,6 +62052,11 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    baseCurrencyId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultSalesSequenceId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -59606,6 +62078,7 @@ export namespace Prisma {
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
+    settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ItemCategoryUpsertWithoutItemsInput = {
@@ -60040,6 +62513,9 @@ export namespace Prisma {
     phone?: string | null
     email?: string | null
     logo?: string | null
+    legalName?: string | null
+    taxNumber?: string | null
+    website?: string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -60061,6 +62537,9 @@ export namespace Prisma {
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionCreateNestedManyWithoutTenantInput
+    baseCurrency?: CurrencyCreateNestedOneWithoutBaseForTenantsInput
+    defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
+    settings?: TenantSettingCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPartiesInput = {
@@ -60071,6 +62550,11 @@ export namespace Prisma {
     phone?: string | null
     email?: string | null
     logo?: string | null
+    legalName?: string | null
+    taxNumber?: string | null
+    website?: string | null
+    baseCurrencyId?: string | null
+    defaultSalesSequenceId?: string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -60092,6 +62576,7 @@ export namespace Prisma {
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
+    settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPartiesInput = {
@@ -60240,6 +62725,9 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -60261,6 +62749,9 @@ export namespace Prisma {
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUpdateManyWithoutTenantNestedInput
+    baseCurrency?: CurrencyUpdateOneWithoutBaseForTenantsNestedInput
+    defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
+    settings?: TenantSettingUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPartiesInput = {
@@ -60271,6 +62762,11 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    baseCurrencyId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultSalesSequenceId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -60292,6 +62788,7 @@ export namespace Prisma {
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
+    settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type InvoiceUpsertWithWhereUniqueWithoutPartyInput = {
@@ -60334,6 +62831,9 @@ export namespace Prisma {
     phone?: string | null
     email?: string | null
     logo?: string | null
+    legalName?: string | null
+    taxNumber?: string | null
+    website?: string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -60355,6 +62855,9 @@ export namespace Prisma {
     journalEntries?: JournalEntryCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionCreateNestedManyWithoutTenantInput
+    baseCurrency?: CurrencyCreateNestedOneWithoutBaseForTenantsInput
+    defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
+    settings?: TenantSettingCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockCountsInput = {
@@ -60365,6 +62868,11 @@ export namespace Prisma {
     phone?: string | null
     email?: string | null
     logo?: string | null
+    legalName?: string | null
+    taxNumber?: string | null
+    website?: string | null
+    baseCurrencyId?: string | null
+    defaultSalesSequenceId?: string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -60386,6 +62894,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
+    settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockCountsInput = {
@@ -60512,6 +63021,9 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -60533,6 +63045,9 @@ export namespace Prisma {
     journalEntries?: JournalEntryUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUpdateManyWithoutTenantNestedInput
+    baseCurrency?: CurrencyUpdateOneWithoutBaseForTenantsNestedInput
+    defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
+    settings?: TenantSettingUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockCountsInput = {
@@ -60543,6 +63058,11 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    baseCurrencyId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultSalesSequenceId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -60564,6 +63084,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
+    settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WarehouseUpsertWithoutStockCountsInput = {
@@ -61260,6 +63781,170 @@ export namespace Prisma {
     stockCounts?: StockCountUncheckedUpdateManyWithoutFiscalPeriodNestedInput
   }
 
+  export type TenantCreateWithoutSettingsInput = {
+    id?: string
+    name: string
+    slug: string
+    address?: string | null
+    phone?: string | null
+    email?: string | null
+    logo?: string | null
+    legalName?: string | null
+    taxNumber?: string | null
+    website?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: AppUserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    currencies?: CurrencyCreateNestedManyWithoutTenantInput
+    fiscalPeriods?: FiscalPeriodCreateNestedManyWithoutTenantInput
+    documentSequences?: DocumentSequenceCreateNestedManyWithoutTenantInput
+    itemCategories?: ItemCategoryCreateNestedManyWithoutTenantInput
+    units?: UnitCreateNestedManyWithoutTenantInput
+    items?: ItemCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    cashboxes?: CashboxCreateNestedManyWithoutTenantInput
+    invoiceTypes?: InvoiceTypeCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    chartOfAccounts?: ChartOfAccountCreateNestedManyWithoutTenantInput
+    journalEntries?: JournalEntryCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountCreateNestedManyWithoutTenantInput
+    auditLogs?: AuditLogCreateNestedManyWithoutTenantInput
+    aiChatSessions?: AiChatSessionCreateNestedManyWithoutTenantInput
+    baseCurrency?: CurrencyCreateNestedOneWithoutBaseForTenantsInput
+    defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
+  }
+
+  export type TenantUncheckedCreateWithoutSettingsInput = {
+    id?: string
+    name: string
+    slug: string
+    address?: string | null
+    phone?: string | null
+    email?: string | null
+    logo?: string | null
+    legalName?: string | null
+    taxNumber?: string | null
+    website?: string | null
+    baseCurrencyId?: string | null
+    defaultSalesSequenceId?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    currencies?: CurrencyUncheckedCreateNestedManyWithoutTenantInput
+    fiscalPeriods?: FiscalPeriodUncheckedCreateNestedManyWithoutTenantInput
+    documentSequences?: DocumentSequenceUncheckedCreateNestedManyWithoutTenantInput
+    itemCategories?: ItemCategoryUncheckedCreateNestedManyWithoutTenantInput
+    units?: UnitUncheckedCreateNestedManyWithoutTenantInput
+    items?: ItemUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    cashboxes?: CashboxUncheckedCreateNestedManyWithoutTenantInput
+    invoiceTypes?: InvoiceTypeUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    chartOfAccounts?: ChartOfAccountUncheckedCreateNestedManyWithoutTenantInput
+    journalEntries?: JournalEntryUncheckedCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTenantInput
+    aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutSettingsInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutSettingsInput, TenantUncheckedCreateWithoutSettingsInput>
+  }
+
+  export type TenantUpsertWithoutSettingsInput = {
+    update: XOR<TenantUpdateWithoutSettingsInput, TenantUncheckedUpdateWithoutSettingsInput>
+    create: XOR<TenantCreateWithoutSettingsInput, TenantUncheckedCreateWithoutSettingsInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutSettingsInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutSettingsInput, TenantUncheckedUpdateWithoutSettingsInput>
+  }
+
+  export type TenantUpdateWithoutSettingsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: AppUserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    currencies?: CurrencyUpdateManyWithoutTenantNestedInput
+    fiscalPeriods?: FiscalPeriodUpdateManyWithoutTenantNestedInput
+    documentSequences?: DocumentSequenceUpdateManyWithoutTenantNestedInput
+    itemCategories?: ItemCategoryUpdateManyWithoutTenantNestedInput
+    units?: UnitUpdateManyWithoutTenantNestedInput
+    items?: ItemUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    cashboxes?: CashboxUpdateManyWithoutTenantNestedInput
+    invoiceTypes?: InvoiceTypeUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    chartOfAccounts?: ChartOfAccountUpdateManyWithoutTenantNestedInput
+    journalEntries?: JournalEntryUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutTenantNestedInput
+    aiChatSessions?: AiChatSessionUpdateManyWithoutTenantNestedInput
+    baseCurrency?: CurrencyUpdateOneWithoutBaseForTenantsNestedInput
+    defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutSettingsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    baseCurrencyId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultSalesSequenceId?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    currencies?: CurrencyUncheckedUpdateManyWithoutTenantNestedInput
+    fiscalPeriods?: FiscalPeriodUncheckedUpdateManyWithoutTenantNestedInput
+    documentSequences?: DocumentSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    itemCategories?: ItemCategoryUncheckedUpdateManyWithoutTenantNestedInput
+    units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
+    items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    cashboxes?: CashboxUncheckedUpdateManyWithoutTenantNestedInput
+    invoiceTypes?: InvoiceTypeUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    chartOfAccounts?: ChartOfAccountUncheckedUpdateManyWithoutTenantNestedInput
+    journalEntries?: JournalEntryUncheckedUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutTenantNestedInput
+    aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
   export type AppUserCreateWithoutTenantInput = {
     id?: string
     email: string
@@ -61338,6 +64023,7 @@ export namespace Prisma {
     cashboxes?: CashboxCreateNestedManyWithoutCurrencyInput
     invoices?: InvoiceCreateNestedManyWithoutCurrencyInput
     payments?: PaymentCreateNestedManyWithoutCurrencyInput
+    baseForTenants?: TenantCreateNestedManyWithoutBaseCurrencyInput
   }
 
   export type CurrencyUncheckedCreateWithoutTenantInput = {
@@ -61352,6 +64038,7 @@ export namespace Prisma {
     cashboxes?: CashboxUncheckedCreateNestedManyWithoutCurrencyInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutCurrencyInput
     payments?: PaymentUncheckedCreateNestedManyWithoutCurrencyInput
+    baseForTenants?: TenantUncheckedCreateNestedManyWithoutBaseCurrencyInput
   }
 
   export type CurrencyCreateOrConnectWithoutTenantInput = {
@@ -61412,6 +64099,7 @@ export namespace Prisma {
     padding?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    defaultSalesForTenants?: TenantCreateNestedManyWithoutDefaultSalesSequenceInput
   }
 
   export type DocumentSequenceUncheckedCreateWithoutTenantInput = {
@@ -61422,6 +64110,7 @@ export namespace Prisma {
     padding?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    defaultSalesForTenants?: TenantUncheckedCreateNestedManyWithoutDefaultSalesSequenceInput
   }
 
   export type DocumentSequenceCreateOrConnectWithoutTenantInput = {
@@ -62004,6 +64693,96 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type CurrencyCreateWithoutBaseForTenantsInput = {
+    id?: string
+    code: string
+    name: JsonNullValueInput | InputJsonValue
+    symbol?: NullableJsonNullValueInput | InputJsonValue
+    isBase?: boolean
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutCurrenciesInput
+    cashboxes?: CashboxCreateNestedManyWithoutCurrencyInput
+    invoices?: InvoiceCreateNestedManyWithoutCurrencyInput
+    payments?: PaymentCreateNestedManyWithoutCurrencyInput
+  }
+
+  export type CurrencyUncheckedCreateWithoutBaseForTenantsInput = {
+    id?: string
+    tenantId: string
+    code: string
+    name: JsonNullValueInput | InputJsonValue
+    symbol?: NullableJsonNullValueInput | InputJsonValue
+    isBase?: boolean
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    cashboxes?: CashboxUncheckedCreateNestedManyWithoutCurrencyInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutCurrencyInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutCurrencyInput
+  }
+
+  export type CurrencyCreateOrConnectWithoutBaseForTenantsInput = {
+    where: CurrencyWhereUniqueInput
+    create: XOR<CurrencyCreateWithoutBaseForTenantsInput, CurrencyUncheckedCreateWithoutBaseForTenantsInput>
+  }
+
+  export type DocumentSequenceCreateWithoutDefaultSalesForTenantsInput = {
+    id?: string
+    documentType: string
+    prefix: string
+    nextNumber?: number
+    padding?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutDocumentSequencesInput
+  }
+
+  export type DocumentSequenceUncheckedCreateWithoutDefaultSalesForTenantsInput = {
+    id?: string
+    tenantId: string
+    documentType: string
+    prefix: string
+    nextNumber?: number
+    padding?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DocumentSequenceCreateOrConnectWithoutDefaultSalesForTenantsInput = {
+    where: DocumentSequenceWhereUniqueInput
+    create: XOR<DocumentSequenceCreateWithoutDefaultSalesForTenantsInput, DocumentSequenceUncheckedCreateWithoutDefaultSalesForTenantsInput>
+  }
+
+  export type TenantSettingCreateWithoutTenantInput = {
+    id?: string
+    category: string
+    key: string
+    value: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TenantSettingUncheckedCreateWithoutTenantInput = {
+    id?: string
+    category: string
+    key: string
+    value: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TenantSettingCreateOrConnectWithoutTenantInput = {
+    where: TenantSettingWhereUniqueInput
+    create: XOR<TenantSettingCreateWithoutTenantInput, TenantSettingUncheckedCreateWithoutTenantInput>
+  }
+
+  export type TenantSettingCreateManyTenantInputEnvelope = {
+    data: TenantSettingCreateManyTenantInput | TenantSettingCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
   export type AppUserUpsertWithWhereUniqueWithoutTenantInput = {
     where: AppUserWhereUniqueInput
     update: XOR<AppUserUpdateWithoutTenantInput, AppUserUncheckedUpdateWithoutTenantInput>
@@ -62468,6 +65247,109 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"AiChatSession"> | Date | string
   }
 
+  export type CurrencyUpsertWithoutBaseForTenantsInput = {
+    update: XOR<CurrencyUpdateWithoutBaseForTenantsInput, CurrencyUncheckedUpdateWithoutBaseForTenantsInput>
+    create: XOR<CurrencyCreateWithoutBaseForTenantsInput, CurrencyUncheckedCreateWithoutBaseForTenantsInput>
+    where?: CurrencyWhereInput
+  }
+
+  export type CurrencyUpdateToOneWithWhereWithoutBaseForTenantsInput = {
+    where?: CurrencyWhereInput
+    data: XOR<CurrencyUpdateWithoutBaseForTenantsInput, CurrencyUncheckedUpdateWithoutBaseForTenantsInput>
+  }
+
+  export type CurrencyUpdateWithoutBaseForTenantsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
+    symbol?: NullableJsonNullValueInput | InputJsonValue
+    isBase?: BoolFieldUpdateOperationsInput | boolean
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutCurrenciesNestedInput
+    cashboxes?: CashboxUpdateManyWithoutCurrencyNestedInput
+    invoices?: InvoiceUpdateManyWithoutCurrencyNestedInput
+    payments?: PaymentUpdateManyWithoutCurrencyNestedInput
+  }
+
+  export type CurrencyUncheckedUpdateWithoutBaseForTenantsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
+    symbol?: NullableJsonNullValueInput | InputJsonValue
+    isBase?: BoolFieldUpdateOperationsInput | boolean
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    cashboxes?: CashboxUncheckedUpdateManyWithoutCurrencyNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutCurrencyNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutCurrencyNestedInput
+  }
+
+  export type DocumentSequenceUpsertWithoutDefaultSalesForTenantsInput = {
+    update: XOR<DocumentSequenceUpdateWithoutDefaultSalesForTenantsInput, DocumentSequenceUncheckedUpdateWithoutDefaultSalesForTenantsInput>
+    create: XOR<DocumentSequenceCreateWithoutDefaultSalesForTenantsInput, DocumentSequenceUncheckedCreateWithoutDefaultSalesForTenantsInput>
+    where?: DocumentSequenceWhereInput
+  }
+
+  export type DocumentSequenceUpdateToOneWithWhereWithoutDefaultSalesForTenantsInput = {
+    where?: DocumentSequenceWhereInput
+    data: XOR<DocumentSequenceUpdateWithoutDefaultSalesForTenantsInput, DocumentSequenceUncheckedUpdateWithoutDefaultSalesForTenantsInput>
+  }
+
+  export type DocumentSequenceUpdateWithoutDefaultSalesForTenantsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    documentType?: StringFieldUpdateOperationsInput | string
+    prefix?: StringFieldUpdateOperationsInput | string
+    nextNumber?: IntFieldUpdateOperationsInput | number
+    padding?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutDocumentSequencesNestedInput
+  }
+
+  export type DocumentSequenceUncheckedUpdateWithoutDefaultSalesForTenantsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    documentType?: StringFieldUpdateOperationsInput | string
+    prefix?: StringFieldUpdateOperationsInput | string
+    nextNumber?: IntFieldUpdateOperationsInput | number
+    padding?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TenantSettingUpsertWithWhereUniqueWithoutTenantInput = {
+    where: TenantSettingWhereUniqueInput
+    update: XOR<TenantSettingUpdateWithoutTenantInput, TenantSettingUncheckedUpdateWithoutTenantInput>
+    create: XOR<TenantSettingCreateWithoutTenantInput, TenantSettingUncheckedCreateWithoutTenantInput>
+  }
+
+  export type TenantSettingUpdateWithWhereUniqueWithoutTenantInput = {
+    where: TenantSettingWhereUniqueInput
+    data: XOR<TenantSettingUpdateWithoutTenantInput, TenantSettingUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type TenantSettingUpdateManyWithWhereWithoutTenantInput = {
+    where: TenantSettingScalarWhereInput
+    data: XOR<TenantSettingUpdateManyMutationInput, TenantSettingUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type TenantSettingScalarWhereInput = {
+    AND?: TenantSettingScalarWhereInput | TenantSettingScalarWhereInput[]
+    OR?: TenantSettingScalarWhereInput[]
+    NOT?: TenantSettingScalarWhereInput | TenantSettingScalarWhereInput[]
+    id?: StringFilter<"TenantSetting"> | string
+    tenantId?: StringFilter<"TenantSetting"> | string
+    category?: StringFilter<"TenantSetting"> | string
+    key?: StringFilter<"TenantSetting"> | string
+    value?: JsonFilter<"TenantSetting">
+    createdAt?: DateTimeFilter<"TenantSetting"> | Date | string
+    updatedAt?: DateTimeFilter<"TenantSetting"> | Date | string
+  }
+
   export type TenantCreateWithoutUnitsInput = {
     id?: string
     name: string
@@ -62476,6 +65358,9 @@ export namespace Prisma {
     phone?: string | null
     email?: string | null
     logo?: string | null
+    legalName?: string | null
+    taxNumber?: string | null
+    website?: string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -62497,6 +65382,9 @@ export namespace Prisma {
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionCreateNestedManyWithoutTenantInput
+    baseCurrency?: CurrencyCreateNestedOneWithoutBaseForTenantsInput
+    defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
+    settings?: TenantSettingCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutUnitsInput = {
@@ -62507,6 +65395,11 @@ export namespace Prisma {
     phone?: string | null
     email?: string | null
     logo?: string | null
+    legalName?: string | null
+    taxNumber?: string | null
+    website?: string | null
+    baseCurrencyId?: string | null
+    defaultSalesSequenceId?: string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -62528,6 +65421,7 @@ export namespace Prisma {
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
+    settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutUnitsInput = {
@@ -62646,6 +65540,9 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -62667,6 +65564,9 @@ export namespace Prisma {
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUpdateManyWithoutTenantNestedInput
+    baseCurrency?: CurrencyUpdateOneWithoutBaseForTenantsNestedInput
+    defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
+    settings?: TenantSettingUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutUnitsInput = {
@@ -62677,6 +65577,11 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    baseCurrencyId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultSalesSequenceId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -62698,6 +65603,7 @@ export namespace Prisma {
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
+    settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ItemUpsertWithWhereUniqueWithoutBaseUnitInput = {
@@ -62740,6 +65646,9 @@ export namespace Prisma {
     phone?: string | null
     email?: string | null
     logo?: string | null
+    legalName?: string | null
+    taxNumber?: string | null
+    website?: string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -62761,6 +65670,9 @@ export namespace Prisma {
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionCreateNestedManyWithoutTenantInput
+    baseCurrency?: CurrencyCreateNestedOneWithoutBaseForTenantsInput
+    defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
+    settings?: TenantSettingCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutUsersInput = {
@@ -62771,6 +65683,11 @@ export namespace Prisma {
     phone?: string | null
     email?: string | null
     logo?: string | null
+    legalName?: string | null
+    taxNumber?: string | null
+    website?: string | null
+    baseCurrencyId?: string | null
+    defaultSalesSequenceId?: string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -62792,6 +65709,7 @@ export namespace Prisma {
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
+    settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutUsersInput = {
@@ -62840,6 +65758,9 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -62861,6 +65782,9 @@ export namespace Prisma {
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUpdateManyWithoutTenantNestedInput
+    baseCurrency?: CurrencyUpdateOneWithoutBaseForTenantsNestedInput
+    defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
+    settings?: TenantSettingUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutUsersInput = {
@@ -62871,6 +65795,11 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    baseCurrencyId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultSalesSequenceId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -62892,6 +65821,7 @@ export namespace Prisma {
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
+    settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserRoleUpsertWithWhereUniqueWithoutUserInput = {
@@ -62928,6 +65858,9 @@ export namespace Prisma {
     phone?: string | null
     email?: string | null
     logo?: string | null
+    legalName?: string | null
+    taxNumber?: string | null
+    website?: string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -62949,6 +65882,9 @@ export namespace Prisma {
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionCreateNestedManyWithoutTenantInput
+    baseCurrency?: CurrencyCreateNestedOneWithoutBaseForTenantsInput
+    defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
+    settings?: TenantSettingCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRolesInput = {
@@ -62959,6 +65895,11 @@ export namespace Prisma {
     phone?: string | null
     email?: string | null
     logo?: string | null
+    legalName?: string | null
+    taxNumber?: string | null
+    website?: string | null
+    baseCurrencyId?: string | null
+    defaultSalesSequenceId?: string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -62980,6 +65921,7 @@ export namespace Prisma {
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
+    settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRolesInput = {
@@ -63028,6 +65970,9 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -63049,6 +65994,9 @@ export namespace Prisma {
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUpdateManyWithoutTenantNestedInput
+    baseCurrency?: CurrencyUpdateOneWithoutBaseForTenantsNestedInput
+    defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
+    settings?: TenantSettingUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRolesInput = {
@@ -63059,6 +66007,11 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    baseCurrencyId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultSalesSequenceId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -63080,6 +66033,7 @@ export namespace Prisma {
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
+    settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserRoleUpsertWithWhereUniqueWithoutRoleInput = {
@@ -63230,6 +66184,9 @@ export namespace Prisma {
     phone?: string | null
     email?: string | null
     logo?: string | null
+    legalName?: string | null
+    taxNumber?: string | null
+    website?: string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -63251,6 +66208,9 @@ export namespace Prisma {
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionCreateNestedManyWithoutTenantInput
+    baseCurrency?: CurrencyCreateNestedOneWithoutBaseForTenantsInput
+    defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
+    settings?: TenantSettingCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWarehousesInput = {
@@ -63261,6 +66221,11 @@ export namespace Prisma {
     phone?: string | null
     email?: string | null
     logo?: string | null
+    legalName?: string | null
+    taxNumber?: string | null
+    website?: string | null
+    baseCurrencyId?: string | null
+    defaultSalesSequenceId?: string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -63282,6 +66247,7 @@ export namespace Prisma {
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
+    settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWarehousesInput = {
@@ -63512,6 +66478,9 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -63533,6 +66502,9 @@ export namespace Prisma {
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUpdateManyWithoutTenantNestedInput
+    baseCurrency?: CurrencyUpdateOneWithoutBaseForTenantsNestedInput
+    defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
+    settings?: TenantSettingUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWarehousesInput = {
@@ -63543,6 +66515,11 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    baseCurrencyId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultSalesSequenceId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -63564,6 +66541,7 @@ export namespace Prisma {
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
+    settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WarehouseItemUpsertWithWhereUniqueWithoutWarehouseInput = {
@@ -64163,6 +67141,23 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type TenantCreateManyBaseCurrencyInput = {
+    id?: string
+    name: string
+    slug: string
+    address?: string | null
+    phone?: string | null
+    email?: string | null
+    logo?: string | null
+    legalName?: string | null
+    taxNumber?: string | null
+    website?: string | null
+    defaultSalesSequenceId?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type CashboxUpdateWithoutCurrencyInput = {
     id?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
@@ -64344,6 +67339,205 @@ export namespace Prisma {
     cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cancelledBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TenantUpdateWithoutBaseCurrencyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: AppUserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    currencies?: CurrencyUpdateManyWithoutTenantNestedInput
+    fiscalPeriods?: FiscalPeriodUpdateManyWithoutTenantNestedInput
+    documentSequences?: DocumentSequenceUpdateManyWithoutTenantNestedInput
+    itemCategories?: ItemCategoryUpdateManyWithoutTenantNestedInput
+    units?: UnitUpdateManyWithoutTenantNestedInput
+    items?: ItemUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    cashboxes?: CashboxUpdateManyWithoutTenantNestedInput
+    invoiceTypes?: InvoiceTypeUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    chartOfAccounts?: ChartOfAccountUpdateManyWithoutTenantNestedInput
+    journalEntries?: JournalEntryUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutTenantNestedInput
+    aiChatSessions?: AiChatSessionUpdateManyWithoutTenantNestedInput
+    defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
+    settings?: TenantSettingUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutBaseCurrencyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultSalesSequenceId?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    currencies?: CurrencyUncheckedUpdateManyWithoutTenantNestedInput
+    fiscalPeriods?: FiscalPeriodUncheckedUpdateManyWithoutTenantNestedInput
+    documentSequences?: DocumentSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    itemCategories?: ItemCategoryUncheckedUpdateManyWithoutTenantNestedInput
+    units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
+    items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    cashboxes?: CashboxUncheckedUpdateManyWithoutTenantNestedInput
+    invoiceTypes?: InvoiceTypeUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    chartOfAccounts?: ChartOfAccountUncheckedUpdateManyWithoutTenantNestedInput
+    journalEntries?: JournalEntryUncheckedUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutTenantNestedInput
+    aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
+    settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateManyWithoutBaseCurrencyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultSalesSequenceId?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TenantCreateManyDefaultSalesSequenceInput = {
+    id?: string
+    name: string
+    slug: string
+    address?: string | null
+    phone?: string | null
+    email?: string | null
+    logo?: string | null
+    legalName?: string | null
+    taxNumber?: string | null
+    website?: string | null
+    baseCurrencyId?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TenantUpdateWithoutDefaultSalesSequenceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: AppUserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    currencies?: CurrencyUpdateManyWithoutTenantNestedInput
+    fiscalPeriods?: FiscalPeriodUpdateManyWithoutTenantNestedInput
+    documentSequences?: DocumentSequenceUpdateManyWithoutTenantNestedInput
+    itemCategories?: ItemCategoryUpdateManyWithoutTenantNestedInput
+    units?: UnitUpdateManyWithoutTenantNestedInput
+    items?: ItemUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    cashboxes?: CashboxUpdateManyWithoutTenantNestedInput
+    invoiceTypes?: InvoiceTypeUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    chartOfAccounts?: ChartOfAccountUpdateManyWithoutTenantNestedInput
+    journalEntries?: JournalEntryUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutTenantNestedInput
+    aiChatSessions?: AiChatSessionUpdateManyWithoutTenantNestedInput
+    baseCurrency?: CurrencyUpdateOneWithoutBaseForTenantsNestedInput
+    settings?: TenantSettingUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutDefaultSalesSequenceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    baseCurrencyId?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    currencies?: CurrencyUncheckedUpdateManyWithoutTenantNestedInput
+    fiscalPeriods?: FiscalPeriodUncheckedUpdateManyWithoutTenantNestedInput
+    documentSequences?: DocumentSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    itemCategories?: ItemCategoryUncheckedUpdateManyWithoutTenantNestedInput
+    units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
+    items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    cashboxes?: CashboxUncheckedUpdateManyWithoutTenantNestedInput
+    invoiceTypes?: InvoiceTypeUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    chartOfAccounts?: ChartOfAccountUncheckedUpdateManyWithoutTenantNestedInput
+    journalEntries?: JournalEntryUncheckedUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutTenantNestedInput
+    aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
+    settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateManyWithoutDefaultSalesSequenceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    baseCurrencyId?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -65816,6 +69010,15 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type TenantSettingCreateManyTenantInput = {
+    id?: string
+    category: string
+    key: string
+    value: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type AppUserUpdateWithoutTenantInput = {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
@@ -65895,6 +69098,7 @@ export namespace Prisma {
     cashboxes?: CashboxUpdateManyWithoutCurrencyNestedInput
     invoices?: InvoiceUpdateManyWithoutCurrencyNestedInput
     payments?: PaymentUpdateManyWithoutCurrencyNestedInput
+    baseForTenants?: TenantUpdateManyWithoutBaseCurrencyNestedInput
   }
 
   export type CurrencyUncheckedUpdateWithoutTenantInput = {
@@ -65909,6 +69113,7 @@ export namespace Prisma {
     cashboxes?: CashboxUncheckedUpdateManyWithoutCurrencyNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutCurrencyNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutCurrencyNestedInput
+    baseForTenants?: TenantUncheckedUpdateManyWithoutBaseCurrencyNestedInput
   }
 
   export type CurrencyUncheckedUpdateManyWithoutTenantInput = {
@@ -65970,6 +69175,7 @@ export namespace Prisma {
     padding?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    defaultSalesForTenants?: TenantUpdateManyWithoutDefaultSalesSequenceNestedInput
   }
 
   export type DocumentSequenceUncheckedUpdateWithoutTenantInput = {
@@ -65980,6 +69186,7 @@ export namespace Prisma {
     padding?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    defaultSalesForTenants?: TenantUncheckedUpdateManyWithoutDefaultSalesSequenceNestedInput
   }
 
   export type DocumentSequenceUncheckedUpdateManyWithoutTenantInput = {
@@ -66606,6 +69813,33 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     title?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TenantSettingUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    value?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TenantSettingUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    value?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TenantSettingUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    value?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

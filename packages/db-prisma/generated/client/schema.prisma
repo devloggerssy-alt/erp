@@ -240,10 +240,11 @@ model Currency {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  tenant    Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-  cashboxes Cashbox[]
-  invoices  Invoice[]
-  payments  Payment[]
+  tenant         Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  cashboxes      Cashbox[]
+  invoices       Invoice[]
+  payments       Payment[]
+  baseForTenants Tenant[]  @relation("TenantBaseCurrency")
 
   @@unique([tenantId, code])
   @@index([tenantId])
@@ -261,7 +262,8 @@ model DocumentSequence {
   createdAt    DateTime @default(now()) @map("created_at")
   updatedAt    DateTime @updatedAt @map("updated_at")
 
-  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  tenant                 Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  defaultSalesForTenants Tenant[] @relation("TenantDefaultSalesSequence")
 
   @@unique([tenantId, documentType])
   @@index([tenantId])
@@ -640,38 +642,65 @@ model StockMovement {
   @@map("stock_movements")
 }
 
+// ─── Tenant Setting ───────────────────────────────────────────────────────────
+model TenantSetting {
+  id        String   @id @default(uuid())
+  tenantId  String   @map("tenant_id")
+  category  String // 'localization' | 'financial' | 'documents'
+  key       String // registry key, e.g. 'timezone'
+  value     Json     @db.JsonB
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@unique([tenantId, key])
+  @@index([tenantId, category])
+  @@map("tenant_settings")
+}
+
 // ─── Tenant ───────────────────────────────────────────────────────────────────
 model Tenant {
-  id        String   @id @default(uuid())
+  id        String  @id @default(uuid())
   name      String
-  slug      String   @unique
+  slug      String  @unique
   address   String?
   phone     String?
   email     String?
   logo      String?
+  legalName String? @map("legal_name")
+  taxNumber String? @map("tax_number")
+  website   String?
+
+  baseCurrencyId         String? @map("base_currency_id")
+  defaultSalesSequenceId String? @map("default_sales_sequence_id")
+
   isActive  Boolean  @default(true) @map("is_active")
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  users             AppUser[]
-  roles             Role[]
-  currencies        Currency[]
-  fiscalPeriods     FiscalPeriod[]
-  documentSequences DocumentSequence[]
-  itemCategories    ItemCategory[]
-  units             Unit[]
-  items             Item[]
-  parties           Party[]
-  warehouses        Warehouse[]
-  cashboxes         Cashbox[]
-  invoiceTypes      InvoiceType[]
-  invoices          Invoice[]
-  payments          Payment[]
-  chartOfAccounts   ChartOfAccount[]
-  journalEntries    JournalEntry[]
-  stockCounts       StockCount[]
-  auditLogs         AuditLog[]
-  aiChatSessions    AiChatSession[]
+  users                AppUser[]
+  roles                Role[]
+  currencies           Currency[]
+  fiscalPeriods        FiscalPeriod[]
+  documentSequences    DocumentSequence[]
+  itemCategories       ItemCategory[]
+  units                Unit[]
+  items                Item[]
+  parties              Party[]
+  warehouses           Warehouse[]
+  cashboxes            Cashbox[]
+  invoiceTypes         InvoiceType[]
+  invoices             Invoice[]
+  payments             Payment[]
+  chartOfAccounts      ChartOfAccount[]
+  journalEntries       JournalEntry[]
+  stockCounts          StockCount[]
+  auditLogs            AuditLog[]
+  aiChatSessions       AiChatSession[]
+  baseCurrency         Currency?          @relation("TenantBaseCurrency", fields: [baseCurrencyId], references: [id])
+  defaultSalesSequence DocumentSequence?  @relation("TenantDefaultSalesSequence", fields: [defaultSalesSequenceId], references: [id])
+  settings             TenantSetting[]
 
   @@map("tenants")
 }

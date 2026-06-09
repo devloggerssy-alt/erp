@@ -440,6 +440,16 @@ exports.Prisma.StockMovementScalarFieldEnum = {
   createdBy: 'createdBy'
 };
 
+exports.Prisma.TenantSettingScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  category: 'category',
+  key: 'key',
+  value: 'value',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.TenantScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -448,6 +458,11 @@ exports.Prisma.TenantScalarFieldEnum = {
   phone: 'phone',
   email: 'email',
   logo: 'logo',
+  legalName: 'legalName',
+  taxNumber: 'taxNumber',
+  website: 'website',
+  baseCurrencyId: 'baseCurrencyId',
+  defaultSalesSequenceId: 'defaultSalesSequenceId',
   isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -648,6 +663,7 @@ exports.Prisma.ModelName = {
   StockCountLine: 'StockCountLine',
   StockBalance: 'StockBalance',
   StockMovement: 'StockMovement',
+  TenantSetting: 'TenantSetting',
   Tenant: 'Tenant',
   Unit: 'Unit',
   AppUser: 'AppUser',

@@ -1,0 +1,16 @@
+// ─── Tenant Setting ───────────────────────────────────────────────────────────
+model TenantSetting {
+    id        String   @id @default(uuid())
+    tenantId  String   @map("tenant_id")
+    category  String // 'localization' | 'financial' | 'documents'
+    key       String // registry key, e.g. 'timezone'
+    value     Json     @db.JsonB
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+
+    tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+    @@unique([tenantId, key])
+    @@index([tenantId, category])
+    @@map("tenant_settings")
+}
