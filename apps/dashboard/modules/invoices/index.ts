@@ -1,10 +1,12 @@
 export { InvoicesPage } from "./components/invoices-page"
 export { InvoiceFormModal } from "./components/invoice-form-modal"
+export { InvoiceForm } from "./components/invoice-form"
+export { InvoiceStatusBadge } from "./components/invoice-status-badge"
 export { createInvoicesColumns } from "./components/invoices-columns"
 export type { InvoiceColumnActions } from "./components/invoices-columns"
 export { InvoicesResource } from "./invoices.resource"
-export { useInvoiceActions, useInvoicesResource } from "./hooks"
-export type { InvoicesResourceContext } from "./hooks"
+export { useInvoiceActions, useInvoicesResource, useInvoiceForm } from "./hooks"
+export type { InvoicesResourceContext, InvoiceFormController } from "./hooks"
 export {
     invoiceFormSchema,
     invoiceLineSchema,
