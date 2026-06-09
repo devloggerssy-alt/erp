@@ -1,3 +1,5 @@
+import { ItemsPage } from "@/modules/items"
+
 export default function Page() {
-  return null
+  return <ItemsPage />
 }
