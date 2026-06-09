@@ -109,17 +109,29 @@ export const DEFAULT_INVOICE_FORM_VALUES: InvoiceFormValues = {
 
 // ── Mapper ─────────────────────────────────────────────────────────────────────
 
+interface InvoiceApiResponse {
+    invoiceTypeId?: string
+    date?: string
+    dueDate?: string
+    partyId?: string
+    warehouseId?: string
+    fiscalPeriodId?: string
+    currencyId?: string
+    notes?: string
+    lines?: InvoiceLineApiData[]
+}
+
 export function mapInvoiceToFormValues(data: unknown): InvoiceFormValues {
-    const resolved = unwrapApiData<{ [key: string]: unknown; lines?: InvoiceLineApiData[] }>(data)
+    const resolved = unwrapApiData<InvoiceApiResponse>(data)
     return {
-        invoiceTypeId: (resolved?.invoiceTypeId as string) ?? "",
-        date: resolved?.date ? new Date(resolved.date as string).toISOString().split("T")[0]! : "",
-        dueDate: resolved?.dueDate ? new Date(resolved.dueDate as string).toISOString().split("T")[0]! : "",
-        partyId: (resolved?.partyId as string) ?? "",
-        warehouseId: (resolved?.warehouseId as string) ?? "",
-        fiscalPeriodId: (resolved?.fiscalPeriodId as string) ?? "",
-        currencyId: (resolved?.currencyId as string) ?? "",
-        notes: (resolved?.notes as string) ?? "",
+        invoiceTypeId: resolved?.invoiceTypeId ?? "",
+        date: resolved?.date ? new Date(resolved.date).toISOString().split("T")[0]! : "",
+        dueDate: resolved?.dueDate ? new Date(resolved.dueDate).toISOString().split("T")[0]! : "",
+        partyId: resolved?.partyId ?? "",
+        warehouseId: resolved?.warehouseId ?? "",
+        fiscalPeriodId: resolved?.fiscalPeriodId ?? "",
+        currencyId: resolved?.currencyId ?? "",
+        notes: resolved?.notes ?? "",
         lines: (resolved?.lines ?? [{ ...DEFAULT_INVOICE_LINE }]).map((line) => ({
             _item: line.itemId ? {
                 id: line.itemId,

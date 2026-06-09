@@ -31,10 +31,9 @@ import {
     computeInvoiceTotals,
     type InvoiceFormValues,
     type InvoiceLineFormValues,
+    type InvoiceDirection,
 } from "../invoices.config"
 import { useInvoiceActions } from "../hooks/use-invoice-actions"
-
-type InvoiceDirection = "SALE" | "PURCHASE"
 
 type InvoiceFormModalProps = {
     open: boolean

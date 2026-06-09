@@ -8,8 +8,7 @@ import { InvoicesResource } from "../invoices.resource"
 import { createInvoicesColumns } from "./invoices-columns"
 import { InvoiceFormModal } from "./invoice-form-modal"
 import { useInvoiceActions } from "../hooks/use-invoice-actions"
-
-type InvoiceDirection = "SALE" | "PURCHASE"
+import type { InvoiceDirection } from "../invoices.config"
 
 type ModalState = { open: boolean; invoiceId: string | null }
 
