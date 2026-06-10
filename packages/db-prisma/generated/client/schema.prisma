@@ -25,10 +25,12 @@ model ChartOfAccount {
   createdAt DateTime    @default(now()) @map("created_at")
   updatedAt DateTime    @updatedAt @map("updated_at")
 
-  tenant       Tenant           @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-  parent       ChartOfAccount?  @relation("AccountHierarchy", fields: [parentId], references: [id])
-  children     ChartOfAccount[] @relation("AccountHierarchy")
-  journalLines JournalLine[]
+  tenant          Tenant           @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  parent          ChartOfAccount?  @relation("AccountHierarchy", fields: [parentId], references: [id])
+  children        ChartOfAccount[] @relation("AccountHierarchy")
+  journalLines    JournalLine[]
+  expenseItems    ExpenseItem[]    @relation("ExpenseItemAccount")
+  linkedCashboxes Cashbox[]        @relation("CashboxLinkedAccount")
 
   @@unique([tenantId, code])
   @@index([tenantId])
@@ -165,9 +167,12 @@ model Cashbox {
   createdAt  DateTime @default(now()) @map("created_at")
   updatedAt  DateTime @updatedAt @map("updated_at")
 
-  tenant   Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-  currency Currency  @relation(fields: [currencyId], references: [id])
-  payments Payment[]
+  tenant          Tenant          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  currency        Currency        @relation(fields: [currencyId], references: [id])
+  linkedAccountId String?         @map("linked_account_id")
+  linkedAccount   ChartOfAccount? @relation("CashboxLinkedAccount", fields: [linkedAccountId], references: [id])
+  expenses        Expense[]
+  payments        Payment[]
 
   @@unique([tenantId, code])
   @@index([tenantId])
@@ -245,6 +250,7 @@ model Currency {
   invoices       Invoice[]
   payments       Payment[]
   baseForTenants Tenant[]  @relation("TenantBaseCurrency")
+  expenses       Expense[]
 
   @@unique([tenantId, code])
   @@index([tenantId])
@@ -316,6 +322,65 @@ model DocumentSequence {
   @@map("document_sequences")
 }
 
+// ─── Expense Status Enum ──────────────────────────────────────────────────────
+enum ExpenseStatus {
+  DRAFT
+  POSTED
+  CANCELLED
+}
+
+// ─── Expense ──────────────────────────────────────────────────────────────────
+model Expense {
+  id             String        @id @default(uuid())
+  tenantId       String        @map("tenant_id")
+  number         String
+  date           DateTime
+  cashboxId      String        @map("cashbox_id")
+  currencyId     String        @map("currency_id")
+  fiscalPeriodId String        @map("fiscal_period_id")
+  totalAmount    Decimal       @default(0) @map("total_amount") @db.Decimal(18, 4)
+  status         ExpenseStatus @default(DRAFT)
+  notes          String?
+  journalEntryId String?       @map("journal_entry_id")
+  postedAt       DateTime?     @map("posted_at")
+  postedBy       String?       @map("posted_by")
+  cancelledAt    DateTime?     @map("cancelled_at")
+  cancelledBy    String?       @map("cancelled_by")
+  createdBy      String        @map("created_by")
+  createdAt      DateTime      @default(now()) @map("created_at")
+  updatedAt      DateTime      @updatedAt @map("updated_at")
+
+  tenant       Tenant        @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  cashbox      Cashbox       @relation(fields: [cashboxId], references: [id])
+  currency     Currency      @relation(fields: [currencyId], references: [id])
+  fiscalPeriod FiscalPeriod  @relation(fields: [fiscalPeriodId], references: [id])
+  items        ExpenseItem[]
+
+  @@unique([tenantId, number])
+  @@index([tenantId])
+  @@index([tenantId, status])
+  @@map("expenses")
+}
+
+// ─── Expense Item ─────────────────────────────────────────────────────────────
+model ExpenseItem {
+  id          String  @id @default(uuid())
+  tenantId    String  @map("tenant_id")
+  expenseId   String  @map("expense_id")
+  accountId   String  @map("account_id")
+  description String
+  amount      Decimal @db.Decimal(18, 4)
+  notes       String?
+  sortOrder   Int     @default(0) @map("sort_order")
+
+  expense Expense        @relation(fields: [expenseId], references: [id], onDelete: Cascade)
+  account ChartOfAccount @relation("ExpenseItemAccount", fields: [accountId], references: [id])
+
+  @@index([tenantId])
+  @@index([expenseId])
+  @@map("expense_items")
+}
+
 // ─── Fiscal Period ────────────────────────────────────────────────────────────
 model FiscalPeriod {
   id        String             @id @default(uuid())
@@ -333,6 +398,7 @@ model FiscalPeriod {
   payments       Payment[]
   journalEntries JournalEntry[]
   stockCounts    StockCount[]
+  expenses       Expense[]
 
   @@index([tenantId])
   @@map("fiscal_periods")
@@ -701,6 +767,7 @@ model Tenant {
   baseCurrency         Currency?          @relation("TenantBaseCurrency", fields: [baseCurrencyId], references: [id])
   defaultSalesSequence DocumentSequence?  @relation("TenantDefaultSalesSequence", fields: [defaultSalesSequenceId], references: [id])
   settings             TenantSetting[]
+  expenses             Expense[]
 
   @@map("tenants")
 }

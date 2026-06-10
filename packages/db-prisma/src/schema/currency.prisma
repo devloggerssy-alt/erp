@@ -15,6 +15,7 @@ model Currency {
     invoices  Invoice[]
     payments  Payment[]
     baseForTenants Tenant[] @relation("TenantBaseCurrency")
+    expenses Expense[]
 
     @@unique([tenantId, code])
     @@index([tenantId])

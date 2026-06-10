@@ -29,6 +29,8 @@ model ChartOfAccount {
     parent       ChartOfAccount?  @relation("AccountHierarchy", fields: [parentId], references: [id])
     children     ChartOfAccount[] @relation("AccountHierarchy")
     journalLines JournalLine[]
+    expenseItems    ExpenseItem[] @relation("ExpenseItemAccount")
+    linkedCashboxes Cashbox[]     @relation("CashboxLinkedAccount")
 
     @@unique([tenantId, code])
     @@index([tenantId])

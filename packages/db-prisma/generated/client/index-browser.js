@@ -199,7 +199,8 @@ exports.Prisma.CashboxScalarFieldEnum = {
   balance: 'balance',
   isActive: 'isActive',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  linkedAccountId: 'linkedAccountId'
 };
 
 exports.Prisma.PaymentScalarFieldEnum = {
@@ -280,6 +281,38 @@ exports.Prisma.DocumentSequenceScalarFieldEnum = {
   padding: 'padding',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ExpenseScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  number: 'number',
+  date: 'date',
+  cashboxId: 'cashboxId',
+  currencyId: 'currencyId',
+  fiscalPeriodId: 'fiscalPeriodId',
+  totalAmount: 'totalAmount',
+  status: 'status',
+  notes: 'notes',
+  journalEntryId: 'journalEntryId',
+  postedAt: 'postedAt',
+  postedBy: 'postedBy',
+  cancelledAt: 'cancelledAt',
+  cancelledBy: 'cancelledBy',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ExpenseItemScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  expenseId: 'expenseId',
+  accountId: 'accountId',
+  description: 'description',
+  amount: 'amount',
+  notes: 'notes',
+  sortOrder: 'sortOrder'
 };
 
 exports.Prisma.FiscalPeriodScalarFieldEnum = {
@@ -602,6 +635,12 @@ exports.FieldType = exports.$Enums.FieldType = {
   FILE: 'FILE'
 };
 
+exports.ExpenseStatus = exports.$Enums.ExpenseStatus = {
+  DRAFT: 'DRAFT',
+  POSTED: 'POSTED',
+  CANCELLED: 'CANCELLED'
+};
+
 exports.FiscalPeriodStatus = exports.$Enums.FiscalPeriodStatus = {
   OPEN: 'OPEN',
   CLOSED: 'CLOSED',
@@ -655,6 +694,8 @@ exports.Prisma.ModelName = {
   CustomField: 'CustomField',
   CustomFieldValue: 'CustomFieldValue',
   DocumentSequence: 'DocumentSequence',
+  Expense: 'Expense',
+  ExpenseItem: 'ExpenseItem',
   FiscalPeriod: 'FiscalPeriod',
   InvoiceType: 'InvoiceType',
   Invoice: 'Invoice',

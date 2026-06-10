@@ -1,0 +1,58 @@
+// ─── Expense Status Enum ──────────────────────────────────────────────────────
+enum ExpenseStatus {
+    DRAFT
+    POSTED
+    CANCELLED
+}
+
+// ─── Expense ──────────────────────────────────────────────────────────────────
+model Expense {
+    id             String        @id @default(uuid())
+    tenantId       String        @map("tenant_id")
+    number         String
+    date           DateTime
+    cashboxId      String        @map("cashbox_id")
+    currencyId     String        @map("currency_id")
+    fiscalPeriodId String        @map("fiscal_period_id")
+    totalAmount    Decimal       @default(0) @map("total_amount") @db.Decimal(18, 4)
+    status         ExpenseStatus @default(DRAFT)
+    notes          String?
+    journalEntryId String?       @map("journal_entry_id")
+    postedAt       DateTime?     @map("posted_at")
+    postedBy       String?       @map("posted_by")
+    cancelledAt    DateTime?     @map("cancelled_at")
+    cancelledBy    String?       @map("cancelled_by")
+    createdBy      String        @map("created_by")
+    createdAt      DateTime      @default(now()) @map("created_at")
+    updatedAt      DateTime      @updatedAt @map("updated_at")
+
+    tenant       Tenant       @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+    cashbox      Cashbox      @relation(fields: [cashboxId], references: [id])
+    currency     Currency     @relation(fields: [currencyId], references: [id])
+    fiscalPeriod FiscalPeriod @relation(fields: [fiscalPeriodId], references: [id])
+    items        ExpenseItem[]
+
+    @@unique([tenantId, number])
+    @@index([tenantId])
+    @@index([tenantId, status])
+    @@map("expenses")
+}
+
+// ─── Expense Item ─────────────────────────────────────────────────────────────
+model ExpenseItem {
+    id          String  @id @default(uuid())
+    tenantId    String  @map("tenant_id")
+    expenseId   String  @map("expense_id")
+    accountId   String  @map("account_id")
+    description String
+    amount      Decimal @db.Decimal(18, 4)
+    notes       String?
+    sortOrder   Int     @default(0) @map("sort_order")
+
+    expense Expense        @relation(fields: [expenseId], references: [id], onDelete: Cascade)
+    account ChartOfAccount @relation("ExpenseItemAccount", fields: [accountId], references: [id])
+
+    @@index([tenantId])
+    @@index([expenseId])
+    @@map("expense_items")
+}

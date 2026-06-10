@@ -27,6 +27,9 @@ model Cashbox {
 
     tenant   Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
     currency Currency  @relation(fields: [currencyId], references: [id])
+    linkedAccountId String?         @map("linked_account_id")
+    linkedAccount   ChartOfAccount? @relation("CashboxLinkedAccount", fields: [linkedAccountId], references: [id])
+    expenses        Expense[]
     payments Payment[]
 
     @@unique([tenantId, code])
