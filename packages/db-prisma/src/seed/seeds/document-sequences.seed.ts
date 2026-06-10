@@ -10,7 +10,8 @@ export async function seedDocumentSequences(prisma: PrismaClient, tenantId: stri
             { id: SEED_IDS.DOC_SEQ_RECEIPT,  tenantId, documentType: 'RECEIPT',          prefix: 'REC', padding: 5 },
             { id: SEED_IDS.DOC_SEQ_EXPENSE,  tenantId, documentType: 'EXPENSE',          prefix: 'EXP', padding: 5 },
             { id: SEED_IDS.DOC_SEQ_STOCK,    tenantId, documentType: 'STOCK_COUNT',      prefix: 'SCT', padding: 5 },
-            { id: SEED_IDS.DOC_SEQ_JOURNAL,  tenantId, documentType: 'JOURNAL_ENTRY',    prefix: 'JE',  padding: 5 },
+            // Opening balance entry (seedJournalEntry) reserves JE-00001, so the sequence starts at 2.
+            { id: SEED_IDS.DOC_SEQ_JOURNAL,  tenantId, documentType: 'JOURNAL_ENTRY',    prefix: 'JE',  padding: 5, nextNumber: 2 },
         ],
     })
 }
