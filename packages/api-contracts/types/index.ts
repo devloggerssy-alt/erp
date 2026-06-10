@@ -364,6 +364,23 @@ export interface paths {
         patch: operations["Items.update"];
         trace?: never;
     };
+    "/custom-fields/by-module": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List all custom fields for a module (non-paginated) */
+        get: operations["CustomFields.listByModule"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/custom-fields": {
         parameters: {
             query?: never;
@@ -371,8 +388,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /** List custom field definitions */
         get: operations["CustomFields.list"];
         put?: never;
+        /** Create a custom field definition */
         post: operations["CustomFields.create"];
         delete?: never;
         options?: never;
@@ -387,29 +406,16 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /** Get a custom field by ID */
         get: operations["CustomFields.show"];
         put?: never;
         post?: never;
+        /** Delete a custom field definition */
         delete: operations["CustomFields.delete"];
         options?: never;
         head?: never;
+        /** Update a custom field definition */
         patch: operations["CustomFields.update"];
-        trace?: never;
-    };
-    "/custom-fields/by-module": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["CustomFields.listByModule"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
         trace?: never;
     };
     "/accounting/journal-entries": {
@@ -1382,7 +1388,7 @@ export interface components {
              *     ]
              */
             enumValues?: string[];
-            /** @example auth|tenants|users|roles|currencies|fiscal-periods|document-sequences|units|item-categories|items|parties|warehouses|inventory|stock-ledger|invoice-types|invoices|cashboxes|payments|accounting|chart-of-accounts|stock-counts|reports|dashboard|ai|audit-logs */
+            /** @example auth|tenants|users|roles|currencies|fiscal-periods|document-sequences|units|item-categories|items|custom-fields|parties|warehouses|inventory|stock-ledger|invoice-types|invoices|cashboxes|payments|accounting|chart-of-accounts|stock-counts|reports|dashboard|ai|audit-logs */
             foreignResourceKey?: string;
         };
         ApiMetaDto: {
@@ -1835,8 +1841,12 @@ export interface components {
              * @example true
              */
             isActive: boolean;
-            customFields?: {
-                [key: string]: string | number | boolean | string[] | null;
+            /**
+             * @default {}
+             * @example {}
+             */
+            customFields: {
+                [key: string]: unknown;
             };
             /**
              * @default
@@ -1848,19 +1858,6 @@ export interface components {
              * @example 2025-01-01T00:00:00.000Z
              */
             updatedAt: string;
-        };
-        CustomFieldResponseDto: {
-            id: string;
-            module: string;
-            name: components["schemas"]["LocalizedStringDto"];
-            label: components["schemas"]["LocalizedStringDto"];
-            type: string;
-            defaultValue: string | null;
-            placeholder: components["schemas"]["LocalizedStringDto"] | null;
-            options: string[];
-            isRequired: boolean;
-            showInList: boolean;
-            createdAt: string;
         };
         CreateItemDto: {
             /**
@@ -1902,6 +1899,10 @@ export interface components {
              * @example 600000
              */
             latestPurchasePrice?: number;
+            /** @description Custom field values keyed by field ID */
+            customFields?: {
+                [key: string]: unknown;
+            };
         };
         UpdateItemDto: {
             /** @example ELEC-001 */
@@ -1920,6 +1921,97 @@ export interface components {
             latestPurchasePrice?: number;
             /** @example true */
             isActive?: boolean;
+            /** @description Custom field values keyed by field ID */
+            customFields?: {
+                [key: string]: unknown;
+            };
+        };
+        CustomFieldResponseDto: {
+            /** @default  */
+            id: string;
+            /**
+             * @default items
+             * @example items
+             */
+            module: string;
+            /**
+             * @default {
+             *       "ar": ""
+             *     }
+             */
+            name: components["schemas"]["LocalizedStringDto"];
+            /**
+             * @default {
+             *       "ar": ""
+             *     }
+             */
+            label: components["schemas"]["LocalizedStringDto"];
+            /**
+             * @default TEXT
+             * @enum {string}
+             */
+            type: "TEXT" | "DATE" | "NUMBER" | "SELECT" | "BOOLEAN" | "MULTI_SELECT";
+            /** @default null */
+            defaultValue: string | null;
+            /** @default null */
+            placeholder: components["schemas"]["LocalizedStringDto"] | null;
+            /** @default [] */
+            options: string[];
+            /** @default false */
+            isRequired: boolean;
+            /** @default false */
+            showInList: boolean;
+            /** @default  */
+            createdAt: string;
+        };
+        CreateCustomFieldDto: {
+            /**
+             * @default items
+             * @example items
+             */
+            module: string;
+            /**
+             * @default {
+             *       "ar": ""
+             *     }
+             */
+            name: components["schemas"]["LocalizedStringDto"];
+            /**
+             * @default {
+             *       "ar": ""
+             *     }
+             */
+            label: components["schemas"]["LocalizedStringDto"];
+            /**
+             * @default TEXT
+             * @enum {string}
+             */
+            type: "TEXT" | "DATE" | "NUMBER" | "SELECT" | "BOOLEAN" | "MULTI_SELECT";
+            /** @example  */
+            defaultValue?: string;
+            placeholder?: components["schemas"]["LocalizedStringDto"];
+            /**
+             * @example [
+             *       "Red",
+             *       "Blue"
+             *     ]
+             */
+            options?: string[];
+            /** @example false */
+            isRequired?: boolean;
+            /** @example false */
+            showInList?: boolean;
+        };
+        UpdateCustomFieldDto: {
+            name?: components["schemas"]["LocalizedStringDto"];
+            label?: components["schemas"]["LocalizedStringDto"];
+            /** @enum {string} */
+            type?: "TEXT" | "DATE" | "NUMBER" | "SELECT" | "BOOLEAN" | "MULTI_SELECT";
+            defaultValue?: string;
+            placeholder?: components["schemas"]["LocalizedStringDto"];
+            options?: string[];
+            isRequired?: boolean;
+            showInList?: boolean;
         };
         CurrencyResponseDto: {
             /**
@@ -5683,9 +5775,11 @@ export interface operations {
             };
         };
     };
-    "CustomFields.list": {
+    "CustomFields.listByModule": {
         parameters: {
-            query?: Record<string, never>;
+            query: {
+                module: "items";
+            };
             header?: never;
             path?: never;
             cookie?: never;
@@ -5693,30 +5787,224 @@ export interface operations {
         requestBody?: never;
         responses: {
             200: {
-                headers: { [name: string]: unknown };
-                content: {
-                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
-                        data?: components["schemas"]["CustomFieldResponseDto"][];
-                    };
+                headers: {
+                    [name: string]: unknown;
                 };
+                content?: never;
             };
         };
     };
-    "CustomFields.show": {
+    "CustomFields.list": {
         parameters: {
-            query?: never;
+            query?: {
+                /** @description Page number (1-based) */
+                page?: number;
+                /** @description Number of items per page */
+                limit?: number;
+                /** @description Field name to sort by */
+                sortField?: string;
+                sortOrder?: "asc" | "desc";
+                /** @description Full-text search keyword */
+                search?: string;
+                /** @description Comma-separated field names to search within (e.g. name,symbol) */
+                searchIn?: string;
+                /** @description Structured filters. Example: filters[module][$like]=sample-module&filters[type][$like]=sample-type&filters[isRequired][$eq]=true&filters[showInList][$eq]=true&filters[createdAt][$gte]=2024-01-01T00%3A00%3A00.000Z */
+                filters?: {
+                    /**
+                     * @description Filter on `module` (string)
+                     * @example {
+                     *       "$like": "sample-module"
+                     *     }
+                     */
+                    module?: {
+                        $eq?: string;
+                        /** @example sample-module */
+                        $like?: string;
+                        $in?: string[];
+                        /** @enum {boolean} */
+                        $isNull?: true;
+                    };
+                    /**
+                     * @description Filter on `type` (string)
+                     * @example {
+                     *       "$like": "sample-type"
+                     *     }
+                     */
+                    type?: {
+                        $eq?: string;
+                        /** @example sample-type */
+                        $like?: string;
+                        $in?: string[];
+                        /** @enum {boolean} */
+                        $isNull?: true;
+                    };
+                    /**
+                     * @description Filter on `isRequired` (boolean)
+                     * @example {
+                     *       "$eq": true
+                     *     }
+                     */
+                    isRequired?: {
+                        /** @example true */
+                        $eq?: boolean;
+                        /** @enum {boolean} */
+                        $isNull?: true;
+                    };
+                    /**
+                     * @description Filter on `showInList` (boolean)
+                     * @example {
+                     *       "$eq": true
+                     *     }
+                     */
+                    showInList?: {
+                        /** @example true */
+                        $eq?: boolean;
+                        /** @enum {boolean} */
+                        $isNull?: true;
+                    };
+                    /**
+                     * @description Filter on `createdAt` (date)
+                     * @example {
+                     *       "$gte": "2024-01-01T00:00:00.000Z"
+                     *     }
+                     */
+                    createdAt?: {
+                        $eq?: string;
+                        /**
+                         * Format: date-time
+                         * @example 2024-01-01T00:00:00.000Z
+                         */
+                        $gte?: string;
+                        /** Format: date-time */
+                        $lte?: string;
+                        /** @enum {boolean} */
+                        $isNull?: true;
+                    };
+                };
+            };
             header?: never;
-            path: { id: string };
+            path?: never;
             cookie?: never;
         };
         requestBody?: never;
         responses: {
+            /** @description Paginated list of custom fields */
             200: {
-                headers: { [name: string]: unknown };
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
-                        data?: components["schemas"]["CustomFieldResponseDto"];
+                        data?: components["schemas"]["CustomFieldResponseDto"][];
+                        meta?: {
+                            pagination?: {
+                                /** @example 0 */
+                                total?: number;
+                                /** @example 1 */
+                                page?: number;
+                                /** @example 10 */
+                                limit?: number;
+                                /** @example 0 */
+                                totalPages?: number;
+                            };
+                            /**
+                             * @example [
+                             *       {
+                             *         "field": "module",
+                             *         "type": "string",
+                             *         "operators": [
+                             *           "$eq",
+                             *           "$like",
+                             *           "$in",
+                             *           "$isNull"
+                             *         ]
+                             *       },
+                             *       {
+                             *         "field": "type",
+                             *         "type": "string",
+                             *         "operators": [
+                             *           "$eq",
+                             *           "$like",
+                             *           "$in",
+                             *           "$isNull"
+                             *         ]
+                             *       },
+                             *       {
+                             *         "field": "isRequired",
+                             *         "type": "boolean",
+                             *         "operators": [
+                             *           "$eq",
+                             *           "$isNull"
+                             *         ]
+                             *       },
+                             *       {
+                             *         "field": "showInList",
+                             *         "type": "boolean",
+                             *         "operators": [
+                             *           "$eq",
+                             *           "$isNull"
+                             *         ]
+                             *       },
+                             *       {
+                             *         "field": "createdAt",
+                             *         "type": "date",
+                             *         "operators": [
+                             *           "$eq",
+                             *           "$gte",
+                             *           "$lte",
+                             *           "$isNull"
+                             *         ]
+                             *       }
+                             *     ]
+                             */
+                            filterOptions?: unknown[];
+                        };
                     };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
                 };
             };
         };
@@ -5728,33 +6016,136 @@ export interface operations {
             path?: never;
             cookie?: never;
         };
-        requestBody?: never;
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateCustomFieldDto"];
+            };
+        };
         responses: {
+            /** @description Custom field created successfully */
             201: {
-                headers: { [name: string]: unknown };
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
                         data?: components["schemas"]["CustomFieldResponseDto"];
                     };
                 };
             };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
         };
     };
-    "CustomFields.update": {
+    "CustomFields.show": {
         parameters: {
             query?: never;
             header?: never;
-            path: { id: string };
+            path: {
+                /** @description Custom field UUID */
+                id: string;
+            };
             cookie?: never;
         };
         requestBody?: never;
         responses: {
+            /** @description Custom field definition */
             200: {
-                headers: { [name: string]: unknown };
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
                         data?: components["schemas"]["CustomFieldResponseDto"];
                     };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
                 };
             };
         };
@@ -5763,32 +6154,138 @@ export interface operations {
         parameters: {
             query?: never;
             header?: never;
-            path: { id: string };
+            path: {
+                /** @description Custom field UUID */
+                id: string;
+            };
             cookie?: never;
         };
         requestBody?: never;
         responses: {
+            /** @description Custom field deleted successfully */
             204: {
-                headers: { [name: string]: unknown };
+                headers: {
+                    [name: string]: unknown;
+                };
                 content?: never;
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
             };
         };
     };
-    "CustomFields.listByModule": {
+    "CustomFields.update": {
         parameters: {
-            query?: { module?: string };
+            query?: never;
             header?: never;
-            path?: never;
+            path: {
+                /** @description Custom field UUID */
+                id: string;
+            };
             cookie?: never;
         };
-        requestBody?: never;
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateCustomFieldDto"];
+            };
+        };
         responses: {
+            /** @description Updated custom field */
             200: {
-                headers: { [name: string]: unknown };
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
-                    "application/json": {
-                        data?: components["schemas"]["CustomFieldResponseDto"][];
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["CustomFieldResponseDto"];
                     };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
                 };
             };
         };
