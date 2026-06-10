@@ -2,7 +2,9 @@
 
 import { useEffect } from "react"
 import { useFormContext } from "react-hook-form"
-import { useTranslations } from "next-intl"
+import { useLocale, useTranslations } from "next-intl"
+import Link from "next/link"
+import { SlidersHorizontal } from "lucide-react"
 import type { CustomFieldModule, CustomFieldResponseDto } from "@devloggers/api-contracts"
 import { deserializeCustomFieldValue } from "@devloggers/api-contracts"
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/components/ui/card"
@@ -13,6 +15,8 @@ import { useCustomFieldDefinitions } from "./use-custom-field-definitions"
 type CustomFieldsFormSectionProps = {
     module: CustomFieldModule
     disabled?: boolean
+    /** Render a discoverable empty-state card instead of null when no fields are configured. */
+    showWhenEmpty?: boolean
 }
 
 export function buildCustomFieldDefaults(definitions: CustomFieldResponseDto[]): Record<string, unknown> {
@@ -24,8 +28,13 @@ export function buildCustomFieldDefaults(definitions: CustomFieldResponseDto[]):
     return defaults
 }
 
-export function CustomFieldsFormSection({ module, disabled = false }: CustomFieldsFormSectionProps) {
+export function CustomFieldsFormSection({
+    module,
+    disabled = false,
+    showWhenEmpty = false,
+}: CustomFieldsFormSectionProps) {
     const t = useTranslations("system.customFields")
+    const locale = useLocale()
     const { definitions, isLoading } = useCustomFieldDefinitions(module)
     const { setValue, getValues } = useFormContext()
 
@@ -51,7 +60,30 @@ export function CustomFieldsFormSection({ module, disabled = false }: CustomFiel
     }
 
     if (definitions.length === 0) {
-        return null
+        if (!showWhenEmpty) return null
+
+        return (
+            <Card className="border-dashed">
+                <CardHeader>
+                    <CardTitle>{t("sectionTitle")}</CardTitle>
+                </CardHeader>
+                <CardContent className="flex flex-col items-center gap-3 py-6 text-center">
+                    <div className="rounded-full bg-muted p-3">
+                        <SlidersHorizontal className="size-5 text-muted-foreground" />
+                    </div>
+                    <div className="space-y-1">
+                        <p className="text-sm font-medium">{t("emptyTitle")}</p>
+                        <p className="text-xs text-muted-foreground">{t("emptyDescription")}</p>
+                    </div>
+                    <Link
+                        href={`/${locale}/catalog/custom-fields`}
+                        className="text-xs font-medium text-primary underline-offset-4 hover:underline"
+                    >
+                        {t("manage")} →
+                    </Link>
+                </CardContent>
+            </Card>
+        )
     }
 
     return (

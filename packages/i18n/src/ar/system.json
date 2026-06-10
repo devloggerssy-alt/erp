@@ -100,7 +100,10 @@
   },
   "customFields": {
     "sectionTitle": "الحقول المخصصة",
-    "noOptions": "لا توجد خيارات"
+    "noOptions": "لا توجد خيارات",
+    "emptyTitle": "لا توجد حقول مخصصة",
+    "emptyDescription": "أضف حقولاً مخصصة لتخزين معلومات إضافية لهذا السجل.",
+    "manage": "إدارة الحقول المخصصة"
   },
   "resourceForm": {
     "creating": "جارٍ الإنشاء...",

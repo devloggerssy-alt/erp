@@ -100,7 +100,10 @@
   },
   "customFields": {
     "sectionTitle": "Özel Alanlar",
-    "noOptions": "Yapılandırılmış seçenek yok"
+    "noOptions": "Yapılandırılmış seçenek yok",
+    "emptyTitle": "Özel alan yapılandırılmamış",
+    "emptyDescription": "Bu kayıt için ek bilgi toplamak üzere özel alanlar ekleyin.",
+    "manage": "Özel alanları yönet"
   },
   "resourceForm": {
     "creating": "Oluşturuluyor...",

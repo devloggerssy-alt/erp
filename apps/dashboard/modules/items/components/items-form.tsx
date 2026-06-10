@@ -117,7 +117,7 @@ export function ItemsForm({
                     </CardContent>
                 </Card>
 
-                <CustomFieldsFormSection module={customFieldModules.items} disabled={ctrl.isBusy} />
+                <CustomFieldsFormSection module={customFieldModules.items} disabled={ctrl.isBusy} showWhenEmpty />
 
                 {ctrl.isEditing && (
                     <Card>

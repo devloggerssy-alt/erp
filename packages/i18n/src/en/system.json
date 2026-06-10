@@ -100,7 +100,10 @@
   },
   "customFields": {
     "sectionTitle": "Custom Fields",
-    "noOptions": "No options configured"
+    "noOptions": "No options configured",
+    "emptyTitle": "No custom fields configured",
+    "emptyDescription": "Add custom fields to capture extra information for this record.",
+    "manage": "Manage custom fields"
   },
   "resourceForm": {
     "creating": "Creating...",
