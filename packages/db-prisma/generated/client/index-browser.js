@@ -615,7 +615,6 @@ exports.MessageRole = exports.$Enums.MessageRole = {
 exports.PaymentType = exports.$Enums.PaymentType = {
   RECEIPT: 'RECEIPT',
   PAYMENT: 'PAYMENT',
-  EXPENSE: 'EXPENSE',
   ADJUSTMENT: 'ADJUSTMENT'
 };
 

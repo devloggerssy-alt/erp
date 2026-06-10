@@ -218,7 +218,6 @@ export type MessageRole = (typeof MessageRole)[keyof typeof MessageRole]
 export const PaymentType: {
   RECEIPT: 'RECEIPT',
   PAYMENT: 'PAYMENT',
-  EXPENSE: 'EXPENSE',
   ADJUSTMENT: 'ADJUSTMENT'
 };
 
