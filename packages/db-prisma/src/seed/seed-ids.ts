@@ -138,6 +138,10 @@ export const SEED_IDS = {
 
     // ── Journal Entry ───────────────────────────────────────────────────────
     JOURNAL_OPENING: '00000000-0000-4000-ae00-000000000001',
+
+    // ── Custom Fields ───────────────────────────────────────────────────────
+    CUSTOM_FIELD_COLOR: '00000000-0000-4000-af00-000000000001',
+    CUSTOM_FIELD_WARRANTY: '00000000-0000-4000-af00-000000000002',
 } as const;
 
 export type SeedIdKey = keyof typeof SEED_IDS;

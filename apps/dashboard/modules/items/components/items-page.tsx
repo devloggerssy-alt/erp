@@ -3,6 +3,8 @@
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useLocale, useTranslations } from "next-intl"
+import { customFieldModules } from "@devloggers/api-contracts"
+import { useCustomFieldDefinitions } from "@/shared/custom-fields"
 import { Plus } from "lucide-react"
 import { Button } from "@/shared/components/ui/button"
 import { ItemsResource } from "../items.resource"
@@ -14,6 +16,7 @@ export function ItemsPage() {
     const locale = useLocale()
 
     const localizedHref = (href: string) => (href === "/" ? `/${locale}` : `/${locale}${href}`)
+    const { definitions: customFieldDefinitions } = useCustomFieldDefinitions(customFieldModules.items)
 
     return (
         <ItemsResource>
@@ -31,7 +34,11 @@ export function ItemsPage() {
                 <ItemsResource.Table
                     columns={(helpers) =>
                         createItemsColumns(helpers, t, {
-                            onEdit: (row) => router.push(localizedHref(`/catalog/items/${row.id}/edit`)),
+                            actions: {
+                                onEdit: (row) => router.push(localizedHref(`/catalog/items/${row.id}/edit`)),
+                            },
+                            customFieldDefinitions,
+                            locale,
                         })
                     }
                 />

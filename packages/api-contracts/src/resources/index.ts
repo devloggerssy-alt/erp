@@ -11,6 +11,7 @@ import { documentSequenceResource } from './document-sequence.resource'
 import { unitResource } from './unit.resource'
 import { itemCategoryResource } from './item-category.resource'
 import { itemResource } from './item.resource'
+import { customFieldResource } from './custom-field.resource'
 import { partyResource } from './party.resource'
 import { warehouseResource } from './warehouse.resource'
 import { inventoryResource } from './inventory.resource'
@@ -37,6 +38,7 @@ export * from './document-sequence.resource'
 export * from './unit.resource'
 export * from './item-category.resource'
 export * from './item.resource'
+export * from './custom-field.resource'
 export * from './party.resource'
 export * from './warehouse.resource'
 export * from './inventory.resource'
@@ -64,6 +66,7 @@ export const resources = {
   units: unitResource,
   itemCategories: itemCategoryResource,
   items: itemResource,
+  customFields: customFieldResource,
   parties: partyResource,
   warehouses: warehouseResource,
   inventory: inventoryResource,

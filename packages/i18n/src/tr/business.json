@@ -21,6 +21,7 @@
       "itemsList": "Ürün Listesi",
       "categories": "Kategoriler",
       "units": "Birimler",
+      "customFields": "Özel Alanlar",
       "warehouses": "Depolar",
       "warehouseList": "Depo Listesi",
       "stockBalances": "Stok Bakiyeleri",
@@ -122,6 +123,23 @@
     }
   },
   "resources": {
+    "customFields": {
+      "title": "Özel Alanlar",
+      "description": "Katalog ürünleri için ek alanlar tanımlayın. Değerler ürün oluşturma/düzenleme formlarında ve isteğe bağlı olarak listede görünür.",
+      "addAction": "Alan Ekle",
+      "editAction": "Alanı Düzenle",
+      "entity": "Özel Alan",
+      "name": "Dahili Ad",
+      "label": "Etiket",
+      "type": "Tür",
+      "options": "Seçenekler",
+      "optionsPlaceholder": "Virgülle ayrılmış, örn. Kırmızı, Mavi, Yeşil",
+      "defaultValue": "Varsayılan Değer",
+      "defaultValuePlaceholder": "İsteğe bağlı varsayılan",
+      "placeholder": "Yer tutucu",
+      "required": "Zorunlu",
+      "showInList": "Listede göster"
+    },
     "units": {
       "title": "Birimler",
       "addAction": "Birim Ekle",

@@ -1,5 +1,6 @@
 export * from './dto'
 export * from './resources'
+export * from './custom-fields'
 export type * from './enums'
 export * from './api'
 export type * from '../types/index'

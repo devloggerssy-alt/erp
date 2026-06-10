@@ -1,5 +1,5 @@
 import { z } from "zod"
-import type { CreateItemDto, UpdateItemDto } from "@devloggers/api-contracts"
+import type { CreateItemDto, UpdateItemDto, CustomFieldValuesMap } from "@devloggers/api-contracts"
 import type { ResourceFormConfig } from "@/shared/hooks/use-resource-form-controller"
 import { unwrapApiData } from "@/shared/hooks/unwrap-api-data"
 
@@ -17,6 +17,7 @@ export const itemFormSchema = z.object({
     defaultSellingPrice: optionalPrice,
     latestPurchasePrice: optionalPrice,
     isActive: z.boolean().optional(),
+    customFields: z.record(z.string(), z.unknown()).optional(),
 })
 
 export type ItemFormValues = z.infer<typeof itemFormSchema>
@@ -30,6 +31,7 @@ export const DEFAULT_ITEM_FORM_VALUES: ItemFormValues = {
     defaultSellingPrice: undefined,
     latestPurchasePrice: undefined,
     isActive: true,
+    customFields: {},
 }
 
 export function mapItemToFormValues(data: unknown): ItemFormValues {
@@ -43,6 +45,7 @@ export function mapItemToFormValues(data: unknown): ItemFormValues {
         defaultSellingPrice: resolved.defaultSellingPrice ?? undefined,
         latestPurchasePrice: resolved.latestPurchasePrice ?? undefined,
         isActive: resolved.isActive ?? true,
+        customFields: (resolved as { customFields?: Record<string, unknown> }).customFields ?? {},
     }
 }
 
@@ -58,6 +61,7 @@ export const itemsFormConfig: ResourceFormConfig<ItemFormValues, CreateItemDto, 
         baseUnitId: values.baseUnitId,
         defaultSellingPrice: values.defaultSellingPrice,
         latestPurchasePrice: values.latestPurchasePrice,
+        customFields: values.customFields as CustomFieldValuesMap | undefined,
     }),
     toUpdate: (values) => ({
         code: values.code.trim(),
@@ -68,5 +72,6 @@ export const itemsFormConfig: ResourceFormConfig<ItemFormValues, CreateItemDto, 
         defaultSellingPrice: values.defaultSellingPrice,
         latestPurchasePrice: values.latestPurchasePrice,
         isActive: values.isActive ?? true,
+        customFields: values.customFields as CustomFieldValuesMap | undefined,
     }),
 }

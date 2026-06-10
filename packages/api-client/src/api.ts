@@ -14,7 +14,8 @@ import { TenantsClient } from "./clients/tenants.client"
 import { ItemsClient } from "./clients/items.client"
 import { InvoiceTypesClient } from "./clients/invoice-types.client"
 import { InvoicesClient } from "./clients/invoices.client"
-import { authResource, itemCategoryResource, itemResource, unitResource, warehouseResource, partyResource, accountResource, currencyResource, fiscalPeriodResource, documentSequenceResource, roleResource, userResource, tenantResource, invoiceTypeResource, invoiceResource } from "@devloggers/api-contracts"
+import { authResource, itemCategoryResource, itemResource, unitResource, warehouseResource, partyResource, accountResource, currencyResource, fiscalPeriodResource, documentSequenceResource, roleResource, userResource, tenantResource, invoiceTypeResource, invoiceResource, customFieldResource } from "@devloggers/api-contracts"
+import { CustomFieldsClient } from "./clients/custom-fields.client"
 
 export function createApi(options?: ApiClientOptions, baseUrl = 'http://localhost:4040') {
     const client = new ApiClient(baseUrl, options)
@@ -24,6 +25,7 @@ export function createApi(options?: ApiClientOptions, baseUrl = 'http://localhos
         [unitResource.key]: new UnitsClient(client),
         [itemCategoryResource.key]: new CategoriesClient(client),
         [itemResource.key]: new ItemsClient(client),
+        [customFieldResource.key]: new CustomFieldsClient(client),
         [warehouseResource.key]: new WarehousesClient(client),
         [partyResource.key]: new PartiesClient(client),
         [accountResource.key]: new AccountsClient(client),

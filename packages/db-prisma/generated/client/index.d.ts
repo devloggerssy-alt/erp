@@ -64,6 +64,16 @@ export type PaymentAllocation = $Result.DefaultSelection<Prisma.$PaymentAllocati
  */
 export type Currency = $Result.DefaultSelection<Prisma.$CurrencyPayload>
 /**
+ * Model CustomField
+ * 
+ */
+export type CustomField = $Result.DefaultSelection<Prisma.$CustomFieldPayload>
+/**
+ * Model CustomFieldValue
+ * 
+ */
+export type CustomFieldValue = $Result.DefaultSelection<Prisma.$CustomFieldValuePayload>
+/**
  * Model DocumentSequence
  * 
  */
@@ -98,16 +108,6 @@ export type ItemCategory = $Result.DefaultSelection<Prisma.$ItemCategoryPayload>
  * 
  */
 export type Item = $Result.DefaultSelection<Prisma.$ItemPayload>
-/**
- * Model CustomField
- * 
- */
-export type CustomField = $Result.DefaultSelection<Prisma.$CustomFieldPayload>
-/**
- * Model CustomFieldValue
- * 
- */
-export type CustomFieldValue = $Result.DefaultSelection<Prisma.$CustomFieldValuePayload>
 /**
  * Model Party
  * 
@@ -224,6 +224,18 @@ export const PaymentStatus: {
 export type PaymentStatus = (typeof PaymentStatus)[keyof typeof PaymentStatus]
 
 
+export const FieldType: {
+  TEXT: 'TEXT',
+  DATE: 'DATE',
+  NUMBER: 'NUMBER',
+  SELECT: 'SELECT',
+  BOOLEAN: 'BOOLEAN',
+  MULTI_SELECT: 'MULTI_SELECT'
+};
+
+export type FieldType = (typeof FieldType)[keyof typeof FieldType]
+
+
 export const FiscalPeriodStatus: {
   OPEN: 'OPEN',
   CLOSED: 'CLOSED',
@@ -248,18 +260,6 @@ export const InvoiceStatus: {
 };
 
 export type InvoiceStatus = (typeof InvoiceStatus)[keyof typeof InvoiceStatus]
-
-
-export const FieldType: {
-  TEXT: 'TEXT',
-  DATE: 'DATE',
-  NUMBER: 'NUMBER',
-  SELECT: 'SELECT',
-  BOOLEAN: 'BOOLEAN',
-  MULTI_SELECT: 'MULTI_SELECT'
-};
-
-export type FieldType = (typeof FieldType)[keyof typeof FieldType]
 
 
 export const PartyType: {
@@ -314,6 +314,10 @@ export type PaymentStatus = $Enums.PaymentStatus
 
 export const PaymentStatus: typeof $Enums.PaymentStatus
 
+export type FieldType = $Enums.FieldType
+
+export const FieldType: typeof $Enums.FieldType
+
 export type FiscalPeriodStatus = $Enums.FiscalPeriodStatus
 
 export const FiscalPeriodStatus: typeof $Enums.FiscalPeriodStatus
@@ -325,10 +329,6 @@ export const InvoiceDirection: typeof $Enums.InvoiceDirection
 export type InvoiceStatus = $Enums.InvoiceStatus
 
 export const InvoiceStatus: typeof $Enums.InvoiceStatus
-
-export type FieldType = $Enums.FieldType
-
-export const FieldType: typeof $Enums.FieldType
 
 export type PartyType = $Enums.PartyType
 
@@ -564,6 +564,26 @@ export class PrismaClient<
   get currency(): Prisma.CurrencyDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.customField`: Exposes CRUD operations for the **CustomField** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more CustomFields
+    * const customFields = await prisma.customField.findMany()
+    * ```
+    */
+  get customField(): Prisma.CustomFieldDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.customFieldValue`: Exposes CRUD operations for the **CustomFieldValue** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more CustomFieldValues
+    * const customFieldValues = await prisma.customFieldValue.findMany()
+    * ```
+    */
+  get customFieldValue(): Prisma.CustomFieldValueDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.documentSequence`: Exposes CRUD operations for the **DocumentSequence** model.
     * Example usage:
     * ```ts
@@ -632,26 +652,6 @@ export class PrismaClient<
     * ```
     */
   get item(): Prisma.ItemDelegate<ExtArgs, ClientOptions>;
-
-  /**
-   * `prisma.customField`: Exposes CRUD operations for the **CustomField** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more CustomFields
-    * const customFields = await prisma.customField.findMany()
-    * ```
-    */
-  get customField(): Prisma.CustomFieldDelegate<ExtArgs, ClientOptions>;
-
-  /**
-   * `prisma.customFieldValue`: Exposes CRUD operations for the **CustomFieldValue** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more CustomFieldValues
-    * const customFieldValues = await prisma.customFieldValue.findMany()
-    * ```
-    */
-  get customFieldValue(): Prisma.CustomFieldValueDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.party`: Exposes CRUD operations for the **Party** model.
@@ -1226,6 +1226,8 @@ export namespace Prisma {
     Payment: 'Payment',
     PaymentAllocation: 'PaymentAllocation',
     Currency: 'Currency',
+    CustomField: 'CustomField',
+    CustomFieldValue: 'CustomFieldValue',
     DocumentSequence: 'DocumentSequence',
     FiscalPeriod: 'FiscalPeriod',
     InvoiceType: 'InvoiceType',
@@ -1233,8 +1235,6 @@ export namespace Prisma {
     InvoiceLine: 'InvoiceLine',
     ItemCategory: 'ItemCategory',
     Item: 'Item',
-    CustomField: 'CustomField',
-    CustomFieldValue: 'CustomFieldValue',
     Party: 'Party',
     StockCount: 'StockCount',
     StockCountLine: 'StockCountLine',
@@ -1263,7 +1263,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "chartOfAccount" | "journalEntry" | "journalLine" | "aiChatSession" | "aiChatMessage" | "auditLog" | "cashbox" | "payment" | "paymentAllocation" | "currency" | "documentSequence" | "fiscalPeriod" | "invoiceType" | "invoice" | "invoiceLine" | "itemCategory" | "item" | "customField" | "customFieldValue" | "party" | "stockCount" | "stockCountLine" | "stockBalance" | "stockMovement" | "tenantSetting" | "tenant" | "unit" | "appUser" | "role" | "userRole" | "warehouse" | "warehouseItem"
+      modelProps: "chartOfAccount" | "journalEntry" | "journalLine" | "aiChatSession" | "aiChatMessage" | "auditLog" | "cashbox" | "payment" | "paymentAllocation" | "currency" | "customField" | "customFieldValue" | "documentSequence" | "fiscalPeriod" | "invoiceType" | "invoice" | "invoiceLine" | "itemCategory" | "item" | "party" | "stockCount" | "stockCountLine" | "stockBalance" | "stockMovement" | "tenantSetting" | "tenant" | "unit" | "appUser" | "role" | "userRole" | "warehouse" | "warehouseItem"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2007,6 +2007,154 @@ export namespace Prisma {
           }
         }
       }
+      CustomField: {
+        payload: Prisma.$CustomFieldPayload<ExtArgs>
+        fields: Prisma.CustomFieldFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CustomFieldFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomFieldPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CustomFieldFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomFieldPayload>
+          }
+          findFirst: {
+            args: Prisma.CustomFieldFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomFieldPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CustomFieldFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomFieldPayload>
+          }
+          findMany: {
+            args: Prisma.CustomFieldFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomFieldPayload>[]
+          }
+          create: {
+            args: Prisma.CustomFieldCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomFieldPayload>
+          }
+          createMany: {
+            args: Prisma.CustomFieldCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.CustomFieldCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomFieldPayload>[]
+          }
+          delete: {
+            args: Prisma.CustomFieldDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomFieldPayload>
+          }
+          update: {
+            args: Prisma.CustomFieldUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomFieldPayload>
+          }
+          deleteMany: {
+            args: Prisma.CustomFieldDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CustomFieldUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.CustomFieldUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomFieldPayload>[]
+          }
+          upsert: {
+            args: Prisma.CustomFieldUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomFieldPayload>
+          }
+          aggregate: {
+            args: Prisma.CustomFieldAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCustomField>
+          }
+          groupBy: {
+            args: Prisma.CustomFieldGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CustomFieldGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CustomFieldCountArgs<ExtArgs>
+            result: $Utils.Optional<CustomFieldCountAggregateOutputType> | number
+          }
+        }
+      }
+      CustomFieldValue: {
+        payload: Prisma.$CustomFieldValuePayload<ExtArgs>
+        fields: Prisma.CustomFieldValueFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CustomFieldValueFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomFieldValuePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CustomFieldValueFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomFieldValuePayload>
+          }
+          findFirst: {
+            args: Prisma.CustomFieldValueFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomFieldValuePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CustomFieldValueFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomFieldValuePayload>
+          }
+          findMany: {
+            args: Prisma.CustomFieldValueFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomFieldValuePayload>[]
+          }
+          create: {
+            args: Prisma.CustomFieldValueCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomFieldValuePayload>
+          }
+          createMany: {
+            args: Prisma.CustomFieldValueCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.CustomFieldValueCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomFieldValuePayload>[]
+          }
+          delete: {
+            args: Prisma.CustomFieldValueDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomFieldValuePayload>
+          }
+          update: {
+            args: Prisma.CustomFieldValueUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomFieldValuePayload>
+          }
+          deleteMany: {
+            args: Prisma.CustomFieldValueDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CustomFieldValueUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.CustomFieldValueUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomFieldValuePayload>[]
+          }
+          upsert: {
+            args: Prisma.CustomFieldValueUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomFieldValuePayload>
+          }
+          aggregate: {
+            args: Prisma.CustomFieldValueAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCustomFieldValue>
+          }
+          groupBy: {
+            args: Prisma.CustomFieldValueGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CustomFieldValueGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CustomFieldValueCountArgs<ExtArgs>
+            result: $Utils.Optional<CustomFieldValueCountAggregateOutputType> | number
+          }
+        }
+      }
       DocumentSequence: {
         payload: Prisma.$DocumentSequencePayload<ExtArgs>
         fields: Prisma.DocumentSequenceFieldRefs
@@ -2522,154 +2670,6 @@ export namespace Prisma {
           count: {
             args: Prisma.ItemCountArgs<ExtArgs>
             result: $Utils.Optional<ItemCountAggregateOutputType> | number
-          }
-        }
-      }
-      CustomField: {
-        payload: Prisma.$CustomFieldPayload<ExtArgs>
-        fields: Prisma.CustomFieldFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.CustomFieldFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CustomFieldPayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.CustomFieldFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CustomFieldPayload>
-          }
-          findFirst: {
-            args: Prisma.CustomFieldFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CustomFieldPayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.CustomFieldFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CustomFieldPayload>
-          }
-          findMany: {
-            args: Prisma.CustomFieldFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CustomFieldPayload>[]
-          }
-          create: {
-            args: Prisma.CustomFieldCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CustomFieldPayload>
-          }
-          createMany: {
-            args: Prisma.CustomFieldCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          createManyAndReturn: {
-            args: Prisma.CustomFieldCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CustomFieldPayload>[]
-          }
-          delete: {
-            args: Prisma.CustomFieldDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CustomFieldPayload>
-          }
-          update: {
-            args: Prisma.CustomFieldUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CustomFieldPayload>
-          }
-          deleteMany: {
-            args: Prisma.CustomFieldDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateMany: {
-            args: Prisma.CustomFieldUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateManyAndReturn: {
-            args: Prisma.CustomFieldUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CustomFieldPayload>[]
-          }
-          upsert: {
-            args: Prisma.CustomFieldUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CustomFieldPayload>
-          }
-          aggregate: {
-            args: Prisma.CustomFieldAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateCustomField>
-          }
-          groupBy: {
-            args: Prisma.CustomFieldGroupByArgs<ExtArgs>
-            result: $Utils.Optional<CustomFieldGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.CustomFieldCountArgs<ExtArgs>
-            result: $Utils.Optional<CustomFieldCountAggregateOutputType> | number
-          }
-        }
-      }
-      CustomFieldValue: {
-        payload: Prisma.$CustomFieldValuePayload<ExtArgs>
-        fields: Prisma.CustomFieldValueFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.CustomFieldValueFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CustomFieldValuePayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.CustomFieldValueFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CustomFieldValuePayload>
-          }
-          findFirst: {
-            args: Prisma.CustomFieldValueFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CustomFieldValuePayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.CustomFieldValueFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CustomFieldValuePayload>
-          }
-          findMany: {
-            args: Prisma.CustomFieldValueFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CustomFieldValuePayload>[]
-          }
-          create: {
-            args: Prisma.CustomFieldValueCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CustomFieldValuePayload>
-          }
-          createMany: {
-            args: Prisma.CustomFieldValueCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          createManyAndReturn: {
-            args: Prisma.CustomFieldValueCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CustomFieldValuePayload>[]
-          }
-          delete: {
-            args: Prisma.CustomFieldValueDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CustomFieldValuePayload>
-          }
-          update: {
-            args: Prisma.CustomFieldValueUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CustomFieldValuePayload>
-          }
-          deleteMany: {
-            args: Prisma.CustomFieldValueDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateMany: {
-            args: Prisma.CustomFieldValueUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateManyAndReturn: {
-            args: Prisma.CustomFieldValueUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CustomFieldValuePayload>[]
-          }
-          upsert: {
-            args: Prisma.CustomFieldValueUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CustomFieldValuePayload>
-          }
-          aggregate: {
-            args: Prisma.CustomFieldValueAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateCustomFieldValue>
-          }
-          groupBy: {
-            args: Prisma.CustomFieldValueGroupByArgs<ExtArgs>
-            result: $Utils.Optional<CustomFieldValueGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.CustomFieldValueCountArgs<ExtArgs>
-            result: $Utils.Optional<CustomFieldValueCountAggregateOutputType> | number
           }
         }
       }
@@ -3753,6 +3753,8 @@ export namespace Prisma {
     payment?: PaymentOmit
     paymentAllocation?: PaymentAllocationOmit
     currency?: CurrencyOmit
+    customField?: CustomFieldOmit
+    customFieldValue?: CustomFieldValueOmit
     documentSequence?: DocumentSequenceOmit
     fiscalPeriod?: FiscalPeriodOmit
     invoiceType?: InvoiceTypeOmit
@@ -3760,8 +3762,6 @@ export namespace Prisma {
     invoiceLine?: InvoiceLineOmit
     itemCategory?: ItemCategoryOmit
     item?: ItemOmit
-    customField?: CustomFieldOmit
-    customFieldValue?: CustomFieldValueOmit
     party?: PartyOmit
     stockCount?: StockCountOmit
     stockCountLine?: StockCountLineOmit
@@ -4073,6 +4073,37 @@ export namespace Prisma {
 
 
   /**
+   * Count Type CustomFieldCountOutputType
+   */
+
+  export type CustomFieldCountOutputType = {
+    values: number
+  }
+
+  export type CustomFieldCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    values?: boolean | CustomFieldCountOutputTypeCountValuesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * CustomFieldCountOutputType without action
+   */
+  export type CustomFieldCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomFieldCountOutputType
+     */
+    select?: CustomFieldCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * CustomFieldCountOutputType without action
+   */
+  export type CustomFieldCountOutputTypeCountValuesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CustomFieldValueWhereInput
+  }
+
+
+  /**
    * Count Type DocumentSequenceCountOutputType
    */
 
@@ -4291,7 +4322,6 @@ export namespace Prisma {
     stockMovements: number
     invoiceLines: number
     stockCountLines: number
-    customValues: number
   }
 
   export type ItemCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4300,7 +4330,6 @@ export namespace Prisma {
     stockMovements?: boolean | ItemCountOutputTypeCountStockMovementsArgs
     invoiceLines?: boolean | ItemCountOutputTypeCountInvoiceLinesArgs
     stockCountLines?: boolean | ItemCountOutputTypeCountStockCountLinesArgs
-    customValues?: boolean | ItemCountOutputTypeCountCustomValuesArgs
   }
 
   // Custom InputTypes
@@ -4347,44 +4376,6 @@ export namespace Prisma {
    */
   export type ItemCountOutputTypeCountStockCountLinesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: StockCountLineWhereInput
-  }
-
-  /**
-   * ItemCountOutputType without action
-   */
-  export type ItemCountOutputTypeCountCustomValuesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: CustomFieldValueWhereInput
-  }
-
-
-  /**
-   * Count Type CustomFieldCountOutputType
-   */
-
-  export type CustomFieldCountOutputType = {
-    values: number
-  }
-
-  export type CustomFieldCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    values?: boolean | CustomFieldCountOutputTypeCountValuesArgs
-  }
-
-  // Custom InputTypes
-  /**
-   * CustomFieldCountOutputType without action
-   */
-  export type CustomFieldCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the CustomFieldCountOutputType
-     */
-    select?: CustomFieldCountOutputTypeSelect<ExtArgs> | null
-  }
-
-  /**
-   * CustomFieldCountOutputType without action
-   */
-  export type CustomFieldCountOutputTypeCountValuesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: CustomFieldValueWhereInput
   }
 
 
@@ -16606,6 +16597,2232 @@ export namespace Prisma {
 
 
   /**
+   * Model CustomField
+   */
+
+  export type AggregateCustomField = {
+    _count: CustomFieldCountAggregateOutputType | null
+    _min: CustomFieldMinAggregateOutputType | null
+    _max: CustomFieldMaxAggregateOutputType | null
+  }
+
+  export type CustomFieldMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    module: string | null
+    type: $Enums.FieldType | null
+    defaultValue: string | null
+    isRequired: boolean | null
+    showInList: boolean | null
+    createdAt: Date | null
+  }
+
+  export type CustomFieldMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    module: string | null
+    type: $Enums.FieldType | null
+    defaultValue: string | null
+    isRequired: boolean | null
+    showInList: boolean | null
+    createdAt: Date | null
+  }
+
+  export type CustomFieldCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    module: number
+    name: number
+    label: number
+    type: number
+    defaultValue: number
+    placeholder: number
+    options: number
+    isRequired: number
+    showInList: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type CustomFieldMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    module?: true
+    type?: true
+    defaultValue?: true
+    isRequired?: true
+    showInList?: true
+    createdAt?: true
+  }
+
+  export type CustomFieldMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    module?: true
+    type?: true
+    defaultValue?: true
+    isRequired?: true
+    showInList?: true
+    createdAt?: true
+  }
+
+  export type CustomFieldCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    module?: true
+    name?: true
+    label?: true
+    type?: true
+    defaultValue?: true
+    placeholder?: true
+    options?: true
+    isRequired?: true
+    showInList?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type CustomFieldAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CustomField to aggregate.
+     */
+    where?: CustomFieldWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CustomFields to fetch.
+     */
+    orderBy?: CustomFieldOrderByWithRelationInput | CustomFieldOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CustomFieldWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CustomFields from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CustomFields.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned CustomFields
+    **/
+    _count?: true | CustomFieldCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CustomFieldMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CustomFieldMaxAggregateInputType
+  }
+
+  export type GetCustomFieldAggregateType<T extends CustomFieldAggregateArgs> = {
+        [P in keyof T & keyof AggregateCustomField]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCustomField[P]>
+      : GetScalarType<T[P], AggregateCustomField[P]>
+  }
+
+
+
+
+  export type CustomFieldGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CustomFieldWhereInput
+    orderBy?: CustomFieldOrderByWithAggregationInput | CustomFieldOrderByWithAggregationInput[]
+    by: CustomFieldScalarFieldEnum[] | CustomFieldScalarFieldEnum
+    having?: CustomFieldScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CustomFieldCountAggregateInputType | true
+    _min?: CustomFieldMinAggregateInputType
+    _max?: CustomFieldMaxAggregateInputType
+  }
+
+  export type CustomFieldGroupByOutputType = {
+    id: string
+    tenantId: string
+    module: string
+    name: JsonValue
+    label: JsonValue
+    type: $Enums.FieldType
+    defaultValue: string | null
+    placeholder: JsonValue | null
+    options: string[]
+    isRequired: boolean
+    showInList: boolean
+    createdAt: Date
+    _count: CustomFieldCountAggregateOutputType | null
+    _min: CustomFieldMinAggregateOutputType | null
+    _max: CustomFieldMaxAggregateOutputType | null
+  }
+
+  type GetCustomFieldGroupByPayload<T extends CustomFieldGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CustomFieldGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CustomFieldGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CustomFieldGroupByOutputType[P]>
+            : GetScalarType<T[P], CustomFieldGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CustomFieldSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    module?: boolean
+    name?: boolean
+    label?: boolean
+    type?: boolean
+    defaultValue?: boolean
+    placeholder?: boolean
+    options?: boolean
+    isRequired?: boolean
+    showInList?: boolean
+    createdAt?: boolean
+    values?: boolean | CustomField$valuesArgs<ExtArgs>
+    _count?: boolean | CustomFieldCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["customField"]>
+
+  export type CustomFieldSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    module?: boolean
+    name?: boolean
+    label?: boolean
+    type?: boolean
+    defaultValue?: boolean
+    placeholder?: boolean
+    options?: boolean
+    isRequired?: boolean
+    showInList?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["customField"]>
+
+  export type CustomFieldSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    module?: boolean
+    name?: boolean
+    label?: boolean
+    type?: boolean
+    defaultValue?: boolean
+    placeholder?: boolean
+    options?: boolean
+    isRequired?: boolean
+    showInList?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["customField"]>
+
+  export type CustomFieldSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    module?: boolean
+    name?: boolean
+    label?: boolean
+    type?: boolean
+    defaultValue?: boolean
+    placeholder?: boolean
+    options?: boolean
+    isRequired?: boolean
+    showInList?: boolean
+    createdAt?: boolean
+  }
+
+  export type CustomFieldOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "module" | "name" | "label" | "type" | "defaultValue" | "placeholder" | "options" | "isRequired" | "showInList" | "createdAt", ExtArgs["result"]["customField"]>
+  export type CustomFieldInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    values?: boolean | CustomField$valuesArgs<ExtArgs>
+    _count?: boolean | CustomFieldCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type CustomFieldIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type CustomFieldIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $CustomFieldPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "CustomField"
+    objects: {
+      values: Prisma.$CustomFieldValuePayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      module: string
+      name: Prisma.JsonValue
+      label: Prisma.JsonValue
+      type: $Enums.FieldType
+      defaultValue: string | null
+      placeholder: Prisma.JsonValue | null
+      options: string[]
+      isRequired: boolean
+      showInList: boolean
+      createdAt: Date
+    }, ExtArgs["result"]["customField"]>
+    composites: {}
+  }
+
+  type CustomFieldGetPayload<S extends boolean | null | undefined | CustomFieldDefaultArgs> = $Result.GetResult<Prisma.$CustomFieldPayload, S>
+
+  type CustomFieldCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<CustomFieldFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: CustomFieldCountAggregateInputType | true
+    }
+
+  export interface CustomFieldDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['CustomField'], meta: { name: 'CustomField' } }
+    /**
+     * Find zero or one CustomField that matches the filter.
+     * @param {CustomFieldFindUniqueArgs} args - Arguments to find a CustomField
+     * @example
+     * // Get one CustomField
+     * const customField = await prisma.customField.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CustomFieldFindUniqueArgs>(args: SelectSubset<T, CustomFieldFindUniqueArgs<ExtArgs>>): Prisma__CustomFieldClient<$Result.GetResult<Prisma.$CustomFieldPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one CustomField that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {CustomFieldFindUniqueOrThrowArgs} args - Arguments to find a CustomField
+     * @example
+     * // Get one CustomField
+     * const customField = await prisma.customField.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CustomFieldFindUniqueOrThrowArgs>(args: SelectSubset<T, CustomFieldFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CustomFieldClient<$Result.GetResult<Prisma.$CustomFieldPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CustomField that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomFieldFindFirstArgs} args - Arguments to find a CustomField
+     * @example
+     * // Get one CustomField
+     * const customField = await prisma.customField.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CustomFieldFindFirstArgs>(args?: SelectSubset<T, CustomFieldFindFirstArgs<ExtArgs>>): Prisma__CustomFieldClient<$Result.GetResult<Prisma.$CustomFieldPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CustomField that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomFieldFindFirstOrThrowArgs} args - Arguments to find a CustomField
+     * @example
+     * // Get one CustomField
+     * const customField = await prisma.customField.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CustomFieldFindFirstOrThrowArgs>(args?: SelectSubset<T, CustomFieldFindFirstOrThrowArgs<ExtArgs>>): Prisma__CustomFieldClient<$Result.GetResult<Prisma.$CustomFieldPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more CustomFields that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomFieldFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all CustomFields
+     * const customFields = await prisma.customField.findMany()
+     * 
+     * // Get first 10 CustomFields
+     * const customFields = await prisma.customField.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const customFieldWithIdOnly = await prisma.customField.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends CustomFieldFindManyArgs>(args?: SelectSubset<T, CustomFieldFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CustomFieldPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a CustomField.
+     * @param {CustomFieldCreateArgs} args - Arguments to create a CustomField.
+     * @example
+     * // Create one CustomField
+     * const CustomField = await prisma.customField.create({
+     *   data: {
+     *     // ... data to create a CustomField
+     *   }
+     * })
+     * 
+     */
+    create<T extends CustomFieldCreateArgs>(args: SelectSubset<T, CustomFieldCreateArgs<ExtArgs>>): Prisma__CustomFieldClient<$Result.GetResult<Prisma.$CustomFieldPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many CustomFields.
+     * @param {CustomFieldCreateManyArgs} args - Arguments to create many CustomFields.
+     * @example
+     * // Create many CustomFields
+     * const customField = await prisma.customField.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CustomFieldCreateManyArgs>(args?: SelectSubset<T, CustomFieldCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many CustomFields and returns the data saved in the database.
+     * @param {CustomFieldCreateManyAndReturnArgs} args - Arguments to create many CustomFields.
+     * @example
+     * // Create many CustomFields
+     * const customField = await prisma.customField.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many CustomFields and only return the `id`
+     * const customFieldWithIdOnly = await prisma.customField.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends CustomFieldCreateManyAndReturnArgs>(args?: SelectSubset<T, CustomFieldCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CustomFieldPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a CustomField.
+     * @param {CustomFieldDeleteArgs} args - Arguments to delete one CustomField.
+     * @example
+     * // Delete one CustomField
+     * const CustomField = await prisma.customField.delete({
+     *   where: {
+     *     // ... filter to delete one CustomField
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CustomFieldDeleteArgs>(args: SelectSubset<T, CustomFieldDeleteArgs<ExtArgs>>): Prisma__CustomFieldClient<$Result.GetResult<Prisma.$CustomFieldPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one CustomField.
+     * @param {CustomFieldUpdateArgs} args - Arguments to update one CustomField.
+     * @example
+     * // Update one CustomField
+     * const customField = await prisma.customField.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CustomFieldUpdateArgs>(args: SelectSubset<T, CustomFieldUpdateArgs<ExtArgs>>): Prisma__CustomFieldClient<$Result.GetResult<Prisma.$CustomFieldPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more CustomFields.
+     * @param {CustomFieldDeleteManyArgs} args - Arguments to filter CustomFields to delete.
+     * @example
+     * // Delete a few CustomFields
+     * const { count } = await prisma.customField.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CustomFieldDeleteManyArgs>(args?: SelectSubset<T, CustomFieldDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CustomFields.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomFieldUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many CustomFields
+     * const customField = await prisma.customField.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CustomFieldUpdateManyArgs>(args: SelectSubset<T, CustomFieldUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CustomFields and returns the data updated in the database.
+     * @param {CustomFieldUpdateManyAndReturnArgs} args - Arguments to update many CustomFields.
+     * @example
+     * // Update many CustomFields
+     * const customField = await prisma.customField.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more CustomFields and only return the `id`
+     * const customFieldWithIdOnly = await prisma.customField.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends CustomFieldUpdateManyAndReturnArgs>(args: SelectSubset<T, CustomFieldUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CustomFieldPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one CustomField.
+     * @param {CustomFieldUpsertArgs} args - Arguments to update or create a CustomField.
+     * @example
+     * // Update or create a CustomField
+     * const customField = await prisma.customField.upsert({
+     *   create: {
+     *     // ... data to create a CustomField
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the CustomField we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CustomFieldUpsertArgs>(args: SelectSubset<T, CustomFieldUpsertArgs<ExtArgs>>): Prisma__CustomFieldClient<$Result.GetResult<Prisma.$CustomFieldPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of CustomFields.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomFieldCountArgs} args - Arguments to filter CustomFields to count.
+     * @example
+     * // Count the number of CustomFields
+     * const count = await prisma.customField.count({
+     *   where: {
+     *     // ... the filter for the CustomFields we want to count
+     *   }
+     * })
+    **/
+    count<T extends CustomFieldCountArgs>(
+      args?: Subset<T, CustomFieldCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CustomFieldCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a CustomField.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomFieldAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CustomFieldAggregateArgs>(args: Subset<T, CustomFieldAggregateArgs>): Prisma.PrismaPromise<GetCustomFieldAggregateType<T>>
+
+    /**
+     * Group by CustomField.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomFieldGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CustomFieldGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CustomFieldGroupByArgs['orderBy'] }
+        : { orderBy?: CustomFieldGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CustomFieldGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCustomFieldGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the CustomField model
+   */
+  readonly fields: CustomFieldFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for CustomField.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CustomFieldClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    values<T extends CustomField$valuesArgs<ExtArgs> = {}>(args?: Subset<T, CustomField$valuesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CustomFieldValuePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the CustomField model
+   */
+  interface CustomFieldFieldRefs {
+    readonly id: FieldRef<"CustomField", 'String'>
+    readonly tenantId: FieldRef<"CustomField", 'String'>
+    readonly module: FieldRef<"CustomField", 'String'>
+    readonly name: FieldRef<"CustomField", 'Json'>
+    readonly label: FieldRef<"CustomField", 'Json'>
+    readonly type: FieldRef<"CustomField", 'FieldType'>
+    readonly defaultValue: FieldRef<"CustomField", 'String'>
+    readonly placeholder: FieldRef<"CustomField", 'Json'>
+    readonly options: FieldRef<"CustomField", 'String[]'>
+    readonly isRequired: FieldRef<"CustomField", 'Boolean'>
+    readonly showInList: FieldRef<"CustomField", 'Boolean'>
+    readonly createdAt: FieldRef<"CustomField", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * CustomField findUnique
+   */
+  export type CustomFieldFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomField
+     */
+    select?: CustomFieldSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomField
+     */
+    omit?: CustomFieldOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomFieldInclude<ExtArgs> | null
+    /**
+     * Filter, which CustomField to fetch.
+     */
+    where: CustomFieldWhereUniqueInput
+  }
+
+  /**
+   * CustomField findUniqueOrThrow
+   */
+  export type CustomFieldFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomField
+     */
+    select?: CustomFieldSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomField
+     */
+    omit?: CustomFieldOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomFieldInclude<ExtArgs> | null
+    /**
+     * Filter, which CustomField to fetch.
+     */
+    where: CustomFieldWhereUniqueInput
+  }
+
+  /**
+   * CustomField findFirst
+   */
+  export type CustomFieldFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomField
+     */
+    select?: CustomFieldSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomField
+     */
+    omit?: CustomFieldOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomFieldInclude<ExtArgs> | null
+    /**
+     * Filter, which CustomField to fetch.
+     */
+    where?: CustomFieldWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CustomFields to fetch.
+     */
+    orderBy?: CustomFieldOrderByWithRelationInput | CustomFieldOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CustomFields.
+     */
+    cursor?: CustomFieldWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CustomFields from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CustomFields.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CustomFields.
+     */
+    distinct?: CustomFieldScalarFieldEnum | CustomFieldScalarFieldEnum[]
+  }
+
+  /**
+   * CustomField findFirstOrThrow
+   */
+  export type CustomFieldFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomField
+     */
+    select?: CustomFieldSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomField
+     */
+    omit?: CustomFieldOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomFieldInclude<ExtArgs> | null
+    /**
+     * Filter, which CustomField to fetch.
+     */
+    where?: CustomFieldWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CustomFields to fetch.
+     */
+    orderBy?: CustomFieldOrderByWithRelationInput | CustomFieldOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CustomFields.
+     */
+    cursor?: CustomFieldWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CustomFields from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CustomFields.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CustomFields.
+     */
+    distinct?: CustomFieldScalarFieldEnum | CustomFieldScalarFieldEnum[]
+  }
+
+  /**
+   * CustomField findMany
+   */
+  export type CustomFieldFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomField
+     */
+    select?: CustomFieldSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomField
+     */
+    omit?: CustomFieldOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomFieldInclude<ExtArgs> | null
+    /**
+     * Filter, which CustomFields to fetch.
+     */
+    where?: CustomFieldWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CustomFields to fetch.
+     */
+    orderBy?: CustomFieldOrderByWithRelationInput | CustomFieldOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing CustomFields.
+     */
+    cursor?: CustomFieldWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CustomFields from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CustomFields.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CustomFields.
+     */
+    distinct?: CustomFieldScalarFieldEnum | CustomFieldScalarFieldEnum[]
+  }
+
+  /**
+   * CustomField create
+   */
+  export type CustomFieldCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomField
+     */
+    select?: CustomFieldSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomField
+     */
+    omit?: CustomFieldOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomFieldInclude<ExtArgs> | null
+    /**
+     * The data needed to create a CustomField.
+     */
+    data: XOR<CustomFieldCreateInput, CustomFieldUncheckedCreateInput>
+  }
+
+  /**
+   * CustomField createMany
+   */
+  export type CustomFieldCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many CustomFields.
+     */
+    data: CustomFieldCreateManyInput | CustomFieldCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * CustomField createManyAndReturn
+   */
+  export type CustomFieldCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomField
+     */
+    select?: CustomFieldSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomField
+     */
+    omit?: CustomFieldOmit<ExtArgs> | null
+    /**
+     * The data used to create many CustomFields.
+     */
+    data: CustomFieldCreateManyInput | CustomFieldCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * CustomField update
+   */
+  export type CustomFieldUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomField
+     */
+    select?: CustomFieldSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomField
+     */
+    omit?: CustomFieldOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomFieldInclude<ExtArgs> | null
+    /**
+     * The data needed to update a CustomField.
+     */
+    data: XOR<CustomFieldUpdateInput, CustomFieldUncheckedUpdateInput>
+    /**
+     * Choose, which CustomField to update.
+     */
+    where: CustomFieldWhereUniqueInput
+  }
+
+  /**
+   * CustomField updateMany
+   */
+  export type CustomFieldUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update CustomFields.
+     */
+    data: XOR<CustomFieldUpdateManyMutationInput, CustomFieldUncheckedUpdateManyInput>
+    /**
+     * Filter which CustomFields to update
+     */
+    where?: CustomFieldWhereInput
+    /**
+     * Limit how many CustomFields to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * CustomField updateManyAndReturn
+   */
+  export type CustomFieldUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomField
+     */
+    select?: CustomFieldSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomField
+     */
+    omit?: CustomFieldOmit<ExtArgs> | null
+    /**
+     * The data used to update CustomFields.
+     */
+    data: XOR<CustomFieldUpdateManyMutationInput, CustomFieldUncheckedUpdateManyInput>
+    /**
+     * Filter which CustomFields to update
+     */
+    where?: CustomFieldWhereInput
+    /**
+     * Limit how many CustomFields to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * CustomField upsert
+   */
+  export type CustomFieldUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomField
+     */
+    select?: CustomFieldSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomField
+     */
+    omit?: CustomFieldOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomFieldInclude<ExtArgs> | null
+    /**
+     * The filter to search for the CustomField to update in case it exists.
+     */
+    where: CustomFieldWhereUniqueInput
+    /**
+     * In case the CustomField found by the `where` argument doesn't exist, create a new CustomField with this data.
+     */
+    create: XOR<CustomFieldCreateInput, CustomFieldUncheckedCreateInput>
+    /**
+     * In case the CustomField was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CustomFieldUpdateInput, CustomFieldUncheckedUpdateInput>
+  }
+
+  /**
+   * CustomField delete
+   */
+  export type CustomFieldDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomField
+     */
+    select?: CustomFieldSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomField
+     */
+    omit?: CustomFieldOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomFieldInclude<ExtArgs> | null
+    /**
+     * Filter which CustomField to delete.
+     */
+    where: CustomFieldWhereUniqueInput
+  }
+
+  /**
+   * CustomField deleteMany
+   */
+  export type CustomFieldDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CustomFields to delete
+     */
+    where?: CustomFieldWhereInput
+    /**
+     * Limit how many CustomFields to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * CustomField.values
+   */
+  export type CustomField$valuesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomFieldValue
+     */
+    select?: CustomFieldValueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomFieldValue
+     */
+    omit?: CustomFieldValueOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomFieldValueInclude<ExtArgs> | null
+    where?: CustomFieldValueWhereInput
+    orderBy?: CustomFieldValueOrderByWithRelationInput | CustomFieldValueOrderByWithRelationInput[]
+    cursor?: CustomFieldValueWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CustomFieldValueScalarFieldEnum | CustomFieldValueScalarFieldEnum[]
+  }
+
+  /**
+   * CustomField without action
+   */
+  export type CustomFieldDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomField
+     */
+    select?: CustomFieldSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomField
+     */
+    omit?: CustomFieldOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomFieldInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model CustomFieldValue
+   */
+
+  export type AggregateCustomFieldValue = {
+    _count: CustomFieldValueCountAggregateOutputType | null
+    _min: CustomFieldValueMinAggregateOutputType | null
+    _max: CustomFieldValueMaxAggregateOutputType | null
+  }
+
+  export type CustomFieldValueMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    fieldId: string | null
+    entityType: string | null
+    entityId: string | null
+    value: string | null
+  }
+
+  export type CustomFieldValueMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    fieldId: string | null
+    entityType: string | null
+    entityId: string | null
+    value: string | null
+  }
+
+  export type CustomFieldValueCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    fieldId: number
+    entityType: number
+    entityId: number
+    value: number
+    _all: number
+  }
+
+
+  export type CustomFieldValueMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    fieldId?: true
+    entityType?: true
+    entityId?: true
+    value?: true
+  }
+
+  export type CustomFieldValueMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    fieldId?: true
+    entityType?: true
+    entityId?: true
+    value?: true
+  }
+
+  export type CustomFieldValueCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    fieldId?: true
+    entityType?: true
+    entityId?: true
+    value?: true
+    _all?: true
+  }
+
+  export type CustomFieldValueAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CustomFieldValue to aggregate.
+     */
+    where?: CustomFieldValueWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CustomFieldValues to fetch.
+     */
+    orderBy?: CustomFieldValueOrderByWithRelationInput | CustomFieldValueOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CustomFieldValueWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CustomFieldValues from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CustomFieldValues.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned CustomFieldValues
+    **/
+    _count?: true | CustomFieldValueCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CustomFieldValueMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CustomFieldValueMaxAggregateInputType
+  }
+
+  export type GetCustomFieldValueAggregateType<T extends CustomFieldValueAggregateArgs> = {
+        [P in keyof T & keyof AggregateCustomFieldValue]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCustomFieldValue[P]>
+      : GetScalarType<T[P], AggregateCustomFieldValue[P]>
+  }
+
+
+
+
+  export type CustomFieldValueGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CustomFieldValueWhereInput
+    orderBy?: CustomFieldValueOrderByWithAggregationInput | CustomFieldValueOrderByWithAggregationInput[]
+    by: CustomFieldValueScalarFieldEnum[] | CustomFieldValueScalarFieldEnum
+    having?: CustomFieldValueScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CustomFieldValueCountAggregateInputType | true
+    _min?: CustomFieldValueMinAggregateInputType
+    _max?: CustomFieldValueMaxAggregateInputType
+  }
+
+  export type CustomFieldValueGroupByOutputType = {
+    id: string
+    tenantId: string
+    fieldId: string
+    entityType: string
+    entityId: string
+    value: string
+    _count: CustomFieldValueCountAggregateOutputType | null
+    _min: CustomFieldValueMinAggregateOutputType | null
+    _max: CustomFieldValueMaxAggregateOutputType | null
+  }
+
+  type GetCustomFieldValueGroupByPayload<T extends CustomFieldValueGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CustomFieldValueGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CustomFieldValueGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CustomFieldValueGroupByOutputType[P]>
+            : GetScalarType<T[P], CustomFieldValueGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CustomFieldValueSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    fieldId?: boolean
+    entityType?: boolean
+    entityId?: boolean
+    value?: boolean
+    field?: boolean | CustomFieldDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["customFieldValue"]>
+
+  export type CustomFieldValueSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    fieldId?: boolean
+    entityType?: boolean
+    entityId?: boolean
+    value?: boolean
+    field?: boolean | CustomFieldDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["customFieldValue"]>
+
+  export type CustomFieldValueSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    fieldId?: boolean
+    entityType?: boolean
+    entityId?: boolean
+    value?: boolean
+    field?: boolean | CustomFieldDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["customFieldValue"]>
+
+  export type CustomFieldValueSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    fieldId?: boolean
+    entityType?: boolean
+    entityId?: boolean
+    value?: boolean
+  }
+
+  export type CustomFieldValueOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "fieldId" | "entityType" | "entityId" | "value", ExtArgs["result"]["customFieldValue"]>
+  export type CustomFieldValueInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    field?: boolean | CustomFieldDefaultArgs<ExtArgs>
+  }
+  export type CustomFieldValueIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    field?: boolean | CustomFieldDefaultArgs<ExtArgs>
+  }
+  export type CustomFieldValueIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    field?: boolean | CustomFieldDefaultArgs<ExtArgs>
+  }
+
+  export type $CustomFieldValuePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "CustomFieldValue"
+    objects: {
+      field: Prisma.$CustomFieldPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      fieldId: string
+      entityType: string
+      entityId: string
+      value: string
+    }, ExtArgs["result"]["customFieldValue"]>
+    composites: {}
+  }
+
+  type CustomFieldValueGetPayload<S extends boolean | null | undefined | CustomFieldValueDefaultArgs> = $Result.GetResult<Prisma.$CustomFieldValuePayload, S>
+
+  type CustomFieldValueCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<CustomFieldValueFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: CustomFieldValueCountAggregateInputType | true
+    }
+
+  export interface CustomFieldValueDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['CustomFieldValue'], meta: { name: 'CustomFieldValue' } }
+    /**
+     * Find zero or one CustomFieldValue that matches the filter.
+     * @param {CustomFieldValueFindUniqueArgs} args - Arguments to find a CustomFieldValue
+     * @example
+     * // Get one CustomFieldValue
+     * const customFieldValue = await prisma.customFieldValue.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CustomFieldValueFindUniqueArgs>(args: SelectSubset<T, CustomFieldValueFindUniqueArgs<ExtArgs>>): Prisma__CustomFieldValueClient<$Result.GetResult<Prisma.$CustomFieldValuePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one CustomFieldValue that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {CustomFieldValueFindUniqueOrThrowArgs} args - Arguments to find a CustomFieldValue
+     * @example
+     * // Get one CustomFieldValue
+     * const customFieldValue = await prisma.customFieldValue.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CustomFieldValueFindUniqueOrThrowArgs>(args: SelectSubset<T, CustomFieldValueFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CustomFieldValueClient<$Result.GetResult<Prisma.$CustomFieldValuePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CustomFieldValue that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomFieldValueFindFirstArgs} args - Arguments to find a CustomFieldValue
+     * @example
+     * // Get one CustomFieldValue
+     * const customFieldValue = await prisma.customFieldValue.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CustomFieldValueFindFirstArgs>(args?: SelectSubset<T, CustomFieldValueFindFirstArgs<ExtArgs>>): Prisma__CustomFieldValueClient<$Result.GetResult<Prisma.$CustomFieldValuePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CustomFieldValue that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomFieldValueFindFirstOrThrowArgs} args - Arguments to find a CustomFieldValue
+     * @example
+     * // Get one CustomFieldValue
+     * const customFieldValue = await prisma.customFieldValue.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CustomFieldValueFindFirstOrThrowArgs>(args?: SelectSubset<T, CustomFieldValueFindFirstOrThrowArgs<ExtArgs>>): Prisma__CustomFieldValueClient<$Result.GetResult<Prisma.$CustomFieldValuePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more CustomFieldValues that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomFieldValueFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all CustomFieldValues
+     * const customFieldValues = await prisma.customFieldValue.findMany()
+     * 
+     * // Get first 10 CustomFieldValues
+     * const customFieldValues = await prisma.customFieldValue.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const customFieldValueWithIdOnly = await prisma.customFieldValue.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends CustomFieldValueFindManyArgs>(args?: SelectSubset<T, CustomFieldValueFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CustomFieldValuePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a CustomFieldValue.
+     * @param {CustomFieldValueCreateArgs} args - Arguments to create a CustomFieldValue.
+     * @example
+     * // Create one CustomFieldValue
+     * const CustomFieldValue = await prisma.customFieldValue.create({
+     *   data: {
+     *     // ... data to create a CustomFieldValue
+     *   }
+     * })
+     * 
+     */
+    create<T extends CustomFieldValueCreateArgs>(args: SelectSubset<T, CustomFieldValueCreateArgs<ExtArgs>>): Prisma__CustomFieldValueClient<$Result.GetResult<Prisma.$CustomFieldValuePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many CustomFieldValues.
+     * @param {CustomFieldValueCreateManyArgs} args - Arguments to create many CustomFieldValues.
+     * @example
+     * // Create many CustomFieldValues
+     * const customFieldValue = await prisma.customFieldValue.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CustomFieldValueCreateManyArgs>(args?: SelectSubset<T, CustomFieldValueCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many CustomFieldValues and returns the data saved in the database.
+     * @param {CustomFieldValueCreateManyAndReturnArgs} args - Arguments to create many CustomFieldValues.
+     * @example
+     * // Create many CustomFieldValues
+     * const customFieldValue = await prisma.customFieldValue.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many CustomFieldValues and only return the `id`
+     * const customFieldValueWithIdOnly = await prisma.customFieldValue.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends CustomFieldValueCreateManyAndReturnArgs>(args?: SelectSubset<T, CustomFieldValueCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CustomFieldValuePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a CustomFieldValue.
+     * @param {CustomFieldValueDeleteArgs} args - Arguments to delete one CustomFieldValue.
+     * @example
+     * // Delete one CustomFieldValue
+     * const CustomFieldValue = await prisma.customFieldValue.delete({
+     *   where: {
+     *     // ... filter to delete one CustomFieldValue
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CustomFieldValueDeleteArgs>(args: SelectSubset<T, CustomFieldValueDeleteArgs<ExtArgs>>): Prisma__CustomFieldValueClient<$Result.GetResult<Prisma.$CustomFieldValuePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one CustomFieldValue.
+     * @param {CustomFieldValueUpdateArgs} args - Arguments to update one CustomFieldValue.
+     * @example
+     * // Update one CustomFieldValue
+     * const customFieldValue = await prisma.customFieldValue.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CustomFieldValueUpdateArgs>(args: SelectSubset<T, CustomFieldValueUpdateArgs<ExtArgs>>): Prisma__CustomFieldValueClient<$Result.GetResult<Prisma.$CustomFieldValuePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more CustomFieldValues.
+     * @param {CustomFieldValueDeleteManyArgs} args - Arguments to filter CustomFieldValues to delete.
+     * @example
+     * // Delete a few CustomFieldValues
+     * const { count } = await prisma.customFieldValue.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CustomFieldValueDeleteManyArgs>(args?: SelectSubset<T, CustomFieldValueDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CustomFieldValues.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomFieldValueUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many CustomFieldValues
+     * const customFieldValue = await prisma.customFieldValue.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CustomFieldValueUpdateManyArgs>(args: SelectSubset<T, CustomFieldValueUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CustomFieldValues and returns the data updated in the database.
+     * @param {CustomFieldValueUpdateManyAndReturnArgs} args - Arguments to update many CustomFieldValues.
+     * @example
+     * // Update many CustomFieldValues
+     * const customFieldValue = await prisma.customFieldValue.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more CustomFieldValues and only return the `id`
+     * const customFieldValueWithIdOnly = await prisma.customFieldValue.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends CustomFieldValueUpdateManyAndReturnArgs>(args: SelectSubset<T, CustomFieldValueUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CustomFieldValuePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one CustomFieldValue.
+     * @param {CustomFieldValueUpsertArgs} args - Arguments to update or create a CustomFieldValue.
+     * @example
+     * // Update or create a CustomFieldValue
+     * const customFieldValue = await prisma.customFieldValue.upsert({
+     *   create: {
+     *     // ... data to create a CustomFieldValue
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the CustomFieldValue we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CustomFieldValueUpsertArgs>(args: SelectSubset<T, CustomFieldValueUpsertArgs<ExtArgs>>): Prisma__CustomFieldValueClient<$Result.GetResult<Prisma.$CustomFieldValuePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of CustomFieldValues.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomFieldValueCountArgs} args - Arguments to filter CustomFieldValues to count.
+     * @example
+     * // Count the number of CustomFieldValues
+     * const count = await prisma.customFieldValue.count({
+     *   where: {
+     *     // ... the filter for the CustomFieldValues we want to count
+     *   }
+     * })
+    **/
+    count<T extends CustomFieldValueCountArgs>(
+      args?: Subset<T, CustomFieldValueCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CustomFieldValueCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a CustomFieldValue.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomFieldValueAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CustomFieldValueAggregateArgs>(args: Subset<T, CustomFieldValueAggregateArgs>): Prisma.PrismaPromise<GetCustomFieldValueAggregateType<T>>
+
+    /**
+     * Group by CustomFieldValue.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomFieldValueGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CustomFieldValueGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CustomFieldValueGroupByArgs['orderBy'] }
+        : { orderBy?: CustomFieldValueGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CustomFieldValueGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCustomFieldValueGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the CustomFieldValue model
+   */
+  readonly fields: CustomFieldValueFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for CustomFieldValue.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CustomFieldValueClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    field<T extends CustomFieldDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CustomFieldDefaultArgs<ExtArgs>>): Prisma__CustomFieldClient<$Result.GetResult<Prisma.$CustomFieldPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the CustomFieldValue model
+   */
+  interface CustomFieldValueFieldRefs {
+    readonly id: FieldRef<"CustomFieldValue", 'String'>
+    readonly tenantId: FieldRef<"CustomFieldValue", 'String'>
+    readonly fieldId: FieldRef<"CustomFieldValue", 'String'>
+    readonly entityType: FieldRef<"CustomFieldValue", 'String'>
+    readonly entityId: FieldRef<"CustomFieldValue", 'String'>
+    readonly value: FieldRef<"CustomFieldValue", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * CustomFieldValue findUnique
+   */
+  export type CustomFieldValueFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomFieldValue
+     */
+    select?: CustomFieldValueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomFieldValue
+     */
+    omit?: CustomFieldValueOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomFieldValueInclude<ExtArgs> | null
+    /**
+     * Filter, which CustomFieldValue to fetch.
+     */
+    where: CustomFieldValueWhereUniqueInput
+  }
+
+  /**
+   * CustomFieldValue findUniqueOrThrow
+   */
+  export type CustomFieldValueFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomFieldValue
+     */
+    select?: CustomFieldValueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomFieldValue
+     */
+    omit?: CustomFieldValueOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomFieldValueInclude<ExtArgs> | null
+    /**
+     * Filter, which CustomFieldValue to fetch.
+     */
+    where: CustomFieldValueWhereUniqueInput
+  }
+
+  /**
+   * CustomFieldValue findFirst
+   */
+  export type CustomFieldValueFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomFieldValue
+     */
+    select?: CustomFieldValueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomFieldValue
+     */
+    omit?: CustomFieldValueOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomFieldValueInclude<ExtArgs> | null
+    /**
+     * Filter, which CustomFieldValue to fetch.
+     */
+    where?: CustomFieldValueWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CustomFieldValues to fetch.
+     */
+    orderBy?: CustomFieldValueOrderByWithRelationInput | CustomFieldValueOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CustomFieldValues.
+     */
+    cursor?: CustomFieldValueWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CustomFieldValues from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CustomFieldValues.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CustomFieldValues.
+     */
+    distinct?: CustomFieldValueScalarFieldEnum | CustomFieldValueScalarFieldEnum[]
+  }
+
+  /**
+   * CustomFieldValue findFirstOrThrow
+   */
+  export type CustomFieldValueFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomFieldValue
+     */
+    select?: CustomFieldValueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomFieldValue
+     */
+    omit?: CustomFieldValueOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomFieldValueInclude<ExtArgs> | null
+    /**
+     * Filter, which CustomFieldValue to fetch.
+     */
+    where?: CustomFieldValueWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CustomFieldValues to fetch.
+     */
+    orderBy?: CustomFieldValueOrderByWithRelationInput | CustomFieldValueOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CustomFieldValues.
+     */
+    cursor?: CustomFieldValueWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CustomFieldValues from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CustomFieldValues.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CustomFieldValues.
+     */
+    distinct?: CustomFieldValueScalarFieldEnum | CustomFieldValueScalarFieldEnum[]
+  }
+
+  /**
+   * CustomFieldValue findMany
+   */
+  export type CustomFieldValueFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomFieldValue
+     */
+    select?: CustomFieldValueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomFieldValue
+     */
+    omit?: CustomFieldValueOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomFieldValueInclude<ExtArgs> | null
+    /**
+     * Filter, which CustomFieldValues to fetch.
+     */
+    where?: CustomFieldValueWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CustomFieldValues to fetch.
+     */
+    orderBy?: CustomFieldValueOrderByWithRelationInput | CustomFieldValueOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing CustomFieldValues.
+     */
+    cursor?: CustomFieldValueWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CustomFieldValues from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CustomFieldValues.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CustomFieldValues.
+     */
+    distinct?: CustomFieldValueScalarFieldEnum | CustomFieldValueScalarFieldEnum[]
+  }
+
+  /**
+   * CustomFieldValue create
+   */
+  export type CustomFieldValueCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomFieldValue
+     */
+    select?: CustomFieldValueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomFieldValue
+     */
+    omit?: CustomFieldValueOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomFieldValueInclude<ExtArgs> | null
+    /**
+     * The data needed to create a CustomFieldValue.
+     */
+    data: XOR<CustomFieldValueCreateInput, CustomFieldValueUncheckedCreateInput>
+  }
+
+  /**
+   * CustomFieldValue createMany
+   */
+  export type CustomFieldValueCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many CustomFieldValues.
+     */
+    data: CustomFieldValueCreateManyInput | CustomFieldValueCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * CustomFieldValue createManyAndReturn
+   */
+  export type CustomFieldValueCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomFieldValue
+     */
+    select?: CustomFieldValueSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomFieldValue
+     */
+    omit?: CustomFieldValueOmit<ExtArgs> | null
+    /**
+     * The data used to create many CustomFieldValues.
+     */
+    data: CustomFieldValueCreateManyInput | CustomFieldValueCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomFieldValueIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CustomFieldValue update
+   */
+  export type CustomFieldValueUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomFieldValue
+     */
+    select?: CustomFieldValueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomFieldValue
+     */
+    omit?: CustomFieldValueOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomFieldValueInclude<ExtArgs> | null
+    /**
+     * The data needed to update a CustomFieldValue.
+     */
+    data: XOR<CustomFieldValueUpdateInput, CustomFieldValueUncheckedUpdateInput>
+    /**
+     * Choose, which CustomFieldValue to update.
+     */
+    where: CustomFieldValueWhereUniqueInput
+  }
+
+  /**
+   * CustomFieldValue updateMany
+   */
+  export type CustomFieldValueUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update CustomFieldValues.
+     */
+    data: XOR<CustomFieldValueUpdateManyMutationInput, CustomFieldValueUncheckedUpdateManyInput>
+    /**
+     * Filter which CustomFieldValues to update
+     */
+    where?: CustomFieldValueWhereInput
+    /**
+     * Limit how many CustomFieldValues to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * CustomFieldValue updateManyAndReturn
+   */
+  export type CustomFieldValueUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomFieldValue
+     */
+    select?: CustomFieldValueSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomFieldValue
+     */
+    omit?: CustomFieldValueOmit<ExtArgs> | null
+    /**
+     * The data used to update CustomFieldValues.
+     */
+    data: XOR<CustomFieldValueUpdateManyMutationInput, CustomFieldValueUncheckedUpdateManyInput>
+    /**
+     * Filter which CustomFieldValues to update
+     */
+    where?: CustomFieldValueWhereInput
+    /**
+     * Limit how many CustomFieldValues to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomFieldValueIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CustomFieldValue upsert
+   */
+  export type CustomFieldValueUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomFieldValue
+     */
+    select?: CustomFieldValueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomFieldValue
+     */
+    omit?: CustomFieldValueOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomFieldValueInclude<ExtArgs> | null
+    /**
+     * The filter to search for the CustomFieldValue to update in case it exists.
+     */
+    where: CustomFieldValueWhereUniqueInput
+    /**
+     * In case the CustomFieldValue found by the `where` argument doesn't exist, create a new CustomFieldValue with this data.
+     */
+    create: XOR<CustomFieldValueCreateInput, CustomFieldValueUncheckedCreateInput>
+    /**
+     * In case the CustomFieldValue was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CustomFieldValueUpdateInput, CustomFieldValueUncheckedUpdateInput>
+  }
+
+  /**
+   * CustomFieldValue delete
+   */
+  export type CustomFieldValueDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomFieldValue
+     */
+    select?: CustomFieldValueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomFieldValue
+     */
+    omit?: CustomFieldValueOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomFieldValueInclude<ExtArgs> | null
+    /**
+     * Filter which CustomFieldValue to delete.
+     */
+    where: CustomFieldValueWhereUniqueInput
+  }
+
+  /**
+   * CustomFieldValue deleteMany
+   */
+  export type CustomFieldValueDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CustomFieldValues to delete
+     */
+    where?: CustomFieldValueWhereInput
+    /**
+     * Limit how many CustomFieldValues to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * CustomFieldValue without action
+   */
+  export type CustomFieldValueDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomFieldValue
+     */
+    select?: CustomFieldValueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomFieldValue
+     */
+    omit?: CustomFieldValueOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomFieldValueInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model DocumentSequence
    */
 
@@ -24331,7 +26548,6 @@ export namespace Prisma {
     stockMovements?: boolean | Item$stockMovementsArgs<ExtArgs>
     invoiceLines?: boolean | Item$invoiceLinesArgs<ExtArgs>
     stockCountLines?: boolean | Item$stockCountLinesArgs<ExtArgs>
-    customValues?: boolean | Item$customValuesArgs<ExtArgs>
     _count?: boolean | ItemCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["item"]>
 
@@ -24396,7 +26612,6 @@ export namespace Prisma {
     stockMovements?: boolean | Item$stockMovementsArgs<ExtArgs>
     invoiceLines?: boolean | Item$invoiceLinesArgs<ExtArgs>
     stockCountLines?: boolean | Item$stockCountLinesArgs<ExtArgs>
-    customValues?: boolean | Item$customValuesArgs<ExtArgs>
     _count?: boolean | ItemCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ItemIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -24421,7 +26636,6 @@ export namespace Prisma {
       stockMovements: Prisma.$StockMovementPayload<ExtArgs>[]
       invoiceLines: Prisma.$InvoiceLinePayload<ExtArgs>[]
       stockCountLines: Prisma.$StockCountLinePayload<ExtArgs>[]
-      customValues: Prisma.$CustomFieldValuePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -24838,7 +27052,6 @@ export namespace Prisma {
     stockMovements<T extends Item$stockMovementsArgs<ExtArgs> = {}>(args?: Subset<T, Item$stockMovementsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StockMovementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     invoiceLines<T extends Item$invoiceLinesArgs<ExtArgs> = {}>(args?: Subset<T, Item$invoiceLinesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvoiceLinePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     stockCountLines<T extends Item$stockCountLinesArgs<ExtArgs> = {}>(args?: Subset<T, Item$stockCountLinesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StockCountLinePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    customValues<T extends Item$customValuesArgs<ExtArgs> = {}>(args?: Subset<T, Item$customValuesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CustomFieldValuePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -25401,30 +27614,6 @@ export namespace Prisma {
   }
 
   /**
-   * Item.customValues
-   */
-  export type Item$customValuesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the CustomFieldValue
-     */
-    select?: CustomFieldValueSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the CustomFieldValue
-     */
-    omit?: CustomFieldValueOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: CustomFieldValueInclude<ExtArgs> | null
-    where?: CustomFieldValueWhereInput
-    orderBy?: CustomFieldValueOrderByWithRelationInput | CustomFieldValueOrderByWithRelationInput[]
-    cursor?: CustomFieldValueWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: CustomFieldValueScalarFieldEnum | CustomFieldValueScalarFieldEnum[]
-  }
-
-  /**
    * Item without action
    */
   export type ItemDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -25440,2214 +27629,6 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: ItemInclude<ExtArgs> | null
-  }
-
-
-  /**
-   * Model CustomField
-   */
-
-  export type AggregateCustomField = {
-    _count: CustomFieldCountAggregateOutputType | null
-    _min: CustomFieldMinAggregateOutputType | null
-    _max: CustomFieldMaxAggregateOutputType | null
-  }
-
-  export type CustomFieldMinAggregateOutputType = {
-    id: string | null
-    tenantId: string | null
-    module: string | null
-    type: $Enums.FieldType | null
-    defaultValue: string | null
-    isRequired: boolean | null
-    createdAt: Date | null
-  }
-
-  export type CustomFieldMaxAggregateOutputType = {
-    id: string | null
-    tenantId: string | null
-    module: string | null
-    type: $Enums.FieldType | null
-    defaultValue: string | null
-    isRequired: boolean | null
-    createdAt: Date | null
-  }
-
-  export type CustomFieldCountAggregateOutputType = {
-    id: number
-    tenantId: number
-    module: number
-    name: number
-    label: number
-    type: number
-    defaultValue: number
-    placeholder: number
-    options: number
-    isRequired: number
-    createdAt: number
-    _all: number
-  }
-
-
-  export type CustomFieldMinAggregateInputType = {
-    id?: true
-    tenantId?: true
-    module?: true
-    type?: true
-    defaultValue?: true
-    isRequired?: true
-    createdAt?: true
-  }
-
-  export type CustomFieldMaxAggregateInputType = {
-    id?: true
-    tenantId?: true
-    module?: true
-    type?: true
-    defaultValue?: true
-    isRequired?: true
-    createdAt?: true
-  }
-
-  export type CustomFieldCountAggregateInputType = {
-    id?: true
-    tenantId?: true
-    module?: true
-    name?: true
-    label?: true
-    type?: true
-    defaultValue?: true
-    placeholder?: true
-    options?: true
-    isRequired?: true
-    createdAt?: true
-    _all?: true
-  }
-
-  export type CustomFieldAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which CustomField to aggregate.
-     */
-    where?: CustomFieldWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of CustomFields to fetch.
-     */
-    orderBy?: CustomFieldOrderByWithRelationInput | CustomFieldOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: CustomFieldWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` CustomFields from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` CustomFields.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned CustomFields
-    **/
-    _count?: true | CustomFieldCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: CustomFieldMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: CustomFieldMaxAggregateInputType
-  }
-
-  export type GetCustomFieldAggregateType<T extends CustomFieldAggregateArgs> = {
-        [P in keyof T & keyof AggregateCustomField]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateCustomField[P]>
-      : GetScalarType<T[P], AggregateCustomField[P]>
-  }
-
-
-
-
-  export type CustomFieldGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: CustomFieldWhereInput
-    orderBy?: CustomFieldOrderByWithAggregationInput | CustomFieldOrderByWithAggregationInput[]
-    by: CustomFieldScalarFieldEnum[] | CustomFieldScalarFieldEnum
-    having?: CustomFieldScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: CustomFieldCountAggregateInputType | true
-    _min?: CustomFieldMinAggregateInputType
-    _max?: CustomFieldMaxAggregateInputType
-  }
-
-  export type CustomFieldGroupByOutputType = {
-    id: string
-    tenantId: string
-    module: string
-    name: JsonValue
-    label: JsonValue
-    type: $Enums.FieldType
-    defaultValue: string | null
-    placeholder: JsonValue | null
-    options: string[]
-    isRequired: boolean
-    createdAt: Date
-    _count: CustomFieldCountAggregateOutputType | null
-    _min: CustomFieldMinAggregateOutputType | null
-    _max: CustomFieldMaxAggregateOutputType | null
-  }
-
-  type GetCustomFieldGroupByPayload<T extends CustomFieldGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<CustomFieldGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof CustomFieldGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], CustomFieldGroupByOutputType[P]>
-            : GetScalarType<T[P], CustomFieldGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type CustomFieldSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    tenantId?: boolean
-    module?: boolean
-    name?: boolean
-    label?: boolean
-    type?: boolean
-    defaultValue?: boolean
-    placeholder?: boolean
-    options?: boolean
-    isRequired?: boolean
-    createdAt?: boolean
-    values?: boolean | CustomField$valuesArgs<ExtArgs>
-    _count?: boolean | CustomFieldCountOutputTypeDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["customField"]>
-
-  export type CustomFieldSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    tenantId?: boolean
-    module?: boolean
-    name?: boolean
-    label?: boolean
-    type?: boolean
-    defaultValue?: boolean
-    placeholder?: boolean
-    options?: boolean
-    isRequired?: boolean
-    createdAt?: boolean
-  }, ExtArgs["result"]["customField"]>
-
-  export type CustomFieldSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    tenantId?: boolean
-    module?: boolean
-    name?: boolean
-    label?: boolean
-    type?: boolean
-    defaultValue?: boolean
-    placeholder?: boolean
-    options?: boolean
-    isRequired?: boolean
-    createdAt?: boolean
-  }, ExtArgs["result"]["customField"]>
-
-  export type CustomFieldSelectScalar = {
-    id?: boolean
-    tenantId?: boolean
-    module?: boolean
-    name?: boolean
-    label?: boolean
-    type?: boolean
-    defaultValue?: boolean
-    placeholder?: boolean
-    options?: boolean
-    isRequired?: boolean
-    createdAt?: boolean
-  }
-
-  export type CustomFieldOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "module" | "name" | "label" | "type" | "defaultValue" | "placeholder" | "options" | "isRequired" | "createdAt", ExtArgs["result"]["customField"]>
-  export type CustomFieldInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    values?: boolean | CustomField$valuesArgs<ExtArgs>
-    _count?: boolean | CustomFieldCountOutputTypeDefaultArgs<ExtArgs>
-  }
-  export type CustomFieldIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
-  export type CustomFieldIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
-
-  export type $CustomFieldPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "CustomField"
-    objects: {
-      values: Prisma.$CustomFieldValuePayload<ExtArgs>[]
-    }
-    scalars: $Extensions.GetPayloadResult<{
-      id: string
-      tenantId: string
-      module: string
-      name: Prisma.JsonValue
-      label: Prisma.JsonValue
-      type: $Enums.FieldType
-      defaultValue: string | null
-      placeholder: Prisma.JsonValue | null
-      options: string[]
-      isRequired: boolean
-      createdAt: Date
-    }, ExtArgs["result"]["customField"]>
-    composites: {}
-  }
-
-  type CustomFieldGetPayload<S extends boolean | null | undefined | CustomFieldDefaultArgs> = $Result.GetResult<Prisma.$CustomFieldPayload, S>
-
-  type CustomFieldCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<CustomFieldFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: CustomFieldCountAggregateInputType | true
-    }
-
-  export interface CustomFieldDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['CustomField'], meta: { name: 'CustomField' } }
-    /**
-     * Find zero or one CustomField that matches the filter.
-     * @param {CustomFieldFindUniqueArgs} args - Arguments to find a CustomField
-     * @example
-     * // Get one CustomField
-     * const customField = await prisma.customField.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends CustomFieldFindUniqueArgs>(args: SelectSubset<T, CustomFieldFindUniqueArgs<ExtArgs>>): Prisma__CustomFieldClient<$Result.GetResult<Prisma.$CustomFieldPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find one CustomField that matches the filter or throw an error with `error.code='P2025'`
-     * if no matches were found.
-     * @param {CustomFieldFindUniqueOrThrowArgs} args - Arguments to find a CustomField
-     * @example
-     * // Get one CustomField
-     * const customField = await prisma.customField.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends CustomFieldFindUniqueOrThrowArgs>(args: SelectSubset<T, CustomFieldFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CustomFieldClient<$Result.GetResult<Prisma.$CustomFieldPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first CustomField that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {CustomFieldFindFirstArgs} args - Arguments to find a CustomField
-     * @example
-     * // Get one CustomField
-     * const customField = await prisma.customField.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends CustomFieldFindFirstArgs>(args?: SelectSubset<T, CustomFieldFindFirstArgs<ExtArgs>>): Prisma__CustomFieldClient<$Result.GetResult<Prisma.$CustomFieldPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first CustomField that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {CustomFieldFindFirstOrThrowArgs} args - Arguments to find a CustomField
-     * @example
-     * // Get one CustomField
-     * const customField = await prisma.customField.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends CustomFieldFindFirstOrThrowArgs>(args?: SelectSubset<T, CustomFieldFindFirstOrThrowArgs<ExtArgs>>): Prisma__CustomFieldClient<$Result.GetResult<Prisma.$CustomFieldPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find zero or more CustomFields that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {CustomFieldFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all CustomFields
-     * const customFields = await prisma.customField.findMany()
-     * 
-     * // Get first 10 CustomFields
-     * const customFields = await prisma.customField.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const customFieldWithIdOnly = await prisma.customField.findMany({ select: { id: true } })
-     * 
-     */
-    findMany<T extends CustomFieldFindManyArgs>(args?: SelectSubset<T, CustomFieldFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CustomFieldPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
-
-    /**
-     * Create a CustomField.
-     * @param {CustomFieldCreateArgs} args - Arguments to create a CustomField.
-     * @example
-     * // Create one CustomField
-     * const CustomField = await prisma.customField.create({
-     *   data: {
-     *     // ... data to create a CustomField
-     *   }
-     * })
-     * 
-     */
-    create<T extends CustomFieldCreateArgs>(args: SelectSubset<T, CustomFieldCreateArgs<ExtArgs>>): Prisma__CustomFieldClient<$Result.GetResult<Prisma.$CustomFieldPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Create many CustomFields.
-     * @param {CustomFieldCreateManyArgs} args - Arguments to create many CustomFields.
-     * @example
-     * // Create many CustomFields
-     * const customField = await prisma.customField.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends CustomFieldCreateManyArgs>(args?: SelectSubset<T, CustomFieldCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create many CustomFields and returns the data saved in the database.
-     * @param {CustomFieldCreateManyAndReturnArgs} args - Arguments to create many CustomFields.
-     * @example
-     * // Create many CustomFields
-     * const customField = await prisma.customField.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many CustomFields and only return the `id`
-     * const customFieldWithIdOnly = await prisma.customField.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends CustomFieldCreateManyAndReturnArgs>(args?: SelectSubset<T, CustomFieldCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CustomFieldPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Delete a CustomField.
-     * @param {CustomFieldDeleteArgs} args - Arguments to delete one CustomField.
-     * @example
-     * // Delete one CustomField
-     * const CustomField = await prisma.customField.delete({
-     *   where: {
-     *     // ... filter to delete one CustomField
-     *   }
-     * })
-     * 
-     */
-    delete<T extends CustomFieldDeleteArgs>(args: SelectSubset<T, CustomFieldDeleteArgs<ExtArgs>>): Prisma__CustomFieldClient<$Result.GetResult<Prisma.$CustomFieldPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Update one CustomField.
-     * @param {CustomFieldUpdateArgs} args - Arguments to update one CustomField.
-     * @example
-     * // Update one CustomField
-     * const customField = await prisma.customField.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends CustomFieldUpdateArgs>(args: SelectSubset<T, CustomFieldUpdateArgs<ExtArgs>>): Prisma__CustomFieldClient<$Result.GetResult<Prisma.$CustomFieldPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Delete zero or more CustomFields.
-     * @param {CustomFieldDeleteManyArgs} args - Arguments to filter CustomFields to delete.
-     * @example
-     * // Delete a few CustomFields
-     * const { count } = await prisma.customField.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends CustomFieldDeleteManyArgs>(args?: SelectSubset<T, CustomFieldDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more CustomFields.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {CustomFieldUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many CustomFields
-     * const customField = await prisma.customField.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends CustomFieldUpdateManyArgs>(args: SelectSubset<T, CustomFieldUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more CustomFields and returns the data updated in the database.
-     * @param {CustomFieldUpdateManyAndReturnArgs} args - Arguments to update many CustomFields.
-     * @example
-     * // Update many CustomFields
-     * const customField = await prisma.customField.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more CustomFields and only return the `id`
-     * const customFieldWithIdOnly = await prisma.customField.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends CustomFieldUpdateManyAndReturnArgs>(args: SelectSubset<T, CustomFieldUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CustomFieldPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Create or update one CustomField.
-     * @param {CustomFieldUpsertArgs} args - Arguments to update or create a CustomField.
-     * @example
-     * // Update or create a CustomField
-     * const customField = await prisma.customField.upsert({
-     *   create: {
-     *     // ... data to create a CustomField
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the CustomField we want to update
-     *   }
-     * })
-     */
-    upsert<T extends CustomFieldUpsertArgs>(args: SelectSubset<T, CustomFieldUpsertArgs<ExtArgs>>): Prisma__CustomFieldClient<$Result.GetResult<Prisma.$CustomFieldPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-
-    /**
-     * Count the number of CustomFields.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {CustomFieldCountArgs} args - Arguments to filter CustomFields to count.
-     * @example
-     * // Count the number of CustomFields
-     * const count = await prisma.customField.count({
-     *   where: {
-     *     // ... the filter for the CustomFields we want to count
-     *   }
-     * })
-    **/
-    count<T extends CustomFieldCountArgs>(
-      args?: Subset<T, CustomFieldCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], CustomFieldCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a CustomField.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {CustomFieldAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends CustomFieldAggregateArgs>(args: Subset<T, CustomFieldAggregateArgs>): Prisma.PrismaPromise<GetCustomFieldAggregateType<T>>
-
-    /**
-     * Group by CustomField.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {CustomFieldGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends CustomFieldGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: CustomFieldGroupByArgs['orderBy'] }
-        : { orderBy?: CustomFieldGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, CustomFieldGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCustomFieldGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the CustomField model
-   */
-  readonly fields: CustomFieldFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for CustomField.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__CustomFieldClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    values<T extends CustomField$valuesArgs<ExtArgs> = {}>(args?: Subset<T, CustomField$valuesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CustomFieldValuePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the CustomField model
-   */
-  interface CustomFieldFieldRefs {
-    readonly id: FieldRef<"CustomField", 'String'>
-    readonly tenantId: FieldRef<"CustomField", 'String'>
-    readonly module: FieldRef<"CustomField", 'String'>
-    readonly name: FieldRef<"CustomField", 'Json'>
-    readonly label: FieldRef<"CustomField", 'Json'>
-    readonly type: FieldRef<"CustomField", 'FieldType'>
-    readonly defaultValue: FieldRef<"CustomField", 'String'>
-    readonly placeholder: FieldRef<"CustomField", 'Json'>
-    readonly options: FieldRef<"CustomField", 'String[]'>
-    readonly isRequired: FieldRef<"CustomField", 'Boolean'>
-    readonly createdAt: FieldRef<"CustomField", 'DateTime'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * CustomField findUnique
-   */
-  export type CustomFieldFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the CustomField
-     */
-    select?: CustomFieldSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the CustomField
-     */
-    omit?: CustomFieldOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: CustomFieldInclude<ExtArgs> | null
-    /**
-     * Filter, which CustomField to fetch.
-     */
-    where: CustomFieldWhereUniqueInput
-  }
-
-  /**
-   * CustomField findUniqueOrThrow
-   */
-  export type CustomFieldFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the CustomField
-     */
-    select?: CustomFieldSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the CustomField
-     */
-    omit?: CustomFieldOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: CustomFieldInclude<ExtArgs> | null
-    /**
-     * Filter, which CustomField to fetch.
-     */
-    where: CustomFieldWhereUniqueInput
-  }
-
-  /**
-   * CustomField findFirst
-   */
-  export type CustomFieldFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the CustomField
-     */
-    select?: CustomFieldSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the CustomField
-     */
-    omit?: CustomFieldOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: CustomFieldInclude<ExtArgs> | null
-    /**
-     * Filter, which CustomField to fetch.
-     */
-    where?: CustomFieldWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of CustomFields to fetch.
-     */
-    orderBy?: CustomFieldOrderByWithRelationInput | CustomFieldOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for CustomFields.
-     */
-    cursor?: CustomFieldWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` CustomFields from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` CustomFields.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of CustomFields.
-     */
-    distinct?: CustomFieldScalarFieldEnum | CustomFieldScalarFieldEnum[]
-  }
-
-  /**
-   * CustomField findFirstOrThrow
-   */
-  export type CustomFieldFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the CustomField
-     */
-    select?: CustomFieldSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the CustomField
-     */
-    omit?: CustomFieldOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: CustomFieldInclude<ExtArgs> | null
-    /**
-     * Filter, which CustomField to fetch.
-     */
-    where?: CustomFieldWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of CustomFields to fetch.
-     */
-    orderBy?: CustomFieldOrderByWithRelationInput | CustomFieldOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for CustomFields.
-     */
-    cursor?: CustomFieldWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` CustomFields from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` CustomFields.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of CustomFields.
-     */
-    distinct?: CustomFieldScalarFieldEnum | CustomFieldScalarFieldEnum[]
-  }
-
-  /**
-   * CustomField findMany
-   */
-  export type CustomFieldFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the CustomField
-     */
-    select?: CustomFieldSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the CustomField
-     */
-    omit?: CustomFieldOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: CustomFieldInclude<ExtArgs> | null
-    /**
-     * Filter, which CustomFields to fetch.
-     */
-    where?: CustomFieldWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of CustomFields to fetch.
-     */
-    orderBy?: CustomFieldOrderByWithRelationInput | CustomFieldOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing CustomFields.
-     */
-    cursor?: CustomFieldWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` CustomFields from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` CustomFields.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of CustomFields.
-     */
-    distinct?: CustomFieldScalarFieldEnum | CustomFieldScalarFieldEnum[]
-  }
-
-  /**
-   * CustomField create
-   */
-  export type CustomFieldCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the CustomField
-     */
-    select?: CustomFieldSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the CustomField
-     */
-    omit?: CustomFieldOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: CustomFieldInclude<ExtArgs> | null
-    /**
-     * The data needed to create a CustomField.
-     */
-    data: XOR<CustomFieldCreateInput, CustomFieldUncheckedCreateInput>
-  }
-
-  /**
-   * CustomField createMany
-   */
-  export type CustomFieldCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many CustomFields.
-     */
-    data: CustomFieldCreateManyInput | CustomFieldCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * CustomField createManyAndReturn
-   */
-  export type CustomFieldCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the CustomField
-     */
-    select?: CustomFieldSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the CustomField
-     */
-    omit?: CustomFieldOmit<ExtArgs> | null
-    /**
-     * The data used to create many CustomFields.
-     */
-    data: CustomFieldCreateManyInput | CustomFieldCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * CustomField update
-   */
-  export type CustomFieldUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the CustomField
-     */
-    select?: CustomFieldSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the CustomField
-     */
-    omit?: CustomFieldOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: CustomFieldInclude<ExtArgs> | null
-    /**
-     * The data needed to update a CustomField.
-     */
-    data: XOR<CustomFieldUpdateInput, CustomFieldUncheckedUpdateInput>
-    /**
-     * Choose, which CustomField to update.
-     */
-    where: CustomFieldWhereUniqueInput
-  }
-
-  /**
-   * CustomField updateMany
-   */
-  export type CustomFieldUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update CustomFields.
-     */
-    data: XOR<CustomFieldUpdateManyMutationInput, CustomFieldUncheckedUpdateManyInput>
-    /**
-     * Filter which CustomFields to update
-     */
-    where?: CustomFieldWhereInput
-    /**
-     * Limit how many CustomFields to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * CustomField updateManyAndReturn
-   */
-  export type CustomFieldUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the CustomField
-     */
-    select?: CustomFieldSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the CustomField
-     */
-    omit?: CustomFieldOmit<ExtArgs> | null
-    /**
-     * The data used to update CustomFields.
-     */
-    data: XOR<CustomFieldUpdateManyMutationInput, CustomFieldUncheckedUpdateManyInput>
-    /**
-     * Filter which CustomFields to update
-     */
-    where?: CustomFieldWhereInput
-    /**
-     * Limit how many CustomFields to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * CustomField upsert
-   */
-  export type CustomFieldUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the CustomField
-     */
-    select?: CustomFieldSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the CustomField
-     */
-    omit?: CustomFieldOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: CustomFieldInclude<ExtArgs> | null
-    /**
-     * The filter to search for the CustomField to update in case it exists.
-     */
-    where: CustomFieldWhereUniqueInput
-    /**
-     * In case the CustomField found by the `where` argument doesn't exist, create a new CustomField with this data.
-     */
-    create: XOR<CustomFieldCreateInput, CustomFieldUncheckedCreateInput>
-    /**
-     * In case the CustomField was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<CustomFieldUpdateInput, CustomFieldUncheckedUpdateInput>
-  }
-
-  /**
-   * CustomField delete
-   */
-  export type CustomFieldDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the CustomField
-     */
-    select?: CustomFieldSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the CustomField
-     */
-    omit?: CustomFieldOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: CustomFieldInclude<ExtArgs> | null
-    /**
-     * Filter which CustomField to delete.
-     */
-    where: CustomFieldWhereUniqueInput
-  }
-
-  /**
-   * CustomField deleteMany
-   */
-  export type CustomFieldDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which CustomFields to delete
-     */
-    where?: CustomFieldWhereInput
-    /**
-     * Limit how many CustomFields to delete.
-     */
-    limit?: number
-  }
-
-  /**
-   * CustomField.values
-   */
-  export type CustomField$valuesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the CustomFieldValue
-     */
-    select?: CustomFieldValueSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the CustomFieldValue
-     */
-    omit?: CustomFieldValueOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: CustomFieldValueInclude<ExtArgs> | null
-    where?: CustomFieldValueWhereInput
-    orderBy?: CustomFieldValueOrderByWithRelationInput | CustomFieldValueOrderByWithRelationInput[]
-    cursor?: CustomFieldValueWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: CustomFieldValueScalarFieldEnum | CustomFieldValueScalarFieldEnum[]
-  }
-
-  /**
-   * CustomField without action
-   */
-  export type CustomFieldDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the CustomField
-     */
-    select?: CustomFieldSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the CustomField
-     */
-    omit?: CustomFieldOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: CustomFieldInclude<ExtArgs> | null
-  }
-
-
-  /**
-   * Model CustomFieldValue
-   */
-
-  export type AggregateCustomFieldValue = {
-    _count: CustomFieldValueCountAggregateOutputType | null
-    _min: CustomFieldValueMinAggregateOutputType | null
-    _max: CustomFieldValueMaxAggregateOutputType | null
-  }
-
-  export type CustomFieldValueMinAggregateOutputType = {
-    id: string | null
-    tenantId: string | null
-    fieldId: string | null
-    itemId: string | null
-    value: string | null
-  }
-
-  export type CustomFieldValueMaxAggregateOutputType = {
-    id: string | null
-    tenantId: string | null
-    fieldId: string | null
-    itemId: string | null
-    value: string | null
-  }
-
-  export type CustomFieldValueCountAggregateOutputType = {
-    id: number
-    tenantId: number
-    fieldId: number
-    itemId: number
-    value: number
-    _all: number
-  }
-
-
-  export type CustomFieldValueMinAggregateInputType = {
-    id?: true
-    tenantId?: true
-    fieldId?: true
-    itemId?: true
-    value?: true
-  }
-
-  export type CustomFieldValueMaxAggregateInputType = {
-    id?: true
-    tenantId?: true
-    fieldId?: true
-    itemId?: true
-    value?: true
-  }
-
-  export type CustomFieldValueCountAggregateInputType = {
-    id?: true
-    tenantId?: true
-    fieldId?: true
-    itemId?: true
-    value?: true
-    _all?: true
-  }
-
-  export type CustomFieldValueAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which CustomFieldValue to aggregate.
-     */
-    where?: CustomFieldValueWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of CustomFieldValues to fetch.
-     */
-    orderBy?: CustomFieldValueOrderByWithRelationInput | CustomFieldValueOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: CustomFieldValueWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` CustomFieldValues from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` CustomFieldValues.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned CustomFieldValues
-    **/
-    _count?: true | CustomFieldValueCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: CustomFieldValueMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: CustomFieldValueMaxAggregateInputType
-  }
-
-  export type GetCustomFieldValueAggregateType<T extends CustomFieldValueAggregateArgs> = {
-        [P in keyof T & keyof AggregateCustomFieldValue]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateCustomFieldValue[P]>
-      : GetScalarType<T[P], AggregateCustomFieldValue[P]>
-  }
-
-
-
-
-  export type CustomFieldValueGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: CustomFieldValueWhereInput
-    orderBy?: CustomFieldValueOrderByWithAggregationInput | CustomFieldValueOrderByWithAggregationInput[]
-    by: CustomFieldValueScalarFieldEnum[] | CustomFieldValueScalarFieldEnum
-    having?: CustomFieldValueScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: CustomFieldValueCountAggregateInputType | true
-    _min?: CustomFieldValueMinAggregateInputType
-    _max?: CustomFieldValueMaxAggregateInputType
-  }
-
-  export type CustomFieldValueGroupByOutputType = {
-    id: string
-    tenantId: string
-    fieldId: string
-    itemId: string
-    value: string
-    _count: CustomFieldValueCountAggregateOutputType | null
-    _min: CustomFieldValueMinAggregateOutputType | null
-    _max: CustomFieldValueMaxAggregateOutputType | null
-  }
-
-  type GetCustomFieldValueGroupByPayload<T extends CustomFieldValueGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<CustomFieldValueGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof CustomFieldValueGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], CustomFieldValueGroupByOutputType[P]>
-            : GetScalarType<T[P], CustomFieldValueGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type CustomFieldValueSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    tenantId?: boolean
-    fieldId?: boolean
-    itemId?: boolean
-    value?: boolean
-    field?: boolean | CustomFieldDefaultArgs<ExtArgs>
-    item?: boolean | ItemDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["customFieldValue"]>
-
-  export type CustomFieldValueSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    tenantId?: boolean
-    fieldId?: boolean
-    itemId?: boolean
-    value?: boolean
-    field?: boolean | CustomFieldDefaultArgs<ExtArgs>
-    item?: boolean | ItemDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["customFieldValue"]>
-
-  export type CustomFieldValueSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    tenantId?: boolean
-    fieldId?: boolean
-    itemId?: boolean
-    value?: boolean
-    field?: boolean | CustomFieldDefaultArgs<ExtArgs>
-    item?: boolean | ItemDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["customFieldValue"]>
-
-  export type CustomFieldValueSelectScalar = {
-    id?: boolean
-    tenantId?: boolean
-    fieldId?: boolean
-    itemId?: boolean
-    value?: boolean
-  }
-
-  export type CustomFieldValueOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "fieldId" | "itemId" | "value", ExtArgs["result"]["customFieldValue"]>
-  export type CustomFieldValueInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    field?: boolean | CustomFieldDefaultArgs<ExtArgs>
-    item?: boolean | ItemDefaultArgs<ExtArgs>
-  }
-  export type CustomFieldValueIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    field?: boolean | CustomFieldDefaultArgs<ExtArgs>
-    item?: boolean | ItemDefaultArgs<ExtArgs>
-  }
-  export type CustomFieldValueIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    field?: boolean | CustomFieldDefaultArgs<ExtArgs>
-    item?: boolean | ItemDefaultArgs<ExtArgs>
-  }
-
-  export type $CustomFieldValuePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "CustomFieldValue"
-    objects: {
-      field: Prisma.$CustomFieldPayload<ExtArgs>
-      item: Prisma.$ItemPayload<ExtArgs>
-    }
-    scalars: $Extensions.GetPayloadResult<{
-      id: string
-      tenantId: string
-      fieldId: string
-      itemId: string
-      value: string
-    }, ExtArgs["result"]["customFieldValue"]>
-    composites: {}
-  }
-
-  type CustomFieldValueGetPayload<S extends boolean | null | undefined | CustomFieldValueDefaultArgs> = $Result.GetResult<Prisma.$CustomFieldValuePayload, S>
-
-  type CustomFieldValueCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<CustomFieldValueFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: CustomFieldValueCountAggregateInputType | true
-    }
-
-  export interface CustomFieldValueDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['CustomFieldValue'], meta: { name: 'CustomFieldValue' } }
-    /**
-     * Find zero or one CustomFieldValue that matches the filter.
-     * @param {CustomFieldValueFindUniqueArgs} args - Arguments to find a CustomFieldValue
-     * @example
-     * // Get one CustomFieldValue
-     * const customFieldValue = await prisma.customFieldValue.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends CustomFieldValueFindUniqueArgs>(args: SelectSubset<T, CustomFieldValueFindUniqueArgs<ExtArgs>>): Prisma__CustomFieldValueClient<$Result.GetResult<Prisma.$CustomFieldValuePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find one CustomFieldValue that matches the filter or throw an error with `error.code='P2025'`
-     * if no matches were found.
-     * @param {CustomFieldValueFindUniqueOrThrowArgs} args - Arguments to find a CustomFieldValue
-     * @example
-     * // Get one CustomFieldValue
-     * const customFieldValue = await prisma.customFieldValue.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends CustomFieldValueFindUniqueOrThrowArgs>(args: SelectSubset<T, CustomFieldValueFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CustomFieldValueClient<$Result.GetResult<Prisma.$CustomFieldValuePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first CustomFieldValue that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {CustomFieldValueFindFirstArgs} args - Arguments to find a CustomFieldValue
-     * @example
-     * // Get one CustomFieldValue
-     * const customFieldValue = await prisma.customFieldValue.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends CustomFieldValueFindFirstArgs>(args?: SelectSubset<T, CustomFieldValueFindFirstArgs<ExtArgs>>): Prisma__CustomFieldValueClient<$Result.GetResult<Prisma.$CustomFieldValuePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first CustomFieldValue that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {CustomFieldValueFindFirstOrThrowArgs} args - Arguments to find a CustomFieldValue
-     * @example
-     * // Get one CustomFieldValue
-     * const customFieldValue = await prisma.customFieldValue.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends CustomFieldValueFindFirstOrThrowArgs>(args?: SelectSubset<T, CustomFieldValueFindFirstOrThrowArgs<ExtArgs>>): Prisma__CustomFieldValueClient<$Result.GetResult<Prisma.$CustomFieldValuePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find zero or more CustomFieldValues that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {CustomFieldValueFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all CustomFieldValues
-     * const customFieldValues = await prisma.customFieldValue.findMany()
-     * 
-     * // Get first 10 CustomFieldValues
-     * const customFieldValues = await prisma.customFieldValue.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const customFieldValueWithIdOnly = await prisma.customFieldValue.findMany({ select: { id: true } })
-     * 
-     */
-    findMany<T extends CustomFieldValueFindManyArgs>(args?: SelectSubset<T, CustomFieldValueFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CustomFieldValuePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
-
-    /**
-     * Create a CustomFieldValue.
-     * @param {CustomFieldValueCreateArgs} args - Arguments to create a CustomFieldValue.
-     * @example
-     * // Create one CustomFieldValue
-     * const CustomFieldValue = await prisma.customFieldValue.create({
-     *   data: {
-     *     // ... data to create a CustomFieldValue
-     *   }
-     * })
-     * 
-     */
-    create<T extends CustomFieldValueCreateArgs>(args: SelectSubset<T, CustomFieldValueCreateArgs<ExtArgs>>): Prisma__CustomFieldValueClient<$Result.GetResult<Prisma.$CustomFieldValuePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Create many CustomFieldValues.
-     * @param {CustomFieldValueCreateManyArgs} args - Arguments to create many CustomFieldValues.
-     * @example
-     * // Create many CustomFieldValues
-     * const customFieldValue = await prisma.customFieldValue.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends CustomFieldValueCreateManyArgs>(args?: SelectSubset<T, CustomFieldValueCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create many CustomFieldValues and returns the data saved in the database.
-     * @param {CustomFieldValueCreateManyAndReturnArgs} args - Arguments to create many CustomFieldValues.
-     * @example
-     * // Create many CustomFieldValues
-     * const customFieldValue = await prisma.customFieldValue.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many CustomFieldValues and only return the `id`
-     * const customFieldValueWithIdOnly = await prisma.customFieldValue.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends CustomFieldValueCreateManyAndReturnArgs>(args?: SelectSubset<T, CustomFieldValueCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CustomFieldValuePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Delete a CustomFieldValue.
-     * @param {CustomFieldValueDeleteArgs} args - Arguments to delete one CustomFieldValue.
-     * @example
-     * // Delete one CustomFieldValue
-     * const CustomFieldValue = await prisma.customFieldValue.delete({
-     *   where: {
-     *     // ... filter to delete one CustomFieldValue
-     *   }
-     * })
-     * 
-     */
-    delete<T extends CustomFieldValueDeleteArgs>(args: SelectSubset<T, CustomFieldValueDeleteArgs<ExtArgs>>): Prisma__CustomFieldValueClient<$Result.GetResult<Prisma.$CustomFieldValuePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Update one CustomFieldValue.
-     * @param {CustomFieldValueUpdateArgs} args - Arguments to update one CustomFieldValue.
-     * @example
-     * // Update one CustomFieldValue
-     * const customFieldValue = await prisma.customFieldValue.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends CustomFieldValueUpdateArgs>(args: SelectSubset<T, CustomFieldValueUpdateArgs<ExtArgs>>): Prisma__CustomFieldValueClient<$Result.GetResult<Prisma.$CustomFieldValuePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Delete zero or more CustomFieldValues.
-     * @param {CustomFieldValueDeleteManyArgs} args - Arguments to filter CustomFieldValues to delete.
-     * @example
-     * // Delete a few CustomFieldValues
-     * const { count } = await prisma.customFieldValue.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends CustomFieldValueDeleteManyArgs>(args?: SelectSubset<T, CustomFieldValueDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more CustomFieldValues.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {CustomFieldValueUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many CustomFieldValues
-     * const customFieldValue = await prisma.customFieldValue.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends CustomFieldValueUpdateManyArgs>(args: SelectSubset<T, CustomFieldValueUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more CustomFieldValues and returns the data updated in the database.
-     * @param {CustomFieldValueUpdateManyAndReturnArgs} args - Arguments to update many CustomFieldValues.
-     * @example
-     * // Update many CustomFieldValues
-     * const customFieldValue = await prisma.customFieldValue.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more CustomFieldValues and only return the `id`
-     * const customFieldValueWithIdOnly = await prisma.customFieldValue.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends CustomFieldValueUpdateManyAndReturnArgs>(args: SelectSubset<T, CustomFieldValueUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CustomFieldValuePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Create or update one CustomFieldValue.
-     * @param {CustomFieldValueUpsertArgs} args - Arguments to update or create a CustomFieldValue.
-     * @example
-     * // Update or create a CustomFieldValue
-     * const customFieldValue = await prisma.customFieldValue.upsert({
-     *   create: {
-     *     // ... data to create a CustomFieldValue
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the CustomFieldValue we want to update
-     *   }
-     * })
-     */
-    upsert<T extends CustomFieldValueUpsertArgs>(args: SelectSubset<T, CustomFieldValueUpsertArgs<ExtArgs>>): Prisma__CustomFieldValueClient<$Result.GetResult<Prisma.$CustomFieldValuePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-
-    /**
-     * Count the number of CustomFieldValues.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {CustomFieldValueCountArgs} args - Arguments to filter CustomFieldValues to count.
-     * @example
-     * // Count the number of CustomFieldValues
-     * const count = await prisma.customFieldValue.count({
-     *   where: {
-     *     // ... the filter for the CustomFieldValues we want to count
-     *   }
-     * })
-    **/
-    count<T extends CustomFieldValueCountArgs>(
-      args?: Subset<T, CustomFieldValueCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], CustomFieldValueCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a CustomFieldValue.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {CustomFieldValueAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends CustomFieldValueAggregateArgs>(args: Subset<T, CustomFieldValueAggregateArgs>): Prisma.PrismaPromise<GetCustomFieldValueAggregateType<T>>
-
-    /**
-     * Group by CustomFieldValue.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {CustomFieldValueGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends CustomFieldValueGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: CustomFieldValueGroupByArgs['orderBy'] }
-        : { orderBy?: CustomFieldValueGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, CustomFieldValueGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCustomFieldValueGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the CustomFieldValue model
-   */
-  readonly fields: CustomFieldValueFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for CustomFieldValue.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__CustomFieldValueClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    field<T extends CustomFieldDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CustomFieldDefaultArgs<ExtArgs>>): Prisma__CustomFieldClient<$Result.GetResult<Prisma.$CustomFieldPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    item<T extends ItemDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ItemDefaultArgs<ExtArgs>>): Prisma__ItemClient<$Result.GetResult<Prisma.$ItemPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the CustomFieldValue model
-   */
-  interface CustomFieldValueFieldRefs {
-    readonly id: FieldRef<"CustomFieldValue", 'String'>
-    readonly tenantId: FieldRef<"CustomFieldValue", 'String'>
-    readonly fieldId: FieldRef<"CustomFieldValue", 'String'>
-    readonly itemId: FieldRef<"CustomFieldValue", 'String'>
-    readonly value: FieldRef<"CustomFieldValue", 'String'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * CustomFieldValue findUnique
-   */
-  export type CustomFieldValueFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the CustomFieldValue
-     */
-    select?: CustomFieldValueSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the CustomFieldValue
-     */
-    omit?: CustomFieldValueOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: CustomFieldValueInclude<ExtArgs> | null
-    /**
-     * Filter, which CustomFieldValue to fetch.
-     */
-    where: CustomFieldValueWhereUniqueInput
-  }
-
-  /**
-   * CustomFieldValue findUniqueOrThrow
-   */
-  export type CustomFieldValueFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the CustomFieldValue
-     */
-    select?: CustomFieldValueSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the CustomFieldValue
-     */
-    omit?: CustomFieldValueOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: CustomFieldValueInclude<ExtArgs> | null
-    /**
-     * Filter, which CustomFieldValue to fetch.
-     */
-    where: CustomFieldValueWhereUniqueInput
-  }
-
-  /**
-   * CustomFieldValue findFirst
-   */
-  export type CustomFieldValueFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the CustomFieldValue
-     */
-    select?: CustomFieldValueSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the CustomFieldValue
-     */
-    omit?: CustomFieldValueOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: CustomFieldValueInclude<ExtArgs> | null
-    /**
-     * Filter, which CustomFieldValue to fetch.
-     */
-    where?: CustomFieldValueWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of CustomFieldValues to fetch.
-     */
-    orderBy?: CustomFieldValueOrderByWithRelationInput | CustomFieldValueOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for CustomFieldValues.
-     */
-    cursor?: CustomFieldValueWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` CustomFieldValues from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` CustomFieldValues.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of CustomFieldValues.
-     */
-    distinct?: CustomFieldValueScalarFieldEnum | CustomFieldValueScalarFieldEnum[]
-  }
-
-  /**
-   * CustomFieldValue findFirstOrThrow
-   */
-  export type CustomFieldValueFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the CustomFieldValue
-     */
-    select?: CustomFieldValueSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the CustomFieldValue
-     */
-    omit?: CustomFieldValueOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: CustomFieldValueInclude<ExtArgs> | null
-    /**
-     * Filter, which CustomFieldValue to fetch.
-     */
-    where?: CustomFieldValueWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of CustomFieldValues to fetch.
-     */
-    orderBy?: CustomFieldValueOrderByWithRelationInput | CustomFieldValueOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for CustomFieldValues.
-     */
-    cursor?: CustomFieldValueWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` CustomFieldValues from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` CustomFieldValues.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of CustomFieldValues.
-     */
-    distinct?: CustomFieldValueScalarFieldEnum | CustomFieldValueScalarFieldEnum[]
-  }
-
-  /**
-   * CustomFieldValue findMany
-   */
-  export type CustomFieldValueFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the CustomFieldValue
-     */
-    select?: CustomFieldValueSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the CustomFieldValue
-     */
-    omit?: CustomFieldValueOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: CustomFieldValueInclude<ExtArgs> | null
-    /**
-     * Filter, which CustomFieldValues to fetch.
-     */
-    where?: CustomFieldValueWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of CustomFieldValues to fetch.
-     */
-    orderBy?: CustomFieldValueOrderByWithRelationInput | CustomFieldValueOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing CustomFieldValues.
-     */
-    cursor?: CustomFieldValueWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` CustomFieldValues from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` CustomFieldValues.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of CustomFieldValues.
-     */
-    distinct?: CustomFieldValueScalarFieldEnum | CustomFieldValueScalarFieldEnum[]
-  }
-
-  /**
-   * CustomFieldValue create
-   */
-  export type CustomFieldValueCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the CustomFieldValue
-     */
-    select?: CustomFieldValueSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the CustomFieldValue
-     */
-    omit?: CustomFieldValueOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: CustomFieldValueInclude<ExtArgs> | null
-    /**
-     * The data needed to create a CustomFieldValue.
-     */
-    data: XOR<CustomFieldValueCreateInput, CustomFieldValueUncheckedCreateInput>
-  }
-
-  /**
-   * CustomFieldValue createMany
-   */
-  export type CustomFieldValueCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many CustomFieldValues.
-     */
-    data: CustomFieldValueCreateManyInput | CustomFieldValueCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * CustomFieldValue createManyAndReturn
-   */
-  export type CustomFieldValueCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the CustomFieldValue
-     */
-    select?: CustomFieldValueSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the CustomFieldValue
-     */
-    omit?: CustomFieldValueOmit<ExtArgs> | null
-    /**
-     * The data used to create many CustomFieldValues.
-     */
-    data: CustomFieldValueCreateManyInput | CustomFieldValueCreateManyInput[]
-    skipDuplicates?: boolean
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: CustomFieldValueIncludeCreateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * CustomFieldValue update
-   */
-  export type CustomFieldValueUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the CustomFieldValue
-     */
-    select?: CustomFieldValueSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the CustomFieldValue
-     */
-    omit?: CustomFieldValueOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: CustomFieldValueInclude<ExtArgs> | null
-    /**
-     * The data needed to update a CustomFieldValue.
-     */
-    data: XOR<CustomFieldValueUpdateInput, CustomFieldValueUncheckedUpdateInput>
-    /**
-     * Choose, which CustomFieldValue to update.
-     */
-    where: CustomFieldValueWhereUniqueInput
-  }
-
-  /**
-   * CustomFieldValue updateMany
-   */
-  export type CustomFieldValueUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update CustomFieldValues.
-     */
-    data: XOR<CustomFieldValueUpdateManyMutationInput, CustomFieldValueUncheckedUpdateManyInput>
-    /**
-     * Filter which CustomFieldValues to update
-     */
-    where?: CustomFieldValueWhereInput
-    /**
-     * Limit how many CustomFieldValues to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * CustomFieldValue updateManyAndReturn
-   */
-  export type CustomFieldValueUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the CustomFieldValue
-     */
-    select?: CustomFieldValueSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the CustomFieldValue
-     */
-    omit?: CustomFieldValueOmit<ExtArgs> | null
-    /**
-     * The data used to update CustomFieldValues.
-     */
-    data: XOR<CustomFieldValueUpdateManyMutationInput, CustomFieldValueUncheckedUpdateManyInput>
-    /**
-     * Filter which CustomFieldValues to update
-     */
-    where?: CustomFieldValueWhereInput
-    /**
-     * Limit how many CustomFieldValues to update.
-     */
-    limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: CustomFieldValueIncludeUpdateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * CustomFieldValue upsert
-   */
-  export type CustomFieldValueUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the CustomFieldValue
-     */
-    select?: CustomFieldValueSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the CustomFieldValue
-     */
-    omit?: CustomFieldValueOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: CustomFieldValueInclude<ExtArgs> | null
-    /**
-     * The filter to search for the CustomFieldValue to update in case it exists.
-     */
-    where: CustomFieldValueWhereUniqueInput
-    /**
-     * In case the CustomFieldValue found by the `where` argument doesn't exist, create a new CustomFieldValue with this data.
-     */
-    create: XOR<CustomFieldValueCreateInput, CustomFieldValueUncheckedCreateInput>
-    /**
-     * In case the CustomFieldValue was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<CustomFieldValueUpdateInput, CustomFieldValueUncheckedUpdateInput>
-  }
-
-  /**
-   * CustomFieldValue delete
-   */
-  export type CustomFieldValueDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the CustomFieldValue
-     */
-    select?: CustomFieldValueSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the CustomFieldValue
-     */
-    omit?: CustomFieldValueOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: CustomFieldValueInclude<ExtArgs> | null
-    /**
-     * Filter which CustomFieldValue to delete.
-     */
-    where: CustomFieldValueWhereUniqueInput
-  }
-
-  /**
-   * CustomFieldValue deleteMany
-   */
-  export type CustomFieldValueDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which CustomFieldValues to delete
-     */
-    where?: CustomFieldValueWhereInput
-    /**
-     * Limit how many CustomFieldValues to delete.
-     */
-    limit?: number
-  }
-
-  /**
-   * CustomFieldValue without action
-   */
-  export type CustomFieldValueDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the CustomFieldValue
-     */
-    select?: CustomFieldValueSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the CustomFieldValue
-     */
-    omit?: CustomFieldValueOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: CustomFieldValueInclude<ExtArgs> | null
   }
 
 
@@ -43541,6 +43522,36 @@ export namespace Prisma {
   export type CurrencyScalarFieldEnum = (typeof CurrencyScalarFieldEnum)[keyof typeof CurrencyScalarFieldEnum]
 
 
+  export const CustomFieldScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    module: 'module',
+    name: 'name',
+    label: 'label',
+    type: 'type',
+    defaultValue: 'defaultValue',
+    placeholder: 'placeholder',
+    options: 'options',
+    isRequired: 'isRequired',
+    showInList: 'showInList',
+    createdAt: 'createdAt'
+  };
+
+  export type CustomFieldScalarFieldEnum = (typeof CustomFieldScalarFieldEnum)[keyof typeof CustomFieldScalarFieldEnum]
+
+
+  export const CustomFieldValueScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    fieldId: 'fieldId',
+    entityType: 'entityType',
+    entityId: 'entityId',
+    value: 'value'
+  };
+
+  export type CustomFieldValueScalarFieldEnum = (typeof CustomFieldValueScalarFieldEnum)[keyof typeof CustomFieldValueScalarFieldEnum]
+
+
   export const DocumentSequenceScalarFieldEnum: {
     id: 'id',
     tenantId: 'tenantId',
@@ -43663,34 +43674,6 @@ export namespace Prisma {
   };
 
   export type ItemScalarFieldEnum = (typeof ItemScalarFieldEnum)[keyof typeof ItemScalarFieldEnum]
-
-
-  export const CustomFieldScalarFieldEnum: {
-    id: 'id',
-    tenantId: 'tenantId',
-    module: 'module',
-    name: 'name',
-    label: 'label',
-    type: 'type',
-    defaultValue: 'defaultValue',
-    placeholder: 'placeholder',
-    options: 'options',
-    isRequired: 'isRequired',
-    createdAt: 'createdAt'
-  };
-
-  export type CustomFieldScalarFieldEnum = (typeof CustomFieldScalarFieldEnum)[keyof typeof CustomFieldScalarFieldEnum]
-
-
-  export const CustomFieldValueScalarFieldEnum: {
-    id: 'id',
-    tenantId: 'tenantId',
-    fieldId: 'fieldId',
-    itemId: 'itemId',
-    value: 'value'
-  };
-
-  export type CustomFieldValueScalarFieldEnum = (typeof CustomFieldValueScalarFieldEnum)[keyof typeof CustomFieldValueScalarFieldEnum]
 
 
   export const PartyScalarFieldEnum: {
@@ -44091,6 +44074,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'FieldType'
+   */
+  export type EnumFieldTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FieldType'>
+    
+
+
+  /**
+   * Reference to a field of type 'FieldType[]'
+   */
+  export type ListEnumFieldTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FieldType[]'>
+    
+
+
+  /**
    * Reference to a field of type 'FiscalPeriodStatus'
    */
   export type EnumFiscalPeriodStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FiscalPeriodStatus'>
@@ -44129,20 +44126,6 @@ export namespace Prisma {
    * Reference to a field of type 'InvoiceStatus[]'
    */
   export type ListEnumInvoiceStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'InvoiceStatus[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'FieldType'
-   */
-  export type EnumFieldTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FieldType'>
-    
-
-
-  /**
-   * Reference to a field of type 'FieldType[]'
-   */
-  export type ListEnumFieldTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FieldType[]'>
     
 
 
@@ -45060,6 +45043,157 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"Currency"> | Date | string
   }
 
+  export type CustomFieldWhereInput = {
+    AND?: CustomFieldWhereInput | CustomFieldWhereInput[]
+    OR?: CustomFieldWhereInput[]
+    NOT?: CustomFieldWhereInput | CustomFieldWhereInput[]
+    id?: StringFilter<"CustomField"> | string
+    tenantId?: StringFilter<"CustomField"> | string
+    module?: StringFilter<"CustomField"> | string
+    name?: JsonFilter<"CustomField">
+    label?: JsonFilter<"CustomField">
+    type?: EnumFieldTypeFilter<"CustomField"> | $Enums.FieldType
+    defaultValue?: StringNullableFilter<"CustomField"> | string | null
+    placeholder?: JsonNullableFilter<"CustomField">
+    options?: StringNullableListFilter<"CustomField">
+    isRequired?: BoolFilter<"CustomField"> | boolean
+    showInList?: BoolFilter<"CustomField"> | boolean
+    createdAt?: DateTimeFilter<"CustomField"> | Date | string
+    values?: CustomFieldValueListRelationFilter
+  }
+
+  export type CustomFieldOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    module?: SortOrder
+    name?: SortOrder
+    label?: SortOrder
+    type?: SortOrder
+    defaultValue?: SortOrderInput | SortOrder
+    placeholder?: SortOrderInput | SortOrder
+    options?: SortOrder
+    isRequired?: SortOrder
+    showInList?: SortOrder
+    createdAt?: SortOrder
+    values?: CustomFieldValueOrderByRelationAggregateInput
+  }
+
+  export type CustomFieldWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: CustomFieldWhereInput | CustomFieldWhereInput[]
+    OR?: CustomFieldWhereInput[]
+    NOT?: CustomFieldWhereInput | CustomFieldWhereInput[]
+    tenantId?: StringFilter<"CustomField"> | string
+    module?: StringFilter<"CustomField"> | string
+    name?: JsonFilter<"CustomField">
+    label?: JsonFilter<"CustomField">
+    type?: EnumFieldTypeFilter<"CustomField"> | $Enums.FieldType
+    defaultValue?: StringNullableFilter<"CustomField"> | string | null
+    placeholder?: JsonNullableFilter<"CustomField">
+    options?: StringNullableListFilter<"CustomField">
+    isRequired?: BoolFilter<"CustomField"> | boolean
+    showInList?: BoolFilter<"CustomField"> | boolean
+    createdAt?: DateTimeFilter<"CustomField"> | Date | string
+    values?: CustomFieldValueListRelationFilter
+  }, "id">
+
+  export type CustomFieldOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    module?: SortOrder
+    name?: SortOrder
+    label?: SortOrder
+    type?: SortOrder
+    defaultValue?: SortOrderInput | SortOrder
+    placeholder?: SortOrderInput | SortOrder
+    options?: SortOrder
+    isRequired?: SortOrder
+    showInList?: SortOrder
+    createdAt?: SortOrder
+    _count?: CustomFieldCountOrderByAggregateInput
+    _max?: CustomFieldMaxOrderByAggregateInput
+    _min?: CustomFieldMinOrderByAggregateInput
+  }
+
+  export type CustomFieldScalarWhereWithAggregatesInput = {
+    AND?: CustomFieldScalarWhereWithAggregatesInput | CustomFieldScalarWhereWithAggregatesInput[]
+    OR?: CustomFieldScalarWhereWithAggregatesInput[]
+    NOT?: CustomFieldScalarWhereWithAggregatesInput | CustomFieldScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"CustomField"> | string
+    tenantId?: StringWithAggregatesFilter<"CustomField"> | string
+    module?: StringWithAggregatesFilter<"CustomField"> | string
+    name?: JsonWithAggregatesFilter<"CustomField">
+    label?: JsonWithAggregatesFilter<"CustomField">
+    type?: EnumFieldTypeWithAggregatesFilter<"CustomField"> | $Enums.FieldType
+    defaultValue?: StringNullableWithAggregatesFilter<"CustomField"> | string | null
+    placeholder?: JsonNullableWithAggregatesFilter<"CustomField">
+    options?: StringNullableListFilter<"CustomField">
+    isRequired?: BoolWithAggregatesFilter<"CustomField"> | boolean
+    showInList?: BoolWithAggregatesFilter<"CustomField"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"CustomField"> | Date | string
+  }
+
+  export type CustomFieldValueWhereInput = {
+    AND?: CustomFieldValueWhereInput | CustomFieldValueWhereInput[]
+    OR?: CustomFieldValueWhereInput[]
+    NOT?: CustomFieldValueWhereInput | CustomFieldValueWhereInput[]
+    id?: StringFilter<"CustomFieldValue"> | string
+    tenantId?: StringFilter<"CustomFieldValue"> | string
+    fieldId?: StringFilter<"CustomFieldValue"> | string
+    entityType?: StringFilter<"CustomFieldValue"> | string
+    entityId?: StringFilter<"CustomFieldValue"> | string
+    value?: StringFilter<"CustomFieldValue"> | string
+    field?: XOR<CustomFieldScalarRelationFilter, CustomFieldWhereInput>
+  }
+
+  export type CustomFieldValueOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    fieldId?: SortOrder
+    entityType?: SortOrder
+    entityId?: SortOrder
+    value?: SortOrder
+    field?: CustomFieldOrderByWithRelationInput
+  }
+
+  export type CustomFieldValueWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tenantId_fieldId_entityId?: CustomFieldValueTenantIdFieldIdEntityIdCompoundUniqueInput
+    AND?: CustomFieldValueWhereInput | CustomFieldValueWhereInput[]
+    OR?: CustomFieldValueWhereInput[]
+    NOT?: CustomFieldValueWhereInput | CustomFieldValueWhereInput[]
+    tenantId?: StringFilter<"CustomFieldValue"> | string
+    fieldId?: StringFilter<"CustomFieldValue"> | string
+    entityType?: StringFilter<"CustomFieldValue"> | string
+    entityId?: StringFilter<"CustomFieldValue"> | string
+    value?: StringFilter<"CustomFieldValue"> | string
+    field?: XOR<CustomFieldScalarRelationFilter, CustomFieldWhereInput>
+  }, "id" | "tenantId_fieldId_entityId">
+
+  export type CustomFieldValueOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    fieldId?: SortOrder
+    entityType?: SortOrder
+    entityId?: SortOrder
+    value?: SortOrder
+    _count?: CustomFieldValueCountOrderByAggregateInput
+    _max?: CustomFieldValueMaxOrderByAggregateInput
+    _min?: CustomFieldValueMinOrderByAggregateInput
+  }
+
+  export type CustomFieldValueScalarWhereWithAggregatesInput = {
+    AND?: CustomFieldValueScalarWhereWithAggregatesInput | CustomFieldValueScalarWhereWithAggregatesInput[]
+    OR?: CustomFieldValueScalarWhereWithAggregatesInput[]
+    NOT?: CustomFieldValueScalarWhereWithAggregatesInput | CustomFieldValueScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"CustomFieldValue"> | string
+    tenantId?: StringWithAggregatesFilter<"CustomFieldValue"> | string
+    fieldId?: StringWithAggregatesFilter<"CustomFieldValue"> | string
+    entityType?: StringWithAggregatesFilter<"CustomFieldValue"> | string
+    entityId?: StringWithAggregatesFilter<"CustomFieldValue"> | string
+    value?: StringWithAggregatesFilter<"CustomFieldValue"> | string
+  }
+
   export type DocumentSequenceWhereInput = {
     AND?: DocumentSequenceWhereInput | DocumentSequenceWhereInput[]
     OR?: DocumentSequenceWhereInput[]
@@ -45681,7 +45815,6 @@ export namespace Prisma {
     stockMovements?: StockMovementListRelationFilter
     invoiceLines?: InvoiceLineListRelationFilter
     stockCountLines?: StockCountLineListRelationFilter
-    customValues?: CustomFieldValueListRelationFilter
   }
 
   export type ItemOrderByWithRelationInput = {
@@ -45705,7 +45838,6 @@ export namespace Prisma {
     stockMovements?: StockMovementOrderByRelationAggregateInput
     invoiceLines?: InvoiceLineOrderByRelationAggregateInput
     stockCountLines?: StockCountLineOrderByRelationAggregateInput
-    customValues?: CustomFieldValueOrderByRelationAggregateInput
   }
 
   export type ItemWhereUniqueInput = Prisma.AtLeast<{
@@ -45733,7 +45865,6 @@ export namespace Prisma {
     stockMovements?: StockMovementListRelationFilter
     invoiceLines?: InvoiceLineListRelationFilter
     stockCountLines?: StockCountLineListRelationFilter
-    customValues?: CustomFieldValueListRelationFilter
   }, "id" | "tenantId_code">
 
   export type ItemOrderByWithAggregationInput = {
@@ -45772,149 +45903,6 @@ export namespace Prisma {
     isActive?: BoolWithAggregatesFilter<"Item"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"Item"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Item"> | Date | string
-  }
-
-  export type CustomFieldWhereInput = {
-    AND?: CustomFieldWhereInput | CustomFieldWhereInput[]
-    OR?: CustomFieldWhereInput[]
-    NOT?: CustomFieldWhereInput | CustomFieldWhereInput[]
-    id?: StringFilter<"CustomField"> | string
-    tenantId?: StringFilter<"CustomField"> | string
-    module?: StringFilter<"CustomField"> | string
-    name?: JsonFilter<"CustomField">
-    label?: JsonFilter<"CustomField">
-    type?: EnumFieldTypeFilter<"CustomField"> | $Enums.FieldType
-    defaultValue?: StringNullableFilter<"CustomField"> | string | null
-    placeholder?: JsonNullableFilter<"CustomField">
-    options?: StringNullableListFilter<"CustomField">
-    isRequired?: BoolFilter<"CustomField"> | boolean
-    createdAt?: DateTimeFilter<"CustomField"> | Date | string
-    values?: CustomFieldValueListRelationFilter
-  }
-
-  export type CustomFieldOrderByWithRelationInput = {
-    id?: SortOrder
-    tenantId?: SortOrder
-    module?: SortOrder
-    name?: SortOrder
-    label?: SortOrder
-    type?: SortOrder
-    defaultValue?: SortOrderInput | SortOrder
-    placeholder?: SortOrderInput | SortOrder
-    options?: SortOrder
-    isRequired?: SortOrder
-    createdAt?: SortOrder
-    values?: CustomFieldValueOrderByRelationAggregateInput
-  }
-
-  export type CustomFieldWhereUniqueInput = Prisma.AtLeast<{
-    id?: string
-    AND?: CustomFieldWhereInput | CustomFieldWhereInput[]
-    OR?: CustomFieldWhereInput[]
-    NOT?: CustomFieldWhereInput | CustomFieldWhereInput[]
-    tenantId?: StringFilter<"CustomField"> | string
-    module?: StringFilter<"CustomField"> | string
-    name?: JsonFilter<"CustomField">
-    label?: JsonFilter<"CustomField">
-    type?: EnumFieldTypeFilter<"CustomField"> | $Enums.FieldType
-    defaultValue?: StringNullableFilter<"CustomField"> | string | null
-    placeholder?: JsonNullableFilter<"CustomField">
-    options?: StringNullableListFilter<"CustomField">
-    isRequired?: BoolFilter<"CustomField"> | boolean
-    createdAt?: DateTimeFilter<"CustomField"> | Date | string
-    values?: CustomFieldValueListRelationFilter
-  }, "id">
-
-  export type CustomFieldOrderByWithAggregationInput = {
-    id?: SortOrder
-    tenantId?: SortOrder
-    module?: SortOrder
-    name?: SortOrder
-    label?: SortOrder
-    type?: SortOrder
-    defaultValue?: SortOrderInput | SortOrder
-    placeholder?: SortOrderInput | SortOrder
-    options?: SortOrder
-    isRequired?: SortOrder
-    createdAt?: SortOrder
-    _count?: CustomFieldCountOrderByAggregateInput
-    _max?: CustomFieldMaxOrderByAggregateInput
-    _min?: CustomFieldMinOrderByAggregateInput
-  }
-
-  export type CustomFieldScalarWhereWithAggregatesInput = {
-    AND?: CustomFieldScalarWhereWithAggregatesInput | CustomFieldScalarWhereWithAggregatesInput[]
-    OR?: CustomFieldScalarWhereWithAggregatesInput[]
-    NOT?: CustomFieldScalarWhereWithAggregatesInput | CustomFieldScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"CustomField"> | string
-    tenantId?: StringWithAggregatesFilter<"CustomField"> | string
-    module?: StringWithAggregatesFilter<"CustomField"> | string
-    name?: JsonWithAggregatesFilter<"CustomField">
-    label?: JsonWithAggregatesFilter<"CustomField">
-    type?: EnumFieldTypeWithAggregatesFilter<"CustomField"> | $Enums.FieldType
-    defaultValue?: StringNullableWithAggregatesFilter<"CustomField"> | string | null
-    placeholder?: JsonNullableWithAggregatesFilter<"CustomField">
-    options?: StringNullableListFilter<"CustomField">
-    isRequired?: BoolWithAggregatesFilter<"CustomField"> | boolean
-    createdAt?: DateTimeWithAggregatesFilter<"CustomField"> | Date | string
-  }
-
-  export type CustomFieldValueWhereInput = {
-    AND?: CustomFieldValueWhereInput | CustomFieldValueWhereInput[]
-    OR?: CustomFieldValueWhereInput[]
-    NOT?: CustomFieldValueWhereInput | CustomFieldValueWhereInput[]
-    id?: StringFilter<"CustomFieldValue"> | string
-    tenantId?: StringFilter<"CustomFieldValue"> | string
-    fieldId?: StringFilter<"CustomFieldValue"> | string
-    itemId?: StringFilter<"CustomFieldValue"> | string
-    value?: StringFilter<"CustomFieldValue"> | string
-    field?: XOR<CustomFieldScalarRelationFilter, CustomFieldWhereInput>
-    item?: XOR<ItemScalarRelationFilter, ItemWhereInput>
-  }
-
-  export type CustomFieldValueOrderByWithRelationInput = {
-    id?: SortOrder
-    tenantId?: SortOrder
-    fieldId?: SortOrder
-    itemId?: SortOrder
-    value?: SortOrder
-    field?: CustomFieldOrderByWithRelationInput
-    item?: ItemOrderByWithRelationInput
-  }
-
-  export type CustomFieldValueWhereUniqueInput = Prisma.AtLeast<{
-    id?: string
-    AND?: CustomFieldValueWhereInput | CustomFieldValueWhereInput[]
-    OR?: CustomFieldValueWhereInput[]
-    NOT?: CustomFieldValueWhereInput | CustomFieldValueWhereInput[]
-    tenantId?: StringFilter<"CustomFieldValue"> | string
-    fieldId?: StringFilter<"CustomFieldValue"> | string
-    itemId?: StringFilter<"CustomFieldValue"> | string
-    value?: StringFilter<"CustomFieldValue"> | string
-    field?: XOR<CustomFieldScalarRelationFilter, CustomFieldWhereInput>
-    item?: XOR<ItemScalarRelationFilter, ItemWhereInput>
-  }, "id">
-
-  export type CustomFieldValueOrderByWithAggregationInput = {
-    id?: SortOrder
-    tenantId?: SortOrder
-    fieldId?: SortOrder
-    itemId?: SortOrder
-    value?: SortOrder
-    _count?: CustomFieldValueCountOrderByAggregateInput
-    _max?: CustomFieldValueMaxOrderByAggregateInput
-    _min?: CustomFieldValueMinOrderByAggregateInput
-  }
-
-  export type CustomFieldValueScalarWhereWithAggregatesInput = {
-    AND?: CustomFieldValueScalarWhereWithAggregatesInput | CustomFieldValueScalarWhereWithAggregatesInput[]
-    OR?: CustomFieldValueScalarWhereWithAggregatesInput[]
-    NOT?: CustomFieldValueScalarWhereWithAggregatesInput | CustomFieldValueScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"CustomFieldValue"> | string
-    tenantId?: StringWithAggregatesFilter<"CustomFieldValue"> | string
-    fieldId?: StringWithAggregatesFilter<"CustomFieldValue"> | string
-    itemId?: StringWithAggregatesFilter<"CustomFieldValue"> | string
-    value?: StringWithAggregatesFilter<"CustomFieldValue"> | string
   }
 
   export type PartyWhereInput = {
@@ -47954,6 +47942,177 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type CustomFieldCreateInput = {
+    id?: string
+    tenantId: string
+    module: string
+    name: JsonNullValueInput | InputJsonValue
+    label: JsonNullValueInput | InputJsonValue
+    type: $Enums.FieldType
+    defaultValue?: string | null
+    placeholder?: NullableJsonNullValueInput | InputJsonValue
+    options?: CustomFieldCreateoptionsInput | string[]
+    isRequired?: boolean
+    showInList?: boolean
+    createdAt?: Date | string
+    values?: CustomFieldValueCreateNestedManyWithoutFieldInput
+  }
+
+  export type CustomFieldUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    module: string
+    name: JsonNullValueInput | InputJsonValue
+    label: JsonNullValueInput | InputJsonValue
+    type: $Enums.FieldType
+    defaultValue?: string | null
+    placeholder?: NullableJsonNullValueInput | InputJsonValue
+    options?: CustomFieldCreateoptionsInput | string[]
+    isRequired?: boolean
+    showInList?: boolean
+    createdAt?: Date | string
+    values?: CustomFieldValueUncheckedCreateNestedManyWithoutFieldInput
+  }
+
+  export type CustomFieldUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    module?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
+    label?: JsonNullValueInput | InputJsonValue
+    type?: EnumFieldTypeFieldUpdateOperationsInput | $Enums.FieldType
+    defaultValue?: NullableStringFieldUpdateOperationsInput | string | null
+    placeholder?: NullableJsonNullValueInput | InputJsonValue
+    options?: CustomFieldUpdateoptionsInput | string[]
+    isRequired?: BoolFieldUpdateOperationsInput | boolean
+    showInList?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    values?: CustomFieldValueUpdateManyWithoutFieldNestedInput
+  }
+
+  export type CustomFieldUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    module?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
+    label?: JsonNullValueInput | InputJsonValue
+    type?: EnumFieldTypeFieldUpdateOperationsInput | $Enums.FieldType
+    defaultValue?: NullableStringFieldUpdateOperationsInput | string | null
+    placeholder?: NullableJsonNullValueInput | InputJsonValue
+    options?: CustomFieldUpdateoptionsInput | string[]
+    isRequired?: BoolFieldUpdateOperationsInput | boolean
+    showInList?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    values?: CustomFieldValueUncheckedUpdateManyWithoutFieldNestedInput
+  }
+
+  export type CustomFieldCreateManyInput = {
+    id?: string
+    tenantId: string
+    module: string
+    name: JsonNullValueInput | InputJsonValue
+    label: JsonNullValueInput | InputJsonValue
+    type: $Enums.FieldType
+    defaultValue?: string | null
+    placeholder?: NullableJsonNullValueInput | InputJsonValue
+    options?: CustomFieldCreateoptionsInput | string[]
+    isRequired?: boolean
+    showInList?: boolean
+    createdAt?: Date | string
+  }
+
+  export type CustomFieldUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    module?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
+    label?: JsonNullValueInput | InputJsonValue
+    type?: EnumFieldTypeFieldUpdateOperationsInput | $Enums.FieldType
+    defaultValue?: NullableStringFieldUpdateOperationsInput | string | null
+    placeholder?: NullableJsonNullValueInput | InputJsonValue
+    options?: CustomFieldUpdateoptionsInput | string[]
+    isRequired?: BoolFieldUpdateOperationsInput | boolean
+    showInList?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CustomFieldUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    module?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
+    label?: JsonNullValueInput | InputJsonValue
+    type?: EnumFieldTypeFieldUpdateOperationsInput | $Enums.FieldType
+    defaultValue?: NullableStringFieldUpdateOperationsInput | string | null
+    placeholder?: NullableJsonNullValueInput | InputJsonValue
+    options?: CustomFieldUpdateoptionsInput | string[]
+    isRequired?: BoolFieldUpdateOperationsInput | boolean
+    showInList?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CustomFieldValueCreateInput = {
+    id?: string
+    tenantId: string
+    entityType: string
+    entityId: string
+    value: string
+    field: CustomFieldCreateNestedOneWithoutValuesInput
+  }
+
+  export type CustomFieldValueUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    fieldId: string
+    entityType: string
+    entityId: string
+    value: string
+  }
+
+  export type CustomFieldValueUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    entityType?: StringFieldUpdateOperationsInput | string
+    entityId?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+    field?: CustomFieldUpdateOneRequiredWithoutValuesNestedInput
+  }
+
+  export type CustomFieldValueUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    fieldId?: StringFieldUpdateOperationsInput | string
+    entityType?: StringFieldUpdateOperationsInput | string
+    entityId?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type CustomFieldValueCreateManyInput = {
+    id?: string
+    tenantId: string
+    fieldId: string
+    entityType: string
+    entityId: string
+    value: string
+  }
+
+  export type CustomFieldValueUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    entityType?: StringFieldUpdateOperationsInput | string
+    entityId?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type CustomFieldValueUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    fieldId?: StringFieldUpdateOperationsInput | string
+    entityType?: StringFieldUpdateOperationsInput | string
+    entityId?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+  }
+
   export type DocumentSequenceCreateInput = {
     id?: string
     documentType: string
@@ -48618,7 +48777,6 @@ export namespace Prisma {
     stockMovements?: StockMovementCreateNestedManyWithoutItemInput
     invoiceLines?: InvoiceLineCreateNestedManyWithoutItemInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutItemInput
-    customValues?: CustomFieldValueCreateNestedManyWithoutItemInput
   }
 
   export type ItemUncheckedCreateInput = {
@@ -48639,7 +48797,6 @@ export namespace Prisma {
     stockMovements?: StockMovementUncheckedCreateNestedManyWithoutItemInput
     invoiceLines?: InvoiceLineUncheckedCreateNestedManyWithoutItemInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutItemInput
-    customValues?: CustomFieldValueUncheckedCreateNestedManyWithoutItemInput
   }
 
   export type ItemUpdateInput = {
@@ -48660,7 +48817,6 @@ export namespace Prisma {
     stockMovements?: StockMovementUpdateManyWithoutItemNestedInput
     invoiceLines?: InvoiceLineUpdateManyWithoutItemNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutItemNestedInput
-    customValues?: CustomFieldValueUpdateManyWithoutItemNestedInput
   }
 
   export type ItemUncheckedUpdateInput = {
@@ -48681,7 +48837,6 @@ export namespace Prisma {
     stockMovements?: StockMovementUncheckedUpdateManyWithoutItemNestedInput
     invoiceLines?: InvoiceLineUncheckedUpdateManyWithoutItemNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutItemNestedInput
-    customValues?: CustomFieldValueUncheckedUpdateManyWithoutItemNestedInput
   }
 
   export type ItemCreateManyInput = {
@@ -48724,162 +48879,6 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type CustomFieldCreateInput = {
-    id?: string
-    tenantId: string
-    module: string
-    name: JsonNullValueInput | InputJsonValue
-    label: JsonNullValueInput | InputJsonValue
-    type: $Enums.FieldType
-    defaultValue?: string | null
-    placeholder?: NullableJsonNullValueInput | InputJsonValue
-    options?: CustomFieldCreateoptionsInput | string[]
-    isRequired?: boolean
-    createdAt?: Date | string
-    values?: CustomFieldValueCreateNestedManyWithoutFieldInput
-  }
-
-  export type CustomFieldUncheckedCreateInput = {
-    id?: string
-    tenantId: string
-    module: string
-    name: JsonNullValueInput | InputJsonValue
-    label: JsonNullValueInput | InputJsonValue
-    type: $Enums.FieldType
-    defaultValue?: string | null
-    placeholder?: NullableJsonNullValueInput | InputJsonValue
-    options?: CustomFieldCreateoptionsInput | string[]
-    isRequired?: boolean
-    createdAt?: Date | string
-    values?: CustomFieldValueUncheckedCreateNestedManyWithoutFieldInput
-  }
-
-  export type CustomFieldUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    tenantId?: StringFieldUpdateOperationsInput | string
-    module?: StringFieldUpdateOperationsInput | string
-    name?: JsonNullValueInput | InputJsonValue
-    label?: JsonNullValueInput | InputJsonValue
-    type?: EnumFieldTypeFieldUpdateOperationsInput | $Enums.FieldType
-    defaultValue?: NullableStringFieldUpdateOperationsInput | string | null
-    placeholder?: NullableJsonNullValueInput | InputJsonValue
-    options?: CustomFieldUpdateoptionsInput | string[]
-    isRequired?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    values?: CustomFieldValueUpdateManyWithoutFieldNestedInput
-  }
-
-  export type CustomFieldUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    tenantId?: StringFieldUpdateOperationsInput | string
-    module?: StringFieldUpdateOperationsInput | string
-    name?: JsonNullValueInput | InputJsonValue
-    label?: JsonNullValueInput | InputJsonValue
-    type?: EnumFieldTypeFieldUpdateOperationsInput | $Enums.FieldType
-    defaultValue?: NullableStringFieldUpdateOperationsInput | string | null
-    placeholder?: NullableJsonNullValueInput | InputJsonValue
-    options?: CustomFieldUpdateoptionsInput | string[]
-    isRequired?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    values?: CustomFieldValueUncheckedUpdateManyWithoutFieldNestedInput
-  }
-
-  export type CustomFieldCreateManyInput = {
-    id?: string
-    tenantId: string
-    module: string
-    name: JsonNullValueInput | InputJsonValue
-    label: JsonNullValueInput | InputJsonValue
-    type: $Enums.FieldType
-    defaultValue?: string | null
-    placeholder?: NullableJsonNullValueInput | InputJsonValue
-    options?: CustomFieldCreateoptionsInput | string[]
-    isRequired?: boolean
-    createdAt?: Date | string
-  }
-
-  export type CustomFieldUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    tenantId?: StringFieldUpdateOperationsInput | string
-    module?: StringFieldUpdateOperationsInput | string
-    name?: JsonNullValueInput | InputJsonValue
-    label?: JsonNullValueInput | InputJsonValue
-    type?: EnumFieldTypeFieldUpdateOperationsInput | $Enums.FieldType
-    defaultValue?: NullableStringFieldUpdateOperationsInput | string | null
-    placeholder?: NullableJsonNullValueInput | InputJsonValue
-    options?: CustomFieldUpdateoptionsInput | string[]
-    isRequired?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type CustomFieldUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    tenantId?: StringFieldUpdateOperationsInput | string
-    module?: StringFieldUpdateOperationsInput | string
-    name?: JsonNullValueInput | InputJsonValue
-    label?: JsonNullValueInput | InputJsonValue
-    type?: EnumFieldTypeFieldUpdateOperationsInput | $Enums.FieldType
-    defaultValue?: NullableStringFieldUpdateOperationsInput | string | null
-    placeholder?: NullableJsonNullValueInput | InputJsonValue
-    options?: CustomFieldUpdateoptionsInput | string[]
-    isRequired?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type CustomFieldValueCreateInput = {
-    id?: string
-    tenantId: string
-    value: string
-    field: CustomFieldCreateNestedOneWithoutValuesInput
-    item: ItemCreateNestedOneWithoutCustomValuesInput
-  }
-
-  export type CustomFieldValueUncheckedCreateInput = {
-    id?: string
-    tenantId: string
-    fieldId: string
-    itemId: string
-    value: string
-  }
-
-  export type CustomFieldValueUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    tenantId?: StringFieldUpdateOperationsInput | string
-    value?: StringFieldUpdateOperationsInput | string
-    field?: CustomFieldUpdateOneRequiredWithoutValuesNestedInput
-    item?: ItemUpdateOneRequiredWithoutCustomValuesNestedInput
-  }
-
-  export type CustomFieldValueUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    tenantId?: StringFieldUpdateOperationsInput | string
-    fieldId?: StringFieldUpdateOperationsInput | string
-    itemId?: StringFieldUpdateOperationsInput | string
-    value?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type CustomFieldValueCreateManyInput = {
-    id?: string
-    tenantId: string
-    fieldId: string
-    itemId: string
-    value: string
-  }
-
-  export type CustomFieldValueUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    tenantId?: StringFieldUpdateOperationsInput | string
-    value?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type CustomFieldValueUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    tenantId?: StringFieldUpdateOperationsInput | string
-    fieldId?: StringFieldUpdateOperationsInput | string
-    itemId?: StringFieldUpdateOperationsInput | string
-    value?: StringFieldUpdateOperationsInput | string
   }
 
   export type PartyCreateInput = {
@@ -51034,6 +51033,116 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
+  export type EnumFieldTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.FieldType | EnumFieldTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.FieldType[] | ListEnumFieldTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.FieldType[] | ListEnumFieldTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumFieldTypeFilter<$PrismaModel> | $Enums.FieldType
+  }
+
+  export type StringNullableListFilter<$PrismaModel = never> = {
+    equals?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    has?: string | StringFieldRefInput<$PrismaModel> | null
+    hasEvery?: string[] | ListStringFieldRefInput<$PrismaModel>
+    hasSome?: string[] | ListStringFieldRefInput<$PrismaModel>
+    isEmpty?: boolean
+  }
+
+  export type CustomFieldValueListRelationFilter = {
+    every?: CustomFieldValueWhereInput
+    some?: CustomFieldValueWhereInput
+    none?: CustomFieldValueWhereInput
+  }
+
+  export type CustomFieldValueOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type CustomFieldCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    module?: SortOrder
+    name?: SortOrder
+    label?: SortOrder
+    type?: SortOrder
+    defaultValue?: SortOrder
+    placeholder?: SortOrder
+    options?: SortOrder
+    isRequired?: SortOrder
+    showInList?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type CustomFieldMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    module?: SortOrder
+    type?: SortOrder
+    defaultValue?: SortOrder
+    isRequired?: SortOrder
+    showInList?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type CustomFieldMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    module?: SortOrder
+    type?: SortOrder
+    defaultValue?: SortOrder
+    isRequired?: SortOrder
+    showInList?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type EnumFieldTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.FieldType | EnumFieldTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.FieldType[] | ListEnumFieldTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.FieldType[] | ListEnumFieldTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumFieldTypeWithAggregatesFilter<$PrismaModel> | $Enums.FieldType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumFieldTypeFilter<$PrismaModel>
+    _max?: NestedEnumFieldTypeFilter<$PrismaModel>
+  }
+
+  export type CustomFieldScalarRelationFilter = {
+    is?: CustomFieldWhereInput
+    isNot?: CustomFieldWhereInput
+  }
+
+  export type CustomFieldValueTenantIdFieldIdEntityIdCompoundUniqueInput = {
+    tenantId: string
+    fieldId: string
+    entityId: string
+  }
+
+  export type CustomFieldValueCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    fieldId?: SortOrder
+    entityType?: SortOrder
+    entityId?: SortOrder
+    value?: SortOrder
+  }
+
+  export type CustomFieldValueMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    fieldId?: SortOrder
+    entityType?: SortOrder
+    entityId?: SortOrder
+    value?: SortOrder
+  }
+
+  export type CustomFieldValueMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    fieldId?: SortOrder
+    entityType?: SortOrder
+    entityId?: SortOrder
+    value?: SortOrder
+  }
+
   export type DocumentSequenceTenantIdDocumentTypeCompoundUniqueInput = {
     tenantId: string
     documentType: string
@@ -51537,12 +51646,6 @@ export namespace Prisma {
     none?: StockCountLineWhereInput
   }
 
-  export type CustomFieldValueListRelationFilter = {
-    every?: CustomFieldValueWhereInput
-    some?: CustomFieldValueWhereInput
-    none?: CustomFieldValueWhereInput
-  }
-
   export type WarehouseItemOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -51552,10 +51655,6 @@ export namespace Prisma {
   }
 
   export type StockCountLineOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type CustomFieldValueOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -51633,94 +51732,6 @@ export namespace Prisma {
     _sum?: NestedDecimalNullableFilter<$PrismaModel>
     _min?: NestedDecimalNullableFilter<$PrismaModel>
     _max?: NestedDecimalNullableFilter<$PrismaModel>
-  }
-
-  export type EnumFieldTypeFilter<$PrismaModel = never> = {
-    equals?: $Enums.FieldType | EnumFieldTypeFieldRefInput<$PrismaModel>
-    in?: $Enums.FieldType[] | ListEnumFieldTypeFieldRefInput<$PrismaModel>
-    notIn?: $Enums.FieldType[] | ListEnumFieldTypeFieldRefInput<$PrismaModel>
-    not?: NestedEnumFieldTypeFilter<$PrismaModel> | $Enums.FieldType
-  }
-
-  export type StringNullableListFilter<$PrismaModel = never> = {
-    equals?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    has?: string | StringFieldRefInput<$PrismaModel> | null
-    hasEvery?: string[] | ListStringFieldRefInput<$PrismaModel>
-    hasSome?: string[] | ListStringFieldRefInput<$PrismaModel>
-    isEmpty?: boolean
-  }
-
-  export type CustomFieldCountOrderByAggregateInput = {
-    id?: SortOrder
-    tenantId?: SortOrder
-    module?: SortOrder
-    name?: SortOrder
-    label?: SortOrder
-    type?: SortOrder
-    defaultValue?: SortOrder
-    placeholder?: SortOrder
-    options?: SortOrder
-    isRequired?: SortOrder
-    createdAt?: SortOrder
-  }
-
-  export type CustomFieldMaxOrderByAggregateInput = {
-    id?: SortOrder
-    tenantId?: SortOrder
-    module?: SortOrder
-    type?: SortOrder
-    defaultValue?: SortOrder
-    isRequired?: SortOrder
-    createdAt?: SortOrder
-  }
-
-  export type CustomFieldMinOrderByAggregateInput = {
-    id?: SortOrder
-    tenantId?: SortOrder
-    module?: SortOrder
-    type?: SortOrder
-    defaultValue?: SortOrder
-    isRequired?: SortOrder
-    createdAt?: SortOrder
-  }
-
-  export type EnumFieldTypeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.FieldType | EnumFieldTypeFieldRefInput<$PrismaModel>
-    in?: $Enums.FieldType[] | ListEnumFieldTypeFieldRefInput<$PrismaModel>
-    notIn?: $Enums.FieldType[] | ListEnumFieldTypeFieldRefInput<$PrismaModel>
-    not?: NestedEnumFieldTypeWithAggregatesFilter<$PrismaModel> | $Enums.FieldType
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumFieldTypeFilter<$PrismaModel>
-    _max?: NestedEnumFieldTypeFilter<$PrismaModel>
-  }
-
-  export type CustomFieldScalarRelationFilter = {
-    is?: CustomFieldWhereInput
-    isNot?: CustomFieldWhereInput
-  }
-
-  export type CustomFieldValueCountOrderByAggregateInput = {
-    id?: SortOrder
-    tenantId?: SortOrder
-    fieldId?: SortOrder
-    itemId?: SortOrder
-    value?: SortOrder
-  }
-
-  export type CustomFieldValueMaxOrderByAggregateInput = {
-    id?: SortOrder
-    tenantId?: SortOrder
-    fieldId?: SortOrder
-    itemId?: SortOrder
-    value?: SortOrder
-  }
-
-  export type CustomFieldValueMinOrderByAggregateInput = {
-    id?: SortOrder
-    tenantId?: SortOrder
-    fieldId?: SortOrder
-    itemId?: SortOrder
-    value?: SortOrder
   }
 
   export type EnumPartyTypeFilter<$PrismaModel = never> = {
@@ -53244,6 +53255,75 @@ export namespace Prisma {
     deleteMany?: TenantScalarWhereInput | TenantScalarWhereInput[]
   }
 
+  export type CustomFieldCreateoptionsInput = {
+    set: string[]
+  }
+
+  export type CustomFieldValueCreateNestedManyWithoutFieldInput = {
+    create?: XOR<CustomFieldValueCreateWithoutFieldInput, CustomFieldValueUncheckedCreateWithoutFieldInput> | CustomFieldValueCreateWithoutFieldInput[] | CustomFieldValueUncheckedCreateWithoutFieldInput[]
+    connectOrCreate?: CustomFieldValueCreateOrConnectWithoutFieldInput | CustomFieldValueCreateOrConnectWithoutFieldInput[]
+    createMany?: CustomFieldValueCreateManyFieldInputEnvelope
+    connect?: CustomFieldValueWhereUniqueInput | CustomFieldValueWhereUniqueInput[]
+  }
+
+  export type CustomFieldValueUncheckedCreateNestedManyWithoutFieldInput = {
+    create?: XOR<CustomFieldValueCreateWithoutFieldInput, CustomFieldValueUncheckedCreateWithoutFieldInput> | CustomFieldValueCreateWithoutFieldInput[] | CustomFieldValueUncheckedCreateWithoutFieldInput[]
+    connectOrCreate?: CustomFieldValueCreateOrConnectWithoutFieldInput | CustomFieldValueCreateOrConnectWithoutFieldInput[]
+    createMany?: CustomFieldValueCreateManyFieldInputEnvelope
+    connect?: CustomFieldValueWhereUniqueInput | CustomFieldValueWhereUniqueInput[]
+  }
+
+  export type EnumFieldTypeFieldUpdateOperationsInput = {
+    set?: $Enums.FieldType
+  }
+
+  export type CustomFieldUpdateoptionsInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type CustomFieldValueUpdateManyWithoutFieldNestedInput = {
+    create?: XOR<CustomFieldValueCreateWithoutFieldInput, CustomFieldValueUncheckedCreateWithoutFieldInput> | CustomFieldValueCreateWithoutFieldInput[] | CustomFieldValueUncheckedCreateWithoutFieldInput[]
+    connectOrCreate?: CustomFieldValueCreateOrConnectWithoutFieldInput | CustomFieldValueCreateOrConnectWithoutFieldInput[]
+    upsert?: CustomFieldValueUpsertWithWhereUniqueWithoutFieldInput | CustomFieldValueUpsertWithWhereUniqueWithoutFieldInput[]
+    createMany?: CustomFieldValueCreateManyFieldInputEnvelope
+    set?: CustomFieldValueWhereUniqueInput | CustomFieldValueWhereUniqueInput[]
+    disconnect?: CustomFieldValueWhereUniqueInput | CustomFieldValueWhereUniqueInput[]
+    delete?: CustomFieldValueWhereUniqueInput | CustomFieldValueWhereUniqueInput[]
+    connect?: CustomFieldValueWhereUniqueInput | CustomFieldValueWhereUniqueInput[]
+    update?: CustomFieldValueUpdateWithWhereUniqueWithoutFieldInput | CustomFieldValueUpdateWithWhereUniqueWithoutFieldInput[]
+    updateMany?: CustomFieldValueUpdateManyWithWhereWithoutFieldInput | CustomFieldValueUpdateManyWithWhereWithoutFieldInput[]
+    deleteMany?: CustomFieldValueScalarWhereInput | CustomFieldValueScalarWhereInput[]
+  }
+
+  export type CustomFieldValueUncheckedUpdateManyWithoutFieldNestedInput = {
+    create?: XOR<CustomFieldValueCreateWithoutFieldInput, CustomFieldValueUncheckedCreateWithoutFieldInput> | CustomFieldValueCreateWithoutFieldInput[] | CustomFieldValueUncheckedCreateWithoutFieldInput[]
+    connectOrCreate?: CustomFieldValueCreateOrConnectWithoutFieldInput | CustomFieldValueCreateOrConnectWithoutFieldInput[]
+    upsert?: CustomFieldValueUpsertWithWhereUniqueWithoutFieldInput | CustomFieldValueUpsertWithWhereUniqueWithoutFieldInput[]
+    createMany?: CustomFieldValueCreateManyFieldInputEnvelope
+    set?: CustomFieldValueWhereUniqueInput | CustomFieldValueWhereUniqueInput[]
+    disconnect?: CustomFieldValueWhereUniqueInput | CustomFieldValueWhereUniqueInput[]
+    delete?: CustomFieldValueWhereUniqueInput | CustomFieldValueWhereUniqueInput[]
+    connect?: CustomFieldValueWhereUniqueInput | CustomFieldValueWhereUniqueInput[]
+    update?: CustomFieldValueUpdateWithWhereUniqueWithoutFieldInput | CustomFieldValueUpdateWithWhereUniqueWithoutFieldInput[]
+    updateMany?: CustomFieldValueUpdateManyWithWhereWithoutFieldInput | CustomFieldValueUpdateManyWithWhereWithoutFieldInput[]
+    deleteMany?: CustomFieldValueScalarWhereInput | CustomFieldValueScalarWhereInput[]
+  }
+
+  export type CustomFieldCreateNestedOneWithoutValuesInput = {
+    create?: XOR<CustomFieldCreateWithoutValuesInput, CustomFieldUncheckedCreateWithoutValuesInput>
+    connectOrCreate?: CustomFieldCreateOrConnectWithoutValuesInput
+    connect?: CustomFieldWhereUniqueInput
+  }
+
+  export type CustomFieldUpdateOneRequiredWithoutValuesNestedInput = {
+    create?: XOR<CustomFieldCreateWithoutValuesInput, CustomFieldUncheckedCreateWithoutValuesInput>
+    connectOrCreate?: CustomFieldCreateOrConnectWithoutValuesInput
+    upsert?: CustomFieldUpsertWithoutValuesInput
+    connect?: CustomFieldWhereUniqueInput
+    update?: XOR<XOR<CustomFieldUpdateToOneWithWhereWithoutValuesInput, CustomFieldUpdateWithoutValuesInput>, CustomFieldUncheckedUpdateWithoutValuesInput>
+  }
+
   export type TenantCreateNestedOneWithoutDocumentSequencesInput = {
     create?: XOR<TenantCreateWithoutDocumentSequencesInput, TenantUncheckedCreateWithoutDocumentSequencesInput>
     connectOrCreate?: TenantCreateOrConnectWithoutDocumentSequencesInput
@@ -53971,13 +54051,6 @@ export namespace Prisma {
     connect?: StockCountLineWhereUniqueInput | StockCountLineWhereUniqueInput[]
   }
 
-  export type CustomFieldValueCreateNestedManyWithoutItemInput = {
-    create?: XOR<CustomFieldValueCreateWithoutItemInput, CustomFieldValueUncheckedCreateWithoutItemInput> | CustomFieldValueCreateWithoutItemInput[] | CustomFieldValueUncheckedCreateWithoutItemInput[]
-    connectOrCreate?: CustomFieldValueCreateOrConnectWithoutItemInput | CustomFieldValueCreateOrConnectWithoutItemInput[]
-    createMany?: CustomFieldValueCreateManyItemInputEnvelope
-    connect?: CustomFieldValueWhereUniqueInput | CustomFieldValueWhereUniqueInput[]
-  }
-
   export type WarehouseItemUncheckedCreateNestedManyWithoutItemInput = {
     create?: XOR<WarehouseItemCreateWithoutItemInput, WarehouseItemUncheckedCreateWithoutItemInput> | WarehouseItemCreateWithoutItemInput[] | WarehouseItemUncheckedCreateWithoutItemInput[]
     connectOrCreate?: WarehouseItemCreateOrConnectWithoutItemInput | WarehouseItemCreateOrConnectWithoutItemInput[]
@@ -54011,13 +54084,6 @@ export namespace Prisma {
     connectOrCreate?: StockCountLineCreateOrConnectWithoutItemInput | StockCountLineCreateOrConnectWithoutItemInput[]
     createMany?: StockCountLineCreateManyItemInputEnvelope
     connect?: StockCountLineWhereUniqueInput | StockCountLineWhereUniqueInput[]
-  }
-
-  export type CustomFieldValueUncheckedCreateNestedManyWithoutItemInput = {
-    create?: XOR<CustomFieldValueCreateWithoutItemInput, CustomFieldValueUncheckedCreateWithoutItemInput> | CustomFieldValueCreateWithoutItemInput[] | CustomFieldValueUncheckedCreateWithoutItemInput[]
-    connectOrCreate?: CustomFieldValueCreateOrConnectWithoutItemInput | CustomFieldValueCreateOrConnectWithoutItemInput[]
-    createMany?: CustomFieldValueCreateManyItemInputEnvelope
-    connect?: CustomFieldValueWhereUniqueInput | CustomFieldValueWhereUniqueInput[]
   }
 
   export type NullableDecimalFieldUpdateOperationsInput = {
@@ -54122,20 +54188,6 @@ export namespace Prisma {
     deleteMany?: StockCountLineScalarWhereInput | StockCountLineScalarWhereInput[]
   }
 
-  export type CustomFieldValueUpdateManyWithoutItemNestedInput = {
-    create?: XOR<CustomFieldValueCreateWithoutItemInput, CustomFieldValueUncheckedCreateWithoutItemInput> | CustomFieldValueCreateWithoutItemInput[] | CustomFieldValueUncheckedCreateWithoutItemInput[]
-    connectOrCreate?: CustomFieldValueCreateOrConnectWithoutItemInput | CustomFieldValueCreateOrConnectWithoutItemInput[]
-    upsert?: CustomFieldValueUpsertWithWhereUniqueWithoutItemInput | CustomFieldValueUpsertWithWhereUniqueWithoutItemInput[]
-    createMany?: CustomFieldValueCreateManyItemInputEnvelope
-    set?: CustomFieldValueWhereUniqueInput | CustomFieldValueWhereUniqueInput[]
-    disconnect?: CustomFieldValueWhereUniqueInput | CustomFieldValueWhereUniqueInput[]
-    delete?: CustomFieldValueWhereUniqueInput | CustomFieldValueWhereUniqueInput[]
-    connect?: CustomFieldValueWhereUniqueInput | CustomFieldValueWhereUniqueInput[]
-    update?: CustomFieldValueUpdateWithWhereUniqueWithoutItemInput | CustomFieldValueUpdateWithWhereUniqueWithoutItemInput[]
-    updateMany?: CustomFieldValueUpdateManyWithWhereWithoutItemInput | CustomFieldValueUpdateManyWithWhereWithoutItemInput[]
-    deleteMany?: CustomFieldValueScalarWhereInput | CustomFieldValueScalarWhereInput[]
-  }
-
   export type WarehouseItemUncheckedUpdateManyWithoutItemNestedInput = {
     create?: XOR<WarehouseItemCreateWithoutItemInput, WarehouseItemUncheckedCreateWithoutItemInput> | WarehouseItemCreateWithoutItemInput[] | WarehouseItemUncheckedCreateWithoutItemInput[]
     connectOrCreate?: WarehouseItemCreateOrConnectWithoutItemInput | WarehouseItemCreateOrConnectWithoutItemInput[]
@@ -54204,103 +54256,6 @@ export namespace Prisma {
     update?: StockCountLineUpdateWithWhereUniqueWithoutItemInput | StockCountLineUpdateWithWhereUniqueWithoutItemInput[]
     updateMany?: StockCountLineUpdateManyWithWhereWithoutItemInput | StockCountLineUpdateManyWithWhereWithoutItemInput[]
     deleteMany?: StockCountLineScalarWhereInput | StockCountLineScalarWhereInput[]
-  }
-
-  export type CustomFieldValueUncheckedUpdateManyWithoutItemNestedInput = {
-    create?: XOR<CustomFieldValueCreateWithoutItemInput, CustomFieldValueUncheckedCreateWithoutItemInput> | CustomFieldValueCreateWithoutItemInput[] | CustomFieldValueUncheckedCreateWithoutItemInput[]
-    connectOrCreate?: CustomFieldValueCreateOrConnectWithoutItemInput | CustomFieldValueCreateOrConnectWithoutItemInput[]
-    upsert?: CustomFieldValueUpsertWithWhereUniqueWithoutItemInput | CustomFieldValueUpsertWithWhereUniqueWithoutItemInput[]
-    createMany?: CustomFieldValueCreateManyItemInputEnvelope
-    set?: CustomFieldValueWhereUniqueInput | CustomFieldValueWhereUniqueInput[]
-    disconnect?: CustomFieldValueWhereUniqueInput | CustomFieldValueWhereUniqueInput[]
-    delete?: CustomFieldValueWhereUniqueInput | CustomFieldValueWhereUniqueInput[]
-    connect?: CustomFieldValueWhereUniqueInput | CustomFieldValueWhereUniqueInput[]
-    update?: CustomFieldValueUpdateWithWhereUniqueWithoutItemInput | CustomFieldValueUpdateWithWhereUniqueWithoutItemInput[]
-    updateMany?: CustomFieldValueUpdateManyWithWhereWithoutItemInput | CustomFieldValueUpdateManyWithWhereWithoutItemInput[]
-    deleteMany?: CustomFieldValueScalarWhereInput | CustomFieldValueScalarWhereInput[]
-  }
-
-  export type CustomFieldCreateoptionsInput = {
-    set: string[]
-  }
-
-  export type CustomFieldValueCreateNestedManyWithoutFieldInput = {
-    create?: XOR<CustomFieldValueCreateWithoutFieldInput, CustomFieldValueUncheckedCreateWithoutFieldInput> | CustomFieldValueCreateWithoutFieldInput[] | CustomFieldValueUncheckedCreateWithoutFieldInput[]
-    connectOrCreate?: CustomFieldValueCreateOrConnectWithoutFieldInput | CustomFieldValueCreateOrConnectWithoutFieldInput[]
-    createMany?: CustomFieldValueCreateManyFieldInputEnvelope
-    connect?: CustomFieldValueWhereUniqueInput | CustomFieldValueWhereUniqueInput[]
-  }
-
-  export type CustomFieldValueUncheckedCreateNestedManyWithoutFieldInput = {
-    create?: XOR<CustomFieldValueCreateWithoutFieldInput, CustomFieldValueUncheckedCreateWithoutFieldInput> | CustomFieldValueCreateWithoutFieldInput[] | CustomFieldValueUncheckedCreateWithoutFieldInput[]
-    connectOrCreate?: CustomFieldValueCreateOrConnectWithoutFieldInput | CustomFieldValueCreateOrConnectWithoutFieldInput[]
-    createMany?: CustomFieldValueCreateManyFieldInputEnvelope
-    connect?: CustomFieldValueWhereUniqueInput | CustomFieldValueWhereUniqueInput[]
-  }
-
-  export type EnumFieldTypeFieldUpdateOperationsInput = {
-    set?: $Enums.FieldType
-  }
-
-  export type CustomFieldUpdateoptionsInput = {
-    set?: string[]
-    push?: string | string[]
-  }
-
-  export type CustomFieldValueUpdateManyWithoutFieldNestedInput = {
-    create?: XOR<CustomFieldValueCreateWithoutFieldInput, CustomFieldValueUncheckedCreateWithoutFieldInput> | CustomFieldValueCreateWithoutFieldInput[] | CustomFieldValueUncheckedCreateWithoutFieldInput[]
-    connectOrCreate?: CustomFieldValueCreateOrConnectWithoutFieldInput | CustomFieldValueCreateOrConnectWithoutFieldInput[]
-    upsert?: CustomFieldValueUpsertWithWhereUniqueWithoutFieldInput | CustomFieldValueUpsertWithWhereUniqueWithoutFieldInput[]
-    createMany?: CustomFieldValueCreateManyFieldInputEnvelope
-    set?: CustomFieldValueWhereUniqueInput | CustomFieldValueWhereUniqueInput[]
-    disconnect?: CustomFieldValueWhereUniqueInput | CustomFieldValueWhereUniqueInput[]
-    delete?: CustomFieldValueWhereUniqueInput | CustomFieldValueWhereUniqueInput[]
-    connect?: CustomFieldValueWhereUniqueInput | CustomFieldValueWhereUniqueInput[]
-    update?: CustomFieldValueUpdateWithWhereUniqueWithoutFieldInput | CustomFieldValueUpdateWithWhereUniqueWithoutFieldInput[]
-    updateMany?: CustomFieldValueUpdateManyWithWhereWithoutFieldInput | CustomFieldValueUpdateManyWithWhereWithoutFieldInput[]
-    deleteMany?: CustomFieldValueScalarWhereInput | CustomFieldValueScalarWhereInput[]
-  }
-
-  export type CustomFieldValueUncheckedUpdateManyWithoutFieldNestedInput = {
-    create?: XOR<CustomFieldValueCreateWithoutFieldInput, CustomFieldValueUncheckedCreateWithoutFieldInput> | CustomFieldValueCreateWithoutFieldInput[] | CustomFieldValueUncheckedCreateWithoutFieldInput[]
-    connectOrCreate?: CustomFieldValueCreateOrConnectWithoutFieldInput | CustomFieldValueCreateOrConnectWithoutFieldInput[]
-    upsert?: CustomFieldValueUpsertWithWhereUniqueWithoutFieldInput | CustomFieldValueUpsertWithWhereUniqueWithoutFieldInput[]
-    createMany?: CustomFieldValueCreateManyFieldInputEnvelope
-    set?: CustomFieldValueWhereUniqueInput | CustomFieldValueWhereUniqueInput[]
-    disconnect?: CustomFieldValueWhereUniqueInput | CustomFieldValueWhereUniqueInput[]
-    delete?: CustomFieldValueWhereUniqueInput | CustomFieldValueWhereUniqueInput[]
-    connect?: CustomFieldValueWhereUniqueInput | CustomFieldValueWhereUniqueInput[]
-    update?: CustomFieldValueUpdateWithWhereUniqueWithoutFieldInput | CustomFieldValueUpdateWithWhereUniqueWithoutFieldInput[]
-    updateMany?: CustomFieldValueUpdateManyWithWhereWithoutFieldInput | CustomFieldValueUpdateManyWithWhereWithoutFieldInput[]
-    deleteMany?: CustomFieldValueScalarWhereInput | CustomFieldValueScalarWhereInput[]
-  }
-
-  export type CustomFieldCreateNestedOneWithoutValuesInput = {
-    create?: XOR<CustomFieldCreateWithoutValuesInput, CustomFieldUncheckedCreateWithoutValuesInput>
-    connectOrCreate?: CustomFieldCreateOrConnectWithoutValuesInput
-    connect?: CustomFieldWhereUniqueInput
-  }
-
-  export type ItemCreateNestedOneWithoutCustomValuesInput = {
-    create?: XOR<ItemCreateWithoutCustomValuesInput, ItemUncheckedCreateWithoutCustomValuesInput>
-    connectOrCreate?: ItemCreateOrConnectWithoutCustomValuesInput
-    connect?: ItemWhereUniqueInput
-  }
-
-  export type CustomFieldUpdateOneRequiredWithoutValuesNestedInput = {
-    create?: XOR<CustomFieldCreateWithoutValuesInput, CustomFieldUncheckedCreateWithoutValuesInput>
-    connectOrCreate?: CustomFieldCreateOrConnectWithoutValuesInput
-    upsert?: CustomFieldUpsertWithoutValuesInput
-    connect?: CustomFieldWhereUniqueInput
-    update?: XOR<XOR<CustomFieldUpdateToOneWithWhereWithoutValuesInput, CustomFieldUpdateWithoutValuesInput>, CustomFieldUncheckedUpdateWithoutValuesInput>
-  }
-
-  export type ItemUpdateOneRequiredWithoutCustomValuesNestedInput = {
-    create?: XOR<ItemCreateWithoutCustomValuesInput, ItemUncheckedCreateWithoutCustomValuesInput>
-    connectOrCreate?: ItemCreateOrConnectWithoutCustomValuesInput
-    upsert?: ItemUpsertWithoutCustomValuesInput
-    connect?: ItemWhereUniqueInput
-    update?: XOR<XOR<ItemUpdateToOneWithWhereWithoutCustomValuesInput, ItemUpdateWithoutCustomValuesInput>, ItemUncheckedUpdateWithoutCustomValuesInput>
   }
 
   export type TenantCreateNestedOneWithoutPartiesInput = {
@@ -56303,6 +56258,23 @@ export namespace Prisma {
     _max?: NestedEnumPaymentStatusFilter<$PrismaModel>
   }
 
+  export type NestedEnumFieldTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.FieldType | EnumFieldTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.FieldType[] | ListEnumFieldTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.FieldType[] | ListEnumFieldTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumFieldTypeFilter<$PrismaModel> | $Enums.FieldType
+  }
+
+  export type NestedEnumFieldTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.FieldType | EnumFieldTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.FieldType[] | ListEnumFieldTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.FieldType[] | ListEnumFieldTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumFieldTypeWithAggregatesFilter<$PrismaModel> | $Enums.FieldType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumFieldTypeFilter<$PrismaModel>
+    _max?: NestedEnumFieldTypeFilter<$PrismaModel>
+  }
+
   export type NestedEnumFiscalPeriodStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.FiscalPeriodStatus | EnumFiscalPeriodStatusFieldRefInput<$PrismaModel>
     in?: $Enums.FiscalPeriodStatus[] | ListEnumFiscalPeriodStatusFieldRefInput<$PrismaModel>
@@ -56379,23 +56351,6 @@ export namespace Prisma {
     _sum?: NestedDecimalNullableFilter<$PrismaModel>
     _min?: NestedDecimalNullableFilter<$PrismaModel>
     _max?: NestedDecimalNullableFilter<$PrismaModel>
-  }
-
-  export type NestedEnumFieldTypeFilter<$PrismaModel = never> = {
-    equals?: $Enums.FieldType | EnumFieldTypeFieldRefInput<$PrismaModel>
-    in?: $Enums.FieldType[] | ListEnumFieldTypeFieldRefInput<$PrismaModel>
-    notIn?: $Enums.FieldType[] | ListEnumFieldTypeFieldRefInput<$PrismaModel>
-    not?: NestedEnumFieldTypeFilter<$PrismaModel> | $Enums.FieldType
-  }
-
-  export type NestedEnumFieldTypeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.FieldType | EnumFieldTypeFieldRefInput<$PrismaModel>
-    in?: $Enums.FieldType[] | ListEnumFieldTypeFieldRefInput<$PrismaModel>
-    notIn?: $Enums.FieldType[] | ListEnumFieldTypeFieldRefInput<$PrismaModel>
-    not?: NestedEnumFieldTypeWithAggregatesFilter<$PrismaModel> | $Enums.FieldType
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumFieldTypeFilter<$PrismaModel>
-    _max?: NestedEnumFieldTypeFilter<$PrismaModel>
   }
 
   export type NestedEnumPartyTypeFilter<$PrismaModel = never> = {
@@ -59300,6 +59255,136 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Tenant"> | Date | string
   }
 
+  export type CustomFieldValueCreateWithoutFieldInput = {
+    id?: string
+    tenantId: string
+    entityType: string
+    entityId: string
+    value: string
+  }
+
+  export type CustomFieldValueUncheckedCreateWithoutFieldInput = {
+    id?: string
+    tenantId: string
+    entityType: string
+    entityId: string
+    value: string
+  }
+
+  export type CustomFieldValueCreateOrConnectWithoutFieldInput = {
+    where: CustomFieldValueWhereUniqueInput
+    create: XOR<CustomFieldValueCreateWithoutFieldInput, CustomFieldValueUncheckedCreateWithoutFieldInput>
+  }
+
+  export type CustomFieldValueCreateManyFieldInputEnvelope = {
+    data: CustomFieldValueCreateManyFieldInput | CustomFieldValueCreateManyFieldInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CustomFieldValueUpsertWithWhereUniqueWithoutFieldInput = {
+    where: CustomFieldValueWhereUniqueInput
+    update: XOR<CustomFieldValueUpdateWithoutFieldInput, CustomFieldValueUncheckedUpdateWithoutFieldInput>
+    create: XOR<CustomFieldValueCreateWithoutFieldInput, CustomFieldValueUncheckedCreateWithoutFieldInput>
+  }
+
+  export type CustomFieldValueUpdateWithWhereUniqueWithoutFieldInput = {
+    where: CustomFieldValueWhereUniqueInput
+    data: XOR<CustomFieldValueUpdateWithoutFieldInput, CustomFieldValueUncheckedUpdateWithoutFieldInput>
+  }
+
+  export type CustomFieldValueUpdateManyWithWhereWithoutFieldInput = {
+    where: CustomFieldValueScalarWhereInput
+    data: XOR<CustomFieldValueUpdateManyMutationInput, CustomFieldValueUncheckedUpdateManyWithoutFieldInput>
+  }
+
+  export type CustomFieldValueScalarWhereInput = {
+    AND?: CustomFieldValueScalarWhereInput | CustomFieldValueScalarWhereInput[]
+    OR?: CustomFieldValueScalarWhereInput[]
+    NOT?: CustomFieldValueScalarWhereInput | CustomFieldValueScalarWhereInput[]
+    id?: StringFilter<"CustomFieldValue"> | string
+    tenantId?: StringFilter<"CustomFieldValue"> | string
+    fieldId?: StringFilter<"CustomFieldValue"> | string
+    entityType?: StringFilter<"CustomFieldValue"> | string
+    entityId?: StringFilter<"CustomFieldValue"> | string
+    value?: StringFilter<"CustomFieldValue"> | string
+  }
+
+  export type CustomFieldCreateWithoutValuesInput = {
+    id?: string
+    tenantId: string
+    module: string
+    name: JsonNullValueInput | InputJsonValue
+    label: JsonNullValueInput | InputJsonValue
+    type: $Enums.FieldType
+    defaultValue?: string | null
+    placeholder?: NullableJsonNullValueInput | InputJsonValue
+    options?: CustomFieldCreateoptionsInput | string[]
+    isRequired?: boolean
+    showInList?: boolean
+    createdAt?: Date | string
+  }
+
+  export type CustomFieldUncheckedCreateWithoutValuesInput = {
+    id?: string
+    tenantId: string
+    module: string
+    name: JsonNullValueInput | InputJsonValue
+    label: JsonNullValueInput | InputJsonValue
+    type: $Enums.FieldType
+    defaultValue?: string | null
+    placeholder?: NullableJsonNullValueInput | InputJsonValue
+    options?: CustomFieldCreateoptionsInput | string[]
+    isRequired?: boolean
+    showInList?: boolean
+    createdAt?: Date | string
+  }
+
+  export type CustomFieldCreateOrConnectWithoutValuesInput = {
+    where: CustomFieldWhereUniqueInput
+    create: XOR<CustomFieldCreateWithoutValuesInput, CustomFieldUncheckedCreateWithoutValuesInput>
+  }
+
+  export type CustomFieldUpsertWithoutValuesInput = {
+    update: XOR<CustomFieldUpdateWithoutValuesInput, CustomFieldUncheckedUpdateWithoutValuesInput>
+    create: XOR<CustomFieldCreateWithoutValuesInput, CustomFieldUncheckedCreateWithoutValuesInput>
+    where?: CustomFieldWhereInput
+  }
+
+  export type CustomFieldUpdateToOneWithWhereWithoutValuesInput = {
+    where?: CustomFieldWhereInput
+    data: XOR<CustomFieldUpdateWithoutValuesInput, CustomFieldUncheckedUpdateWithoutValuesInput>
+  }
+
+  export type CustomFieldUpdateWithoutValuesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    module?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
+    label?: JsonNullValueInput | InputJsonValue
+    type?: EnumFieldTypeFieldUpdateOperationsInput | $Enums.FieldType
+    defaultValue?: NullableStringFieldUpdateOperationsInput | string | null
+    placeholder?: NullableJsonNullValueInput | InputJsonValue
+    options?: CustomFieldUpdateoptionsInput | string[]
+    isRequired?: BoolFieldUpdateOperationsInput | boolean
+    showInList?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CustomFieldUncheckedUpdateWithoutValuesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    module?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
+    label?: JsonNullValueInput | InputJsonValue
+    type?: EnumFieldTypeFieldUpdateOperationsInput | $Enums.FieldType
+    defaultValue?: NullableStringFieldUpdateOperationsInput | string | null
+    placeholder?: NullableJsonNullValueInput | InputJsonValue
+    options?: CustomFieldUpdateoptionsInput | string[]
+    isRequired?: BoolFieldUpdateOperationsInput | boolean
+    showInList?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type TenantCreateWithoutDocumentSequencesInput = {
     id?: string
     name: string
@@ -61087,7 +61172,6 @@ export namespace Prisma {
     stockBalances?: StockBalanceCreateNestedManyWithoutItemInput
     stockMovements?: StockMovementCreateNestedManyWithoutItemInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutItemInput
-    customValues?: CustomFieldValueCreateNestedManyWithoutItemInput
   }
 
   export type ItemUncheckedCreateWithoutInvoiceLinesInput = {
@@ -61107,7 +61191,6 @@ export namespace Prisma {
     stockBalances?: StockBalanceUncheckedCreateNestedManyWithoutItemInput
     stockMovements?: StockMovementUncheckedCreateNestedManyWithoutItemInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutItemInput
-    customValues?: CustomFieldValueUncheckedCreateNestedManyWithoutItemInput
   }
 
   export type ItemCreateOrConnectWithoutInvoiceLinesInput = {
@@ -61235,7 +61318,6 @@ export namespace Prisma {
     stockBalances?: StockBalanceUpdateManyWithoutItemNestedInput
     stockMovements?: StockMovementUpdateManyWithoutItemNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutItemNestedInput
-    customValues?: CustomFieldValueUpdateManyWithoutItemNestedInput
   }
 
   export type ItemUncheckedUpdateWithoutInvoiceLinesInput = {
@@ -61255,7 +61337,6 @@ export namespace Prisma {
     stockBalances?: StockBalanceUncheckedUpdateManyWithoutItemNestedInput
     stockMovements?: StockMovementUncheckedUpdateManyWithoutItemNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutItemNestedInput
-    customValues?: CustomFieldValueUncheckedUpdateManyWithoutItemNestedInput
   }
 
   export type UnitUpsertWithoutInvoiceLinesInput = {
@@ -61450,7 +61531,6 @@ export namespace Prisma {
     stockMovements?: StockMovementCreateNestedManyWithoutItemInput
     invoiceLines?: InvoiceLineCreateNestedManyWithoutItemInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutItemInput
-    customValues?: CustomFieldValueCreateNestedManyWithoutItemInput
   }
 
   export type ItemUncheckedCreateWithoutCategoryInput = {
@@ -61470,7 +61550,6 @@ export namespace Prisma {
     stockMovements?: StockMovementUncheckedCreateNestedManyWithoutItemInput
     invoiceLines?: InvoiceLineUncheckedCreateNestedManyWithoutItemInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutItemInput
-    customValues?: CustomFieldValueUncheckedCreateNestedManyWithoutItemInput
   }
 
   export type ItemCreateOrConnectWithoutCategoryInput = {
@@ -61972,30 +62051,6 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type CustomFieldValueCreateWithoutItemInput = {
-    id?: string
-    tenantId: string
-    value: string
-    field: CustomFieldCreateNestedOneWithoutValuesInput
-  }
-
-  export type CustomFieldValueUncheckedCreateWithoutItemInput = {
-    id?: string
-    tenantId: string
-    fieldId: string
-    value: string
-  }
-
-  export type CustomFieldValueCreateOrConnectWithoutItemInput = {
-    where: CustomFieldValueWhereUniqueInput
-    create: XOR<CustomFieldValueCreateWithoutItemInput, CustomFieldValueUncheckedCreateWithoutItemInput>
-  }
-
-  export type CustomFieldValueCreateManyItemInputEnvelope = {
-    data: CustomFieldValueCreateManyItemInput | CustomFieldValueCreateManyItemInput[]
-    skipDuplicates?: boolean
-  }
-
   export type TenantUpsertWithoutItemsInput = {
     update: XOR<TenantUpdateWithoutItemsInput, TenantUncheckedUpdateWithoutItemsInput>
     create: XOR<TenantCreateWithoutItemsInput, TenantUncheckedCreateWithoutItemsInput>
@@ -62268,241 +62323,6 @@ export namespace Prisma {
     countedQuantity?: DecimalFilter<"StockCountLine"> | Decimal | DecimalJsLike | number | string
     difference?: DecimalFilter<"StockCountLine"> | Decimal | DecimalJsLike | number | string
     notes?: StringNullableFilter<"StockCountLine"> | string | null
-  }
-
-  export type CustomFieldValueUpsertWithWhereUniqueWithoutItemInput = {
-    where: CustomFieldValueWhereUniqueInput
-    update: XOR<CustomFieldValueUpdateWithoutItemInput, CustomFieldValueUncheckedUpdateWithoutItemInput>
-    create: XOR<CustomFieldValueCreateWithoutItemInput, CustomFieldValueUncheckedCreateWithoutItemInput>
-  }
-
-  export type CustomFieldValueUpdateWithWhereUniqueWithoutItemInput = {
-    where: CustomFieldValueWhereUniqueInput
-    data: XOR<CustomFieldValueUpdateWithoutItemInput, CustomFieldValueUncheckedUpdateWithoutItemInput>
-  }
-
-  export type CustomFieldValueUpdateManyWithWhereWithoutItemInput = {
-    where: CustomFieldValueScalarWhereInput
-    data: XOR<CustomFieldValueUpdateManyMutationInput, CustomFieldValueUncheckedUpdateManyWithoutItemInput>
-  }
-
-  export type CustomFieldValueScalarWhereInput = {
-    AND?: CustomFieldValueScalarWhereInput | CustomFieldValueScalarWhereInput[]
-    OR?: CustomFieldValueScalarWhereInput[]
-    NOT?: CustomFieldValueScalarWhereInput | CustomFieldValueScalarWhereInput[]
-    id?: StringFilter<"CustomFieldValue"> | string
-    tenantId?: StringFilter<"CustomFieldValue"> | string
-    fieldId?: StringFilter<"CustomFieldValue"> | string
-    itemId?: StringFilter<"CustomFieldValue"> | string
-    value?: StringFilter<"CustomFieldValue"> | string
-  }
-
-  export type CustomFieldValueCreateWithoutFieldInput = {
-    id?: string
-    tenantId: string
-    value: string
-    item: ItemCreateNestedOneWithoutCustomValuesInput
-  }
-
-  export type CustomFieldValueUncheckedCreateWithoutFieldInput = {
-    id?: string
-    tenantId: string
-    itemId: string
-    value: string
-  }
-
-  export type CustomFieldValueCreateOrConnectWithoutFieldInput = {
-    where: CustomFieldValueWhereUniqueInput
-    create: XOR<CustomFieldValueCreateWithoutFieldInput, CustomFieldValueUncheckedCreateWithoutFieldInput>
-  }
-
-  export type CustomFieldValueCreateManyFieldInputEnvelope = {
-    data: CustomFieldValueCreateManyFieldInput | CustomFieldValueCreateManyFieldInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type CustomFieldValueUpsertWithWhereUniqueWithoutFieldInput = {
-    where: CustomFieldValueWhereUniqueInput
-    update: XOR<CustomFieldValueUpdateWithoutFieldInput, CustomFieldValueUncheckedUpdateWithoutFieldInput>
-    create: XOR<CustomFieldValueCreateWithoutFieldInput, CustomFieldValueUncheckedCreateWithoutFieldInput>
-  }
-
-  export type CustomFieldValueUpdateWithWhereUniqueWithoutFieldInput = {
-    where: CustomFieldValueWhereUniqueInput
-    data: XOR<CustomFieldValueUpdateWithoutFieldInput, CustomFieldValueUncheckedUpdateWithoutFieldInput>
-  }
-
-  export type CustomFieldValueUpdateManyWithWhereWithoutFieldInput = {
-    where: CustomFieldValueScalarWhereInput
-    data: XOR<CustomFieldValueUpdateManyMutationInput, CustomFieldValueUncheckedUpdateManyWithoutFieldInput>
-  }
-
-  export type CustomFieldCreateWithoutValuesInput = {
-    id?: string
-    tenantId: string
-    module: string
-    name: JsonNullValueInput | InputJsonValue
-    label: JsonNullValueInput | InputJsonValue
-    type: $Enums.FieldType
-    defaultValue?: string | null
-    placeholder?: NullableJsonNullValueInput | InputJsonValue
-    options?: CustomFieldCreateoptionsInput | string[]
-    isRequired?: boolean
-    createdAt?: Date | string
-  }
-
-  export type CustomFieldUncheckedCreateWithoutValuesInput = {
-    id?: string
-    tenantId: string
-    module: string
-    name: JsonNullValueInput | InputJsonValue
-    label: JsonNullValueInput | InputJsonValue
-    type: $Enums.FieldType
-    defaultValue?: string | null
-    placeholder?: NullableJsonNullValueInput | InputJsonValue
-    options?: CustomFieldCreateoptionsInput | string[]
-    isRequired?: boolean
-    createdAt?: Date | string
-  }
-
-  export type CustomFieldCreateOrConnectWithoutValuesInput = {
-    where: CustomFieldWhereUniqueInput
-    create: XOR<CustomFieldCreateWithoutValuesInput, CustomFieldUncheckedCreateWithoutValuesInput>
-  }
-
-  export type ItemCreateWithoutCustomValuesInput = {
-    id?: string
-    code: string
-    name: string
-    barcode?: string | null
-    defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
-    latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
-    isActive?: boolean
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    tenant: TenantCreateNestedOneWithoutItemsInput
-    category: ItemCategoryCreateNestedOneWithoutItemsInput
-    baseUnit: UnitCreateNestedOneWithoutItemsInput
-    warehouseItems?: WarehouseItemCreateNestedManyWithoutItemInput
-    stockBalances?: StockBalanceCreateNestedManyWithoutItemInput
-    stockMovements?: StockMovementCreateNestedManyWithoutItemInput
-    invoiceLines?: InvoiceLineCreateNestedManyWithoutItemInput
-    stockCountLines?: StockCountLineCreateNestedManyWithoutItemInput
-  }
-
-  export type ItemUncheckedCreateWithoutCustomValuesInput = {
-    id?: string
-    tenantId: string
-    code: string
-    name: string
-    barcode?: string | null
-    categoryId: string
-    baseUnitId: string
-    defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
-    latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
-    isActive?: boolean
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    warehouseItems?: WarehouseItemUncheckedCreateNestedManyWithoutItemInput
-    stockBalances?: StockBalanceUncheckedCreateNestedManyWithoutItemInput
-    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutItemInput
-    invoiceLines?: InvoiceLineUncheckedCreateNestedManyWithoutItemInput
-    stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutItemInput
-  }
-
-  export type ItemCreateOrConnectWithoutCustomValuesInput = {
-    where: ItemWhereUniqueInput
-    create: XOR<ItemCreateWithoutCustomValuesInput, ItemUncheckedCreateWithoutCustomValuesInput>
-  }
-
-  export type CustomFieldUpsertWithoutValuesInput = {
-    update: XOR<CustomFieldUpdateWithoutValuesInput, CustomFieldUncheckedUpdateWithoutValuesInput>
-    create: XOR<CustomFieldCreateWithoutValuesInput, CustomFieldUncheckedCreateWithoutValuesInput>
-    where?: CustomFieldWhereInput
-  }
-
-  export type CustomFieldUpdateToOneWithWhereWithoutValuesInput = {
-    where?: CustomFieldWhereInput
-    data: XOR<CustomFieldUpdateWithoutValuesInput, CustomFieldUncheckedUpdateWithoutValuesInput>
-  }
-
-  export type CustomFieldUpdateWithoutValuesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    tenantId?: StringFieldUpdateOperationsInput | string
-    module?: StringFieldUpdateOperationsInput | string
-    name?: JsonNullValueInput | InputJsonValue
-    label?: JsonNullValueInput | InputJsonValue
-    type?: EnumFieldTypeFieldUpdateOperationsInput | $Enums.FieldType
-    defaultValue?: NullableStringFieldUpdateOperationsInput | string | null
-    placeholder?: NullableJsonNullValueInput | InputJsonValue
-    options?: CustomFieldUpdateoptionsInput | string[]
-    isRequired?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type CustomFieldUncheckedUpdateWithoutValuesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    tenantId?: StringFieldUpdateOperationsInput | string
-    module?: StringFieldUpdateOperationsInput | string
-    name?: JsonNullValueInput | InputJsonValue
-    label?: JsonNullValueInput | InputJsonValue
-    type?: EnumFieldTypeFieldUpdateOperationsInput | $Enums.FieldType
-    defaultValue?: NullableStringFieldUpdateOperationsInput | string | null
-    placeholder?: NullableJsonNullValueInput | InputJsonValue
-    options?: CustomFieldUpdateoptionsInput | string[]
-    isRequired?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type ItemUpsertWithoutCustomValuesInput = {
-    update: XOR<ItemUpdateWithoutCustomValuesInput, ItemUncheckedUpdateWithoutCustomValuesInput>
-    create: XOR<ItemCreateWithoutCustomValuesInput, ItemUncheckedCreateWithoutCustomValuesInput>
-    where?: ItemWhereInput
-  }
-
-  export type ItemUpdateToOneWithWhereWithoutCustomValuesInput = {
-    where?: ItemWhereInput
-    data: XOR<ItemUpdateWithoutCustomValuesInput, ItemUncheckedUpdateWithoutCustomValuesInput>
-  }
-
-  export type ItemUpdateWithoutCustomValuesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    code?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    barcode?: NullableStringFieldUpdateOperationsInput | string | null
-    defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    isActive?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    tenant?: TenantUpdateOneRequiredWithoutItemsNestedInput
-    category?: ItemCategoryUpdateOneRequiredWithoutItemsNestedInput
-    baseUnit?: UnitUpdateOneRequiredWithoutItemsNestedInput
-    warehouseItems?: WarehouseItemUpdateManyWithoutItemNestedInput
-    stockBalances?: StockBalanceUpdateManyWithoutItemNestedInput
-    stockMovements?: StockMovementUpdateManyWithoutItemNestedInput
-    invoiceLines?: InvoiceLineUpdateManyWithoutItemNestedInput
-    stockCountLines?: StockCountLineUpdateManyWithoutItemNestedInput
-  }
-
-  export type ItemUncheckedUpdateWithoutCustomValuesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    tenantId?: StringFieldUpdateOperationsInput | string
-    code?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    barcode?: NullableStringFieldUpdateOperationsInput | string | null
-    categoryId?: StringFieldUpdateOperationsInput | string
-    baseUnitId?: StringFieldUpdateOperationsInput | string
-    defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    isActive?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    warehouseItems?: WarehouseItemUncheckedUpdateManyWithoutItemNestedInput
-    stockBalances?: StockBalanceUncheckedUpdateManyWithoutItemNestedInput
-    stockMovements?: StockMovementUncheckedUpdateManyWithoutItemNestedInput
-    invoiceLines?: InvoiceLineUncheckedUpdateManyWithoutItemNestedInput
-    stockCountLines?: StockCountLineUncheckedUpdateManyWithoutItemNestedInput
   }
 
   export type TenantCreateWithoutPartiesInput = {
@@ -63239,7 +63059,6 @@ export namespace Prisma {
     stockBalances?: StockBalanceCreateNestedManyWithoutItemInput
     stockMovements?: StockMovementCreateNestedManyWithoutItemInput
     invoiceLines?: InvoiceLineCreateNestedManyWithoutItemInput
-    customValues?: CustomFieldValueCreateNestedManyWithoutItemInput
   }
 
   export type ItemUncheckedCreateWithoutStockCountLinesInput = {
@@ -63259,7 +63078,6 @@ export namespace Prisma {
     stockBalances?: StockBalanceUncheckedCreateNestedManyWithoutItemInput
     stockMovements?: StockMovementUncheckedCreateNestedManyWithoutItemInput
     invoiceLines?: InvoiceLineUncheckedCreateNestedManyWithoutItemInput
-    customValues?: CustomFieldValueUncheckedCreateNestedManyWithoutItemInput
   }
 
   export type ItemCreateOrConnectWithoutStockCountLinesInput = {
@@ -63338,7 +63156,6 @@ export namespace Prisma {
     stockBalances?: StockBalanceUpdateManyWithoutItemNestedInput
     stockMovements?: StockMovementUpdateManyWithoutItemNestedInput
     invoiceLines?: InvoiceLineUpdateManyWithoutItemNestedInput
-    customValues?: CustomFieldValueUpdateManyWithoutItemNestedInput
   }
 
   export type ItemUncheckedUpdateWithoutStockCountLinesInput = {
@@ -63358,7 +63175,6 @@ export namespace Prisma {
     stockBalances?: StockBalanceUncheckedUpdateManyWithoutItemNestedInput
     stockMovements?: StockMovementUncheckedUpdateManyWithoutItemNestedInput
     invoiceLines?: InvoiceLineUncheckedUpdateManyWithoutItemNestedInput
-    customValues?: CustomFieldValueUncheckedUpdateManyWithoutItemNestedInput
   }
 
   export type WarehouseCreateWithoutStockBalancesInput = {
@@ -63413,7 +63229,6 @@ export namespace Prisma {
     stockMovements?: StockMovementCreateNestedManyWithoutItemInput
     invoiceLines?: InvoiceLineCreateNestedManyWithoutItemInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutItemInput
-    customValues?: CustomFieldValueCreateNestedManyWithoutItemInput
   }
 
   export type ItemUncheckedCreateWithoutStockBalancesInput = {
@@ -63433,7 +63248,6 @@ export namespace Prisma {
     stockMovements?: StockMovementUncheckedCreateNestedManyWithoutItemInput
     invoiceLines?: InvoiceLineUncheckedCreateNestedManyWithoutItemInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutItemInput
-    customValues?: CustomFieldValueUncheckedCreateNestedManyWithoutItemInput
   }
 
   export type ItemCreateOrConnectWithoutStockBalancesInput = {
@@ -63510,7 +63324,6 @@ export namespace Prisma {
     stockMovements?: StockMovementUpdateManyWithoutItemNestedInput
     invoiceLines?: InvoiceLineUpdateManyWithoutItemNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutItemNestedInput
-    customValues?: CustomFieldValueUpdateManyWithoutItemNestedInput
   }
 
   export type ItemUncheckedUpdateWithoutStockBalancesInput = {
@@ -63530,7 +63343,6 @@ export namespace Prisma {
     stockMovements?: StockMovementUncheckedUpdateManyWithoutItemNestedInput
     invoiceLines?: InvoiceLineUncheckedUpdateManyWithoutItemNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutItemNestedInput
-    customValues?: CustomFieldValueUncheckedUpdateManyWithoutItemNestedInput
   }
 
   export type WarehouseCreateWithoutStockMovementsInput = {
@@ -63585,7 +63397,6 @@ export namespace Prisma {
     stockBalances?: StockBalanceCreateNestedManyWithoutItemInput
     invoiceLines?: InvoiceLineCreateNestedManyWithoutItemInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutItemInput
-    customValues?: CustomFieldValueCreateNestedManyWithoutItemInput
   }
 
   export type ItemUncheckedCreateWithoutStockMovementsInput = {
@@ -63605,7 +63416,6 @@ export namespace Prisma {
     stockBalances?: StockBalanceUncheckedCreateNestedManyWithoutItemInput
     invoiceLines?: InvoiceLineUncheckedCreateNestedManyWithoutItemInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutItemInput
-    customValues?: CustomFieldValueUncheckedCreateNestedManyWithoutItemInput
   }
 
   export type ItemCreateOrConnectWithoutStockMovementsInput = {
@@ -63717,7 +63527,6 @@ export namespace Prisma {
     stockBalances?: StockBalanceUpdateManyWithoutItemNestedInput
     invoiceLines?: InvoiceLineUpdateManyWithoutItemNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutItemNestedInput
-    customValues?: CustomFieldValueUpdateManyWithoutItemNestedInput
   }
 
   export type ItemUncheckedUpdateWithoutStockMovementsInput = {
@@ -63737,7 +63546,6 @@ export namespace Prisma {
     stockBalances?: StockBalanceUncheckedUpdateManyWithoutItemNestedInput
     invoiceLines?: InvoiceLineUncheckedUpdateManyWithoutItemNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutItemNestedInput
-    customValues?: CustomFieldValueUncheckedUpdateManyWithoutItemNestedInput
   }
 
   export type FiscalPeriodUpsertWithoutStockMovementsInput = {
@@ -64206,7 +64014,6 @@ export namespace Prisma {
     stockMovements?: StockMovementCreateNestedManyWithoutItemInput
     invoiceLines?: InvoiceLineCreateNestedManyWithoutItemInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutItemInput
-    customValues?: CustomFieldValueCreateNestedManyWithoutItemInput
   }
 
   export type ItemUncheckedCreateWithoutTenantInput = {
@@ -64226,7 +64033,6 @@ export namespace Prisma {
     stockMovements?: StockMovementUncheckedCreateNestedManyWithoutItemInput
     invoiceLines?: InvoiceLineUncheckedCreateNestedManyWithoutItemInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutItemInput
-    customValues?: CustomFieldValueUncheckedCreateNestedManyWithoutItemInput
   }
 
   export type ItemCreateOrConnectWithoutTenantInput = {
@@ -65446,7 +65252,6 @@ export namespace Prisma {
     stockMovements?: StockMovementCreateNestedManyWithoutItemInput
     invoiceLines?: InvoiceLineCreateNestedManyWithoutItemInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutItemInput
-    customValues?: CustomFieldValueCreateNestedManyWithoutItemInput
   }
 
   export type ItemUncheckedCreateWithoutBaseUnitInput = {
@@ -65466,7 +65271,6 @@ export namespace Prisma {
     stockMovements?: StockMovementUncheckedCreateNestedManyWithoutItemInput
     invoiceLines?: InvoiceLineUncheckedCreateNestedManyWithoutItemInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutItemInput
-    customValues?: CustomFieldValueUncheckedCreateNestedManyWithoutItemInput
   }
 
   export type ItemCreateOrConnectWithoutBaseUnitInput = {
@@ -66676,7 +66480,6 @@ export namespace Prisma {
     stockMovements?: StockMovementCreateNestedManyWithoutItemInput
     invoiceLines?: InvoiceLineCreateNestedManyWithoutItemInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutItemInput
-    customValues?: CustomFieldValueCreateNestedManyWithoutItemInput
   }
 
   export type ItemUncheckedCreateWithoutWarehouseItemsInput = {
@@ -66696,7 +66499,6 @@ export namespace Prisma {
     stockMovements?: StockMovementUncheckedCreateNestedManyWithoutItemInput
     invoiceLines?: InvoiceLineUncheckedCreateNestedManyWithoutItemInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutItemInput
-    customValues?: CustomFieldValueUncheckedCreateNestedManyWithoutItemInput
   }
 
   export type ItemCreateOrConnectWithoutWarehouseItemsInput = {
@@ -66773,7 +66575,6 @@ export namespace Prisma {
     stockMovements?: StockMovementUpdateManyWithoutItemNestedInput
     invoiceLines?: InvoiceLineUpdateManyWithoutItemNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutItemNestedInput
-    customValues?: CustomFieldValueUpdateManyWithoutItemNestedInput
   }
 
   export type ItemUncheckedUpdateWithoutWarehouseItemsInput = {
@@ -66793,7 +66594,6 @@ export namespace Prisma {
     stockMovements?: StockMovementUncheckedUpdateManyWithoutItemNestedInput
     invoiceLines?: InvoiceLineUncheckedUpdateManyWithoutItemNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutItemNestedInput
-    customValues?: CustomFieldValueUncheckedUpdateManyWithoutItemNestedInput
   }
 
   export type ChartOfAccountCreateManyParentInput = {
@@ -67432,6 +67232,38 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CustomFieldValueCreateManyFieldInput = {
+    id?: string
+    tenantId: string
+    entityType: string
+    entityId: string
+    value: string
+  }
+
+  export type CustomFieldValueUpdateWithoutFieldInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    entityType?: StringFieldUpdateOperationsInput | string
+    entityId?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type CustomFieldValueUncheckedUpdateWithoutFieldInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    entityType?: StringFieldUpdateOperationsInput | string
+    entityId?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type CustomFieldValueUncheckedUpdateManyWithoutFieldInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    entityType?: StringFieldUpdateOperationsInput | string
+    entityId?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
   }
 
   export type TenantCreateManyDefaultSalesSequenceInput = {
@@ -68199,7 +68031,6 @@ export namespace Prisma {
     stockMovements?: StockMovementUpdateManyWithoutItemNestedInput
     invoiceLines?: InvoiceLineUpdateManyWithoutItemNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutItemNestedInput
-    customValues?: CustomFieldValueUpdateManyWithoutItemNestedInput
   }
 
   export type ItemUncheckedUpdateWithoutCategoryInput = {
@@ -68219,7 +68050,6 @@ export namespace Prisma {
     stockMovements?: StockMovementUncheckedUpdateManyWithoutItemNestedInput
     invoiceLines?: InvoiceLineUncheckedUpdateManyWithoutItemNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutItemNestedInput
-    customValues?: CustomFieldValueUncheckedUpdateManyWithoutItemNestedInput
   }
 
   export type ItemUncheckedUpdateManyWithoutCategoryInput = {
@@ -68294,13 +68124,6 @@ export namespace Prisma {
     countedQuantity: Decimal | DecimalJsLike | number | string
     difference: Decimal | DecimalJsLike | number | string
     notes?: string | null
-  }
-
-  export type CustomFieldValueCreateManyItemInput = {
-    id?: string
-    tenantId: string
-    fieldId: string
-    value: string
   }
 
   export type WarehouseItemUpdateWithoutItemInput = {
@@ -68481,55 +68304,6 @@ export namespace Prisma {
     countedQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     difference?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type CustomFieldValueUpdateWithoutItemInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    tenantId?: StringFieldUpdateOperationsInput | string
-    value?: StringFieldUpdateOperationsInput | string
-    field?: CustomFieldUpdateOneRequiredWithoutValuesNestedInput
-  }
-
-  export type CustomFieldValueUncheckedUpdateWithoutItemInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    tenantId?: StringFieldUpdateOperationsInput | string
-    fieldId?: StringFieldUpdateOperationsInput | string
-    value?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type CustomFieldValueUncheckedUpdateManyWithoutItemInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    tenantId?: StringFieldUpdateOperationsInput | string
-    fieldId?: StringFieldUpdateOperationsInput | string
-    value?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type CustomFieldValueCreateManyFieldInput = {
-    id?: string
-    tenantId: string
-    itemId: string
-    value: string
-  }
-
-  export type CustomFieldValueUpdateWithoutFieldInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    tenantId?: StringFieldUpdateOperationsInput | string
-    value?: StringFieldUpdateOperationsInput | string
-    item?: ItemUpdateOneRequiredWithoutCustomValuesNestedInput
-  }
-
-  export type CustomFieldValueUncheckedUpdateWithoutFieldInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    tenantId?: StringFieldUpdateOperationsInput | string
-    itemId?: StringFieldUpdateOperationsInput | string
-    value?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type CustomFieldValueUncheckedUpdateManyWithoutFieldInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    tenantId?: StringFieldUpdateOperationsInput | string
-    itemId?: StringFieldUpdateOperationsInput | string
-    value?: StringFieldUpdateOperationsInput | string
   }
 
   export type InvoiceCreateManyPartyInput = {
@@ -69281,7 +69055,6 @@ export namespace Prisma {
     stockMovements?: StockMovementUpdateManyWithoutItemNestedInput
     invoiceLines?: InvoiceLineUpdateManyWithoutItemNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutItemNestedInput
-    customValues?: CustomFieldValueUpdateManyWithoutItemNestedInput
   }
 
   export type ItemUncheckedUpdateWithoutTenantInput = {
@@ -69301,7 +69074,6 @@ export namespace Prisma {
     stockMovements?: StockMovementUncheckedUpdateManyWithoutItemNestedInput
     invoiceLines?: InvoiceLineUncheckedUpdateManyWithoutItemNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutItemNestedInput
-    customValues?: CustomFieldValueUncheckedUpdateManyWithoutItemNestedInput
   }
 
   export type ItemUncheckedUpdateManyWithoutTenantInput = {
@@ -69891,7 +69663,6 @@ export namespace Prisma {
     stockMovements?: StockMovementUpdateManyWithoutItemNestedInput
     invoiceLines?: InvoiceLineUpdateManyWithoutItemNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutItemNestedInput
-    customValues?: CustomFieldValueUpdateManyWithoutItemNestedInput
   }
 
   export type ItemUncheckedUpdateWithoutBaseUnitInput = {
@@ -69911,7 +69682,6 @@ export namespace Prisma {
     stockMovements?: StockMovementUncheckedUpdateManyWithoutItemNestedInput
     invoiceLines?: InvoiceLineUncheckedUpdateManyWithoutItemNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutItemNestedInput
-    customValues?: CustomFieldValueUncheckedUpdateManyWithoutItemNestedInput
   }
 
   export type ItemUncheckedUpdateManyWithoutBaseUnitInput = {

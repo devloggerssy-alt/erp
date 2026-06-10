@@ -109,6 +109,11 @@ export const navGroups: NavGroup[] = [
             href: "/catalog/units",
             icon: <RulerIcon />,
           },
+          {
+            titleKey: "business.navigation.items.customFields",
+            href: "/catalog/custom-fields",
+            icon: <HashIcon />,
+          },
         ],
       },
       {

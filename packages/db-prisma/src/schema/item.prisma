@@ -1,12 +1,3 @@
-enum FieldType {
-    TEXT
-    DATE
-    NUMBER
-    SELECT
-    BOOLEAN
-    MULTI_SELECT
-}
-
 // ─── Item ─────────────────────────────────────────────────────────────────────
 model Item {
     id                  String   @id @default(uuid())
@@ -30,45 +21,8 @@ model Item {
     stockMovements  StockMovement[]
     invoiceLines    InvoiceLine[]
     stockCountLines StockCountLine[]
-    customValues    CustomFieldValue[]
 
     @@unique([tenantId, code])
     @@index([tenantId])
     @@map("items")
-}
-
-model CustomField {
-    id           String    @id @default(uuid())
-    tenantId     String    @map("tenant_id")
-    module       String
-    name         Json      @db.JsonB // LocalizedString: { ar: string; en?: string }
-    label        Json      @db.JsonB // LocalizedString: { ar: string; en?: string }
-    type         FieldType
-    defaultValue String?   @map("default_value") // For boolean true/false as string
-    placeholder  Json?     @db.JsonB // LocalizedString: { ar: string; en?: string }
-    options      String[] // For select field
-    isRequired   Boolean   @default(false) @map("is_required")
-    createdAt    DateTime  @default(now()) @map("created_at")
-
-    values CustomFieldValue[]
-
-    // Note: unique on (tenantId, name->>'ar', module) enforced via expression index in migration SQL
-    @@index([tenantId, module])
-    @@map("custom_fields")
-}
-
-model CustomFieldValue {
-    id       String @id @default(uuid())
-    tenantId String @map("tenant_id")
-    fieldId  String @map("field_id")
-    itemId   String @map("item_id")
-    value    String
-
-    field CustomField @relation(fields: [fieldId], references: [id], onDelete: Cascade)
-    item  Item        @relation(fields: [itemId], references: [id])
-
-    @@index([itemId])
-    @@index([tenantId, itemId])
-    @@index([fieldId, value])
-    @@map("custom_field_values")
 }

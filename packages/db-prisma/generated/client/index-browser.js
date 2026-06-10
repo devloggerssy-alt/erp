@@ -247,6 +247,30 @@ exports.Prisma.CurrencyScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.CustomFieldScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  module: 'module',
+  name: 'name',
+  label: 'label',
+  type: 'type',
+  defaultValue: 'defaultValue',
+  placeholder: 'placeholder',
+  options: 'options',
+  isRequired: 'isRequired',
+  showInList: 'showInList',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.CustomFieldValueScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  fieldId: 'fieldId',
+  entityType: 'entityType',
+  entityId: 'entityId',
+  value: 'value'
+};
+
 exports.Prisma.DocumentSequenceScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
@@ -348,28 +372,6 @@ exports.Prisma.ItemScalarFieldEnum = {
   isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
-};
-
-exports.Prisma.CustomFieldScalarFieldEnum = {
-  id: 'id',
-  tenantId: 'tenantId',
-  module: 'module',
-  name: 'name',
-  label: 'label',
-  type: 'type',
-  defaultValue: 'defaultValue',
-  placeholder: 'placeholder',
-  options: 'options',
-  isRequired: 'isRequired',
-  createdAt: 'createdAt'
-};
-
-exports.Prisma.CustomFieldValueScalarFieldEnum = {
-  id: 'id',
-  tenantId: 'tenantId',
-  fieldId: 'fieldId',
-  itemId: 'itemId',
-  value: 'value'
 };
 
 exports.Prisma.PartyScalarFieldEnum = {
@@ -590,6 +592,15 @@ exports.PaymentStatus = exports.$Enums.PaymentStatus = {
   CANCELLED: 'CANCELLED'
 };
 
+exports.FieldType = exports.$Enums.FieldType = {
+  TEXT: 'TEXT',
+  DATE: 'DATE',
+  NUMBER: 'NUMBER',
+  SELECT: 'SELECT',
+  BOOLEAN: 'BOOLEAN',
+  MULTI_SELECT: 'MULTI_SELECT'
+};
+
 exports.FiscalPeriodStatus = exports.$Enums.FiscalPeriodStatus = {
   OPEN: 'OPEN',
   CLOSED: 'CLOSED',
@@ -605,15 +616,6 @@ exports.InvoiceStatus = exports.$Enums.InvoiceStatus = {
   DRAFT: 'DRAFT',
   POSTED: 'POSTED',
   CANCELLED: 'CANCELLED'
-};
-
-exports.FieldType = exports.$Enums.FieldType = {
-  TEXT: 'TEXT',
-  DATE: 'DATE',
-  NUMBER: 'NUMBER',
-  SELECT: 'SELECT',
-  BOOLEAN: 'BOOLEAN',
-  MULTI_SELECT: 'MULTI_SELECT'
 };
 
 exports.PartyType = exports.$Enums.PartyType = {
@@ -649,6 +651,8 @@ exports.Prisma.ModelName = {
   Payment: 'Payment',
   PaymentAllocation: 'PaymentAllocation',
   Currency: 'Currency',
+  CustomField: 'CustomField',
+  CustomFieldValue: 'CustomFieldValue',
   DocumentSequence: 'DocumentSequence',
   FiscalPeriod: 'FiscalPeriod',
   InvoiceType: 'InvoiceType',
@@ -656,8 +660,6 @@ exports.Prisma.ModelName = {
   InvoiceLine: 'InvoiceLine',
   ItemCategory: 'ItemCategory',
   Item: 'Item',
-  CustomField: 'CustomField',
-  CustomFieldValue: 'CustomFieldValue',
   Party: 'Party',
   StockCount: 'StockCount',
   StockCountLine: 'StockCountLine',
