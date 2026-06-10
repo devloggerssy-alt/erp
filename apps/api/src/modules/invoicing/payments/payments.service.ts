@@ -96,7 +96,7 @@ export class PaymentsService {
         // Update cashbox balance
         const balanceDelta = payment.type === 'RECEIPT'
             ? Number(payment.amount)   // receipts add to cashbox
-            : -Number(payment.amount); // payments/expenses/adjustments deduct
+            : -Number(payment.amount); // payments/adjustments deduct
 
         await this.prisma.$transaction([
             this.prisma.cashbox.update({
