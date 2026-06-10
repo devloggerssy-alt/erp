@@ -16,6 +16,7 @@ export const customFieldFormSchema = z.object({
         fieldTypes.SELECT,
         fieldTypes.BOOLEAN,
         fieldTypes.MULTI_SELECT,
+        fieldTypes.FILE,
     ]),
     defaultValue: z.string().optional(),
     placeholder: z.object({ ar: z.string().optional(), en: z.string().optional() }).optional(),

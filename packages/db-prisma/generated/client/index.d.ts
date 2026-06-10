@@ -230,7 +230,8 @@ export const FieldType: {
   NUMBER: 'NUMBER',
   SELECT: 'SELECT',
   BOOLEAN: 'BOOLEAN',
-  MULTI_SELECT: 'MULTI_SELECT'
+  MULTI_SELECT: 'MULTI_SELECT',
+  FILE: 'FILE'
 };
 
 export type FieldType = (typeof FieldType)[keyof typeof FieldType]

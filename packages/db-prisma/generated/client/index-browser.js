@@ -598,7 +598,8 @@ exports.FieldType = exports.$Enums.FieldType = {
   NUMBER: 'NUMBER',
   SELECT: 'SELECT',
   BOOLEAN: 'BOOLEAN',
-  MULTI_SELECT: 'MULTI_SELECT'
+  MULTI_SELECT: 'MULTI_SELECT',
+  FILE: 'FILE'
 };
 
 exports.FiscalPeriodStatus = exports.$Enums.FiscalPeriodStatus = {

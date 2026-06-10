@@ -50,6 +50,14 @@ export class CustomFieldValuesService {
         return result;
     }
 
+    async clearForEntity(
+        tenantId: string,
+        module: CustomFieldModule,
+        entityId: string,
+    ): Promise<void> {
+        await this.customFieldValuesRepository.deleteForEntity(tenantId, module, entityId);
+    }
+
     async sync(
         tenantId: string,
         module: CustomFieldModule,

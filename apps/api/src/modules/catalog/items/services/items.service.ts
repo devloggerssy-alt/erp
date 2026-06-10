@@ -77,6 +77,14 @@ export class ItemsService extends CrudService<Item, ItemResponseDto, CreateItemD
         return this.findById(tenantId, id);
     }
 
+    protected override async onDeleted(tenantId: string, entity: Item): Promise<void> {
+        await this.customFieldValuesService.clearForEntity(
+            tenantId,
+            customFieldModules.items,
+            entity.id,
+        );
+    }
+
     protected override async beforeCreate(tenantId: string, dto: CreateItemDto): Promise<void> {
         const taken = await this.itemsRepository.isCodeTaken(tenantId, dto.code);
         if (taken) {

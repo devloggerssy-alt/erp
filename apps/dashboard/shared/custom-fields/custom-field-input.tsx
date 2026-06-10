@@ -60,6 +60,17 @@ export function CustomFieldInput({
                     disabled={disabled}
                 />
             )
+        case fieldTypes.FILE:
+            return (
+                <RhfTextField
+                    name={fieldName}
+                    label={label}
+                    placeholder={placeholder || "https://…"}
+                    type="url"
+                    required={field.isRequired}
+                    disabled={disabled}
+                />
+            )
         case fieldTypes.SELECT:
             return (
                 <RhfSelectField

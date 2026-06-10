@@ -5,6 +5,7 @@ enum FieldType {
     SELECT
     BOOLEAN
     MULTI_SELECT
+    FILE
 }
 
 model CustomField {
