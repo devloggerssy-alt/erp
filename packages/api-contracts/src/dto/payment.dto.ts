@@ -1,6 +1,6 @@
 import type { LocalizedString } from './i18n.dto';
 
-export type PaymentType = 'RECEIPT' | 'PAYMENT' | 'EXPENSE' | 'ADJUSTMENT';
+export type PaymentType = 'RECEIPT' | 'PAYMENT' | 'ADJUSTMENT';
 
 export interface CreateCashboxDto {
     code: string;

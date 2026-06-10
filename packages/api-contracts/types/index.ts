@@ -1465,7 +1465,7 @@ export interface components {
              *     ]
              */
             enumValues?: string[];
-            /** @example auth|tenants|users|roles|currencies|fiscal-periods|document-sequences|units|item-categories|items|custom-fields|parties|warehouses|inventory|stock-ledger|invoice-types|invoices|cashboxes|payments|accounting|chart-of-accounts|stock-counts|reports|dashboard|ai|audit-logs */
+            /** @example auth|tenants|users|roles|currencies|fiscal-periods|document-sequences|units|item-categories|items|custom-fields|parties|warehouses|inventory|stock-ledger|invoice-types|invoices|cashboxes|payments|expenses|accounting|chart-of-accounts|stock-counts|reports|dashboard|ai|audit-logs */
             foreignResourceKey?: string;
         };
         ApiMetaDto: {
@@ -2820,7 +2820,7 @@ export interface components {
              * @example RECEIPT
              * @enum {string}
              */
-            type: "RECEIPT" | "PAYMENT" | "EXPENSE" | "ADJUSTMENT";
+            type: "RECEIPT" | "PAYMENT" | "ADJUSTMENT";
             /**
              * @description Payment date (ISO 8601)
              * @example 2026-04-14
@@ -9649,7 +9649,7 @@ export interface operations {
     "Payments.findAll": {
         parameters: {
             query?: {
-                type?: "RECEIPT" | "PAYMENT" | "EXPENSE" | "ADJUSTMENT";
+                type?: "RECEIPT" | "PAYMENT" | "ADJUSTMENT";
                 status?: "DRAFT" | "POSTED" | "CANCELLED";
                 page?: number;
                 limit?: number;
