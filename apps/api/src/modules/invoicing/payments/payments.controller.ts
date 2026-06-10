@@ -16,7 +16,7 @@ export class PaymentsController {
 
     @Get()
     @ApiOperation({ summary: 'List all payments' })
-    @ApiQuery({ name: 'type', required: false, enum: ['RECEIPT', 'PAYMENT', 'EXPENSE', 'ADJUSTMENT'] })
+    @ApiQuery({ name: 'type', required: false, enum: ['RECEIPT', 'PAYMENT', 'ADJUSTMENT'] })
     @ApiQuery({ name: 'status', required: false, enum: ['DRAFT', 'POSTED', 'CANCELLED'] })
     @ApiQuery({ name: 'page', required: false })
     @ApiQuery({ name: 'limit', required: false })

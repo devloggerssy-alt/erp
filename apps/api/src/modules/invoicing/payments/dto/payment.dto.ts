@@ -4,7 +4,6 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 export enum PaymentTypeEnum {
     RECEIPT = 'RECEIPT',
     PAYMENT = 'PAYMENT',
-    EXPENSE = 'EXPENSE',
     ADJUSTMENT = 'ADJUSTMENT',
 }
 

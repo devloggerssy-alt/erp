@@ -85,7 +85,7 @@ export class ReportsService {
 
         const saleWhere: any = { tenantId, status: 'POSTED', invoiceType: { direction: 'SALE' } };
         const purchaseWhere: any = { tenantId, status: 'POSTED', invoiceType: { direction: 'PURCHASE' } };
-        const expenseWhere: any = { tenantId, status: 'POSTED', type: 'EXPENSE' };
+        const expenseWhere: any = { tenantId, status: 'POSTED' };
 
         if (hasDateFilter) {
             saleWhere.date = dateFilter;
@@ -96,12 +96,12 @@ export class ReportsService {
         const [salesAgg, purchasesAgg, expenses] = await Promise.all([
             this.prisma.invoice.aggregate({ where: saleWhere, _sum: { total: true } }),
             this.prisma.invoice.aggregate({ where: purchaseWhere, _sum: { total: true } }),
-            this.prisma.payment.aggregate({ where: expenseWhere, _sum: { amount: true } }),
+            this.prisma.expense.aggregate({ where: expenseWhere, _sum: { totalAmount: true } }),
         ]);
 
         const totalSales = Number(salesAgg._sum.total || 0);
         const totalPurchases = Number(purchasesAgg._sum.total || 0);
-        const totalExpenses = Number(expenses._sum.amount || 0);
+        const totalExpenses = Number(expenses._sum.totalAmount || 0);
         const grossProfit = totalSales - totalPurchases;
         const netProfit = grossProfit - totalExpenses;
 

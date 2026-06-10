@@ -52,7 +52,6 @@ export class PaymentsService {
     async create(tenantId: string, userId: string, dto: CreatePaymentDto) {
         const docType = dto.type === 'RECEIPT' ? 'RECEIPT'
             : dto.type === 'PAYMENT' ? 'PAYMENT'
-            : dto.type === 'EXPENSE' ? 'EXPENSE'
             : 'PAYMENT_ADJUSTMENT';
 
         const number = await this.docSeqService.getNextNumber(tenantId, docType);
