@@ -16,6 +16,7 @@ export * from './inventory.dto';
 export * from './invoice-type.dto';
 export * from './invoice.dto';
 export * from './payment.dto';
+export * from './expense.dto';
 export * from './accounting.dto';
 export * from './stock-count.dto';
 export * from './ai-chat.dto';
