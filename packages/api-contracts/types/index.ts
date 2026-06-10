@@ -991,6 +991,83 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/expenses": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List all expenses */
+        get: operations["Expenses.findAll"];
+        put?: never;
+        /** Create a new expense */
+        post: operations["Expenses.create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/expenses/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get expense by ID */
+        get: operations["Expenses.findOne"];
+        put?: never;
+        post?: never;
+        /** Delete a draft expense */
+        delete: operations["Expenses.remove"];
+        options?: never;
+        head?: never;
+        /** Update a draft expense */
+        patch: operations["Expenses.update"];
+        trace?: never;
+    };
+    "/expenses/{id}/post": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Post (confirm) an expense
+         * @description Transitions a DRAFT expense to POSTED: creates a balanced journal entry (debit per item, credit cashbox linked account) and decrements the cashbox balance.
+         */
+        post: operations["Expenses.post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/expenses/{id}/cancel": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Cancel a posted expense
+         * @description Posts a reversing journal entry and restores the cashbox balance. Only posted expenses can be cancelled.
+         */
+        post: operations["Expenses.cancel"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/parties": {
         parameters: {
             query?: never;
@@ -1950,7 +2027,7 @@ export interface components {
              * @default TEXT
              * @enum {string}
              */
-            type: "TEXT" | "DATE" | "NUMBER" | "SELECT" | "BOOLEAN" | "MULTI_SELECT";
+            type: "TEXT" | "DATE" | "NUMBER" | "SELECT" | "BOOLEAN" | "MULTI_SELECT" | "FILE";
             /** @default null */
             defaultValue: string | null;
             /** @default null */
@@ -1986,7 +2063,7 @@ export interface components {
              * @default TEXT
              * @enum {string}
              */
-            type: "TEXT" | "DATE" | "NUMBER" | "SELECT" | "BOOLEAN" | "MULTI_SELECT";
+            type: "TEXT" | "DATE" | "NUMBER" | "SELECT" | "BOOLEAN" | "MULTI_SELECT" | "FILE";
             /** @example  */
             defaultValue?: string;
             placeholder?: components["schemas"]["LocalizedStringDto"];
@@ -2006,7 +2083,7 @@ export interface components {
             name?: components["schemas"]["LocalizedStringDto"];
             label?: components["schemas"]["LocalizedStringDto"];
             /** @enum {string} */
-            type?: "TEXT" | "DATE" | "NUMBER" | "SELECT" | "BOOLEAN" | "MULTI_SELECT";
+            type?: "TEXT" | "DATE" | "NUMBER" | "SELECT" | "BOOLEAN" | "MULTI_SELECT" | "FILE";
             defaultValue?: string;
             placeholder?: components["schemas"]["LocalizedStringDto"];
             options?: string[];
@@ -2809,6 +2886,69 @@ export interface components {
              * @example 250000
              */
             amount: number;
+        };
+        CreateExpenseItemDto: {
+            /**
+             * @description EXPENSE-type chart-of-account ID (debited)
+             * @example 00000000-0000-4000-a600-000000006120
+             */
+            accountId: string;
+            /**
+             * @description Line description
+             * @example Office rent — April
+             */
+            description: string;
+            /**
+             * @description Line amount
+             * @example 200000
+             */
+            amount: number;
+            /** @example Paid in cash */
+            notes?: string;
+            /**
+             * @description Display order
+             * @example 0
+             */
+            sortOrder?: number;
+        };
+        CreateExpenseDto: {
+            /**
+             * @description Expense date (ISO 8601)
+             * @example 2026-06-10
+             */
+            date: string;
+            /**
+             * @description Cashbox ID (must have a linked account)
+             * @example 00000000-0000-4000-ac00-000000000001
+             */
+            cashboxId: string;
+            /**
+             * @description Currency ID
+             * @example 00000000-0000-4000-a300-000000000001
+             */
+            currencyId: string;
+            /**
+             * @description Fiscal period ID
+             * @example 00000000-0000-4000-a400-000000000001
+             */
+            fiscalPeriodId: string;
+            /** @example April fixed costs */
+            notes?: string;
+            items: components["schemas"]["CreateExpenseItemDto"][];
+        };
+        UpdateExpenseDto: {
+            /** @example 2026-06-11 */
+            date?: string;
+            /** @example 00000000-0000-4000-ac00-000000000001 */
+            cashboxId?: string;
+            /** @example 00000000-0000-4000-a300-000000000001 */
+            currencyId?: string;
+            /** @example 00000000-0000-4000-a400-000000000001 */
+            fiscalPeriodId?: string;
+            /** @example Updated notes */
+            notes?: string;
+            /** @description Replaces all items when provided */
+            items?: components["schemas"]["CreateExpenseItemDto"][];
         };
         PartyResponseDto: {
             /**
@@ -10026,6 +10166,481 @@ export interface operations {
                 content: {
                     "application/json": unknown;
                 };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "Expenses.findAll": {
+        parameters: {
+            query?: {
+                status?: "DRAFT" | "POSTED" | "CANCELLED";
+                page?: number;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Paginated list of expenses */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "Expenses.create": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateExpenseDto"];
+            };
+        };
+        responses: {
+            /** @description Expense created in DRAFT status */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "Expenses.findOne": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Expense details */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "Expenses.remove": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Expense deleted */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "Expenses.update": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateExpenseDto"];
+            };
+        };
+        responses: {
+            /** @description Expense updated */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "Expenses.post": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Expense posted — journal entry created, cashbox decremented */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "Expenses.cancel": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Expense cancelled — reversing entry created */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
             /** @description JWT token is missing, expired, or invalid */
             401: {
