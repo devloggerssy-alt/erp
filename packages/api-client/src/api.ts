@@ -15,7 +15,10 @@ import { ItemsClient } from "./clients/items.client"
 import { InvoiceTypesClient } from "./clients/invoice-types.client"
 import { InvoicesClient } from "./clients/invoices.client"
 import { ExpensesClient } from "./clients/expenses.client"
-import { authResource, itemCategoryResource, itemResource, unitResource, warehouseResource, partyResource, accountResource, currencyResource, fiscalPeriodResource, documentSequenceResource, roleResource, userResource, tenantResource, invoiceTypeResource, invoiceResource, customFieldResource, expenseResource } from "@devloggers/api-contracts"
+import { TagsClient } from "./clients/tags.client"
+import { TagAssignmentsClient } from "./clients/tag-assignments.client"
+import { ItemRelationsClient } from "./clients/item-relations.client"
+import { authResource, itemCategoryResource, itemResource, unitResource, warehouseResource, partyResource, accountResource, currencyResource, fiscalPeriodResource, documentSequenceResource, roleResource, userResource, tenantResource, invoiceTypeResource, invoiceResource, customFieldResource, expenseResource, tagResource, tagAssignmentResource, itemRelationResource } from "@devloggers/api-contracts"
 import { CustomFieldsClient } from "./clients/custom-fields.client"
 
 export function createApi(options?: ApiClientOptions, baseUrl = 'http://localhost:4040') {
@@ -39,6 +42,9 @@ export function createApi(options?: ApiClientOptions, baseUrl = 'http://localhos
         [invoiceTypeResource.key]: new InvoiceTypesClient(client),
         [invoiceResource.key]: new InvoicesClient(client),
         [expenseResource.key]: new ExpensesClient(client),
+        [tagResource.key]: new TagsClient(client),
+        [tagAssignmentResource.key]: new TagAssignmentsClient(client),
+        [itemRelationResource.key]: new ItemRelationsClient(client),
     } as const
 }
 
