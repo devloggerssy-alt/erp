@@ -9,6 +9,7 @@ export interface CreateItemDto {
     defaultSellingPrice?: number;
     latestPurchasePrice?: number;
     customFields?: CustomFieldValuesMap;
+    itemType?: string;
 }
 
 export interface UpdateItemDto {
@@ -21,6 +22,7 @@ export interface UpdateItemDto {
     latestPurchasePrice?: number;
     isActive?: boolean;
     customFields?: CustomFieldValuesMap;
+    itemType?: string;
 }
 
 export interface ItemResponseDto {
@@ -34,6 +36,7 @@ export interface ItemResponseDto {
     latestPurchasePrice: number | null;
     isActive: boolean;
     customFields: CustomFieldValuesMap;
+    itemType: string;
     createdAt: string;
     updatedAt: string;
 }

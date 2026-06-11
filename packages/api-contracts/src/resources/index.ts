@@ -28,6 +28,9 @@ import { reportResource } from './report.resource'
 import { dashboardResource } from './dashboard.resource'
 import { aiResource } from './ai.resource'
 import { auditResource } from './audit.resource'
+import { tagResource } from './tag.resource'
+import { tagAssignmentResource } from './tag-assignment.resource'
+import { itemRelationResource } from './item-relation.resource'
 
 export * from './auth.resource'
 export * from './tenant.resource'
@@ -56,6 +59,9 @@ export * from './report.resource'
 export * from './dashboard.resource'
 export * from './ai.resource'
 export * from './audit.resource'
+export * from './tag.resource'
+export * from './tag-assignment.resource'
+export * from './item-relation.resource'
 
 export const resources = {
   auth: authResource,
@@ -85,5 +91,8 @@ export const resources = {
   dashboard: dashboardResource,
   ai: aiResource,
   auditLogs: auditResource,
+  tags: tagResource,
+  tagAssignments: tagAssignmentResource,
+  itemRelations: itemRelationResource,
 } as const
 

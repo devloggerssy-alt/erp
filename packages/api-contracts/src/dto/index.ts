@@ -20,3 +20,6 @@ export * from './expense.dto';
 export * from './accounting.dto';
 export * from './stock-count.dto';
 export * from './ai-chat.dto';
+export * from './tag.dto';
+export * from './tag-assignment.dto';
+export * from './item-relation.dto';
