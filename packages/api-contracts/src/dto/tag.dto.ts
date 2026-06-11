@@ -7,6 +7,7 @@ export interface CreateTagDto {
 export interface UpdateTagDto {
     name?: string;
     color?: string;
+    // module is intentionally immutable — a tag belongs to one module for its lifetime
 }
 
 export interface TagResponseDto {

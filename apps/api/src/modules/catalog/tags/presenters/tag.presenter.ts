@@ -8,7 +8,6 @@ export class TagPresenter extends CrudPresenter<Tag, TagResponseDto> {
   toResponse(entity: Tag): TagResponseDto {
     return {
       id: entity.id,
-      tenantId: entity.tenantId,
       name: entity.name,
       color: entity.color ?? null,
       module: entity.module,

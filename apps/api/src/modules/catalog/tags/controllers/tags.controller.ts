@@ -47,6 +47,11 @@ const TagsCrudBase = createCrudController({
   responseDto: TagResponseDto,
   createDto: CreateTagDto,
   updateDto: UpdateTagDto,
+  filterSchema: [
+    { field: 'name',      type: 'string' },
+    { field: 'module',    type: 'string' },
+    { field: 'createdAt', type: 'date' },
+  ],
   openApi: TAGS_CRUD_OPENAPI,
 });
 

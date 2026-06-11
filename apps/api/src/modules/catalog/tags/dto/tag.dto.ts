@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, IsOptional, IsIn } from 'class-validator';
+import { IsString, IsNotEmpty, IsOptional, IsIn, Matches } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 // ── Create DTO ────────────────────────────────────────────────────────────────
@@ -12,6 +12,7 @@ export class CreateTagDto {
   @ApiPropertyOptional({ example: '#FF5733', description: 'Hex color code' })
   @IsOptional()
   @IsString()
+  @Matches(/^#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})$/, { message: 'color must be a valid hex color (e.g. #RGB or #RRGGBB)' })
   color?: string;
 
   @ApiProperty({
@@ -20,6 +21,7 @@ export class CreateTagDto {
     enum: ['items', 'parties', 'invoices', 'warehouses'],
   })
   @IsString()
+  @IsNotEmpty()
   @IsIn(['items', 'parties', 'invoices', 'warehouses'])
   module: string = '';
 }
@@ -36,6 +38,7 @@ export class UpdateTagDto {
   @ApiPropertyOptional({ example: '#3498DB' })
   @IsOptional()
   @IsString()
+  @Matches(/^#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})$/, { message: 'color must be a valid hex color (e.g. #RGB or #RRGGBB)' })
   color?: string;
   // module is intentionally immutable once a tag is created
 }
@@ -45,9 +48,6 @@ export class UpdateTagDto {
 export class TagResponseDto {
   @ApiProperty({ example: '018e1234-abcd-7000-a001-000000000001' })
   id: string = '';
-
-  @ApiProperty({ example: '018e1234-abcd-7000-0001-000000000001' })
-  tenantId: string = '';
 
   @ApiProperty({ example: 'Fragile' })
   name: string = '';
