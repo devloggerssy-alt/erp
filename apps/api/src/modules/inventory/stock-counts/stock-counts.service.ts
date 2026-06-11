@@ -86,9 +86,15 @@ export class StockCountsService {
         if (!stockCount) throw new NotFoundException('Stock count not found');
         if (stockCount.status !== 'DRAFT') throw new BadRequestException('Only draft stock counts can be posted');
 
+        const itemTypes = await this.prisma.item.findMany({
+            where: { id: { in: stockCount.lines.map(l => l.itemId) } },
+            select: { id: true, itemType: true },
+        });
+        const itemTypeMap = new Map(itemTypes.map(i => [i.id, i.itemType]));
+
         for (const line of stockCount.lines) {
             const diff = Number(line.difference);
-            if (diff !== 0) {
+            if (diff !== 0 && itemTypeMap.get(line.itemId) !== 'service') {
                 await this.inventoryService.postMovement({
                     tenantId,
                     warehouseId: stockCount.warehouseId,

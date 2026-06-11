@@ -22,7 +22,7 @@ export class InvoicePostingService {
             where: { id: invoiceId, tenantId },
             include: {
                 invoiceType: true,
-                lines: true,
+                lines: { include: { item: { select: { itemType: true } } } },
             },
         });
 
@@ -49,24 +49,26 @@ export class InvoicePostingService {
         // Post stock movements for each line (if type affects stock)
         if (invoice.invoiceType.affectsStock) {
             for (const line of invoice.lines) {
-                await this.inventoryService.postMovement({
-                    tenantId,
-                    warehouseId: invoice.warehouseId,
-                    itemId: line.itemId,
-                    fiscalPeriodId: invoice.fiscalPeriodId,
-                    movementType: StockMovementType.PURCHASE,
-                    quantity: Number(line.quantity), // positive = inflow
-                    unitCost: Number(line.unitPrice),
-                    referenceType: 'invoice',
-                    referenceId: invoice.id,
-                    userId,
-                });
+                if (line.item.itemType !== 'service') {
+                    await this.inventoryService.postMovement({
+                        tenantId,
+                        warehouseId: invoice.warehouseId,
+                        itemId: line.itemId,
+                        fiscalPeriodId: invoice.fiscalPeriodId,
+                        movementType: StockMovementType.PURCHASE,
+                        quantity: Number(line.quantity), // positive = inflow
+                        unitCost: Number(line.unitPrice),
+                        referenceType: 'invoice',
+                        referenceId: invoice.id,
+                        userId,
+                    });
 
-                // Update latestPurchasePrice on the item
-                await this.prisma.item.update({
-                    where: { id: line.itemId },
-                    data: { latestPurchasePrice: line.unitPrice },
-                });
+                    // Update latestPurchasePrice on the item
+                    await this.prisma.item.update({
+                        where: { id: line.itemId },
+                        data: { latestPurchasePrice: line.unitPrice },
+                    });
+                }
             }
         }
 
@@ -96,7 +98,7 @@ export class InvoicePostingService {
             where: { id: invoiceId, tenantId },
             include: {
                 invoiceType: true,
-                lines: true,
+                lines: { include: { item: { select: { itemType: true } } } },
             },
         });
 
@@ -123,41 +125,43 @@ export class InvoicePostingService {
         // Validate stock availability and post movements
         if (invoice.invoiceType.affectsStock) {
             for (const line of invoice.lines) {
-                // Check stock availability
-                const balance = await this.prisma.stockBalance.findUnique({
-                    where: {
-                        tenantId_warehouseId_itemId: {
-                            tenantId,
-                            warehouseId: invoice.warehouseId,
-                            itemId: line.itemId,
+                if (line.item.itemType !== 'service') {
+                    // Check stock availability
+                    const balance = await this.prisma.stockBalance.findUnique({
+                        where: {
+                            tenantId_warehouseId_itemId: {
+                                tenantId,
+                                warehouseId: invoice.warehouseId,
+                                itemId: line.itemId,
+                            },
                         },
-                    },
-                });
+                    });
 
-                const currentQty = balance ? Number(balance.quantity) : 0;
-                const requestedQty = Number(line.quantity);
+                    const currentQty = balance ? Number(balance.quantity) : 0;
+                    const requestedQty = Number(line.quantity);
 
-                if (currentQty < requestedQty) {
-                    const item = await this.prisma.item.findUnique({ where: { id: line.itemId } });
-                    throw new BadRequestException(
-                        `Insufficient stock for item "${item?.name || line.itemId}". ` +
-                        `Available: ${currentQty}, Requested: ${requestedQty}`,
-                    );
+                    if (currentQty < requestedQty) {
+                        const item = await this.prisma.item.findUnique({ where: { id: line.itemId } });
+                        throw new BadRequestException(
+                            `Insufficient stock for item "${item?.name || line.itemId}". ` +
+                            `Available: ${currentQty}, Requested: ${requestedQty}`,
+                        );
+                    }
+
+                    // Post negative movement (outflow)
+                    await this.inventoryService.postMovement({
+                        tenantId,
+                        warehouseId: invoice.warehouseId,
+                        itemId: line.itemId,
+                        fiscalPeriodId: invoice.fiscalPeriodId,
+                        movementType: StockMovementType.SALE,
+                        quantity: -requestedQty, // negative = outflow
+                        unitCost: balance ? Number(balance.averageCost) : Number(line.unitPrice),
+                        referenceType: 'invoice',
+                        referenceId: invoice.id,
+                        userId,
+                    });
                 }
-
-                // Post negative movement (outflow)
-                await this.inventoryService.postMovement({
-                    tenantId,
-                    warehouseId: invoice.warehouseId,
-                    itemId: line.itemId,
-                    fiscalPeriodId: invoice.fiscalPeriodId,
-                    movementType: StockMovementType.SALE,
-                    quantity: -requestedQty, // negative = outflow
-                    unitCost: balance ? Number(balance.averageCost) : Number(line.unitPrice),
-                    referenceType: 'invoice',
-                    referenceId: invoice.id,
-                    userId,
-                });
             }
         }
 
@@ -187,7 +191,7 @@ export class InvoicePostingService {
             where: { id: invoiceId, tenantId },
             include: {
                 invoiceType: true,
-                lines: true,
+                lines: { include: { item: { select: { itemType: true } } } },
             },
         });
 
@@ -202,23 +206,25 @@ export class InvoicePostingService {
         // Reverse stock movements if type affects stock
         if (invoice.invoiceType.affectsStock && invoice.warehouseId) {
             for (const line of invoice.lines) {
-                const isPurchase = invoice.invoiceType.direction === 'PURCHASE';
-                // Reverse: purchase was +qty, so cancel is -qty. Sales was -qty, so cancel is +qty.
-                const reverseQty = isPurchase ? -Number(line.quantity) : Number(line.quantity);
+                if (line.item.itemType !== 'service') {
+                    const isPurchase = invoice.invoiceType.direction === 'PURCHASE';
+                    // Reverse: purchase was +qty, so cancel is -qty. Sales was -qty, so cancel is +qty.
+                    const reverseQty = isPurchase ? -Number(line.quantity) : Number(line.quantity);
 
-                await this.inventoryService.postMovement({
-                    tenantId,
-                    warehouseId: invoice.warehouseId,
-                    itemId: line.itemId,
-                    fiscalPeriodId: invoice.fiscalPeriodId,
-                    movementType: StockMovementType.ADJUSTMENT,
-                    quantity: reverseQty,
-                    unitCost: Number(line.unitPrice),
-                    referenceType: 'invoice_cancellation',
-                    referenceId: invoice.id,
-                    notes: `Cancellation of invoice ${invoice.number}`,
-                    userId,
-                });
+                    await this.inventoryService.postMovement({
+                        tenantId,
+                        warehouseId: invoice.warehouseId,
+                        itemId: line.itemId,
+                        fiscalPeriodId: invoice.fiscalPeriodId,
+                        movementType: StockMovementType.ADJUSTMENT,
+                        quantity: reverseQty,
+                        unitCost: Number(line.unitPrice),
+                        referenceType: 'invoice_cancellation',
+                        referenceId: invoice.id,
+                        notes: `Cancellation of invoice ${invoice.number}`,
+                        userId,
+                    });
+                }
             }
         }
 
