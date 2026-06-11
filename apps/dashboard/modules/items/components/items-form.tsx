@@ -10,6 +10,8 @@ import { useResourceFormController } from "@/shared/hooks/use-resource-form-cont
 import { customFieldModules } from "@devloggers/api-contracts"
 import { CustomFieldsFormSection } from "@/shared/custom-fields"
 import { itemsFormConfig, type ItemFormValues } from "../items.config"
+import { ItemTagsSection } from "./items-tags-section"
+import { ItemRelationsSection } from "./items-relations-section"
 
 export type ItemsFormProps = ResourceFormProps<ItemsClient> & {
     closeOnSuccess?: boolean
@@ -147,6 +149,14 @@ export function ItemsForm({
                             />
                         </CardContent>
                     </Card>
+                )}
+
+                {ctrl.isEditing && resourceId && (
+                    <ItemTagsSection itemId={resourceId!} disabled={ctrl.isBusy} />
+                )}
+
+                {ctrl.isEditing && resourceId && (
+                    <ItemRelationsSection itemId={resourceId!} disabled={ctrl.isBusy} />
                 )}
             </div>
         </ResourceFormShell>

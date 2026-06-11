@@ -1,0 +1,7 @@
+export { TagsPage } from "./components/tags-page"
+export { TagsForm } from "./components/tags-form"
+export { createTagsColumns } from "./components/tags-columns"
+export { useTagsResource } from "./hooks"
+export type { TagsResourceContext } from "./hooks"
+export { tagFormSchema, DEFAULT_TAG_FORM_VALUES, mapTagToFormValues, TAG_MODULES } from "./tags.config"
+export type { TagFormValues, TagModule } from "./tags.config"

@@ -45,7 +45,8 @@
       "systemSettings": "System Settings",
       "currencies": "Currencies",
       "fiscalPeriods": "Fiscal Periods",
-      "documentSequences": "Document Sequences"
+      "documentSequences": "Document Sequences",
+      "tags": "Tags"
     }
   },
   "settings": {
@@ -57,9 +58,15 @@
       "preferences": "Preferences",
       "systemData": "System data"
     },
-    "currencies": { "navLabel": "Currencies" },
-    "fiscalPeriods": { "navLabel": "Fiscal periods" },
-    "documentSequences": { "navLabel": "Document sequences" },
+    "currencies": {
+      "navLabel": "Currencies"
+    },
+    "fiscalPeriods": {
+      "navLabel": "Fiscal periods"
+    },
+    "documentSequences": {
+      "navLabel": "Document sequences"
+    },
     "profile": {
       "navLabel": "Company profile",
       "title": "Company profile",
@@ -196,7 +203,23 @@
         "vehicle": "Vehicle",
         "bundle": "Bundle"
       },
-      "active": "Active"
+      "active": "Active",
+      "sectionTags": "Tags",
+      "noTags": "No tags assigned",
+      "addTagPlaceholder": "Add a tag...",
+      "sectionRelations": "Item Relations",
+      "addRelation": "Add Relation",
+      "relatedItem": "Related Item",
+      "relatedItemPlaceholder": "Search items...",
+      "relationType": "Relation Type",
+      "notes": "Notes",
+      "notesPlaceholder": "Optional notes...",
+      "addRelationAction": "Add Relation",
+      "relationTypes": {
+        "compatible_with": "Compatible With",
+        "replaces": "Replaces",
+        "requires": "Requires"
+      }
     },
     "warehouses": {
       "title": "Warehouses",
@@ -408,6 +431,24 @@
         "tax": "Tax",
         "total": "Total"
       }
+    },
+    "tags": {
+      "title": "Tags",
+      "entity": "Tag",
+      "addAction": "Add Tag",
+      "name": "Name",
+      "namePlaceholder": "e.g. Featured",
+      "color": "Color",
+      "colorPlaceholder": "#RRGGBB (optional)",
+      "module": "Module",
+      "modulePlaceholder": "Select module...",
+      "modules": {
+        "items": "Items",
+        "parties": "Parties",
+        "invoices": "Invoices",
+        "warehouses": "Warehouses"
+      },
+      "active": "Active"
     }
   }
 }

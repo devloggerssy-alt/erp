@@ -45,7 +45,8 @@
       "systemSettings": "Sistem Ayarları",
       "currencies": "Para Birimleri",
       "fiscalPeriods": "Mali Dönemler",
-      "documentSequences": "Belge Dizileri"
+      "documentSequences": "Belge Dizileri",
+      "tags": "Etiketler"
     }
   },
   "settings": {
@@ -57,9 +58,15 @@
       "preferences": "Tercihler",
       "systemData": "Sistem verileri"
     },
-    "currencies": { "navLabel": "Para birimleri" },
-    "fiscalPeriods": { "navLabel": "Mali dönemler" },
-    "documentSequences": { "navLabel": "Belge sıraları" },
+    "currencies": {
+      "navLabel": "Para birimleri"
+    },
+    "fiscalPeriods": {
+      "navLabel": "Mali dönemler"
+    },
+    "documentSequences": {
+      "navLabel": "Belge sıraları"
+    },
     "profile": {
       "navLabel": "Şirket profili",
       "title": "Şirket profili",
@@ -196,7 +203,23 @@
         "vehicle": "Araç",
         "bundle": "Paket"
       },
-      "active": "Aktif"
+      "active": "Aktif",
+      "sectionTags": "Etiketler",
+      "noTags": "Etiket atanmamış",
+      "addTagPlaceholder": "Etiket ekle...",
+      "sectionRelations": "Ürün İlişkileri",
+      "addRelation": "İlişki Ekle",
+      "relatedItem": "İlişkili Ürün",
+      "relatedItemPlaceholder": "Ürün ara...",
+      "relationType": "İlişki Türü",
+      "notes": "Notlar",
+      "notesPlaceholder": "İsteğe bağlı notlar...",
+      "addRelationAction": "İlişki Ekle",
+      "relationTypes": {
+        "compatible_with": "Uyumlu",
+        "replaces": "Değiştirir",
+        "requires": "Gerektirir"
+      }
     },
     "warehouses": {
       "title": "Depolar",
@@ -408,6 +431,24 @@
         "tax": "Vergi",
         "total": "Toplam"
       }
+    },
+    "tags": {
+      "title": "Etiketler",
+      "entity": "Etiket",
+      "addAction": "Etiket Ekle",
+      "name": "Ad",
+      "namePlaceholder": "örn. Öne Çıkan",
+      "color": "Renk",
+      "colorPlaceholder": "#RRGGBB (isteğe bağlı)",
+      "module": "Modül",
+      "modulePlaceholder": "Modül seçin...",
+      "modules": {
+        "items": "Ürünler",
+        "parties": "Taraflar",
+        "invoices": "Faturalar",
+        "warehouses": "Depolar"
+      },
+      "active": "Aktif"
     }
   }
 }

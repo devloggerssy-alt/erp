@@ -45,7 +45,8 @@
       "systemSettings": "إعدادات النظام",
       "currencies": "العملات",
       "fiscalPeriods": "الفترات المالية",
-      "documentSequences": "تسلسل المستندات"
+      "documentSequences": "تسلسل المستندات",
+      "tags": "الوسوم"
     }
   },
   "settings": {
@@ -57,9 +58,15 @@
       "preferences": "التفضيلات",
       "systemData": "بيانات النظام"
     },
-    "currencies": { "navLabel": "العملات" },
-    "fiscalPeriods": { "navLabel": "الفترات المالية" },
-    "documentSequences": { "navLabel": "تسلسلات المستندات" },
+    "currencies": {
+      "navLabel": "العملات"
+    },
+    "fiscalPeriods": {
+      "navLabel": "الفترات المالية"
+    },
+    "documentSequences": {
+      "navLabel": "تسلسلات المستندات"
+    },
     "profile": {
       "navLabel": "ملف الشركة",
       "title": "ملف الشركة",
@@ -196,7 +203,23 @@
         "vehicle": "مركبة",
         "bundle": "حزمة"
       },
-      "active": "نشط"
+      "active": "نشط",
+      "sectionTags": "الوسوم",
+      "noTags": "لا توجد وسوم",
+      "addTagPlaceholder": "أضف وسماً...",
+      "sectionRelations": "علاقات الصنف",
+      "addRelation": "إضافة علاقة",
+      "relatedItem": "الصنف المرتبط",
+      "relatedItemPlaceholder": "ابحث عن صنف...",
+      "relationType": "نوع العلاقة",
+      "notes": "ملاحظات",
+      "notesPlaceholder": "ملاحظات اختيارية...",
+      "addRelationAction": "إضافة العلاقة",
+      "relationTypes": {
+        "compatible_with": "متوافق مع",
+        "replaces": "يحل محل",
+        "requires": "يتطلب"
+      }
     },
     "warehouses": {
       "title": "المستودعات",
@@ -408,6 +431,24 @@
         "tax": "الضريبة",
         "total": "الإجمالي"
       }
+    },
+    "tags": {
+      "title": "الوسوم",
+      "entity": "وسم",
+      "addAction": "إضافة وسم",
+      "name": "الاسم",
+      "namePlaceholder": "مثال: مميز",
+      "color": "اللون",
+      "colorPlaceholder": "#RRGGBB (اختياري)",
+      "module": "الوحدة",
+      "modulePlaceholder": "اختر الوحدة...",
+      "modules": {
+        "items": "الأصناف",
+        "parties": "الأطراف",
+        "invoices": "الفواتير",
+        "warehouses": "المستودعات"
+      },
+      "active": "نشط"
     }
   },
   "landing": {
