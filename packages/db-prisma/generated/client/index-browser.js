@@ -392,6 +392,17 @@ exports.Prisma.ItemCategoryScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.ItemRelationScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  itemId: 'itemId',
+  relatedItemId: 'relatedItemId',
+  relationType: 'relationType',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.ItemScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
@@ -402,6 +413,7 @@ exports.Prisma.ItemScalarFieldEnum = {
   baseUnitId: 'baseUnitId',
   defaultSellingPrice: 'defaultSellingPrice',
   latestPurchasePrice: 'latestPurchasePrice',
+  itemType: 'itemType',
   isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -473,6 +485,25 @@ exports.Prisma.StockMovementScalarFieldEnum = {
   notes: 'notes',
   createdAt: 'createdAt',
   createdBy: 'createdBy'
+};
+
+exports.Prisma.TagAssignmentScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  tagId: 'tagId',
+  entityType: 'entityType',
+  entityId: 'entityId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.TagScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  name: 'name',
+  color: 'color',
+  module: 'module',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.TenantSettingScalarFieldEnum = {
@@ -700,12 +731,15 @@ exports.Prisma.ModelName = {
   Invoice: 'Invoice',
   InvoiceLine: 'InvoiceLine',
   ItemCategory: 'ItemCategory',
+  ItemRelation: 'ItemRelation',
   Item: 'Item',
   Party: 'Party',
   StockCount: 'StockCount',
   StockCountLine: 'StockCountLine',
   StockBalance: 'StockBalance',
   StockMovement: 'StockMovement',
+  TagAssignment: 'TagAssignment',
+  Tag: 'Tag',
   TenantSetting: 'TenantSetting',
   Tenant: 'Tenant',
   Unit: 'Unit',

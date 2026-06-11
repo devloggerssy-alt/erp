@@ -1,0 +1,21 @@
+// ─── ItemRelation ─────────────────────────────────────────────────────────────
+model ItemRelation {
+    id            String   @id @default(uuid())
+    tenantId      String   @map("tenant_id")
+    itemId        String   @map("item_id")
+    relatedItemId String   @map("related_item_id")
+    relationType  String   @map("relation_type")
+    // "compatible_with" | "replaces" | "requires"
+    notes         String?
+    createdAt     DateTime @default(now()) @map("created_at")
+    updatedAt     DateTime @updatedAt @map("updated_at")
+
+    tenant      Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+    item        Item   @relation("ItemRelations", fields: [itemId], references: [id], onDelete: Cascade)
+    relatedItem Item   @relation("ItemRelatedTo", fields: [relatedItemId], references: [id], onDelete: Cascade)
+
+    @@unique([tenantId, itemId, relatedItemId, relationType])
+    @@index([tenantId])
+    @@index([tenantId, itemId])
+    @@map("item_relations")
+}

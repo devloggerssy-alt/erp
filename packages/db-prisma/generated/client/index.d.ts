@@ -114,6 +114,11 @@ export type InvoiceLine = $Result.DefaultSelection<Prisma.$InvoiceLinePayload>
  */
 export type ItemCategory = $Result.DefaultSelection<Prisma.$ItemCategoryPayload>
 /**
+ * Model ItemRelation
+ * 
+ */
+export type ItemRelation = $Result.DefaultSelection<Prisma.$ItemRelationPayload>
+/**
  * Model Item
  * 
  */
@@ -143,6 +148,16 @@ export type StockBalance = $Result.DefaultSelection<Prisma.$StockBalancePayload>
  * 
  */
 export type StockMovement = $Result.DefaultSelection<Prisma.$StockMovementPayload>
+/**
+ * Model TagAssignment
+ * 
+ */
+export type TagAssignment = $Result.DefaultSelection<Prisma.$TagAssignmentPayload>
+/**
+ * Model Tag
+ * 
+ */
+export type Tag = $Result.DefaultSelection<Prisma.$TagPayload>
 /**
  * Model TenantSetting
  * 
@@ -687,6 +702,16 @@ export class PrismaClient<
   get itemCategory(): Prisma.ItemCategoryDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.itemRelation`: Exposes CRUD operations for the **ItemRelation** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ItemRelations
+    * const itemRelations = await prisma.itemRelation.findMany()
+    * ```
+    */
+  get itemRelation(): Prisma.ItemRelationDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.item`: Exposes CRUD operations for the **Item** model.
     * Example usage:
     * ```ts
@@ -745,6 +770,26 @@ export class PrismaClient<
     * ```
     */
   get stockMovement(): Prisma.StockMovementDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.tagAssignment`: Exposes CRUD operations for the **TagAssignment** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more TagAssignments
+    * const tagAssignments = await prisma.tagAssignment.findMany()
+    * ```
+    */
+  get tagAssignment(): Prisma.TagAssignmentDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.tag`: Exposes CRUD operations for the **Tag** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Tags
+    * const tags = await prisma.tag.findMany()
+    * ```
+    */
+  get tag(): Prisma.TagDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.tenantSetting`: Exposes CRUD operations for the **TenantSetting** model.
@@ -1279,12 +1324,15 @@ export namespace Prisma {
     Invoice: 'Invoice',
     InvoiceLine: 'InvoiceLine',
     ItemCategory: 'ItemCategory',
+    ItemRelation: 'ItemRelation',
     Item: 'Item',
     Party: 'Party',
     StockCount: 'StockCount',
     StockCountLine: 'StockCountLine',
     StockBalance: 'StockBalance',
     StockMovement: 'StockMovement',
+    TagAssignment: 'TagAssignment',
+    Tag: 'Tag',
     TenantSetting: 'TenantSetting',
     Tenant: 'Tenant',
     Unit: 'Unit',
@@ -1308,7 +1356,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "chartOfAccount" | "journalEntry" | "journalLine" | "aiChatSession" | "aiChatMessage" | "auditLog" | "cashbox" | "payment" | "paymentAllocation" | "currency" | "customField" | "customFieldValue" | "documentSequence" | "expense" | "expenseItem" | "fiscalPeriod" | "invoiceType" | "invoice" | "invoiceLine" | "itemCategory" | "item" | "party" | "stockCount" | "stockCountLine" | "stockBalance" | "stockMovement" | "tenantSetting" | "tenant" | "unit" | "appUser" | "role" | "userRole" | "warehouse" | "warehouseItem"
+      modelProps: "chartOfAccount" | "journalEntry" | "journalLine" | "aiChatSession" | "aiChatMessage" | "auditLog" | "cashbox" | "payment" | "paymentAllocation" | "currency" | "customField" | "customFieldValue" | "documentSequence" | "expense" | "expenseItem" | "fiscalPeriod" | "invoiceType" | "invoice" | "invoiceLine" | "itemCategory" | "itemRelation" | "item" | "party" | "stockCount" | "stockCountLine" | "stockBalance" | "stockMovement" | "tagAssignment" | "tag" | "tenantSetting" | "tenant" | "unit" | "appUser" | "role" | "userRole" | "warehouse" | "warehouseItem"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2792,6 +2840,80 @@ export namespace Prisma {
           }
         }
       }
+      ItemRelation: {
+        payload: Prisma.$ItemRelationPayload<ExtArgs>
+        fields: Prisma.ItemRelationFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ItemRelationFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ItemRelationPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ItemRelationFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ItemRelationPayload>
+          }
+          findFirst: {
+            args: Prisma.ItemRelationFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ItemRelationPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ItemRelationFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ItemRelationPayload>
+          }
+          findMany: {
+            args: Prisma.ItemRelationFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ItemRelationPayload>[]
+          }
+          create: {
+            args: Prisma.ItemRelationCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ItemRelationPayload>
+          }
+          createMany: {
+            args: Prisma.ItemRelationCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ItemRelationCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ItemRelationPayload>[]
+          }
+          delete: {
+            args: Prisma.ItemRelationDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ItemRelationPayload>
+          }
+          update: {
+            args: Prisma.ItemRelationUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ItemRelationPayload>
+          }
+          deleteMany: {
+            args: Prisma.ItemRelationDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ItemRelationUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ItemRelationUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ItemRelationPayload>[]
+          }
+          upsert: {
+            args: Prisma.ItemRelationUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ItemRelationPayload>
+          }
+          aggregate: {
+            args: Prisma.ItemRelationAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateItemRelation>
+          }
+          groupBy: {
+            args: Prisma.ItemRelationGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ItemRelationGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ItemRelationCountArgs<ExtArgs>
+            result: $Utils.Optional<ItemRelationCountAggregateOutputType> | number
+          }
+        }
+      }
       Item: {
         payload: Prisma.$ItemPayload<ExtArgs>
         fields: Prisma.ItemFieldRefs
@@ -3233,6 +3355,154 @@ export namespace Prisma {
           count: {
             args: Prisma.StockMovementCountArgs<ExtArgs>
             result: $Utils.Optional<StockMovementCountAggregateOutputType> | number
+          }
+        }
+      }
+      TagAssignment: {
+        payload: Prisma.$TagAssignmentPayload<ExtArgs>
+        fields: Prisma.TagAssignmentFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.TagAssignmentFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TagAssignmentPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.TagAssignmentFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TagAssignmentPayload>
+          }
+          findFirst: {
+            args: Prisma.TagAssignmentFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TagAssignmentPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.TagAssignmentFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TagAssignmentPayload>
+          }
+          findMany: {
+            args: Prisma.TagAssignmentFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TagAssignmentPayload>[]
+          }
+          create: {
+            args: Prisma.TagAssignmentCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TagAssignmentPayload>
+          }
+          createMany: {
+            args: Prisma.TagAssignmentCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.TagAssignmentCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TagAssignmentPayload>[]
+          }
+          delete: {
+            args: Prisma.TagAssignmentDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TagAssignmentPayload>
+          }
+          update: {
+            args: Prisma.TagAssignmentUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TagAssignmentPayload>
+          }
+          deleteMany: {
+            args: Prisma.TagAssignmentDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.TagAssignmentUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.TagAssignmentUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TagAssignmentPayload>[]
+          }
+          upsert: {
+            args: Prisma.TagAssignmentUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TagAssignmentPayload>
+          }
+          aggregate: {
+            args: Prisma.TagAssignmentAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTagAssignment>
+          }
+          groupBy: {
+            args: Prisma.TagAssignmentGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TagAssignmentGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.TagAssignmentCountArgs<ExtArgs>
+            result: $Utils.Optional<TagAssignmentCountAggregateOutputType> | number
+          }
+        }
+      }
+      Tag: {
+        payload: Prisma.$TagPayload<ExtArgs>
+        fields: Prisma.TagFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.TagFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TagPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.TagFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TagPayload>
+          }
+          findFirst: {
+            args: Prisma.TagFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TagPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.TagFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TagPayload>
+          }
+          findMany: {
+            args: Prisma.TagFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TagPayload>[]
+          }
+          create: {
+            args: Prisma.TagCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TagPayload>
+          }
+          createMany: {
+            args: Prisma.TagCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.TagCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TagPayload>[]
+          }
+          delete: {
+            args: Prisma.TagDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TagPayload>
+          }
+          update: {
+            args: Prisma.TagUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TagPayload>
+          }
+          deleteMany: {
+            args: Prisma.TagDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.TagUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.TagUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TagPayload>[]
+          }
+          upsert: {
+            args: Prisma.TagUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TagPayload>
+          }
+          aggregate: {
+            args: Prisma.TagAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTag>
+          }
+          groupBy: {
+            args: Prisma.TagGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TagGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.TagCountArgs<ExtArgs>
+            result: $Utils.Optional<TagCountAggregateOutputType> | number
           }
         }
       }
@@ -3956,12 +4226,15 @@ export namespace Prisma {
     invoice?: InvoiceOmit
     invoiceLine?: InvoiceLineOmit
     itemCategory?: ItemCategoryOmit
+    itemRelation?: ItemRelationOmit
     item?: ItemOmit
     party?: PartyOmit
     stockCount?: StockCountOmit
     stockCountLine?: StockCountLineOmit
     stockBalance?: StockBalanceOmit
     stockMovement?: StockMovementOmit
+    tagAssignment?: TagAssignmentOmit
+    tag?: TagOmit
     tenantSetting?: TenantSettingOmit
     tenant?: TenantOmit
     unit?: UnitOmit
@@ -4593,6 +4866,8 @@ export namespace Prisma {
     stockMovements: number
     invoiceLines: number
     stockCountLines: number
+    itemRelations: number
+    itemRelatedTo: number
   }
 
   export type ItemCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4601,6 +4876,8 @@ export namespace Prisma {
     stockMovements?: boolean | ItemCountOutputTypeCountStockMovementsArgs
     invoiceLines?: boolean | ItemCountOutputTypeCountInvoiceLinesArgs
     stockCountLines?: boolean | ItemCountOutputTypeCountStockCountLinesArgs
+    itemRelations?: boolean | ItemCountOutputTypeCountItemRelationsArgs
+    itemRelatedTo?: boolean | ItemCountOutputTypeCountItemRelatedToArgs
   }
 
   // Custom InputTypes
@@ -4647,6 +4924,20 @@ export namespace Prisma {
    */
   export type ItemCountOutputTypeCountStockCountLinesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: StockCountLineWhereInput
+  }
+
+  /**
+   * ItemCountOutputType without action
+   */
+  export type ItemCountOutputTypeCountItemRelationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ItemRelationWhereInput
+  }
+
+  /**
+   * ItemCountOutputType without action
+   */
+  export type ItemCountOutputTypeCountItemRelatedToArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ItemRelationWhereInput
   }
 
 
@@ -4722,6 +5013,37 @@ export namespace Prisma {
 
 
   /**
+   * Count Type TagCountOutputType
+   */
+
+  export type TagCountOutputType = {
+    assignments: number
+  }
+
+  export type TagCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    assignments?: boolean | TagCountOutputTypeCountAssignmentsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * TagCountOutputType without action
+   */
+  export type TagCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TagCountOutputType
+     */
+    select?: TagCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * TagCountOutputType without action
+   */
+  export type TagCountOutputTypeCountAssignmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TagAssignmentWhereInput
+  }
+
+
+  /**
    * Count Type TenantCountOutputType
    */
 
@@ -4747,6 +5069,9 @@ export namespace Prisma {
     aiChatSessions: number
     settings: number
     expenses: number
+    tags: number
+    tagAssignments: number
+    itemRelations: number
   }
 
   export type TenantCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4771,6 +5096,9 @@ export namespace Prisma {
     aiChatSessions?: boolean | TenantCountOutputTypeCountAiChatSessionsArgs
     settings?: boolean | TenantCountOutputTypeCountSettingsArgs
     expenses?: boolean | TenantCountOutputTypeCountExpensesArgs
+    tags?: boolean | TenantCountOutputTypeCountTagsArgs
+    tagAssignments?: boolean | TenantCountOutputTypeCountTagAssignmentsArgs
+    itemRelations?: boolean | TenantCountOutputTypeCountItemRelationsArgs
   }
 
   // Custom InputTypes
@@ -4929,6 +5257,27 @@ export namespace Prisma {
    */
   export type TenantCountOutputTypeCountExpensesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ExpenseWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountTagsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TagWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountTagAssignmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TagAssignmentWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountItemRelationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ItemRelationWhereInput
   }
 
 
@@ -29211,6 +29560,1124 @@ export namespace Prisma {
 
 
   /**
+   * Model ItemRelation
+   */
+
+  export type AggregateItemRelation = {
+    _count: ItemRelationCountAggregateOutputType | null
+    _min: ItemRelationMinAggregateOutputType | null
+    _max: ItemRelationMaxAggregateOutputType | null
+  }
+
+  export type ItemRelationMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    itemId: string | null
+    relatedItemId: string | null
+    relationType: string | null
+    notes: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ItemRelationMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    itemId: string | null
+    relatedItemId: string | null
+    relationType: string | null
+    notes: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ItemRelationCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    itemId: number
+    relatedItemId: number
+    relationType: number
+    notes: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type ItemRelationMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    itemId?: true
+    relatedItemId?: true
+    relationType?: true
+    notes?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ItemRelationMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    itemId?: true
+    relatedItemId?: true
+    relationType?: true
+    notes?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ItemRelationCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    itemId?: true
+    relatedItemId?: true
+    relationType?: true
+    notes?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type ItemRelationAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ItemRelation to aggregate.
+     */
+    where?: ItemRelationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ItemRelations to fetch.
+     */
+    orderBy?: ItemRelationOrderByWithRelationInput | ItemRelationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ItemRelationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ItemRelations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ItemRelations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ItemRelations
+    **/
+    _count?: true | ItemRelationCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ItemRelationMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ItemRelationMaxAggregateInputType
+  }
+
+  export type GetItemRelationAggregateType<T extends ItemRelationAggregateArgs> = {
+        [P in keyof T & keyof AggregateItemRelation]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateItemRelation[P]>
+      : GetScalarType<T[P], AggregateItemRelation[P]>
+  }
+
+
+
+
+  export type ItemRelationGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ItemRelationWhereInput
+    orderBy?: ItemRelationOrderByWithAggregationInput | ItemRelationOrderByWithAggregationInput[]
+    by: ItemRelationScalarFieldEnum[] | ItemRelationScalarFieldEnum
+    having?: ItemRelationScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ItemRelationCountAggregateInputType | true
+    _min?: ItemRelationMinAggregateInputType
+    _max?: ItemRelationMaxAggregateInputType
+  }
+
+  export type ItemRelationGroupByOutputType = {
+    id: string
+    tenantId: string
+    itemId: string
+    relatedItemId: string
+    relationType: string
+    notes: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: ItemRelationCountAggregateOutputType | null
+    _min: ItemRelationMinAggregateOutputType | null
+    _max: ItemRelationMaxAggregateOutputType | null
+  }
+
+  type GetItemRelationGroupByPayload<T extends ItemRelationGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ItemRelationGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ItemRelationGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ItemRelationGroupByOutputType[P]>
+            : GetScalarType<T[P], ItemRelationGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ItemRelationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    itemId?: boolean
+    relatedItemId?: boolean
+    relationType?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    item?: boolean | ItemDefaultArgs<ExtArgs>
+    relatedItem?: boolean | ItemDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["itemRelation"]>
+
+  export type ItemRelationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    itemId?: boolean
+    relatedItemId?: boolean
+    relationType?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    item?: boolean | ItemDefaultArgs<ExtArgs>
+    relatedItem?: boolean | ItemDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["itemRelation"]>
+
+  export type ItemRelationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    itemId?: boolean
+    relatedItemId?: boolean
+    relationType?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    item?: boolean | ItemDefaultArgs<ExtArgs>
+    relatedItem?: boolean | ItemDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["itemRelation"]>
+
+  export type ItemRelationSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    itemId?: boolean
+    relatedItemId?: boolean
+    relationType?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type ItemRelationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "itemId" | "relatedItemId" | "relationType" | "notes" | "createdAt" | "updatedAt", ExtArgs["result"]["itemRelation"]>
+  export type ItemRelationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    item?: boolean | ItemDefaultArgs<ExtArgs>
+    relatedItem?: boolean | ItemDefaultArgs<ExtArgs>
+  }
+  export type ItemRelationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    item?: boolean | ItemDefaultArgs<ExtArgs>
+    relatedItem?: boolean | ItemDefaultArgs<ExtArgs>
+  }
+  export type ItemRelationIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    item?: boolean | ItemDefaultArgs<ExtArgs>
+    relatedItem?: boolean | ItemDefaultArgs<ExtArgs>
+  }
+
+  export type $ItemRelationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ItemRelation"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+      item: Prisma.$ItemPayload<ExtArgs>
+      relatedItem: Prisma.$ItemPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      itemId: string
+      relatedItemId: string
+      relationType: string
+      notes: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["itemRelation"]>
+    composites: {}
+  }
+
+  type ItemRelationGetPayload<S extends boolean | null | undefined | ItemRelationDefaultArgs> = $Result.GetResult<Prisma.$ItemRelationPayload, S>
+
+  type ItemRelationCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ItemRelationFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ItemRelationCountAggregateInputType | true
+    }
+
+  export interface ItemRelationDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ItemRelation'], meta: { name: 'ItemRelation' } }
+    /**
+     * Find zero or one ItemRelation that matches the filter.
+     * @param {ItemRelationFindUniqueArgs} args - Arguments to find a ItemRelation
+     * @example
+     * // Get one ItemRelation
+     * const itemRelation = await prisma.itemRelation.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ItemRelationFindUniqueArgs>(args: SelectSubset<T, ItemRelationFindUniqueArgs<ExtArgs>>): Prisma__ItemRelationClient<$Result.GetResult<Prisma.$ItemRelationPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ItemRelation that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ItemRelationFindUniqueOrThrowArgs} args - Arguments to find a ItemRelation
+     * @example
+     * // Get one ItemRelation
+     * const itemRelation = await prisma.itemRelation.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ItemRelationFindUniqueOrThrowArgs>(args: SelectSubset<T, ItemRelationFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ItemRelationClient<$Result.GetResult<Prisma.$ItemRelationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ItemRelation that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ItemRelationFindFirstArgs} args - Arguments to find a ItemRelation
+     * @example
+     * // Get one ItemRelation
+     * const itemRelation = await prisma.itemRelation.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ItemRelationFindFirstArgs>(args?: SelectSubset<T, ItemRelationFindFirstArgs<ExtArgs>>): Prisma__ItemRelationClient<$Result.GetResult<Prisma.$ItemRelationPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ItemRelation that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ItemRelationFindFirstOrThrowArgs} args - Arguments to find a ItemRelation
+     * @example
+     * // Get one ItemRelation
+     * const itemRelation = await prisma.itemRelation.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ItemRelationFindFirstOrThrowArgs>(args?: SelectSubset<T, ItemRelationFindFirstOrThrowArgs<ExtArgs>>): Prisma__ItemRelationClient<$Result.GetResult<Prisma.$ItemRelationPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ItemRelations that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ItemRelationFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ItemRelations
+     * const itemRelations = await prisma.itemRelation.findMany()
+     * 
+     * // Get first 10 ItemRelations
+     * const itemRelations = await prisma.itemRelation.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const itemRelationWithIdOnly = await prisma.itemRelation.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ItemRelationFindManyArgs>(args?: SelectSubset<T, ItemRelationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ItemRelationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ItemRelation.
+     * @param {ItemRelationCreateArgs} args - Arguments to create a ItemRelation.
+     * @example
+     * // Create one ItemRelation
+     * const ItemRelation = await prisma.itemRelation.create({
+     *   data: {
+     *     // ... data to create a ItemRelation
+     *   }
+     * })
+     * 
+     */
+    create<T extends ItemRelationCreateArgs>(args: SelectSubset<T, ItemRelationCreateArgs<ExtArgs>>): Prisma__ItemRelationClient<$Result.GetResult<Prisma.$ItemRelationPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ItemRelations.
+     * @param {ItemRelationCreateManyArgs} args - Arguments to create many ItemRelations.
+     * @example
+     * // Create many ItemRelations
+     * const itemRelation = await prisma.itemRelation.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ItemRelationCreateManyArgs>(args?: SelectSubset<T, ItemRelationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ItemRelations and returns the data saved in the database.
+     * @param {ItemRelationCreateManyAndReturnArgs} args - Arguments to create many ItemRelations.
+     * @example
+     * // Create many ItemRelations
+     * const itemRelation = await prisma.itemRelation.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ItemRelations and only return the `id`
+     * const itemRelationWithIdOnly = await prisma.itemRelation.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ItemRelationCreateManyAndReturnArgs>(args?: SelectSubset<T, ItemRelationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ItemRelationPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ItemRelation.
+     * @param {ItemRelationDeleteArgs} args - Arguments to delete one ItemRelation.
+     * @example
+     * // Delete one ItemRelation
+     * const ItemRelation = await prisma.itemRelation.delete({
+     *   where: {
+     *     // ... filter to delete one ItemRelation
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ItemRelationDeleteArgs>(args: SelectSubset<T, ItemRelationDeleteArgs<ExtArgs>>): Prisma__ItemRelationClient<$Result.GetResult<Prisma.$ItemRelationPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ItemRelation.
+     * @param {ItemRelationUpdateArgs} args - Arguments to update one ItemRelation.
+     * @example
+     * // Update one ItemRelation
+     * const itemRelation = await prisma.itemRelation.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ItemRelationUpdateArgs>(args: SelectSubset<T, ItemRelationUpdateArgs<ExtArgs>>): Prisma__ItemRelationClient<$Result.GetResult<Prisma.$ItemRelationPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ItemRelations.
+     * @param {ItemRelationDeleteManyArgs} args - Arguments to filter ItemRelations to delete.
+     * @example
+     * // Delete a few ItemRelations
+     * const { count } = await prisma.itemRelation.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ItemRelationDeleteManyArgs>(args?: SelectSubset<T, ItemRelationDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ItemRelations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ItemRelationUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ItemRelations
+     * const itemRelation = await prisma.itemRelation.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ItemRelationUpdateManyArgs>(args: SelectSubset<T, ItemRelationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ItemRelations and returns the data updated in the database.
+     * @param {ItemRelationUpdateManyAndReturnArgs} args - Arguments to update many ItemRelations.
+     * @example
+     * // Update many ItemRelations
+     * const itemRelation = await prisma.itemRelation.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ItemRelations and only return the `id`
+     * const itemRelationWithIdOnly = await prisma.itemRelation.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ItemRelationUpdateManyAndReturnArgs>(args: SelectSubset<T, ItemRelationUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ItemRelationPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ItemRelation.
+     * @param {ItemRelationUpsertArgs} args - Arguments to update or create a ItemRelation.
+     * @example
+     * // Update or create a ItemRelation
+     * const itemRelation = await prisma.itemRelation.upsert({
+     *   create: {
+     *     // ... data to create a ItemRelation
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ItemRelation we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ItemRelationUpsertArgs>(args: SelectSubset<T, ItemRelationUpsertArgs<ExtArgs>>): Prisma__ItemRelationClient<$Result.GetResult<Prisma.$ItemRelationPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ItemRelations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ItemRelationCountArgs} args - Arguments to filter ItemRelations to count.
+     * @example
+     * // Count the number of ItemRelations
+     * const count = await prisma.itemRelation.count({
+     *   where: {
+     *     // ... the filter for the ItemRelations we want to count
+     *   }
+     * })
+    **/
+    count<T extends ItemRelationCountArgs>(
+      args?: Subset<T, ItemRelationCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ItemRelationCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ItemRelation.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ItemRelationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ItemRelationAggregateArgs>(args: Subset<T, ItemRelationAggregateArgs>): Prisma.PrismaPromise<GetItemRelationAggregateType<T>>
+
+    /**
+     * Group by ItemRelation.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ItemRelationGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ItemRelationGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ItemRelationGroupByArgs['orderBy'] }
+        : { orderBy?: ItemRelationGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ItemRelationGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetItemRelationGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ItemRelation model
+   */
+  readonly fields: ItemRelationFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ItemRelation.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ItemRelationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    item<T extends ItemDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ItemDefaultArgs<ExtArgs>>): Prisma__ItemClient<$Result.GetResult<Prisma.$ItemPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    relatedItem<T extends ItemDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ItemDefaultArgs<ExtArgs>>): Prisma__ItemClient<$Result.GetResult<Prisma.$ItemPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ItemRelation model
+   */
+  interface ItemRelationFieldRefs {
+    readonly id: FieldRef<"ItemRelation", 'String'>
+    readonly tenantId: FieldRef<"ItemRelation", 'String'>
+    readonly itemId: FieldRef<"ItemRelation", 'String'>
+    readonly relatedItemId: FieldRef<"ItemRelation", 'String'>
+    readonly relationType: FieldRef<"ItemRelation", 'String'>
+    readonly notes: FieldRef<"ItemRelation", 'String'>
+    readonly createdAt: FieldRef<"ItemRelation", 'DateTime'>
+    readonly updatedAt: FieldRef<"ItemRelation", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ItemRelation findUnique
+   */
+  export type ItemRelationFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ItemRelation
+     */
+    select?: ItemRelationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ItemRelation
+     */
+    omit?: ItemRelationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemRelationInclude<ExtArgs> | null
+    /**
+     * Filter, which ItemRelation to fetch.
+     */
+    where: ItemRelationWhereUniqueInput
+  }
+
+  /**
+   * ItemRelation findUniqueOrThrow
+   */
+  export type ItemRelationFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ItemRelation
+     */
+    select?: ItemRelationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ItemRelation
+     */
+    omit?: ItemRelationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemRelationInclude<ExtArgs> | null
+    /**
+     * Filter, which ItemRelation to fetch.
+     */
+    where: ItemRelationWhereUniqueInput
+  }
+
+  /**
+   * ItemRelation findFirst
+   */
+  export type ItemRelationFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ItemRelation
+     */
+    select?: ItemRelationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ItemRelation
+     */
+    omit?: ItemRelationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemRelationInclude<ExtArgs> | null
+    /**
+     * Filter, which ItemRelation to fetch.
+     */
+    where?: ItemRelationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ItemRelations to fetch.
+     */
+    orderBy?: ItemRelationOrderByWithRelationInput | ItemRelationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ItemRelations.
+     */
+    cursor?: ItemRelationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ItemRelations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ItemRelations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ItemRelations.
+     */
+    distinct?: ItemRelationScalarFieldEnum | ItemRelationScalarFieldEnum[]
+  }
+
+  /**
+   * ItemRelation findFirstOrThrow
+   */
+  export type ItemRelationFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ItemRelation
+     */
+    select?: ItemRelationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ItemRelation
+     */
+    omit?: ItemRelationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemRelationInclude<ExtArgs> | null
+    /**
+     * Filter, which ItemRelation to fetch.
+     */
+    where?: ItemRelationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ItemRelations to fetch.
+     */
+    orderBy?: ItemRelationOrderByWithRelationInput | ItemRelationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ItemRelations.
+     */
+    cursor?: ItemRelationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ItemRelations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ItemRelations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ItemRelations.
+     */
+    distinct?: ItemRelationScalarFieldEnum | ItemRelationScalarFieldEnum[]
+  }
+
+  /**
+   * ItemRelation findMany
+   */
+  export type ItemRelationFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ItemRelation
+     */
+    select?: ItemRelationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ItemRelation
+     */
+    omit?: ItemRelationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemRelationInclude<ExtArgs> | null
+    /**
+     * Filter, which ItemRelations to fetch.
+     */
+    where?: ItemRelationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ItemRelations to fetch.
+     */
+    orderBy?: ItemRelationOrderByWithRelationInput | ItemRelationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ItemRelations.
+     */
+    cursor?: ItemRelationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ItemRelations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ItemRelations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ItemRelations.
+     */
+    distinct?: ItemRelationScalarFieldEnum | ItemRelationScalarFieldEnum[]
+  }
+
+  /**
+   * ItemRelation create
+   */
+  export type ItemRelationCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ItemRelation
+     */
+    select?: ItemRelationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ItemRelation
+     */
+    omit?: ItemRelationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemRelationInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ItemRelation.
+     */
+    data: XOR<ItemRelationCreateInput, ItemRelationUncheckedCreateInput>
+  }
+
+  /**
+   * ItemRelation createMany
+   */
+  export type ItemRelationCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ItemRelations.
+     */
+    data: ItemRelationCreateManyInput | ItemRelationCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ItemRelation createManyAndReturn
+   */
+  export type ItemRelationCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ItemRelation
+     */
+    select?: ItemRelationSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ItemRelation
+     */
+    omit?: ItemRelationOmit<ExtArgs> | null
+    /**
+     * The data used to create many ItemRelations.
+     */
+    data: ItemRelationCreateManyInput | ItemRelationCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemRelationIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ItemRelation update
+   */
+  export type ItemRelationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ItemRelation
+     */
+    select?: ItemRelationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ItemRelation
+     */
+    omit?: ItemRelationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemRelationInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ItemRelation.
+     */
+    data: XOR<ItemRelationUpdateInput, ItemRelationUncheckedUpdateInput>
+    /**
+     * Choose, which ItemRelation to update.
+     */
+    where: ItemRelationWhereUniqueInput
+  }
+
+  /**
+   * ItemRelation updateMany
+   */
+  export type ItemRelationUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ItemRelations.
+     */
+    data: XOR<ItemRelationUpdateManyMutationInput, ItemRelationUncheckedUpdateManyInput>
+    /**
+     * Filter which ItemRelations to update
+     */
+    where?: ItemRelationWhereInput
+    /**
+     * Limit how many ItemRelations to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ItemRelation updateManyAndReturn
+   */
+  export type ItemRelationUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ItemRelation
+     */
+    select?: ItemRelationSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ItemRelation
+     */
+    omit?: ItemRelationOmit<ExtArgs> | null
+    /**
+     * The data used to update ItemRelations.
+     */
+    data: XOR<ItemRelationUpdateManyMutationInput, ItemRelationUncheckedUpdateManyInput>
+    /**
+     * Filter which ItemRelations to update
+     */
+    where?: ItemRelationWhereInput
+    /**
+     * Limit how many ItemRelations to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemRelationIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ItemRelation upsert
+   */
+  export type ItemRelationUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ItemRelation
+     */
+    select?: ItemRelationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ItemRelation
+     */
+    omit?: ItemRelationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemRelationInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ItemRelation to update in case it exists.
+     */
+    where: ItemRelationWhereUniqueInput
+    /**
+     * In case the ItemRelation found by the `where` argument doesn't exist, create a new ItemRelation with this data.
+     */
+    create: XOR<ItemRelationCreateInput, ItemRelationUncheckedCreateInput>
+    /**
+     * In case the ItemRelation was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ItemRelationUpdateInput, ItemRelationUncheckedUpdateInput>
+  }
+
+  /**
+   * ItemRelation delete
+   */
+  export type ItemRelationDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ItemRelation
+     */
+    select?: ItemRelationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ItemRelation
+     */
+    omit?: ItemRelationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemRelationInclude<ExtArgs> | null
+    /**
+     * Filter which ItemRelation to delete.
+     */
+    where: ItemRelationWhereUniqueInput
+  }
+
+  /**
+   * ItemRelation deleteMany
+   */
+  export type ItemRelationDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ItemRelations to delete
+     */
+    where?: ItemRelationWhereInput
+    /**
+     * Limit how many ItemRelations to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ItemRelation without action
+   */
+  export type ItemRelationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ItemRelation
+     */
+    select?: ItemRelationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ItemRelation
+     */
+    omit?: ItemRelationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemRelationInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model Item
    */
 
@@ -29242,6 +30709,7 @@ export namespace Prisma {
     baseUnitId: string | null
     defaultSellingPrice: Decimal | null
     latestPurchasePrice: Decimal | null
+    itemType: string | null
     isActive: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -29257,6 +30725,7 @@ export namespace Prisma {
     baseUnitId: string | null
     defaultSellingPrice: Decimal | null
     latestPurchasePrice: Decimal | null
+    itemType: string | null
     isActive: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -29272,6 +30741,7 @@ export namespace Prisma {
     baseUnitId: number
     defaultSellingPrice: number
     latestPurchasePrice: number
+    itemType: number
     isActive: number
     createdAt: number
     updatedAt: number
@@ -29299,6 +30769,7 @@ export namespace Prisma {
     baseUnitId?: true
     defaultSellingPrice?: true
     latestPurchasePrice?: true
+    itemType?: true
     isActive?: true
     createdAt?: true
     updatedAt?: true
@@ -29314,6 +30785,7 @@ export namespace Prisma {
     baseUnitId?: true
     defaultSellingPrice?: true
     latestPurchasePrice?: true
+    itemType?: true
     isActive?: true
     createdAt?: true
     updatedAt?: true
@@ -29329,6 +30801,7 @@ export namespace Prisma {
     baseUnitId?: true
     defaultSellingPrice?: true
     latestPurchasePrice?: true
+    itemType?: true
     isActive?: true
     createdAt?: true
     updatedAt?: true
@@ -29431,6 +30904,7 @@ export namespace Prisma {
     baseUnitId: string
     defaultSellingPrice: Decimal | null
     latestPurchasePrice: Decimal | null
+    itemType: string
     isActive: boolean
     createdAt: Date
     updatedAt: Date
@@ -29465,6 +30939,7 @@ export namespace Prisma {
     baseUnitId?: boolean
     defaultSellingPrice?: boolean
     latestPurchasePrice?: boolean
+    itemType?: boolean
     isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -29476,6 +30951,8 @@ export namespace Prisma {
     stockMovements?: boolean | Item$stockMovementsArgs<ExtArgs>
     invoiceLines?: boolean | Item$invoiceLinesArgs<ExtArgs>
     stockCountLines?: boolean | Item$stockCountLinesArgs<ExtArgs>
+    itemRelations?: boolean | Item$itemRelationsArgs<ExtArgs>
+    itemRelatedTo?: boolean | Item$itemRelatedToArgs<ExtArgs>
     _count?: boolean | ItemCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["item"]>
 
@@ -29489,6 +30966,7 @@ export namespace Prisma {
     baseUnitId?: boolean
     defaultSellingPrice?: boolean
     latestPurchasePrice?: boolean
+    itemType?: boolean
     isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -29507,6 +30985,7 @@ export namespace Prisma {
     baseUnitId?: boolean
     defaultSellingPrice?: boolean
     latestPurchasePrice?: boolean
+    itemType?: boolean
     isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -29525,12 +31004,13 @@ export namespace Prisma {
     baseUnitId?: boolean
     defaultSellingPrice?: boolean
     latestPurchasePrice?: boolean
+    itemType?: boolean
     isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type ItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "code" | "name" | "barcode" | "categoryId" | "baseUnitId" | "defaultSellingPrice" | "latestPurchasePrice" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["item"]>
+  export type ItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "code" | "name" | "barcode" | "categoryId" | "baseUnitId" | "defaultSellingPrice" | "latestPurchasePrice" | "itemType" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["item"]>
   export type ItemInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     category?: boolean | ItemCategoryDefaultArgs<ExtArgs>
@@ -29540,6 +31020,8 @@ export namespace Prisma {
     stockMovements?: boolean | Item$stockMovementsArgs<ExtArgs>
     invoiceLines?: boolean | Item$invoiceLinesArgs<ExtArgs>
     stockCountLines?: boolean | Item$stockCountLinesArgs<ExtArgs>
+    itemRelations?: boolean | Item$itemRelationsArgs<ExtArgs>
+    itemRelatedTo?: boolean | Item$itemRelatedToArgs<ExtArgs>
     _count?: boolean | ItemCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ItemIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -29564,6 +31046,8 @@ export namespace Prisma {
       stockMovements: Prisma.$StockMovementPayload<ExtArgs>[]
       invoiceLines: Prisma.$InvoiceLinePayload<ExtArgs>[]
       stockCountLines: Prisma.$StockCountLinePayload<ExtArgs>[]
+      itemRelations: Prisma.$ItemRelationPayload<ExtArgs>[]
+      itemRelatedTo: Prisma.$ItemRelationPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -29575,6 +31059,7 @@ export namespace Prisma {
       baseUnitId: string
       defaultSellingPrice: Prisma.Decimal | null
       latestPurchasePrice: Prisma.Decimal | null
+      itemType: string
       isActive: boolean
       createdAt: Date
       updatedAt: Date
@@ -29980,6 +31465,8 @@ export namespace Prisma {
     stockMovements<T extends Item$stockMovementsArgs<ExtArgs> = {}>(args?: Subset<T, Item$stockMovementsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StockMovementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     invoiceLines<T extends Item$invoiceLinesArgs<ExtArgs> = {}>(args?: Subset<T, Item$invoiceLinesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvoiceLinePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     stockCountLines<T extends Item$stockCountLinesArgs<ExtArgs> = {}>(args?: Subset<T, Item$stockCountLinesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StockCountLinePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    itemRelations<T extends Item$itemRelationsArgs<ExtArgs> = {}>(args?: Subset<T, Item$itemRelationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ItemRelationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    itemRelatedTo<T extends Item$itemRelatedToArgs<ExtArgs> = {}>(args?: Subset<T, Item$itemRelatedToArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ItemRelationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -30018,6 +31505,7 @@ export namespace Prisma {
     readonly baseUnitId: FieldRef<"Item", 'String'>
     readonly defaultSellingPrice: FieldRef<"Item", 'Decimal'>
     readonly latestPurchasePrice: FieldRef<"Item", 'Decimal'>
+    readonly itemType: FieldRef<"Item", 'String'>
     readonly isActive: FieldRef<"Item", 'Boolean'>
     readonly createdAt: FieldRef<"Item", 'DateTime'>
     readonly updatedAt: FieldRef<"Item", 'DateTime'>
@@ -30539,6 +32027,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: StockCountLineScalarFieldEnum | StockCountLineScalarFieldEnum[]
+  }
+
+  /**
+   * Item.itemRelations
+   */
+  export type Item$itemRelationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ItemRelation
+     */
+    select?: ItemRelationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ItemRelation
+     */
+    omit?: ItemRelationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemRelationInclude<ExtArgs> | null
+    where?: ItemRelationWhereInput
+    orderBy?: ItemRelationOrderByWithRelationInput | ItemRelationOrderByWithRelationInput[]
+    cursor?: ItemRelationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ItemRelationScalarFieldEnum | ItemRelationScalarFieldEnum[]
+  }
+
+  /**
+   * Item.itemRelatedTo
+   */
+  export type Item$itemRelatedToArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ItemRelation
+     */
+    select?: ItemRelationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ItemRelation
+     */
+    omit?: ItemRelationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemRelationInclude<ExtArgs> | null
+    where?: ItemRelationWhereInput
+    orderBy?: ItemRelationOrderByWithRelationInput | ItemRelationOrderByWithRelationInput[]
+    cursor?: ItemRelationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ItemRelationScalarFieldEnum | ItemRelationScalarFieldEnum[]
   }
 
   /**
@@ -36528,6 +38064,2209 @@ export namespace Prisma {
 
 
   /**
+   * Model TagAssignment
+   */
+
+  export type AggregateTagAssignment = {
+    _count: TagAssignmentCountAggregateOutputType | null
+    _min: TagAssignmentMinAggregateOutputType | null
+    _max: TagAssignmentMaxAggregateOutputType | null
+  }
+
+  export type TagAssignmentMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    tagId: string | null
+    entityType: string | null
+    entityId: string | null
+    createdAt: Date | null
+  }
+
+  export type TagAssignmentMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    tagId: string | null
+    entityType: string | null
+    entityId: string | null
+    createdAt: Date | null
+  }
+
+  export type TagAssignmentCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    tagId: number
+    entityType: number
+    entityId: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type TagAssignmentMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    tagId?: true
+    entityType?: true
+    entityId?: true
+    createdAt?: true
+  }
+
+  export type TagAssignmentMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    tagId?: true
+    entityType?: true
+    entityId?: true
+    createdAt?: true
+  }
+
+  export type TagAssignmentCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    tagId?: true
+    entityType?: true
+    entityId?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type TagAssignmentAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TagAssignment to aggregate.
+     */
+    where?: TagAssignmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TagAssignments to fetch.
+     */
+    orderBy?: TagAssignmentOrderByWithRelationInput | TagAssignmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: TagAssignmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TagAssignments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TagAssignments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned TagAssignments
+    **/
+    _count?: true | TagAssignmentCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TagAssignmentMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TagAssignmentMaxAggregateInputType
+  }
+
+  export type GetTagAssignmentAggregateType<T extends TagAssignmentAggregateArgs> = {
+        [P in keyof T & keyof AggregateTagAssignment]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTagAssignment[P]>
+      : GetScalarType<T[P], AggregateTagAssignment[P]>
+  }
+
+
+
+
+  export type TagAssignmentGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TagAssignmentWhereInput
+    orderBy?: TagAssignmentOrderByWithAggregationInput | TagAssignmentOrderByWithAggregationInput[]
+    by: TagAssignmentScalarFieldEnum[] | TagAssignmentScalarFieldEnum
+    having?: TagAssignmentScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TagAssignmentCountAggregateInputType | true
+    _min?: TagAssignmentMinAggregateInputType
+    _max?: TagAssignmentMaxAggregateInputType
+  }
+
+  export type TagAssignmentGroupByOutputType = {
+    id: string
+    tenantId: string
+    tagId: string
+    entityType: string
+    entityId: string
+    createdAt: Date
+    _count: TagAssignmentCountAggregateOutputType | null
+    _min: TagAssignmentMinAggregateOutputType | null
+    _max: TagAssignmentMaxAggregateOutputType | null
+  }
+
+  type GetTagAssignmentGroupByPayload<T extends TagAssignmentGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TagAssignmentGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TagAssignmentGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TagAssignmentGroupByOutputType[P]>
+            : GetScalarType<T[P], TagAssignmentGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type TagAssignmentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    tagId?: boolean
+    entityType?: boolean
+    entityId?: boolean
+    createdAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    tag?: boolean | TagDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["tagAssignment"]>
+
+  export type TagAssignmentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    tagId?: boolean
+    entityType?: boolean
+    entityId?: boolean
+    createdAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    tag?: boolean | TagDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["tagAssignment"]>
+
+  export type TagAssignmentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    tagId?: boolean
+    entityType?: boolean
+    entityId?: boolean
+    createdAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    tag?: boolean | TagDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["tagAssignment"]>
+
+  export type TagAssignmentSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    tagId?: boolean
+    entityType?: boolean
+    entityId?: boolean
+    createdAt?: boolean
+  }
+
+  export type TagAssignmentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "tagId" | "entityType" | "entityId" | "createdAt", ExtArgs["result"]["tagAssignment"]>
+  export type TagAssignmentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    tag?: boolean | TagDefaultArgs<ExtArgs>
+  }
+  export type TagAssignmentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    tag?: boolean | TagDefaultArgs<ExtArgs>
+  }
+  export type TagAssignmentIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    tag?: boolean | TagDefaultArgs<ExtArgs>
+  }
+
+  export type $TagAssignmentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "TagAssignment"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+      tag: Prisma.$TagPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      tagId: string
+      entityType: string
+      entityId: string
+      createdAt: Date
+    }, ExtArgs["result"]["tagAssignment"]>
+    composites: {}
+  }
+
+  type TagAssignmentGetPayload<S extends boolean | null | undefined | TagAssignmentDefaultArgs> = $Result.GetResult<Prisma.$TagAssignmentPayload, S>
+
+  type TagAssignmentCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<TagAssignmentFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TagAssignmentCountAggregateInputType | true
+    }
+
+  export interface TagAssignmentDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['TagAssignment'], meta: { name: 'TagAssignment' } }
+    /**
+     * Find zero or one TagAssignment that matches the filter.
+     * @param {TagAssignmentFindUniqueArgs} args - Arguments to find a TagAssignment
+     * @example
+     * // Get one TagAssignment
+     * const tagAssignment = await prisma.tagAssignment.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends TagAssignmentFindUniqueArgs>(args: SelectSubset<T, TagAssignmentFindUniqueArgs<ExtArgs>>): Prisma__TagAssignmentClient<$Result.GetResult<Prisma.$TagAssignmentPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one TagAssignment that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {TagAssignmentFindUniqueOrThrowArgs} args - Arguments to find a TagAssignment
+     * @example
+     * // Get one TagAssignment
+     * const tagAssignment = await prisma.tagAssignment.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends TagAssignmentFindUniqueOrThrowArgs>(args: SelectSubset<T, TagAssignmentFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TagAssignmentClient<$Result.GetResult<Prisma.$TagAssignmentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TagAssignment that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TagAssignmentFindFirstArgs} args - Arguments to find a TagAssignment
+     * @example
+     * // Get one TagAssignment
+     * const tagAssignment = await prisma.tagAssignment.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends TagAssignmentFindFirstArgs>(args?: SelectSubset<T, TagAssignmentFindFirstArgs<ExtArgs>>): Prisma__TagAssignmentClient<$Result.GetResult<Prisma.$TagAssignmentPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TagAssignment that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TagAssignmentFindFirstOrThrowArgs} args - Arguments to find a TagAssignment
+     * @example
+     * // Get one TagAssignment
+     * const tagAssignment = await prisma.tagAssignment.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends TagAssignmentFindFirstOrThrowArgs>(args?: SelectSubset<T, TagAssignmentFindFirstOrThrowArgs<ExtArgs>>): Prisma__TagAssignmentClient<$Result.GetResult<Prisma.$TagAssignmentPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more TagAssignments that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TagAssignmentFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all TagAssignments
+     * const tagAssignments = await prisma.tagAssignment.findMany()
+     * 
+     * // Get first 10 TagAssignments
+     * const tagAssignments = await prisma.tagAssignment.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const tagAssignmentWithIdOnly = await prisma.tagAssignment.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends TagAssignmentFindManyArgs>(args?: SelectSubset<T, TagAssignmentFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TagAssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a TagAssignment.
+     * @param {TagAssignmentCreateArgs} args - Arguments to create a TagAssignment.
+     * @example
+     * // Create one TagAssignment
+     * const TagAssignment = await prisma.tagAssignment.create({
+     *   data: {
+     *     // ... data to create a TagAssignment
+     *   }
+     * })
+     * 
+     */
+    create<T extends TagAssignmentCreateArgs>(args: SelectSubset<T, TagAssignmentCreateArgs<ExtArgs>>): Prisma__TagAssignmentClient<$Result.GetResult<Prisma.$TagAssignmentPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many TagAssignments.
+     * @param {TagAssignmentCreateManyArgs} args - Arguments to create many TagAssignments.
+     * @example
+     * // Create many TagAssignments
+     * const tagAssignment = await prisma.tagAssignment.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends TagAssignmentCreateManyArgs>(args?: SelectSubset<T, TagAssignmentCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many TagAssignments and returns the data saved in the database.
+     * @param {TagAssignmentCreateManyAndReturnArgs} args - Arguments to create many TagAssignments.
+     * @example
+     * // Create many TagAssignments
+     * const tagAssignment = await prisma.tagAssignment.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many TagAssignments and only return the `id`
+     * const tagAssignmentWithIdOnly = await prisma.tagAssignment.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends TagAssignmentCreateManyAndReturnArgs>(args?: SelectSubset<T, TagAssignmentCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TagAssignmentPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a TagAssignment.
+     * @param {TagAssignmentDeleteArgs} args - Arguments to delete one TagAssignment.
+     * @example
+     * // Delete one TagAssignment
+     * const TagAssignment = await prisma.tagAssignment.delete({
+     *   where: {
+     *     // ... filter to delete one TagAssignment
+     *   }
+     * })
+     * 
+     */
+    delete<T extends TagAssignmentDeleteArgs>(args: SelectSubset<T, TagAssignmentDeleteArgs<ExtArgs>>): Prisma__TagAssignmentClient<$Result.GetResult<Prisma.$TagAssignmentPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one TagAssignment.
+     * @param {TagAssignmentUpdateArgs} args - Arguments to update one TagAssignment.
+     * @example
+     * // Update one TagAssignment
+     * const tagAssignment = await prisma.tagAssignment.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends TagAssignmentUpdateArgs>(args: SelectSubset<T, TagAssignmentUpdateArgs<ExtArgs>>): Prisma__TagAssignmentClient<$Result.GetResult<Prisma.$TagAssignmentPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more TagAssignments.
+     * @param {TagAssignmentDeleteManyArgs} args - Arguments to filter TagAssignments to delete.
+     * @example
+     * // Delete a few TagAssignments
+     * const { count } = await prisma.tagAssignment.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends TagAssignmentDeleteManyArgs>(args?: SelectSubset<T, TagAssignmentDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TagAssignments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TagAssignmentUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many TagAssignments
+     * const tagAssignment = await prisma.tagAssignment.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends TagAssignmentUpdateManyArgs>(args: SelectSubset<T, TagAssignmentUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TagAssignments and returns the data updated in the database.
+     * @param {TagAssignmentUpdateManyAndReturnArgs} args - Arguments to update many TagAssignments.
+     * @example
+     * // Update many TagAssignments
+     * const tagAssignment = await prisma.tagAssignment.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more TagAssignments and only return the `id`
+     * const tagAssignmentWithIdOnly = await prisma.tagAssignment.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends TagAssignmentUpdateManyAndReturnArgs>(args: SelectSubset<T, TagAssignmentUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TagAssignmentPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one TagAssignment.
+     * @param {TagAssignmentUpsertArgs} args - Arguments to update or create a TagAssignment.
+     * @example
+     * // Update or create a TagAssignment
+     * const tagAssignment = await prisma.tagAssignment.upsert({
+     *   create: {
+     *     // ... data to create a TagAssignment
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the TagAssignment we want to update
+     *   }
+     * })
+     */
+    upsert<T extends TagAssignmentUpsertArgs>(args: SelectSubset<T, TagAssignmentUpsertArgs<ExtArgs>>): Prisma__TagAssignmentClient<$Result.GetResult<Prisma.$TagAssignmentPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of TagAssignments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TagAssignmentCountArgs} args - Arguments to filter TagAssignments to count.
+     * @example
+     * // Count the number of TagAssignments
+     * const count = await prisma.tagAssignment.count({
+     *   where: {
+     *     // ... the filter for the TagAssignments we want to count
+     *   }
+     * })
+    **/
+    count<T extends TagAssignmentCountArgs>(
+      args?: Subset<T, TagAssignmentCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TagAssignmentCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a TagAssignment.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TagAssignmentAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TagAssignmentAggregateArgs>(args: Subset<T, TagAssignmentAggregateArgs>): Prisma.PrismaPromise<GetTagAssignmentAggregateType<T>>
+
+    /**
+     * Group by TagAssignment.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TagAssignmentGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TagAssignmentGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TagAssignmentGroupByArgs['orderBy'] }
+        : { orderBy?: TagAssignmentGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TagAssignmentGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTagAssignmentGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the TagAssignment model
+   */
+  readonly fields: TagAssignmentFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for TagAssignment.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__TagAssignmentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    tag<T extends TagDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TagDefaultArgs<ExtArgs>>): Prisma__TagClient<$Result.GetResult<Prisma.$TagPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the TagAssignment model
+   */
+  interface TagAssignmentFieldRefs {
+    readonly id: FieldRef<"TagAssignment", 'String'>
+    readonly tenantId: FieldRef<"TagAssignment", 'String'>
+    readonly tagId: FieldRef<"TagAssignment", 'String'>
+    readonly entityType: FieldRef<"TagAssignment", 'String'>
+    readonly entityId: FieldRef<"TagAssignment", 'String'>
+    readonly createdAt: FieldRef<"TagAssignment", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * TagAssignment findUnique
+   */
+  export type TagAssignmentFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TagAssignment
+     */
+    select?: TagAssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TagAssignment
+     */
+    omit?: TagAssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TagAssignmentInclude<ExtArgs> | null
+    /**
+     * Filter, which TagAssignment to fetch.
+     */
+    where: TagAssignmentWhereUniqueInput
+  }
+
+  /**
+   * TagAssignment findUniqueOrThrow
+   */
+  export type TagAssignmentFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TagAssignment
+     */
+    select?: TagAssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TagAssignment
+     */
+    omit?: TagAssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TagAssignmentInclude<ExtArgs> | null
+    /**
+     * Filter, which TagAssignment to fetch.
+     */
+    where: TagAssignmentWhereUniqueInput
+  }
+
+  /**
+   * TagAssignment findFirst
+   */
+  export type TagAssignmentFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TagAssignment
+     */
+    select?: TagAssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TagAssignment
+     */
+    omit?: TagAssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TagAssignmentInclude<ExtArgs> | null
+    /**
+     * Filter, which TagAssignment to fetch.
+     */
+    where?: TagAssignmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TagAssignments to fetch.
+     */
+    orderBy?: TagAssignmentOrderByWithRelationInput | TagAssignmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TagAssignments.
+     */
+    cursor?: TagAssignmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TagAssignments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TagAssignments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TagAssignments.
+     */
+    distinct?: TagAssignmentScalarFieldEnum | TagAssignmentScalarFieldEnum[]
+  }
+
+  /**
+   * TagAssignment findFirstOrThrow
+   */
+  export type TagAssignmentFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TagAssignment
+     */
+    select?: TagAssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TagAssignment
+     */
+    omit?: TagAssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TagAssignmentInclude<ExtArgs> | null
+    /**
+     * Filter, which TagAssignment to fetch.
+     */
+    where?: TagAssignmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TagAssignments to fetch.
+     */
+    orderBy?: TagAssignmentOrderByWithRelationInput | TagAssignmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TagAssignments.
+     */
+    cursor?: TagAssignmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TagAssignments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TagAssignments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TagAssignments.
+     */
+    distinct?: TagAssignmentScalarFieldEnum | TagAssignmentScalarFieldEnum[]
+  }
+
+  /**
+   * TagAssignment findMany
+   */
+  export type TagAssignmentFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TagAssignment
+     */
+    select?: TagAssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TagAssignment
+     */
+    omit?: TagAssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TagAssignmentInclude<ExtArgs> | null
+    /**
+     * Filter, which TagAssignments to fetch.
+     */
+    where?: TagAssignmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TagAssignments to fetch.
+     */
+    orderBy?: TagAssignmentOrderByWithRelationInput | TagAssignmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing TagAssignments.
+     */
+    cursor?: TagAssignmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TagAssignments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TagAssignments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TagAssignments.
+     */
+    distinct?: TagAssignmentScalarFieldEnum | TagAssignmentScalarFieldEnum[]
+  }
+
+  /**
+   * TagAssignment create
+   */
+  export type TagAssignmentCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TagAssignment
+     */
+    select?: TagAssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TagAssignment
+     */
+    omit?: TagAssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TagAssignmentInclude<ExtArgs> | null
+    /**
+     * The data needed to create a TagAssignment.
+     */
+    data: XOR<TagAssignmentCreateInput, TagAssignmentUncheckedCreateInput>
+  }
+
+  /**
+   * TagAssignment createMany
+   */
+  export type TagAssignmentCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many TagAssignments.
+     */
+    data: TagAssignmentCreateManyInput | TagAssignmentCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * TagAssignment createManyAndReturn
+   */
+  export type TagAssignmentCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TagAssignment
+     */
+    select?: TagAssignmentSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TagAssignment
+     */
+    omit?: TagAssignmentOmit<ExtArgs> | null
+    /**
+     * The data used to create many TagAssignments.
+     */
+    data: TagAssignmentCreateManyInput | TagAssignmentCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TagAssignmentIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * TagAssignment update
+   */
+  export type TagAssignmentUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TagAssignment
+     */
+    select?: TagAssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TagAssignment
+     */
+    omit?: TagAssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TagAssignmentInclude<ExtArgs> | null
+    /**
+     * The data needed to update a TagAssignment.
+     */
+    data: XOR<TagAssignmentUpdateInput, TagAssignmentUncheckedUpdateInput>
+    /**
+     * Choose, which TagAssignment to update.
+     */
+    where: TagAssignmentWhereUniqueInput
+  }
+
+  /**
+   * TagAssignment updateMany
+   */
+  export type TagAssignmentUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update TagAssignments.
+     */
+    data: XOR<TagAssignmentUpdateManyMutationInput, TagAssignmentUncheckedUpdateManyInput>
+    /**
+     * Filter which TagAssignments to update
+     */
+    where?: TagAssignmentWhereInput
+    /**
+     * Limit how many TagAssignments to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * TagAssignment updateManyAndReturn
+   */
+  export type TagAssignmentUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TagAssignment
+     */
+    select?: TagAssignmentSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TagAssignment
+     */
+    omit?: TagAssignmentOmit<ExtArgs> | null
+    /**
+     * The data used to update TagAssignments.
+     */
+    data: XOR<TagAssignmentUpdateManyMutationInput, TagAssignmentUncheckedUpdateManyInput>
+    /**
+     * Filter which TagAssignments to update
+     */
+    where?: TagAssignmentWhereInput
+    /**
+     * Limit how many TagAssignments to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TagAssignmentIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * TagAssignment upsert
+   */
+  export type TagAssignmentUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TagAssignment
+     */
+    select?: TagAssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TagAssignment
+     */
+    omit?: TagAssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TagAssignmentInclude<ExtArgs> | null
+    /**
+     * The filter to search for the TagAssignment to update in case it exists.
+     */
+    where: TagAssignmentWhereUniqueInput
+    /**
+     * In case the TagAssignment found by the `where` argument doesn't exist, create a new TagAssignment with this data.
+     */
+    create: XOR<TagAssignmentCreateInput, TagAssignmentUncheckedCreateInput>
+    /**
+     * In case the TagAssignment was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<TagAssignmentUpdateInput, TagAssignmentUncheckedUpdateInput>
+  }
+
+  /**
+   * TagAssignment delete
+   */
+  export type TagAssignmentDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TagAssignment
+     */
+    select?: TagAssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TagAssignment
+     */
+    omit?: TagAssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TagAssignmentInclude<ExtArgs> | null
+    /**
+     * Filter which TagAssignment to delete.
+     */
+    where: TagAssignmentWhereUniqueInput
+  }
+
+  /**
+   * TagAssignment deleteMany
+   */
+  export type TagAssignmentDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TagAssignments to delete
+     */
+    where?: TagAssignmentWhereInput
+    /**
+     * Limit how many TagAssignments to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * TagAssignment without action
+   */
+  export type TagAssignmentDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TagAssignment
+     */
+    select?: TagAssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TagAssignment
+     */
+    omit?: TagAssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TagAssignmentInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Tag
+   */
+
+  export type AggregateTag = {
+    _count: TagCountAggregateOutputType | null
+    _min: TagMinAggregateOutputType | null
+    _max: TagMaxAggregateOutputType | null
+  }
+
+  export type TagMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    name: string | null
+    color: string | null
+    module: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type TagMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    name: string | null
+    color: string | null
+    module: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type TagCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    name: number
+    color: number
+    module: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type TagMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    name?: true
+    color?: true
+    module?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type TagMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    name?: true
+    color?: true
+    module?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type TagCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    name?: true
+    color?: true
+    module?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type TagAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Tag to aggregate.
+     */
+    where?: TagWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Tags to fetch.
+     */
+    orderBy?: TagOrderByWithRelationInput | TagOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: TagWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Tags from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Tags.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Tags
+    **/
+    _count?: true | TagCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TagMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TagMaxAggregateInputType
+  }
+
+  export type GetTagAggregateType<T extends TagAggregateArgs> = {
+        [P in keyof T & keyof AggregateTag]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTag[P]>
+      : GetScalarType<T[P], AggregateTag[P]>
+  }
+
+
+
+
+  export type TagGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TagWhereInput
+    orderBy?: TagOrderByWithAggregationInput | TagOrderByWithAggregationInput[]
+    by: TagScalarFieldEnum[] | TagScalarFieldEnum
+    having?: TagScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TagCountAggregateInputType | true
+    _min?: TagMinAggregateInputType
+    _max?: TagMaxAggregateInputType
+  }
+
+  export type TagGroupByOutputType = {
+    id: string
+    tenantId: string
+    name: string
+    color: string | null
+    module: string
+    createdAt: Date
+    updatedAt: Date
+    _count: TagCountAggregateOutputType | null
+    _min: TagMinAggregateOutputType | null
+    _max: TagMaxAggregateOutputType | null
+  }
+
+  type GetTagGroupByPayload<T extends TagGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TagGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TagGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TagGroupByOutputType[P]>
+            : GetScalarType<T[P], TagGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type TagSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    name?: boolean
+    color?: boolean
+    module?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    assignments?: boolean | Tag$assignmentsArgs<ExtArgs>
+    _count?: boolean | TagCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["tag"]>
+
+  export type TagSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    name?: boolean
+    color?: boolean
+    module?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["tag"]>
+
+  export type TagSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    name?: boolean
+    color?: boolean
+    module?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["tag"]>
+
+  export type TagSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    name?: boolean
+    color?: boolean
+    module?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type TagOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "name" | "color" | "module" | "createdAt" | "updatedAt", ExtArgs["result"]["tag"]>
+  export type TagInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    assignments?: boolean | Tag$assignmentsArgs<ExtArgs>
+    _count?: boolean | TagCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type TagIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type TagIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+
+  export type $TagPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Tag"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+      assignments: Prisma.$TagAssignmentPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      name: string
+      color: string | null
+      module: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["tag"]>
+    composites: {}
+  }
+
+  type TagGetPayload<S extends boolean | null | undefined | TagDefaultArgs> = $Result.GetResult<Prisma.$TagPayload, S>
+
+  type TagCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<TagFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TagCountAggregateInputType | true
+    }
+
+  export interface TagDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Tag'], meta: { name: 'Tag' } }
+    /**
+     * Find zero or one Tag that matches the filter.
+     * @param {TagFindUniqueArgs} args - Arguments to find a Tag
+     * @example
+     * // Get one Tag
+     * const tag = await prisma.tag.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends TagFindUniqueArgs>(args: SelectSubset<T, TagFindUniqueArgs<ExtArgs>>): Prisma__TagClient<$Result.GetResult<Prisma.$TagPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Tag that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {TagFindUniqueOrThrowArgs} args - Arguments to find a Tag
+     * @example
+     * // Get one Tag
+     * const tag = await prisma.tag.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends TagFindUniqueOrThrowArgs>(args: SelectSubset<T, TagFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TagClient<$Result.GetResult<Prisma.$TagPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Tag that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TagFindFirstArgs} args - Arguments to find a Tag
+     * @example
+     * // Get one Tag
+     * const tag = await prisma.tag.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends TagFindFirstArgs>(args?: SelectSubset<T, TagFindFirstArgs<ExtArgs>>): Prisma__TagClient<$Result.GetResult<Prisma.$TagPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Tag that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TagFindFirstOrThrowArgs} args - Arguments to find a Tag
+     * @example
+     * // Get one Tag
+     * const tag = await prisma.tag.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends TagFindFirstOrThrowArgs>(args?: SelectSubset<T, TagFindFirstOrThrowArgs<ExtArgs>>): Prisma__TagClient<$Result.GetResult<Prisma.$TagPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Tags that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TagFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Tags
+     * const tags = await prisma.tag.findMany()
+     * 
+     * // Get first 10 Tags
+     * const tags = await prisma.tag.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const tagWithIdOnly = await prisma.tag.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends TagFindManyArgs>(args?: SelectSubset<T, TagFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TagPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Tag.
+     * @param {TagCreateArgs} args - Arguments to create a Tag.
+     * @example
+     * // Create one Tag
+     * const Tag = await prisma.tag.create({
+     *   data: {
+     *     // ... data to create a Tag
+     *   }
+     * })
+     * 
+     */
+    create<T extends TagCreateArgs>(args: SelectSubset<T, TagCreateArgs<ExtArgs>>): Prisma__TagClient<$Result.GetResult<Prisma.$TagPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Tags.
+     * @param {TagCreateManyArgs} args - Arguments to create many Tags.
+     * @example
+     * // Create many Tags
+     * const tag = await prisma.tag.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends TagCreateManyArgs>(args?: SelectSubset<T, TagCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Tags and returns the data saved in the database.
+     * @param {TagCreateManyAndReturnArgs} args - Arguments to create many Tags.
+     * @example
+     * // Create many Tags
+     * const tag = await prisma.tag.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Tags and only return the `id`
+     * const tagWithIdOnly = await prisma.tag.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends TagCreateManyAndReturnArgs>(args?: SelectSubset<T, TagCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TagPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Tag.
+     * @param {TagDeleteArgs} args - Arguments to delete one Tag.
+     * @example
+     * // Delete one Tag
+     * const Tag = await prisma.tag.delete({
+     *   where: {
+     *     // ... filter to delete one Tag
+     *   }
+     * })
+     * 
+     */
+    delete<T extends TagDeleteArgs>(args: SelectSubset<T, TagDeleteArgs<ExtArgs>>): Prisma__TagClient<$Result.GetResult<Prisma.$TagPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Tag.
+     * @param {TagUpdateArgs} args - Arguments to update one Tag.
+     * @example
+     * // Update one Tag
+     * const tag = await prisma.tag.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends TagUpdateArgs>(args: SelectSubset<T, TagUpdateArgs<ExtArgs>>): Prisma__TagClient<$Result.GetResult<Prisma.$TagPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Tags.
+     * @param {TagDeleteManyArgs} args - Arguments to filter Tags to delete.
+     * @example
+     * // Delete a few Tags
+     * const { count } = await prisma.tag.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends TagDeleteManyArgs>(args?: SelectSubset<T, TagDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Tags.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TagUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Tags
+     * const tag = await prisma.tag.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends TagUpdateManyArgs>(args: SelectSubset<T, TagUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Tags and returns the data updated in the database.
+     * @param {TagUpdateManyAndReturnArgs} args - Arguments to update many Tags.
+     * @example
+     * // Update many Tags
+     * const tag = await prisma.tag.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Tags and only return the `id`
+     * const tagWithIdOnly = await prisma.tag.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends TagUpdateManyAndReturnArgs>(args: SelectSubset<T, TagUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TagPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Tag.
+     * @param {TagUpsertArgs} args - Arguments to update or create a Tag.
+     * @example
+     * // Update or create a Tag
+     * const tag = await prisma.tag.upsert({
+     *   create: {
+     *     // ... data to create a Tag
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Tag we want to update
+     *   }
+     * })
+     */
+    upsert<T extends TagUpsertArgs>(args: SelectSubset<T, TagUpsertArgs<ExtArgs>>): Prisma__TagClient<$Result.GetResult<Prisma.$TagPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Tags.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TagCountArgs} args - Arguments to filter Tags to count.
+     * @example
+     * // Count the number of Tags
+     * const count = await prisma.tag.count({
+     *   where: {
+     *     // ... the filter for the Tags we want to count
+     *   }
+     * })
+    **/
+    count<T extends TagCountArgs>(
+      args?: Subset<T, TagCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TagCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Tag.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TagAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TagAggregateArgs>(args: Subset<T, TagAggregateArgs>): Prisma.PrismaPromise<GetTagAggregateType<T>>
+
+    /**
+     * Group by Tag.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TagGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TagGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TagGroupByArgs['orderBy'] }
+        : { orderBy?: TagGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TagGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTagGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Tag model
+   */
+  readonly fields: TagFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Tag.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__TagClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    assignments<T extends Tag$assignmentsArgs<ExtArgs> = {}>(args?: Subset<T, Tag$assignmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TagAssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Tag model
+   */
+  interface TagFieldRefs {
+    readonly id: FieldRef<"Tag", 'String'>
+    readonly tenantId: FieldRef<"Tag", 'String'>
+    readonly name: FieldRef<"Tag", 'String'>
+    readonly color: FieldRef<"Tag", 'String'>
+    readonly module: FieldRef<"Tag", 'String'>
+    readonly createdAt: FieldRef<"Tag", 'DateTime'>
+    readonly updatedAt: FieldRef<"Tag", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Tag findUnique
+   */
+  export type TagFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Tag
+     */
+    select?: TagSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Tag
+     */
+    omit?: TagOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TagInclude<ExtArgs> | null
+    /**
+     * Filter, which Tag to fetch.
+     */
+    where: TagWhereUniqueInput
+  }
+
+  /**
+   * Tag findUniqueOrThrow
+   */
+  export type TagFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Tag
+     */
+    select?: TagSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Tag
+     */
+    omit?: TagOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TagInclude<ExtArgs> | null
+    /**
+     * Filter, which Tag to fetch.
+     */
+    where: TagWhereUniqueInput
+  }
+
+  /**
+   * Tag findFirst
+   */
+  export type TagFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Tag
+     */
+    select?: TagSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Tag
+     */
+    omit?: TagOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TagInclude<ExtArgs> | null
+    /**
+     * Filter, which Tag to fetch.
+     */
+    where?: TagWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Tags to fetch.
+     */
+    orderBy?: TagOrderByWithRelationInput | TagOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Tags.
+     */
+    cursor?: TagWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Tags from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Tags.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Tags.
+     */
+    distinct?: TagScalarFieldEnum | TagScalarFieldEnum[]
+  }
+
+  /**
+   * Tag findFirstOrThrow
+   */
+  export type TagFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Tag
+     */
+    select?: TagSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Tag
+     */
+    omit?: TagOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TagInclude<ExtArgs> | null
+    /**
+     * Filter, which Tag to fetch.
+     */
+    where?: TagWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Tags to fetch.
+     */
+    orderBy?: TagOrderByWithRelationInput | TagOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Tags.
+     */
+    cursor?: TagWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Tags from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Tags.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Tags.
+     */
+    distinct?: TagScalarFieldEnum | TagScalarFieldEnum[]
+  }
+
+  /**
+   * Tag findMany
+   */
+  export type TagFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Tag
+     */
+    select?: TagSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Tag
+     */
+    omit?: TagOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TagInclude<ExtArgs> | null
+    /**
+     * Filter, which Tags to fetch.
+     */
+    where?: TagWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Tags to fetch.
+     */
+    orderBy?: TagOrderByWithRelationInput | TagOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Tags.
+     */
+    cursor?: TagWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Tags from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Tags.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Tags.
+     */
+    distinct?: TagScalarFieldEnum | TagScalarFieldEnum[]
+  }
+
+  /**
+   * Tag create
+   */
+  export type TagCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Tag
+     */
+    select?: TagSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Tag
+     */
+    omit?: TagOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TagInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Tag.
+     */
+    data: XOR<TagCreateInput, TagUncheckedCreateInput>
+  }
+
+  /**
+   * Tag createMany
+   */
+  export type TagCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Tags.
+     */
+    data: TagCreateManyInput | TagCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Tag createManyAndReturn
+   */
+  export type TagCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Tag
+     */
+    select?: TagSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Tag
+     */
+    omit?: TagOmit<ExtArgs> | null
+    /**
+     * The data used to create many Tags.
+     */
+    data: TagCreateManyInput | TagCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TagIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Tag update
+   */
+  export type TagUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Tag
+     */
+    select?: TagSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Tag
+     */
+    omit?: TagOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TagInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Tag.
+     */
+    data: XOR<TagUpdateInput, TagUncheckedUpdateInput>
+    /**
+     * Choose, which Tag to update.
+     */
+    where: TagWhereUniqueInput
+  }
+
+  /**
+   * Tag updateMany
+   */
+  export type TagUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Tags.
+     */
+    data: XOR<TagUpdateManyMutationInput, TagUncheckedUpdateManyInput>
+    /**
+     * Filter which Tags to update
+     */
+    where?: TagWhereInput
+    /**
+     * Limit how many Tags to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Tag updateManyAndReturn
+   */
+  export type TagUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Tag
+     */
+    select?: TagSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Tag
+     */
+    omit?: TagOmit<ExtArgs> | null
+    /**
+     * The data used to update Tags.
+     */
+    data: XOR<TagUpdateManyMutationInput, TagUncheckedUpdateManyInput>
+    /**
+     * Filter which Tags to update
+     */
+    where?: TagWhereInput
+    /**
+     * Limit how many Tags to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TagIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Tag upsert
+   */
+  export type TagUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Tag
+     */
+    select?: TagSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Tag
+     */
+    omit?: TagOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TagInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Tag to update in case it exists.
+     */
+    where: TagWhereUniqueInput
+    /**
+     * In case the Tag found by the `where` argument doesn't exist, create a new Tag with this data.
+     */
+    create: XOR<TagCreateInput, TagUncheckedCreateInput>
+    /**
+     * In case the Tag was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<TagUpdateInput, TagUncheckedUpdateInput>
+  }
+
+  /**
+   * Tag delete
+   */
+  export type TagDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Tag
+     */
+    select?: TagSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Tag
+     */
+    omit?: TagOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TagInclude<ExtArgs> | null
+    /**
+     * Filter which Tag to delete.
+     */
+    where: TagWhereUniqueInput
+  }
+
+  /**
+   * Tag deleteMany
+   */
+  export type TagDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Tags to delete
+     */
+    where?: TagWhereInput
+    /**
+     * Limit how many Tags to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Tag.assignments
+   */
+  export type Tag$assignmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TagAssignment
+     */
+    select?: TagAssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TagAssignment
+     */
+    omit?: TagAssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TagAssignmentInclude<ExtArgs> | null
+    where?: TagAssignmentWhereInput
+    orderBy?: TagAssignmentOrderByWithRelationInput | TagAssignmentOrderByWithRelationInput[]
+    cursor?: TagAssignmentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TagAssignmentScalarFieldEnum | TagAssignmentScalarFieldEnum[]
+  }
+
+  /**
+   * Tag without action
+   */
+  export type TagDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Tag
+     */
+    select?: TagSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Tag
+     */
+    omit?: TagOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TagInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model TenantSetting
    */
 
@@ -37879,6 +41618,9 @@ export namespace Prisma {
     defaultSalesSequence?: boolean | Tenant$defaultSalesSequenceArgs<ExtArgs>
     settings?: boolean | Tenant$settingsArgs<ExtArgs>
     expenses?: boolean | Tenant$expensesArgs<ExtArgs>
+    tags?: boolean | Tenant$tagsArgs<ExtArgs>
+    tagAssignments?: boolean | Tenant$tagAssignmentsArgs<ExtArgs>
+    itemRelations?: boolean | Tenant$itemRelationsArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["tenant"]>
 
@@ -37965,6 +41707,9 @@ export namespace Prisma {
     defaultSalesSequence?: boolean | Tenant$defaultSalesSequenceArgs<ExtArgs>
     settings?: boolean | Tenant$settingsArgs<ExtArgs>
     expenses?: boolean | Tenant$expensesArgs<ExtArgs>
+    tags?: boolean | Tenant$tagsArgs<ExtArgs>
+    tagAssignments?: boolean | Tenant$tagAssignmentsArgs<ExtArgs>
+    itemRelations?: boolean | Tenant$itemRelationsArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TenantIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -38002,6 +41747,9 @@ export namespace Prisma {
       defaultSalesSequence: Prisma.$DocumentSequencePayload<ExtArgs> | null
       settings: Prisma.$TenantSettingPayload<ExtArgs>[]
       expenses: Prisma.$ExpensePayload<ExtArgs>[]
+      tags: Prisma.$TagPayload<ExtArgs>[]
+      tagAssignments: Prisma.$TagAssignmentPayload<ExtArgs>[]
+      itemRelations: Prisma.$ItemRelationPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -38436,6 +42184,9 @@ export namespace Prisma {
     defaultSalesSequence<T extends Tenant$defaultSalesSequenceArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$defaultSalesSequenceArgs<ExtArgs>>): Prisma__DocumentSequenceClient<$Result.GetResult<Prisma.$DocumentSequencePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     settings<T extends Tenant$settingsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$settingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TenantSettingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     expenses<T extends Tenant$expensesArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$expensesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExpensePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    tags<T extends Tenant$tagsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$tagsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TagPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    tagAssignments<T extends Tenant$tagAssignmentsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$tagAssignmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TagAssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    itemRelations<T extends Tenant$itemRelationsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$itemRelationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ItemRelationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -39420,6 +43171,78 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ExpenseScalarFieldEnum | ExpenseScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.tags
+   */
+  export type Tenant$tagsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Tag
+     */
+    select?: TagSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Tag
+     */
+    omit?: TagOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TagInclude<ExtArgs> | null
+    where?: TagWhereInput
+    orderBy?: TagOrderByWithRelationInput | TagOrderByWithRelationInput[]
+    cursor?: TagWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TagScalarFieldEnum | TagScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.tagAssignments
+   */
+  export type Tenant$tagAssignmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TagAssignment
+     */
+    select?: TagAssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TagAssignment
+     */
+    omit?: TagAssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TagAssignmentInclude<ExtArgs> | null
+    where?: TagAssignmentWhereInput
+    orderBy?: TagAssignmentOrderByWithRelationInput | TagAssignmentOrderByWithRelationInput[]
+    cursor?: TagAssignmentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TagAssignmentScalarFieldEnum | TagAssignmentScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.itemRelations
+   */
+  export type Tenant$itemRelationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ItemRelation
+     */
+    select?: ItemRelationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ItemRelation
+     */
+    omit?: ItemRelationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemRelationInclude<ExtArgs> | null
+    where?: ItemRelationWhereInput
+    orderBy?: ItemRelationOrderByWithRelationInput | ItemRelationOrderByWithRelationInput[]
+    cursor?: ItemRelationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ItemRelationScalarFieldEnum | ItemRelationScalarFieldEnum[]
   }
 
   /**
@@ -46653,6 +50476,20 @@ export namespace Prisma {
   export type ItemCategoryScalarFieldEnum = (typeof ItemCategoryScalarFieldEnum)[keyof typeof ItemCategoryScalarFieldEnum]
 
 
+  export const ItemRelationScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    itemId: 'itemId',
+    relatedItemId: 'relatedItemId',
+    relationType: 'relationType',
+    notes: 'notes',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type ItemRelationScalarFieldEnum = (typeof ItemRelationScalarFieldEnum)[keyof typeof ItemRelationScalarFieldEnum]
+
+
   export const ItemScalarFieldEnum: {
     id: 'id',
     tenantId: 'tenantId',
@@ -46663,6 +50500,7 @@ export namespace Prisma {
     baseUnitId: 'baseUnitId',
     defaultSellingPrice: 'defaultSellingPrice',
     latestPurchasePrice: 'latestPurchasePrice',
+    itemType: 'itemType',
     isActive: 'isActive',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -46752,6 +50590,31 @@ export namespace Prisma {
   };
 
   export type StockMovementScalarFieldEnum = (typeof StockMovementScalarFieldEnum)[keyof typeof StockMovementScalarFieldEnum]
+
+
+  export const TagAssignmentScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    tagId: 'tagId',
+    entityType: 'entityType',
+    entityId: 'entityId',
+    createdAt: 'createdAt'
+  };
+
+  export type TagAssignmentScalarFieldEnum = (typeof TagAssignmentScalarFieldEnum)[keyof typeof TagAssignmentScalarFieldEnum]
+
+
+  export const TagScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    name: 'name',
+    color: 'color',
+    module: 'module',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type TagScalarFieldEnum = (typeof TagScalarFieldEnum)[keyof typeof TagScalarFieldEnum]
 
 
   export const TenantSettingScalarFieldEnum: {
@@ -49033,6 +52896,83 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"ItemCategory"> | Date | string
   }
 
+  export type ItemRelationWhereInput = {
+    AND?: ItemRelationWhereInput | ItemRelationWhereInput[]
+    OR?: ItemRelationWhereInput[]
+    NOT?: ItemRelationWhereInput | ItemRelationWhereInput[]
+    id?: StringFilter<"ItemRelation"> | string
+    tenantId?: StringFilter<"ItemRelation"> | string
+    itemId?: StringFilter<"ItemRelation"> | string
+    relatedItemId?: StringFilter<"ItemRelation"> | string
+    relationType?: StringFilter<"ItemRelation"> | string
+    notes?: StringNullableFilter<"ItemRelation"> | string | null
+    createdAt?: DateTimeFilter<"ItemRelation"> | Date | string
+    updatedAt?: DateTimeFilter<"ItemRelation"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    item?: XOR<ItemScalarRelationFilter, ItemWhereInput>
+    relatedItem?: XOR<ItemScalarRelationFilter, ItemWhereInput>
+  }
+
+  export type ItemRelationOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    itemId?: SortOrder
+    relatedItemId?: SortOrder
+    relationType?: SortOrder
+    notes?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+    item?: ItemOrderByWithRelationInput
+    relatedItem?: ItemOrderByWithRelationInput
+  }
+
+  export type ItemRelationWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tenantId_itemId_relatedItemId_relationType?: ItemRelationTenantIdItemIdRelatedItemIdRelationTypeCompoundUniqueInput
+    AND?: ItemRelationWhereInput | ItemRelationWhereInput[]
+    OR?: ItemRelationWhereInput[]
+    NOT?: ItemRelationWhereInput | ItemRelationWhereInput[]
+    tenantId?: StringFilter<"ItemRelation"> | string
+    itemId?: StringFilter<"ItemRelation"> | string
+    relatedItemId?: StringFilter<"ItemRelation"> | string
+    relationType?: StringFilter<"ItemRelation"> | string
+    notes?: StringNullableFilter<"ItemRelation"> | string | null
+    createdAt?: DateTimeFilter<"ItemRelation"> | Date | string
+    updatedAt?: DateTimeFilter<"ItemRelation"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    item?: XOR<ItemScalarRelationFilter, ItemWhereInput>
+    relatedItem?: XOR<ItemScalarRelationFilter, ItemWhereInput>
+  }, "id" | "tenantId_itemId_relatedItemId_relationType">
+
+  export type ItemRelationOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    itemId?: SortOrder
+    relatedItemId?: SortOrder
+    relationType?: SortOrder
+    notes?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: ItemRelationCountOrderByAggregateInput
+    _max?: ItemRelationMaxOrderByAggregateInput
+    _min?: ItemRelationMinOrderByAggregateInput
+  }
+
+  export type ItemRelationScalarWhereWithAggregatesInput = {
+    AND?: ItemRelationScalarWhereWithAggregatesInput | ItemRelationScalarWhereWithAggregatesInput[]
+    OR?: ItemRelationScalarWhereWithAggregatesInput[]
+    NOT?: ItemRelationScalarWhereWithAggregatesInput | ItemRelationScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ItemRelation"> | string
+    tenantId?: StringWithAggregatesFilter<"ItemRelation"> | string
+    itemId?: StringWithAggregatesFilter<"ItemRelation"> | string
+    relatedItemId?: StringWithAggregatesFilter<"ItemRelation"> | string
+    relationType?: StringWithAggregatesFilter<"ItemRelation"> | string
+    notes?: StringNullableWithAggregatesFilter<"ItemRelation"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"ItemRelation"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"ItemRelation"> | Date | string
+  }
+
   export type ItemWhereInput = {
     AND?: ItemWhereInput | ItemWhereInput[]
     OR?: ItemWhereInput[]
@@ -49046,6 +52986,7 @@ export namespace Prisma {
     baseUnitId?: StringFilter<"Item"> | string
     defaultSellingPrice?: DecimalNullableFilter<"Item"> | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: DecimalNullableFilter<"Item"> | Decimal | DecimalJsLike | number | string | null
+    itemType?: StringFilter<"Item"> | string
     isActive?: BoolFilter<"Item"> | boolean
     createdAt?: DateTimeFilter<"Item"> | Date | string
     updatedAt?: DateTimeFilter<"Item"> | Date | string
@@ -49057,6 +52998,8 @@ export namespace Prisma {
     stockMovements?: StockMovementListRelationFilter
     invoiceLines?: InvoiceLineListRelationFilter
     stockCountLines?: StockCountLineListRelationFilter
+    itemRelations?: ItemRelationListRelationFilter
+    itemRelatedTo?: ItemRelationListRelationFilter
   }
 
   export type ItemOrderByWithRelationInput = {
@@ -49069,6 +53012,7 @@ export namespace Prisma {
     baseUnitId?: SortOrder
     defaultSellingPrice?: SortOrderInput | SortOrder
     latestPurchasePrice?: SortOrderInput | SortOrder
+    itemType?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -49080,6 +53024,8 @@ export namespace Prisma {
     stockMovements?: StockMovementOrderByRelationAggregateInput
     invoiceLines?: InvoiceLineOrderByRelationAggregateInput
     stockCountLines?: StockCountLineOrderByRelationAggregateInput
+    itemRelations?: ItemRelationOrderByRelationAggregateInput
+    itemRelatedTo?: ItemRelationOrderByRelationAggregateInput
   }
 
   export type ItemWhereUniqueInput = Prisma.AtLeast<{
@@ -49096,6 +53042,7 @@ export namespace Prisma {
     baseUnitId?: StringFilter<"Item"> | string
     defaultSellingPrice?: DecimalNullableFilter<"Item"> | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: DecimalNullableFilter<"Item"> | Decimal | DecimalJsLike | number | string | null
+    itemType?: StringFilter<"Item"> | string
     isActive?: BoolFilter<"Item"> | boolean
     createdAt?: DateTimeFilter<"Item"> | Date | string
     updatedAt?: DateTimeFilter<"Item"> | Date | string
@@ -49107,6 +53054,8 @@ export namespace Prisma {
     stockMovements?: StockMovementListRelationFilter
     invoiceLines?: InvoiceLineListRelationFilter
     stockCountLines?: StockCountLineListRelationFilter
+    itemRelations?: ItemRelationListRelationFilter
+    itemRelatedTo?: ItemRelationListRelationFilter
   }, "id" | "tenantId_code">
 
   export type ItemOrderByWithAggregationInput = {
@@ -49119,6 +53068,7 @@ export namespace Prisma {
     baseUnitId?: SortOrder
     defaultSellingPrice?: SortOrderInput | SortOrder
     latestPurchasePrice?: SortOrderInput | SortOrder
+    itemType?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -49142,6 +53092,7 @@ export namespace Prisma {
     baseUnitId?: StringWithAggregatesFilter<"Item"> | string
     defaultSellingPrice?: DecimalNullableWithAggregatesFilter<"Item"> | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: DecimalNullableWithAggregatesFilter<"Item"> | Decimal | DecimalJsLike | number | string | null
+    itemType?: StringWithAggregatesFilter<"Item"> | string
     isActive?: BoolWithAggregatesFilter<"Item"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"Item"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Item"> | Date | string
@@ -49600,6 +53551,139 @@ export namespace Prisma {
     createdBy?: StringWithAggregatesFilter<"StockMovement"> | string
   }
 
+  export type TagAssignmentWhereInput = {
+    AND?: TagAssignmentWhereInput | TagAssignmentWhereInput[]
+    OR?: TagAssignmentWhereInput[]
+    NOT?: TagAssignmentWhereInput | TagAssignmentWhereInput[]
+    id?: StringFilter<"TagAssignment"> | string
+    tenantId?: StringFilter<"TagAssignment"> | string
+    tagId?: StringFilter<"TagAssignment"> | string
+    entityType?: StringFilter<"TagAssignment"> | string
+    entityId?: StringFilter<"TagAssignment"> | string
+    createdAt?: DateTimeFilter<"TagAssignment"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    tag?: XOR<TagScalarRelationFilter, TagWhereInput>
+  }
+
+  export type TagAssignmentOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    tagId?: SortOrder
+    entityType?: SortOrder
+    entityId?: SortOrder
+    createdAt?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+    tag?: TagOrderByWithRelationInput
+  }
+
+  export type TagAssignmentWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tagId_entityType_entityId?: TagAssignmentTagIdEntityTypeEntityIdCompoundUniqueInput
+    AND?: TagAssignmentWhereInput | TagAssignmentWhereInput[]
+    OR?: TagAssignmentWhereInput[]
+    NOT?: TagAssignmentWhereInput | TagAssignmentWhereInput[]
+    tenantId?: StringFilter<"TagAssignment"> | string
+    tagId?: StringFilter<"TagAssignment"> | string
+    entityType?: StringFilter<"TagAssignment"> | string
+    entityId?: StringFilter<"TagAssignment"> | string
+    createdAt?: DateTimeFilter<"TagAssignment"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    tag?: XOR<TagScalarRelationFilter, TagWhereInput>
+  }, "id" | "tagId_entityType_entityId">
+
+  export type TagAssignmentOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    tagId?: SortOrder
+    entityType?: SortOrder
+    entityId?: SortOrder
+    createdAt?: SortOrder
+    _count?: TagAssignmentCountOrderByAggregateInput
+    _max?: TagAssignmentMaxOrderByAggregateInput
+    _min?: TagAssignmentMinOrderByAggregateInput
+  }
+
+  export type TagAssignmentScalarWhereWithAggregatesInput = {
+    AND?: TagAssignmentScalarWhereWithAggregatesInput | TagAssignmentScalarWhereWithAggregatesInput[]
+    OR?: TagAssignmentScalarWhereWithAggregatesInput[]
+    NOT?: TagAssignmentScalarWhereWithAggregatesInput | TagAssignmentScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"TagAssignment"> | string
+    tenantId?: StringWithAggregatesFilter<"TagAssignment"> | string
+    tagId?: StringWithAggregatesFilter<"TagAssignment"> | string
+    entityType?: StringWithAggregatesFilter<"TagAssignment"> | string
+    entityId?: StringWithAggregatesFilter<"TagAssignment"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"TagAssignment"> | Date | string
+  }
+
+  export type TagWhereInput = {
+    AND?: TagWhereInput | TagWhereInput[]
+    OR?: TagWhereInput[]
+    NOT?: TagWhereInput | TagWhereInput[]
+    id?: StringFilter<"Tag"> | string
+    tenantId?: StringFilter<"Tag"> | string
+    name?: StringFilter<"Tag"> | string
+    color?: StringNullableFilter<"Tag"> | string | null
+    module?: StringFilter<"Tag"> | string
+    createdAt?: DateTimeFilter<"Tag"> | Date | string
+    updatedAt?: DateTimeFilter<"Tag"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    assignments?: TagAssignmentListRelationFilter
+  }
+
+  export type TagOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    name?: SortOrder
+    color?: SortOrderInput | SortOrder
+    module?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+    assignments?: TagAssignmentOrderByRelationAggregateInput
+  }
+
+  export type TagWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tenantId_name_module?: TagTenantIdNameModuleCompoundUniqueInput
+    AND?: TagWhereInput | TagWhereInput[]
+    OR?: TagWhereInput[]
+    NOT?: TagWhereInput | TagWhereInput[]
+    tenantId?: StringFilter<"Tag"> | string
+    name?: StringFilter<"Tag"> | string
+    color?: StringNullableFilter<"Tag"> | string | null
+    module?: StringFilter<"Tag"> | string
+    createdAt?: DateTimeFilter<"Tag"> | Date | string
+    updatedAt?: DateTimeFilter<"Tag"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    assignments?: TagAssignmentListRelationFilter
+  }, "id" | "tenantId_name_module">
+
+  export type TagOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    name?: SortOrder
+    color?: SortOrderInput | SortOrder
+    module?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: TagCountOrderByAggregateInput
+    _max?: TagMaxOrderByAggregateInput
+    _min?: TagMinOrderByAggregateInput
+  }
+
+  export type TagScalarWhereWithAggregatesInput = {
+    AND?: TagScalarWhereWithAggregatesInput | TagScalarWhereWithAggregatesInput[]
+    OR?: TagScalarWhereWithAggregatesInput[]
+    NOT?: TagScalarWhereWithAggregatesInput | TagScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Tag"> | string
+    tenantId?: StringWithAggregatesFilter<"Tag"> | string
+    name?: StringWithAggregatesFilter<"Tag"> | string
+    color?: StringNullableWithAggregatesFilter<"Tag"> | string | null
+    module?: StringWithAggregatesFilter<"Tag"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Tag"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Tag"> | Date | string
+  }
+
   export type TenantSettingWhereInput = {
     AND?: TenantSettingWhereInput | TenantSettingWhereInput[]
     OR?: TenantSettingWhereInput[]
@@ -49708,6 +53792,9 @@ export namespace Prisma {
     defaultSalesSequence?: XOR<DocumentSequenceNullableScalarRelationFilter, DocumentSequenceWhereInput> | null
     settings?: TenantSettingListRelationFilter
     expenses?: ExpenseListRelationFilter
+    tags?: TagListRelationFilter
+    tagAssignments?: TagAssignmentListRelationFilter
+    itemRelations?: ItemRelationListRelationFilter
   }
 
   export type TenantOrderByWithRelationInput = {
@@ -49749,6 +53836,9 @@ export namespace Prisma {
     defaultSalesSequence?: DocumentSequenceOrderByWithRelationInput
     settings?: TenantSettingOrderByRelationAggregateInput
     expenses?: ExpenseOrderByRelationAggregateInput
+    tags?: TagOrderByRelationAggregateInput
+    tagAssignments?: TagAssignmentOrderByRelationAggregateInput
+    itemRelations?: ItemRelationOrderByRelationAggregateInput
   }
 
   export type TenantWhereUniqueInput = Prisma.AtLeast<{
@@ -49793,6 +53883,9 @@ export namespace Prisma {
     defaultSalesSequence?: XOR<DocumentSequenceNullableScalarRelationFilter, DocumentSequenceWhereInput> | null
     settings?: TenantSettingListRelationFilter
     expenses?: ExpenseListRelationFilter
+    tags?: TagListRelationFilter
+    tagAssignments?: TagAssignmentListRelationFilter
+    itemRelations?: ItemRelationListRelationFilter
   }, "id" | "slug">
 
   export type TenantOrderByWithAggregationInput = {
@@ -52252,6 +56345,80 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ItemRelationCreateInput = {
+    id?: string
+    relationType: string
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutItemRelationsInput
+    item: ItemCreateNestedOneWithoutItemRelationsInput
+    relatedItem: ItemCreateNestedOneWithoutItemRelatedToInput
+  }
+
+  export type ItemRelationUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    itemId: string
+    relatedItemId: string
+    relationType: string
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ItemRelationUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    relationType?: StringFieldUpdateOperationsInput | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutItemRelationsNestedInput
+    item?: ItemUpdateOneRequiredWithoutItemRelationsNestedInput
+    relatedItem?: ItemUpdateOneRequiredWithoutItemRelatedToNestedInput
+  }
+
+  export type ItemRelationUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    itemId?: StringFieldUpdateOperationsInput | string
+    relatedItemId?: StringFieldUpdateOperationsInput | string
+    relationType?: StringFieldUpdateOperationsInput | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ItemRelationCreateManyInput = {
+    id?: string
+    tenantId: string
+    itemId: string
+    relatedItemId: string
+    relationType: string
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ItemRelationUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    relationType?: StringFieldUpdateOperationsInput | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ItemRelationUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    itemId?: StringFieldUpdateOperationsInput | string
+    relatedItemId?: StringFieldUpdateOperationsInput | string
+    relationType?: StringFieldUpdateOperationsInput | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type ItemCreateInput = {
     id?: string
     code: string
@@ -52259,6 +56426,7 @@ export namespace Prisma {
     barcode?: string | null
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
+    itemType?: string
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -52270,6 +56438,8 @@ export namespace Prisma {
     stockMovements?: StockMovementCreateNestedManyWithoutItemInput
     invoiceLines?: InvoiceLineCreateNestedManyWithoutItemInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutItemInput
+    itemRelations?: ItemRelationCreateNestedManyWithoutItemInput
+    itemRelatedTo?: ItemRelationCreateNestedManyWithoutRelatedItemInput
   }
 
   export type ItemUncheckedCreateInput = {
@@ -52282,6 +56452,7 @@ export namespace Prisma {
     baseUnitId: string
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
+    itemType?: string
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -52290,6 +56461,8 @@ export namespace Prisma {
     stockMovements?: StockMovementUncheckedCreateNestedManyWithoutItemInput
     invoiceLines?: InvoiceLineUncheckedCreateNestedManyWithoutItemInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutItemInput
+    itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutItemInput
+    itemRelatedTo?: ItemRelationUncheckedCreateNestedManyWithoutRelatedItemInput
   }
 
   export type ItemUpdateInput = {
@@ -52299,6 +56472,7 @@ export namespace Prisma {
     barcode?: NullableStringFieldUpdateOperationsInput | string | null
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    itemType?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -52310,6 +56484,8 @@ export namespace Prisma {
     stockMovements?: StockMovementUpdateManyWithoutItemNestedInput
     invoiceLines?: InvoiceLineUpdateManyWithoutItemNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutItemNestedInput
+    itemRelations?: ItemRelationUpdateManyWithoutItemNestedInput
+    itemRelatedTo?: ItemRelationUpdateManyWithoutRelatedItemNestedInput
   }
 
   export type ItemUncheckedUpdateInput = {
@@ -52322,6 +56498,7 @@ export namespace Prisma {
     baseUnitId?: StringFieldUpdateOperationsInput | string
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    itemType?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -52330,6 +56507,8 @@ export namespace Prisma {
     stockMovements?: StockMovementUncheckedUpdateManyWithoutItemNestedInput
     invoiceLines?: InvoiceLineUncheckedUpdateManyWithoutItemNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutItemNestedInput
+    itemRelations?: ItemRelationUncheckedUpdateManyWithoutItemNestedInput
+    itemRelatedTo?: ItemRelationUncheckedUpdateManyWithoutRelatedItemNestedInput
   }
 
   export type ItemCreateManyInput = {
@@ -52342,6 +56521,7 @@ export namespace Prisma {
     baseUnitId: string
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
+    itemType?: string
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -52354,6 +56534,7 @@ export namespace Prisma {
     barcode?: NullableStringFieldUpdateOperationsInput | string | null
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    itemType?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -52369,6 +56550,7 @@ export namespace Prisma {
     baseUnitId?: StringFieldUpdateOperationsInput | string
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    itemType?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -52851,6 +57033,140 @@ export namespace Prisma {
     createdBy?: StringFieldUpdateOperationsInput | string
   }
 
+  export type TagAssignmentCreateInput = {
+    id?: string
+    entityType: string
+    entityId: string
+    createdAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutTagAssignmentsInput
+    tag: TagCreateNestedOneWithoutAssignmentsInput
+  }
+
+  export type TagAssignmentUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    tagId: string
+    entityType: string
+    entityId: string
+    createdAt?: Date | string
+  }
+
+  export type TagAssignmentUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    entityType?: StringFieldUpdateOperationsInput | string
+    entityId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutTagAssignmentsNestedInput
+    tag?: TagUpdateOneRequiredWithoutAssignmentsNestedInput
+  }
+
+  export type TagAssignmentUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    tagId?: StringFieldUpdateOperationsInput | string
+    entityType?: StringFieldUpdateOperationsInput | string
+    entityId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TagAssignmentCreateManyInput = {
+    id?: string
+    tenantId: string
+    tagId: string
+    entityType: string
+    entityId: string
+    createdAt?: Date | string
+  }
+
+  export type TagAssignmentUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    entityType?: StringFieldUpdateOperationsInput | string
+    entityId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TagAssignmentUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    tagId?: StringFieldUpdateOperationsInput | string
+    entityType?: StringFieldUpdateOperationsInput | string
+    entityId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TagCreateInput = {
+    id?: string
+    name: string
+    color?: string | null
+    module: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutTagsInput
+    assignments?: TagAssignmentCreateNestedManyWithoutTagInput
+  }
+
+  export type TagUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    name: string
+    color?: string | null
+    module: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    assignments?: TagAssignmentUncheckedCreateNestedManyWithoutTagInput
+  }
+
+  export type TagUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    module?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutTagsNestedInput
+    assignments?: TagAssignmentUpdateManyWithoutTagNestedInput
+  }
+
+  export type TagUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    module?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    assignments?: TagAssignmentUncheckedUpdateManyWithoutTagNestedInput
+  }
+
+  export type TagCreateManyInput = {
+    id?: string
+    tenantId: string
+    name: string
+    color?: string | null
+    module: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TagUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    module?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TagUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    module?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type TenantSettingCreateInput = {
     id?: string
     category: string
@@ -52957,6 +57273,9 @@ export namespace Prisma {
     defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
     settings?: TenantSettingCreateNestedManyWithoutTenantInput
     expenses?: ExpenseCreateNestedManyWithoutTenantInput
+    tags?: TagCreateNestedManyWithoutTenantInput
+    tagAssignments?: TagAssignmentCreateNestedManyWithoutTenantInput
+    itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateInput = {
@@ -52996,6 +57315,9 @@ export namespace Prisma {
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
+    tags?: TagUncheckedCreateNestedManyWithoutTenantInput
+    tagAssignments?: TagAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUpdateInput = {
@@ -53035,6 +57357,9 @@ export namespace Prisma {
     defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
     settings?: TenantSettingUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUpdateManyWithoutTenantNestedInput
+    tags?: TagUpdateManyWithoutTenantNestedInput
+    tagAssignments?: TagAssignmentUpdateManyWithoutTenantNestedInput
+    itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateInput = {
@@ -53074,6 +57399,9 @@ export namespace Prisma {
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
+    tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
+    tagAssignments?: TagAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateManyInput = {
@@ -55273,6 +59601,46 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
+  export type ItemRelationTenantIdItemIdRelatedItemIdRelationTypeCompoundUniqueInput = {
+    tenantId: string
+    itemId: string
+    relatedItemId: string
+    relationType: string
+  }
+
+  export type ItemRelationCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    itemId?: SortOrder
+    relatedItemId?: SortOrder
+    relationType?: SortOrder
+    notes?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ItemRelationMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    itemId?: SortOrder
+    relatedItemId?: SortOrder
+    relationType?: SortOrder
+    notes?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ItemRelationMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    itemId?: SortOrder
+    relatedItemId?: SortOrder
+    relationType?: SortOrder
+    notes?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
   export type DecimalNullableFilter<$PrismaModel = never> = {
     equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
     in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
@@ -55307,6 +59675,12 @@ export namespace Prisma {
     none?: StockCountLineWhereInput
   }
 
+  export type ItemRelationListRelationFilter = {
+    every?: ItemRelationWhereInput
+    some?: ItemRelationWhereInput
+    none?: ItemRelationWhereInput
+  }
+
   export type WarehouseItemOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -55316,6 +59690,10 @@ export namespace Prisma {
   }
 
   export type StockCountLineOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ItemRelationOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -55334,6 +59712,7 @@ export namespace Prisma {
     baseUnitId?: SortOrder
     defaultSellingPrice?: SortOrder
     latestPurchasePrice?: SortOrder
+    itemType?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -55354,6 +59733,7 @@ export namespace Prisma {
     baseUnitId?: SortOrder
     defaultSellingPrice?: SortOrder
     latestPurchasePrice?: SortOrder
+    itemType?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -55369,6 +59749,7 @@ export namespace Prisma {
     baseUnitId?: SortOrder
     defaultSellingPrice?: SortOrder
     latestPurchasePrice?: SortOrder
+    itemType?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -55716,6 +60097,90 @@ export namespace Prisma {
     _max?: NestedEnumStockMovementTypeFilter<$PrismaModel>
   }
 
+  export type TagScalarRelationFilter = {
+    is?: TagWhereInput
+    isNot?: TagWhereInput
+  }
+
+  export type TagAssignmentTagIdEntityTypeEntityIdCompoundUniqueInput = {
+    tagId: string
+    entityType: string
+    entityId: string
+  }
+
+  export type TagAssignmentCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    tagId?: SortOrder
+    entityType?: SortOrder
+    entityId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type TagAssignmentMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    tagId?: SortOrder
+    entityType?: SortOrder
+    entityId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type TagAssignmentMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    tagId?: SortOrder
+    entityType?: SortOrder
+    entityId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type TagAssignmentListRelationFilter = {
+    every?: TagAssignmentWhereInput
+    some?: TagAssignmentWhereInput
+    none?: TagAssignmentWhereInput
+  }
+
+  export type TagAssignmentOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type TagTenantIdNameModuleCompoundUniqueInput = {
+    tenantId: string
+    name: string
+    module: string
+  }
+
+  export type TagCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    name?: SortOrder
+    color?: SortOrder
+    module?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TagMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    name?: SortOrder
+    color?: SortOrder
+    module?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TagMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    name?: SortOrder
+    color?: SortOrder
+    module?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
   export type TenantSettingTenantIdKeyCompoundUniqueInput = {
     tenantId: string
     key: string
@@ -55831,6 +60296,12 @@ export namespace Prisma {
     none?: TenantSettingWhereInput
   }
 
+  export type TagListRelationFilter = {
+    every?: TagWhereInput
+    some?: TagWhereInput
+    none?: TagWhereInput
+  }
+
   export type AppUserOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -55876,6 +60347,10 @@ export namespace Prisma {
   }
 
   export type TenantSettingOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type TagOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -58015,6 +62490,48 @@ export namespace Prisma {
     deleteMany?: ItemScalarWhereInput | ItemScalarWhereInput[]
   }
 
+  export type TenantCreateNestedOneWithoutItemRelationsInput = {
+    create?: XOR<TenantCreateWithoutItemRelationsInput, TenantUncheckedCreateWithoutItemRelationsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutItemRelationsInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type ItemCreateNestedOneWithoutItemRelationsInput = {
+    create?: XOR<ItemCreateWithoutItemRelationsInput, ItemUncheckedCreateWithoutItemRelationsInput>
+    connectOrCreate?: ItemCreateOrConnectWithoutItemRelationsInput
+    connect?: ItemWhereUniqueInput
+  }
+
+  export type ItemCreateNestedOneWithoutItemRelatedToInput = {
+    create?: XOR<ItemCreateWithoutItemRelatedToInput, ItemUncheckedCreateWithoutItemRelatedToInput>
+    connectOrCreate?: ItemCreateOrConnectWithoutItemRelatedToInput
+    connect?: ItemWhereUniqueInput
+  }
+
+  export type TenantUpdateOneRequiredWithoutItemRelationsNestedInput = {
+    create?: XOR<TenantCreateWithoutItemRelationsInput, TenantUncheckedCreateWithoutItemRelationsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutItemRelationsInput
+    upsert?: TenantUpsertWithoutItemRelationsInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutItemRelationsInput, TenantUpdateWithoutItemRelationsInput>, TenantUncheckedUpdateWithoutItemRelationsInput>
+  }
+
+  export type ItemUpdateOneRequiredWithoutItemRelationsNestedInput = {
+    create?: XOR<ItemCreateWithoutItemRelationsInput, ItemUncheckedCreateWithoutItemRelationsInput>
+    connectOrCreate?: ItemCreateOrConnectWithoutItemRelationsInput
+    upsert?: ItemUpsertWithoutItemRelationsInput
+    connect?: ItemWhereUniqueInput
+    update?: XOR<XOR<ItemUpdateToOneWithWhereWithoutItemRelationsInput, ItemUpdateWithoutItemRelationsInput>, ItemUncheckedUpdateWithoutItemRelationsInput>
+  }
+
+  export type ItemUpdateOneRequiredWithoutItemRelatedToNestedInput = {
+    create?: XOR<ItemCreateWithoutItemRelatedToInput, ItemUncheckedCreateWithoutItemRelatedToInput>
+    connectOrCreate?: ItemCreateOrConnectWithoutItemRelatedToInput
+    upsert?: ItemUpsertWithoutItemRelatedToInput
+    connect?: ItemWhereUniqueInput
+    update?: XOR<XOR<ItemUpdateToOneWithWhereWithoutItemRelatedToInput, ItemUpdateWithoutItemRelatedToInput>, ItemUncheckedUpdateWithoutItemRelatedToInput>
+  }
+
   export type TenantCreateNestedOneWithoutItemsInput = {
     create?: XOR<TenantCreateWithoutItemsInput, TenantUncheckedCreateWithoutItemsInput>
     connectOrCreate?: TenantCreateOrConnectWithoutItemsInput
@@ -58068,6 +62585,20 @@ export namespace Prisma {
     connect?: StockCountLineWhereUniqueInput | StockCountLineWhereUniqueInput[]
   }
 
+  export type ItemRelationCreateNestedManyWithoutItemInput = {
+    create?: XOR<ItemRelationCreateWithoutItemInput, ItemRelationUncheckedCreateWithoutItemInput> | ItemRelationCreateWithoutItemInput[] | ItemRelationUncheckedCreateWithoutItemInput[]
+    connectOrCreate?: ItemRelationCreateOrConnectWithoutItemInput | ItemRelationCreateOrConnectWithoutItemInput[]
+    createMany?: ItemRelationCreateManyItemInputEnvelope
+    connect?: ItemRelationWhereUniqueInput | ItemRelationWhereUniqueInput[]
+  }
+
+  export type ItemRelationCreateNestedManyWithoutRelatedItemInput = {
+    create?: XOR<ItemRelationCreateWithoutRelatedItemInput, ItemRelationUncheckedCreateWithoutRelatedItemInput> | ItemRelationCreateWithoutRelatedItemInput[] | ItemRelationUncheckedCreateWithoutRelatedItemInput[]
+    connectOrCreate?: ItemRelationCreateOrConnectWithoutRelatedItemInput | ItemRelationCreateOrConnectWithoutRelatedItemInput[]
+    createMany?: ItemRelationCreateManyRelatedItemInputEnvelope
+    connect?: ItemRelationWhereUniqueInput | ItemRelationWhereUniqueInput[]
+  }
+
   export type WarehouseItemUncheckedCreateNestedManyWithoutItemInput = {
     create?: XOR<WarehouseItemCreateWithoutItemInput, WarehouseItemUncheckedCreateWithoutItemInput> | WarehouseItemCreateWithoutItemInput[] | WarehouseItemUncheckedCreateWithoutItemInput[]
     connectOrCreate?: WarehouseItemCreateOrConnectWithoutItemInput | WarehouseItemCreateOrConnectWithoutItemInput[]
@@ -58101,6 +62632,20 @@ export namespace Prisma {
     connectOrCreate?: StockCountLineCreateOrConnectWithoutItemInput | StockCountLineCreateOrConnectWithoutItemInput[]
     createMany?: StockCountLineCreateManyItemInputEnvelope
     connect?: StockCountLineWhereUniqueInput | StockCountLineWhereUniqueInput[]
+  }
+
+  export type ItemRelationUncheckedCreateNestedManyWithoutItemInput = {
+    create?: XOR<ItemRelationCreateWithoutItemInput, ItemRelationUncheckedCreateWithoutItemInput> | ItemRelationCreateWithoutItemInput[] | ItemRelationUncheckedCreateWithoutItemInput[]
+    connectOrCreate?: ItemRelationCreateOrConnectWithoutItemInput | ItemRelationCreateOrConnectWithoutItemInput[]
+    createMany?: ItemRelationCreateManyItemInputEnvelope
+    connect?: ItemRelationWhereUniqueInput | ItemRelationWhereUniqueInput[]
+  }
+
+  export type ItemRelationUncheckedCreateNestedManyWithoutRelatedItemInput = {
+    create?: XOR<ItemRelationCreateWithoutRelatedItemInput, ItemRelationUncheckedCreateWithoutRelatedItemInput> | ItemRelationCreateWithoutRelatedItemInput[] | ItemRelationUncheckedCreateWithoutRelatedItemInput[]
+    connectOrCreate?: ItemRelationCreateOrConnectWithoutRelatedItemInput | ItemRelationCreateOrConnectWithoutRelatedItemInput[]
+    createMany?: ItemRelationCreateManyRelatedItemInputEnvelope
+    connect?: ItemRelationWhereUniqueInput | ItemRelationWhereUniqueInput[]
   }
 
   export type NullableDecimalFieldUpdateOperationsInput = {
@@ -58205,6 +62750,34 @@ export namespace Prisma {
     deleteMany?: StockCountLineScalarWhereInput | StockCountLineScalarWhereInput[]
   }
 
+  export type ItemRelationUpdateManyWithoutItemNestedInput = {
+    create?: XOR<ItemRelationCreateWithoutItemInput, ItemRelationUncheckedCreateWithoutItemInput> | ItemRelationCreateWithoutItemInput[] | ItemRelationUncheckedCreateWithoutItemInput[]
+    connectOrCreate?: ItemRelationCreateOrConnectWithoutItemInput | ItemRelationCreateOrConnectWithoutItemInput[]
+    upsert?: ItemRelationUpsertWithWhereUniqueWithoutItemInput | ItemRelationUpsertWithWhereUniqueWithoutItemInput[]
+    createMany?: ItemRelationCreateManyItemInputEnvelope
+    set?: ItemRelationWhereUniqueInput | ItemRelationWhereUniqueInput[]
+    disconnect?: ItemRelationWhereUniqueInput | ItemRelationWhereUniqueInput[]
+    delete?: ItemRelationWhereUniqueInput | ItemRelationWhereUniqueInput[]
+    connect?: ItemRelationWhereUniqueInput | ItemRelationWhereUniqueInput[]
+    update?: ItemRelationUpdateWithWhereUniqueWithoutItemInput | ItemRelationUpdateWithWhereUniqueWithoutItemInput[]
+    updateMany?: ItemRelationUpdateManyWithWhereWithoutItemInput | ItemRelationUpdateManyWithWhereWithoutItemInput[]
+    deleteMany?: ItemRelationScalarWhereInput | ItemRelationScalarWhereInput[]
+  }
+
+  export type ItemRelationUpdateManyWithoutRelatedItemNestedInput = {
+    create?: XOR<ItemRelationCreateWithoutRelatedItemInput, ItemRelationUncheckedCreateWithoutRelatedItemInput> | ItemRelationCreateWithoutRelatedItemInput[] | ItemRelationUncheckedCreateWithoutRelatedItemInput[]
+    connectOrCreate?: ItemRelationCreateOrConnectWithoutRelatedItemInput | ItemRelationCreateOrConnectWithoutRelatedItemInput[]
+    upsert?: ItemRelationUpsertWithWhereUniqueWithoutRelatedItemInput | ItemRelationUpsertWithWhereUniqueWithoutRelatedItemInput[]
+    createMany?: ItemRelationCreateManyRelatedItemInputEnvelope
+    set?: ItemRelationWhereUniqueInput | ItemRelationWhereUniqueInput[]
+    disconnect?: ItemRelationWhereUniqueInput | ItemRelationWhereUniqueInput[]
+    delete?: ItemRelationWhereUniqueInput | ItemRelationWhereUniqueInput[]
+    connect?: ItemRelationWhereUniqueInput | ItemRelationWhereUniqueInput[]
+    update?: ItemRelationUpdateWithWhereUniqueWithoutRelatedItemInput | ItemRelationUpdateWithWhereUniqueWithoutRelatedItemInput[]
+    updateMany?: ItemRelationUpdateManyWithWhereWithoutRelatedItemInput | ItemRelationUpdateManyWithWhereWithoutRelatedItemInput[]
+    deleteMany?: ItemRelationScalarWhereInput | ItemRelationScalarWhereInput[]
+  }
+
   export type WarehouseItemUncheckedUpdateManyWithoutItemNestedInput = {
     create?: XOR<WarehouseItemCreateWithoutItemInput, WarehouseItemUncheckedCreateWithoutItemInput> | WarehouseItemCreateWithoutItemInput[] | WarehouseItemUncheckedCreateWithoutItemInput[]
     connectOrCreate?: WarehouseItemCreateOrConnectWithoutItemInput | WarehouseItemCreateOrConnectWithoutItemInput[]
@@ -58273,6 +62846,34 @@ export namespace Prisma {
     update?: StockCountLineUpdateWithWhereUniqueWithoutItemInput | StockCountLineUpdateWithWhereUniqueWithoutItemInput[]
     updateMany?: StockCountLineUpdateManyWithWhereWithoutItemInput | StockCountLineUpdateManyWithWhereWithoutItemInput[]
     deleteMany?: StockCountLineScalarWhereInput | StockCountLineScalarWhereInput[]
+  }
+
+  export type ItemRelationUncheckedUpdateManyWithoutItemNestedInput = {
+    create?: XOR<ItemRelationCreateWithoutItemInput, ItemRelationUncheckedCreateWithoutItemInput> | ItemRelationCreateWithoutItemInput[] | ItemRelationUncheckedCreateWithoutItemInput[]
+    connectOrCreate?: ItemRelationCreateOrConnectWithoutItemInput | ItemRelationCreateOrConnectWithoutItemInput[]
+    upsert?: ItemRelationUpsertWithWhereUniqueWithoutItemInput | ItemRelationUpsertWithWhereUniqueWithoutItemInput[]
+    createMany?: ItemRelationCreateManyItemInputEnvelope
+    set?: ItemRelationWhereUniqueInput | ItemRelationWhereUniqueInput[]
+    disconnect?: ItemRelationWhereUniqueInput | ItemRelationWhereUniqueInput[]
+    delete?: ItemRelationWhereUniqueInput | ItemRelationWhereUniqueInput[]
+    connect?: ItemRelationWhereUniqueInput | ItemRelationWhereUniqueInput[]
+    update?: ItemRelationUpdateWithWhereUniqueWithoutItemInput | ItemRelationUpdateWithWhereUniqueWithoutItemInput[]
+    updateMany?: ItemRelationUpdateManyWithWhereWithoutItemInput | ItemRelationUpdateManyWithWhereWithoutItemInput[]
+    deleteMany?: ItemRelationScalarWhereInput | ItemRelationScalarWhereInput[]
+  }
+
+  export type ItemRelationUncheckedUpdateManyWithoutRelatedItemNestedInput = {
+    create?: XOR<ItemRelationCreateWithoutRelatedItemInput, ItemRelationUncheckedCreateWithoutRelatedItemInput> | ItemRelationCreateWithoutRelatedItemInput[] | ItemRelationUncheckedCreateWithoutRelatedItemInput[]
+    connectOrCreate?: ItemRelationCreateOrConnectWithoutRelatedItemInput | ItemRelationCreateOrConnectWithoutRelatedItemInput[]
+    upsert?: ItemRelationUpsertWithWhereUniqueWithoutRelatedItemInput | ItemRelationUpsertWithWhereUniqueWithoutRelatedItemInput[]
+    createMany?: ItemRelationCreateManyRelatedItemInputEnvelope
+    set?: ItemRelationWhereUniqueInput | ItemRelationWhereUniqueInput[]
+    disconnect?: ItemRelationWhereUniqueInput | ItemRelationWhereUniqueInput[]
+    delete?: ItemRelationWhereUniqueInput | ItemRelationWhereUniqueInput[]
+    connect?: ItemRelationWhereUniqueInput | ItemRelationWhereUniqueInput[]
+    update?: ItemRelationUpdateWithWhereUniqueWithoutRelatedItemInput | ItemRelationUpdateWithWhereUniqueWithoutRelatedItemInput[]
+    updateMany?: ItemRelationUpdateManyWithWhereWithoutRelatedItemInput | ItemRelationUpdateManyWithWhereWithoutRelatedItemInput[]
+    deleteMany?: ItemRelationScalarWhereInput | ItemRelationScalarWhereInput[]
   }
 
   export type TenantCreateNestedOneWithoutPartiesInput = {
@@ -58567,6 +63168,90 @@ export namespace Prisma {
     update?: XOR<XOR<FiscalPeriodUpdateToOneWithWhereWithoutStockMovementsInput, FiscalPeriodUpdateWithoutStockMovementsInput>, FiscalPeriodUncheckedUpdateWithoutStockMovementsInput>
   }
 
+  export type TenantCreateNestedOneWithoutTagAssignmentsInput = {
+    create?: XOR<TenantCreateWithoutTagAssignmentsInput, TenantUncheckedCreateWithoutTagAssignmentsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutTagAssignmentsInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type TagCreateNestedOneWithoutAssignmentsInput = {
+    create?: XOR<TagCreateWithoutAssignmentsInput, TagUncheckedCreateWithoutAssignmentsInput>
+    connectOrCreate?: TagCreateOrConnectWithoutAssignmentsInput
+    connect?: TagWhereUniqueInput
+  }
+
+  export type TenantUpdateOneRequiredWithoutTagAssignmentsNestedInput = {
+    create?: XOR<TenantCreateWithoutTagAssignmentsInput, TenantUncheckedCreateWithoutTagAssignmentsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutTagAssignmentsInput
+    upsert?: TenantUpsertWithoutTagAssignmentsInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutTagAssignmentsInput, TenantUpdateWithoutTagAssignmentsInput>, TenantUncheckedUpdateWithoutTagAssignmentsInput>
+  }
+
+  export type TagUpdateOneRequiredWithoutAssignmentsNestedInput = {
+    create?: XOR<TagCreateWithoutAssignmentsInput, TagUncheckedCreateWithoutAssignmentsInput>
+    connectOrCreate?: TagCreateOrConnectWithoutAssignmentsInput
+    upsert?: TagUpsertWithoutAssignmentsInput
+    connect?: TagWhereUniqueInput
+    update?: XOR<XOR<TagUpdateToOneWithWhereWithoutAssignmentsInput, TagUpdateWithoutAssignmentsInput>, TagUncheckedUpdateWithoutAssignmentsInput>
+  }
+
+  export type TenantCreateNestedOneWithoutTagsInput = {
+    create?: XOR<TenantCreateWithoutTagsInput, TenantUncheckedCreateWithoutTagsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutTagsInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type TagAssignmentCreateNestedManyWithoutTagInput = {
+    create?: XOR<TagAssignmentCreateWithoutTagInput, TagAssignmentUncheckedCreateWithoutTagInput> | TagAssignmentCreateWithoutTagInput[] | TagAssignmentUncheckedCreateWithoutTagInput[]
+    connectOrCreate?: TagAssignmentCreateOrConnectWithoutTagInput | TagAssignmentCreateOrConnectWithoutTagInput[]
+    createMany?: TagAssignmentCreateManyTagInputEnvelope
+    connect?: TagAssignmentWhereUniqueInput | TagAssignmentWhereUniqueInput[]
+  }
+
+  export type TagAssignmentUncheckedCreateNestedManyWithoutTagInput = {
+    create?: XOR<TagAssignmentCreateWithoutTagInput, TagAssignmentUncheckedCreateWithoutTagInput> | TagAssignmentCreateWithoutTagInput[] | TagAssignmentUncheckedCreateWithoutTagInput[]
+    connectOrCreate?: TagAssignmentCreateOrConnectWithoutTagInput | TagAssignmentCreateOrConnectWithoutTagInput[]
+    createMany?: TagAssignmentCreateManyTagInputEnvelope
+    connect?: TagAssignmentWhereUniqueInput | TagAssignmentWhereUniqueInput[]
+  }
+
+  export type TenantUpdateOneRequiredWithoutTagsNestedInput = {
+    create?: XOR<TenantCreateWithoutTagsInput, TenantUncheckedCreateWithoutTagsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutTagsInput
+    upsert?: TenantUpsertWithoutTagsInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutTagsInput, TenantUpdateWithoutTagsInput>, TenantUncheckedUpdateWithoutTagsInput>
+  }
+
+  export type TagAssignmentUpdateManyWithoutTagNestedInput = {
+    create?: XOR<TagAssignmentCreateWithoutTagInput, TagAssignmentUncheckedCreateWithoutTagInput> | TagAssignmentCreateWithoutTagInput[] | TagAssignmentUncheckedCreateWithoutTagInput[]
+    connectOrCreate?: TagAssignmentCreateOrConnectWithoutTagInput | TagAssignmentCreateOrConnectWithoutTagInput[]
+    upsert?: TagAssignmentUpsertWithWhereUniqueWithoutTagInput | TagAssignmentUpsertWithWhereUniqueWithoutTagInput[]
+    createMany?: TagAssignmentCreateManyTagInputEnvelope
+    set?: TagAssignmentWhereUniqueInput | TagAssignmentWhereUniqueInput[]
+    disconnect?: TagAssignmentWhereUniqueInput | TagAssignmentWhereUniqueInput[]
+    delete?: TagAssignmentWhereUniqueInput | TagAssignmentWhereUniqueInput[]
+    connect?: TagAssignmentWhereUniqueInput | TagAssignmentWhereUniqueInput[]
+    update?: TagAssignmentUpdateWithWhereUniqueWithoutTagInput | TagAssignmentUpdateWithWhereUniqueWithoutTagInput[]
+    updateMany?: TagAssignmentUpdateManyWithWhereWithoutTagInput | TagAssignmentUpdateManyWithWhereWithoutTagInput[]
+    deleteMany?: TagAssignmentScalarWhereInput | TagAssignmentScalarWhereInput[]
+  }
+
+  export type TagAssignmentUncheckedUpdateManyWithoutTagNestedInput = {
+    create?: XOR<TagAssignmentCreateWithoutTagInput, TagAssignmentUncheckedCreateWithoutTagInput> | TagAssignmentCreateWithoutTagInput[] | TagAssignmentUncheckedCreateWithoutTagInput[]
+    connectOrCreate?: TagAssignmentCreateOrConnectWithoutTagInput | TagAssignmentCreateOrConnectWithoutTagInput[]
+    upsert?: TagAssignmentUpsertWithWhereUniqueWithoutTagInput | TagAssignmentUpsertWithWhereUniqueWithoutTagInput[]
+    createMany?: TagAssignmentCreateManyTagInputEnvelope
+    set?: TagAssignmentWhereUniqueInput | TagAssignmentWhereUniqueInput[]
+    disconnect?: TagAssignmentWhereUniqueInput | TagAssignmentWhereUniqueInput[]
+    delete?: TagAssignmentWhereUniqueInput | TagAssignmentWhereUniqueInput[]
+    connect?: TagAssignmentWhereUniqueInput | TagAssignmentWhereUniqueInput[]
+    update?: TagAssignmentUpdateWithWhereUniqueWithoutTagInput | TagAssignmentUpdateWithWhereUniqueWithoutTagInput[]
+    updateMany?: TagAssignmentUpdateManyWithWhereWithoutTagInput | TagAssignmentUpdateManyWithWhereWithoutTagInput[]
+    deleteMany?: TagAssignmentScalarWhereInput | TagAssignmentScalarWhereInput[]
+  }
+
   export type TenantCreateNestedOneWithoutSettingsInput = {
     create?: XOR<TenantCreateWithoutSettingsInput, TenantUncheckedCreateWithoutSettingsInput>
     connectOrCreate?: TenantCreateOrConnectWithoutSettingsInput
@@ -58740,6 +63425,27 @@ export namespace Prisma {
     connect?: ExpenseWhereUniqueInput | ExpenseWhereUniqueInput[]
   }
 
+  export type TagCreateNestedManyWithoutTenantInput = {
+    create?: XOR<TagCreateWithoutTenantInput, TagUncheckedCreateWithoutTenantInput> | TagCreateWithoutTenantInput[] | TagUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: TagCreateOrConnectWithoutTenantInput | TagCreateOrConnectWithoutTenantInput[]
+    createMany?: TagCreateManyTenantInputEnvelope
+    connect?: TagWhereUniqueInput | TagWhereUniqueInput[]
+  }
+
+  export type TagAssignmentCreateNestedManyWithoutTenantInput = {
+    create?: XOR<TagAssignmentCreateWithoutTenantInput, TagAssignmentUncheckedCreateWithoutTenantInput> | TagAssignmentCreateWithoutTenantInput[] | TagAssignmentUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: TagAssignmentCreateOrConnectWithoutTenantInput | TagAssignmentCreateOrConnectWithoutTenantInput[]
+    createMany?: TagAssignmentCreateManyTenantInputEnvelope
+    connect?: TagAssignmentWhereUniqueInput | TagAssignmentWhereUniqueInput[]
+  }
+
+  export type ItemRelationCreateNestedManyWithoutTenantInput = {
+    create?: XOR<ItemRelationCreateWithoutTenantInput, ItemRelationUncheckedCreateWithoutTenantInput> | ItemRelationCreateWithoutTenantInput[] | ItemRelationUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: ItemRelationCreateOrConnectWithoutTenantInput | ItemRelationCreateOrConnectWithoutTenantInput[]
+    createMany?: ItemRelationCreateManyTenantInputEnvelope
+    connect?: ItemRelationWhereUniqueInput | ItemRelationWhereUniqueInput[]
+  }
+
   export type AppUserUncheckedCreateNestedManyWithoutTenantInput = {
     create?: XOR<AppUserCreateWithoutTenantInput, AppUserUncheckedCreateWithoutTenantInput> | AppUserCreateWithoutTenantInput[] | AppUserUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: AppUserCreateOrConnectWithoutTenantInput | AppUserCreateOrConnectWithoutTenantInput[]
@@ -58885,6 +63591,27 @@ export namespace Prisma {
     connectOrCreate?: ExpenseCreateOrConnectWithoutTenantInput | ExpenseCreateOrConnectWithoutTenantInput[]
     createMany?: ExpenseCreateManyTenantInputEnvelope
     connect?: ExpenseWhereUniqueInput | ExpenseWhereUniqueInput[]
+  }
+
+  export type TagUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<TagCreateWithoutTenantInput, TagUncheckedCreateWithoutTenantInput> | TagCreateWithoutTenantInput[] | TagUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: TagCreateOrConnectWithoutTenantInput | TagCreateOrConnectWithoutTenantInput[]
+    createMany?: TagCreateManyTenantInputEnvelope
+    connect?: TagWhereUniqueInput | TagWhereUniqueInput[]
+  }
+
+  export type TagAssignmentUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<TagAssignmentCreateWithoutTenantInput, TagAssignmentUncheckedCreateWithoutTenantInput> | TagAssignmentCreateWithoutTenantInput[] | TagAssignmentUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: TagAssignmentCreateOrConnectWithoutTenantInput | TagAssignmentCreateOrConnectWithoutTenantInput[]
+    createMany?: TagAssignmentCreateManyTenantInputEnvelope
+    connect?: TagAssignmentWhereUniqueInput | TagAssignmentWhereUniqueInput[]
+  }
+
+  export type ItemRelationUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<ItemRelationCreateWithoutTenantInput, ItemRelationUncheckedCreateWithoutTenantInput> | ItemRelationCreateWithoutTenantInput[] | ItemRelationUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: ItemRelationCreateOrConnectWithoutTenantInput | ItemRelationCreateOrConnectWithoutTenantInput[]
+    createMany?: ItemRelationCreateManyTenantInputEnvelope
+    connect?: ItemRelationWhereUniqueInput | ItemRelationWhereUniqueInput[]
   }
 
   export type AppUserUpdateManyWithoutTenantNestedInput = {
@@ -59201,6 +63928,48 @@ export namespace Prisma {
     deleteMany?: ExpenseScalarWhereInput | ExpenseScalarWhereInput[]
   }
 
+  export type TagUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<TagCreateWithoutTenantInput, TagUncheckedCreateWithoutTenantInput> | TagCreateWithoutTenantInput[] | TagUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: TagCreateOrConnectWithoutTenantInput | TagCreateOrConnectWithoutTenantInput[]
+    upsert?: TagUpsertWithWhereUniqueWithoutTenantInput | TagUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: TagCreateManyTenantInputEnvelope
+    set?: TagWhereUniqueInput | TagWhereUniqueInput[]
+    disconnect?: TagWhereUniqueInput | TagWhereUniqueInput[]
+    delete?: TagWhereUniqueInput | TagWhereUniqueInput[]
+    connect?: TagWhereUniqueInput | TagWhereUniqueInput[]
+    update?: TagUpdateWithWhereUniqueWithoutTenantInput | TagUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: TagUpdateManyWithWhereWithoutTenantInput | TagUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: TagScalarWhereInput | TagScalarWhereInput[]
+  }
+
+  export type TagAssignmentUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<TagAssignmentCreateWithoutTenantInput, TagAssignmentUncheckedCreateWithoutTenantInput> | TagAssignmentCreateWithoutTenantInput[] | TagAssignmentUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: TagAssignmentCreateOrConnectWithoutTenantInput | TagAssignmentCreateOrConnectWithoutTenantInput[]
+    upsert?: TagAssignmentUpsertWithWhereUniqueWithoutTenantInput | TagAssignmentUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: TagAssignmentCreateManyTenantInputEnvelope
+    set?: TagAssignmentWhereUniqueInput | TagAssignmentWhereUniqueInput[]
+    disconnect?: TagAssignmentWhereUniqueInput | TagAssignmentWhereUniqueInput[]
+    delete?: TagAssignmentWhereUniqueInput | TagAssignmentWhereUniqueInput[]
+    connect?: TagAssignmentWhereUniqueInput | TagAssignmentWhereUniqueInput[]
+    update?: TagAssignmentUpdateWithWhereUniqueWithoutTenantInput | TagAssignmentUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: TagAssignmentUpdateManyWithWhereWithoutTenantInput | TagAssignmentUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: TagAssignmentScalarWhereInput | TagAssignmentScalarWhereInput[]
+  }
+
+  export type ItemRelationUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<ItemRelationCreateWithoutTenantInput, ItemRelationUncheckedCreateWithoutTenantInput> | ItemRelationCreateWithoutTenantInput[] | ItemRelationUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: ItemRelationCreateOrConnectWithoutTenantInput | ItemRelationCreateOrConnectWithoutTenantInput[]
+    upsert?: ItemRelationUpsertWithWhereUniqueWithoutTenantInput | ItemRelationUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: ItemRelationCreateManyTenantInputEnvelope
+    set?: ItemRelationWhereUniqueInput | ItemRelationWhereUniqueInput[]
+    disconnect?: ItemRelationWhereUniqueInput | ItemRelationWhereUniqueInput[]
+    delete?: ItemRelationWhereUniqueInput | ItemRelationWhereUniqueInput[]
+    connect?: ItemRelationWhereUniqueInput | ItemRelationWhereUniqueInput[]
+    update?: ItemRelationUpdateWithWhereUniqueWithoutTenantInput | ItemRelationUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: ItemRelationUpdateManyWithWhereWithoutTenantInput | ItemRelationUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: ItemRelationScalarWhereInput | ItemRelationScalarWhereInput[]
+  }
+
   export type AppUserUncheckedUpdateManyWithoutTenantNestedInput = {
     create?: XOR<AppUserCreateWithoutTenantInput, AppUserUncheckedCreateWithoutTenantInput> | AppUserCreateWithoutTenantInput[] | AppUserUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: AppUserCreateOrConnectWithoutTenantInput | AppUserCreateOrConnectWithoutTenantInput[]
@@ -59493,6 +64262,48 @@ export namespace Prisma {
     update?: ExpenseUpdateWithWhereUniqueWithoutTenantInput | ExpenseUpdateWithWhereUniqueWithoutTenantInput[]
     updateMany?: ExpenseUpdateManyWithWhereWithoutTenantInput | ExpenseUpdateManyWithWhereWithoutTenantInput[]
     deleteMany?: ExpenseScalarWhereInput | ExpenseScalarWhereInput[]
+  }
+
+  export type TagUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<TagCreateWithoutTenantInput, TagUncheckedCreateWithoutTenantInput> | TagCreateWithoutTenantInput[] | TagUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: TagCreateOrConnectWithoutTenantInput | TagCreateOrConnectWithoutTenantInput[]
+    upsert?: TagUpsertWithWhereUniqueWithoutTenantInput | TagUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: TagCreateManyTenantInputEnvelope
+    set?: TagWhereUniqueInput | TagWhereUniqueInput[]
+    disconnect?: TagWhereUniqueInput | TagWhereUniqueInput[]
+    delete?: TagWhereUniqueInput | TagWhereUniqueInput[]
+    connect?: TagWhereUniqueInput | TagWhereUniqueInput[]
+    update?: TagUpdateWithWhereUniqueWithoutTenantInput | TagUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: TagUpdateManyWithWhereWithoutTenantInput | TagUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: TagScalarWhereInput | TagScalarWhereInput[]
+  }
+
+  export type TagAssignmentUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<TagAssignmentCreateWithoutTenantInput, TagAssignmentUncheckedCreateWithoutTenantInput> | TagAssignmentCreateWithoutTenantInput[] | TagAssignmentUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: TagAssignmentCreateOrConnectWithoutTenantInput | TagAssignmentCreateOrConnectWithoutTenantInput[]
+    upsert?: TagAssignmentUpsertWithWhereUniqueWithoutTenantInput | TagAssignmentUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: TagAssignmentCreateManyTenantInputEnvelope
+    set?: TagAssignmentWhereUniqueInput | TagAssignmentWhereUniqueInput[]
+    disconnect?: TagAssignmentWhereUniqueInput | TagAssignmentWhereUniqueInput[]
+    delete?: TagAssignmentWhereUniqueInput | TagAssignmentWhereUniqueInput[]
+    connect?: TagAssignmentWhereUniqueInput | TagAssignmentWhereUniqueInput[]
+    update?: TagAssignmentUpdateWithWhereUniqueWithoutTenantInput | TagAssignmentUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: TagAssignmentUpdateManyWithWhereWithoutTenantInput | TagAssignmentUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: TagAssignmentScalarWhereInput | TagAssignmentScalarWhereInput[]
+  }
+
+  export type ItemRelationUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<ItemRelationCreateWithoutTenantInput, ItemRelationUncheckedCreateWithoutTenantInput> | ItemRelationCreateWithoutTenantInput[] | ItemRelationUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: ItemRelationCreateOrConnectWithoutTenantInput | ItemRelationCreateOrConnectWithoutTenantInput[]
+    upsert?: ItemRelationUpsertWithWhereUniqueWithoutTenantInput | ItemRelationUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: ItemRelationCreateManyTenantInputEnvelope
+    set?: ItemRelationWhereUniqueInput | ItemRelationWhereUniqueInput[]
+    disconnect?: ItemRelationWhereUniqueInput | ItemRelationWhereUniqueInput[]
+    delete?: ItemRelationWhereUniqueInput | ItemRelationWhereUniqueInput[]
+    connect?: ItemRelationWhereUniqueInput | ItemRelationWhereUniqueInput[]
+    update?: ItemRelationUpdateWithWhereUniqueWithoutTenantInput | ItemRelationUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: ItemRelationUpdateManyWithWhereWithoutTenantInput | ItemRelationUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: ItemRelationScalarWhereInput | ItemRelationScalarWhereInput[]
   }
 
   export type TenantCreateNestedOneWithoutUnitsInput = {
@@ -60516,6 +65327,9 @@ export namespace Prisma {
     defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
     settings?: TenantSettingCreateNestedManyWithoutTenantInput
     expenses?: ExpenseCreateNestedManyWithoutTenantInput
+    tags?: TagCreateNestedManyWithoutTenantInput
+    tagAssignments?: TagAssignmentCreateNestedManyWithoutTenantInput
+    itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutChartOfAccountsInput = {
@@ -60554,6 +65368,9 @@ export namespace Prisma {
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
+    tags?: TagUncheckedCreateNestedManyWithoutTenantInput
+    tagAssignments?: TagAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutChartOfAccountsInput = {
@@ -60781,6 +65598,9 @@ export namespace Prisma {
     defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
     settings?: TenantSettingUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUpdateManyWithoutTenantNestedInput
+    tags?: TagUpdateManyWithoutTenantNestedInput
+    tagAssignments?: TagAssignmentUpdateManyWithoutTenantNestedInput
+    itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutChartOfAccountsInput = {
@@ -60819,6 +65639,9 @@ export namespace Prisma {
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
+    tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
+    tagAssignments?: TagAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ChartOfAccountUpsertWithoutChildrenInput = {
@@ -61021,6 +65844,9 @@ export namespace Prisma {
     defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
     settings?: TenantSettingCreateNestedManyWithoutTenantInput
     expenses?: ExpenseCreateNestedManyWithoutTenantInput
+    tags?: TagCreateNestedManyWithoutTenantInput
+    tagAssignments?: TagAssignmentCreateNestedManyWithoutTenantInput
+    itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutJournalEntriesInput = {
@@ -61059,6 +65885,9 @@ export namespace Prisma {
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
+    tags?: TagUncheckedCreateNestedManyWithoutTenantInput
+    tagAssignments?: TagAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutJournalEntriesInput = {
@@ -61180,6 +66009,9 @@ export namespace Prisma {
     defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
     settings?: TenantSettingUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUpdateManyWithoutTenantNestedInput
+    tags?: TagUpdateManyWithoutTenantNestedInput
+    tagAssignments?: TagAssignmentUpdateManyWithoutTenantNestedInput
+    itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutJournalEntriesInput = {
@@ -61218,6 +66050,9 @@ export namespace Prisma {
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
+    tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
+    tagAssignments?: TagAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type FiscalPeriodUpsertWithoutJournalEntriesInput = {
@@ -61471,6 +66306,9 @@ export namespace Prisma {
     defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
     settings?: TenantSettingCreateNestedManyWithoutTenantInput
     expenses?: ExpenseCreateNestedManyWithoutTenantInput
+    tags?: TagCreateNestedManyWithoutTenantInput
+    tagAssignments?: TagAssignmentCreateNestedManyWithoutTenantInput
+    itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAiChatSessionsInput = {
@@ -61509,6 +66347,9 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTenantInput
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
+    tags?: TagUncheckedCreateNestedManyWithoutTenantInput
+    tagAssignments?: TagAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAiChatSessionsInput = {
@@ -61589,6 +66430,9 @@ export namespace Prisma {
     defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
     settings?: TenantSettingUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUpdateManyWithoutTenantNestedInput
+    tags?: TagUpdateManyWithoutTenantNestedInput
+    tagAssignments?: TagAssignmentUpdateManyWithoutTenantNestedInput
+    itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAiChatSessionsInput = {
@@ -61627,6 +66471,9 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedUpdateManyWithoutTenantNestedInput
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
+    tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
+    tagAssignments?: TagAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type AiChatMessageUpsertWithWhereUniqueWithoutSessionInput = {
@@ -61745,6 +66592,9 @@ export namespace Prisma {
     defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
     settings?: TenantSettingCreateNestedManyWithoutTenantInput
     expenses?: ExpenseCreateNestedManyWithoutTenantInput
+    tags?: TagCreateNestedManyWithoutTenantInput
+    tagAssignments?: TagAssignmentCreateNestedManyWithoutTenantInput
+    itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAuditLogsInput = {
@@ -61783,6 +66633,9 @@ export namespace Prisma {
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
+    tags?: TagUncheckedCreateNestedManyWithoutTenantInput
+    tagAssignments?: TagAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAuditLogsInput = {
@@ -61837,6 +66690,9 @@ export namespace Prisma {
     defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
     settings?: TenantSettingUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUpdateManyWithoutTenantNestedInput
+    tags?: TagUpdateManyWithoutTenantNestedInput
+    tagAssignments?: TagAssignmentUpdateManyWithoutTenantNestedInput
+    itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAuditLogsInput = {
@@ -61875,6 +66731,9 @@ export namespace Prisma {
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
+    tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
+    tagAssignments?: TagAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCashboxesInput = {
@@ -61913,6 +66772,9 @@ export namespace Prisma {
     defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
     settings?: TenantSettingCreateNestedManyWithoutTenantInput
     expenses?: ExpenseCreateNestedManyWithoutTenantInput
+    tags?: TagCreateNestedManyWithoutTenantInput
+    tagAssignments?: TagAssignmentCreateNestedManyWithoutTenantInput
+    itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCashboxesInput = {
@@ -61951,6 +66813,9 @@ export namespace Prisma {
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
+    tags?: TagUncheckedCreateNestedManyWithoutTenantInput
+    tagAssignments?: TagAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCashboxesInput = {
@@ -62187,6 +67052,9 @@ export namespace Prisma {
     defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
     settings?: TenantSettingUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUpdateManyWithoutTenantNestedInput
+    tags?: TagUpdateManyWithoutTenantNestedInput
+    tagAssignments?: TagAssignmentUpdateManyWithoutTenantNestedInput
+    itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCashboxesInput = {
@@ -62225,6 +67093,9 @@ export namespace Prisma {
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
+    tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
+    tagAssignments?: TagAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type CurrencyUpsertWithoutCashboxesInput = {
@@ -62430,6 +67301,9 @@ export namespace Prisma {
     defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
     settings?: TenantSettingCreateNestedManyWithoutTenantInput
     expenses?: ExpenseCreateNestedManyWithoutTenantInput
+    tags?: TagCreateNestedManyWithoutTenantInput
+    tagAssignments?: TagAssignmentCreateNestedManyWithoutTenantInput
+    itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPaymentsInput = {
@@ -62468,6 +67342,9 @@ export namespace Prisma {
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
+    tags?: TagUncheckedCreateNestedManyWithoutTenantInput
+    tagAssignments?: TagAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPaymentsInput = {
@@ -62692,6 +67569,9 @@ export namespace Prisma {
     defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
     settings?: TenantSettingUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUpdateManyWithoutTenantNestedInput
+    tags?: TagUpdateManyWithoutTenantNestedInput
+    tagAssignments?: TagAssignmentUpdateManyWithoutTenantNestedInput
+    itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPaymentsInput = {
@@ -62730,6 +67610,9 @@ export namespace Prisma {
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
+    tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
+    tagAssignments?: TagAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type CashboxUpsertWithoutPaymentsInput = {
@@ -63200,6 +68083,9 @@ export namespace Prisma {
     defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
     settings?: TenantSettingCreateNestedManyWithoutTenantInput
     expenses?: ExpenseCreateNestedManyWithoutTenantInput
+    tags?: TagCreateNestedManyWithoutTenantInput
+    tagAssignments?: TagAssignmentCreateNestedManyWithoutTenantInput
+    itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCurrenciesInput = {
@@ -63238,6 +68124,9 @@ export namespace Prisma {
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
+    tags?: TagUncheckedCreateNestedManyWithoutTenantInput
+    tagAssignments?: TagAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCurrenciesInput = {
@@ -63441,6 +68330,9 @@ export namespace Prisma {
     defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
     settings?: TenantSettingCreateNestedManyWithoutTenantInput
     expenses?: ExpenseCreateNestedManyWithoutTenantInput
+    tags?: TagCreateNestedManyWithoutTenantInput
+    tagAssignments?: TagAssignmentCreateNestedManyWithoutTenantInput
+    itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBaseCurrencyInput = {
@@ -63479,6 +68371,9 @@ export namespace Prisma {
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
+    tags?: TagUncheckedCreateNestedManyWithoutTenantInput
+    tagAssignments?: TagAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBaseCurrencyInput = {
@@ -63590,6 +68485,9 @@ export namespace Prisma {
     defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
     settings?: TenantSettingUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUpdateManyWithoutTenantNestedInput
+    tags?: TagUpdateManyWithoutTenantNestedInput
+    tagAssignments?: TagAssignmentUpdateManyWithoutTenantNestedInput
+    itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCurrenciesInput = {
@@ -63628,6 +68526,9 @@ export namespace Prisma {
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
+    tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
+    tagAssignments?: TagAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type CashboxUpsertWithWhereUniqueWithoutCurrencyInput = {
@@ -63926,6 +68827,9 @@ export namespace Prisma {
     defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
     settings?: TenantSettingCreateNestedManyWithoutTenantInput
     expenses?: ExpenseCreateNestedManyWithoutTenantInput
+    tags?: TagCreateNestedManyWithoutTenantInput
+    tagAssignments?: TagAssignmentCreateNestedManyWithoutTenantInput
+    itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDocumentSequencesInput = {
@@ -63964,6 +68868,9 @@ export namespace Prisma {
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
+    tags?: TagUncheckedCreateNestedManyWithoutTenantInput
+    tagAssignments?: TagAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDocumentSequencesInput = {
@@ -64007,6 +68914,9 @@ export namespace Prisma {
     baseCurrency?: CurrencyCreateNestedOneWithoutBaseForTenantsInput
     settings?: TenantSettingCreateNestedManyWithoutTenantInput
     expenses?: ExpenseCreateNestedManyWithoutTenantInput
+    tags?: TagCreateNestedManyWithoutTenantInput
+    tagAssignments?: TagAssignmentCreateNestedManyWithoutTenantInput
+    itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDefaultSalesSequenceInput = {
@@ -64045,6 +68955,9 @@ export namespace Prisma {
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
+    tags?: TagUncheckedCreateNestedManyWithoutTenantInput
+    tagAssignments?: TagAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDefaultSalesSequenceInput = {
@@ -64104,6 +69017,9 @@ export namespace Prisma {
     defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
     settings?: TenantSettingUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUpdateManyWithoutTenantNestedInput
+    tags?: TagUpdateManyWithoutTenantNestedInput
+    tagAssignments?: TagAssignmentUpdateManyWithoutTenantNestedInput
+    itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDocumentSequencesInput = {
@@ -64142,6 +69058,9 @@ export namespace Prisma {
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
+    tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
+    tagAssignments?: TagAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUpsertWithWhereUniqueWithoutDefaultSalesSequenceInput = {
@@ -64196,6 +69115,9 @@ export namespace Prisma {
     baseCurrency?: CurrencyCreateNestedOneWithoutBaseForTenantsInput
     defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
     settings?: TenantSettingCreateNestedManyWithoutTenantInput
+    tags?: TagCreateNestedManyWithoutTenantInput
+    tagAssignments?: TagAssignmentCreateNestedManyWithoutTenantInput
+    itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutExpensesInput = {
@@ -64234,6 +69156,9 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
+    tags?: TagUncheckedCreateNestedManyWithoutTenantInput
+    tagAssignments?: TagAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutExpensesInput = {
@@ -64425,6 +69350,9 @@ export namespace Prisma {
     baseCurrency?: CurrencyUpdateOneWithoutBaseForTenantsNestedInput
     defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
     settings?: TenantSettingUpdateManyWithoutTenantNestedInput
+    tags?: TagUpdateManyWithoutTenantNestedInput
+    tagAssignments?: TagAssignmentUpdateManyWithoutTenantNestedInput
+    itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutExpensesInput = {
@@ -64463,6 +69391,9 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
+    tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
+    tagAssignments?: TagAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type CashboxUpsertWithoutExpensesInput = {
@@ -64818,6 +69749,9 @@ export namespace Prisma {
     defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
     settings?: TenantSettingCreateNestedManyWithoutTenantInput
     expenses?: ExpenseCreateNestedManyWithoutTenantInput
+    tags?: TagCreateNestedManyWithoutTenantInput
+    tagAssignments?: TagAssignmentCreateNestedManyWithoutTenantInput
+    itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutFiscalPeriodsInput = {
@@ -64856,6 +69790,9 @@ export namespace Prisma {
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
+    tags?: TagUncheckedCreateNestedManyWithoutTenantInput
+    tagAssignments?: TagAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutFiscalPeriodsInput = {
@@ -65208,6 +70145,9 @@ export namespace Prisma {
     defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
     settings?: TenantSettingUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUpdateManyWithoutTenantNestedInput
+    tags?: TagUpdateManyWithoutTenantNestedInput
+    tagAssignments?: TagAssignmentUpdateManyWithoutTenantNestedInput
+    itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutFiscalPeriodsInput = {
@@ -65246,6 +70186,9 @@ export namespace Prisma {
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
+    tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
+    tagAssignments?: TagAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type StockMovementUpsertWithWhereUniqueWithoutFiscalPeriodInput = {
@@ -65437,6 +70380,9 @@ export namespace Prisma {
     defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
     settings?: TenantSettingCreateNestedManyWithoutTenantInput
     expenses?: ExpenseCreateNestedManyWithoutTenantInput
+    tags?: TagCreateNestedManyWithoutTenantInput
+    tagAssignments?: TagAssignmentCreateNestedManyWithoutTenantInput
+    itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutInvoiceTypesInput = {
@@ -65475,6 +70421,9 @@ export namespace Prisma {
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
+    tags?: TagUncheckedCreateNestedManyWithoutTenantInput
+    tagAssignments?: TagAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutInvoiceTypesInput = {
@@ -65593,6 +70542,9 @@ export namespace Prisma {
     defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
     settings?: TenantSettingUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUpdateManyWithoutTenantNestedInput
+    tags?: TagUpdateManyWithoutTenantNestedInput
+    tagAssignments?: TagAssignmentUpdateManyWithoutTenantNestedInput
+    itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutInvoiceTypesInput = {
@@ -65631,6 +70583,9 @@ export namespace Prisma {
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
+    tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
+    tagAssignments?: TagAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type InvoiceUpsertWithWhereUniqueWithoutInvoiceTypeInput = {
@@ -65685,6 +70640,9 @@ export namespace Prisma {
     defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
     settings?: TenantSettingCreateNestedManyWithoutTenantInput
     expenses?: ExpenseCreateNestedManyWithoutTenantInput
+    tags?: TagCreateNestedManyWithoutTenantInput
+    tagAssignments?: TagAssignmentCreateNestedManyWithoutTenantInput
+    itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutInvoicesInput = {
@@ -65723,6 +70681,9 @@ export namespace Prisma {
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
+    tags?: TagUncheckedCreateNestedManyWithoutTenantInput
+    tagAssignments?: TagAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutInvoicesInput = {
@@ -66020,6 +70981,9 @@ export namespace Prisma {
     defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
     settings?: TenantSettingUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUpdateManyWithoutTenantNestedInput
+    tags?: TagUpdateManyWithoutTenantNestedInput
+    tagAssignments?: TagAssignmentUpdateManyWithoutTenantNestedInput
+    itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutInvoicesInput = {
@@ -66058,6 +71022,9 @@ export namespace Prisma {
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
+    tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
+    tagAssignments?: TagAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type InvoiceTypeUpsertWithoutInvoicesInput = {
@@ -66383,6 +71350,7 @@ export namespace Prisma {
     barcode?: string | null
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
+    itemType?: string
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -66393,6 +71361,8 @@ export namespace Prisma {
     stockBalances?: StockBalanceCreateNestedManyWithoutItemInput
     stockMovements?: StockMovementCreateNestedManyWithoutItemInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutItemInput
+    itemRelations?: ItemRelationCreateNestedManyWithoutItemInput
+    itemRelatedTo?: ItemRelationCreateNestedManyWithoutRelatedItemInput
   }
 
   export type ItemUncheckedCreateWithoutInvoiceLinesInput = {
@@ -66405,6 +71375,7 @@ export namespace Prisma {
     baseUnitId: string
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
+    itemType?: string
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -66412,6 +71383,8 @@ export namespace Prisma {
     stockBalances?: StockBalanceUncheckedCreateNestedManyWithoutItemInput
     stockMovements?: StockMovementUncheckedCreateNestedManyWithoutItemInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutItemInput
+    itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutItemInput
+    itemRelatedTo?: ItemRelationUncheckedCreateNestedManyWithoutRelatedItemInput
   }
 
   export type ItemCreateOrConnectWithoutInvoiceLinesInput = {
@@ -66529,6 +71502,7 @@ export namespace Prisma {
     barcode?: NullableStringFieldUpdateOperationsInput | string | null
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    itemType?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -66539,6 +71513,8 @@ export namespace Prisma {
     stockBalances?: StockBalanceUpdateManyWithoutItemNestedInput
     stockMovements?: StockMovementUpdateManyWithoutItemNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutItemNestedInput
+    itemRelations?: ItemRelationUpdateManyWithoutItemNestedInput
+    itemRelatedTo?: ItemRelationUpdateManyWithoutRelatedItemNestedInput
   }
 
   export type ItemUncheckedUpdateWithoutInvoiceLinesInput = {
@@ -66551,6 +71527,7 @@ export namespace Prisma {
     baseUnitId?: StringFieldUpdateOperationsInput | string
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    itemType?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -66558,6 +71535,8 @@ export namespace Prisma {
     stockBalances?: StockBalanceUncheckedUpdateManyWithoutItemNestedInput
     stockMovements?: StockMovementUncheckedUpdateManyWithoutItemNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutItemNestedInput
+    itemRelations?: ItemRelationUncheckedUpdateManyWithoutItemNestedInput
+    itemRelatedTo?: ItemRelationUncheckedUpdateManyWithoutRelatedItemNestedInput
   }
 
   export type UnitUpsertWithoutInvoiceLinesInput = {
@@ -66629,6 +71608,9 @@ export namespace Prisma {
     defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
     settings?: TenantSettingCreateNestedManyWithoutTenantInput
     expenses?: ExpenseCreateNestedManyWithoutTenantInput
+    tags?: TagCreateNestedManyWithoutTenantInput
+    tagAssignments?: TagAssignmentCreateNestedManyWithoutTenantInput
+    itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutItemCategoriesInput = {
@@ -66667,6 +71649,9 @@ export namespace Prisma {
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
+    tags?: TagUncheckedCreateNestedManyWithoutTenantInput
+    tagAssignments?: TagAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutItemCategoriesInput = {
@@ -66744,6 +71729,7 @@ export namespace Prisma {
     barcode?: string | null
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
+    itemType?: string
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -66754,6 +71740,8 @@ export namespace Prisma {
     stockMovements?: StockMovementCreateNestedManyWithoutItemInput
     invoiceLines?: InvoiceLineCreateNestedManyWithoutItemInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutItemInput
+    itemRelations?: ItemRelationCreateNestedManyWithoutItemInput
+    itemRelatedTo?: ItemRelationCreateNestedManyWithoutRelatedItemInput
   }
 
   export type ItemUncheckedCreateWithoutCategoryInput = {
@@ -66765,6 +71753,7 @@ export namespace Prisma {
     baseUnitId: string
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
+    itemType?: string
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -66773,6 +71762,8 @@ export namespace Prisma {
     stockMovements?: StockMovementUncheckedCreateNestedManyWithoutItemInput
     invoiceLines?: InvoiceLineUncheckedCreateNestedManyWithoutItemInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutItemInput
+    itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutItemInput
+    itemRelatedTo?: ItemRelationUncheckedCreateNestedManyWithoutRelatedItemInput
   }
 
   export type ItemCreateOrConnectWithoutCategoryInput = {
@@ -66832,6 +71823,9 @@ export namespace Prisma {
     defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
     settings?: TenantSettingUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUpdateManyWithoutTenantNestedInput
+    tags?: TagUpdateManyWithoutTenantNestedInput
+    tagAssignments?: TagAssignmentUpdateManyWithoutTenantNestedInput
+    itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutItemCategoriesInput = {
@@ -66870,6 +71864,9 @@ export namespace Prisma {
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
+    tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
+    tagAssignments?: TagAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ItemCategoryUpsertWithoutChildrenInput = {
@@ -66966,9 +71963,398 @@ export namespace Prisma {
     baseUnitId?: StringFilter<"Item"> | string
     defaultSellingPrice?: DecimalNullableFilter<"Item"> | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: DecimalNullableFilter<"Item"> | Decimal | DecimalJsLike | number | string | null
+    itemType?: StringFilter<"Item"> | string
     isActive?: BoolFilter<"Item"> | boolean
     createdAt?: DateTimeFilter<"Item"> | Date | string
     updatedAt?: DateTimeFilter<"Item"> | Date | string
+  }
+
+  export type TenantCreateWithoutItemRelationsInput = {
+    id?: string
+    name: string
+    slug: string
+    address?: string | null
+    phone?: string | null
+    email?: string | null
+    logo?: string | null
+    legalName?: string | null
+    taxNumber?: string | null
+    website?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: AppUserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    currencies?: CurrencyCreateNestedManyWithoutTenantInput
+    fiscalPeriods?: FiscalPeriodCreateNestedManyWithoutTenantInput
+    documentSequences?: DocumentSequenceCreateNestedManyWithoutTenantInput
+    itemCategories?: ItemCategoryCreateNestedManyWithoutTenantInput
+    units?: UnitCreateNestedManyWithoutTenantInput
+    items?: ItemCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    cashboxes?: CashboxCreateNestedManyWithoutTenantInput
+    invoiceTypes?: InvoiceTypeCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    chartOfAccounts?: ChartOfAccountCreateNestedManyWithoutTenantInput
+    journalEntries?: JournalEntryCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountCreateNestedManyWithoutTenantInput
+    auditLogs?: AuditLogCreateNestedManyWithoutTenantInput
+    aiChatSessions?: AiChatSessionCreateNestedManyWithoutTenantInput
+    baseCurrency?: CurrencyCreateNestedOneWithoutBaseForTenantsInput
+    defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
+    settings?: TenantSettingCreateNestedManyWithoutTenantInput
+    expenses?: ExpenseCreateNestedManyWithoutTenantInput
+    tags?: TagCreateNestedManyWithoutTenantInput
+    tagAssignments?: TagAssignmentCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutItemRelationsInput = {
+    id?: string
+    name: string
+    slug: string
+    address?: string | null
+    phone?: string | null
+    email?: string | null
+    logo?: string | null
+    legalName?: string | null
+    taxNumber?: string | null
+    website?: string | null
+    baseCurrencyId?: string | null
+    defaultSalesSequenceId?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    currencies?: CurrencyUncheckedCreateNestedManyWithoutTenantInput
+    fiscalPeriods?: FiscalPeriodUncheckedCreateNestedManyWithoutTenantInput
+    documentSequences?: DocumentSequenceUncheckedCreateNestedManyWithoutTenantInput
+    itemCategories?: ItemCategoryUncheckedCreateNestedManyWithoutTenantInput
+    units?: UnitUncheckedCreateNestedManyWithoutTenantInput
+    items?: ItemUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    cashboxes?: CashboxUncheckedCreateNestedManyWithoutTenantInput
+    invoiceTypes?: InvoiceTypeUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    chartOfAccounts?: ChartOfAccountUncheckedCreateNestedManyWithoutTenantInput
+    journalEntries?: JournalEntryUncheckedCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTenantInput
+    aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
+    settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
+    expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
+    tags?: TagUncheckedCreateNestedManyWithoutTenantInput
+    tagAssignments?: TagAssignmentUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutItemRelationsInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutItemRelationsInput, TenantUncheckedCreateWithoutItemRelationsInput>
+  }
+
+  export type ItemCreateWithoutItemRelationsInput = {
+    id?: string
+    code: string
+    name: string
+    barcode?: string | null
+    defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
+    latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
+    itemType?: string
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutItemsInput
+    category: ItemCategoryCreateNestedOneWithoutItemsInput
+    baseUnit: UnitCreateNestedOneWithoutItemsInput
+    warehouseItems?: WarehouseItemCreateNestedManyWithoutItemInput
+    stockBalances?: StockBalanceCreateNestedManyWithoutItemInput
+    stockMovements?: StockMovementCreateNestedManyWithoutItemInput
+    invoiceLines?: InvoiceLineCreateNestedManyWithoutItemInput
+    stockCountLines?: StockCountLineCreateNestedManyWithoutItemInput
+    itemRelatedTo?: ItemRelationCreateNestedManyWithoutRelatedItemInput
+  }
+
+  export type ItemUncheckedCreateWithoutItemRelationsInput = {
+    id?: string
+    tenantId: string
+    code: string
+    name: string
+    barcode?: string | null
+    categoryId: string
+    baseUnitId: string
+    defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
+    latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
+    itemType?: string
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    warehouseItems?: WarehouseItemUncheckedCreateNestedManyWithoutItemInput
+    stockBalances?: StockBalanceUncheckedCreateNestedManyWithoutItemInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutItemInput
+    invoiceLines?: InvoiceLineUncheckedCreateNestedManyWithoutItemInput
+    stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutItemInput
+    itemRelatedTo?: ItemRelationUncheckedCreateNestedManyWithoutRelatedItemInput
+  }
+
+  export type ItemCreateOrConnectWithoutItemRelationsInput = {
+    where: ItemWhereUniqueInput
+    create: XOR<ItemCreateWithoutItemRelationsInput, ItemUncheckedCreateWithoutItemRelationsInput>
+  }
+
+  export type ItemCreateWithoutItemRelatedToInput = {
+    id?: string
+    code: string
+    name: string
+    barcode?: string | null
+    defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
+    latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
+    itemType?: string
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutItemsInput
+    category: ItemCategoryCreateNestedOneWithoutItemsInput
+    baseUnit: UnitCreateNestedOneWithoutItemsInput
+    warehouseItems?: WarehouseItemCreateNestedManyWithoutItemInput
+    stockBalances?: StockBalanceCreateNestedManyWithoutItemInput
+    stockMovements?: StockMovementCreateNestedManyWithoutItemInput
+    invoiceLines?: InvoiceLineCreateNestedManyWithoutItemInput
+    stockCountLines?: StockCountLineCreateNestedManyWithoutItemInput
+    itemRelations?: ItemRelationCreateNestedManyWithoutItemInput
+  }
+
+  export type ItemUncheckedCreateWithoutItemRelatedToInput = {
+    id?: string
+    tenantId: string
+    code: string
+    name: string
+    barcode?: string | null
+    categoryId: string
+    baseUnitId: string
+    defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
+    latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
+    itemType?: string
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    warehouseItems?: WarehouseItemUncheckedCreateNestedManyWithoutItemInput
+    stockBalances?: StockBalanceUncheckedCreateNestedManyWithoutItemInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutItemInput
+    invoiceLines?: InvoiceLineUncheckedCreateNestedManyWithoutItemInput
+    stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutItemInput
+    itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutItemInput
+  }
+
+  export type ItemCreateOrConnectWithoutItemRelatedToInput = {
+    where: ItemWhereUniqueInput
+    create: XOR<ItemCreateWithoutItemRelatedToInput, ItemUncheckedCreateWithoutItemRelatedToInput>
+  }
+
+  export type TenantUpsertWithoutItemRelationsInput = {
+    update: XOR<TenantUpdateWithoutItemRelationsInput, TenantUncheckedUpdateWithoutItemRelationsInput>
+    create: XOR<TenantCreateWithoutItemRelationsInput, TenantUncheckedCreateWithoutItemRelationsInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutItemRelationsInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutItemRelationsInput, TenantUncheckedUpdateWithoutItemRelationsInput>
+  }
+
+  export type TenantUpdateWithoutItemRelationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: AppUserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    currencies?: CurrencyUpdateManyWithoutTenantNestedInput
+    fiscalPeriods?: FiscalPeriodUpdateManyWithoutTenantNestedInput
+    documentSequences?: DocumentSequenceUpdateManyWithoutTenantNestedInput
+    itemCategories?: ItemCategoryUpdateManyWithoutTenantNestedInput
+    units?: UnitUpdateManyWithoutTenantNestedInput
+    items?: ItemUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    cashboxes?: CashboxUpdateManyWithoutTenantNestedInput
+    invoiceTypes?: InvoiceTypeUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    chartOfAccounts?: ChartOfAccountUpdateManyWithoutTenantNestedInput
+    journalEntries?: JournalEntryUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutTenantNestedInput
+    aiChatSessions?: AiChatSessionUpdateManyWithoutTenantNestedInput
+    baseCurrency?: CurrencyUpdateOneWithoutBaseForTenantsNestedInput
+    defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
+    settings?: TenantSettingUpdateManyWithoutTenantNestedInput
+    expenses?: ExpenseUpdateManyWithoutTenantNestedInput
+    tags?: TagUpdateManyWithoutTenantNestedInput
+    tagAssignments?: TagAssignmentUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutItemRelationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    baseCurrencyId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultSalesSequenceId?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    currencies?: CurrencyUncheckedUpdateManyWithoutTenantNestedInput
+    fiscalPeriods?: FiscalPeriodUncheckedUpdateManyWithoutTenantNestedInput
+    documentSequences?: DocumentSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    itemCategories?: ItemCategoryUncheckedUpdateManyWithoutTenantNestedInput
+    units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
+    items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    cashboxes?: CashboxUncheckedUpdateManyWithoutTenantNestedInput
+    invoiceTypes?: InvoiceTypeUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    chartOfAccounts?: ChartOfAccountUncheckedUpdateManyWithoutTenantNestedInput
+    journalEntries?: JournalEntryUncheckedUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutTenantNestedInput
+    aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
+    settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
+    expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
+    tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
+    tagAssignments?: TagAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type ItemUpsertWithoutItemRelationsInput = {
+    update: XOR<ItemUpdateWithoutItemRelationsInput, ItemUncheckedUpdateWithoutItemRelationsInput>
+    create: XOR<ItemCreateWithoutItemRelationsInput, ItemUncheckedCreateWithoutItemRelationsInput>
+    where?: ItemWhereInput
+  }
+
+  export type ItemUpdateToOneWithWhereWithoutItemRelationsInput = {
+    where?: ItemWhereInput
+    data: XOR<ItemUpdateWithoutItemRelationsInput, ItemUncheckedUpdateWithoutItemRelationsInput>
+  }
+
+  export type ItemUpdateWithoutItemRelationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    barcode?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    itemType?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutItemsNestedInput
+    category?: ItemCategoryUpdateOneRequiredWithoutItemsNestedInput
+    baseUnit?: UnitUpdateOneRequiredWithoutItemsNestedInput
+    warehouseItems?: WarehouseItemUpdateManyWithoutItemNestedInput
+    stockBalances?: StockBalanceUpdateManyWithoutItemNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutItemNestedInput
+    invoiceLines?: InvoiceLineUpdateManyWithoutItemNestedInput
+    stockCountLines?: StockCountLineUpdateManyWithoutItemNestedInput
+    itemRelatedTo?: ItemRelationUpdateManyWithoutRelatedItemNestedInput
+  }
+
+  export type ItemUncheckedUpdateWithoutItemRelationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    barcode?: NullableStringFieldUpdateOperationsInput | string | null
+    categoryId?: StringFieldUpdateOperationsInput | string
+    baseUnitId?: StringFieldUpdateOperationsInput | string
+    defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    itemType?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    warehouseItems?: WarehouseItemUncheckedUpdateManyWithoutItemNestedInput
+    stockBalances?: StockBalanceUncheckedUpdateManyWithoutItemNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutItemNestedInput
+    invoiceLines?: InvoiceLineUncheckedUpdateManyWithoutItemNestedInput
+    stockCountLines?: StockCountLineUncheckedUpdateManyWithoutItemNestedInput
+    itemRelatedTo?: ItemRelationUncheckedUpdateManyWithoutRelatedItemNestedInput
+  }
+
+  export type ItemUpsertWithoutItemRelatedToInput = {
+    update: XOR<ItemUpdateWithoutItemRelatedToInput, ItemUncheckedUpdateWithoutItemRelatedToInput>
+    create: XOR<ItemCreateWithoutItemRelatedToInput, ItemUncheckedCreateWithoutItemRelatedToInput>
+    where?: ItemWhereInput
+  }
+
+  export type ItemUpdateToOneWithWhereWithoutItemRelatedToInput = {
+    where?: ItemWhereInput
+    data: XOR<ItemUpdateWithoutItemRelatedToInput, ItemUncheckedUpdateWithoutItemRelatedToInput>
+  }
+
+  export type ItemUpdateWithoutItemRelatedToInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    barcode?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    itemType?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutItemsNestedInput
+    category?: ItemCategoryUpdateOneRequiredWithoutItemsNestedInput
+    baseUnit?: UnitUpdateOneRequiredWithoutItemsNestedInput
+    warehouseItems?: WarehouseItemUpdateManyWithoutItemNestedInput
+    stockBalances?: StockBalanceUpdateManyWithoutItemNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutItemNestedInput
+    invoiceLines?: InvoiceLineUpdateManyWithoutItemNestedInput
+    stockCountLines?: StockCountLineUpdateManyWithoutItemNestedInput
+    itemRelations?: ItemRelationUpdateManyWithoutItemNestedInput
+  }
+
+  export type ItemUncheckedUpdateWithoutItemRelatedToInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    barcode?: NullableStringFieldUpdateOperationsInput | string | null
+    categoryId?: StringFieldUpdateOperationsInput | string
+    baseUnitId?: StringFieldUpdateOperationsInput | string
+    defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    itemType?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    warehouseItems?: WarehouseItemUncheckedUpdateManyWithoutItemNestedInput
+    stockBalances?: StockBalanceUncheckedUpdateManyWithoutItemNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutItemNestedInput
+    invoiceLines?: InvoiceLineUncheckedUpdateManyWithoutItemNestedInput
+    stockCountLines?: StockCountLineUncheckedUpdateManyWithoutItemNestedInput
+    itemRelations?: ItemRelationUncheckedUpdateManyWithoutItemNestedInput
   }
 
   export type TenantCreateWithoutItemsInput = {
@@ -67007,6 +72393,9 @@ export namespace Prisma {
     defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
     settings?: TenantSettingCreateNestedManyWithoutTenantInput
     expenses?: ExpenseCreateNestedManyWithoutTenantInput
+    tags?: TagCreateNestedManyWithoutTenantInput
+    tagAssignments?: TagAssignmentCreateNestedManyWithoutTenantInput
+    itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutItemsInput = {
@@ -67045,6 +72434,9 @@ export namespace Prisma {
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
+    tags?: TagUncheckedCreateNestedManyWithoutTenantInput
+    tagAssignments?: TagAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutItemsInput = {
@@ -67278,6 +72670,66 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ItemRelationCreateWithoutItemInput = {
+    id?: string
+    relationType: string
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutItemRelationsInput
+    relatedItem: ItemCreateNestedOneWithoutItemRelatedToInput
+  }
+
+  export type ItemRelationUncheckedCreateWithoutItemInput = {
+    id?: string
+    tenantId: string
+    relatedItemId: string
+    relationType: string
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ItemRelationCreateOrConnectWithoutItemInput = {
+    where: ItemRelationWhereUniqueInput
+    create: XOR<ItemRelationCreateWithoutItemInput, ItemRelationUncheckedCreateWithoutItemInput>
+  }
+
+  export type ItemRelationCreateManyItemInputEnvelope = {
+    data: ItemRelationCreateManyItemInput | ItemRelationCreateManyItemInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ItemRelationCreateWithoutRelatedItemInput = {
+    id?: string
+    relationType: string
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutItemRelationsInput
+    item: ItemCreateNestedOneWithoutItemRelationsInput
+  }
+
+  export type ItemRelationUncheckedCreateWithoutRelatedItemInput = {
+    id?: string
+    tenantId: string
+    itemId: string
+    relationType: string
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ItemRelationCreateOrConnectWithoutRelatedItemInput = {
+    where: ItemRelationWhereUniqueInput
+    create: XOR<ItemRelationCreateWithoutRelatedItemInput, ItemRelationUncheckedCreateWithoutRelatedItemInput>
+  }
+
+  export type ItemRelationCreateManyRelatedItemInputEnvelope = {
+    data: ItemRelationCreateManyRelatedItemInput | ItemRelationCreateManyRelatedItemInput[]
+    skipDuplicates?: boolean
+  }
+
   export type TenantUpsertWithoutItemsInput = {
     update: XOR<TenantUpdateWithoutItemsInput, TenantUncheckedUpdateWithoutItemsInput>
     create: XOR<TenantCreateWithoutItemsInput, TenantUncheckedCreateWithoutItemsInput>
@@ -67325,6 +72777,9 @@ export namespace Prisma {
     defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
     settings?: TenantSettingUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUpdateManyWithoutTenantNestedInput
+    tags?: TagUpdateManyWithoutTenantNestedInput
+    tagAssignments?: TagAssignmentUpdateManyWithoutTenantNestedInput
+    itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutItemsInput = {
@@ -67363,6 +72818,9 @@ export namespace Prisma {
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
+    tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
+    tagAssignments?: TagAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ItemCategoryUpsertWithoutItemsInput = {
@@ -67554,6 +73012,52 @@ export namespace Prisma {
     notes?: StringNullableFilter<"StockCountLine"> | string | null
   }
 
+  export type ItemRelationUpsertWithWhereUniqueWithoutItemInput = {
+    where: ItemRelationWhereUniqueInput
+    update: XOR<ItemRelationUpdateWithoutItemInput, ItemRelationUncheckedUpdateWithoutItemInput>
+    create: XOR<ItemRelationCreateWithoutItemInput, ItemRelationUncheckedCreateWithoutItemInput>
+  }
+
+  export type ItemRelationUpdateWithWhereUniqueWithoutItemInput = {
+    where: ItemRelationWhereUniqueInput
+    data: XOR<ItemRelationUpdateWithoutItemInput, ItemRelationUncheckedUpdateWithoutItemInput>
+  }
+
+  export type ItemRelationUpdateManyWithWhereWithoutItemInput = {
+    where: ItemRelationScalarWhereInput
+    data: XOR<ItemRelationUpdateManyMutationInput, ItemRelationUncheckedUpdateManyWithoutItemInput>
+  }
+
+  export type ItemRelationScalarWhereInput = {
+    AND?: ItemRelationScalarWhereInput | ItemRelationScalarWhereInput[]
+    OR?: ItemRelationScalarWhereInput[]
+    NOT?: ItemRelationScalarWhereInput | ItemRelationScalarWhereInput[]
+    id?: StringFilter<"ItemRelation"> | string
+    tenantId?: StringFilter<"ItemRelation"> | string
+    itemId?: StringFilter<"ItemRelation"> | string
+    relatedItemId?: StringFilter<"ItemRelation"> | string
+    relationType?: StringFilter<"ItemRelation"> | string
+    notes?: StringNullableFilter<"ItemRelation"> | string | null
+    createdAt?: DateTimeFilter<"ItemRelation"> | Date | string
+    updatedAt?: DateTimeFilter<"ItemRelation"> | Date | string
+  }
+
+  export type ItemRelationUpsertWithWhereUniqueWithoutRelatedItemInput = {
+    where: ItemRelationWhereUniqueInput
+    update: XOR<ItemRelationUpdateWithoutRelatedItemInput, ItemRelationUncheckedUpdateWithoutRelatedItemInput>
+    create: XOR<ItemRelationCreateWithoutRelatedItemInput, ItemRelationUncheckedCreateWithoutRelatedItemInput>
+  }
+
+  export type ItemRelationUpdateWithWhereUniqueWithoutRelatedItemInput = {
+    where: ItemRelationWhereUniqueInput
+    data: XOR<ItemRelationUpdateWithoutRelatedItemInput, ItemRelationUncheckedUpdateWithoutRelatedItemInput>
+  }
+
+  export type ItemRelationUpdateManyWithWhereWithoutRelatedItemInput = {
+    where: ItemRelationScalarWhereInput
+    data: XOR<ItemRelationUpdateManyMutationInput, ItemRelationUncheckedUpdateManyWithoutRelatedItemInput>
+  }
+
   export type TenantCreateWithoutPartiesInput = {
     id?: string
     name: string
@@ -67590,6 +73094,9 @@ export namespace Prisma {
     defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
     settings?: TenantSettingCreateNestedManyWithoutTenantInput
     expenses?: ExpenseCreateNestedManyWithoutTenantInput
+    tags?: TagCreateNestedManyWithoutTenantInput
+    tagAssignments?: TagAssignmentCreateNestedManyWithoutTenantInput
+    itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPartiesInput = {
@@ -67628,6 +73135,9 @@ export namespace Prisma {
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
+    tags?: TagUncheckedCreateNestedManyWithoutTenantInput
+    tagAssignments?: TagAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPartiesInput = {
@@ -67804,6 +73314,9 @@ export namespace Prisma {
     defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
     settings?: TenantSettingUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUpdateManyWithoutTenantNestedInput
+    tags?: TagUpdateManyWithoutTenantNestedInput
+    tagAssignments?: TagAssignmentUpdateManyWithoutTenantNestedInput
+    itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPartiesInput = {
@@ -67842,6 +73355,9 @@ export namespace Prisma {
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
+    tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
+    tagAssignments?: TagAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type InvoiceUpsertWithWhereUniqueWithoutPartyInput = {
@@ -67912,6 +73428,9 @@ export namespace Prisma {
     defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
     settings?: TenantSettingCreateNestedManyWithoutTenantInput
     expenses?: ExpenseCreateNestedManyWithoutTenantInput
+    tags?: TagCreateNestedManyWithoutTenantInput
+    tagAssignments?: TagAssignmentCreateNestedManyWithoutTenantInput
+    itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockCountsInput = {
@@ -67950,6 +73469,9 @@ export namespace Prisma {
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
+    tags?: TagUncheckedCreateNestedManyWithoutTenantInput
+    tagAssignments?: TagAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockCountsInput = {
@@ -68106,6 +73628,9 @@ export namespace Prisma {
     defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
     settings?: TenantSettingUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUpdateManyWithoutTenantNestedInput
+    tags?: TagUpdateManyWithoutTenantNestedInput
+    tagAssignments?: TagAssignmentUpdateManyWithoutTenantNestedInput
+    itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockCountsInput = {
@@ -68144,6 +73669,9 @@ export namespace Prisma {
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
+    tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
+    tagAssignments?: TagAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WarehouseUpsertWithoutStockCountsInput = {
@@ -68290,6 +73818,7 @@ export namespace Prisma {
     barcode?: string | null
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
+    itemType?: string
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -68300,6 +73829,8 @@ export namespace Prisma {
     stockBalances?: StockBalanceCreateNestedManyWithoutItemInput
     stockMovements?: StockMovementCreateNestedManyWithoutItemInput
     invoiceLines?: InvoiceLineCreateNestedManyWithoutItemInput
+    itemRelations?: ItemRelationCreateNestedManyWithoutItemInput
+    itemRelatedTo?: ItemRelationCreateNestedManyWithoutRelatedItemInput
   }
 
   export type ItemUncheckedCreateWithoutStockCountLinesInput = {
@@ -68312,6 +73843,7 @@ export namespace Prisma {
     baseUnitId: string
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
+    itemType?: string
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -68319,6 +73851,8 @@ export namespace Prisma {
     stockBalances?: StockBalanceUncheckedCreateNestedManyWithoutItemInput
     stockMovements?: StockMovementUncheckedCreateNestedManyWithoutItemInput
     invoiceLines?: InvoiceLineUncheckedCreateNestedManyWithoutItemInput
+    itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutItemInput
+    itemRelatedTo?: ItemRelationUncheckedCreateNestedManyWithoutRelatedItemInput
   }
 
   export type ItemCreateOrConnectWithoutStockCountLinesInput = {
@@ -68387,6 +73921,7 @@ export namespace Prisma {
     barcode?: NullableStringFieldUpdateOperationsInput | string | null
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    itemType?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -68397,6 +73932,8 @@ export namespace Prisma {
     stockBalances?: StockBalanceUpdateManyWithoutItemNestedInput
     stockMovements?: StockMovementUpdateManyWithoutItemNestedInput
     invoiceLines?: InvoiceLineUpdateManyWithoutItemNestedInput
+    itemRelations?: ItemRelationUpdateManyWithoutItemNestedInput
+    itemRelatedTo?: ItemRelationUpdateManyWithoutRelatedItemNestedInput
   }
 
   export type ItemUncheckedUpdateWithoutStockCountLinesInput = {
@@ -68409,6 +73946,7 @@ export namespace Prisma {
     baseUnitId?: StringFieldUpdateOperationsInput | string
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    itemType?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -68416,6 +73954,8 @@ export namespace Prisma {
     stockBalances?: StockBalanceUncheckedUpdateManyWithoutItemNestedInput
     stockMovements?: StockMovementUncheckedUpdateManyWithoutItemNestedInput
     invoiceLines?: InvoiceLineUncheckedUpdateManyWithoutItemNestedInput
+    itemRelations?: ItemRelationUncheckedUpdateManyWithoutItemNestedInput
+    itemRelatedTo?: ItemRelationUncheckedUpdateManyWithoutRelatedItemNestedInput
   }
 
   export type WarehouseCreateWithoutStockBalancesInput = {
@@ -68460,6 +74000,7 @@ export namespace Prisma {
     barcode?: string | null
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
+    itemType?: string
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -68470,6 +74011,8 @@ export namespace Prisma {
     stockMovements?: StockMovementCreateNestedManyWithoutItemInput
     invoiceLines?: InvoiceLineCreateNestedManyWithoutItemInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutItemInput
+    itemRelations?: ItemRelationCreateNestedManyWithoutItemInput
+    itemRelatedTo?: ItemRelationCreateNestedManyWithoutRelatedItemInput
   }
 
   export type ItemUncheckedCreateWithoutStockBalancesInput = {
@@ -68482,6 +74025,7 @@ export namespace Prisma {
     baseUnitId: string
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
+    itemType?: string
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -68489,6 +74033,8 @@ export namespace Prisma {
     stockMovements?: StockMovementUncheckedCreateNestedManyWithoutItemInput
     invoiceLines?: InvoiceLineUncheckedCreateNestedManyWithoutItemInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutItemInput
+    itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutItemInput
+    itemRelatedTo?: ItemRelationUncheckedCreateNestedManyWithoutRelatedItemInput
   }
 
   export type ItemCreateOrConnectWithoutStockBalancesInput = {
@@ -68555,6 +74101,7 @@ export namespace Prisma {
     barcode?: NullableStringFieldUpdateOperationsInput | string | null
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    itemType?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -68565,6 +74112,8 @@ export namespace Prisma {
     stockMovements?: StockMovementUpdateManyWithoutItemNestedInput
     invoiceLines?: InvoiceLineUpdateManyWithoutItemNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutItemNestedInput
+    itemRelations?: ItemRelationUpdateManyWithoutItemNestedInput
+    itemRelatedTo?: ItemRelationUpdateManyWithoutRelatedItemNestedInput
   }
 
   export type ItemUncheckedUpdateWithoutStockBalancesInput = {
@@ -68577,6 +74126,7 @@ export namespace Prisma {
     baseUnitId?: StringFieldUpdateOperationsInput | string
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    itemType?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -68584,6 +74134,8 @@ export namespace Prisma {
     stockMovements?: StockMovementUncheckedUpdateManyWithoutItemNestedInput
     invoiceLines?: InvoiceLineUncheckedUpdateManyWithoutItemNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutItemNestedInput
+    itemRelations?: ItemRelationUncheckedUpdateManyWithoutItemNestedInput
+    itemRelatedTo?: ItemRelationUncheckedUpdateManyWithoutRelatedItemNestedInput
   }
 
   export type WarehouseCreateWithoutStockMovementsInput = {
@@ -68628,6 +74180,7 @@ export namespace Prisma {
     barcode?: string | null
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
+    itemType?: string
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -68638,6 +74191,8 @@ export namespace Prisma {
     stockBalances?: StockBalanceCreateNestedManyWithoutItemInput
     invoiceLines?: InvoiceLineCreateNestedManyWithoutItemInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutItemInput
+    itemRelations?: ItemRelationCreateNestedManyWithoutItemInput
+    itemRelatedTo?: ItemRelationCreateNestedManyWithoutRelatedItemInput
   }
 
   export type ItemUncheckedCreateWithoutStockMovementsInput = {
@@ -68650,6 +74205,7 @@ export namespace Prisma {
     baseUnitId: string
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
+    itemType?: string
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -68657,6 +74213,8 @@ export namespace Prisma {
     stockBalances?: StockBalanceUncheckedCreateNestedManyWithoutItemInput
     invoiceLines?: InvoiceLineUncheckedCreateNestedManyWithoutItemInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutItemInput
+    itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutItemInput
+    itemRelatedTo?: ItemRelationUncheckedCreateNestedManyWithoutRelatedItemInput
   }
 
   export type ItemCreateOrConnectWithoutStockMovementsInput = {
@@ -68760,6 +74318,7 @@ export namespace Prisma {
     barcode?: NullableStringFieldUpdateOperationsInput | string | null
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    itemType?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -68770,6 +74329,8 @@ export namespace Prisma {
     stockBalances?: StockBalanceUpdateManyWithoutItemNestedInput
     invoiceLines?: InvoiceLineUpdateManyWithoutItemNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutItemNestedInput
+    itemRelations?: ItemRelationUpdateManyWithoutItemNestedInput
+    itemRelatedTo?: ItemRelationUpdateManyWithoutRelatedItemNestedInput
   }
 
   export type ItemUncheckedUpdateWithoutStockMovementsInput = {
@@ -68782,6 +74343,7 @@ export namespace Prisma {
     baseUnitId?: StringFieldUpdateOperationsInput | string
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    itemType?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -68789,6 +74351,8 @@ export namespace Prisma {
     stockBalances?: StockBalanceUncheckedUpdateManyWithoutItemNestedInput
     invoiceLines?: InvoiceLineUncheckedUpdateManyWithoutItemNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutItemNestedInput
+    itemRelations?: ItemRelationUncheckedUpdateManyWithoutItemNestedInput
+    itemRelatedTo?: ItemRelationUncheckedUpdateManyWithoutRelatedItemNestedInput
   }
 
   export type FiscalPeriodUpsertWithoutStockMovementsInput = {
@@ -68834,6 +74398,476 @@ export namespace Prisma {
     expenses?: ExpenseUncheckedUpdateManyWithoutFiscalPeriodNestedInput
   }
 
+  export type TenantCreateWithoutTagAssignmentsInput = {
+    id?: string
+    name: string
+    slug: string
+    address?: string | null
+    phone?: string | null
+    email?: string | null
+    logo?: string | null
+    legalName?: string | null
+    taxNumber?: string | null
+    website?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: AppUserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    currencies?: CurrencyCreateNestedManyWithoutTenantInput
+    fiscalPeriods?: FiscalPeriodCreateNestedManyWithoutTenantInput
+    documentSequences?: DocumentSequenceCreateNestedManyWithoutTenantInput
+    itemCategories?: ItemCategoryCreateNestedManyWithoutTenantInput
+    units?: UnitCreateNestedManyWithoutTenantInput
+    items?: ItemCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    cashboxes?: CashboxCreateNestedManyWithoutTenantInput
+    invoiceTypes?: InvoiceTypeCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    chartOfAccounts?: ChartOfAccountCreateNestedManyWithoutTenantInput
+    journalEntries?: JournalEntryCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountCreateNestedManyWithoutTenantInput
+    auditLogs?: AuditLogCreateNestedManyWithoutTenantInput
+    aiChatSessions?: AiChatSessionCreateNestedManyWithoutTenantInput
+    baseCurrency?: CurrencyCreateNestedOneWithoutBaseForTenantsInput
+    defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
+    settings?: TenantSettingCreateNestedManyWithoutTenantInput
+    expenses?: ExpenseCreateNestedManyWithoutTenantInput
+    tags?: TagCreateNestedManyWithoutTenantInput
+    itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutTagAssignmentsInput = {
+    id?: string
+    name: string
+    slug: string
+    address?: string | null
+    phone?: string | null
+    email?: string | null
+    logo?: string | null
+    legalName?: string | null
+    taxNumber?: string | null
+    website?: string | null
+    baseCurrencyId?: string | null
+    defaultSalesSequenceId?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    currencies?: CurrencyUncheckedCreateNestedManyWithoutTenantInput
+    fiscalPeriods?: FiscalPeriodUncheckedCreateNestedManyWithoutTenantInput
+    documentSequences?: DocumentSequenceUncheckedCreateNestedManyWithoutTenantInput
+    itemCategories?: ItemCategoryUncheckedCreateNestedManyWithoutTenantInput
+    units?: UnitUncheckedCreateNestedManyWithoutTenantInput
+    items?: ItemUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    cashboxes?: CashboxUncheckedCreateNestedManyWithoutTenantInput
+    invoiceTypes?: InvoiceTypeUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    chartOfAccounts?: ChartOfAccountUncheckedCreateNestedManyWithoutTenantInput
+    journalEntries?: JournalEntryUncheckedCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTenantInput
+    aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
+    settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
+    expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
+    tags?: TagUncheckedCreateNestedManyWithoutTenantInput
+    itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutTagAssignmentsInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutTagAssignmentsInput, TenantUncheckedCreateWithoutTagAssignmentsInput>
+  }
+
+  export type TagCreateWithoutAssignmentsInput = {
+    id?: string
+    name: string
+    color?: string | null
+    module: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutTagsInput
+  }
+
+  export type TagUncheckedCreateWithoutAssignmentsInput = {
+    id?: string
+    tenantId: string
+    name: string
+    color?: string | null
+    module: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TagCreateOrConnectWithoutAssignmentsInput = {
+    where: TagWhereUniqueInput
+    create: XOR<TagCreateWithoutAssignmentsInput, TagUncheckedCreateWithoutAssignmentsInput>
+  }
+
+  export type TenantUpsertWithoutTagAssignmentsInput = {
+    update: XOR<TenantUpdateWithoutTagAssignmentsInput, TenantUncheckedUpdateWithoutTagAssignmentsInput>
+    create: XOR<TenantCreateWithoutTagAssignmentsInput, TenantUncheckedCreateWithoutTagAssignmentsInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutTagAssignmentsInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutTagAssignmentsInput, TenantUncheckedUpdateWithoutTagAssignmentsInput>
+  }
+
+  export type TenantUpdateWithoutTagAssignmentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: AppUserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    currencies?: CurrencyUpdateManyWithoutTenantNestedInput
+    fiscalPeriods?: FiscalPeriodUpdateManyWithoutTenantNestedInput
+    documentSequences?: DocumentSequenceUpdateManyWithoutTenantNestedInput
+    itemCategories?: ItemCategoryUpdateManyWithoutTenantNestedInput
+    units?: UnitUpdateManyWithoutTenantNestedInput
+    items?: ItemUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    cashboxes?: CashboxUpdateManyWithoutTenantNestedInput
+    invoiceTypes?: InvoiceTypeUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    chartOfAccounts?: ChartOfAccountUpdateManyWithoutTenantNestedInput
+    journalEntries?: JournalEntryUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutTenantNestedInput
+    aiChatSessions?: AiChatSessionUpdateManyWithoutTenantNestedInput
+    baseCurrency?: CurrencyUpdateOneWithoutBaseForTenantsNestedInput
+    defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
+    settings?: TenantSettingUpdateManyWithoutTenantNestedInput
+    expenses?: ExpenseUpdateManyWithoutTenantNestedInput
+    tags?: TagUpdateManyWithoutTenantNestedInput
+    itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutTagAssignmentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    baseCurrencyId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultSalesSequenceId?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    currencies?: CurrencyUncheckedUpdateManyWithoutTenantNestedInput
+    fiscalPeriods?: FiscalPeriodUncheckedUpdateManyWithoutTenantNestedInput
+    documentSequences?: DocumentSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    itemCategories?: ItemCategoryUncheckedUpdateManyWithoutTenantNestedInput
+    units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
+    items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    cashboxes?: CashboxUncheckedUpdateManyWithoutTenantNestedInput
+    invoiceTypes?: InvoiceTypeUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    chartOfAccounts?: ChartOfAccountUncheckedUpdateManyWithoutTenantNestedInput
+    journalEntries?: JournalEntryUncheckedUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutTenantNestedInput
+    aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
+    settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
+    expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
+    tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
+    itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TagUpsertWithoutAssignmentsInput = {
+    update: XOR<TagUpdateWithoutAssignmentsInput, TagUncheckedUpdateWithoutAssignmentsInput>
+    create: XOR<TagCreateWithoutAssignmentsInput, TagUncheckedCreateWithoutAssignmentsInput>
+    where?: TagWhereInput
+  }
+
+  export type TagUpdateToOneWithWhereWithoutAssignmentsInput = {
+    where?: TagWhereInput
+    data: XOR<TagUpdateWithoutAssignmentsInput, TagUncheckedUpdateWithoutAssignmentsInput>
+  }
+
+  export type TagUpdateWithoutAssignmentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    module?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutTagsNestedInput
+  }
+
+  export type TagUncheckedUpdateWithoutAssignmentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    module?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TenantCreateWithoutTagsInput = {
+    id?: string
+    name: string
+    slug: string
+    address?: string | null
+    phone?: string | null
+    email?: string | null
+    logo?: string | null
+    legalName?: string | null
+    taxNumber?: string | null
+    website?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: AppUserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    currencies?: CurrencyCreateNestedManyWithoutTenantInput
+    fiscalPeriods?: FiscalPeriodCreateNestedManyWithoutTenantInput
+    documentSequences?: DocumentSequenceCreateNestedManyWithoutTenantInput
+    itemCategories?: ItemCategoryCreateNestedManyWithoutTenantInput
+    units?: UnitCreateNestedManyWithoutTenantInput
+    items?: ItemCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    cashboxes?: CashboxCreateNestedManyWithoutTenantInput
+    invoiceTypes?: InvoiceTypeCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    chartOfAccounts?: ChartOfAccountCreateNestedManyWithoutTenantInput
+    journalEntries?: JournalEntryCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountCreateNestedManyWithoutTenantInput
+    auditLogs?: AuditLogCreateNestedManyWithoutTenantInput
+    aiChatSessions?: AiChatSessionCreateNestedManyWithoutTenantInput
+    baseCurrency?: CurrencyCreateNestedOneWithoutBaseForTenantsInput
+    defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
+    settings?: TenantSettingCreateNestedManyWithoutTenantInput
+    expenses?: ExpenseCreateNestedManyWithoutTenantInput
+    tagAssignments?: TagAssignmentCreateNestedManyWithoutTenantInput
+    itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutTagsInput = {
+    id?: string
+    name: string
+    slug: string
+    address?: string | null
+    phone?: string | null
+    email?: string | null
+    logo?: string | null
+    legalName?: string | null
+    taxNumber?: string | null
+    website?: string | null
+    baseCurrencyId?: string | null
+    defaultSalesSequenceId?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    currencies?: CurrencyUncheckedCreateNestedManyWithoutTenantInput
+    fiscalPeriods?: FiscalPeriodUncheckedCreateNestedManyWithoutTenantInput
+    documentSequences?: DocumentSequenceUncheckedCreateNestedManyWithoutTenantInput
+    itemCategories?: ItemCategoryUncheckedCreateNestedManyWithoutTenantInput
+    units?: UnitUncheckedCreateNestedManyWithoutTenantInput
+    items?: ItemUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    cashboxes?: CashboxUncheckedCreateNestedManyWithoutTenantInput
+    invoiceTypes?: InvoiceTypeUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    chartOfAccounts?: ChartOfAccountUncheckedCreateNestedManyWithoutTenantInput
+    journalEntries?: JournalEntryUncheckedCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTenantInput
+    aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
+    settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
+    expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
+    tagAssignments?: TagAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutTagsInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutTagsInput, TenantUncheckedCreateWithoutTagsInput>
+  }
+
+  export type TagAssignmentCreateWithoutTagInput = {
+    id?: string
+    entityType: string
+    entityId: string
+    createdAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutTagAssignmentsInput
+  }
+
+  export type TagAssignmentUncheckedCreateWithoutTagInput = {
+    id?: string
+    tenantId: string
+    entityType: string
+    entityId: string
+    createdAt?: Date | string
+  }
+
+  export type TagAssignmentCreateOrConnectWithoutTagInput = {
+    where: TagAssignmentWhereUniqueInput
+    create: XOR<TagAssignmentCreateWithoutTagInput, TagAssignmentUncheckedCreateWithoutTagInput>
+  }
+
+  export type TagAssignmentCreateManyTagInputEnvelope = {
+    data: TagAssignmentCreateManyTagInput | TagAssignmentCreateManyTagInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TenantUpsertWithoutTagsInput = {
+    update: XOR<TenantUpdateWithoutTagsInput, TenantUncheckedUpdateWithoutTagsInput>
+    create: XOR<TenantCreateWithoutTagsInput, TenantUncheckedCreateWithoutTagsInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutTagsInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutTagsInput, TenantUncheckedUpdateWithoutTagsInput>
+  }
+
+  export type TenantUpdateWithoutTagsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: AppUserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    currencies?: CurrencyUpdateManyWithoutTenantNestedInput
+    fiscalPeriods?: FiscalPeriodUpdateManyWithoutTenantNestedInput
+    documentSequences?: DocumentSequenceUpdateManyWithoutTenantNestedInput
+    itemCategories?: ItemCategoryUpdateManyWithoutTenantNestedInput
+    units?: UnitUpdateManyWithoutTenantNestedInput
+    items?: ItemUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    cashboxes?: CashboxUpdateManyWithoutTenantNestedInput
+    invoiceTypes?: InvoiceTypeUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    chartOfAccounts?: ChartOfAccountUpdateManyWithoutTenantNestedInput
+    journalEntries?: JournalEntryUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutTenantNestedInput
+    aiChatSessions?: AiChatSessionUpdateManyWithoutTenantNestedInput
+    baseCurrency?: CurrencyUpdateOneWithoutBaseForTenantsNestedInput
+    defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
+    settings?: TenantSettingUpdateManyWithoutTenantNestedInput
+    expenses?: ExpenseUpdateManyWithoutTenantNestedInput
+    tagAssignments?: TagAssignmentUpdateManyWithoutTenantNestedInput
+    itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutTagsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    baseCurrencyId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultSalesSequenceId?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    currencies?: CurrencyUncheckedUpdateManyWithoutTenantNestedInput
+    fiscalPeriods?: FiscalPeriodUncheckedUpdateManyWithoutTenantNestedInput
+    documentSequences?: DocumentSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    itemCategories?: ItemCategoryUncheckedUpdateManyWithoutTenantNestedInput
+    units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
+    items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    cashboxes?: CashboxUncheckedUpdateManyWithoutTenantNestedInput
+    invoiceTypes?: InvoiceTypeUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    chartOfAccounts?: ChartOfAccountUncheckedUpdateManyWithoutTenantNestedInput
+    journalEntries?: JournalEntryUncheckedUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutTenantNestedInput
+    aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
+    settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
+    expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
+    tagAssignments?: TagAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TagAssignmentUpsertWithWhereUniqueWithoutTagInput = {
+    where: TagAssignmentWhereUniqueInput
+    update: XOR<TagAssignmentUpdateWithoutTagInput, TagAssignmentUncheckedUpdateWithoutTagInput>
+    create: XOR<TagAssignmentCreateWithoutTagInput, TagAssignmentUncheckedCreateWithoutTagInput>
+  }
+
+  export type TagAssignmentUpdateWithWhereUniqueWithoutTagInput = {
+    where: TagAssignmentWhereUniqueInput
+    data: XOR<TagAssignmentUpdateWithoutTagInput, TagAssignmentUncheckedUpdateWithoutTagInput>
+  }
+
+  export type TagAssignmentUpdateManyWithWhereWithoutTagInput = {
+    where: TagAssignmentScalarWhereInput
+    data: XOR<TagAssignmentUpdateManyMutationInput, TagAssignmentUncheckedUpdateManyWithoutTagInput>
+  }
+
+  export type TagAssignmentScalarWhereInput = {
+    AND?: TagAssignmentScalarWhereInput | TagAssignmentScalarWhereInput[]
+    OR?: TagAssignmentScalarWhereInput[]
+    NOT?: TagAssignmentScalarWhereInput | TagAssignmentScalarWhereInput[]
+    id?: StringFilter<"TagAssignment"> | string
+    tenantId?: StringFilter<"TagAssignment"> | string
+    tagId?: StringFilter<"TagAssignment"> | string
+    entityType?: StringFilter<"TagAssignment"> | string
+    entityId?: StringFilter<"TagAssignment"> | string
+    createdAt?: DateTimeFilter<"TagAssignment"> | Date | string
+  }
+
   export type TenantCreateWithoutSettingsInput = {
     id?: string
     name: string
@@ -68870,6 +74904,9 @@ export namespace Prisma {
     baseCurrency?: CurrencyCreateNestedOneWithoutBaseForTenantsInput
     defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
     expenses?: ExpenseCreateNestedManyWithoutTenantInput
+    tags?: TagCreateNestedManyWithoutTenantInput
+    tagAssignments?: TagAssignmentCreateNestedManyWithoutTenantInput
+    itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSettingsInput = {
@@ -68908,6 +74945,9 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
+    tags?: TagUncheckedCreateNestedManyWithoutTenantInput
+    tagAssignments?: TagAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSettingsInput = {
@@ -68962,6 +75002,9 @@ export namespace Prisma {
     baseCurrency?: CurrencyUpdateOneWithoutBaseForTenantsNestedInput
     defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
     expenses?: ExpenseUpdateManyWithoutTenantNestedInput
+    tags?: TagUpdateManyWithoutTenantNestedInput
+    tagAssignments?: TagAssignmentUpdateManyWithoutTenantNestedInput
+    itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSettingsInput = {
@@ -69000,6 +75043,9 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
+    tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
+    tagAssignments?: TagAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type AppUserCreateWithoutTenantInput = {
@@ -69257,6 +75303,7 @@ export namespace Prisma {
     barcode?: string | null
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
+    itemType?: string
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -69267,6 +75314,8 @@ export namespace Prisma {
     stockMovements?: StockMovementCreateNestedManyWithoutItemInput
     invoiceLines?: InvoiceLineCreateNestedManyWithoutItemInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutItemInput
+    itemRelations?: ItemRelationCreateNestedManyWithoutItemInput
+    itemRelatedTo?: ItemRelationCreateNestedManyWithoutRelatedItemInput
   }
 
   export type ItemUncheckedCreateWithoutTenantInput = {
@@ -69278,6 +75327,7 @@ export namespace Prisma {
     baseUnitId: string
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
+    itemType?: string
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -69286,6 +75336,8 @@ export namespace Prisma {
     stockMovements?: StockMovementUncheckedCreateNestedManyWithoutItemInput
     invoiceLines?: InvoiceLineUncheckedCreateNestedManyWithoutItemInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutItemInput
+    itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutItemInput
+    itemRelatedTo?: ItemRelationUncheckedCreateNestedManyWithoutRelatedItemInput
   }
 
   export type ItemCreateOrConnectWithoutTenantInput = {
@@ -69904,6 +75956,92 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type TagCreateWithoutTenantInput = {
+    id?: string
+    name: string
+    color?: string | null
+    module: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    assignments?: TagAssignmentCreateNestedManyWithoutTagInput
+  }
+
+  export type TagUncheckedCreateWithoutTenantInput = {
+    id?: string
+    name: string
+    color?: string | null
+    module: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    assignments?: TagAssignmentUncheckedCreateNestedManyWithoutTagInput
+  }
+
+  export type TagCreateOrConnectWithoutTenantInput = {
+    where: TagWhereUniqueInput
+    create: XOR<TagCreateWithoutTenantInput, TagUncheckedCreateWithoutTenantInput>
+  }
+
+  export type TagCreateManyTenantInputEnvelope = {
+    data: TagCreateManyTenantInput | TagCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TagAssignmentCreateWithoutTenantInput = {
+    id?: string
+    entityType: string
+    entityId: string
+    createdAt?: Date | string
+    tag: TagCreateNestedOneWithoutAssignmentsInput
+  }
+
+  export type TagAssignmentUncheckedCreateWithoutTenantInput = {
+    id?: string
+    tagId: string
+    entityType: string
+    entityId: string
+    createdAt?: Date | string
+  }
+
+  export type TagAssignmentCreateOrConnectWithoutTenantInput = {
+    where: TagAssignmentWhereUniqueInput
+    create: XOR<TagAssignmentCreateWithoutTenantInput, TagAssignmentUncheckedCreateWithoutTenantInput>
+  }
+
+  export type TagAssignmentCreateManyTenantInputEnvelope = {
+    data: TagAssignmentCreateManyTenantInput | TagAssignmentCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ItemRelationCreateWithoutTenantInput = {
+    id?: string
+    relationType: string
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    item: ItemCreateNestedOneWithoutItemRelationsInput
+    relatedItem: ItemCreateNestedOneWithoutItemRelatedToInput
+  }
+
+  export type ItemRelationUncheckedCreateWithoutTenantInput = {
+    id?: string
+    itemId: string
+    relatedItemId: string
+    relationType: string
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ItemRelationCreateOrConnectWithoutTenantInput = {
+    where: ItemRelationWhereUniqueInput
+    create: XOR<ItemRelationCreateWithoutTenantInput, ItemRelationUncheckedCreateWithoutTenantInput>
+  }
+
+  export type ItemRelationCreateManyTenantInputEnvelope = {
+    data: ItemRelationCreateManyTenantInput | ItemRelationCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
   export type AppUserUpsertWithWhereUniqueWithoutTenantInput = {
     where: AppUserWhereUniqueInput
     update: XOR<AppUserUpdateWithoutTenantInput, AppUserUncheckedUpdateWithoutTenantInput>
@@ -70489,6 +76627,67 @@ export namespace Prisma {
     data: XOR<ExpenseUpdateManyMutationInput, ExpenseUncheckedUpdateManyWithoutTenantInput>
   }
 
+  export type TagUpsertWithWhereUniqueWithoutTenantInput = {
+    where: TagWhereUniqueInput
+    update: XOR<TagUpdateWithoutTenantInput, TagUncheckedUpdateWithoutTenantInput>
+    create: XOR<TagCreateWithoutTenantInput, TagUncheckedCreateWithoutTenantInput>
+  }
+
+  export type TagUpdateWithWhereUniqueWithoutTenantInput = {
+    where: TagWhereUniqueInput
+    data: XOR<TagUpdateWithoutTenantInput, TagUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type TagUpdateManyWithWhereWithoutTenantInput = {
+    where: TagScalarWhereInput
+    data: XOR<TagUpdateManyMutationInput, TagUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type TagScalarWhereInput = {
+    AND?: TagScalarWhereInput | TagScalarWhereInput[]
+    OR?: TagScalarWhereInput[]
+    NOT?: TagScalarWhereInput | TagScalarWhereInput[]
+    id?: StringFilter<"Tag"> | string
+    tenantId?: StringFilter<"Tag"> | string
+    name?: StringFilter<"Tag"> | string
+    color?: StringNullableFilter<"Tag"> | string | null
+    module?: StringFilter<"Tag"> | string
+    createdAt?: DateTimeFilter<"Tag"> | Date | string
+    updatedAt?: DateTimeFilter<"Tag"> | Date | string
+  }
+
+  export type TagAssignmentUpsertWithWhereUniqueWithoutTenantInput = {
+    where: TagAssignmentWhereUniqueInput
+    update: XOR<TagAssignmentUpdateWithoutTenantInput, TagAssignmentUncheckedUpdateWithoutTenantInput>
+    create: XOR<TagAssignmentCreateWithoutTenantInput, TagAssignmentUncheckedCreateWithoutTenantInput>
+  }
+
+  export type TagAssignmentUpdateWithWhereUniqueWithoutTenantInput = {
+    where: TagAssignmentWhereUniqueInput
+    data: XOR<TagAssignmentUpdateWithoutTenantInput, TagAssignmentUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type TagAssignmentUpdateManyWithWhereWithoutTenantInput = {
+    where: TagAssignmentScalarWhereInput
+    data: XOR<TagAssignmentUpdateManyMutationInput, TagAssignmentUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type ItemRelationUpsertWithWhereUniqueWithoutTenantInput = {
+    where: ItemRelationWhereUniqueInput
+    update: XOR<ItemRelationUpdateWithoutTenantInput, ItemRelationUncheckedUpdateWithoutTenantInput>
+    create: XOR<ItemRelationCreateWithoutTenantInput, ItemRelationUncheckedCreateWithoutTenantInput>
+  }
+
+  export type ItemRelationUpdateWithWhereUniqueWithoutTenantInput = {
+    where: ItemRelationWhereUniqueInput
+    data: XOR<ItemRelationUpdateWithoutTenantInput, ItemRelationUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type ItemRelationUpdateManyWithWhereWithoutTenantInput = {
+    where: ItemRelationScalarWhereInput
+    data: XOR<ItemRelationUpdateManyMutationInput, ItemRelationUncheckedUpdateManyWithoutTenantInput>
+  }
+
   export type TenantCreateWithoutUnitsInput = {
     id?: string
     name: string
@@ -70525,6 +76724,9 @@ export namespace Prisma {
     defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
     settings?: TenantSettingCreateNestedManyWithoutTenantInput
     expenses?: ExpenseCreateNestedManyWithoutTenantInput
+    tags?: TagCreateNestedManyWithoutTenantInput
+    tagAssignments?: TagAssignmentCreateNestedManyWithoutTenantInput
+    itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutUnitsInput = {
@@ -70563,6 +76765,9 @@ export namespace Prisma {
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
+    tags?: TagUncheckedCreateNestedManyWithoutTenantInput
+    tagAssignments?: TagAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutUnitsInput = {
@@ -70577,6 +76782,7 @@ export namespace Prisma {
     barcode?: string | null
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
+    itemType?: string
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -70587,6 +76793,8 @@ export namespace Prisma {
     stockMovements?: StockMovementCreateNestedManyWithoutItemInput
     invoiceLines?: InvoiceLineCreateNestedManyWithoutItemInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutItemInput
+    itemRelations?: ItemRelationCreateNestedManyWithoutItemInput
+    itemRelatedTo?: ItemRelationCreateNestedManyWithoutRelatedItemInput
   }
 
   export type ItemUncheckedCreateWithoutBaseUnitInput = {
@@ -70598,6 +76806,7 @@ export namespace Prisma {
     categoryId: string
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
+    itemType?: string
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -70606,6 +76815,8 @@ export namespace Prisma {
     stockMovements?: StockMovementUncheckedCreateNestedManyWithoutItemInput
     invoiceLines?: InvoiceLineUncheckedCreateNestedManyWithoutItemInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutItemInput
+    itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutItemInput
+    itemRelatedTo?: ItemRelationUncheckedCreateNestedManyWithoutRelatedItemInput
   }
 
   export type ItemCreateOrConnectWithoutBaseUnitInput = {
@@ -70707,6 +76918,9 @@ export namespace Prisma {
     defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
     settings?: TenantSettingUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUpdateManyWithoutTenantNestedInput
+    tags?: TagUpdateManyWithoutTenantNestedInput
+    tagAssignments?: TagAssignmentUpdateManyWithoutTenantNestedInput
+    itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutUnitsInput = {
@@ -70745,6 +76959,9 @@ export namespace Prisma {
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
+    tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
+    tagAssignments?: TagAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ItemUpsertWithWhereUniqueWithoutBaseUnitInput = {
@@ -70815,6 +77032,9 @@ export namespace Prisma {
     defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
     settings?: TenantSettingCreateNestedManyWithoutTenantInput
     expenses?: ExpenseCreateNestedManyWithoutTenantInput
+    tags?: TagCreateNestedManyWithoutTenantInput
+    tagAssignments?: TagAssignmentCreateNestedManyWithoutTenantInput
+    itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutUsersInput = {
@@ -70853,6 +77073,9 @@ export namespace Prisma {
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
+    tags?: TagUncheckedCreateNestedManyWithoutTenantInput
+    tagAssignments?: TagAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutUsersInput = {
@@ -70929,6 +77152,9 @@ export namespace Prisma {
     defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
     settings?: TenantSettingUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUpdateManyWithoutTenantNestedInput
+    tags?: TagUpdateManyWithoutTenantNestedInput
+    tagAssignments?: TagAssignmentUpdateManyWithoutTenantNestedInput
+    itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutUsersInput = {
@@ -70967,6 +77193,9 @@ export namespace Prisma {
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
+    tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
+    tagAssignments?: TagAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserRoleUpsertWithWhereUniqueWithoutUserInput = {
@@ -71031,6 +77260,9 @@ export namespace Prisma {
     defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
     settings?: TenantSettingCreateNestedManyWithoutTenantInput
     expenses?: ExpenseCreateNestedManyWithoutTenantInput
+    tags?: TagCreateNestedManyWithoutTenantInput
+    tagAssignments?: TagAssignmentCreateNestedManyWithoutTenantInput
+    itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRolesInput = {
@@ -71069,6 +77301,9 @@ export namespace Prisma {
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
+    tags?: TagUncheckedCreateNestedManyWithoutTenantInput
+    tagAssignments?: TagAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRolesInput = {
@@ -71145,6 +77380,9 @@ export namespace Prisma {
     defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
     settings?: TenantSettingUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUpdateManyWithoutTenantNestedInput
+    tags?: TagUpdateManyWithoutTenantNestedInput
+    tagAssignments?: TagAssignmentUpdateManyWithoutTenantNestedInput
+    itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRolesInput = {
@@ -71183,6 +77421,9 @@ export namespace Prisma {
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
+    tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
+    tagAssignments?: TagAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserRoleUpsertWithWhereUniqueWithoutRoleInput = {
@@ -71361,6 +77602,9 @@ export namespace Prisma {
     defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
     settings?: TenantSettingCreateNestedManyWithoutTenantInput
     expenses?: ExpenseCreateNestedManyWithoutTenantInput
+    tags?: TagCreateNestedManyWithoutTenantInput
+    tagAssignments?: TagAssignmentCreateNestedManyWithoutTenantInput
+    itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWarehousesInput = {
@@ -71399,6 +77643,9 @@ export namespace Prisma {
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
+    tags?: TagUncheckedCreateNestedManyWithoutTenantInput
+    tagAssignments?: TagAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWarehousesInput = {
@@ -71657,6 +77904,9 @@ export namespace Prisma {
     defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
     settings?: TenantSettingUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUpdateManyWithoutTenantNestedInput
+    tags?: TagUpdateManyWithoutTenantNestedInput
+    tagAssignments?: TagAssignmentUpdateManyWithoutTenantNestedInput
+    itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWarehousesInput = {
@@ -71695,6 +77945,9 @@ export namespace Prisma {
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
+    tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
+    tagAssignments?: TagAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WarehouseItemUpsertWithWhereUniqueWithoutWarehouseInput = {
@@ -71819,6 +78072,7 @@ export namespace Prisma {
     barcode?: string | null
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
+    itemType?: string
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -71829,6 +78083,8 @@ export namespace Prisma {
     stockMovements?: StockMovementCreateNestedManyWithoutItemInput
     invoiceLines?: InvoiceLineCreateNestedManyWithoutItemInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutItemInput
+    itemRelations?: ItemRelationCreateNestedManyWithoutItemInput
+    itemRelatedTo?: ItemRelationCreateNestedManyWithoutRelatedItemInput
   }
 
   export type ItemUncheckedCreateWithoutWarehouseItemsInput = {
@@ -71841,6 +78097,7 @@ export namespace Prisma {
     baseUnitId: string
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
+    itemType?: string
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -71848,6 +78105,8 @@ export namespace Prisma {
     stockMovements?: StockMovementUncheckedCreateNestedManyWithoutItemInput
     invoiceLines?: InvoiceLineUncheckedCreateNestedManyWithoutItemInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutItemInput
+    itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutItemInput
+    itemRelatedTo?: ItemRelationUncheckedCreateNestedManyWithoutRelatedItemInput
   }
 
   export type ItemCreateOrConnectWithoutWarehouseItemsInput = {
@@ -71914,6 +78173,7 @@ export namespace Prisma {
     barcode?: NullableStringFieldUpdateOperationsInput | string | null
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    itemType?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -71924,6 +78184,8 @@ export namespace Prisma {
     stockMovements?: StockMovementUpdateManyWithoutItemNestedInput
     invoiceLines?: InvoiceLineUpdateManyWithoutItemNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutItemNestedInput
+    itemRelations?: ItemRelationUpdateManyWithoutItemNestedInput
+    itemRelatedTo?: ItemRelationUpdateManyWithoutRelatedItemNestedInput
   }
 
   export type ItemUncheckedUpdateWithoutWarehouseItemsInput = {
@@ -71936,6 +78198,7 @@ export namespace Prisma {
     baseUnitId?: StringFieldUpdateOperationsInput | string
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    itemType?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -71943,6 +78206,8 @@ export namespace Prisma {
     stockMovements?: StockMovementUncheckedUpdateManyWithoutItemNestedInput
     invoiceLines?: InvoiceLineUncheckedUpdateManyWithoutItemNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutItemNestedInput
+    itemRelations?: ItemRelationUncheckedUpdateManyWithoutItemNestedInput
+    itemRelatedTo?: ItemRelationUncheckedUpdateManyWithoutRelatedItemNestedInput
   }
 
   export type ChartOfAccountCreateManyParentInput = {
@@ -72732,6 +78997,9 @@ export namespace Prisma {
     defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
     settings?: TenantSettingUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUpdateManyWithoutTenantNestedInput
+    tags?: TagUpdateManyWithoutTenantNestedInput
+    tagAssignments?: TagAssignmentUpdateManyWithoutTenantNestedInput
+    itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBaseCurrencyInput = {
@@ -72770,6 +79038,9 @@ export namespace Prisma {
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
+    tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
+    tagAssignments?: TagAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateManyWithoutBaseCurrencyInput = {
@@ -72936,6 +79207,9 @@ export namespace Prisma {
     baseCurrency?: CurrencyUpdateOneWithoutBaseForTenantsNestedInput
     settings?: TenantSettingUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUpdateManyWithoutTenantNestedInput
+    tags?: TagUpdateManyWithoutTenantNestedInput
+    tagAssignments?: TagAssignmentUpdateManyWithoutTenantNestedInput
+    itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDefaultSalesSequenceInput = {
@@ -72974,6 +79248,9 @@ export namespace Prisma {
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
+    tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
+    tagAssignments?: TagAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateManyWithoutDefaultSalesSequenceInput = {
@@ -73716,6 +79993,7 @@ export namespace Prisma {
     baseUnitId: string
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
+    itemType?: string
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -73762,6 +80040,7 @@ export namespace Prisma {
     barcode?: NullableStringFieldUpdateOperationsInput | string | null
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    itemType?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -73772,6 +80051,8 @@ export namespace Prisma {
     stockMovements?: StockMovementUpdateManyWithoutItemNestedInput
     invoiceLines?: InvoiceLineUpdateManyWithoutItemNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutItemNestedInput
+    itemRelations?: ItemRelationUpdateManyWithoutItemNestedInput
+    itemRelatedTo?: ItemRelationUpdateManyWithoutRelatedItemNestedInput
   }
 
   export type ItemUncheckedUpdateWithoutCategoryInput = {
@@ -73783,6 +80064,7 @@ export namespace Prisma {
     baseUnitId?: StringFieldUpdateOperationsInput | string
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    itemType?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -73791,6 +80073,8 @@ export namespace Prisma {
     stockMovements?: StockMovementUncheckedUpdateManyWithoutItemNestedInput
     invoiceLines?: InvoiceLineUncheckedUpdateManyWithoutItemNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutItemNestedInput
+    itemRelations?: ItemRelationUncheckedUpdateManyWithoutItemNestedInput
+    itemRelatedTo?: ItemRelationUncheckedUpdateManyWithoutRelatedItemNestedInput
   }
 
   export type ItemUncheckedUpdateManyWithoutCategoryInput = {
@@ -73802,6 +80086,7 @@ export namespace Prisma {
     baseUnitId?: StringFieldUpdateOperationsInput | string
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    itemType?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -73865,6 +80150,26 @@ export namespace Prisma {
     countedQuantity: Decimal | DecimalJsLike | number | string
     difference: Decimal | DecimalJsLike | number | string
     notes?: string | null
+  }
+
+  export type ItemRelationCreateManyItemInput = {
+    id?: string
+    tenantId: string
+    relatedItemId: string
+    relationType: string
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ItemRelationCreateManyRelatedItemInput = {
+    id?: string
+    tenantId: string
+    itemId: string
+    relationType: string
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type WarehouseItemUpdateWithoutItemInput = {
@@ -74045,6 +80350,66 @@ export namespace Prisma {
     countedQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     difference?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ItemRelationUpdateWithoutItemInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    relationType?: StringFieldUpdateOperationsInput | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutItemRelationsNestedInput
+    relatedItem?: ItemUpdateOneRequiredWithoutItemRelatedToNestedInput
+  }
+
+  export type ItemRelationUncheckedUpdateWithoutItemInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    relatedItemId?: StringFieldUpdateOperationsInput | string
+    relationType?: StringFieldUpdateOperationsInput | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ItemRelationUncheckedUpdateManyWithoutItemInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    relatedItemId?: StringFieldUpdateOperationsInput | string
+    relationType?: StringFieldUpdateOperationsInput | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ItemRelationUpdateWithoutRelatedItemInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    relationType?: StringFieldUpdateOperationsInput | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutItemRelationsNestedInput
+    item?: ItemUpdateOneRequiredWithoutItemRelationsNestedInput
+  }
+
+  export type ItemRelationUncheckedUpdateWithoutRelatedItemInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    itemId?: StringFieldUpdateOperationsInput | string
+    relationType?: StringFieldUpdateOperationsInput | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ItemRelationUncheckedUpdateManyWithoutRelatedItemInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    itemId?: StringFieldUpdateOperationsInput | string
+    relationType?: StringFieldUpdateOperationsInput | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type InvoiceCreateManyPartyInput = {
@@ -74285,6 +80650,38 @@ export namespace Prisma {
     notes?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type TagAssignmentCreateManyTagInput = {
+    id?: string
+    tenantId: string
+    entityType: string
+    entityId: string
+    createdAt?: Date | string
+  }
+
+  export type TagAssignmentUpdateWithoutTagInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    entityType?: StringFieldUpdateOperationsInput | string
+    entityId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutTagAssignmentsNestedInput
+  }
+
+  export type TagAssignmentUncheckedUpdateWithoutTagInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    entityType?: StringFieldUpdateOperationsInput | string
+    entityId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TagAssignmentUncheckedUpdateManyWithoutTagInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    entityType?: StringFieldUpdateOperationsInput | string
+    entityId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type AppUserCreateManyTenantInput = {
     id?: string
     email: string
@@ -74365,6 +80762,7 @@ export namespace Prisma {
     baseUnitId: string
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
+    itemType?: string
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -74551,6 +80949,33 @@ export namespace Prisma {
     cancelledAt?: Date | string | null
     cancelledBy?: string | null
     createdBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TagCreateManyTenantInput = {
+    id?: string
+    name: string
+    color?: string | null
+    module: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TagAssignmentCreateManyTenantInput = {
+    id?: string
+    tagId: string
+    entityType: string
+    entityId: string
+    createdAt?: Date | string
+  }
+
+  export type ItemRelationCreateManyTenantInput = {
+    id?: string
+    itemId: string
+    relatedItemId: string
+    relationType: string
+    notes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -74811,6 +81236,7 @@ export namespace Prisma {
     barcode?: NullableStringFieldUpdateOperationsInput | string | null
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    itemType?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -74821,6 +81247,8 @@ export namespace Prisma {
     stockMovements?: StockMovementUpdateManyWithoutItemNestedInput
     invoiceLines?: InvoiceLineUpdateManyWithoutItemNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutItemNestedInput
+    itemRelations?: ItemRelationUpdateManyWithoutItemNestedInput
+    itemRelatedTo?: ItemRelationUpdateManyWithoutRelatedItemNestedInput
   }
 
   export type ItemUncheckedUpdateWithoutTenantInput = {
@@ -74832,6 +81260,7 @@ export namespace Prisma {
     baseUnitId?: StringFieldUpdateOperationsInput | string
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    itemType?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -74840,6 +81269,8 @@ export namespace Prisma {
     stockMovements?: StockMovementUncheckedUpdateManyWithoutItemNestedInput
     invoiceLines?: InvoiceLineUncheckedUpdateManyWithoutItemNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutItemNestedInput
+    itemRelations?: ItemRelationUncheckedUpdateManyWithoutItemNestedInput
+    itemRelatedTo?: ItemRelationUncheckedUpdateManyWithoutRelatedItemNestedInput
   }
 
   export type ItemUncheckedUpdateManyWithoutTenantInput = {
@@ -74851,6 +81282,7 @@ export namespace Prisma {
     baseUnitId?: StringFieldUpdateOperationsInput | string
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    itemType?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -75453,6 +81885,89 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type TagUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    module?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    assignments?: TagAssignmentUpdateManyWithoutTagNestedInput
+  }
+
+  export type TagUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    module?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    assignments?: TagAssignmentUncheckedUpdateManyWithoutTagNestedInput
+  }
+
+  export type TagUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    module?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TagAssignmentUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    entityType?: StringFieldUpdateOperationsInput | string
+    entityId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tag?: TagUpdateOneRequiredWithoutAssignmentsNestedInput
+  }
+
+  export type TagAssignmentUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tagId?: StringFieldUpdateOperationsInput | string
+    entityType?: StringFieldUpdateOperationsInput | string
+    entityId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TagAssignmentUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tagId?: StringFieldUpdateOperationsInput | string
+    entityType?: StringFieldUpdateOperationsInput | string
+    entityId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ItemRelationUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    relationType?: StringFieldUpdateOperationsInput | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    item?: ItemUpdateOneRequiredWithoutItemRelationsNestedInput
+    relatedItem?: ItemUpdateOneRequiredWithoutItemRelatedToNestedInput
+  }
+
+  export type ItemRelationUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    itemId?: StringFieldUpdateOperationsInput | string
+    relatedItemId?: StringFieldUpdateOperationsInput | string
+    relationType?: StringFieldUpdateOperationsInput | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ItemRelationUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    itemId?: StringFieldUpdateOperationsInput | string
+    relatedItemId?: StringFieldUpdateOperationsInput | string
+    relationType?: StringFieldUpdateOperationsInput | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type ItemCreateManyBaseUnitInput = {
     id?: string
     tenantId: string
@@ -75462,6 +81977,7 @@ export namespace Prisma {
     categoryId: string
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
+    itemType?: string
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -75490,6 +82006,7 @@ export namespace Prisma {
     barcode?: NullableStringFieldUpdateOperationsInput | string | null
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    itemType?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -75500,6 +82017,8 @@ export namespace Prisma {
     stockMovements?: StockMovementUpdateManyWithoutItemNestedInput
     invoiceLines?: InvoiceLineUpdateManyWithoutItemNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutItemNestedInput
+    itemRelations?: ItemRelationUpdateManyWithoutItemNestedInput
+    itemRelatedTo?: ItemRelationUpdateManyWithoutRelatedItemNestedInput
   }
 
   export type ItemUncheckedUpdateWithoutBaseUnitInput = {
@@ -75511,6 +82030,7 @@ export namespace Prisma {
     categoryId?: StringFieldUpdateOperationsInput | string
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    itemType?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -75519,6 +82039,8 @@ export namespace Prisma {
     stockMovements?: StockMovementUncheckedUpdateManyWithoutItemNestedInput
     invoiceLines?: InvoiceLineUncheckedUpdateManyWithoutItemNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutItemNestedInput
+    itemRelations?: ItemRelationUncheckedUpdateManyWithoutItemNestedInput
+    itemRelatedTo?: ItemRelationUncheckedUpdateManyWithoutRelatedItemNestedInput
   }
 
   export type ItemUncheckedUpdateManyWithoutBaseUnitInput = {
@@ -75530,6 +82052,7 @@ export namespace Prisma {
     categoryId?: StringFieldUpdateOperationsInput | string
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    itemType?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string

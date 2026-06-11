@@ -40,7 +40,10 @@ model Tenant {
     baseCurrency         Currency?         @relation("TenantBaseCurrency", fields: [baseCurrencyId], references: [id])
     defaultSalesSequence DocumentSequence? @relation("TenantDefaultSalesSequence", fields: [defaultSalesSequenceId], references: [id])
     settings             TenantSetting[]
-    expenses Expense[]
+    expenses             Expense[]
+    tags                 Tag[]
+    tagAssignments       TagAssignment[]
+    itemRelations        ItemRelation[]
 
     @@map("tenants")
 }

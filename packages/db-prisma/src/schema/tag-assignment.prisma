@@ -1,0 +1,16 @@
+// ─── TagAssignment ────────────────────────────────────────────────────────────
+model TagAssignment {
+    id         String   @id @default(uuid())
+    tenantId   String   @map("tenant_id")
+    tagId      String   @map("tag_id")
+    entityType String   @map("entity_type") // "item" | "party" | "invoice" | "warehouse"
+    entityId   String   @map("entity_id")
+    createdAt  DateTime @default(now()) @map("created_at")
+
+    tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+    tag    Tag    @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+    @@unique([tagId, entityType, entityId])
+    @@index([tenantId, entityType, entityId])
+    @@map("tag_assignments")
+}

@@ -9,6 +9,7 @@ model Item {
     baseUnitId          String   @map("base_unit_id")
     defaultSellingPrice Decimal? @map("default_selling_price") @db.Decimal(18, 4)
     latestPurchasePrice Decimal? @map("latest_purchase_price") @db.Decimal(18, 4)
+    itemType            String   @default("product") @map("item_type")
     isActive            Boolean  @default(true) @map("is_active")
     createdAt           DateTime @default(now()) @map("created_at")
     updatedAt           DateTime @updatedAt @map("updated_at")
@@ -21,8 +22,11 @@ model Item {
     stockMovements  StockMovement[]
     invoiceLines    InvoiceLine[]
     stockCountLines StockCountLine[]
+    itemRelations   ItemRelation[]     @relation("ItemRelations")
+    itemRelatedTo   ItemRelation[]     @relation("ItemRelatedTo")
 
     @@unique([tenantId, code])
     @@index([tenantId])
+    @@index([tenantId, itemType])
     @@map("items")
 }
