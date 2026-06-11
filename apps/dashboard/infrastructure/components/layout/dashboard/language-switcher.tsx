@@ -3,7 +3,7 @@
 import { useLocale, useTranslations } from "next-intl"
 import { Check, GlobeIcon } from "lucide-react"
 
-import { Link } from "@/i18n/navigation"
+import { Link, usePathname } from "@/i18n/navigation"
 import { Button } from "@/shared/components/ui/button"
 import {
   DropdownMenu,
@@ -18,6 +18,7 @@ const LOCALES = ["ar", "en", "tr"] as const
 export function LanguageSwitcher({ className }: { className?: string }) {
   const t = useTranslations("system.header")
   const locale = useLocale()
+  const pathname = usePathname()
 
   return (
     <DropdownMenu>
@@ -38,7 +39,7 @@ export function LanguageSwitcher({ className }: { className?: string }) {
         {LOCALES.map((targetLocale) => (
           <DropdownMenuItem key={targetLocale} asChild>
             <Link
-              href="/"
+              href={pathname}
               locale={targetLocale}
               className={cn(
                 "flex items-center justify-between",
