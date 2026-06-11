@@ -296,6 +296,25 @@ export const InvoiceStatus: {
 export type InvoiceStatus = (typeof InvoiceStatus)[keyof typeof InvoiceStatus]
 
 
+export const RelationType: {
+  compatible_with: 'compatible_with',
+  replaces: 'replaces',
+  requires: 'requires'
+};
+
+export type RelationType = (typeof RelationType)[keyof typeof RelationType]
+
+
+export const ItemType: {
+  product: 'product',
+  service: 'service',
+  vehicle: 'vehicle',
+  bundle: 'bundle'
+};
+
+export type ItemType = (typeof ItemType)[keyof typeof ItemType]
+
+
 export const PartyType: {
   CUSTOMER: 'CUSTOMER',
   SUPPLIER: 'SUPPLIER',
@@ -367,6 +386,14 @@ export const InvoiceDirection: typeof $Enums.InvoiceDirection
 export type InvoiceStatus = $Enums.InvoiceStatus
 
 export const InvoiceStatus: typeof $Enums.InvoiceStatus
+
+export type RelationType = $Enums.RelationType
+
+export const RelationType: typeof $Enums.RelationType
+
+export type ItemType = $Enums.ItemType
+
+export const ItemType: typeof $Enums.ItemType
 
 export type PartyType = $Enums.PartyType
 
@@ -5070,7 +5097,6 @@ export namespace Prisma {
     settings: number
     expenses: number
     tags: number
-    tagAssignments: number
     itemRelations: number
   }
 
@@ -5097,7 +5123,6 @@ export namespace Prisma {
     settings?: boolean | TenantCountOutputTypeCountSettingsArgs
     expenses?: boolean | TenantCountOutputTypeCountExpensesArgs
     tags?: boolean | TenantCountOutputTypeCountTagsArgs
-    tagAssignments?: boolean | TenantCountOutputTypeCountTagAssignmentsArgs
     itemRelations?: boolean | TenantCountOutputTypeCountItemRelationsArgs
   }
 
@@ -5264,13 +5289,6 @@ export namespace Prisma {
    */
   export type TenantCountOutputTypeCountTagsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: TagWhereInput
-  }
-
-  /**
-   * TenantCountOutputType without action
-   */
-  export type TenantCountOutputTypeCountTagAssignmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: TagAssignmentWhereInput
   }
 
   /**
@@ -29574,7 +29592,7 @@ export namespace Prisma {
     tenantId: string | null
     itemId: string | null
     relatedItemId: string | null
-    relationType: string | null
+    relationType: $Enums.RelationType | null
     notes: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -29585,7 +29603,7 @@ export namespace Prisma {
     tenantId: string | null
     itemId: string | null
     relatedItemId: string | null
-    relationType: string | null
+    relationType: $Enums.RelationType | null
     notes: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -29715,7 +29733,7 @@ export namespace Prisma {
     tenantId: string
     itemId: string
     relatedItemId: string
-    relationType: string
+    relationType: $Enums.RelationType
     notes: string | null
     createdAt: Date
     updatedAt: Date
@@ -29820,7 +29838,7 @@ export namespace Prisma {
       tenantId: string
       itemId: string
       relatedItemId: string
-      relationType: string
+      relationType: $Enums.RelationType
       notes: string | null
       createdAt: Date
       updatedAt: Date
@@ -30254,7 +30272,7 @@ export namespace Prisma {
     readonly tenantId: FieldRef<"ItemRelation", 'String'>
     readonly itemId: FieldRef<"ItemRelation", 'String'>
     readonly relatedItemId: FieldRef<"ItemRelation", 'String'>
-    readonly relationType: FieldRef<"ItemRelation", 'String'>
+    readonly relationType: FieldRef<"ItemRelation", 'RelationType'>
     readonly notes: FieldRef<"ItemRelation", 'String'>
     readonly createdAt: FieldRef<"ItemRelation", 'DateTime'>
     readonly updatedAt: FieldRef<"ItemRelation", 'DateTime'>
@@ -30709,7 +30727,7 @@ export namespace Prisma {
     baseUnitId: string | null
     defaultSellingPrice: Decimal | null
     latestPurchasePrice: Decimal | null
-    itemType: string | null
+    itemType: $Enums.ItemType | null
     isActive: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -30725,7 +30743,7 @@ export namespace Prisma {
     baseUnitId: string | null
     defaultSellingPrice: Decimal | null
     latestPurchasePrice: Decimal | null
-    itemType: string | null
+    itemType: $Enums.ItemType | null
     isActive: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -30904,7 +30922,7 @@ export namespace Prisma {
     baseUnitId: string
     defaultSellingPrice: Decimal | null
     latestPurchasePrice: Decimal | null
-    itemType: string
+    itemType: $Enums.ItemType
     isActive: boolean
     createdAt: Date
     updatedAt: Date
@@ -31059,7 +31077,7 @@ export namespace Prisma {
       baseUnitId: string
       defaultSellingPrice: Prisma.Decimal | null
       latestPurchasePrice: Prisma.Decimal | null
-      itemType: string
+      itemType: $Enums.ItemType
       isActive: boolean
       createdAt: Date
       updatedAt: Date
@@ -31505,7 +31523,7 @@ export namespace Prisma {
     readonly baseUnitId: FieldRef<"Item", 'String'>
     readonly defaultSellingPrice: FieldRef<"Item", 'Decimal'>
     readonly latestPurchasePrice: FieldRef<"Item", 'Decimal'>
-    readonly itemType: FieldRef<"Item", 'String'>
+    readonly itemType: FieldRef<"Item", 'ItemType'>
     readonly isActive: FieldRef<"Item", 'Boolean'>
     readonly createdAt: FieldRef<"Item", 'DateTime'>
     readonly updatedAt: FieldRef<"Item", 'DateTime'>
@@ -38235,7 +38253,6 @@ export namespace Prisma {
     entityType?: boolean
     entityId?: boolean
     createdAt?: boolean
-    tenant?: boolean | TenantDefaultArgs<ExtArgs>
     tag?: boolean | TagDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["tagAssignment"]>
 
@@ -38246,7 +38263,6 @@ export namespace Prisma {
     entityType?: boolean
     entityId?: boolean
     createdAt?: boolean
-    tenant?: boolean | TenantDefaultArgs<ExtArgs>
     tag?: boolean | TagDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["tagAssignment"]>
 
@@ -38257,7 +38273,6 @@ export namespace Prisma {
     entityType?: boolean
     entityId?: boolean
     createdAt?: boolean
-    tenant?: boolean | TenantDefaultArgs<ExtArgs>
     tag?: boolean | TagDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["tagAssignment"]>
 
@@ -38272,22 +38287,18 @@ export namespace Prisma {
 
   export type TagAssignmentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "tagId" | "entityType" | "entityId" | "createdAt", ExtArgs["result"]["tagAssignment"]>
   export type TagAssignmentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    tenant?: boolean | TenantDefaultArgs<ExtArgs>
     tag?: boolean | TagDefaultArgs<ExtArgs>
   }
   export type TagAssignmentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    tenant?: boolean | TenantDefaultArgs<ExtArgs>
     tag?: boolean | TagDefaultArgs<ExtArgs>
   }
   export type TagAssignmentIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    tenant?: boolean | TenantDefaultArgs<ExtArgs>
     tag?: boolean | TagDefaultArgs<ExtArgs>
   }
 
   export type $TagAssignmentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "TagAssignment"
     objects: {
-      tenant: Prisma.$TenantPayload<ExtArgs>
       tag: Prisma.$TagPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -38691,7 +38702,6 @@ export namespace Prisma {
    */
   export interface Prisma__TagAssignmentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     tag<T extends TagDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TagDefaultArgs<ExtArgs>>): Prisma__TagClient<$Result.GetResult<Prisma.$TagPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -41619,7 +41629,6 @@ export namespace Prisma {
     settings?: boolean | Tenant$settingsArgs<ExtArgs>
     expenses?: boolean | Tenant$expensesArgs<ExtArgs>
     tags?: boolean | Tenant$tagsArgs<ExtArgs>
-    tagAssignments?: boolean | Tenant$tagAssignmentsArgs<ExtArgs>
     itemRelations?: boolean | Tenant$itemRelationsArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["tenant"]>
@@ -41708,7 +41717,6 @@ export namespace Prisma {
     settings?: boolean | Tenant$settingsArgs<ExtArgs>
     expenses?: boolean | Tenant$expensesArgs<ExtArgs>
     tags?: boolean | Tenant$tagsArgs<ExtArgs>
-    tagAssignments?: boolean | Tenant$tagAssignmentsArgs<ExtArgs>
     itemRelations?: boolean | Tenant$itemRelationsArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }
@@ -41748,7 +41756,6 @@ export namespace Prisma {
       settings: Prisma.$TenantSettingPayload<ExtArgs>[]
       expenses: Prisma.$ExpensePayload<ExtArgs>[]
       tags: Prisma.$TagPayload<ExtArgs>[]
-      tagAssignments: Prisma.$TagAssignmentPayload<ExtArgs>[]
       itemRelations: Prisma.$ItemRelationPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -42185,7 +42192,6 @@ export namespace Prisma {
     settings<T extends Tenant$settingsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$settingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TenantSettingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     expenses<T extends Tenant$expensesArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$expensesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExpensePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     tags<T extends Tenant$tagsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$tagsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TagPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    tagAssignments<T extends Tenant$tagAssignmentsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$tagAssignmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TagAssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     itemRelations<T extends Tenant$itemRelationsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$itemRelationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ItemRelationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -43195,30 +43201,6 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: TagScalarFieldEnum | TagScalarFieldEnum[]
-  }
-
-  /**
-   * Tenant.tagAssignments
-   */
-  export type Tenant$tagAssignmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the TagAssignment
-     */
-    select?: TagAssignmentSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the TagAssignment
-     */
-    omit?: TagAssignmentOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: TagAssignmentInclude<ExtArgs> | null
-    where?: TagAssignmentWhereInput
-    orderBy?: TagAssignmentOrderByWithRelationInput | TagAssignmentOrderByWithRelationInput[]
-    cursor?: TagAssignmentWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: TagAssignmentScalarFieldEnum | TagAssignmentScalarFieldEnum[]
   }
 
   /**
@@ -51002,6 +50984,34 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'RelationType'
+   */
+  export type EnumRelationTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RelationType'>
+    
+
+
+  /**
+   * Reference to a field of type 'RelationType[]'
+   */
+  export type ListEnumRelationTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RelationType[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'ItemType'
+   */
+  export type EnumItemTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ItemType'>
+    
+
+
+  /**
+   * Reference to a field of type 'ItemType[]'
+   */
+  export type ListEnumItemTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ItemType[]'>
+    
+
+
+  /**
    * Reference to a field of type 'PartyType'
    */
   export type EnumPartyTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PartyType'>
@@ -52904,7 +52914,7 @@ export namespace Prisma {
     tenantId?: StringFilter<"ItemRelation"> | string
     itemId?: StringFilter<"ItemRelation"> | string
     relatedItemId?: StringFilter<"ItemRelation"> | string
-    relationType?: StringFilter<"ItemRelation"> | string
+    relationType?: EnumRelationTypeFilter<"ItemRelation"> | $Enums.RelationType
     notes?: StringNullableFilter<"ItemRelation"> | string | null
     createdAt?: DateTimeFilter<"ItemRelation"> | Date | string
     updatedAt?: DateTimeFilter<"ItemRelation"> | Date | string
@@ -52936,7 +52946,7 @@ export namespace Prisma {
     tenantId?: StringFilter<"ItemRelation"> | string
     itemId?: StringFilter<"ItemRelation"> | string
     relatedItemId?: StringFilter<"ItemRelation"> | string
-    relationType?: StringFilter<"ItemRelation"> | string
+    relationType?: EnumRelationTypeFilter<"ItemRelation"> | $Enums.RelationType
     notes?: StringNullableFilter<"ItemRelation"> | string | null
     createdAt?: DateTimeFilter<"ItemRelation"> | Date | string
     updatedAt?: DateTimeFilter<"ItemRelation"> | Date | string
@@ -52967,7 +52977,7 @@ export namespace Prisma {
     tenantId?: StringWithAggregatesFilter<"ItemRelation"> | string
     itemId?: StringWithAggregatesFilter<"ItemRelation"> | string
     relatedItemId?: StringWithAggregatesFilter<"ItemRelation"> | string
-    relationType?: StringWithAggregatesFilter<"ItemRelation"> | string
+    relationType?: EnumRelationTypeWithAggregatesFilter<"ItemRelation"> | $Enums.RelationType
     notes?: StringNullableWithAggregatesFilter<"ItemRelation"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"ItemRelation"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"ItemRelation"> | Date | string
@@ -52986,7 +52996,7 @@ export namespace Prisma {
     baseUnitId?: StringFilter<"Item"> | string
     defaultSellingPrice?: DecimalNullableFilter<"Item"> | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: DecimalNullableFilter<"Item"> | Decimal | DecimalJsLike | number | string | null
-    itemType?: StringFilter<"Item"> | string
+    itemType?: EnumItemTypeFilter<"Item"> | $Enums.ItemType
     isActive?: BoolFilter<"Item"> | boolean
     createdAt?: DateTimeFilter<"Item"> | Date | string
     updatedAt?: DateTimeFilter<"Item"> | Date | string
@@ -53042,7 +53052,7 @@ export namespace Prisma {
     baseUnitId?: StringFilter<"Item"> | string
     defaultSellingPrice?: DecimalNullableFilter<"Item"> | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: DecimalNullableFilter<"Item"> | Decimal | DecimalJsLike | number | string | null
-    itemType?: StringFilter<"Item"> | string
+    itemType?: EnumItemTypeFilter<"Item"> | $Enums.ItemType
     isActive?: BoolFilter<"Item"> | boolean
     createdAt?: DateTimeFilter<"Item"> | Date | string
     updatedAt?: DateTimeFilter<"Item"> | Date | string
@@ -53092,7 +53102,7 @@ export namespace Prisma {
     baseUnitId?: StringWithAggregatesFilter<"Item"> | string
     defaultSellingPrice?: DecimalNullableWithAggregatesFilter<"Item"> | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: DecimalNullableWithAggregatesFilter<"Item"> | Decimal | DecimalJsLike | number | string | null
-    itemType?: StringWithAggregatesFilter<"Item"> | string
+    itemType?: EnumItemTypeWithAggregatesFilter<"Item"> | $Enums.ItemType
     isActive?: BoolWithAggregatesFilter<"Item"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"Item"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Item"> | Date | string
@@ -53561,7 +53571,6 @@ export namespace Prisma {
     entityType?: StringFilter<"TagAssignment"> | string
     entityId?: StringFilter<"TagAssignment"> | string
     createdAt?: DateTimeFilter<"TagAssignment"> | Date | string
-    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
     tag?: XOR<TagScalarRelationFilter, TagWhereInput>
   }
 
@@ -53572,7 +53581,6 @@ export namespace Prisma {
     entityType?: SortOrder
     entityId?: SortOrder
     createdAt?: SortOrder
-    tenant?: TenantOrderByWithRelationInput
     tag?: TagOrderByWithRelationInput
   }
 
@@ -53587,7 +53595,6 @@ export namespace Prisma {
     entityType?: StringFilter<"TagAssignment"> | string
     entityId?: StringFilter<"TagAssignment"> | string
     createdAt?: DateTimeFilter<"TagAssignment"> | Date | string
-    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
     tag?: XOR<TagScalarRelationFilter, TagWhereInput>
   }, "id" | "tagId_entityType_entityId">
 
@@ -53793,7 +53800,6 @@ export namespace Prisma {
     settings?: TenantSettingListRelationFilter
     expenses?: ExpenseListRelationFilter
     tags?: TagListRelationFilter
-    tagAssignments?: TagAssignmentListRelationFilter
     itemRelations?: ItemRelationListRelationFilter
   }
 
@@ -53837,7 +53843,6 @@ export namespace Prisma {
     settings?: TenantSettingOrderByRelationAggregateInput
     expenses?: ExpenseOrderByRelationAggregateInput
     tags?: TagOrderByRelationAggregateInput
-    tagAssignments?: TagAssignmentOrderByRelationAggregateInput
     itemRelations?: ItemRelationOrderByRelationAggregateInput
   }
 
@@ -53884,7 +53889,6 @@ export namespace Prisma {
     settings?: TenantSettingListRelationFilter
     expenses?: ExpenseListRelationFilter
     tags?: TagListRelationFilter
-    tagAssignments?: TagAssignmentListRelationFilter
     itemRelations?: ItemRelationListRelationFilter
   }, "id" | "slug">
 
@@ -56347,7 +56351,7 @@ export namespace Prisma {
 
   export type ItemRelationCreateInput = {
     id?: string
-    relationType: string
+    relationType: $Enums.RelationType
     notes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -56361,7 +56365,7 @@ export namespace Prisma {
     tenantId: string
     itemId: string
     relatedItemId: string
-    relationType: string
+    relationType: $Enums.RelationType
     notes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -56369,7 +56373,7 @@ export namespace Prisma {
 
   export type ItemRelationUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    relationType?: StringFieldUpdateOperationsInput | string
+    relationType?: EnumRelationTypeFieldUpdateOperationsInput | $Enums.RelationType
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -56383,7 +56387,7 @@ export namespace Prisma {
     tenantId?: StringFieldUpdateOperationsInput | string
     itemId?: StringFieldUpdateOperationsInput | string
     relatedItemId?: StringFieldUpdateOperationsInput | string
-    relationType?: StringFieldUpdateOperationsInput | string
+    relationType?: EnumRelationTypeFieldUpdateOperationsInput | $Enums.RelationType
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -56394,7 +56398,7 @@ export namespace Prisma {
     tenantId: string
     itemId: string
     relatedItemId: string
-    relationType: string
+    relationType: $Enums.RelationType
     notes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -56402,7 +56406,7 @@ export namespace Prisma {
 
   export type ItemRelationUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    relationType?: StringFieldUpdateOperationsInput | string
+    relationType?: EnumRelationTypeFieldUpdateOperationsInput | $Enums.RelationType
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -56413,7 +56417,7 @@ export namespace Prisma {
     tenantId?: StringFieldUpdateOperationsInput | string
     itemId?: StringFieldUpdateOperationsInput | string
     relatedItemId?: StringFieldUpdateOperationsInput | string
-    relationType?: StringFieldUpdateOperationsInput | string
+    relationType?: EnumRelationTypeFieldUpdateOperationsInput | $Enums.RelationType
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -56426,7 +56430,7 @@ export namespace Prisma {
     barcode?: string | null
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
-    itemType?: string
+    itemType?: $Enums.ItemType
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -56452,7 +56456,7 @@ export namespace Prisma {
     baseUnitId: string
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
-    itemType?: string
+    itemType?: $Enums.ItemType
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -56472,7 +56476,7 @@ export namespace Prisma {
     barcode?: NullableStringFieldUpdateOperationsInput | string | null
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    itemType?: StringFieldUpdateOperationsInput | string
+    itemType?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -56498,7 +56502,7 @@ export namespace Prisma {
     baseUnitId?: StringFieldUpdateOperationsInput | string
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    itemType?: StringFieldUpdateOperationsInput | string
+    itemType?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -56521,7 +56525,7 @@ export namespace Prisma {
     baseUnitId: string
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
-    itemType?: string
+    itemType?: $Enums.ItemType
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -56534,7 +56538,7 @@ export namespace Prisma {
     barcode?: NullableStringFieldUpdateOperationsInput | string | null
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    itemType?: StringFieldUpdateOperationsInput | string
+    itemType?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -56550,7 +56554,7 @@ export namespace Prisma {
     baseUnitId?: StringFieldUpdateOperationsInput | string
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    itemType?: StringFieldUpdateOperationsInput | string
+    itemType?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -57035,10 +57039,10 @@ export namespace Prisma {
 
   export type TagAssignmentCreateInput = {
     id?: string
+    tenantId: string
     entityType: string
     entityId: string
     createdAt?: Date | string
-    tenant: TenantCreateNestedOneWithoutTagAssignmentsInput
     tag: TagCreateNestedOneWithoutAssignmentsInput
   }
 
@@ -57053,10 +57057,10 @@ export namespace Prisma {
 
   export type TagAssignmentUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
     entityType?: StringFieldUpdateOperationsInput | string
     entityId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    tenant?: TenantUpdateOneRequiredWithoutTagAssignmentsNestedInput
     tag?: TagUpdateOneRequiredWithoutAssignmentsNestedInput
   }
 
@@ -57080,6 +57084,7 @@ export namespace Prisma {
 
   export type TagAssignmentUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
     entityType?: StringFieldUpdateOperationsInput | string
     entityId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -57274,7 +57279,6 @@ export namespace Prisma {
     settings?: TenantSettingCreateNestedManyWithoutTenantInput
     expenses?: ExpenseCreateNestedManyWithoutTenantInput
     tags?: TagCreateNestedManyWithoutTenantInput
-    tagAssignments?: TagAssignmentCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
   }
 
@@ -57316,7 +57320,6 @@ export namespace Prisma {
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
     tags?: TagUncheckedCreateNestedManyWithoutTenantInput
-    tagAssignments?: TagAssignmentUncheckedCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -57358,7 +57361,6 @@ export namespace Prisma {
     settings?: TenantSettingUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUpdateManyWithoutTenantNestedInput
     tags?: TagUpdateManyWithoutTenantNestedInput
-    tagAssignments?: TagAssignmentUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
   }
 
@@ -57400,7 +57402,6 @@ export namespace Prisma {
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
     tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
-    tagAssignments?: TagAssignmentUncheckedUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -59601,11 +59602,18 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
+  export type EnumRelationTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.RelationType | EnumRelationTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.RelationType[] | ListEnumRelationTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.RelationType[] | ListEnumRelationTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumRelationTypeFilter<$PrismaModel> | $Enums.RelationType
+  }
+
   export type ItemRelationTenantIdItemIdRelatedItemIdRelationTypeCompoundUniqueInput = {
     tenantId: string
     itemId: string
     relatedItemId: string
-    relationType: string
+    relationType: $Enums.RelationType
   }
 
   export type ItemRelationCountOrderByAggregateInput = {
@@ -59641,6 +59649,16 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
+  export type EnumRelationTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.RelationType | EnumRelationTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.RelationType[] | ListEnumRelationTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.RelationType[] | ListEnumRelationTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumRelationTypeWithAggregatesFilter<$PrismaModel> | $Enums.RelationType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumRelationTypeFilter<$PrismaModel>
+    _max?: NestedEnumRelationTypeFilter<$PrismaModel>
+  }
+
   export type DecimalNullableFilter<$PrismaModel = never> = {
     equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
     in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
@@ -59650,6 +59668,13 @@ export namespace Prisma {
     gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
     gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
     not?: NestedDecimalNullableFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
+  }
+
+  export type EnumItemTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.ItemType | EnumItemTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.ItemType[] | ListEnumItemTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ItemType[] | ListEnumItemTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumItemTypeFilter<$PrismaModel> | $Enums.ItemType
   }
 
   export type ItemCategoryScalarRelationFilter = {
@@ -59774,6 +59799,16 @@ export namespace Prisma {
     _sum?: NestedDecimalNullableFilter<$PrismaModel>
     _min?: NestedDecimalNullableFilter<$PrismaModel>
     _max?: NestedDecimalNullableFilter<$PrismaModel>
+  }
+
+  export type EnumItemTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ItemType | EnumItemTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.ItemType[] | ListEnumItemTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ItemType[] | ListEnumItemTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumItemTypeWithAggregatesFilter<$PrismaModel> | $Enums.ItemType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumItemTypeFilter<$PrismaModel>
+    _max?: NestedEnumItemTypeFilter<$PrismaModel>
   }
 
   export type EnumPartyTypeFilter<$PrismaModel = never> = {
@@ -62508,6 +62543,10 @@ export namespace Prisma {
     connect?: ItemWhereUniqueInput
   }
 
+  export type EnumRelationTypeFieldUpdateOperationsInput = {
+    set?: $Enums.RelationType
+  }
+
   export type TenantUpdateOneRequiredWithoutItemRelationsNestedInput = {
     create?: XOR<TenantCreateWithoutItemRelationsInput, TenantUncheckedCreateWithoutItemRelationsInput>
     connectOrCreate?: TenantCreateOrConnectWithoutItemRelationsInput
@@ -62654,6 +62693,10 @@ export namespace Prisma {
     decrement?: Decimal | DecimalJsLike | number | string
     multiply?: Decimal | DecimalJsLike | number | string
     divide?: Decimal | DecimalJsLike | number | string
+  }
+
+  export type EnumItemTypeFieldUpdateOperationsInput = {
+    set?: $Enums.ItemType
   }
 
   export type TenantUpdateOneRequiredWithoutItemsNestedInput = {
@@ -63168,24 +63211,10 @@ export namespace Prisma {
     update?: XOR<XOR<FiscalPeriodUpdateToOneWithWhereWithoutStockMovementsInput, FiscalPeriodUpdateWithoutStockMovementsInput>, FiscalPeriodUncheckedUpdateWithoutStockMovementsInput>
   }
 
-  export type TenantCreateNestedOneWithoutTagAssignmentsInput = {
-    create?: XOR<TenantCreateWithoutTagAssignmentsInput, TenantUncheckedCreateWithoutTagAssignmentsInput>
-    connectOrCreate?: TenantCreateOrConnectWithoutTagAssignmentsInput
-    connect?: TenantWhereUniqueInput
-  }
-
   export type TagCreateNestedOneWithoutAssignmentsInput = {
     create?: XOR<TagCreateWithoutAssignmentsInput, TagUncheckedCreateWithoutAssignmentsInput>
     connectOrCreate?: TagCreateOrConnectWithoutAssignmentsInput
     connect?: TagWhereUniqueInput
-  }
-
-  export type TenantUpdateOneRequiredWithoutTagAssignmentsNestedInput = {
-    create?: XOR<TenantCreateWithoutTagAssignmentsInput, TenantUncheckedCreateWithoutTagAssignmentsInput>
-    connectOrCreate?: TenantCreateOrConnectWithoutTagAssignmentsInput
-    upsert?: TenantUpsertWithoutTagAssignmentsInput
-    connect?: TenantWhereUniqueInput
-    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutTagAssignmentsInput, TenantUpdateWithoutTagAssignmentsInput>, TenantUncheckedUpdateWithoutTagAssignmentsInput>
   }
 
   export type TagUpdateOneRequiredWithoutAssignmentsNestedInput = {
@@ -63432,13 +63461,6 @@ export namespace Prisma {
     connect?: TagWhereUniqueInput | TagWhereUniqueInput[]
   }
 
-  export type TagAssignmentCreateNestedManyWithoutTenantInput = {
-    create?: XOR<TagAssignmentCreateWithoutTenantInput, TagAssignmentUncheckedCreateWithoutTenantInput> | TagAssignmentCreateWithoutTenantInput[] | TagAssignmentUncheckedCreateWithoutTenantInput[]
-    connectOrCreate?: TagAssignmentCreateOrConnectWithoutTenantInput | TagAssignmentCreateOrConnectWithoutTenantInput[]
-    createMany?: TagAssignmentCreateManyTenantInputEnvelope
-    connect?: TagAssignmentWhereUniqueInput | TagAssignmentWhereUniqueInput[]
-  }
-
   export type ItemRelationCreateNestedManyWithoutTenantInput = {
     create?: XOR<ItemRelationCreateWithoutTenantInput, ItemRelationUncheckedCreateWithoutTenantInput> | ItemRelationCreateWithoutTenantInput[] | ItemRelationUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: ItemRelationCreateOrConnectWithoutTenantInput | ItemRelationCreateOrConnectWithoutTenantInput[]
@@ -63598,13 +63620,6 @@ export namespace Prisma {
     connectOrCreate?: TagCreateOrConnectWithoutTenantInput | TagCreateOrConnectWithoutTenantInput[]
     createMany?: TagCreateManyTenantInputEnvelope
     connect?: TagWhereUniqueInput | TagWhereUniqueInput[]
-  }
-
-  export type TagAssignmentUncheckedCreateNestedManyWithoutTenantInput = {
-    create?: XOR<TagAssignmentCreateWithoutTenantInput, TagAssignmentUncheckedCreateWithoutTenantInput> | TagAssignmentCreateWithoutTenantInput[] | TagAssignmentUncheckedCreateWithoutTenantInput[]
-    connectOrCreate?: TagAssignmentCreateOrConnectWithoutTenantInput | TagAssignmentCreateOrConnectWithoutTenantInput[]
-    createMany?: TagAssignmentCreateManyTenantInputEnvelope
-    connect?: TagAssignmentWhereUniqueInput | TagAssignmentWhereUniqueInput[]
   }
 
   export type ItemRelationUncheckedCreateNestedManyWithoutTenantInput = {
@@ -63942,20 +63957,6 @@ export namespace Prisma {
     deleteMany?: TagScalarWhereInput | TagScalarWhereInput[]
   }
 
-  export type TagAssignmentUpdateManyWithoutTenantNestedInput = {
-    create?: XOR<TagAssignmentCreateWithoutTenantInput, TagAssignmentUncheckedCreateWithoutTenantInput> | TagAssignmentCreateWithoutTenantInput[] | TagAssignmentUncheckedCreateWithoutTenantInput[]
-    connectOrCreate?: TagAssignmentCreateOrConnectWithoutTenantInput | TagAssignmentCreateOrConnectWithoutTenantInput[]
-    upsert?: TagAssignmentUpsertWithWhereUniqueWithoutTenantInput | TagAssignmentUpsertWithWhereUniqueWithoutTenantInput[]
-    createMany?: TagAssignmentCreateManyTenantInputEnvelope
-    set?: TagAssignmentWhereUniqueInput | TagAssignmentWhereUniqueInput[]
-    disconnect?: TagAssignmentWhereUniqueInput | TagAssignmentWhereUniqueInput[]
-    delete?: TagAssignmentWhereUniqueInput | TagAssignmentWhereUniqueInput[]
-    connect?: TagAssignmentWhereUniqueInput | TagAssignmentWhereUniqueInput[]
-    update?: TagAssignmentUpdateWithWhereUniqueWithoutTenantInput | TagAssignmentUpdateWithWhereUniqueWithoutTenantInput[]
-    updateMany?: TagAssignmentUpdateManyWithWhereWithoutTenantInput | TagAssignmentUpdateManyWithWhereWithoutTenantInput[]
-    deleteMany?: TagAssignmentScalarWhereInput | TagAssignmentScalarWhereInput[]
-  }
-
   export type ItemRelationUpdateManyWithoutTenantNestedInput = {
     create?: XOR<ItemRelationCreateWithoutTenantInput, ItemRelationUncheckedCreateWithoutTenantInput> | ItemRelationCreateWithoutTenantInput[] | ItemRelationUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: ItemRelationCreateOrConnectWithoutTenantInput | ItemRelationCreateOrConnectWithoutTenantInput[]
@@ -64276,20 +64277,6 @@ export namespace Prisma {
     update?: TagUpdateWithWhereUniqueWithoutTenantInput | TagUpdateWithWhereUniqueWithoutTenantInput[]
     updateMany?: TagUpdateManyWithWhereWithoutTenantInput | TagUpdateManyWithWhereWithoutTenantInput[]
     deleteMany?: TagScalarWhereInput | TagScalarWhereInput[]
-  }
-
-  export type TagAssignmentUncheckedUpdateManyWithoutTenantNestedInput = {
-    create?: XOR<TagAssignmentCreateWithoutTenantInput, TagAssignmentUncheckedCreateWithoutTenantInput> | TagAssignmentCreateWithoutTenantInput[] | TagAssignmentUncheckedCreateWithoutTenantInput[]
-    connectOrCreate?: TagAssignmentCreateOrConnectWithoutTenantInput | TagAssignmentCreateOrConnectWithoutTenantInput[]
-    upsert?: TagAssignmentUpsertWithWhereUniqueWithoutTenantInput | TagAssignmentUpsertWithWhereUniqueWithoutTenantInput[]
-    createMany?: TagAssignmentCreateManyTenantInputEnvelope
-    set?: TagAssignmentWhereUniqueInput | TagAssignmentWhereUniqueInput[]
-    disconnect?: TagAssignmentWhereUniqueInput | TagAssignmentWhereUniqueInput[]
-    delete?: TagAssignmentWhereUniqueInput | TagAssignmentWhereUniqueInput[]
-    connect?: TagAssignmentWhereUniqueInput | TagAssignmentWhereUniqueInput[]
-    update?: TagAssignmentUpdateWithWhereUniqueWithoutTenantInput | TagAssignmentUpdateWithWhereUniqueWithoutTenantInput[]
-    updateMany?: TagAssignmentUpdateManyWithWhereWithoutTenantInput | TagAssignmentUpdateManyWithWhereWithoutTenantInput[]
-    deleteMany?: TagAssignmentScalarWhereInput | TagAssignmentScalarWhereInput[]
   }
 
   export type ItemRelationUncheckedUpdateManyWithoutTenantNestedInput = {
@@ -65213,6 +65200,23 @@ export namespace Prisma {
     _max?: NestedEnumInvoiceStatusFilter<$PrismaModel>
   }
 
+  export type NestedEnumRelationTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.RelationType | EnumRelationTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.RelationType[] | ListEnumRelationTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.RelationType[] | ListEnumRelationTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumRelationTypeFilter<$PrismaModel> | $Enums.RelationType
+  }
+
+  export type NestedEnumRelationTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.RelationType | EnumRelationTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.RelationType[] | ListEnumRelationTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.RelationType[] | ListEnumRelationTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumRelationTypeWithAggregatesFilter<$PrismaModel> | $Enums.RelationType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumRelationTypeFilter<$PrismaModel>
+    _max?: NestedEnumRelationTypeFilter<$PrismaModel>
+  }
+
   export type NestedDecimalNullableFilter<$PrismaModel = never> = {
     equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
     in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
@@ -65222,6 +65226,13 @@ export namespace Prisma {
     gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
     gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
     not?: NestedDecimalNullableFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
+  }
+
+  export type NestedEnumItemTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.ItemType | EnumItemTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.ItemType[] | ListEnumItemTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ItemType[] | ListEnumItemTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumItemTypeFilter<$PrismaModel> | $Enums.ItemType
   }
 
   export type NestedDecimalNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -65238,6 +65249,16 @@ export namespace Prisma {
     _sum?: NestedDecimalNullableFilter<$PrismaModel>
     _min?: NestedDecimalNullableFilter<$PrismaModel>
     _max?: NestedDecimalNullableFilter<$PrismaModel>
+  }
+
+  export type NestedEnumItemTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ItemType | EnumItemTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.ItemType[] | ListEnumItemTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ItemType[] | ListEnumItemTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumItemTypeWithAggregatesFilter<$PrismaModel> | $Enums.ItemType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumItemTypeFilter<$PrismaModel>
+    _max?: NestedEnumItemTypeFilter<$PrismaModel>
   }
 
   export type NestedEnumPartyTypeFilter<$PrismaModel = never> = {
@@ -65328,7 +65349,6 @@ export namespace Prisma {
     settings?: TenantSettingCreateNestedManyWithoutTenantInput
     expenses?: ExpenseCreateNestedManyWithoutTenantInput
     tags?: TagCreateNestedManyWithoutTenantInput
-    tagAssignments?: TagAssignmentCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
   }
 
@@ -65369,7 +65389,6 @@ export namespace Prisma {
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
     tags?: TagUncheckedCreateNestedManyWithoutTenantInput
-    tagAssignments?: TagAssignmentUncheckedCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -65599,7 +65618,6 @@ export namespace Prisma {
     settings?: TenantSettingUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUpdateManyWithoutTenantNestedInput
     tags?: TagUpdateManyWithoutTenantNestedInput
-    tagAssignments?: TagAssignmentUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
   }
 
@@ -65640,7 +65658,6 @@ export namespace Prisma {
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
     tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
-    tagAssignments?: TagAssignmentUncheckedUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -65845,7 +65862,6 @@ export namespace Prisma {
     settings?: TenantSettingCreateNestedManyWithoutTenantInput
     expenses?: ExpenseCreateNestedManyWithoutTenantInput
     tags?: TagCreateNestedManyWithoutTenantInput
-    tagAssignments?: TagAssignmentCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
   }
 
@@ -65886,7 +65902,6 @@ export namespace Prisma {
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
     tags?: TagUncheckedCreateNestedManyWithoutTenantInput
-    tagAssignments?: TagAssignmentUncheckedCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -66010,7 +66025,6 @@ export namespace Prisma {
     settings?: TenantSettingUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUpdateManyWithoutTenantNestedInput
     tags?: TagUpdateManyWithoutTenantNestedInput
-    tagAssignments?: TagAssignmentUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
   }
 
@@ -66051,7 +66065,6 @@ export namespace Prisma {
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
     tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
-    tagAssignments?: TagAssignmentUncheckedUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -66307,7 +66320,6 @@ export namespace Prisma {
     settings?: TenantSettingCreateNestedManyWithoutTenantInput
     expenses?: ExpenseCreateNestedManyWithoutTenantInput
     tags?: TagCreateNestedManyWithoutTenantInput
-    tagAssignments?: TagAssignmentCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
   }
 
@@ -66348,7 +66360,6 @@ export namespace Prisma {
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
     tags?: TagUncheckedCreateNestedManyWithoutTenantInput
-    tagAssignments?: TagAssignmentUncheckedCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -66431,7 +66442,6 @@ export namespace Prisma {
     settings?: TenantSettingUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUpdateManyWithoutTenantNestedInput
     tags?: TagUpdateManyWithoutTenantNestedInput
-    tagAssignments?: TagAssignmentUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
   }
 
@@ -66472,7 +66482,6 @@ export namespace Prisma {
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
     tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
-    tagAssignments?: TagAssignmentUncheckedUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -66593,7 +66602,6 @@ export namespace Prisma {
     settings?: TenantSettingCreateNestedManyWithoutTenantInput
     expenses?: ExpenseCreateNestedManyWithoutTenantInput
     tags?: TagCreateNestedManyWithoutTenantInput
-    tagAssignments?: TagAssignmentCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
   }
 
@@ -66634,7 +66642,6 @@ export namespace Prisma {
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
     tags?: TagUncheckedCreateNestedManyWithoutTenantInput
-    tagAssignments?: TagAssignmentUncheckedCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -66691,7 +66698,6 @@ export namespace Prisma {
     settings?: TenantSettingUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUpdateManyWithoutTenantNestedInput
     tags?: TagUpdateManyWithoutTenantNestedInput
-    tagAssignments?: TagAssignmentUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
   }
 
@@ -66732,7 +66738,6 @@ export namespace Prisma {
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
     tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
-    tagAssignments?: TagAssignmentUncheckedUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -66773,7 +66778,6 @@ export namespace Prisma {
     settings?: TenantSettingCreateNestedManyWithoutTenantInput
     expenses?: ExpenseCreateNestedManyWithoutTenantInput
     tags?: TagCreateNestedManyWithoutTenantInput
-    tagAssignments?: TagAssignmentCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
   }
 
@@ -66814,7 +66818,6 @@ export namespace Prisma {
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
     tags?: TagUncheckedCreateNestedManyWithoutTenantInput
-    tagAssignments?: TagAssignmentUncheckedCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -67053,7 +67056,6 @@ export namespace Prisma {
     settings?: TenantSettingUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUpdateManyWithoutTenantNestedInput
     tags?: TagUpdateManyWithoutTenantNestedInput
-    tagAssignments?: TagAssignmentUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
   }
 
@@ -67094,7 +67096,6 @@ export namespace Prisma {
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
     tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
-    tagAssignments?: TagAssignmentUncheckedUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -67302,7 +67303,6 @@ export namespace Prisma {
     settings?: TenantSettingCreateNestedManyWithoutTenantInput
     expenses?: ExpenseCreateNestedManyWithoutTenantInput
     tags?: TagCreateNestedManyWithoutTenantInput
-    tagAssignments?: TagAssignmentCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
   }
 
@@ -67343,7 +67343,6 @@ export namespace Prisma {
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
     tags?: TagUncheckedCreateNestedManyWithoutTenantInput
-    tagAssignments?: TagAssignmentUncheckedCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -67570,7 +67569,6 @@ export namespace Prisma {
     settings?: TenantSettingUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUpdateManyWithoutTenantNestedInput
     tags?: TagUpdateManyWithoutTenantNestedInput
-    tagAssignments?: TagAssignmentUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
   }
 
@@ -67611,7 +67609,6 @@ export namespace Prisma {
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
     tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
-    tagAssignments?: TagAssignmentUncheckedUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -68084,7 +68081,6 @@ export namespace Prisma {
     settings?: TenantSettingCreateNestedManyWithoutTenantInput
     expenses?: ExpenseCreateNestedManyWithoutTenantInput
     tags?: TagCreateNestedManyWithoutTenantInput
-    tagAssignments?: TagAssignmentCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
   }
 
@@ -68125,7 +68121,6 @@ export namespace Prisma {
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
     tags?: TagUncheckedCreateNestedManyWithoutTenantInput
-    tagAssignments?: TagAssignmentUncheckedCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -68331,7 +68326,6 @@ export namespace Prisma {
     settings?: TenantSettingCreateNestedManyWithoutTenantInput
     expenses?: ExpenseCreateNestedManyWithoutTenantInput
     tags?: TagCreateNestedManyWithoutTenantInput
-    tagAssignments?: TagAssignmentCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
   }
 
@@ -68372,7 +68366,6 @@ export namespace Prisma {
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
     tags?: TagUncheckedCreateNestedManyWithoutTenantInput
-    tagAssignments?: TagAssignmentUncheckedCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -68486,7 +68479,6 @@ export namespace Prisma {
     settings?: TenantSettingUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUpdateManyWithoutTenantNestedInput
     tags?: TagUpdateManyWithoutTenantNestedInput
-    tagAssignments?: TagAssignmentUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
   }
 
@@ -68527,7 +68519,6 @@ export namespace Prisma {
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
     tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
-    tagAssignments?: TagAssignmentUncheckedUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -68828,7 +68819,6 @@ export namespace Prisma {
     settings?: TenantSettingCreateNestedManyWithoutTenantInput
     expenses?: ExpenseCreateNestedManyWithoutTenantInput
     tags?: TagCreateNestedManyWithoutTenantInput
-    tagAssignments?: TagAssignmentCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
   }
 
@@ -68869,7 +68859,6 @@ export namespace Prisma {
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
     tags?: TagUncheckedCreateNestedManyWithoutTenantInput
-    tagAssignments?: TagAssignmentUncheckedCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -68915,7 +68904,6 @@ export namespace Prisma {
     settings?: TenantSettingCreateNestedManyWithoutTenantInput
     expenses?: ExpenseCreateNestedManyWithoutTenantInput
     tags?: TagCreateNestedManyWithoutTenantInput
-    tagAssignments?: TagAssignmentCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
   }
 
@@ -68956,7 +68944,6 @@ export namespace Prisma {
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
     tags?: TagUncheckedCreateNestedManyWithoutTenantInput
-    tagAssignments?: TagAssignmentUncheckedCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -69018,7 +69005,6 @@ export namespace Prisma {
     settings?: TenantSettingUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUpdateManyWithoutTenantNestedInput
     tags?: TagUpdateManyWithoutTenantNestedInput
-    tagAssignments?: TagAssignmentUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
   }
 
@@ -69059,7 +69045,6 @@ export namespace Prisma {
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
     tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
-    tagAssignments?: TagAssignmentUncheckedUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -69116,7 +69101,6 @@ export namespace Prisma {
     defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
     settings?: TenantSettingCreateNestedManyWithoutTenantInput
     tags?: TagCreateNestedManyWithoutTenantInput
-    tagAssignments?: TagAssignmentCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
   }
 
@@ -69157,7 +69141,6 @@ export namespace Prisma {
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     tags?: TagUncheckedCreateNestedManyWithoutTenantInput
-    tagAssignments?: TagAssignmentUncheckedCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -69351,7 +69334,6 @@ export namespace Prisma {
     defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
     settings?: TenantSettingUpdateManyWithoutTenantNestedInput
     tags?: TagUpdateManyWithoutTenantNestedInput
-    tagAssignments?: TagAssignmentUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
   }
 
@@ -69392,7 +69374,6 @@ export namespace Prisma {
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
-    tagAssignments?: TagAssignmentUncheckedUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -69750,7 +69731,6 @@ export namespace Prisma {
     settings?: TenantSettingCreateNestedManyWithoutTenantInput
     expenses?: ExpenseCreateNestedManyWithoutTenantInput
     tags?: TagCreateNestedManyWithoutTenantInput
-    tagAssignments?: TagAssignmentCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
   }
 
@@ -69791,7 +69771,6 @@ export namespace Prisma {
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
     tags?: TagUncheckedCreateNestedManyWithoutTenantInput
-    tagAssignments?: TagAssignmentUncheckedCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -70146,7 +70125,6 @@ export namespace Prisma {
     settings?: TenantSettingUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUpdateManyWithoutTenantNestedInput
     tags?: TagUpdateManyWithoutTenantNestedInput
-    tagAssignments?: TagAssignmentUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
   }
 
@@ -70187,7 +70165,6 @@ export namespace Prisma {
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
     tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
-    tagAssignments?: TagAssignmentUncheckedUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -70381,7 +70358,6 @@ export namespace Prisma {
     settings?: TenantSettingCreateNestedManyWithoutTenantInput
     expenses?: ExpenseCreateNestedManyWithoutTenantInput
     tags?: TagCreateNestedManyWithoutTenantInput
-    tagAssignments?: TagAssignmentCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
   }
 
@@ -70422,7 +70398,6 @@ export namespace Prisma {
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
     tags?: TagUncheckedCreateNestedManyWithoutTenantInput
-    tagAssignments?: TagAssignmentUncheckedCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -70543,7 +70518,6 @@ export namespace Prisma {
     settings?: TenantSettingUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUpdateManyWithoutTenantNestedInput
     tags?: TagUpdateManyWithoutTenantNestedInput
-    tagAssignments?: TagAssignmentUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
   }
 
@@ -70584,7 +70558,6 @@ export namespace Prisma {
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
     tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
-    tagAssignments?: TagAssignmentUncheckedUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -70641,7 +70614,6 @@ export namespace Prisma {
     settings?: TenantSettingCreateNestedManyWithoutTenantInput
     expenses?: ExpenseCreateNestedManyWithoutTenantInput
     tags?: TagCreateNestedManyWithoutTenantInput
-    tagAssignments?: TagAssignmentCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
   }
 
@@ -70682,7 +70654,6 @@ export namespace Prisma {
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
     tags?: TagUncheckedCreateNestedManyWithoutTenantInput
-    tagAssignments?: TagAssignmentUncheckedCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -70982,7 +70953,6 @@ export namespace Prisma {
     settings?: TenantSettingUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUpdateManyWithoutTenantNestedInput
     tags?: TagUpdateManyWithoutTenantNestedInput
-    tagAssignments?: TagAssignmentUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
   }
 
@@ -71023,7 +70993,6 @@ export namespace Prisma {
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
     tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
-    tagAssignments?: TagAssignmentUncheckedUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -71350,7 +71319,7 @@ export namespace Prisma {
     barcode?: string | null
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
-    itemType?: string
+    itemType?: $Enums.ItemType
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -71375,7 +71344,7 @@ export namespace Prisma {
     baseUnitId: string
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
-    itemType?: string
+    itemType?: $Enums.ItemType
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -71502,7 +71471,7 @@ export namespace Prisma {
     barcode?: NullableStringFieldUpdateOperationsInput | string | null
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    itemType?: StringFieldUpdateOperationsInput | string
+    itemType?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -71527,7 +71496,7 @@ export namespace Prisma {
     baseUnitId?: StringFieldUpdateOperationsInput | string
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    itemType?: StringFieldUpdateOperationsInput | string
+    itemType?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -71609,7 +71578,6 @@ export namespace Prisma {
     settings?: TenantSettingCreateNestedManyWithoutTenantInput
     expenses?: ExpenseCreateNestedManyWithoutTenantInput
     tags?: TagCreateNestedManyWithoutTenantInput
-    tagAssignments?: TagAssignmentCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
   }
 
@@ -71650,7 +71618,6 @@ export namespace Prisma {
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
     tags?: TagUncheckedCreateNestedManyWithoutTenantInput
-    tagAssignments?: TagAssignmentUncheckedCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -71729,7 +71696,7 @@ export namespace Prisma {
     barcode?: string | null
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
-    itemType?: string
+    itemType?: $Enums.ItemType
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -71753,7 +71720,7 @@ export namespace Prisma {
     baseUnitId: string
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
-    itemType?: string
+    itemType?: $Enums.ItemType
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -71824,7 +71791,6 @@ export namespace Prisma {
     settings?: TenantSettingUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUpdateManyWithoutTenantNestedInput
     tags?: TagUpdateManyWithoutTenantNestedInput
-    tagAssignments?: TagAssignmentUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
   }
 
@@ -71865,7 +71831,6 @@ export namespace Prisma {
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
     tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
-    tagAssignments?: TagAssignmentUncheckedUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -71963,7 +71928,7 @@ export namespace Prisma {
     baseUnitId?: StringFilter<"Item"> | string
     defaultSellingPrice?: DecimalNullableFilter<"Item"> | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: DecimalNullableFilter<"Item"> | Decimal | DecimalJsLike | number | string | null
-    itemType?: StringFilter<"Item"> | string
+    itemType?: EnumItemTypeFilter<"Item"> | $Enums.ItemType
     isActive?: BoolFilter<"Item"> | boolean
     createdAt?: DateTimeFilter<"Item"> | Date | string
     updatedAt?: DateTimeFilter<"Item"> | Date | string
@@ -72007,7 +71972,6 @@ export namespace Prisma {
     settings?: TenantSettingCreateNestedManyWithoutTenantInput
     expenses?: ExpenseCreateNestedManyWithoutTenantInput
     tags?: TagCreateNestedManyWithoutTenantInput
-    tagAssignments?: TagAssignmentCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutItemRelationsInput = {
@@ -72048,7 +72012,6 @@ export namespace Prisma {
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
     tags?: TagUncheckedCreateNestedManyWithoutTenantInput
-    tagAssignments?: TagAssignmentUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutItemRelationsInput = {
@@ -72063,7 +72026,7 @@ export namespace Prisma {
     barcode?: string | null
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
-    itemType?: string
+    itemType?: $Enums.ItemType
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -72088,7 +72051,7 @@ export namespace Prisma {
     baseUnitId: string
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
-    itemType?: string
+    itemType?: $Enums.ItemType
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -72112,7 +72075,7 @@ export namespace Prisma {
     barcode?: string | null
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
-    itemType?: string
+    itemType?: $Enums.ItemType
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -72137,7 +72100,7 @@ export namespace Prisma {
     baseUnitId: string
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
-    itemType?: string
+    itemType?: $Enums.ItemType
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -72203,7 +72166,6 @@ export namespace Prisma {
     settings?: TenantSettingUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUpdateManyWithoutTenantNestedInput
     tags?: TagUpdateManyWithoutTenantNestedInput
-    tagAssignments?: TagAssignmentUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutItemRelationsInput = {
@@ -72244,7 +72206,6 @@ export namespace Prisma {
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
     tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
-    tagAssignments?: TagAssignmentUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ItemUpsertWithoutItemRelationsInput = {
@@ -72265,7 +72226,7 @@ export namespace Prisma {
     barcode?: NullableStringFieldUpdateOperationsInput | string | null
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    itemType?: StringFieldUpdateOperationsInput | string
+    itemType?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -72290,7 +72251,7 @@ export namespace Prisma {
     baseUnitId?: StringFieldUpdateOperationsInput | string
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    itemType?: StringFieldUpdateOperationsInput | string
+    itemType?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -72320,7 +72281,7 @@ export namespace Prisma {
     barcode?: NullableStringFieldUpdateOperationsInput | string | null
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    itemType?: StringFieldUpdateOperationsInput | string
+    itemType?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -72345,7 +72306,7 @@ export namespace Prisma {
     baseUnitId?: StringFieldUpdateOperationsInput | string
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    itemType?: StringFieldUpdateOperationsInput | string
+    itemType?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -72394,7 +72355,6 @@ export namespace Prisma {
     settings?: TenantSettingCreateNestedManyWithoutTenantInput
     expenses?: ExpenseCreateNestedManyWithoutTenantInput
     tags?: TagCreateNestedManyWithoutTenantInput
-    tagAssignments?: TagAssignmentCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
   }
 
@@ -72435,7 +72395,6 @@ export namespace Prisma {
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
     tags?: TagUncheckedCreateNestedManyWithoutTenantInput
-    tagAssignments?: TagAssignmentUncheckedCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -72672,7 +72631,7 @@ export namespace Prisma {
 
   export type ItemRelationCreateWithoutItemInput = {
     id?: string
-    relationType: string
+    relationType: $Enums.RelationType
     notes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -72684,7 +72643,7 @@ export namespace Prisma {
     id?: string
     tenantId: string
     relatedItemId: string
-    relationType: string
+    relationType: $Enums.RelationType
     notes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -72702,7 +72661,7 @@ export namespace Prisma {
 
   export type ItemRelationCreateWithoutRelatedItemInput = {
     id?: string
-    relationType: string
+    relationType: $Enums.RelationType
     notes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -72714,7 +72673,7 @@ export namespace Prisma {
     id?: string
     tenantId: string
     itemId: string
-    relationType: string
+    relationType: $Enums.RelationType
     notes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -72778,7 +72737,6 @@ export namespace Prisma {
     settings?: TenantSettingUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUpdateManyWithoutTenantNestedInput
     tags?: TagUpdateManyWithoutTenantNestedInput
-    tagAssignments?: TagAssignmentUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
   }
 
@@ -72819,7 +72777,6 @@ export namespace Prisma {
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
     tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
-    tagAssignments?: TagAssignmentUncheckedUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -73036,7 +72993,7 @@ export namespace Prisma {
     tenantId?: StringFilter<"ItemRelation"> | string
     itemId?: StringFilter<"ItemRelation"> | string
     relatedItemId?: StringFilter<"ItemRelation"> | string
-    relationType?: StringFilter<"ItemRelation"> | string
+    relationType?: EnumRelationTypeFilter<"ItemRelation"> | $Enums.RelationType
     notes?: StringNullableFilter<"ItemRelation"> | string | null
     createdAt?: DateTimeFilter<"ItemRelation"> | Date | string
     updatedAt?: DateTimeFilter<"ItemRelation"> | Date | string
@@ -73095,7 +73052,6 @@ export namespace Prisma {
     settings?: TenantSettingCreateNestedManyWithoutTenantInput
     expenses?: ExpenseCreateNestedManyWithoutTenantInput
     tags?: TagCreateNestedManyWithoutTenantInput
-    tagAssignments?: TagAssignmentCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
   }
 
@@ -73136,7 +73092,6 @@ export namespace Prisma {
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
     tags?: TagUncheckedCreateNestedManyWithoutTenantInput
-    tagAssignments?: TagAssignmentUncheckedCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -73315,7 +73270,6 @@ export namespace Prisma {
     settings?: TenantSettingUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUpdateManyWithoutTenantNestedInput
     tags?: TagUpdateManyWithoutTenantNestedInput
-    tagAssignments?: TagAssignmentUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
   }
 
@@ -73356,7 +73310,6 @@ export namespace Prisma {
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
     tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
-    tagAssignments?: TagAssignmentUncheckedUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -73429,7 +73382,6 @@ export namespace Prisma {
     settings?: TenantSettingCreateNestedManyWithoutTenantInput
     expenses?: ExpenseCreateNestedManyWithoutTenantInput
     tags?: TagCreateNestedManyWithoutTenantInput
-    tagAssignments?: TagAssignmentCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
   }
 
@@ -73470,7 +73422,6 @@ export namespace Prisma {
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
     tags?: TagUncheckedCreateNestedManyWithoutTenantInput
-    tagAssignments?: TagAssignmentUncheckedCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -73629,7 +73580,6 @@ export namespace Prisma {
     settings?: TenantSettingUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUpdateManyWithoutTenantNestedInput
     tags?: TagUpdateManyWithoutTenantNestedInput
-    tagAssignments?: TagAssignmentUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
   }
 
@@ -73670,7 +73620,6 @@ export namespace Prisma {
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
     tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
-    tagAssignments?: TagAssignmentUncheckedUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -73818,7 +73767,7 @@ export namespace Prisma {
     barcode?: string | null
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
-    itemType?: string
+    itemType?: $Enums.ItemType
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -73843,7 +73792,7 @@ export namespace Prisma {
     baseUnitId: string
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
-    itemType?: string
+    itemType?: $Enums.ItemType
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -73921,7 +73870,7 @@ export namespace Prisma {
     barcode?: NullableStringFieldUpdateOperationsInput | string | null
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    itemType?: StringFieldUpdateOperationsInput | string
+    itemType?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -73946,7 +73895,7 @@ export namespace Prisma {
     baseUnitId?: StringFieldUpdateOperationsInput | string
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    itemType?: StringFieldUpdateOperationsInput | string
+    itemType?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -74000,7 +73949,7 @@ export namespace Prisma {
     barcode?: string | null
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
-    itemType?: string
+    itemType?: $Enums.ItemType
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -74025,7 +73974,7 @@ export namespace Prisma {
     baseUnitId: string
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
-    itemType?: string
+    itemType?: $Enums.ItemType
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -74101,7 +74050,7 @@ export namespace Prisma {
     barcode?: NullableStringFieldUpdateOperationsInput | string | null
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    itemType?: StringFieldUpdateOperationsInput | string
+    itemType?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -74126,7 +74075,7 @@ export namespace Prisma {
     baseUnitId?: StringFieldUpdateOperationsInput | string
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    itemType?: StringFieldUpdateOperationsInput | string
+    itemType?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -74180,7 +74129,7 @@ export namespace Prisma {
     barcode?: string | null
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
-    itemType?: string
+    itemType?: $Enums.ItemType
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -74205,7 +74154,7 @@ export namespace Prisma {
     baseUnitId: string
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
-    itemType?: string
+    itemType?: $Enums.ItemType
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -74318,7 +74267,7 @@ export namespace Prisma {
     barcode?: NullableStringFieldUpdateOperationsInput | string | null
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    itemType?: StringFieldUpdateOperationsInput | string
+    itemType?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -74343,7 +74292,7 @@ export namespace Prisma {
     baseUnitId?: StringFieldUpdateOperationsInput | string
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    itemType?: StringFieldUpdateOperationsInput | string
+    itemType?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -74398,93 +74347,6 @@ export namespace Prisma {
     expenses?: ExpenseUncheckedUpdateManyWithoutFiscalPeriodNestedInput
   }
 
-  export type TenantCreateWithoutTagAssignmentsInput = {
-    id?: string
-    name: string
-    slug: string
-    address?: string | null
-    phone?: string | null
-    email?: string | null
-    logo?: string | null
-    legalName?: string | null
-    taxNumber?: string | null
-    website?: string | null
-    isActive?: boolean
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    users?: AppUserCreateNestedManyWithoutTenantInput
-    roles?: RoleCreateNestedManyWithoutTenantInput
-    currencies?: CurrencyCreateNestedManyWithoutTenantInput
-    fiscalPeriods?: FiscalPeriodCreateNestedManyWithoutTenantInput
-    documentSequences?: DocumentSequenceCreateNestedManyWithoutTenantInput
-    itemCategories?: ItemCategoryCreateNestedManyWithoutTenantInput
-    units?: UnitCreateNestedManyWithoutTenantInput
-    items?: ItemCreateNestedManyWithoutTenantInput
-    parties?: PartyCreateNestedManyWithoutTenantInput
-    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
-    cashboxes?: CashboxCreateNestedManyWithoutTenantInput
-    invoiceTypes?: InvoiceTypeCreateNestedManyWithoutTenantInput
-    invoices?: InvoiceCreateNestedManyWithoutTenantInput
-    payments?: PaymentCreateNestedManyWithoutTenantInput
-    chartOfAccounts?: ChartOfAccountCreateNestedManyWithoutTenantInput
-    journalEntries?: JournalEntryCreateNestedManyWithoutTenantInput
-    stockCounts?: StockCountCreateNestedManyWithoutTenantInput
-    auditLogs?: AuditLogCreateNestedManyWithoutTenantInput
-    aiChatSessions?: AiChatSessionCreateNestedManyWithoutTenantInput
-    baseCurrency?: CurrencyCreateNestedOneWithoutBaseForTenantsInput
-    defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
-    settings?: TenantSettingCreateNestedManyWithoutTenantInput
-    expenses?: ExpenseCreateNestedManyWithoutTenantInput
-    tags?: TagCreateNestedManyWithoutTenantInput
-    itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
-  }
-
-  export type TenantUncheckedCreateWithoutTagAssignmentsInput = {
-    id?: string
-    name: string
-    slug: string
-    address?: string | null
-    phone?: string | null
-    email?: string | null
-    logo?: string | null
-    legalName?: string | null
-    taxNumber?: string | null
-    website?: string | null
-    baseCurrencyId?: string | null
-    defaultSalesSequenceId?: string | null
-    isActive?: boolean
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
-    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
-    currencies?: CurrencyUncheckedCreateNestedManyWithoutTenantInput
-    fiscalPeriods?: FiscalPeriodUncheckedCreateNestedManyWithoutTenantInput
-    documentSequences?: DocumentSequenceUncheckedCreateNestedManyWithoutTenantInput
-    itemCategories?: ItemCategoryUncheckedCreateNestedManyWithoutTenantInput
-    units?: UnitUncheckedCreateNestedManyWithoutTenantInput
-    items?: ItemUncheckedCreateNestedManyWithoutTenantInput
-    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
-    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
-    cashboxes?: CashboxUncheckedCreateNestedManyWithoutTenantInput
-    invoiceTypes?: InvoiceTypeUncheckedCreateNestedManyWithoutTenantInput
-    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
-    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
-    chartOfAccounts?: ChartOfAccountUncheckedCreateNestedManyWithoutTenantInput
-    journalEntries?: JournalEntryUncheckedCreateNestedManyWithoutTenantInput
-    stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
-    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTenantInput
-    aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
-    settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
-    expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
-    tags?: TagUncheckedCreateNestedManyWithoutTenantInput
-    itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
-  }
-
-  export type TenantCreateOrConnectWithoutTagAssignmentsInput = {
-    where: TenantWhereUniqueInput
-    create: XOR<TenantCreateWithoutTagAssignmentsInput, TenantUncheckedCreateWithoutTagAssignmentsInput>
-  }
-
   export type TagCreateWithoutAssignmentsInput = {
     id?: string
     name: string
@@ -74508,99 +74370,6 @@ export namespace Prisma {
   export type TagCreateOrConnectWithoutAssignmentsInput = {
     where: TagWhereUniqueInput
     create: XOR<TagCreateWithoutAssignmentsInput, TagUncheckedCreateWithoutAssignmentsInput>
-  }
-
-  export type TenantUpsertWithoutTagAssignmentsInput = {
-    update: XOR<TenantUpdateWithoutTagAssignmentsInput, TenantUncheckedUpdateWithoutTagAssignmentsInput>
-    create: XOR<TenantCreateWithoutTagAssignmentsInput, TenantUncheckedCreateWithoutTagAssignmentsInput>
-    where?: TenantWhereInput
-  }
-
-  export type TenantUpdateToOneWithWhereWithoutTagAssignmentsInput = {
-    where?: TenantWhereInput
-    data: XOR<TenantUpdateWithoutTagAssignmentsInput, TenantUncheckedUpdateWithoutTagAssignmentsInput>
-  }
-
-  export type TenantUpdateWithoutTagAssignmentsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    address?: NullableStringFieldUpdateOperationsInput | string | null
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    logo?: NullableStringFieldUpdateOperationsInput | string | null
-    legalName?: NullableStringFieldUpdateOperationsInput | string | null
-    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    website?: NullableStringFieldUpdateOperationsInput | string | null
-    isActive?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    users?: AppUserUpdateManyWithoutTenantNestedInput
-    roles?: RoleUpdateManyWithoutTenantNestedInput
-    currencies?: CurrencyUpdateManyWithoutTenantNestedInput
-    fiscalPeriods?: FiscalPeriodUpdateManyWithoutTenantNestedInput
-    documentSequences?: DocumentSequenceUpdateManyWithoutTenantNestedInput
-    itemCategories?: ItemCategoryUpdateManyWithoutTenantNestedInput
-    units?: UnitUpdateManyWithoutTenantNestedInput
-    items?: ItemUpdateManyWithoutTenantNestedInput
-    parties?: PartyUpdateManyWithoutTenantNestedInput
-    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
-    cashboxes?: CashboxUpdateManyWithoutTenantNestedInput
-    invoiceTypes?: InvoiceTypeUpdateManyWithoutTenantNestedInput
-    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
-    payments?: PaymentUpdateManyWithoutTenantNestedInput
-    chartOfAccounts?: ChartOfAccountUpdateManyWithoutTenantNestedInput
-    journalEntries?: JournalEntryUpdateManyWithoutTenantNestedInput
-    stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
-    auditLogs?: AuditLogUpdateManyWithoutTenantNestedInput
-    aiChatSessions?: AiChatSessionUpdateManyWithoutTenantNestedInput
-    baseCurrency?: CurrencyUpdateOneWithoutBaseForTenantsNestedInput
-    defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
-    settings?: TenantSettingUpdateManyWithoutTenantNestedInput
-    expenses?: ExpenseUpdateManyWithoutTenantNestedInput
-    tags?: TagUpdateManyWithoutTenantNestedInput
-    itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
-  }
-
-  export type TenantUncheckedUpdateWithoutTagAssignmentsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    address?: NullableStringFieldUpdateOperationsInput | string | null
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    logo?: NullableStringFieldUpdateOperationsInput | string | null
-    legalName?: NullableStringFieldUpdateOperationsInput | string | null
-    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    website?: NullableStringFieldUpdateOperationsInput | string | null
-    baseCurrencyId?: NullableStringFieldUpdateOperationsInput | string | null
-    defaultSalesSequenceId?: NullableStringFieldUpdateOperationsInput | string | null
-    isActive?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
-    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
-    currencies?: CurrencyUncheckedUpdateManyWithoutTenantNestedInput
-    fiscalPeriods?: FiscalPeriodUncheckedUpdateManyWithoutTenantNestedInput
-    documentSequences?: DocumentSequenceUncheckedUpdateManyWithoutTenantNestedInput
-    itemCategories?: ItemCategoryUncheckedUpdateManyWithoutTenantNestedInput
-    units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
-    items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
-    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
-    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
-    cashboxes?: CashboxUncheckedUpdateManyWithoutTenantNestedInput
-    invoiceTypes?: InvoiceTypeUncheckedUpdateManyWithoutTenantNestedInput
-    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
-    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
-    chartOfAccounts?: ChartOfAccountUncheckedUpdateManyWithoutTenantNestedInput
-    journalEntries?: JournalEntryUncheckedUpdateManyWithoutTenantNestedInput
-    stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
-    auditLogs?: AuditLogUncheckedUpdateManyWithoutTenantNestedInput
-    aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
-    settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
-    expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
-    tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
-    itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TagUpsertWithoutAssignmentsInput = {
@@ -74671,7 +74440,6 @@ export namespace Prisma {
     defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
     settings?: TenantSettingCreateNestedManyWithoutTenantInput
     expenses?: ExpenseCreateNestedManyWithoutTenantInput
-    tagAssignments?: TagAssignmentCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
   }
 
@@ -74712,7 +74480,6 @@ export namespace Prisma {
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
-    tagAssignments?: TagAssignmentUncheckedCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -74723,10 +74490,10 @@ export namespace Prisma {
 
   export type TagAssignmentCreateWithoutTagInput = {
     id?: string
+    tenantId: string
     entityType: string
     entityId: string
     createdAt?: Date | string
-    tenant: TenantCreateNestedOneWithoutTagAssignmentsInput
   }
 
   export type TagAssignmentUncheckedCreateWithoutTagInput = {
@@ -74795,7 +74562,6 @@ export namespace Prisma {
     defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
     settings?: TenantSettingUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUpdateManyWithoutTenantNestedInput
-    tagAssignments?: TagAssignmentUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
   }
 
@@ -74836,7 +74602,6 @@ export namespace Prisma {
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
-    tagAssignments?: TagAssignmentUncheckedUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -74905,7 +74670,6 @@ export namespace Prisma {
     defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
     expenses?: ExpenseCreateNestedManyWithoutTenantInput
     tags?: TagCreateNestedManyWithoutTenantInput
-    tagAssignments?: TagAssignmentCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
   }
 
@@ -74946,7 +74710,6 @@ export namespace Prisma {
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
     tags?: TagUncheckedCreateNestedManyWithoutTenantInput
-    tagAssignments?: TagAssignmentUncheckedCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -75003,7 +74766,6 @@ export namespace Prisma {
     defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
     expenses?: ExpenseUpdateManyWithoutTenantNestedInput
     tags?: TagUpdateManyWithoutTenantNestedInput
-    tagAssignments?: TagAssignmentUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
   }
 
@@ -75044,7 +74806,6 @@ export namespace Prisma {
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
     tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
-    tagAssignments?: TagAssignmentUncheckedUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -75303,7 +75064,7 @@ export namespace Prisma {
     barcode?: string | null
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
-    itemType?: string
+    itemType?: $Enums.ItemType
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -75327,7 +75088,7 @@ export namespace Prisma {
     baseUnitId: string
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
-    itemType?: string
+    itemType?: $Enums.ItemType
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -75986,35 +75747,9 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type TagAssignmentCreateWithoutTenantInput = {
-    id?: string
-    entityType: string
-    entityId: string
-    createdAt?: Date | string
-    tag: TagCreateNestedOneWithoutAssignmentsInput
-  }
-
-  export type TagAssignmentUncheckedCreateWithoutTenantInput = {
-    id?: string
-    tagId: string
-    entityType: string
-    entityId: string
-    createdAt?: Date | string
-  }
-
-  export type TagAssignmentCreateOrConnectWithoutTenantInput = {
-    where: TagAssignmentWhereUniqueInput
-    create: XOR<TagAssignmentCreateWithoutTenantInput, TagAssignmentUncheckedCreateWithoutTenantInput>
-  }
-
-  export type TagAssignmentCreateManyTenantInputEnvelope = {
-    data: TagAssignmentCreateManyTenantInput | TagAssignmentCreateManyTenantInput[]
-    skipDuplicates?: boolean
-  }
-
   export type ItemRelationCreateWithoutTenantInput = {
     id?: string
-    relationType: string
+    relationType: $Enums.RelationType
     notes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -76026,7 +75761,7 @@ export namespace Prisma {
     id?: string
     itemId: string
     relatedItemId: string
-    relationType: string
+    relationType: $Enums.RelationType
     notes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -76656,22 +76391,6 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Tag"> | Date | string
   }
 
-  export type TagAssignmentUpsertWithWhereUniqueWithoutTenantInput = {
-    where: TagAssignmentWhereUniqueInput
-    update: XOR<TagAssignmentUpdateWithoutTenantInput, TagAssignmentUncheckedUpdateWithoutTenantInput>
-    create: XOR<TagAssignmentCreateWithoutTenantInput, TagAssignmentUncheckedCreateWithoutTenantInput>
-  }
-
-  export type TagAssignmentUpdateWithWhereUniqueWithoutTenantInput = {
-    where: TagAssignmentWhereUniqueInput
-    data: XOR<TagAssignmentUpdateWithoutTenantInput, TagAssignmentUncheckedUpdateWithoutTenantInput>
-  }
-
-  export type TagAssignmentUpdateManyWithWhereWithoutTenantInput = {
-    where: TagAssignmentScalarWhereInput
-    data: XOR<TagAssignmentUpdateManyMutationInput, TagAssignmentUncheckedUpdateManyWithoutTenantInput>
-  }
-
   export type ItemRelationUpsertWithWhereUniqueWithoutTenantInput = {
     where: ItemRelationWhereUniqueInput
     update: XOR<ItemRelationUpdateWithoutTenantInput, ItemRelationUncheckedUpdateWithoutTenantInput>
@@ -76725,7 +76444,6 @@ export namespace Prisma {
     settings?: TenantSettingCreateNestedManyWithoutTenantInput
     expenses?: ExpenseCreateNestedManyWithoutTenantInput
     tags?: TagCreateNestedManyWithoutTenantInput
-    tagAssignments?: TagAssignmentCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
   }
 
@@ -76766,7 +76484,6 @@ export namespace Prisma {
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
     tags?: TagUncheckedCreateNestedManyWithoutTenantInput
-    tagAssignments?: TagAssignmentUncheckedCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -76782,7 +76499,7 @@ export namespace Prisma {
     barcode?: string | null
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
-    itemType?: string
+    itemType?: $Enums.ItemType
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -76806,7 +76523,7 @@ export namespace Prisma {
     categoryId: string
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
-    itemType?: string
+    itemType?: $Enums.ItemType
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -76919,7 +76636,6 @@ export namespace Prisma {
     settings?: TenantSettingUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUpdateManyWithoutTenantNestedInput
     tags?: TagUpdateManyWithoutTenantNestedInput
-    tagAssignments?: TagAssignmentUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
   }
 
@@ -76960,7 +76676,6 @@ export namespace Prisma {
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
     tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
-    tagAssignments?: TagAssignmentUncheckedUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -77033,7 +76748,6 @@ export namespace Prisma {
     settings?: TenantSettingCreateNestedManyWithoutTenantInput
     expenses?: ExpenseCreateNestedManyWithoutTenantInput
     tags?: TagCreateNestedManyWithoutTenantInput
-    tagAssignments?: TagAssignmentCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
   }
 
@@ -77074,7 +76788,6 @@ export namespace Prisma {
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
     tags?: TagUncheckedCreateNestedManyWithoutTenantInput
-    tagAssignments?: TagAssignmentUncheckedCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -77153,7 +76866,6 @@ export namespace Prisma {
     settings?: TenantSettingUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUpdateManyWithoutTenantNestedInput
     tags?: TagUpdateManyWithoutTenantNestedInput
-    tagAssignments?: TagAssignmentUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
   }
 
@@ -77194,7 +76906,6 @@ export namespace Prisma {
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
     tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
-    tagAssignments?: TagAssignmentUncheckedUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -77261,7 +76972,6 @@ export namespace Prisma {
     settings?: TenantSettingCreateNestedManyWithoutTenantInput
     expenses?: ExpenseCreateNestedManyWithoutTenantInput
     tags?: TagCreateNestedManyWithoutTenantInput
-    tagAssignments?: TagAssignmentCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
   }
 
@@ -77302,7 +77012,6 @@ export namespace Prisma {
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
     tags?: TagUncheckedCreateNestedManyWithoutTenantInput
-    tagAssignments?: TagAssignmentUncheckedCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -77381,7 +77090,6 @@ export namespace Prisma {
     settings?: TenantSettingUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUpdateManyWithoutTenantNestedInput
     tags?: TagUpdateManyWithoutTenantNestedInput
-    tagAssignments?: TagAssignmentUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
   }
 
@@ -77422,7 +77130,6 @@ export namespace Prisma {
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
     tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
-    tagAssignments?: TagAssignmentUncheckedUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -77603,7 +77310,6 @@ export namespace Prisma {
     settings?: TenantSettingCreateNestedManyWithoutTenantInput
     expenses?: ExpenseCreateNestedManyWithoutTenantInput
     tags?: TagCreateNestedManyWithoutTenantInput
-    tagAssignments?: TagAssignmentCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
   }
 
@@ -77644,7 +77350,6 @@ export namespace Prisma {
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
     tags?: TagUncheckedCreateNestedManyWithoutTenantInput
-    tagAssignments?: TagAssignmentUncheckedCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -77905,7 +77610,6 @@ export namespace Prisma {
     settings?: TenantSettingUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUpdateManyWithoutTenantNestedInput
     tags?: TagUpdateManyWithoutTenantNestedInput
-    tagAssignments?: TagAssignmentUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
   }
 
@@ -77946,7 +77650,6 @@ export namespace Prisma {
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
     tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
-    tagAssignments?: TagAssignmentUncheckedUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -78072,7 +77775,7 @@ export namespace Prisma {
     barcode?: string | null
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
-    itemType?: string
+    itemType?: $Enums.ItemType
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -78097,7 +77800,7 @@ export namespace Prisma {
     baseUnitId: string
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
-    itemType?: string
+    itemType?: $Enums.ItemType
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -78173,7 +77876,7 @@ export namespace Prisma {
     barcode?: NullableStringFieldUpdateOperationsInput | string | null
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    itemType?: StringFieldUpdateOperationsInput | string
+    itemType?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -78198,7 +77901,7 @@ export namespace Prisma {
     baseUnitId?: StringFieldUpdateOperationsInput | string
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    itemType?: StringFieldUpdateOperationsInput | string
+    itemType?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -78998,7 +78701,6 @@ export namespace Prisma {
     settings?: TenantSettingUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUpdateManyWithoutTenantNestedInput
     tags?: TagUpdateManyWithoutTenantNestedInput
-    tagAssignments?: TagAssignmentUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
   }
 
@@ -79039,7 +78741,6 @@ export namespace Prisma {
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
     tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
-    tagAssignments?: TagAssignmentUncheckedUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -79208,7 +78909,6 @@ export namespace Prisma {
     settings?: TenantSettingUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUpdateManyWithoutTenantNestedInput
     tags?: TagUpdateManyWithoutTenantNestedInput
-    tagAssignments?: TagAssignmentUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
   }
 
@@ -79249,7 +78949,6 @@ export namespace Prisma {
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
     tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
-    tagAssignments?: TagAssignmentUncheckedUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -79993,7 +79692,7 @@ export namespace Prisma {
     baseUnitId: string
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
-    itemType?: string
+    itemType?: $Enums.ItemType
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -80040,7 +79739,7 @@ export namespace Prisma {
     barcode?: NullableStringFieldUpdateOperationsInput | string | null
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    itemType?: StringFieldUpdateOperationsInput | string
+    itemType?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -80064,7 +79763,7 @@ export namespace Prisma {
     baseUnitId?: StringFieldUpdateOperationsInput | string
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    itemType?: StringFieldUpdateOperationsInput | string
+    itemType?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -80086,7 +79785,7 @@ export namespace Prisma {
     baseUnitId?: StringFieldUpdateOperationsInput | string
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    itemType?: StringFieldUpdateOperationsInput | string
+    itemType?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -80156,7 +79855,7 @@ export namespace Prisma {
     id?: string
     tenantId: string
     relatedItemId: string
-    relationType: string
+    relationType: $Enums.RelationType
     notes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -80166,7 +79865,7 @@ export namespace Prisma {
     id?: string
     tenantId: string
     itemId: string
-    relationType: string
+    relationType: $Enums.RelationType
     notes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -80354,7 +80053,7 @@ export namespace Prisma {
 
   export type ItemRelationUpdateWithoutItemInput = {
     id?: StringFieldUpdateOperationsInput | string
-    relationType?: StringFieldUpdateOperationsInput | string
+    relationType?: EnumRelationTypeFieldUpdateOperationsInput | $Enums.RelationType
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -80366,7 +80065,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     tenantId?: StringFieldUpdateOperationsInput | string
     relatedItemId?: StringFieldUpdateOperationsInput | string
-    relationType?: StringFieldUpdateOperationsInput | string
+    relationType?: EnumRelationTypeFieldUpdateOperationsInput | $Enums.RelationType
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -80376,7 +80075,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     tenantId?: StringFieldUpdateOperationsInput | string
     relatedItemId?: StringFieldUpdateOperationsInput | string
-    relationType?: StringFieldUpdateOperationsInput | string
+    relationType?: EnumRelationTypeFieldUpdateOperationsInput | $Enums.RelationType
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -80384,7 +80083,7 @@ export namespace Prisma {
 
   export type ItemRelationUpdateWithoutRelatedItemInput = {
     id?: StringFieldUpdateOperationsInput | string
-    relationType?: StringFieldUpdateOperationsInput | string
+    relationType?: EnumRelationTypeFieldUpdateOperationsInput | $Enums.RelationType
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -80396,7 +80095,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     tenantId?: StringFieldUpdateOperationsInput | string
     itemId?: StringFieldUpdateOperationsInput | string
-    relationType?: StringFieldUpdateOperationsInput | string
+    relationType?: EnumRelationTypeFieldUpdateOperationsInput | $Enums.RelationType
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -80406,7 +80105,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     tenantId?: StringFieldUpdateOperationsInput | string
     itemId?: StringFieldUpdateOperationsInput | string
-    relationType?: StringFieldUpdateOperationsInput | string
+    relationType?: EnumRelationTypeFieldUpdateOperationsInput | $Enums.RelationType
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -80660,10 +80359,10 @@ export namespace Prisma {
 
   export type TagAssignmentUpdateWithoutTagInput = {
     id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
     entityType?: StringFieldUpdateOperationsInput | string
     entityId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    tenant?: TenantUpdateOneRequiredWithoutTagAssignmentsNestedInput
   }
 
   export type TagAssignmentUncheckedUpdateWithoutTagInput = {
@@ -80762,7 +80461,7 @@ export namespace Prisma {
     baseUnitId: string
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
-    itemType?: string
+    itemType?: $Enums.ItemType
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -80962,19 +80661,11 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
-  export type TagAssignmentCreateManyTenantInput = {
-    id?: string
-    tagId: string
-    entityType: string
-    entityId: string
-    createdAt?: Date | string
-  }
-
   export type ItemRelationCreateManyTenantInput = {
     id?: string
     itemId: string
     relatedItemId: string
-    relationType: string
+    relationType: $Enums.RelationType
     notes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -81236,7 +80927,7 @@ export namespace Prisma {
     barcode?: NullableStringFieldUpdateOperationsInput | string | null
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    itemType?: StringFieldUpdateOperationsInput | string
+    itemType?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -81260,7 +80951,7 @@ export namespace Prisma {
     baseUnitId?: StringFieldUpdateOperationsInput | string
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    itemType?: StringFieldUpdateOperationsInput | string
+    itemType?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -81282,7 +80973,7 @@ export namespace Prisma {
     baseUnitId?: StringFieldUpdateOperationsInput | string
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    itemType?: StringFieldUpdateOperationsInput | string
+    itemType?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -81914,33 +81605,9 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type TagAssignmentUpdateWithoutTenantInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    entityType?: StringFieldUpdateOperationsInput | string
-    entityId?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    tag?: TagUpdateOneRequiredWithoutAssignmentsNestedInput
-  }
-
-  export type TagAssignmentUncheckedUpdateWithoutTenantInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    tagId?: StringFieldUpdateOperationsInput | string
-    entityType?: StringFieldUpdateOperationsInput | string
-    entityId?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type TagAssignmentUncheckedUpdateManyWithoutTenantInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    tagId?: StringFieldUpdateOperationsInput | string
-    entityType?: StringFieldUpdateOperationsInput | string
-    entityId?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
   export type ItemRelationUpdateWithoutTenantInput = {
     id?: StringFieldUpdateOperationsInput | string
-    relationType?: StringFieldUpdateOperationsInput | string
+    relationType?: EnumRelationTypeFieldUpdateOperationsInput | $Enums.RelationType
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -81952,7 +81619,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     itemId?: StringFieldUpdateOperationsInput | string
     relatedItemId?: StringFieldUpdateOperationsInput | string
-    relationType?: StringFieldUpdateOperationsInput | string
+    relationType?: EnumRelationTypeFieldUpdateOperationsInput | $Enums.RelationType
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -81962,7 +81629,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     itemId?: StringFieldUpdateOperationsInput | string
     relatedItemId?: StringFieldUpdateOperationsInput | string
-    relationType?: StringFieldUpdateOperationsInput | string
+    relationType?: EnumRelationTypeFieldUpdateOperationsInput | $Enums.RelationType
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -81977,7 +81644,7 @@ export namespace Prisma {
     categoryId: string
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
-    itemType?: string
+    itemType?: $Enums.ItemType
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -82006,7 +81673,7 @@ export namespace Prisma {
     barcode?: NullableStringFieldUpdateOperationsInput | string | null
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    itemType?: StringFieldUpdateOperationsInput | string
+    itemType?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -82030,7 +81697,7 @@ export namespace Prisma {
     categoryId?: StringFieldUpdateOperationsInput | string
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    itemType?: StringFieldUpdateOperationsInput | string
+    itemType?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -82052,7 +81719,7 @@ export namespace Prisma {
     categoryId?: StringFieldUpdateOperationsInput | string
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    itemType?: StringFieldUpdateOperationsInput | string
+    itemType?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string

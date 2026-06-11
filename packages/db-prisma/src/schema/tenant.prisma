@@ -42,7 +42,6 @@ model Tenant {
     settings             TenantSetting[]
     expenses             Expense[]
     tags                 Tag[]
-    tagAssignments       TagAssignment[]
     itemRelations        ItemRelation[]
 
     @@map("tenants")

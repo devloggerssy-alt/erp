@@ -530,26 +530,38 @@ model ItemCategory {
   @@map("item_categories")
 }
 
+enum RelationType {
+  compatible_with
+  replaces
+  requires
+}
+
 // ─── ItemRelation ─────────────────────────────────────────────────────────────
 model ItemRelation {
-  id            String   @id @default(uuid())
-  tenantId      String   @map("tenant_id")
-  itemId        String   @map("item_id")
-  relatedItemId String   @map("related_item_id")
-  relationType  String   @map("relation_type")
-  // "compatible_with" | "replaces" | "requires"
+  id            String       @id @default(uuid())
+  tenantId      String       @map("tenant_id")
+  itemId        String       @map("item_id")
+  relatedItemId String       @map("related_item_id")
+  relationType  RelationType @map("relation_type")
   notes         String?
-  createdAt     DateTime @default(now()) @map("created_at")
-  updatedAt     DateTime @updatedAt @map("updated_at")
+  createdAt     DateTime     @default(now()) @map("created_at")
+  updatedAt     DateTime     @updatedAt @map("updated_at")
 
   tenant      Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   item        Item   @relation("ItemRelations", fields: [itemId], references: [id], onDelete: Cascade)
   relatedItem Item   @relation("ItemRelatedTo", fields: [relatedItemId], references: [id], onDelete: Cascade)
 
   @@unique([tenantId, itemId, relatedItemId, relationType])
-  @@index([tenantId])
   @@index([tenantId, itemId])
+  @@index([tenantId, relatedItemId])
   @@map("item_relations")
+}
+
+enum ItemType {
+  product
+  service
+  vehicle
+  bundle
 }
 
 // ─── Item ─────────────────────────────────────────────────────────────────────
@@ -563,7 +575,7 @@ model Item {
   baseUnitId          String   @map("base_unit_id")
   defaultSellingPrice Decimal? @map("default_selling_price") @db.Decimal(18, 4)
   latestPurchasePrice Decimal? @map("latest_purchase_price") @db.Decimal(18, 4)
-  itemType            String   @default("product") @map("item_type")
+  itemType            ItemType @default(product) @map("item_type")
   isActive            Boolean  @default(true) @map("is_active")
   createdAt           DateTime @default(now()) @map("created_at")
   updatedAt           DateTime @updatedAt @map("updated_at")
@@ -742,8 +754,7 @@ model TagAssignment {
   entityId   String   @map("entity_id")
   createdAt  DateTime @default(now()) @map("created_at")
 
-  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-  tag    Tag    @relation(fields: [tagId], references: [id], onDelete: Cascade)
+  tag Tag @relation(fields: [tagId], references: [id], onDelete: Cascade)
 
   @@unique([tagId, entityType, entityId])
   @@index([tenantId, entityType, entityId])
@@ -829,7 +840,6 @@ model Tenant {
   settings             TenantSetting[]
   expenses             Expense[]
   tags                 Tag[]
-  tagAssignments       TagAssignment[]
   itemRelations        ItemRelation[]
 
   @@map("tenants")

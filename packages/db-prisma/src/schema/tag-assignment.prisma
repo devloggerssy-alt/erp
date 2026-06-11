@@ -7,7 +7,6 @@ model TagAssignment {
     entityId   String   @map("entity_id")
     createdAt  DateTime @default(now()) @map("created_at")
 
-    tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
     tag    Tag    @relation(fields: [tagId], references: [id], onDelete: Cascade)
 
     @@unique([tagId, entityType, entityId])

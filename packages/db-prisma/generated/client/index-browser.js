@@ -688,6 +688,19 @@ exports.InvoiceStatus = exports.$Enums.InvoiceStatus = {
   CANCELLED: 'CANCELLED'
 };
 
+exports.RelationType = exports.$Enums.RelationType = {
+  compatible_with: 'compatible_with',
+  replaces: 'replaces',
+  requires: 'requires'
+};
+
+exports.ItemType = exports.$Enums.ItemType = {
+  product: 'product',
+  service: 'service',
+  vehicle: 'vehicle',
+  bundle: 'bundle'
+};
+
 exports.PartyType = exports.$Enums.PartyType = {
   CUSTOMER: 'CUSTOMER',
   SUPPLIER: 'SUPPLIER',
