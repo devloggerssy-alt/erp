@@ -50,13 +50,9 @@ export class ItemRelationsService extends CrudService<
     tenantId: string,
     id: string,
     dto: UpdateItemRelationDto,
+    existing: ItemRelation,
   ): Promise<void> {
     if (dto.relationType) {
-      const existing = await this.itemRelationsRepository.findByIdOrFail(
-        tenantId,
-        id,
-        this.resourceName,
-      );
       const exists = await this.itemRelationsRepository.existsRelation(
         tenantId,
         existing.itemId,

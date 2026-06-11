@@ -1,4 +1,4 @@
-import { Injectable, ConflictException, NotFoundException } from '@nestjs/common';
+import { Injectable, BadRequestException, ConflictException, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '@devloggers/db-prisma/nest';
 
 @Injectable()
@@ -6,6 +6,9 @@ export class TagAssignmentsService {
   constructor(private readonly prisma: PrismaService) {}
 
   async list(tenantId: string, entityType: string, entityId: string) {
+    if (!entityType || !entityId) {
+      throw new BadRequestException('entityType and entityId are required');
+    }
     const assignments = await this.prisma.tagAssignment.findMany({
       where: { tenantId, entityType, entityId },
       include: { tag: { select: { id: true, name: true, color: true, module: true } } },
@@ -31,7 +34,7 @@ export class TagAssignmentsService {
 
     // Check for duplicate assignment
     const existing = await this.prisma.tagAssignment.findFirst({
-      where: { tagId: dto.tagId, entityType: dto.entityType, entityId: dto.entityId },
+      where: { tagId: dto.tagId, entityType: dto.entityType, entityId: dto.entityId, tenantId },
     });
     if (existing) throw new ConflictException('This tag is already assigned to this entity');
 

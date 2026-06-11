@@ -1,10 +1,10 @@
-import { IsString, IsNotEmpty, IsIn } from 'class-validator';
+import { IsString, IsNotEmpty, IsIn, IsUUID } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateTagAssignmentDto {
   @ApiProperty({ example: '018e1234-abcd-7000-a001-000000000001', description: 'Tag ID' })
   @IsString()
-  @IsNotEmpty()
+  @IsUUID()
   tagId: string = '';
 
   @ApiProperty({
@@ -18,7 +18,7 @@ export class CreateTagAssignmentDto {
 
   @ApiProperty({ example: '018e1234-abcd-7000-a002-000000000001', description: 'Entity ID' })
   @IsString()
-  @IsNotEmpty()
+  @IsUUID()
   entityId: string = '';
 }
 
