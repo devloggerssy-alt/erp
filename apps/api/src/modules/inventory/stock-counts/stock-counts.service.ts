@@ -87,7 +87,7 @@ export class StockCountsService {
         if (stockCount.status !== 'DRAFT') throw new BadRequestException('Only draft stock counts can be posted');
 
         const itemTypes = await this.prisma.item.findMany({
-            where: { id: { in: stockCount.lines.map(l => l.itemId) } },
+            where: { tenantId, id: { in: stockCount.lines.map(l => l.itemId) } },
             select: { id: true, itemType: true },
         });
         const itemTypeMap = new Map(itemTypes.map(i => [i.id, i.itemType]));

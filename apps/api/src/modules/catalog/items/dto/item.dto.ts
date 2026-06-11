@@ -1,6 +1,6 @@
 import { IsString, IsNotEmpty, IsOptional, IsBoolean, IsNumber, IsObject, IsIn } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import type { CustomFieldValuesMap } from '@devloggers/api-contracts';
+import type { CustomFieldValuesMap, ItemType } from '@devloggers/api-contracts';
 
 export class CreateItemDto {
     @ApiProperty({ example: 'ELEC-001', description: 'Unique item code' })
@@ -40,9 +40,8 @@ export class CreateItemDto {
 
     @ApiPropertyOptional({ example: 'product', description: 'Item type', enum: ['product', 'service', 'vehicle', 'bundle'] })
     @IsOptional()
-    @IsString()
     @IsIn(['product', 'service', 'vehicle', 'bundle'])
-    itemType?: string;
+    itemType?: ItemType;
 
     @ApiPropertyOptional({
         description: 'Custom field values keyed by field ID',
@@ -97,9 +96,8 @@ export class UpdateItemDto {
 
     @ApiPropertyOptional({ example: 'product', enum: ['product', 'service', 'vehicle', 'bundle'] })
     @IsOptional()
-    @IsString()
     @IsIn(['product', 'service', 'vehicle', 'bundle'])
-    itemType?: string;
+    itemType?: ItemType;
 
     @ApiPropertyOptional({
         description: 'Custom field values keyed by field ID',
@@ -140,7 +138,7 @@ export class ItemResponseDto {
     isActive: boolean = true;
 
     @ApiProperty({ example: 'product', enum: ['product', 'service', 'vehicle', 'bundle'] })
-    itemType: string = 'product';
+    itemType: ItemType = 'product';
 
     @ApiProperty({
         type: 'object',

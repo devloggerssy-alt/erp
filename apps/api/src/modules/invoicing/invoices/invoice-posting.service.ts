@@ -50,6 +50,8 @@ export class InvoicePostingService {
         if (invoice.invoiceType.affectsStock) {
             for (const line of invoice.lines) {
                 if (line.item.itemType !== 'service') {
+                    // 'vehicle' and 'bundle' items are tracked as physical SKUs; stock is posted normally.
+                    // Only 'service' items bypass stock logic entirely.
                     await this.inventoryService.postMovement({
                         tenantId,
                         warehouseId: invoice.warehouseId,
@@ -126,6 +128,8 @@ export class InvoicePostingService {
         if (invoice.invoiceType.affectsStock) {
             for (const line of invoice.lines) {
                 if (line.item.itemType !== 'service') {
+                    // 'vehicle' and 'bundle' items are tracked as physical SKUs; stock is posted normally.
+                    // Only 'service' items bypass stock logic entirely.
                     // Check stock availability
                     const balance = await this.prisma.stockBalance.findUnique({
                         where: {
@@ -207,6 +211,8 @@ export class InvoicePostingService {
         if (invoice.invoiceType.affectsStock && invoice.warehouseId) {
             for (const line of invoice.lines) {
                 if (line.item.itemType !== 'service') {
+                    // 'vehicle' and 'bundle' items are tracked as physical SKUs; stock is posted normally.
+                    // Only 'service' items bypass stock logic entirely.
                     const isPurchase = invoice.invoiceType.direction === 'PURCHASE';
                     // Reverse: purchase was +qty, so cancel is -qty. Sales was -qty, so cancel is +qty.
                     const reverseQty = isPurchase ? -Number(line.quantity) : Number(line.quantity);
