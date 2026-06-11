@@ -1919,6 +1919,11 @@ export interface components {
              */
             isActive: boolean;
             /**
+             * @default product
+             * @example product
+             */
+            itemType: "product" | "service" | "vehicle" | "bundle";
+            /**
              * @default {}
              * @example {}
              */
@@ -1976,6 +1981,11 @@ export interface components {
              * @example 600000
              */
             latestPurchasePrice?: number;
+            /**
+             * @description Item type
+             * @example product
+             */
+            itemType?: "product" | "service" | "vehicle" | "bundle";
             /** @description Custom field values keyed by field ID */
             customFields?: {
                 [key: string]: unknown;
@@ -1998,6 +2008,8 @@ export interface components {
             latestPurchasePrice?: number;
             /** @example true */
             isActive?: boolean;
+            /** @example product */
+            itemType?: "product" | "service" | "vehicle" | "bundle";
             /** @description Custom field values keyed by field ID */
             customFields?: {
                 [key: string]: unknown;

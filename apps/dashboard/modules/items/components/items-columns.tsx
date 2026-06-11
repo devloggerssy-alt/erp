@@ -33,6 +33,12 @@ export function createItemsColumns(
             header: ({ column }) => <ColumnHeader column={column} title={t("name")} />,
         },
         {
+            accessorKey: "itemType",
+            enableSorting: true,
+            header: ({ column }) => <ColumnHeader column={column} title={t("itemType")} />,
+            cell: ({ row }) => <span className="capitalize">{row.getValue("itemType") as string}</span>,
+        },
+        {
             accessorKey: "barcode",
             header: ({ column }) => <ColumnHeader column={column} title={t("barcode")} />,
         },

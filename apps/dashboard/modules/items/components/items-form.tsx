@@ -3,7 +3,7 @@
 import { useTranslations } from "next-intl"
 import { type ItemsClient } from "@devloggers/api-client"
 import { itemCategoryResource, unitResource } from "@devloggers/api-contracts"
-import { ResourceFormShell, RhfCheckboxField, RhfResourceSelect, RhfTextField } from "@/shared/components/form"
+import { ResourceFormShell, RhfCheckboxField, RhfResourceSelect, RhfSelectField, RhfTextField } from "@/shared/components/form"
 import type { ResourceFormProps } from "@/shared/data-view/resource"
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/components/ui/card"
 import { useResourceFormController } from "@/shared/hooks/use-resource-form-controller"
@@ -74,6 +74,20 @@ export function ItemsForm({
                         <CardTitle>{t("sectionClassification")}</CardTitle>
                     </CardHeader>
                     <CardContent className="grid gap-4 md:grid-cols-2">
+                        <div className="md:col-span-2">
+                            <RhfSelectField
+                                name="itemType"
+                                label={t("itemType")}
+                                placeholder={t("itemTypePlaceholder")}
+                                options={[
+                                    { label: t("itemTypes.product"), value: "product" },
+                                    { label: t("itemTypes.service"), value: "service" },
+                                    { label: t("itemTypes.vehicle"), value: "vehicle" },
+                                    { label: t("itemTypes.bundle"), value: "bundle" },
+                                ]}
+                                disabled={ctrl.isBusy}
+                            />
+                        </div>
                         <RhfResourceSelect
                             name="categoryId"
                             label={t("category")}

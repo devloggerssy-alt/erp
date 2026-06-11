@@ -1,5 +1,5 @@
 import { z } from "zod"
-import type { CreateItemDto, UpdateItemDto, CustomFieldValuesMap } from "@devloggers/api-contracts"
+import type { CreateItemDto, UpdateItemDto, CustomFieldValuesMap, ItemType } from "@devloggers/api-contracts"
 import type { ResourceFormConfig } from "@/shared/hooks/use-resource-form-controller"
 import { unwrapApiData } from "@/shared/hooks/unwrap-api-data"
 
@@ -12,6 +12,7 @@ export const itemFormSchema = z.object({
     code: z.string().trim().min(1, "Code is required"),
     name: z.string().trim().min(1, "Name is required"),
     barcode: z.string().optional(),
+    itemType: z.enum(['product', 'service', 'vehicle', 'bundle']).default('product'),
     categoryId: z.string().min(1, "Category is required"),
     baseUnitId: z.string().min(1, "Base unit is required"),
     defaultSellingPrice: optionalPrice,
@@ -26,6 +27,7 @@ export const DEFAULT_ITEM_FORM_VALUES: ItemFormValues = {
     code: "",
     name: "",
     barcode: "",
+    itemType: "product" as ItemType,
     categoryId: "",
     baseUnitId: "",
     defaultSellingPrice: undefined,
@@ -40,6 +42,7 @@ export function mapItemToFormValues(data: unknown): ItemFormValues {
         code: resolved.code ?? "",
         name: resolved.name ?? "",
         barcode: resolved.barcode ?? "",
+        itemType: resolved.itemType ?? "product",
         categoryId: resolved.categoryId ?? "",
         baseUnitId: resolved.baseUnitId ?? "",
         defaultSellingPrice: resolved.defaultSellingPrice ?? undefined,
@@ -57,6 +60,7 @@ export const itemsFormConfig: ResourceFormConfig<ItemFormValues, CreateItemDto, 
         code: values.code.trim(),
         name: values.name.trim(),
         barcode: values.barcode?.trim() || undefined,
+        itemType: values.itemType,
         categoryId: values.categoryId,
         baseUnitId: values.baseUnitId,
         defaultSellingPrice: values.defaultSellingPrice,
@@ -67,6 +71,7 @@ export const itemsFormConfig: ResourceFormConfig<ItemFormValues, CreateItemDto, 
         code: values.code.trim(),
         name: values.name.trim(),
         barcode: values.barcode?.trim() || undefined,
+        itemType: values.itemType,
         categoryId: values.categoryId,
         baseUnitId: values.baseUnitId,
         defaultSellingPrice: values.defaultSellingPrice,

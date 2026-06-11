@@ -188,6 +188,14 @@
       "defaultSellingPricePlaceholder": "örn. 750000",
       "latestPurchasePrice": "Alış Fiyatı",
       "latestPurchasePricePlaceholder": "örn. 600000",
+      "itemType": "Ürün Türü",
+      "itemTypePlaceholder": "Ürün türü seçin...",
+      "itemTypes": {
+        "product": "Ürün",
+        "service": "Hizmet",
+        "vehicle": "Araç",
+        "bundle": "Paket"
+      },
       "active": "Aktif"
     },
     "warehouses": {

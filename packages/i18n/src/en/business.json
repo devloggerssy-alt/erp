@@ -188,6 +188,14 @@
       "defaultSellingPricePlaceholder": "e.g. 750000",
       "latestPurchasePrice": "Purchase Price",
       "latestPurchasePricePlaceholder": "e.g. 600000",
+      "itemType": "Item Type",
+      "itemTypePlaceholder": "Select item type...",
+      "itemTypes": {
+        "product": "Product",
+        "service": "Service",
+        "vehicle": "Vehicle",
+        "bundle": "Bundle"
+      },
       "active": "Active"
     },
     "warehouses": {

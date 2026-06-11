@@ -188,6 +188,14 @@
       "defaultSellingPricePlaceholder": "مثال: 750000",
       "latestPurchasePrice": "سعر الشراء",
       "latestPurchasePricePlaceholder": "مثال: 600000",
+      "itemType": "نوع الصنف",
+      "itemTypePlaceholder": "اختر نوع الصنف...",
+      "itemTypes": {
+        "product": "منتج",
+        "service": "خدمة",
+        "vehicle": "مركبة",
+        "bundle": "حزمة"
+      },
       "active": "نشط"
     },
     "warehouses": {
