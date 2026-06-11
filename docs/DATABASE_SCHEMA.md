@@ -19,11 +19,15 @@ This is a comprehensive Enterprise Resource Planning (ERP) system database desig
 - **Inventory Management**: Warehouses, stock tracking, and stock counts
 - **Sales & Purchases**: Invoices, parties (customers/suppliers), and payments
 - **Financial Operations**: Multiple currencies, cashboxes, and payment allocations
+- **Expense Management**: Itemized expense documents with double-entry journal posting
+- **Tenant Configuration**: Per-tenant settings (localization, financial, documents)
 - **Audit Trail**: Complete audit logging for compliance
 - **AI Integration**: Chat sessions for intelligent assistance
 
 **Database**: PostgreSQL
 **ORM**: Prisma Client
+
+> **Localized strings**: Several fields (Role.name, Currency.name, Cashbox.name, InvoiceType.name, ChartOfAccount.name, etc.) are stored as JSONB with shape `{ ar: string; en?: string }` to support multilingual display without a separate translations table.
 
 ---
 
@@ -35,6 +39,7 @@ This is a comprehensive Enterprise Resource Planning (ERP) system database desig
 Tenant (root organization)
 ├── AppUser (employees)
 │   └── Role (permissions)
+├── TenantSetting (per-tenant configuration)
 ├── Party (customers/suppliers)
 ├── Warehouse (inventory locations)
 ├── Item (products/services)
@@ -42,6 +47,7 @@ Tenant (root organization)
 ├── Cashbox (cash accounts)
 ├── FiscalPeriod (accounting periods)
 ├── Invoice & Payment (transactions)
+├── Expense (itemized expense documents)
 ├── ChartOfAccount (accounting structure)
 └── AuditLog (compliance tracking)
 ```
@@ -58,10 +64,15 @@ Tenant (root organization)
 | id | UUID | PK | Unique tenant identifier |
 | name | String | - | Organization name |
 | slug | String | UNIQUE | URL-friendly identifier |
-| address | String | - | Organization address |
-| phone | String | - | Contact phone number |
-| email | String | - | Contact email |
-| logo | String | - | Logo image URL/path |
+| address | String? | - | Organization address |
+| phone | String? | - | Contact phone number |
+| email | String? | - | Contact email |
+| logo | String? | - | Logo image URL/path |
+| legal_name | String? | - | Legal registered name |
+| tax_number | String? | - | Tax/VAT registration number |
+| website | String? | - | Website URL |
+| base_currency_id | UUID? | FK | Default reporting currency |
+| default_sales_sequence_id | UUID? | FK | Default document sequence for sales |
 | is_active | Boolean | - | Soft delete flag (default: true) |
 | created_at | DateTime | - | Creation timestamp |
 | updated_at | DateTime | - | Last modification timestamp |
@@ -80,9 +91,9 @@ Tenant (root organization)
 | email | String | - | User email (unique per tenant) |
 | password_hash | String | - | Bcrypt hashed password |
 | full_name | String | - | User's full name |
-| phone | String | - | Contact phone |
+| phone | String? | - | Contact phone |
 | is_active | Boolean | - | Account status (default: true) |
-| last_login_at | DateTime | - | Last successful login timestamp |
+| last_login_at | DateTime? | - | Last successful login timestamp |
 | created_at | DateTime | - | Account creation timestamp |
 | updated_at | DateTime | - | Last profile update |
 
@@ -98,14 +109,14 @@ Tenant (root organization)
 |--------|------|-----|-------------|
 | id | UUID | PK | Role identifier |
 | tenant_id | UUID | FK | Owner tenant |
-| name | String | - | Role name (e.g., "Manager", "Cashier") |
-| description | String | - | Role description |
-| is_system | Boolean | - | System role flag (cannot modify) |
+| name | JSONB | - | Role name as LocalizedString `{ ar, en? }` |
+| description | JSONB? | - | Role description as LocalizedString |
+| is_system | Boolean | - | System role flag (cannot modify, default: false) |
 | created_at | DateTime | - | Creation timestamp |
 | updated_at | DateTime | - | Last update timestamp |
 
-**Unique Constraint**: (tenant_id, name)
 **Indexes**: tenant_id
+**Note**: Uniqueness on `name->>'ar'` per tenant is enforced via an expression index in migration SQL, not a Prisma-level unique constraint.
 
 ---
 
@@ -124,30 +135,48 @@ Tenant (root organization)
 
 ---
 
-### 5. PARTIES
+### 5. TENANT_SETTINGS
+**Purpose**: Per-tenant configuration values (localization, financial, documents)
+
+| Column | Type | Key | Description |
+|--------|------|-----|-------------|
+| id | UUID | PK | Setting record ID |
+| tenant_id | UUID | FK | Owner tenant |
+| category | String | - | Setting category: `localization`, `financial`, `documents` |
+| key | String | - | Registry key, e.g. `timezone` |
+| value | JSONB | - | Setting value (type depends on key) |
+| created_at | DateTime | - | Creation timestamp |
+| updated_at | DateTime | - | Last update timestamp |
+
+**Unique Constraint**: (tenant_id, key)
+**Indexes**: (tenant_id, category)
+
+---
+
+### 6. PARTIES
 **Purpose**: Customer and supplier management
 
 | Column | Type | Key | Description |
 |--------|------|-----|-------------|
 | id | UUID | PK | Party identifier |
 | tenant_id | UUID | FK | Owner tenant |
-| code | String | - | Unique party code (e.g., "CUST-001") |
+| code | String? | - | Unique party code (e.g., "CUST-001"), optional |
 | name | String | - | Party name |
 | type | PartyType | - | CUSTOMER, SUPPLIER, or CUSTOMER_SUPPLIER |
-| phone | String | - | Contact phone |
-| email | String | - | Contact email |
-| address | String | - | Physical address |
-| opening_balance | Decimal(18,4) | - | Starting balance for reconciliation |
+| phone | String? | - | Contact phone |
+| email | String? | - | Contact email |
+| address | String? | - | Physical address |
+| opening_balance | Decimal(18,4) | - | Starting balance for reconciliation (default: 0) |
 | is_active | Boolean | - | Status flag (default: true) |
 | created_at | DateTime | - | Creation timestamp |
 | updated_at | DateTime | - | Last update timestamp |
 
-**Unique Constraint**: (tenant_id, code)
+**Unique Constraint**: (tenant_id, code) — applies only when code is non-null
 **Indexes**: tenant_id, (tenant_id, type)
 
 ---
 
-### 6. ITEMS
+### 7. ITEMS
 **Purpose**: Product and service catalog
 
 | Column | Type | Key | Description |
@@ -156,11 +185,11 @@ Tenant (root organization)
 | tenant_id | UUID | FK | Owner tenant |
 | code | String | - | Item SKU/code |
 | name | String | - | Item name |
-| barcode | String | - | Barcode/EAN identifier |
+| barcode | String? | - | Barcode/EAN identifier |
 | category_id | UUID | FK | Item category |
 | base_unit_id | UUID | FK | Default unit of measure |
-| default_selling_price | Decimal(18,4) | - | Standard selling price |
-| latest_purchase_price | Decimal(18,4) | - | Most recent purchase price |
+| default_selling_price | Decimal(18,4)? | - | Standard selling price (optional) |
+| latest_purchase_price | Decimal(18,4)? | - | Most recent purchase price (optional) |
 | is_active | Boolean | - | Status flag (default: true) |
 | created_at | DateTime | - | Creation timestamp |
 | updated_at | DateTime | - | Last update timestamp |
@@ -170,7 +199,7 @@ Tenant (root organization)
 
 ---
 
-### 7. ITEM_CATEGORIES
+### 8. ITEM_CATEGORIES
 **Purpose**: Hierarchical item classification
 
 | Column | Type | Key | Description |
@@ -178,8 +207,8 @@ Tenant (root organization)
 | id | UUID | PK | Category identifier |
 | tenant_id | UUID | FK | Owner tenant |
 | name | String | - | Category name |
-| description | String | - | Category description |
-| parent_id | UUID | FK | Parent category for nesting |
+| description | String? | - | Category description |
+| parent_id | UUID? | FK | Parent category for nesting |
 | is_active | Boolean | - | Status flag (default: true) |
 | created_at | DateTime | - | Creation timestamp |
 | updated_at | DateTime | - | Last update timestamp |
@@ -190,7 +219,7 @@ Tenant (root organization)
 
 ---
 
-### 8. UNITS
+### 9. UNITS
 **Purpose**: Units of measurement for items
 
 | Column | Type | Key | Description |
@@ -208,7 +237,7 @@ Tenant (root organization)
 
 ---
 
-### 9. WAREHOUSES
+### 10. WAREHOUSES
 **Purpose**: Inventory storage locations
 
 | Column | Type | Key | Description |
@@ -217,7 +246,7 @@ Tenant (root organization)
 | tenant_id | UUID | FK | Owner tenant |
 | code | String | - | Warehouse code (e.g., "WH-001") |
 | name | String | - | Warehouse name/location |
-| address | String | - | Physical address |
+| address | String? | - | Physical address |
 | is_active | Boolean | - | Status flag (default: true) |
 | created_at | DateTime | - | Creation timestamp |
 | updated_at | DateTime | - | Last update timestamp |
@@ -227,7 +256,7 @@ Tenant (root organization)
 
 ---
 
-### 10. WAREHOUSE_ITEMS
+### 11. WAREHOUSE_ITEMS
 **Purpose**: Item-warehouse assignments with stock parameters
 
 | Column | Type | Key | Description |
@@ -236,8 +265,8 @@ Tenant (root organization)
 | tenant_id | UUID | FK | Owner tenant |
 | warehouse_id | UUID | FK | Warehouse reference |
 | item_id | UUID | FK | Item reference |
-| min_quantity | Decimal(18,4) | - | Minimum stock level for alerts |
-| max_quantity | Decimal(18,4) | - | Maximum stock capacity |
+| min_quantity | Decimal(18,4)? | - | Minimum stock level for alerts |
+| max_quantity | Decimal(18,4)? | - | Maximum stock capacity |
 | created_at | DateTime | - | Creation timestamp |
 | updated_at | DateTime | - | Last update timestamp |
 
@@ -246,7 +275,7 @@ Tenant (root organization)
 
 ---
 
-### 11. STOCK_BALANCES
+### 12. STOCK_BALANCES
 **Purpose**: Real-time inventory position (projection table)
 
 | Column | Type | Key | Description |
@@ -255,8 +284,8 @@ Tenant (root organization)
 | tenant_id | UUID | FK | Owner tenant |
 | warehouse_id | UUID | FK | Warehouse reference |
 | item_id | UUID | FK | Item reference |
-| quantity | Decimal(18,4) | - | Current stock quantity |
-| average_cost | Decimal(18,4) | - | Weighted average cost per unit |
+| quantity | Decimal(18,4) | - | Current stock quantity (default: 0) |
+| average_cost | Decimal(18,4) | - | Weighted average cost per unit (default: 0) |
 | updated_at | DateTime | - | Last balance update |
 
 **Unique Constraint**: (tenant_id, warehouse_id, item_id)
@@ -265,7 +294,7 @@ Tenant (root organization)
 
 ---
 
-### 12. STOCK_MOVEMENTS
+### 13. STOCK_MOVEMENTS
 **Purpose**: Immutable inventory ledger (source of truth)
 
 | Column | Type | Key | Description |
@@ -277,10 +306,10 @@ Tenant (root organization)
 | fiscal_period_id | UUID | FK | Accounting period for closing |
 | movement_type | StockMovementType | - | Type of movement (see enums) |
 | quantity | Decimal(18,4) | - | Signed quantity (positive/negative) |
-| unit_cost | Decimal(18,4) | - | Cost per unit at time of movement |
-| reference_type | String | - | Source document type (e.g., "invoice") |
-| reference_id | UUID | - | Source document ID |
-| notes | String | - | Movement notes |
+| unit_cost | Decimal(18,4) | - | Cost per unit at time of movement (default: 0) |
+| reference_type | String? | - | Source document type (e.g., "invoice", "stock_count") |
+| reference_id | UUID? | - | Source document ID |
+| notes | String? | - | Movement notes |
 | created_at | DateTime | - | Transaction timestamp |
 | created_by | UUID | - | User who initiated movement |
 
@@ -288,7 +317,7 @@ Tenant (root organization)
 
 ---
 
-### 13. STOCK_COUNTS
+### 14. STOCK_COUNTS
 **Purpose**: Physical inventory reconciliation
 
 | Column | Type | Key | Description |
@@ -300,9 +329,9 @@ Tenant (root organization)
 | warehouse_id | UUID | FK | Warehouse counted |
 | fiscal_period_id | UUID | FK | Accounting period |
 | status | StockCountStatus | - | DRAFT, POSTED, or CANCELLED |
-| notes | String | - | Count notes |
-| posted_at | DateTime | - | Post timestamp |
-| posted_by | UUID | - | User who posted |
+| notes | String? | - | Count notes |
+| posted_at | DateTime? | - | Post timestamp |
+| posted_by | UUID? | - | User who posted |
 | created_by | UUID | - | User who created |
 | created_at | DateTime | - | Creation timestamp |
 | updated_at | DateTime | - | Last update timestamp |
@@ -312,25 +341,25 @@ Tenant (root organization)
 
 ---
 
-### 14. STOCK_COUNT_LINES
+### 15. STOCK_COUNT_LINES
 **Purpose**: Line items for physical stock count
 
 | Column | Type | Key | Description |
 |--------|------|-----|-------------|
 | id | UUID | PK | Count line ID |
 | tenant_id | UUID | FK | Owner tenant |
-| stock_count_id | UUID | FK | Parent stock count |
+| stock_count_id | UUID | FK | Parent stock count (cascade delete) |
 | item_id | UUID | FK | Item counted |
 | system_quantity | Decimal(18,4) | - | System balance before count |
 | counted_quantity | Decimal(18,4) | - | Physically counted quantity |
 | difference | Decimal(18,4) | - | Variance (counted - system) |
-| notes | String | - | Line notes |
+| notes | String? | - | Line notes |
 
 **Indexes**: tenant_id, stock_count_id
 
 ---
 
-### 15. CURRENCIES
+### 16. CURRENCIES
 **Purpose**: Multi-currency management
 
 | Column | Type | Key | Description |
@@ -338,9 +367,9 @@ Tenant (root organization)
 | id | UUID | PK | Currency identifier |
 | tenant_id | UUID | FK | Owner tenant |
 | code | String | - | ISO code (e.g., "USD", "SYP") |
-| name | String | - | Full name (e.g., "US Dollar") |
-| symbol | String | - | Symbol (e.g., "$", "£") |
-| is_base | Boolean | - | Base currency for reporting |
+| name | JSONB | - | Full name as LocalizedString `{ ar, en? }` |
+| symbol | JSONB? | - | Symbol as LocalizedString `{ ar, en? }` |
+| is_base | Boolean | - | Base currency for reporting (default: false) |
 | is_active | Boolean | - | Status flag (default: true) |
 | created_at | DateTime | - | Creation timestamp |
 | updated_at | DateTime | - | Last update timestamp |
@@ -350,7 +379,7 @@ Tenant (root organization)
 
 ---
 
-### 16. CASHBOXES
+### 17. CASHBOXES
 **Purpose**: Cash and bank accounts
 
 | Column | Type | Key | Description |
@@ -358,9 +387,10 @@ Tenant (root organization)
 | id | UUID | PK | Cashbox identifier |
 | tenant_id | UUID | FK | Owner tenant |
 | code | String | - | Account code (e.g., "CASH-001") |
-| name | String | - | Account name (e.g., "Main Cash Register") |
+| name | JSONB | - | Account name as LocalizedString `{ ar, en? }` |
 | currency_id | UUID | FK | Account currency |
-| balance | Decimal(18,4) | - | Current balance |
+| balance | Decimal(18,4) | - | Current balance (default: 0) |
+| linked_account_id | UUID? | FK | ChartOfAccount (ASSET type) used as credit side when posting expenses |
 | is_active | Boolean | - | Status flag (default: true) |
 | created_at | DateTime | - | Creation timestamp |
 | updated_at | DateTime | - | Last update timestamp |
@@ -370,7 +400,7 @@ Tenant (root organization)
 
 ---
 
-### 17. INVOICES
+### 18. INVOICES
 **Purpose**: Sales and purchase transactions
 
 | Column | Type | Key | Description |
@@ -380,21 +410,21 @@ Tenant (root organization)
 | invoice_type_id | UUID | FK | Invoice type configuration |
 | number | String | - | Invoice number (e.g., "INV-2026-001") |
 | date | DateTime | - | Invoice date |
-| due_date | DateTime | - | Payment due date |
+| due_date | DateTime? | - | Payment due date |
 | party_id | UUID | FK | Customer/supplier |
-| warehouse_id | UUID | FK | Source/destination warehouse |
+| warehouse_id | UUID? | FK | Source/destination warehouse (optional) |
 | fiscal_period_id | UUID | FK | Accounting period |
 | currency_id | UUID | FK | Transaction currency |
 | status | InvoiceStatus | - | DRAFT, POSTED, or CANCELLED |
-| subtotal | Decimal(18,4) | - | Pre-tax total |
-| discount_amount | Decimal(18,4) | - | Total discount applied |
-| tax_amount | Decimal(18,4) | - | Total tax amount |
-| total | Decimal(18,4) | - | Grand total (subtotal - discount + tax) |
-| notes | String | - | Invoice notes |
-| posted_at | DateTime | - | Post timestamp |
-| posted_by | UUID | - | User who posted |
-| cancelled_at | DateTime | - | Cancellation timestamp |
-| cancelled_by | UUID | - | User who cancelled |
+| subtotal | Decimal(18,4) | - | Pre-tax total (default: 0) |
+| discount_amount | Decimal(18,4) | - | Total discount applied (default: 0) |
+| tax_amount | Decimal(18,4) | - | Total tax amount (default: 0) |
+| total | Decimal(18,4) | - | Grand total (subtotal - discount + tax) (default: 0) |
+| notes | String? | - | Invoice notes |
+| posted_at | DateTime? | - | Post timestamp |
+| posted_by | UUID? | - | User who posted |
+| cancelled_at | DateTime? | - | Cancellation timestamp |
+| cancelled_by | UUID? | - | User who cancelled |
 | created_by | UUID | - | Creator user |
 | created_at | DateTime | - | Creation timestamp |
 | updated_at | DateTime | - | Last update timestamp |
@@ -404,7 +434,7 @@ Tenant (root organization)
 
 ---
 
-### 18. INVOICE_TYPES
+### 19. INVOICE_TYPES
 **Purpose**: Invoice type configuration
 
 | Column | Type | Key | Description |
@@ -412,7 +442,7 @@ Tenant (root organization)
 | id | UUID | PK | Invoice type ID |
 | tenant_id | UUID | FK | Owner tenant |
 | code | String | - | Type code (e.g., "SALES", "PURCHASE") |
-| name | String | - | Type name |
+| name | JSONB | - | Type name as LocalizedString `{ ar, en? }` |
 | direction | InvoiceDirection | - | PURCHASE or SALE |
 | affects_stock | Boolean | - | Stock impact flag (default: true) |
 | is_active | Boolean | - | Status flag (default: true) |
@@ -424,31 +454,31 @@ Tenant (root organization)
 
 ---
 
-### 19. INVOICE_LINES
+### 20. INVOICE_LINES
 **Purpose**: Individual line items in invoices
 
 | Column | Type | Key | Description |
 |--------|------|-----|-------------|
 | id | UUID | PK | Line item ID |
 | tenant_id | UUID | FK | Owner tenant |
-| invoice_id | UUID | FK | Parent invoice |
+| invoice_id | UUID | FK | Parent invoice (cascade delete) |
 | item_id | UUID | FK | Item sold/purchased |
 | unit_id | UUID | FK | Unit of measure for this line |
 | quantity | Decimal(18,4) | - | Line quantity |
 | unit_price | Decimal(18,4) | - | Price per unit |
-| discount_percent | Decimal(5,2) | - | Line discount percentage |
-| discount_amount | Decimal(18,4) | - | Calculated discount amount |
-| tax_percent | Decimal(5,2) | - | Line tax percentage |
-| tax_amount | Decimal(18,4) | - | Calculated tax amount |
+| discount_percent | Decimal(5,2) | - | Line discount percentage (default: 0) |
+| discount_amount | Decimal(18,4) | - | Calculated discount amount (default: 0) |
+| tax_percent | Decimal(5,2) | - | Line tax percentage (default: 0) |
+| tax_amount | Decimal(18,4) | - | Calculated tax amount (default: 0) |
 | total | Decimal(18,4) | - | Line total (quantity × unit_price - discount + tax) |
-| notes | String | - | Line notes |
-| sort_order | Int | - | Display order in invoice |
+| notes | String? | - | Line notes |
+| sort_order | Int | - | Display order in invoice (default: 0) |
 
 **Indexes**: tenant_id, invoice_id
 
 ---
 
-### 20. PAYMENTS
+### 21. PAYMENTS
 **Purpose**: Cash and payment transaction management
 
 | Column | Type | Key | Description |
@@ -456,38 +486,39 @@ Tenant (root organization)
 | id | UUID | PK | Payment identifier |
 | tenant_id | UUID | FK | Owner tenant |
 | number | String | - | Payment number (e.g., "PAY-2026-001") |
-| type | PaymentType | - | RECEIPT, PAYMENT, EXPENSE, ADJUSTMENT |
+| type | PaymentType | - | RECEIPT, PAYMENT, or ADJUSTMENT |
 | date | DateTime | - | Payment date |
 | cashbox_id | UUID | FK | Source/destination cashbox |
-| party_id | UUID | FK | Related party (optional) |
+| party_id | UUID? | FK | Related party (optional) |
 | currency_id | UUID | FK | Payment currency |
 | fiscal_period_id | UUID | FK | Accounting period |
 | amount | Decimal(18,4) | - | Total payment amount |
-| allocated_amount | Decimal(18,4) | - | Amount allocated to invoices |
-| unallocated_amount | Decimal(18,4) | - | Remaining unallocated balance |
+| allocated_amount | Decimal(18,4) | - | Amount allocated to invoices (default: 0) |
+| unallocated_amount | Decimal(18,4) | - | Remaining unallocated balance (default: 0) |
 | status | PaymentStatus | - | DRAFT, POSTED, or CANCELLED |
-| notes | String | - | Payment notes |
-| posted_at | DateTime | - | Post timestamp |
-| posted_by | UUID | - | User who posted |
-| cancelled_at | DateTime | - | Cancellation timestamp |
-| cancelled_by | UUID | - | User who cancelled |
+| notes | String? | - | Payment notes |
+| posted_at | DateTime? | - | Post timestamp |
+| posted_by | UUID? | - | User who posted |
+| cancelled_at | DateTime? | - | Cancellation timestamp |
+| cancelled_by | UUID? | - | User who cancelled |
 | created_by | UUID | - | Creator user |
 | created_at | DateTime | - | Creation timestamp |
 | updated_at | DateTime | - | Last update timestamp |
 
 **Unique Constraint**: (tenant_id, number)
 **Indexes**: tenant_id, (tenant_id, status)
+**Note**: `EXPENSE` was removed from `PaymentType`. Expense transactions are now handled by the dedicated `Expense` entity.
 
 ---
 
-### 21. PAYMENT_ALLOCATIONS
+### 22. PAYMENT_ALLOCATIONS
 **Purpose**: Mapping payments to invoices
 
 | Column | Type | Key | Description |
 |--------|------|-----|-------------|
 | id | UUID | PK | Allocation record ID |
 | tenant_id | UUID | FK | Owner tenant |
-| payment_id | UUID | FK | Payment reference |
+| payment_id | UUID | FK | Payment reference (cascade delete) |
 | invoice_id | UUID | FK | Invoice reference |
 | amount | Decimal(18,4) | - | Amount allocated to this invoice |
 | created_at | DateTime | - | Allocation timestamp |
@@ -496,7 +527,55 @@ Tenant (root organization)
 
 ---
 
-### 22. FISCAL_PERIODS
+### 23. EXPENSES
+**Purpose**: Itemized expense documents paid from a cashbox, with double-entry journal posting
+
+| Column | Type | Key | Description |
+|--------|------|-----|-------------|
+| id | UUID | PK | Expense identifier |
+| tenant_id | UUID | FK | Owner tenant |
+| number | String | - | Expense number (auto-generated) |
+| date | DateTime | - | Expense date |
+| cashbox_id | UUID | FK | Cashbox that funds the expense (credit side on post) |
+| currency_id | UUID | FK | Expense currency |
+| fiscal_period_id | UUID | FK | Accounting period |
+| total_amount | Decimal(18,4) | - | Sum of all expense item amounts (default: 0) |
+| status | ExpenseStatus | - | DRAFT, POSTED, or CANCELLED |
+| notes | String? | - | Expense-level notes |
+| journal_entry_id | UUID? | - | Linked JournalEntry (set on post) |
+| posted_at | DateTime? | - | Post timestamp |
+| posted_by | UUID? | - | User who posted |
+| cancelled_at | DateTime? | - | Cancellation timestamp |
+| cancelled_by | UUID? | - | User who cancelled |
+| created_by | UUID | - | Creator user |
+| created_at | DateTime | - | Creation timestamp |
+| updated_at | DateTime | - | Last update timestamp |
+
+**Unique Constraint**: (tenant_id, number)
+**Indexes**: tenant_id, (tenant_id, status)
+**Journal posting**: On POST, one balanced JournalEntry is created — one DEBIT line per ExpenseItem to its ChartOfAccount, plus one CREDIT line to the cashbox's `linked_account_id`. On CANCEL, a reversing entry is posted and cashbox balance is restored.
+
+---
+
+### 24. EXPENSE_ITEMS
+**Purpose**: Individual line items within an expense document
+
+| Column | Type | Key | Description |
+|--------|------|-----|-------------|
+| id | UUID | PK | Expense item identifier |
+| tenant_id | UUID | FK | Owner tenant |
+| expense_id | UUID | FK | Parent expense (cascade delete) |
+| account_id | UUID | FK | ChartOfAccount (EXPENSE type) to debit |
+| description | String | - | Line description |
+| amount | Decimal(18,4) | - | Line amount |
+| notes | String? | - | Optional per-item notes |
+| sort_order | Int | - | Display order (default: 0) |
+
+**Indexes**: tenant_id, expense_id
+
+---
+
+### 25. FISCAL_PERIODS
 **Purpose**: Accounting period management
 
 | Column | Type | Key | Description |
@@ -514,14 +593,14 @@ Tenant (root organization)
 
 ---
 
-### 23. DOCUMENT_SEQUENCES
+### 26. DOCUMENT_SEQUENCES
 **Purpose**: Auto-increment configuration for document numbers
 
 | Column | Type | Key | Description |
 |--------|------|-----|-------------|
 | id | UUID | PK | Sequence ID |
 | tenant_id | UUID | FK | Owner tenant |
-| document_type | String | - | Document type (e.g., "SALES_INVOICE") |
+| document_type | String | - | Document type (e.g., "SALES_INVOICE", "EXPENSE", "JOURNAL_ENTRY") |
 | prefix | String | - | Sequence prefix (e.g., "SAL") |
 | next_number | Int | - | Next number to assign (default: 1) |
 | padding | Int | - | Zero-pad length (default: 5, produces "00001") |
@@ -534,7 +613,7 @@ Tenant (root organization)
 
 ---
 
-### 24. CHART_OF_ACCOUNTS
+### 27. CHART_OF_ACCOUNTS
 **Purpose**: General ledger account structure
 
 | Column | Type | Key | Description |
@@ -542,9 +621,9 @@ Tenant (root organization)
 | id | UUID | PK | Account identifier |
 | tenant_id | UUID | FK | Owner tenant |
 | code | String | - | Account code (e.g., "1000") |
-| name | String | - | Account name (e.g., "Cash") |
+| name | JSONB | - | Account name as LocalizedString `{ ar, en? }` |
 | type | AccountType | - | ASSET, LIABILITY, EQUITY, REVENUE, EXPENSE |
-| parent_id | UUID | FK | Parent account for hierarchy |
+| parent_id | UUID? | FK | Parent account for hierarchy |
 | is_active | Boolean | - | Status flag (default: true) |
 | created_at | DateTime | - | Creation timestamp |
 | updated_at | DateTime | - | Last update timestamp |
@@ -555,7 +634,7 @@ Tenant (root organization)
 
 ---
 
-### 25. JOURNAL_ENTRIES
+### 28. JOURNAL_ENTRIES
 **Purpose**: Double-entry accounting transactions
 
 | Column | Type | Key | Description |
@@ -565,11 +644,11 @@ Tenant (root organization)
 | number | String | - | Journal entry number |
 | date | DateTime | - | Transaction date |
 | fiscal_period_id | UUID | FK | Accounting period |
-| reference_type | String | - | Source type (e.g., "invoice", "payment") |
-| reference_id | UUID | - | Source document ID |
-| description | String | - | Entry description |
+| reference_type | String? | - | Source type (e.g., "invoice", "payment", "expense", "expense_cancellation") |
+| reference_id | UUID? | - | Source document ID |
+| description | String? | - | Entry description |
 | status | JournalEntryStatus | - | DRAFT or POSTED |
-| posted_at | DateTime | - | Post timestamp |
+| posted_at | DateTime? | - | Post timestamp |
 | created_by | UUID | - | Creator user |
 | created_at | DateTime | - | Creation timestamp |
 | updated_at | DateTime | - | Last update timestamp |
@@ -579,62 +658,65 @@ Tenant (root organization)
 
 ---
 
-### 26. JOURNAL_LINES
+### 29. JOURNAL_LINES
 **Purpose**: Individual debit/credit entries in journal entries
 
 | Column | Type | Key | Description |
 |--------|------|-----|-------------|
 | id | UUID | PK | Line identifier |
 | tenant_id | UUID | FK | Owner tenant |
-| journal_entry_id | UUID | FK | Parent journal entry |
+| journal_entry_id | UUID | FK | Parent journal entry (cascade delete) |
 | account_id | UUID | FK | Chart of account |
-| debit | Decimal(18,4) | - | Debit amount (0 if credit) |
-| credit | Decimal(18,4) | - | Credit amount (0 if debit) |
-| description | String | - | Line description |
-| sort_order | Int | - | Display order |
+| debit | Decimal(18,4) | - | Debit amount (0 if credit line, default: 0) |
+| credit | Decimal(18,4) | - | Credit amount (0 if debit line, default: 0) |
+| description | String? | - | Line description |
+| sort_order | Int | - | Display order (default: 0) |
 
 **Indexes**: tenant_id, journal_entry_id
 
 ---
 
-### 27. CUSTOM_FIELDS
-**Purpose**: Dynamic extension fields for items
+### 30. CUSTOM_FIELDS
+**Purpose**: Dynamic extension fields for any entity module
 
 | Column | Type | Key | Description |
 |--------|------|-----|-------------|
 | id | UUID | PK | Field definition ID |
 | tenant_id | UUID | FK | Owner tenant |
 | module | String | - | Module name (e.g., "items") |
-| name | String | - | Field machine name |
-| label | String | - | User-facing label |
+| name | JSONB | - | Field machine name as LocalizedString `{ ar, en? }` |
+| label | JSONB | - | User-facing label as LocalizedString `{ ar, en? }` |
 | type | FieldType | - | Field type (see enums) |
-| default_value | String | - | Default value for new records |
-| placeholder | String | - | Input placeholder text |
+| default_value | String? | - | Default value for new records |
+| placeholder | JSONB? | - | Input placeholder as LocalizedString `{ ar, en? }` |
 | options | String[] | - | Available options for select fields |
-| is_required | Boolean | - | Validation requirement flag |
+| is_required | Boolean | - | Validation requirement flag (default: false) |
+| show_in_list | Boolean | - | Whether to display in list views (default: false) |
 | created_at | DateTime | - | Creation timestamp |
 
-**Unique Constraint**: (tenant_id, name, module)
 **Indexes**: (tenant_id, module)
 
 ---
 
-### 28. CUSTOM_FIELD_VALUES
-**Purpose**: Custom field data for items
+### 31. CUSTOM_FIELD_VALUES
+**Purpose**: Custom field data for any entity
 
 | Column | Type | Key | Description |
 |--------|------|-----|-------------|
 | id | UUID | PK | Value record ID |
 | tenant_id | UUID | FK | Owner tenant |
-| field_id | UUID | FK | Custom field definition |
-| item_id | UUID | FK | Item being customized |
+| field_id | UUID | FK | Custom field definition (cascade delete) |
+| entity_type | String | - | Entity type the value belongs to (e.g., "item") |
+| entity_id | UUID | - | Entity identifier |
 | value | String | - | Field value |
 
-**Indexes**: item_id, (tenant_id, item_id), (field_id, value)
+**Unique Constraint**: (tenant_id, field_id, entity_id)
+**Indexes**: (tenant_id, entity_type, entity_id), (field_id, value)
+**Note**: Generic polymorphic pattern — no FK to a specific table; `entity_type` + `entity_id` identify the owning record.
 
 ---
 
-### 29. AUDIT_LOGS
+### 32. AUDIT_LOGS
 **Purpose**: Complete audit trail for compliance
 
 | Column | Type | Key | Description |
@@ -645,16 +727,16 @@ Tenant (root organization)
 | action | String | - | Action type (CREATE, UPDATE, DELETE, POST, CANCEL) |
 | entity_type | String | - | Entity type (e.g., "invoice", "payment") |
 | entity_id | UUID | - | Entity identifier |
-| old_values | JSON | - | Previous state before change |
-| new_values | JSON | - | New state after change |
-| ip_address | String | - | User's IP address |
+| old_values | JSON? | - | Previous state before change |
+| new_values | JSON? | - | New state after change |
+| ip_address | String? | - | User's IP address |
 | created_at | DateTime | - | Action timestamp |
 
 **Indexes**: tenant_id, (tenant_id, entity_type, entity_id)
 
 ---
 
-### 30. AI_CHAT_SESSIONS
+### 33. AI_CHAT_SESSIONS
 **Purpose**: AI assistant conversation management
 
 | Column | Type | Key | Description |
@@ -662,7 +744,7 @@ Tenant (root organization)
 | id | UUID | PK | Session identifier |
 | tenant_id | UUID | FK | Owner tenant |
 | user_id | UUID | - | User conducting chat |
-| title | String | - | Session title/topic |
+| title | String? | - | Session title/topic |
 | created_at | DateTime | - | Creation timestamp |
 | updated_at | DateTime | - | Last message timestamp |
 
@@ -670,14 +752,14 @@ Tenant (root organization)
 
 ---
 
-### 31. AI_CHAT_MESSAGES
+### 34. AI_CHAT_MESSAGES
 **Purpose**: Individual messages within chat sessions
 
 | Column | Type | Key | Description |
 |--------|------|-----|-------------|
 | id | UUID | PK | Message identifier |
 | tenant_id | UUID | FK | Owner tenant |
-| session_id | UUID | FK | Parent session |
+| session_id | UUID | FK | Parent session (cascade delete) |
 | role | MessageRole | - | USER or ASSISTANT |
 | content | String | - | Message content |
 | created_at | DateTime | - | Message timestamp |
@@ -696,6 +778,12 @@ Categorizes general ledger accounts:
 - `REVENUE` - Revenue/income (credit balance)
 - `EXPENSE` - Expenses (debit balance)
 
+### ExpenseStatus
+Workflow states for expense documents:
+- `DRAFT` - Editable, no accounting impact
+- `POSTED` - Locked; journal entry created, cashbox balance decremented
+- `CANCELLED` - Reversing journal entry posted; cashbox balance restored
+
 ### JournalEntryStatus
 Workflow states for journal entries:
 - `DRAFT` - Editable, not yet posted
@@ -703,8 +791,8 @@ Workflow states for journal entries:
 
 ### PartyType
 Classification of parties:
-- `CUSTOMER` - Only buy from them
-- `SUPPLIER` - Only sell to them
+- `CUSTOMER` - Only buys from the business
+- `SUPPLIER` - Only sells to the business
 - `CUSTOMER_SUPPLIER` - Both buy and sell
 
 ### InvoiceDirection
@@ -732,14 +820,21 @@ Types of inventory transactions:
 Classification of cash transactions:
 - `RECEIPT` - Money received
 - `PAYMENT` - Money paid out
-- `EXPENSE` - Direct expense payment
 - `ADJUSTMENT` - Balance correction
+
+**Note**: `EXPENSE` was removed. Expense payments are now recorded as `Expense` documents.
 
 ### PaymentStatus
 Payment workflow states:
 - `DRAFT` - Editable, pending posting
 - `POSTED` - Locked, affects cash balance
 - `CANCELLED` - Voided payment
+
+### StockCountStatus
+Stock count lifecycle states:
+- `DRAFT` - Editable, no inventory impact
+- `POSTED` - Locked, stock adjustments applied
+- `CANCELLED` - Voided
 
 ### FiscalPeriodStatus
 Period lifecycle states:
@@ -755,6 +850,7 @@ Custom field data types:
 - `SELECT` - Single selection from options
 - `BOOLEAN` - True/false toggle
 - `MULTI_SELECT` - Multiple selections
+- `FILE` - File upload/attachment
 
 ### MessageRole
 AI chat message participants:
@@ -784,11 +880,20 @@ StockMovements → StockBalances
 Payments → PaymentAllocations → Invoices
 ```
 
+### Expense Flow
+```
+Cashboxes (linked_account_id → ChartOfAccount ASSET)
+    ↓
+Expenses → ExpenseItems → ChartOfAccount (EXPENSE type)
+    ↓
+JournalEntry (DEBIT per item to expense account, CREDIT cashbox linked account)
+```
+
 ### Accounting Flow
 ```
 FiscalPeriods
     ↓
-Invoices/Payments/StockMovements
+Invoices / Payments / Expenses / StockMovements
     ↓
 JournalEntries (with JournalLines)
     ↓
@@ -828,9 +933,10 @@ All tables use UUID (`@id @default(uuid())`) as primary key
 
 ### Unique Constraints
 - **AppUser**: (tenant_id, email)
-- **Role**: (tenant_id, name)
+- **Role**: expression index on (tenant_id, name->>'ar') — enforced in migration SQL
 - **UserRole**: (user_id, role_id)
-- **Party**: (tenant_id, code)
+- **TenantSetting**: (tenant_id, key)
+- **Party**: (tenant_id, code) — applies only when code is non-null
 - **Item**: (tenant_id, code)
 - **ItemCategory**: (tenant_id, name)
 - **Unit**: (tenant_id, name)
@@ -842,32 +948,34 @@ All tables use UUID (`@id @default(uuid())`) as primary key
 - **Invoice**: (tenant_id, number)
 - **InvoiceType**: (tenant_id, code)
 - **Payment**: (tenant_id, number)
+- **Expense**: (tenant_id, number)
 - **StockCount**: (tenant_id, number)
 - **ChartOfAccount**: (tenant_id, code)
 - **JournalEntry**: (tenant_id, number)
-- **CustomField**: (tenant_id, name, module)
+- **CustomFieldValue**: (tenant_id, field_id, entity_id)
 - **DocumentSequence**: (tenant_id, document_type)
 
 ### Key Performance Indexes
-These indexes are created for frequently queried patterns:
 
 | Table | Columns | Purpose |
 |-------|---------|---------|
 | AppUser | tenant_id | User lookups per tenant |
 | Invoice | tenant_id, status | Dashboard status queries |
 | Payment | tenant_id, status | Cash flow analysis |
+| Expense | tenant_id, status | Expense status queries |
 | StockMovement | tenant_id, item_id | Item history |
 | StockMovement | tenant_id, warehouse_id | Warehouse reconciliation |
-| CustomFieldValue | item_id | Item detail retrieval |
-| CustomFieldValue | tenant_id, item_id | Item customization |
+| CustomField | tenant_id, module | Module field lookups |
+| CustomFieldValue | tenant_id, entity_type, entity_id | Entity customization |
 | CustomFieldValue | field_id, value | Field value lookups |
+| TenantSetting | tenant_id, category | Category-scoped settings |
 | AuditLog | tenant_id, entity_type, entity_id | Compliance tracking |
 | AiChatSession | tenant_id, user_id | User session retrieval |
 
 ### Foreign Key Constraints
 All foreign keys use:
 - **Default**: Restrict on delete (causes integrity error if child exists)
-- **OnDelete: Cascade**: Parents specified (tenant, fiscal period, parent account/category, etc.)
+- **OnDelete: Cascade**: Used where child data is owned by parent (tenant, user_roles, invoice_lines, expense_items, journal_lines, stock_count_lines, etc.)
 
 ---
 
@@ -876,6 +984,12 @@ All foreign keys use:
 ### Accounting Balance
 - Journal entries must balance (sum of debits = sum of credits)
 - Debit and credit are mutually exclusive per journal line (one is always 0)
+
+### Expense Posting
+- Expense must have at least one ExpenseItem before posting
+- Cashbox must have a `linked_account_id` set before posting
+- Post creates a balanced JournalEntry: DEBIT each item's account, CREDIT the cashbox linked account
+- Cancel creates a reversing JournalEntry (swapped debit/credit) and restores the cashbox balance
 
 ### Invoice-Stock Relationship
 - If invoice status is POSTED and affects_stock = true, stock movements must be created
@@ -887,12 +1001,12 @@ All foreign keys use:
 - Payment can only be allocated against invoices of matching party and currency
 
 ### Fiscal Period Constraints
-- Invoice/Payment/StockMovement date must fall within fiscal period range
+- Invoice/Payment/Expense/StockMovement date must fall within fiscal period range
 - Period status determines whether new transactions can be added
 
 ### Custom Fields
-- Composite unique constraint prevents duplicate field definitions per module
-- Field type determines valid options array structure
+- Generic polymorphic pattern: `entity_type` + `entity_id` can reference any entity
+- Composite unique: (tenant_id, field_id, entity_id) prevents duplicate values per field per entity
 
 ---
 
@@ -903,6 +1017,12 @@ All foreign keys use:
 - Scale: 4 decimal places
 - Represents values up to 99,999,999,999,999.9999
 - Suitable for financial calculations with sub-cent precision
+
+### JSONB Fields (Localized Strings)
+- Shape: `{ ar: string; en?: string }`
+- `ar` is always required (Arabic is the primary locale)
+- `en` is optional
+- Used for: Role.name/description, Currency.name/symbol, Cashbox.name, InvoiceType.name, ChartOfAccount.name, CustomField.name/label/placeholder
 
 ### String Fields
 - No explicit length limit in schema (database default applies)
@@ -971,6 +1091,19 @@ GROUP BY a.id
 ORDER BY a.code;
 ```
 
+### Total expenses by account for a period
+```sql
+SELECT coa.code, coa.name->>'ar' AS account_name, SUM(ei.amount) AS total
+FROM expense_items ei
+JOIN expenses e ON ei.expense_id = e.id
+JOIN chart_of_accounts coa ON ei.account_id = coa.id
+WHERE e.tenant_id = $1
+  AND e.fiscal_period_id = $2
+  AND e.status = 'POSTED'
+GROUP BY coa.id, coa.code, coa.name
+ORDER BY total DESC;
+```
+
 ---
 
 ## Database Maintenance
@@ -1010,6 +1143,7 @@ DELETE FROM audit_logs WHERE created_at < NOW() - INTERVAL '2 years';
 | Version | Date | Changes |
 |---------|------|---------|
 | 1.0 | 2026-06-04 | Initial schema documentation |
+| 2.0 | 2026-06-11 | Added Expense/ExpenseItem tables; added TenantSetting table; added Cashbox.linked_account_id; updated PaymentType (removed EXPENSE); updated Role/Currency/Cashbox/InvoiceType/ChartOfAccount name fields to JSONB LocalizedString; updated CustomField/CustomFieldValue to generic entity pattern with show_in_list; added FILE to FieldType; added Tenant.legal_name, tax_number, website, base_currency_id, default_sales_sequence_id; corrected nullable columns throughout |
 
 ---
 
@@ -1025,13 +1159,14 @@ DELETE FROM audit_logs WHERE created_at < NOW() - INTERVAL '2 years';
     ├─→ APP_USERS (Employees)                      │
     │   └─→ ROLES (via USER_ROLES)                 │
     │                                               │
+    ├─→ TENANT_SETTINGS (Configuration)            │
+    │                                               │
     ├─→ PARTIES (Customers/Suppliers)              │
     │                                               │
     ├─→ ITEMS (Products/Services)                  │
     │   ├─→ ITEM_CATEGORIES (Hierarchy)            │
     │   ├─→ UNITS (UOM)                            │
     │   ├─→ WAREHOUSE_ITEMS                        │
-    │   ├─→ CUSTOM_FIELD_VALUES                    │
     │   └─→ STOCK_MOVEMENTS                        │
     │                                               │
     ├─→ WAREHOUSES                                 │
@@ -1045,10 +1180,11 @@ DELETE FROM audit_logs WHERE created_at < NOW() - INTERVAL '2 years';
     │   ├─→ CASHBOXES                              │
     │   └─→ INVOICES & PAYMENTS                    │
     │                                               │
-    ├─→ CASHBOXES                                  │
-    │   └─→ PAYMENTS                               │
-    │       └─→ PAYMENT_ALLOCATIONS                │
-    │           └─→ INVOICES                       │
+    ├─→ CASHBOXES (linked_account_id → COA)        │
+    │   ├─→ PAYMENTS                               │
+    │   │   └─→ PAYMENT_ALLOCATIONS → INVOICES     │
+    │   └─→ EXPENSES                               │
+    │       └─→ EXPENSE_ITEMS → CHART_OF_ACCOUNTS  │
     │                                               │
     ├─→ INVOICE_TYPES                              │
     │   └─→ INVOICES                               │
@@ -1057,6 +1193,7 @@ DELETE FROM audit_logs WHERE created_at < NOW() - INTERVAL '2 years';
     ├─→ FISCAL_PERIODS                             │
     │   ├─→ INVOICES                               │
     │   ├─→ PAYMENTS                               │
+    │   ├─→ EXPENSES                               │
     │   ├─→ STOCK_MOVEMENTS                        │
     │   ├─→ JOURNAL_ENTRIES                        │
     │   └─→ STOCK_COUNTS                           │
@@ -1071,11 +1208,10 @@ DELETE FROM audit_logs WHERE created_at < NOW() - INTERVAL '2 years';
     │       └─→ CHART_OF_ACCOUNTS                  │
     │                                               │
     ├─→ CUSTOM_FIELDS (Field Definitions)          │
-    │   └─→ CUSTOM_FIELD_VALUES                    │
+    │   └─→ CUSTOM_FIELD_VALUES (entity_type/id)   │
     │                                               │
     ├─→ AUDIT_LOGS (Compliance)                    │
     │                                               │
     └─→ AI_CHAT_SESSIONS                           │
         └─→ AI_CHAT_MESSAGES                        │
 ```
-
