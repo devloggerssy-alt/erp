@@ -43,6 +43,17 @@ export class UpdateItemRelationDto {
   notes?: string;
 }
 
+export class RelatedItemSummaryDto {
+  @ApiProperty()
+  id: string = '';
+
+  @ApiProperty()
+  name: string = '';
+
+  @ApiProperty()
+  code: string = '';
+}
+
 export class ItemRelationResponseDto {
   @ApiProperty()
   id: string = '';
@@ -58,6 +69,9 @@ export class ItemRelationResponseDto {
 
   @ApiProperty({ nullable: true })
   notes: string | null = null;
+
+  @ApiProperty({ type: RelatedItemSummaryDto })
+  relatedItem: RelatedItemSummaryDto = new RelatedItemSummaryDto();
 
   @ApiProperty()
   createdAt: string = '';
