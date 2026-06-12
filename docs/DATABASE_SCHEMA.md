@@ -17,6 +17,7 @@ This is a comprehensive Enterprise Resource Planning (ERP) system database desig
 - **Multi-tenancy**: All data is isolated per tenant
 - **Accounting**: Chart of accounts, journal entries, and financial transactions
 - **Inventory Management**: Warehouses, stock tracking, and stock counts
+- **Catalog Classification**: Item types, item-to-item relations, reusable tags, and polymorphic tag assignments
 - **Sales & Purchases**: Invoices, parties (customers/suppliers), and payments
 - **Financial Operations**: Multiple currencies, cashboxes, and payment allocations
 - **Expense Management**: Itemized expense documents with double-entry journal posting
@@ -42,7 +43,10 @@ Tenant (root organization)
 ├── TenantSetting (per-tenant configuration)
 ├── Party (customers/suppliers)
 ├── Warehouse (inventory locations)
-├── Item (products/services)
+├── Item (products/services/vehicles/bundles)
+│   ├── ItemRelation (compatibility/replacement/requirements)
+│   └── TagAssignment (polymorphic tags)
+├── Tag (module-scoped labels)
 ├── Currency (multi-currency support)
 ├── Cashbox (cash accounts)
 ├── FiscalPeriod (accounting periods)
@@ -190,16 +194,73 @@ Tenant (root organization)
 | base_unit_id | UUID | FK | Default unit of measure |
 | default_selling_price | Decimal(18,4)? | - | Standard selling price (optional) |
 | latest_purchase_price | Decimal(18,4)? | - | Most recent purchase price (optional) |
+| item_type | ItemType | - | Catalog type: product, service, vehicle, or bundle (default: product) |
 | is_active | Boolean | - | Status flag (default: true) |
 | created_at | DateTime | - | Creation timestamp |
 | updated_at | DateTime | - | Last update timestamp |
 
 **Unique Constraint**: (tenant_id, code)
-**Indexes**: tenant_id
+**Indexes**: tenant_id, (tenant_id, item_type)
 
 ---
 
-### 8. ITEM_CATEGORIES
+### 8. ITEM_RELATIONS
+**Purpose**: Directed relationships between catalog items
+
+| Column | Type | Key | Description |
+|--------|------|-----|-------------|
+| id | UUID | PK | Relation identifier |
+| tenant_id | UUID | FK | Owner tenant |
+| item_id | UUID | FK | Source item |
+| related_item_id | UUID | FK | Related target item |
+| relation_type | RelationType | - | compatible_with, replaces, or requires |
+| notes | String? | - | Optional relationship notes |
+| created_at | DateTime | - | Creation timestamp |
+| updated_at | DateTime | - | Last update timestamp |
+
+**Unique Constraint**: (tenant_id, item_id, related_item_id, relation_type)
+**Indexes**: (tenant_id, item_id), (tenant_id, related_item_id)
+**Cascade**: Deleting either item deletes its related `ItemRelation` rows.
+
+---
+
+### 9. TAGS
+**Purpose**: Reusable module-scoped labels for catalog and business entities
+
+| Column | Type | Key | Description |
+|--------|------|-----|-------------|
+| id | UUID | PK | Tag identifier |
+| tenant_id | UUID | FK | Owner tenant |
+| name | String | - | Tag display name |
+| color | String? | - | Optional UI color token or hex value |
+| module | String | - | Module scope, e.g. `items`, `parties`, `invoices`, `warehouses` |
+| created_at | DateTime | - | Creation timestamp |
+| updated_at | DateTime | - | Last update timestamp |
+
+**Unique Constraint**: (tenant_id, name, module)
+**Indexes**: (tenant_id, module)
+
+---
+
+### 10. TAG_ASSIGNMENTS
+**Purpose**: Polymorphic assignment of tags to entities
+
+| Column | Type | Key | Description |
+|--------|------|-----|-------------|
+| id | UUID | PK | Assignment identifier |
+| tenant_id | UUID | - | Owner tenant scope for queries |
+| tag_id | UUID | FK | Assigned tag (cascade delete) |
+| entity_type | String | - | Entity type, e.g. `item`, `party`, `invoice`, `warehouse` |
+| entity_id | UUID | - | Entity identifier |
+| created_at | DateTime | - | Assignment timestamp |
+
+**Unique Constraint**: (tag_id, entity_type, entity_id)
+**Indexes**: (tenant_id, entity_type, entity_id)
+**Note**: Generic polymorphic pattern - `entity_type` + `entity_id` identify the tagged record; only `tag_id` is a direct FK.
+
+---
+
+### 11. ITEM_CATEGORIES
 **Purpose**: Hierarchical item classification
 
 | Column | Type | Key | Description |
@@ -219,7 +280,7 @@ Tenant (root organization)
 
 ---
 
-### 9. UNITS
+### 12. UNITS
 **Purpose**: Units of measurement for items
 
 | Column | Type | Key | Description |
@@ -237,7 +298,7 @@ Tenant (root organization)
 
 ---
 
-### 10. WAREHOUSES
+### 13. WAREHOUSES
 **Purpose**: Inventory storage locations
 
 | Column | Type | Key | Description |
@@ -256,7 +317,7 @@ Tenant (root organization)
 
 ---
 
-### 11. WAREHOUSE_ITEMS
+### 14. WAREHOUSE_ITEMS
 **Purpose**: Item-warehouse assignments with stock parameters
 
 | Column | Type | Key | Description |
@@ -275,7 +336,7 @@ Tenant (root organization)
 
 ---
 
-### 12. STOCK_BALANCES
+### 15. STOCK_BALANCES
 **Purpose**: Real-time inventory position (projection table)
 
 | Column | Type | Key | Description |
@@ -294,7 +355,7 @@ Tenant (root organization)
 
 ---
 
-### 13. STOCK_MOVEMENTS
+### 16. STOCK_MOVEMENTS
 **Purpose**: Immutable inventory ledger (source of truth)
 
 | Column | Type | Key | Description |
@@ -317,7 +378,7 @@ Tenant (root organization)
 
 ---
 
-### 14. STOCK_COUNTS
+### 17. STOCK_COUNTS
 **Purpose**: Physical inventory reconciliation
 
 | Column | Type | Key | Description |
@@ -341,7 +402,7 @@ Tenant (root organization)
 
 ---
 
-### 15. STOCK_COUNT_LINES
+### 18. STOCK_COUNT_LINES
 **Purpose**: Line items for physical stock count
 
 | Column | Type | Key | Description |
@@ -359,7 +420,7 @@ Tenant (root organization)
 
 ---
 
-### 16. CURRENCIES
+### 19. CURRENCIES
 **Purpose**: Multi-currency management
 
 | Column | Type | Key | Description |
@@ -379,7 +440,7 @@ Tenant (root organization)
 
 ---
 
-### 17. CASHBOXES
+### 20. CASHBOXES
 **Purpose**: Cash and bank accounts
 
 | Column | Type | Key | Description |
@@ -400,7 +461,7 @@ Tenant (root organization)
 
 ---
 
-### 18. INVOICES
+### 21. INVOICES
 **Purpose**: Sales and purchase transactions
 
 | Column | Type | Key | Description |
@@ -434,7 +495,7 @@ Tenant (root organization)
 
 ---
 
-### 19. INVOICE_TYPES
+### 22. INVOICE_TYPES
 **Purpose**: Invoice type configuration
 
 | Column | Type | Key | Description |
@@ -454,7 +515,7 @@ Tenant (root organization)
 
 ---
 
-### 20. INVOICE_LINES
+### 23. INVOICE_LINES
 **Purpose**: Individual line items in invoices
 
 | Column | Type | Key | Description |
@@ -478,7 +539,7 @@ Tenant (root organization)
 
 ---
 
-### 21. PAYMENTS
+### 24. PAYMENTS
 **Purpose**: Cash and payment transaction management
 
 | Column | Type | Key | Description |
@@ -511,7 +572,7 @@ Tenant (root organization)
 
 ---
 
-### 22. PAYMENT_ALLOCATIONS
+### 25. PAYMENT_ALLOCATIONS
 **Purpose**: Mapping payments to invoices
 
 | Column | Type | Key | Description |
@@ -527,7 +588,7 @@ Tenant (root organization)
 
 ---
 
-### 23. EXPENSES
+### 26. EXPENSES
 **Purpose**: Itemized expense documents paid from a cashbox, with double-entry journal posting
 
 | Column | Type | Key | Description |
@@ -557,7 +618,7 @@ Tenant (root organization)
 
 ---
 
-### 24. EXPENSE_ITEMS
+### 27. EXPENSE_ITEMS
 **Purpose**: Individual line items within an expense document
 
 | Column | Type | Key | Description |
@@ -575,7 +636,7 @@ Tenant (root organization)
 
 ---
 
-### 25. FISCAL_PERIODS
+### 28. FISCAL_PERIODS
 **Purpose**: Accounting period management
 
 | Column | Type | Key | Description |
@@ -593,7 +654,7 @@ Tenant (root organization)
 
 ---
 
-### 26. DOCUMENT_SEQUENCES
+### 29. DOCUMENT_SEQUENCES
 **Purpose**: Auto-increment configuration for document numbers
 
 | Column | Type | Key | Description |
@@ -613,7 +674,7 @@ Tenant (root organization)
 
 ---
 
-### 27. CHART_OF_ACCOUNTS
+### 30. CHART_OF_ACCOUNTS
 **Purpose**: General ledger account structure
 
 | Column | Type | Key | Description |
@@ -634,7 +695,7 @@ Tenant (root organization)
 
 ---
 
-### 28. JOURNAL_ENTRIES
+### 31. JOURNAL_ENTRIES
 **Purpose**: Double-entry accounting transactions
 
 | Column | Type | Key | Description |
@@ -658,7 +719,7 @@ Tenant (root organization)
 
 ---
 
-### 29. JOURNAL_LINES
+### 32. JOURNAL_LINES
 **Purpose**: Individual debit/credit entries in journal entries
 
 | Column | Type | Key | Description |
@@ -676,7 +737,7 @@ Tenant (root organization)
 
 ---
 
-### 30. CUSTOM_FIELDS
+### 33. CUSTOM_FIELDS
 **Purpose**: Dynamic extension fields for any entity module
 
 | Column | Type | Key | Description |
@@ -698,7 +759,7 @@ Tenant (root organization)
 
 ---
 
-### 31. CUSTOM_FIELD_VALUES
+### 34. CUSTOM_FIELD_VALUES
 **Purpose**: Custom field data for any entity
 
 | Column | Type | Key | Description |
@@ -716,7 +777,7 @@ Tenant (root organization)
 
 ---
 
-### 32. AUDIT_LOGS
+### 35. AUDIT_LOGS
 **Purpose**: Complete audit trail for compliance
 
 | Column | Type | Key | Description |
@@ -736,7 +797,7 @@ Tenant (root organization)
 
 ---
 
-### 33. AI_CHAT_SESSIONS
+### 36. AI_CHAT_SESSIONS
 **Purpose**: AI assistant conversation management
 
 | Column | Type | Key | Description |
@@ -752,7 +813,7 @@ Tenant (root organization)
 
 ---
 
-### 34. AI_CHAT_MESSAGES
+### 37. AI_CHAT_MESSAGES
 **Purpose**: Individual messages within chat sessions
 
 | Column | Type | Key | Description |
@@ -794,6 +855,19 @@ Classification of parties:
 - `CUSTOMER` - Only buys from the business
 - `SUPPLIER` - Only sells to the business
 - `CUSTOMER_SUPPLIER` - Both buy and sell
+
+### ItemType
+Catalog item classification:
+- `product` - Stockable or sellable product
+- `service` - Non-stock service item
+- `vehicle` - Vehicle catalog item
+- `bundle` - Bundle or kit composed at the application layer
+
+### RelationType
+Directed item relationship classification:
+- `compatible_with` - Source item is compatible with the related item
+- `replaces` - Source item replaces the related item
+- `requires` - Source item requires the related item
 
 ### InvoiceDirection
 Transaction flow direction:
@@ -862,7 +936,7 @@ AI chat message participants:
 ## Data Relationships
 
 ### Multi-Tenancy Pattern
-Every table (except `tenants`) includes a `tenant_id` foreign key with `onDelete: Cascade`. This ensures:
+Most tenant-owned tables include a `tenant_id` foreign key with `onDelete: Cascade`. Polymorphic extension tables such as `custom_field_values` and `tag_assignments` include `tenant_id` for scoped querying, but their direct FK is to the owning definition row (`field_id` or `tag_id`). This ensures:
 - Complete data isolation between organizations
 - Cascade deletion when a tenant is removed
 - Ability to query per-tenant data efficiently
@@ -902,7 +976,7 @@ ChartOfAccounts (with hierarchy)
 
 ### Inventory Flow
 ```
-Items (with Categories and Units)
+Items (with Categories, Units, ItemType, Tags, and ItemRelations)
     ↓
 WarehouseItems (inventory assignments)
     ↓
@@ -911,6 +985,21 @@ StockMovements (audit trail)
 StockBalances (real-time position)
     ↓
 StockCounts (physical reconciliation)
+```
+
+### Catalog Tagging and Item Relationships
+```
+Tags (module-scoped labels)
+    ->
+TagAssignments (entity_type + entity_id)
+    ->
+Items / Parties / Invoices / Warehouses
+
+Items
+    ->
+ItemRelations (compatible_with / replaces / requires)
+    ->
+Related Items
 ```
 
 ### User Access Pattern
@@ -938,6 +1027,9 @@ All tables use UUID (`@id @default(uuid())`) as primary key
 - **TenantSetting**: (tenant_id, key)
 - **Party**: (tenant_id, code) — applies only when code is non-null
 - **Item**: (tenant_id, code)
+- **ItemRelation**: (tenant_id, item_id, related_item_id, relation_type)
+- **Tag**: (tenant_id, name, module)
+- **TagAssignment**: (tag_id, entity_type, entity_id)
 - **ItemCategory**: (tenant_id, name)
 - **Unit**: (tenant_id, name)
 - **Warehouse**: (tenant_id, code)
@@ -960,6 +1052,11 @@ All tables use UUID (`@id @default(uuid())`) as primary key
 | Table | Columns | Purpose |
 |-------|---------|---------|
 | AppUser | tenant_id | User lookups per tenant |
+| Item | tenant_id, item_type | Catalog type filtering |
+| ItemRelation | tenant_id, item_id | Source item relation lookups |
+| ItemRelation | tenant_id, related_item_id | Reverse item relation lookups |
+| Tag | tenant_id, module | Module tag lookups |
+| TagAssignment | tenant_id, entity_type, entity_id | Entity tag lookups |
 | Invoice | tenant_id, status | Dashboard status queries |
 | Payment | tenant_id, status | Cash flow analysis |
 | Expense | tenant_id, status | Expense status queries |
@@ -975,7 +1072,7 @@ All tables use UUID (`@id @default(uuid())`) as primary key
 ### Foreign Key Constraints
 All foreign keys use:
 - **Default**: Restrict on delete (causes integrity error if child exists)
-- **OnDelete: Cascade**: Used where child data is owned by parent (tenant, user_roles, invoice_lines, expense_items, journal_lines, stock_count_lines, etc.)
+- **OnDelete: Cascade**: Used where child data is owned by parent (tenant, user_roles, invoice_lines, expense_items, journal_lines, stock_count_lines, tag_assignments, item_relations, etc.)
 
 ---
 
@@ -1007,6 +1104,12 @@ All foreign keys use:
 ### Custom Fields
 - Generic polymorphic pattern: `entity_type` + `entity_id` can reference any entity
 - Composite unique: (tenant_id, field_id, entity_id) prevents duplicate values per field per entity
+
+### Tags and Item Relations
+- Tags are unique per tenant, module, and name.
+- Tag assignments are polymorphic; application logic must validate that `entity_type` and `entity_id` point to a valid tenant-owned record.
+- Item relations are directed and unique per tenant, source item, related item, and relation type.
+- Deleting an item cascades its source and reverse item relation rows.
 
 ---
 
@@ -1069,6 +1172,33 @@ FROM stock_balances sb
 JOIN items i ON sb.item_id = i.id
 WHERE sb.warehouse_id = $1 AND sb.tenant_id = $2
 ORDER BY i.code;
+```
+
+### Find items by tag and type
+```sql
+SELECT i.*
+FROM items i
+JOIN tag_assignments ta
+  ON ta.entity_id = i.id
+ AND ta.entity_type = 'item'
+ AND ta.tenant_id = i.tenant_id
+JOIN tags t ON t.id = ta.tag_id
+WHERE i.tenant_id = $1
+  AND i.item_type = $2
+  AND t.module = 'items'
+  AND t.name = $3
+ORDER BY i.code;
+```
+
+### Find related items
+```sql
+SELECT related.*
+FROM item_relations ir
+JOIN items related ON related.id = ir.related_item_id
+WHERE ir.tenant_id = $1
+  AND ir.item_id = $2
+  AND ir.relation_type = $3
+ORDER BY related.code;
 ```
 
 ### Account hierarchy with balances
@@ -1144,6 +1274,7 @@ DELETE FROM audit_logs WHERE created_at < NOW() - INTERVAL '2 years';
 |---------|------|---------|
 | 1.0 | 2026-06-04 | Initial schema documentation |
 | 2.0 | 2026-06-11 | Added Expense/ExpenseItem tables; added TenantSetting table; added Cashbox.linked_account_id; updated PaymentType (removed EXPENSE); updated Role/Currency/Cashbox/InvoiceType/ChartOfAccount name fields to JSONB LocalizedString; updated CustomField/CustomFieldValue to generic entity pattern with show_in_list; added FILE to FieldType; added Tenant.legal_name, tax_number, website, base_currency_id, default_sales_sequence_id; corrected nullable columns throughout |
+| 2.1 | 2026-06-12 | Added Item.item_type and ItemType enum; added ItemRelation/RelationType; added Tag and TagAssignment tables; updated catalog relationships, unique constraints, indexes, and query examples |
 
 ---
 
@@ -1163,9 +1294,11 @@ DELETE FROM audit_logs WHERE created_at < NOW() - INTERVAL '2 years';
     │                                               │
     ├─→ PARTIES (Customers/Suppliers)              │
     │                                               │
-    ├─→ ITEMS (Products/Services)                  │
+    ├─→ ITEMS (Products/Services/Vehicles/Bundles) │
     │   ├─→ ITEM_CATEGORIES (Hierarchy)            │
     │   ├─→ UNITS (UOM)                            │
+    │   ├─→ ITEM_RELATIONS                         │
+    │   ├─→ TAG_ASSIGNMENTS                        │
     │   ├─→ WAREHOUSE_ITEMS                        │
     │   └─→ STOCK_MOVEMENTS                        │
     │                                               │
@@ -1209,6 +1342,9 @@ DELETE FROM audit_logs WHERE created_at < NOW() - INTERVAL '2 years';
     │                                               │
     ├─→ CUSTOM_FIELDS (Field Definitions)          │
     │   └─→ CUSTOM_FIELD_VALUES (entity_type/id)   │
+    │                                               │
+    ├─→ TAGS (module-scoped labels)                │
+    │   └─→ TAG_ASSIGNMENTS (entity_type/id)        │
     │                                               │
     ├─→ AUDIT_LOGS (Compliance)                    │
     │                                               │
