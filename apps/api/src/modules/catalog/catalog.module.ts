@@ -5,9 +5,10 @@ import { ItemsModule } from './items/items.module';
 import { TagsModule } from './tags/tags.module';
 import { TagAssignmentsModule } from './tag-assignments/tag-assignments.module';
 import { ItemRelationsModule } from './item-relations/item-relations.module';
+import { CatalogEntitiesModule } from './catalog-entities/catalog-entities.module';
 
 @Module({
-  imports: [UnitsModule, ItemCategoriesModule, ItemsModule, TagsModule, TagAssignmentsModule, ItemRelationsModule],
-  exports: [UnitsModule, ItemCategoriesModule, ItemsModule, TagsModule, TagAssignmentsModule, ItemRelationsModule],
+  imports: [UnitsModule, ItemCategoriesModule, ItemsModule, TagsModule, TagAssignmentsModule, ItemRelationsModule, CatalogEntitiesModule],
+  exports: [UnitsModule, ItemCategoriesModule, ItemsModule, TagsModule, TagAssignmentsModule, ItemRelationsModule, CatalogEntitiesModule],
 })
 export class CatalogModule {}
