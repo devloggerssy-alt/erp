@@ -9,6 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/shared/components/ui
 import { Button } from "@/shared/components/ui/button"
 import { Textarea } from "@/shared/components/ui/textarea"
 import { Label } from "@/shared/components/ui/label"
+import { Badge } from "@/shared/components/ui/badge"
 import {
     Select,
     SelectContent,
@@ -80,16 +81,23 @@ export function ItemRelationsSection({ itemId, disabled }: ItemRelationsSectionP
                     <div className="divide-y rounded-md border">
                         {relations.map((rel) => (
                             <div key={rel.id} className="flex items-center justify-between px-3 py-2 text-sm">
-                                <div className="flex flex-col gap-0.5 min-w-0">
-                                    <span className="font-mono text-xs text-muted-foreground truncate">
-                                        {rel.relatedItemId}
+                                <div className="flex flex-col gap-1 min-w-0">
+                                    <span className="font-medium truncate">
+                                        {rel.relatedItem?.name ?? rel.relatedItemId}
+                                        {rel.relatedItem?.code && (
+                                            <span className="ml-1.5 font-mono text-xs text-muted-foreground">
+                                                ({rel.relatedItem.code})
+                                            </span>
+                                        )}
                                     </span>
                                     <div className="flex items-center gap-2">
-                                        <span className="capitalize text-muted-foreground text-xs">
-                                            {(rel.relationType as string).replace(/_/g, " ")}
-                                        </span>
+                                        <Badge variant="secondary" className="text-xs py-0">
+                                            {t(`relationTypes.${rel.relationType as RelationType}`)}
+                                        </Badge>
                                         {rel.notes && (
-                                            <span className="text-muted-foreground text-xs truncate">· {rel.notes}</span>
+                                            <span className="text-muted-foreground text-xs truncate">
+                                                {rel.notes}
+                                            </span>
                                         )}
                                     </div>
                                 </div>
