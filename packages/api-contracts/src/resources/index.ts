@@ -31,6 +31,8 @@ import { auditResource } from './audit.resource'
 import { tagResource } from './tag.resource'
 import { tagAssignmentResource } from './tag-assignment.resource'
 import { itemRelationResource } from './item-relation.resource'
+import { catalogEntityResource } from './catalog-entity.resource'
+import { itemCatalogEntityResource } from './item-catalog-entity.resource'
 
 export * from './auth.resource'
 export * from './tenant.resource'
@@ -62,6 +64,8 @@ export * from './audit.resource'
 export * from './tag.resource'
 export * from './tag-assignment.resource'
 export * from './item-relation.resource'
+export * from './catalog-entity.resource'
+export * from './item-catalog-entity.resource'
 
 export const resources = {
   auth: authResource,
@@ -94,5 +98,7 @@ export const resources = {
   tags: tagResource,
   tagAssignments: tagAssignmentResource,
   itemRelations: itemRelationResource,
+  catalogEntities: catalogEntityResource,
+  itemCatalogEntities: itemCatalogEntityResource,
 } as const
 

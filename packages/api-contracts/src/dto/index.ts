@@ -23,3 +23,5 @@ export * from './ai-chat.dto';
 export * from './tag.dto';
 export * from './tag-assignment.dto';
 export * from './item-relation.dto';
+export * from './catalog-entity.dto';
+export * from './item-catalog-entity.dto';
