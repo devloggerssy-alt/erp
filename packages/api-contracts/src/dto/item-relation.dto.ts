@@ -18,6 +18,7 @@ export interface ItemRelationResponseDto {
     relatedItemId: string;
     relationType: RelationType;
     notes: string | null;
+    relatedItem: { id: string; name: string; code: string };
     createdAt: string;
     updatedAt: string;
 }
