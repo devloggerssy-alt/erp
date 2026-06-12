@@ -1,0 +1,17 @@
+// ─── ItemCatalogEntity ────────────────────────────────────────────────────────
+model ItemCatalogEntity {
+  id              String   @id @default(uuid())
+  tenantId        String   @map("tenant_id")
+  itemId          String   @map("item_id")
+  catalogEntityId String   @map("catalog_entity_id")
+  createdAt       DateTime @default(now()) @map("created_at")
+
+  tenant        Tenant        @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  item          Item          @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  catalogEntity CatalogEntity @relation(fields: [catalogEntityId], references: [id], onDelete: Cascade)
+
+  @@unique([tenantId, itemId, catalogEntityId])
+  @@index([tenantId, itemId])
+  @@index([tenantId, catalogEntityId])
+  @@map("item_catalog_entities")
+}

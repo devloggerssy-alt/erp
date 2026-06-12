@@ -43,6 +43,8 @@ model Tenant {
     expenses             Expense[]
     tags                 Tag[]
     itemRelations        ItemRelation[]
+    catalogEntities      CatalogEntity[]
+    itemCatalogEntities  ItemCatalogEntity[]
 
     @@map("tenants")
 }

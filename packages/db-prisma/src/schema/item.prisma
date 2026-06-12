@@ -29,8 +29,9 @@ model Item {
     stockMovements  StockMovement[]
     invoiceLines    InvoiceLine[]
     stockCountLines StockCountLine[]
-    itemRelations   ItemRelation[]     @relation("ItemRelations")
-    itemRelatedTo   ItemRelation[]     @relation("ItemRelatedTo")
+    itemRelations       ItemRelation[]     @relation("ItemRelations")
+    itemRelatedTo       ItemRelation[]     @relation("ItemRelatedTo")
+    itemCatalogEntities ItemCatalogEntity[]
 
     @@unique([tenantId, code])
     @@index([tenantId])

@@ -1,3 +1,10 @@
+// Catalog Entity standard kind values (extensible — add more without migration):
+// brand      → top-level manufacturer / brand (e.g. Hyundai, Apple, Pfizer)
+// model      → a specific product model or drug (e.g. Sonata, iPhone 15)
+// generation → a generation or series (e.g. LF, Pro Max)
+// variant    → a specific variant / trim (e.g. 2.4 GDI, 256GB Black)
+// year       → a model year (e.g. 2015, 2016, 2023)
+
 import 'dotenv/config'
 import { PrismaClient } from '../../generated/client'
 import { PrismaPg } from '@prisma/adapter-pg'

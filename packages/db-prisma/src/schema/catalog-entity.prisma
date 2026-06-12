@@ -1,0 +1,22 @@
+// ─── CatalogEntity ────────────────────────────────────────────────────────────
+model CatalogEntity {
+  id         String   @id @default(uuid())
+  tenantId   String   @map("tenant_id")
+  name       String
+  kind       String
+  parentId   String?  @map("parent_id")
+  attributes Json?
+  isActive   Boolean  @default(true) @map("is_active")
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  tenant    Tenant              @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  parent    CatalogEntity?      @relation("CatalogHierarchy", fields: [parentId], references: [id])
+  children  CatalogEntity[]     @relation("CatalogHierarchy")
+  itemLinks ItemCatalogEntity[]
+
+  @@index([tenantId])
+  @@index([tenantId, kind])
+  @@index([tenantId, parentId])
+  @@map("catalog_entities")
+}
