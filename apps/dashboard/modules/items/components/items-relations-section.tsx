@@ -41,7 +41,7 @@ export function ItemRelationsSection({ itemId, disabled }: ItemRelationsSectionP
 
     const { data: relationsResponse } = useQuery({
         queryKey: relationsKey,
-        queryFn: () => api["item-relations"].list({ itemId } as never),
+        queryFn: () => api["item-relations"].list({ [`filters[itemId][$eq]`]: itemId } as never),
         enabled: !!itemId,
     })
     const relations: any[] = (relationsResponse as any)?.data ?? []
