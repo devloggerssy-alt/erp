@@ -72,6 +72,43 @@ Full body: `.ai/skills/_imports/lint-and-validate/SKILL.md`
 
 ---
 
+## 4. OpenAPI-generated types — no workarounds
+
+The app uses an OpenAPI generator. All backend API types live in
+`packages/api-contracts/src/types/` and are **auto-generated** — never hand-authored.
+
+**Command:**
+```bash
+pnpm generate:dev   # regenerates packages/api-contracts/src/types/ from the running API spec
+```
+
+### Hard rules (no exceptions)
+
+- **Never** use `as any`, `as unknown as X`, `@ts-ignore`, or `@ts-expect-error`
+  to paper over a type error involving API request/response data.
+- **Never** redefine an API shape inline (inside a component, hook, or service file).
+- **Never** use workarounds like `Record<string, unknown>`, local interfaces, or
+  re-declaring fields that should come from generated types.
+- **Never** import a type from `packages/api-contracts/src/types/` directly —
+  consume it through the typed utilities in `packages/api-contracts/src/api/`
+  (`ApiResponse`, `ApiRequestBody`, `ApiQueryParams`, etc.).
+
+### When you hit a type error on API data
+
+1. **Run `pnpm generate:dev`** — the spec may have changed since last generation.
+2. Confirm the type is exported from `packages/api-contracts` and import it.
+3. If the type is still wrong or missing, fix the source (resource definition,
+   NestJS DTO, or Swagger decorator), then regenerate — do not patch the consumer.
+4. Build `packages/api-contracts` after regeneration:
+   ```bash
+   pnpm --filter @devloggers/api-contracts build
+   ```
+
+Treating a stale or missing generated type as a reason to write a workaround is
+a code-quality violation on the same level as skipping tests.
+
+---
+
 ## What this rule does NOT do
 
 - It does **not** override the path-scoped rules in `.ai/rules/api.md`,

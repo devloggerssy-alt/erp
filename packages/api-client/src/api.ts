@@ -20,7 +20,8 @@ import { TagAssignmentsClient } from "./clients/tag-assignments.client"
 import { ItemRelationsClient } from "./clients/item-relations.client"
 import { CatalogEntitiesClient } from "./clients/catalog-entities.client"
 import { ItemCatalogEntitiesClient } from "./clients/item-catalog-entities.client"
-import { authResource, itemCategoryResource, itemResource, unitResource, warehouseResource, partyResource, accountResource, currencyResource, fiscalPeriodResource, documentSequenceResource, roleResource, userResource, tenantResource, invoiceTypeResource, invoiceResource, customFieldResource, expenseResource, tagResource, tagAssignmentResource, itemRelationResource, catalogEntityResource, itemCatalogEntityResource } from "@devloggers/api-contracts"
+import { BrandsClient } from "./clients/brands.client"
+import { authResource, itemCategoryResource, itemResource, unitResource, warehouseResource, partyResource, accountResource, currencyResource, fiscalPeriodResource, documentSequenceResource, roleResource, userResource, tenantResource, invoiceTypeResource, invoiceResource, customFieldResource, expenseResource, tagResource, tagAssignmentResource, itemRelationResource, catalogEntityResource, itemCatalogEntityResource, brandResource } from "@devloggers/api-contracts"
 import { CustomFieldsClient } from "./clients/custom-fields.client"
 
 export function createApi(options?: ApiClientOptions, baseUrl = 'http://localhost:4040') {
@@ -49,6 +50,7 @@ export function createApi(options?: ApiClientOptions, baseUrl = 'http://localhos
         [itemRelationResource.key]: new ItemRelationsClient(client),
         [catalogEntityResource.key]: new CatalogEntitiesClient(client),
         [itemCatalogEntityResource.key]: new ItemCatalogEntitiesClient(client),
+        [brandResource.key]: new BrandsClient(client),
     } as const
 }
 

@@ -46,7 +46,9 @@
       "currencies": "Currencies",
       "fiscalPeriods": "Fiscal Periods",
       "documentSequences": "Document Sequences",
-      "tags": "Tags"
+      "tags": "Tags",
+      "catalogEntities": "Catalog Entities",
+      "brands": "Brands"
     }
   },
   "settings": {
@@ -140,7 +142,7 @@
       "label": "Label",
       "type": "Type",
       "options": "Options",
-      "optionsPlaceholder": "Comma-separated, e.g. Red, Blue, Green",
+      "addOption": "Add option",
       "defaultValue": "Default Value",
       "defaultValuePlaceholder": "Optional default",
       "placeholder": "Placeholder",
@@ -219,7 +221,14 @@
         "compatible_with": "Compatible With",
         "replaces": "Replaces",
         "requires": "Requires"
-      }
+      },
+      "sectionCatalogEntities": "Catalog Entities",
+      "noCatalogEntities": "No catalog entities linked",
+      "catalogEntityPlaceholder": "Search catalog entities...",
+      "addCatalogEntity": "Link Catalog Entity",
+      "addCatalogEntityAction": "Link Entity",
+      "brand": "Brand",
+      "brandPlaceholder": "Select brand..."
     },
     "warehouses": {
       "title": "Warehouses",
@@ -448,6 +457,28 @@
         "invoices": "Invoices",
         "warehouses": "Warehouses"
       },
+      "active": "Active"
+    },
+    "catalogEntities": {
+      "title": "Catalog Entities",
+      "addAction": "Add Entity",
+      "entity": "Catalog Entity",
+      "name": "Name",
+      "namePlaceholder": "e.g. Toyota",
+      "kind": "Kind",
+      "kindPlaceholder": "e.g. brand, model, variant...",
+      "parent": "Parent Entity",
+      "parentPlaceholder": "Select parent...",
+      "active": "Active"
+    },
+    "brands": {
+      "title": "Brands",
+      "addAction": "Add Brand",
+      "entity": "Brand",
+      "name": "Name",
+      "namePlaceholder": "e.g. Toyota",
+      "imageUrl": "Image URL",
+      "imageUrlPlaceholder": "https://example.com/logo.png",
       "active": "Active"
     }
   }

@@ -2,7 +2,7 @@
 
 import { useTranslations } from "next-intl"
 import { type ItemsClient } from "@devloggers/api-client"
-import { itemCategoryResource, unitResource } from "@devloggers/api-contracts"
+import { itemCategoryResource, unitResource, brandResource } from "@devloggers/api-contracts"
 import { ResourceFormShell, RhfCheckboxField, RhfResourceSelect, RhfSelectField, RhfTextField } from "@/shared/components/form"
 import type { ResourceFormProps } from "@/shared/data-view/resource"
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/components/ui/card"
@@ -13,6 +13,7 @@ import { cn } from "@/shared/lib/utils"
 import { itemsFormConfig, type ItemFormValues } from "../items.config"
 import { ItemTagsSection } from "./items-tags-section"
 import { ItemRelationsSection } from "./items-relations-section"
+import { ItemCatalogEntitiesSection } from "./items-catalog-entities-section"
 
 export type ItemsFormProps = ResourceFormProps<ItemsClient> & {
     closeOnSuccess?: boolean
@@ -97,21 +98,32 @@ export function ItemsForm({
                                 />
                             </div>
                             <RhfResourceSelect
-                                name="categoryId"
+                                name="category"
                                 label={t("category")}
                                 placeholder={t("categoryPlaceholder")}
                                 client={(api) => api[itemCategoryResource.key]}
-                                getLabel={(item) => item.name}
+                                getLabel={(item) => (item as unknown as { name: string }).name}
+                                getValue={(item) => item}
                                 required
                                 disabled={ctrl.isBusy}
                             />
                             <RhfResourceSelect
-                                name="baseUnitId"
+                                name="baseUnit"
                                 label={t("baseUnit")}
                                 placeholder={t("baseUnitPlaceholder")}
                                 client={(api) => api[unitResource.key]}
-                                getLabel={(item) => item.name}
+                                getLabel={(item) => (item as unknown as { name: string }).name}
+                                getValue={(item) => item}
                                 required
+                                disabled={ctrl.isBusy}
+                            />
+                            <RhfResourceSelect
+                                name="brand"
+                                label={t("brand")}
+                                placeholder={t("brandPlaceholder")}
+                                client={(api) => api[brandResource.key]}
+                                getLabel={(item) => (item as unknown as { name: string }).name}
+                                getValue={(item) => item}
                                 disabled={ctrl.isBusy}
                             />
                         </CardContent>
@@ -165,6 +177,10 @@ export function ItemsForm({
 
                         {resourceId && (
                             <ItemRelationsSection itemId={resourceId} disabled={ctrl.isBusy} />
+                        )}
+
+                        {resourceId && (
+                            <ItemCatalogEntitiesSection itemId={resourceId} disabled={ctrl.isBusy} />
                         )}
                     </div>
                 )}

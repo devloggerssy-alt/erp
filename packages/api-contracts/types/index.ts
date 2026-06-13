@@ -548,6 +548,153 @@ export interface paths {
         patch: operations["ItemRelations.update"];
         trace?: never;
     };
+    "/catalog-entities": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List catalog entities
+         * @description Returns a paginated, filterable list of catalog entities (brands, models, generations, variants, years) belonging to the authenticated tenant.
+         */
+        get: operations["CatalogEntities.list"];
+        put?: never;
+        /**
+         * Create a catalog entity
+         * @description Creates a new catalog entity. Name must be unique for the given kind under the same parent within the tenant.
+         */
+        post: operations["CatalogEntities.create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/catalog-entities/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get a catalog entity by ID */
+        get: operations["CatalogEntities.show"];
+        put?: never;
+        post?: never;
+        /**
+         * Delete a catalog entity
+         * @description Hard-deletes the catalog entity. Will fail if the entity has child entities.
+         */
+        delete: operations["CatalogEntities.delete"];
+        options?: never;
+        head?: never;
+        /**
+         * Update a catalog entity
+         * @description Partial update — only provided fields are changed.
+         */
+        patch: operations["CatalogEntities.update"];
+        trace?: never;
+    };
+    "/item-catalog-entities": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List item catalog entity links
+         * @description Returns a paginated, filterable list of links between items and catalog entities belonging to the authenticated tenant.
+         */
+        get: operations["ItemCatalogEntities.list"];
+        put?: never;
+        /**
+         * Create an item catalog entity link
+         * @description Links an item to a catalog entity. The pair must be unique within the tenant.
+         */
+        post: operations["ItemCatalogEntities.create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/item-catalog-entities/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get an item catalog entity link by ID */
+        get: operations["ItemCatalogEntities.show"];
+        put?: never;
+        post?: never;
+        /**
+         * Delete an item catalog entity link
+         * @description Hard-deletes the link between the item and the catalog entity.
+         */
+        delete: operations["ItemCatalogEntities.delete"];
+        options?: never;
+        head?: never;
+        /**
+         * Update an item catalog entity link
+         * @description Junction records are immutable — there are no updatable fields.
+         */
+        patch: operations["ItemCatalogEntities.update"];
+        trace?: never;
+    };
+    "/brands": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List brands
+         * @description Returns a paginated, filterable list of brands belonging to the authenticated tenant.
+         */
+        get: operations["Brands.list"];
+        put?: never;
+        /**
+         * Create a brand
+         * @description Creates a new brand. Name must be unique within the tenant.
+         */
+        post: operations["Brands.create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/brands/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get a brand by ID */
+        get: operations["Brands.show"];
+        put?: never;
+        post?: never;
+        /**
+         * Delete a brand
+         * @description Hard-deletes the brand.
+         */
+        delete: operations["Brands.delete"];
+        options?: never;
+        head?: never;
+        /**
+         * Update a brand
+         * @description Partial update — only provided fields are changed.
+         */
+        patch: operations["Brands.update"];
+        trace?: never;
+    };
     "/accounting/journal-entries": {
         parameters: {
             query?: never;
@@ -1557,80 +1704,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/catalog-entities": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** List catalog entities */
-        get: operations["CatalogEntities.list"];
-        put?: never;
-        /** Create a catalog entity */
-        post: operations["CatalogEntities.create"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/catalog-entities/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get a catalog entity by ID */
-        get: operations["CatalogEntities.show"];
-        put?: never;
-        post?: never;
-        /** Delete a catalog entity */
-        delete: operations["CatalogEntities.delete"];
-        options?: never;
-        head?: never;
-        /** Update a catalog entity */
-        patch: operations["CatalogEntities.update"];
-        trace?: never;
-    };
-    "/item-catalog-entities": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** List item–catalog-entity links */
-        get: operations["ItemCatalogEntities.list"];
-        put?: never;
-        /** Create an item–catalog-entity link */
-        post: operations["ItemCatalogEntities.create"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/item-catalog-entities/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get an item–catalog-entity link by ID */
-        get: operations["ItemCatalogEntities.show"];
-        put?: never;
-        post?: never;
-        /** Delete an item–catalog-entity link */
-        delete: operations["ItemCatalogEntities.delete"];
-        options?: never;
-        head?: never;
-        /** Update an item–catalog-entity link */
-        patch: operations["ItemCatalogEntities.update"];
-        trace?: never;
-    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -1669,7 +1742,7 @@ export interface components {
              *     ]
              */
             enumValues?: string[];
-            /** @example auth|tenants|users|roles|currencies|fiscal-periods|document-sequences|units|item-categories|items|custom-fields|parties|warehouses|inventory|stock-ledger|invoice-types|invoices|cashboxes|payments|expenses|accounting|chart-of-accounts|stock-counts|reports|dashboard|ai|audit-logs|tags|tag-assignments|item-relations */
+            /** @example auth|tenants|users|roles|currencies|fiscal-periods|document-sequences|units|item-categories|items|custom-fields|parties|warehouses|inventory|stock-ledger|invoice-types|invoices|cashboxes|payments|expenses|accounting|chart-of-accounts|stock-counts|reports|dashboard|ai|audit-logs|tags|tag-assignments|item-relations|catalog-entities|item-catalog-entities|brands */
             foreignResourceKey?: string;
         };
         ApiMetaDto: {
@@ -2109,6 +2182,25 @@ export interface components {
             baseUnitId: string;
             /**
              * @default null
+             * @example 00000000-0000-4000-b000-000000000001
+             */
+            brandId: string | null;
+            category?: {
+                id: string;
+                name: string;
+            };
+            baseUnit?: {
+                id: string;
+                name: string;
+                abbreviation: string;
+            };
+            brand?: {
+                id: string;
+                name: string;
+                imageUrl: string | null;
+            };
+            /**
+             * @default null
              * @example 750000
              */
             defaultSellingPrice: number | null;
@@ -2177,6 +2269,11 @@ export interface components {
              */
             baseUnitId: string;
             /**
+             * @description Brand ID
+             * @example 00000000-0000-4000-b000-000000000001
+             */
+            brandId?: string | null;
+            /**
              * @description Default selling price
              * @example 750000
              */
@@ -2208,6 +2305,8 @@ export interface components {
             categoryId?: string;
             /** @example 00000000-0000-4000-a800-000000000001 */
             baseUnitId?: string;
+            /** @example 00000000-0000-4000-b000-000000000001 */
+            brandId?: string | null;
             /** @example 780000 */
             defaultSellingPrice?: number;
             /** @example 620000 */
@@ -2486,6 +2585,156 @@ export interface components {
             relationType?: "compatible_with" | "replaces" | "requires";
             /** @example Updated notes */
             notes?: string;
+        };
+        CatalogEntityResponseDto: {
+            /** @default  */
+            id: string;
+            /** @default  */
+            name: string;
+            /** @default  */
+            kind: string;
+            /** @default null */
+            parentId: string | null;
+            /** @default null */
+            parent: Record<string, never> | null;
+            /** @default null */
+            attributes: {
+                [key: string]: unknown;
+            } | null;
+            /** @default true */
+            isActive: boolean;
+            /** @default  */
+            createdAt: string;
+            /** @default  */
+            updatedAt: string;
+        };
+        CreateCatalogEntityDto: {
+            /**
+             * @default
+             * @example Hyundai
+             */
+            name: string;
+            /**
+             * @description Entity kind (brand | model | generation | variant | year)
+             * @default
+             * @example brand
+             */
+            kind: string;
+            /** @example null */
+            parentId?: string | null;
+            attributes?: {
+                [key: string]: unknown;
+            } | null;
+        };
+        UpdateCatalogEntityDto: {
+            /** @example Hyundai Updated */
+            name?: string;
+            /** @example brand */
+            kind?: string;
+            parentId?: string | null;
+            attributes?: {
+                [key: string]: unknown;
+            } | null;
+            /** @example true */
+            isActive?: boolean;
+        };
+        ItemCatalogEntityResponseDto: {
+            /** @default  */
+            id: string;
+            /** @default  */
+            itemId: string;
+            /** @default  */
+            catalogEntityId: string;
+            /**
+             * @default {
+             *       "id": "",
+             *       "name": "",
+             *       "kind": "",
+             *       "parentId": null
+             *     }
+             */
+            catalogEntity: Record<string, never>;
+            /** @default  */
+            createdAt: string;
+        };
+        CreateItemCatalogEntityDto: {
+            /**
+             * Format: uuid
+             * @default
+             * @example uuid-of-item
+             */
+            itemId: string;
+            /**
+             * Format: uuid
+             * @default
+             * @example uuid-of-catalog-entity
+             */
+            catalogEntityId: string;
+        };
+        UpdateItemCatalogEntityDto: Record<string, never>;
+        BrandResponseDto: {
+            /**
+             * @default
+             * @example 018e1234-abcd-7000-a001-000000000001
+             */
+            id: string;
+            /**
+             * @default
+             * @example Toyota
+             */
+            name: string;
+            /**
+             * @default null
+             * @example https://cdn.example.com/toyota.png
+             */
+            imageUrl: string | null;
+            /**
+             * @default true
+             * @example true
+             */
+            isActive: boolean;
+            /**
+             * @default
+             * @example 2025-01-01T00:00:00.000Z
+             */
+            createdAt: string;
+            /**
+             * @default
+             * @example 2025-01-01T00:00:00.000Z
+             */
+            updatedAt: string;
+        };
+        CreateBrandDto: {
+            /**
+             * @description Brand display name
+             * @default
+             * @example Toyota
+             */
+            name: string;
+            /**
+             * Format: uri
+             * @description Brand logo URL
+             * @example https://cdn.example.com/toyota.png
+             */
+            imageUrl?: string | null;
+        };
+        UpdateBrandDto: {
+            /**
+             * @description Updated display name
+             * @example Toyota (Updated)
+             */
+            name?: string;
+            /**
+             * Format: uri
+             * @description Updated logo URL
+             * @example https://cdn.example.com/toyota-new.png
+             */
+            imageUrl?: string | null;
+            /**
+             * @description Whether the brand is active
+             * @example true
+             */
+            isActive?: boolean;
         };
         CurrencyResponseDto: {
             /**
@@ -7751,6 +8000,1386 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
                         data?: components["schemas"]["ItemRelationResponseDto"];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "CatalogEntities.list": {
+        parameters: {
+            query?: {
+                /** @description Page number (1-based) */
+                page?: number;
+                /** @description Number of items per page */
+                limit?: number;
+                /** @description Field name to sort by */
+                sortField?: string;
+                sortOrder?: "asc" | "desc";
+                /** @description Full-text search keyword */
+                search?: string;
+                /** @description Comma-separated field names to search within (e.g. name,symbol) */
+                searchIn?: string;
+                /** @description Structured filters. Example: filters[name][$like]=sample-name&filters[kind][$like]=sample-kind&filters[parentId][$like]=sample-parentId&filters[isActive][$eq]=true&filters[createdAt][$gte]=2024-01-01T00%3A00%3A00.000Z */
+                filters?: {
+                    /**
+                     * @description Filter on `name` (string)
+                     * @example {
+                     *       "$like": "sample-name"
+                     *     }
+                     */
+                    name?: {
+                        $eq?: string;
+                        /** @example sample-name */
+                        $like?: string;
+                        $in?: string[];
+                        /** @enum {boolean} */
+                        $isNull?: true;
+                    };
+                    /**
+                     * @description Filter on `kind` (string)
+                     * @example {
+                     *       "$like": "sample-kind"
+                     *     }
+                     */
+                    kind?: {
+                        $eq?: string;
+                        /** @example sample-kind */
+                        $like?: string;
+                        $in?: string[];
+                        /** @enum {boolean} */
+                        $isNull?: true;
+                    };
+                    /**
+                     * @description Filter on `parentId` (string)
+                     * @example {
+                     *       "$like": "sample-parentId"
+                     *     }
+                     */
+                    parentId?: {
+                        $eq?: string;
+                        /** @example sample-parentId */
+                        $like?: string;
+                        $in?: string[];
+                        /** @enum {boolean} */
+                        $isNull?: true;
+                    };
+                    /**
+                     * @description Filter on `isActive` (boolean)
+                     * @example {
+                     *       "$eq": true
+                     *     }
+                     */
+                    isActive?: {
+                        /** @example true */
+                        $eq?: boolean;
+                        /** @enum {boolean} */
+                        $isNull?: true;
+                    };
+                    /**
+                     * @description Filter on `createdAt` (date)
+                     * @example {
+                     *       "$gte": "2024-01-01T00:00:00.000Z"
+                     *     }
+                     */
+                    createdAt?: {
+                        $eq?: string;
+                        /**
+                         * Format: date-time
+                         * @example 2024-01-01T00:00:00.000Z
+                         */
+                        $gte?: string;
+                        /** Format: date-time */
+                        $lte?: string;
+                        /** @enum {boolean} */
+                        $isNull?: true;
+                    };
+                };
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Paginated list of catalog entities */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["CatalogEntityResponseDto"][];
+                        meta?: {
+                            pagination?: {
+                                /** @example 0 */
+                                total?: number;
+                                /** @example 1 */
+                                page?: number;
+                                /** @example 10 */
+                                limit?: number;
+                                /** @example 0 */
+                                totalPages?: number;
+                            };
+                            /**
+                             * @example [
+                             *       {
+                             *         "field": "name",
+                             *         "type": "string",
+                             *         "operators": [
+                             *           "$eq",
+                             *           "$like",
+                             *           "$in",
+                             *           "$isNull"
+                             *         ]
+                             *       },
+                             *       {
+                             *         "field": "kind",
+                             *         "type": "string",
+                             *         "operators": [
+                             *           "$eq",
+                             *           "$like",
+                             *           "$in",
+                             *           "$isNull"
+                             *         ]
+                             *       },
+                             *       {
+                             *         "field": "parentId",
+                             *         "type": "string",
+                             *         "operators": [
+                             *           "$eq",
+                             *           "$like",
+                             *           "$in",
+                             *           "$isNull"
+                             *         ]
+                             *       },
+                             *       {
+                             *         "field": "isActive",
+                             *         "type": "boolean",
+                             *         "operators": [
+                             *           "$eq",
+                             *           "$isNull"
+                             *         ]
+                             *       },
+                             *       {
+                             *         "field": "createdAt",
+                             *         "type": "date",
+                             *         "operators": [
+                             *           "$eq",
+                             *           "$gte",
+                             *           "$lte",
+                             *           "$isNull"
+                             *         ]
+                             *       }
+                             *     ]
+                             */
+                            filterOptions?: unknown[];
+                        };
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "CatalogEntities.create": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateCatalogEntityDto"];
+            };
+        };
+        responses: {
+            /** @description Catalog entity created successfully */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["CatalogEntityResponseDto"];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "CatalogEntities.show": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Catalog entity UUID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Catalog entity details */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["CatalogEntityResponseDto"];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "CatalogEntities.delete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Catalog entity UUID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Catalog entity deleted successfully */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "CatalogEntities.update": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Catalog entity UUID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateCatalogEntityDto"];
+            };
+        };
+        responses: {
+            /** @description Updated catalog entity */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["CatalogEntityResponseDto"];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "ItemCatalogEntities.list": {
+        parameters: {
+            query?: {
+                /** @description Page number (1-based) */
+                page?: number;
+                /** @description Number of items per page */
+                limit?: number;
+                /** @description Field name to sort by */
+                sortField?: string;
+                sortOrder?: "asc" | "desc";
+                /** @description Full-text search keyword */
+                search?: string;
+                /** @description Comma-separated field names to search within (e.g. name,symbol) */
+                searchIn?: string;
+                /** @description Structured filters. Example: filters[itemId][$like]=sample-itemId&filters[catalogEntityId][$like]=sample-catalogEntityId */
+                filters?: {
+                    /**
+                     * @description Filter on `itemId` (string)
+                     * @example {
+                     *       "$like": "sample-itemId"
+                     *     }
+                     */
+                    itemId?: {
+                        $eq?: string;
+                        /** @example sample-itemId */
+                        $like?: string;
+                        $in?: string[];
+                        /** @enum {boolean} */
+                        $isNull?: true;
+                    };
+                    /**
+                     * @description Filter on `catalogEntityId` (string)
+                     * @example {
+                     *       "$like": "sample-catalogEntityId"
+                     *     }
+                     */
+                    catalogEntityId?: {
+                        $eq?: string;
+                        /** @example sample-catalogEntityId */
+                        $like?: string;
+                        $in?: string[];
+                        /** @enum {boolean} */
+                        $isNull?: true;
+                    };
+                };
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Paginated list of item catalog entity links */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["ItemCatalogEntityResponseDto"][];
+                        meta?: {
+                            pagination?: {
+                                /** @example 0 */
+                                total?: number;
+                                /** @example 1 */
+                                page?: number;
+                                /** @example 10 */
+                                limit?: number;
+                                /** @example 0 */
+                                totalPages?: number;
+                            };
+                            /**
+                             * @example [
+                             *       {
+                             *         "field": "itemId",
+                             *         "type": "string",
+                             *         "operators": [
+                             *           "$eq",
+                             *           "$like",
+                             *           "$in",
+                             *           "$isNull"
+                             *         ]
+                             *       },
+                             *       {
+                             *         "field": "catalogEntityId",
+                             *         "type": "string",
+                             *         "operators": [
+                             *           "$eq",
+                             *           "$like",
+                             *           "$in",
+                             *           "$isNull"
+                             *         ]
+                             *       }
+                             *     ]
+                             */
+                            filterOptions?: unknown[];
+                        };
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "ItemCatalogEntities.create": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateItemCatalogEntityDto"];
+            };
+        };
+        responses: {
+            /** @description Item catalog entity link created successfully */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["ItemCatalogEntityResponseDto"];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "ItemCatalogEntities.show": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Item catalog entity link UUID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Item catalog entity link details */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["ItemCatalogEntityResponseDto"];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "ItemCatalogEntities.delete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Item catalog entity link UUID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Item catalog entity link deleted successfully */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "ItemCatalogEntities.update": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Item catalog entity link UUID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateItemCatalogEntityDto"];
+            };
+        };
+        responses: {
+            /** @description Updated item catalog entity link */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["ItemCatalogEntityResponseDto"];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "Brands.list": {
+        parameters: {
+            query?: {
+                /** @description Page number (1-based) */
+                page?: number;
+                /** @description Number of items per page */
+                limit?: number;
+                /** @description Field name to sort by */
+                sortField?: string;
+                sortOrder?: "asc" | "desc";
+                /** @description Full-text search keyword */
+                search?: string;
+                /** @description Comma-separated field names to search within (e.g. name,symbol) */
+                searchIn?: string;
+                /** @description Structured filters. Example: filters[name][$like]=sample-name&filters[isActive][$eq]=true&filters[createdAt][$gte]=2024-01-01T00%3A00%3A00.000Z */
+                filters?: {
+                    /**
+                     * @description Filter on `name` (string)
+                     * @example {
+                     *       "$like": "sample-name"
+                     *     }
+                     */
+                    name?: {
+                        $eq?: string;
+                        /** @example sample-name */
+                        $like?: string;
+                        $in?: string[];
+                        /** @enum {boolean} */
+                        $isNull?: true;
+                    };
+                    /**
+                     * @description Filter on `isActive` (boolean)
+                     * @example {
+                     *       "$eq": true
+                     *     }
+                     */
+                    isActive?: {
+                        /** @example true */
+                        $eq?: boolean;
+                        /** @enum {boolean} */
+                        $isNull?: true;
+                    };
+                    /**
+                     * @description Filter on `createdAt` (date)
+                     * @example {
+                     *       "$gte": "2024-01-01T00:00:00.000Z"
+                     *     }
+                     */
+                    createdAt?: {
+                        $eq?: string;
+                        /**
+                         * Format: date-time
+                         * @example 2024-01-01T00:00:00.000Z
+                         */
+                        $gte?: string;
+                        /** Format: date-time */
+                        $lte?: string;
+                        /** @enum {boolean} */
+                        $isNull?: true;
+                    };
+                };
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Paginated list of brands */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["BrandResponseDto"][];
+                        meta?: {
+                            pagination?: {
+                                /** @example 0 */
+                                total?: number;
+                                /** @example 1 */
+                                page?: number;
+                                /** @example 10 */
+                                limit?: number;
+                                /** @example 0 */
+                                totalPages?: number;
+                            };
+                            /**
+                             * @example [
+                             *       {
+                             *         "field": "name",
+                             *         "type": "string",
+                             *         "operators": [
+                             *           "$eq",
+                             *           "$like",
+                             *           "$in",
+                             *           "$isNull"
+                             *         ]
+                             *       },
+                             *       {
+                             *         "field": "isActive",
+                             *         "type": "boolean",
+                             *         "operators": [
+                             *           "$eq",
+                             *           "$isNull"
+                             *         ]
+                             *       },
+                             *       {
+                             *         "field": "createdAt",
+                             *         "type": "date",
+                             *         "operators": [
+                             *           "$eq",
+                             *           "$gte",
+                             *           "$lte",
+                             *           "$isNull"
+                             *         ]
+                             *       }
+                             *     ]
+                             */
+                            filterOptions?: unknown[];
+                        };
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "Brands.create": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateBrandDto"];
+            };
+        };
+        responses: {
+            /** @description Brand created successfully */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["BrandResponseDto"];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "Brands.show": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Brand UUID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Brand details */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["BrandResponseDto"];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "Brands.delete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Brand UUID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Brand deleted successfully */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "Brands.update": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Brand UUID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateBrandDto"];
+            };
+        };
+        responses: {
+            /** @description Updated brand */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["BrandResponseDto"];
                     };
                 };
             };
@@ -13803,209 +15432,6 @@ export interface operations {
                 content: {
                     "application/json": unknown;
                 };
-            };
-        };
-    };
-    "CatalogEntities.list": {
-        parameters: {
-            query?: {
-                page?: number;
-                limit?: number;
-                sortField?: string;
-                sortOrder?: "asc" | "desc";
-                search?: string;
-                searchIn?: string;
-                filters?: {
-                    kind?: { $eq?: string; $like?: string; $in?: string[]; };
-                    parentId?: { $eq?: string; $isNull?: true; };
-                    isActive?: { $eq?: boolean; };
-                };
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: { [name: string]: unknown; };
-                content: { "application/json": unknown; };
-            };
-        };
-    };
-    "CatalogEntities.show": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: { id: string; };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: { [name: string]: unknown; };
-                content: { "application/json": unknown; };
-            };
-        };
-    };
-    "CatalogEntities.create": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": {
-                    name: string;
-                    kind: string;
-                    parentId?: string | null;
-                    attributes?: Record<string, unknown> | null;
-                };
-            };
-        };
-        responses: {
-            201: {
-                headers: { [name: string]: unknown; };
-                content: { "application/json": unknown; };
-            };
-        };
-    };
-    "CatalogEntities.update": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: { id: string; };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": {
-                    name?: string;
-                    kind?: string;
-                    parentId?: string | null;
-                    attributes?: Record<string, unknown> | null;
-                    isActive?: boolean;
-                };
-            };
-        };
-        responses: {
-            200: {
-                headers: { [name: string]: unknown; };
-                content: { "application/json": unknown; };
-            };
-        };
-    };
-    "CatalogEntities.delete": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: { id: string; };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            204: {
-                headers: { [name: string]: unknown; };
-                content?: never;
-            };
-        };
-    };
-    "ItemCatalogEntities.list": {
-        parameters: {
-            query?: {
-                page?: number;
-                limit?: number;
-                sortField?: string;
-                sortOrder?: "asc" | "desc";
-                search?: string;
-                searchIn?: string;
-                filters?: {
-                    itemId?: { $eq?: string; $like?: string; $in?: string[]; };
-                    catalogEntityId?: { $eq?: string; $like?: string; $in?: string[]; };
-                };
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: { [name: string]: unknown; };
-                content: { "application/json": unknown; };
-            };
-        };
-    };
-    "ItemCatalogEntities.show": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: { id: string; };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: { [name: string]: unknown; };
-                content: { "application/json": unknown; };
-            };
-        };
-    };
-    "ItemCatalogEntities.create": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": {
-                    itemId: string;
-                    catalogEntityId: string;
-                };
-            };
-        };
-        responses: {
-            201: {
-                headers: { [name: string]: unknown; };
-                content: { "application/json": unknown; };
-            };
-        };
-    };
-    "ItemCatalogEntities.update": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: { id: string; };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": Record<string, never>;
-            };
-        };
-        responses: {
-            200: {
-                headers: { [name: string]: unknown; };
-                content: { "application/json": unknown; };
-            };
-        };
-    };
-    "ItemCatalogEntities.delete": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: { id: string; };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            204: {
-                headers: { [name: string]: unknown; };
-                content?: never;
             };
         };
     };

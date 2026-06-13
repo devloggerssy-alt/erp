@@ -33,6 +33,7 @@ import { tagAssignmentResource } from './tag-assignment.resource'
 import { itemRelationResource } from './item-relation.resource'
 import { catalogEntityResource } from './catalog-entity.resource'
 import { itemCatalogEntityResource } from './item-catalog-entity.resource'
+import { brandResource } from './brand.resource'
 
 export * from './auth.resource'
 export * from './tenant.resource'
@@ -66,6 +67,7 @@ export * from './tag-assignment.resource'
 export * from './item-relation.resource'
 export * from './catalog-entity.resource'
 export * from './item-catalog-entity.resource'
+export * from './brand.resource'
 
 export const resources = {
   auth: authResource,
@@ -100,5 +102,6 @@ export const resources = {
   itemRelations: itemRelationResource,
   catalogEntities: catalogEntityResource,
   itemCatalogEntities: itemCatalogEntityResource,
+  brands: brandResource,
 } as const
 

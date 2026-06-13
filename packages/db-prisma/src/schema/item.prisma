@@ -14,6 +14,7 @@ model Item {
     barcode             String?
     categoryId          String   @map("category_id")
     baseUnitId          String   @map("base_unit_id")
+    brandId             String?  @map("brand_id")
     defaultSellingPrice Decimal? @map("default_selling_price") @db.Decimal(18, 4)
     latestPurchasePrice Decimal? @map("latest_purchase_price") @db.Decimal(18, 4)
     itemType            ItemType @default(product) @map("item_type")
@@ -24,6 +25,7 @@ model Item {
     tenant          Tenant             @relation(fields: [tenantId], references: [id], onDelete: Cascade)
     category        ItemCategory       @relation(fields: [categoryId], references: [id])
     baseUnit        Unit               @relation(fields: [baseUnitId], references: [id])
+    brand           Brand?             @relation(fields: [brandId], references: [id])
     warehouseItems  WarehouseItem[]
     stockBalances   StockBalance[]
     stockMovements  StockMovement[]
@@ -36,5 +38,6 @@ model Item {
     @@unique([tenantId, code])
     @@index([tenantId])
     @@index([tenantId, itemType])
+    @@index([tenantId, brandId])
     @@map("items")
 }

@@ -13,6 +13,7 @@ export class ItemPresenter extends CrudPresenter<Item, ItemResponseDto> {
             barcode: entity.barcode ?? null,
             categoryId: entity.categoryId,
             baseUnitId: entity.baseUnitId,
+            brandId: entity.brandId ?? null,
             defaultSellingPrice: entity.defaultSellingPrice ?? null,
             latestPurchasePrice: entity.latestPurchasePrice ?? null,
             isActive: entity.isActive,

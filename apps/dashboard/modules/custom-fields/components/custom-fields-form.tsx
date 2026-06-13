@@ -1,6 +1,8 @@
 "use client"
 
 import { useTranslations } from "next-intl"
+import { useFieldArray } from "react-hook-form"
+import { Plus, X } from "lucide-react"
 import { fieldTypes } from "@devloggers/api-contracts"
 import { type CustomFieldsClient } from "@devloggers/api-client"
 import {
@@ -10,6 +12,9 @@ import {
     RhfSelectField,
     RhfTextField,
 } from "@/shared/components/form"
+import { Button } from "@/shared/components/ui/button"
+import { Input } from "@/shared/components/ui/input"
+import { Label } from "@/shared/components/ui/label"
 import type { ResourceFormProps } from "@/shared/data-view/resource"
 import { useResourceFormController } from "@/shared/hooks/use-resource-form-controller"
 import { customFieldsFormConfig, type CustomFieldFormValues } from "../custom-fields.config"
@@ -35,6 +40,11 @@ export function CustomFieldsForm({
         onSuccess,
     })
 
+    const { fields, append, remove } = useFieldArray({
+        control: ctrl.form.control,
+        name: "options",
+    })
+
     const showOptions = ctrl.form.watch("type") === fieldTypes.SELECT
         || ctrl.form.watch("type") === fieldTypes.MULTI_SELECT
 
@@ -50,12 +60,38 @@ export function CustomFieldsForm({
                 options={TYPE_OPTIONS}
             />
             {showOptions && (
-                <RhfTextField
-                    name="optionsText"
-                    label={t("options")}
-                    placeholder={t("optionsPlaceholder")}
-                    disabled={ctrl.isBusy}
-                />
+                <div className="flex flex-col gap-2">
+                    <Label>{t("options")}</Label>
+                    {fields.map((field, index) => (
+                        <div key={field.id} className="flex items-center gap-2">
+                            <Input
+                                {...ctrl.form.register(`options.${index}.value`)}
+                                disabled={ctrl.isBusy}
+                                placeholder={`${t("options")} ${index + 1}`}
+                            />
+                            <Button
+                                type="button"
+                                variant="ghost"
+                                size="icon"
+                                disabled={ctrl.isBusy}
+                                onClick={() => remove(index)}
+                            >
+                                <X className="h-4 w-4" />
+                            </Button>
+                        </div>
+                    ))}
+                    <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        disabled={ctrl.isBusy}
+                        onClick={() => append({ value: "" })}
+                        className="w-fit"
+                    >
+                        <Plus className="me-1 h-4 w-4" />
+                        {t("addOption")}
+                    </Button>
+                </div>
             )}
             <RhfTextField
                 name="defaultValue"

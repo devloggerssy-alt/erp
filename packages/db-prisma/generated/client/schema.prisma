@@ -140,6 +140,24 @@ model AuditLog {
   @@map("audit_logs")
 }
 
+// ─── Brand ────────────────────────────────────────────────────────────────────
+model Brand {
+  id        String   @id @default(uuid())
+  tenantId  String   @map("tenant_id")
+  name      String
+  imageUrl  String?  @map("image_url")
+  isActive  Boolean  @default(true) @map("is_active")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  items  Item[]
+
+  @@unique([tenantId, name])
+  @@index([tenantId])
+  @@map("brands")
+}
+
 // ─── Payment Type Enum ────────────────────────────────────────────────────────
 enum PaymentType {
   RECEIPT
@@ -614,6 +632,7 @@ model Item {
   barcode             String?
   categoryId          String   @map("category_id")
   baseUnitId          String   @map("base_unit_id")
+  brandId             String?  @map("brand_id")
   defaultSellingPrice Decimal? @map("default_selling_price") @db.Decimal(18, 4)
   latestPurchasePrice Decimal? @map("latest_purchase_price") @db.Decimal(18, 4)
   itemType            ItemType @default(product) @map("item_type")
@@ -624,6 +643,7 @@ model Item {
   tenant              Tenant              @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   category            ItemCategory        @relation(fields: [categoryId], references: [id])
   baseUnit            Unit                @relation(fields: [baseUnitId], references: [id])
+  brand               Brand?              @relation(fields: [brandId], references: [id])
   warehouseItems      WarehouseItem[]
   stockBalances       StockBalance[]
   stockMovements      StockMovement[]
@@ -636,6 +656,7 @@ model Item {
   @@unique([tenantId, code])
   @@index([tenantId])
   @@index([tenantId, itemType])
+  @@index([tenantId, brandId])
   @@map("items")
 }
 
@@ -885,6 +906,7 @@ model Tenant {
   itemRelations        ItemRelation[]
   catalogEntities      CatalogEntity[]
   itemCatalogEntities  ItemCatalogEntity[]
+  brands               Brand[]
 
   @@map("tenants")
 }

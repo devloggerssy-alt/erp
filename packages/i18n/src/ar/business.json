@@ -46,7 +46,9 @@
       "currencies": "العملات",
       "fiscalPeriods": "الفترات المالية",
       "documentSequences": "تسلسل المستندات",
-      "tags": "الوسوم"
+      "tags": "الوسوم",
+      "catalogEntities": "كيانات الكتالوج",
+      "brands": "العلامات التجارية"
     }
   },
   "settings": {
@@ -140,7 +142,7 @@
       "label": "التسمية",
       "type": "النوع",
       "options": "الخيارات",
-      "optionsPlaceholder": "مفصولة بفواصل، مثال: أحمر، أزرق، أخضر",
+      "addOption": "إضافة خيار",
       "defaultValue": "القيمة الافتراضية",
       "defaultValuePlaceholder": "افتراضي اختياري",
       "placeholder": "نص توضيحي",
@@ -215,11 +217,18 @@
       "notes": "ملاحظات",
       "notesPlaceholder": "ملاحظات اختيارية...",
       "addRelationAction": "إضافة العلاقة",
+      "sectionCatalogEntities": "كيانات الكتالوج",
+      "noCatalogEntities": "لا توجد كيانات كتالوج مرتبطة",
+      "catalogEntityPlaceholder": "ابحث عن كيان كتالوج...",
+      "addCatalogEntity": "ربط كيان كتالوج",
+      "addCatalogEntityAction": "ربط الكيان",
       "relationTypes": {
         "compatible_with": "متوافق مع",
         "replaces": "يحل محل",
         "requires": "يتطلب"
-      }
+      },
+      "brand": "العلامة التجارية",
+      "brandPlaceholder": "اختر علامة تجارية..."
     },
     "warehouses": {
       "title": "المستودعات",
@@ -448,6 +457,28 @@
         "invoices": "الفواتير",
         "warehouses": "المستودعات"
       },
+      "active": "نشط"
+    },
+    "catalogEntities": {
+      "title": "كيانات الكتالوج",
+      "addAction": "إضافة كيان",
+      "entity": "كيان كتالوج",
+      "name": "الاسم",
+      "namePlaceholder": "مثال: تويوتا",
+      "kind": "النوع",
+      "kindPlaceholder": "مثال: علامة تجارية، موديل، نسخة...",
+      "parent": "الكيان الأصلي",
+      "parentPlaceholder": "اختر الأصل...",
+      "active": "نشط"
+    },
+    "brands": {
+      "title": "العلامات التجارية",
+      "addAction": "إضافة علامة تجارية",
+      "entity": "علامة تجارية",
+      "name": "الاسم",
+      "namePlaceholder": "مثال: تويوتا",
+      "imageUrl": "رابط الصورة",
+      "imageUrlPlaceholder": "https://example.com/logo.png",
       "active": "نشط"
     }
   },

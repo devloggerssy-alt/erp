@@ -1,0 +1,5 @@
+export { BrandsPage } from "./components/brands-page"
+export { BrandsForm } from "./components/brands-form"
+export { createBrandsColumns } from "./components/brands-columns"
+export { brandsFormConfig, brandFormSchema, DEFAULT_BRAND_FORM_VALUES, mapBrandToFormValues } from "./brands.config"
+export type { BrandFormValues } from "./brands.config"

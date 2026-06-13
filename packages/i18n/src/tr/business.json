@@ -46,7 +46,9 @@
       "currencies": "Para Birimleri",
       "fiscalPeriods": "Mali Dönemler",
       "documentSequences": "Belge Dizileri",
-      "tags": "Etiketler"
+      "tags": "Etiketler",
+      "catalogEntities": "Katalog Varlıkları",
+      "brands": "Markalar"
     }
   },
   "settings": {
@@ -140,7 +142,7 @@
       "label": "Etiket",
       "type": "Tür",
       "options": "Seçenekler",
-      "optionsPlaceholder": "Virgülle ayrılmış, örn. Kırmızı, Mavi, Yeşil",
+      "addOption": "Seçenek ekle",
       "defaultValue": "Varsayılan Değer",
       "defaultValuePlaceholder": "İsteğe bağlı varsayılan",
       "placeholder": "Yer tutucu",
@@ -215,11 +217,18 @@
       "notes": "Notlar",
       "notesPlaceholder": "İsteğe bağlı notlar...",
       "addRelationAction": "İlişki Ekle",
+      "sectionCatalogEntities": "Katalog Varlıkları",
+      "noCatalogEntities": "Bağlı katalog varlığı yok",
+      "catalogEntityPlaceholder": "Katalog varlığı ara...",
+      "addCatalogEntity": "Katalog Varlığı Bağla",
+      "addCatalogEntityAction": "Varlık Bağla",
       "relationTypes": {
         "compatible_with": "Uyumlu",
         "replaces": "Değiştirir",
         "requires": "Gerektirir"
-      }
+      },
+      "brand": "Marka",
+      "brandPlaceholder": "Marka seçin..."
     },
     "warehouses": {
       "title": "Depolar",
@@ -448,6 +457,28 @@
         "invoices": "Faturalar",
         "warehouses": "Depolar"
       },
+      "active": "Aktif"
+    },
+    "catalogEntities": {
+      "title": "Katalog Varlıkları",
+      "addAction": "Varlık Ekle",
+      "entity": "Katalog Varlığı",
+      "name": "Ad",
+      "namePlaceholder": "Örn. Toyota",
+      "kind": "Tür",
+      "kindPlaceholder": "Örn. marka, model, varyant...",
+      "parent": "Üst Varlık",
+      "parentPlaceholder": "Üst seç...",
+      "active": "Aktif"
+    },
+    "brands": {
+      "title": "Markalar",
+      "addAction": "Marka Ekle",
+      "entity": "Marka",
+      "name": "Ad",
+      "namePlaceholder": "örn. Toyota",
+      "imageUrl": "Resim URL",
+      "imageUrlPlaceholder": "https://example.com/logo.png",
       "active": "Aktif"
     }
   }

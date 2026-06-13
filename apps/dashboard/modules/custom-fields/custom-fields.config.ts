@@ -20,7 +20,7 @@ export const customFieldFormSchema = z.object({
     ]),
     defaultValue: z.string().optional(),
     placeholder: z.object({ ar: z.string().optional(), en: z.string().optional() }).optional(),
-    optionsText: z.string().optional(),
+    options: z.array(z.object({ value: z.string() })).optional(),
     isRequired: z.boolean().optional(),
     showInList: z.boolean().optional(),
 })
@@ -34,17 +34,9 @@ export const DEFAULT_CUSTOM_FIELD_FORM_VALUES: CustomFieldFormValues = {
     type: fieldTypes.TEXT,
     defaultValue: "",
     placeholder: { ar: "", en: "" },
-    optionsText: "",
+    options: [],
     isRequired: false,
     showInList: false,
-}
-
-function parseOptions(text?: string): string[] | undefined {
-    const options = text
-        ?.split(",")
-        .map((value) => value.trim())
-        .filter(Boolean)
-    return options && options.length > 0 ? options : undefined
 }
 
 export function mapCustomFieldToFormValues(data: unknown): CustomFieldFormValues {
@@ -56,7 +48,7 @@ export function mapCustomFieldToFormValues(data: unknown): CustomFieldFormValues
         type: (resolved.type as CustomFieldFormValues["type"]) ?? fieldTypes.TEXT,
         defaultValue: resolved.defaultValue ?? "",
         placeholder: resolved.placeholder ?? { ar: "", en: "" },
-        optionsText: (resolved.options ?? []).join(", "),
+        options: (resolved.options ?? []).map((value) => ({ value })),
         isRequired: resolved.isRequired ?? false,
         showInList: resolved.showInList ?? false,
     }
@@ -80,7 +72,7 @@ export const customFieldsFormConfig: ResourceFormConfig<
             values.placeholder?.ar || values.placeholder?.en
                 ? { ar: values.placeholder.ar ?? "", en: values.placeholder.en }
                 : undefined,
-        options: parseOptions(values.optionsText),
+        options: values.options?.map((o) => o.value.trim()).filter(Boolean) || undefined,
         isRequired: values.isRequired ?? false,
         showInList: values.showInList ?? false,
     }),
@@ -93,7 +85,7 @@ export const customFieldsFormConfig: ResourceFormConfig<
             values.placeholder?.ar || values.placeholder?.en
                 ? { ar: values.placeholder.ar ?? "", en: values.placeholder.en }
                 : undefined,
-        options: parseOptions(values.optionsText),
+        options: values.options?.map((o) => o.value.trim()).filter(Boolean) || undefined,
         isRequired: values.isRequired ?? false,
         showInList: values.showInList ?? false,
     }),

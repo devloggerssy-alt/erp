@@ -8,13 +8,16 @@ const optionalPrice = z.preprocess(
     z.coerce.number().min(0).optional(),
 )
 
+const resourceObjectSchema = z.object({ id: z.string(), name: z.string() }).passthrough()
+
 export const itemFormSchema = z.object({
     code: z.string().trim().min(1, "Code is required"),
     name: z.string().trim().min(1, "Name is required"),
     barcode: z.string().optional(),
     itemType: z.enum(['product', 'service', 'vehicle', 'bundle']).default('product'),
-    categoryId: z.string().min(1, "Category is required"),
-    baseUnitId: z.string().min(1, "Base unit is required"),
+    category: resourceObjectSchema.nullable(),
+    baseUnit: resourceObjectSchema.nullable(),
+    brand: resourceObjectSchema.nullable().optional(),
     defaultSellingPrice: optionalPrice,
     latestPurchasePrice: optionalPrice,
     isActive: z.boolean().optional(),
@@ -28,8 +31,9 @@ export const DEFAULT_ITEM_FORM_VALUES: ItemFormValues = {
     name: "",
     barcode: "",
     itemType: "product" as ItemType,
-    categoryId: "",
-    baseUnitId: "",
+    category: null,
+    baseUnit: null,
+    brand: null,
     defaultSellingPrice: undefined,
     latestPurchasePrice: undefined,
     isActive: true,
@@ -37,18 +41,19 @@ export const DEFAULT_ITEM_FORM_VALUES: ItemFormValues = {
 }
 
 export function mapItemToFormValues(data: unknown): ItemFormValues {
-    const resolved = unwrapApiData<ItemFormValues>(data)
+    const resolved = unwrapApiData<Record<string, unknown>>(data)
     return {
-        code: resolved.code ?? "",
-        name: resolved.name ?? "",
-        barcode: resolved.barcode ?? "",
-        itemType: resolved.itemType ?? "product",
-        categoryId: resolved.categoryId ?? "",
-        baseUnitId: resolved.baseUnitId ?? "",
-        defaultSellingPrice: resolved.defaultSellingPrice ?? undefined,
-        latestPurchasePrice: resolved.latestPurchasePrice ?? undefined,
-        isActive: resolved.isActive ?? true,
-        customFields: (resolved as { customFields?: Record<string, unknown> }).customFields ?? {},
+        code: String(resolved.code ?? ""),
+        name: String(resolved.name ?? ""),
+        barcode: String(resolved.barcode ?? ""),
+        itemType: (resolved.itemType ?? "product") as ItemType,
+        category: (resolved.category as { id: string; name: string } | null) ?? null,
+        baseUnit: (resolved.baseUnit as { id: string; name: string } | null) ?? null,
+        brand: (resolved.brand as { id: string; name: string } | null) ?? null,
+        defaultSellingPrice: (resolved.defaultSellingPrice as number | undefined) ?? undefined,
+        latestPurchasePrice: (resolved.latestPurchasePrice as number | undefined) ?? undefined,
+        isActive: (resolved.isActive as boolean | undefined) ?? true,
+        customFields: (resolved.customFields as Record<string, unknown> | undefined) ?? {},
     }
 }
 
@@ -61,8 +66,9 @@ export const itemsFormConfig: ResourceFormConfig<ItemFormValues, CreateItemDto, 
         name: values.name.trim(),
         barcode: values.barcode?.trim() || undefined,
         itemType: values.itemType,
-        categoryId: values.categoryId,
-        baseUnitId: values.baseUnitId,
+        categoryId: values.category?.id ?? "",
+        baseUnitId: values.baseUnit?.id ?? "",
+        brandId: values.brand?.id ?? null,
         defaultSellingPrice: values.defaultSellingPrice,
         latestPurchasePrice: values.latestPurchasePrice,
         customFields: values.customFields as CustomFieldValuesMap | undefined,
@@ -72,8 +78,9 @@ export const itemsFormConfig: ResourceFormConfig<ItemFormValues, CreateItemDto, 
         name: values.name.trim(),
         barcode: values.barcode?.trim() || undefined,
         itemType: values.itemType,
-        categoryId: values.categoryId,
-        baseUnitId: values.baseUnitId,
+        categoryId: values.category?.id ?? "",
+        baseUnitId: values.baseUnit?.id ?? "",
+        brandId: values.brand?.id ?? null,
         defaultSellingPrice: values.defaultSellingPrice,
         latestPurchasePrice: values.latestPurchasePrice,
         isActive: values.isActive ?? true,

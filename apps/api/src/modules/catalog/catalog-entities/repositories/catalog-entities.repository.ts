@@ -43,6 +43,23 @@ export class CatalogEntitiesRepository extends CrudRepository<CatalogEntityWithP
     });
   }
 
+  // Override create so the returned record includes the parent relation.
+  override async create(data: Record<string, any>): Promise<CatalogEntityWithParent> {
+    return this.prisma.catalogEntity.create({
+      data: data as any,
+      include: PARENT_INCLUDE,
+    }) as unknown as CatalogEntityWithParent;
+  }
+
+  // Override update for the same reason.
+  override async update(id: string, data: Record<string, any>): Promise<CatalogEntityWithParent> {
+    return this.prisma.catalogEntity.update({
+      where: { id },
+      data: data as any,
+      include: PARENT_INCLUDE,
+    }) as unknown as CatalogEntityWithParent;
+  }
+
   async isNameTakenUnderParent(
     tenantId: string,
     name: string,

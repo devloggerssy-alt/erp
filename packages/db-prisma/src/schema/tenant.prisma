@@ -45,6 +45,7 @@ model Tenant {
     itemRelations        ItemRelation[]
     catalogEntities      CatalogEntity[]
     itemCatalogEntities  ItemCatalogEntity[]
+    brands               Brand[]
 
     @@map("tenants")
 }

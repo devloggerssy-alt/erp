@@ -190,6 +190,16 @@ exports.Prisma.AuditLogScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.BrandScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  name: 'name',
+  imageUrl: 'imageUrl',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.CashboxScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
@@ -431,6 +441,7 @@ exports.Prisma.ItemScalarFieldEnum = {
   barcode: 'barcode',
   categoryId: 'categoryId',
   baseUnitId: 'baseUnitId',
+  brandId: 'brandId',
   defaultSellingPrice: 'defaultSellingPrice',
   latestPurchasePrice: 'latestPurchasePrice',
   itemType: 'itemType',
@@ -750,6 +761,7 @@ exports.Prisma.ModelName = {
   AiChatSession: 'AiChatSession',
   AiChatMessage: 'AiChatMessage',
   AuditLog: 'AuditLog',
+  Brand: 'Brand',
   Cashbox: 'Cashbox',
   Payment: 'Payment',
   PaymentAllocation: 'PaymentAllocation',

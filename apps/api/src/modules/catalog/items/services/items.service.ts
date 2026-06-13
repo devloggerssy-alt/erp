@@ -1,4 +1,4 @@
-import { Injectable, ConflictException } from '@nestjs/common';
+import { Injectable, ConflictException, NotFoundException } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { CrudService } from '@devloggers/backend-core';
 import { customFieldModules, resources } from '@devloggers/api-contracts';
@@ -42,13 +42,22 @@ export class ItemsService extends CrudService<Item, ItemResponseDto, CreateItemD
     }
 
     override async findById(tenantId: string, id: string): Promise<ItemResponseDto> {
-        const item = await super.findById(tenantId, id);
+        const entity = await this.itemsRepository.findByIdWithRelations(tenantId, id);
+        if (!entity) {
+            throw new NotFoundException(`${this.resourceName} with id '${id}' not found`);
+        }
         const customFields = await this.customFieldValuesService.getForEntity(
             tenantId,
             customFieldModules.items,
             id,
         );
-        return { ...item, customFields };
+        return {
+            ...this.itemPresenter.toResponse(entity),
+            category: entity.category,
+            baseUnit: entity.baseUnit,
+            brand: entity.brand ?? null,
+            customFields,
+        };
     }
 
     override async create(tenantId: string, dto: CreateItemDto): Promise<ItemResponseDto> {

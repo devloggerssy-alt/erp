@@ -8,6 +8,7 @@ export interface CreateItemDto {
     barcode?: string;
     categoryId: string;
     baseUnitId: string;
+    brandId?: string | null;
     defaultSellingPrice?: number;
     latestPurchasePrice?: number;
     customFields?: CustomFieldValuesMap;
@@ -21,11 +22,29 @@ export interface UpdateItemDto {
     barcode?: string;
     categoryId?: string;
     baseUnitId?: string;
+    brandId?: string | null;
     defaultSellingPrice?: number;
     latestPurchasePrice?: number;
     isActive?: boolean;
     customFields?: CustomFieldValuesMap;
     itemType?: ItemType;
+}
+
+export interface ItemCategorySummary {
+    id: string;
+    name: string;
+}
+
+export interface ItemBaseUnitSummary {
+    id: string;
+    name: string;
+    abbreviation: string;
+}
+
+export interface ItemBrandSummary {
+    id: string;
+    name: string;
+    imageUrl: string | null;
 }
 
 export interface ItemResponseDto {
@@ -35,6 +54,13 @@ export interface ItemResponseDto {
     barcode: string | null;
     categoryId: string;
     baseUnitId: string;
+    brandId: string | null;
+    /** Populated in show (GET /:id) responses only */
+    category?: ItemCategorySummary | null;
+    /** Populated in show (GET /:id) responses only */
+    baseUnit?: ItemBaseUnitSummary | null;
+    /** Populated in show (GET /:id) responses only */
+    brand?: ItemBrandSummary | null;
     defaultSellingPrice: number | null;
     latestPurchasePrice: number | null;
     isActive: boolean;

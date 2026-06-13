@@ -26,6 +26,8 @@ import {
   CalendarIcon,
   HashIcon,
   TagIcon,
+  ListTreeIcon,
+  AwardIcon,
 } from "lucide-react"
 
 export const navGroups: NavGroup[] = [
@@ -119,6 +121,16 @@ export const navGroups: NavGroup[] = [
             titleKey: "business.navigation.items.tags",
             href: "/catalog/tags",
             icon: <TagIcon />,
+          },
+          {
+            titleKey: "business.navigation.items.catalogEntities",
+            href: "/catalog/catalog-entities",
+            icon: <ListTreeIcon />,
+          },
+          {
+            titleKey: "business.navigation.items.brands",
+            href: "/catalog/brands",
+            icon: <AwardIcon />,
           },
         ],
       },

@@ -28,6 +28,11 @@ export class CreateItemDto {
     @IsNotEmpty()
     baseUnitId: string = '';
 
+    @ApiPropertyOptional({ example: '00000000-0000-4000-b000-000000000001', description: 'Brand ID', nullable: true })
+    @IsOptional()
+    @IsString()
+    brandId?: string | null;
+
     @ApiPropertyOptional({ example: 750000, description: 'Default selling price' })
     @IsOptional()
     @IsNumber()
@@ -79,6 +84,11 @@ export class UpdateItemDto {
     @IsString()
     baseUnitId?: string;
 
+    @ApiPropertyOptional({ example: '00000000-0000-4000-b000-000000000001', nullable: true })
+    @IsOptional()
+    @IsString()
+    brandId?: string | null;
+
     @ApiPropertyOptional({ example: 780000 })
     @IsOptional()
     @IsNumber()
@@ -127,6 +137,18 @@ export class ItemResponseDto {
 
     @ApiProperty({ example: '00000000-0000-4000-a800-000000000001' })
     baseUnitId: string = '';
+
+    @ApiPropertyOptional({ example: '00000000-0000-4000-b000-000000000001', nullable: true })
+    brandId: string | null = null;
+
+    @ApiPropertyOptional({ description: 'Populated in show responses only' })
+    category?: { id: string; name: string } | null;
+
+    @ApiPropertyOptional({ description: 'Populated in show responses only' })
+    baseUnit?: { id: string; name: string; abbreviation: string } | null;
+
+    @ApiPropertyOptional({ description: 'Populated in show responses only', nullable: true })
+    brand?: { id: string; name: string; imageUrl: string | null } | null;
 
     @ApiProperty({ example: 750000, nullable: true })
     defaultSellingPrice: number | null = null;
