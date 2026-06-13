@@ -66,12 +66,12 @@ export default function DashboardDetailsPageLayout({
     <div className={cn("flex flex-col h-full ")}>
         
       {/* Header */}
-      <div className="flex items-center justify-between gap-4 px-4 py-4 lg:px-6 bg-card">
+      <div className="flex items-center justify-between gap-4 px-4 py-4 lg:px-6 bg-card border-b border-border">
         <div className="flex items-center gap-3">
           {backHref && (
             <Button variant="ghost" size="icon" asChild>
               <Link href={localizedHref(backHref)}>
-                <ArrowLeft className="size-4" />
+                <ArrowLeft className="size-4 rtl:rotate-180" />
               </Link>
             </Button>
           )}
@@ -84,7 +84,7 @@ export default function DashboardDetailsPageLayout({
             </Avatar>
           )}
           {!avatarSrc && !avatarFallback && icon && (
-            <div className="flex items-center justify-center size-10 rounded-full bg-muted text-muted-foreground">
+            <div className="flex items-center justify-center size-9 rounded-lg bg-primary/10 text-primary">
               {icon}
             </div>
           )}

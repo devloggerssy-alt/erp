@@ -418,6 +418,136 @@ export interface paths {
         patch: operations["CustomFields.update"];
         trace?: never;
     };
+    "/tags": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List tags
+         * @description Returns a paginated list of tags for the tenant, filterable by module.
+         */
+        get: operations["Tags.list"];
+        put?: never;
+        /**
+         * Create a tag
+         * @description Creates a new tag. Name must be unique within the module.
+         */
+        post: operations["Tags.create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/tags/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get a tag by ID */
+        get: operations["Tags.show"];
+        put?: never;
+        post?: never;
+        /**
+         * Delete a tag
+         * @description Hard-deletes the tag and all its assignments.
+         */
+        delete: operations["Tags.delete"];
+        options?: never;
+        head?: never;
+        /**
+         * Update a tag
+         * @description Partial update — name and color only. Module is immutable.
+         */
+        patch: operations["Tags.update"];
+        trace?: never;
+    };
+    "/tag-assignments": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List tag assignments for an entity */
+        get: operations["TagAssignments.list"];
+        put?: never;
+        /** Assign a tag to an entity */
+        post: operations["TagAssignments.assign"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/tag-assignments/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /** Remove a tag assignment */
+        delete: operations["TagAssignments.unassign"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/item-relations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List item relations
+         * @description Returns relations for items. Filter by itemId to get relations for a specific item.
+         */
+        get: operations["ItemRelations.list"];
+        put?: never;
+        /**
+         * Create an item relation
+         * @description Creates a directional relation between two items.
+         */
+        post: operations["ItemRelations.create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/item-relations/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get an item relation by ID */
+        get: operations["ItemRelations.show"];
+        put?: never;
+        post?: never;
+        /** Delete an item relation */
+        delete: operations["ItemRelations.delete"];
+        options?: never;
+        head?: never;
+        /**
+         * Update an item relation
+         * @description Updates relation type or notes.
+         */
+        patch: operations["ItemRelations.update"];
+        trace?: never;
+    };
     "/accounting/journal-entries": {
         parameters: {
             query?: never;
@@ -1427,6 +1557,80 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/catalog-entities": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List catalog entities */
+        get: operations["CatalogEntities.list"];
+        put?: never;
+        /** Create a catalog entity */
+        post: operations["CatalogEntities.create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/catalog-entities/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get a catalog entity by ID */
+        get: operations["CatalogEntities.show"];
+        put?: never;
+        post?: never;
+        /** Delete a catalog entity */
+        delete: operations["CatalogEntities.delete"];
+        options?: never;
+        head?: never;
+        /** Update a catalog entity */
+        patch: operations["CatalogEntities.update"];
+        trace?: never;
+    };
+    "/item-catalog-entities": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List item–catalog-entity links */
+        get: operations["ItemCatalogEntities.list"];
+        put?: never;
+        /** Create an item–catalog-entity link */
+        post: operations["ItemCatalogEntities.create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/item-catalog-entities/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get an item–catalog-entity link by ID */
+        get: operations["ItemCatalogEntities.show"];
+        put?: never;
+        post?: never;
+        /** Delete an item–catalog-entity link */
+        delete: operations["ItemCatalogEntities.delete"];
+        options?: never;
+        head?: never;
+        /** Update an item–catalog-entity link */
+        patch: operations["ItemCatalogEntities.update"];
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -1465,7 +1669,7 @@ export interface components {
              *     ]
              */
             enumValues?: string[];
-            /** @example auth|tenants|users|roles|currencies|fiscal-periods|document-sequences|units|item-categories|items|custom-fields|parties|warehouses|inventory|stock-ledger|invoice-types|invoices|cashboxes|payments|expenses|accounting|chart-of-accounts|stock-counts|reports|dashboard|ai|audit-logs */
+            /** @example auth|tenants|users|roles|currencies|fiscal-periods|document-sequences|units|item-categories|items|custom-fields|parties|warehouses|inventory|stock-ledger|invoice-types|invoices|cashboxes|payments|expenses|accounting|chart-of-accounts|stock-counts|reports|dashboard|ai|audit-logs|tags|tag-assignments|item-relations */
             foreignResourceKey?: string;
         };
         ApiMetaDto: {
@@ -1921,6 +2125,7 @@ export interface components {
             /**
              * @default product
              * @example product
+             * @enum {string}
              */
             itemType: "product" | "service" | "vehicle" | "bundle";
             /**
@@ -1984,6 +2189,7 @@ export interface components {
             /**
              * @description Item type
              * @example product
+             * @enum {string}
              */
             itemType?: "product" | "service" | "vehicle" | "bundle";
             /** @description Custom field values keyed by field ID */
@@ -2008,7 +2214,10 @@ export interface components {
             latestPurchasePrice?: number;
             /** @example true */
             isActive?: boolean;
-            /** @example product */
+            /**
+             * @example product
+             * @enum {string}
+             */
             itemType?: "product" | "service" | "vehicle" | "bundle";
             /** @description Custom field values keyed by field ID */
             customFields?: {
@@ -2101,6 +2310,182 @@ export interface components {
             options?: string[];
             isRequired?: boolean;
             showInList?: boolean;
+        };
+        TagResponseDto: {
+            /**
+             * @default
+             * @example 018e1234-abcd-7000-a001-000000000001
+             */
+            id: string;
+            /**
+             * @default
+             * @example Fragile
+             */
+            name: string;
+            /**
+             * @default null
+             * @example #FF5733
+             */
+            color: string | null;
+            /**
+             * @default
+             * @example items
+             * @enum {string}
+             */
+            module: "items" | "parties" | "invoices" | "warehouses";
+            /**
+             * @default
+             * @example 2025-01-01T00:00:00.000Z
+             */
+            createdAt: string;
+            /**
+             * @default
+             * @example 2025-01-01T00:00:00.000Z
+             */
+            updatedAt: string;
+        };
+        CreateTagDto: {
+            /**
+             * @description Tag display name
+             * @default
+             * @example Fragile
+             */
+            name: string;
+            /**
+             * @description Hex color code
+             * @example #FF5733
+             */
+            color?: string;
+            /**
+             * @description Module this tag belongs to
+             * @default
+             * @example items
+             * @enum {string}
+             */
+            module: "items" | "parties" | "invoices" | "warehouses";
+        };
+        UpdateTagDto: {
+            /** @example Fragile (Updated) */
+            name?: string;
+            /** @example #3498DB */
+            color?: string;
+        };
+        TagAssignmentResponseDto: {
+            /** @default  */
+            id: string;
+            /** @default  */
+            tagId: string;
+            /** @default  */
+            entityType: string;
+            /** @default  */
+            entityId: string;
+            /**
+             * @description The tag details
+             * @default {
+             *       "id": "",
+             *       "name": "",
+             *       "color": null,
+             *       "module": ""
+             *     }
+             */
+            tag: {
+                id?: string;
+                name?: string;
+                color?: string | null;
+                module?: string;
+            };
+            /** @default  */
+            createdAt: string;
+        };
+        CreateTagAssignmentDto: {
+            /**
+             * Format: uuid
+             * @description Tag ID
+             * @default
+             * @example 018e1234-abcd-7000-a001-000000000001
+             */
+            tagId: string;
+            /**
+             * @description Entity type
+             * @default
+             * @example item
+             * @enum {string}
+             */
+            entityType: "item" | "party" | "invoice" | "warehouse";
+            /**
+             * Format: uuid
+             * @description Entity ID
+             * @default
+             * @example 018e1234-abcd-7000-a002-000000000001
+             */
+            entityId: string;
+        };
+        RelatedItemSummaryDto: {
+            /** @default  */
+            id: string;
+            /** @default  */
+            name: string;
+            /** @default  */
+            code: string;
+        };
+        ItemRelationResponseDto: {
+            /** @default  */
+            id: string;
+            /** @default  */
+            itemId: string;
+            /** @default  */
+            relatedItemId: string;
+            /**
+             * @default compatible_with
+             * @example compatible_with
+             * @enum {string}
+             */
+            relationType: "compatible_with" | "replaces" | "requires";
+            /** @default null */
+            notes: string | null;
+            /**
+             * @default {
+             *       "id": "",
+             *       "name": "",
+             *       "code": ""
+             *     }
+             */
+            relatedItem: components["schemas"]["RelatedItemSummaryDto"];
+            /** @default  */
+            createdAt: string;
+            /** @default  */
+            updatedAt: string;
+        };
+        CreateItemRelationDto: {
+            /**
+             * Format: uuid
+             * @description The source item ID
+             * @default
+             */
+            itemId: string;
+            /**
+             * Format: uuid
+             * @description The related item ID
+             * @default
+             */
+            relatedItemId: string;
+            /**
+             * @default compatible_with
+             * @example compatible_with
+             * @enum {string}
+             */
+            relationType: "compatible_with" | "replaces" | "requires";
+            /** @example Fits model X and Y */
+            notes?: string;
+        };
+        UpdateItemRelationDto: {
+            /**
+             * @example replaces
+             * @enum {string}
+             */
+            relationType?: "compatible_with" | "replaces" | "requires";
+            /** @example Updated notes */
+            notes?: string;
         };
         CurrencyResponseDto: {
             /**
@@ -6392,6 +6777,980 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
                         data?: components["schemas"]["CustomFieldResponseDto"];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "Tags.list": {
+        parameters: {
+            query?: {
+                /** @description Page number (1-based) */
+                page?: number;
+                /** @description Number of items per page */
+                limit?: number;
+                /** @description Field name to sort by */
+                sortField?: string;
+                sortOrder?: "asc" | "desc";
+                /** @description Full-text search keyword */
+                search?: string;
+                /** @description Comma-separated field names to search within (e.g. name,symbol) */
+                searchIn?: string;
+                /** @description Structured filters. Example: filters[name][$like]=sample-name&filters[module][$like]=sample-module&filters[createdAt][$gte]=2024-01-01T00%3A00%3A00.000Z */
+                filters?: {
+                    /**
+                     * @description Filter on `name` (string)
+                     * @example {
+                     *       "$like": "sample-name"
+                     *     }
+                     */
+                    name?: {
+                        $eq?: string;
+                        /** @example sample-name */
+                        $like?: string;
+                        $in?: string[];
+                        /** @enum {boolean} */
+                        $isNull?: true;
+                    };
+                    /**
+                     * @description Filter on `module` (string)
+                     * @example {
+                     *       "$like": "sample-module"
+                     *     }
+                     */
+                    module?: {
+                        $eq?: string;
+                        /** @example sample-module */
+                        $like?: string;
+                        $in?: string[];
+                        /** @enum {boolean} */
+                        $isNull?: true;
+                    };
+                    /**
+                     * @description Filter on `createdAt` (date)
+                     * @example {
+                     *       "$gte": "2024-01-01T00:00:00.000Z"
+                     *     }
+                     */
+                    createdAt?: {
+                        $eq?: string;
+                        /**
+                         * Format: date-time
+                         * @example 2024-01-01T00:00:00.000Z
+                         */
+                        $gte?: string;
+                        /** Format: date-time */
+                        $lte?: string;
+                        /** @enum {boolean} */
+                        $isNull?: true;
+                    };
+                };
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Paginated list of tags */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["TagResponseDto"][];
+                        meta?: {
+                            pagination?: {
+                                /** @example 0 */
+                                total?: number;
+                                /** @example 1 */
+                                page?: number;
+                                /** @example 10 */
+                                limit?: number;
+                                /** @example 0 */
+                                totalPages?: number;
+                            };
+                            /**
+                             * @example [
+                             *       {
+                             *         "field": "name",
+                             *         "type": "string",
+                             *         "operators": [
+                             *           "$eq",
+                             *           "$like",
+                             *           "$in",
+                             *           "$isNull"
+                             *         ]
+                             *       },
+                             *       {
+                             *         "field": "module",
+                             *         "type": "string",
+                             *         "operators": [
+                             *           "$eq",
+                             *           "$like",
+                             *           "$in",
+                             *           "$isNull"
+                             *         ]
+                             *       },
+                             *       {
+                             *         "field": "createdAt",
+                             *         "type": "date",
+                             *         "operators": [
+                             *           "$eq",
+                             *           "$gte",
+                             *           "$lte",
+                             *           "$isNull"
+                             *         ]
+                             *       }
+                             *     ]
+                             */
+                            filterOptions?: unknown[];
+                        };
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "Tags.create": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateTagDto"];
+            };
+        };
+        responses: {
+            /** @description Tag created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["TagResponseDto"];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "Tags.show": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Tag UUID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Tag details */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["TagResponseDto"];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "Tags.delete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Tag UUID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Tag deleted */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "Tags.update": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Tag UUID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateTagDto"];
+            };
+        };
+        responses: {
+            /** @description Updated tag */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["TagResponseDto"];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "TagAssignments.list": {
+        parameters: {
+            query: {
+                entityType: string;
+                entityId: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TagAssignmentResponseDto"][];
+                };
+            };
+        };
+    };
+    "TagAssignments.assign": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateTagAssignmentDto"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TagAssignmentResponseDto"];
+                };
+            };
+        };
+    };
+    "TagAssignments.unassign": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Assignment ID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Assignment removed */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    "ItemRelations.list": {
+        parameters: {
+            query?: {
+                /** @description Page number (1-based) */
+                page?: number;
+                /** @description Number of items per page */
+                limit?: number;
+                /** @description Field name to sort by */
+                sortField?: string;
+                sortOrder?: "asc" | "desc";
+                /** @description Full-text search keyword */
+                search?: string;
+                /** @description Comma-separated field names to search within (e.g. name,symbol) */
+                searchIn?: string;
+                /** @description Structured filters. Example: filters[itemId][$like]=sample-itemId&filters[relatedItemId][$like]=sample-relatedItemId&filters[relationType][$like]=sample-relationType */
+                filters?: {
+                    /**
+                     * @description Filter on `itemId` (string)
+                     * @example {
+                     *       "$like": "sample-itemId"
+                     *     }
+                     */
+                    itemId?: {
+                        $eq?: string;
+                        /** @example sample-itemId */
+                        $like?: string;
+                        $in?: string[];
+                        /** @enum {boolean} */
+                        $isNull?: true;
+                    };
+                    /**
+                     * @description Filter on `relatedItemId` (string)
+                     * @example {
+                     *       "$like": "sample-relatedItemId"
+                     *     }
+                     */
+                    relatedItemId?: {
+                        $eq?: string;
+                        /** @example sample-relatedItemId */
+                        $like?: string;
+                        $in?: string[];
+                        /** @enum {boolean} */
+                        $isNull?: true;
+                    };
+                    /**
+                     * @description Filter on `relationType` (string)
+                     * @example {
+                     *       "$like": "sample-relationType"
+                     *     }
+                     */
+                    relationType?: {
+                        $eq?: string;
+                        /** @example sample-relationType */
+                        $like?: string;
+                        $in?: string[];
+                        /** @enum {boolean} */
+                        $isNull?: true;
+                    };
+                };
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Paginated list of item relations */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["ItemRelationResponseDto"][];
+                        meta?: {
+                            pagination?: {
+                                /** @example 0 */
+                                total?: number;
+                                /** @example 1 */
+                                page?: number;
+                                /** @example 10 */
+                                limit?: number;
+                                /** @example 0 */
+                                totalPages?: number;
+                            };
+                            /**
+                             * @example [
+                             *       {
+                             *         "field": "itemId",
+                             *         "type": "string",
+                             *         "operators": [
+                             *           "$eq",
+                             *           "$like",
+                             *           "$in",
+                             *           "$isNull"
+                             *         ]
+                             *       },
+                             *       {
+                             *         "field": "relatedItemId",
+                             *         "type": "string",
+                             *         "operators": [
+                             *           "$eq",
+                             *           "$like",
+                             *           "$in",
+                             *           "$isNull"
+                             *         ]
+                             *       },
+                             *       {
+                             *         "field": "relationType",
+                             *         "type": "string",
+                             *         "operators": [
+                             *           "$eq",
+                             *           "$like",
+                             *           "$in",
+                             *           "$isNull"
+                             *         ]
+                             *       }
+                             *     ]
+                             */
+                            filterOptions?: unknown[];
+                        };
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "ItemRelations.create": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateItemRelationDto"];
+            };
+        };
+        responses: {
+            /** @description Relation created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["ItemRelationResponseDto"];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "ItemRelations.show": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Relation UUID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Item relation details */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["ItemRelationResponseDto"];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "ItemRelations.delete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Relation UUID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Relation deleted */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "ItemRelations.update": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Relation UUID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateItemRelationDto"];
+            };
+        };
+        responses: {
+            /** @description Updated relation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["ItemRelationResponseDto"];
                     };
                 };
             };
@@ -12444,6 +13803,209 @@ export interface operations {
                 content: {
                     "application/json": unknown;
                 };
+            };
+        };
+    };
+    "CatalogEntities.list": {
+        parameters: {
+            query?: {
+                page?: number;
+                limit?: number;
+                sortField?: string;
+                sortOrder?: "asc" | "desc";
+                search?: string;
+                searchIn?: string;
+                filters?: {
+                    kind?: { $eq?: string; $like?: string; $in?: string[]; };
+                    parentId?: { $eq?: string; $isNull?: true; };
+                    isActive?: { $eq?: boolean; };
+                };
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: { [name: string]: unknown; };
+                content: { "application/json": unknown; };
+            };
+        };
+    };
+    "CatalogEntities.show": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: { id: string; };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: { [name: string]: unknown; };
+                content: { "application/json": unknown; };
+            };
+        };
+    };
+    "CatalogEntities.create": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    name: string;
+                    kind: string;
+                    parentId?: string | null;
+                    attributes?: Record<string, unknown> | null;
+                };
+            };
+        };
+        responses: {
+            201: {
+                headers: { [name: string]: unknown; };
+                content: { "application/json": unknown; };
+            };
+        };
+    };
+    "CatalogEntities.update": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: { id: string; };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    name?: string;
+                    kind?: string;
+                    parentId?: string | null;
+                    attributes?: Record<string, unknown> | null;
+                    isActive?: boolean;
+                };
+            };
+        };
+        responses: {
+            200: {
+                headers: { [name: string]: unknown; };
+                content: { "application/json": unknown; };
+            };
+        };
+    };
+    "CatalogEntities.delete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: { id: string; };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            204: {
+                headers: { [name: string]: unknown; };
+                content?: never;
+            };
+        };
+    };
+    "ItemCatalogEntities.list": {
+        parameters: {
+            query?: {
+                page?: number;
+                limit?: number;
+                sortField?: string;
+                sortOrder?: "asc" | "desc";
+                search?: string;
+                searchIn?: string;
+                filters?: {
+                    itemId?: { $eq?: string; $like?: string; $in?: string[]; };
+                    catalogEntityId?: { $eq?: string; $like?: string; $in?: string[]; };
+                };
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: { [name: string]: unknown; };
+                content: { "application/json": unknown; };
+            };
+        };
+    };
+    "ItemCatalogEntities.show": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: { id: string; };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: { [name: string]: unknown; };
+                content: { "application/json": unknown; };
+            };
+        };
+    };
+    "ItemCatalogEntities.create": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    itemId: string;
+                    catalogEntityId: string;
+                };
+            };
+        };
+        responses: {
+            201: {
+                headers: { [name: string]: unknown; };
+                content: { "application/json": unknown; };
+            };
+        };
+    };
+    "ItemCatalogEntities.update": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: { id: string; };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": Record<string, never>;
+            };
+        };
+        responses: {
+            200: {
+                headers: { [name: string]: unknown; };
+                content: { "application/json": unknown; };
+            };
+        };
+    };
+    "ItemCatalogEntities.delete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: { id: string; };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            204: {
+                headers: { [name: string]: unknown; };
+                content?: never;
             };
         };
     };

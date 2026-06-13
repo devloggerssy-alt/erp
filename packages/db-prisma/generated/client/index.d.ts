@@ -59,6 +59,11 @@ export type Payment = $Result.DefaultSelection<Prisma.$PaymentPayload>
  */
 export type PaymentAllocation = $Result.DefaultSelection<Prisma.$PaymentAllocationPayload>
 /**
+ * Model CatalogEntity
+ * 
+ */
+export type CatalogEntity = $Result.DefaultSelection<Prisma.$CatalogEntityPayload>
+/**
  * Model Currency
  * 
  */
@@ -108,6 +113,11 @@ export type Invoice = $Result.DefaultSelection<Prisma.$InvoicePayload>
  * 
  */
 export type InvoiceLine = $Result.DefaultSelection<Prisma.$InvoiceLinePayload>
+/**
+ * Model ItemCatalogEntity
+ * 
+ */
+export type ItemCatalogEntity = $Result.DefaultSelection<Prisma.$ItemCatalogEntityPayload>
 /**
  * Model ItemCategory
  * 
@@ -619,6 +629,16 @@ export class PrismaClient<
   get paymentAllocation(): Prisma.PaymentAllocationDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.catalogEntity`: Exposes CRUD operations for the **CatalogEntity** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more CatalogEntities
+    * const catalogEntities = await prisma.catalogEntity.findMany()
+    * ```
+    */
+  get catalogEntity(): Prisma.CatalogEntityDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.currency`: Exposes CRUD operations for the **Currency** model.
     * Example usage:
     * ```ts
@@ -717,6 +737,16 @@ export class PrismaClient<
     * ```
     */
   get invoiceLine(): Prisma.InvoiceLineDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.itemCatalogEntity`: Exposes CRUD operations for the **ItemCatalogEntity** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ItemCatalogEntities
+    * const itemCatalogEntities = await prisma.itemCatalogEntity.findMany()
+    * ```
+    */
+  get itemCatalogEntity(): Prisma.ItemCatalogEntityDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.itemCategory`: Exposes CRUD operations for the **ItemCategory** model.
@@ -1340,6 +1370,7 @@ export namespace Prisma {
     Cashbox: 'Cashbox',
     Payment: 'Payment',
     PaymentAllocation: 'PaymentAllocation',
+    CatalogEntity: 'CatalogEntity',
     Currency: 'Currency',
     CustomField: 'CustomField',
     CustomFieldValue: 'CustomFieldValue',
@@ -1350,6 +1381,7 @@ export namespace Prisma {
     InvoiceType: 'InvoiceType',
     Invoice: 'Invoice',
     InvoiceLine: 'InvoiceLine',
+    ItemCatalogEntity: 'ItemCatalogEntity',
     ItemCategory: 'ItemCategory',
     ItemRelation: 'ItemRelation',
     Item: 'Item',
@@ -1383,7 +1415,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "chartOfAccount" | "journalEntry" | "journalLine" | "aiChatSession" | "aiChatMessage" | "auditLog" | "cashbox" | "payment" | "paymentAllocation" | "currency" | "customField" | "customFieldValue" | "documentSequence" | "expense" | "expenseItem" | "fiscalPeriod" | "invoiceType" | "invoice" | "invoiceLine" | "itemCategory" | "itemRelation" | "item" | "party" | "stockCount" | "stockCountLine" | "stockBalance" | "stockMovement" | "tagAssignment" | "tag" | "tenantSetting" | "tenant" | "unit" | "appUser" | "role" | "userRole" | "warehouse" | "warehouseItem"
+      modelProps: "chartOfAccount" | "journalEntry" | "journalLine" | "aiChatSession" | "aiChatMessage" | "auditLog" | "cashbox" | "payment" | "paymentAllocation" | "catalogEntity" | "currency" | "customField" | "customFieldValue" | "documentSequence" | "expense" | "expenseItem" | "fiscalPeriod" | "invoiceType" | "invoice" | "invoiceLine" | "itemCatalogEntity" | "itemCategory" | "itemRelation" | "item" | "party" | "stockCount" | "stockCountLine" | "stockBalance" | "stockMovement" | "tagAssignment" | "tag" | "tenantSetting" | "tenant" | "unit" | "appUser" | "role" | "userRole" | "warehouse" | "warehouseItem"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2050,6 +2082,80 @@ export namespace Prisma {
           count: {
             args: Prisma.PaymentAllocationCountArgs<ExtArgs>
             result: $Utils.Optional<PaymentAllocationCountAggregateOutputType> | number
+          }
+        }
+      }
+      CatalogEntity: {
+        payload: Prisma.$CatalogEntityPayload<ExtArgs>
+        fields: Prisma.CatalogEntityFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CatalogEntityFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CatalogEntityPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CatalogEntityFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CatalogEntityPayload>
+          }
+          findFirst: {
+            args: Prisma.CatalogEntityFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CatalogEntityPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CatalogEntityFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CatalogEntityPayload>
+          }
+          findMany: {
+            args: Prisma.CatalogEntityFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CatalogEntityPayload>[]
+          }
+          create: {
+            args: Prisma.CatalogEntityCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CatalogEntityPayload>
+          }
+          createMany: {
+            args: Prisma.CatalogEntityCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.CatalogEntityCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CatalogEntityPayload>[]
+          }
+          delete: {
+            args: Prisma.CatalogEntityDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CatalogEntityPayload>
+          }
+          update: {
+            args: Prisma.CatalogEntityUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CatalogEntityPayload>
+          }
+          deleteMany: {
+            args: Prisma.CatalogEntityDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CatalogEntityUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.CatalogEntityUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CatalogEntityPayload>[]
+          }
+          upsert: {
+            args: Prisma.CatalogEntityUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CatalogEntityPayload>
+          }
+          aggregate: {
+            args: Prisma.CatalogEntityAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCatalogEntity>
+          }
+          groupBy: {
+            args: Prisma.CatalogEntityGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CatalogEntityGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CatalogEntityCountArgs<ExtArgs>
+            result: $Utils.Optional<CatalogEntityCountAggregateOutputType> | number
           }
         }
       }
@@ -2790,6 +2896,80 @@ export namespace Prisma {
           count: {
             args: Prisma.InvoiceLineCountArgs<ExtArgs>
             result: $Utils.Optional<InvoiceLineCountAggregateOutputType> | number
+          }
+        }
+      }
+      ItemCatalogEntity: {
+        payload: Prisma.$ItemCatalogEntityPayload<ExtArgs>
+        fields: Prisma.ItemCatalogEntityFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ItemCatalogEntityFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ItemCatalogEntityPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ItemCatalogEntityFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ItemCatalogEntityPayload>
+          }
+          findFirst: {
+            args: Prisma.ItemCatalogEntityFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ItemCatalogEntityPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ItemCatalogEntityFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ItemCatalogEntityPayload>
+          }
+          findMany: {
+            args: Prisma.ItemCatalogEntityFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ItemCatalogEntityPayload>[]
+          }
+          create: {
+            args: Prisma.ItemCatalogEntityCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ItemCatalogEntityPayload>
+          }
+          createMany: {
+            args: Prisma.ItemCatalogEntityCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ItemCatalogEntityCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ItemCatalogEntityPayload>[]
+          }
+          delete: {
+            args: Prisma.ItemCatalogEntityDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ItemCatalogEntityPayload>
+          }
+          update: {
+            args: Prisma.ItemCatalogEntityUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ItemCatalogEntityPayload>
+          }
+          deleteMany: {
+            args: Prisma.ItemCatalogEntityDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ItemCatalogEntityUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ItemCatalogEntityUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ItemCatalogEntityPayload>[]
+          }
+          upsert: {
+            args: Prisma.ItemCatalogEntityUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ItemCatalogEntityPayload>
+          }
+          aggregate: {
+            args: Prisma.ItemCatalogEntityAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateItemCatalogEntity>
+          }
+          groupBy: {
+            args: Prisma.ItemCatalogEntityGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ItemCatalogEntityGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ItemCatalogEntityCountArgs<ExtArgs>
+            result: $Utils.Optional<ItemCatalogEntityCountAggregateOutputType> | number
           }
         }
       }
@@ -4242,6 +4422,7 @@ export namespace Prisma {
     cashbox?: CashboxOmit
     payment?: PaymentOmit
     paymentAllocation?: PaymentAllocationOmit
+    catalogEntity?: CatalogEntityOmit
     currency?: CurrencyOmit
     customField?: CustomFieldOmit
     customFieldValue?: CustomFieldValueOmit
@@ -4252,6 +4433,7 @@ export namespace Prisma {
     invoiceType?: InvoiceTypeOmit
     invoice?: InvoiceOmit
     invoiceLine?: InvoiceLineOmit
+    itemCatalogEntity?: ItemCatalogEntityOmit
     itemCategory?: ItemCategoryOmit
     itemRelation?: ItemRelationOmit
     item?: ItemOmit
@@ -4533,6 +4715,46 @@ export namespace Prisma {
    */
   export type PaymentCountOutputTypeCountAllocationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: PaymentAllocationWhereInput
+  }
+
+
+  /**
+   * Count Type CatalogEntityCountOutputType
+   */
+
+  export type CatalogEntityCountOutputType = {
+    children: number
+    itemLinks: number
+  }
+
+  export type CatalogEntityCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    children?: boolean | CatalogEntityCountOutputTypeCountChildrenArgs
+    itemLinks?: boolean | CatalogEntityCountOutputTypeCountItemLinksArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * CatalogEntityCountOutputType without action
+   */
+  export type CatalogEntityCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CatalogEntityCountOutputType
+     */
+    select?: CatalogEntityCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * CatalogEntityCountOutputType without action
+   */
+  export type CatalogEntityCountOutputTypeCountChildrenArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CatalogEntityWhereInput
+  }
+
+  /**
+   * CatalogEntityCountOutputType without action
+   */
+  export type CatalogEntityCountOutputTypeCountItemLinksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ItemCatalogEntityWhereInput
   }
 
 
@@ -4895,6 +5117,7 @@ export namespace Prisma {
     stockCountLines: number
     itemRelations: number
     itemRelatedTo: number
+    itemCatalogEntities: number
   }
 
   export type ItemCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4905,6 +5128,7 @@ export namespace Prisma {
     stockCountLines?: boolean | ItemCountOutputTypeCountStockCountLinesArgs
     itemRelations?: boolean | ItemCountOutputTypeCountItemRelationsArgs
     itemRelatedTo?: boolean | ItemCountOutputTypeCountItemRelatedToArgs
+    itemCatalogEntities?: boolean | ItemCountOutputTypeCountItemCatalogEntitiesArgs
   }
 
   // Custom InputTypes
@@ -4965,6 +5189,13 @@ export namespace Prisma {
    */
   export type ItemCountOutputTypeCountItemRelatedToArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ItemRelationWhereInput
+  }
+
+  /**
+   * ItemCountOutputType without action
+   */
+  export type ItemCountOutputTypeCountItemCatalogEntitiesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ItemCatalogEntityWhereInput
   }
 
 
@@ -5098,6 +5329,8 @@ export namespace Prisma {
     expenses: number
     tags: number
     itemRelations: number
+    catalogEntities: number
+    itemCatalogEntities: number
   }
 
   export type TenantCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5124,6 +5357,8 @@ export namespace Prisma {
     expenses?: boolean | TenantCountOutputTypeCountExpensesArgs
     tags?: boolean | TenantCountOutputTypeCountTagsArgs
     itemRelations?: boolean | TenantCountOutputTypeCountItemRelationsArgs
+    catalogEntities?: boolean | TenantCountOutputTypeCountCatalogEntitiesArgs
+    itemCatalogEntities?: boolean | TenantCountOutputTypeCountItemCatalogEntitiesArgs
   }
 
   // Custom InputTypes
@@ -5296,6 +5531,20 @@ export namespace Prisma {
    */
   export type TenantCountOutputTypeCountItemRelationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ItemRelationWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountCatalogEntitiesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CatalogEntityWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountItemCatalogEntitiesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ItemCatalogEntityWhereInput
   }
 
 
@@ -16143,6 +16392,1202 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: PaymentAllocationInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model CatalogEntity
+   */
+
+  export type AggregateCatalogEntity = {
+    _count: CatalogEntityCountAggregateOutputType | null
+    _min: CatalogEntityMinAggregateOutputType | null
+    _max: CatalogEntityMaxAggregateOutputType | null
+  }
+
+  export type CatalogEntityMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    name: string | null
+    kind: string | null
+    parentId: string | null
+    isActive: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type CatalogEntityMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    name: string | null
+    kind: string | null
+    parentId: string | null
+    isActive: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type CatalogEntityCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    name: number
+    kind: number
+    parentId: number
+    attributes: number
+    isActive: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type CatalogEntityMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    name?: true
+    kind?: true
+    parentId?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type CatalogEntityMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    name?: true
+    kind?: true
+    parentId?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type CatalogEntityCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    name?: true
+    kind?: true
+    parentId?: true
+    attributes?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type CatalogEntityAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CatalogEntity to aggregate.
+     */
+    where?: CatalogEntityWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CatalogEntities to fetch.
+     */
+    orderBy?: CatalogEntityOrderByWithRelationInput | CatalogEntityOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CatalogEntityWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CatalogEntities from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CatalogEntities.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned CatalogEntities
+    **/
+    _count?: true | CatalogEntityCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CatalogEntityMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CatalogEntityMaxAggregateInputType
+  }
+
+  export type GetCatalogEntityAggregateType<T extends CatalogEntityAggregateArgs> = {
+        [P in keyof T & keyof AggregateCatalogEntity]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCatalogEntity[P]>
+      : GetScalarType<T[P], AggregateCatalogEntity[P]>
+  }
+
+
+
+
+  export type CatalogEntityGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CatalogEntityWhereInput
+    orderBy?: CatalogEntityOrderByWithAggregationInput | CatalogEntityOrderByWithAggregationInput[]
+    by: CatalogEntityScalarFieldEnum[] | CatalogEntityScalarFieldEnum
+    having?: CatalogEntityScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CatalogEntityCountAggregateInputType | true
+    _min?: CatalogEntityMinAggregateInputType
+    _max?: CatalogEntityMaxAggregateInputType
+  }
+
+  export type CatalogEntityGroupByOutputType = {
+    id: string
+    tenantId: string
+    name: string
+    kind: string
+    parentId: string | null
+    attributes: JsonValue | null
+    isActive: boolean
+    createdAt: Date
+    updatedAt: Date
+    _count: CatalogEntityCountAggregateOutputType | null
+    _min: CatalogEntityMinAggregateOutputType | null
+    _max: CatalogEntityMaxAggregateOutputType | null
+  }
+
+  type GetCatalogEntityGroupByPayload<T extends CatalogEntityGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CatalogEntityGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CatalogEntityGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CatalogEntityGroupByOutputType[P]>
+            : GetScalarType<T[P], CatalogEntityGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CatalogEntitySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    name?: boolean
+    kind?: boolean
+    parentId?: boolean
+    attributes?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    parent?: boolean | CatalogEntity$parentArgs<ExtArgs>
+    children?: boolean | CatalogEntity$childrenArgs<ExtArgs>
+    itemLinks?: boolean | CatalogEntity$itemLinksArgs<ExtArgs>
+    _count?: boolean | CatalogEntityCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["catalogEntity"]>
+
+  export type CatalogEntitySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    name?: boolean
+    kind?: boolean
+    parentId?: boolean
+    attributes?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    parent?: boolean | CatalogEntity$parentArgs<ExtArgs>
+  }, ExtArgs["result"]["catalogEntity"]>
+
+  export type CatalogEntitySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    name?: boolean
+    kind?: boolean
+    parentId?: boolean
+    attributes?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    parent?: boolean | CatalogEntity$parentArgs<ExtArgs>
+  }, ExtArgs["result"]["catalogEntity"]>
+
+  export type CatalogEntitySelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    name?: boolean
+    kind?: boolean
+    parentId?: boolean
+    attributes?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type CatalogEntityOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "name" | "kind" | "parentId" | "attributes" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["catalogEntity"]>
+  export type CatalogEntityInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    parent?: boolean | CatalogEntity$parentArgs<ExtArgs>
+    children?: boolean | CatalogEntity$childrenArgs<ExtArgs>
+    itemLinks?: boolean | CatalogEntity$itemLinksArgs<ExtArgs>
+    _count?: boolean | CatalogEntityCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type CatalogEntityIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    parent?: boolean | CatalogEntity$parentArgs<ExtArgs>
+  }
+  export type CatalogEntityIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    parent?: boolean | CatalogEntity$parentArgs<ExtArgs>
+  }
+
+  export type $CatalogEntityPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "CatalogEntity"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+      parent: Prisma.$CatalogEntityPayload<ExtArgs> | null
+      children: Prisma.$CatalogEntityPayload<ExtArgs>[]
+      itemLinks: Prisma.$ItemCatalogEntityPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      name: string
+      kind: string
+      parentId: string | null
+      attributes: Prisma.JsonValue | null
+      isActive: boolean
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["catalogEntity"]>
+    composites: {}
+  }
+
+  type CatalogEntityGetPayload<S extends boolean | null | undefined | CatalogEntityDefaultArgs> = $Result.GetResult<Prisma.$CatalogEntityPayload, S>
+
+  type CatalogEntityCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<CatalogEntityFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: CatalogEntityCountAggregateInputType | true
+    }
+
+  export interface CatalogEntityDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['CatalogEntity'], meta: { name: 'CatalogEntity' } }
+    /**
+     * Find zero or one CatalogEntity that matches the filter.
+     * @param {CatalogEntityFindUniqueArgs} args - Arguments to find a CatalogEntity
+     * @example
+     * // Get one CatalogEntity
+     * const catalogEntity = await prisma.catalogEntity.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CatalogEntityFindUniqueArgs>(args: SelectSubset<T, CatalogEntityFindUniqueArgs<ExtArgs>>): Prisma__CatalogEntityClient<$Result.GetResult<Prisma.$CatalogEntityPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one CatalogEntity that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {CatalogEntityFindUniqueOrThrowArgs} args - Arguments to find a CatalogEntity
+     * @example
+     * // Get one CatalogEntity
+     * const catalogEntity = await prisma.catalogEntity.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CatalogEntityFindUniqueOrThrowArgs>(args: SelectSubset<T, CatalogEntityFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CatalogEntityClient<$Result.GetResult<Prisma.$CatalogEntityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CatalogEntity that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CatalogEntityFindFirstArgs} args - Arguments to find a CatalogEntity
+     * @example
+     * // Get one CatalogEntity
+     * const catalogEntity = await prisma.catalogEntity.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CatalogEntityFindFirstArgs>(args?: SelectSubset<T, CatalogEntityFindFirstArgs<ExtArgs>>): Prisma__CatalogEntityClient<$Result.GetResult<Prisma.$CatalogEntityPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CatalogEntity that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CatalogEntityFindFirstOrThrowArgs} args - Arguments to find a CatalogEntity
+     * @example
+     * // Get one CatalogEntity
+     * const catalogEntity = await prisma.catalogEntity.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CatalogEntityFindFirstOrThrowArgs>(args?: SelectSubset<T, CatalogEntityFindFirstOrThrowArgs<ExtArgs>>): Prisma__CatalogEntityClient<$Result.GetResult<Prisma.$CatalogEntityPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more CatalogEntities that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CatalogEntityFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all CatalogEntities
+     * const catalogEntities = await prisma.catalogEntity.findMany()
+     * 
+     * // Get first 10 CatalogEntities
+     * const catalogEntities = await prisma.catalogEntity.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const catalogEntityWithIdOnly = await prisma.catalogEntity.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends CatalogEntityFindManyArgs>(args?: SelectSubset<T, CatalogEntityFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CatalogEntityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a CatalogEntity.
+     * @param {CatalogEntityCreateArgs} args - Arguments to create a CatalogEntity.
+     * @example
+     * // Create one CatalogEntity
+     * const CatalogEntity = await prisma.catalogEntity.create({
+     *   data: {
+     *     // ... data to create a CatalogEntity
+     *   }
+     * })
+     * 
+     */
+    create<T extends CatalogEntityCreateArgs>(args: SelectSubset<T, CatalogEntityCreateArgs<ExtArgs>>): Prisma__CatalogEntityClient<$Result.GetResult<Prisma.$CatalogEntityPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many CatalogEntities.
+     * @param {CatalogEntityCreateManyArgs} args - Arguments to create many CatalogEntities.
+     * @example
+     * // Create many CatalogEntities
+     * const catalogEntity = await prisma.catalogEntity.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CatalogEntityCreateManyArgs>(args?: SelectSubset<T, CatalogEntityCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many CatalogEntities and returns the data saved in the database.
+     * @param {CatalogEntityCreateManyAndReturnArgs} args - Arguments to create many CatalogEntities.
+     * @example
+     * // Create many CatalogEntities
+     * const catalogEntity = await prisma.catalogEntity.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many CatalogEntities and only return the `id`
+     * const catalogEntityWithIdOnly = await prisma.catalogEntity.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends CatalogEntityCreateManyAndReturnArgs>(args?: SelectSubset<T, CatalogEntityCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CatalogEntityPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a CatalogEntity.
+     * @param {CatalogEntityDeleteArgs} args - Arguments to delete one CatalogEntity.
+     * @example
+     * // Delete one CatalogEntity
+     * const CatalogEntity = await prisma.catalogEntity.delete({
+     *   where: {
+     *     // ... filter to delete one CatalogEntity
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CatalogEntityDeleteArgs>(args: SelectSubset<T, CatalogEntityDeleteArgs<ExtArgs>>): Prisma__CatalogEntityClient<$Result.GetResult<Prisma.$CatalogEntityPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one CatalogEntity.
+     * @param {CatalogEntityUpdateArgs} args - Arguments to update one CatalogEntity.
+     * @example
+     * // Update one CatalogEntity
+     * const catalogEntity = await prisma.catalogEntity.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CatalogEntityUpdateArgs>(args: SelectSubset<T, CatalogEntityUpdateArgs<ExtArgs>>): Prisma__CatalogEntityClient<$Result.GetResult<Prisma.$CatalogEntityPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more CatalogEntities.
+     * @param {CatalogEntityDeleteManyArgs} args - Arguments to filter CatalogEntities to delete.
+     * @example
+     * // Delete a few CatalogEntities
+     * const { count } = await prisma.catalogEntity.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CatalogEntityDeleteManyArgs>(args?: SelectSubset<T, CatalogEntityDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CatalogEntities.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CatalogEntityUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many CatalogEntities
+     * const catalogEntity = await prisma.catalogEntity.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CatalogEntityUpdateManyArgs>(args: SelectSubset<T, CatalogEntityUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CatalogEntities and returns the data updated in the database.
+     * @param {CatalogEntityUpdateManyAndReturnArgs} args - Arguments to update many CatalogEntities.
+     * @example
+     * // Update many CatalogEntities
+     * const catalogEntity = await prisma.catalogEntity.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more CatalogEntities and only return the `id`
+     * const catalogEntityWithIdOnly = await prisma.catalogEntity.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends CatalogEntityUpdateManyAndReturnArgs>(args: SelectSubset<T, CatalogEntityUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CatalogEntityPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one CatalogEntity.
+     * @param {CatalogEntityUpsertArgs} args - Arguments to update or create a CatalogEntity.
+     * @example
+     * // Update or create a CatalogEntity
+     * const catalogEntity = await prisma.catalogEntity.upsert({
+     *   create: {
+     *     // ... data to create a CatalogEntity
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the CatalogEntity we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CatalogEntityUpsertArgs>(args: SelectSubset<T, CatalogEntityUpsertArgs<ExtArgs>>): Prisma__CatalogEntityClient<$Result.GetResult<Prisma.$CatalogEntityPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of CatalogEntities.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CatalogEntityCountArgs} args - Arguments to filter CatalogEntities to count.
+     * @example
+     * // Count the number of CatalogEntities
+     * const count = await prisma.catalogEntity.count({
+     *   where: {
+     *     // ... the filter for the CatalogEntities we want to count
+     *   }
+     * })
+    **/
+    count<T extends CatalogEntityCountArgs>(
+      args?: Subset<T, CatalogEntityCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CatalogEntityCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a CatalogEntity.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CatalogEntityAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CatalogEntityAggregateArgs>(args: Subset<T, CatalogEntityAggregateArgs>): Prisma.PrismaPromise<GetCatalogEntityAggregateType<T>>
+
+    /**
+     * Group by CatalogEntity.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CatalogEntityGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CatalogEntityGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CatalogEntityGroupByArgs['orderBy'] }
+        : { orderBy?: CatalogEntityGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CatalogEntityGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCatalogEntityGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the CatalogEntity model
+   */
+  readonly fields: CatalogEntityFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for CatalogEntity.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CatalogEntityClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    parent<T extends CatalogEntity$parentArgs<ExtArgs> = {}>(args?: Subset<T, CatalogEntity$parentArgs<ExtArgs>>): Prisma__CatalogEntityClient<$Result.GetResult<Prisma.$CatalogEntityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    children<T extends CatalogEntity$childrenArgs<ExtArgs> = {}>(args?: Subset<T, CatalogEntity$childrenArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CatalogEntityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    itemLinks<T extends CatalogEntity$itemLinksArgs<ExtArgs> = {}>(args?: Subset<T, CatalogEntity$itemLinksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ItemCatalogEntityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the CatalogEntity model
+   */
+  interface CatalogEntityFieldRefs {
+    readonly id: FieldRef<"CatalogEntity", 'String'>
+    readonly tenantId: FieldRef<"CatalogEntity", 'String'>
+    readonly name: FieldRef<"CatalogEntity", 'String'>
+    readonly kind: FieldRef<"CatalogEntity", 'String'>
+    readonly parentId: FieldRef<"CatalogEntity", 'String'>
+    readonly attributes: FieldRef<"CatalogEntity", 'Json'>
+    readonly isActive: FieldRef<"CatalogEntity", 'Boolean'>
+    readonly createdAt: FieldRef<"CatalogEntity", 'DateTime'>
+    readonly updatedAt: FieldRef<"CatalogEntity", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * CatalogEntity findUnique
+   */
+  export type CatalogEntityFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CatalogEntity
+     */
+    select?: CatalogEntitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CatalogEntity
+     */
+    omit?: CatalogEntityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CatalogEntityInclude<ExtArgs> | null
+    /**
+     * Filter, which CatalogEntity to fetch.
+     */
+    where: CatalogEntityWhereUniqueInput
+  }
+
+  /**
+   * CatalogEntity findUniqueOrThrow
+   */
+  export type CatalogEntityFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CatalogEntity
+     */
+    select?: CatalogEntitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CatalogEntity
+     */
+    omit?: CatalogEntityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CatalogEntityInclude<ExtArgs> | null
+    /**
+     * Filter, which CatalogEntity to fetch.
+     */
+    where: CatalogEntityWhereUniqueInput
+  }
+
+  /**
+   * CatalogEntity findFirst
+   */
+  export type CatalogEntityFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CatalogEntity
+     */
+    select?: CatalogEntitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CatalogEntity
+     */
+    omit?: CatalogEntityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CatalogEntityInclude<ExtArgs> | null
+    /**
+     * Filter, which CatalogEntity to fetch.
+     */
+    where?: CatalogEntityWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CatalogEntities to fetch.
+     */
+    orderBy?: CatalogEntityOrderByWithRelationInput | CatalogEntityOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CatalogEntities.
+     */
+    cursor?: CatalogEntityWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CatalogEntities from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CatalogEntities.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CatalogEntities.
+     */
+    distinct?: CatalogEntityScalarFieldEnum | CatalogEntityScalarFieldEnum[]
+  }
+
+  /**
+   * CatalogEntity findFirstOrThrow
+   */
+  export type CatalogEntityFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CatalogEntity
+     */
+    select?: CatalogEntitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CatalogEntity
+     */
+    omit?: CatalogEntityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CatalogEntityInclude<ExtArgs> | null
+    /**
+     * Filter, which CatalogEntity to fetch.
+     */
+    where?: CatalogEntityWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CatalogEntities to fetch.
+     */
+    orderBy?: CatalogEntityOrderByWithRelationInput | CatalogEntityOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CatalogEntities.
+     */
+    cursor?: CatalogEntityWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CatalogEntities from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CatalogEntities.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CatalogEntities.
+     */
+    distinct?: CatalogEntityScalarFieldEnum | CatalogEntityScalarFieldEnum[]
+  }
+
+  /**
+   * CatalogEntity findMany
+   */
+  export type CatalogEntityFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CatalogEntity
+     */
+    select?: CatalogEntitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CatalogEntity
+     */
+    omit?: CatalogEntityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CatalogEntityInclude<ExtArgs> | null
+    /**
+     * Filter, which CatalogEntities to fetch.
+     */
+    where?: CatalogEntityWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CatalogEntities to fetch.
+     */
+    orderBy?: CatalogEntityOrderByWithRelationInput | CatalogEntityOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing CatalogEntities.
+     */
+    cursor?: CatalogEntityWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CatalogEntities from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CatalogEntities.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CatalogEntities.
+     */
+    distinct?: CatalogEntityScalarFieldEnum | CatalogEntityScalarFieldEnum[]
+  }
+
+  /**
+   * CatalogEntity create
+   */
+  export type CatalogEntityCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CatalogEntity
+     */
+    select?: CatalogEntitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CatalogEntity
+     */
+    omit?: CatalogEntityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CatalogEntityInclude<ExtArgs> | null
+    /**
+     * The data needed to create a CatalogEntity.
+     */
+    data: XOR<CatalogEntityCreateInput, CatalogEntityUncheckedCreateInput>
+  }
+
+  /**
+   * CatalogEntity createMany
+   */
+  export type CatalogEntityCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many CatalogEntities.
+     */
+    data: CatalogEntityCreateManyInput | CatalogEntityCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * CatalogEntity createManyAndReturn
+   */
+  export type CatalogEntityCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CatalogEntity
+     */
+    select?: CatalogEntitySelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CatalogEntity
+     */
+    omit?: CatalogEntityOmit<ExtArgs> | null
+    /**
+     * The data used to create many CatalogEntities.
+     */
+    data: CatalogEntityCreateManyInput | CatalogEntityCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CatalogEntityIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CatalogEntity update
+   */
+  export type CatalogEntityUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CatalogEntity
+     */
+    select?: CatalogEntitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CatalogEntity
+     */
+    omit?: CatalogEntityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CatalogEntityInclude<ExtArgs> | null
+    /**
+     * The data needed to update a CatalogEntity.
+     */
+    data: XOR<CatalogEntityUpdateInput, CatalogEntityUncheckedUpdateInput>
+    /**
+     * Choose, which CatalogEntity to update.
+     */
+    where: CatalogEntityWhereUniqueInput
+  }
+
+  /**
+   * CatalogEntity updateMany
+   */
+  export type CatalogEntityUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update CatalogEntities.
+     */
+    data: XOR<CatalogEntityUpdateManyMutationInput, CatalogEntityUncheckedUpdateManyInput>
+    /**
+     * Filter which CatalogEntities to update
+     */
+    where?: CatalogEntityWhereInput
+    /**
+     * Limit how many CatalogEntities to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * CatalogEntity updateManyAndReturn
+   */
+  export type CatalogEntityUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CatalogEntity
+     */
+    select?: CatalogEntitySelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CatalogEntity
+     */
+    omit?: CatalogEntityOmit<ExtArgs> | null
+    /**
+     * The data used to update CatalogEntities.
+     */
+    data: XOR<CatalogEntityUpdateManyMutationInput, CatalogEntityUncheckedUpdateManyInput>
+    /**
+     * Filter which CatalogEntities to update
+     */
+    where?: CatalogEntityWhereInput
+    /**
+     * Limit how many CatalogEntities to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CatalogEntityIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CatalogEntity upsert
+   */
+  export type CatalogEntityUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CatalogEntity
+     */
+    select?: CatalogEntitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CatalogEntity
+     */
+    omit?: CatalogEntityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CatalogEntityInclude<ExtArgs> | null
+    /**
+     * The filter to search for the CatalogEntity to update in case it exists.
+     */
+    where: CatalogEntityWhereUniqueInput
+    /**
+     * In case the CatalogEntity found by the `where` argument doesn't exist, create a new CatalogEntity with this data.
+     */
+    create: XOR<CatalogEntityCreateInput, CatalogEntityUncheckedCreateInput>
+    /**
+     * In case the CatalogEntity was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CatalogEntityUpdateInput, CatalogEntityUncheckedUpdateInput>
+  }
+
+  /**
+   * CatalogEntity delete
+   */
+  export type CatalogEntityDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CatalogEntity
+     */
+    select?: CatalogEntitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CatalogEntity
+     */
+    omit?: CatalogEntityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CatalogEntityInclude<ExtArgs> | null
+    /**
+     * Filter which CatalogEntity to delete.
+     */
+    where: CatalogEntityWhereUniqueInput
+  }
+
+  /**
+   * CatalogEntity deleteMany
+   */
+  export type CatalogEntityDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CatalogEntities to delete
+     */
+    where?: CatalogEntityWhereInput
+    /**
+     * Limit how many CatalogEntities to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * CatalogEntity.parent
+   */
+  export type CatalogEntity$parentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CatalogEntity
+     */
+    select?: CatalogEntitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CatalogEntity
+     */
+    omit?: CatalogEntityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CatalogEntityInclude<ExtArgs> | null
+    where?: CatalogEntityWhereInput
+  }
+
+  /**
+   * CatalogEntity.children
+   */
+  export type CatalogEntity$childrenArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CatalogEntity
+     */
+    select?: CatalogEntitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CatalogEntity
+     */
+    omit?: CatalogEntityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CatalogEntityInclude<ExtArgs> | null
+    where?: CatalogEntityWhereInput
+    orderBy?: CatalogEntityOrderByWithRelationInput | CatalogEntityOrderByWithRelationInput[]
+    cursor?: CatalogEntityWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CatalogEntityScalarFieldEnum | CatalogEntityScalarFieldEnum[]
+  }
+
+  /**
+   * CatalogEntity.itemLinks
+   */
+  export type CatalogEntity$itemLinksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ItemCatalogEntity
+     */
+    select?: ItemCatalogEntitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ItemCatalogEntity
+     */
+    omit?: ItemCatalogEntityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemCatalogEntityInclude<ExtArgs> | null
+    where?: ItemCatalogEntityWhereInput
+    orderBy?: ItemCatalogEntityOrderByWithRelationInput | ItemCatalogEntityOrderByWithRelationInput[]
+    cursor?: ItemCatalogEntityWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ItemCatalogEntityScalarFieldEnum | ItemCatalogEntityScalarFieldEnum[]
+  }
+
+  /**
+   * CatalogEntity without action
+   */
+  export type CatalogEntityDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CatalogEntity
+     */
+    select?: CatalogEntitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CatalogEntity
+     */
+    omit?: CatalogEntityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CatalogEntityInclude<ExtArgs> | null
   }
 
 
@@ -28391,6 +29836,1085 @@ export namespace Prisma {
 
 
   /**
+   * Model ItemCatalogEntity
+   */
+
+  export type AggregateItemCatalogEntity = {
+    _count: ItemCatalogEntityCountAggregateOutputType | null
+    _min: ItemCatalogEntityMinAggregateOutputType | null
+    _max: ItemCatalogEntityMaxAggregateOutputType | null
+  }
+
+  export type ItemCatalogEntityMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    itemId: string | null
+    catalogEntityId: string | null
+    createdAt: Date | null
+  }
+
+  export type ItemCatalogEntityMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    itemId: string | null
+    catalogEntityId: string | null
+    createdAt: Date | null
+  }
+
+  export type ItemCatalogEntityCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    itemId: number
+    catalogEntityId: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type ItemCatalogEntityMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    itemId?: true
+    catalogEntityId?: true
+    createdAt?: true
+  }
+
+  export type ItemCatalogEntityMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    itemId?: true
+    catalogEntityId?: true
+    createdAt?: true
+  }
+
+  export type ItemCatalogEntityCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    itemId?: true
+    catalogEntityId?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type ItemCatalogEntityAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ItemCatalogEntity to aggregate.
+     */
+    where?: ItemCatalogEntityWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ItemCatalogEntities to fetch.
+     */
+    orderBy?: ItemCatalogEntityOrderByWithRelationInput | ItemCatalogEntityOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ItemCatalogEntityWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ItemCatalogEntities from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ItemCatalogEntities.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ItemCatalogEntities
+    **/
+    _count?: true | ItemCatalogEntityCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ItemCatalogEntityMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ItemCatalogEntityMaxAggregateInputType
+  }
+
+  export type GetItemCatalogEntityAggregateType<T extends ItemCatalogEntityAggregateArgs> = {
+        [P in keyof T & keyof AggregateItemCatalogEntity]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateItemCatalogEntity[P]>
+      : GetScalarType<T[P], AggregateItemCatalogEntity[P]>
+  }
+
+
+
+
+  export type ItemCatalogEntityGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ItemCatalogEntityWhereInput
+    orderBy?: ItemCatalogEntityOrderByWithAggregationInput | ItemCatalogEntityOrderByWithAggregationInput[]
+    by: ItemCatalogEntityScalarFieldEnum[] | ItemCatalogEntityScalarFieldEnum
+    having?: ItemCatalogEntityScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ItemCatalogEntityCountAggregateInputType | true
+    _min?: ItemCatalogEntityMinAggregateInputType
+    _max?: ItemCatalogEntityMaxAggregateInputType
+  }
+
+  export type ItemCatalogEntityGroupByOutputType = {
+    id: string
+    tenantId: string
+    itemId: string
+    catalogEntityId: string
+    createdAt: Date
+    _count: ItemCatalogEntityCountAggregateOutputType | null
+    _min: ItemCatalogEntityMinAggregateOutputType | null
+    _max: ItemCatalogEntityMaxAggregateOutputType | null
+  }
+
+  type GetItemCatalogEntityGroupByPayload<T extends ItemCatalogEntityGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ItemCatalogEntityGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ItemCatalogEntityGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ItemCatalogEntityGroupByOutputType[P]>
+            : GetScalarType<T[P], ItemCatalogEntityGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ItemCatalogEntitySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    itemId?: boolean
+    catalogEntityId?: boolean
+    createdAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    item?: boolean | ItemDefaultArgs<ExtArgs>
+    catalogEntity?: boolean | CatalogEntityDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["itemCatalogEntity"]>
+
+  export type ItemCatalogEntitySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    itemId?: boolean
+    catalogEntityId?: boolean
+    createdAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    item?: boolean | ItemDefaultArgs<ExtArgs>
+    catalogEntity?: boolean | CatalogEntityDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["itemCatalogEntity"]>
+
+  export type ItemCatalogEntitySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    itemId?: boolean
+    catalogEntityId?: boolean
+    createdAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    item?: boolean | ItemDefaultArgs<ExtArgs>
+    catalogEntity?: boolean | CatalogEntityDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["itemCatalogEntity"]>
+
+  export type ItemCatalogEntitySelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    itemId?: boolean
+    catalogEntityId?: boolean
+    createdAt?: boolean
+  }
+
+  export type ItemCatalogEntityOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "itemId" | "catalogEntityId" | "createdAt", ExtArgs["result"]["itemCatalogEntity"]>
+  export type ItemCatalogEntityInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    item?: boolean | ItemDefaultArgs<ExtArgs>
+    catalogEntity?: boolean | CatalogEntityDefaultArgs<ExtArgs>
+  }
+  export type ItemCatalogEntityIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    item?: boolean | ItemDefaultArgs<ExtArgs>
+    catalogEntity?: boolean | CatalogEntityDefaultArgs<ExtArgs>
+  }
+  export type ItemCatalogEntityIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    item?: boolean | ItemDefaultArgs<ExtArgs>
+    catalogEntity?: boolean | CatalogEntityDefaultArgs<ExtArgs>
+  }
+
+  export type $ItemCatalogEntityPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ItemCatalogEntity"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+      item: Prisma.$ItemPayload<ExtArgs>
+      catalogEntity: Prisma.$CatalogEntityPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      itemId: string
+      catalogEntityId: string
+      createdAt: Date
+    }, ExtArgs["result"]["itemCatalogEntity"]>
+    composites: {}
+  }
+
+  type ItemCatalogEntityGetPayload<S extends boolean | null | undefined | ItemCatalogEntityDefaultArgs> = $Result.GetResult<Prisma.$ItemCatalogEntityPayload, S>
+
+  type ItemCatalogEntityCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ItemCatalogEntityFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ItemCatalogEntityCountAggregateInputType | true
+    }
+
+  export interface ItemCatalogEntityDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ItemCatalogEntity'], meta: { name: 'ItemCatalogEntity' } }
+    /**
+     * Find zero or one ItemCatalogEntity that matches the filter.
+     * @param {ItemCatalogEntityFindUniqueArgs} args - Arguments to find a ItemCatalogEntity
+     * @example
+     * // Get one ItemCatalogEntity
+     * const itemCatalogEntity = await prisma.itemCatalogEntity.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ItemCatalogEntityFindUniqueArgs>(args: SelectSubset<T, ItemCatalogEntityFindUniqueArgs<ExtArgs>>): Prisma__ItemCatalogEntityClient<$Result.GetResult<Prisma.$ItemCatalogEntityPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ItemCatalogEntity that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ItemCatalogEntityFindUniqueOrThrowArgs} args - Arguments to find a ItemCatalogEntity
+     * @example
+     * // Get one ItemCatalogEntity
+     * const itemCatalogEntity = await prisma.itemCatalogEntity.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ItemCatalogEntityFindUniqueOrThrowArgs>(args: SelectSubset<T, ItemCatalogEntityFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ItemCatalogEntityClient<$Result.GetResult<Prisma.$ItemCatalogEntityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ItemCatalogEntity that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ItemCatalogEntityFindFirstArgs} args - Arguments to find a ItemCatalogEntity
+     * @example
+     * // Get one ItemCatalogEntity
+     * const itemCatalogEntity = await prisma.itemCatalogEntity.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ItemCatalogEntityFindFirstArgs>(args?: SelectSubset<T, ItemCatalogEntityFindFirstArgs<ExtArgs>>): Prisma__ItemCatalogEntityClient<$Result.GetResult<Prisma.$ItemCatalogEntityPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ItemCatalogEntity that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ItemCatalogEntityFindFirstOrThrowArgs} args - Arguments to find a ItemCatalogEntity
+     * @example
+     * // Get one ItemCatalogEntity
+     * const itemCatalogEntity = await prisma.itemCatalogEntity.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ItemCatalogEntityFindFirstOrThrowArgs>(args?: SelectSubset<T, ItemCatalogEntityFindFirstOrThrowArgs<ExtArgs>>): Prisma__ItemCatalogEntityClient<$Result.GetResult<Prisma.$ItemCatalogEntityPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ItemCatalogEntities that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ItemCatalogEntityFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ItemCatalogEntities
+     * const itemCatalogEntities = await prisma.itemCatalogEntity.findMany()
+     * 
+     * // Get first 10 ItemCatalogEntities
+     * const itemCatalogEntities = await prisma.itemCatalogEntity.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const itemCatalogEntityWithIdOnly = await prisma.itemCatalogEntity.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ItemCatalogEntityFindManyArgs>(args?: SelectSubset<T, ItemCatalogEntityFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ItemCatalogEntityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ItemCatalogEntity.
+     * @param {ItemCatalogEntityCreateArgs} args - Arguments to create a ItemCatalogEntity.
+     * @example
+     * // Create one ItemCatalogEntity
+     * const ItemCatalogEntity = await prisma.itemCatalogEntity.create({
+     *   data: {
+     *     // ... data to create a ItemCatalogEntity
+     *   }
+     * })
+     * 
+     */
+    create<T extends ItemCatalogEntityCreateArgs>(args: SelectSubset<T, ItemCatalogEntityCreateArgs<ExtArgs>>): Prisma__ItemCatalogEntityClient<$Result.GetResult<Prisma.$ItemCatalogEntityPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ItemCatalogEntities.
+     * @param {ItemCatalogEntityCreateManyArgs} args - Arguments to create many ItemCatalogEntities.
+     * @example
+     * // Create many ItemCatalogEntities
+     * const itemCatalogEntity = await prisma.itemCatalogEntity.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ItemCatalogEntityCreateManyArgs>(args?: SelectSubset<T, ItemCatalogEntityCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ItemCatalogEntities and returns the data saved in the database.
+     * @param {ItemCatalogEntityCreateManyAndReturnArgs} args - Arguments to create many ItemCatalogEntities.
+     * @example
+     * // Create many ItemCatalogEntities
+     * const itemCatalogEntity = await prisma.itemCatalogEntity.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ItemCatalogEntities and only return the `id`
+     * const itemCatalogEntityWithIdOnly = await prisma.itemCatalogEntity.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ItemCatalogEntityCreateManyAndReturnArgs>(args?: SelectSubset<T, ItemCatalogEntityCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ItemCatalogEntityPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ItemCatalogEntity.
+     * @param {ItemCatalogEntityDeleteArgs} args - Arguments to delete one ItemCatalogEntity.
+     * @example
+     * // Delete one ItemCatalogEntity
+     * const ItemCatalogEntity = await prisma.itemCatalogEntity.delete({
+     *   where: {
+     *     // ... filter to delete one ItemCatalogEntity
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ItemCatalogEntityDeleteArgs>(args: SelectSubset<T, ItemCatalogEntityDeleteArgs<ExtArgs>>): Prisma__ItemCatalogEntityClient<$Result.GetResult<Prisma.$ItemCatalogEntityPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ItemCatalogEntity.
+     * @param {ItemCatalogEntityUpdateArgs} args - Arguments to update one ItemCatalogEntity.
+     * @example
+     * // Update one ItemCatalogEntity
+     * const itemCatalogEntity = await prisma.itemCatalogEntity.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ItemCatalogEntityUpdateArgs>(args: SelectSubset<T, ItemCatalogEntityUpdateArgs<ExtArgs>>): Prisma__ItemCatalogEntityClient<$Result.GetResult<Prisma.$ItemCatalogEntityPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ItemCatalogEntities.
+     * @param {ItemCatalogEntityDeleteManyArgs} args - Arguments to filter ItemCatalogEntities to delete.
+     * @example
+     * // Delete a few ItemCatalogEntities
+     * const { count } = await prisma.itemCatalogEntity.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ItemCatalogEntityDeleteManyArgs>(args?: SelectSubset<T, ItemCatalogEntityDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ItemCatalogEntities.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ItemCatalogEntityUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ItemCatalogEntities
+     * const itemCatalogEntity = await prisma.itemCatalogEntity.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ItemCatalogEntityUpdateManyArgs>(args: SelectSubset<T, ItemCatalogEntityUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ItemCatalogEntities and returns the data updated in the database.
+     * @param {ItemCatalogEntityUpdateManyAndReturnArgs} args - Arguments to update many ItemCatalogEntities.
+     * @example
+     * // Update many ItemCatalogEntities
+     * const itemCatalogEntity = await prisma.itemCatalogEntity.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ItemCatalogEntities and only return the `id`
+     * const itemCatalogEntityWithIdOnly = await prisma.itemCatalogEntity.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ItemCatalogEntityUpdateManyAndReturnArgs>(args: SelectSubset<T, ItemCatalogEntityUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ItemCatalogEntityPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ItemCatalogEntity.
+     * @param {ItemCatalogEntityUpsertArgs} args - Arguments to update or create a ItemCatalogEntity.
+     * @example
+     * // Update or create a ItemCatalogEntity
+     * const itemCatalogEntity = await prisma.itemCatalogEntity.upsert({
+     *   create: {
+     *     // ... data to create a ItemCatalogEntity
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ItemCatalogEntity we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ItemCatalogEntityUpsertArgs>(args: SelectSubset<T, ItemCatalogEntityUpsertArgs<ExtArgs>>): Prisma__ItemCatalogEntityClient<$Result.GetResult<Prisma.$ItemCatalogEntityPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ItemCatalogEntities.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ItemCatalogEntityCountArgs} args - Arguments to filter ItemCatalogEntities to count.
+     * @example
+     * // Count the number of ItemCatalogEntities
+     * const count = await prisma.itemCatalogEntity.count({
+     *   where: {
+     *     // ... the filter for the ItemCatalogEntities we want to count
+     *   }
+     * })
+    **/
+    count<T extends ItemCatalogEntityCountArgs>(
+      args?: Subset<T, ItemCatalogEntityCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ItemCatalogEntityCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ItemCatalogEntity.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ItemCatalogEntityAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ItemCatalogEntityAggregateArgs>(args: Subset<T, ItemCatalogEntityAggregateArgs>): Prisma.PrismaPromise<GetItemCatalogEntityAggregateType<T>>
+
+    /**
+     * Group by ItemCatalogEntity.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ItemCatalogEntityGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ItemCatalogEntityGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ItemCatalogEntityGroupByArgs['orderBy'] }
+        : { orderBy?: ItemCatalogEntityGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ItemCatalogEntityGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetItemCatalogEntityGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ItemCatalogEntity model
+   */
+  readonly fields: ItemCatalogEntityFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ItemCatalogEntity.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ItemCatalogEntityClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    item<T extends ItemDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ItemDefaultArgs<ExtArgs>>): Prisma__ItemClient<$Result.GetResult<Prisma.$ItemPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    catalogEntity<T extends CatalogEntityDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CatalogEntityDefaultArgs<ExtArgs>>): Prisma__CatalogEntityClient<$Result.GetResult<Prisma.$CatalogEntityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ItemCatalogEntity model
+   */
+  interface ItemCatalogEntityFieldRefs {
+    readonly id: FieldRef<"ItemCatalogEntity", 'String'>
+    readonly tenantId: FieldRef<"ItemCatalogEntity", 'String'>
+    readonly itemId: FieldRef<"ItemCatalogEntity", 'String'>
+    readonly catalogEntityId: FieldRef<"ItemCatalogEntity", 'String'>
+    readonly createdAt: FieldRef<"ItemCatalogEntity", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ItemCatalogEntity findUnique
+   */
+  export type ItemCatalogEntityFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ItemCatalogEntity
+     */
+    select?: ItemCatalogEntitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ItemCatalogEntity
+     */
+    omit?: ItemCatalogEntityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemCatalogEntityInclude<ExtArgs> | null
+    /**
+     * Filter, which ItemCatalogEntity to fetch.
+     */
+    where: ItemCatalogEntityWhereUniqueInput
+  }
+
+  /**
+   * ItemCatalogEntity findUniqueOrThrow
+   */
+  export type ItemCatalogEntityFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ItemCatalogEntity
+     */
+    select?: ItemCatalogEntitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ItemCatalogEntity
+     */
+    omit?: ItemCatalogEntityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemCatalogEntityInclude<ExtArgs> | null
+    /**
+     * Filter, which ItemCatalogEntity to fetch.
+     */
+    where: ItemCatalogEntityWhereUniqueInput
+  }
+
+  /**
+   * ItemCatalogEntity findFirst
+   */
+  export type ItemCatalogEntityFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ItemCatalogEntity
+     */
+    select?: ItemCatalogEntitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ItemCatalogEntity
+     */
+    omit?: ItemCatalogEntityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemCatalogEntityInclude<ExtArgs> | null
+    /**
+     * Filter, which ItemCatalogEntity to fetch.
+     */
+    where?: ItemCatalogEntityWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ItemCatalogEntities to fetch.
+     */
+    orderBy?: ItemCatalogEntityOrderByWithRelationInput | ItemCatalogEntityOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ItemCatalogEntities.
+     */
+    cursor?: ItemCatalogEntityWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ItemCatalogEntities from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ItemCatalogEntities.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ItemCatalogEntities.
+     */
+    distinct?: ItemCatalogEntityScalarFieldEnum | ItemCatalogEntityScalarFieldEnum[]
+  }
+
+  /**
+   * ItemCatalogEntity findFirstOrThrow
+   */
+  export type ItemCatalogEntityFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ItemCatalogEntity
+     */
+    select?: ItemCatalogEntitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ItemCatalogEntity
+     */
+    omit?: ItemCatalogEntityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemCatalogEntityInclude<ExtArgs> | null
+    /**
+     * Filter, which ItemCatalogEntity to fetch.
+     */
+    where?: ItemCatalogEntityWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ItemCatalogEntities to fetch.
+     */
+    orderBy?: ItemCatalogEntityOrderByWithRelationInput | ItemCatalogEntityOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ItemCatalogEntities.
+     */
+    cursor?: ItemCatalogEntityWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ItemCatalogEntities from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ItemCatalogEntities.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ItemCatalogEntities.
+     */
+    distinct?: ItemCatalogEntityScalarFieldEnum | ItemCatalogEntityScalarFieldEnum[]
+  }
+
+  /**
+   * ItemCatalogEntity findMany
+   */
+  export type ItemCatalogEntityFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ItemCatalogEntity
+     */
+    select?: ItemCatalogEntitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ItemCatalogEntity
+     */
+    omit?: ItemCatalogEntityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemCatalogEntityInclude<ExtArgs> | null
+    /**
+     * Filter, which ItemCatalogEntities to fetch.
+     */
+    where?: ItemCatalogEntityWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ItemCatalogEntities to fetch.
+     */
+    orderBy?: ItemCatalogEntityOrderByWithRelationInput | ItemCatalogEntityOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ItemCatalogEntities.
+     */
+    cursor?: ItemCatalogEntityWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ItemCatalogEntities from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ItemCatalogEntities.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ItemCatalogEntities.
+     */
+    distinct?: ItemCatalogEntityScalarFieldEnum | ItemCatalogEntityScalarFieldEnum[]
+  }
+
+  /**
+   * ItemCatalogEntity create
+   */
+  export type ItemCatalogEntityCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ItemCatalogEntity
+     */
+    select?: ItemCatalogEntitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ItemCatalogEntity
+     */
+    omit?: ItemCatalogEntityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemCatalogEntityInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ItemCatalogEntity.
+     */
+    data: XOR<ItemCatalogEntityCreateInput, ItemCatalogEntityUncheckedCreateInput>
+  }
+
+  /**
+   * ItemCatalogEntity createMany
+   */
+  export type ItemCatalogEntityCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ItemCatalogEntities.
+     */
+    data: ItemCatalogEntityCreateManyInput | ItemCatalogEntityCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ItemCatalogEntity createManyAndReturn
+   */
+  export type ItemCatalogEntityCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ItemCatalogEntity
+     */
+    select?: ItemCatalogEntitySelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ItemCatalogEntity
+     */
+    omit?: ItemCatalogEntityOmit<ExtArgs> | null
+    /**
+     * The data used to create many ItemCatalogEntities.
+     */
+    data: ItemCatalogEntityCreateManyInput | ItemCatalogEntityCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemCatalogEntityIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ItemCatalogEntity update
+   */
+  export type ItemCatalogEntityUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ItemCatalogEntity
+     */
+    select?: ItemCatalogEntitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ItemCatalogEntity
+     */
+    omit?: ItemCatalogEntityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemCatalogEntityInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ItemCatalogEntity.
+     */
+    data: XOR<ItemCatalogEntityUpdateInput, ItemCatalogEntityUncheckedUpdateInput>
+    /**
+     * Choose, which ItemCatalogEntity to update.
+     */
+    where: ItemCatalogEntityWhereUniqueInput
+  }
+
+  /**
+   * ItemCatalogEntity updateMany
+   */
+  export type ItemCatalogEntityUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ItemCatalogEntities.
+     */
+    data: XOR<ItemCatalogEntityUpdateManyMutationInput, ItemCatalogEntityUncheckedUpdateManyInput>
+    /**
+     * Filter which ItemCatalogEntities to update
+     */
+    where?: ItemCatalogEntityWhereInput
+    /**
+     * Limit how many ItemCatalogEntities to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ItemCatalogEntity updateManyAndReturn
+   */
+  export type ItemCatalogEntityUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ItemCatalogEntity
+     */
+    select?: ItemCatalogEntitySelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ItemCatalogEntity
+     */
+    omit?: ItemCatalogEntityOmit<ExtArgs> | null
+    /**
+     * The data used to update ItemCatalogEntities.
+     */
+    data: XOR<ItemCatalogEntityUpdateManyMutationInput, ItemCatalogEntityUncheckedUpdateManyInput>
+    /**
+     * Filter which ItemCatalogEntities to update
+     */
+    where?: ItemCatalogEntityWhereInput
+    /**
+     * Limit how many ItemCatalogEntities to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemCatalogEntityIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ItemCatalogEntity upsert
+   */
+  export type ItemCatalogEntityUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ItemCatalogEntity
+     */
+    select?: ItemCatalogEntitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ItemCatalogEntity
+     */
+    omit?: ItemCatalogEntityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemCatalogEntityInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ItemCatalogEntity to update in case it exists.
+     */
+    where: ItemCatalogEntityWhereUniqueInput
+    /**
+     * In case the ItemCatalogEntity found by the `where` argument doesn't exist, create a new ItemCatalogEntity with this data.
+     */
+    create: XOR<ItemCatalogEntityCreateInput, ItemCatalogEntityUncheckedCreateInput>
+    /**
+     * In case the ItemCatalogEntity was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ItemCatalogEntityUpdateInput, ItemCatalogEntityUncheckedUpdateInput>
+  }
+
+  /**
+   * ItemCatalogEntity delete
+   */
+  export type ItemCatalogEntityDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ItemCatalogEntity
+     */
+    select?: ItemCatalogEntitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ItemCatalogEntity
+     */
+    omit?: ItemCatalogEntityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemCatalogEntityInclude<ExtArgs> | null
+    /**
+     * Filter which ItemCatalogEntity to delete.
+     */
+    where: ItemCatalogEntityWhereUniqueInput
+  }
+
+  /**
+   * ItemCatalogEntity deleteMany
+   */
+  export type ItemCatalogEntityDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ItemCatalogEntities to delete
+     */
+    where?: ItemCatalogEntityWhereInput
+    /**
+     * Limit how many ItemCatalogEntities to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ItemCatalogEntity without action
+   */
+  export type ItemCatalogEntityDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ItemCatalogEntity
+     */
+    select?: ItemCatalogEntitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ItemCatalogEntity
+     */
+    omit?: ItemCatalogEntityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemCatalogEntityInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model ItemCategory
    */
 
@@ -30971,6 +33495,7 @@ export namespace Prisma {
     stockCountLines?: boolean | Item$stockCountLinesArgs<ExtArgs>
     itemRelations?: boolean | Item$itemRelationsArgs<ExtArgs>
     itemRelatedTo?: boolean | Item$itemRelatedToArgs<ExtArgs>
+    itemCatalogEntities?: boolean | Item$itemCatalogEntitiesArgs<ExtArgs>
     _count?: boolean | ItemCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["item"]>
 
@@ -31040,6 +33565,7 @@ export namespace Prisma {
     stockCountLines?: boolean | Item$stockCountLinesArgs<ExtArgs>
     itemRelations?: boolean | Item$itemRelationsArgs<ExtArgs>
     itemRelatedTo?: boolean | Item$itemRelatedToArgs<ExtArgs>
+    itemCatalogEntities?: boolean | Item$itemCatalogEntitiesArgs<ExtArgs>
     _count?: boolean | ItemCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ItemIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -31066,6 +33592,7 @@ export namespace Prisma {
       stockCountLines: Prisma.$StockCountLinePayload<ExtArgs>[]
       itemRelations: Prisma.$ItemRelationPayload<ExtArgs>[]
       itemRelatedTo: Prisma.$ItemRelationPayload<ExtArgs>[]
+      itemCatalogEntities: Prisma.$ItemCatalogEntityPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -31485,6 +34012,7 @@ export namespace Prisma {
     stockCountLines<T extends Item$stockCountLinesArgs<ExtArgs> = {}>(args?: Subset<T, Item$stockCountLinesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StockCountLinePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     itemRelations<T extends Item$itemRelationsArgs<ExtArgs> = {}>(args?: Subset<T, Item$itemRelationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ItemRelationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     itemRelatedTo<T extends Item$itemRelatedToArgs<ExtArgs> = {}>(args?: Subset<T, Item$itemRelatedToArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ItemRelationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    itemCatalogEntities<T extends Item$itemCatalogEntitiesArgs<ExtArgs> = {}>(args?: Subset<T, Item$itemCatalogEntitiesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ItemCatalogEntityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -32093,6 +34621,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ItemRelationScalarFieldEnum | ItemRelationScalarFieldEnum[]
+  }
+
+  /**
+   * Item.itemCatalogEntities
+   */
+  export type Item$itemCatalogEntitiesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ItemCatalogEntity
+     */
+    select?: ItemCatalogEntitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ItemCatalogEntity
+     */
+    omit?: ItemCatalogEntityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemCatalogEntityInclude<ExtArgs> | null
+    where?: ItemCatalogEntityWhereInput
+    orderBy?: ItemCatalogEntityOrderByWithRelationInput | ItemCatalogEntityOrderByWithRelationInput[]
+    cursor?: ItemCatalogEntityWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ItemCatalogEntityScalarFieldEnum | ItemCatalogEntityScalarFieldEnum[]
   }
 
   /**
@@ -41630,6 +44182,8 @@ export namespace Prisma {
     expenses?: boolean | Tenant$expensesArgs<ExtArgs>
     tags?: boolean | Tenant$tagsArgs<ExtArgs>
     itemRelations?: boolean | Tenant$itemRelationsArgs<ExtArgs>
+    catalogEntities?: boolean | Tenant$catalogEntitiesArgs<ExtArgs>
+    itemCatalogEntities?: boolean | Tenant$itemCatalogEntitiesArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["tenant"]>
 
@@ -41718,6 +44272,8 @@ export namespace Prisma {
     expenses?: boolean | Tenant$expensesArgs<ExtArgs>
     tags?: boolean | Tenant$tagsArgs<ExtArgs>
     itemRelations?: boolean | Tenant$itemRelationsArgs<ExtArgs>
+    catalogEntities?: boolean | Tenant$catalogEntitiesArgs<ExtArgs>
+    itemCatalogEntities?: boolean | Tenant$itemCatalogEntitiesArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TenantIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -41757,6 +44313,8 @@ export namespace Prisma {
       expenses: Prisma.$ExpensePayload<ExtArgs>[]
       tags: Prisma.$TagPayload<ExtArgs>[]
       itemRelations: Prisma.$ItemRelationPayload<ExtArgs>[]
+      catalogEntities: Prisma.$CatalogEntityPayload<ExtArgs>[]
+      itemCatalogEntities: Prisma.$ItemCatalogEntityPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -42193,6 +44751,8 @@ export namespace Prisma {
     expenses<T extends Tenant$expensesArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$expensesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExpensePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     tags<T extends Tenant$tagsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$tagsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TagPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     itemRelations<T extends Tenant$itemRelationsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$itemRelationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ItemRelationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    catalogEntities<T extends Tenant$catalogEntitiesArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$catalogEntitiesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CatalogEntityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    itemCatalogEntities<T extends Tenant$itemCatalogEntitiesArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$itemCatalogEntitiesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ItemCatalogEntityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -43225,6 +45785,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ItemRelationScalarFieldEnum | ItemRelationScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.catalogEntities
+   */
+  export type Tenant$catalogEntitiesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CatalogEntity
+     */
+    select?: CatalogEntitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CatalogEntity
+     */
+    omit?: CatalogEntityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CatalogEntityInclude<ExtArgs> | null
+    where?: CatalogEntityWhereInput
+    orderBy?: CatalogEntityOrderByWithRelationInput | CatalogEntityOrderByWithRelationInput[]
+    cursor?: CatalogEntityWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CatalogEntityScalarFieldEnum | CatalogEntityScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.itemCatalogEntities
+   */
+  export type Tenant$itemCatalogEntitiesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ItemCatalogEntity
+     */
+    select?: ItemCatalogEntitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ItemCatalogEntity
+     */
+    omit?: ItemCatalogEntityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemCatalogEntityInclude<ExtArgs> | null
+    where?: ItemCatalogEntityWhereInput
+    orderBy?: ItemCatalogEntityOrderByWithRelationInput | ItemCatalogEntityOrderByWithRelationInput[]
+    cursor?: ItemCatalogEntityWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ItemCatalogEntityScalarFieldEnum | ItemCatalogEntityScalarFieldEnum[]
   }
 
   /**
@@ -50269,6 +52877,21 @@ export namespace Prisma {
   export type PaymentAllocationScalarFieldEnum = (typeof PaymentAllocationScalarFieldEnum)[keyof typeof PaymentAllocationScalarFieldEnum]
 
 
+  export const CatalogEntityScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    name: 'name',
+    kind: 'kind',
+    parentId: 'parentId',
+    attributes: 'attributes',
+    isActive: 'isActive',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type CatalogEntityScalarFieldEnum = (typeof CatalogEntityScalarFieldEnum)[keyof typeof CatalogEntityScalarFieldEnum]
+
+
   export const CurrencyScalarFieldEnum: {
     id: 'id',
     tenantId: 'tenantId',
@@ -50442,6 +53065,17 @@ export namespace Prisma {
   };
 
   export type InvoiceLineScalarFieldEnum = (typeof InvoiceLineScalarFieldEnum)[keyof typeof InvoiceLineScalarFieldEnum]
+
+
+  export const ItemCatalogEntityScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    itemId: 'itemId',
+    catalogEntityId: 'catalogEntityId',
+    createdAt: 'createdAt'
+  };
+
+  export type ItemCatalogEntityScalarFieldEnum = (typeof ItemCatalogEntityScalarFieldEnum)[keyof typeof ItemCatalogEntityScalarFieldEnum]
 
 
   export const ItemCategoryScalarFieldEnum: {
@@ -51854,6 +54488,90 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"PaymentAllocation"> | Date | string
   }
 
+  export type CatalogEntityWhereInput = {
+    AND?: CatalogEntityWhereInput | CatalogEntityWhereInput[]
+    OR?: CatalogEntityWhereInput[]
+    NOT?: CatalogEntityWhereInput | CatalogEntityWhereInput[]
+    id?: StringFilter<"CatalogEntity"> | string
+    tenantId?: StringFilter<"CatalogEntity"> | string
+    name?: StringFilter<"CatalogEntity"> | string
+    kind?: StringFilter<"CatalogEntity"> | string
+    parentId?: StringNullableFilter<"CatalogEntity"> | string | null
+    attributes?: JsonNullableFilter<"CatalogEntity">
+    isActive?: BoolFilter<"CatalogEntity"> | boolean
+    createdAt?: DateTimeFilter<"CatalogEntity"> | Date | string
+    updatedAt?: DateTimeFilter<"CatalogEntity"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    parent?: XOR<CatalogEntityNullableScalarRelationFilter, CatalogEntityWhereInput> | null
+    children?: CatalogEntityListRelationFilter
+    itemLinks?: ItemCatalogEntityListRelationFilter
+  }
+
+  export type CatalogEntityOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    name?: SortOrder
+    kind?: SortOrder
+    parentId?: SortOrderInput | SortOrder
+    attributes?: SortOrderInput | SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+    parent?: CatalogEntityOrderByWithRelationInput
+    children?: CatalogEntityOrderByRelationAggregateInput
+    itemLinks?: ItemCatalogEntityOrderByRelationAggregateInput
+  }
+
+  export type CatalogEntityWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: CatalogEntityWhereInput | CatalogEntityWhereInput[]
+    OR?: CatalogEntityWhereInput[]
+    NOT?: CatalogEntityWhereInput | CatalogEntityWhereInput[]
+    tenantId?: StringFilter<"CatalogEntity"> | string
+    name?: StringFilter<"CatalogEntity"> | string
+    kind?: StringFilter<"CatalogEntity"> | string
+    parentId?: StringNullableFilter<"CatalogEntity"> | string | null
+    attributes?: JsonNullableFilter<"CatalogEntity">
+    isActive?: BoolFilter<"CatalogEntity"> | boolean
+    createdAt?: DateTimeFilter<"CatalogEntity"> | Date | string
+    updatedAt?: DateTimeFilter<"CatalogEntity"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    parent?: XOR<CatalogEntityNullableScalarRelationFilter, CatalogEntityWhereInput> | null
+    children?: CatalogEntityListRelationFilter
+    itemLinks?: ItemCatalogEntityListRelationFilter
+  }, "id">
+
+  export type CatalogEntityOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    name?: SortOrder
+    kind?: SortOrder
+    parentId?: SortOrderInput | SortOrder
+    attributes?: SortOrderInput | SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: CatalogEntityCountOrderByAggregateInput
+    _max?: CatalogEntityMaxOrderByAggregateInput
+    _min?: CatalogEntityMinOrderByAggregateInput
+  }
+
+  export type CatalogEntityScalarWhereWithAggregatesInput = {
+    AND?: CatalogEntityScalarWhereWithAggregatesInput | CatalogEntityScalarWhereWithAggregatesInput[]
+    OR?: CatalogEntityScalarWhereWithAggregatesInput[]
+    NOT?: CatalogEntityScalarWhereWithAggregatesInput | CatalogEntityScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"CatalogEntity"> | string
+    tenantId?: StringWithAggregatesFilter<"CatalogEntity"> | string
+    name?: StringWithAggregatesFilter<"CatalogEntity"> | string
+    kind?: StringWithAggregatesFilter<"CatalogEntity"> | string
+    parentId?: StringNullableWithAggregatesFilter<"CatalogEntity"> | string | null
+    attributes?: JsonNullableWithAggregatesFilter<"CatalogEntity">
+    isActive?: BoolWithAggregatesFilter<"CatalogEntity"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"CatalogEntity"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"CatalogEntity"> | Date | string
+  }
+
   export type CurrencyWhereInput = {
     AND?: CurrencyWhereInput | CurrencyWhereInput[]
     OR?: CurrencyWhereInput[]
@@ -52826,6 +55544,68 @@ export namespace Prisma {
     sortOrder?: IntWithAggregatesFilter<"InvoiceLine"> | number
   }
 
+  export type ItemCatalogEntityWhereInput = {
+    AND?: ItemCatalogEntityWhereInput | ItemCatalogEntityWhereInput[]
+    OR?: ItemCatalogEntityWhereInput[]
+    NOT?: ItemCatalogEntityWhereInput | ItemCatalogEntityWhereInput[]
+    id?: StringFilter<"ItemCatalogEntity"> | string
+    tenantId?: StringFilter<"ItemCatalogEntity"> | string
+    itemId?: StringFilter<"ItemCatalogEntity"> | string
+    catalogEntityId?: StringFilter<"ItemCatalogEntity"> | string
+    createdAt?: DateTimeFilter<"ItemCatalogEntity"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    item?: XOR<ItemScalarRelationFilter, ItemWhereInput>
+    catalogEntity?: XOR<CatalogEntityScalarRelationFilter, CatalogEntityWhereInput>
+  }
+
+  export type ItemCatalogEntityOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    itemId?: SortOrder
+    catalogEntityId?: SortOrder
+    createdAt?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+    item?: ItemOrderByWithRelationInput
+    catalogEntity?: CatalogEntityOrderByWithRelationInput
+  }
+
+  export type ItemCatalogEntityWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tenantId_itemId_catalogEntityId?: ItemCatalogEntityTenantIdItemIdCatalogEntityIdCompoundUniqueInput
+    AND?: ItemCatalogEntityWhereInput | ItemCatalogEntityWhereInput[]
+    OR?: ItemCatalogEntityWhereInput[]
+    NOT?: ItemCatalogEntityWhereInput | ItemCatalogEntityWhereInput[]
+    tenantId?: StringFilter<"ItemCatalogEntity"> | string
+    itemId?: StringFilter<"ItemCatalogEntity"> | string
+    catalogEntityId?: StringFilter<"ItemCatalogEntity"> | string
+    createdAt?: DateTimeFilter<"ItemCatalogEntity"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    item?: XOR<ItemScalarRelationFilter, ItemWhereInput>
+    catalogEntity?: XOR<CatalogEntityScalarRelationFilter, CatalogEntityWhereInput>
+  }, "id" | "tenantId_itemId_catalogEntityId">
+
+  export type ItemCatalogEntityOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    itemId?: SortOrder
+    catalogEntityId?: SortOrder
+    createdAt?: SortOrder
+    _count?: ItemCatalogEntityCountOrderByAggregateInput
+    _max?: ItemCatalogEntityMaxOrderByAggregateInput
+    _min?: ItemCatalogEntityMinOrderByAggregateInput
+  }
+
+  export type ItemCatalogEntityScalarWhereWithAggregatesInput = {
+    AND?: ItemCatalogEntityScalarWhereWithAggregatesInput | ItemCatalogEntityScalarWhereWithAggregatesInput[]
+    OR?: ItemCatalogEntityScalarWhereWithAggregatesInput[]
+    NOT?: ItemCatalogEntityScalarWhereWithAggregatesInput | ItemCatalogEntityScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ItemCatalogEntity"> | string
+    tenantId?: StringWithAggregatesFilter<"ItemCatalogEntity"> | string
+    itemId?: StringWithAggregatesFilter<"ItemCatalogEntity"> | string
+    catalogEntityId?: StringWithAggregatesFilter<"ItemCatalogEntity"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"ItemCatalogEntity"> | Date | string
+  }
+
   export type ItemCategoryWhereInput = {
     AND?: ItemCategoryWhereInput | ItemCategoryWhereInput[]
     OR?: ItemCategoryWhereInput[]
@@ -53010,6 +55790,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineListRelationFilter
     itemRelations?: ItemRelationListRelationFilter
     itemRelatedTo?: ItemRelationListRelationFilter
+    itemCatalogEntities?: ItemCatalogEntityListRelationFilter
   }
 
   export type ItemOrderByWithRelationInput = {
@@ -53036,6 +55817,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineOrderByRelationAggregateInput
     itemRelations?: ItemRelationOrderByRelationAggregateInput
     itemRelatedTo?: ItemRelationOrderByRelationAggregateInput
+    itemCatalogEntities?: ItemCatalogEntityOrderByRelationAggregateInput
   }
 
   export type ItemWhereUniqueInput = Prisma.AtLeast<{
@@ -53066,6 +55848,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineListRelationFilter
     itemRelations?: ItemRelationListRelationFilter
     itemRelatedTo?: ItemRelationListRelationFilter
+    itemCatalogEntities?: ItemCatalogEntityListRelationFilter
   }, "id" | "tenantId_code">
 
   export type ItemOrderByWithAggregationInput = {
@@ -53801,6 +56584,8 @@ export namespace Prisma {
     expenses?: ExpenseListRelationFilter
     tags?: TagListRelationFilter
     itemRelations?: ItemRelationListRelationFilter
+    catalogEntities?: CatalogEntityListRelationFilter
+    itemCatalogEntities?: ItemCatalogEntityListRelationFilter
   }
 
   export type TenantOrderByWithRelationInput = {
@@ -53844,6 +56629,8 @@ export namespace Prisma {
     expenses?: ExpenseOrderByRelationAggregateInput
     tags?: TagOrderByRelationAggregateInput
     itemRelations?: ItemRelationOrderByRelationAggregateInput
+    catalogEntities?: CatalogEntityOrderByRelationAggregateInput
+    itemCatalogEntities?: ItemCatalogEntityOrderByRelationAggregateInput
   }
 
   export type TenantWhereUniqueInput = Prisma.AtLeast<{
@@ -53890,6 +56677,8 @@ export namespace Prisma {
     expenses?: ExpenseListRelationFilter
     tags?: TagListRelationFilter
     itemRelations?: ItemRelationListRelationFilter
+    catalogEntities?: CatalogEntityListRelationFilter
+    itemCatalogEntities?: ItemCatalogEntityListRelationFilter
   }, "id" | "slug">
 
   export type TenantOrderByWithAggregationInput = {
@@ -55203,6 +57992,96 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type CatalogEntityCreateInput = {
+    id?: string
+    name: string
+    kind: string
+    attributes?: NullableJsonNullValueInput | InputJsonValue
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutCatalogEntitiesInput
+    parent?: CatalogEntityCreateNestedOneWithoutChildrenInput
+    children?: CatalogEntityCreateNestedManyWithoutParentInput
+    itemLinks?: ItemCatalogEntityCreateNestedManyWithoutCatalogEntityInput
+  }
+
+  export type CatalogEntityUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    name: string
+    kind: string
+    parentId?: string | null
+    attributes?: NullableJsonNullValueInput | InputJsonValue
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    children?: CatalogEntityUncheckedCreateNestedManyWithoutParentInput
+    itemLinks?: ItemCatalogEntityUncheckedCreateNestedManyWithoutCatalogEntityInput
+  }
+
+  export type CatalogEntityUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    kind?: StringFieldUpdateOperationsInput | string
+    attributes?: NullableJsonNullValueInput | InputJsonValue
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutCatalogEntitiesNestedInput
+    parent?: CatalogEntityUpdateOneWithoutChildrenNestedInput
+    children?: CatalogEntityUpdateManyWithoutParentNestedInput
+    itemLinks?: ItemCatalogEntityUpdateManyWithoutCatalogEntityNestedInput
+  }
+
+  export type CatalogEntityUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    kind?: StringFieldUpdateOperationsInput | string
+    parentId?: NullableStringFieldUpdateOperationsInput | string | null
+    attributes?: NullableJsonNullValueInput | InputJsonValue
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    children?: CatalogEntityUncheckedUpdateManyWithoutParentNestedInput
+    itemLinks?: ItemCatalogEntityUncheckedUpdateManyWithoutCatalogEntityNestedInput
+  }
+
+  export type CatalogEntityCreateManyInput = {
+    id?: string
+    tenantId: string
+    name: string
+    kind: string
+    parentId?: string | null
+    attributes?: NullableJsonNullValueInput | InputJsonValue
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CatalogEntityUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    kind?: StringFieldUpdateOperationsInput | string
+    attributes?: NullableJsonNullValueInput | InputJsonValue
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CatalogEntityUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    kind?: StringFieldUpdateOperationsInput | string
+    parentId?: NullableStringFieldUpdateOperationsInput | string | null
+    attributes?: NullableJsonNullValueInput | InputJsonValue
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type CurrencyCreateInput = {
     id?: string
     code: string
@@ -56266,6 +59145,59 @@ export namespace Prisma {
     sortOrder?: IntFieldUpdateOperationsInput | number
   }
 
+  export type ItemCatalogEntityCreateInput = {
+    id?: string
+    createdAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutItemCatalogEntitiesInput
+    item: ItemCreateNestedOneWithoutItemCatalogEntitiesInput
+    catalogEntity: CatalogEntityCreateNestedOneWithoutItemLinksInput
+  }
+
+  export type ItemCatalogEntityUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    itemId: string
+    catalogEntityId: string
+    createdAt?: Date | string
+  }
+
+  export type ItemCatalogEntityUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutItemCatalogEntitiesNestedInput
+    item?: ItemUpdateOneRequiredWithoutItemCatalogEntitiesNestedInput
+    catalogEntity?: CatalogEntityUpdateOneRequiredWithoutItemLinksNestedInput
+  }
+
+  export type ItemCatalogEntityUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    itemId?: StringFieldUpdateOperationsInput | string
+    catalogEntityId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ItemCatalogEntityCreateManyInput = {
+    id?: string
+    tenantId: string
+    itemId: string
+    catalogEntityId: string
+    createdAt?: Date | string
+  }
+
+  export type ItemCatalogEntityUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ItemCatalogEntityUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    itemId?: StringFieldUpdateOperationsInput | string
+    catalogEntityId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type ItemCategoryCreateInput = {
     id?: string
     name: string
@@ -56444,6 +59376,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutItemInput
     itemRelations?: ItemRelationCreateNestedManyWithoutItemInput
     itemRelatedTo?: ItemRelationCreateNestedManyWithoutRelatedItemInput
+    itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutItemInput
   }
 
   export type ItemUncheckedCreateInput = {
@@ -56467,6 +59400,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutItemInput
     itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutItemInput
     itemRelatedTo?: ItemRelationUncheckedCreateNestedManyWithoutRelatedItemInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutItemInput
   }
 
   export type ItemUpdateInput = {
@@ -56490,6 +59424,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutItemNestedInput
     itemRelations?: ItemRelationUpdateManyWithoutItemNestedInput
     itemRelatedTo?: ItemRelationUpdateManyWithoutRelatedItemNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutItemNestedInput
   }
 
   export type ItemUncheckedUpdateInput = {
@@ -56513,6 +59448,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutItemNestedInput
     itemRelations?: ItemRelationUncheckedUpdateManyWithoutItemNestedInput
     itemRelatedTo?: ItemRelationUncheckedUpdateManyWithoutRelatedItemNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutItemNestedInput
   }
 
   export type ItemCreateManyInput = {
@@ -57280,6 +60216,8 @@ export namespace Prisma {
     expenses?: ExpenseCreateNestedManyWithoutTenantInput
     tags?: TagCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
+    catalogEntities?: CatalogEntityCreateNestedManyWithoutTenantInput
+    itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateInput = {
@@ -57321,6 +60259,8 @@ export namespace Prisma {
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
     tags?: TagUncheckedCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
+    catalogEntities?: CatalogEntityUncheckedCreateNestedManyWithoutTenantInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUpdateInput = {
@@ -57362,6 +60302,8 @@ export namespace Prisma {
     expenses?: ExpenseUpdateManyWithoutTenantNestedInput
     tags?: TagUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
+    catalogEntities?: CatalogEntityUpdateManyWithoutTenantNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateInput = {
@@ -57403,6 +60345,8 @@ export namespace Prisma {
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
     tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
+    catalogEntities?: CatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateManyInput = {
@@ -58825,6 +61769,65 @@ export namespace Prisma {
     amount?: SortOrder
   }
 
+  export type CatalogEntityNullableScalarRelationFilter = {
+    is?: CatalogEntityWhereInput | null
+    isNot?: CatalogEntityWhereInput | null
+  }
+
+  export type CatalogEntityListRelationFilter = {
+    every?: CatalogEntityWhereInput
+    some?: CatalogEntityWhereInput
+    none?: CatalogEntityWhereInput
+  }
+
+  export type ItemCatalogEntityListRelationFilter = {
+    every?: ItemCatalogEntityWhereInput
+    some?: ItemCatalogEntityWhereInput
+    none?: ItemCatalogEntityWhereInput
+  }
+
+  export type CatalogEntityOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ItemCatalogEntityOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type CatalogEntityCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    name?: SortOrder
+    kind?: SortOrder
+    parentId?: SortOrder
+    attributes?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CatalogEntityMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    name?: SortOrder
+    kind?: SortOrder
+    parentId?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CatalogEntityMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    name?: SortOrder
+    kind?: SortOrder
+    parentId?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
   export type InvoiceListRelationFilter = {
     every?: InvoiceWhereInput
     some?: InvoiceWhereInput
@@ -59537,6 +62540,41 @@ export namespace Prisma {
     taxAmount?: SortOrder
     total?: SortOrder
     sortOrder?: SortOrder
+  }
+
+  export type CatalogEntityScalarRelationFilter = {
+    is?: CatalogEntityWhereInput
+    isNot?: CatalogEntityWhereInput
+  }
+
+  export type ItemCatalogEntityTenantIdItemIdCatalogEntityIdCompoundUniqueInput = {
+    tenantId: string
+    itemId: string
+    catalogEntityId: string
+  }
+
+  export type ItemCatalogEntityCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    itemId?: SortOrder
+    catalogEntityId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ItemCatalogEntityMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    itemId?: SortOrder
+    catalogEntityId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ItemCatalogEntityMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    itemId?: SortOrder
+    catalogEntityId?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type ItemCategoryNullableScalarRelationFilter = {
@@ -61386,6 +64424,120 @@ export namespace Prisma {
     update?: XOR<XOR<InvoiceUpdateToOneWithWhereWithoutPaymentAllocationsInput, InvoiceUpdateWithoutPaymentAllocationsInput>, InvoiceUncheckedUpdateWithoutPaymentAllocationsInput>
   }
 
+  export type TenantCreateNestedOneWithoutCatalogEntitiesInput = {
+    create?: XOR<TenantCreateWithoutCatalogEntitiesInput, TenantUncheckedCreateWithoutCatalogEntitiesInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutCatalogEntitiesInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type CatalogEntityCreateNestedOneWithoutChildrenInput = {
+    create?: XOR<CatalogEntityCreateWithoutChildrenInput, CatalogEntityUncheckedCreateWithoutChildrenInput>
+    connectOrCreate?: CatalogEntityCreateOrConnectWithoutChildrenInput
+    connect?: CatalogEntityWhereUniqueInput
+  }
+
+  export type CatalogEntityCreateNestedManyWithoutParentInput = {
+    create?: XOR<CatalogEntityCreateWithoutParentInput, CatalogEntityUncheckedCreateWithoutParentInput> | CatalogEntityCreateWithoutParentInput[] | CatalogEntityUncheckedCreateWithoutParentInput[]
+    connectOrCreate?: CatalogEntityCreateOrConnectWithoutParentInput | CatalogEntityCreateOrConnectWithoutParentInput[]
+    createMany?: CatalogEntityCreateManyParentInputEnvelope
+    connect?: CatalogEntityWhereUniqueInput | CatalogEntityWhereUniqueInput[]
+  }
+
+  export type ItemCatalogEntityCreateNestedManyWithoutCatalogEntityInput = {
+    create?: XOR<ItemCatalogEntityCreateWithoutCatalogEntityInput, ItemCatalogEntityUncheckedCreateWithoutCatalogEntityInput> | ItemCatalogEntityCreateWithoutCatalogEntityInput[] | ItemCatalogEntityUncheckedCreateWithoutCatalogEntityInput[]
+    connectOrCreate?: ItemCatalogEntityCreateOrConnectWithoutCatalogEntityInput | ItemCatalogEntityCreateOrConnectWithoutCatalogEntityInput[]
+    createMany?: ItemCatalogEntityCreateManyCatalogEntityInputEnvelope
+    connect?: ItemCatalogEntityWhereUniqueInput | ItemCatalogEntityWhereUniqueInput[]
+  }
+
+  export type CatalogEntityUncheckedCreateNestedManyWithoutParentInput = {
+    create?: XOR<CatalogEntityCreateWithoutParentInput, CatalogEntityUncheckedCreateWithoutParentInput> | CatalogEntityCreateWithoutParentInput[] | CatalogEntityUncheckedCreateWithoutParentInput[]
+    connectOrCreate?: CatalogEntityCreateOrConnectWithoutParentInput | CatalogEntityCreateOrConnectWithoutParentInput[]
+    createMany?: CatalogEntityCreateManyParentInputEnvelope
+    connect?: CatalogEntityWhereUniqueInput | CatalogEntityWhereUniqueInput[]
+  }
+
+  export type ItemCatalogEntityUncheckedCreateNestedManyWithoutCatalogEntityInput = {
+    create?: XOR<ItemCatalogEntityCreateWithoutCatalogEntityInput, ItemCatalogEntityUncheckedCreateWithoutCatalogEntityInput> | ItemCatalogEntityCreateWithoutCatalogEntityInput[] | ItemCatalogEntityUncheckedCreateWithoutCatalogEntityInput[]
+    connectOrCreate?: ItemCatalogEntityCreateOrConnectWithoutCatalogEntityInput | ItemCatalogEntityCreateOrConnectWithoutCatalogEntityInput[]
+    createMany?: ItemCatalogEntityCreateManyCatalogEntityInputEnvelope
+    connect?: ItemCatalogEntityWhereUniqueInput | ItemCatalogEntityWhereUniqueInput[]
+  }
+
+  export type TenantUpdateOneRequiredWithoutCatalogEntitiesNestedInput = {
+    create?: XOR<TenantCreateWithoutCatalogEntitiesInput, TenantUncheckedCreateWithoutCatalogEntitiesInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutCatalogEntitiesInput
+    upsert?: TenantUpsertWithoutCatalogEntitiesInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutCatalogEntitiesInput, TenantUpdateWithoutCatalogEntitiesInput>, TenantUncheckedUpdateWithoutCatalogEntitiesInput>
+  }
+
+  export type CatalogEntityUpdateOneWithoutChildrenNestedInput = {
+    create?: XOR<CatalogEntityCreateWithoutChildrenInput, CatalogEntityUncheckedCreateWithoutChildrenInput>
+    connectOrCreate?: CatalogEntityCreateOrConnectWithoutChildrenInput
+    upsert?: CatalogEntityUpsertWithoutChildrenInput
+    disconnect?: CatalogEntityWhereInput | boolean
+    delete?: CatalogEntityWhereInput | boolean
+    connect?: CatalogEntityWhereUniqueInput
+    update?: XOR<XOR<CatalogEntityUpdateToOneWithWhereWithoutChildrenInput, CatalogEntityUpdateWithoutChildrenInput>, CatalogEntityUncheckedUpdateWithoutChildrenInput>
+  }
+
+  export type CatalogEntityUpdateManyWithoutParentNestedInput = {
+    create?: XOR<CatalogEntityCreateWithoutParentInput, CatalogEntityUncheckedCreateWithoutParentInput> | CatalogEntityCreateWithoutParentInput[] | CatalogEntityUncheckedCreateWithoutParentInput[]
+    connectOrCreate?: CatalogEntityCreateOrConnectWithoutParentInput | CatalogEntityCreateOrConnectWithoutParentInput[]
+    upsert?: CatalogEntityUpsertWithWhereUniqueWithoutParentInput | CatalogEntityUpsertWithWhereUniqueWithoutParentInput[]
+    createMany?: CatalogEntityCreateManyParentInputEnvelope
+    set?: CatalogEntityWhereUniqueInput | CatalogEntityWhereUniqueInput[]
+    disconnect?: CatalogEntityWhereUniqueInput | CatalogEntityWhereUniqueInput[]
+    delete?: CatalogEntityWhereUniqueInput | CatalogEntityWhereUniqueInput[]
+    connect?: CatalogEntityWhereUniqueInput | CatalogEntityWhereUniqueInput[]
+    update?: CatalogEntityUpdateWithWhereUniqueWithoutParentInput | CatalogEntityUpdateWithWhereUniqueWithoutParentInput[]
+    updateMany?: CatalogEntityUpdateManyWithWhereWithoutParentInput | CatalogEntityUpdateManyWithWhereWithoutParentInput[]
+    deleteMany?: CatalogEntityScalarWhereInput | CatalogEntityScalarWhereInput[]
+  }
+
+  export type ItemCatalogEntityUpdateManyWithoutCatalogEntityNestedInput = {
+    create?: XOR<ItemCatalogEntityCreateWithoutCatalogEntityInput, ItemCatalogEntityUncheckedCreateWithoutCatalogEntityInput> | ItemCatalogEntityCreateWithoutCatalogEntityInput[] | ItemCatalogEntityUncheckedCreateWithoutCatalogEntityInput[]
+    connectOrCreate?: ItemCatalogEntityCreateOrConnectWithoutCatalogEntityInput | ItemCatalogEntityCreateOrConnectWithoutCatalogEntityInput[]
+    upsert?: ItemCatalogEntityUpsertWithWhereUniqueWithoutCatalogEntityInput | ItemCatalogEntityUpsertWithWhereUniqueWithoutCatalogEntityInput[]
+    createMany?: ItemCatalogEntityCreateManyCatalogEntityInputEnvelope
+    set?: ItemCatalogEntityWhereUniqueInput | ItemCatalogEntityWhereUniqueInput[]
+    disconnect?: ItemCatalogEntityWhereUniqueInput | ItemCatalogEntityWhereUniqueInput[]
+    delete?: ItemCatalogEntityWhereUniqueInput | ItemCatalogEntityWhereUniqueInput[]
+    connect?: ItemCatalogEntityWhereUniqueInput | ItemCatalogEntityWhereUniqueInput[]
+    update?: ItemCatalogEntityUpdateWithWhereUniqueWithoutCatalogEntityInput | ItemCatalogEntityUpdateWithWhereUniqueWithoutCatalogEntityInput[]
+    updateMany?: ItemCatalogEntityUpdateManyWithWhereWithoutCatalogEntityInput | ItemCatalogEntityUpdateManyWithWhereWithoutCatalogEntityInput[]
+    deleteMany?: ItemCatalogEntityScalarWhereInput | ItemCatalogEntityScalarWhereInput[]
+  }
+
+  export type CatalogEntityUncheckedUpdateManyWithoutParentNestedInput = {
+    create?: XOR<CatalogEntityCreateWithoutParentInput, CatalogEntityUncheckedCreateWithoutParentInput> | CatalogEntityCreateWithoutParentInput[] | CatalogEntityUncheckedCreateWithoutParentInput[]
+    connectOrCreate?: CatalogEntityCreateOrConnectWithoutParentInput | CatalogEntityCreateOrConnectWithoutParentInput[]
+    upsert?: CatalogEntityUpsertWithWhereUniqueWithoutParentInput | CatalogEntityUpsertWithWhereUniqueWithoutParentInput[]
+    createMany?: CatalogEntityCreateManyParentInputEnvelope
+    set?: CatalogEntityWhereUniqueInput | CatalogEntityWhereUniqueInput[]
+    disconnect?: CatalogEntityWhereUniqueInput | CatalogEntityWhereUniqueInput[]
+    delete?: CatalogEntityWhereUniqueInput | CatalogEntityWhereUniqueInput[]
+    connect?: CatalogEntityWhereUniqueInput | CatalogEntityWhereUniqueInput[]
+    update?: CatalogEntityUpdateWithWhereUniqueWithoutParentInput | CatalogEntityUpdateWithWhereUniqueWithoutParentInput[]
+    updateMany?: CatalogEntityUpdateManyWithWhereWithoutParentInput | CatalogEntityUpdateManyWithWhereWithoutParentInput[]
+    deleteMany?: CatalogEntityScalarWhereInput | CatalogEntityScalarWhereInput[]
+  }
+
+  export type ItemCatalogEntityUncheckedUpdateManyWithoutCatalogEntityNestedInput = {
+    create?: XOR<ItemCatalogEntityCreateWithoutCatalogEntityInput, ItemCatalogEntityUncheckedCreateWithoutCatalogEntityInput> | ItemCatalogEntityCreateWithoutCatalogEntityInput[] | ItemCatalogEntityUncheckedCreateWithoutCatalogEntityInput[]
+    connectOrCreate?: ItemCatalogEntityCreateOrConnectWithoutCatalogEntityInput | ItemCatalogEntityCreateOrConnectWithoutCatalogEntityInput[]
+    upsert?: ItemCatalogEntityUpsertWithWhereUniqueWithoutCatalogEntityInput | ItemCatalogEntityUpsertWithWhereUniqueWithoutCatalogEntityInput[]
+    createMany?: ItemCatalogEntityCreateManyCatalogEntityInputEnvelope
+    set?: ItemCatalogEntityWhereUniqueInput | ItemCatalogEntityWhereUniqueInput[]
+    disconnect?: ItemCatalogEntityWhereUniqueInput | ItemCatalogEntityWhereUniqueInput[]
+    delete?: ItemCatalogEntityWhereUniqueInput | ItemCatalogEntityWhereUniqueInput[]
+    connect?: ItemCatalogEntityWhereUniqueInput | ItemCatalogEntityWhereUniqueInput[]
+    update?: ItemCatalogEntityUpdateWithWhereUniqueWithoutCatalogEntityInput | ItemCatalogEntityUpdateWithWhereUniqueWithoutCatalogEntityInput[]
+    updateMany?: ItemCatalogEntityUpdateManyWithWhereWithoutCatalogEntityInput | ItemCatalogEntityUpdateManyWithWhereWithoutCatalogEntityInput[]
+    deleteMany?: ItemCatalogEntityScalarWhereInput | ItemCatalogEntityScalarWhereInput[]
+  }
+
   export type TenantCreateNestedOneWithoutCurrenciesInput = {
     create?: XOR<TenantCreateWithoutCurrenciesInput, TenantUncheckedCreateWithoutCurrenciesInput>
     connectOrCreate?: TenantCreateOrConnectWithoutCurrenciesInput
@@ -62411,6 +65563,48 @@ export namespace Prisma {
     update?: XOR<XOR<UnitUpdateToOneWithWhereWithoutInvoiceLinesInput, UnitUpdateWithoutInvoiceLinesInput>, UnitUncheckedUpdateWithoutInvoiceLinesInput>
   }
 
+  export type TenantCreateNestedOneWithoutItemCatalogEntitiesInput = {
+    create?: XOR<TenantCreateWithoutItemCatalogEntitiesInput, TenantUncheckedCreateWithoutItemCatalogEntitiesInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutItemCatalogEntitiesInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type ItemCreateNestedOneWithoutItemCatalogEntitiesInput = {
+    create?: XOR<ItemCreateWithoutItemCatalogEntitiesInput, ItemUncheckedCreateWithoutItemCatalogEntitiesInput>
+    connectOrCreate?: ItemCreateOrConnectWithoutItemCatalogEntitiesInput
+    connect?: ItemWhereUniqueInput
+  }
+
+  export type CatalogEntityCreateNestedOneWithoutItemLinksInput = {
+    create?: XOR<CatalogEntityCreateWithoutItemLinksInput, CatalogEntityUncheckedCreateWithoutItemLinksInput>
+    connectOrCreate?: CatalogEntityCreateOrConnectWithoutItemLinksInput
+    connect?: CatalogEntityWhereUniqueInput
+  }
+
+  export type TenantUpdateOneRequiredWithoutItemCatalogEntitiesNestedInput = {
+    create?: XOR<TenantCreateWithoutItemCatalogEntitiesInput, TenantUncheckedCreateWithoutItemCatalogEntitiesInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutItemCatalogEntitiesInput
+    upsert?: TenantUpsertWithoutItemCatalogEntitiesInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutItemCatalogEntitiesInput, TenantUpdateWithoutItemCatalogEntitiesInput>, TenantUncheckedUpdateWithoutItemCatalogEntitiesInput>
+  }
+
+  export type ItemUpdateOneRequiredWithoutItemCatalogEntitiesNestedInput = {
+    create?: XOR<ItemCreateWithoutItemCatalogEntitiesInput, ItemUncheckedCreateWithoutItemCatalogEntitiesInput>
+    connectOrCreate?: ItemCreateOrConnectWithoutItemCatalogEntitiesInput
+    upsert?: ItemUpsertWithoutItemCatalogEntitiesInput
+    connect?: ItemWhereUniqueInput
+    update?: XOR<XOR<ItemUpdateToOneWithWhereWithoutItemCatalogEntitiesInput, ItemUpdateWithoutItemCatalogEntitiesInput>, ItemUncheckedUpdateWithoutItemCatalogEntitiesInput>
+  }
+
+  export type CatalogEntityUpdateOneRequiredWithoutItemLinksNestedInput = {
+    create?: XOR<CatalogEntityCreateWithoutItemLinksInput, CatalogEntityUncheckedCreateWithoutItemLinksInput>
+    connectOrCreate?: CatalogEntityCreateOrConnectWithoutItemLinksInput
+    upsert?: CatalogEntityUpsertWithoutItemLinksInput
+    connect?: CatalogEntityWhereUniqueInput
+    update?: XOR<XOR<CatalogEntityUpdateToOneWithWhereWithoutItemLinksInput, CatalogEntityUpdateWithoutItemLinksInput>, CatalogEntityUncheckedUpdateWithoutItemLinksInput>
+  }
+
   export type TenantCreateNestedOneWithoutItemCategoriesInput = {
     create?: XOR<TenantCreateWithoutItemCategoriesInput, TenantUncheckedCreateWithoutItemCategoriesInput>
     connectOrCreate?: TenantCreateOrConnectWithoutItemCategoriesInput
@@ -62638,6 +65832,13 @@ export namespace Prisma {
     connect?: ItemRelationWhereUniqueInput | ItemRelationWhereUniqueInput[]
   }
 
+  export type ItemCatalogEntityCreateNestedManyWithoutItemInput = {
+    create?: XOR<ItemCatalogEntityCreateWithoutItemInput, ItemCatalogEntityUncheckedCreateWithoutItemInput> | ItemCatalogEntityCreateWithoutItemInput[] | ItemCatalogEntityUncheckedCreateWithoutItemInput[]
+    connectOrCreate?: ItemCatalogEntityCreateOrConnectWithoutItemInput | ItemCatalogEntityCreateOrConnectWithoutItemInput[]
+    createMany?: ItemCatalogEntityCreateManyItemInputEnvelope
+    connect?: ItemCatalogEntityWhereUniqueInput | ItemCatalogEntityWhereUniqueInput[]
+  }
+
   export type WarehouseItemUncheckedCreateNestedManyWithoutItemInput = {
     create?: XOR<WarehouseItemCreateWithoutItemInput, WarehouseItemUncheckedCreateWithoutItemInput> | WarehouseItemCreateWithoutItemInput[] | WarehouseItemUncheckedCreateWithoutItemInput[]
     connectOrCreate?: WarehouseItemCreateOrConnectWithoutItemInput | WarehouseItemCreateOrConnectWithoutItemInput[]
@@ -62685,6 +65886,13 @@ export namespace Prisma {
     connectOrCreate?: ItemRelationCreateOrConnectWithoutRelatedItemInput | ItemRelationCreateOrConnectWithoutRelatedItemInput[]
     createMany?: ItemRelationCreateManyRelatedItemInputEnvelope
     connect?: ItemRelationWhereUniqueInput | ItemRelationWhereUniqueInput[]
+  }
+
+  export type ItemCatalogEntityUncheckedCreateNestedManyWithoutItemInput = {
+    create?: XOR<ItemCatalogEntityCreateWithoutItemInput, ItemCatalogEntityUncheckedCreateWithoutItemInput> | ItemCatalogEntityCreateWithoutItemInput[] | ItemCatalogEntityUncheckedCreateWithoutItemInput[]
+    connectOrCreate?: ItemCatalogEntityCreateOrConnectWithoutItemInput | ItemCatalogEntityCreateOrConnectWithoutItemInput[]
+    createMany?: ItemCatalogEntityCreateManyItemInputEnvelope
+    connect?: ItemCatalogEntityWhereUniqueInput | ItemCatalogEntityWhereUniqueInput[]
   }
 
   export type NullableDecimalFieldUpdateOperationsInput = {
@@ -62821,6 +66029,20 @@ export namespace Prisma {
     deleteMany?: ItemRelationScalarWhereInput | ItemRelationScalarWhereInput[]
   }
 
+  export type ItemCatalogEntityUpdateManyWithoutItemNestedInput = {
+    create?: XOR<ItemCatalogEntityCreateWithoutItemInput, ItemCatalogEntityUncheckedCreateWithoutItemInput> | ItemCatalogEntityCreateWithoutItemInput[] | ItemCatalogEntityUncheckedCreateWithoutItemInput[]
+    connectOrCreate?: ItemCatalogEntityCreateOrConnectWithoutItemInput | ItemCatalogEntityCreateOrConnectWithoutItemInput[]
+    upsert?: ItemCatalogEntityUpsertWithWhereUniqueWithoutItemInput | ItemCatalogEntityUpsertWithWhereUniqueWithoutItemInput[]
+    createMany?: ItemCatalogEntityCreateManyItemInputEnvelope
+    set?: ItemCatalogEntityWhereUniqueInput | ItemCatalogEntityWhereUniqueInput[]
+    disconnect?: ItemCatalogEntityWhereUniqueInput | ItemCatalogEntityWhereUniqueInput[]
+    delete?: ItemCatalogEntityWhereUniqueInput | ItemCatalogEntityWhereUniqueInput[]
+    connect?: ItemCatalogEntityWhereUniqueInput | ItemCatalogEntityWhereUniqueInput[]
+    update?: ItemCatalogEntityUpdateWithWhereUniqueWithoutItemInput | ItemCatalogEntityUpdateWithWhereUniqueWithoutItemInput[]
+    updateMany?: ItemCatalogEntityUpdateManyWithWhereWithoutItemInput | ItemCatalogEntityUpdateManyWithWhereWithoutItemInput[]
+    deleteMany?: ItemCatalogEntityScalarWhereInput | ItemCatalogEntityScalarWhereInput[]
+  }
+
   export type WarehouseItemUncheckedUpdateManyWithoutItemNestedInput = {
     create?: XOR<WarehouseItemCreateWithoutItemInput, WarehouseItemUncheckedCreateWithoutItemInput> | WarehouseItemCreateWithoutItemInput[] | WarehouseItemUncheckedCreateWithoutItemInput[]
     connectOrCreate?: WarehouseItemCreateOrConnectWithoutItemInput | WarehouseItemCreateOrConnectWithoutItemInput[]
@@ -62917,6 +66139,20 @@ export namespace Prisma {
     update?: ItemRelationUpdateWithWhereUniqueWithoutRelatedItemInput | ItemRelationUpdateWithWhereUniqueWithoutRelatedItemInput[]
     updateMany?: ItemRelationUpdateManyWithWhereWithoutRelatedItemInput | ItemRelationUpdateManyWithWhereWithoutRelatedItemInput[]
     deleteMany?: ItemRelationScalarWhereInput | ItemRelationScalarWhereInput[]
+  }
+
+  export type ItemCatalogEntityUncheckedUpdateManyWithoutItemNestedInput = {
+    create?: XOR<ItemCatalogEntityCreateWithoutItemInput, ItemCatalogEntityUncheckedCreateWithoutItemInput> | ItemCatalogEntityCreateWithoutItemInput[] | ItemCatalogEntityUncheckedCreateWithoutItemInput[]
+    connectOrCreate?: ItemCatalogEntityCreateOrConnectWithoutItemInput | ItemCatalogEntityCreateOrConnectWithoutItemInput[]
+    upsert?: ItemCatalogEntityUpsertWithWhereUniqueWithoutItemInput | ItemCatalogEntityUpsertWithWhereUniqueWithoutItemInput[]
+    createMany?: ItemCatalogEntityCreateManyItemInputEnvelope
+    set?: ItemCatalogEntityWhereUniqueInput | ItemCatalogEntityWhereUniqueInput[]
+    disconnect?: ItemCatalogEntityWhereUniqueInput | ItemCatalogEntityWhereUniqueInput[]
+    delete?: ItemCatalogEntityWhereUniqueInput | ItemCatalogEntityWhereUniqueInput[]
+    connect?: ItemCatalogEntityWhereUniqueInput | ItemCatalogEntityWhereUniqueInput[]
+    update?: ItemCatalogEntityUpdateWithWhereUniqueWithoutItemInput | ItemCatalogEntityUpdateWithWhereUniqueWithoutItemInput[]
+    updateMany?: ItemCatalogEntityUpdateManyWithWhereWithoutItemInput | ItemCatalogEntityUpdateManyWithWhereWithoutItemInput[]
+    deleteMany?: ItemCatalogEntityScalarWhereInput | ItemCatalogEntityScalarWhereInput[]
   }
 
   export type TenantCreateNestedOneWithoutPartiesInput = {
@@ -63468,6 +66704,20 @@ export namespace Prisma {
     connect?: ItemRelationWhereUniqueInput | ItemRelationWhereUniqueInput[]
   }
 
+  export type CatalogEntityCreateNestedManyWithoutTenantInput = {
+    create?: XOR<CatalogEntityCreateWithoutTenantInput, CatalogEntityUncheckedCreateWithoutTenantInput> | CatalogEntityCreateWithoutTenantInput[] | CatalogEntityUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: CatalogEntityCreateOrConnectWithoutTenantInput | CatalogEntityCreateOrConnectWithoutTenantInput[]
+    createMany?: CatalogEntityCreateManyTenantInputEnvelope
+    connect?: CatalogEntityWhereUniqueInput | CatalogEntityWhereUniqueInput[]
+  }
+
+  export type ItemCatalogEntityCreateNestedManyWithoutTenantInput = {
+    create?: XOR<ItemCatalogEntityCreateWithoutTenantInput, ItemCatalogEntityUncheckedCreateWithoutTenantInput> | ItemCatalogEntityCreateWithoutTenantInput[] | ItemCatalogEntityUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: ItemCatalogEntityCreateOrConnectWithoutTenantInput | ItemCatalogEntityCreateOrConnectWithoutTenantInput[]
+    createMany?: ItemCatalogEntityCreateManyTenantInputEnvelope
+    connect?: ItemCatalogEntityWhereUniqueInput | ItemCatalogEntityWhereUniqueInput[]
+  }
+
   export type AppUserUncheckedCreateNestedManyWithoutTenantInput = {
     create?: XOR<AppUserCreateWithoutTenantInput, AppUserUncheckedCreateWithoutTenantInput> | AppUserCreateWithoutTenantInput[] | AppUserUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: AppUserCreateOrConnectWithoutTenantInput | AppUserCreateOrConnectWithoutTenantInput[]
@@ -63627,6 +66877,20 @@ export namespace Prisma {
     connectOrCreate?: ItemRelationCreateOrConnectWithoutTenantInput | ItemRelationCreateOrConnectWithoutTenantInput[]
     createMany?: ItemRelationCreateManyTenantInputEnvelope
     connect?: ItemRelationWhereUniqueInput | ItemRelationWhereUniqueInput[]
+  }
+
+  export type CatalogEntityUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<CatalogEntityCreateWithoutTenantInput, CatalogEntityUncheckedCreateWithoutTenantInput> | CatalogEntityCreateWithoutTenantInput[] | CatalogEntityUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: CatalogEntityCreateOrConnectWithoutTenantInput | CatalogEntityCreateOrConnectWithoutTenantInput[]
+    createMany?: CatalogEntityCreateManyTenantInputEnvelope
+    connect?: CatalogEntityWhereUniqueInput | CatalogEntityWhereUniqueInput[]
+  }
+
+  export type ItemCatalogEntityUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<ItemCatalogEntityCreateWithoutTenantInput, ItemCatalogEntityUncheckedCreateWithoutTenantInput> | ItemCatalogEntityCreateWithoutTenantInput[] | ItemCatalogEntityUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: ItemCatalogEntityCreateOrConnectWithoutTenantInput | ItemCatalogEntityCreateOrConnectWithoutTenantInput[]
+    createMany?: ItemCatalogEntityCreateManyTenantInputEnvelope
+    connect?: ItemCatalogEntityWhereUniqueInput | ItemCatalogEntityWhereUniqueInput[]
   }
 
   export type AppUserUpdateManyWithoutTenantNestedInput = {
@@ -63971,6 +67235,34 @@ export namespace Prisma {
     deleteMany?: ItemRelationScalarWhereInput | ItemRelationScalarWhereInput[]
   }
 
+  export type CatalogEntityUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<CatalogEntityCreateWithoutTenantInput, CatalogEntityUncheckedCreateWithoutTenantInput> | CatalogEntityCreateWithoutTenantInput[] | CatalogEntityUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: CatalogEntityCreateOrConnectWithoutTenantInput | CatalogEntityCreateOrConnectWithoutTenantInput[]
+    upsert?: CatalogEntityUpsertWithWhereUniqueWithoutTenantInput | CatalogEntityUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: CatalogEntityCreateManyTenantInputEnvelope
+    set?: CatalogEntityWhereUniqueInput | CatalogEntityWhereUniqueInput[]
+    disconnect?: CatalogEntityWhereUniqueInput | CatalogEntityWhereUniqueInput[]
+    delete?: CatalogEntityWhereUniqueInput | CatalogEntityWhereUniqueInput[]
+    connect?: CatalogEntityWhereUniqueInput | CatalogEntityWhereUniqueInput[]
+    update?: CatalogEntityUpdateWithWhereUniqueWithoutTenantInput | CatalogEntityUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: CatalogEntityUpdateManyWithWhereWithoutTenantInput | CatalogEntityUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: CatalogEntityScalarWhereInput | CatalogEntityScalarWhereInput[]
+  }
+
+  export type ItemCatalogEntityUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<ItemCatalogEntityCreateWithoutTenantInput, ItemCatalogEntityUncheckedCreateWithoutTenantInput> | ItemCatalogEntityCreateWithoutTenantInput[] | ItemCatalogEntityUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: ItemCatalogEntityCreateOrConnectWithoutTenantInput | ItemCatalogEntityCreateOrConnectWithoutTenantInput[]
+    upsert?: ItemCatalogEntityUpsertWithWhereUniqueWithoutTenantInput | ItemCatalogEntityUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: ItemCatalogEntityCreateManyTenantInputEnvelope
+    set?: ItemCatalogEntityWhereUniqueInput | ItemCatalogEntityWhereUniqueInput[]
+    disconnect?: ItemCatalogEntityWhereUniqueInput | ItemCatalogEntityWhereUniqueInput[]
+    delete?: ItemCatalogEntityWhereUniqueInput | ItemCatalogEntityWhereUniqueInput[]
+    connect?: ItemCatalogEntityWhereUniqueInput | ItemCatalogEntityWhereUniqueInput[]
+    update?: ItemCatalogEntityUpdateWithWhereUniqueWithoutTenantInput | ItemCatalogEntityUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: ItemCatalogEntityUpdateManyWithWhereWithoutTenantInput | ItemCatalogEntityUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: ItemCatalogEntityScalarWhereInput | ItemCatalogEntityScalarWhereInput[]
+  }
+
   export type AppUserUncheckedUpdateManyWithoutTenantNestedInput = {
     create?: XOR<AppUserCreateWithoutTenantInput, AppUserUncheckedCreateWithoutTenantInput> | AppUserCreateWithoutTenantInput[] | AppUserUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: AppUserCreateOrConnectWithoutTenantInput | AppUserCreateOrConnectWithoutTenantInput[]
@@ -64291,6 +67583,34 @@ export namespace Prisma {
     update?: ItemRelationUpdateWithWhereUniqueWithoutTenantInput | ItemRelationUpdateWithWhereUniqueWithoutTenantInput[]
     updateMany?: ItemRelationUpdateManyWithWhereWithoutTenantInput | ItemRelationUpdateManyWithWhereWithoutTenantInput[]
     deleteMany?: ItemRelationScalarWhereInput | ItemRelationScalarWhereInput[]
+  }
+
+  export type CatalogEntityUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<CatalogEntityCreateWithoutTenantInput, CatalogEntityUncheckedCreateWithoutTenantInput> | CatalogEntityCreateWithoutTenantInput[] | CatalogEntityUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: CatalogEntityCreateOrConnectWithoutTenantInput | CatalogEntityCreateOrConnectWithoutTenantInput[]
+    upsert?: CatalogEntityUpsertWithWhereUniqueWithoutTenantInput | CatalogEntityUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: CatalogEntityCreateManyTenantInputEnvelope
+    set?: CatalogEntityWhereUniqueInput | CatalogEntityWhereUniqueInput[]
+    disconnect?: CatalogEntityWhereUniqueInput | CatalogEntityWhereUniqueInput[]
+    delete?: CatalogEntityWhereUniqueInput | CatalogEntityWhereUniqueInput[]
+    connect?: CatalogEntityWhereUniqueInput | CatalogEntityWhereUniqueInput[]
+    update?: CatalogEntityUpdateWithWhereUniqueWithoutTenantInput | CatalogEntityUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: CatalogEntityUpdateManyWithWhereWithoutTenantInput | CatalogEntityUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: CatalogEntityScalarWhereInput | CatalogEntityScalarWhereInput[]
+  }
+
+  export type ItemCatalogEntityUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<ItemCatalogEntityCreateWithoutTenantInput, ItemCatalogEntityUncheckedCreateWithoutTenantInput> | ItemCatalogEntityCreateWithoutTenantInput[] | ItemCatalogEntityUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: ItemCatalogEntityCreateOrConnectWithoutTenantInput | ItemCatalogEntityCreateOrConnectWithoutTenantInput[]
+    upsert?: ItemCatalogEntityUpsertWithWhereUniqueWithoutTenantInput | ItemCatalogEntityUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: ItemCatalogEntityCreateManyTenantInputEnvelope
+    set?: ItemCatalogEntityWhereUniqueInput | ItemCatalogEntityWhereUniqueInput[]
+    disconnect?: ItemCatalogEntityWhereUniqueInput | ItemCatalogEntityWhereUniqueInput[]
+    delete?: ItemCatalogEntityWhereUniqueInput | ItemCatalogEntityWhereUniqueInput[]
+    connect?: ItemCatalogEntityWhereUniqueInput | ItemCatalogEntityWhereUniqueInput[]
+    update?: ItemCatalogEntityUpdateWithWhereUniqueWithoutTenantInput | ItemCatalogEntityUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: ItemCatalogEntityUpdateManyWithWhereWithoutTenantInput | ItemCatalogEntityUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: ItemCatalogEntityScalarWhereInput | ItemCatalogEntityScalarWhereInput[]
   }
 
   export type TenantCreateNestedOneWithoutUnitsInput = {
@@ -65350,6 +68670,8 @@ export namespace Prisma {
     expenses?: ExpenseCreateNestedManyWithoutTenantInput
     tags?: TagCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
+    catalogEntities?: CatalogEntityCreateNestedManyWithoutTenantInput
+    itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutChartOfAccountsInput = {
@@ -65390,6 +68712,8 @@ export namespace Prisma {
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
     tags?: TagUncheckedCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
+    catalogEntities?: CatalogEntityUncheckedCreateNestedManyWithoutTenantInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutChartOfAccountsInput = {
@@ -65619,6 +68943,8 @@ export namespace Prisma {
     expenses?: ExpenseUpdateManyWithoutTenantNestedInput
     tags?: TagUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
+    catalogEntities?: CatalogEntityUpdateManyWithoutTenantNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutChartOfAccountsInput = {
@@ -65659,6 +68985,8 @@ export namespace Prisma {
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
     tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
+    catalogEntities?: CatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ChartOfAccountUpsertWithoutChildrenInput = {
@@ -65863,6 +69191,8 @@ export namespace Prisma {
     expenses?: ExpenseCreateNestedManyWithoutTenantInput
     tags?: TagCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
+    catalogEntities?: CatalogEntityCreateNestedManyWithoutTenantInput
+    itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutJournalEntriesInput = {
@@ -65903,6 +69233,8 @@ export namespace Prisma {
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
     tags?: TagUncheckedCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
+    catalogEntities?: CatalogEntityUncheckedCreateNestedManyWithoutTenantInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutJournalEntriesInput = {
@@ -66026,6 +69358,8 @@ export namespace Prisma {
     expenses?: ExpenseUpdateManyWithoutTenantNestedInput
     tags?: TagUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
+    catalogEntities?: CatalogEntityUpdateManyWithoutTenantNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutJournalEntriesInput = {
@@ -66066,6 +69400,8 @@ export namespace Prisma {
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
     tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
+    catalogEntities?: CatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type FiscalPeriodUpsertWithoutJournalEntriesInput = {
@@ -66321,6 +69657,8 @@ export namespace Prisma {
     expenses?: ExpenseCreateNestedManyWithoutTenantInput
     tags?: TagCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
+    catalogEntities?: CatalogEntityCreateNestedManyWithoutTenantInput
+    itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAiChatSessionsInput = {
@@ -66361,6 +69699,8 @@ export namespace Prisma {
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
     tags?: TagUncheckedCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
+    catalogEntities?: CatalogEntityUncheckedCreateNestedManyWithoutTenantInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAiChatSessionsInput = {
@@ -66443,6 +69783,8 @@ export namespace Prisma {
     expenses?: ExpenseUpdateManyWithoutTenantNestedInput
     tags?: TagUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
+    catalogEntities?: CatalogEntityUpdateManyWithoutTenantNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAiChatSessionsInput = {
@@ -66483,6 +69825,8 @@ export namespace Prisma {
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
     tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
+    catalogEntities?: CatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type AiChatMessageUpsertWithWhereUniqueWithoutSessionInput = {
@@ -66603,6 +69947,8 @@ export namespace Prisma {
     expenses?: ExpenseCreateNestedManyWithoutTenantInput
     tags?: TagCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
+    catalogEntities?: CatalogEntityCreateNestedManyWithoutTenantInput
+    itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAuditLogsInput = {
@@ -66643,6 +69989,8 @@ export namespace Prisma {
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
     tags?: TagUncheckedCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
+    catalogEntities?: CatalogEntityUncheckedCreateNestedManyWithoutTenantInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAuditLogsInput = {
@@ -66699,6 +70047,8 @@ export namespace Prisma {
     expenses?: ExpenseUpdateManyWithoutTenantNestedInput
     tags?: TagUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
+    catalogEntities?: CatalogEntityUpdateManyWithoutTenantNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAuditLogsInput = {
@@ -66739,6 +70089,8 @@ export namespace Prisma {
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
     tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
+    catalogEntities?: CatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCashboxesInput = {
@@ -66779,6 +70131,8 @@ export namespace Prisma {
     expenses?: ExpenseCreateNestedManyWithoutTenantInput
     tags?: TagCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
+    catalogEntities?: CatalogEntityCreateNestedManyWithoutTenantInput
+    itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCashboxesInput = {
@@ -66819,6 +70173,8 @@ export namespace Prisma {
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
     tags?: TagUncheckedCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
+    catalogEntities?: CatalogEntityUncheckedCreateNestedManyWithoutTenantInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCashboxesInput = {
@@ -67057,6 +70413,8 @@ export namespace Prisma {
     expenses?: ExpenseUpdateManyWithoutTenantNestedInput
     tags?: TagUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
+    catalogEntities?: CatalogEntityUpdateManyWithoutTenantNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCashboxesInput = {
@@ -67097,6 +70455,8 @@ export namespace Prisma {
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
     tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
+    catalogEntities?: CatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type CurrencyUpsertWithoutCashboxesInput = {
@@ -67304,6 +70664,8 @@ export namespace Prisma {
     expenses?: ExpenseCreateNestedManyWithoutTenantInput
     tags?: TagCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
+    catalogEntities?: CatalogEntityCreateNestedManyWithoutTenantInput
+    itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPaymentsInput = {
@@ -67344,6 +70706,8 @@ export namespace Prisma {
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
     tags?: TagUncheckedCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
+    catalogEntities?: CatalogEntityUncheckedCreateNestedManyWithoutTenantInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPaymentsInput = {
@@ -67570,6 +70934,8 @@ export namespace Prisma {
     expenses?: ExpenseUpdateManyWithoutTenantNestedInput
     tags?: TagUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
+    catalogEntities?: CatalogEntityUpdateManyWithoutTenantNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPaymentsInput = {
@@ -67610,6 +70976,8 @@ export namespace Prisma {
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
     tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
+    catalogEntities?: CatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type CashboxUpsertWithoutPaymentsInput = {
@@ -68044,6 +71412,376 @@ export namespace Prisma {
     lines?: InvoiceLineUncheckedUpdateManyWithoutInvoiceNestedInput
   }
 
+  export type TenantCreateWithoutCatalogEntitiesInput = {
+    id?: string
+    name: string
+    slug: string
+    address?: string | null
+    phone?: string | null
+    email?: string | null
+    logo?: string | null
+    legalName?: string | null
+    taxNumber?: string | null
+    website?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: AppUserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    currencies?: CurrencyCreateNestedManyWithoutTenantInput
+    fiscalPeriods?: FiscalPeriodCreateNestedManyWithoutTenantInput
+    documentSequences?: DocumentSequenceCreateNestedManyWithoutTenantInput
+    itemCategories?: ItemCategoryCreateNestedManyWithoutTenantInput
+    units?: UnitCreateNestedManyWithoutTenantInput
+    items?: ItemCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    cashboxes?: CashboxCreateNestedManyWithoutTenantInput
+    invoiceTypes?: InvoiceTypeCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    chartOfAccounts?: ChartOfAccountCreateNestedManyWithoutTenantInput
+    journalEntries?: JournalEntryCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountCreateNestedManyWithoutTenantInput
+    auditLogs?: AuditLogCreateNestedManyWithoutTenantInput
+    aiChatSessions?: AiChatSessionCreateNestedManyWithoutTenantInput
+    baseCurrency?: CurrencyCreateNestedOneWithoutBaseForTenantsInput
+    defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
+    settings?: TenantSettingCreateNestedManyWithoutTenantInput
+    expenses?: ExpenseCreateNestedManyWithoutTenantInput
+    tags?: TagCreateNestedManyWithoutTenantInput
+    itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
+    itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutCatalogEntitiesInput = {
+    id?: string
+    name: string
+    slug: string
+    address?: string | null
+    phone?: string | null
+    email?: string | null
+    logo?: string | null
+    legalName?: string | null
+    taxNumber?: string | null
+    website?: string | null
+    baseCurrencyId?: string | null
+    defaultSalesSequenceId?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    currencies?: CurrencyUncheckedCreateNestedManyWithoutTenantInput
+    fiscalPeriods?: FiscalPeriodUncheckedCreateNestedManyWithoutTenantInput
+    documentSequences?: DocumentSequenceUncheckedCreateNestedManyWithoutTenantInput
+    itemCategories?: ItemCategoryUncheckedCreateNestedManyWithoutTenantInput
+    units?: UnitUncheckedCreateNestedManyWithoutTenantInput
+    items?: ItemUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    cashboxes?: CashboxUncheckedCreateNestedManyWithoutTenantInput
+    invoiceTypes?: InvoiceTypeUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    chartOfAccounts?: ChartOfAccountUncheckedCreateNestedManyWithoutTenantInput
+    journalEntries?: JournalEntryUncheckedCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTenantInput
+    aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
+    settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
+    expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
+    tags?: TagUncheckedCreateNestedManyWithoutTenantInput
+    itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutCatalogEntitiesInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutCatalogEntitiesInput, TenantUncheckedCreateWithoutCatalogEntitiesInput>
+  }
+
+  export type CatalogEntityCreateWithoutChildrenInput = {
+    id?: string
+    name: string
+    kind: string
+    attributes?: NullableJsonNullValueInput | InputJsonValue
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutCatalogEntitiesInput
+    parent?: CatalogEntityCreateNestedOneWithoutChildrenInput
+    itemLinks?: ItemCatalogEntityCreateNestedManyWithoutCatalogEntityInput
+  }
+
+  export type CatalogEntityUncheckedCreateWithoutChildrenInput = {
+    id?: string
+    tenantId: string
+    name: string
+    kind: string
+    parentId?: string | null
+    attributes?: NullableJsonNullValueInput | InputJsonValue
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    itemLinks?: ItemCatalogEntityUncheckedCreateNestedManyWithoutCatalogEntityInput
+  }
+
+  export type CatalogEntityCreateOrConnectWithoutChildrenInput = {
+    where: CatalogEntityWhereUniqueInput
+    create: XOR<CatalogEntityCreateWithoutChildrenInput, CatalogEntityUncheckedCreateWithoutChildrenInput>
+  }
+
+  export type CatalogEntityCreateWithoutParentInput = {
+    id?: string
+    name: string
+    kind: string
+    attributes?: NullableJsonNullValueInput | InputJsonValue
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutCatalogEntitiesInput
+    children?: CatalogEntityCreateNestedManyWithoutParentInput
+    itemLinks?: ItemCatalogEntityCreateNestedManyWithoutCatalogEntityInput
+  }
+
+  export type CatalogEntityUncheckedCreateWithoutParentInput = {
+    id?: string
+    tenantId: string
+    name: string
+    kind: string
+    attributes?: NullableJsonNullValueInput | InputJsonValue
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    children?: CatalogEntityUncheckedCreateNestedManyWithoutParentInput
+    itemLinks?: ItemCatalogEntityUncheckedCreateNestedManyWithoutCatalogEntityInput
+  }
+
+  export type CatalogEntityCreateOrConnectWithoutParentInput = {
+    where: CatalogEntityWhereUniqueInput
+    create: XOR<CatalogEntityCreateWithoutParentInput, CatalogEntityUncheckedCreateWithoutParentInput>
+  }
+
+  export type CatalogEntityCreateManyParentInputEnvelope = {
+    data: CatalogEntityCreateManyParentInput | CatalogEntityCreateManyParentInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ItemCatalogEntityCreateWithoutCatalogEntityInput = {
+    id?: string
+    createdAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutItemCatalogEntitiesInput
+    item: ItemCreateNestedOneWithoutItemCatalogEntitiesInput
+  }
+
+  export type ItemCatalogEntityUncheckedCreateWithoutCatalogEntityInput = {
+    id?: string
+    tenantId: string
+    itemId: string
+    createdAt?: Date | string
+  }
+
+  export type ItemCatalogEntityCreateOrConnectWithoutCatalogEntityInput = {
+    where: ItemCatalogEntityWhereUniqueInput
+    create: XOR<ItemCatalogEntityCreateWithoutCatalogEntityInput, ItemCatalogEntityUncheckedCreateWithoutCatalogEntityInput>
+  }
+
+  export type ItemCatalogEntityCreateManyCatalogEntityInputEnvelope = {
+    data: ItemCatalogEntityCreateManyCatalogEntityInput | ItemCatalogEntityCreateManyCatalogEntityInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TenantUpsertWithoutCatalogEntitiesInput = {
+    update: XOR<TenantUpdateWithoutCatalogEntitiesInput, TenantUncheckedUpdateWithoutCatalogEntitiesInput>
+    create: XOR<TenantCreateWithoutCatalogEntitiesInput, TenantUncheckedCreateWithoutCatalogEntitiesInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutCatalogEntitiesInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutCatalogEntitiesInput, TenantUncheckedUpdateWithoutCatalogEntitiesInput>
+  }
+
+  export type TenantUpdateWithoutCatalogEntitiesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: AppUserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    currencies?: CurrencyUpdateManyWithoutTenantNestedInput
+    fiscalPeriods?: FiscalPeriodUpdateManyWithoutTenantNestedInput
+    documentSequences?: DocumentSequenceUpdateManyWithoutTenantNestedInput
+    itemCategories?: ItemCategoryUpdateManyWithoutTenantNestedInput
+    units?: UnitUpdateManyWithoutTenantNestedInput
+    items?: ItemUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    cashboxes?: CashboxUpdateManyWithoutTenantNestedInput
+    invoiceTypes?: InvoiceTypeUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    chartOfAccounts?: ChartOfAccountUpdateManyWithoutTenantNestedInput
+    journalEntries?: JournalEntryUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutTenantNestedInput
+    aiChatSessions?: AiChatSessionUpdateManyWithoutTenantNestedInput
+    baseCurrency?: CurrencyUpdateOneWithoutBaseForTenantsNestedInput
+    defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
+    settings?: TenantSettingUpdateManyWithoutTenantNestedInput
+    expenses?: ExpenseUpdateManyWithoutTenantNestedInput
+    tags?: TagUpdateManyWithoutTenantNestedInput
+    itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutCatalogEntitiesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    baseCurrencyId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultSalesSequenceId?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    currencies?: CurrencyUncheckedUpdateManyWithoutTenantNestedInput
+    fiscalPeriods?: FiscalPeriodUncheckedUpdateManyWithoutTenantNestedInput
+    documentSequences?: DocumentSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    itemCategories?: ItemCategoryUncheckedUpdateManyWithoutTenantNestedInput
+    units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
+    items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    cashboxes?: CashboxUncheckedUpdateManyWithoutTenantNestedInput
+    invoiceTypes?: InvoiceTypeUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    chartOfAccounts?: ChartOfAccountUncheckedUpdateManyWithoutTenantNestedInput
+    journalEntries?: JournalEntryUncheckedUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutTenantNestedInput
+    aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
+    settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
+    expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
+    tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
+    itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type CatalogEntityUpsertWithoutChildrenInput = {
+    update: XOR<CatalogEntityUpdateWithoutChildrenInput, CatalogEntityUncheckedUpdateWithoutChildrenInput>
+    create: XOR<CatalogEntityCreateWithoutChildrenInput, CatalogEntityUncheckedCreateWithoutChildrenInput>
+    where?: CatalogEntityWhereInput
+  }
+
+  export type CatalogEntityUpdateToOneWithWhereWithoutChildrenInput = {
+    where?: CatalogEntityWhereInput
+    data: XOR<CatalogEntityUpdateWithoutChildrenInput, CatalogEntityUncheckedUpdateWithoutChildrenInput>
+  }
+
+  export type CatalogEntityUpdateWithoutChildrenInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    kind?: StringFieldUpdateOperationsInput | string
+    attributes?: NullableJsonNullValueInput | InputJsonValue
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutCatalogEntitiesNestedInput
+    parent?: CatalogEntityUpdateOneWithoutChildrenNestedInput
+    itemLinks?: ItemCatalogEntityUpdateManyWithoutCatalogEntityNestedInput
+  }
+
+  export type CatalogEntityUncheckedUpdateWithoutChildrenInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    kind?: StringFieldUpdateOperationsInput | string
+    parentId?: NullableStringFieldUpdateOperationsInput | string | null
+    attributes?: NullableJsonNullValueInput | InputJsonValue
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    itemLinks?: ItemCatalogEntityUncheckedUpdateManyWithoutCatalogEntityNestedInput
+  }
+
+  export type CatalogEntityUpsertWithWhereUniqueWithoutParentInput = {
+    where: CatalogEntityWhereUniqueInput
+    update: XOR<CatalogEntityUpdateWithoutParentInput, CatalogEntityUncheckedUpdateWithoutParentInput>
+    create: XOR<CatalogEntityCreateWithoutParentInput, CatalogEntityUncheckedCreateWithoutParentInput>
+  }
+
+  export type CatalogEntityUpdateWithWhereUniqueWithoutParentInput = {
+    where: CatalogEntityWhereUniqueInput
+    data: XOR<CatalogEntityUpdateWithoutParentInput, CatalogEntityUncheckedUpdateWithoutParentInput>
+  }
+
+  export type CatalogEntityUpdateManyWithWhereWithoutParentInput = {
+    where: CatalogEntityScalarWhereInput
+    data: XOR<CatalogEntityUpdateManyMutationInput, CatalogEntityUncheckedUpdateManyWithoutParentInput>
+  }
+
+  export type CatalogEntityScalarWhereInput = {
+    AND?: CatalogEntityScalarWhereInput | CatalogEntityScalarWhereInput[]
+    OR?: CatalogEntityScalarWhereInput[]
+    NOT?: CatalogEntityScalarWhereInput | CatalogEntityScalarWhereInput[]
+    id?: StringFilter<"CatalogEntity"> | string
+    tenantId?: StringFilter<"CatalogEntity"> | string
+    name?: StringFilter<"CatalogEntity"> | string
+    kind?: StringFilter<"CatalogEntity"> | string
+    parentId?: StringNullableFilter<"CatalogEntity"> | string | null
+    attributes?: JsonNullableFilter<"CatalogEntity">
+    isActive?: BoolFilter<"CatalogEntity"> | boolean
+    createdAt?: DateTimeFilter<"CatalogEntity"> | Date | string
+    updatedAt?: DateTimeFilter<"CatalogEntity"> | Date | string
+  }
+
+  export type ItemCatalogEntityUpsertWithWhereUniqueWithoutCatalogEntityInput = {
+    where: ItemCatalogEntityWhereUniqueInput
+    update: XOR<ItemCatalogEntityUpdateWithoutCatalogEntityInput, ItemCatalogEntityUncheckedUpdateWithoutCatalogEntityInput>
+    create: XOR<ItemCatalogEntityCreateWithoutCatalogEntityInput, ItemCatalogEntityUncheckedCreateWithoutCatalogEntityInput>
+  }
+
+  export type ItemCatalogEntityUpdateWithWhereUniqueWithoutCatalogEntityInput = {
+    where: ItemCatalogEntityWhereUniqueInput
+    data: XOR<ItemCatalogEntityUpdateWithoutCatalogEntityInput, ItemCatalogEntityUncheckedUpdateWithoutCatalogEntityInput>
+  }
+
+  export type ItemCatalogEntityUpdateManyWithWhereWithoutCatalogEntityInput = {
+    where: ItemCatalogEntityScalarWhereInput
+    data: XOR<ItemCatalogEntityUpdateManyMutationInput, ItemCatalogEntityUncheckedUpdateManyWithoutCatalogEntityInput>
+  }
+
+  export type ItemCatalogEntityScalarWhereInput = {
+    AND?: ItemCatalogEntityScalarWhereInput | ItemCatalogEntityScalarWhereInput[]
+    OR?: ItemCatalogEntityScalarWhereInput[]
+    NOT?: ItemCatalogEntityScalarWhereInput | ItemCatalogEntityScalarWhereInput[]
+    id?: StringFilter<"ItemCatalogEntity"> | string
+    tenantId?: StringFilter<"ItemCatalogEntity"> | string
+    itemId?: StringFilter<"ItemCatalogEntity"> | string
+    catalogEntityId?: StringFilter<"ItemCatalogEntity"> | string
+    createdAt?: DateTimeFilter<"ItemCatalogEntity"> | Date | string
+  }
+
   export type TenantCreateWithoutCurrenciesInput = {
     id?: string
     name: string
@@ -68082,6 +71820,8 @@ export namespace Prisma {
     expenses?: ExpenseCreateNestedManyWithoutTenantInput
     tags?: TagCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
+    catalogEntities?: CatalogEntityCreateNestedManyWithoutTenantInput
+    itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCurrenciesInput = {
@@ -68122,6 +71862,8 @@ export namespace Prisma {
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
     tags?: TagUncheckedCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
+    catalogEntities?: CatalogEntityUncheckedCreateNestedManyWithoutTenantInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCurrenciesInput = {
@@ -68327,6 +72069,8 @@ export namespace Prisma {
     expenses?: ExpenseCreateNestedManyWithoutTenantInput
     tags?: TagCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
+    catalogEntities?: CatalogEntityCreateNestedManyWithoutTenantInput
+    itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBaseCurrencyInput = {
@@ -68367,6 +72111,8 @@ export namespace Prisma {
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
     tags?: TagUncheckedCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
+    catalogEntities?: CatalogEntityUncheckedCreateNestedManyWithoutTenantInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBaseCurrencyInput = {
@@ -68480,6 +72226,8 @@ export namespace Prisma {
     expenses?: ExpenseUpdateManyWithoutTenantNestedInput
     tags?: TagUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
+    catalogEntities?: CatalogEntityUpdateManyWithoutTenantNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCurrenciesInput = {
@@ -68520,6 +72268,8 @@ export namespace Prisma {
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
     tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
+    catalogEntities?: CatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type CashboxUpsertWithWhereUniqueWithoutCurrencyInput = {
@@ -68820,6 +72570,8 @@ export namespace Prisma {
     expenses?: ExpenseCreateNestedManyWithoutTenantInput
     tags?: TagCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
+    catalogEntities?: CatalogEntityCreateNestedManyWithoutTenantInput
+    itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDocumentSequencesInput = {
@@ -68860,6 +72612,8 @@ export namespace Prisma {
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
     tags?: TagUncheckedCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
+    catalogEntities?: CatalogEntityUncheckedCreateNestedManyWithoutTenantInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDocumentSequencesInput = {
@@ -68905,6 +72659,8 @@ export namespace Prisma {
     expenses?: ExpenseCreateNestedManyWithoutTenantInput
     tags?: TagCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
+    catalogEntities?: CatalogEntityCreateNestedManyWithoutTenantInput
+    itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDefaultSalesSequenceInput = {
@@ -68945,6 +72701,8 @@ export namespace Prisma {
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
     tags?: TagUncheckedCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
+    catalogEntities?: CatalogEntityUncheckedCreateNestedManyWithoutTenantInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDefaultSalesSequenceInput = {
@@ -69006,6 +72764,8 @@ export namespace Prisma {
     expenses?: ExpenseUpdateManyWithoutTenantNestedInput
     tags?: TagUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
+    catalogEntities?: CatalogEntityUpdateManyWithoutTenantNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDocumentSequencesInput = {
@@ -69046,6 +72806,8 @@ export namespace Prisma {
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
     tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
+    catalogEntities?: CatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUpsertWithWhereUniqueWithoutDefaultSalesSequenceInput = {
@@ -69102,6 +72864,8 @@ export namespace Prisma {
     settings?: TenantSettingCreateNestedManyWithoutTenantInput
     tags?: TagCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
+    catalogEntities?: CatalogEntityCreateNestedManyWithoutTenantInput
+    itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutExpensesInput = {
@@ -69142,6 +72906,8 @@ export namespace Prisma {
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     tags?: TagUncheckedCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
+    catalogEntities?: CatalogEntityUncheckedCreateNestedManyWithoutTenantInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutExpensesInput = {
@@ -69335,6 +73101,8 @@ export namespace Prisma {
     settings?: TenantSettingUpdateManyWithoutTenantNestedInput
     tags?: TagUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
+    catalogEntities?: CatalogEntityUpdateManyWithoutTenantNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutExpensesInput = {
@@ -69375,6 +73143,8 @@ export namespace Prisma {
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
+    catalogEntities?: CatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type CashboxUpsertWithoutExpensesInput = {
@@ -69732,6 +73502,8 @@ export namespace Prisma {
     expenses?: ExpenseCreateNestedManyWithoutTenantInput
     tags?: TagCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
+    catalogEntities?: CatalogEntityCreateNestedManyWithoutTenantInput
+    itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutFiscalPeriodsInput = {
@@ -69772,6 +73544,8 @@ export namespace Prisma {
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
     tags?: TagUncheckedCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
+    catalogEntities?: CatalogEntityUncheckedCreateNestedManyWithoutTenantInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutFiscalPeriodsInput = {
@@ -70126,6 +73900,8 @@ export namespace Prisma {
     expenses?: ExpenseUpdateManyWithoutTenantNestedInput
     tags?: TagUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
+    catalogEntities?: CatalogEntityUpdateManyWithoutTenantNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutFiscalPeriodsInput = {
@@ -70166,6 +73942,8 @@ export namespace Prisma {
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
     tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
+    catalogEntities?: CatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type StockMovementUpsertWithWhereUniqueWithoutFiscalPeriodInput = {
@@ -70359,6 +74137,8 @@ export namespace Prisma {
     expenses?: ExpenseCreateNestedManyWithoutTenantInput
     tags?: TagCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
+    catalogEntities?: CatalogEntityCreateNestedManyWithoutTenantInput
+    itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutInvoiceTypesInput = {
@@ -70399,6 +74179,8 @@ export namespace Prisma {
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
     tags?: TagUncheckedCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
+    catalogEntities?: CatalogEntityUncheckedCreateNestedManyWithoutTenantInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutInvoiceTypesInput = {
@@ -70519,6 +74301,8 @@ export namespace Prisma {
     expenses?: ExpenseUpdateManyWithoutTenantNestedInput
     tags?: TagUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
+    catalogEntities?: CatalogEntityUpdateManyWithoutTenantNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutInvoiceTypesInput = {
@@ -70559,6 +74343,8 @@ export namespace Prisma {
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
     tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
+    catalogEntities?: CatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type InvoiceUpsertWithWhereUniqueWithoutInvoiceTypeInput = {
@@ -70615,6 +74401,8 @@ export namespace Prisma {
     expenses?: ExpenseCreateNestedManyWithoutTenantInput
     tags?: TagCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
+    catalogEntities?: CatalogEntityCreateNestedManyWithoutTenantInput
+    itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutInvoicesInput = {
@@ -70655,6 +74443,8 @@ export namespace Prisma {
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
     tags?: TagUncheckedCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
+    catalogEntities?: CatalogEntityUncheckedCreateNestedManyWithoutTenantInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutInvoicesInput = {
@@ -70954,6 +74744,8 @@ export namespace Prisma {
     expenses?: ExpenseUpdateManyWithoutTenantNestedInput
     tags?: TagUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
+    catalogEntities?: CatalogEntityUpdateManyWithoutTenantNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutInvoicesInput = {
@@ -70994,6 +74786,8 @@ export namespace Prisma {
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
     tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
+    catalogEntities?: CatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type InvoiceTypeUpsertWithoutInvoicesInput = {
@@ -71332,6 +75126,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutItemInput
     itemRelations?: ItemRelationCreateNestedManyWithoutItemInput
     itemRelatedTo?: ItemRelationCreateNestedManyWithoutRelatedItemInput
+    itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutItemInput
   }
 
   export type ItemUncheckedCreateWithoutInvoiceLinesInput = {
@@ -71354,6 +75149,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutItemInput
     itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutItemInput
     itemRelatedTo?: ItemRelationUncheckedCreateNestedManyWithoutRelatedItemInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutItemInput
   }
 
   export type ItemCreateOrConnectWithoutInvoiceLinesInput = {
@@ -71484,6 +75280,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutItemNestedInput
     itemRelations?: ItemRelationUpdateManyWithoutItemNestedInput
     itemRelatedTo?: ItemRelationUpdateManyWithoutRelatedItemNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutItemNestedInput
   }
 
   export type ItemUncheckedUpdateWithoutInvoiceLinesInput = {
@@ -71506,6 +75303,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutItemNestedInput
     itemRelations?: ItemRelationUncheckedUpdateManyWithoutItemNestedInput
     itemRelatedTo?: ItemRelationUncheckedUpdateManyWithoutRelatedItemNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutItemNestedInput
   }
 
   export type UnitUpsertWithoutInvoiceLinesInput = {
@@ -71539,6 +75337,366 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     items?: ItemUncheckedUpdateManyWithoutBaseUnitNestedInput
+  }
+
+  export type TenantCreateWithoutItemCatalogEntitiesInput = {
+    id?: string
+    name: string
+    slug: string
+    address?: string | null
+    phone?: string | null
+    email?: string | null
+    logo?: string | null
+    legalName?: string | null
+    taxNumber?: string | null
+    website?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: AppUserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    currencies?: CurrencyCreateNestedManyWithoutTenantInput
+    fiscalPeriods?: FiscalPeriodCreateNestedManyWithoutTenantInput
+    documentSequences?: DocumentSequenceCreateNestedManyWithoutTenantInput
+    itemCategories?: ItemCategoryCreateNestedManyWithoutTenantInput
+    units?: UnitCreateNestedManyWithoutTenantInput
+    items?: ItemCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    cashboxes?: CashboxCreateNestedManyWithoutTenantInput
+    invoiceTypes?: InvoiceTypeCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    chartOfAccounts?: ChartOfAccountCreateNestedManyWithoutTenantInput
+    journalEntries?: JournalEntryCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountCreateNestedManyWithoutTenantInput
+    auditLogs?: AuditLogCreateNestedManyWithoutTenantInput
+    aiChatSessions?: AiChatSessionCreateNestedManyWithoutTenantInput
+    baseCurrency?: CurrencyCreateNestedOneWithoutBaseForTenantsInput
+    defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
+    settings?: TenantSettingCreateNestedManyWithoutTenantInput
+    expenses?: ExpenseCreateNestedManyWithoutTenantInput
+    tags?: TagCreateNestedManyWithoutTenantInput
+    itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
+    catalogEntities?: CatalogEntityCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutItemCatalogEntitiesInput = {
+    id?: string
+    name: string
+    slug: string
+    address?: string | null
+    phone?: string | null
+    email?: string | null
+    logo?: string | null
+    legalName?: string | null
+    taxNumber?: string | null
+    website?: string | null
+    baseCurrencyId?: string | null
+    defaultSalesSequenceId?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    currencies?: CurrencyUncheckedCreateNestedManyWithoutTenantInput
+    fiscalPeriods?: FiscalPeriodUncheckedCreateNestedManyWithoutTenantInput
+    documentSequences?: DocumentSequenceUncheckedCreateNestedManyWithoutTenantInput
+    itemCategories?: ItemCategoryUncheckedCreateNestedManyWithoutTenantInput
+    units?: UnitUncheckedCreateNestedManyWithoutTenantInput
+    items?: ItemUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    cashboxes?: CashboxUncheckedCreateNestedManyWithoutTenantInput
+    invoiceTypes?: InvoiceTypeUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    chartOfAccounts?: ChartOfAccountUncheckedCreateNestedManyWithoutTenantInput
+    journalEntries?: JournalEntryUncheckedCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTenantInput
+    aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
+    settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
+    expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
+    tags?: TagUncheckedCreateNestedManyWithoutTenantInput
+    itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
+    catalogEntities?: CatalogEntityUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutItemCatalogEntitiesInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutItemCatalogEntitiesInput, TenantUncheckedCreateWithoutItemCatalogEntitiesInput>
+  }
+
+  export type ItemCreateWithoutItemCatalogEntitiesInput = {
+    id?: string
+    code: string
+    name: string
+    barcode?: string | null
+    defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
+    latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
+    itemType?: $Enums.ItemType
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutItemsInput
+    category: ItemCategoryCreateNestedOneWithoutItemsInput
+    baseUnit: UnitCreateNestedOneWithoutItemsInput
+    warehouseItems?: WarehouseItemCreateNestedManyWithoutItemInput
+    stockBalances?: StockBalanceCreateNestedManyWithoutItemInput
+    stockMovements?: StockMovementCreateNestedManyWithoutItemInput
+    invoiceLines?: InvoiceLineCreateNestedManyWithoutItemInput
+    stockCountLines?: StockCountLineCreateNestedManyWithoutItemInput
+    itemRelations?: ItemRelationCreateNestedManyWithoutItemInput
+    itemRelatedTo?: ItemRelationCreateNestedManyWithoutRelatedItemInput
+  }
+
+  export type ItemUncheckedCreateWithoutItemCatalogEntitiesInput = {
+    id?: string
+    tenantId: string
+    code: string
+    name: string
+    barcode?: string | null
+    categoryId: string
+    baseUnitId: string
+    defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
+    latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
+    itemType?: $Enums.ItemType
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    warehouseItems?: WarehouseItemUncheckedCreateNestedManyWithoutItemInput
+    stockBalances?: StockBalanceUncheckedCreateNestedManyWithoutItemInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutItemInput
+    invoiceLines?: InvoiceLineUncheckedCreateNestedManyWithoutItemInput
+    stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutItemInput
+    itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutItemInput
+    itemRelatedTo?: ItemRelationUncheckedCreateNestedManyWithoutRelatedItemInput
+  }
+
+  export type ItemCreateOrConnectWithoutItemCatalogEntitiesInput = {
+    where: ItemWhereUniqueInput
+    create: XOR<ItemCreateWithoutItemCatalogEntitiesInput, ItemUncheckedCreateWithoutItemCatalogEntitiesInput>
+  }
+
+  export type CatalogEntityCreateWithoutItemLinksInput = {
+    id?: string
+    name: string
+    kind: string
+    attributes?: NullableJsonNullValueInput | InputJsonValue
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutCatalogEntitiesInput
+    parent?: CatalogEntityCreateNestedOneWithoutChildrenInput
+    children?: CatalogEntityCreateNestedManyWithoutParentInput
+  }
+
+  export type CatalogEntityUncheckedCreateWithoutItemLinksInput = {
+    id?: string
+    tenantId: string
+    name: string
+    kind: string
+    parentId?: string | null
+    attributes?: NullableJsonNullValueInput | InputJsonValue
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    children?: CatalogEntityUncheckedCreateNestedManyWithoutParentInput
+  }
+
+  export type CatalogEntityCreateOrConnectWithoutItemLinksInput = {
+    where: CatalogEntityWhereUniqueInput
+    create: XOR<CatalogEntityCreateWithoutItemLinksInput, CatalogEntityUncheckedCreateWithoutItemLinksInput>
+  }
+
+  export type TenantUpsertWithoutItemCatalogEntitiesInput = {
+    update: XOR<TenantUpdateWithoutItemCatalogEntitiesInput, TenantUncheckedUpdateWithoutItemCatalogEntitiesInput>
+    create: XOR<TenantCreateWithoutItemCatalogEntitiesInput, TenantUncheckedCreateWithoutItemCatalogEntitiesInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutItemCatalogEntitiesInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutItemCatalogEntitiesInput, TenantUncheckedUpdateWithoutItemCatalogEntitiesInput>
+  }
+
+  export type TenantUpdateWithoutItemCatalogEntitiesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: AppUserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    currencies?: CurrencyUpdateManyWithoutTenantNestedInput
+    fiscalPeriods?: FiscalPeriodUpdateManyWithoutTenantNestedInput
+    documentSequences?: DocumentSequenceUpdateManyWithoutTenantNestedInput
+    itemCategories?: ItemCategoryUpdateManyWithoutTenantNestedInput
+    units?: UnitUpdateManyWithoutTenantNestedInput
+    items?: ItemUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    cashboxes?: CashboxUpdateManyWithoutTenantNestedInput
+    invoiceTypes?: InvoiceTypeUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    chartOfAccounts?: ChartOfAccountUpdateManyWithoutTenantNestedInput
+    journalEntries?: JournalEntryUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutTenantNestedInput
+    aiChatSessions?: AiChatSessionUpdateManyWithoutTenantNestedInput
+    baseCurrency?: CurrencyUpdateOneWithoutBaseForTenantsNestedInput
+    defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
+    settings?: TenantSettingUpdateManyWithoutTenantNestedInput
+    expenses?: ExpenseUpdateManyWithoutTenantNestedInput
+    tags?: TagUpdateManyWithoutTenantNestedInput
+    itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
+    catalogEntities?: CatalogEntityUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutItemCatalogEntitiesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    baseCurrencyId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultSalesSequenceId?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    currencies?: CurrencyUncheckedUpdateManyWithoutTenantNestedInput
+    fiscalPeriods?: FiscalPeriodUncheckedUpdateManyWithoutTenantNestedInput
+    documentSequences?: DocumentSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    itemCategories?: ItemCategoryUncheckedUpdateManyWithoutTenantNestedInput
+    units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
+    items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    cashboxes?: CashboxUncheckedUpdateManyWithoutTenantNestedInput
+    invoiceTypes?: InvoiceTypeUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    chartOfAccounts?: ChartOfAccountUncheckedUpdateManyWithoutTenantNestedInput
+    journalEntries?: JournalEntryUncheckedUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutTenantNestedInput
+    aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
+    settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
+    expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
+    tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
+    itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
+    catalogEntities?: CatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type ItemUpsertWithoutItemCatalogEntitiesInput = {
+    update: XOR<ItemUpdateWithoutItemCatalogEntitiesInput, ItemUncheckedUpdateWithoutItemCatalogEntitiesInput>
+    create: XOR<ItemCreateWithoutItemCatalogEntitiesInput, ItemUncheckedCreateWithoutItemCatalogEntitiesInput>
+    where?: ItemWhereInput
+  }
+
+  export type ItemUpdateToOneWithWhereWithoutItemCatalogEntitiesInput = {
+    where?: ItemWhereInput
+    data: XOR<ItemUpdateWithoutItemCatalogEntitiesInput, ItemUncheckedUpdateWithoutItemCatalogEntitiesInput>
+  }
+
+  export type ItemUpdateWithoutItemCatalogEntitiesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    barcode?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    itemType?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutItemsNestedInput
+    category?: ItemCategoryUpdateOneRequiredWithoutItemsNestedInput
+    baseUnit?: UnitUpdateOneRequiredWithoutItemsNestedInput
+    warehouseItems?: WarehouseItemUpdateManyWithoutItemNestedInput
+    stockBalances?: StockBalanceUpdateManyWithoutItemNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutItemNestedInput
+    invoiceLines?: InvoiceLineUpdateManyWithoutItemNestedInput
+    stockCountLines?: StockCountLineUpdateManyWithoutItemNestedInput
+    itemRelations?: ItemRelationUpdateManyWithoutItemNestedInput
+    itemRelatedTo?: ItemRelationUpdateManyWithoutRelatedItemNestedInput
+  }
+
+  export type ItemUncheckedUpdateWithoutItemCatalogEntitiesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    barcode?: NullableStringFieldUpdateOperationsInput | string | null
+    categoryId?: StringFieldUpdateOperationsInput | string
+    baseUnitId?: StringFieldUpdateOperationsInput | string
+    defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    itemType?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    warehouseItems?: WarehouseItemUncheckedUpdateManyWithoutItemNestedInput
+    stockBalances?: StockBalanceUncheckedUpdateManyWithoutItemNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutItemNestedInput
+    invoiceLines?: InvoiceLineUncheckedUpdateManyWithoutItemNestedInput
+    stockCountLines?: StockCountLineUncheckedUpdateManyWithoutItemNestedInput
+    itemRelations?: ItemRelationUncheckedUpdateManyWithoutItemNestedInput
+    itemRelatedTo?: ItemRelationUncheckedUpdateManyWithoutRelatedItemNestedInput
+  }
+
+  export type CatalogEntityUpsertWithoutItemLinksInput = {
+    update: XOR<CatalogEntityUpdateWithoutItemLinksInput, CatalogEntityUncheckedUpdateWithoutItemLinksInput>
+    create: XOR<CatalogEntityCreateWithoutItemLinksInput, CatalogEntityUncheckedCreateWithoutItemLinksInput>
+    where?: CatalogEntityWhereInput
+  }
+
+  export type CatalogEntityUpdateToOneWithWhereWithoutItemLinksInput = {
+    where?: CatalogEntityWhereInput
+    data: XOR<CatalogEntityUpdateWithoutItemLinksInput, CatalogEntityUncheckedUpdateWithoutItemLinksInput>
+  }
+
+  export type CatalogEntityUpdateWithoutItemLinksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    kind?: StringFieldUpdateOperationsInput | string
+    attributes?: NullableJsonNullValueInput | InputJsonValue
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutCatalogEntitiesNestedInput
+    parent?: CatalogEntityUpdateOneWithoutChildrenNestedInput
+    children?: CatalogEntityUpdateManyWithoutParentNestedInput
+  }
+
+  export type CatalogEntityUncheckedUpdateWithoutItemLinksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    kind?: StringFieldUpdateOperationsInput | string
+    parentId?: NullableStringFieldUpdateOperationsInput | string | null
+    attributes?: NullableJsonNullValueInput | InputJsonValue
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    children?: CatalogEntityUncheckedUpdateManyWithoutParentNestedInput
   }
 
   export type TenantCreateWithoutItemCategoriesInput = {
@@ -71579,6 +75737,8 @@ export namespace Prisma {
     expenses?: ExpenseCreateNestedManyWithoutTenantInput
     tags?: TagCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
+    catalogEntities?: CatalogEntityCreateNestedManyWithoutTenantInput
+    itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutItemCategoriesInput = {
@@ -71619,6 +75779,8 @@ export namespace Prisma {
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
     tags?: TagUncheckedCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
+    catalogEntities?: CatalogEntityUncheckedCreateNestedManyWithoutTenantInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutItemCategoriesInput = {
@@ -71709,6 +75871,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutItemInput
     itemRelations?: ItemRelationCreateNestedManyWithoutItemInput
     itemRelatedTo?: ItemRelationCreateNestedManyWithoutRelatedItemInput
+    itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutItemInput
   }
 
   export type ItemUncheckedCreateWithoutCategoryInput = {
@@ -71731,6 +75894,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutItemInput
     itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutItemInput
     itemRelatedTo?: ItemRelationUncheckedCreateNestedManyWithoutRelatedItemInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutItemInput
   }
 
   export type ItemCreateOrConnectWithoutCategoryInput = {
@@ -71792,6 +75956,8 @@ export namespace Prisma {
     expenses?: ExpenseUpdateManyWithoutTenantNestedInput
     tags?: TagUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
+    catalogEntities?: CatalogEntityUpdateManyWithoutTenantNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutItemCategoriesInput = {
@@ -71832,6 +75998,8 @@ export namespace Prisma {
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
     tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
+    catalogEntities?: CatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ItemCategoryUpsertWithoutChildrenInput = {
@@ -71972,6 +76140,8 @@ export namespace Prisma {
     settings?: TenantSettingCreateNestedManyWithoutTenantInput
     expenses?: ExpenseCreateNestedManyWithoutTenantInput
     tags?: TagCreateNestedManyWithoutTenantInput
+    catalogEntities?: CatalogEntityCreateNestedManyWithoutTenantInput
+    itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutItemRelationsInput = {
@@ -72012,6 +76182,8 @@ export namespace Prisma {
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
     tags?: TagUncheckedCreateNestedManyWithoutTenantInput
+    catalogEntities?: CatalogEntityUncheckedCreateNestedManyWithoutTenantInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutItemRelationsInput = {
@@ -72039,6 +76211,7 @@ export namespace Prisma {
     invoiceLines?: InvoiceLineCreateNestedManyWithoutItemInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutItemInput
     itemRelatedTo?: ItemRelationCreateNestedManyWithoutRelatedItemInput
+    itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutItemInput
   }
 
   export type ItemUncheckedCreateWithoutItemRelationsInput = {
@@ -72061,6 +76234,7 @@ export namespace Prisma {
     invoiceLines?: InvoiceLineUncheckedCreateNestedManyWithoutItemInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutItemInput
     itemRelatedTo?: ItemRelationUncheckedCreateNestedManyWithoutRelatedItemInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutItemInput
   }
 
   export type ItemCreateOrConnectWithoutItemRelationsInput = {
@@ -72088,6 +76262,7 @@ export namespace Prisma {
     invoiceLines?: InvoiceLineCreateNestedManyWithoutItemInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutItemInput
     itemRelations?: ItemRelationCreateNestedManyWithoutItemInput
+    itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutItemInput
   }
 
   export type ItemUncheckedCreateWithoutItemRelatedToInput = {
@@ -72110,6 +76285,7 @@ export namespace Prisma {
     invoiceLines?: InvoiceLineUncheckedCreateNestedManyWithoutItemInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutItemInput
     itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutItemInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutItemInput
   }
 
   export type ItemCreateOrConnectWithoutItemRelatedToInput = {
@@ -72166,6 +76342,8 @@ export namespace Prisma {
     settings?: TenantSettingUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUpdateManyWithoutTenantNestedInput
     tags?: TagUpdateManyWithoutTenantNestedInput
+    catalogEntities?: CatalogEntityUpdateManyWithoutTenantNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutItemRelationsInput = {
@@ -72206,6 +76384,8 @@ export namespace Prisma {
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
     tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
+    catalogEntities?: CatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ItemUpsertWithoutItemRelationsInput = {
@@ -72239,6 +76419,7 @@ export namespace Prisma {
     invoiceLines?: InvoiceLineUpdateManyWithoutItemNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutItemNestedInput
     itemRelatedTo?: ItemRelationUpdateManyWithoutRelatedItemNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutItemNestedInput
   }
 
   export type ItemUncheckedUpdateWithoutItemRelationsInput = {
@@ -72261,6 +76442,7 @@ export namespace Prisma {
     invoiceLines?: InvoiceLineUncheckedUpdateManyWithoutItemNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutItemNestedInput
     itemRelatedTo?: ItemRelationUncheckedUpdateManyWithoutRelatedItemNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutItemNestedInput
   }
 
   export type ItemUpsertWithoutItemRelatedToInput = {
@@ -72294,6 +76476,7 @@ export namespace Prisma {
     invoiceLines?: InvoiceLineUpdateManyWithoutItemNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutItemNestedInput
     itemRelations?: ItemRelationUpdateManyWithoutItemNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutItemNestedInput
   }
 
   export type ItemUncheckedUpdateWithoutItemRelatedToInput = {
@@ -72316,6 +76499,7 @@ export namespace Prisma {
     invoiceLines?: InvoiceLineUncheckedUpdateManyWithoutItemNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutItemNestedInput
     itemRelations?: ItemRelationUncheckedUpdateManyWithoutItemNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutItemNestedInput
   }
 
   export type TenantCreateWithoutItemsInput = {
@@ -72356,6 +76540,8 @@ export namespace Prisma {
     expenses?: ExpenseCreateNestedManyWithoutTenantInput
     tags?: TagCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
+    catalogEntities?: CatalogEntityCreateNestedManyWithoutTenantInput
+    itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutItemsInput = {
@@ -72396,6 +76582,8 @@ export namespace Prisma {
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
     tags?: TagUncheckedCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
+    catalogEntities?: CatalogEntityUncheckedCreateNestedManyWithoutTenantInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutItemsInput = {
@@ -72689,6 +76877,30 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ItemCatalogEntityCreateWithoutItemInput = {
+    id?: string
+    createdAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutItemCatalogEntitiesInput
+    catalogEntity: CatalogEntityCreateNestedOneWithoutItemLinksInput
+  }
+
+  export type ItemCatalogEntityUncheckedCreateWithoutItemInput = {
+    id?: string
+    tenantId: string
+    catalogEntityId: string
+    createdAt?: Date | string
+  }
+
+  export type ItemCatalogEntityCreateOrConnectWithoutItemInput = {
+    where: ItemCatalogEntityWhereUniqueInput
+    create: XOR<ItemCatalogEntityCreateWithoutItemInput, ItemCatalogEntityUncheckedCreateWithoutItemInput>
+  }
+
+  export type ItemCatalogEntityCreateManyItemInputEnvelope = {
+    data: ItemCatalogEntityCreateManyItemInput | ItemCatalogEntityCreateManyItemInput[]
+    skipDuplicates?: boolean
+  }
+
   export type TenantUpsertWithoutItemsInput = {
     update: XOR<TenantUpdateWithoutItemsInput, TenantUncheckedUpdateWithoutItemsInput>
     create: XOR<TenantCreateWithoutItemsInput, TenantUncheckedCreateWithoutItemsInput>
@@ -72738,6 +76950,8 @@ export namespace Prisma {
     expenses?: ExpenseUpdateManyWithoutTenantNestedInput
     tags?: TagUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
+    catalogEntities?: CatalogEntityUpdateManyWithoutTenantNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutItemsInput = {
@@ -72778,6 +76992,8 @@ export namespace Prisma {
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
     tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
+    catalogEntities?: CatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ItemCategoryUpsertWithoutItemsInput = {
@@ -73015,6 +77231,22 @@ export namespace Prisma {
     data: XOR<ItemRelationUpdateManyMutationInput, ItemRelationUncheckedUpdateManyWithoutRelatedItemInput>
   }
 
+  export type ItemCatalogEntityUpsertWithWhereUniqueWithoutItemInput = {
+    where: ItemCatalogEntityWhereUniqueInput
+    update: XOR<ItemCatalogEntityUpdateWithoutItemInput, ItemCatalogEntityUncheckedUpdateWithoutItemInput>
+    create: XOR<ItemCatalogEntityCreateWithoutItemInput, ItemCatalogEntityUncheckedCreateWithoutItemInput>
+  }
+
+  export type ItemCatalogEntityUpdateWithWhereUniqueWithoutItemInput = {
+    where: ItemCatalogEntityWhereUniqueInput
+    data: XOR<ItemCatalogEntityUpdateWithoutItemInput, ItemCatalogEntityUncheckedUpdateWithoutItemInput>
+  }
+
+  export type ItemCatalogEntityUpdateManyWithWhereWithoutItemInput = {
+    where: ItemCatalogEntityScalarWhereInput
+    data: XOR<ItemCatalogEntityUpdateManyMutationInput, ItemCatalogEntityUncheckedUpdateManyWithoutItemInput>
+  }
+
   export type TenantCreateWithoutPartiesInput = {
     id?: string
     name: string
@@ -73053,6 +77285,8 @@ export namespace Prisma {
     expenses?: ExpenseCreateNestedManyWithoutTenantInput
     tags?: TagCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
+    catalogEntities?: CatalogEntityCreateNestedManyWithoutTenantInput
+    itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPartiesInput = {
@@ -73093,6 +77327,8 @@ export namespace Prisma {
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
     tags?: TagUncheckedCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
+    catalogEntities?: CatalogEntityUncheckedCreateNestedManyWithoutTenantInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPartiesInput = {
@@ -73271,6 +77507,8 @@ export namespace Prisma {
     expenses?: ExpenseUpdateManyWithoutTenantNestedInput
     tags?: TagUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
+    catalogEntities?: CatalogEntityUpdateManyWithoutTenantNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPartiesInput = {
@@ -73311,6 +77549,8 @@ export namespace Prisma {
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
     tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
+    catalogEntities?: CatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type InvoiceUpsertWithWhereUniqueWithoutPartyInput = {
@@ -73383,6 +77623,8 @@ export namespace Prisma {
     expenses?: ExpenseCreateNestedManyWithoutTenantInput
     tags?: TagCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
+    catalogEntities?: CatalogEntityCreateNestedManyWithoutTenantInput
+    itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockCountsInput = {
@@ -73423,6 +77665,8 @@ export namespace Prisma {
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
     tags?: TagUncheckedCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
+    catalogEntities?: CatalogEntityUncheckedCreateNestedManyWithoutTenantInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockCountsInput = {
@@ -73581,6 +77825,8 @@ export namespace Prisma {
     expenses?: ExpenseUpdateManyWithoutTenantNestedInput
     tags?: TagUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
+    catalogEntities?: CatalogEntityUpdateManyWithoutTenantNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockCountsInput = {
@@ -73621,6 +77867,8 @@ export namespace Prisma {
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
     tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
+    catalogEntities?: CatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WarehouseUpsertWithoutStockCountsInput = {
@@ -73780,6 +78028,7 @@ export namespace Prisma {
     invoiceLines?: InvoiceLineCreateNestedManyWithoutItemInput
     itemRelations?: ItemRelationCreateNestedManyWithoutItemInput
     itemRelatedTo?: ItemRelationCreateNestedManyWithoutRelatedItemInput
+    itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutItemInput
   }
 
   export type ItemUncheckedCreateWithoutStockCountLinesInput = {
@@ -73802,6 +78051,7 @@ export namespace Prisma {
     invoiceLines?: InvoiceLineUncheckedCreateNestedManyWithoutItemInput
     itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutItemInput
     itemRelatedTo?: ItemRelationUncheckedCreateNestedManyWithoutRelatedItemInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutItemInput
   }
 
   export type ItemCreateOrConnectWithoutStockCountLinesInput = {
@@ -73883,6 +78133,7 @@ export namespace Prisma {
     invoiceLines?: InvoiceLineUpdateManyWithoutItemNestedInput
     itemRelations?: ItemRelationUpdateManyWithoutItemNestedInput
     itemRelatedTo?: ItemRelationUpdateManyWithoutRelatedItemNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutItemNestedInput
   }
 
   export type ItemUncheckedUpdateWithoutStockCountLinesInput = {
@@ -73905,6 +78156,7 @@ export namespace Prisma {
     invoiceLines?: InvoiceLineUncheckedUpdateManyWithoutItemNestedInput
     itemRelations?: ItemRelationUncheckedUpdateManyWithoutItemNestedInput
     itemRelatedTo?: ItemRelationUncheckedUpdateManyWithoutRelatedItemNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutItemNestedInput
   }
 
   export type WarehouseCreateWithoutStockBalancesInput = {
@@ -73962,6 +78214,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutItemInput
     itemRelations?: ItemRelationCreateNestedManyWithoutItemInput
     itemRelatedTo?: ItemRelationCreateNestedManyWithoutRelatedItemInput
+    itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutItemInput
   }
 
   export type ItemUncheckedCreateWithoutStockBalancesInput = {
@@ -73984,6 +78237,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutItemInput
     itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutItemInput
     itemRelatedTo?: ItemRelationUncheckedCreateNestedManyWithoutRelatedItemInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutItemInput
   }
 
   export type ItemCreateOrConnectWithoutStockBalancesInput = {
@@ -74063,6 +78317,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutItemNestedInput
     itemRelations?: ItemRelationUpdateManyWithoutItemNestedInput
     itemRelatedTo?: ItemRelationUpdateManyWithoutRelatedItemNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutItemNestedInput
   }
 
   export type ItemUncheckedUpdateWithoutStockBalancesInput = {
@@ -74085,6 +78340,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutItemNestedInput
     itemRelations?: ItemRelationUncheckedUpdateManyWithoutItemNestedInput
     itemRelatedTo?: ItemRelationUncheckedUpdateManyWithoutRelatedItemNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutItemNestedInput
   }
 
   export type WarehouseCreateWithoutStockMovementsInput = {
@@ -74142,6 +78398,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutItemInput
     itemRelations?: ItemRelationCreateNestedManyWithoutItemInput
     itemRelatedTo?: ItemRelationCreateNestedManyWithoutRelatedItemInput
+    itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutItemInput
   }
 
   export type ItemUncheckedCreateWithoutStockMovementsInput = {
@@ -74164,6 +78421,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutItemInput
     itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutItemInput
     itemRelatedTo?: ItemRelationUncheckedCreateNestedManyWithoutRelatedItemInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutItemInput
   }
 
   export type ItemCreateOrConnectWithoutStockMovementsInput = {
@@ -74280,6 +78538,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutItemNestedInput
     itemRelations?: ItemRelationUpdateManyWithoutItemNestedInput
     itemRelatedTo?: ItemRelationUpdateManyWithoutRelatedItemNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutItemNestedInput
   }
 
   export type ItemUncheckedUpdateWithoutStockMovementsInput = {
@@ -74302,6 +78561,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutItemNestedInput
     itemRelations?: ItemRelationUncheckedUpdateManyWithoutItemNestedInput
     itemRelatedTo?: ItemRelationUncheckedUpdateManyWithoutRelatedItemNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutItemNestedInput
   }
 
   export type FiscalPeriodUpsertWithoutStockMovementsInput = {
@@ -74441,6 +78701,8 @@ export namespace Prisma {
     settings?: TenantSettingCreateNestedManyWithoutTenantInput
     expenses?: ExpenseCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
+    catalogEntities?: CatalogEntityCreateNestedManyWithoutTenantInput
+    itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTagsInput = {
@@ -74481,6 +78743,8 @@ export namespace Prisma {
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
+    catalogEntities?: CatalogEntityUncheckedCreateNestedManyWithoutTenantInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTagsInput = {
@@ -74563,6 +78827,8 @@ export namespace Prisma {
     settings?: TenantSettingUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
+    catalogEntities?: CatalogEntityUpdateManyWithoutTenantNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTagsInput = {
@@ -74603,6 +78869,8 @@ export namespace Prisma {
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
+    catalogEntities?: CatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TagAssignmentUpsertWithWhereUniqueWithoutTagInput = {
@@ -74671,6 +78939,8 @@ export namespace Prisma {
     expenses?: ExpenseCreateNestedManyWithoutTenantInput
     tags?: TagCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
+    catalogEntities?: CatalogEntityCreateNestedManyWithoutTenantInput
+    itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSettingsInput = {
@@ -74711,6 +78981,8 @@ export namespace Prisma {
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
     tags?: TagUncheckedCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
+    catalogEntities?: CatalogEntityUncheckedCreateNestedManyWithoutTenantInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSettingsInput = {
@@ -74767,6 +79039,8 @@ export namespace Prisma {
     expenses?: ExpenseUpdateManyWithoutTenantNestedInput
     tags?: TagUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
+    catalogEntities?: CatalogEntityUpdateManyWithoutTenantNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSettingsInput = {
@@ -74807,6 +79081,8 @@ export namespace Prisma {
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
     tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
+    catalogEntities?: CatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type AppUserCreateWithoutTenantInput = {
@@ -75077,6 +79353,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutItemInput
     itemRelations?: ItemRelationCreateNestedManyWithoutItemInput
     itemRelatedTo?: ItemRelationCreateNestedManyWithoutRelatedItemInput
+    itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutItemInput
   }
 
   export type ItemUncheckedCreateWithoutTenantInput = {
@@ -75099,6 +79376,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutItemInput
     itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutItemInput
     itemRelatedTo?: ItemRelationUncheckedCreateNestedManyWithoutRelatedItemInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutItemInput
   }
 
   export type ItemCreateOrConnectWithoutTenantInput = {
@@ -75777,6 +80055,66 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type CatalogEntityCreateWithoutTenantInput = {
+    id?: string
+    name: string
+    kind: string
+    attributes?: NullableJsonNullValueInput | InputJsonValue
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    parent?: CatalogEntityCreateNestedOneWithoutChildrenInput
+    children?: CatalogEntityCreateNestedManyWithoutParentInput
+    itemLinks?: ItemCatalogEntityCreateNestedManyWithoutCatalogEntityInput
+  }
+
+  export type CatalogEntityUncheckedCreateWithoutTenantInput = {
+    id?: string
+    name: string
+    kind: string
+    parentId?: string | null
+    attributes?: NullableJsonNullValueInput | InputJsonValue
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    children?: CatalogEntityUncheckedCreateNestedManyWithoutParentInput
+    itemLinks?: ItemCatalogEntityUncheckedCreateNestedManyWithoutCatalogEntityInput
+  }
+
+  export type CatalogEntityCreateOrConnectWithoutTenantInput = {
+    where: CatalogEntityWhereUniqueInput
+    create: XOR<CatalogEntityCreateWithoutTenantInput, CatalogEntityUncheckedCreateWithoutTenantInput>
+  }
+
+  export type CatalogEntityCreateManyTenantInputEnvelope = {
+    data: CatalogEntityCreateManyTenantInput | CatalogEntityCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ItemCatalogEntityCreateWithoutTenantInput = {
+    id?: string
+    createdAt?: Date | string
+    item: ItemCreateNestedOneWithoutItemCatalogEntitiesInput
+    catalogEntity: CatalogEntityCreateNestedOneWithoutItemLinksInput
+  }
+
+  export type ItemCatalogEntityUncheckedCreateWithoutTenantInput = {
+    id?: string
+    itemId: string
+    catalogEntityId: string
+    createdAt?: Date | string
+  }
+
+  export type ItemCatalogEntityCreateOrConnectWithoutTenantInput = {
+    where: ItemCatalogEntityWhereUniqueInput
+    create: XOR<ItemCatalogEntityCreateWithoutTenantInput, ItemCatalogEntityUncheckedCreateWithoutTenantInput>
+  }
+
+  export type ItemCatalogEntityCreateManyTenantInputEnvelope = {
+    data: ItemCatalogEntityCreateManyTenantInput | ItemCatalogEntityCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
   export type AppUserUpsertWithWhereUniqueWithoutTenantInput = {
     where: AppUserWhereUniqueInput
     update: XOR<AppUserUpdateWithoutTenantInput, AppUserUncheckedUpdateWithoutTenantInput>
@@ -76407,6 +80745,38 @@ export namespace Prisma {
     data: XOR<ItemRelationUpdateManyMutationInput, ItemRelationUncheckedUpdateManyWithoutTenantInput>
   }
 
+  export type CatalogEntityUpsertWithWhereUniqueWithoutTenantInput = {
+    where: CatalogEntityWhereUniqueInput
+    update: XOR<CatalogEntityUpdateWithoutTenantInput, CatalogEntityUncheckedUpdateWithoutTenantInput>
+    create: XOR<CatalogEntityCreateWithoutTenantInput, CatalogEntityUncheckedCreateWithoutTenantInput>
+  }
+
+  export type CatalogEntityUpdateWithWhereUniqueWithoutTenantInput = {
+    where: CatalogEntityWhereUniqueInput
+    data: XOR<CatalogEntityUpdateWithoutTenantInput, CatalogEntityUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type CatalogEntityUpdateManyWithWhereWithoutTenantInput = {
+    where: CatalogEntityScalarWhereInput
+    data: XOR<CatalogEntityUpdateManyMutationInput, CatalogEntityUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type ItemCatalogEntityUpsertWithWhereUniqueWithoutTenantInput = {
+    where: ItemCatalogEntityWhereUniqueInput
+    update: XOR<ItemCatalogEntityUpdateWithoutTenantInput, ItemCatalogEntityUncheckedUpdateWithoutTenantInput>
+    create: XOR<ItemCatalogEntityCreateWithoutTenantInput, ItemCatalogEntityUncheckedCreateWithoutTenantInput>
+  }
+
+  export type ItemCatalogEntityUpdateWithWhereUniqueWithoutTenantInput = {
+    where: ItemCatalogEntityWhereUniqueInput
+    data: XOR<ItemCatalogEntityUpdateWithoutTenantInput, ItemCatalogEntityUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type ItemCatalogEntityUpdateManyWithWhereWithoutTenantInput = {
+    where: ItemCatalogEntityScalarWhereInput
+    data: XOR<ItemCatalogEntityUpdateManyMutationInput, ItemCatalogEntityUncheckedUpdateManyWithoutTenantInput>
+  }
+
   export type TenantCreateWithoutUnitsInput = {
     id?: string
     name: string
@@ -76445,6 +80815,8 @@ export namespace Prisma {
     expenses?: ExpenseCreateNestedManyWithoutTenantInput
     tags?: TagCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
+    catalogEntities?: CatalogEntityCreateNestedManyWithoutTenantInput
+    itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutUnitsInput = {
@@ -76485,6 +80857,8 @@ export namespace Prisma {
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
     tags?: TagUncheckedCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
+    catalogEntities?: CatalogEntityUncheckedCreateNestedManyWithoutTenantInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutUnitsInput = {
@@ -76512,6 +80886,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutItemInput
     itemRelations?: ItemRelationCreateNestedManyWithoutItemInput
     itemRelatedTo?: ItemRelationCreateNestedManyWithoutRelatedItemInput
+    itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutItemInput
   }
 
   export type ItemUncheckedCreateWithoutBaseUnitInput = {
@@ -76534,6 +80909,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutItemInput
     itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutItemInput
     itemRelatedTo?: ItemRelationUncheckedCreateNestedManyWithoutRelatedItemInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutItemInput
   }
 
   export type ItemCreateOrConnectWithoutBaseUnitInput = {
@@ -76637,6 +81013,8 @@ export namespace Prisma {
     expenses?: ExpenseUpdateManyWithoutTenantNestedInput
     tags?: TagUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
+    catalogEntities?: CatalogEntityUpdateManyWithoutTenantNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutUnitsInput = {
@@ -76677,6 +81055,8 @@ export namespace Prisma {
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
     tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
+    catalogEntities?: CatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ItemUpsertWithWhereUniqueWithoutBaseUnitInput = {
@@ -76749,6 +81129,8 @@ export namespace Prisma {
     expenses?: ExpenseCreateNestedManyWithoutTenantInput
     tags?: TagCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
+    catalogEntities?: CatalogEntityCreateNestedManyWithoutTenantInput
+    itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutUsersInput = {
@@ -76789,6 +81171,8 @@ export namespace Prisma {
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
     tags?: TagUncheckedCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
+    catalogEntities?: CatalogEntityUncheckedCreateNestedManyWithoutTenantInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutUsersInput = {
@@ -76867,6 +81251,8 @@ export namespace Prisma {
     expenses?: ExpenseUpdateManyWithoutTenantNestedInput
     tags?: TagUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
+    catalogEntities?: CatalogEntityUpdateManyWithoutTenantNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutUsersInput = {
@@ -76907,6 +81293,8 @@ export namespace Prisma {
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
     tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
+    catalogEntities?: CatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserRoleUpsertWithWhereUniqueWithoutUserInput = {
@@ -76973,6 +81361,8 @@ export namespace Prisma {
     expenses?: ExpenseCreateNestedManyWithoutTenantInput
     tags?: TagCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
+    catalogEntities?: CatalogEntityCreateNestedManyWithoutTenantInput
+    itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRolesInput = {
@@ -77013,6 +81403,8 @@ export namespace Prisma {
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
     tags?: TagUncheckedCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
+    catalogEntities?: CatalogEntityUncheckedCreateNestedManyWithoutTenantInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRolesInput = {
@@ -77091,6 +81483,8 @@ export namespace Prisma {
     expenses?: ExpenseUpdateManyWithoutTenantNestedInput
     tags?: TagUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
+    catalogEntities?: CatalogEntityUpdateManyWithoutTenantNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRolesInput = {
@@ -77131,6 +81525,8 @@ export namespace Prisma {
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
     tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
+    catalogEntities?: CatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserRoleUpsertWithWhereUniqueWithoutRoleInput = {
@@ -77311,6 +81707,8 @@ export namespace Prisma {
     expenses?: ExpenseCreateNestedManyWithoutTenantInput
     tags?: TagCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
+    catalogEntities?: CatalogEntityCreateNestedManyWithoutTenantInput
+    itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWarehousesInput = {
@@ -77351,6 +81749,8 @@ export namespace Prisma {
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
     tags?: TagUncheckedCreateNestedManyWithoutTenantInput
     itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
+    catalogEntities?: CatalogEntityUncheckedCreateNestedManyWithoutTenantInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWarehousesInput = {
@@ -77611,6 +82011,8 @@ export namespace Prisma {
     expenses?: ExpenseUpdateManyWithoutTenantNestedInput
     tags?: TagUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
+    catalogEntities?: CatalogEntityUpdateManyWithoutTenantNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWarehousesInput = {
@@ -77651,6 +82053,8 @@ export namespace Prisma {
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
     tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
+    catalogEntities?: CatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WarehouseItemUpsertWithWhereUniqueWithoutWarehouseInput = {
@@ -77788,6 +82192,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutItemInput
     itemRelations?: ItemRelationCreateNestedManyWithoutItemInput
     itemRelatedTo?: ItemRelationCreateNestedManyWithoutRelatedItemInput
+    itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutItemInput
   }
 
   export type ItemUncheckedCreateWithoutWarehouseItemsInput = {
@@ -77810,6 +82215,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutItemInput
     itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutItemInput
     itemRelatedTo?: ItemRelationUncheckedCreateNestedManyWithoutRelatedItemInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutItemInput
   }
 
   export type ItemCreateOrConnectWithoutWarehouseItemsInput = {
@@ -77889,6 +82295,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutItemNestedInput
     itemRelations?: ItemRelationUpdateManyWithoutItemNestedInput
     itemRelatedTo?: ItemRelationUpdateManyWithoutRelatedItemNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutItemNestedInput
   }
 
   export type ItemUncheckedUpdateWithoutWarehouseItemsInput = {
@@ -77911,6 +82318,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutItemNestedInput
     itemRelations?: ItemRelationUncheckedUpdateManyWithoutItemNestedInput
     itemRelatedTo?: ItemRelationUncheckedUpdateManyWithoutRelatedItemNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutItemNestedInput
   }
 
   export type ChartOfAccountCreateManyParentInput = {
@@ -78377,6 +82785,82 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type CatalogEntityCreateManyParentInput = {
+    id?: string
+    tenantId: string
+    name: string
+    kind: string
+    attributes?: NullableJsonNullValueInput | InputJsonValue
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ItemCatalogEntityCreateManyCatalogEntityInput = {
+    id?: string
+    tenantId: string
+    itemId: string
+    createdAt?: Date | string
+  }
+
+  export type CatalogEntityUpdateWithoutParentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    kind?: StringFieldUpdateOperationsInput | string
+    attributes?: NullableJsonNullValueInput | InputJsonValue
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutCatalogEntitiesNestedInput
+    children?: CatalogEntityUpdateManyWithoutParentNestedInput
+    itemLinks?: ItemCatalogEntityUpdateManyWithoutCatalogEntityNestedInput
+  }
+
+  export type CatalogEntityUncheckedUpdateWithoutParentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    kind?: StringFieldUpdateOperationsInput | string
+    attributes?: NullableJsonNullValueInput | InputJsonValue
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    children?: CatalogEntityUncheckedUpdateManyWithoutParentNestedInput
+    itemLinks?: ItemCatalogEntityUncheckedUpdateManyWithoutCatalogEntityNestedInput
+  }
+
+  export type CatalogEntityUncheckedUpdateManyWithoutParentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    kind?: StringFieldUpdateOperationsInput | string
+    attributes?: NullableJsonNullValueInput | InputJsonValue
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ItemCatalogEntityUpdateWithoutCatalogEntityInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutItemCatalogEntitiesNestedInput
+    item?: ItemUpdateOneRequiredWithoutItemCatalogEntitiesNestedInput
+  }
+
+  export type ItemCatalogEntityUncheckedUpdateWithoutCatalogEntityInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    itemId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ItemCatalogEntityUncheckedUpdateManyWithoutCatalogEntityInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    itemId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type CashboxCreateManyCurrencyInput = {
     id?: string
     tenantId: string
@@ -78702,6 +83186,8 @@ export namespace Prisma {
     expenses?: ExpenseUpdateManyWithoutTenantNestedInput
     tags?: TagUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
+    catalogEntities?: CatalogEntityUpdateManyWithoutTenantNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBaseCurrencyInput = {
@@ -78742,6 +83228,8 @@ export namespace Prisma {
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
     tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
+    catalogEntities?: CatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateManyWithoutBaseCurrencyInput = {
@@ -78910,6 +83398,8 @@ export namespace Prisma {
     expenses?: ExpenseUpdateManyWithoutTenantNestedInput
     tags?: TagUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
+    catalogEntities?: CatalogEntityUpdateManyWithoutTenantNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDefaultSalesSequenceInput = {
@@ -78950,6 +83440,8 @@ export namespace Prisma {
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
     tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
     itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
+    catalogEntities?: CatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateManyWithoutDefaultSalesSequenceInput = {
@@ -79752,6 +84244,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutItemNestedInput
     itemRelations?: ItemRelationUpdateManyWithoutItemNestedInput
     itemRelatedTo?: ItemRelationUpdateManyWithoutRelatedItemNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutItemNestedInput
   }
 
   export type ItemUncheckedUpdateWithoutCategoryInput = {
@@ -79774,6 +84267,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutItemNestedInput
     itemRelations?: ItemRelationUncheckedUpdateManyWithoutItemNestedInput
     itemRelatedTo?: ItemRelationUncheckedUpdateManyWithoutRelatedItemNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutItemNestedInput
   }
 
   export type ItemUncheckedUpdateManyWithoutCategoryInput = {
@@ -79869,6 +84363,13 @@ export namespace Prisma {
     notes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+  }
+
+  export type ItemCatalogEntityCreateManyItemInput = {
+    id?: string
+    tenantId: string
+    catalogEntityId: string
+    createdAt?: Date | string
   }
 
   export type WarehouseItemUpdateWithoutItemInput = {
@@ -80109,6 +84610,27 @@ export namespace Prisma {
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ItemCatalogEntityUpdateWithoutItemInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutItemCatalogEntitiesNestedInput
+    catalogEntity?: CatalogEntityUpdateOneRequiredWithoutItemLinksNestedInput
+  }
+
+  export type ItemCatalogEntityUncheckedUpdateWithoutItemInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    catalogEntityId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ItemCatalogEntityUncheckedUpdateManyWithoutItemInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    catalogEntityId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type InvoiceCreateManyPartyInput = {
@@ -80671,6 +85193,24 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type CatalogEntityCreateManyTenantInput = {
+    id?: string
+    name: string
+    kind: string
+    parentId?: string | null
+    attributes?: NullableJsonNullValueInput | InputJsonValue
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ItemCatalogEntityCreateManyTenantInput = {
+    id?: string
+    itemId: string
+    catalogEntityId: string
+    createdAt?: Date | string
+  }
+
   export type AppUserUpdateWithoutTenantInput = {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
@@ -80940,6 +85480,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutItemNestedInput
     itemRelations?: ItemRelationUpdateManyWithoutItemNestedInput
     itemRelatedTo?: ItemRelationUpdateManyWithoutRelatedItemNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutItemNestedInput
   }
 
   export type ItemUncheckedUpdateWithoutTenantInput = {
@@ -80962,6 +85503,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutItemNestedInput
     itemRelations?: ItemRelationUncheckedUpdateManyWithoutItemNestedInput
     itemRelatedTo?: ItemRelationUncheckedUpdateManyWithoutRelatedItemNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutItemNestedInput
   }
 
   export type ItemUncheckedUpdateManyWithoutTenantInput = {
@@ -81635,6 +86177,64 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type CatalogEntityUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    kind?: StringFieldUpdateOperationsInput | string
+    attributes?: NullableJsonNullValueInput | InputJsonValue
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    parent?: CatalogEntityUpdateOneWithoutChildrenNestedInput
+    children?: CatalogEntityUpdateManyWithoutParentNestedInput
+    itemLinks?: ItemCatalogEntityUpdateManyWithoutCatalogEntityNestedInput
+  }
+
+  export type CatalogEntityUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    kind?: StringFieldUpdateOperationsInput | string
+    parentId?: NullableStringFieldUpdateOperationsInput | string | null
+    attributes?: NullableJsonNullValueInput | InputJsonValue
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    children?: CatalogEntityUncheckedUpdateManyWithoutParentNestedInput
+    itemLinks?: ItemCatalogEntityUncheckedUpdateManyWithoutCatalogEntityNestedInput
+  }
+
+  export type CatalogEntityUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    kind?: StringFieldUpdateOperationsInput | string
+    parentId?: NullableStringFieldUpdateOperationsInput | string | null
+    attributes?: NullableJsonNullValueInput | InputJsonValue
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ItemCatalogEntityUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    item?: ItemUpdateOneRequiredWithoutItemCatalogEntitiesNestedInput
+    catalogEntity?: CatalogEntityUpdateOneRequiredWithoutItemLinksNestedInput
+  }
+
+  export type ItemCatalogEntityUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    itemId?: StringFieldUpdateOperationsInput | string
+    catalogEntityId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ItemCatalogEntityUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    itemId?: StringFieldUpdateOperationsInput | string
+    catalogEntityId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type ItemCreateManyBaseUnitInput = {
     id?: string
     tenantId: string
@@ -81686,6 +86286,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutItemNestedInput
     itemRelations?: ItemRelationUpdateManyWithoutItemNestedInput
     itemRelatedTo?: ItemRelationUpdateManyWithoutRelatedItemNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutItemNestedInput
   }
 
   export type ItemUncheckedUpdateWithoutBaseUnitInput = {
@@ -81708,6 +86309,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutItemNestedInput
     itemRelations?: ItemRelationUncheckedUpdateManyWithoutItemNestedInput
     itemRelatedTo?: ItemRelationUncheckedUpdateManyWithoutRelatedItemNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutItemNestedInput
   }
 
   export type ItemUncheckedUpdateManyWithoutBaseUnitInput = {

@@ -8,7 +8,7 @@ const routes = {
   create: '/tags',
   update: '/tags/{id}',
   delete: '/tags/{id}',
-} as unknown as CrudRoutes
+} satisfies CrudRoutes
 
 export const tagResource = defineCrudResource({
   key: 'tags',

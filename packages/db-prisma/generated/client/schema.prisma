@@ -232,6 +232,29 @@ model PaymentAllocation {
   @@map("payment_allocations")
 }
 
+// ─── CatalogEntity ────────────────────────────────────────────────────────────
+model CatalogEntity {
+  id         String   @id @default(uuid())
+  tenantId   String   @map("tenant_id")
+  name       String
+  kind       String
+  parentId   String?  @map("parent_id")
+  attributes Json?
+  isActive   Boolean  @default(true) @map("is_active")
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  tenant    Tenant              @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  parent    CatalogEntity?      @relation("CatalogHierarchy", fields: [parentId], references: [id])
+  children  CatalogEntity[]     @relation("CatalogHierarchy")
+  itemLinks ItemCatalogEntity[]
+
+  @@index([tenantId])
+  @@index([tenantId, kind])
+  @@index([tenantId, parentId])
+  @@map("catalog_entities")
+}
+
 // ─── Currency ─────────────────────────────────────────────────────────────────
 model Currency {
   id        String   @id @default(uuid())
@@ -509,6 +532,24 @@ model InvoiceLine {
   @@map("invoice_lines")
 }
 
+// ─── ItemCatalogEntity ────────────────────────────────────────────────────────
+model ItemCatalogEntity {
+  id              String   @id @default(uuid())
+  tenantId        String   @map("tenant_id")
+  itemId          String   @map("item_id")
+  catalogEntityId String   @map("catalog_entity_id")
+  createdAt       DateTime @default(now()) @map("created_at")
+
+  tenant        Tenant        @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  item          Item          @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  catalogEntity CatalogEntity @relation(fields: [catalogEntityId], references: [id], onDelete: Cascade)
+
+  @@unique([tenantId, itemId, catalogEntityId])
+  @@index([tenantId, itemId])
+  @@index([tenantId, catalogEntityId])
+  @@map("item_catalog_entities")
+}
+
 // ─── Item Category ───────────────────────────────────────────────────────────
 model ItemCategory {
   id          String   @id @default(uuid())
@@ -580,16 +621,17 @@ model Item {
   createdAt           DateTime @default(now()) @map("created_at")
   updatedAt           DateTime @updatedAt @map("updated_at")
 
-  tenant          Tenant           @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-  category        ItemCategory     @relation(fields: [categoryId], references: [id])
-  baseUnit        Unit             @relation(fields: [baseUnitId], references: [id])
-  warehouseItems  WarehouseItem[]
-  stockBalances   StockBalance[]
-  stockMovements  StockMovement[]
-  invoiceLines    InvoiceLine[]
-  stockCountLines StockCountLine[]
-  itemRelations   ItemRelation[]   @relation("ItemRelations")
-  itemRelatedTo   ItemRelation[]   @relation("ItemRelatedTo")
+  tenant              Tenant              @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  category            ItemCategory        @relation(fields: [categoryId], references: [id])
+  baseUnit            Unit                @relation(fields: [baseUnitId], references: [id])
+  warehouseItems      WarehouseItem[]
+  stockBalances       StockBalance[]
+  stockMovements      StockMovement[]
+  invoiceLines        InvoiceLine[]
+  stockCountLines     StockCountLine[]
+  itemRelations       ItemRelation[]      @relation("ItemRelations")
+  itemRelatedTo       ItemRelation[]      @relation("ItemRelatedTo")
+  itemCatalogEntities ItemCatalogEntity[]
 
   @@unique([tenantId, code])
   @@index([tenantId])
@@ -835,12 +877,14 @@ model Tenant {
   stockCounts          StockCount[]
   auditLogs            AuditLog[]
   aiChatSessions       AiChatSession[]
-  baseCurrency         Currency?          @relation("TenantBaseCurrency", fields: [baseCurrencyId], references: [id])
-  defaultSalesSequence DocumentSequence?  @relation("TenantDefaultSalesSequence", fields: [defaultSalesSequenceId], references: [id])
+  baseCurrency         Currency?           @relation("TenantBaseCurrency", fields: [baseCurrencyId], references: [id])
+  defaultSalesSequence DocumentSequence?   @relation("TenantDefaultSalesSequence", fields: [defaultSalesSequenceId], references: [id])
   settings             TenantSetting[]
   expenses             Expense[]
   tags                 Tag[]
   itemRelations        ItemRelation[]
+  catalogEntities      CatalogEntity[]
+  itemCatalogEntities  ItemCatalogEntity[]
 
   @@map("tenants")
 }

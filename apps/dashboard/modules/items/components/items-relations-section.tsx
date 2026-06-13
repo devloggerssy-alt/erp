@@ -44,7 +44,7 @@ export function ItemRelationsSection({ itemId, disabled }: ItemRelationsSectionP
         queryFn: () => api["item-relations"].list({ [`filters[itemId][$eq]`]: itemId } as never),
         enabled: !!itemId,
     })
-    const relations: any[] = (relationsResponse as any)?.data ?? []
+    const relations =  relationsResponse?.data ?? []
 
     const addMutation = useMutation({
         mutationFn: () =>
@@ -122,7 +122,7 @@ export function ItemRelationsSection({ itemId, disabled }: ItemRelationsSectionP
                         <Label className="text-sm">{t("relatedItem")}</Label>
                         <ResourceSelectField<ItemsClient>
                             client={(a) => a.items}
-                            getLabel={(item) => `${(item as any).name} (${(item as any).code})`}
+                            getLabel={(item) => `${(item ).name} (${(item ).code})`}
                             value={relatedItemId}
                             onChange={(val) => setRelatedItemId(val as string | null)}
                             placeholder={t("relatedItemPlaceholder")}

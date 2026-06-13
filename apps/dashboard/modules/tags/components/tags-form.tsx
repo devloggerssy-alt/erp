@@ -1,7 +1,7 @@
 "use client"
 
 import { useTranslations } from "next-intl"
-import { type TagsClient } from "@devloggers/api-client"
+import {type TagsClient } from "@devloggers/api-client"
 import { ResourceFormShell, RhfSelectField, RhfTextField } from "@/shared/components/form"
 import type { ResourceFormProps } from "@/shared/data-view/resource"
 import { useResourceFormController } from "@/shared/hooks/use-resource-form-controller"
@@ -31,6 +31,7 @@ export function TagsForm({ resourceId, initialData, onSuccess, paramKey }: Resou
             />
             <RhfTextField
                 name="color"
+                type="color"
                 label={t("color")}
                 placeholder={t("colorPlaceholder")}
                 disabled={ctrl.isBusy}

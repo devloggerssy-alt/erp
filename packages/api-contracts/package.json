@@ -17,11 +17,11 @@
         }
     },
     "scripts": {
-        "dev": "tsc --watch",
+        "dev": "tsc --watch && node scripts/generate-types.cjs http://localhost:4049/swagger.yaml --watch",
         "build": "tsc",
         "clean": "node -e \"require('fs').rmSync('./dist', { recursive: true, force: true })\"",
         "generate": "node scripts/generate-types.cjs",
-        "generate:dev": "node scripts/generate-types.cjs http://localhost:4040/swagger.yaml",
+        "generate:dev": "node scripts/generate-types.cjs http://localhost:4049/swagger.yaml",
         "test": "vitest run",
         "typecheck": "tsc --noEmit"
     },

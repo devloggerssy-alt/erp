@@ -8,7 +8,7 @@ const routes = {
   create: '/item-relations',
   update: '/item-relations/{id}',
   delete: '/item-relations/{id}',
-} as unknown as CrudRoutes
+} satisfies CrudRoutes
 
 export const itemRelationResource = defineCrudResource({
   key: 'item-relations',

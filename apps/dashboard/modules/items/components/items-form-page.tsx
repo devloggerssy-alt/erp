@@ -23,17 +23,15 @@ export function ItemsFormPage({ resourceId }: ItemsFormPageProps) {
         <DashboardDetailsPage
             title={isEditing ? t("editTitle") : t("createTitle")}
             description={isEditing ? t("editDescription") : t("createDescription")}
-            icon={<Package className="size-5" />}
+            icon={<Package className="size-[18px]" />}
             backHref={listHref}
         >
-            <div className="mx-auto max-w-4xl">
-                <ItemsForm
-                    resourceId={resourceId ?? null}
-                    initialData={null}
-                    closeOnSuccess={false}
-                    onSuccess={() => router.push(localizedHref(listHref))}
-                />
-            </div>
+            <ItemsForm
+                resourceId={resourceId ?? null}
+                initialData={null}
+                closeOnSuccess={false}
+                onSuccess={() => router.push(localizedHref(listHref))}
+            />
         </DashboardDetailsPage>
     )
 }

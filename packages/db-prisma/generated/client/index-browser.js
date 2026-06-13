@@ -236,6 +236,18 @@ exports.Prisma.PaymentAllocationScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.CatalogEntityScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  name: 'name',
+  kind: 'kind',
+  parentId: 'parentId',
+  attributes: 'attributes',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.CurrencyScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
@@ -379,6 +391,14 @@ exports.Prisma.InvoiceLineScalarFieldEnum = {
   total: 'total',
   notes: 'notes',
   sortOrder: 'sortOrder'
+};
+
+exports.Prisma.ItemCatalogEntityScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  itemId: 'itemId',
+  catalogEntityId: 'catalogEntityId',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.ItemCategoryScalarFieldEnum = {
@@ -733,6 +753,7 @@ exports.Prisma.ModelName = {
   Cashbox: 'Cashbox',
   Payment: 'Payment',
   PaymentAllocation: 'PaymentAllocation',
+  CatalogEntity: 'CatalogEntity',
   Currency: 'Currency',
   CustomField: 'CustomField',
   CustomFieldValue: 'CustomFieldValue',
@@ -743,6 +764,7 @@ exports.Prisma.ModelName = {
   InvoiceType: 'InvoiceType',
   Invoice: 'Invoice',
   InvoiceLine: 'InvoiceLine',
+  ItemCatalogEntity: 'ItemCatalogEntity',
   ItemCategory: 'ItemCategory',
   ItemRelation: 'ItemRelation',
   Item: 'Item',
