@@ -33,7 +33,27 @@
       "forgotPassword": "Şifreni mi unuttun?",
       "submit": "Giriş yap",
       "submitting": "Giriş yapılıyor...",
-      "lastEmailUsed": "Son kullanılan e-posta: {email}"
+      "lastEmailUsed": "Son kullanılan e-posta: {email}",
+      "noAccount": "Hesabın yok mu?",
+      "registerLink": "Hesap oluştur"
+    },
+    "register": {
+      "title": "Hesap oluştur",
+      "description": "Şirketini kur ve dakikalar içinde ERP'yi kullanmaya başla",
+      "errorTitle": "Kayıt başarısız",
+      "companyName": "Şirket adı",
+      "companyNamePlaceholder": "Demo Mağaza",
+      "fullName": "Ad soyad",
+      "fullNamePlaceholder": "Admin Kullanıcı",
+      "email": "E-posta",
+      "emailPlaceholder": "m@example.com",
+      "phone": "Telefon (isteğe bağlı)",
+      "phonePlaceholder": "+90-555-1234567",
+      "password": "Şifre",
+      "submit": "Hesap oluştur",
+      "submitting": "Hesap oluşturuluyor...",
+      "hasAccount": "Zaten hesabın var mı?",
+      "loginLink": "Giriş yap"
     }
   },
   "confirm": {

@@ -4,6 +4,14 @@ export interface LoginDto {
     password: string;
 }
 
+export interface RegisterDto {
+    companyName: string;
+    fullName: string;
+    email: string;
+    password: string;
+    phone?: string;
+}
+
 export interface AuthUser {
     id: string;
     tenantId: string;

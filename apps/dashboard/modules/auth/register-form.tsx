@@ -18,7 +18,6 @@ import {
     FieldLabel,
 } from "@/shared/components/ui/field"
 import { Input } from "@/shared/components/ui/input"
-import { useAppStore } from "@/shared/stores/app-store"
 import { useAuthStore } from "@/shared/stores/auth-store"
 import { cn } from "@/shared/lib/utils"
 import Image from "next/image"
@@ -26,22 +25,19 @@ import { useRouter } from "next/navigation"
 import { useLocale, useTranslations } from "next-intl"
 import { Link } from "@/i18n/navigation"
 
-import { loginFormSchema, type LoginFormValues } from "./login-form.schema"
+import { registerFormSchema, type RegisterFormValues } from "./register-form.schema"
 import { useMutation } from "@tanstack/react-query"
 import { Alert, AlertTitle } from "@/shared/components/ui/alert"
 import { AlertTriangle } from "lucide-react"
 import { api } from "@devloggers/api-client"
 
-export function LoginForm({
+export function RegisterForm({
     className,
     ...props
 }: React.ComponentProps<"div">) {
     const t = useTranslations()
     const locale = useLocale()
     const router = useRouter()
-
-    const lastLoginEmail = useAppStore((state) => state.lastLoginEmail)
-    const setLastLoginEmail = useAppStore((state) => state.setLastLoginEmail)
     const login = useAuthStore((state) => state.login)
 
     const localizedHref = (href: string) => (href === "/" ? `/${locale}` : `/${locale}${href}`)
@@ -50,22 +46,19 @@ export function LoginForm({
         handleSubmit,
         register,
         formState: { errors },
-    } = useForm<LoginFormValues>({
-        resolver: zodResolver(loginFormSchema),
-        defaultValues:
-            process.env.NODE_ENV === "development"
-                ? {
-                      email: "admin@demo-shop.com",
-                      password: "admin123",
-                  }
-                : {
-                      email: lastLoginEmail,
-                      password: "",
-                  },
+    } = useForm<RegisterFormValues>({
+        resolver: zodResolver(registerFormSchema),
+        defaultValues: {
+            companyName: "",
+            fullName: "",
+            email: "",
+            password: "",
+            phone: "",
+        },
     })
 
     const { mutate, error, isPending: isSubmitting } = useMutation({
-        mutationFn: (values: LoginFormValues) => api.auth.login(values),
+        mutationFn: (values: RegisterFormValues) => api.auth.register(values),
         onSuccess: async ({ data }) => {
             if (data?.accessToken && data.user) {
                 await login(data.accessToken, data.user)
@@ -74,9 +67,11 @@ export function LoginForm({
         },
     })
 
-    async function onSubmit(values: LoginFormValues) {
-        setLastLoginEmail(values.email)
-        mutate(values)
+    function onSubmit(values: RegisterFormValues) {
+        mutate({
+            ...values,
+            phone: values.phone?.trim() || undefined,
+        })
     }
 
     return (
@@ -90,14 +85,14 @@ export function LoginForm({
                         height={400}
                         width={200}
                     />
-                    <CardTitle>{t("system.auth.login.title")}</CardTitle>
-                    <CardDescription>{t("system.auth.login.description")}</CardDescription>
+                    <CardTitle>{t("system.auth.register.title")}</CardTitle>
+                    <CardDescription>{t("system.auth.register.description")}</CardDescription>
                 </CardHeader>
                 <CardContent>
                     {error ? (
                         <Alert variant="destructive" className="mb-4">
                             <AlertTriangle className="me-2 h-4 w-4" />
-                            <AlertTitle>{t("system.auth.login.errorTitle")}</AlertTitle>
+                            <AlertTitle>{t("system.auth.register.errorTitle")}</AlertTitle>
                             {error.message}
                         </Alert>
                     ) : null}
@@ -105,28 +100,57 @@ export function LoginForm({
                     <form onSubmit={handleSubmit(onSubmit)} noValidate>
                         <FieldGroup>
                             <Field>
-                                <FieldLabel htmlFor="email">{t("system.auth.login.email")}</FieldLabel>
+                                <FieldLabel htmlFor="companyName">
+                                    {t("system.auth.register.companyName")}
+                                </FieldLabel>
+                                <Input
+                                    id="companyName"
+                                    type="text"
+                                    placeholder={t("system.auth.register.companyNamePlaceholder")}
+                                    aria-invalid={!!errors.companyName}
+                                    {...register("companyName")}
+                                />
+                                <FieldError errors={[errors.companyName]} />
+                            </Field>
+                            <Field>
+                                <FieldLabel htmlFor="fullName">
+                                    {t("system.auth.register.fullName")}
+                                </FieldLabel>
+                                <Input
+                                    id="fullName"
+                                    type="text"
+                                    placeholder={t("system.auth.register.fullNamePlaceholder")}
+                                    aria-invalid={!!errors.fullName}
+                                    {...register("fullName")}
+                                />
+                                <FieldError errors={[errors.fullName]} />
+                            </Field>
+                            <Field>
+                                <FieldLabel htmlFor="email">{t("system.auth.register.email")}</FieldLabel>
                                 <Input
                                     id="email"
                                     type="email"
-                                    placeholder={t("system.auth.login.emailPlaceholder")}
+                                    placeholder={t("system.auth.register.emailPlaceholder")}
                                     aria-invalid={!!errors.email}
                                     {...register("email")}
                                 />
                                 <FieldError errors={[errors.email]} />
                             </Field>
                             <Field>
-                                <div className="flex items-center">
-                                    <FieldLabel htmlFor="password">
-                                        {t("system.auth.login.password")}
-                                    </FieldLabel>
-                                    <a
-                                        href="#"
-                                        className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-                                    >
-                                        {t("system.auth.login.forgotPassword")}
-                                    </a>
-                                </div>
+                                <FieldLabel htmlFor="phone">{t("system.auth.register.phone")}</FieldLabel>
+                                <Input
+                                    id="phone"
+                                    type="tel"
+                                    placeholder={t("system.auth.register.phonePlaceholder")}
+                                    aria-invalid={!!errors.phone}
+                                    {...register("phone")}
+                                />
+                                <FieldError errors={[errors.phone]} />
+                            </Field>
+                            <Field>
+                                <FieldLabel htmlFor="password">
+                                    {t("system.auth.register.password")}
+                                </FieldLabel>
                                 <Input
                                     id="password"
                                     type="password"
@@ -136,23 +160,15 @@ export function LoginForm({
                                 <FieldError errors={[errors.password]} />
                             </Field>
                             <Field>
-                                <Button type="submit" disabled={isSubmitting}>
+                                <Button type="submit" disabled={isSubmitting} className="w-full">
                                     {isSubmitting
-                                        ? t("system.auth.login.submitting")
-                                        : t("system.auth.login.submit")}
+                                        ? t("system.auth.register.submitting")
+                                        : t("system.auth.register.submit")}
                                 </Button>
-
-                                {lastLoginEmail ? (
-                                    <FieldDescription className="text-center">
-                                        {t("system.auth.login.lastEmailUsed", {
-                                            email: lastLoginEmail,
-                                        })}
-                                    </FieldDescription>
-                                ) : null}
                                 <FieldDescription className="text-center">
-                                    {t("system.auth.login.noAccount")}{" "}
-                                    <Link href="/register" className="underline underline-offset-4">
-                                        {t("system.auth.login.registerLink")}
+                                    {t("system.auth.register.hasAccount")}{" "}
+                                    <Link href="/login" className="underline underline-offset-4">
+                                        {t("system.auth.register.loginLink")}
                                     </Link>
                                 </FieldDescription>
                             </Field>

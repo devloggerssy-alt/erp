@@ -11,6 +11,10 @@ export class AuthClient {
         return this.apiClient.post(authResource.routes.login, payload)
     }
 
+    register = async (payload: ApiRequestBody<typeof authResource.routes.register, 'post'>) => {
+        return this.apiClient.post(authResource.routes.register, payload)
+    }
+
     me = async () => {
         return this.apiClient.get(authResource.routes.me)
     }

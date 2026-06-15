@@ -41,8 +41,8 @@ export class TenantsRepository {
             const adminRole = await tx.role.create({
                 data: {
                     tenantId: tenant.id,
-                    name: 'Admin',
-                    description: 'Full system access',
+                    name: { ar: 'مدير النظام', en: 'Admin' },
+                    description: { ar: 'صلاحية كاملة على النظام', en: 'Full system access' },
                     isSystem: true,
                 },
             });
