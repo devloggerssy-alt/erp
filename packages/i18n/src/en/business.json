@@ -480,6 +480,51 @@
       "imageUrl": "Image URL",
       "imageUrlPlaceholder": "https://example.com/logo.png",
       "active": "Active"
+    },
+    "stockBalances": {
+      "title": "Stock Balances",
+      "warehouse": "Warehouse",
+      "itemCode": "Item Code",
+      "itemName": "Item",
+      "quantity": "Qty on Hand",
+      "averageCost": "Avg. Cost",
+      "updatedAt": "Last Updated"
+    },
+    "stockMovements": {
+      "title": "Stock Movements",
+      "date": "Date",
+      "type": "Type",
+      "itemCode": "Item Code",
+      "itemName": "Item",
+      "warehouse": "Warehouse",
+      "quantity": "Quantity",
+      "unitCost": "Unit Cost",
+      "reference": "Reference",
+      "type_OPENING": "Opening",
+      "type_PURCHASE": "Purchase",
+      "type_SALE": "Sale",
+      "type_ADJUSTMENT": "Adjustment",
+      "type_STOCK_COUNT": "Stock Count",
+      "type_TRANSFER_IN": "Transfer In",
+      "type_TRANSFER_OUT": "Transfer Out"
+    },
+    "stockCounts": {
+      "title": "Stock Counts",
+      "addAction": "New Stock Count",
+      "entity": "Stock Count",
+      "number": "Number",
+      "date": "Date",
+      "warehouse": "Warehouse",
+      "fiscalPeriod": "Fiscal Period",
+      "status": "Status",
+      "lineCount": "Lines",
+      "createdAt": "Created",
+      "notes": "Notes",
+      "notesPlaceholder": "Optional notes about this count",
+      "lines": "Count Lines",
+      "item": "Item",
+      "countedQty": "Counted Qty",
+      "addLine": "Add Item"
     }
   }
 }

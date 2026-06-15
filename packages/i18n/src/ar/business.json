@@ -480,6 +480,51 @@
       "imageUrl": "رابط الصورة",
       "imageUrlPlaceholder": "https://example.com/logo.png",
       "active": "نشط"
+    },
+    "stockBalances": {
+      "title": "أرصدة المخزون",
+      "warehouse": "المستودع",
+      "itemCode": "كود الصنف",
+      "itemName": "الصنف",
+      "quantity": "الكمية",
+      "averageCost": "متوسط التكلفة",
+      "updatedAt": "آخر تحديث"
+    },
+    "stockMovements": {
+      "title": "حركات المخزون",
+      "date": "التاريخ",
+      "type": "النوع",
+      "itemCode": "كود الصنف",
+      "itemName": "الصنف",
+      "warehouse": "المستودع",
+      "quantity": "الكمية",
+      "unitCost": "تكلفة الوحدة",
+      "reference": "المرجع",
+      "type_OPENING": "افتتاحي",
+      "type_PURCHASE": "شراء",
+      "type_SALE": "بيع",
+      "type_ADJUSTMENT": "تسوية",
+      "type_STOCK_COUNT": "جرد",
+      "type_TRANSFER_IN": "تحويل وارد",
+      "type_TRANSFER_OUT": "تحويل صادر"
+    },
+    "stockCounts": {
+      "title": "جرد المخزون",
+      "addAction": "جرد جديد",
+      "entity": "جرد مخزون",
+      "number": "الرقم",
+      "date": "التاريخ",
+      "warehouse": "المستودع",
+      "fiscalPeriod": "الفترة المالية",
+      "status": "الحالة",
+      "lineCount": "الأصناف",
+      "createdAt": "تاريخ الإنشاء",
+      "notes": "ملاحظات",
+      "notesPlaceholder": "ملاحظات اختيارية",
+      "lines": "أصناف الجرد",
+      "item": "الصنف",
+      "countedQty": "الكمية المحسوبة",
+      "addLine": "إضافة صنف"
     }
   },
   "landing": {

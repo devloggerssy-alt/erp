@@ -21,7 +21,10 @@ import { ItemRelationsClient } from "./clients/item-relations.client"
 import { CatalogEntitiesClient } from "./clients/catalog-entities.client"
 import { ItemCatalogEntitiesClient } from "./clients/item-catalog-entities.client"
 import { BrandsClient } from "./clients/brands.client"
-import { authResource, itemCategoryResource, itemResource, unitResource, warehouseResource, partyResource, accountResource, currencyResource, fiscalPeriodResource, documentSequenceResource, roleResource, userResource, tenantResource, invoiceTypeResource, invoiceResource, customFieldResource, expenseResource, tagResource, tagAssignmentResource, itemRelationResource, catalogEntityResource, itemCatalogEntityResource, brandResource } from "@devloggers/api-contracts"
+import { StockBalancesClient } from "./clients/stock-balances.client"
+import { StockMovementsClient } from "./clients/stock-movements.client"
+import { StockCountsClient } from "./clients/stock-counts.client"
+import { authResource, itemCategoryResource, itemResource, unitResource, warehouseResource, partyResource, accountResource, currencyResource, fiscalPeriodResource, documentSequenceResource, roleResource, userResource, tenantResource, invoiceTypeResource, invoiceResource, customFieldResource, expenseResource, tagResource, tagAssignmentResource, itemRelationResource, catalogEntityResource, itemCatalogEntityResource, brandResource, inventoryResource, stockLedgerResource, stockCountResource } from "@devloggers/api-contracts"
 import { CustomFieldsClient } from "./clients/custom-fields.client"
 
 export function createApi(options?: ApiClientOptions, baseUrl = 'http://localhost:4040') {
@@ -51,6 +54,9 @@ export function createApi(options?: ApiClientOptions, baseUrl = 'http://localhos
         [catalogEntityResource.key]: new CatalogEntitiesClient(client),
         [itemCatalogEntityResource.key]: new ItemCatalogEntitiesClient(client),
         [brandResource.key]: new BrandsClient(client),
+        [inventoryResource.key]: new StockBalancesClient(client),
+        [stockLedgerResource.key]: new StockMovementsClient(client),
+        [stockCountResource.key]: new StockCountsClient(client),
     } as const
 }
 

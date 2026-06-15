@@ -480,6 +480,51 @@
       "imageUrl": "Resim URL",
       "imageUrlPlaceholder": "https://example.com/logo.png",
       "active": "Aktif"
+    },
+    "stockBalances": {
+      "title": "Stok Bakiyeleri",
+      "warehouse": "Depo",
+      "itemCode": "Ürün Kodu",
+      "itemName": "Ürün",
+      "quantity": "Mevcut Miktar",
+      "averageCost": "Ort. Maliyet",
+      "updatedAt": "Son Güncelleme"
+    },
+    "stockMovements": {
+      "title": "Stok Hareketleri",
+      "date": "Tarih",
+      "type": "Tür",
+      "itemCode": "Ürün Kodu",
+      "itemName": "Ürün",
+      "warehouse": "Depo",
+      "quantity": "Miktar",
+      "unitCost": "Birim Maliyet",
+      "reference": "Referans",
+      "type_OPENING": "Açılış",
+      "type_PURCHASE": "Satın Alma",
+      "type_SALE": "Satış",
+      "type_ADJUSTMENT": "Düzeltme",
+      "type_STOCK_COUNT": "Sayım",
+      "type_TRANSFER_IN": "Gelen Transfer",
+      "type_TRANSFER_OUT": "Giden Transfer"
+    },
+    "stockCounts": {
+      "title": "Stok Sayımları",
+      "addAction": "Yeni Sayım",
+      "entity": "Stok Sayımı",
+      "number": "Numara",
+      "date": "Tarih",
+      "warehouse": "Depo",
+      "fiscalPeriod": "Mali Dönem",
+      "status": "Durum",
+      "lineCount": "Satırlar",
+      "createdAt": "Oluşturulma",
+      "notes": "Notlar",
+      "notesPlaceholder": "İsteğe bağlı notlar",
+      "lines": "Sayım Satırları",
+      "item": "Ürün",
+      "countedQty": "Sayılan Miktar",
+      "addLine": "Ürün Ekle"
     }
   }
 }
