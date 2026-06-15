@@ -4,23 +4,28 @@ import { useTranslations } from "next-intl"
 import { PlusIcon } from "lucide-react"
 import type {
     InvoiceTypesClient,
-    PartiesClient,
     WarehousesClient,
     FiscalPeriodsClient,
     CurrenciesClient,
 } from "@devloggers/api-client"
 import { Button } from "@/shared/components/ui/button"
 import { Rhform } from "@/shared/components/form"
-import { RhfTextField, RhfTextareaField, RhfResourceSelect } from "@/shared/components/form"
+import { RhfTextareaField, RhfResourceSelect } from "@/shared/components/form"
 import { DEFAULT_INVOICE_LINE } from "../invoices.config"
-import type { InvoiceFormValues, InvoiceRelationalField } from "../invoices.config"
+import type { InvoiceFormValues, InvoiceRelationalField, InvoiceDirection } from "../invoices.config"
 import type { InvoiceFormController } from "../hooks/use-invoice-form"
 import { InvoiceLineRow } from "./invoice-line-row"
 import { RhfDateField } from "@/shared/components/form/fields/rhf-date-field"
+import { InvoicePartySelect, type PartyTypeFilter } from "./invoice-party-select"
+
+const PARTY_TYPES_BY_DIRECTION: Record<InvoiceDirection, PartyTypeFilter[]> = {
+    SALE: ["CUSTOMER", "CUSTOMER_SUPPLIER"],
+    PURCHASE: ["SUPPLIER", "CUSTOMER_SUPPLIER"],
+}
 
 // ── Header fields ──────────────────────────────────────────────────────────────
 
-function InvoiceHeaderFields({ disabled }: { disabled: boolean }) {
+function InvoiceHeaderFields({ disabled, direction }: { disabled: boolean; direction: InvoiceDirection }) {
     const t = useTranslations("business.resources.invoices")
 
     return (
@@ -48,15 +53,7 @@ function InvoiceHeaderFields({ disabled }: { disabled: boolean }) {
                     disabled={disabled}
                 />
             </div>
-            <RhfResourceSelect<InvoiceFormValues, "party", PartiesClient, InvoiceRelationalField>
-                name="party"
-                label={t("party")}
-                client={(api) => api.parties}
-                getLabel={(it) => it.name}
-                getValue={(it) => it}
-                required
-                disabled={disabled}
-            />
+            <InvoicePartySelect partyTypes={PARTY_TYPES_BY_DIRECTION[direction]} disabled={disabled} />
             <RhfResourceSelect<InvoiceFormValues, "warehouse", WarehousesClient, InvoiceRelationalField>
                 name="warehouse"
                 label={t("warehouse")}
@@ -162,9 +159,11 @@ export function InvoiceForm({ ctrl }: { ctrl: InvoiceFormController }) {
     const disabled = ctrl.isReadOnly || ctrl.isBusy
 
     return (
-        <Rhform form={ctrl.form} onSubmit={ctrl.onSubmit}>
+        <Rhform form={ctrl.form} onSubmit={ctrl.onSubmit} errorHandler={ers=>{
+            console.log("Form submission errors:", ers)
+        }}>
             <div className="p-6 grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <InvoiceHeaderFields disabled={disabled} />
+                <InvoiceHeaderFields disabled={disabled} direction={ctrl.direction} />
                 <InvoiceLineItems ctrl={ctrl} />
             </div>
         </Rhform>

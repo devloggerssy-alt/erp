@@ -66,13 +66,21 @@ export class ApiClient {
             baseUrl: `${this.normalizeBaseUrl(baseUrl)}/`,
             querySerializer(queryParams) {
                 const params = new URLSearchParams()
-                for (const [key, value] of Object.entries(queryParams as Record<string, unknown>)) {
-                    if (Array.isArray(value)) {
-                        value.forEach((v) => params.append(key, String(v)))
-                    } else if (value !== null && value !== undefined) {
-                        params.append(key, String(value))
+
+                function serialize(obj: Record<string, unknown>, prefix?: string) {
+                    for (const [key, value] of Object.entries(obj)) {
+                        const paramKey = prefix ? `${prefix}[${key}]` : key
+                        if (Array.isArray(value)) {
+                            value.forEach((v) => params.append(paramKey, String(v)))
+                        } else if (value !== null && value !== undefined && typeof value === "object") {
+                            serialize(value as Record<string, unknown>, paramKey)
+                        } else if (value !== null && value !== undefined) {
+                            params.append(paramKey, String(value))
+                        }
                     }
                 }
+
+                serialize(queryParams as Record<string, unknown>)
                 return params.toString()
             },
         })

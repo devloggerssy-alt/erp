@@ -3,6 +3,7 @@ import type {
   FieldValues,
   FieldPath,
   UseFormReturn,
+  SubmitErrorHandler,
 } from "react-hook-form"
 
 // ── Base contract for all field control components ──
@@ -31,6 +32,7 @@ export type FieldShellProps = {
 export type RhformProps<TValues extends FieldValues> = {
   form: UseFormReturn<TValues>
   onSubmit: (values: TValues) => void
+  errorHandler?: SubmitErrorHandler<TValues>
   children: ReactNode
   className?: string
 }

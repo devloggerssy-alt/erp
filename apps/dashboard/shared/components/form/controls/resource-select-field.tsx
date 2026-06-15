@@ -55,6 +55,8 @@ type BaseResourceSelectFieldProps<
   disabled?: boolean
   /** Invalid state (shows error styling) */
   invalid?: boolean
+  /** Extra params merged into every list() call (e.g. fixed filters) */
+  extraQuery?: Record<string, unknown>
 }
 
 // ── Single Select ──
@@ -87,6 +89,7 @@ export function ResourceSelectField<
   searchParam = "search",
   pageSize = 20,
   lazy = true,
+  extraQuery,
 }: ResourceSelectFieldProps<TClient, TValue>) {
   const [isOpen, setIsOpen] = useState(false)
   const [search, setSearch] = useState("")
@@ -102,12 +105,13 @@ export function ResourceSelectField<
     isFetchingNextPage,
     isLoading,
   } = useInfiniteQuery<unknown, Error, InfiniteData<unknown>, string[], number>({
-    queryKey: [...resolvedQueryKey, search],
+    queryKey: [...resolvedQueryKey, JSON.stringify(extraQuery), search],
     queryFn: async ({ pageParam = 1 }) => {
       const response = await resolvedClient.list({
         page: pageParam,
         limit: pageSize,
         ...(search ? { [searchParam]: search } : {}),
+        ...extraQuery,
       } as any)
       return response
     },
@@ -291,6 +295,7 @@ export function ResourceMultiSelectField<
   searchParam = "search",
   pageSize = 20,
   lazy = true,
+  extraQuery,
 }: ResourceMultiSelectFieldProps<TClient, TValue>) {
   const [isOpen, setIsOpen] = useState(false)
   const [search, setSearch] = useState("")
@@ -307,12 +312,13 @@ export function ResourceMultiSelectField<
     isFetchingNextPage,
     isLoading,
   } = useInfiniteQuery<unknown, Error, InfiniteData<unknown>, string[], number>({
-    queryKey: [...resolvedQueryKey, search],
+    queryKey: [...resolvedQueryKey, JSON.stringify(extraQuery), search],
     queryFn: async ({ pageParam = 1 }) => {
       const response = await resolvedClient.list({
         page: pageParam,
         limit: pageSize,
         ...(search ? { [searchParam]: search } : {}),
+        ...extraQuery,
       } as any)
       return response
     },

@@ -51,8 +51,10 @@ export const invoiceLineSchema = z.object({
         name: z.string().optional(),
         code: z.string().optional(),
         baseUnitId: z.string().optional(),
-        latestPurchasePrice: z.number().nullable().optional(),
-        defaultSellingPrice: z.number().nullable().optional(),
+
+        // must support string numbers
+        latestPurchasePrice: z.coerce.number().nullable().optional(),
+        defaultSellingPrice: z.coerce.number().nullable().optional(),
     }).nullable().optional(),
     itemId: z.string().min(1, "Item is required"),
     unitId: z.string().min(1, "Unit is required"),
