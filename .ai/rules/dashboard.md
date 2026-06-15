@@ -45,3 +45,18 @@ Use `generateResource<Client>()` from `@/shared/data-view/resource`. Golden refe
 ## Typing
 - Generic default: `ICrudClient`, not `any`
 - `useResourceContext()` only inside provider tree
+
+## Relational fields in forms
+- `RhfResourceSelect` for FK fields stores the selected object, never just the ID string
+- **Field name:** drop the `Id` suffix — `invoiceType` not `invoiceTypeId`
+- **Schema:** `z.object({ id: z.string() }).passthrough().nullable()` for each field; export `type XRelationalField = { id: string }` as the `TValue` generic; validate required fields via `superRefine` on the parent schema (avoids Zod v4 type-narrowing issues with `.refine()`)
+- **Component:** use concrete client types and `getValue={(it) => it}` — never `any`:
+  ```tsx
+  <RhfResourceSelect<TValues, "field", SpecificClient, RelationalField>
+      client={(api) => api.theClient}
+      getLabel={(it) => it.name}   // TypeScript knows the shape from OpenAPI types
+      getValue={(it) => it}         // stores the full item; field type is { id: string } which is structurally satisfied
+  />
+  ```
+- **DTO mapper:** extract `.id` on submit — `values.invoiceType?.id ?? ""`
+- **Edit mode:** populate with `{ id }` minimal objects; combobox syncs the label from loaded options automatically

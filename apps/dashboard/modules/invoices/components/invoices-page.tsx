@@ -12,7 +12,7 @@ import type { InvoiceDirection } from "../invoices.config"
 
 type ModalState = { open: boolean; invoiceId: string | null }
 
-export function InvoicesPage({ direction }: { direction: InvoiceDirection }) {
+export function InvoicesPage({ direction, initialTypeCode }: { direction: InvoiceDirection, initialTypeCode: string }) {
     const t = useTranslations("business.resources.invoices")
 
     const [modal, setModal] = useState<ModalState>({ open: false, invoiceId: null })
@@ -38,17 +38,18 @@ export function InvoicesPage({ direction }: { direction: InvoiceDirection }) {
                     }
                 >
                     <InvoicesResource.Table
-                        columns={((helpers: any) =>
+                        columns={((helpers) =>
                             createInvoicesColumns(helpers, t, {
                                 onOpenModal: openEdit,
                                 postInvoice: (id) => postInvoice(id),
                                 cancelInvoice: (id) => cancelInvoice(id),
-                            })) as any}
+                            }))}
                     />
                 </InvoicesResource.Page>
             </InvoicesResource>
 
             <InvoiceFormModal
+                initialTypeCode={initialTypeCode}
                 open={modal.open}
                 onClose={closeModal}
                 invoiceId={modal.invoiceId}

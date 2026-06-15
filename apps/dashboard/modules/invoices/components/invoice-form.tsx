@@ -2,20 +2,21 @@
 
 import { useTranslations } from "next-intl"
 import { PlusIcon } from "lucide-react"
-import type { InvoiceTypesClient, PartiesClient, WarehousesClient, FiscalPeriodsClient, CurrenciesClient } from "@devloggers/api-client"
+import type {
+    InvoiceTypesClient,
+    PartiesClient,
+    WarehousesClient,
+    FiscalPeriodsClient,
+    CurrenciesClient,
+} from "@devloggers/api-client"
 import { Button } from "@/shared/components/ui/button"
 import { Rhform } from "@/shared/components/form"
 import { RhfTextField, RhfTextareaField, RhfResourceSelect } from "@/shared/components/form"
 import { DEFAULT_INVOICE_LINE } from "../invoices.config"
-import type { InvoiceFormValues } from "../invoices.config"
+import type { InvoiceFormValues, InvoiceRelationalField } from "../invoices.config"
 import type { InvoiceFormController } from "../hooks/use-invoice-form"
 import { InvoiceLineRow } from "./invoice-line-row"
-
-// ── Types ──────────────────────────────────────────────────────────────────────
-
-type InvoiceFormProps = {
-    ctrl: InvoiceFormController
-}
+import { RhfDateField } from "@/shared/components/form/fields/rhf-date-field"
 
 // ── Header fields ──────────────────────────────────────────────────────────────
 
@@ -24,64 +25,62 @@ function InvoiceHeaderFields({ disabled }: { disabled: boolean }) {
 
     return (
         <div className="space-y-4">
-            <RhfResourceSelect<InvoiceFormValues, "invoiceTypeId", InvoiceTypesClient, string>
-                name="invoiceTypeId"
+            <RhfResourceSelect<InvoiceFormValues, "invoiceType", InvoiceTypesClient, InvoiceRelationalField>
+                name="invoiceType"
                 label={t("invoiceType")}
                 client={(api) => api["invoice-types"]}
-                
                 getLabel={(it) => `${it.name} (${it.code})`}
-                getValue={(it) => it.id}
+                getValue={(it) => it}
                 required
                 disabled={disabled}
             />
             <div className="grid grid-cols-2 gap-3">
-                <RhfTextField
+                <RhfDateField
                     name="date"
                     label={t("date")}
-                    type="date"
                     required
                     disabled={disabled}
                 />
-                <RhfTextField
+                <RhfDateField
                     name="dueDate"
                     label={t("dueDate")}
                     type="date"
                     disabled={disabled}
                 />
             </div>
-            <RhfResourceSelect<InvoiceFormValues, "partyId", PartiesClient, string>
-                name="partyId"
+            <RhfResourceSelect<InvoiceFormValues, "party", PartiesClient, InvoiceRelationalField>
+                name="party"
                 label={t("party")}
                 client={(api) => api.parties}
-                getLabel={(it) => (it as { name: string }).name}
-                getValue={(it) => it.id}
+                getLabel={(it) => it.name}
+                getValue={(it) => it}
                 required
                 disabled={disabled}
             />
-            <RhfResourceSelect<InvoiceFormValues, "warehouseId", WarehousesClient, string>
-                name="warehouseId"
+            <RhfResourceSelect<InvoiceFormValues, "warehouse", WarehousesClient, InvoiceRelationalField>
+                name="warehouse"
                 label={t("warehouse")}
                 client={(api) => api.warehouses}
-                getLabel={(it) => (it as { name: string }).name}
-                getValue={(it) => it.id}
+                getLabel={(it) => it.name}
+                getValue={(it) => it}
                 disabled={disabled}
             />
             <div className="grid grid-cols-2 gap-3">
-                <RhfResourceSelect<InvoiceFormValues, "fiscalPeriodId", FiscalPeriodsClient, string>
-                    name="fiscalPeriodId"
+                <RhfResourceSelect<InvoiceFormValues, "fiscalPeriod", FiscalPeriodsClient, InvoiceRelationalField>
+                    name="fiscalPeriod"
                     label={t("fiscalPeriod")}
                     client={(api) => api["fiscal-periods"]}
-                    getLabel={(it) => (it as { name?: string; code?: string }).name ?? (it as { code?: string }).code ?? ""}
-                    getValue={(it) => it.id}
+                    getLabel={(it) => it.name}
+                    getValue={(it) => it}
                     required
                     disabled={disabled}
                 />
-                <RhfResourceSelect<InvoiceFormValues, "currencyId", CurrenciesClient, string>
-                    name="currencyId"
+                <RhfResourceSelect<InvoiceFormValues, "currency", CurrenciesClient, InvoiceRelationalField>
+                    name="currency"
                     label={t("currency")}
                     client={(api) => api.currencies}
-                    getLabel={(it) => `${(it as { code?: string }).code ?? ""} — ${(it as { name?: string }).name ?? ""}`}
-                    getValue={(it) => it.id}
+                    getLabel={(it) => `${it.code} — ${it.name}`}
+                    getValue={(it) => it}
                     required
                     disabled={disabled}
                 />
@@ -159,7 +158,7 @@ function InvoiceLineItems({ ctrl }: { ctrl: InvoiceFormController }) {
 
 // ── Main form ──────────────────────────────────────────────────────────────────
 
-export function InvoiceForm({ ctrl }: InvoiceFormProps) {
+export function InvoiceForm({ ctrl }: { ctrl: InvoiceFormController }) {
     const disabled = ctrl.isReadOnly || ctrl.isBusy
 
     return (

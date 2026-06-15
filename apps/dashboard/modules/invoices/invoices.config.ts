@@ -66,18 +66,42 @@ export const invoiceLineSchema = z.object({
 
 export type InvoiceLineFormValues = z.infer<typeof invoiceLineSchema>
 
+// ── Relational field type ──────────────────────────────────────────────────────
+
+// Relational selects store the full API item object so the combobox can display
+// the label without a separate fetch. Only `id` is guaranteed to be present;
+// all other API fields come along for free.
+export type InvoiceRelationalField = { id: string }
+
+// passthrough() lets extra API fields through at runtime; nullable() allows the
+// empty (unselected) state. superRefine below enforces required fields on submit.
+const relational = z.object({ id: z.string() }).passthrough().nullable()
+const optionalRelational = relational.optional()
+
 // ── Invoice form schema ────────────────────────────────────────────────────────
 
 export const invoiceFormSchema = z.object({
-    invoiceTypeId: z.string().min(1, "Invoice type is required"),
+    invoiceType: relational,
     date: z.string().min(1, "Date is required"),
     dueDate: z.string().optional(),
-    partyId: z.string().min(1, "Party is required"),
-    warehouseId: z.string().optional(),
-    fiscalPeriodId: z.string().min(1, "Fiscal period is required"),
-    currencyId: z.string().min(1, "Currency is required"),
+    party: relational,
+    warehouse: optionalRelational,
+    fiscalPeriod: relational,
+    currency: relational,
     notes: z.string().optional(),
     lines: z.array(invoiceLineSchema).min(1, "At least one line is required"),
+}).superRefine((data, ctx) => {
+    const required = [
+        ["invoiceType", "Invoice type is required"],
+        ["party", "Party is required"],
+        ["fiscalPeriod", "Fiscal period is required"],
+        ["currency", "Currency is required"],
+    ] as const
+    for (const [key, msg] of required) {
+        if (!data[key]) {
+            ctx.addIssue({ code: "custom", path: [key], message: msg })
+        }
+    }
 })
 
 export type InvoiceFormValues = z.infer<typeof invoiceFormSchema>
@@ -96,13 +120,13 @@ export const DEFAULT_INVOICE_LINE: InvoiceLineFormValues = {
 }
 
 export const DEFAULT_INVOICE_FORM_VALUES: InvoiceFormValues = {
-    invoiceTypeId: "",
+    invoiceType: null,
     date: new Date().toISOString().split("T")[0]!,
     dueDate: "",
-    partyId: "",
-    warehouseId: "",
-    fiscalPeriodId: "",
-    currencyId: "",
+    party: null,
+    warehouse: null,
+    fiscalPeriod: null,
+    currency: null,
     notes: "",
     lines: [{ ...DEFAULT_INVOICE_LINE }],
 }
@@ -124,13 +148,14 @@ interface InvoiceApiResponse {
 export function mapInvoiceToFormValues(data: unknown): InvoiceFormValues {
     const resolved = unwrapApiData<InvoiceApiResponse>(data)
     return {
-        invoiceTypeId: resolved?.invoiceTypeId ?? "",
+        // Store minimal objects — combobox syncs label from options once they load
+        invoiceType: resolved?.invoiceTypeId ? { id: resolved.invoiceTypeId } : null,
         date: resolved?.date ? new Date(resolved.date).toISOString().split("T")[0]! : "",
         dueDate: resolved?.dueDate ? new Date(resolved.dueDate).toISOString().split("T")[0]! : "",
-        partyId: resolved?.partyId ?? "",
-        warehouseId: resolved?.warehouseId ?? "",
-        fiscalPeriodId: resolved?.fiscalPeriodId ?? "",
-        currencyId: resolved?.currencyId ?? "",
+        party: resolved?.partyId ? { id: resolved.partyId } : null,
+        warehouse: resolved?.warehouseId ? { id: resolved.warehouseId } : null,
+        fiscalPeriod: resolved?.fiscalPeriodId ? { id: resolved.fiscalPeriodId } : null,
+        currency: resolved?.currencyId ? { id: resolved.currencyId } : null,
         notes: resolved?.notes ?? "",
         lines: (resolved?.lines ?? [{ ...DEFAULT_INVOICE_LINE }]).map((line) => ({
             _item: line.itemId ? {
@@ -155,13 +180,13 @@ export function mapInvoiceToFormValues(data: unknown): InvoiceFormValues {
 
 export function toCreateInvoiceDto(values: InvoiceFormValues): CreateInvoiceDto {
     return {
-        invoiceTypeId: values.invoiceTypeId,
+        invoiceTypeId: values.invoiceType?.id ?? "",
         date: values.date,
         dueDate: values.dueDate || undefined,
-        partyId: values.partyId,
-        warehouseId: values.warehouseId || undefined,
-        fiscalPeriodId: values.fiscalPeriodId,
-        currencyId: values.currencyId,
+        partyId: values.party?.id ?? "",
+        warehouseId: values.warehouse?.id || undefined,
+        fiscalPeriodId: values.fiscalPeriod?.id ?? "",
+        currencyId: values.currency?.id ?? "",
         notes: values.notes || undefined,
         lines: values.lines.map((line, index) => ({
             itemId: line.itemId,
@@ -180,9 +205,9 @@ export function toUpdateInvoiceDto(values: InvoiceFormValues): UpdateInvoiceDto 
     return {
         date: values.date,
         dueDate: values.dueDate || undefined,
-        partyId: values.partyId,
-        warehouseId: values.warehouseId || undefined,
-        currencyId: values.currencyId,
+        partyId: values.party?.id ?? "",
+        warehouseId: values.warehouse?.id || undefined,
+        currencyId: values.currency?.id ?? "",
         notes: values.notes || undefined,
         lines: values.lines.map((line, index) => ({
             itemId: line.itemId,

@@ -24,12 +24,15 @@ import {
     type InvoiceTotals,
 } from "../invoices.config"
 import { useInvoiceActions } from "./use-invoice-actions"
+import { CrudListDataItem, InvoiceTypesClient } from "@devloggers/api-client"
+import { useCrudList } from "@devloggers/api-client/react"
 
 // ── Types ──────────────────────────────────────────────────────────────────────
 
 export type UseInvoiceFormOptions = {
     invoiceId: string | null
     direction: InvoiceDirection
+    initialTypeCode:string
     open: boolean
     onSuccess?: () => void
     onClose: () => void
@@ -51,7 +54,8 @@ export type InvoiceFormController = {
     postInvoice: () => void
     cancelInvoice: () => void
     direction: InvoiceDirection
-}
+    initialTypeCode:string | null
+ }
 
 // Cache entry shape — InvoicesClient.show() returns any internally, so we
 // define what we expect to find and pass it as a type parameter to getQueryData.
@@ -66,6 +70,7 @@ interface CachedInvoiceEntry {
 export function useInvoiceForm({
     invoiceId,
     direction,
+    initialTypeCode,
     open,
     onSuccess,
     onClose,
@@ -74,6 +79,7 @@ export function useInvoiceForm({
     const tf = useTranslations("system.resourceForm")
     const t = useTranslations("business.resources.invoices")
     const queryClient = useQueryClient()
+    const { data: invoiceTypesData } = useCrudList(api["invoice-types"])
 
     // ── Form init ──────────────────────────────────────────────────────────────
 
@@ -159,9 +165,22 @@ export function useInvoiceForm({
         }
     }, [open]) // eslint-disable-line react-hooks/exhaustive-deps
 
+    // ── Auto-select invoice type by page direction (create mode only) ────────────
+    // Editing loads the saved type via the mapper, so only default it when creating.
+
+    useEffect(() => {
+        if (!open || isEditing) return
+        if (form.getValues("invoiceType")?.id) return
+        const match = (invoiceTypesData?.data ?? []).find(
+            (it: CrudListDataItem<InvoiceTypesClient>) => it.code === initialTypeCode,
+        )
+        if (match) form.setValue("invoiceType", match)
+    }, [invoiceTypesData, open, isEditing, direction, form, initialTypeCode])
+
     // ── Return controller ──────────────────────────────────────────────────────
 
     return {
+        initialTypeCode,
         form,
         fields,
         append: (line) => append({ ...DEFAULT_INVOICE_LINE, ...line }),

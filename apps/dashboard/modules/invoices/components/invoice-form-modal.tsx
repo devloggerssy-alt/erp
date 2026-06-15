@@ -21,12 +21,13 @@ type InvoiceFormModalProps = {
     onClose: () => void
     invoiceId: string | null
     direction: InvoiceDirection
+    initialTypeCode: string  
     onSuccess?: () => void
 }
 
 // ── Footer totals display ──────────────────────────────────────────────────────
 
-function ModalTotals({ totals, t }: { totals: InvoiceTotals; t: (k: string) => string }) {
+function ModalTotals({ totals, t }: { totals: InvoiceTotals; t: (k: string) => string, }) {
     const fmt = (n: number) => n.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
     return (
         <div className="flex items-center gap-4 text-sm tabular-nums">
@@ -55,11 +56,12 @@ export function InvoiceFormModal({
     onClose,
     invoiceId,
     direction,
+    initialTypeCode,
     onSuccess,
 }: InvoiceFormModalProps) {
     const t = useTranslations("business.resources.invoices")
     const tf = useTranslations("system.resourceForm")
-    const ctrl = useInvoiceForm({ invoiceId, direction, open, onSuccess, onClose })
+    const ctrl = useInvoiceForm({ invoiceId, direction, open, onSuccess, onClose ,initialTypeCode})
 
     return (
         <Dialog open={open} onOpenChange={(v) => { if (!v) onClose() }}>
