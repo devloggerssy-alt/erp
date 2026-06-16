@@ -10,5 +10,13 @@ export const envValidationSchema = Joi.object({
     JWT_REFRESH_EXPIRES_IN: Joi.string().optional(),
     BCRYPT_SALT_ROUNDS: Joi.number().default(10),
     BASE_DOMAIN: Joi.string().optional().default('localhost'),
+    // Storage
+    STORAGE_TYPE: Joi.string().valid('local', 's3').default('local'),
+    AWS_REGION: Joi.string().optional(),
+    AWS_BUCKET_NAME: Joi.string().optional(),
+    AWS_ACCESS_KEY_ID: Joi.string().optional(),
+    AWS_SECRET_ACCESS_KEY: Joi.string().optional(),
+    AWS_CLOUDFRONT_DOMAIN: Joi.string().optional(),
+    AWS_S3_PATH_STYLE: Joi.string().valid('true', 'false').default('false'),
 });
 

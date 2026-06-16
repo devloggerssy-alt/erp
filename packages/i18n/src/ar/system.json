@@ -33,7 +33,27 @@
       "forgotPassword": "هل نسيت كلمة المرور؟",
       "submit": "تسجيل الدخول",
       "submitting": "جارٍ تسجيل الدخول...",
-      "lastEmailUsed": "آخر بريد مستخدم: {email}"
+      "lastEmailUsed": "آخر بريد مستخدم: {email}",
+      "noAccount": "ليس لديك حساب؟",
+      "registerLink": "أنشئ حساباً"
+    },
+    "register": {
+      "title": "إنشاء حساب جديد",
+      "description": "أنشئ شركتك وابدأ باستخدام النظام خلال دقائق",
+      "errorTitle": "فشل التسجيل",
+      "companyName": "اسم الشركة",
+      "companyNamePlaceholder": "متجر تجريبي",
+      "fullName": "الاسم الكامل",
+      "fullNamePlaceholder": "أحمد محمد",
+      "email": "البريد الإلكتروني",
+      "emailPlaceholder": "m@example.com",
+      "phone": "الهاتف (اختياري)",
+      "phonePlaceholder": "+963-11-1234567",
+      "password": "كلمة المرور",
+      "submit": "إنشاء الحساب",
+      "submitting": "جارٍ إنشاء الحساب...",
+      "hasAccount": "لديك حساب بالفعل؟",
+      "loginLink": "تسجيل الدخول"
     }
   },
   "confirm": {

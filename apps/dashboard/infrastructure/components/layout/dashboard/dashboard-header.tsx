@@ -101,12 +101,12 @@ export function DashboardHeader({ actions, breadcrumbs, className }: DashboardHe
           aria-label={t("system.header.toggleTheme")}
           onClick={toggleTheme}
         >
-          <SunIcon className="size-3.5 rotate-0 scale-100 transition-transform dark:-rotate-90 dark:scale-0" />
-          <MoonIcon className="absolute size-3.5 rotate-90 scale-0 transition-transform dark:rotate-0 dark:scale-100" />
+          <SunIcon className="size-3.5 rotate-0 scale-100 opacity-100 transition-[transform,opacity] duration-300 ease-[cubic-bezier(0.25,1,0.5,1)] dark:-rotate-90 dark:scale-0 dark:opacity-0" />
+          <MoonIcon className="absolute size-3.5 rotate-90 scale-0 opacity-0 transition-[transform,opacity] duration-300 ease-[cubic-bezier(0.25,1,0.5,1)] dark:rotate-0 dark:scale-100 dark:opacity-100" />
         </Button>
 
-        <Button variant="ghost" size="icon-sm" className="size-8" aria-label={t("system.header.notifications")}>
-          <BellIcon className="size-3.5" />
+        <Button variant="ghost" size="icon-sm" className="group size-8" aria-label={t("system.header.notifications")}>
+          <BellIcon className="size-3.5 transition-transform duration-200 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:scale-110 group-hover:-rotate-12" />
         </Button>
 
         <LanguageSwitcher className="ms-1" />
@@ -135,13 +135,17 @@ export function DashboardHeader({ actions, breadcrumbs, className }: DashboardHe
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 items-center gap-2 px-2 ms-1">
+            <Button
+              variant="ghost"
+              className="h-8 items-center gap-2 px-2 ms-1"
+              aria-label={user?.fullName}
+            >
               <Avatar>
                 <AvatarFallback>
                   {user?.fullName.charAt(0).toUpperCase()}
                 </AvatarFallback>
               </Avatar>
-              <span className="hidden truncate text-sm font-medium md:inline-block">
+              <span className="hidden truncate text-sm font-medium md:inline-block" aria-hidden="true">
                 {user?.fullName}
               </span>
             </Button>

@@ -1,0 +1,17 @@
+model File {
+    id           String   @id @default(uuid())
+    tenantId     String
+    originalName String
+    mimeType     String
+    size         Int
+    extension    String?
+    folder       String
+    path         String   @unique
+    url          String
+    checksum     String?
+    createdAt    DateTime @default(now())
+    updatedAt    DateTime @updatedAt
+
+    @@index([tenantId])
+    @@map("files")
+}

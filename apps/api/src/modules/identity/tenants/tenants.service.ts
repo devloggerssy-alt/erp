@@ -1,6 +1,7 @@
 import { Injectable, ConflictException } from '@nestjs/common';
 import { CreateTenantDto, UpdateTenantDto, TenantResponseDto } from './dto';
 import * as bcrypt from 'bcryptjs';
+import slugify from 'slugify';
 import { TenantsRepository } from './repositories/tenants.repository';
 import { TenantPresenter } from './presenters/tenant.presenter';
 
@@ -49,5 +50,18 @@ export class TenantsService {
     async updateCurrent(tenantId: string, dto: UpdateTenantDto): Promise<TenantResponseDto> {
         const tenant = await this.tenantsRepository.update(tenantId, dto);
         return this.tenantPresenter.toResponse(tenant);
+    }
+
+    async generateUniqueSlug(name: string): Promise<string> {
+        const base = slugify(name, { lower: true, strict: true }) || 'tenant';
+        let slug = base;
+        let attempt = 0;
+
+        while (await this.tenantsRepository.findBySlug(slug)) {
+            attempt += 1;
+            slug = `${base}-${attempt}`;
+        }
+
+        return slug;
     }
 }

@@ -9,9 +9,9 @@ import {
     HttpStatus,
 } from '@nestjs/common';
 import * as express from 'express';
-import { ApiTags, ApiBearerAuth, ApiOperation, ApiOkResponse } from '@nestjs/swagger';
+import { ApiTags, ApiBearerAuth, ApiOperation, ApiOkResponse, ApiCreatedResponse } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
-import { LoginDto, LoginDataDto, MeDataDto } from './dto';
+import { LoginDto, RegisterDto, LoginDataDto, MeDataDto } from './dto';
 import { JwtAuthGuard } from './guards';
 import { CurrentUser, RequestUser } from './decorators';
 import { ApiOkResponseStandard, ApiStandardErrors } from '../../../common/decorators/api-swagger.decorators';
@@ -44,6 +44,51 @@ export class AuthController {
         return ApiResponseBuilder.success(
             { user: result.user, accessToken: result.accessToken },
             'Login successful',
+        );
+    }
+
+    @Post('register')
+    @HttpCode(HttpStatus.CREATED)
+    @ApiOperation({
+        summary: 'Register a new account',
+        description: 'Creates a new tenant with an admin user, then returns a JWT access token (auto-login).',
+    })
+    @ApiCreatedResponse({
+        description: 'Registration successful – tenant created and JWT returned',
+        schema: {
+            example: {
+                status: 'success',
+                message: 'Registration successful',
+                data: {
+                    accessToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
+                    user: {
+                        id: '00000000-0000-4000-a100-000000000001',
+                        tenantId: '00000000-0000-4000-a000-000000000001',
+                        email: 'admin@demo-shop.com',
+                        fullName: 'Admin User',
+                        roles: ['Admin'],
+                    },
+                },
+            },
+        },
+    })
+    @ApiStandardErrors()
+    async register(
+        @Body() dto: RegisterDto,
+        @Res({ passthrough: true }) res: express.Response,
+    ) {
+        const result = await this.authService.register(dto);
+
+        res.cookie('access_token', result.accessToken, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'lax',
+            maxAge: 24 * 60 * 60 * 1000,
+        });
+
+        return ApiResponseBuilder.success(
+            { user: result.user, accessToken: result.accessToken },
+            'Registration successful',
         );
     }
 

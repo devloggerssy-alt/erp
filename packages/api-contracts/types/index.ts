@@ -24,6 +24,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/auth/register": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Register a new account
+         * @description Creates a new tenant with an admin user, then returns a JWT access token (auto-login).
+         */
+        post: operations["Auth.register"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/auth/logout": {
         parameters: {
             query?: never;
@@ -1786,6 +1806,21 @@ export interface components {
             email: string;
             /** @example admin123 */
             password: string;
+        };
+        RegisterDto: {
+            /** @example Demo Shop */
+            companyName: string;
+            /** @example Admin User */
+            fullName: string;
+            /**
+             * Format: email
+             * @example admin@demo-shop.com
+             */
+            email: string;
+            /** @example admin123 */
+            password: string;
+            /** @example +963-11-1234567 */
+            phone?: string;
         };
         MeTenantDto: {
             /** @example 00000000-0000-4000-a000-000000000001 */
@@ -3789,6 +3824,77 @@ export interface operations {
         responses: {
             /** @description Login successful – JWT token returned and set as cookie */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["LoginDataDto"];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "Auth.register": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RegisterDto"];
+            };
+        };
+        responses: {
+            /** @description Registration successful – tenant created and JWT returned */
+            201: {
                 headers: {
                     [name: string]: unknown;
                 };

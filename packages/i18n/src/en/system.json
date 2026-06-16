@@ -33,7 +33,27 @@
       "forgotPassword": "Forgot your password?",
       "submit": "Login",
       "submitting": "Logging in...",
-      "lastEmailUsed": "Last email used: {email}"
+      "lastEmailUsed": "Last email used: {email}",
+      "noAccount": "Don't have an account?",
+      "registerLink": "Create one"
+    },
+    "register": {
+      "title": "Create your account",
+      "description": "Set up your company and start using the ERP in minutes",
+      "errorTitle": "Registration failed",
+      "companyName": "Company name",
+      "companyNamePlaceholder": "Demo Shop",
+      "fullName": "Full name",
+      "fullNamePlaceholder": "Admin User",
+      "email": "Email",
+      "emailPlaceholder": "m@example.com",
+      "phone": "Phone (optional)",
+      "phonePlaceholder": "+963-11-1234567",
+      "password": "Password",
+      "submit": "Create account",
+      "submitting": "Creating account...",
+      "hasAccount": "Already have an account?",
+      "loginLink": "Sign in"
     }
   },
   "confirm": {

@@ -16,4 +16,7 @@ export default () => ({
         model: process.env.AI_MODEL || 'gemini-1.5-flash',
         apiKey: process.env.GEMINI_API_KEY,
     },
+    storage: {
+        type: process.env.STORAGE_TYPE || 'local',
+    },
 });

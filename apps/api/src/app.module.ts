@@ -21,6 +21,7 @@ import { ReportsModule } from './modules/reports/reports.module';
 import { AiChatModule } from './modules/ai-chat/ai-chat.module';
 import { AuditModule } from './modules/audit/audit.module';
 import { CustomFieldsModule } from './modules/custom-fields/custom-fields.module';
+import { FilesModule } from './modules/files/files.module';
 import configuration from './config/configuration';
 import { envValidationSchema } from './config/envValidator';
 
@@ -52,6 +53,7 @@ import { envValidationSchema } from './config/envValidator';
     ReportsModule,
     AiChatModule,
     AuditModule,
+    FilesModule,
   ],
   providers: [
     {
