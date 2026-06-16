@@ -77,7 +77,7 @@ export function AppSidebar({ navGroups, logo, ...props }: AppSidebarProps) {
                 {navGroups.map((group, groupIndex) => (
                     <SidebarGroup key={group.labelKey ?? groupIndex}>
                         {group.labelKey && (
-                            <SidebarGroupLabel className="uppercase text-xs tracking-wider text-muted-foreground">
+                            <SidebarGroupLabel className="text-[11px] font-medium text-sidebar-foreground/40 px-2">
                                 {t(group.labelKey)}
                             </SidebarGroupLabel>
                         )}
@@ -190,7 +190,7 @@ function CollapsibleNavItem({
                         </SidebarMenuButton>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent
-                        side="right"
+                        side={isRtl ? "left" : "right"}
                         align="start"
                         sideOffset={4}
                         className="min-w-45"

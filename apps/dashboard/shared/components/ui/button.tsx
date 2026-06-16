@@ -9,11 +9,18 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/80  shadow-xs shadow-[0_0_15px_-5px] hover:shadow-[0_0_20px_0px] shadow-primary",
+        default:
+          "bg-primary text-primary-foreground shadow-primary hover:bg-primary/90 hover:shadow-primary-strong hover:-translate-y-px",
+        info: "bg-info text-info-foreground shadow-sm hover:bg-info/90 hover:shadow-md hover:-translate-y-px",
+        success:
+          "bg-success text-success-foreground shadow-sm hover:bg-success/90 hover:shadow-md hover:-translate-y-px",
+        warning:
+          "bg-warning text-warning-foreground shadow-sm hover:bg-warning/90 hover:shadow-md hover:-translate-y-px",
+        soft: "bg-primary/12 text-primary hover:bg-primary/20 dark:bg-primary/15 dark:hover:bg-primary/25",
         outline:
-          "border-border  bg-background shadow-xs hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50",
+          "border-border bg-background shadow-xs hover:bg-muted hover:text-foreground hover:shadow-sm aria-expanded:bg-muted aria-expanded:text-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50",
         secondary:
-          "bg-secondary text-secondary-foreground hover:bg-secondary/80 aria-expanded:bg-secondary aria-expanded:text-secondary-foreground",
+          "bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80 hover:shadow-sm aria-expanded:bg-secondary aria-expanded:text-secondary-foreground",
         ghost:
           "hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:hover:bg-muted/50",
         destructive:
