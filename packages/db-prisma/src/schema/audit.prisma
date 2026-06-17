@@ -1,4 +1,9 @@
 // ─── Audit Log ────────────────────────────────────────────────────────────────
+/// ⚠ POLYMORPHIC RELATION — entityType + entityId identify the audited record.
+/// Prisma cannot enforce a foreign key on a polymorphic field.
+/// CASCADE DELETION must be handled at the APPLICATION LAYER (or via DB trigger):
+/// when any entity (Invoice, Payment, Expense, etc.) is hard-deleted, the
+/// corresponding AuditLog rows must be deleted in the same transaction.
 model AuditLog {
     id         String   @id @default(uuid())
     tenantId   String   @map("tenant_id")

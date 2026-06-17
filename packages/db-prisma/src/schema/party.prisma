@@ -14,14 +14,19 @@ model Party {
     phone          String?
     email          String?
     address        String?
-    openingBalance Decimal   @default(0) @map("opening_balance") @db.Decimal(18, 4)
-    isActive       Boolean   @default(true) @map("is_active")
-    createdAt      DateTime  @default(now()) @map("created_at")
-    updatedAt      DateTime  @updatedAt @map("updated_at")
+    openingBalance      Decimal  @default(0) @map("opening_balance") @db.Decimal(18, 4)
+    isActive            Boolean  @default(true) @map("is_active")
+    receivableAccountId String?  @map("receivable_account_id")
+    payableAccountId    String?  @map("payable_account_id")
+    createdAt           DateTime @default(now()) @map("created_at")
+    updatedAt           DateTime @updatedAt @map("updated_at")
 
-    tenant   Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-    invoices Invoice[]
-    payments Payment[]
+    tenant            Tenant          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+    invoices          Invoice[]
+    payments          Payment[]
+    journalLines      JournalLine[]   @relation("JournalLineParty")
+    receivableAccount ChartOfAccount? @relation("PartyReceivableAccount", fields: [receivableAccountId], references: [id])
+    payableAccount    ChartOfAccount? @relation("PartyPayableAccount", fields: [payableAccountId], references: [id])
 
     @@unique([tenantId, code])
     @@index([tenantId])

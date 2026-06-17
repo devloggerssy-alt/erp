@@ -46,6 +46,8 @@ model Payment {
     cashboxId         String        @map("cashbox_id")
     partyId           String?       @map("party_id")
     currencyId        String        @map("currency_id")
+    /// Exchange rate of the payment currency to tenant base currency, locked at posting time.
+    exchangeRate      Decimal       @default(1) @map("exchange_rate") @db.Decimal(18, 6)
     fiscalPeriodId    String        @map("fiscal_period_id")
     amount            Decimal       @db.Decimal(18, 4)
     allocatedAmount   Decimal       @default(0) @map("allocated_amount") @db.Decimal(18, 4)

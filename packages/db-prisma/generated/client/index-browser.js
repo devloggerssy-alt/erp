@@ -128,6 +128,7 @@ exports.Prisma.ChartOfAccountScalarFieldEnum = {
   type: 'type',
   parentId: 'parentId',
   isActive: 'isActive',
+  currentBalance: 'currentBalance',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -142,6 +143,7 @@ exports.Prisma.JournalEntryScalarFieldEnum = {
   referenceId: 'referenceId',
   description: 'description',
   status: 'status',
+  exchangeRate: 'exchangeRate',
   postedAt: 'postedAt',
   createdBy: 'createdBy',
   createdAt: 'createdAt',
@@ -153,6 +155,7 @@ exports.Prisma.JournalLineScalarFieldEnum = {
   tenantId: 'tenantId',
   journalEntryId: 'journalEntryId',
   accountId: 'accountId',
+  partyId: 'partyId',
   debit: 'debit',
   credit: 'credit',
   description: 'description',
@@ -222,6 +225,7 @@ exports.Prisma.PaymentScalarFieldEnum = {
   cashboxId: 'cashboxId',
   partyId: 'partyId',
   currencyId: 'currencyId',
+  exchangeRate: 'exchangeRate',
   fiscalPeriodId: 'fiscalPeriodId',
   amount: 'amount',
   allocatedAmount: 'allocatedAmount',
@@ -312,6 +316,7 @@ exports.Prisma.ExpenseScalarFieldEnum = {
   date: 'date',
   cashboxId: 'cashboxId',
   currencyId: 'currencyId',
+  exchangeRate: 'exchangeRate',
   fiscalPeriodId: 'fiscalPeriodId',
   totalAmount: 'totalAmount',
   status: 'status',
@@ -352,6 +357,18 @@ exports.Prisma.FileScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.FinancialSettingScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  defaultSalesAccountId: 'defaultSalesAccountId',
+  defaultPurchaseAccountId: 'defaultPurchaseAccountId',
+  defaultTaxAccountId: 'defaultTaxAccountId',
+  defaultReceivableAccountId: 'defaultReceivableAccountId',
+  defaultPayableAccountId: 'defaultPayableAccountId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.FiscalPeriodScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
@@ -386,6 +403,7 @@ exports.Prisma.InvoiceScalarFieldEnum = {
   warehouseId: 'warehouseId',
   fiscalPeriodId: 'fiscalPeriodId',
   currencyId: 'currencyId',
+  exchangeRate: 'exchangeRate',
   status: 'status',
   subtotal: 'subtotal',
   discountAmount: 'discountAmount',
@@ -459,6 +477,8 @@ exports.Prisma.ItemScalarFieldEnum = {
   brandId: 'brandId',
   defaultSellingPrice: 'defaultSellingPrice',
   latestPurchasePrice: 'latestPurchasePrice',
+  mainImageUrl: 'mainImageUrl',
+  galleryUrls: 'galleryUrls',
   itemType: 'itemType',
   isActive: 'isActive',
   createdAt: 'createdAt',
@@ -476,6 +496,8 @@ exports.Prisma.PartyScalarFieldEnum = {
   address: 'address',
   openingBalance: 'openingBalance',
   isActive: 'isActive',
+  receivableAccountId: 'receivableAccountId',
+  payableAccountId: 'payableAccountId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -743,7 +765,6 @@ exports.RelationType = exports.$Enums.RelationType = {
 exports.ItemType = exports.$Enums.ItemType = {
   product: 'product',
   service: 'service',
-  vehicle: 'vehicle',
   bundle: 'bundle'
 };
 
@@ -788,6 +809,7 @@ exports.Prisma.ModelName = {
   Expense: 'Expense',
   ExpenseItem: 'ExpenseItem',
   File: 'File',
+  FinancialSetting: 'FinancialSetting',
   FiscalPeriod: 'FiscalPeriod',
   InvoiceType: 'InvoiceType',
   Invoice: 'Invoice',

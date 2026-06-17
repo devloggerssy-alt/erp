@@ -43,6 +43,8 @@ model Invoice {
     warehouseId    String?       @map("warehouse_id")
     fiscalPeriodId String        @map("fiscal_period_id")
     currencyId     String        @map("currency_id")
+    /// Exchange rate of the invoice currency to tenant base currency, locked at posting time.
+    exchangeRate   Decimal       @default(1) @map("exchange_rate") @db.Decimal(18, 6)
     status         InvoiceStatus @default(DRAFT)
     subtotal       Decimal       @default(0) @db.Decimal(18, 4)
     discountAmount Decimal       @default(0) @map("discount_amount") @db.Decimal(18, 4)

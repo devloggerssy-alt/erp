@@ -28,6 +28,11 @@ model CustomField {
     @@map("custom_fields")
 }
 
+/// ⚠ POLYMORPHIC RELATION — entityType + entityId identify the owner record.
+/// Prisma cannot enforce a foreign key on a polymorphic field.
+/// CASCADE DELETION must be handled at the APPLICATION LAYER (or via DB trigger):
+/// when any entity (Item, Party, Invoice, etc.) is deleted, the matching
+/// CustomFieldValue rows must be deleted in the same transaction.
 model CustomFieldValue {
     id         String @id @default(uuid())
     tenantId   String @map("tenant_id")

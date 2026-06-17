@@ -1,7 +1,6 @@
 enum ItemType {
     product
     service
-    vehicle
     bundle
 }
 
@@ -17,6 +16,8 @@ model Item {
     brandId             String?  @map("brand_id")
     defaultSellingPrice Decimal? @map("default_selling_price") @db.Decimal(18, 4)
     latestPurchasePrice Decimal? @map("latest_purchase_price") @db.Decimal(18, 4)
+    mainImageUrl        String?  @map("main_image_url")
+    galleryUrls         String[] @map("gallery_urls")
     itemType            ItemType @default(product) @map("item_type")
     isActive            Boolean  @default(true) @map("is_active")
     createdAt           DateTime @default(now()) @map("created_at")

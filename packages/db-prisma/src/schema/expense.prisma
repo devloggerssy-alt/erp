@@ -13,6 +13,8 @@ model Expense {
     date           DateTime
     cashboxId      String        @map("cashbox_id")
     currencyId     String        @map("currency_id")
+    /// Exchange rate of the expense currency to tenant base currency, locked at posting time.
+    exchangeRate   Decimal       @default(1) @map("exchange_rate") @db.Decimal(18, 6)
     fiscalPeriodId String        @map("fiscal_period_id")
     totalAmount    Decimal       @default(0) @map("total_amount") @db.Decimal(18, 4)
     status         ExpenseStatus @default(DRAFT)

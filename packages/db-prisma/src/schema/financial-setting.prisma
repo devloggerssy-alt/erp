@@ -1,0 +1,25 @@
+// ─── Financial Setting ────────────────────────────────────────────────────────
+// Maps system-level accounting events to their default GL accounts per tenant.
+// One row per tenant (1-to-1 with Tenant). All account fields are optional —
+// they must be configured before posting transactions that need them.
+model FinancialSetting {
+    id                         String   @id @default(uuid())
+    tenantId                   String   @unique @map("tenant_id")
+    defaultSalesAccountId      String?  @map("default_sales_account_id")
+    defaultPurchaseAccountId   String?  @map("default_purchase_account_id")
+    defaultTaxAccountId        String?  @map("default_tax_account_id")
+    defaultReceivableAccountId String?  @map("default_receivable_account_id")
+    defaultPayableAccountId    String?  @map("default_payable_account_id")
+    createdAt                  DateTime @default(now()) @map("created_at")
+    updatedAt                  DateTime @updatedAt @map("updated_at")
+
+    tenant                   Tenant          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+    defaultSalesAccount      ChartOfAccount? @relation("DefaultSalesAccount", fields: [defaultSalesAccountId], references: [id])
+    defaultPurchaseAccount   ChartOfAccount? @relation("DefaultPurchaseAccount", fields: [defaultPurchaseAccountId], references: [id])
+    defaultTaxAccount        ChartOfAccount? @relation("DefaultTaxAccount", fields: [defaultTaxAccountId], references: [id])
+    defaultReceivableAccount ChartOfAccount? @relation("DefaultReceivableAccount", fields: [defaultReceivableAccountId], references: [id])
+    defaultPayableAccount    ChartOfAccount? @relation("DefaultPayableAccount", fields: [defaultPayableAccountId], references: [id])
+
+    @@index([tenantId])
+    @@map("financial_settings")
+}

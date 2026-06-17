@@ -18,19 +18,32 @@ model ChartOfAccount {
     id        String      @id @default(uuid())
     tenantId  String      @map("tenant_id")
     code      String
-    name      Json     @db.JsonB // LocalizedString: { ar: string; en?: string }
+    name      Json        @db.JsonB // LocalizedString: { ar: string; en?: string }
     type      AccountType
     parentId  String?     @map("parent_id")
     isActive  Boolean     @default(true) @map("is_active")
+    /// Denormalized cached balance for fast reads.
+    /// Source of truth is JournalLine rows — this field is updated by application
+    /// logic after every posted JournalEntry. Never write to it directly from ad-hoc queries.
+    currentBalance Decimal @default(0) @map("current_balance") @db.Decimal(18, 4)
     createdAt DateTime    @default(now()) @map("created_at")
     updatedAt DateTime    @updatedAt @map("updated_at")
 
     tenant       Tenant           @relation(fields: [tenantId], references: [id], onDelete: Cascade)
     parent       ChartOfAccount?  @relation("AccountHierarchy", fields: [parentId], references: [id])
     children     ChartOfAccount[] @relation("AccountHierarchy")
-    journalLines JournalLine[]
-    expenseItems    ExpenseItem[] @relation("ExpenseItemAccount")
-    linkedCashboxes Cashbox[]     @relation("CashboxLinkedAccount")
+    journalLines    JournalLine[]
+    expenseItems    ExpenseItem[]    @relation("ExpenseItemAccount")
+    linkedCashboxes Cashbox[]        @relation("CashboxLinkedAccount")
+    // FinancialSetting back-relations (GL mapping)
+    defaultSalesFor      FinancialSetting[] @relation("DefaultSalesAccount")
+    defaultPurchaseFor   FinancialSetting[] @relation("DefaultPurchaseAccount")
+    defaultTaxFor        FinancialSetting[] @relation("DefaultTaxAccount")
+    defaultReceivableFor FinancialSetting[] @relation("DefaultReceivableAccount")
+    defaultPayableFor    FinancialSetting[] @relation("DefaultPayableAccount")
+    // Party-level override back-relations
+    partyReceivables Party[] @relation("PartyReceivableAccount")
+    partyPayables    Party[] @relation("PartyPayableAccount")
 
     @@unique([tenantId, code])
     @@index([tenantId])
@@ -48,6 +61,8 @@ model JournalEntry {
     referenceId    String?            @map("reference_id")
     description    String?
     status         JournalEntryStatus @default(DRAFT)
+    /// Exchange rate to tenant base currency locked at posting time.
+    exchangeRate   Decimal            @default(1) @map("exchange_rate") @db.Decimal(18, 6)
     postedAt       DateTime?          @map("posted_at")
     createdBy      String             @map("created_by")
     createdAt      DateTime           @default(now()) @map("created_at")
@@ -68,6 +83,7 @@ model JournalLine {
     tenantId       String   @map("tenant_id")
     journalEntryId String   @map("journal_entry_id")
     accountId      String   @map("account_id")
+    partyId        String?  @map("party_id")
     debit          Decimal  @default(0) @db.Decimal(18, 4)
     credit         Decimal  @default(0) @db.Decimal(18, 4)
     description    String?
@@ -75,6 +91,7 @@ model JournalLine {
 
     journalEntry JournalEntry   @relation(fields: [journalEntryId], references: [id], onDelete: Cascade)
     account      ChartOfAccount @relation(fields: [accountId], references: [id])
+    party        Party?         @relation("JournalLineParty", fields: [partyId], references: [id])
 
     @@index([tenantId])
     @@index([journalEntryId])
