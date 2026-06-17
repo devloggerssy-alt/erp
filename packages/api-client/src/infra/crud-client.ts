@@ -7,8 +7,8 @@ import { ApiClient } from "./client"
 
 export interface ICrudClient {
   key: string
-  list(query?: Record<string, unknown>): Promise<{ data?: ReadonlyArray<BaseCrudItem>; meta?: unknown }>
-  show(id: string): Promise<{ data?: BaseCrudItem }>
+  list(query?: Record<string, unknown>): Promise<unknown>
+  show(id: string): Promise<unknown>
   create(body: unknown): Promise<unknown>
   update(id: string, body: unknown): Promise<unknown>
   destroy(id: string): Promise<unknown>
@@ -34,17 +34,17 @@ export class CrudClient<R extends CrudResource> implements ICrudClient {
     return this.apiClient.get(route, { params: { id } } as never) as any
   }
 
-  create(body: unknown): Promise<ApiResponse<R["routes"]["create"], "post">> {
+  create(body: unknown): Promise<ApiResponse<NonNullable<R["routes"]["create"]>, "post">> {
     const route = this.resource.routes.create as ApiPathByMethod<"post">
     return this.apiClient.post(route, body as never) as any
   }
 
-  update(id: string, body: unknown): Promise<ApiResponse<R["routes"]["update"], "patch">> {
+  update(id: string, body: unknown): Promise<ApiResponse<NonNullable<R["routes"]["update"]>, "patch">> {
     const route = this.resource.routes.update as ApiPathByMethod<"patch">
     return this.apiClient.patch(route, body as never, { params: { id } } as never) as any
   }
 
-  destroy(id: string): Promise<ApiResponse<R["routes"]["delete"], "delete">> {
+  destroy(id: string): Promise<ApiResponse<NonNullable<R["routes"]["delete"]>, "delete">> {
     const route = this.resource.routes.delete as ApiPathByMethod<"delete">
     return this.apiClient.delete(route, { params: { id } } as never) as any
   }

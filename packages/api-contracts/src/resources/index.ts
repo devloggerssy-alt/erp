@@ -34,6 +34,7 @@ import { itemRelationResource } from './item-relation.resource'
 import { catalogEntityResource } from './catalog-entity.resource'
 import { itemCatalogEntityResource } from './item-catalog-entity.resource'
 import { brandResource } from './brand.resource'
+import { financialSettingResource } from './financial-setting.resource'
 
 export * from './auth.resource'
 export * from './tenant.resource'
@@ -68,6 +69,7 @@ export * from './item-relation.resource'
 export * from './catalog-entity.resource'
 export * from './item-catalog-entity.resource'
 export * from './brand.resource'
+export * from './financial-setting.resource'
 
 export const resources = {
   auth: authResource,
@@ -103,5 +105,6 @@ export const resources = {
   catalogEntities: catalogEntityResource,
   itemCatalogEntities: itemCatalogEntityResource,
   brands: brandResource,
+  financialSettings: financialSettingResource,
 } as const
 

@@ -1,6 +1,6 @@
 import type { CustomFieldValuesMap } from './custom-field.dto';
 
-export type ItemType = 'product' | 'service' | 'vehicle' | 'bundle'
+export type ItemType = 'product' | 'service' | 'bundle'
 
 export interface CreateItemDto {
     code: string;
@@ -11,6 +11,8 @@ export interface CreateItemDto {
     brandId?: string | null;
     defaultSellingPrice?: number;
     latestPurchasePrice?: number;
+    mainImageUrl?: string | null;
+    galleryUrls?: string[];
     customFields?: CustomFieldValuesMap;
     /** @default 'product' */
     itemType?: ItemType;
@@ -26,6 +28,8 @@ export interface UpdateItemDto {
     defaultSellingPrice?: number;
     latestPurchasePrice?: number;
     isActive?: boolean;
+    mainImageUrl?: string | null;
+    galleryUrls?: string[];
     customFields?: CustomFieldValuesMap;
     itemType?: ItemType;
 }
@@ -64,6 +68,8 @@ export interface ItemResponseDto {
     defaultSellingPrice: number | null;
     latestPurchasePrice: number | null;
     isActive: boolean;
+    mainImageUrl: string | null;
+    galleryUrls: string[];
     customFields: CustomFieldValuesMap;
     itemType: ItemType;
     createdAt: string;

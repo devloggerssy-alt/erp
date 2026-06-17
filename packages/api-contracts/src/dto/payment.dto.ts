@@ -21,6 +21,8 @@ export interface CreatePaymentDto {
     currencyId: string;
     fiscalPeriodId: string;
     amount: number;
+    /** Exchange rate to tenant base currency. Defaults to 1 for base-currency payments. */
+    exchangeRate?: number;
     notes?: string;
 }
 

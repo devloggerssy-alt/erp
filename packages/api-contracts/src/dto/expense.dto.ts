@@ -13,6 +13,8 @@ export interface CreateExpenseDto {
   cashboxId: string
   currencyId: string
   fiscalPeriodId: string
+  /** Exchange rate to tenant base currency. Defaults to 1 for base-currency expenses. */
+  exchangeRate?: number
   notes?: string | null
   items: CreateExpenseItemDto[]
 }
@@ -22,6 +24,7 @@ export interface UpdateExpenseDto {
   cashboxId?: string
   currencyId?: string
   fiscalPeriodId?: string
+  exchangeRate?: number
   notes?: string | null
   items?: CreateExpenseItemDto[]
 }

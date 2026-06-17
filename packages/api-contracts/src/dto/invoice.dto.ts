@@ -19,6 +19,8 @@ export interface CreateInvoiceDto {
     warehouseId?: string;
     fiscalPeriodId: string;
     currencyId: string;
+    /** Exchange rate to tenant base currency. Defaults to 1 for base-currency invoices. */
+    exchangeRate?: number;
     notes?: string;
     lines: InvoiceLineDto[];
 }
@@ -29,6 +31,7 @@ export interface UpdateInvoiceDto {
     partyId?: string;
     warehouseId?: string;
     currencyId?: string;
+    exchangeRate?: number;
     notes?: string;
     lines?: InvoiceLineDto[];
 }

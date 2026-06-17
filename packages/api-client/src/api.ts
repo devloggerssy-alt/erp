@@ -25,7 +25,8 @@ import { BrandsClient } from "./clients/brands.client"
 import { StockBalancesClient } from "./clients/stock-balances.client"
 import { StockMovementsClient } from "./clients/stock-movements.client"
 import { StockCountsClient } from "./clients/stock-counts.client"
-import { authResource, itemCategoryResource, itemResource, unitResource, warehouseResource, partyResource, accountResource, currencyResource, fiscalPeriodResource, documentSequenceResource, roleResource, userResource, tenantResource, invoiceTypeResource, invoiceResource, customFieldResource, expenseResource, tagResource, tagAssignmentResource, itemRelationResource, catalogEntityResource, itemCatalogEntityResource, brandResource, inventoryResource, stockLedgerResource, stockCountResource, cashboxResource } from "@devloggers/api-contracts"
+import { FinancialSettingClient } from "./clients/financial-setting.client"
+import { authResource, itemCategoryResource, itemResource, unitResource, warehouseResource, partyResource, accountResource, currencyResource, fiscalPeriodResource, documentSequenceResource, roleResource, userResource, tenantResource, invoiceTypeResource, invoiceResource, customFieldResource, expenseResource, tagResource, tagAssignmentResource, itemRelationResource, catalogEntityResource, itemCatalogEntityResource, brandResource, inventoryResource, stockLedgerResource, stockCountResource, cashboxResource, financialSettingResource } from "@devloggers/api-contracts"
 import { CustomFieldsClient } from "./clients/custom-fields.client"
 
 export function createApi(options?: ApiClientOptions, baseUrl = 'http://localhost:4040') {
@@ -59,6 +60,7 @@ export function createApi(options?: ApiClientOptions, baseUrl = 'http://localhos
         [inventoryResource.key]: new StockBalancesClient(client),
         [stockLedgerResource.key]: new StockMovementsClient(client),
         [stockCountResource.key]: new StockCountsClient(client),
+        [financialSettingResource.key]: new FinancialSettingClient(client),
     } as const
 }
 

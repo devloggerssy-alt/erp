@@ -28,8 +28,9 @@ export class InvoicesClient implements ICrudClient {
     return this.apiClient.patch(route, body as never, { params: { id } } as never) as any
   }
 
-  destroy(_id: string): Promise<unknown> {
-    throw new Error("Invoices cannot be deleted — use cancel() instead")
+  destroy(id: string): Promise<unknown> {
+    const route = invoiceResource.routes.delete as ApiPathByMethod<"delete">
+    return this.apiClient.delete(route, { params: { id } } as never) as any
   }
 
   post = (id: string) => {
