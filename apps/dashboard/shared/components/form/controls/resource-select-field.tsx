@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useCallback, useEffect, useMemo, useRef } from "react"
+import { useState, useCallback, useMemo, useRef } from "react"
 import { useInfiniteQuery, type InfiniteData } from "@tanstack/react-query"
 import type { ICrudClient } from "@devloggers/api-client"
 import { useApi } from "@/shared/useApi"
@@ -45,6 +45,12 @@ type BaseResourceSelectFieldProps<
   staleTime?: number
   /** Query parameter name for text search (defaults to `"search"`) */
   searchParam?: string
+  /**
+   * Fields the server searches within, sent as `searchIn` (comma-separated).
+   * The API only filters when both `search` and `searchIn` are present, so this
+   * must list the searchable columns. Defaults to `["name"]`.
+   */
+  searchIn?: string[]
   /** Items per page (defaults to 20) */
   pageSize?: number
   /** If `true` (default), fetching is deferred until the dropdown opens */
@@ -87,6 +93,7 @@ export function ResourceSelectField<
   queryKey,
   staleTime = 5 * 60 * 1000,
   searchParam = "search",
+  searchIn = ["name"],
   pageSize = 20,
   lazy = true,
   extraQuery,
@@ -110,7 +117,7 @@ export function ResourceSelectField<
       const response = await resolvedClient.list({
         page: pageParam,
         limit: pageSize,
-        ...(search ? { [searchParam]: search } : {}),
+        ...(search ? { [searchParam]: search, searchIn: searchIn.join(",") } : {}),
         ...extraQuery,
       } as any)
       return response
@@ -160,23 +167,24 @@ export function ResourceSelectField<
     return String(value)
   }, [value, getId])
 
-  const [inputValue, setInputValue] = useState("")
+  // `null` means "show the selected option's label"; a string is the active query.
+  const [query, setQuery] = useState<string | null>(null)
 
-  // Sync input display with selected item label when options change or value changes.
-  // Falls back to deriving the label from the stored value itself (e.g. when it's the
-  // full object) so the name shows immediately, before matching options have loaded.
-  useEffect(() => {
-    if (selectedId === null) {
-      setInputValue("")
-      return
-    }
+  // Label for the current selection, derived (no effect needed — an effect that
+  // calls setState on every render is what previously wiped the search text).
+  // Falls back to deriving the label from the stored value itself (e.g. when it's
+  // the full object) so the name shows before matching options have loaded.
+  const selectedLabel = useMemo(() => {
+    if (selectedId === null) return ""
     const option = options.find((opt) => opt.id === selectedId)
-    if (option) {
-      setInputValue(option.label)
-    } else if (value !== null && value !== undefined && typeof value === "object") {
-      setInputValue(getLabel(value as ResourceItem<TClient>))
+    if (option) return option.label
+    if (value !== null && value !== undefined && typeof value === "object") {
+      return getLabel(value as ResourceItem<TClient>)
     }
+    return ""
   }, [selectedId, options, value, getLabel])
+
+  const inputValue = query ?? selectedLabel
 
   const handleScroll = useCallback(
     (e: React.UIEvent<HTMLDivElement>) => {
@@ -191,24 +199,18 @@ export function ResourceSelectField<
   )
 
   const handleValueChange = (id: string | null) => {
+    setQuery(null)
     if (id === null) {
-      setInputValue("")
       onChange?.(null)
-    } else {
-      const storedValue = idToValueMap.get(id)
-      const option = options.find((opt) => opt.id === id)
-      if (storedValue !== undefined) {
-        if (option) {
-          setInputValue(option.label)
-        }
-        onChange?.(storedValue)
-      }
+      return
     }
+    const storedValue = idToValueMap.get(id)
+    if (storedValue !== undefined) onChange?.(storedValue)
   }
 
   const handleInputValueChange = (val: string, eventDetails: { reason: string }) => {
-    setInputValue(val)
     if (eventDetails.reason === "input-change") {
+      setQuery(val)
       setSearch(val)
     }
   }
@@ -218,17 +220,15 @@ export function ResourceSelectField<
       open={isOpen}
       onOpenChange={(open) => {
         setIsOpen(open)
-        if (open) {
-          setInputValue("")
-          setSearch("")
-        } else {
-          setSearch("")
-        }
+        // Open with an empty query (full list visible); on close revert the
+        // input to the selected label (query = null). Reset the search either way.
+        setQuery(open ? "" : null)
+        setSearch("")
       }}
       value={selectedId}
       onValueChange={(val) => handleValueChange(val as string | null)}
       disabled={disabled}
-      onInputValueChange={handleInputValueChange as any}
+      onInputValueChange={handleInputValueChange}
       filter={() => true}
     >
       <ComboboxInput
@@ -293,6 +293,7 @@ export function ResourceMultiSelectField<
   queryKey,
   staleTime = 5 * 60 * 1000,
   searchParam = "search",
+  searchIn = ["name"],
   pageSize = 20,
   lazy = true,
   extraQuery,
@@ -317,7 +318,7 @@ export function ResourceMultiSelectField<
       const response = await resolvedClient.list({
         page: pageParam,
         limit: pageSize,
-        ...(search ? { [searchParam]: search } : {}),
+        ...(search ? { [searchParam]: search, searchIn: searchIn.join(",") } : {}),
         ...extraQuery,
       } as any)
       return response
@@ -417,7 +418,7 @@ export function ResourceMultiSelectField<
       value={selectedIds}
       onValueChange={(val) => handleValueChange(val as string[])}
       disabled={disabled}
-      onInputValueChange={handleInputValueChange as any}
+      onInputValueChange={handleInputValueChange}
       filter={() => true}
     >
       <ComboboxChips ref={anchorRef} aria-invalid={invalid || undefined}>

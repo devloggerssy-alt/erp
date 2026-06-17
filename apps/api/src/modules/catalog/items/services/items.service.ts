@@ -1,6 +1,6 @@
 import { Injectable, ConflictException, NotFoundException } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import { CrudService } from '@devloggers/backend-core';
+import { CrudService, FindManyOptions } from '@devloggers/backend-core';
 import { customFieldModules, resources } from '@devloggers/api-contracts';
 import type { Item } from '@devloggers/db-prisma';
 import { CustomFieldValuesService } from '@/modules/custom-fields/services/custom-field-values.service';
@@ -23,23 +23,26 @@ export class ItemsService extends CrudService<Item, ItemResponseDto, CreateItemD
 
     override async list(
         tenantId: string,
-        options: Record<string, any> = {},
+        options: FindManyOptions = {},
     ): Promise<{ data: ItemResponseDto[]; total: number }> {
-        const result = await super.list(tenantId, options);
+        const result = await this.itemsRepository.findManyWithRelations(tenantId, options);
         const customFieldsByItem = await this.customFieldValuesService.getForEntities(
             tenantId,
             customFieldModules.items,
             result.data.map((item) => item.id),
         );
-
         return {
             total: result.total,
-            data: result.data.map((item) => ({
-                ...item,
-                customFields: customFieldsByItem[item.id] ?? {},
+            data: result.data.map((entity) => ({
+                ...this.itemPresenter.toResponse(entity),
+                category: entity.category,
+                baseUnit: entity.baseUnit,
+                customFields: customFieldsByItem[entity.id] ?? {},
             })),
         };
     }
+
+
 
     override async findById(tenantId: string, id: string): Promise<ItemResponseDto> {
         const entity = await this.itemsRepository.findByIdWithRelations(tenantId, id);

@@ -2,24 +2,20 @@ import { z } from "zod"
 import type { InvoiceStatus } from "@devloggers/api-contracts"
 import type { CreateInvoiceDto, UpdateInvoiceDto } from "@devloggers/api-contracts"
 import { unwrapApiData } from "@/shared/hooks/unwrap-api-data"
+import { CrudListDataItem, ItemsClient, UnitsClient } from "@devloggers/api-client"
 
 // Re-export InvoiceStatus from contracts so module consumers have one import point
 export type { InvoiceStatus }
 
-// ── New shared types ───────────────────────────────────────────────────────────
+// ── Shared types ───────────────────────────────────────────────────────────────
 
 export type InvoiceDirection = "SALE" | "PURCHASE"
 
-/** Full item object stored in the virtual _item field before mapping to itemId.
- *  Fields match ItemResponseDto from the OpenAPI schema. */
-export interface InvoiceItemOption {
-    id: string
-    name: string
-    code: string
-    baseUnitId: string
-    latestPurchasePrice: number | null
-    defaultSellingPrice: number | null
-}
+/** Full item object stored in the virtual _item field before mapping to itemId. */
+export type InvoiceItemOption = CrudListDataItem<ItemsClient>
+
+/** Full unit object stored in the virtual _unit field before mapping to unitId. */
+export type InvoiceUnitOption = CrudListDataItem<UnitsClient>
 
 /** Named return type for computeInvoiceTotals */
 export interface InvoiceTotals {
@@ -35,6 +31,8 @@ interface InvoiceLineApiData {
     itemName?: string
     itemCode?: string
     unitId?: string
+    unitName?: string
+    unitAbbreviation?: string
     quantity?: number | string
     unitPrice?: number | string
     discountPercent?: number | string
@@ -51,28 +49,27 @@ export const invoiceLineSchema = z.object({
         name: z.string().optional(),
         code: z.string().optional(),
         baseUnitId: z.string().optional(),
-
-        // must support string numbers
         latestPurchasePrice: z.coerce.number().nullable().optional(),
         defaultSellingPrice: z.coerce.number().nullable().optional(),
     }).nullable().optional(),
+    _unit: z.object({ id: z.string() }).passthrough().nullable().optional(),
     itemId: z.string().min(1, "Item is required"),
-    unitId: z.string().min(1, "Unit is required"),
     quantity: z.coerce.number().min(0.0001, "Must be > 0"),
     unitPrice: z.coerce.number().min(0, "Must be ≥ 0"),
     discountPercent: z.coerce.number().min(0).max(100).default(0),
     taxPercent: z.coerce.number().min(0).max(100).default(0),
     notes: z.string().optional(),
     sortOrder: z.number().optional(),
+}).superRefine((data, ctx) => {
+    if (!data._unit?.id) {
+        ctx.addIssue({ code: "custom", path: ["_unit"], message: "Unit is required" })
+    }
 })
 
 export type InvoiceLineFormValues = z.infer<typeof invoiceLineSchema>
 
 // ── Relational field type ──────────────────────────────────────────────────────
 
-// Relational selects store the full API item object so the combobox can display
-// the label without a separate fetch. Only `id` is guaranteed to be present;
-// all other API fields come along for free.
 export type InvoiceRelationalField = { id: string }
 
 // passthrough() lets extra API fields through at runtime; nullable() allows the
@@ -112,8 +109,8 @@ export type InvoiceFormValues = z.infer<typeof invoiceFormSchema>
 
 export const DEFAULT_INVOICE_LINE: InvoiceLineFormValues = {
     _item: null,
+    _unit: null,
     itemId: "",
-    unitId: "",
     quantity: 1,
     unitPrice: 0,
     discountPercent: 0,
@@ -150,7 +147,6 @@ interface InvoiceApiResponse {
 export function mapInvoiceToFormValues(data: unknown): InvoiceFormValues {
     const resolved = unwrapApiData<InvoiceApiResponse>(data)
     return {
-        // Store minimal objects — combobox syncs label from options once they load
         invoiceType: resolved?.invoiceTypeId ? { id: resolved.invoiceTypeId } : null,
         date: resolved?.date ? new Date(resolved.date).toISOString().split("T")[0]! : "",
         dueDate: resolved?.dueDate ? new Date(resolved.dueDate).toISOString().split("T")[0]! : "",
@@ -166,8 +162,9 @@ export function mapInvoiceToFormValues(data: unknown): InvoiceFormValues {
                 code: line.itemCode,
                 baseUnitId: line.unitId,
             } : null,
+            // Store full unit object so the combobox label renders before options load
+            _unit: line.unitId ? { id: line.unitId, name: line.unitName, abbreviation: line.unitAbbreviation } : null,
             itemId: line.itemId ?? "",
-            unitId: line.unitId ?? "",
             quantity: Number(line.quantity) || 1,
             unitPrice: Number(line.unitPrice) || 0,
             discountPercent: Number(line.discountPercent) || 0,
@@ -192,7 +189,7 @@ export function toCreateInvoiceDto(values: InvoiceFormValues): CreateInvoiceDto 
         notes: values.notes || undefined,
         lines: values.lines.map((line, index) => ({
             itemId: line.itemId,
-            unitId: line.unitId,
+            unitId: line._unit?.id ?? "",
             quantity: line.quantity,
             unitPrice: line.unitPrice,
             discountPercent: line.discountPercent,
@@ -213,7 +210,7 @@ export function toUpdateInvoiceDto(values: InvoiceFormValues): UpdateInvoiceDto 
         notes: values.notes || undefined,
         lines: values.lines.map((line, index) => ({
             itemId: line.itemId,
-            unitId: line.unitId,
+            unitId: line._unit?.id ?? "",
             quantity: line.quantity,
             unitPrice: line.unitPrice,
             discountPercent: line.discountPercent,

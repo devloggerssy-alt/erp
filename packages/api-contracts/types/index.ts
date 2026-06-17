@@ -1724,6 +1724,43 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/files/upload": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Upload a file
+         * @description Upload a file to local or S3 storage and persist its metadata.
+         */
+        post: operations["Files.uploadFile"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/files/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /** Delete a file by ID */
+        delete: operations["Files.deleteFile"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -1808,16 +1845,25 @@ export interface components {
             password: string;
         };
         RegisterDto: {
-            /** @example Demo Shop */
+            /**
+             * @description Company / organization name
+             * @example Demo Shop
+             */
             companyName: string;
-            /** @example Admin User */
+            /**
+             * @description Full name of the account owner
+             * @example Admin User
+             */
             fullName: string;
             /**
              * Format: email
              * @example admin@demo-shop.com
              */
             email: string;
-            /** @example admin123 */
+            /**
+             * @description Password (min 8 characters)
+             * @example admin123
+             */
             password: string;
             /** @example +963-11-1234567 */
             phone?: string;
@@ -3800,6 +3846,15 @@ export interface components {
              */
             message: string;
         };
+        UploadFileDto: {
+            /**
+             * Format: binary
+             * @description File to upload
+             */
+            file: string;
+            /** @description Destination folder (default: general) */
+            folder?: string;
+        };
     };
     responses: never;
     parameters: never;
@@ -3899,9 +3954,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
-                        data?: components["schemas"]["LoginDataDto"];
-                    };
+                    "application/json": unknown;
                 };
             };
             /** @description JWT token is missing, expired, or invalid */
@@ -15538,6 +15591,56 @@ export interface operations {
                 content: {
                     "application/json": unknown;
                 };
+            };
+        };
+    };
+    "Files.uploadFile": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "multipart/form-data": components["schemas"]["UploadFileDto"];
+            };
+        };
+        responses: {
+            /** @description File metadata record */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": Record<string, never>;
+                };
+            };
+        };
+    };
+    "Files.deleteFile": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description File deleted successfully */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
         };
     };

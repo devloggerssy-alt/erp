@@ -3,9 +3,9 @@
 import { useCallback, useEffect, useState } from "react"
 import { useTheme } from "next-themes"
 import { useLocale, useTranslations } from "next-intl"
- import {
+import {
   BellIcon,
-  LogOutIcon,
+  DoorOpen,
   MoonIcon,
   SearchIcon,
   SunIcon,
@@ -15,7 +15,7 @@ import { useLocale, useTranslations } from "next-intl"
 import type { UserInfo } from "@/infrastructure/types/navigation"
 import { useAuthStore } from "@/shared/stores/auth-store"
 import { cn } from "@/shared/lib/utils"
-import { Avatar, AvatarFallback, AvatarImage } from "@/shared/components/ui/avatar"
+import { Avatar, AvatarFallback, } from "@/shared/components/ui/avatar"
 import { Button } from "@/shared/components/ui/button"
 import { SidebarTrigger } from "@/shared/components/ui/sidebar"
 import {
@@ -39,6 +39,7 @@ import {
 import { Separator } from "@/shared/components/ui/separator"
 import { LanguageSwitcher } from "./language-switcher"
 import Link from "next/link"
+import { useAuth } from "@/shared/hooks/use-auth"
 
 export type DashboardHeaderProps = {
   user?: UserInfo
@@ -50,7 +51,7 @@ export type DashboardHeaderProps = {
 export function DashboardHeader({ actions, breadcrumbs, className }: DashboardHeaderProps) {
   const { resolvedTheme, setTheme } = useTheme()
   const [searchOpen, setSearchOpen] = useState(false)
-  const { user } = useAuthStore((s) => s)
+  const { logout , user} = useAuth()
   const t = useTranslations()
   const locale = useLocale()
 
@@ -178,11 +179,15 @@ export function DashboardHeader({ actions, breadcrumbs, className }: DashboardHe
                   {t("system.header.profile")}
                 </Link>
               </DropdownMenuItem>
+              <DropdownMenuItem onClick={logout} variant="destructive">
+                <DoorOpen />
+                {t("system.header.logout")}
+              </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
           </DropdownMenuContent>
         </DropdownMenu>
- 
+
       </div>
 
       <CommandDialog open={searchOpen} onOpenChange={setSearchOpen}>
@@ -199,8 +204,8 @@ export function DashboardHeader({ actions, breadcrumbs, className }: DashboardHe
         </Command>
       </CommandDialog>
 
-   
-  
+
+
     </header>
   )
 }

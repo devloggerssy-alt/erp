@@ -1,8 +1,8 @@
 "use client"
 
-import { useRef } from "react"
-import type { AsyncOption, BaseFieldControlProps } from "../types"
+import { useMemo, useState } from "react"
 import { Loader2 } from "lucide-react"
+import type { AsyncOption, BaseFieldControlProps } from "../types"
 import {
   Combobox,
   ComboboxInput,
@@ -12,27 +12,50 @@ import {
   ComboboxEmpty,
 } from "@/shared/components/ui/combobox"
 
-const defaultGetOptionValue = (opt: any) => opt.value
-const defaultGetOptionLabel = (opt: any) => opt.label
-function defaultGetOptionKey(opt: any): string {
-  const v = defaultGetOptionValue(opt)
-  if (typeof v === "string" || typeof v === "number") return String(v)
-  return String(opt.id ?? JSON.stringify(v))
-}
+// Default accessors assume the `AsyncOption` ({ value, label }) shape.
+// When `TOption` differs, the caller supplies its own accessors.
+const asAsyncOption = (opt: unknown) => opt as AsyncOption
 
-// ── Single-select ──
-
-export type AsyncSelectFieldProps<TOption = AsyncOption> = BaseFieldControlProps<any> & {
-  options: TOption[]
-  loading?: boolean
-  onInputValueChange?: (value: string) => void
-  placeholder?: string
-  getOptionValue?: (option: TOption) => any
+type OptionAccessors<TOption, TValue> = {
+  getOptionValue?: (option: TOption) => TValue
   getOptionLabel?: (option: TOption) => string
   getOptionKey?: (option: TOption) => string
 }
 
-export function AsyncSelectField<TOption = AsyncOption>({
+/** Resolve the option accessors, falling back to the `AsyncOption` shape. */
+function useAccessors<TOption, TValue>({
+  getOptionValue,
+  getOptionLabel,
+  getOptionKey,
+}: OptionAccessors<TOption, TValue>) {
+  const getValue = getOptionValue ?? ((o: TOption) => asAsyncOption(o).value as TValue)
+  const getLabel = getOptionLabel ?? ((o: TOption) => asAsyncOption(o).label)
+  const getKey = getOptionKey ?? ((o: TOption) => String(asAsyncOption(o).value))
+  return { getValue, getLabel, getKey }
+}
+
+type NormalizedOption<TValue> = { id: string; label: string; value: TValue }
+
+function LoadingRow() {
+  return (
+    <div className="flex items-center justify-center py-4">
+      <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+    </div>
+  )
+}
+
+// ── Single-select ──
+
+export type AsyncSelectFieldProps<TOption = AsyncOption, TValue = string> =
+  BaseFieldControlProps<TValue | null> &
+    OptionAccessors<TOption, TValue> & {
+      options: TOption[]
+      loading?: boolean
+      onInputValueChange?: (value: string) => void
+      placeholder?: string
+    }
+
+export function AsyncSelectField<TOption = AsyncOption, TValue = string>({
   value,
   onChange,
   onBlur,
@@ -42,66 +65,123 @@ export function AsyncSelectField<TOption = AsyncOption>({
   loading,
   onInputValueChange,
   placeholder = "Search...",
-  getOptionValue = defaultGetOptionValue,
-  getOptionLabel = defaultGetOptionLabel,
-  getOptionKey = defaultGetOptionKey,
-}: AsyncSelectFieldProps<TOption>) {
-  const anchorRef = useRef<HTMLDivElement>(null)
+  getOptionValue,
+  getOptionLabel,
+  getOptionKey,
+}: AsyncSelectFieldProps<TOption, TValue>) {
+  const { getValue, getLabel, getKey } = useAccessors({
+    getOptionValue,
+    getOptionLabel,
+    getOptionKey,
+  })
+
+  const [open, setOpen] = useState(false)
+  // `null` means "show the selected option's label"; a string is the active query.
+  const [query, setQuery] = useState<string | null>(null)
+
+  const normalized = useMemo<NormalizedOption<TValue>[]>(
+    () => options.map((opt) => ({ id: getKey(opt), label: getLabel(opt), value: getValue(opt) })),
+    [options, getKey, getLabel, getValue],
+  )
+
+  const idToValue = useMemo(() => {
+    const map = new Map<string, TValue>()
+    normalized.forEach((o) => map.set(o.id, o.value))
+    return map
+  }, [normalized])
+
+  // The selected id is derived from the form value so it stays stable while
+  // the options list streams in or is filtered.
+  const selectedId = useMemo(() => {
+    if (value === null || value === undefined) return null
+    if (typeof value === "object") return getKey(value as unknown as TOption)
+    return String(value)
+  }, [value, getKey])
+
+  // Label for the current selection, derived (no effect needed). Falls back to
+  // the stored object value so the name shows before the matching option loads.
+  const selectedLabel = useMemo(() => {
+    if (selectedId === null) return ""
+    const match = normalized.find((o) => o.id === selectedId)
+    if (match) return match.label
+    if (value !== null && value !== undefined && typeof value === "object") {
+      return getLabel(value as unknown as TOption)
+    }
+    return ""
+  }, [selectedId, normalized, value, getLabel])
+
+  const inputValue = query ?? selectedLabel
+
+  const handleValueChange = (id: string | null) => {
+    setQuery(null)
+    if (id === null) {
+      onChange(null)
+      return
+    }
+    const stored = idToValue.get(id)
+    if (stored !== undefined) onChange(stored)
+  }
+
+  const handleInputValueChange = (val: string, details: { reason: string }) => {
+    if (details.reason === "input-change") {
+      setQuery(val)
+      onInputValueChange?.(val)
+    }
+  }
 
   return (
-    <div ref={anchorRef}>
-      <Combobox
-        value={value}
-        onValueChange={(val) => onChange(val)}
-        disabled={disabled}
-        onInputValueChange={(val, { reason }) => {
-          if (reason === "input-change") {
-            onInputValueChange?.(val)
-          }
-        }}
-      >
-        <ComboboxInput
-          placeholder={placeholder}
-          showClear={!!value}
-          onBlur={onBlur}
-          aria-invalid={invalid || undefined}
-        />
-        <ComboboxContent anchor={anchorRef}>
-          <ComboboxList>
-            {loading && (
-              <div className="flex items-center justify-center py-4">
-                <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
-              </div>
-            )}
-            {!loading &&
-              options.map((opt) => (
-                <ComboboxItem key={getOptionKey(opt)} value={getOptionValue(opt)}>
-                  {getOptionLabel(opt)}
-                </ComboboxItem>
-              ))}
-            {!loading && options.length === 0 && (
-              <ComboboxEmpty>No results found</ComboboxEmpty>
-            )}
-          </ComboboxList>
-        </ComboboxContent>
-      </Combobox>
-    </div>
+    <Combobox
+      open={open}
+      onOpenChange={(next) => {
+        setOpen(next)
+        // Open with an empty query (full list visible); on close revert the
+        // input to the selected label (query = null) and reset the search.
+        setQuery(next ? "" : null)
+        onInputValueChange?.("")
+      }}
+      value={selectedId}
+      onValueChange={(val) => handleValueChange(val as string | null)}
+      disabled={disabled}
+      onInputValueChange={handleInputValueChange}
+      filter={() => true}
+    >
+      <ComboboxInput
+        placeholder={placeholder}
+        showClear={selectedId !== null}
+        onBlur={onBlur}
+        aria-invalid={invalid || undefined}
+        value={inputValue}
+      />
+      <ComboboxContent>
+        <ComboboxList>
+          {loading && <LoadingRow />}
+          {!loading &&
+            normalized.map((o) => (
+              <ComboboxItem key={o.id} value={o.id}>
+                {o.label}
+              </ComboboxItem>
+            ))}
+          {!loading && normalized.length === 0 && (
+            <ComboboxEmpty>No results found</ComboboxEmpty>
+          )}
+        </ComboboxList>
+      </ComboboxContent>
+    </Combobox>
   )
 }
 
 // ── Multi-select ──
 
-export type AsyncMultiSelectFieldProps<TOption = AsyncOption> = BaseFieldControlProps<any[]> & {
-  options: TOption[]
-  loading?: boolean
-  onInputValueChange?: (value: string) => void
-  placeholder?: string
-  getOptionValue?: (option: TOption) => any
-  getOptionLabel?: (option: TOption) => string
-  getOptionKey?: (option: TOption) => string
-}
+export type AsyncMultiSelectFieldProps<TOption = AsyncOption, TValue = string> =
+  BaseFieldControlProps<TValue[]> &
+    OptionAccessors<TOption, TValue> & {
+      options: TOption[]
+      loading?: boolean
+      onInputValueChange?: (value: string) => void
+      placeholder?: string
+    }
 
-export function AsyncMultiSelectField<TOption = AsyncOption>({
+export function AsyncMultiSelectField<TOption = AsyncOption, TValue = string>({
   value,
   onChange,
   onBlur,
@@ -111,50 +191,97 @@ export function AsyncMultiSelectField<TOption = AsyncOption>({
   loading,
   onInputValueChange,
   placeholder = "Search...",
-  getOptionValue = defaultGetOptionValue,
-  getOptionLabel = defaultGetOptionLabel,
-  getOptionKey = defaultGetOptionKey,
-}: AsyncMultiSelectFieldProps<TOption>) {
-  const anchorRef = useRef<HTMLDivElement>(null)
+  getOptionValue,
+  getOptionLabel,
+  getOptionKey,
+}: AsyncMultiSelectFieldProps<TOption, TValue>) {
+  const { getValue, getLabel, getKey } = useAccessors({
+    getOptionValue,
+    getOptionLabel,
+    getOptionKey,
+  })
+
+  const [open, setOpen] = useState(false)
+
+  const normalized = useMemo<NormalizedOption<TValue>[]>(
+    () => options.map((opt) => ({ id: getKey(opt), label: getLabel(opt), value: getValue(opt) })),
+    [options, getKey, getLabel, getValue],
+  )
+
+  // Map id → stored value for the currently loaded options.
+  const idToValue = useMemo(() => {
+    const map = new Map<string, TValue>()
+    normalized.forEach((o) => map.set(o.id, o.value))
+    return map
+  }, [normalized])
+
+  // Stable map of already-selected values so they survive search/option changes
+  // (lets the user deselect an item that is no longer in the filtered list).
+  const valueBySelectedId = useMemo(() => {
+    const map = new Map<string, TValue>()
+    ;(value ?? []).forEach((v) => {
+      const id =
+        v !== null && typeof v === "object" ? getKey(v as unknown as TOption) : String(v)
+      map.set(id, v)
+    })
+    return map
+  }, [value, getKey])
+
+  const selectedIds = useMemo(
+    () =>
+      (value ?? [])
+        .map((v) =>
+          v !== null && typeof v === "object" ? getKey(v as unknown as TOption) : String(v),
+        )
+        .filter((id): id is string => id !== ""),
+    [value, getKey],
+  )
+
+  const handleValueChange = (ids: string[]) => {
+    const next = ids
+      .map((id) => idToValue.get(id) ?? valueBySelectedId.get(id))
+      .filter((v): v is TValue => v !== undefined)
+    onChange(next)
+  }
+
+  const handleInputValueChange = (val: string, details: { reason: string }) => {
+    if (details.reason === "input-change") onInputValueChange?.(val)
+  }
 
   return (
-    <div ref={anchorRef}>
-      <Combobox
-        multiple
-        value={value ?? []}
-        onValueChange={(val) => onChange(val as any[])}
-        disabled={disabled}
-        onInputValueChange={(val, { reason }) => {
-          if (reason === "input-change") {
-            onInputValueChange?.(val)
-          }
-        }}
-      >
-        <ComboboxInput
-          placeholder={placeholder}
-          showClear={value && value.length > 0}
-          onBlur={onBlur}
-          aria-invalid={invalid || undefined}
-        />
-        <ComboboxContent anchor={anchorRef}>
-          <ComboboxList>
-            {loading && (
-              <div className="flex items-center justify-center py-4">
-                <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
-              </div>
-            )}
-            {!loading &&
-              options.map((opt) => (
-                <ComboboxItem key={getOptionKey(opt)} value={getOptionValue(opt)}>
-                  {getOptionLabel(opt)}
-                </ComboboxItem>
-              ))}
-            {!loading && options.length === 0 && (
-              <ComboboxEmpty>No results found</ComboboxEmpty>
-            )}
-          </ComboboxList>
-        </ComboboxContent>
-      </Combobox>
-    </div>
+    <Combobox
+      multiple
+      open={open}
+      onOpenChange={(next) => {
+        setOpen(next)
+        if (!next) onInputValueChange?.("")
+      }}
+      value={selectedIds}
+      onValueChange={(val) => handleValueChange(val as string[])}
+      disabled={disabled}
+      onInputValueChange={handleInputValueChange}
+      filter={() => true}
+    >
+      <ComboboxInput
+        placeholder={placeholder}
+        showClear={selectedIds.length > 0}
+        onBlur={onBlur}
+        aria-invalid={invalid || undefined}
+      />
+      <ComboboxContent>
+        <ComboboxList>
+          {loading && <LoadingRow />}
+          {!loading &&
+            normalized.map((o) => (
+              <ComboboxItem key={o.id} value={o.id}>
+                {o.label}
+              </ComboboxItem>
+            ))}
+          {!loading && normalized.length === 0 && (
+            <ComboboxEmpty>No results found</ComboboxEmpty>
+          )}
+        </ComboboxList>
+      </ComboboxContent>
+    </Combobox>
   )
 }

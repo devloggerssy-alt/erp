@@ -5,7 +5,7 @@ import { useTranslations } from "next-intl"
 import { useWatch } from "react-hook-form"
 import type { Control, UseFormSetValue, UseFormGetValues } from "react-hook-form"
 import { Trash2Icon } from "lucide-react"
-import type { ItemsClient, UnitsClient } from "@devloggers/api-client"
+import type { CrudListDataItem, ItemsClient, UnitsClient } from "@devloggers/api-client"
 import { Button } from "@/shared/components/ui/button"
 import { RhfTextField, RhfResourceSelect } from "@/shared/components/form"
 import { computeLineTotals } from "../invoices.config"
@@ -13,6 +13,7 @@ import type {
     InvoiceFormValues,
     InvoiceLineFormValues,
     InvoiceItemOption,
+    InvoiceUnitOption,
     InvoiceDirection,
 } from "../invoices.config"
 
@@ -52,9 +53,9 @@ export function InvoiceLineRow({
 
         setValue(`lines.${index}.itemId` as `lines.${number}.itemId`, itemOption.id)
 
-        const currentUnit = getValues(`lines.${index}.unitId` as `lines.${number}.unitId`)
-        if (!currentUnit && itemOption.baseUnitId) {
-            setValue(`lines.${index}.unitId` as `lines.${number}.unitId`, itemOption.baseUnitId)
+        const currentUnit = getValues(`lines.${index}._unit` as `lines.${number}._unit`) as { id: string } | null
+        if (!currentUnit?.id && itemOption.baseUnitId) {
+            setValue(`lines.${index}._unit` as `lines.${number}._unit`, { id: itemOption.baseUnitId })
         }
 
         const currentPrice = getValues(`lines.${index}.unitPrice` as `lines.${number}.unitPrice`)
@@ -86,26 +87,26 @@ export function InvoiceLineRow({
                     name={`lines.${index}._item` as `lines.${number}._item`}
                     client={(api) => api.items}
                     getLabel={(it) => `${it.code ?? ""} ${it.name ?? ""}`.trim()}
-                    getValue={(it) => ({
-                        id: it.id,
-                        name: it.name ?? "",
-                        code: it.code ?? "",
-                        baseUnitId: it.baseUnitId ?? "",
-                        latestPurchasePrice: it.latestPurchasePrice ?? null,
-                        defaultSellingPrice: it.defaultSellingPrice ?? null,
-                    })}
+                    getValue={(it) => it}
                     getId={(it) => it.id}
+                    searchIn={["code", "name"]}
                     placeholder={t("lines.item")}
                     disabled={disabled}
                     pageSize={30}
                 />
             </td>
             <td className="p-1 min-w-[120px]">
-                <RhfResourceSelect<InvoiceFormValues, `lines.${number}.unitId`, UnitsClient, string>
-                    name={`lines.${index}.unitId` as `lines.${number}.unitId`}
+                <RhfResourceSelect<
+                    InvoiceFormValues,
+                    `lines.${number}._unit`,
+                    UnitsClient,
+                    CrudListDataItem<UnitsClient>
+                >
+                    name={`lines.${index}._unit` as `lines.${number}._unit`}
                     client={(api) => api.units}
                     getLabel={(it) => it.name}
-                    getValue={(it) => it.id}
+                    getValue={(it) => it}
+                    getId={(it) => it.id}
                     placeholder={t("lines.unit")}
                     disabled={disabled}
                     pageSize={30}

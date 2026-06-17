@@ -4,7 +4,7 @@ import { ItemsService } from '../services/items.service';
 import { CreateItemDto, UpdateItemDto, ItemResponseDto } from '../dto';
 import { createCrudController, type CrudOpenApi } from '@devloggers/backend-core';
 import { JwtAuthGuard } from '@/modules/identity/auth/guards';
-import { itemCategoryResource, itemResource } from '@devloggers/api-contracts';
+import { itemCategoryResource, } from '@devloggers/api-contracts';
 
 const ITEMS_OPENAPI = {
     list: {
