@@ -3,6 +3,7 @@ import { EventEmitter2 } from '@nestjs/event-emitter';
 import { CrudService } from '@devloggers/backend-core';
 import { resources } from '@devloggers/api-contracts';
 import type { Party } from '@devloggers/db-prisma';
+import { PrismaService } from '@devloggers/db-prisma/nest';
 import { PartiesRepository } from './repositories/parties.repository';
 import { PartyPresenter } from './presenters/party.presenter';
 import { CreatePartyDto, UpdatePartyDto, PartyResponseDto } from './dto';
@@ -14,6 +15,7 @@ export class PartiesService extends CrudService<Party, PartyResponseDto, CreateP
     constructor(
         private readonly partiesRepository: PartiesRepository,
         private readonly partyPresenter: PartyPresenter,
+        private readonly prisma: PrismaService,
         private readonly emitter: EventEmitter2,
     ) {
         super(partiesRepository, partyPresenter, emitter);
@@ -39,5 +41,12 @@ export class PartiesService extends CrudService<Party, PartyResponseDto, CreateP
                 throw new ConflictException(`A party with code "${dto.code}" already exists`);
             }
         }
+    }
+
+    protected override async onDeleted(tenantId: string, entity: Party): Promise<void> {
+        await Promise.all([
+            this.prisma.tagAssignment.deleteMany({ where: { tenantId, entityType: 'parties', entityId: entity.id } }),
+            this.prisma.customFieldValue.deleteMany({ where: { tenantId, entityType: 'parties', entityId: entity.id } }),
+        ]);
     }
 }

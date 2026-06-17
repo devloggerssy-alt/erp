@@ -2,12 +2,16 @@ import { Injectable, NotFoundException, BadRequestException } from '@nestjs/comm
 import { PrismaService } from '@devloggers/db-prisma/nest';
 import { CreatePaymentDto, UpdatePaymentDto, AllocatePaymentDto } from './dto';
 import { DocumentSequencesService } from '../../accounting/document-sequences/services/document-sequences.service';
+import { FinancialSettingsService } from '../../accounting/financial-settings/services/financial-settings.service';
+import { buildPaymentJournalLines } from './payment-journal';
+import { updateAccountBalances } from '../../accounting/accounts/utils/account-balance.utils';
 
 @Injectable()
 export class PaymentsService {
     constructor(
         private readonly prisma: PrismaService,
         private readonly docSeqService: DocumentSequencesService,
+        private readonly financialSettingsService: FinancialSettingsService,
     ) {}
 
     async findAll(tenantId: string, filters: { type?: string; status?: string; page?: number; limit?: number }) {
@@ -39,7 +43,7 @@ export class PaymentsService {
             where: { id, tenantId },
             include: {
                 cashbox: true,
-                party: true,
+                party: { select: { name: true, receivableAccountId: true, payableAccountId: true } },
                 currency: true,
                 fiscalPeriod: true,
                 allocations: { include: { invoice: { select: { number: true, total: true } } } },
@@ -67,6 +71,7 @@ export class PaymentsService {
                 currencyId: dto.currencyId,
                 fiscalPeriodId: dto.fiscalPeriodId,
                 amount: dto.amount,
+                exchangeRate: dto.exchangeRate ?? 1,
                 unallocatedAmount: dto.amount,
                 notes: dto.notes,
                 createdBy: userId,
@@ -84,7 +89,7 @@ export class PaymentsService {
         if (dto.notes !== undefined) data.notes = dto.notes;
         if (dto.amount) {
             data.amount = dto.amount;
-            data.unallocatedAmount = dto.amount; // reset if amount changed
+            data.unallocatedAmount = dto.amount;
         }
         return this.prisma.payment.update({ where: { id }, data });
     }
@@ -93,21 +98,81 @@ export class PaymentsService {
         const payment = await this.findById(tenantId, id);
         if (payment.status !== 'DRAFT') throw new BadRequestException('Only draft payments can be posted');
 
-        // Update cashbox balance
-        const balanceDelta = payment.type === 'RECEIPT'
-            ? Number(payment.amount)   // receipts add to cashbox
-            : -Number(payment.amount); // payments/adjustments deduct
+        const cashbox = await this.prisma.cashbox.findUnique({ where: { id: payment.cashboxId } });
+        if (!cashbox?.linkedAccountId) {
+            throw new BadRequestException('Cashbox has no linked GL account; cannot post the payment');
+        }
 
-        await this.prisma.$transaction([
-            this.prisma.cashbox.update({
+        const settings = await this.financialSettingsService.getOrThrow(tenantId);
+        const isReceipt = payment.type === 'RECEIPT';
+
+        const counterpartAccountId = isReceipt
+            ? (payment.party?.receivableAccountId ?? settings.defaultReceivableAccountId)
+            : (payment.party?.payableAccountId ?? settings.defaultPayableAccountId);
+
+        if (!counterpartAccountId) {
+            throw new BadRequestException(
+                isReceipt
+                    ? 'No Accounts Receivable account configured. Set a default in Financial Settings or on the party.'
+                    : 'No Accounts Payable account configured. Set a default in Financial Settings or on the party.',
+            );
+        }
+
+        const exchangeRate = Number(payment.exchangeRate);
+        const amount = Number(payment.amount);
+        const balanceDelta = isReceipt ? amount : -amount;
+
+        const journalLines = buildPaymentJournalLines({
+            type: payment.type as 'RECEIPT' | 'PAYMENT' | 'ADJUSTMENT',
+            amount,
+            exchangeRate,
+            cashboxAccountId: cashbox.linkedAccountId,
+            counterpartAccountId,
+            partyId: payment.partyId ?? null,
+        });
+
+        const jeNumber = await this.docSeqService.getNextNumber(tenantId, 'JOURNAL_ENTRY');
+
+        await this.prisma.$transaction(async (tx) => {
+            await tx.journalEntry.create({
+                data: {
+                    tenantId,
+                    number: jeNumber,
+                    date: payment.date,
+                    fiscalPeriodId: payment.fiscalPeriodId,
+                    referenceType: 'payment',
+                    referenceId: payment.id,
+                    description: `Payment ${payment.number}`,
+                    status: 'POSTED',
+                    exchangeRate,
+                    postedAt: new Date(),
+                    createdBy: userId,
+                    lines: {
+                        create: journalLines.map((l) => ({
+                            tenantId,
+                            accountId: l.accountId,
+                            partyId: l.partyId ?? null,
+                            debit: l.debit,
+                            credit: l.credit,
+                            description: l.description,
+                            sortOrder: l.sortOrder,
+                        })),
+                    },
+                },
+            });
+
+            await updateAccountBalances(tx, journalLines);
+
+            await tx.cashbox.update({
                 where: { id: payment.cashboxId },
                 data: { balance: { increment: balanceDelta } },
-            }),
-            this.prisma.payment.update({
+            });
+
+            await tx.payment.update({
                 where: { id },
                 data: { status: 'POSTED', postedAt: new Date(), postedBy: userId },
-            }),
-        ]);
+            });
+        });
 
         return this.findById(tenantId, id);
     }
@@ -119,21 +184,76 @@ export class PaymentsService {
             throw new BadRequestException('Cannot cancel a payment with existing allocations. Remove allocations first.');
         }
 
-        // Reverse cashbox balance
-        const balanceDelta = payment.type === 'RECEIPT'
-            ? -Number(payment.amount)
-            : Number(payment.amount);
+        const cashbox = await this.prisma.cashbox.findUnique({ where: { id: payment.cashboxId } });
+        if (!cashbox?.linkedAccountId) {
+            throw new BadRequestException('Cashbox has no linked GL account; cannot cancel the payment');
+        }
 
-        await this.prisma.$transaction([
-            this.prisma.cashbox.update({
+        const settings = await this.financialSettingsService.getOrThrow(tenantId);
+        const isReceipt = payment.type === 'RECEIPT';
+
+        const counterpartAccountId = isReceipt
+            ? (payment.party?.receivableAccountId ?? settings.defaultReceivableAccountId ?? '')
+            : (payment.party?.payableAccountId ?? settings.defaultPayableAccountId ?? '');
+
+        const exchangeRate = Number(payment.exchangeRate);
+        const amount = Number(payment.amount);
+        const reverseDelta = isReceipt ? -amount : amount;
+
+        const reversalLines = buildPaymentJournalLines(
+            {
+                type: payment.type as 'RECEIPT' | 'PAYMENT' | 'ADJUSTMENT',
+                amount,
+                exchangeRate,
+                cashboxAccountId: cashbox.linkedAccountId,
+                counterpartAccountId,
+                partyId: payment.partyId ?? null,
+            },
+            { reverse: true },
+        );
+
+        const jeNumber = await this.docSeqService.getNextNumber(tenantId, 'JOURNAL_ENTRY');
+
+        await this.prisma.$transaction(async (tx) => {
+            await tx.journalEntry.create({
+                data: {
+                    tenantId,
+                    number: jeNumber,
+                    date: new Date(),
+                    fiscalPeriodId: payment.fiscalPeriodId,
+                    referenceType: 'payment_cancellation',
+                    referenceId: payment.id,
+                    description: `Reversal of payment ${payment.number}`,
+                    status: 'POSTED',
+                    exchangeRate,
+                    postedAt: new Date(),
+                    createdBy: userId,
+                    lines: {
+                        create: reversalLines.map((l) => ({
+                            tenantId,
+                            accountId: l.accountId,
+                            partyId: l.partyId ?? null,
+                            debit: l.debit,
+                            credit: l.credit,
+                            description: l.description,
+                            sortOrder: l.sortOrder,
+                        })),
+                    },
+                },
+            });
+
+            await updateAccountBalances(tx, reversalLines);
+
+            await tx.cashbox.update({
                 where: { id: payment.cashboxId },
-                data: { balance: { increment: balanceDelta } },
-            }),
-            this.prisma.payment.update({
+                data: { balance: { increment: reverseDelta } },
+            });
+
+            await tx.payment.update({
                 where: { id },
                 data: { status: 'CANCELLED', cancelledAt: new Date(), cancelledBy: userId },
-            }),
-        ]);
+            });
+        });
 
         return this.findById(tenantId, id);
     }
@@ -147,7 +267,6 @@ export class PaymentsService {
             throw new BadRequestException(`Allocation amount (${dto.amount}) exceeds unallocated balance (${unallocated})`);
         }
 
-        // Create allocation and update amounts atomically
         return this.prisma.$transaction(async (tx) => {
             const allocation = await tx.paymentAllocation.create({
                 data: { tenantId, paymentId, invoiceId: dto.invoiceId, amount: dto.amount },

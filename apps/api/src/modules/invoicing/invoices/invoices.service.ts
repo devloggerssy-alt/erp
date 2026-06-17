@@ -151,6 +151,7 @@ export class InvoicesService {
                 warehouseId: dto.warehouseId,
                 fiscalPeriodId: dto.fiscalPeriodId,
                 currencyId: dto.currencyId,
+                exchangeRate: dto.exchangeRate ?? 1,
                 subtotal,
                 discountAmount: totalDiscount,
                 taxAmount: totalTax,
@@ -232,6 +233,24 @@ export class InvoicesService {
                 lines: true,
                 invoiceType: true,
             },
+        });
+    }
+
+    async delete(tenantId: string, id: string): Promise<void> {
+        const invoice = await this.findById(tenantId, id);
+        if (invoice.status !== 'DRAFT') {
+            throw new BadRequestException('Only draft invoices can be deleted. Posted invoices must be cancelled.');
+        }
+
+        await this.prisma.$transaction(async (tx) => {
+            // Cascade polymorphic children first (no FK constraints)
+            await Promise.all([
+                tx.tagAssignment.deleteMany({ where: { tenantId, entityType: 'invoices', entityId: id } }),
+                tx.customFieldValue.deleteMany({ where: { tenantId, entityType: 'invoices', entityId: id } }),
+            ]);
+            // Delete lines explicitly (no DB cascade on invoiceId FK)
+            await tx.invoiceLine.deleteMany({ where: { invoiceId: id } });
+            await tx.invoice.delete({ where: { id } });
         });
     }
 }

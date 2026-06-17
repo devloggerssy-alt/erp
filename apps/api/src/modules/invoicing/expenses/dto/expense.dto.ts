@@ -41,6 +41,10 @@ export class CreateExpenseDto {
     @IsString() @IsNotEmpty()
     fiscalPeriodId: string;
 
+    @ApiPropertyOptional({ example: 1.0, description: 'Exchange rate to base currency (default 1)' })
+    @IsOptional() @IsNumber() @Min(0.0001)
+    exchangeRate?: number;
+
     @ApiPropertyOptional({ example: 'April fixed costs' })
     @IsOptional() @IsString()
     notes?: string;

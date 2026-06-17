@@ -88,6 +88,12 @@ export class CreateInvoiceDto {
     @IsNotEmpty()
     currencyId: string;
 
+    @ApiPropertyOptional({ example: 1.0, description: 'Exchange rate to base currency (default 1)' })
+    @IsOptional()
+    @IsNumber()
+    @Min(0.0001)
+    exchangeRate?: number;
+
     @ApiPropertyOptional({ example: 'Purchase order for Q2 stock replenishment' })
     @IsOptional()
     @IsString()

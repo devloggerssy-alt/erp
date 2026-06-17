@@ -62,4 +62,8 @@ export class TagAssignmentsService {
     if (!assignment) throw new NotFoundException(`Tag assignment not found`);
     await this.prisma.tagAssignment.delete({ where: { id } });
   }
+
+  async deleteByEntity(tenantId: string, entityType: string, entityId: string): Promise<void> {
+    await this.prisma.tagAssignment.deleteMany({ where: { tenantId, entityType, entityId } });
+  }
 }

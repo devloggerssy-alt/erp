@@ -36,6 +36,10 @@ export class CreatePaymentDto {
     @IsNumber() @Min(0.01)
     amount: number;
 
+    @ApiPropertyOptional({ example: 1.0, description: 'Exchange rate to base currency (default 1)' })
+    @IsOptional() @IsNumber() @Min(0.0001)
+    exchangeRate?: number;
+
     @ApiPropertyOptional({ example: 'Payment received for invoice SAL-00001' })
     @IsOptional() @IsString()
     notes?: string;

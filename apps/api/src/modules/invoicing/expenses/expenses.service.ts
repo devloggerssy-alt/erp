@@ -3,6 +3,7 @@ import { PrismaService } from '@devloggers/db-prisma/nest';
 import { CreateExpenseDto, UpdateExpenseDto, CreateExpenseItemDto } from './dto';
 import { DocumentSequencesService } from '../../accounting/document-sequences/services/document-sequences.service';
 import { buildExpenseJournalLines } from './expense-journal';
+import { updateAccountBalances } from '../../accounting/accounts/utils/account-balance.utils';
 
 @Injectable()
 export class ExpensesService {
@@ -60,6 +61,7 @@ export class ExpensesService {
                 currencyId: dto.currencyId,
                 fiscalPeriodId: dto.fiscalPeriodId,
                 totalAmount,
+                exchangeRate: dto.exchangeRate ?? 1,
                 notes: dto.notes,
                 createdBy: userId,
                 items: { create: this.mapItems(tenantId, dto.items) },
@@ -107,13 +109,14 @@ export class ExpensesService {
             throw new BadRequestException('Cashbox has no linked account; cannot post the expense');
         }
 
+        const exchangeRate = Number(expense.exchangeRate);
         const totalAmount = Number(expense.totalAmount);
         const lines = buildExpenseJournalLines({
-            totalAmount,
+            totalAmount: totalAmount * exchangeRate,
             cashboxAccountId: expense.cashbox.linkedAccountId,
             items: expense.items.map((it) => ({
                 accountId: it.accountId,
-                amount: Number(it.amount),
+                amount: Number(it.amount) * exchangeRate,
                 description: it.description,
                 sortOrder: it.sortOrder,
             })),
@@ -132,6 +135,7 @@ export class ExpensesService {
                     referenceId: expense.id,
                     description: `Expense ${expense.number}`,
                     status: 'POSTED',
+                    exchangeRate,
                     postedAt: new Date(),
                     createdBy: userId,
                     lines: {
@@ -146,6 +150,8 @@ export class ExpensesService {
                     },
                 },
             });
+
+            await updateAccountBalances(tx, lines);
 
             await tx.cashbox.update({
                 where: { id: expense.cashboxId },
@@ -168,14 +174,15 @@ export class ExpensesService {
             throw new BadRequestException('Cashbox has no linked account; cannot cancel the expense');
         }
 
+        const exchangeRate = Number(expense.exchangeRate);
         const totalAmount = Number(expense.totalAmount);
         const lines = buildExpenseJournalLines(
             {
-                totalAmount,
+                totalAmount: totalAmount * exchangeRate,
                 cashboxAccountId: expense.cashbox.linkedAccountId,
                 items: expense.items.map((it) => ({
                     accountId: it.accountId,
-                    amount: Number(it.amount),
+                    amount: Number(it.amount) * exchangeRate,
                     description: it.description,
                     sortOrder: it.sortOrder,
                 })),
@@ -196,6 +203,7 @@ export class ExpensesService {
                     referenceId: expense.id,
                     description: `Reversal of expense ${expense.number}`,
                     status: 'POSTED',
+                    exchangeRate,
                     postedAt: new Date(),
                     createdBy: userId,
                     lines: {
@@ -210,6 +218,8 @@ export class ExpensesService {
                     },
                 },
             });
+
+            await updateAccountBalances(tx, lines);
 
             await tx.cashbox.update({
                 where: { id: expense.cashboxId },

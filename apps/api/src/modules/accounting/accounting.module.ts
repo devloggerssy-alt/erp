@@ -5,11 +5,12 @@ import { CurrenciesModule } from './currencies/currencies.module';
 import { FiscalPeriodsModule } from './fiscal-periods/fiscal-periods.module';
 import { DocumentSequencesModule } from './document-sequences/document-sequences.module';
 import { AccountsModule } from './accounts/accounts.module';
+import { FinancialSettingsModule } from './financial-settings/financial-settings.module';
 
 @Module({
-    imports: [CurrenciesModule, FiscalPeriodsModule, DocumentSequencesModule, AccountsModule],
+    imports: [CurrenciesModule, FiscalPeriodsModule, DocumentSequencesModule, AccountsModule, FinancialSettingsModule],
     controllers: [AccountingController],
     providers: [AccountingService],
-    exports: [AccountingService, CurrenciesModule, FiscalPeriodsModule, DocumentSequencesModule, AccountsModule],
+    exports: [AccountingService, CurrenciesModule, FiscalPeriodsModule, DocumentSequencesModule, AccountsModule, FinancialSettingsModule],
 })
 export class AccountingModule {}

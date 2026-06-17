@@ -3,6 +3,7 @@ import { EventEmitter2 } from '@nestjs/event-emitter';
 import { CrudService, FindManyOptions } from '@devloggers/backend-core';
 import { customFieldModules, resources } from '@devloggers/api-contracts';
 import type { Item } from '@devloggers/db-prisma';
+import { PrismaService } from '@devloggers/db-prisma/nest';
 import { CustomFieldValuesService } from '@/modules/custom-fields/services/custom-field-values.service';
 import { ItemsRepository } from '../repositories/items.repository';
 import { ItemPresenter } from '../presenters/item.presenter';
@@ -16,6 +17,7 @@ export class ItemsService extends CrudService<Item, ItemResponseDto, CreateItemD
         private readonly itemsRepository: ItemsRepository,
         private readonly itemPresenter: ItemPresenter,
         private readonly customFieldValuesService: CustomFieldValuesService,
+        private readonly prisma: PrismaService,
         private readonly emitter: EventEmitter2,
     ) {
         super(itemsRepository, itemPresenter, emitter);
@@ -90,11 +92,10 @@ export class ItemsService extends CrudService<Item, ItemResponseDto, CreateItemD
     }
 
     protected override async onDeleted(tenantId: string, entity: Item): Promise<void> {
-        await this.customFieldValuesService.clearForEntity(
-            tenantId,
-            customFieldModules.items,
-            entity.id,
-        );
+        await Promise.all([
+            this.customFieldValuesService.clearForEntity(tenantId, customFieldModules.items, entity.id),
+            this.prisma.tagAssignment.deleteMany({ where: { tenantId, entityType: 'items', entityId: entity.id } }),
+        ]);
     }
 
     protected override async beforeCreate(tenantId: string, dto: CreateItemDto): Promise<void> {
