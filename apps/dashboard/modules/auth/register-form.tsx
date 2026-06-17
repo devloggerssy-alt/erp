@@ -59,9 +59,10 @@ export function RegisterForm({
 
     const { mutate, error, isPending: isSubmitting } = useMutation({
         mutationFn: (values: RegisterFormValues) => api.auth.register(values),
-        onSuccess: async ({ data }) => {
+        onSuccess: async (result: unknown) => {
+            const data = (result as { data?: { accessToken?: string; user?: unknown } })?.data
             if (data?.accessToken && data.user) {
-                await login(data.accessToken, data.user)
+                await login(data.accessToken, data.user as any)
                 router.push(localizedHref("/"))
             }
         },

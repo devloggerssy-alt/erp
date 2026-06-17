@@ -91,15 +91,16 @@ export function StockCountsForm({
                             required
                             disabled={ctrl.isBusy}
                         />
-                        <RhfTextField
-                            name={`lines.${index}.countedQuantity`}
-                            label={index === 0 ? t("countedQty") : undefined}
-                            type="number"
-                            placeholder="0"
-                            required
-                            disabled={ctrl.isBusy}
-                            className="w-24"
-                        />
+                        <div className="w-24">
+                            <RhfTextField
+                                name={`lines.${index}.countedQuantity`}
+                                label={index === 0 ? t("countedQty") : undefined}
+                                type="number"
+                                placeholder="0"
+                                required
+                                disabled={ctrl.isBusy}
+                            />
+                        </div>
                         <Button
                             type="button"
                             variant="ghost"

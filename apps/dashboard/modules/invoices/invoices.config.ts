@@ -87,6 +87,7 @@ export const invoiceFormSchema = z.object({
     warehouse: optionalRelational,
     fiscalPeriod: relational,
     currency: relational,
+    exchangeRate: z.coerce.number().min(0.0001).default(1),
     notes: z.string().optional(),
     lines: z.array(invoiceLineSchema).min(1, "At least one line is required"),
 }).superRefine((data, ctx) => {
@@ -126,6 +127,7 @@ export const DEFAULT_INVOICE_FORM_VALUES: InvoiceFormValues = {
     warehouse: null,
     fiscalPeriod: null,
     currency: null,
+    exchangeRate: 1,
     notes: "",
     lines: [{ ...DEFAULT_INVOICE_LINE }],
 }
@@ -140,6 +142,7 @@ interface InvoiceApiResponse {
     warehouseId?: string
     fiscalPeriodId?: string
     currencyId?: string
+    exchangeRate?: number | string
     notes?: string
     lines?: InvoiceLineApiData[]
 }
@@ -154,6 +157,7 @@ export function mapInvoiceToFormValues(data: unknown): InvoiceFormValues {
         warehouse: resolved?.warehouseId ? { id: resolved.warehouseId } : null,
         fiscalPeriod: resolved?.fiscalPeriodId ? { id: resolved.fiscalPeriodId } : null,
         currency: resolved?.currencyId ? { id: resolved.currencyId } : null,
+        exchangeRate: Number(resolved?.exchangeRate) || 1,
         notes: resolved?.notes ?? "",
         lines: (resolved?.lines ?? [{ ...DEFAULT_INVOICE_LINE }]).map((line) => ({
             _item: line.itemId ? {
@@ -186,6 +190,7 @@ export function toCreateInvoiceDto(values: InvoiceFormValues): CreateInvoiceDto 
         warehouseId: values.warehouse?.id || undefined,
         fiscalPeriodId: values.fiscalPeriod?.id ?? "",
         currencyId: values.currency?.id ?? "",
+        exchangeRate: values.exchangeRate,
         notes: values.notes || undefined,
         lines: values.lines.map((line, index) => ({
             itemId: line.itemId,
@@ -207,6 +212,7 @@ export function toUpdateInvoiceDto(values: InvoiceFormValues): UpdateInvoiceDto 
         partyId: values.party?.id ?? "",
         warehouseId: values.warehouse?.id || undefined,
         currencyId: values.currency?.id ?? "",
+        exchangeRate: values.exchangeRate,
         notes: values.notes || undefined,
         lines: values.lines.map((line, index) => ({
             itemId: line.itemId,

@@ -17,6 +17,7 @@ const SECTIONS: { groupKey: string; items: NavItem[] }[] = [
     items: [
       { href: "/settings/localization", labelKey: "localization.navLabel" },
       { href: "/settings/financial", labelKey: "financial.navLabel" },
+      { href: "/settings/gl-accounts", labelKey: "glAccounts.navLabel" },
       { href: "/settings/documents", labelKey: "documents.navLabel" },
     ],
   },

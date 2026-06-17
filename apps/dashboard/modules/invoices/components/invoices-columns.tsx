@@ -12,7 +12,7 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from "@/shared/components/ui/dropdown-menu"
-import { MoreHorizontalIcon, SendIcon, XCircleIcon, PencilIcon, EyeIcon } from "lucide-react"
+import { MoreHorizontalIcon, SendIcon, XCircleIcon, PencilIcon, EyeIcon, Trash2Icon } from "lucide-react"
 import { cn } from "@/shared/lib/utils"
 
 type InvoiceItem = ResourceItem<InvoicesClient>
@@ -20,8 +20,9 @@ type ColumnTranslator = (key: string) => string
 
 export type InvoiceColumnActions = {
     onOpenModal: (id: string) => void
-    postInvoice: (id: string) => Promise<void>
-    cancelInvoice: (id: string) => Promise<void>
+    postInvoice: (id: string) => Promise<unknown>
+    cancelInvoice: (id: string) => Promise<unknown>
+    deleteInvoice: (id: string) => Promise<unknown>
 }
 
 function StatusBadge({ status, t }: { status: string; t: ColumnTranslator }) {
@@ -75,6 +76,13 @@ function InvoiceActionsCell({
                             <SendIcon className="me-2 h-4 w-4" />
                             {t("actions.post")}
                         </DropdownMenuItem>
+                        <DropdownMenuItem
+                            className="text-destructive focus:text-destructive"
+                            onClick={() => actions.deleteInvoice(id)}
+                        >
+                            <Trash2Icon className="me-2 h-4 w-4" />
+                            {t("actions.delete")}
+                        </DropdownMenuItem>
                     </>
                 )}
                 {status === "POSTED" && (
@@ -107,7 +115,7 @@ export function createInvoicesColumns(
     _helpers: ResourceTableHelpers<InvoicesClient>,
     t: ColumnTranslator,
     actions: InvoiceColumnActions,
-): ColumnDef<any>[] {
+): ColumnDef<InvoiceItem | any>[] {
     return [
         {
             accessorKey: "number",

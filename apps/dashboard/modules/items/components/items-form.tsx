@@ -91,7 +91,6 @@ export function ItemsForm({
                                     options={[
                                         { label: t("itemTypes.product"), value: "product" },
                                         { label: t("itemTypes.service"), value: "service" },
-                                        { label: t("itemTypes.vehicle"), value: "vehicle" },
                                         { label: t("itemTypes.bundle"), value: "bundle" },
                                     ]}
                                     disabled={ctrl.isBusy}

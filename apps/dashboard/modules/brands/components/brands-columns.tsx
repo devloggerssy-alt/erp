@@ -1,5 +1,5 @@
 import type { ColumnDef } from "@tanstack/react-table"
-import type { ICrudClient } from "@devloggers/api-client"
+import type { BrandsClient } from "@devloggers/api-client"
 import type { ResourceItem, ResourceTableHelpers } from "@/shared/data-view/resource"
 import { BooleanCell, ColumnHeader } from "@/shared/data-view/table-view"
 
@@ -12,14 +12,14 @@ type BrandRow = {
     isActive: boolean
 }
 
-function asRow(item: ResourceItem<ICrudClient>): BrandRow {
+function asRow(item: ResourceItem<BrandsClient>): BrandRow {
     return item as unknown as BrandRow
 }
 
 export function createBrandsColumns(
-    helpers: ResourceTableHelpers<ICrudClient>,
+    helpers: ResourceTableHelpers<BrandsClient>,
     t: ColumnTranslator,
-): ColumnDef<ResourceItem<ICrudClient>>[] {
+): ColumnDef<ResourceItem<BrandsClient>>[] {
     return [
         {
             id: "name",

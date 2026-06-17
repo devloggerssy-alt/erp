@@ -96,6 +96,16 @@ export function AccountTreeNodeRow({
                     <Badge variant="secondary" className="ms-auto shrink-0 text-[10px] tabular-nums">{node.children.length}</Badge>
                 )}
 
+                {mode === "manage" && node.account.currentBalance != null && (
+                    <span className={cn(
+                        "shrink-0 font-mono text-xs tabular-nums",
+                        hasChildren ? "ms-2" : "ms-auto",
+                        node.account.currentBalance < 0 ? "text-destructive" : "text-muted-foreground",
+                    )}>
+                        {node.account.currentBalance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                    </span>
+                )}
+
                 {mode === "manage" && actions && (
                     <div className={cn("flex shrink-0 items-center gap-0.5 opacity-0 transition-opacity group-hover:opacity-100", !hasChildren && "ms-auto")}>
                         <IconTooltip label={t("addChild")}>

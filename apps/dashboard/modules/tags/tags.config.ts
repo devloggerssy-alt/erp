@@ -13,7 +13,7 @@ export const tagFormSchema = z.object({
         .regex(/^#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})$/, "Must be a valid hex color")
         .optional()
         .or(z.literal("")),
-    module: z.enum(TAG_MODULES, { required_error: "Module is required" }),
+    module: z.enum(TAG_MODULES),
 })
 
 export type TagFormValues = z.infer<typeof tagFormSchema>

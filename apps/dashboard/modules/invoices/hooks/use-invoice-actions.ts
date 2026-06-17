@@ -61,5 +61,23 @@ export function useInvoiceActions(onSuccess?: () => void) {
         },
     })
 
-    return { postInvoice, cancelInvoice }
+    const { mutateAsync: deleteInvoice } = useMutation({
+        mutationFn: async (id: string) => {
+            const confirmed = await confirm({
+                title: t("actions.deleteTitle"),
+                description: t("actions.deleteConfirm"),
+                confirmLabel: t("actions.delete"),
+                variant: "destructive",
+            })
+            if (!confirmed) return
+
+            return api.invoices.destroy(id)
+        },
+        onSuccess: () => {
+            invalidate()
+            onSuccess?.()
+        },
+    })
+
+    return { postInvoice, cancelInvoice, deleteInvoice }
 }

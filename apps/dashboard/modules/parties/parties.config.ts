@@ -3,6 +3,9 @@ import type { CreatePartyDto, UpdatePartyDto } from "@devloggers/api-contracts"
 import type { ResourceFormConfig } from "@/shared/hooks/use-resource-form-controller"
 import { unwrapApiData } from "@/shared/hooks/unwrap-api-data"
 
+export type PartyAccountField = { id: string }
+const optionalAccount = z.object({ id: z.string() }).passthrough().nullable().optional()
+
 export const PARTY_TYPES = ["CUSTOMER", "SUPPLIER", "CUSTOMER_SUPPLIER"] as const
 export type PartyTypeValue = (typeof PARTY_TYPES)[number]
 
@@ -39,6 +42,8 @@ export const partyFormSchema = z.object({
     address: z.string().optional(),
     openingBalance: z.number().optional(),
     isActive: z.boolean().optional(),
+    receivableAccount: optionalAccount,
+    payableAccount: optionalAccount,
 })
 
 export type PartyFormValues = z.infer<typeof partyFormSchema>
@@ -52,10 +57,12 @@ export const DEFAULT_PARTY_FORM_VALUES: PartyFormValues = {
     address: "",
     openingBalance: 0,
     isActive: true,
+    receivableAccount: null,
+    payableAccount: null,
 }
 
 export function mapPartyToFormValues(data: unknown): PartyFormValues {
-    const resolved = unwrapApiData<PartyFormValues>(data)
+    const resolved = unwrapApiData<PartyFormValues & { receivableAccountId?: string; payableAccountId?: string }>(data)
     return {
         code: resolved.code ?? "",
         name: resolved.name ?? "",
@@ -65,6 +72,8 @@ export function mapPartyToFormValues(data: unknown): PartyFormValues {
         address: resolved.address ?? "",
         openingBalance: resolved.openingBalance ?? 0,
         isActive: resolved.isActive ?? true,
+        receivableAccount: resolved.receivableAccountId ? { id: resolved.receivableAccountId } : null,
+        payableAccount: resolved.payableAccountId ? { id: resolved.payableAccountId } : null,
     }
 }
 
@@ -80,6 +89,8 @@ export const partiesFormConfig: ResourceFormConfig<PartyFormValues, CreatePartyD
         email: values.email?.trim() || undefined,
         address: values.address?.trim() || undefined,
         openingBalance: values.openingBalance ?? 0,
+        receivableAccountId: values.receivableAccount?.id || undefined,
+        payableAccountId: values.payableAccount?.id || undefined,
     }),
     toUpdate: (values) => ({
         code: values.code?.trim() || undefined,
@@ -90,5 +101,7 @@ export const partiesFormConfig: ResourceFormConfig<PartyFormValues, CreatePartyD
         address: values.address?.trim() || undefined,
         openingBalance: values.openingBalance ?? 0,
         isActive: values.isActive ?? true,
+        receivableAccountId: values.receivableAccount?.id ?? null,
+        payableAccountId: values.payableAccount?.id ?? null,
     }),
 }

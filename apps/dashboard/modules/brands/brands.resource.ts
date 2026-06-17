@@ -1,8 +1,8 @@
 import { generateResource } from "@/shared/data-view/resource"
-import type { ICrudClient } from "@devloggers/api-client"
+import type { BrandsClient } from "@devloggers/api-client"
 
-export const BrandsResource = generateResource<ICrudClient>({
-    getClient: (api) => api.brands as ICrudClient,
+export const BrandsResource = generateResource<BrandsClient>({
+    getClient: (api) => api.brands,
     paramKey: "brands",
     list: {
         searchIn: ["name"],

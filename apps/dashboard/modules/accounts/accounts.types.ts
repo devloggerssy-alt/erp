@@ -17,6 +17,7 @@ export type AccountListItem = {
     parentCode?: string | null
     parentName?: string | null
     isActive: boolean
+    currentBalance?: number | null
 }
 
 export type AccountTreeNode = {

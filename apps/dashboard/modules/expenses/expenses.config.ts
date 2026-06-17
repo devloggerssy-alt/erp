@@ -31,6 +31,7 @@ export const expenseFormSchema = z.object({
     cashbox: relational,
     currency: relational,
     fiscalPeriod: relational,
+    exchangeRate: z.coerce.number().min(0.0001).default(1),
     notes: z.string().optional(),
     items: z.array(expenseItemSchema).min(1, "At least one item is required"),
 }).superRefine((data, ctx) => {
@@ -62,6 +63,7 @@ export const DEFAULT_EXPENSE_FORM_VALUES: ExpenseFormValues = {
     cashbox: null,
     currency: null,
     fiscalPeriod: null,
+    exchangeRate: 1,
     notes: "",
     items: [{ ...DEFAULT_EXPENSE_ITEM }],
 }
@@ -73,6 +75,7 @@ interface ExpenseApiData {
     cashboxId?: string
     currencyId?: string
     fiscalPeriodId?: string
+    exchangeRate?: number | string
     notes?: string | null
     items?: Array<{
         accountId?: string
@@ -92,6 +95,7 @@ export function mapExpenseToFormValues(data: unknown): ExpenseFormValues {
         cashbox: resolved.cashboxId ? { id: resolved.cashboxId } : null,
         currency: resolved.currencyId ? { id: resolved.currencyId } : null,
         fiscalPeriod: resolved.fiscalPeriodId ? { id: resolved.fiscalPeriodId } : null,
+        exchangeRate: Number(resolved.exchangeRate) || 1,
         notes: resolved.notes ?? "",
         items: resolved.items?.length
             ? resolved.items.map((item) => ({
@@ -113,6 +117,7 @@ export function toCreateExpenseDto(values: ExpenseFormValues): CreateExpenseDto 
         cashboxId: values.cashbox?.id ?? "",
         currencyId: values.currency?.id ?? "",
         fiscalPeriodId: values.fiscalPeriod?.id ?? "",
+        exchangeRate: values.exchangeRate,
         notes: values.notes || undefined,
         items: values.items.map((item, index) => ({
             accountId: item._account?.id ?? "",
@@ -130,6 +135,7 @@ export function toUpdateExpenseDto(values: ExpenseFormValues): UpdateExpenseDto 
         cashboxId: values.cashbox?.id ?? "",
         currencyId: values.currency?.id ?? "",
         fiscalPeriodId: values.fiscalPeriod?.id ?? "",
+        exchangeRate: values.exchangeRate,
         notes: values.notes || undefined,
         items: values.items.map((item, index) => ({
             accountId: item._account?.id ?? "",

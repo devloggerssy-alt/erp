@@ -119,6 +119,19 @@
       "roundingPrecision": "Yuvarlama hassasiyeti",
       "fiscalYearStartMonth": "Mali yıl başlangıç ayı"
     },
+    "glAccounts": {
+      "navLabel": "Muhasebe Hesapları",
+      "title": "Varsayılan muhasebe hesapları",
+      "description": "İşlem kaydedilirken kullanılan varsayılan genel muhasebe hesapları.",
+      "saving": "Kaydediliyor…",
+      "saved": "Muhasebe hesapları kaydedildi",
+      "failed": "Muhasebe hesapları kaydedilemedi",
+      "defaultSalesAccount": "Varsayılan satış hesabı",
+      "defaultPurchaseAccount": "Varsayılan satın alma hesabı",
+      "defaultTaxAccount": "Varsayılan vergi hesabı",
+      "defaultReceivableAccount": "Varsayılan alacak hesabı",
+      "defaultPayableAccount": "Varsayılan borç hesabı"
+    },
     "documents": {
       "navLabel": "Belgeler",
       "title": "Fatura ve belge tercihleri",
@@ -203,7 +216,6 @@
       "itemTypes": {
         "product": "Ürün",
         "service": "Hizmet",
-        "vehicle": "Araç",
         "bundle": "Paket"
       },
       "active": "Aktif",
@@ -264,6 +276,8 @@
       "addressPlaceholder": "örn. İstanbul, Türkiye",
       "openingBalance": "Açılış Bakiyesi",
       "openingBalancePlaceholder": "örn. 0",
+      "receivableAccount": "Alacak Hesabı (AR)",
+      "payableAccount": "Borç Hesabı (AP)",
       "active": "Aktif"
     },
     "suppliers": {
@@ -287,6 +301,8 @@
       "addressPlaceholder": "örn. İstanbul, Türkiye",
       "openingBalance": "Açılış Bakiyesi",
       "openingBalancePlaceholder": "örn. 0",
+      "receivableAccount": "Alacak Hesabı (AR)",
+      "payableAccount": "Borç Hesabı (AP)",
       "active": "Aktif"
     },
     "accounts": {
@@ -408,6 +424,7 @@
       "warehouse": "Depo",
       "fiscalPeriod": "Mali Dönem",
       "currency": "Para Birimi",
+      "exchangeRate": "Döviz Kuru",
       "notes": "Notlar",
       "status": {
         "draft": "Taslak",
@@ -417,12 +434,15 @@
       "actions": {
         "post": "Faturayı Gönder",
         "cancel": "Faturayı İptal Et",
+        "delete": "Faturayı Sil",
         "edit": "Düzenle",
         "view": "Görüntüle",
         "postConfirm": "Bu işlem faturayı kilitleyecek ve stoku güncelleyecektir. Bu işlem geri alınamaz.",
         "cancelConfirm": "Bu işlem stok hareketlerini tersine çevirecektir. Fatura iptal olarak işaretlenecektir.",
+        "deleteConfirm": "Bu işlem taslak faturayı kalıcı olarak silecektir. Bu işlem geri alınamaz.",
         "postTitle": "Fatura Gönderilsin mi?",
-        "cancelTitle": "Fatura İptal Edilsin mi?"
+        "cancelTitle": "Fatura İptal Edilsin mi?",
+        "deleteTitle": "Fatura Silinsin mi?"
       },
       "lines": {
         "item": "Ürün",
@@ -461,6 +481,7 @@
       "cashbox": "Kasa",
       "currency": "Para Birimi",
       "fiscalPeriod": "Mali Dönem",
+      "exchangeRate": "Döviz Kuru",
       "notes": "Notlar",
       "total": "Toplam",
       "status": {

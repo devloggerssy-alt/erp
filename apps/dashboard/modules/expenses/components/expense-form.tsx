@@ -8,7 +8,7 @@ import type {
     FiscalPeriodsClient,
 } from "@devloggers/api-client"
 import { Button } from "@/shared/components/ui/button"
-import { Rhform, RhfTextareaField, RhfResourceSelect } from "@/shared/components/form"
+import { Rhform, RhfTextareaField, RhfResourceSelect, RhfTextField } from "@/shared/components/form"
 import { RhfDateField } from "@/shared/components/form/fields/rhf-date-field"
 import { DEFAULT_EXPENSE_ITEM, type ExpenseFormValues, type ExpenseRelationalField } from "../expenses.config"
 import type { ExpenseFormController } from "../hooks/use-expense-form"
@@ -57,6 +57,12 @@ function ExpenseHeaderFields({ ctrl }: { ctrl: ExpenseFormController }) {
                     disabled={disabled}
                 />
             </div>
+            <RhfTextField
+                name="exchangeRate"
+                label={t("exchangeRate")}
+                type="number"
+                disabled={disabled}
+            />
             <RhfTextareaField
                 name="notes"
                 label={t("notes")}

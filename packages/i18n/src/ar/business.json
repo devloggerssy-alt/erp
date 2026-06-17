@@ -119,6 +119,19 @@
       "roundingPrecision": "دقة التقريب",
       "fiscalYearStartMonth": "شهر بداية السنة المالية"
     },
+    "glAccounts": {
+      "navLabel": "حسابات الأستاذ",
+      "title": "حسابات الأستاذ الافتراضية",
+      "description": "حسابات الأستاذ العام الافتراضية المستخدمة عند ترحيل المعاملات.",
+      "saving": "جارٍ الحفظ…",
+      "saved": "تم حفظ حسابات الأستاذ",
+      "failed": "تعذّر حفظ حسابات الأستاذ",
+      "defaultSalesAccount": "حساب المبيعات الافتراضي",
+      "defaultPurchaseAccount": "حساب المشتريات الافتراضي",
+      "defaultTaxAccount": "حساب الضريبة الافتراضي",
+      "defaultReceivableAccount": "حساب المدينين الافتراضي",
+      "defaultPayableAccount": "حساب الدائنين الافتراضي"
+    },
     "documents": {
       "navLabel": "المستندات",
       "title": "تفضيلات الفواتير والمستندات",
@@ -203,7 +216,6 @@
       "itemTypes": {
         "product": "منتج",
         "service": "خدمة",
-        "vehicle": "مركبة",
         "bundle": "حزمة"
       },
       "active": "نشط",
@@ -264,6 +276,8 @@
       "addressPlaceholder": "مثال: دمشق، سوريا",
       "openingBalance": "الرصيد الافتتاحي",
       "openingBalancePlaceholder": "مثال: 0",
+      "receivableAccount": "حساب المدينون (ذمم مدينة)",
+      "payableAccount": "حساب الدائنون (ذمم دائنة)",
       "active": "نشط"
     },
     "suppliers": {
@@ -287,6 +301,8 @@
       "addressPlaceholder": "مثال: دمشق، سوريا",
       "openingBalance": "الرصيد الافتتاحي",
       "openingBalancePlaceholder": "مثال: 0",
+      "receivableAccount": "حساب المدينون (ذمم مدينة)",
+      "payableAccount": "حساب الدائنون (ذمم دائنة)",
       "active": "نشط"
     },
     "accounts": {
@@ -408,6 +424,7 @@
       "warehouse": "المستودع",
       "fiscalPeriod": "الفترة المالية",
       "currency": "العملة",
+      "exchangeRate": "سعر الصرف",
       "notes": "ملاحظات",
       "status": {
         "draft": "مسودة",
@@ -417,12 +434,15 @@
       "actions": {
         "post": "ترحيل الفاتورة",
         "cancel": "إلغاء الفاتورة",
+        "delete": "حذف الفاتورة",
         "edit": "تعديل",
         "view": "عرض",
         "postConfirm": "سيؤدي هذا إلى قفل الفاتورة وتحديث المخزون. لا يمكن التراجع عن هذا الإجراء.",
         "cancelConfirm": "سيؤدي هذا إلى عكس حركات المخزون. ستُوضع الفاتورة كملغاة.",
+        "deleteConfirm": "سيؤدي هذا إلى حذف مسودة الفاتورة نهائياً. لا يمكن التراجع عن هذا الإجراء.",
         "postTitle": "ترحيل الفاتورة؟",
-        "cancelTitle": "إلغاء الفاتورة؟"
+        "cancelTitle": "إلغاء الفاتورة؟",
+        "deleteTitle": "حذف الفاتورة؟"
       },
       "lines": {
         "item": "الصنف",
@@ -461,6 +481,7 @@
       "cashbox": "الصندوق",
       "currency": "العملة",
       "fiscalPeriod": "الفترة المالية",
+      "exchangeRate": "سعر الصرف",
       "notes": "ملاحظات",
       "total": "الإجمالي",
       "status": {

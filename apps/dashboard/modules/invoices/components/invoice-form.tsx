@@ -10,7 +10,7 @@ import type {
 } from "@devloggers/api-client"
 import { Button } from "@/shared/components/ui/button"
 import { Rhform } from "@/shared/components/form"
-import { RhfTextareaField, RhfResourceSelect } from "@/shared/components/form"
+import { RhfTextareaField, RhfResourceSelect, RhfTextField } from "@/shared/components/form"
 import { DEFAULT_INVOICE_LINE } from "../invoices.config"
 import type { InvoiceFormValues, InvoiceRelationalField, InvoiceDirection } from "../invoices.config"
 import type { InvoiceFormController } from "../hooks/use-invoice-form"
@@ -49,7 +49,6 @@ function InvoiceHeaderFields({ disabled, direction }: { disabled: boolean; direc
                 <RhfDateField
                     name="dueDate"
                     label={t("dueDate")}
-                    type="date"
                     disabled={disabled}
                 />
             </div>
@@ -82,6 +81,12 @@ function InvoiceHeaderFields({ disabled, direction }: { disabled: boolean; direc
                     disabled={disabled}
                 />
             </div>
+            <RhfTextField
+                name="exchangeRate"
+                label={t("exchangeRate")}
+                type="number"
+                disabled={disabled}
+            />
             <RhfTextareaField
                 name="notes"
                 label={t("notes")}

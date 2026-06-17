@@ -2,8 +2,8 @@
 
 import { useMemo } from "react"
 import { useTranslations } from "next-intl"
-import { type PartiesClient } from "@devloggers/api-client"
-import { ResourceFormShell, RhfCheckboxField, RhfSelectField, RhfTextField } from "@/shared/components/form"
+import { type PartiesClient, type AccountsClient } from "@devloggers/api-client"
+import { ResourceFormShell, RhfCheckboxField, RhfSelectField, RhfTextField, RhfResourceSelect } from "@/shared/components/form"
 import type { ResourceFormProps } from "@/shared/data-view/resource"
 import { useResourceFormController } from "@/shared/hooks/use-resource-form-controller"
 import {
@@ -13,6 +13,7 @@ import {
     PARTY_MODE_NAMESPACE,
     type PartyFormValues,
     type PartyMode,
+    type PartyAccountField,
 } from "../parties.config"
 
 export type PartiesFormProps = ResourceFormProps<PartiesClient> & {
@@ -92,6 +93,22 @@ export function PartiesForm({ resourceId, initialData, onSuccess, paramKey, mode
                 name="openingBalance"
                 label={t("openingBalance")}
                 placeholder={t("openingBalancePlaceholder")}
+                disabled={ctrl.isBusy}
+            />
+            <RhfResourceSelect<PartyFormValues, "receivableAccount", AccountsClient, PartyAccountField>
+                name="receivableAccount"
+                label={t("receivableAccount")}
+                client={(api) => api["chart-of-accounts"]}
+                getLabel={(it) => `${(it as any).code} — ${(it as any).name}`}
+                getValue={(it) => it}
+                disabled={ctrl.isBusy}
+            />
+            <RhfResourceSelect<PartyFormValues, "payableAccount", AccountsClient, PartyAccountField>
+                name="payableAccount"
+                label={t("payableAccount")}
+                client={(api) => api["chart-of-accounts"]}
+                getLabel={(it) => `${(it as any).code} — ${(it as any).name}`}
+                getValue={(it) => it}
                 disabled={ctrl.isBusy}
             />
             {ctrl.isEditing && (

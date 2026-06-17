@@ -40,7 +40,7 @@ export const DEFAULT_CUSTOM_FIELD_FORM_VALUES: CustomFieldFormValues = {
 }
 
 export function mapCustomFieldToFormValues(data: unknown): CustomFieldFormValues {
-    const resolved = unwrapApiData<CustomFieldFormValues & { options?: string[] }>(data)
+    const resolved = unwrapApiData<Omit<CustomFieldFormValues, 'options'> & { options?: string[] }>(data)
     return {
         module: (resolved.module as CustomFieldFormValues["module"]) ?? customFieldModules.items,
         name: resolved.name ?? { ar: "", en: "" },

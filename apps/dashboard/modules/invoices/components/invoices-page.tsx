@@ -9,6 +9,8 @@ import { createInvoicesColumns } from "./invoices-columns"
 import { InvoiceFormModal } from "./invoice-form-modal"
 import { useInvoiceActions } from "../hooks/use-invoice-actions"
 import type { InvoiceDirection } from "../invoices.config"
+import type { InvoicesClient } from "@devloggers/api-client"
+import type { ResourceTableHelpers } from "@/shared/data-view/resource"
 
 type ModalState = { open: boolean; invoiceId: string | null }
 
@@ -21,7 +23,7 @@ export function InvoicesPage({ direction, initialTypeCode }: { direction: Invoic
     const openEdit = (id: string) => setModal({ open: true, invoiceId: id })
     const closeModal = () => setModal({ open: false, invoiceId: null })
 
-    const { postInvoice, cancelInvoice } = useInvoiceActions()
+    const { postInvoice, cancelInvoice, deleteInvoice } = useInvoiceActions()
 
     const title = direction === "SALE" ? t("salesInvoices") : t("purchaseInvoices")
 
@@ -38,12 +40,13 @@ export function InvoicesPage({ direction, initialTypeCode }: { direction: Invoic
                     }
                 >
                     <InvoicesResource.Table
-                        columns={((helpers) =>
+                        columns={(((helpers: ResourceTableHelpers<InvoicesClient>) =>
                             createInvoicesColumns(helpers, t, {
                                 onOpenModal: openEdit,
                                 postInvoice: (id) => postInvoice(id),
                                 cancelInvoice: (id) => cancelInvoice(id),
-                            }))}
+                                deleteInvoice: (id) => deleteInvoice(id),
+                            })) as any)}
                     />
                 </InvoicesResource.Page>
             </InvoicesResource>

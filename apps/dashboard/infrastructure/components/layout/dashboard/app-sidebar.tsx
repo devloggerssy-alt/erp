@@ -164,6 +164,7 @@ function CollapsibleNavItem({
 }) {
     const isChildActive = item.items?.some((sub) => normalizedPathname === sub.href)
     const isActive = item.isActive ?? (normalizedPathname === item.href || isChildActive === true)
+    const isRtl = useLocale() === "ar"
 
     // Collapsed sidebar → flyout dropdown with sub-items
     if (isCollapsed) {

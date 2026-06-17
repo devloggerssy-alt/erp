@@ -1,8 +1,8 @@
 import { generateResource } from "@/shared/data-view/resource"
-import type { ICrudClient } from "@devloggers/api-client"
+import type { CatalogEntitiesClient } from "@devloggers/api-client"
 
-export const CatalogEntitiesResource = generateResource<ICrudClient>({
-    getClient: (api) => api["catalog-entities"] as ICrudClient,
+export const CatalogEntitiesResource = generateResource<CatalogEntitiesClient>({
+    getClient: (api) => api["catalog-entities"],
     paramKey: "catalog-entities",
     list: {
         searchIn: ["name", "kind"],

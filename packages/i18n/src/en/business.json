@@ -119,6 +119,19 @@
       "roundingPrecision": "Rounding precision",
       "fiscalYearStartMonth": "Fiscal year start month"
     },
+    "glAccounts": {
+      "navLabel": "GL Accounts",
+      "title": "Default GL accounts",
+      "description": "Default general ledger accounts used when posting transactions.",
+      "saving": "Saving…",
+      "saved": "GL accounts saved",
+      "failed": "Could not save GL accounts",
+      "defaultSalesAccount": "Default sales account",
+      "defaultPurchaseAccount": "Default purchase account",
+      "defaultTaxAccount": "Default tax account",
+      "defaultReceivableAccount": "Default receivable account",
+      "defaultPayableAccount": "Default payable account"
+    },
     "documents": {
       "navLabel": "Documents",
       "title": "Invoice & document preferences",
@@ -203,7 +216,6 @@
       "itemTypes": {
         "product": "Product",
         "service": "Service",
-        "vehicle": "Vehicle",
         "bundle": "Bundle"
       },
       "active": "Active",
@@ -264,6 +276,8 @@
       "addressPlaceholder": "e.g. Damascus, Syria",
       "openingBalance": "Opening Balance",
       "openingBalancePlaceholder": "e.g. 0",
+      "receivableAccount": "Receivable Account (AR)",
+      "payableAccount": "Payable Account (AP)",
       "active": "Active"
     },
     "suppliers": {
@@ -287,6 +301,8 @@
       "addressPlaceholder": "e.g. Damascus, Syria",
       "openingBalance": "Opening Balance",
       "openingBalancePlaceholder": "e.g. 0",
+      "receivableAccount": "Receivable Account (AR)",
+      "payableAccount": "Payable Account (AP)",
       "active": "Active"
     },
     "accounts": {
@@ -408,6 +424,7 @@
       "warehouse": "Warehouse",
       "fiscalPeriod": "Fiscal Period",
       "currency": "Currency",
+      "exchangeRate": "Exchange Rate",
       "notes": "Notes",
       "status": {
         "draft": "Draft",
@@ -417,12 +434,15 @@
       "actions": {
         "post": "Post Invoice",
         "cancel": "Cancel Invoice",
+        "delete": "Delete Invoice",
         "edit": "Edit",
         "view": "View",
         "postConfirm": "This will lock the invoice and update stock. This cannot be undone.",
         "cancelConfirm": "This will reverse stock movements. The invoice will be marked as cancelled.",
+        "deleteConfirm": "This will permanently delete the draft invoice. This cannot be undone.",
         "postTitle": "Post Invoice?",
-        "cancelTitle": "Cancel Invoice?"
+        "cancelTitle": "Cancel Invoice?",
+        "deleteTitle": "Delete Invoice?"
       },
       "lines": {
         "item": "Item",
@@ -461,6 +481,7 @@
       "cashbox": "Cashbox",
       "currency": "Currency",
       "fiscalPeriod": "Fiscal Period",
+      "exchangeRate": "Exchange Rate",
       "notes": "Notes",
       "total": "Total",
       "status": {

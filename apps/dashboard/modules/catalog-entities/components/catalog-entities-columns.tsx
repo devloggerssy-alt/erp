@@ -1,5 +1,5 @@
 import type { ColumnDef } from "@tanstack/react-table"
-import type { ICrudClient } from "@devloggers/api-client"
+import type { CatalogEntitiesClient } from "@devloggers/api-client"
 import type { ResourceItem, ResourceTableHelpers } from "@/shared/data-view/resource"
 import { BooleanCell, ColumnHeader } from "@/shared/data-view/table-view"
 import { Badge } from "@/shared/components/ui/badge"
@@ -14,14 +14,14 @@ type CatalogEntityRow = {
     isActive: boolean
 }
 
-function asRow(item: ResourceItem<ICrudClient>): CatalogEntityRow {
+function asRow(item: ResourceItem<CatalogEntitiesClient>): CatalogEntityRow {
     return item as unknown as CatalogEntityRow
 }
 
 export function createCatalogEntitiesColumns(
-    helpers: ResourceTableHelpers<ICrudClient>,
+    helpers: ResourceTableHelpers<CatalogEntitiesClient>,
     t: ColumnTranslator,
-): ColumnDef<ResourceItem<ICrudClient>>[] {
+): ColumnDef<ResourceItem<CatalogEntitiesClient>>[] {
     return [
         {
             id: "name",

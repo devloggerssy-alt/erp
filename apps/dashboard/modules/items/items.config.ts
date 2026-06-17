@@ -14,7 +14,7 @@ export const itemFormSchema = z.object({
     code: z.string().trim().min(1, "Code is required"),
     name: z.string().trim().min(1, "Name is required"),
     barcode: z.string().optional(),
-    itemType: z.enum(['product', 'service', 'vehicle', 'bundle']).default('product'),
+    itemType: z.enum(['product', 'service', 'bundle']).default('product'),
     category: resourceObjectSchema.nullable(),
     baseUnit: resourceObjectSchema.nullable(),
     brand: resourceObjectSchema.nullable().optional(),
