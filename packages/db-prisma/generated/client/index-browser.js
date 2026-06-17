@@ -337,6 +337,21 @@ exports.Prisma.ExpenseItemScalarFieldEnum = {
   sortOrder: 'sortOrder'
 };
 
+exports.Prisma.FileScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  originalName: 'originalName',
+  mimeType: 'mimeType',
+  size: 'size',
+  extension: 'extension',
+  folder: 'folder',
+  path: 'path',
+  url: 'url',
+  checksum: 'checksum',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.FiscalPeriodScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
@@ -772,6 +787,7 @@ exports.Prisma.ModelName = {
   DocumentSequence: 'DocumentSequence',
   Expense: 'Expense',
   ExpenseItem: 'ExpenseItem',
+  File: 'File',
   FiscalPeriod: 'FiscalPeriod',
   InvoiceType: 'InvoiceType',
   Invoice: 'Invoice',

@@ -23,7 +23,7 @@
     },
     "scripts": {
         "build": "tsc && node -e \"require('fs').cpSync('./generated', './dist/generated', {recursive:true})\"",
-        "dev": "tsc --watch",
+        "dev": "tsc --watch ",
         "clean": "rm -rf dist",
         "db:generate": "prisma generate --schema=src/schema",
         "db:migrate:dev": "prisma migrate dev --schema=src/schema",
