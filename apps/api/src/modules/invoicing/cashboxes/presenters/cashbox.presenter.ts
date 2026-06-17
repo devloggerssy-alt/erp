@@ -17,6 +17,7 @@ export class CashboxPresenter extends CrudPresenter<Cashbox, CashboxResponseDto>
             code: entity.code,
             name: this.locale.resolve(name),
             nameI18n: name,
+            balance: entity.balance,
             currencyId: entity.currencyId,
             isActive: entity.isActive,
             createdAt: entity.createdAt.toISOString(),

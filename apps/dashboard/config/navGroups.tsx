@@ -28,6 +28,7 @@ import {
   TagIcon,
   ListTreeIcon,
   AwardIcon,
+  CreditCardIcon,
 } from "lucide-react"
 
 export const navGroups: NavGroup[] = [
@@ -180,6 +181,11 @@ export const navGroups: NavGroup[] = [
             titleKey: "business.navigation.items.cashboxesList",
             href: "/finance/cashboxes",
             icon: <WalletIcon />,
+          },
+          {
+            titleKey: "business.navigation.items.expenses",
+            href: "/finance/expenses",
+            icon: <CreditCardIcon />,
           },
           {
             titleKey: "business.navigation.items.payments",

@@ -3374,6 +3374,11 @@ export interface components {
              * @example 2025-01-01T00:00:00.000Z
              */
             updatedAt: string;
+            /**
+             * @default
+             * @example 0.00
+             */
+            balance: string;
         };
         CreateCashboxDto: {
             /**

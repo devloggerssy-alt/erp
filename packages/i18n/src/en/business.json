@@ -30,6 +30,7 @@
       "openingBalances": "Opening Balances",
       "cashboxes": "Cashboxes",
       "cashboxesList": "Cashboxes",
+      "expenses": "Expenses",
       "payments": "Payments",
       "accounting": "Accounting",
       "chartOfAccounts": "Chart of Accounts",
@@ -439,6 +440,51 @@
         "discount": "Discount",
         "tax": "Tax",
         "total": "Total"
+      }
+    },
+    "cashboxes": {
+      "title": "Cashboxes",
+      "entity": "Cashbox",
+      "addAction": "Add Cashbox",
+      "code": "Code",
+      "codePlaceholder": "e.g. CASH-SYP",
+      "name": "Name",
+      "currency": "Currency",
+      "active": "Active"
+    },
+    "expenses": {
+      "title": "Expenses",
+      "entity": "Expense",
+      "newExpense": "New Expense",
+      "number": "Number",
+      "date": "Date",
+      "cashbox": "Cashbox",
+      "currency": "Currency",
+      "fiscalPeriod": "Fiscal Period",
+      "notes": "Notes",
+      "total": "Total",
+      "status": {
+        "draft": "Draft",
+        "posted": "Posted",
+        "cancelled": "Cancelled"
+      },
+      "actions": {
+        "post": "Post Expense",
+        "cancel": "Cancel Expense",
+        "edit": "Edit",
+        "view": "View",
+        "postConfirm": "This will lock the expense and create a journal entry. This cannot be undone.",
+        "cancelConfirm": "This will post a reversing entry and restore the cashbox balance.",
+        "postTitle": "Post Expense?",
+        "cancelTitle": "Cancel Expense?"
+      },
+      "lines": {
+        "account": "Account",
+        "description": "Description",
+        "descriptionPlaceholder": "e.g. Office rent — April",
+        "amount": "Amount",
+        "notes": "Notes",
+        "addItem": "Add item"
       }
     },
     "tags": {

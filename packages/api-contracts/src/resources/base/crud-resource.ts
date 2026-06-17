@@ -8,9 +8,9 @@ import { ResourceDefinition } from "./resource"
 export type CrudRoutes = {
   list: ApiPathByMethod<"get">
   show: ApiPathByMethod<"get">
-  create: ApiPathByMethod<"post">
-  update: ApiPathByMethod<"patch">
-  delete: ApiPathByMethod<"delete">
+  create?: ApiPathByMethod<"post">
+  update?: ApiPathByMethod<"patch">
+  delete?: ApiPathByMethod<"delete">
 }
 
 /**

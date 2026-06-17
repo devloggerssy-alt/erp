@@ -30,6 +30,7 @@
       "openingBalances": "أرصدة أول المدة",
       "cashboxes": "الخزينة",
       "cashboxesList": "صناديق النقد",
+      "expenses": "المصروفات",
       "payments": "المدفوعات",
       "accounting": "المحاسبة",
       "chartOfAccounts": "شجرة الحسابات",
@@ -439,6 +440,51 @@
         "discount": "الخصم",
         "tax": "الضريبة",
         "total": "الإجمالي"
+      }
+    },
+    "cashboxes": {
+      "title": "صناديق النقد",
+      "entity": "صندوق نقد",
+      "addAction": "إضافة صندوق",
+      "code": "الرمز",
+      "codePlaceholder": "مثال: CASH-SYP",
+      "name": "الاسم",
+      "currency": "العملة",
+      "active": "نشط"
+    },
+    "expenses": {
+      "title": "المصروفات",
+      "entity": "مصروف",
+      "newExpense": "مصروف جديد",
+      "number": "الرقم",
+      "date": "التاريخ",
+      "cashbox": "الصندوق",
+      "currency": "العملة",
+      "fiscalPeriod": "الفترة المالية",
+      "notes": "ملاحظات",
+      "total": "الإجمالي",
+      "status": {
+        "draft": "مسودة",
+        "posted": "مُرحَّل",
+        "cancelled": "ملغي"
+      },
+      "actions": {
+        "post": "ترحيل المصروف",
+        "cancel": "إلغاء المصروف",
+        "edit": "تعديل",
+        "view": "عرض",
+        "postConfirm": "سيتم إغلاق المصروف وإنشاء قيد محاسبي. لا يمكن التراجع عن ذلك.",
+        "cancelConfirm": "سيتم إنشاء قيد عكسي واسترداد رصيد الصندوق.",
+        "postTitle": "ترحيل المصروف؟",
+        "cancelTitle": "إلغاء المصروف؟"
+      },
+      "lines": {
+        "account": "الحساب",
+        "description": "الوصف",
+        "descriptionPlaceholder": "مثال: إيجار المكتب - أبريل",
+        "amount": "المبلغ",
+        "notes": "ملاحظات",
+        "addItem": "إضافة بند"
       }
     },
     "tags": {

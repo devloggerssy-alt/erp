@@ -30,6 +30,7 @@
       "openingBalances": "Açılış Bakiyeleri",
       "cashboxes": "Kasalar",
       "cashboxesList": "Kasa Listesi",
+      "expenses": "Giderler",
       "payments": "Ödemeler",
       "accounting": "Muhasebe",
       "chartOfAccounts": "Hesap Planı",
@@ -439,6 +440,51 @@
         "discount": "İndirim",
         "tax": "Vergi",
         "total": "Toplam"
+      }
+    },
+    "cashboxes": {
+      "title": "Kasalar",
+      "entity": "Kasa",
+      "addAction": "Kasa Ekle",
+      "code": "Kod",
+      "codePlaceholder": "örn. CASH-SYP",
+      "name": "Ad",
+      "currency": "Para Birimi",
+      "active": "Aktif"
+    },
+    "expenses": {
+      "title": "Giderler",
+      "entity": "Gider",
+      "newExpense": "Yeni Gider",
+      "number": "Numara",
+      "date": "Tarih",
+      "cashbox": "Kasa",
+      "currency": "Para Birimi",
+      "fiscalPeriod": "Mali Dönem",
+      "notes": "Notlar",
+      "total": "Toplam",
+      "status": {
+        "draft": "Taslak",
+        "posted": "Gönderildi",
+        "cancelled": "İptal Edildi"
+      },
+      "actions": {
+        "post": "Gideri Gönder",
+        "cancel": "Gideri İptal Et",
+        "edit": "Düzenle",
+        "view": "Görüntüle",
+        "postConfirm": "Bu işlem gideri kilitleyecek ve muhasebe kaydı oluşturacak. Bu geri alınamaz.",
+        "cancelConfirm": "Ters kayıt oluşturulacak ve kasa bakiyesi iade edilecek.",
+        "postTitle": "Gider Gönderilsin mi?",
+        "cancelTitle": "Gider İptal Edilsin mi?"
+      },
+      "lines": {
+        "account": "Hesap",
+        "description": "Açıklama",
+        "descriptionPlaceholder": "örn. Ofis kirası — Nisan",
+        "amount": "Tutar",
+        "notes": "Notlar",
+        "addItem": "Kalem ekle"
       }
     },
     "tags": {

@@ -15,6 +15,7 @@ import { ItemsClient } from "./clients/items.client"
 import { InvoiceTypesClient } from "./clients/invoice-types.client"
 import { InvoicesClient } from "./clients/invoices.client"
 import { ExpensesClient } from "./clients/expenses.client"
+import { CashboxesClient } from "./clients/cashboxes.client"
 import { TagsClient } from "./clients/tags.client"
 import { TagAssignmentsClient } from "./clients/tag-assignments.client"
 import { ItemRelationsClient } from "./clients/item-relations.client"
@@ -24,7 +25,7 @@ import { BrandsClient } from "./clients/brands.client"
 import { StockBalancesClient } from "./clients/stock-balances.client"
 import { StockMovementsClient } from "./clients/stock-movements.client"
 import { StockCountsClient } from "./clients/stock-counts.client"
-import { authResource, itemCategoryResource, itemResource, unitResource, warehouseResource, partyResource, accountResource, currencyResource, fiscalPeriodResource, documentSequenceResource, roleResource, userResource, tenantResource, invoiceTypeResource, invoiceResource, customFieldResource, expenseResource, tagResource, tagAssignmentResource, itemRelationResource, catalogEntityResource, itemCatalogEntityResource, brandResource, inventoryResource, stockLedgerResource, stockCountResource } from "@devloggers/api-contracts"
+import { authResource, itemCategoryResource, itemResource, unitResource, warehouseResource, partyResource, accountResource, currencyResource, fiscalPeriodResource, documentSequenceResource, roleResource, userResource, tenantResource, invoiceTypeResource, invoiceResource, customFieldResource, expenseResource, tagResource, tagAssignmentResource, itemRelationResource, catalogEntityResource, itemCatalogEntityResource, brandResource, inventoryResource, stockLedgerResource, stockCountResource, cashboxResource } from "@devloggers/api-contracts"
 import { CustomFieldsClient } from "./clients/custom-fields.client"
 
 export function createApi(options?: ApiClientOptions, baseUrl = 'http://localhost:4040') {
@@ -47,6 +48,7 @@ export function createApi(options?: ApiClientOptions, baseUrl = 'http://localhos
         [tenantResource.key]: new TenantsClient(client),
         [invoiceTypeResource.key]: new InvoiceTypesClient(client),
         [invoiceResource.key]: new InvoicesClient(client),
+        [cashboxResource.key]: new CashboxesClient(client,cashboxResource),
         [expenseResource.key]: new ExpensesClient(client),
         [tagResource.key]: new TagsClient(client),
         [tagAssignmentResource.key]: new TagAssignmentsClient(client),
