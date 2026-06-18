@@ -1,6 +1,7 @@
+import { defineCrudResource } from './base/crud-resource'
 import { defineResource } from './resource.types'
 
-export const invoiceResource = defineResource({
+export const invoiceResource = defineCrudResource({
   key: 'invoices',
 
   routes: {
@@ -8,7 +9,6 @@ export const invoiceResource = defineResource({
     show: '/invoices/{id}',
     create: '/invoices',
     update: '/invoices/{id}',
-    delete: '/invoices/{id}',
     post: '/invoices/{id}/post',
     cancel: '/invoices/{id}/cancel',
   },
