@@ -26,7 +26,8 @@ import { StockBalancesClient } from "./clients/stock-balances.client"
 import { StockMovementsClient } from "./clients/stock-movements.client"
 import { StockCountsClient } from "./clients/stock-counts.client"
 import { FinancialSettingClient } from "./clients/financial-setting.client"
-import { authResource, itemCategoryResource, itemResource, unitResource, warehouseResource, partyResource, accountResource, currencyResource, fiscalPeriodResource, documentSequenceResource, roleResource, userResource, tenantResource, invoiceTypeResource, invoiceResource, customFieldResource, expenseResource, tagResource, tagAssignmentResource, itemRelationResource, catalogEntityResource, itemCatalogEntityResource, brandResource, inventoryResource, stockLedgerResource, stockCountResource, cashboxResource, financialSettingResource } from "@devloggers/api-contracts"
+import { ReportsClient } from "./clients/reports.client"
+import { authResource, itemCategoryResource, itemResource, unitResource, warehouseResource, partyResource, accountResource, currencyResource, fiscalPeriodResource, documentSequenceResource, roleResource, userResource, tenantResource, invoiceTypeResource, invoiceResource, customFieldResource, expenseResource, tagResource, tagAssignmentResource, itemRelationResource, catalogEntityResource, itemCatalogEntityResource, brandResource, inventoryResource, stockLedgerResource, stockCountResource, cashboxResource, financialSettingResource, reportResource } from "@devloggers/api-contracts"
 import { CustomFieldsClient } from "./clients/custom-fields.client"
 
 export function createApi(options?: ApiClientOptions, baseUrl = 'http://localhost:4040') {
@@ -45,10 +46,10 @@ export function createApi(options?: ApiClientOptions, baseUrl = 'http://localhos
         [fiscalPeriodResource.key]: new FiscalPeriodsClient(client),
         [documentSequenceResource.key]: new DocumentSequencesClient(client),
         [roleResource.key]: new RolesClient(client),
-        [userResource.key]: new UsersClient(client),
+        [userResource.key]: new UsersClient(client, userResource),
         [tenantResource.key]: new TenantsClient(client),
         [invoiceTypeResource.key]: new InvoiceTypesClient(client),
-        [invoiceResource.key]: new InvoicesClient(client),
+        [invoiceResource.key]: new InvoicesClient(client,invoiceResource),
         [cashboxResource.key]: new CashboxesClient(client,cashboxResource),
         [expenseResource.key]: new ExpensesClient(client),
         [tagResource.key]: new TagsClient(client),
@@ -61,6 +62,7 @@ export function createApi(options?: ApiClientOptions, baseUrl = 'http://localhos
         [stockLedgerResource.key]: new StockMovementsClient(client),
         [stockCountResource.key]: new StockCountsClient(client),
         [financialSettingResource.key]: new FinancialSettingClient(client),
+        [reportResource.key]: new ReportsClient(client),
     } as const
 }
 

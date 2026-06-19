@@ -55,7 +55,7 @@ export function InvoiceLineRow({
 
         const currentUnit = getValues(`lines.${index}._unit` as `lines.${number}._unit`) as { id: string } | null
         if (!currentUnit?.id && itemOption.baseUnitId) {
-            setValue(`lines.${index}._unit` as `lines.${number}._unit`, { id: itemOption.baseUnitId })
+            setValue(`lines.${index}._unit` as `lines.${number}._unit`, itemOption.baseUnit)
         }
 
         const currentPrice = getValues(`lines.${index}.unitPrice` as `lines.${number}.unitPrice`)

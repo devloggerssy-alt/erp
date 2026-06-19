@@ -68,8 +68,7 @@ export function InvoiceFormModal({
             <DialogContent
                 showCloseButton={false}
                 aria-describedby={undefined}
-                className="inset-0 translate-x-0 rtl:translate-x-0 translate-y-0 max-w-none sm:max-w-none h-screen max-h-screen rounded-none flex flex-col p-0 gap-0"
-            >
+                className="flex flex-col min-w-7xl h-[90vh] p-0 overflow-hidden">
                 <DialogDescription className="sr-only">
                     {ctrl.isEditing ? (ctrl.invoiceNumber ?? t("entity")) : t("newInvoice")}
                 </DialogDescription>

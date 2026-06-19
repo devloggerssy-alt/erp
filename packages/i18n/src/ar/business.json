@@ -592,6 +592,40 @@
       "item": "الصنف",
       "countedQty": "الكمية المحسوبة",
       "addLine": "إضافة صنف"
+    },
+    "reports": {
+      "stock": {
+        "title": "تقرير أرصدة المخزون",
+        "description": "مستويات المخزون الحالية حسب الصنف والمستودع.",
+        "filters": { "warehouse": "المستودع", "allWarehouses": "جميع المستودعات", "clear": "إلغاء" },
+        "stats": { "itemsInStock": "الأصناف في المخزون", "totalQuantity": "إجمالي الكمية", "outOfStock": "نفدت الكمية" },
+        "columns": { "itemCode": "كود الصنف", "itemName": "اسم الصنف", "warehouse": "المستودع", "quantity": "الكمية", "avgCost": "متوسط التكلفة", "lastUpdated": "آخر تحديث" }
+      },
+      "sales": {
+        "title": "تقرير المبيعات",
+        "description": "ملخص فواتير المبيعات مع الإجماليات ونظرة عامة على الأرباح.",
+        "filters": { "from": "من", "to": "إلى", "apply": "تطبيق", "clear": "إلغاء" },
+        "stats": { "totalSales": "إجمالي المبيعات", "invoices": "الفواتير", "grossProfit": "الربح الإجمالي", "netProfit": "صافي الربح" },
+        "columns": { "number": "رقم الفاتورة", "date": "التاريخ", "customer": "العميل", "total": "الإجمالي" }
+      },
+      "purchases": {
+        "title": "تقرير المشتريات",
+        "description": "ملخص فواتير المشتريات مع تفصيل الموردين.",
+        "filters": { "from": "من", "to": "إلى", "apply": "تطبيق", "clear": "إلغاء" },
+        "stats": { "totalPurchases": "إجمالي المشتريات", "invoices": "الفواتير" },
+        "columns": { "number": "رقم الفاتورة", "date": "التاريخ", "supplier": "المورد", "total": "الإجمالي" }
+      },
+      "partyStatement": {
+        "title": "كشوف الحسابات",
+        "description": "سجل معاملات العملاء والموردين مع الرصيد الجاري.",
+        "selectPrompt": "اختر {partyType} لعرض كشف حسابه.",
+        "customer": "عميل",
+        "supplier": "مورد",
+        "tabs": { "customers": "العملاء", "suppliers": "الموردون" },
+        "stats": { "totalInvoiced": "إجمالي الفواتير", "totalPaid": "إجمالي المدفوع", "balance": "الرصيد المستحق" },
+        "sections": { "invoices": "الفواتير", "payments": "المدفوعات" },
+        "columns": { "number": "رقم الفاتورة", "date": "التاريخ", "amount": "المبلغ", "type": "النوع" }
+      }
     }
   },
   "landing": {

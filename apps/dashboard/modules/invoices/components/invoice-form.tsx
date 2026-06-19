@@ -27,6 +27,8 @@ const PARTY_TYPES_BY_DIRECTION: Record<InvoiceDirection, PartyTypeFilter[]> = {
 
 function InvoiceHeaderFields({ disabled, direction }: { disabled: boolean; direction: InvoiceDirection }) {
     const t = useTranslations("business.resources.invoices")
+    const gt = useTranslations()
+    const partyTitle = direction === "SALE" ? gt("business.resources.customers.entity") : gt("business.resources.suppliers.entity")
 
     return (
         <div className="space-y-4">
@@ -39,7 +41,7 @@ function InvoiceHeaderFields({ disabled, direction }: { disabled: boolean; direc
                 required
                 disabled={disabled}
             />
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 gap-3">
                 <RhfDateField
                     name="date"
                     label={t("date")}
@@ -52,7 +54,8 @@ function InvoiceHeaderFields({ disabled, direction }: { disabled: boolean; direc
                     disabled={disabled}
                 />
             </div>
-            <InvoicePartySelect partyTypes={PARTY_TYPES_BY_DIRECTION[direction]} disabled={disabled} />
+            <InvoicePartySelect label={partyTitle} partyTypes={PARTY_TYPES_BY_DIRECTION[direction]} disabled={disabled} />
+
             <RhfResourceSelect<InvoiceFormValues, "warehouse", WarehousesClient, InvoiceRelationalField>
                 name="warehouse"
                 label={t("warehouse")}
@@ -61,7 +64,7 @@ function InvoiceHeaderFields({ disabled, direction }: { disabled: boolean; direc
                 getValue={(it) => it}
                 disabled={disabled}
             />
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 gap-3">
                 <RhfResourceSelect<InvoiceFormValues, "fiscalPeriod", FiscalPeriodsClient, InvoiceRelationalField>
                     name="fiscalPeriod"
                     label={t("fiscalPeriod")}
@@ -164,12 +167,19 @@ export function InvoiceForm({ ctrl }: { ctrl: InvoiceFormController }) {
     const disabled = ctrl.isReadOnly || ctrl.isBusy
 
     return (
-        <Rhform form={ctrl.form} onSubmit={ctrl.onSubmit} errorHandler={ers=>{
+        <Rhform form={ctrl.form} onSubmit={ctrl.onSubmit} errorHandler={ers => {
             console.log("Form submission errors:", ers)
         }}>
-            <div className="p-6 grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <InvoiceHeaderFields disabled={disabled} direction={ctrl.direction} />
-                <InvoiceLineItems ctrl={ctrl} />
+            <div className="p-6 grid grid-cols-12 gap-8">
+                <div className="col-span-3">
+
+                    <InvoiceHeaderFields disabled={disabled} direction={ctrl.direction} />
+                </div>
+
+                <div className="col-span-9">
+
+                    <InvoiceLineItems ctrl={ctrl} />
+                </div>
             </div>
         </Rhform>
     )

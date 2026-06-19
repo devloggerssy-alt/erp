@@ -592,6 +592,98 @@
       "item": "Item",
       "countedQty": "Counted Qty",
       "addLine": "Add Item"
+    },
+    "reports": {
+      "stock": {
+        "title": "Stock Balance Report",
+        "description": "Current inventory levels by item and warehouse.",
+        "filters": {
+          "warehouse": "Warehouse",
+          "allWarehouses": "All warehouses",
+          "clear": "Clear"
+        },
+        "stats": {
+          "itemsInStock": "Items in stock",
+          "totalQuantity": "Total quantity",
+          "outOfStock": "Out of stock"
+        },
+        "columns": {
+          "itemCode": "Item Code",
+          "itemName": "Item Name",
+          "warehouse": "Warehouse",
+          "quantity": "Quantity",
+          "avgCost": "Avg. Cost",
+          "lastUpdated": "Last Updated"
+        }
+      },
+      "sales": {
+        "title": "Sales Report",
+        "description": "Sales invoice summary with totals and profit overview.",
+        "filters": {
+          "from": "From",
+          "to": "To",
+          "apply": "Apply",
+          "clear": "Clear"
+        },
+        "stats": {
+          "totalSales": "Total Sales",
+          "invoices": "Invoices",
+          "grossProfit": "Gross Profit",
+          "netProfit": "Net Profit"
+        },
+        "columns": {
+          "number": "Invoice #",
+          "date": "Date",
+          "customer": "Customer",
+          "total": "Total"
+        }
+      },
+      "purchases": {
+        "title": "Purchases Report",
+        "description": "Purchase invoice summary with supplier breakdown.",
+        "filters": {
+          "from": "From",
+          "to": "To",
+          "apply": "Apply",
+          "clear": "Clear"
+        },
+        "stats": {
+          "totalPurchases": "Total Purchases",
+          "invoices": "Invoices"
+        },
+        "columns": {
+          "number": "Invoice #",
+          "date": "Date",
+          "supplier": "Supplier",
+          "total": "Total"
+        }
+      },
+      "partyStatement": {
+        "title": "Account Statements",
+        "description": "Customer and supplier transaction history with running balance.",
+        "selectPrompt": "Select a {partyType} to view their statement.",
+        "customer": "customer",
+        "supplier": "supplier",
+        "tabs": {
+          "customers": "Customers",
+          "suppliers": "Suppliers"
+        },
+        "stats": {
+          "totalInvoiced": "Total Invoiced",
+          "totalPaid": "Total Paid",
+          "balance": "Outstanding Balance"
+        },
+        "sections": {
+          "invoices": "Invoices",
+          "payments": "Payments"
+        },
+        "columns": {
+          "number": "Invoice #",
+          "date": "Date",
+          "amount": "Amount",
+          "type": "Type"
+        }
+      }
     }
   }
 }

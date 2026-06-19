@@ -11,16 +11,18 @@ export type PartyTypeFilter = PartyType
 export function InvoicePartySelect({
     partyTypes,
     disabled,
+    label
 }: {
     partyTypes: PartyTypeFilter[]
     disabled: boolean
+    label?: string
 }) {
     const t = useTranslations("business.resources.invoices")
 
     return (
         <RhfResourceSelect<InvoiceFormValues, "party", PartiesClient, InvoiceRelationalField>
             name="party"
-            label={t("party")}
+            label={label || t("party")}
             client={(api) => api.parties}
             getLabel={(it) => it.name}
             getValue={(it) => it}
