@@ -183,6 +183,8 @@
       "descriptionPlaceholder": "Kategori açıklaması",
       "parent": "Üst Kategori",
       "parentPlaceholder": "Üst kategori seçin...",
+      "imageUrl": "Resim URL",
+      "imageUrlPlaceholder": "https://example.com/category.png",
       "active": "Aktif"
     },
     "items": {
@@ -195,6 +197,7 @@
       "entity": "Ürün",
       "sectionBasic": "Temel Bilgiler",
       "sectionClassification": "Sınıflandırma",
+      "sectionImages": "Görseller",
       "sectionPricing": "Fiyatlandırma",
       "sectionStatus": "Durum",
       "code": "Kod",
@@ -241,7 +244,12 @@
         "requires": "Gerektirir"
       },
       "brand": "Marka",
-      "brandPlaceholder": "Marka seçin..."
+      "brandPlaceholder": "Marka seçin...",
+      "mainImageUrl": "Ana Görsel URL",
+      "mainImageUrlPlaceholder": "https://example.com/item-main.png",
+      "galleryUrls": "Galeri URL'leri",
+      "galleryUrlsPlaceholder": "https://example.com/item-1.png\nhttps://example.com/item-2.png",
+      "galleryUrlsDescription": "Ek ürün görselleri yükleyin."
     },
     "warehouses": {
       "title": "Depolar",

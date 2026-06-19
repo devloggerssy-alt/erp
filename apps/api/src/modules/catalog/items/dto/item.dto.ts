@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, IsOptional, IsBoolean, IsNumber, IsObject, IsIn } from 'class-validator';
+import { IsString, IsNotEmpty, IsOptional, IsBoolean, IsNumber, IsObject, IsIn, IsArray, IsUrl } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import type { CustomFieldValuesMap, ItemType } from '@devloggers/api-contracts';
 
@@ -47,6 +47,17 @@ export class CreateItemDto {
     @IsOptional()
     @IsIn(['product', 'service', 'vehicle', 'bundle'])
     itemType?: ItemType;
+
+    @ApiPropertyOptional({ example: 'https://cdn.example.com/item-main.png', description: 'Main product image URL', nullable: true })
+    @IsOptional()
+    @IsUrl()
+    mainImageUrl?: string | null;
+
+    @ApiPropertyOptional({ type: [String], example: ['https://cdn.example.com/item-1.png'], description: 'Gallery image URLs' })
+    @IsOptional()
+    @IsArray()
+    @IsUrl({}, { each: true })
+    galleryUrls?: string[];
 
     @ApiPropertyOptional({
         description: 'Custom field values keyed by field ID',
@@ -109,6 +120,17 @@ export class UpdateItemDto {
     @IsIn(['product', 'service', 'vehicle', 'bundle'])
     itemType?: ItemType;
 
+    @ApiPropertyOptional({ example: 'https://cdn.example.com/item-main.png', nullable: true })
+    @IsOptional()
+    @IsUrl()
+    mainImageUrl?: string | null;
+
+    @ApiPropertyOptional({ type: [String], example: ['https://cdn.example.com/item-1.png'] })
+    @IsOptional()
+    @IsArray()
+    @IsUrl({}, { each: true })
+    galleryUrls?: string[];
+
     @ApiPropertyOptional({
         description: 'Custom field values keyed by field ID',
         type: 'object',
@@ -158,6 +180,12 @@ export class ItemResponseDto {
 
     @ApiProperty({ example: true })
     isActive: boolean = true;
+
+    @ApiPropertyOptional({ example: 'https://cdn.example.com/item-main.png', nullable: true })
+    mainImageUrl: string | null = null;
+
+    @ApiProperty({ type: [String], example: [] })
+    galleryUrls: string[] = [];
 
     @ApiProperty({ example: 'product', enum: ['product', 'service', 'vehicle', 'bundle'] })
     itemType: ItemType = 'product';

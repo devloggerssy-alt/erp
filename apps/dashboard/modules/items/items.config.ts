@@ -10,6 +10,8 @@ const optionalPrice = z.preprocess(
 
 const resourceObjectSchema = z.object({ id: z.string(), name: z.string() }).passthrough()
 
+const imagePath = z.string().trim().min(1, "Invalid image URL")
+
 export const itemFormSchema = z.object({
     code: z.string().trim().min(1, "Code is required"),
     name: z.string().trim().min(1, "Name is required"),
@@ -20,6 +22,11 @@ export const itemFormSchema = z.object({
     brand: resourceObjectSchema.nullable().optional(),
     defaultSellingPrice: optionalPrice,
     latestPurchasePrice: optionalPrice,
+    mainImageUrl: z.preprocess(
+        (value) => (value === "" || value === null || value === undefined ? null : value),
+        imagePath.nullable().optional(),
+    ),
+    galleryUrls: z.array(imagePath).default([]),
     isActive: z.boolean().optional(),
     customFields: z.record(z.string(), z.unknown()).optional(),
 })
@@ -36,6 +43,8 @@ export const DEFAULT_ITEM_FORM_VALUES: ItemFormValues = {
     brand: null,
     defaultSellingPrice: undefined,
     latestPurchasePrice: undefined,
+    mainImageUrl: null,
+    galleryUrls: [],
     isActive: true,
     customFields: {},
 }
@@ -52,6 +61,10 @@ export function mapItemToFormValues(data: unknown): ItemFormValues {
         brand: (resolved.brand as { id: string; name: string } | null) ?? null,
         defaultSellingPrice: (resolved.defaultSellingPrice as number | undefined) ?? undefined,
         latestPurchasePrice: (resolved.latestPurchasePrice as number | undefined) ?? undefined,
+        mainImageUrl: (resolved.mainImageUrl as string | null | undefined) ?? null,
+        galleryUrls: Array.isArray(resolved.galleryUrls)
+            ? (resolved.galleryUrls as string[])
+            : [],
         isActive: (resolved.isActive as boolean | undefined) ?? true,
         customFields: (resolved.customFields as Record<string, unknown> | undefined) ?? {},
     }
@@ -71,6 +84,8 @@ export const itemsFormConfig: ResourceFormConfig<ItemFormValues, CreateItemDto, 
         brandId: values.brand?.id ?? null,
         defaultSellingPrice: values.defaultSellingPrice,
         latestPurchasePrice: values.latestPurchasePrice,
+        mainImageUrl: values.mainImageUrl || null,
+        galleryUrls: values.galleryUrls,
         customFields: values.customFields as CustomFieldValuesMap | undefined,
     }),
     toUpdate: (values) => ({
@@ -83,6 +98,8 @@ export const itemsFormConfig: ResourceFormConfig<ItemFormValues, CreateItemDto, 
         brandId: values.brand?.id ?? null,
         defaultSellingPrice: values.defaultSellingPrice,
         latestPurchasePrice: values.latestPurchasePrice,
+        mainImageUrl: values.mainImageUrl || null,
+        galleryUrls: values.galleryUrls,
         isActive: values.isActive ?? true,
         customFields: values.customFields as CustomFieldValuesMap | undefined,
     }),

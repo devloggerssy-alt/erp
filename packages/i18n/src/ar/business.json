@@ -183,6 +183,8 @@
       "descriptionPlaceholder": "وصف الفئة",
       "parent": "الفئة الأصلية",
       "parentPlaceholder": "اختر الفئة الأصلية...",
+      "imageUrl": "رابط الصورة",
+      "imageUrlPlaceholder": "https://example.com/category.png",
       "active": "نشط"
     },
     "items": {
@@ -195,6 +197,7 @@
       "entity": "صنف",
       "sectionBasic": "المعلومات الأساسية",
       "sectionClassification": "التصنيف",
+      "sectionImages": "الصور",
       "sectionPricing": "التسعير",
       "sectionStatus": "الحالة",
       "code": "الرمز",
@@ -241,7 +244,12 @@
         "requires": "يتطلب"
       },
       "brand": "العلامة التجارية",
-      "brandPlaceholder": "اختر علامة تجارية..."
+      "brandPlaceholder": "اختر علامة تجارية...",
+      "mainImageUrl": "رابط الصورة الرئيسية",
+      "mainImageUrlPlaceholder": "https://example.com/item-main.png",
+      "galleryUrls": "روابط معرض الصور",
+      "galleryUrlsPlaceholder": "https://example.com/item-1.png\nhttps://example.com/item-2.png",
+      "galleryUrlsDescription": "ارفع صوراً إضافية للمنتج."
     },
     "warehouses": {
       "title": "المستودعات",

@@ -2,11 +2,15 @@
 
 import { useCallback, useRef, useState, useEffect } from "react"
 import { ImagePlus, X } from "lucide-react"
+import { toast } from "sonner"
 import type { BaseFieldControlProps } from "../types"
 import { cn } from "@/shared/lib/utils"
+import { resolveMediaUrl } from "@/shared/lib/resolve-media-url"
+import { Spinner } from "@/shared/components/ui/spinner"
 
-export type ImageInputFieldProps = BaseFieldControlProps<File | null> & {
+export type ImageInputFieldProps = BaseFieldControlProps<string | null> & {
     accept?: string
+    onUpload: (file: File) => Promise<string>
 }
 
 export function ImageInputField({
@@ -17,46 +21,57 @@ export function ImageInputField({
     disabled,
     invalid,
     accept = "image/*",
+    onUpload,
 }: ImageInputFieldProps) {
     const inputRef = useRef<HTMLInputElement>(null)
     const [preview, setPreview] = useState<string | null>(null)
     const [isDragging, setIsDragging] = useState(false)
+    const [isUploading, setIsUploading] = useState(false)
 
     useEffect(() => {
-        if (!value) {
-            setPreview(null)
-            return
-        }
-        const url = URL.createObjectURL(value)
-        setPreview(url)
-        return () => URL.revokeObjectURL(url)
+        setPreview(value ?? null)
     }, [value])
 
     const handleFile = useCallback(
-        (file: File | null) => {
-            if (file && !file.type.startsWith("image/")) return
-            onChange(file)
+        async (file: File | null) => {
+            if (!file || !file.type.startsWith("image/")) return
+
+            const blobUrl = URL.createObjectURL(file)
+            setPreview(blobUrl)
+
+            try {
+                setIsUploading(true)
+                const url = await onUpload(file)
+                onChange(url)
+            } catch {
+                setPreview(value ?? null)
+                toast.error("Image upload failed")
+            } finally {
+                setIsUploading(false)
+                URL.revokeObjectURL(blobUrl)
+                setPreview(value ?? null)
+            }
         },
-        [onChange],
+        [onChange, onUpload, value],
     )
 
     const handleDrop = useCallback(
         (e: React.DragEvent) => {
             e.preventDefault()
             setIsDragging(false)
-            if (disabled) return
+            if (disabled || isUploading) return
             const file = e.dataTransfer.files?.[0] ?? null
-            handleFile(file)
+            void handleFile(file)
         },
-        [disabled, handleFile],
+        [disabled, handleFile, isUploading],
     )
 
     const handleDragOver = useCallback(
         (e: React.DragEvent) => {
             e.preventDefault()
-            if (!disabled) setIsDragging(true)
+            if (!disabled && !isUploading) setIsDragging(true)
         },
-        [disabled],
+        [disabled, isUploading],
     )
 
     const handleDragLeave = useCallback(() => setIsDragging(false), [])
@@ -74,11 +89,11 @@ export function ImageInputField({
         <div
             role="button"
             tabIndex={0}
-            onClick={() => !disabled && inputRef.current?.click()}
+            onClick={() => !disabled && !isUploading && inputRef.current?.click()}
             onKeyDown={(e) => {
                 if (e.key === "Enter" || e.key === " ") {
                     e.preventDefault()
-                    inputRef.current?.click()
+                    if (!isUploading) inputRef.current?.click()
                 }
             }}
             onDrop={handleDrop}
@@ -90,7 +105,7 @@ export function ImageInputField({
                 "relative flex min-h-35 cursor-pointer flex-col items-center justify-center gap-2 rounded-md border border-dashed border-input bg-background p-4 text-sm transition-colors",
                 isDragging && "border-primary bg-primary/5",
                 invalid && "border-destructive",
-                disabled && "pointer-events-none opacity-50",
+                (disabled || isUploading) && "pointer-events-none opacity-50",
             )}
         >
             <input
@@ -98,19 +113,25 @@ export function ImageInputField({
                 type="file"
                 accept={accept}
                 name={name}
-                disabled={disabled}
+                disabled={disabled || isUploading}
                 className="hidden"
-                onChange={(e) => handleFile(e.target.files?.[0] ?? null)}
+                onChange={(e) => void handleFile(e.target.files?.[0] ?? null)}
             />
+
+            {isUploading && (
+                <div className="absolute inset-0 z-10 flex items-center justify-center rounded-md bg-background/80">
+                    <Spinner className="size-6" />
+                </div>
+            )}
 
             {preview ? (
                 <>
                     <img
-                        src={preview}
+                        src={resolveMediaUrl(preview)}
                         alt="Preview"
                         className="max-h-30 max-w-full rounded-md object-contain"
                     />
-                    {!disabled && (
+                    {!disabled && !isUploading && (
                         <button
                             type="button"
                             onClick={handleClear}

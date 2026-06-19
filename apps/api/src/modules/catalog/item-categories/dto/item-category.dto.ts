@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, IsOptional, IsBoolean } from 'class-validator';
+import { IsString, IsNotEmpty, IsOptional, IsBoolean, IsUrl } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 
@@ -12,6 +12,11 @@ export class CreateItemCategoryDto {
     @IsOptional()
     @IsString()
     description: string = '';
+
+    @ApiPropertyOptional({ example: 'https://cdn.example.com/electronics.png', description: 'Category image URL', nullable: true })
+    @IsOptional()
+    @IsUrl()
+    imageUrl?: string | null;
 
     @ApiPropertyOptional({ example: '00000000-0000-4000-a700-000000000001', description: 'Parent category ID for nesting' })
     @IsOptional()
@@ -35,6 +40,11 @@ export class UpdateItemCategoryDto {
     @IsString()
     description?: string;
 
+    @ApiPropertyOptional({ example: 'https://cdn.example.com/electronics.png', nullable: true })
+    @IsOptional()
+    @IsUrl()
+    imageUrl?: string | null;
+
     @ApiPropertyOptional({ example: '00000000-0000-4000-a700-000000000001', description: 'Parent category ID' })
     @IsOptional()
     @IsString()
@@ -55,6 +65,9 @@ export class ItemCategoryResponseDto {
 
     @ApiProperty({ example: 'Electronic devices and accessories' })
     description: string = '';
+
+    @ApiPropertyOptional({ example: 'https://cdn.example.com/electronics.png', nullable: true })
+    imageUrl: string | null = null;
 
     @ApiProperty({ example: '00000000-0000-4000-a700-000000000001', nullable: true })
     parentId: string | null = null;

@@ -16,6 +16,8 @@ export class ItemPresenter extends CrudPresenter<Item, ItemResponseDto> {
             brandId: entity.brandId ?? null,
             defaultSellingPrice: entity.defaultSellingPrice ?? null,
             latestPurchasePrice: entity.latestPurchasePrice ?? null,
+            mainImageUrl: entity.mainImageUrl ?? null,
+            galleryUrls: entity.galleryUrls ?? [],
             isActive: entity.isActive,
             itemType: entity.itemType,
             customFields: {},

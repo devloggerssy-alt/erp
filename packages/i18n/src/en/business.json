@@ -183,6 +183,8 @@
       "descriptionPlaceholder": "Category description",
       "parent": "Parent Category",
       "parentPlaceholder": "Select parent category...",
+      "imageUrl": "Image URL",
+      "imageUrlPlaceholder": "https://example.com/category.png",
       "active": "Active"
     },
     "items": {
@@ -195,6 +197,7 @@
       "entity": "Item",
       "sectionBasic": "Basic Information",
       "sectionClassification": "Classification",
+      "sectionImages": "Images",
       "sectionPricing": "Pricing",
       "sectionStatus": "Status",
       "code": "Code",
@@ -241,7 +244,12 @@
       "addCatalogEntity": "Link Catalog Entity",
       "addCatalogEntityAction": "Link Entity",
       "brand": "Brand",
-      "brandPlaceholder": "Select brand..."
+      "brandPlaceholder": "Select brand...",
+      "mainImageUrl": "Main Image URL",
+      "mainImageUrlPlaceholder": "https://example.com/item-main.png",
+      "galleryUrls": "Gallery URLs",
+      "galleryUrlsPlaceholder": "https://example.com/item-1.png\nhttps://example.com/item-2.png",
+      "galleryUrlsDescription": "Upload one or more additional product images."
     },
     "warehouses": {
       "title": "Warehouses",

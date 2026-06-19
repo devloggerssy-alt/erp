@@ -35217,6 +35217,7 @@ export namespace Prisma {
     tenantId: string | null
     name: string | null
     description: string | null
+    imageUrl: string | null
     parentId: string | null
     isActive: boolean | null
     createdAt: Date | null
@@ -35228,6 +35229,7 @@ export namespace Prisma {
     tenantId: string | null
     name: string | null
     description: string | null
+    imageUrl: string | null
     parentId: string | null
     isActive: boolean | null
     createdAt: Date | null
@@ -35239,6 +35241,7 @@ export namespace Prisma {
     tenantId: number
     name: number
     description: number
+    imageUrl: number
     parentId: number
     isActive: number
     createdAt: number
@@ -35252,6 +35255,7 @@ export namespace Prisma {
     tenantId?: true
     name?: true
     description?: true
+    imageUrl?: true
     parentId?: true
     isActive?: true
     createdAt?: true
@@ -35263,6 +35267,7 @@ export namespace Prisma {
     tenantId?: true
     name?: true
     description?: true
+    imageUrl?: true
     parentId?: true
     isActive?: true
     createdAt?: true
@@ -35274,6 +35279,7 @@ export namespace Prisma {
     tenantId?: true
     name?: true
     description?: true
+    imageUrl?: true
     parentId?: true
     isActive?: true
     createdAt?: true
@@ -35358,6 +35364,7 @@ export namespace Prisma {
     tenantId: string
     name: string
     description: string | null
+    imageUrl: string | null
     parentId: string | null
     isActive: boolean
     createdAt: Date
@@ -35386,6 +35393,7 @@ export namespace Prisma {
     tenantId?: boolean
     name?: boolean
     description?: boolean
+    imageUrl?: boolean
     parentId?: boolean
     isActive?: boolean
     createdAt?: boolean
@@ -35402,6 +35410,7 @@ export namespace Prisma {
     tenantId?: boolean
     name?: boolean
     description?: boolean
+    imageUrl?: boolean
     parentId?: boolean
     isActive?: boolean
     createdAt?: boolean
@@ -35415,6 +35424,7 @@ export namespace Prisma {
     tenantId?: boolean
     name?: boolean
     description?: boolean
+    imageUrl?: boolean
     parentId?: boolean
     isActive?: boolean
     createdAt?: boolean
@@ -35428,13 +35438,14 @@ export namespace Prisma {
     tenantId?: boolean
     name?: boolean
     description?: boolean
+    imageUrl?: boolean
     parentId?: boolean
     isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type ItemCategoryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "name" | "description" | "parentId" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["itemCategory"]>
+  export type ItemCategoryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "name" | "description" | "imageUrl" | "parentId" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["itemCategory"]>
   export type ItemCategoryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     parent?: boolean | ItemCategory$parentArgs<ExtArgs>
@@ -35464,6 +35475,7 @@ export namespace Prisma {
       tenantId: string
       name: string
       description: string | null
+      imageUrl: string | null
       parentId: string | null
       isActive: boolean
       createdAt: Date
@@ -35899,6 +35911,7 @@ export namespace Prisma {
     readonly tenantId: FieldRef<"ItemCategory", 'String'>
     readonly name: FieldRef<"ItemCategory", 'String'>
     readonly description: FieldRef<"ItemCategory", 'String'>
+    readonly imageUrl: FieldRef<"ItemCategory", 'String'>
     readonly parentId: FieldRef<"ItemCategory", 'String'>
     readonly isActive: FieldRef<"ItemCategory", 'Boolean'>
     readonly createdAt: FieldRef<"ItemCategory", 'DateTime'>
@@ -57644,6 +57657,7 @@ export namespace Prisma {
     tenantId: 'tenantId',
     name: 'name',
     description: 'description',
+    imageUrl: 'imageUrl',
     parentId: 'parentId',
     isActive: 'isActive',
     createdAt: 'createdAt',
@@ -60486,6 +60500,7 @@ export namespace Prisma {
     tenantId?: StringFilter<"ItemCategory"> | string
     name?: StringFilter<"ItemCategory"> | string
     description?: StringNullableFilter<"ItemCategory"> | string | null
+    imageUrl?: StringNullableFilter<"ItemCategory"> | string | null
     parentId?: StringNullableFilter<"ItemCategory"> | string | null
     isActive?: BoolFilter<"ItemCategory"> | boolean
     createdAt?: DateTimeFilter<"ItemCategory"> | Date | string
@@ -60501,6 +60516,7 @@ export namespace Prisma {
     tenantId?: SortOrder
     name?: SortOrder
     description?: SortOrderInput | SortOrder
+    imageUrl?: SortOrderInput | SortOrder
     parentId?: SortOrderInput | SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
@@ -60520,6 +60536,7 @@ export namespace Prisma {
     tenantId?: StringFilter<"ItemCategory"> | string
     name?: StringFilter<"ItemCategory"> | string
     description?: StringNullableFilter<"ItemCategory"> | string | null
+    imageUrl?: StringNullableFilter<"ItemCategory"> | string | null
     parentId?: StringNullableFilter<"ItemCategory"> | string | null
     isActive?: BoolFilter<"ItemCategory"> | boolean
     createdAt?: DateTimeFilter<"ItemCategory"> | Date | string
@@ -60535,6 +60552,7 @@ export namespace Prisma {
     tenantId?: SortOrder
     name?: SortOrder
     description?: SortOrderInput | SortOrder
+    imageUrl?: SortOrderInput | SortOrder
     parentId?: SortOrderInput | SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
@@ -60552,6 +60570,7 @@ export namespace Prisma {
     tenantId?: StringWithAggregatesFilter<"ItemCategory"> | string
     name?: StringWithAggregatesFilter<"ItemCategory"> | string
     description?: StringNullableWithAggregatesFilter<"ItemCategory"> | string | null
+    imageUrl?: StringNullableWithAggregatesFilter<"ItemCategory"> | string | null
     parentId?: StringNullableWithAggregatesFilter<"ItemCategory"> | string | null
     isActive?: BoolWithAggregatesFilter<"ItemCategory"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"ItemCategory"> | Date | string
@@ -64442,6 +64461,7 @@ export namespace Prisma {
     id?: string
     name: string
     description?: string | null
+    imageUrl?: string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -64456,6 +64476,7 @@ export namespace Prisma {
     tenantId: string
     name: string
     description?: string | null
+    imageUrl?: string | null
     parentId?: string | null
     isActive?: boolean
     createdAt?: Date | string
@@ -64468,6 +64489,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -64482,6 +64504,7 @@ export namespace Prisma {
     tenantId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -64495,6 +64518,7 @@ export namespace Prisma {
     tenantId: string
     name: string
     description?: string | null
+    imageUrl?: string | null
     parentId?: string | null
     isActive?: boolean
     createdAt?: Date | string
@@ -64505,6 +64529,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -64515,6 +64540,7 @@ export namespace Prisma {
     tenantId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -68080,6 +68106,7 @@ export namespace Prisma {
     tenantId?: SortOrder
     name?: SortOrder
     description?: SortOrder
+    imageUrl?: SortOrder
     parentId?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
@@ -68091,6 +68118,7 @@ export namespace Prisma {
     tenantId?: SortOrder
     name?: SortOrder
     description?: SortOrder
+    imageUrl?: SortOrder
     parentId?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
@@ -68102,6 +68130,7 @@ export namespace Prisma {
     tenantId?: SortOrder
     name?: SortOrder
     description?: SortOrder
+    imageUrl?: SortOrder
     parentId?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
@@ -83801,6 +83830,7 @@ export namespace Prisma {
     id?: string
     name: string
     description?: string | null
+    imageUrl?: string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -83814,6 +83844,7 @@ export namespace Prisma {
     tenantId: string
     name: string
     description?: string | null
+    imageUrl?: string | null
     parentId?: string | null
     isActive?: boolean
     createdAt?: Date | string
@@ -83830,6 +83861,7 @@ export namespace Prisma {
     id?: string
     name: string
     description?: string | null
+    imageUrl?: string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -83843,6 +83875,7 @@ export namespace Prisma {
     tenantId: string
     name: string
     description?: string | null
+    imageUrl?: string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -84036,6 +84069,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -84049,6 +84083,7 @@ export namespace Prisma {
     tenantId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -84080,6 +84115,7 @@ export namespace Prisma {
     tenantId?: StringFilter<"ItemCategory"> | string
     name?: StringFilter<"ItemCategory"> | string
     description?: StringNullableFilter<"ItemCategory"> | string | null
+    imageUrl?: StringNullableFilter<"ItemCategory"> | string | null
     parentId?: StringNullableFilter<"ItemCategory"> | string | null
     isActive?: BoolFilter<"ItemCategory"> | boolean
     createdAt?: DateTimeFilter<"ItemCategory"> | Date | string
@@ -84631,6 +84667,7 @@ export namespace Prisma {
     id?: string
     name: string
     description?: string | null
+    imageUrl?: string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -84644,6 +84681,7 @@ export namespace Prisma {
     tenantId: string
     name: string
     description?: string | null
+    imageUrl?: string | null
     parentId?: string | null
     isActive?: boolean
     createdAt?: Date | string
@@ -85076,6 +85114,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -85089,6 +85128,7 @@ export namespace Prisma {
     tenantId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -87703,6 +87743,7 @@ export namespace Prisma {
     id?: string
     name: string
     description?: string | null
+    imageUrl?: string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -87715,6 +87756,7 @@ export namespace Prisma {
     id?: string
     name: string
     description?: string | null
+    imageUrl?: string | null
     parentId?: string | null
     isActive?: boolean
     createdAt?: Date | string
@@ -93313,6 +93355,7 @@ export namespace Prisma {
     tenantId: string
     name: string
     description?: string | null
+    imageUrl?: string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -93340,6 +93383,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -93353,6 +93397,7 @@ export namespace Prisma {
     tenantId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -93365,6 +93410,7 @@ export namespace Prisma {
     tenantId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -94166,6 +94212,7 @@ export namespace Prisma {
     id?: string
     name: string
     description?: string | null
+    imageUrl?: string | null
     parentId?: string | null
     isActive?: boolean
     createdAt?: Date | string
@@ -94625,6 +94672,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -94637,6 +94685,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -94649,6 +94698,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string

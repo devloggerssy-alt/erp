@@ -3,10 +3,11 @@
 import { useTranslations } from "next-intl"
 import { type ItemsClient } from "@devloggers/api-client"
 import { itemCategoryResource, unitResource, brandResource } from "@devloggers/api-contracts"
-import { ResourceFormShell, RhfCheckboxField, RhfResourceSelect, RhfSelectField, RhfTextField } from "@/shared/components/form"
+import { ResourceFormShell, RhfCheckboxField, RhfImageField, RhfResourceSelect, RhfSelectField, RhfTextField } from "@/shared/components/form"
 import type { ResourceFormProps } from "@/shared/data-view/resource"
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/components/ui/card"
 import { useResourceFormController } from "@/shared/hooks/use-resource-form-controller"
+import { useFileUpload } from "@/shared/hooks/use-file-upload"
 import { customFieldModules } from "@devloggers/api-contracts"
 import { CustomFieldsFormSection } from "@/shared/custom-fields"
 import { cn } from "@/shared/lib/utils"
@@ -14,6 +15,7 @@ import { itemsFormConfig, type ItemFormValues } from "../items.config"
 import { ItemTagsSection } from "./items-tags-section"
 import { ItemRelationsSection } from "./items-relations-section"
 import { ItemCatalogEntitiesSection } from "./items-catalog-entities-section"
+import { ItemGalleryUrlsField } from "./item-gallery-urls-field"
 
 export type ItemsFormProps = ResourceFormProps<ItemsClient> & {
     closeOnSuccess?: boolean
@@ -28,6 +30,7 @@ export function ItemsForm({
 }: ItemsFormProps) {
     const t = useTranslations("business.resources.items")
     const tf = useTranslations("system.resourceForm")
+    const uploadFile = useFileUpload("items")
 
     const ctrl = useResourceFormController<ItemsClient, ItemFormValues>({
         config: itemsFormConfig,
@@ -123,6 +126,26 @@ export function ItemsForm({
                                 client={(api) => api[brandResource.key]}
                                 getLabel={(item) => (item as unknown as { name: string }).name}
                                 getValue={(item) => item}
+                                disabled={ctrl.isBusy}
+                            />
+                        </CardContent>
+                    </Card>
+
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>{t("sectionImages")}</CardTitle>
+                        </CardHeader>
+                        <CardContent className="grid gap-4">
+                            <RhfImageField
+                                name="mainImageUrl"
+                                label={t("mainImageUrl")}
+                                onUpload={uploadFile}
+                                disabled={ctrl.isBusy}
+                            />
+                            <ItemGalleryUrlsField
+                                label={t("galleryUrls")}
+                                description={t("galleryUrlsDescription")}
+                                onUpload={uploadFile}
                                 disabled={ctrl.isBusy}
                             />
                         </CardContent>

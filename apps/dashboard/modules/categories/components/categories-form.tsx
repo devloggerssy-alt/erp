@@ -3,14 +3,16 @@
 import { useTranslations } from "next-intl"
 import { type CategoriesClient } from "@devloggers/api-client"
 import { itemCategoryResource } from "@devloggers/api-contracts"
-import { ResourceFormShell, RhfCheckboxField, RhfResourceSelect, RhfTextField } from "@/shared/components/form"
+import { ResourceFormShell, RhfCheckboxField, RhfImageField, RhfResourceSelect, RhfTextField } from "@/shared/components/form"
 import type { ResourceFormProps } from "@/shared/data-view/resource"
 import { useResourceFormController } from "@/shared/hooks/use-resource-form-controller"
+import { useFileUpload } from "@/shared/hooks/use-file-upload"
 import { categoriesFormConfig, type CategoryFormValues } from "../categories.config"
 
 export function CategoriesForm({ resourceId, initialData, onSuccess, paramKey }: ResourceFormProps<CategoriesClient>) {
     const t = useTranslations("business.resources.categories")
     const tf = useTranslations("system.resourceForm")
+    const uploadFile = useFileUpload("categories")
 
     const ctrl = useResourceFormController<CategoriesClient, CategoryFormValues>({
         config: categoriesFormConfig,
@@ -35,6 +37,12 @@ export function CategoriesForm({ resourceId, initialData, onSuccess, paramKey }:
                 name="description"
                 label={t("description")}
                 placeholder={t("descriptionPlaceholder")}
+                disabled={ctrl.isBusy}
+            />
+            <RhfImageField
+                name="imageUrl"
+                label={t("imageUrl")}
+                onUpload={uploadFile}
                 disabled={ctrl.isBusy}
             />
             <RhfResourceSelect
