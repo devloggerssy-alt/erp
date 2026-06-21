@@ -27,3 +27,4 @@ export * from './catalog-entity.dto';
 export * from './item-catalog-entity.dto';
 export * from './brand.dto';
 export * from './financial-setting.dto';
+export * from './import-export.dto';

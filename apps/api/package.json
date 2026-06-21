@@ -28,6 +28,7 @@
     "@devloggers/api-contracts": "workspace:*",
     "@devloggers/i18n": "workspace:*",
     "@devloggers/backend-core": "workspace:^",
+    "@devloggers/import-export": "workspace:*",
     "@devloggers/db-prisma": "workspace:*",
     "@nestjs-modules/mailer": "^2.0.2",
     "@nestjs/common": "^11.0.1",

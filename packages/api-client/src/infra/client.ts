@@ -211,6 +211,54 @@ export class ApiClient {
 
         return data
     }
+
+    async getBlob(endpoint: string, query?: Record<string, unknown>): Promise<{ blob: Blob; filename: string }> {
+        const params = query ? `?${this.serializeQuery(query)}` : ""
+        const url = `${this.normalizeBaseUrl(this.baseUrl)}${endpoint}${params}`
+        const headers = new Headers(this.defaultOptions.headers as Record<string, string>)
+        headers.set("Accept", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/octet-stream")
+        if (this.defaultOptions.locale) {
+            headers.set("Accept-Language", this.defaultOptions.locale)
+        }
+
+        const response = await fetch(url, { method: "GET", headers })
+        if (!response.ok) {
+            let payload: ErrorPayload | undefined
+            try {
+                payload = await response.json()
+            } catch {
+                payload = undefined
+            }
+            throw new ApiError(response.status, response.statusText, endpoint, "get", payload)
+        }
+
+        const blob = await response.blob()
+        const disposition = response.headers.get("Content-Disposition") ?? ""
+        const filenameMatch = disposition.match(/filename="?([^";\n]+)"?/)
+        const filename = filenameMatch?.[1] ?? "download.xlsx"
+
+        return { blob, filename }
+    }
+
+    private serializeQuery(queryParams: Record<string, unknown>): string {
+        const params = new URLSearchParams()
+
+        function serialize(obj: Record<string, unknown>, prefix?: string) {
+            for (const [key, value] of Object.entries(obj)) {
+                const paramKey = prefix ? `${prefix}[${key}]` : key
+                if (Array.isArray(value)) {
+                    value.forEach((v) => params.append(paramKey, String(v)))
+                } else if (value !== null && value !== undefined && typeof value === "object") {
+                    serialize(value as Record<string, unknown>, paramKey)
+                } else if (value !== null && value !== undefined) {
+                    params.append(paramKey, String(value))
+                }
+            }
+        }
+
+        serialize(queryParams)
+        return params.toString()
+    }
     protected normalizeBaseUrl(baseUrl: string): string {
         return baseUrl.replace(/\/+$/, "")
     }

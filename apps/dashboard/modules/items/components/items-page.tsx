@@ -9,6 +9,7 @@ import { Plus } from "lucide-react"
 import { Button } from "@/shared/components/ui/button"
 import { ItemsResource } from "../items.resource"
 import { createItemsColumns } from "./items-columns"
+import { ItemsImportExportActions } from "./items-import-export-actions"
 
 export function ItemsPage() {
     const t = useTranslations("business.resources.items")
@@ -22,6 +23,7 @@ export function ItemsPage() {
         <ItemsResource>
             <ItemsResource.Page
                 title={t("title")}
+                headerActions={() => <ItemsImportExportActions />}
                 actions={
                     <Button size="lg" asChild>
                         <Link href={localizedHref("/catalog/items/new")}>
