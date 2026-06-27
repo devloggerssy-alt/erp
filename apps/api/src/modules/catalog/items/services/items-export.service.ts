@@ -1,6 +1,5 @@
 import {
-    BadRequestException,
-    Injectable,
+     Injectable,
     StreamableFile,
 } from '@nestjs/common';
 import {

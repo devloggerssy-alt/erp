@@ -58,7 +58,7 @@ export class ItemsRepository extends CrudRepository<Item> {
         return this.prisma.item.findFirst({
             where: { id, tenantId },
             include: ITEM_SHOW_INCLUDE,
-        }) as unknown as ItemWithRelations | null;
+        });
     }
 
     async isCodeTaken(tenantId: string, code: string, excludeId?: string): Promise<boolean> {
