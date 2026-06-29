@@ -7,16 +7,18 @@ import type {
     WarehousesClient,
     FiscalPeriodsClient,
     CurrenciesClient,
+    CashboxesClient,
 } from "@devloggers/api-client"
 import { Button } from "@/shared/components/ui/button"
 import { Rhform } from "@/shared/components/form"
-import { RhfTextareaField, RhfResourceSelect, RhfTextField } from "@/shared/components/form"
+import { RhfTextareaField, RhfResourceSelect, RhfTextField, RhfCheckboxField } from "@/shared/components/form"
 import { DEFAULT_INVOICE_LINE } from "../invoices.config"
 import type { InvoiceFormValues, InvoiceRelationalField, InvoiceDirection } from "../invoices.config"
 import type { InvoiceFormController } from "../hooks/use-invoice-form"
 import { InvoiceLineRow } from "./invoice-line-row"
 import { RhfDateField } from "@/shared/components/form/fields/rhf-date-field"
 import { InvoicePartySelect, type PartyTypeFilter } from "./invoice-party-select"
+import { useWatch } from "react-hook-form"
 
 const PARTY_TYPES_BY_DIRECTION: Record<InvoiceDirection, PartyTypeFilter[]> = {
     SALE: ["CUSTOMER", "CUSTOMER_SUPPLIER"],
@@ -25,10 +27,20 @@ const PARTY_TYPES_BY_DIRECTION: Record<InvoiceDirection, PartyTypeFilter[]> = {
 
 // ── Header fields ──────────────────────────────────────────────────────────────
 
-function InvoiceHeaderFields({ disabled, direction }: { disabled: boolean; direction: InvoiceDirection }) {
+function InvoiceHeaderFields({
+    ctrl,
+    disabled,
+    direction,
+}: {
+    ctrl: InvoiceFormController
+    disabled: boolean
+    direction: InvoiceDirection
+}) {
     const t = useTranslations("business.resources.invoices")
     const gt = useTranslations()
     const partyTitle = direction === "SALE" ? gt("business.resources.customers.entity") : gt("business.resources.suppliers.entity")
+
+    const openingPayment = useWatch({ control: ctrl.form.control, name: "openingPayment" })
 
     return (
         <div className="space-y-4">
@@ -95,6 +107,39 @@ function InvoiceHeaderFields({ disabled, direction }: { disabled: boolean; direc
                 label={t("notes")}
                 disabled={disabled}
             />
+
+            {/* Opening payment — only shown in create mode */}
+            {!ctrl.isEditing && (
+                <div className="space-y-3 rounded-lg border p-4 pt-3">
+                    <p className="text-sm font-medium">{t("openingPayment.title")}</p>
+                    <RhfCheckboxField<InvoiceFormValues, "openingPayment">
+                        name="openingPayment"
+                        label={t("openingPayment.label")}
+                        description={t("openingPayment.description")}
+                        disabled={disabled}
+                    />
+                    {openingPayment && (
+                        <div className="space-y-3">
+                            <RhfResourceSelect<InvoiceFormValues, "openingPaymentCashbox", CashboxesClient, InvoiceRelationalField>
+                                name="openingPaymentCashbox"
+                                label={t("openingPayment.cashbox")}
+                                client={(api) => api.cashboxes}
+                                getLabel={(it) => `${(it as Record<string, string>)["code"]} — ${(it as Record<string, string>)["name"]}`}
+                                getValue={(it) => it}
+                                required
+                                disabled={disabled}
+                            />
+                            <RhfTextField
+                                name="openingPaymentAmount"
+                                label={t("openingPayment.amount")}
+                                type="number"
+                                required
+                                disabled={disabled}
+                            />
+                        </div>
+                    )}
+                </div>
+            )}
         </div>
     )
 }
@@ -173,7 +218,7 @@ export function InvoiceForm({ ctrl }: { ctrl: InvoiceFormController }) {
             <div className="p-6 grid grid-cols-12 gap-8">
                 <div className="col-span-3">
 
-                    <InvoiceHeaderFields disabled={disabled} direction={ctrl.direction} />
+                    <InvoiceHeaderFields ctrl={ctrl} disabled={disabled} direction={ctrl.direction} />
                 </div>
 
                 <div className="col-span-9">

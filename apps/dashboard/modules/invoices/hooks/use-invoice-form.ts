@@ -121,10 +121,21 @@ export function useInvoiceForm({
         [watchedLines],
     )
 
+    // Sync opening payment amount with invoice total when checkbox is on and amount hasn't been manually changed
+    const watchedOpeningPayment = useWatch({ control: form.control, name: "openingPayment" })
+    useEffect(() => {
+        if (!watchedOpeningPayment || isEditing) return
+        const current = form.getValues("openingPaymentAmount")
+        // Only auto-fill if the field is empty or equals the previous total (i.e. still tracking)
+        if (!current || current === 0) {
+            form.setValue("openingPaymentAmount", totals.total, { shouldDirty: false })
+        }
+    }, [totals.total, watchedOpeningPayment, isEditing]) // eslint-disable-line react-hooks/exhaustive-deps
+
     // ── Submit mutation ────────────────────────────────────────────────────────
 
     const { mutate, isPending } = useFormMutation(form, {
-        mutationFn: (values: InvoiceFormValues) => {
+        mutationFn: async (values: InvoiceFormValues) => {
             const promise = isEditing && invoiceId
                 ? api.invoices.update(invoiceId, toUpdateInvoiceDto(values))
                 : api.invoices.create(toCreateInvoiceDto(values))
@@ -139,10 +150,34 @@ export function useInvoiceForm({
                     : tf("createFailed", { entity: t("entity") }),
             })
 
-            return promise
+            const result = await promise
+
+            // After a new invoice is created, optionally create an opening payment
+            if (!isEditing && values.openingPayment && values.openingPaymentCashbox?.id) {
+                const paymentType = direction === "SALE" ? "RECEIPT" : "PAYMENT"
+                const paymentPromise = api.payments.create({
+                    type: paymentType,
+                    date: values.date,
+                    cashboxId: values.openingPaymentCashbox.id,
+                    partyId: values.party?.id || undefined,
+                    currencyId: values.currency?.id ?? "",
+                    fiscalPeriodId: values.fiscalPeriod?.id ?? "",
+                    amount: values.openingPaymentAmount ?? totals.total,
+                    exchangeRate: values.exchangeRate !== 1 ? values.exchangeRate : undefined,
+                })
+                toast.promise(paymentPromise, {
+                    loading: t("openingPayment.creating"),
+                    success: t("openingPayment.created"),
+                    error: t("openingPayment.failed"),
+                })
+                await paymentPromise
+            }
+
+            return result
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: [api.invoices.key] })
+            queryClient.invalidateQueries({ queryKey: [api.payments.key] })
             form.reset(DEFAULT_INVOICE_FORM_VALUES)
             onSuccess?.()
             onClose()

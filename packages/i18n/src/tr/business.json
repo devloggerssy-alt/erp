@@ -250,6 +250,14 @@
       "galleryUrls": "Galeri URL'leri",
       "galleryUrlsPlaceholder": "https://example.com/item-1.png\nhttps://example.com/item-2.png",
       "galleryUrlsDescription": "Ek ürün görselleri yükleyin.",
+      "sectionOpeningStock": "Açılış Stoku",
+      "openingStockEnabled": "Bu ürün için açılış stoku kaydet",
+      "openingWarehouse": "Depo",
+      "openingWarehousePlaceholder": "Depo seçin...",
+      "openingCount": "Açılış Miktarı",
+      "openingCountPlaceholder": "örn. 100",
+      "openingUnitCost": "Birim Maliyet",
+      "openingUnitCostPlaceholder": "örn. 500",
       "exportAction": "Excel Dışa Aktar",
       "exporting": "Dışa aktarılıyor…",
       "exportSuccess": "Ürünler başarıyla dışa aktarıldı",
@@ -493,6 +501,16 @@
         "addLine": "Satır ekle",
         "notes": "Notlar"
       },
+      "openingPayment": {
+        "title": "Açılış Ödemesi",
+        "label": "Oluşturulurken tamamen ödendi",
+        "description": "Bu faturaya bağlı bir ödeme kaydı oluştur",
+        "cashbox": "Kasa",
+        "amount": "Tutar",
+        "creating": "Ödeme oluşturuluyor…",
+        "created": "Ödeme oluşturuldu",
+        "failed": "Ödeme oluşturulamadı (fatura kaydedildi)"
+      },
       "totals": {
         "subtotal": "Ara Toplam",
         "discount": "İndirim",
@@ -544,6 +562,41 @@
         "amount": "Tutar",
         "notes": "Notlar",
         "addItem": "Kalem ekle"
+      }
+    },
+    "payments": {
+      "title": "Ödemeler",
+      "entity": "Ödeme",
+      "newPayment": "Yeni Ödeme",
+      "number": "Numara",
+      "type": "Tür",
+      "date": "Tarih",
+      "cashbox": "Kasa",
+      "party": "Taraf",
+      "currency": "Para Birimi",
+      "fiscalPeriod": "Mali Dönem",
+      "exchangeRate": "Kur",
+      "amount": "Tutar",
+      "notes": "Notlar",
+      "types": {
+        "RECEIPT": "Tahsilat",
+        "PAYMENT": "Ödeme",
+        "ADJUSTMENT": "Düzeltme"
+      },
+      "status": {
+        "draft": "Taslak",
+        "posted": "Gönderildi",
+        "cancelled": "İptal"
+      },
+      "actions": {
+        "post": "Ödemeyi Gönder",
+        "cancel": "Ödemeyi İptal Et",
+        "edit": "Düzenle",
+        "view": "Görüntüle",
+        "postConfirm": "Bu işlem ödemeyi kilitler ve kasa bakiyesini günceller. Geri alınamaz.",
+        "cancelConfirm": "Bu işlem kasa bakiyesini geri alır. Ödeme iptal olarak işaretlenir.",
+        "postTitle": "Ödeme Gönderilsin mi?",
+        "cancelTitle": "Ödeme İptal Edilsin mi?"
       }
     },
     "tags": {

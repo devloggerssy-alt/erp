@@ -9,7 +9,7 @@ import {
   Type,
   UsePipes,
 } from '@nestjs/common';
-import { ApiBody } from '@nestjs/swagger';
+import { ApiBody, ApiOkResponse, ApiOperation } from '@nestjs/swagger';
 import { ApiQueryOptionsDto } from '../api/api-query-options.dto.js';
 import { ApiResponseBuilder } from '../api/api-response-builder.js';
 import { buildPrismaOrderBy, buildPrismaWhere, resolvePagination } from '../api/api-query.utils.js';
@@ -28,6 +28,11 @@ import { CurrentUser } from '../auth/current-user.decorator.js';
 import type { RequestUser } from '../auth/request-user.js';
 import { createClassDtoBodyPipe } from './class-dto-body.pipe.js';
 import { ICrudService } from './crud-service.js';
+import {
+  BulkDeleteBodyDto,
+  BulkResultResponseDto,
+  createBulkUpdateBodyDto,
+} from './bulk.dto.js';
 
 /** OpenAPI fragments for each verb; nested under `openApi` in {@link CreateCrudControllerConfig}. */
 export type CrudOpenApi = {
@@ -57,6 +62,11 @@ export type CrudOpenApi = {
 };
 
 
+export type CrudBulkOpenApi = {
+  bulkDelete?: CrudOperationDoc;
+  bulkUpdate?: CrudOperationDoc;
+};
+
 export type CreateCrudControllerConfig<TResponse, TCreateDto, TUpdateDto> = {
   responseDto: Type<TResponse>;
   createDto: Type<TCreateDto>;
@@ -64,6 +74,8 @@ export type CreateCrudControllerConfig<TResponse, TCreateDto, TUpdateDto> = {
   openApi: CrudOpenApi;
   /** Per-resource filterable fields; drives Swagger docs and Prisma where safelist. */
   filterSchema?: FilterSchema;
+  /** Optional Swagger doc overrides for the always-on bulk routes (`DELETE /resource`, `PATCH /resource`). */
+  bulk?: CrudBulkOpenApi;
 };
 
 /**
@@ -81,7 +93,9 @@ export function createCrudController<TResponse, TCreateDto, TUpdateDto>(
   service: ICrudService<TResponse, TCreateDto, TUpdateDto>,
   resourceLabel: string,
 ) => object {
-  const { responseDto, createDto, updateDto, openApi, filterSchema } = config;
+  const { responseDto, createDto, updateDto, openApi, filterSchema, bulk } = config;
+  const bulkOpenApi = bulk ?? {};
+  const bulkUpdateBodyDto = createBulkUpdateBodyDto(updateDto);
 
   class StandardCrudControllerBase {
     constructor(
@@ -117,6 +131,19 @@ export function createCrudController<TResponse, TCreateDto, TUpdateDto>(
     protected async afterCreate(_user: RequestUser, _item: TResponse): Promise<void> { }
 
     protected async afterUpdate(_user: RequestUser, _item: TResponse): Promise<void> { }
+
+  /** Hook before bulk partial update — throw to abort the whole request. */
+  protected async beforeBulkUpdate(
+    _user: RequestUser,
+    _items: Array<{ id: string } & Partial<TUpdateDto>>,
+  ): Promise<void> {}
+
+  /** Hook after bulk partial update — receives the aggregated result. */
+  protected async afterBulkUpdate(
+    _user: RequestUser,
+    _items: Array<{ id: string } & Partial<TUpdateDto>>,
+    _result: { total: number; succeeded: number; failed: number; errors: unknown[] },
+  ): Promise<void> {}
 
     @Get()
     @CrudList(responseDto, { ...openApi.list, filterSchema })
@@ -169,6 +196,39 @@ export function createCrudController<TResponse, TCreateDto, TUpdateDto>(
     async delete(@CurrentUser() user: RequestUser, @Param('id') id: string): Promise<void> {
       await this.beforeDelete(user, id);
       await this.service.delete(user.tenantId, id);
+    }
+
+    @Delete()
+    @ApiOperation(bulkOpenApi.bulkDelete ?? { summary: 'Bulk delete by ids' })
+    @ApiBody({ type: BulkDeleteBodyDto, required: true })
+    @ApiOkResponse({
+      type: BulkResultResponseDto,
+      description: 'Bulk delete result ({ total, succeeded, failed, errors })',
+    })
+    async bulkDelete(
+      @CurrentUser() user: RequestUser,
+      @Body() body: BulkDeleteBodyDto,
+    ) {
+      const result = await this.service.bulkDelete(user.tenantId, body.ids);
+      return ApiResponseBuilder.success(result, `${this.resourceLabel} bulk delete`);
+    }
+
+    @Patch()
+    @ApiOperation(bulkOpenApi.bulkUpdate ?? { summary: 'Bulk partial update' })
+    @ApiBody({ type: bulkUpdateBodyDto.arrayDto, required: true })
+    @ApiOkResponse({
+      type: BulkResultResponseDto,
+      description: 'Bulk partial-update result ({ total, succeeded, failed, errors })',
+    })
+    @UsePipes(createClassDtoBodyPipe(bulkUpdateBodyDto.arrayDto))
+    async bulkUpdate(
+      @CurrentUser() user: RequestUser,
+      @Body() body: { items: Array<{ id: string } & Partial<TUpdateDto>> },
+    ) {
+      await this.beforeBulkUpdate(user, body.items);
+      const result = await this.service.bulkUpdate(user.tenantId, body.items);
+      await this.afterBulkUpdate(user, body.items, result);
+      return ApiResponseBuilder.success(result, `${this.resourceLabel} bulk update`);
     }
   }
 

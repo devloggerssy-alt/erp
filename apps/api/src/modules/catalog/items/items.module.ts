@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { CustomFieldsModule } from '@/modules/custom-fields/custom-fields.module';
+import { InventoryModule } from '@/modules/inventory/inventory.module';
 import { ItemsController } from './controllers/items.controller';
 import { ItemsImportExportController } from './controllers/items-import-export.controller';
 import { ItemsService } from './services/items.service';
@@ -9,7 +10,7 @@ import { ItemsRepository } from './repositories/items.repository';
 import { ItemPresenter } from './presenters/item.presenter';
 
 @Module({
-    imports: [CustomFieldsModule],
+    imports: [CustomFieldsModule, InventoryModule],
     controllers: [ItemsImportExportController, ItemsController],
     providers: [ItemsService, ItemsExportService, ItemsImportService, ItemsRepository, ItemPresenter],
     exports: [ItemsService],

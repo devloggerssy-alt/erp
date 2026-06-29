@@ -102,10 +102,12 @@ export interface paths {
          * @description Creates a new role. Name must be unique within the tenant.
          */
         post: operations["Roles.create"];
-        delete?: never;
+        /** Bulk delete by ids */
+        delete: operations["Roles.bulkDelete"];
         options?: never;
         head?: never;
-        patch?: never;
+        /** Bulk partial update */
+        patch: operations["Roles.bulkUpdate"];
         trace?: never;
     };
     "/roles/{id}": {
@@ -255,6 +257,66 @@ export interface paths {
         patch: operations["Users.updateStatus"];
         trace?: never;
     };
+    "/units/export": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Export units to Excel
+         * @description Exports units matching the current list filters (max 10,000 rows).
+         */
+        get: operations["UnitsImportExport.exportResources"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/units/import/template": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Download units import template
+         * @description Returns an Excel template with column headers, sample row, and instructions.
+         */
+        get: operations["UnitsImportExport.downloadImportTemplate"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/units/import": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Import units from Excel
+         * @description Upserts units by name. Use dryRun=true to validate without saving.
+         */
+        post: operations["UnitsImportExport.importResources"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/units": {
         parameters: {
             query?: never;
@@ -273,10 +335,12 @@ export interface paths {
          * @description Creates a new unit. Name must be unique within the tenant.
          */
         post: operations["Units.create"];
-        delete?: never;
+        /** Bulk delete by ids */
+        delete: operations["Units.bulkDelete"];
         options?: never;
         head?: never;
-        patch?: never;
+        /** Bulk partial update */
+        patch: operations["Units.bulkUpdate"];
         trace?: never;
     };
     "/units/{id}": {
@@ -316,10 +380,12 @@ export interface paths {
         put?: never;
         /** Create an item category */
         post: operations["ItemCategories.create"];
-        delete?: never;
+        /** Bulk delete by ids */
+        delete: operations["ItemCategories.bulkDelete"];
         options?: never;
         head?: never;
-        patch?: never;
+        /** Bulk partial update */
+        patch: operations["ItemCategories.bulkUpdate"];
         trace?: never;
     };
     "/item-categories/{id}": {
@@ -341,6 +407,66 @@ export interface paths {
         patch: operations["ItemCategories.update"];
         trace?: never;
     };
+    "/items/export": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Export items to Excel
+         * @description Exports items matching the current list filters (max 10,000 rows). Includes custom field columns.
+         */
+        get: operations["ItemsImportExport.exportResources"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/items/import/template": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Download items import template
+         * @description Returns an Excel template with column headers, sample row, and instructions.
+         */
+        get: operations["ItemsImportExport.downloadImportTemplate"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/items/import": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Import items from Excel
+         * @description Upserts items by code. Use dryRun=true to validate without saving.
+         */
+        post: operations["ItemsImportExport.importResources"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/items": {
         parameters: {
             query?: never;
@@ -356,10 +482,12 @@ export interface paths {
          * @description Item code must be unique within the tenant.
          */
         post: operations["Items.create"];
-        delete?: never;
+        /** Bulk delete by ids */
+        delete: operations["Items.bulkDelete"];
         options?: never;
         head?: never;
-        patch?: never;
+        /** Bulk partial update */
+        patch: operations["Items.bulkUpdate"];
         trace?: never;
     };
     "/items/{id}": {
@@ -413,10 +541,12 @@ export interface paths {
         put?: never;
         /** Create a custom field definition */
         post: operations["CustomFields.create"];
-        delete?: never;
+        /** Bulk delete by ids */
+        delete: operations["CustomFields.bulkDelete"];
         options?: never;
         head?: never;
-        patch?: never;
+        /** Bulk partial update */
+        patch: operations["CustomFields.bulkUpdate"];
         trace?: never;
     };
     "/custom-fields/{id}": {
@@ -438,6 +568,91 @@ export interface paths {
         patch: operations["CustomFields.update"];
         trace?: never;
     };
+    "/inventory/balances": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get current stock balances
+         * @description Returns the current quantity-on-hand for each item per warehouse. Optionally filter by a specific warehouse or item.
+         */
+        get: operations["Inventory.getBalances"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/inventory/opening-balances": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Register opening stock balances
+         * @description Records initial stock quantities for items in a warehouse. Used during system setup to enter existing inventory. Creates stock ledger movement entries of type OPENING_BALANCE.
+         */
+        post: operations["Inventory.registerOpeningBalances"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/warehouses": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List warehouses */
+        get: operations["Warehouses.list"];
+        put?: never;
+        /**
+         * Create a warehouse
+         * @description Warehouse code must be unique within the tenant.
+         */
+        post: operations["Warehouses.create"];
+        /** Bulk delete by ids */
+        delete: operations["Warehouses.bulkDelete"];
+        options?: never;
+        head?: never;
+        /** Bulk partial update */
+        patch: operations["Warehouses.bulkUpdate"];
+        trace?: never;
+    };
+    "/warehouses/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get a warehouse by ID */
+        get: operations["Warehouses.show"];
+        put?: never;
+        post?: never;
+        /** Delete a warehouse */
+        delete: operations["Warehouses.delete"];
+        options?: never;
+        head?: never;
+        /**
+         * Update a warehouse
+         * @description Partial update — only provided fields are changed.
+         */
+        patch: operations["Warehouses.update"];
+        trace?: never;
+    };
     "/tags": {
         parameters: {
             query?: never;
@@ -456,10 +671,12 @@ export interface paths {
          * @description Creates a new tag. Name must be unique within the module.
          */
         post: operations["Tags.create"];
-        delete?: never;
+        /** Bulk delete by ids */
+        delete: operations["Tags.bulkDelete"];
         options?: never;
         head?: never;
-        patch?: never;
+        /** Bulk partial update */
+        patch: operations["Tags.bulkUpdate"];
         trace?: never;
     };
     "/tags/{id}": {
@@ -540,10 +757,12 @@ export interface paths {
          * @description Creates a directional relation between two items.
          */
         post: operations["ItemRelations.create"];
-        delete?: never;
+        /** Bulk delete by ids */
+        delete: operations["ItemRelations.bulkDelete"];
         options?: never;
         head?: never;
-        patch?: never;
+        /** Bulk partial update */
+        patch: operations["ItemRelations.bulkUpdate"];
         trace?: never;
     };
     "/item-relations/{id}": {
@@ -586,10 +805,12 @@ export interface paths {
          * @description Creates a new catalog entity. Name must be unique for the given kind under the same parent within the tenant.
          */
         post: operations["CatalogEntities.create"];
-        delete?: never;
+        /** Bulk delete by ids */
+        delete: operations["CatalogEntities.bulkDelete"];
         options?: never;
         head?: never;
-        patch?: never;
+        /** Bulk partial update */
+        patch: operations["CatalogEntities.bulkUpdate"];
         trace?: never;
     };
     "/catalog-entities/{id}": {
@@ -635,10 +856,12 @@ export interface paths {
          * @description Links an item to a catalog entity. The pair must be unique within the tenant.
          */
         post: operations["ItemCatalogEntities.create"];
-        delete?: never;
+        /** Bulk delete by ids */
+        delete: operations["ItemCatalogEntities.bulkDelete"];
         options?: never;
         head?: never;
-        patch?: never;
+        /** Bulk partial update */
+        patch: operations["ItemCatalogEntities.bulkUpdate"];
         trace?: never;
     };
     "/item-catalog-entities/{id}": {
@@ -684,10 +907,12 @@ export interface paths {
          * @description Creates a new brand. Name must be unique within the tenant.
          */
         post: operations["Brands.create"];
-        delete?: never;
+        /** Bulk delete by ids */
+        delete: operations["Brands.bulkDelete"];
         options?: never;
         head?: never;
-        patch?: never;
+        /** Bulk partial update */
+        patch: operations["Brands.bulkUpdate"];
         trace?: never;
     };
     "/brands/{id}": {
@@ -767,10 +992,12 @@ export interface paths {
          * @description Currency code must be unique within the tenant.
          */
         post: operations["Currencies.create"];
-        delete?: never;
+        /** Bulk delete by ids */
+        delete: operations["Currencies.bulkDelete"];
         options?: never;
         head?: never;
-        patch?: never;
+        /** Bulk partial update */
+        patch: operations["Currencies.bulkUpdate"];
         trace?: never;
     };
     "/currencies/{id}": {
@@ -810,10 +1037,12 @@ export interface paths {
          * @description Start/end dates must not overlap with existing periods.
          */
         post: operations["FiscalPeriods.create"];
-        delete?: never;
+        /** Bulk delete by ids */
+        delete: operations["FiscalPeriods.bulkDelete"];
         options?: never;
         head?: never;
-        patch?: never;
+        /** Bulk partial update */
+        patch: operations["FiscalPeriods.bulkUpdate"];
         trace?: never;
     };
     "/fiscal-periods/{id}": {
@@ -853,10 +1082,12 @@ export interface paths {
          * @description Each document type can have only one sequence per tenant.
          */
         post: operations["DocumentSequences.create"];
-        delete?: never;
+        /** Bulk delete by ids */
+        delete: operations["DocumentSequences.bulkDelete"];
         options?: never;
         head?: never;
-        patch?: never;
+        /** Bulk partial update */
+        patch: operations["DocumentSequences.bulkUpdate"];
         trace?: never;
     };
     "/document-sequences/{id}": {
@@ -899,10 +1130,12 @@ export interface paths {
          * @description Account code must be unique within the tenant.
          */
         post: operations["Accounts.create"];
-        delete?: never;
+        /** Bulk delete by ids */
+        delete: operations["Accounts.bulkDelete"];
         options?: never;
         head?: never;
-        patch?: never;
+        /** Bulk partial update */
+        patch: operations["Accounts.bulkUpdate"];
         trace?: never;
     };
     "/accounting/chart-of-accounts/{id}": {
@@ -933,87 +1166,22 @@ export interface paths {
         patch: operations["Accounts.update"];
         trace?: never;
     };
-    "/inventory/balances": {
+    "/settings/financial": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /**
-         * Get current stock balances
-         * @description Returns the current quantity-on-hand for each item per warehouse. Optionally filter by a specific warehouse or item.
-         */
-        get: operations["Inventory.getBalances"];
+        /** Get financial GL account settings */
+        get: operations["FinancialSettings.get"];
         put?: never;
         post?: never;
         delete?: never;
         options?: never;
         head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/inventory/opening-balances": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Register opening stock balances
-         * @description Records initial stock quantities for items in a warehouse. Used during system setup to enter existing inventory. Creates stock ledger movement entries of type OPENING_BALANCE.
-         */
-        post: operations["Inventory.registerOpeningBalances"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/warehouses": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** List warehouses */
-        get: operations["Warehouses.list"];
-        put?: never;
-        /**
-         * Create a warehouse
-         * @description Warehouse code must be unique within the tenant.
-         */
-        post: operations["Warehouses.create"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/warehouses/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get a warehouse by ID */
-        get: operations["Warehouses.show"];
-        put?: never;
-        post?: never;
-        /** Delete a warehouse */
-        delete: operations["Warehouses.delete"];
-        options?: never;
-        head?: never;
-        /**
-         * Update a warehouse
-         * @description Partial update — only provided fields are changed.
-         */
-        patch: operations["Warehouses.update"];
+        /** Save (upsert) financial GL account settings */
+        patch: operations["FinancialSettings.upsert"];
         trace?: never;
     };
     "/invoice-types": {
@@ -1031,10 +1199,12 @@ export interface paths {
          * @description Code must be unique within the tenant.
          */
         post: operations["InvoiceTypes.create"];
-        delete?: never;
+        /** Bulk delete by ids */
+        delete: operations["InvoiceTypes.bulkDelete"];
         options?: never;
         head?: never;
-        patch?: never;
+        /** Bulk partial update */
+        patch: operations["InvoiceTypes.bulkUpdate"];
         trace?: never;
     };
     "/invoice-types/{id}": {
@@ -1071,10 +1241,12 @@ export interface paths {
          * @description Cashbox code must be unique within the tenant.
          */
         post: operations["Cashboxes.create"];
-        delete?: never;
+        /** Bulk delete by ids */
+        delete: operations["Cashboxes.bulkDelete"];
         options?: never;
         head?: never;
-        patch?: never;
+        /** Bulk partial update */
+        patch: operations["Cashboxes.bulkUpdate"];
         trace?: never;
     };
     "/cashboxes/{id}": {
@@ -1383,10 +1555,12 @@ export interface paths {
          * @description Creates a new customer, supplier, or customer-supplier party.
          */
         post: operations["Parties.create"];
-        delete?: never;
+        /** Bulk delete by ids */
+        delete: operations["Parties.bulkDelete"];
         options?: never;
         head?: never;
-        patch?: never;
+        /** Bulk partial update */
+        patch: operations["Parties.bulkUpdate"];
         trace?: never;
     };
     "/parties/{id}": {
@@ -1799,7 +1973,7 @@ export interface components {
              *     ]
              */
             enumValues?: string[];
-            /** @example auth|tenants|users|roles|currencies|fiscal-periods|document-sequences|units|item-categories|items|custom-fields|parties|warehouses|inventory|stock-ledger|invoice-types|invoices|cashboxes|payments|expenses|accounting|chart-of-accounts|stock-counts|reports|dashboard|ai|audit-logs|tags|tag-assignments|item-relations|catalog-entities|item-catalog-entities|brands */
+            /** @example auth|tenants|users|roles|currencies|fiscal-periods|document-sequences|units|item-categories|items|custom-fields|parties|warehouses|inventory|stock-ledger|invoice-types|invoices|cashboxes|payments|expenses|accounting|chart-of-accounts|stock-counts|reports|dashboard|ai|audit-logs|tags|tag-assignments|item-relations|catalog-entities|item-catalog-entities|brands|financial-settings */
             foreignResourceKey?: string;
         };
         ApiMetaDto: {
@@ -1956,6 +2130,38 @@ export interface components {
             name?: components["schemas"]["LocalizedStringDto"];
             description?: components["schemas"]["LocalizedStringDto"];
         };
+        BulkDeleteBodyDto: {
+            /**
+             * @example [
+             *       "018e1234-abcd-7000-a001-000000000001"
+             *     ]
+             */
+            ids: string[];
+        };
+        BulkErrorDto: {
+            id?: string;
+            /** @example Resource not found */
+            message: string;
+        };
+        BulkResultResponseDto: {
+            /** @example 5 */
+            total: number;
+            /** @example 4 */
+            succeeded: number;
+            /** @example 1 */
+            failed: number;
+            errors: components["schemas"]["BulkErrorDto"][];
+        };
+        BulkUpdateItem: {
+            name?: components["schemas"]["LocalizedStringDto"];
+            description?: components["schemas"]["LocalizedStringDto"];
+            /** @example 018e1234-abcd-7000-a001-000000000001 */
+            id: string;
+        };
+        BulkUpdateBody: {
+            /** @description Items to update. Each item is { id, ...partial update fields }. */
+            items: components["schemas"]["BulkUpdateItem"][];
+        };
         CreateTenantDto: {
             /**
              * @description Company / tenant name
@@ -2080,6 +2286,34 @@ export interface components {
              */
             isActive: boolean;
         };
+        ImportFileDto: {
+            /**
+             * Format: binary
+             * @description Excel file (.xlsx)
+             */
+            file: string;
+        };
+        ImportRowErrorDto: {
+            /** @example 5 */
+            row: number;
+            /** @example category_name */
+            field?: string;
+            /** @example Category "Phones" not found */
+            message: string;
+        };
+        ImportResultResponseDto: {
+            /** @example 100 */
+            totalRows: number;
+            /** @example 80 */
+            created: number;
+            /** @example 15 */
+            updated: number;
+            /** @example 5 */
+            skipped: number;
+            errors: components["schemas"]["ImportRowErrorDto"][];
+            /** @example true */
+            dryRun: boolean;
+        };
         UnitResponseDto: {
             /**
              * @default
@@ -2173,6 +2407,11 @@ export interface components {
             description: string;
             /**
              * @default null
+             * @example https://cdn.example.com/electronics.png
+             */
+            imageUrl: string | null;
+            /**
+             * @default null
              * @example 00000000-0000-4000-a700-000000000001
              */
             parentId: string | null;
@@ -2207,6 +2446,12 @@ export interface components {
              */
             description: string;
             /**
+             * Format: uri
+             * @description Category image URL
+             * @example https://cdn.example.com/electronics.png
+             */
+            imageUrl?: string | null;
+            /**
              * @description Parent category ID for nesting
              * @example 00000000-0000-4000-a700-000000000001
              */
@@ -2222,6 +2467,11 @@ export interface components {
             name?: string;
             /** @example Updated description for electronics category */
             description?: string;
+            /**
+             * Format: uri
+             * @example https://cdn.example.com/electronics.png
+             */
+            imageUrl?: string | null;
             /**
              * @description Parent category ID
              * @example 00000000-0000-4000-a700-000000000001
@@ -2296,6 +2546,16 @@ export interface components {
              */
             isActive: boolean;
             /**
+             * @default null
+             * @example https://cdn.example.com/item-main.png
+             */
+            mainImageUrl: string | null;
+            /**
+             * @default []
+             * @example []
+             */
+            galleryUrls: string[];
+            /**
              * @default product
              * @example product
              * @enum {string}
@@ -2318,6 +2578,25 @@ export interface components {
              * @example 2025-01-01T00:00:00.000Z
              */
             updatedAt: string;
+        };
+        CreateItemOpeningStockDto: {
+            /**
+             * @description Warehouse to register the opening stock in
+             * @default
+             * @example 00000000-0000-4000-b100-000000000001
+             */
+            warehouseId: string;
+            /**
+             * @description Opening quantity
+             * @default 0
+             * @example 10
+             */
+            quantity: number;
+            /**
+             * @description Unit cost for weighted average calculation
+             * @example 500
+             */
+            unitCost?: number;
         };
         CreateItemDto: {
             /**
@@ -2370,10 +2649,25 @@ export interface components {
              * @enum {string}
              */
             itemType?: "product" | "service" | "vehicle" | "bundle";
+            /**
+             * Format: uri
+             * @description Main product image URL
+             * @example https://cdn.example.com/item-main.png
+             */
+            mainImageUrl?: string | null;
+            /**
+             * @description Gallery image URLs
+             * @example [
+             *       "https://cdn.example.com/item-1.png"
+             *     ]
+             */
+            galleryUrls?: string[];
             /** @description Custom field values keyed by field ID */
             customFields?: {
                 [key: string]: unknown;
             };
+            /** @description Optional opening stock to register when creating the item */
+            openingStock?: components["schemas"]["CreateItemOpeningStockDto"];
         };
         UpdateItemDto: {
             /** @example ELEC-001 */
@@ -2399,6 +2693,17 @@ export interface components {
              * @enum {string}
              */
             itemType?: "product" | "service" | "vehicle" | "bundle";
+            /**
+             * Format: uri
+             * @example https://cdn.example.com/item-main.png
+             */
+            mainImageUrl?: string | null;
+            /**
+             * @example [
+             *       "https://cdn.example.com/item-1.png"
+             *     ]
+             */
+            galleryUrls?: string[];
             /** @description Custom field values keyed by field ID */
             customFields?: {
                 [key: string]: unknown;
@@ -2490,6 +2795,114 @@ export interface components {
             options?: string[];
             isRequired?: boolean;
             showInList?: boolean;
+        };
+        OpeningBalanceItemDto: {
+            /**
+             * @description Item ID (Laptop 15")
+             * @example 00000000-0000-4000-a900-000000000001
+             */
+            itemId: string;
+            /**
+             * @description Opening stock quantity
+             * @example 10
+             */
+            quantity: number;
+            /**
+             * @description Cost per unit in SYP
+             * @example 600000
+             */
+            unitCost: number;
+        };
+        PostOpeningBalanceDto: {
+            /**
+             * @description Warehouse ID (Main Warehouse)
+             * @example 00000000-0000-4000-ab00-000000000001
+             */
+            warehouseId: string;
+            /**
+             * @description Fiscal period ID (2026)
+             * @example 00000000-0000-4000-a400-000000000001
+             */
+            fiscalPeriodId: string;
+            /**
+             * @description Items with their opening quantities and costs
+             * @example [
+             *       {
+             *         "itemId": "00000000-0000-4000-a900-000000000001",
+             *         "quantity": 10,
+             *         "unitCost": 600000
+             *       },
+             *       {
+             *         "itemId": "00000000-0000-4000-a900-000000000002",
+             *         "quantity": 20,
+             *         "unitCost": 280000
+             *       }
+             *     ]
+             */
+            items: components["schemas"]["OpeningBalanceItemDto"][];
+        };
+        WarehouseResponseDto: {
+            /**
+             * @default
+             * @example 00000000-0000-4000-c100-000000000001
+             */
+            id: string;
+            /**
+             * @default
+             * @example WH-MAIN
+             */
+            code: string;
+            /**
+             * @default
+             * @example Main Warehouse
+             */
+            name: string;
+            /**
+             * @default null
+             * @example Damascus Industrial Zone
+             */
+            address: string | null;
+            /**
+             * @default true
+             * @example true
+             */
+            isActive: boolean;
+            /**
+             * @default
+             * @example 2025-01-01T00:00:00.000Z
+             */
+            createdAt: string;
+            /**
+             * @default
+             * @example 2025-01-01T00:00:00.000Z
+             */
+            updatedAt: string;
+        };
+        CreateWarehouseDto: {
+            /**
+             * @description Unique warehouse code
+             * @default
+             * @example WH-MAIN
+             */
+            code: string;
+            /**
+             * @description Warehouse display name
+             * @default
+             * @example Main Warehouse
+             */
+            name: string;
+            /** @example Damascus Industrial Zone */
+            address?: string;
+        };
+        UpdateWarehouseDto: {
+            /** @example WH-MAIN */
+            code?: string;
+            /** @example Main Warehouse (Renovated) */
+            name?: string;
+            /** @example Damascus Industrial Zone, Building 5 */
+            address?: string;
+            /** @example true */
+            isActive?: boolean;
         };
         TagResponseDto: {
             /**
@@ -3141,113 +3554,32 @@ export interface components {
              */
             isActive?: boolean;
         };
-        OpeningBalanceItemDto: {
+        UpsertFinancialSettingBodyDto: {
             /**
-             * @description Item ID (Laptop 15")
-             * @example 00000000-0000-4000-a900-000000000001
+             * @description Default sales revenue account
+             * @example 00000000-0000-4000-a600-000000000001
              */
-            itemId: string;
+            defaultSalesAccountId?: Record<string, never>;
             /**
-             * @description Opening stock quantity
-             * @example 10
+             * @description Default purchase/COGS account
+             * @example 00000000-0000-4000-a600-000000000002
              */
-            quantity: number;
+            defaultPurchaseAccountId?: Record<string, never>;
             /**
-             * @description Cost per unit in SYP
-             * @example 600000
+             * @description Default tax/VAT payable account
+             * @example 00000000-0000-4000-a600-000000000003
              */
-            unitCost: number;
-        };
-        PostOpeningBalanceDto: {
+            defaultTaxAccountId?: Record<string, never>;
             /**
-             * @description Warehouse ID (Main Warehouse)
-             * @example 00000000-0000-4000-ab00-000000000001
+             * @description Default accounts receivable (AR) account
+             * @example 00000000-0000-4000-a600-000000000004
              */
-            warehouseId: string;
+            defaultReceivableAccountId?: Record<string, never>;
             /**
-             * @description Fiscal period ID (2026)
-             * @example 00000000-0000-4000-a400-000000000001
+             * @description Default accounts payable (AP) account
+             * @example 00000000-0000-4000-a600-000000000005
              */
-            fiscalPeriodId: string;
-            /**
-             * @description Items with their opening quantities and costs
-             * @example [
-             *       {
-             *         "itemId": "00000000-0000-4000-a900-000000000001",
-             *         "quantity": 10,
-             *         "unitCost": 600000
-             *       },
-             *       {
-             *         "itemId": "00000000-0000-4000-a900-000000000002",
-             *         "quantity": 20,
-             *         "unitCost": 280000
-             *       }
-             *     ]
-             */
-            items: components["schemas"]["OpeningBalanceItemDto"][];
-        };
-        WarehouseResponseDto: {
-            /**
-             * @default
-             * @example 00000000-0000-4000-c100-000000000001
-             */
-            id: string;
-            /**
-             * @default
-             * @example WH-MAIN
-             */
-            code: string;
-            /**
-             * @default
-             * @example Main Warehouse
-             */
-            name: string;
-            /**
-             * @default null
-             * @example Damascus Industrial Zone
-             */
-            address: string | null;
-            /**
-             * @default true
-             * @example true
-             */
-            isActive: boolean;
-            /**
-             * @default
-             * @example 2025-01-01T00:00:00.000Z
-             */
-            createdAt: string;
-            /**
-             * @default
-             * @example 2025-01-01T00:00:00.000Z
-             */
-            updatedAt: string;
-        };
-        CreateWarehouseDto: {
-            /**
-             * @description Unique warehouse code
-             * @default
-             * @example WH-MAIN
-             */
-            code: string;
-            /**
-             * @description Warehouse display name
-             * @default
-             * @example Main Warehouse
-             */
-            name: string;
-            /** @example Damascus Industrial Zone */
-            address?: string;
-        };
-        UpdateWarehouseDto: {
-            /** @example WH-MAIN */
-            code?: string;
-            /** @example Main Warehouse (Renovated) */
-            name?: string;
-            /** @example Damascus Industrial Zone, Building 5 */
-            address?: string;
-            /** @example true */
-            isActive?: boolean;
+            defaultPayableAccountId?: Record<string, never>;
         };
         InvoiceTypeResponseDto: {
             /**
@@ -3480,6 +3812,11 @@ export interface components {
              * @example 00000000-0000-4000-a300-000000000001
              */
             currencyId: string;
+            /**
+             * @description Exchange rate to base currency (default 1)
+             * @example 1
+             */
+            exchangeRate?: number;
             /** @example Purchase order for Q2 stock replenishment */
             notes?: string;
             /**
@@ -3583,6 +3920,11 @@ export interface components {
              * @example 250000
              */
             amount: number;
+            /**
+             * @description Exchange rate to base currency (default 1)
+             * @example 1
+             */
+            exchangeRate?: number;
             /** @example Payment received for invoice SAL-00001 */
             notes?: string;
         };
@@ -3664,6 +4006,11 @@ export interface components {
              * @example 00000000-0000-4000-a400-000000000001
              */
             fiscalPeriodId: string;
+            /**
+             * @description Exchange rate to base currency (default 1)
+             * @example 1
+             */
+            exchangeRate?: number;
             /** @example April fixed costs */
             notes?: string;
             items: components["schemas"]["CreateExpenseItemDto"][];
@@ -4287,6 +4634,54 @@ export interface operations {
                 };
                 content: {
                     "application/json": unknown;
+                };
+            };
+        };
+    };
+    "Roles.bulkDelete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BulkDeleteBodyDto"];
+            };
+        };
+        responses: {
+            /** @description Bulk delete result ({ total, succeeded, failed, errors }) */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BulkResultResponseDto"];
+                };
+            };
+        };
+    };
+    "Roles.bulkUpdate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BulkUpdateBody"];
+            };
+        };
+        responses: {
+            /** @description Bulk partial-update result ({ total, succeeded, failed, errors }) */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BulkResultResponseDto"];
                 };
             };
         };
@@ -5249,6 +5644,145 @@ export interface operations {
             };
         };
     };
+    "UnitsImportExport.exportResources": {
+        parameters: {
+            query?: {
+                /** @description Page number (1-based) */
+                page?: number;
+                /** @description Number of items per page */
+                limit?: number;
+                /** @description Field name to sort by */
+                sortField?: string;
+                sortOrder?: "asc" | "desc";
+                /** @description Full-text search keyword */
+                search?: string;
+                /** @description Comma-separated field names to search within (e.g. name,symbol) */
+                searchIn?: string;
+                /** @description Structured filters. Example: filters[name][$like]=sample-name&filters[abbreviation][$like]=sample-abbreviation&filters[isActive][$eq]=true&filters[createdAt][$gte]=2024-01-01T00%3A00%3A00.000Z */
+                filters?: {
+                    /**
+                     * @description Filter on `name` (string)
+                     * @example {
+                     *       "$like": "sample-name"
+                     *     }
+                     */
+                    name?: {
+                        $eq?: string;
+                        /** @example sample-name */
+                        $like?: string;
+                        $in?: string[];
+                        /** @enum {boolean} */
+                        $isNull?: true;
+                    };
+                    /**
+                     * @description Filter on `abbreviation` (string)
+                     * @example {
+                     *       "$like": "sample-abbreviation"
+                     *     }
+                     */
+                    abbreviation?: {
+                        $eq?: string;
+                        /** @example sample-abbreviation */
+                        $like?: string;
+                        $in?: string[];
+                        /** @enum {boolean} */
+                        $isNull?: true;
+                    };
+                    /**
+                     * @description Filter on `isActive` (boolean)
+                     * @example {
+                     *       "$eq": true
+                     *     }
+                     */
+                    isActive?: {
+                        /** @example true */
+                        $eq?: boolean;
+                        /** @enum {boolean} */
+                        $isNull?: true;
+                    };
+                    /**
+                     * @description Filter on `createdAt` (date)
+                     * @example {
+                     *       "$gte": "2024-01-01T00:00:00.000Z"
+                     *     }
+                     */
+                    createdAt?: {
+                        $eq?: string;
+                        /**
+                         * Format: date-time
+                         * @example 2024-01-01T00:00:00.000Z
+                         */
+                        $gte?: string;
+                        /** Format: date-time */
+                        $lte?: string;
+                        /** @enum {boolean} */
+                        $isNull?: true;
+                    };
+                };
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Excel workbook stream */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": string;
+                };
+            };
+        };
+    };
+    "UnitsImportExport.downloadImportTemplate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Excel import template workbook */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": string;
+                };
+            };
+        };
+    };
+    "UnitsImportExport.importResources": {
+        parameters: {
+            query?: {
+                /** @description When true, validates rows without creating or updating records. */
+                dryRun?: boolean;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "multipart/form-data": components["schemas"]["ImportFileDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ImportResultResponseDto"];
+                };
+            };
+        };
+    };
     "Units.list": {
         parameters: {
             query?: {
@@ -5511,6 +6045,54 @@ export interface operations {
                 };
                 content: {
                     "application/json": unknown;
+                };
+            };
+        };
+    };
+    "Units.bulkDelete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BulkDeleteBodyDto"];
+            };
+        };
+        responses: {
+            /** @description Bulk delete result ({ total, succeeded, failed, errors }) */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BulkResultResponseDto"];
+                };
+            };
+        };
+    };
+    "Units.bulkUpdate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BulkUpdateBody"];
+            };
+        };
+        responses: {
+            /** @description Bulk partial-update result ({ total, succeeded, failed, errors }) */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BulkResultResponseDto"];
                 };
             };
         };
@@ -5990,6 +6572,54 @@ export interface operations {
             };
         };
     };
+    "ItemCategories.bulkDelete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BulkDeleteBodyDto"];
+            };
+        };
+        responses: {
+            /** @description Bulk delete result ({ total, succeeded, failed, errors }) */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BulkResultResponseDto"];
+                };
+            };
+        };
+    };
+    "ItemCategories.bulkUpdate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BulkUpdateBody"];
+            };
+        };
+        responses: {
+            /** @description Bulk partial-update result ({ total, succeeded, failed, errors }) */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BulkResultResponseDto"];
+                };
+            };
+        };
+    };
     "ItemCategories.show": {
         parameters: {
             query?: never;
@@ -6196,6 +6826,173 @@ export interface operations {
                 };
                 content: {
                     "application/json": unknown;
+                };
+            };
+        };
+    };
+    "ItemsImportExport.exportResources": {
+        parameters: {
+            query?: {
+                /** @description Page number (1-based) */
+                page?: number;
+                /** @description Number of items per page */
+                limit?: number;
+                /** @description Field name to sort by */
+                sortField?: string;
+                sortOrder?: "asc" | "desc";
+                /** @description Full-text search keyword */
+                search?: string;
+                /** @description Comma-separated field names to search within (e.g. name,symbol) */
+                searchIn?: string;
+                /** @description Structured filters. Example: filters[categoryId][$eq]=018e1234-abcd-7000-a001-000000000001&filters[name][$like]=sample-name&filters[code][$like]=sample-code&filters[defaultSellingPrice][$gte]=10&filters[isActive][$eq]=true&filters[createdAt][$gte]=2024-01-01T00%3A00%3A00.000Z */
+                filters?: {
+                    /**
+                     * @description Filter on `categoryId` (id)
+                     * @example {
+                     *       "$eq": "018e1234-abcd-7000-a001-000000000001"
+                     *     }
+                     */
+                    categoryId?: {
+                        /** @example 018e1234-abcd-7000-a001-000000000001 */
+                        $eq?: string;
+                        $in?: string[];
+                        /** @enum {boolean} */
+                        $isNull?: true;
+                    };
+                    /**
+                     * @description Filter on `name` (string)
+                     * @example {
+                     *       "$like": "sample-name"
+                     *     }
+                     */
+                    name?: {
+                        $eq?: string;
+                        /** @example sample-name */
+                        $like?: string;
+                        $in?: string[];
+                        /** @enum {boolean} */
+                        $isNull?: true;
+                    };
+                    /**
+                     * @description Filter on `code` (string)
+                     * @example {
+                     *       "$like": "sample-code"
+                     *     }
+                     */
+                    code?: {
+                        $eq?: string;
+                        /** @example sample-code */
+                        $like?: string;
+                        $in?: string[];
+                        /** @enum {boolean} */
+                        $isNull?: true;
+                    };
+                    /**
+                     * @description Filter on `defaultSellingPrice` (number)
+                     * @example {
+                     *       "$gte": 10
+                     *     }
+                     */
+                    defaultSellingPrice?: {
+                        $eq?: number;
+                        /** @example 10 */
+                        $gte?: number;
+                        $lte?: number;
+                        $in?: string[];
+                        /** @enum {boolean} */
+                        $isNull?: true;
+                    };
+                    /**
+                     * @description Filter on `isActive` (boolean)
+                     * @example {
+                     *       "$eq": true
+                     *     }
+                     */
+                    isActive?: {
+                        /** @example true */
+                        $eq?: boolean;
+                        /** @enum {boolean} */
+                        $isNull?: true;
+                    };
+                    /**
+                     * @description Filter on `createdAt` (date)
+                     * @example {
+                     *       "$gte": "2024-01-01T00:00:00.000Z"
+                     *     }
+                     */
+                    createdAt?: {
+                        $eq?: string;
+                        /**
+                         * Format: date-time
+                         * @example 2024-01-01T00:00:00.000Z
+                         */
+                        $gte?: string;
+                        /** Format: date-time */
+                        $lte?: string;
+                        /** @enum {boolean} */
+                        $isNull?: true;
+                    };
+                };
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Excel workbook stream */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": string;
+                };
+            };
+        };
+    };
+    "ItemsImportExport.downloadImportTemplate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Excel import template workbook */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": string;
+                };
+            };
+        };
+    };
+    "ItemsImportExport.importResources": {
+        parameters: {
+            query?: {
+                /** @description When true, validates rows without creating or updating records. */
+                dryRun?: boolean;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "multipart/form-data": components["schemas"]["ImportFileDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ImportResultResponseDto"];
                 };
             };
         };
@@ -6511,6 +7308,54 @@ export interface operations {
                 };
                 content: {
                     "application/json": unknown;
+                };
+            };
+        };
+    };
+    "Items.bulkDelete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BulkDeleteBodyDto"];
+            };
+        };
+        responses: {
+            /** @description Bulk delete result ({ total, succeeded, failed, errors }) */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BulkResultResponseDto"];
+                };
+            };
+        };
+    };
+    "Items.bulkUpdate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BulkUpdateBody"];
+            };
+        };
+        responses: {
+            /** @description Bulk partial-update result ({ total, succeeded, failed, errors }) */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BulkResultResponseDto"];
                 };
             };
         };
@@ -7030,6 +7875,54 @@ export interface operations {
             };
         };
     };
+    "CustomFields.bulkDelete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BulkDeleteBodyDto"];
+            };
+        };
+        responses: {
+            /** @description Bulk delete result ({ total, succeeded, failed, errors }) */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BulkResultResponseDto"];
+                };
+            };
+        };
+    };
+    "CustomFields.bulkUpdate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BulkUpdateBody"];
+            };
+        };
+        responses: {
+            /** @description Bulk partial-update result ({ total, succeeded, failed, errors }) */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BulkResultResponseDto"];
+                };
+            };
+        };
+    };
     "CustomFields.show": {
         parameters: {
             query?: never;
@@ -7190,6 +8083,551 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
                         data?: components["schemas"]["CustomFieldResponseDto"];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "Inventory.getBalances": {
+        parameters: {
+            query: {
+                warehouseId: string;
+                itemId: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Stock balances retrieved */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "Inventory.registerOpeningBalances": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PostOpeningBalanceDto"];
+            };
+        };
+        responses: {
+            /** @description Opening balances registered – stock ledger entries created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "Warehouses.list": {
+        parameters: {
+            query?: {
+                /** @description Page number (1-based) */
+                page?: number;
+                /** @description Number of items per page */
+                limit?: number;
+                /** @description Field name to sort by */
+                sortField?: string;
+                sortOrder?: "asc" | "desc";
+                /** @description Full-text search keyword */
+                search?: string;
+                /** @description Comma-separated field names to search within (e.g. name,symbol) */
+                searchIn?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Paginated list of warehouses */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["WarehouseResponseDto"][];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "Warehouses.create": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateWarehouseDto"];
+            };
+        };
+        responses: {
+            /** @description Warehouse created successfully */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["WarehouseResponseDto"];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "Warehouses.bulkDelete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BulkDeleteBodyDto"];
+            };
+        };
+        responses: {
+            /** @description Bulk delete result ({ total, succeeded, failed, errors }) */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BulkResultResponseDto"];
+                };
+            };
+        };
+    };
+    "Warehouses.bulkUpdate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BulkUpdateBody"];
+            };
+        };
+        responses: {
+            /** @description Bulk partial-update result ({ total, succeeded, failed, errors }) */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BulkResultResponseDto"];
+                };
+            };
+        };
+    };
+    "Warehouses.show": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Warehouse UUID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Warehouse details */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["WarehouseResponseDto"];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "Warehouses.delete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Warehouse UUID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Warehouse deleted successfully */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "Warehouses.update": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Warehouse UUID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateWarehouseDto"];
+            };
+        };
+        responses: {
+            /** @description Updated warehouse */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["WarehouseResponseDto"];
                     };
                 };
             };
@@ -7482,6 +8920,54 @@ export interface operations {
                 };
                 content: {
                     "application/json": unknown;
+                };
+            };
+        };
+    };
+    "Tags.bulkDelete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BulkDeleteBodyDto"];
+            };
+        };
+        responses: {
+            /** @description Bulk delete result ({ total, succeeded, failed, errors }) */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BulkResultResponseDto"];
+                };
+            };
+        };
+    };
+    "Tags.bulkUpdate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BulkUpdateBody"];
+            };
+        };
+        responses: {
+            /** @description Bulk partial-update result ({ total, succeeded, failed, errors }) */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BulkResultResponseDto"];
                 };
             };
         };
@@ -8004,6 +9490,54 @@ export interface operations {
             };
         };
     };
+    "ItemRelations.bulkDelete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BulkDeleteBodyDto"];
+            };
+        };
+        responses: {
+            /** @description Bulk delete result ({ total, succeeded, failed, errors }) */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BulkResultResponseDto"];
+                };
+            };
+        };
+    };
+    "ItemRelations.bulkUpdate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BulkUpdateBody"];
+            };
+        };
+        responses: {
+            /** @description Bulk partial-update result ({ total, succeeded, failed, errors }) */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BulkResultResponseDto"];
+                };
+            };
+        };
+    };
     "ItemRelations.show": {
         parameters: {
             query?: never;
@@ -8504,6 +10038,54 @@ export interface operations {
             };
         };
     };
+    "CatalogEntities.bulkDelete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BulkDeleteBodyDto"];
+            };
+        };
+        responses: {
+            /** @description Bulk delete result ({ total, succeeded, failed, errors }) */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BulkResultResponseDto"];
+                };
+            };
+        };
+    };
+    "CatalogEntities.bulkUpdate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BulkUpdateBody"];
+            };
+        };
+        responses: {
+            /** @description Bulk partial-update result ({ total, succeeded, failed, errors }) */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BulkResultResponseDto"];
+                };
+            };
+        };
+    };
     "CatalogEntities.show": {
         parameters: {
             query?: never;
@@ -8928,6 +10510,54 @@ export interface operations {
                 };
                 content: {
                     "application/json": unknown;
+                };
+            };
+        };
+    };
+    "ItemCatalogEntities.bulkDelete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BulkDeleteBodyDto"];
+            };
+        };
+        responses: {
+            /** @description Bulk delete result ({ total, succeeded, failed, errors }) */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BulkResultResponseDto"];
+                };
+            };
+        };
+    };
+    "ItemCatalogEntities.bulkUpdate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BulkUpdateBody"];
+            };
+        };
+        responses: {
+            /** @description Bulk partial-update result ({ total, succeeded, failed, errors }) */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BulkResultResponseDto"];
                 };
             };
         };
@@ -9380,6 +11010,54 @@ export interface operations {
                 };
                 content: {
                     "application/json": unknown;
+                };
+            };
+        };
+    };
+    "Brands.bulkDelete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BulkDeleteBodyDto"];
+            };
+        };
+        responses: {
+            /** @description Bulk delete result ({ total, succeeded, failed, errors }) */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BulkResultResponseDto"];
+                };
+            };
+        };
+    };
+    "Brands.bulkUpdate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BulkUpdateBody"];
+            };
+        };
+        responses: {
+            /** @description Bulk partial-update result ({ total, succeeded, failed, errors }) */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BulkResultResponseDto"];
                 };
             };
         };
@@ -9879,6 +11557,54 @@ export interface operations {
             };
         };
     };
+    "Currencies.bulkDelete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BulkDeleteBodyDto"];
+            };
+        };
+        responses: {
+            /** @description Bulk delete result ({ total, succeeded, failed, errors }) */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BulkResultResponseDto"];
+                };
+            };
+        };
+    };
+    "Currencies.bulkUpdate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BulkUpdateBody"];
+            };
+        };
+        responses: {
+            /** @description Bulk partial-update result ({ total, succeeded, failed, errors }) */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BulkResultResponseDto"];
+                };
+            };
+        };
+    };
     "Currencies.show": {
         parameters: {
             query?: never;
@@ -10235,6 +11961,54 @@ export interface operations {
                 };
                 content: {
                     "application/json": unknown;
+                };
+            };
+        };
+    };
+    "FiscalPeriods.bulkDelete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BulkDeleteBodyDto"];
+            };
+        };
+        responses: {
+            /** @description Bulk delete result ({ total, succeeded, failed, errors }) */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BulkResultResponseDto"];
+                };
+            };
+        };
+    };
+    "FiscalPeriods.bulkUpdate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BulkUpdateBody"];
+            };
+        };
+        responses: {
+            /** @description Bulk partial-update result ({ total, succeeded, failed, errors }) */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BulkResultResponseDto"];
                 };
             };
         };
@@ -10599,6 +12373,54 @@ export interface operations {
             };
         };
     };
+    "DocumentSequences.bulkDelete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BulkDeleteBodyDto"];
+            };
+        };
+        responses: {
+            /** @description Bulk delete result ({ total, succeeded, failed, errors }) */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BulkResultResponseDto"];
+                };
+            };
+        };
+    };
+    "DocumentSequences.bulkUpdate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BulkUpdateBody"];
+            };
+        };
+        responses: {
+            /** @description Bulk partial-update result ({ total, succeeded, failed, errors }) */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BulkResultResponseDto"];
+                };
+            };
+        };
+    };
     "DocumentSequences.show": {
         parameters: {
             query?: never;
@@ -10959,6 +12781,54 @@ export interface operations {
             };
         };
     };
+    "Accounts.bulkDelete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BulkDeleteBodyDto"];
+            };
+        };
+        responses: {
+            /** @description Bulk delete result ({ total, succeeded, failed, errors }) */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BulkResultResponseDto"];
+                };
+            };
+        };
+    };
+    "Accounts.bulkUpdate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BulkUpdateBody"];
+            };
+        };
+        responses: {
+            /** @description Bulk partial-update result ({ total, succeeded, failed, errors }) */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BulkResultResponseDto"];
+                };
+            };
+        };
+    };
     "Accounts.show": {
         parameters: {
             query?: never;
@@ -11169,500 +13039,43 @@ export interface operations {
             };
         };
     };
-    "Inventory.getBalances": {
+    "FinancialSettings.get": {
         parameters: {
-            query: {
-                warehouseId: string;
-                itemId: string;
-            };
+            query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
         requestBody?: never;
         responses: {
-            /** @description Stock balances retrieved */
+            /** @description Financial settings or null */
             200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description JWT token is missing, expired, or invalid */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Insufficient permissions to perform this action */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description The requested resource was not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Request body validation failed */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description An unexpected internal server error occurred */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-        };
-    };
-    "Inventory.registerOpeningBalances": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["PostOpeningBalanceDto"];
-            };
-        };
-        responses: {
-            /** @description Opening balances registered – stock ledger entries created */
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description JWT token is missing, expired, or invalid */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Insufficient permissions to perform this action */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description The requested resource was not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Request body validation failed */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description An unexpected internal server error occurred */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-        };
-    };
-    "Warehouses.list": {
-        parameters: {
-            query?: {
-                /** @description Page number (1-based) */
-                page?: number;
-                /** @description Number of items per page */
-                limit?: number;
-                /** @description Field name to sort by */
-                sortField?: string;
-                sortOrder?: "asc" | "desc";
-                /** @description Full-text search keyword */
-                search?: string;
-                /** @description Comma-separated field names to search within (e.g. name,symbol) */
-                searchIn?: string;
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Paginated list of warehouses */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
-                        data?: components["schemas"]["WarehouseResponseDto"][];
-                    };
-                };
-            };
-            /** @description JWT token is missing, expired, or invalid */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Insufficient permissions to perform this action */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description The requested resource was not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Request body validation failed */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description An unexpected internal server error occurred */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-        };
-    };
-    "Warehouses.create": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["CreateWarehouseDto"];
-            };
-        };
-        responses: {
-            /** @description Warehouse created successfully */
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
-                        data?: components["schemas"]["WarehouseResponseDto"];
-                    };
-                };
-            };
-            /** @description JWT token is missing, expired, or invalid */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Insufficient permissions to perform this action */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description The requested resource was not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Request body validation failed */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description An unexpected internal server error occurred */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-        };
-    };
-    "Warehouses.show": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description Warehouse UUID */
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Warehouse details */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
-                        data?: components["schemas"]["WarehouseResponseDto"];
-                    };
-                };
-            };
-            /** @description JWT token is missing, expired, or invalid */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Insufficient permissions to perform this action */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description The requested resource was not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Request body validation failed */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description An unexpected internal server error occurred */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-        };
-    };
-    "Warehouses.delete": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description Warehouse UUID */
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Warehouse deleted successfully */
-            204: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
             };
-            /** @description JWT token is missing, expired, or invalid */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Insufficient permissions to perform this action */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description The requested resource was not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Request body validation failed */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description An unexpected internal server error occurred */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
         };
     };
-    "Warehouses.update": {
+    "FinancialSettings.upsert": {
         parameters: {
             query?: never;
             header?: never;
-            path: {
-                /** @description Warehouse UUID */
-                id: string;
-            };
+            path?: never;
             cookie?: never;
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["UpdateWarehouseDto"];
+                "application/json": components["schemas"]["UpsertFinancialSettingBodyDto"];
             };
         };
         responses: {
-            /** @description Updated warehouse */
+            /** @description Updated financial settings */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content: {
-                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
-                        data?: components["schemas"]["WarehouseResponseDto"];
-                    };
-                };
-            };
-            /** @description JWT token is missing, expired, or invalid */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Insufficient permissions to perform this action */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description The requested resource was not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Request body validation failed */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description An unexpected internal server error occurred */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
+                content?: never;
             };
         };
     };
@@ -11812,6 +13225,54 @@ export interface operations {
                 };
                 content: {
                     "application/json": unknown;
+                };
+            };
+        };
+    };
+    "InvoiceTypes.bulkDelete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BulkDeleteBodyDto"];
+            };
+        };
+        responses: {
+            /** @description Bulk delete result ({ total, succeeded, failed, errors }) */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BulkResultResponseDto"];
+                };
+            };
+        };
+    };
+    "InvoiceTypes.bulkUpdate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BulkUpdateBody"];
+            };
+        };
+        responses: {
+            /** @description Bulk partial-update result ({ total, succeeded, failed, errors }) */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BulkResultResponseDto"];
                 };
             };
         };
@@ -12172,6 +13633,54 @@ export interface operations {
                 };
                 content: {
                     "application/json": unknown;
+                };
+            };
+        };
+    };
+    "Cashboxes.bulkDelete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BulkDeleteBodyDto"];
+            };
+        };
+        responses: {
+            /** @description Bulk delete result ({ total, succeeded, failed, errors }) */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BulkResultResponseDto"];
+                };
+            };
+        };
+    };
+    "Cashboxes.bulkUpdate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BulkUpdateBody"];
+            };
+        };
+        responses: {
+            /** @description Bulk partial-update result ({ total, succeeded, failed, errors }) */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BulkResultResponseDto"];
                 };
             };
         };
@@ -14149,6 +15658,54 @@ export interface operations {
             };
         };
     };
+    "Parties.bulkDelete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BulkDeleteBodyDto"];
+            };
+        };
+        responses: {
+            /** @description Bulk delete result ({ total, succeeded, failed, errors }) */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BulkResultResponseDto"];
+                };
+            };
+        };
+    };
+    "Parties.bulkUpdate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BulkUpdateBody"];
+            };
+        };
+        responses: {
+            /** @description Bulk partial-update result ({ total, succeeded, failed, errors }) */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BulkResultResponseDto"];
+                };
+            };
+        };
+    };
     "Parties.show": {
         parameters: {
             query?: never;
@@ -15623,9 +17180,7 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content: {
-                    "application/json": Record<string, never>;
-                };
+                content?: never;
             };
         };
     };

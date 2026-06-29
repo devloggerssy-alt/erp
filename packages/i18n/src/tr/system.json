@@ -4,6 +4,7 @@
   },
   "header": {
     "profile": "Profil",
+    "logout": "Çıkış Yap",
     "language": "Dil",
     "languages": {
       "ar": "Arapça",
@@ -94,6 +95,10 @@
     "toastDeleting": "Siliniyor...",
     "toastDeleted": "Başarıyla silindi",
     "toastDeleteFailed": "Silme başarısız"
+  },
+  "selectionToolbar": {
+    "selected": "{count} seçildi",
+    "clear": "Seçimi temizle"
   },
   "tableActions": {
     "header": "İşlemler",

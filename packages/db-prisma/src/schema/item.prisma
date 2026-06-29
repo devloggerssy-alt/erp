@@ -1,8 +1,7 @@
 enum ItemType {
     product
     service
-    bundle
-}
+ }
 
 // ─── Item ─────────────────────────────────────────────────────────────────────
 model Item {
@@ -17,6 +16,10 @@ model Item {
     defaultSellingPrice Decimal? @map("default_selling_price") @db.Decimal(18, 4)
     latestPurchasePrice Decimal? @map("latest_purchase_price") @db.Decimal(18, 4)
     mainImageUrl        String?  @map("main_image_url")
+
+    description         String?
+    note                String?
+
     galleryUrls         String[] @map("gallery_urls")
     itemType            ItemType @default(product) @map("item_type")
     isActive            Boolean  @default(true) @map("is_active")

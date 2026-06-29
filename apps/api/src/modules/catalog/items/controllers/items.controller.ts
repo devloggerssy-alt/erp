@@ -2,7 +2,7 @@ import { Controller, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { ItemsService } from '../services/items.service';
 import { CreateItemDto, UpdateItemDto, ItemResponseDto } from '../dto';
-import { createCrudController, type CrudOpenApi } from '@devloggers/backend-core';
+import { createCrudController, type CrudOpenApi, type RequestUser } from '@devloggers/backend-core';
 import { JwtAuthGuard } from '@/modules/identity/auth/guards';
 import { itemCategoryResource, } from '@devloggers/api-contracts';
 
@@ -54,5 +54,11 @@ const ItemsCrudBase = createCrudController({
 export class ItemsController extends ItemsCrudBase {
     constructor(private readonly itemsService: ItemsService) {
         super(itemsService, 'Item');
+    }
+
+    protected async beforeCreate(user: RequestUser, dto: CreateItemDto): Promise<void> {
+        if (dto.openingStock) {
+            dto.openingStock._userId = user.id;
+        }
     }
 }

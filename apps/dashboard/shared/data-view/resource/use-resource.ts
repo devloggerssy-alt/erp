@@ -35,6 +35,8 @@ export function useResource<TClient extends ICrudClient>({
     const client = getClient(api)
     const { open: openDialog, close: closeDialog, isOpen, resourceId } = useFormDialog(paramKey)
     const [selectedItem, setSelectedItem] = useState<TItem | null>(null)
+    const [selectedItems, setSelectedItems] = useState<TItem[]>([])
+    const clearSelection = () => setSelectedItems([])
 
     const query = useDataViewQuery({
         queryKey: [client.key],
@@ -101,6 +103,9 @@ export function useResource<TClient extends ICrudClient>({
         items,
         selectedItem,
         setSelectedItem,
+        selectedItems,
+        setSelectedItems,
+        clearSelection,
         isDialogOpen: isOpen,
         dialogResourceId: resourceId,
         isLoading: query.isLoading,

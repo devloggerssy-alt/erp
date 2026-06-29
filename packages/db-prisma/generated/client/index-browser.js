@@ -479,6 +479,8 @@ exports.Prisma.ItemScalarFieldEnum = {
   defaultSellingPrice: 'defaultSellingPrice',
   latestPurchasePrice: 'latestPurchasePrice',
   mainImageUrl: 'mainImageUrl',
+  description: 'description',
+  note: 'note',
   galleryUrls: 'galleryUrls',
   itemType: 'itemType',
   isActive: 'isActive',
@@ -765,8 +767,7 @@ exports.RelationType = exports.$Enums.RelationType = {
 
 exports.ItemType = exports.$Enums.ItemType = {
   product: 'product',
-  service: 'service',
-  bundle: 'bundle'
+  service: 'service'
 };
 
 exports.PartyType = exports.$Enums.PartyType = {

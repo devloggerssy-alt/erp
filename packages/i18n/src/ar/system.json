@@ -4,6 +4,7 @@
   },
   "header": {
     "profile": "الملف الشخصي",
+    "logout": "تسجيل الخروج",
     "language": "اللغة",
     "languages": {
       "ar": "العربية",
@@ -94,6 +95,10 @@
     "toastDeleting": "جارٍ الحذف...",
     "toastDeleted": "تم الحذف بنجاح",
     "toastDeleteFailed": "فشل الحذف"
+  },
+  "selectionToolbar": {
+    "selected": "{count} محدد",
+    "clear": "إلغاء التحديد"
   },
   "tableActions": {
     "header": "الإجراءات",

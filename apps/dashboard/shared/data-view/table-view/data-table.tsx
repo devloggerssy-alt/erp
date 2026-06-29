@@ -5,6 +5,7 @@ import {
     getCoreRowModel,
     flexRender,
     type ColumnDef,
+    type RowSelectionState,
 } from "@tanstack/react-table"
 import { Inbox } from "lucide-react"
 import { useTranslations } from "next-intl"
@@ -32,6 +33,9 @@ export function DataTable<TData>({
     isLoading = false,
     onRowClick,
     slots,
+    rowSelection,
+    onRowSelectionChange,
+    getRowId,
 }: DataViewProps<TData>) {
     const t = useTranslations("system.dataView")
 
@@ -42,12 +46,15 @@ export function DataTable<TData>({
         manualPagination: true,
         manualSorting: true,
         pageCount: pagination.pageCount,
+        ...(getRowId ? { getRowId } : {}),
+        enableRowSelection: rowSelection !== undefined,
         state: {
             sorting,
             pagination: {
                 pageIndex: pagination.page - 1,
                 pageSize: pagination.pageSize,
             },
+            ...(rowSelection !== undefined ? { rowSelection } : {}),
         },
         onSortingChange: (updater) => {
             const next = typeof updater === "function" ? updater(sorting) : updater
@@ -66,6 +73,17 @@ export function DataTable<TData>({
                 },
             })
         },
+        ...(onRowSelectionChange
+            ? {
+                  onRowSelectionChange: (updater) => {
+                      const next =
+                          typeof updater === "function"
+                              ? updater(rowSelection ?? ({} as RowSelectionState))
+                              : updater
+                      onRowSelectionChange(next)
+                  },
+              }
+            : {}),
     })
 
     return (

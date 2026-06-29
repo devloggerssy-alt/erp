@@ -54,6 +54,11 @@ export function DashboardHeader({ actions, breadcrumbs, className }: DashboardHe
   const { logout , user} = useAuth()
   const t = useTranslations()
   const locale = useLocale()
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   const localizedHref = (href: string) => (href === "/" ? `/${locale}` : `/${locale}${href}`)
 
@@ -134,59 +139,61 @@ export function DashboardHeader({ actions, breadcrumbs, className }: DashboardHe
           <SearchIcon className="size-3.5" />
         </Button>
 
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant="ghost"
-              className="h-8 items-center gap-2 px-2 ms-1"
-              aria-label={user?.fullName}
-            >
-              <Avatar>
-                <AvatarFallback>
-                  {user?.fullName.charAt(0).toUpperCase()}
-                </AvatarFallback>
-              </Avatar>
-              <span className="hidden truncate text-sm font-medium md:inline-block" aria-hidden="true">
-                {user?.fullName}
-              </span>
-            </Button>
-          </DropdownMenuTrigger>
-
-          <DropdownMenuContent align="end" className="w-56">
-            <DropdownMenuLabel className="font-normal">
-              <div className="flex items-center gap-3 py-1">
-                <Avatar size="lg">
-                  <AvatarFallback className="text-base">
-                    {user?.fullName.charAt(0).toUpperCase()}
+        {mounted && (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="ghost"
+                className="h-8 items-center gap-2 px-2 ms-1"
+                aria-label={user?.fullName}
+              >
+                <Avatar>
+                  <AvatarFallback>
+                    {user?.fullName?.charAt(0).toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
-                <div className="flex flex-col">
-                  <span className="text-sm font-medium text-foreground">{user?.fullName}</span>
-                  {user?.email && (
-                    <span className="text-xs text-muted-foreground">{user?.email}</span>
-                  )}
-                  {user?.roles[0] && (
-                    <span className="mt-0.5 text-xs font-medium text-primary">{user?.roles[0]}</span>
-                  )}
+                <span className="hidden truncate text-sm font-medium md:inline-block" aria-hidden="true">
+                  {user?.fullName}
+                </span>
+              </Button>
+            </DropdownMenuTrigger>
+
+            <DropdownMenuContent align="end" className="w-56">
+              <DropdownMenuLabel className="font-normal">
+                <div className="flex items-center gap-3 py-1">
+                  <Avatar size="lg">
+                    <AvatarFallback className="text-base">
+                      {user?.fullName?.charAt(0).toUpperCase()}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div className="flex flex-col">
+                    <span className="text-sm font-medium text-foreground">{user?.fullName}</span>
+                    {user?.email && (
+                      <span className="text-xs text-muted-foreground">{user?.email}</span>
+                    )}
+                    {user?.roles?.[0] && (
+                      <span className="mt-0.5 text-xs font-medium text-primary">{user?.roles[0]}</span>
+                    )}
+                  </div>
                 </div>
-              </div>
-            </DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <DropdownMenuItem asChild>
-                <Link href={localizedHref("/profile")}>
-                  <UserIcon />
-                  {t("system.header.profile")}
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={logout} variant="destructive">
-                <DoorOpen />
-                {t("system.header.logout")}
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-            <DropdownMenuSeparator />
-          </DropdownMenuContent>
-        </DropdownMenu>
+              </DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuGroup>
+                <DropdownMenuItem asChild>
+                  <Link href={localizedHref("/profile")}>
+                    <UserIcon />
+                    {t("system.header.profile")}
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={logout} variant="destructive">
+                  <DoorOpen />
+                  {t("system.header.logout")}
+                </DropdownMenuItem>
+              </DropdownMenuGroup>
+              <DropdownMenuSeparator />
+            </DropdownMenuContent>
+          </DropdownMenu>
+        )}
 
       </div>
 

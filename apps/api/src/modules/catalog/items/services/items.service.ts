@@ -1,10 +1,12 @@
-import { Injectable, ConflictException, NotFoundException } from '@nestjs/common';
+import { Injectable, ConflictException, NotFoundException, BadRequestException } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { CrudService, FindManyOptions } from '@devloggers/backend-core';
 import { customFieldModules, resources } from '@devloggers/api-contracts';
 import type { Item } from '@devloggers/db-prisma';
+import { StockMovementType } from '@devloggers/db-prisma';
 import { PrismaService } from '@devloggers/db-prisma/nest';
 import { CustomFieldValuesService } from '@/modules/custom-fields/services/custom-field-values.service';
+import { InventoryService } from '@/modules/inventory/inventory.service';
 import { ItemsRepository } from '../repositories/items.repository';
 import { ItemPresenter } from '../presenters/item.presenter';
 import { CreateItemDto, UpdateItemDto, ItemResponseDto } from '../dto';
@@ -19,6 +21,7 @@ export class ItemsService extends CrudService<Item, ItemResponseDto, CreateItemD
         private readonly customFieldValuesService: CustomFieldValuesService,
         private readonly prisma: PrismaService,
         private readonly emitter: EventEmitter2,
+        private readonly inventoryService: InventoryService,
     ) {
         super(itemsRepository, itemPresenter, emitter);
     }
@@ -66,7 +69,7 @@ export class ItemsService extends CrudService<Item, ItemResponseDto, CreateItemD
     }
 
     override async create(tenantId: string, dto: CreateItemDto): Promise<ItemResponseDto> {
-        const { customFields, ...itemDto } = dto;
+        const { customFields, openingStock, ...itemDto } = dto;
         const created = await super.create(tenantId, itemDto as CreateItemDto);
         await this.customFieldValuesService.sync(
             tenantId,
@@ -74,6 +77,30 @@ export class ItemsService extends CrudService<Item, ItemResponseDto, CreateItemD
             created.id,
             customFields,
         );
+
+        if (openingStock?.warehouseId && openingStock.quantity > 0) {
+            const fiscalPeriod = await this.prisma.fiscalPeriod.findFirst({
+                where: { tenantId, status: 'OPEN' },
+                orderBy: { startDate: 'asc' },
+            });
+            if (!fiscalPeriod) {
+                throw new BadRequestException(
+                    'No open fiscal period found. Please create a fiscal period before registering opening stock.',
+                );
+            }
+            await this.inventoryService.postMovement({
+                tenantId,
+                warehouseId: openingStock.warehouseId,
+                itemId: created.id,
+                fiscalPeriodId: fiscalPeriod.id,
+                movementType: StockMovementType.OPENING,
+                quantity: openingStock.quantity,
+                unitCost: openingStock.unitCost ?? 0,
+                userId: openingStock._userId ?? 'system',
+                notes: 'Opening stock registered at item creation',
+            });
+        }
+
         return this.findById(tenantId, created.id);
     }
 

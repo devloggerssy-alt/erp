@@ -1,6 +1,30 @@
-import { IsString, IsNotEmpty, IsOptional, IsBoolean, IsNumber, IsObject, IsIn, IsArray, IsUrl } from 'class-validator';
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { IsString, IsNotEmpty, IsOptional, IsBoolean, IsNumber, IsObject, IsIn, IsArray, IsUrl, ValidateNested, Min } from 'class-validator';
+import { ApiProperty, ApiPropertyOptional, ApiHideProperty } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
 import type { CustomFieldValuesMap, ItemType } from '@devloggers/api-contracts';
+
+export class CreateItemOpeningStockDto {
+    @ApiProperty({ example: '00000000-0000-4000-b100-000000000001', description: 'Warehouse to register the opening stock in' })
+    @IsString()
+    @IsNotEmpty()
+    warehouseId: string = '';
+
+    @ApiProperty({ example: 10, description: 'Opening quantity' })
+    @IsNumber()
+    @Min(0)
+    quantity: number = 0;
+
+    @ApiPropertyOptional({ example: 500, description: 'Unit cost for weighted average calculation' })
+    @IsOptional()
+    @IsNumber()
+    @Min(0)
+    unitCost?: number;
+
+    @ApiHideProperty()
+    @IsOptional()
+    @IsString()
+    _userId?: string;
+}
 
 export class CreateItemDto {
     @ApiProperty({ example: 'ELEC-001', description: 'Unique item code' })
@@ -67,6 +91,12 @@ export class CreateItemDto {
     @IsOptional()
     @IsObject()
     customFields?: CustomFieldValuesMap;
+
+    @ApiPropertyOptional({ description: 'Optional opening stock to register when creating the item' })
+    @IsOptional()
+    @ValidateNested()
+    @Type(() => CreateItemOpeningStockDto)
+    openingStock?: CreateItemOpeningStockDto;
 }
 
 export class UpdateItemDto {

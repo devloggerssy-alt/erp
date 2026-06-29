@@ -68,6 +68,12 @@ const lowStockItems = [
 ]
 
 export function DashboardContent() {
+  const [mounted, setMounted] = React.useState(false)
+
+  React.useEffect(() => {
+    setMounted(true)
+  }, [])
+
   return (
     <DashboardPage
       title="لوحة التحكم"
@@ -181,35 +187,39 @@ export function DashboardContent() {
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="pl-2">
-                  <div className="h-[350px] w-full mt-4" dir="ltr">
-                    <ResponsiveContainer width="100%" height="100%">
-                      <BarChart data={chartData} margin={{ top: 0, right: 0, left: 0, bottom: 0 }}>
-                        <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#88888833" />
-                        <XAxis
-                          dataKey="name"
-                          stroke="#888888"
-                          fontSize={12}
-                          tickLine={false}
-                          axisLine={false}
-                        />
-                        <YAxis
-                          stroke="#888888"
-                          fontSize={12}
-                          tickLine={false}
-                          axisLine={false}
-                          tickFormatter={(value) => `${value} ر.س`}
-                          width={80}
-                        />
-                        <Tooltip
-                          cursor={{ fill: '#88888811' }}
-                          contentStyle={{ borderRadius: '8px', border: '1px solid #88888833' }}
-                        />
-                        <Legend wrapperStyle={{ paddingTop: '20px' }} />
-                        <Bar dataKey="sales" name="المبيعات" fill="#10b981" radius={[4, 4, 0, 0]} maxBarSize={40} />
-                        <Bar dataKey="purchases" name="المشتريات" fill="#3b82f6" radius={[4, 4, 0, 0]} maxBarSize={40} />
-                      </BarChart>
-                    </ResponsiveContainer>
-                  </div>
+                  {mounted ? (
+                    <div className="h-[350px] w-full mt-4" dir="ltr">
+                      <ResponsiveContainer width="100%" height="100%">
+                        <BarChart data={chartData} margin={{ top: 0, right: 0, left: 0, bottom: 0 }}>
+                          <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#88888833" />
+                          <XAxis
+                            dataKey="name"
+                            stroke="#888888"
+                            fontSize={12}
+                            tickLine={false}
+                            axisLine={false}
+                          />
+                          <YAxis
+                            stroke="#888888"
+                            fontSize={12}
+                            tickLine={false}
+                            axisLine={false}
+                            tickFormatter={(value) => `${value} ر.س`}
+                            width={80}
+                          />
+                          <Tooltip
+                            cursor={{ fill: '#88888811' }}
+                            contentStyle={{ borderRadius: '8px', border: '1px solid #88888833' }}
+                          />
+                          <Legend wrapperStyle={{ paddingTop: '20px' }} />
+                          <Bar dataKey="sales" name="المبيعات" fill="#10b981" radius={[4, 4, 0, 0]} maxBarSize={40} />
+                          <Bar dataKey="purchases" name="المشتريات" fill="#3b82f6" radius={[4, 4, 0, 0]} maxBarSize={40} />
+                        </BarChart>
+                      </ResponsiveContainer>
+                    </div>
+                  ) : (
+                    <div className="h-[350px] w-full mt-4" />
+                  )}
                 </CardContent>
               </Card>
 

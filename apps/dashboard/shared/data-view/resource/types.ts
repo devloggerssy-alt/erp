@@ -53,6 +53,9 @@ export type ResourceContext<TClient extends ICrudClient> = ResourceTableHelpers<
     items: ResourceItem<TClient>[]
     selectedItem: ResourceItem<TClient> | null
     setSelectedItem: Dispatch<SetStateAction<ResourceItem<TClient> | null>>
+    selectedItems: ResourceItem<TClient>[]
+    setSelectedItems: Dispatch<SetStateAction<ResourceItem<TClient>[]>>
+    clearSelection: () => void
     isDialogOpen: boolean
     dialogResourceId: string | null
     isLoading: boolean

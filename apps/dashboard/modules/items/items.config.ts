@@ -10,6 +10,8 @@ const optionalPrice = z.preprocess(
 
 const resourceObjectSchema = z.object({ id: z.string(), name: z.string() }).passthrough()
 
+export type ItemOpeningWarehouseField = { id: string; name: string }
+
 const imagePath = z.string().trim().min(1, "Invalid image URL")
 
 export const itemFormSchema = z.object({
@@ -29,6 +31,19 @@ export const itemFormSchema = z.object({
     galleryUrls: z.array(imagePath).default([]),
     isActive: z.boolean().optional(),
     customFields: z.record(z.string(), z.unknown()).optional(),
+    openingStock: z.boolean().default(false),
+    openingWarehouse: resourceObjectSchema.nullable().optional(),
+    openingCount: optionalPrice,
+    openingUnitCost: optionalPrice,
+}).superRefine((data, ctx) => {
+    if (data.openingStock) {
+        if (!data.openingWarehouse?.id) {
+            ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Warehouse is required for opening stock", path: ["openingWarehouse"] })
+        }
+        if (!data.openingCount || data.openingCount <= 0) {
+            ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Opening count must be greater than 0", path: ["openingCount"] })
+        }
+    }
 })
 
 export type ItemFormValues = z.infer<typeof itemFormSchema>
@@ -47,6 +62,10 @@ export const DEFAULT_ITEM_FORM_VALUES: ItemFormValues = {
     galleryUrls: [],
     isActive: true,
     customFields: {},
+    openingStock: false,
+    openingWarehouse: null,
+    openingCount: undefined,
+    openingUnitCost: undefined,
 }
 
 export function mapItemToFormValues(data: unknown): ItemFormValues {
@@ -67,6 +86,10 @@ export function mapItemToFormValues(data: unknown): ItemFormValues {
             : [],
         isActive: (resolved.isActive as boolean | undefined) ?? true,
         customFields: (resolved.customFields as Record<string, unknown> | undefined) ?? {},
+        openingStock: false,
+        openingWarehouse: null,
+        openingCount: undefined,
+        openingUnitCost: undefined,
     }
 }
 
@@ -87,6 +110,9 @@ export const itemsFormConfig: ResourceFormConfig<ItemFormValues, CreateItemDto, 
         mainImageUrl: values.mainImageUrl || null,
         galleryUrls: values.galleryUrls,
         customFields: values.customFields as CustomFieldValuesMap | undefined,
+        openingStock: values.openingStock && values.openingWarehouse?.id && values.openingCount
+            ? { warehouseId: values.openingWarehouse.id, quantity: values.openingCount, unitCost: values.openingUnitCost }
+            : undefined,
     }),
     toUpdate: (values) => ({
         code: values.code.trim(),

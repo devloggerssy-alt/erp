@@ -18,24 +18,30 @@
   },
   "dependencies": {
     "@devloggers/api-contracts": "workspace:*",
-    "@devloggers/db-prisma": "workspace:*"
+    "@devloggers/db-prisma": "workspace:*",
+    "@devloggers/import-export": "workspace:*"
   },
   "peerDependencies": {
     "@nestjs/common": "^11.0.0",
     "@nestjs/core": "^11.0.0",
+    "@nestjs/platform-express": "^11.0.0",
     "@nestjs/swagger": "^11.0.0",
     "class-validator": "^0.14.0",
-    "class-transformer": "^0.5.0"
+    "class-transformer": "^0.5.0",
+    "multer": "^1.4.5-lts.2"
   },
   "devDependencies": {
     "@devloggers/eslint-config": "workspace:*",
     "@devloggers/typescript-config": "workspace:*",
     "@nestjs/common": "^11.0.1",
     "@nestjs/core": "^11.0.1",
+    "@nestjs/platform-express": "^11.0.1",
     "@nestjs/swagger": "^11.2.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
+    "@types/multer": "^1.4.11",
     "@types/node": "^22.0.0",
+    "multer": "1.4.5-lts.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.7.3"
   }

@@ -15,6 +15,7 @@ import { ItemsClient } from "./clients/items.client"
 import { InvoiceTypesClient } from "./clients/invoice-types.client"
 import { InvoicesClient } from "./clients/invoices.client"
 import { ExpensesClient } from "./clients/expenses.client"
+import { PaymentsClient } from "./clients/payments.client"
 import { CashboxesClient } from "./clients/cashboxes.client"
 import { TagsClient } from "./clients/tags.client"
 import { TagAssignmentsClient } from "./clients/tag-assignments.client"
@@ -27,7 +28,7 @@ import { StockMovementsClient } from "./clients/stock-movements.client"
 import { StockCountsClient } from "./clients/stock-counts.client"
 import { FinancialSettingClient } from "./clients/financial-setting.client"
 import { ReportsClient } from "./clients/reports.client"
-import { authResource, itemCategoryResource, itemResource, unitResource, warehouseResource, partyResource, accountResource, currencyResource, fiscalPeriodResource, documentSequenceResource, roleResource, userResource, tenantResource, invoiceTypeResource, invoiceResource, customFieldResource, expenseResource, tagResource, tagAssignmentResource, itemRelationResource, catalogEntityResource, itemCatalogEntityResource, brandResource, inventoryResource, stockLedgerResource, stockCountResource, cashboxResource, financialSettingResource, reportResource } from "@devloggers/api-contracts"
+import { authResource, itemCategoryResource, itemResource, unitResource, warehouseResource, partyResource, accountResource, currencyResource, fiscalPeriodResource, documentSequenceResource, roleResource, userResource, tenantResource, invoiceTypeResource, invoiceResource, customFieldResource, expenseResource, paymentResource, tagResource, tagAssignmentResource, itemRelationResource, catalogEntityResource, itemCatalogEntityResource, brandResource, inventoryResource, stockLedgerResource, stockCountResource, cashboxResource, financialSettingResource, reportResource } from "@devloggers/api-contracts"
 import { CustomFieldsClient } from "./clients/custom-fields.client"
 
 export function createApi(options?: ApiClientOptions, baseUrl = 'http://localhost:4040') {
@@ -52,6 +53,7 @@ export function createApi(options?: ApiClientOptions, baseUrl = 'http://localhos
         [invoiceResource.key]: new InvoicesClient(client,invoiceResource),
         [cashboxResource.key]: new CashboxesClient(client,cashboxResource),
         [expenseResource.key]: new ExpensesClient(client),
+        [paymentResource.key]: new PaymentsClient(client),
         [tagResource.key]: new TagsClient(client),
         [tagAssignmentResource.key]: new TagAssignmentsClient(client),
         [itemRelationResource.key]: new ItemRelationsClient(client),

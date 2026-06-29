@@ -250,6 +250,14 @@
       "galleryUrls": "روابط معرض الصور",
       "galleryUrlsPlaceholder": "https://example.com/item-1.png\nhttps://example.com/item-2.png",
       "galleryUrlsDescription": "ارفع صوراً إضافية للمنتج.",
+      "sectionOpeningStock": "المخزون الافتتاحي",
+      "openingStockEnabled": "تسجيل مخزون افتتاحي لهذا الصنف",
+      "openingWarehouse": "المستودع",
+      "openingWarehousePlaceholder": "اختر المستودع...",
+      "openingCount": "الكمية الافتتاحية",
+      "openingCountPlaceholder": "مثال: 100",
+      "openingUnitCost": "تكلفة الوحدة",
+      "openingUnitCostPlaceholder": "مثال: 500",
       "exportAction": "تصدير Excel",
       "exporting": "جاري التصدير…",
       "exportSuccess": "تم تصدير الأصناف بنجاح",
@@ -493,6 +501,16 @@
         "addLine": "إضافة سطر",
         "notes": "ملاحظات"
       },
+      "openingPayment": {
+        "title": "دفعة افتتاحية",
+        "label": "مدفوع بالكامل عند الإنشاء",
+        "description": "إنشاء سجل دفع مرتبط بهذه الفاتورة",
+        "cashbox": "الصندوق",
+        "amount": "المبلغ",
+        "creating": "جاري إنشاء الدفعة…",
+        "created": "تم إنشاء الدفعة",
+        "failed": "فشل إنشاء الدفعة (تم حفظ الفاتورة)"
+      },
       "totals": {
         "subtotal": "المجموع الفرعي",
         "discount": "الخصم",
@@ -544,6 +562,41 @@
         "amount": "المبلغ",
         "notes": "ملاحظات",
         "addItem": "إضافة بند"
+      }
+    },
+    "payments": {
+      "title": "المدفوعات",
+      "entity": "دفعة",
+      "newPayment": "دفعة جديدة",
+      "number": "الرقم",
+      "type": "النوع",
+      "date": "التاريخ",
+      "cashbox": "الصندوق",
+      "party": "الطرف",
+      "currency": "العملة",
+      "fiscalPeriod": "الفترة المالية",
+      "exchangeRate": "سعر الصرف",
+      "amount": "المبلغ",
+      "notes": "ملاحظات",
+      "types": {
+        "RECEIPT": "قبض",
+        "PAYMENT": "صرف",
+        "ADJUSTMENT": "تسوية"
+      },
+      "status": {
+        "draft": "مسودة",
+        "posted": "مُرحَّل",
+        "cancelled": "ملغي"
+      },
+      "actions": {
+        "post": "ترحيل الدفعة",
+        "cancel": "إلغاء الدفعة",
+        "edit": "تعديل",
+        "view": "عرض",
+        "postConfirm": "سيتم إغلاق الدفعة وتحديث رصيد الصندوق. لا يمكن التراجع عن ذلك.",
+        "cancelConfirm": "سيتم عكس رصيد الصندوق. ستُوسَم الدفعة بأنها ملغاة.",
+        "postTitle": "ترحيل الدفعة؟",
+        "cancelTitle": "إلغاء الدفعة؟"
       }
     },
     "tags": {

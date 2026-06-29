@@ -90,6 +90,9 @@ export const invoiceFormSchema = z.object({
     exchangeRate: z.coerce.number().min(0.0001).default(1),
     notes: z.string().optional(),
     lines: z.array(invoiceLineSchema).min(1, "At least one line is required"),
+    openingPayment: z.boolean().default(false),
+    openingPaymentCashbox: optionalRelational,
+    openingPaymentAmount: z.coerce.number().min(0).optional(),
 }).superRefine((data, ctx) => {
     const required = [
         ["invoiceType", "Invoice type is required"],
@@ -101,6 +104,9 @@ export const invoiceFormSchema = z.object({
         if (!data[key]) {
             ctx.addIssue({ code: "custom", path: [key], message: msg })
         }
+    }
+    if (data.openingPayment && !data.openingPaymentCashbox?.id) {
+        ctx.addIssue({ code: "custom", path: ["openingPaymentCashbox"], message: "Cashbox is required for opening payment" })
     }
 })
 
@@ -130,6 +136,9 @@ export const DEFAULT_INVOICE_FORM_VALUES: InvoiceFormValues = {
     exchangeRate: 1,
     notes: "",
     lines: [{ ...DEFAULT_INVOICE_LINE }],
+    openingPayment: false,
+    openingPaymentCashbox: null,
+    openingPaymentAmount: undefined,
 }
 
 // ── Mapper ─────────────────────────────────────────────────────────────────────

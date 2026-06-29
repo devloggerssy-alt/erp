@@ -1,5 +1,6 @@
 import { defineCrudResource } from './base/crud-resource'
 import { defineResource } from './base/resource'
+import type { ApiPath } from '../api'
 
 export const unitResource = defineCrudResource({
   key: 'units',
@@ -10,5 +11,8 @@ export const unitResource = defineCrudResource({
     create: '/units',
     update: '/units/{id}',
     delete: '/units/{id}',
+    export: '/units/export' as ApiPath,
+    importTemplate: '/units/import/template' as ApiPath,
+    import: '/units/import' as ApiPath,
   },
 })

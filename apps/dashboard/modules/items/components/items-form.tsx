@@ -1,9 +1,10 @@
 "use client"
 
 import { useTranslations } from "next-intl"
-import { type ItemsClient } from "@devloggers/api-client"
+import { useWatch } from "react-hook-form"
+import { type ItemsClient, type WarehousesClient } from "@devloggers/api-client"
 import { itemCategoryResource, unitResource, brandResource } from "@devloggers/api-contracts"
-import { ResourceFormShell, RhfCheckboxField, RhfImageField, RhfResourceSelect, RhfSelectField, RhfTextField } from "@/shared/components/form"
+import { ResourceFormShell, RhfCheckboxField, RhfImageField, RhfResourceSelect, RhfSelectField, RhfTextareaField, RhfTextField } from "@/shared/components/form"
 import type { ResourceFormProps } from "@/shared/data-view/resource"
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/components/ui/card"
 import { useResourceFormController } from "@/shared/hooks/use-resource-form-controller"
@@ -11,7 +12,7 @@ import { useFileUpload } from "@/shared/hooks/use-file-upload"
 import { customFieldModules } from "@devloggers/api-contracts"
 import { CustomFieldsFormSection } from "@/shared/custom-fields"
 import { cn } from "@/shared/lib/utils"
-import { itemsFormConfig, type ItemFormValues } from "../items.config"
+import { itemsFormConfig, type ItemFormValues, type ItemOpeningWarehouseField } from "../items.config"
 import { ItemTagsSection } from "./items-tags-section"
 import { ItemRelationsSection } from "./items-relations-section"
 import { ItemCatalogEntitiesSection } from "./items-catalog-entities-section"
@@ -43,12 +44,11 @@ export function ItemsForm({
         closeOnSuccess,
     })
 
+    const openingStockEnabled = useWatch({ control: ctrl.form.control, name: "openingStock" })
+
     return (
         <ResourceFormShell ctrl={ctrl}>
-            <div className={cn(
-                "grid grid-cols-1 gap-6 items-start",
-                ctrl.isEditing && "xl:grid-cols-[1fr_360px]"
-            )}>
+            <div className="grid grid-cols-1 gap-6 items-start xl:grid-cols-[1fr_360px]">
                 {/* Primary column — core item data */}
                 <div className="grid gap-6">
                     <Card>
@@ -131,6 +131,65 @@ export function ItemsForm({
                         </CardContent>
                     </Card>
 
+                    {!ctrl.isEditing && (
+                        <Card>
+                            <CardHeader>
+                                <CardTitle>{t("sectionOpeningStock")}</CardTitle>
+                            </CardHeader>
+                            <CardContent className="grid gap-4">
+                                <RhfCheckboxField
+                                    name="openingStock"
+                                    label={t("openingStockEnabled")}
+                                    disabled={ctrl.isBusy}
+                                />
+                                {openingStockEnabled && (
+                                    <div className="grid gap-4 md:grid-cols-2">
+                                        <div className="md:col-span-2">
+                                            <RhfResourceSelect<ItemFormValues, "openingWarehouse", WarehousesClient, ItemOpeningWarehouseField>
+                                                name="openingWarehouse"
+                                                label={t("openingWarehouse")}
+                                                placeholder={t("openingWarehousePlaceholder")}
+                                                client={(api) => api.warehouses}
+                                                getLabel={(it) => `${it.name}`}
+                                                getValue={(it) => it}
+                                                required
+                                                disabled={ctrl.isBusy}
+                                            />
+                                        </div>
+                                        <RhfTextField
+                                            name="openingCount"
+                                            label={t("openingCount")}
+                                            placeholder={t("openingCountPlaceholder")}
+                                            type="number"
+                                            required
+                                            disabled={ctrl.isBusy}
+                                        />
+                                        <RhfTextField
+                                            name="openingUnitCost"
+                                            label={t("openingUnitCost")}
+                                            placeholder={t("openingUnitCostPlaceholder")}
+                                            type="number"
+                                            disabled={ctrl.isBusy}
+                                        />
+                                    </div>
+                                )}
+                            </CardContent>
+                        </Card>
+                    )}
+
+                    <CustomFieldsFormSection module={customFieldModules.items} disabled={ctrl.isBusy} showWhenEmpty />
+
+                            {resourceId && (
+                        <ItemRelationsSection itemId={resourceId} disabled={ctrl.isBusy} />
+                    )}
+
+                    {resourceId && (
+                        <ItemCatalogEntitiesSection itemId={resourceId} disabled={ctrl.isBusy} />
+                    )}
+                </div>
+
+                {/* Sidebar — always visible */}
+                <div className="grid gap-6">
                     <Card>
                         <CardHeader>
                             <CardTitle>{t("sectionImages")}</CardTitle>
@@ -155,7 +214,7 @@ export function ItemsForm({
                         <CardHeader>
                             <CardTitle>{t("sectionPricing")}</CardTitle>
                         </CardHeader>
-                        <CardContent className="grid gap-4 md:grid-cols-2">
+                        <CardContent className="grid gap-4">
                             <RhfTextField
                                 name="defaultSellingPrice"
                                 label={t("defaultSellingPrice")}
@@ -173,12 +232,28 @@ export function ItemsForm({
                         </CardContent>
                     </Card>
 
-                    <CustomFieldsFormSection module={customFieldModules.items} disabled={ctrl.isBusy} showWhenEmpty />
-                </div>
 
-                {/* Secondary column — status and relationships, edit mode only */}
-                {ctrl.isEditing && (
-                    <div className="grid gap-6">
+                       <Card>
+                        <CardHeader>
+                            <CardTitle>{t("sectionDescription")}</CardTitle>
+                        </CardHeader>
+                        <CardContent className="grid gap-4">
+                            <RhfTextareaField
+                                name="description"
+                                label={t("description")}
+                                placeholder={t("descriptionPlaceholder")}
+                                 disabled={ctrl.isBusy}
+                            />
+                            <RhfTextareaField
+                                name="note"
+                                label={t("note")}
+                                placeholder={t("notePlaceholder")}
+                                 disabled={ctrl.isBusy}
+                            />
+                        </CardContent>
+                    </Card>
+
+                    {ctrl.isEditing && (
                         <Card>
                             <CardHeader>
                                 <CardTitle>{t("sectionStatus")}</CardTitle>
@@ -192,20 +267,14 @@ export function ItemsForm({
                                 />
                             </CardContent>
                         </Card>
+                    )}
 
-                        {resourceId && (
-                            <ItemTagsSection itemId={resourceId} disabled={ctrl.isBusy} />
-                        )}
+                    {resourceId && (
+                        <ItemTagsSection itemId={resourceId} disabled={ctrl.isBusy} />
+                    )}
 
-                        {resourceId && (
-                            <ItemRelationsSection itemId={resourceId} disabled={ctrl.isBusy} />
-                        )}
-
-                        {resourceId && (
-                            <ItemCatalogEntitiesSection itemId={resourceId} disabled={ctrl.isBusy} />
-                        )}
-                    </div>
-                )}
+            
+                </div>
             </div>
         </ResourceFormShell>
     )

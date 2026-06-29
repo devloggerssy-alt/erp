@@ -344,8 +344,7 @@ export type RelationType = (typeof RelationType)[keyof typeof RelationType]
 
 export const ItemType: {
   product: 'product',
-  service: 'service',
-  bundle: 'bundle'
+  service: 'service'
 };
 
 export type ItemType = (typeof ItemType)[keyof typeof ItemType]
@@ -37554,6 +37553,8 @@ export namespace Prisma {
     defaultSellingPrice: Decimal | null
     latestPurchasePrice: Decimal | null
     mainImageUrl: string | null
+    description: string | null
+    note: string | null
     itemType: $Enums.ItemType | null
     isActive: boolean | null
     createdAt: Date | null
@@ -37572,6 +37573,8 @@ export namespace Prisma {
     defaultSellingPrice: Decimal | null
     latestPurchasePrice: Decimal | null
     mainImageUrl: string | null
+    description: string | null
+    note: string | null
     itemType: $Enums.ItemType | null
     isActive: boolean | null
     createdAt: Date | null
@@ -37590,6 +37593,8 @@ export namespace Prisma {
     defaultSellingPrice: number
     latestPurchasePrice: number
     mainImageUrl: number
+    description: number
+    note: number
     galleryUrls: number
     itemType: number
     isActive: number
@@ -37621,6 +37626,8 @@ export namespace Prisma {
     defaultSellingPrice?: true
     latestPurchasePrice?: true
     mainImageUrl?: true
+    description?: true
+    note?: true
     itemType?: true
     isActive?: true
     createdAt?: true
@@ -37639,6 +37646,8 @@ export namespace Prisma {
     defaultSellingPrice?: true
     latestPurchasePrice?: true
     mainImageUrl?: true
+    description?: true
+    note?: true
     itemType?: true
     isActive?: true
     createdAt?: true
@@ -37657,6 +37666,8 @@ export namespace Prisma {
     defaultSellingPrice?: true
     latestPurchasePrice?: true
     mainImageUrl?: true
+    description?: true
+    note?: true
     galleryUrls?: true
     itemType?: true
     isActive?: true
@@ -37763,6 +37774,8 @@ export namespace Prisma {
     defaultSellingPrice: Decimal | null
     latestPurchasePrice: Decimal | null
     mainImageUrl: string | null
+    description: string | null
+    note: string | null
     galleryUrls: string[]
     itemType: $Enums.ItemType
     isActive: boolean
@@ -37801,6 +37814,8 @@ export namespace Prisma {
     defaultSellingPrice?: boolean
     latestPurchasePrice?: boolean
     mainImageUrl?: boolean
+    description?: boolean
+    note?: boolean
     galleryUrls?: boolean
     itemType?: boolean
     isActive?: boolean
@@ -37833,6 +37848,8 @@ export namespace Prisma {
     defaultSellingPrice?: boolean
     latestPurchasePrice?: boolean
     mainImageUrl?: boolean
+    description?: boolean
+    note?: boolean
     galleryUrls?: boolean
     itemType?: boolean
     isActive?: boolean
@@ -37856,6 +37873,8 @@ export namespace Prisma {
     defaultSellingPrice?: boolean
     latestPurchasePrice?: boolean
     mainImageUrl?: boolean
+    description?: boolean
+    note?: boolean
     galleryUrls?: boolean
     itemType?: boolean
     isActive?: boolean
@@ -37879,6 +37898,8 @@ export namespace Prisma {
     defaultSellingPrice?: boolean
     latestPurchasePrice?: boolean
     mainImageUrl?: boolean
+    description?: boolean
+    note?: boolean
     galleryUrls?: boolean
     itemType?: boolean
     isActive?: boolean
@@ -37886,7 +37907,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type ItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "code" | "name" | "barcode" | "categoryId" | "baseUnitId" | "brandId" | "defaultSellingPrice" | "latestPurchasePrice" | "mainImageUrl" | "galleryUrls" | "itemType" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["item"]>
+  export type ItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "code" | "name" | "barcode" | "categoryId" | "baseUnitId" | "brandId" | "defaultSellingPrice" | "latestPurchasePrice" | "mainImageUrl" | "description" | "note" | "galleryUrls" | "itemType" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["item"]>
   export type ItemInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     category?: boolean | ItemCategoryDefaultArgs<ExtArgs>
@@ -37943,6 +37964,8 @@ export namespace Prisma {
       defaultSellingPrice: Prisma.Decimal | null
       latestPurchasePrice: Prisma.Decimal | null
       mainImageUrl: string | null
+      description: string | null
+      note: string | null
       galleryUrls: string[]
       itemType: $Enums.ItemType
       isActive: boolean
@@ -38394,6 +38417,8 @@ export namespace Prisma {
     readonly defaultSellingPrice: FieldRef<"Item", 'Decimal'>
     readonly latestPurchasePrice: FieldRef<"Item", 'Decimal'>
     readonly mainImageUrl: FieldRef<"Item", 'String'>
+    readonly description: FieldRef<"Item", 'String'>
+    readonly note: FieldRef<"Item", 'String'>
     readonly galleryUrls: FieldRef<"Item", 'String[]'>
     readonly itemType: FieldRef<"Item", 'ItemType'>
     readonly isActive: FieldRef<"Item", 'Boolean'>
@@ -57693,6 +57718,8 @@ export namespace Prisma {
     defaultSellingPrice: 'defaultSellingPrice',
     latestPurchasePrice: 'latestPurchasePrice',
     mainImageUrl: 'mainImageUrl',
+    description: 'description',
+    note: 'note',
     galleryUrls: 'galleryUrls',
     itemType: 'itemType',
     isActive: 'isActive',
@@ -60669,6 +60696,8 @@ export namespace Prisma {
     defaultSellingPrice?: DecimalNullableFilter<"Item"> | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: DecimalNullableFilter<"Item"> | Decimal | DecimalJsLike | number | string | null
     mainImageUrl?: StringNullableFilter<"Item"> | string | null
+    description?: StringNullableFilter<"Item"> | string | null
+    note?: StringNullableFilter<"Item"> | string | null
     galleryUrls?: StringNullableListFilter<"Item">
     itemType?: EnumItemTypeFilter<"Item"> | $Enums.ItemType
     isActive?: BoolFilter<"Item"> | boolean
@@ -60700,6 +60729,8 @@ export namespace Prisma {
     defaultSellingPrice?: SortOrderInput | SortOrder
     latestPurchasePrice?: SortOrderInput | SortOrder
     mainImageUrl?: SortOrderInput | SortOrder
+    description?: SortOrderInput | SortOrder
+    note?: SortOrderInput | SortOrder
     galleryUrls?: SortOrder
     itemType?: SortOrder
     isActive?: SortOrder
@@ -60735,6 +60766,8 @@ export namespace Prisma {
     defaultSellingPrice?: DecimalNullableFilter<"Item"> | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: DecimalNullableFilter<"Item"> | Decimal | DecimalJsLike | number | string | null
     mainImageUrl?: StringNullableFilter<"Item"> | string | null
+    description?: StringNullableFilter<"Item"> | string | null
+    note?: StringNullableFilter<"Item"> | string | null
     galleryUrls?: StringNullableListFilter<"Item">
     itemType?: EnumItemTypeFilter<"Item"> | $Enums.ItemType
     isActive?: BoolFilter<"Item"> | boolean
@@ -60766,6 +60799,8 @@ export namespace Prisma {
     defaultSellingPrice?: SortOrderInput | SortOrder
     latestPurchasePrice?: SortOrderInput | SortOrder
     mainImageUrl?: SortOrderInput | SortOrder
+    description?: SortOrderInput | SortOrder
+    note?: SortOrderInput | SortOrder
     galleryUrls?: SortOrder
     itemType?: SortOrder
     isActive?: SortOrder
@@ -60793,6 +60828,8 @@ export namespace Prisma {
     defaultSellingPrice?: DecimalNullableWithAggregatesFilter<"Item"> | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: DecimalNullableWithAggregatesFilter<"Item"> | Decimal | DecimalJsLike | number | string | null
     mainImageUrl?: StringNullableWithAggregatesFilter<"Item"> | string | null
+    description?: StringNullableWithAggregatesFilter<"Item"> | string | null
+    note?: StringNullableWithAggregatesFilter<"Item"> | string | null
     galleryUrls?: StringNullableListFilter<"Item">
     itemType?: EnumItemTypeWithAggregatesFilter<"Item"> | $Enums.ItemType
     isActive?: BoolWithAggregatesFilter<"Item"> | boolean
@@ -64629,6 +64666,8 @@ export namespace Prisma {
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
     mainImageUrl?: string | null
+    description?: string | null
+    note?: string | null
     galleryUrls?: ItemCreategalleryUrlsInput | string[]
     itemType?: $Enums.ItemType
     isActive?: boolean
@@ -64660,6 +64699,8 @@ export namespace Prisma {
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
     mainImageUrl?: string | null
+    description?: string | null
+    note?: string | null
     galleryUrls?: ItemCreategalleryUrlsInput | string[]
     itemType?: $Enums.ItemType
     isActive?: boolean
@@ -64683,6 +64724,8 @@ export namespace Prisma {
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     mainImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
     galleryUrls?: ItemUpdategalleryUrlsInput | string[]
     itemType?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -64714,6 +64757,8 @@ export namespace Prisma {
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     mainImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
     galleryUrls?: ItemUpdategalleryUrlsInput | string[]
     itemType?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -64741,6 +64786,8 @@ export namespace Prisma {
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
     mainImageUrl?: string | null
+    description?: string | null
+    note?: string | null
     galleryUrls?: ItemCreategalleryUrlsInput | string[]
     itemType?: $Enums.ItemType
     isActive?: boolean
@@ -64756,6 +64803,8 @@ export namespace Prisma {
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     mainImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
     galleryUrls?: ItemUpdategalleryUrlsInput | string[]
     itemType?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -64775,6 +64824,8 @@ export namespace Prisma {
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     mainImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
     galleryUrls?: ItemUpdategalleryUrlsInput | string[]
     itemType?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -68279,6 +68330,8 @@ export namespace Prisma {
     defaultSellingPrice?: SortOrder
     latestPurchasePrice?: SortOrder
     mainImageUrl?: SortOrder
+    description?: SortOrder
+    note?: SortOrder
     galleryUrls?: SortOrder
     itemType?: SortOrder
     isActive?: SortOrder
@@ -68303,6 +68356,8 @@ export namespace Prisma {
     defaultSellingPrice?: SortOrder
     latestPurchasePrice?: SortOrder
     mainImageUrl?: SortOrder
+    description?: SortOrder
+    note?: SortOrder
     itemType?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
@@ -68321,6 +68376,8 @@ export namespace Prisma {
     defaultSellingPrice?: SortOrder
     latestPurchasePrice?: SortOrder
     mainImageUrl?: SortOrder
+    description?: SortOrder
+    note?: SortOrder
     itemType?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
@@ -76964,6 +77021,8 @@ export namespace Prisma {
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
     mainImageUrl?: string | null
+    description?: string | null
+    note?: string | null
     galleryUrls?: ItemCreategalleryUrlsInput | string[]
     itemType?: $Enums.ItemType
     isActive?: boolean
@@ -76993,6 +77052,8 @@ export namespace Prisma {
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
     mainImageUrl?: string | null
+    description?: string | null
+    note?: string | null
     galleryUrls?: ItemCreategalleryUrlsInput | string[]
     itemType?: $Enums.ItemType
     isActive?: boolean
@@ -77148,6 +77209,8 @@ export namespace Prisma {
     defaultSellingPrice?: DecimalNullableFilter<"Item"> | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: DecimalNullableFilter<"Item"> | Decimal | DecimalJsLike | number | string | null
     mainImageUrl?: StringNullableFilter<"Item"> | string | null
+    description?: StringNullableFilter<"Item"> | string | null
+    note?: StringNullableFilter<"Item"> | string | null
     galleryUrls?: StringNullableListFilter<"Item">
     itemType?: EnumItemTypeFilter<"Item"> | $Enums.ItemType
     isActive?: BoolFilter<"Item"> | boolean
@@ -83114,6 +83177,8 @@ export namespace Prisma {
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
     mainImageUrl?: string | null
+    description?: string | null
+    note?: string | null
     galleryUrls?: ItemCreategalleryUrlsInput | string[]
     itemType?: $Enums.ItemType
     isActive?: boolean
@@ -83144,6 +83209,8 @@ export namespace Prisma {
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
     mainImageUrl?: string | null
+    description?: string | null
+    note?: string | null
     galleryUrls?: ItemCreategalleryUrlsInput | string[]
     itemType?: $Enums.ItemType
     isActive?: boolean
@@ -83276,6 +83343,8 @@ export namespace Prisma {
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     mainImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
     galleryUrls?: ItemUpdategalleryUrlsInput | string[]
     itemType?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -83306,6 +83375,8 @@ export namespace Prisma {
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     mainImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
     galleryUrls?: ItemUpdategalleryUrlsInput | string[]
     itemType?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -83454,6 +83525,8 @@ export namespace Prisma {
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
     mainImageUrl?: string | null
+    description?: string | null
+    note?: string | null
     galleryUrls?: ItemCreategalleryUrlsInput | string[]
     itemType?: $Enums.ItemType
     isActive?: boolean
@@ -83484,6 +83557,8 @@ export namespace Prisma {
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
     mainImageUrl?: string | null
+    description?: string | null
+    note?: string | null
     galleryUrls?: ItemCreategalleryUrlsInput | string[]
     itemType?: $Enums.ItemType
     isActive?: boolean
@@ -83652,6 +83727,8 @@ export namespace Prisma {
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     mainImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
     galleryUrls?: ItemUpdategalleryUrlsInput | string[]
     itemType?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -83682,6 +83759,8 @@ export namespace Prisma {
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     mainImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
     galleryUrls?: ItemUpdategalleryUrlsInput | string[]
     itemType?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -83901,6 +83980,8 @@ export namespace Prisma {
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
     mainImageUrl?: string | null
+    description?: string | null
+    note?: string | null
     galleryUrls?: ItemCreategalleryUrlsInput | string[]
     itemType?: $Enums.ItemType
     isActive?: boolean
@@ -83930,6 +84011,8 @@ export namespace Prisma {
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
     mainImageUrl?: string | null
+    description?: string | null
+    note?: string | null
     galleryUrls?: ItemCreategalleryUrlsInput | string[]
     itemType?: $Enums.ItemType
     isActive?: boolean
@@ -84239,6 +84322,8 @@ export namespace Prisma {
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
     mainImageUrl?: string | null
+    description?: string | null
+    note?: string | null
     galleryUrls?: ItemCreategalleryUrlsInput | string[]
     itemType?: $Enums.ItemType
     isActive?: boolean
@@ -84269,6 +84354,8 @@ export namespace Prisma {
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
     mainImageUrl?: string | null
+    description?: string | null
+    note?: string | null
     galleryUrls?: ItemCreategalleryUrlsInput | string[]
     itemType?: $Enums.ItemType
     isActive?: boolean
@@ -84296,6 +84383,8 @@ export namespace Prisma {
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
     mainImageUrl?: string | null
+    description?: string | null
+    note?: string | null
     galleryUrls?: ItemCreategalleryUrlsInput | string[]
     itemType?: $Enums.ItemType
     isActive?: boolean
@@ -84326,6 +84415,8 @@ export namespace Prisma {
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
     mainImageUrl?: string | null
+    description?: string | null
+    note?: string | null
     galleryUrls?: ItemCreategalleryUrlsInput | string[]
     itemType?: $Enums.ItemType
     isActive?: boolean
@@ -84463,6 +84554,8 @@ export namespace Prisma {
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     mainImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
     galleryUrls?: ItemUpdategalleryUrlsInput | string[]
     itemType?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -84493,6 +84586,8 @@ export namespace Prisma {
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     mainImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
     galleryUrls?: ItemUpdategalleryUrlsInput | string[]
     itemType?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -84526,6 +84621,8 @@ export namespace Prisma {
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     mainImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
     galleryUrls?: ItemUpdategalleryUrlsInput | string[]
     itemType?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -84556,6 +84653,8 @@ export namespace Prisma {
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     mainImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
     galleryUrls?: ItemUpdategalleryUrlsInput | string[]
     itemType?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -86436,6 +86535,8 @@ export namespace Prisma {
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
     mainImageUrl?: string | null
+    description?: string | null
+    note?: string | null
     galleryUrls?: ItemCreategalleryUrlsInput | string[]
     itemType?: $Enums.ItemType
     isActive?: boolean
@@ -86466,6 +86567,8 @@ export namespace Prisma {
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
     mainImageUrl?: string | null
+    description?: string | null
+    note?: string | null
     galleryUrls?: ItemCreategalleryUrlsInput | string[]
     itemType?: $Enums.ItemType
     isActive?: boolean
@@ -86547,6 +86650,8 @@ export namespace Prisma {
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     mainImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
     galleryUrls?: ItemUpdategalleryUrlsInput | string[]
     itemType?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -86577,6 +86682,8 @@ export namespace Prisma {
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     mainImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
     galleryUrls?: ItemUpdategalleryUrlsInput | string[]
     itemType?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -86634,6 +86741,8 @@ export namespace Prisma {
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
     mainImageUrl?: string | null
+    description?: string | null
+    note?: string | null
     galleryUrls?: ItemCreategalleryUrlsInput | string[]
     itemType?: $Enums.ItemType
     isActive?: boolean
@@ -86664,6 +86773,8 @@ export namespace Prisma {
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
     mainImageUrl?: string | null
+    description?: string | null
+    note?: string | null
     galleryUrls?: ItemCreategalleryUrlsInput | string[]
     itemType?: $Enums.ItemType
     isActive?: boolean
@@ -86743,6 +86854,8 @@ export namespace Prisma {
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     mainImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
     galleryUrls?: ItemUpdategalleryUrlsInput | string[]
     itemType?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -86773,6 +86886,8 @@ export namespace Prisma {
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     mainImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
     galleryUrls?: ItemUpdategalleryUrlsInput | string[]
     itemType?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -86830,6 +86945,8 @@ export namespace Prisma {
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
     mainImageUrl?: string | null
+    description?: string | null
+    note?: string | null
     galleryUrls?: ItemCreategalleryUrlsInput | string[]
     itemType?: $Enums.ItemType
     isActive?: boolean
@@ -86860,6 +86977,8 @@ export namespace Prisma {
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
     mainImageUrl?: string | null
+    description?: string | null
+    note?: string | null
     galleryUrls?: ItemCreategalleryUrlsInput | string[]
     itemType?: $Enums.ItemType
     isActive?: boolean
@@ -86976,6 +87095,8 @@ export namespace Prisma {
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     mainImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
     galleryUrls?: ItemUpdategalleryUrlsInput | string[]
     itemType?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -87006,6 +87127,8 @@ export namespace Prisma {
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     mainImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
     galleryUrls?: ItemUpdategalleryUrlsInput | string[]
     itemType?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -87815,6 +87938,8 @@ export namespace Prisma {
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
     mainImageUrl?: string | null
+    description?: string | null
+    note?: string | null
     galleryUrls?: ItemCreategalleryUrlsInput | string[]
     itemType?: $Enums.ItemType
     isActive?: boolean
@@ -87844,6 +87969,8 @@ export namespace Prisma {
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
     mainImageUrl?: string | null
+    description?: string | null
+    note?: string | null
     galleryUrls?: ItemCreategalleryUrlsInput | string[]
     itemType?: $Enums.ItemType
     isActive?: boolean
@@ -89489,6 +89616,8 @@ export namespace Prisma {
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
     mainImageUrl?: string | null
+    description?: string | null
+    note?: string | null
     galleryUrls?: ItemCreategalleryUrlsInput | string[]
     itemType?: $Enums.ItemType
     isActive?: boolean
@@ -89518,6 +89647,8 @@ export namespace Prisma {
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
     mainImageUrl?: string | null
+    description?: string | null
+    note?: string | null
     galleryUrls?: ItemCreategalleryUrlsInput | string[]
     itemType?: $Enums.ItemType
     isActive?: boolean
@@ -90831,6 +90962,8 @@ export namespace Prisma {
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
     mainImageUrl?: string | null
+    description?: string | null
+    note?: string | null
     galleryUrls?: ItemCreategalleryUrlsInput | string[]
     itemType?: $Enums.ItemType
     isActive?: boolean
@@ -90861,6 +90994,8 @@ export namespace Prisma {
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
     mainImageUrl?: string | null
+    description?: string | null
+    note?: string | null
     galleryUrls?: ItemCreategalleryUrlsInput | string[]
     itemType?: $Enums.ItemType
     isActive?: boolean
@@ -90940,6 +91075,8 @@ export namespace Prisma {
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     mainImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
     galleryUrls?: ItemUpdategalleryUrlsInput | string[]
     itemType?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -90970,6 +91107,8 @@ export namespace Prisma {
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     mainImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
     galleryUrls?: ItemUpdategalleryUrlsInput | string[]
     itemType?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -91637,6 +91776,8 @@ export namespace Prisma {
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
     mainImageUrl?: string | null
+    description?: string | null
+    note?: string | null
     galleryUrls?: ItemCreategalleryUrlsInput | string[]
     itemType?: $Enums.ItemType
     isActive?: boolean
@@ -91652,6 +91793,8 @@ export namespace Prisma {
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     mainImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
     galleryUrls?: ItemUpdategalleryUrlsInput | string[]
     itemType?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -91681,6 +91824,8 @@ export namespace Prisma {
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     mainImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
     galleryUrls?: ItemUpdategalleryUrlsInput | string[]
     itemType?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -91707,6 +91852,8 @@ export namespace Prisma {
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     mainImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
     galleryUrls?: ItemUpdategalleryUrlsInput | string[]
     itemType?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -93372,6 +93519,8 @@ export namespace Prisma {
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
     mainImageUrl?: string | null
+    description?: string | null
+    note?: string | null
     galleryUrls?: ItemCreategalleryUrlsInput | string[]
     itemType?: $Enums.ItemType
     isActive?: boolean
@@ -93424,6 +93573,8 @@ export namespace Prisma {
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     mainImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
     galleryUrls?: ItemUpdategalleryUrlsInput | string[]
     itemType?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -93453,6 +93604,8 @@ export namespace Prisma {
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     mainImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
     galleryUrls?: ItemUpdategalleryUrlsInput | string[]
     itemType?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -93479,6 +93632,8 @@ export namespace Prisma {
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     mainImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
     galleryUrls?: ItemUpdategalleryUrlsInput | string[]
     itemType?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -94239,6 +94394,8 @@ export namespace Prisma {
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
     mainImageUrl?: string | null
+    description?: string | null
+    note?: string | null
     galleryUrls?: ItemCreategalleryUrlsInput | string[]
     itemType?: $Enums.ItemType
     isActive?: boolean
@@ -94744,6 +94901,8 @@ export namespace Prisma {
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     mainImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
     galleryUrls?: ItemUpdategalleryUrlsInput | string[]
     itemType?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -94773,6 +94932,8 @@ export namespace Prisma {
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     mainImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
     galleryUrls?: ItemUpdategalleryUrlsInput | string[]
     itemType?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -94799,6 +94960,8 @@ export namespace Prisma {
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     mainImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
     galleryUrls?: ItemUpdategalleryUrlsInput | string[]
     itemType?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -95597,6 +95760,8 @@ export namespace Prisma {
     defaultSellingPrice?: Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: Decimal | DecimalJsLike | number | string | null
     mainImageUrl?: string | null
+    description?: string | null
+    note?: string | null
     galleryUrls?: ItemCreategalleryUrlsInput | string[]
     itemType?: $Enums.ItemType
     isActive?: boolean
@@ -95628,6 +95793,8 @@ export namespace Prisma {
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     mainImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
     galleryUrls?: ItemUpdategalleryUrlsInput | string[]
     itemType?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -95657,6 +95824,8 @@ export namespace Prisma {
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     mainImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
     galleryUrls?: ItemUpdategalleryUrlsInput | string[]
     itemType?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -95683,6 +95852,8 @@ export namespace Prisma {
     defaultSellingPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     latestPurchasePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     mainImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
     galleryUrls?: ItemUpdategalleryUrlsInput | string[]
     itemType?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
     isActive?: BoolFieldUpdateOperationsInput | boolean

@@ -1,4 +1,5 @@
-import type { ColumnDef, SortingState } from "@tanstack/react-table"
+import type { ColumnDef, RowSelectionState, SortingState } from "@tanstack/react-table"
+export type { RowSelectionState }
 import type { ReactNode } from "react"
 
 export type DataViewPaginationState = {
@@ -39,4 +40,7 @@ export type DataViewProps<TData> = {
     isLoading?: boolean
     onRowClick?: (row: TData) => void
     slots?: DataViewSlots
+    rowSelection?: RowSelectionState
+    onRowSelectionChange?: (next: RowSelectionState) => void
+    getRowId?: (row: TData, index: number) => string
 }

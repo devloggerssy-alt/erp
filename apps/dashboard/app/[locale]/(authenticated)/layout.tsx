@@ -15,7 +15,8 @@ function Logo() {
         alt="Logo"
         width={100}
         height={50}
-        className=" object-contain"
+        className="object-contain"
+        style={{ width: "auto", height: "100%" }}
         priority
       />
     </div>

@@ -4,6 +4,7 @@
   },
   "header": {
     "profile": "Profile",
+    "logout": "Logout",
     "language": "Language",
     "languages": {
       "ar": "Arabic",
@@ -94,6 +95,10 @@
     "toastDeleting": "Deleting...",
     "toastDeleted": "Deleted successfully",
     "toastDeleteFailed": "Failed to delete"
+  },
+  "selectionToolbar": {
+    "selected": "{count} selected",
+    "clear": "Clear"
   },
   "tableActions": {
     "header": "Actions",

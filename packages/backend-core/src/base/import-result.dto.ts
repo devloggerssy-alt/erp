@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
+/** Shared Swagger DTO for an import operation result. Reused across resources. */
 export class ImportRowErrorDto {
     @ApiProperty({ example: 5 })
     row: number = 0;

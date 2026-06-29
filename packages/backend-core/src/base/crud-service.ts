@@ -6,6 +6,7 @@ import {
   ResourceUpdatedEvent,
   ResourceDeletedEvent,
 } from './crud-events';
+import type { BulkResult, BulkError } from './bulk.dto.js';
 
 /**
  * Minimal event emitter interface — satisfied by EventEmitter2 from @nestjs/event-emitter.
@@ -54,6 +55,13 @@ export interface ICrudService<TResponse, TCreateDto, TUpdateDto> {
   create(tenantId: string, dto: TCreateDto): Promise<TResponse>;
   update(tenantId: string, id: string, dto: TUpdateDto): Promise<TResponse>;
   delete(tenantId: string, id: string): Promise<void>;
+  /** Bulk partial update. Each item is `{ id } & Partial<TUpdateDto>`. */
+  bulkUpdate(
+    tenantId: string,
+    items: Array<{ id: string } & Partial<TUpdateDto>>,
+  ): Promise<BulkResult>;
+  /** Bulk delete by id. */
+  bulkDelete(tenantId: string, ids: string[]): Promise<BulkResult>;
 }
 
 
@@ -122,6 +130,54 @@ export abstract class CrudService<
       ResourceDeletedEvent.eventName(this.resourceName),
       new ResourceDeletedEvent(tenantId, this.resourceName, existing),
     );
+  }
+
+  /**
+   * Bulk partial update — iterates {@link update} per item, aggregating errors.
+   * A failed item is counted as `failed` and recorded in `errors`; remaining
+   * items still attempt. Override for transactional / batch-SQL semantics.
+   */
+  async bulkUpdate(
+    tenantId: string,
+    items: Array<{ id: string } & Partial<TUpdateDto>>,
+  ): Promise<BulkResult> {
+    const result: BulkResult = { total: items.length, succeeded: 0, failed: 0, errors: [] };
+    for (const item of items) {
+      const { id, ...partial } = item as { id: string } & Partial<TUpdateDto>;
+      try {
+        await this.update(tenantId, id, partial as TUpdateDto);
+        result.succeeded += 1;
+      } catch (error) {
+        result.failed += 1;
+        result.errors.push({
+          id,
+          message: error instanceof Error ? error.message : 'Update failed for this item',
+        } satisfies BulkError);
+      }
+    }
+    return result;
+  }
+
+  /**
+   * Bulk delete — iterates {@link delete} per id, aggregating errors.
+   * A failed id is counted as `failed` and recorded in `errors`; remaining
+   * ids still attempt. Override for transactional / batch semantics.
+   */
+  async bulkDelete(tenantId: string, ids: string[]): Promise<BulkResult> {
+    const result: BulkResult = { total: ids.length, succeeded: 0, failed: 0, errors: [] };
+    for (const id of ids) {
+      try {
+        await this.delete(tenantId, id);
+        result.succeeded += 1;
+      } catch (error) {
+        result.failed += 1;
+        result.errors.push({
+          id,
+          message: error instanceof Error ? error.message : 'Delete failed for this item',
+        } satisfies BulkError);
+      }
+    }
+    return result;
   }
 
   // ── Lifecycle hooks (override in concrete class) ──────────────────────────

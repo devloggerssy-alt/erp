@@ -250,6 +250,14 @@
       "galleryUrls": "Gallery URLs",
       "galleryUrlsPlaceholder": "https://example.com/item-1.png\nhttps://example.com/item-2.png",
       "galleryUrlsDescription": "Upload one or more additional product images.",
+      "sectionOpeningStock": "Opening Stock",
+      "openingStockEnabled": "Register opening stock for this item",
+      "openingWarehouse": "Warehouse",
+      "openingWarehousePlaceholder": "Select warehouse...",
+      "openingCount": "Opening Quantity",
+      "openingCountPlaceholder": "e.g. 100",
+      "openingUnitCost": "Unit Cost",
+      "openingUnitCostPlaceholder": "e.g. 500",
       "exportAction": "Export Excel",
       "exporting": "Exporting…",
       "exportSuccess": "Items exported successfully",
@@ -498,6 +506,16 @@
         "discount": "Discount",
         "tax": "Tax",
         "total": "Total"
+      },
+      "openingPayment": {
+        "title": "Opening Payment",
+        "label": "Fully paid on creation",
+        "description": "Create a payment record linked to this invoice",
+        "cashbox": "Cashbox",
+        "amount": "Amount",
+        "creating": "Creating payment…",
+        "created": "Payment created",
+        "failed": "Payment creation failed (invoice was saved)"
       }
     },
     "cashboxes": {
@@ -544,6 +562,41 @@
         "amount": "Amount",
         "notes": "Notes",
         "addItem": "Add item"
+      }
+    },
+    "payments": {
+      "title": "Payments",
+      "entity": "Payment",
+      "newPayment": "New Payment",
+      "number": "Number",
+      "type": "Type",
+      "date": "Date",
+      "cashbox": "Cashbox",
+      "party": "Party",
+      "currency": "Currency",
+      "fiscalPeriod": "Fiscal Period",
+      "exchangeRate": "Exchange Rate",
+      "amount": "Amount",
+      "notes": "Notes",
+      "types": {
+        "RECEIPT": "Receipt",
+        "PAYMENT": "Payment",
+        "ADJUSTMENT": "Adjustment"
+      },
+      "status": {
+        "draft": "Draft",
+        "posted": "Posted",
+        "cancelled": "Cancelled"
+      },
+      "actions": {
+        "post": "Post Payment",
+        "cancel": "Cancel Payment",
+        "edit": "Edit",
+        "view": "View",
+        "postConfirm": "This will lock the payment and update the cashbox balance. This cannot be undone.",
+        "cancelConfirm": "This will reverse the cashbox balance. The payment will be marked as cancelled.",
+        "postTitle": "Post Payment?",
+        "cancelTitle": "Cancel Payment?"
       }
     },
     "tags": {

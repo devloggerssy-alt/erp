@@ -1,10 +1,5 @@
+import { Injectable } from '@nestjs/common';
 import {
-     Injectable,
-    StreamableFile,
-} from '@nestjs/common';
-import {
-    buildInstructionsSheet,
-    buildWorkbookBuffer,
     type SheetColumn,
     type WorkbookSheet,
 } from '@devloggers/import-export';
@@ -18,75 +13,89 @@ import {
 import type { CustomFieldValuesMap } from '@devloggers/api-contracts';
 import type { CustomField } from '@devloggers/db-prisma';
 import { PrismaService } from '@devloggers/db-prisma/nest';
-import { buildPrismaWhere, type FindManyOptions } from '@devloggers/backend-core';
-import { ApiQueryOptionsDto } from '@/common/api/api-query-options.dto';
 import { CustomFieldsRepository } from '@/modules/custom-fields/repositories/custom-fields.repository';
 import { CustomFieldValuesService } from '@/modules/custom-fields/services/custom-field-values.service';
-import { ItemsRepository } from '../repositories/items.repository';
+import {
+    CrudExportServiceBase,
+    type ExportRow,
+    type FindManyOptions,
+} from '@devloggers/backend-core';
+import { ItemsRepository, type ItemWithListRelations } from '../repositories/items.repository';
 import { ItemPresenter } from '../presenters/item.presenter';
 
-type ItemExportRow = Record<string, string | number | boolean>;
+type ItemsExportContext = {
+    customFieldDefinitions: CustomField[];
+    customFieldsByItem: Record<string, CustomFieldValuesMap>;
+    categories?: Array<{ name: string }>;
+    units?: Array<{ name: string; abbreviation: string }>;
+    brands?: Array<{ name: string }>;
+};
 
 @Injectable()
-export class ItemsExportService {
+export class ItemsExportService extends CrudExportServiceBase<ItemWithListRelations> {
+    protected readonly resourceKey = 'items';
+
     constructor(
         private readonly itemsRepository: ItemsRepository,
         private readonly itemPresenter: ItemPresenter,
         private readonly customFieldsRepository: CustomFieldsRepository,
         private readonly customFieldValuesService: CustomFieldValuesService,
         private readonly prisma: PrismaService,
-    ) {}
-
-    async exportToExcel(
-        tenantId: string,
-        query: ApiQueryOptionsDto,
-        filterSchema: Parameters<typeof buildPrismaWhere>[1],
-    ): Promise<StreamableFile> {
-        const where = buildPrismaWhere(query, filterSchema);
-        const options: FindManyOptions = {
-            where,
-            take: ITEMS_EXPORT_MAX_ROWS,
-            skip: 0,
-            orderBy: { code: 'asc' },
-        };
-
-        const [result, customFieldDefinitions] = await Promise.all([
-            this.itemsRepository.findManyWithRelations(tenantId, options),
-            this.customFieldsRepository.findByModule(tenantId, customFieldModules.items),
-        ]);
-
-        const customFieldsByItem = await this.customFieldValuesService.getForEntities(
-            tenantId,
-            customFieldModules.items,
-            result.data.map((item) => item.id),
-        );
-
-        const columns = this.buildColumns(customFieldDefinitions);
-        const rows = result.data.map((entity) => {
-            const response = this.itemPresenter.toResponse(entity);
-            const customFields = customFieldsByItem[entity.id] ?? {};
-            return this.toExportRow(response, entity, customFields, customFieldDefinitions);
-        });
-
-        const sheets: WorkbookSheet[] = [
-            {
-                name: 'Items',
-                columns,
-                rows,
-            },
-            buildInstructionsSheet([...ITEMS_INSTRUCTIONS]),
-        ];
-
-        const buffer = await buildWorkbookBuffer(sheets);
-        const filename = `items-export-${new Date().toISOString().slice(0, 10)}.xlsx`;
-
-        return new StreamableFile(buffer, {
-            type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-            disposition: `attachment; filename="${filename}"`,
-        });
+    ) {
+        super();
     }
 
-    async buildTemplate(tenantId: string): Promise<StreamableFile> {
+    override getExportMaxRows(): number {
+        return ITEMS_EXPORT_MAX_ROWS;
+    }
+
+    override getExportOrderBy(): Record<string, 'asc' | 'desc'> {
+        return { code: 'asc' };
+    }
+
+    override async fetchExportRows(
+        tenantId: string,
+        options: FindManyOptions,
+    ): Promise<ItemWithListRelations[]> {
+        const result = await this.itemsRepository.findManyWithRelations(tenantId, options);
+        return result.data;
+    }
+
+    override async buildExportContext(
+        tenantId: string,
+        entities: ItemWithListRelations[],
+    ): Promise<ItemsExportContext> {
+        const [customFieldDefinitions, customFieldsByItem] = await Promise.all([
+            this.customFieldsRepository.findByModule(tenantId, customFieldModules.items),
+            this.customFieldValuesService.getForEntities(
+                tenantId,
+                customFieldModules.items,
+                entities.map((item) => item.id),
+            ),
+        ]);
+        return { customFieldDefinitions, customFieldsByItem };
+    }
+
+    override getColumns(
+        _tenantId: string,
+        context: unknown,
+    ): Promise<SheetColumn[]> {
+        const { customFieldDefinitions } = context as ItemsExportContext;
+        return Promise.resolve(this.buildColumns(customFieldDefinitions ?? []));
+    }
+
+    override toExportRow(entity: ItemWithListRelations, context: unknown): ExportRow {
+        const { customFieldDefinitions, customFieldsByItem } = context as ItemsExportContext;
+        const response = this.itemPresenter.toResponse(entity);
+        const customFields = customFieldsByItem?.[entity.id] ?? {};
+        return this.toExportRowInternal(response, entity, customFields, customFieldDefinitions ?? []);
+    }
+
+    getInstructions() {
+        return [...ITEMS_INSTRUCTIONS];
+    }
+
+    override async buildTemplateContext(tenantId: string): Promise<ItemsExportContext> {
         const [customFieldDefinitions, categories, units, brands] = await Promise.all([
             this.customFieldsRepository.findByModule(tenantId, customFieldModules.items),
             this.prisma.itemCategory.findMany({
@@ -105,34 +114,31 @@ export class ItemsExportService {
                 orderBy: { name: 'asc' },
             }),
         ]);
+        return { customFieldDefinitions, customFieldsByItem: {}, categories, units, brands };
+    }
 
-        const columns = this.buildColumns(customFieldDefinitions);
-        const exampleRow =
-            categories[0] && units[0]
-                ? this.buildExampleRow(
-                      customFieldDefinitions,
-                      categories[0].name,
-                      units[0].name,
-                      brands[0]?.name ?? '',
-                  )
-                : null;
+    override buildTemplateExampleRow(
+        _tenantId: string,
+        context: unknown,
+    ): Promise<ExportRow | null> {
+        const { customFieldDefinitions, categories, units, brands } = context as ItemsExportContext;
+        if (!categories?.[0] || !units?.[0]) return Promise.resolve(null);
+        return Promise.resolve(
+            this.buildExampleRow(
+                customFieldDefinitions ?? [],
+                categories[0].name,
+                units[0].name,
+                brands?.[0]?.name ?? '',
+            ),
+        );
+    }
 
-        const sheets: WorkbookSheet[] = [
-            {
-                name: 'Items',
-                columns,
-                rows: exampleRow ? [exampleRow] : [],
-            },
-            this.buildLookupsSheet(categories, units, brands),
-            buildInstructionsSheet([...ITEMS_INSTRUCTIONS]),
-        ];
-
-        const buffer = await buildWorkbookBuffer(sheets);
-
-        return new StreamableFile(buffer, {
-            type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-            disposition: 'attachment; filename="items-import-template.xlsx"',
-        });
+    override getTemplateExtraSheets(
+        _tenantId: string,
+        context: unknown,
+    ): Promise<WorkbookSheet[]> {
+        const { categories, units, brands } = context as ItemsExportContext;
+        return Promise.resolve([this.buildLookupsSheet(categories ?? [], units ?? [], brands ?? [])]);
     }
 
     private buildLookupsSheet(
@@ -189,13 +195,13 @@ export class ItemsExportService {
         return [...baseColumns, ...customColumns];
     }
 
-    private toExportRow(
+    private toExportRowInternal(
         response: ReturnType<ItemPresenter['toResponse']>,
         entity: { category: { name: string }; baseUnit: { name: string }; brand?: { name: string } | null },
         customFields: CustomFieldValuesMap,
         customFieldDefinitions: CustomField[],
-    ): ItemExportRow {
-        const row: ItemExportRow = {
+    ): ExportRow {
+        const row: ExportRow = {
             [ITEMS_IMPORT_COLUMNS.code]: response.code,
             [ITEMS_IMPORT_COLUMNS.name]: response.name,
             [ITEMS_IMPORT_COLUMNS.barcode]: response.barcode ?? '',
@@ -223,8 +229,8 @@ export class ItemsExportService {
         categoryName: string,
         baseUnitName: string,
         brandName: string,
-    ): ItemExportRow {
-        const row: ItemExportRow = {
+    ): ExportRow {
+        const row: ExportRow = {
             [ITEMS_IMPORT_COLUMNS.code]: 'ITEM-001',
             [ITEMS_IMPORT_COLUMNS.name]: 'Sample Item',
             [ITEMS_IMPORT_COLUMNS.barcode]: '',

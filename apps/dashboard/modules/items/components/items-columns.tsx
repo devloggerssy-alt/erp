@@ -3,7 +3,7 @@ import type { CustomFieldResponseDto } from "@devloggers/api-contracts"
 import type { ItemsClient } from "@devloggers/api-client"
 import type { ResourceItem, ResourceTableHelpers } from "@/shared/data-view/resource"
 import { buildCustomFieldColumns } from "@/shared/custom-fields"
-import { BooleanCell, ColumnHeader, type ActionsColumnOptions } from "@/shared/data-view/table-view"
+import { BooleanCell, ColumnHeader, createSelectionColumn, type ActionsColumnOptions } from "@/shared/data-view/table-view"
 
 type ColumnTranslator = (key: string) => string
 
@@ -22,6 +22,7 @@ export function createItemsColumns(
             : []
 
     return [
+        createSelectionColumn(),
         {
             accessorKey: "code",
             enableSorting: true,

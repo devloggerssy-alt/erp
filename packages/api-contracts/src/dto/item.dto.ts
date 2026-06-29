@@ -2,6 +2,12 @@ import type { CustomFieldValuesMap } from './custom-field.dto';
 
 export type ItemType = 'product' | 'service' | 'bundle'
 
+export interface CreateItemOpeningStockDto {
+    warehouseId: string;
+    quantity: number;
+    unitCost?: number;
+}
+
 export interface CreateItemDto {
     code: string;
     name: string;
@@ -16,6 +22,8 @@ export interface CreateItemDto {
     customFields?: CustomFieldValuesMap;
     /** @default 'product' */
     itemType?: ItemType;
+    /** Optional opening stock to register when creating the item */
+    openingStock?: CreateItemOpeningStockDto;
 }
 
 export interface UpdateItemDto {

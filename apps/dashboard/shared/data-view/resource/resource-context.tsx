@@ -38,6 +38,8 @@ export function ResourceProvider<TClient extends ICrudClient>({
     const t = useTranslations("system.resource")
     const dialog = useFormDialog(config.paramKey)
     const [selectedItem, setSelectedItem] = useState<TItem | null>(null)
+    const [selectedItems, setSelectedItems] = useState<TItem[]>([])
+    const clearSelection = () => setSelectedItems([])
 
     const openEdit = (row: TItem) => {
         setSelectedItem(row)
@@ -88,6 +90,9 @@ export function ResourceProvider<TClient extends ICrudClient>({
         deleteItem: mutations.deleteItem,
         selectedItem,
         setSelectedItem,
+        selectedItems,
+        setSelectedItems,
+        clearSelection,
         isDialogOpen: dialog.isOpen,
         dialogResourceId: dialog.resourceId,
         openCreate,

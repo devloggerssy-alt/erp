@@ -1,10 +1,9 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import {
     parseBooleanCell,
     parseListCell,
     parseNumberCell,
     parseStringCell,
-    parseWorksheetRows,
     normalizeLookupKey,
     type ImportResult,
 } from '@devloggers/import-export';
@@ -15,9 +14,13 @@ import {
     type CustomFieldValuesMap,
     type ItemType,
 } from '@devloggers/api-contracts';
-import type { CustomField } from '@devloggers/db-prisma';
+import type { CustomField, Item } from '@devloggers/db-prisma';
 import { PrismaService } from '@devloggers/db-prisma/nest';
 import { CustomFieldsRepository } from '@/modules/custom-fields/repositories/custom-fields.repository';
+import {
+    CrudImportServiceBase,
+    type ParsedImportRow,
+} from '@devloggers/backend-core';
 import { ItemsService } from './items.service';
 import { CreateItemDto as CreateItemApiDto, UpdateItemDto as UpdateItemApiDto } from '../dto';
 
@@ -31,161 +34,46 @@ type LookupMaps = {
     brands: Map<string, LookupEntry>;
 };
 
-type ParsedItemRow = {
-    rowNumber: number;
-    createDto: CreateItemApiDto;
-    updateDto: UpdateItemApiDto;
-    isActive?: boolean;
-    existingId?: string;
+type ItemsImportContext = {
+    lookupMaps: LookupMaps;
+    customFieldDefinitions: CustomField[];
+    existingByCode: Map<string, string>;
 };
 
 @Injectable()
-export class ItemsImportService {
+export class ItemsImportService extends CrudImportServiceBase<
+    Item,
+    unknown,
+    CreateItemApiDto,
+    UpdateItemApiDto
+> {
+    protected readonly resourceKey = 'items';
+
     constructor(
-        private readonly itemsService: ItemsService,
+        itemsService: ItemsService,
         private readonly customFieldsRepository: CustomFieldsRepository,
         private readonly prisma: PrismaService,
-    ) {}
+    ) {
+        super(itemsService);
+    }
 
-    async importFromExcel(
-        tenantId: string,
-        file: Express.Multer.File,
-        dryRun: boolean,
-    ): Promise<ImportResult> {
-        if (!file?.buffer?.length) {
-            throw new BadRequestException('No file uploaded');
-        }
-
-        const allowedMimeTypes = new Set([
-            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-            'application/vnd.ms-excel',
-            'text/csv',
-        ]);
-        if (file.mimetype && !allowedMimeTypes.has(file.mimetype)) {
-            throw new BadRequestException('File must be an Excel (.xlsx) spreadsheet');
-        }
-
-        const { rows } = await parseWorksheetRows(file.buffer, 'Items');
+    override async buildImportContext(tenantId: string): Promise<ItemsImportContext> {
         const [lookupMaps, customFieldDefinitions, existingByCode] = await Promise.all([
             this.buildLookupMaps(tenantId),
             this.customFieldsRepository.findByModule(tenantId, customFieldModules.items),
             this.buildExistingCodeMap(tenantId),
         ]);
-
-        const result: ImportResult = {
-            totalRows: rows.length,
-            created: 0,
-            updated: 0,
-            skipped: 0,
-            errors: [],
-            dryRun,
-        };
-
-        for (let index = 0; index < rows.length; index++) {
-            const rowNumber = index + 2;
-            const rawRow = rows[index]!;
-
-            const parsed = this.parseRow(
-                rowNumber,
-                rawRow,
-                lookupMaps,
-                customFieldDefinitions,
-                existingByCode,
-                result,
-            );
-            if (!parsed) continue;
-
-            if (dryRun) {
-                if (parsed.existingId) {
-                    result.updated += 1;
-                } else {
-                    result.created += 1;
-                }
-                continue;
-            }
-
-            try {
-                if (parsed.existingId) {
-                    await this.itemsService.update(tenantId, parsed.existingId, parsed.updateDto);
-                    result.updated += 1;
-                } else {
-                    await this.itemsService.create(tenantId, parsed.createDto);
-                    result.created += 1;
-                }
-            } catch (error) {
-                result.skipped += 1;
-                result.errors.push({
-                    row: rowNumber,
-                    message: error instanceof Error ? error.message : 'Import failed for this row',
-                });
-            }
-        }
-
-        return result;
+        return { lookupMaps, customFieldDefinitions, existingByCode };
     }
 
-    private async buildLookupMaps(tenantId: string): Promise<LookupMaps> {
-        const [categories, units, brands] = await Promise.all([
-            this.prisma.itemCategory.findMany({
-                where: { tenantId, isActive: true },
-                select: { id: true, name: true },
-                orderBy: { name: 'asc' },
-            }),
-            this.prisma.unit.findMany({
-                where: { tenantId, isActive: true },
-                select: { id: true, name: true, abbreviation: true },
-                orderBy: { name: 'asc' },
-            }),
-            this.prisma.brand.findMany({
-                where: { tenantId, isActive: true },
-                select: { id: true, name: true },
-                orderBy: { name: 'asc' },
-            }),
-        ]);
-
-        const categoryMap = new Map<string, LookupEntry>();
-        for (const row of categories) {
-            categoryMap.set(normalizeLookupKey(row.name), { id: row.id, name: row.name });
-        }
-
-        const unitMap = new Map<string, LookupEntry>();
-        for (const row of units) {
-            const entry = { id: row.id, name: row.name };
-            unitMap.set(normalizeLookupKey(row.name), entry);
-            unitMap.set(normalizeLookupKey(row.abbreviation), entry);
-        }
-
-        const brandMap = new Map<string, LookupEntry>();
-        for (const row of brands) {
-            brandMap.set(normalizeLookupKey(row.name), { id: row.id, name: row.name });
-        }
-
-        return { categories: categoryMap, units: unitMap, brands: brandMap };
-    }
-
-    private formatLookupHint(map: Map<string, LookupEntry>, limit = 5): string {
-        const names = [...new Set([...map.values()].map((entry) => entry.name))].slice(0, limit);
-        if (names.length === 0) return 'none defined yet';
-        const suffix = map.size > limit ? ', …' : '';
-        return `${names.join(', ')}${suffix}`;
-    }
-
-    private async buildExistingCodeMap(tenantId: string): Promise<Map<string, string>> {
-        const items = await this.prisma.item.findMany({
-            where: { tenantId },
-            select: { id: true, code: true },
-        });
-        return new Map(items.map((item) => [item.code.toLowerCase(), item.id]));
-    }
-
-    private parseRow(
-        rowNumber: number,
+    parseRow(
         rawRow: Record<string, unknown>,
-        lookupMaps: LookupMaps,
-        customFieldDefinitions: CustomField[],
-        existingByCode: Map<string, string>,
+        rowNumber: number,
+        context: unknown,
         result: ImportResult,
-    ): ParsedItemRow | null {
+    ): ParsedImportRow<CreateItemApiDto, UpdateItemApiDto> | null {
+        const { lookupMaps, customFieldDefinitions, existingByCode } = context as ItemsImportContext;
+
         const code = parseStringCell(rawRow[ITEMS_IMPORT_COLUMNS.code]);
         const name = parseStringCell(rawRow[ITEMS_IMPORT_COLUMNS.name]);
         const categoryName = parseStringCell(rawRow[ITEMS_IMPORT_COLUMNS.categoryName]);
@@ -294,9 +182,62 @@ export class ItemsImportService {
             rowNumber,
             createDto,
             updateDto,
-            isActive,
             existingId,
         };
+    }
+
+    private async buildLookupMaps(tenantId: string): Promise<LookupMaps> {
+        const [categories, units, brands] = await Promise.all([
+            this.prisma.itemCategory.findMany({
+                where: { tenantId, isActive: true },
+                select: { id: true, name: true },
+                orderBy: { name: 'asc' },
+            }),
+            this.prisma.unit.findMany({
+                where: { tenantId, isActive: true },
+                select: { id: true, name: true, abbreviation: true },
+                orderBy: { name: 'asc' },
+            }),
+            this.prisma.brand.findMany({
+                where: { tenantId, isActive: true },
+                select: { id: true, name: true },
+                orderBy: { name: 'asc' },
+            }),
+        ]);
+
+        const categoryMap = new Map<string, LookupEntry>();
+        for (const row of categories) {
+            categoryMap.set(normalizeLookupKey(row.name), { id: row.id, name: row.name });
+        }
+
+        const unitMap = new Map<string, LookupEntry>();
+        for (const row of units) {
+            const entry = { id: row.id, name: row.name };
+            unitMap.set(normalizeLookupKey(row.name), entry);
+            unitMap.set(normalizeLookupKey(row.abbreviation), entry);
+        }
+
+        const brandMap = new Map<string, LookupEntry>();
+        for (const row of brands) {
+            brandMap.set(normalizeLookupKey(row.name), { id: row.id, name: row.name });
+        }
+
+        return { categories: categoryMap, units: unitMap, brands: brandMap };
+    }
+
+    private formatLookupHint(map: Map<string, LookupEntry>, limit = 5): string {
+        const names = [...new Set([...map.values()].map((entry) => entry.name))].slice(0, limit);
+        if (names.length === 0) return 'none defined yet';
+        const suffix = map.size > limit ? ', …' : '';
+        return `${names.join(', ')}${suffix}`;
+    }
+
+    private async buildExistingCodeMap(tenantId: string): Promise<Map<string, string>> {
+        const items = await this.prisma.item.findMany({
+            where: { tenantId },
+            select: { id: true, code: true },
+        });
+        return new Map(items.map((item) => [item.code.toLowerCase(), item.id]));
     }
 
     private parseCustomFields(
