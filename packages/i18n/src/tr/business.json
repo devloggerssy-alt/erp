@@ -718,5 +718,58 @@
         "columns": { "number": "Fatura #", "date": "Tarih", "amount": "Tutar", "type": "Tür" }
       }
     }
+  },
+  "dashboard": {
+    "title": "Kontrol Paneli",
+    "description": "Seçilen dönem için temel iş metrikleri.",
+    "dateRangePlaceholder": "Dönem seçin",
+    "kpi": {
+      "totalSales": "Toplam Satışlar",
+      "totalPurchases": "Toplam Alımlar",
+      "netProfit": "Net Kâr",
+      "totalExpenses": "Toplam Giderler"
+    },
+    "cashboxes": {
+      "title": "Kasalar",
+      "balance": "Bakiye"
+    },
+    "quickActions": {
+      "title": "Hızlı İşlemler",
+      "salesInvoice": "Satış Faturası",
+      "purchaseInvoice": "Alım Faturası",
+      "receipt": "Tahsilat",
+      "expense": "Gider"
+    },
+    "chart": {
+      "title": "Satışlar ve Alımlar",
+      "description": "Seçilen dönem için günlük karşılaştırma.",
+      "sales": "Satışlar",
+      "purchases": "Alımlar"
+    },
+    "lowStock": {
+      "title": "Düşük Stok Uyarıları",
+      "description": "Minimum miktarda veya altında olan ürünler.",
+      "viewAll": "Tümünü Gör",
+      "quantity": "Miktar"
+    },
+    "recentPayments": {
+      "title": "Son Hareketler",
+      "date": "Tarih",
+      "number": "Numara",
+      "type": "Tür",
+      "party": "Taraf",
+      "cashbox": "Kasa",
+      "amount": "Tutar",
+      "receipt": "Tahsilat",
+      "payment": "Ödeme",
+      "adjustment": "Düzeltme"
+    },
+    "itemsOverview": {
+      "title": "Ürün Genel Bakışı",
+      "total": "Toplam Ürünler",
+      "active": "Aktif",
+      "lowStock": "Düşük Stok",
+      "outOfStock": "Stok Tükendi"
+    }
   }
 }

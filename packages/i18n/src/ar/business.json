@@ -813,5 +813,58 @@
       "body": "انضم إلى التجار السوريين الذين يديرون أعمالهم بذكاء مع سَند.",
       "cta": "سجّل الآن مجاناً"
     }
+  },
+  "dashboard": {
+    "title": "لوحة التحكم",
+    "description": "المؤشرات التجارية الرئيسية للفترة المحددة.",
+    "dateRangePlaceholder": "اختر الفترة",
+    "kpi": {
+      "totalSales": "إجمالي المبيعات",
+      "totalPurchases": "إجمالي المشتريات",
+      "netProfit": "صافي الربح",
+      "totalExpenses": "إجمالي المصروفات"
+    },
+    "cashboxes": {
+      "title": "الخزائن",
+      "balance": "الرصيد"
+    },
+    "quickActions": {
+      "title": "الإجراءات السريعة",
+      "salesInvoice": "فاتورة مبيعات",
+      "purchaseInvoice": "فاتورة مشتريات",
+      "receipt": "سند قبض",
+      "expense": "مصروف"
+    },
+    "chart": {
+      "title": "المبيعات مقابل المشتريات",
+      "description": "مقارنة يومية للفترة المحددة.",
+      "sales": "المبيعات",
+      "purchases": "المشتريات"
+    },
+    "lowStock": {
+      "title": "تنبيهات المخزون",
+      "description": "أصناف وصلت إلى الحد الأدنى أو أقل.",
+      "viewAll": "عرض الكل",
+      "quantity": "الكمية"
+    },
+    "recentPayments": {
+      "title": "آخر الحركات",
+      "date": "التاريخ",
+      "number": "الرقم",
+      "type": "النوع",
+      "party": "الطرف",
+      "cashbox": "الخزينة",
+      "amount": "المبلغ",
+      "receipt": "قبض",
+      "payment": "صرف",
+      "adjustment": "تسوية"
+    },
+    "itemsOverview": {
+      "title": "نظرة عامة على الأصناف",
+      "total": "إجمالي الأصناف",
+      "active": "نشط",
+      "lowStock": "مخزون منخفض",
+      "outOfStock": "نفذ المخزون"
+    }
   }
 }

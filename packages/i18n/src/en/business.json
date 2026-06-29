@@ -776,5 +776,58 @@
         }
       }
     }
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "description": "Key business metrics for the selected period.",
+    "dateRangePlaceholder": "Select period",
+    "kpi": {
+      "totalSales": "Total Sales",
+      "totalPurchases": "Total Purchases",
+      "netProfit": "Net Profit",
+      "totalExpenses": "Total Expenses"
+    },
+    "cashboxes": {
+      "title": "Cashboxes",
+      "balance": "Balance"
+    },
+    "quickActions": {
+      "title": "Quick Actions",
+      "salesInvoice": "Sales Invoice",
+      "purchaseInvoice": "Purchase Invoice",
+      "receipt": "Receipt",
+      "expense": "Expense"
+    },
+    "chart": {
+      "title": "Sales vs Purchases",
+      "description": "Day-by-day comparison for the selected period.",
+      "sales": "Sales",
+      "purchases": "Purchases"
+    },
+    "lowStock": {
+      "title": "Low Stock Alerts",
+      "description": "Items at or below minimum quantity.",
+      "viewAll": "View All",
+      "quantity": "Qty"
+    },
+    "recentPayments": {
+      "title": "Recent Payments",
+      "date": "Date",
+      "number": "Number",
+      "type": "Type",
+      "party": "Party",
+      "cashbox": "Cashbox",
+      "amount": "Amount",
+      "receipt": "Receipt",
+      "payment": "Payment",
+      "adjustment": "Adjustment"
+    },
+    "itemsOverview": {
+      "title": "Items Overview",
+      "total": "Total Items",
+      "active": "Active",
+      "lowStock": "Low Stock",
+      "outOfStock": "Out of Stock"
+    }
   }
 }
