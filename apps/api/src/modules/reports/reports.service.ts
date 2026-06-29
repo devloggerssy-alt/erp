@@ -108,31 +108,99 @@ export class ReportsService {
         return { totalSales, totalPurchases, totalExpenses, grossProfit, netProfit };
     }
 
-    async getDashboardSummary(tenantId: string) {
+    async getDashboardSummary(tenantId: string, filters?: { from?: string; to?: string }) {
         const today = new Date();
-        const startOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate());
         const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
 
+        const from = filters?.from ? new Date(filters.from) : startOfMonth;
+        const to = filters?.to ? new Date(filters.to) : today;
+        const dateFilter = { gte: from, lte: to };
+
         const [
-            salesToday, salesMonth,
+            salesAgg, purchasesAgg, expensesAgg,
             cashboxes, lowStockCount,
             partiesCount, itemsCount,
         ] = await Promise.all([
-            this.prisma.invoice.aggregate({ where: { tenantId, status: 'POSTED', invoiceType: { direction: 'SALE' }, date: { gte: startOfDay } }, _sum: { total: true } }),
-            this.prisma.invoice.aggregate({ where: { tenantId, status: 'POSTED', invoiceType: { direction: 'SALE' }, date: { gte: startOfMonth } }, _sum: { total: true } }),
-            this.prisma.cashbox.findMany({ where: { tenantId, isActive: true }, include: { currency: { select: { code: true, symbol: true } } } }),
+            this.prisma.invoice.aggregate({
+                where: { tenantId, status: 'POSTED', invoiceType: { direction: 'SALE' }, date: dateFilter },
+                _sum: { total: true },
+            }),
+            this.prisma.invoice.aggregate({
+                where: { tenantId, status: 'POSTED', invoiceType: { direction: 'PURCHASE' }, date: dateFilter },
+                _sum: { total: true },
+            }),
+            this.prisma.expense.aggregate({
+                where: { tenantId, status: 'POSTED', date: dateFilter },
+                _sum: { totalAmount: true },
+            }),
+            this.prisma.cashbox.findMany({
+                where: { tenantId, isActive: true },
+                include: { currency: { select: { code: true, symbol: true } } },
+            }),
             this.prisma.stockBalance.count({ where: { tenantId, quantity: { lte: 0 } } }),
             this.prisma.party.count({ where: { tenantId, isActive: true } }),
             this.prisma.item.count({ where: { tenantId, isActive: true } }),
         ]);
 
+        const totalSales = Number(salesAgg._sum.total || 0);
+        const totalPurchases = Number(purchasesAgg._sum.total || 0);
+        const totalExpenses = Number(expensesAgg._sum.totalAmount || 0);
+
         return {
-            salesToday: Number(salesToday._sum.total || 0),
-            salesThisMonth: Number(salesMonth._sum.total || 0),
+            totalSales,
+            totalPurchases,
+            totalExpenses,
+            netProfit: totalSales - totalPurchases - totalExpenses,
             cashboxes,
             lowStockItemsCount: lowStockCount,
             totalActiveParties: partiesCount,
             totalActiveItems: itemsCount,
         };
+    }
+
+    async getDashboardChartData(tenantId: string, filters?: { from?: string; to?: string }) {
+        const today = new Date();
+        const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+
+        const from = filters?.from ? new Date(filters.from) : startOfMonth;
+        const to = filters?.to ? new Date(filters.to) : today;
+
+        // Cap at 90 days
+        const cap = new Date(from);
+        cap.setDate(cap.getDate() + 90);
+        const cappedTo = to > cap ? cap : to;
+
+        const [salesInvoices, purchaseInvoices] = await Promise.all([
+            this.prisma.invoice.findMany({
+                where: { tenantId, status: 'POSTED', invoiceType: { direction: 'SALE' }, date: { gte: from, lte: cappedTo } },
+                select: { date: true, total: true },
+                orderBy: { date: 'asc' },
+            }),
+            this.prisma.invoice.findMany({
+                where: { tenantId, status: 'POSTED', invoiceType: { direction: 'PURCHASE' }, date: { gte: from, lte: cappedTo } },
+                select: { date: true, total: true },
+                orderBy: { date: 'asc' },
+            }),
+        ]);
+
+        const map = new Map<string, { sales: number; purchases: number }>();
+
+        for (const inv of salesInvoices) {
+            const key = inv.date.toISOString().split('T')[0];
+            const entry = map.get(key) ?? { sales: 0, purchases: 0 };
+            entry.sales += Number(inv.total);
+            map.set(key, entry);
+        }
+
+        for (const inv of purchaseInvoices) {
+            const key = inv.date.toISOString().split('T')[0];
+            const entry = map.get(key) ?? { sales: 0, purchases: 0 };
+            entry.purchases += Number(inv.total);
+            map.set(key, entry);
+        }
+
+        return Array.from(map.entries())
+            .map(([date, values]) => ({ date, ...values }))
+            .sort((a, b) => a.date.localeCompare(b.date));
     }
 }
