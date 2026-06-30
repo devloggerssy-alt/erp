@@ -601,6 +601,8 @@ exports.Prisma.TenantScalarFieldEnum = {
   baseCurrencyId: 'baseCurrencyId',
   defaultSalesSequenceId: 'defaultSalesSequenceId',
   isActive: 'isActive',
+  onboardingStep: 'onboardingStep',
+  onboardingCompletedAt: 'onboardingCompletedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };

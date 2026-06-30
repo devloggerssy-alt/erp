@@ -48415,8 +48415,18 @@ export namespace Prisma {
 
   export type AggregateTenant = {
     _count: TenantCountAggregateOutputType | null
+    _avg: TenantAvgAggregateOutputType | null
+    _sum: TenantSumAggregateOutputType | null
     _min: TenantMinAggregateOutputType | null
     _max: TenantMaxAggregateOutputType | null
+  }
+
+  export type TenantAvgAggregateOutputType = {
+    onboardingStep: number | null
+  }
+
+  export type TenantSumAggregateOutputType = {
+    onboardingStep: number | null
   }
 
   export type TenantMinAggregateOutputType = {
@@ -48433,6 +48443,8 @@ export namespace Prisma {
     baseCurrencyId: string | null
     defaultSalesSequenceId: string | null
     isActive: boolean | null
+    onboardingStep: number | null
+    onboardingCompletedAt: Date | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -48451,6 +48463,8 @@ export namespace Prisma {
     baseCurrencyId: string | null
     defaultSalesSequenceId: string | null
     isActive: boolean | null
+    onboardingStep: number | null
+    onboardingCompletedAt: Date | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -48469,11 +48483,21 @@ export namespace Prisma {
     baseCurrencyId: number
     defaultSalesSequenceId: number
     isActive: number
+    onboardingStep: number
+    onboardingCompletedAt: number
     createdAt: number
     updatedAt: number
     _all: number
   }
 
+
+  export type TenantAvgAggregateInputType = {
+    onboardingStep?: true
+  }
+
+  export type TenantSumAggregateInputType = {
+    onboardingStep?: true
+  }
 
   export type TenantMinAggregateInputType = {
     id?: true
@@ -48489,6 +48513,8 @@ export namespace Prisma {
     baseCurrencyId?: true
     defaultSalesSequenceId?: true
     isActive?: true
+    onboardingStep?: true
+    onboardingCompletedAt?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -48507,6 +48533,8 @@ export namespace Prisma {
     baseCurrencyId?: true
     defaultSalesSequenceId?: true
     isActive?: true
+    onboardingStep?: true
+    onboardingCompletedAt?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -48525,6 +48553,8 @@ export namespace Prisma {
     baseCurrencyId?: true
     defaultSalesSequenceId?: true
     isActive?: true
+    onboardingStep?: true
+    onboardingCompletedAt?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -48568,6 +48598,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: TenantAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: TenantSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: TenantMinAggregateInputType
@@ -48598,6 +48640,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: TenantCountAggregateInputType | true
+    _avg?: TenantAvgAggregateInputType
+    _sum?: TenantSumAggregateInputType
     _min?: TenantMinAggregateInputType
     _max?: TenantMaxAggregateInputType
   }
@@ -48616,9 +48660,13 @@ export namespace Prisma {
     baseCurrencyId: string | null
     defaultSalesSequenceId: string | null
     isActive: boolean
+    onboardingStep: number
+    onboardingCompletedAt: Date | null
     createdAt: Date
     updatedAt: Date
     _count: TenantCountAggregateOutputType | null
+    _avg: TenantAvgAggregateOutputType | null
+    _sum: TenantSumAggregateOutputType | null
     _min: TenantMinAggregateOutputType | null
     _max: TenantMaxAggregateOutputType | null
   }
@@ -48651,6 +48699,8 @@ export namespace Prisma {
     baseCurrencyId?: boolean
     defaultSalesSequenceId?: boolean
     isActive?: boolean
+    onboardingStep?: boolean
+    onboardingCompletedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     users?: boolean | Tenant$usersArgs<ExtArgs>
@@ -48699,6 +48749,8 @@ export namespace Prisma {
     baseCurrencyId?: boolean
     defaultSalesSequenceId?: boolean
     isActive?: boolean
+    onboardingStep?: boolean
+    onboardingCompletedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     baseCurrency?: boolean | Tenant$baseCurrencyArgs<ExtArgs>
@@ -48719,6 +48771,8 @@ export namespace Prisma {
     baseCurrencyId?: boolean
     defaultSalesSequenceId?: boolean
     isActive?: boolean
+    onboardingStep?: boolean
+    onboardingCompletedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     baseCurrency?: boolean | Tenant$baseCurrencyArgs<ExtArgs>
@@ -48739,11 +48793,13 @@ export namespace Prisma {
     baseCurrencyId?: boolean
     defaultSalesSequenceId?: boolean
     isActive?: boolean
+    onboardingStep?: boolean
+    onboardingCompletedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type TenantOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "slug" | "address" | "phone" | "email" | "logo" | "legalName" | "taxNumber" | "website" | "baseCurrencyId" | "defaultSalesSequenceId" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["tenant"]>
+  export type TenantOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "slug" | "address" | "phone" | "email" | "logo" | "legalName" | "taxNumber" | "website" | "baseCurrencyId" | "defaultSalesSequenceId" | "isActive" | "onboardingStep" | "onboardingCompletedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["tenant"]>
   export type TenantInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     users?: boolean | Tenant$usersArgs<ExtArgs>
     roles?: boolean | Tenant$rolesArgs<ExtArgs>
@@ -48832,6 +48888,8 @@ export namespace Prisma {
       baseCurrencyId: string | null
       defaultSalesSequenceId: string | null
       isActive: boolean
+      onboardingStep: number
+      onboardingCompletedAt: Date | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["tenant"]>
@@ -49299,6 +49357,8 @@ export namespace Prisma {
     readonly baseCurrencyId: FieldRef<"Tenant", 'String'>
     readonly defaultSalesSequenceId: FieldRef<"Tenant", 'String'>
     readonly isActive: FieldRef<"Tenant", 'Boolean'>
+    readonly onboardingStep: FieldRef<"Tenant", 'Int'>
+    readonly onboardingCompletedAt: FieldRef<"Tenant", 'DateTime'>
     readonly createdAt: FieldRef<"Tenant", 'DateTime'>
     readonly updatedAt: FieldRef<"Tenant", 'DateTime'>
   }
@@ -57867,6 +57927,8 @@ export namespace Prisma {
     baseCurrencyId: 'baseCurrencyId',
     defaultSalesSequenceId: 'defaultSalesSequenceId',
     isActive: 'isActive',
+    onboardingStep: 'onboardingStep',
+    onboardingCompletedAt: 'onboardingCompletedAt',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -61522,6 +61584,8 @@ export namespace Prisma {
     baseCurrencyId?: StringNullableFilter<"Tenant"> | string | null
     defaultSalesSequenceId?: StringNullableFilter<"Tenant"> | string | null
     isActive?: BoolFilter<"Tenant"> | boolean
+    onboardingStep?: IntFilter<"Tenant"> | number
+    onboardingCompletedAt?: DateTimeNullableFilter<"Tenant"> | Date | string | null
     createdAt?: DateTimeFilter<"Tenant"> | Date | string
     updatedAt?: DateTimeFilter<"Tenant"> | Date | string
     users?: AppUserListRelationFilter
@@ -61569,6 +61633,8 @@ export namespace Prisma {
     baseCurrencyId?: SortOrderInput | SortOrder
     defaultSalesSequenceId?: SortOrderInput | SortOrder
     isActive?: SortOrder
+    onboardingStep?: SortOrder
+    onboardingCompletedAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     users?: AppUserOrderByRelationAggregateInput
@@ -61619,6 +61685,8 @@ export namespace Prisma {
     baseCurrencyId?: StringNullableFilter<"Tenant"> | string | null
     defaultSalesSequenceId?: StringNullableFilter<"Tenant"> | string | null
     isActive?: BoolFilter<"Tenant"> | boolean
+    onboardingStep?: IntFilter<"Tenant"> | number
+    onboardingCompletedAt?: DateTimeNullableFilter<"Tenant"> | Date | string | null
     createdAt?: DateTimeFilter<"Tenant"> | Date | string
     updatedAt?: DateTimeFilter<"Tenant"> | Date | string
     users?: AppUserListRelationFilter
@@ -61666,11 +61734,15 @@ export namespace Prisma {
     baseCurrencyId?: SortOrderInput | SortOrder
     defaultSalesSequenceId?: SortOrderInput | SortOrder
     isActive?: SortOrder
+    onboardingStep?: SortOrder
+    onboardingCompletedAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: TenantCountOrderByAggregateInput
+    _avg?: TenantAvgOrderByAggregateInput
     _max?: TenantMaxOrderByAggregateInput
     _min?: TenantMinOrderByAggregateInput
+    _sum?: TenantSumOrderByAggregateInput
   }
 
   export type TenantScalarWhereWithAggregatesInput = {
@@ -61690,6 +61762,8 @@ export namespace Prisma {
     baseCurrencyId?: StringNullableWithAggregatesFilter<"Tenant"> | string | null
     defaultSalesSequenceId?: StringNullableWithAggregatesFilter<"Tenant"> | string | null
     isActive?: BoolWithAggregatesFilter<"Tenant"> | boolean
+    onboardingStep?: IntWithAggregatesFilter<"Tenant"> | number
+    onboardingCompletedAt?: DateTimeNullableWithAggregatesFilter<"Tenant"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Tenant"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Tenant"> | Date | string
   }
@@ -65542,6 +65616,8 @@ export namespace Prisma {
     taxNumber?: string | null
     website?: string | null
     isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserCreateNestedManyWithoutTenantInput
@@ -65589,6 +65665,8 @@ export namespace Prisma {
     baseCurrencyId?: string | null
     defaultSalesSequenceId?: string | null
     isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
@@ -65632,6 +65710,8 @@ export namespace Prisma {
     taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUpdateManyWithoutTenantNestedInput
@@ -65679,6 +65759,8 @@ export namespace Prisma {
     baseCurrencyId?: NullableStringFieldUpdateOperationsInput | string | null
     defaultSalesSequenceId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
@@ -65724,6 +65806,8 @@ export namespace Prisma {
     baseCurrencyId?: string | null
     defaultSalesSequenceId?: string | null
     isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -65740,6 +65824,8 @@ export namespace Prisma {
     taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -65758,6 +65844,8 @@ export namespace Prisma {
     baseCurrencyId?: NullableStringFieldUpdateOperationsInput | string | null
     defaultSalesSequenceId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -69018,8 +69106,14 @@ export namespace Prisma {
     baseCurrencyId?: SortOrder
     defaultSalesSequenceId?: SortOrder
     isActive?: SortOrder
+    onboardingStep?: SortOrder
+    onboardingCompletedAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type TenantAvgOrderByAggregateInput = {
+    onboardingStep?: SortOrder
   }
 
   export type TenantMaxOrderByAggregateInput = {
@@ -69036,6 +69130,8 @@ export namespace Prisma {
     baseCurrencyId?: SortOrder
     defaultSalesSequenceId?: SortOrder
     isActive?: SortOrder
+    onboardingStep?: SortOrder
+    onboardingCompletedAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -69054,8 +69150,14 @@ export namespace Prisma {
     baseCurrencyId?: SortOrder
     defaultSalesSequenceId?: SortOrder
     isActive?: SortOrder
+    onboardingStep?: SortOrder
+    onboardingCompletedAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type TenantSumOrderByAggregateInput = {
+    onboardingStep?: SortOrder
   }
 
   export type UnitTenantIdNameCompoundUniqueInput = {
@@ -74854,6 +74956,8 @@ export namespace Prisma {
     taxNumber?: string | null
     website?: string | null
     isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserCreateNestedManyWithoutTenantInput
@@ -74900,6 +75004,8 @@ export namespace Prisma {
     baseCurrencyId?: string | null
     defaultSalesSequenceId?: string | null
     isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
@@ -75421,6 +75527,8 @@ export namespace Prisma {
     taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUpdateManyWithoutTenantNestedInput
@@ -75467,6 +75575,8 @@ export namespace Prisma {
     baseCurrencyId?: NullableStringFieldUpdateOperationsInput | string | null
     defaultSalesSequenceId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
@@ -75838,6 +75948,8 @@ export namespace Prisma {
     taxNumber?: string | null
     website?: string | null
     isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserCreateNestedManyWithoutTenantInput
@@ -75884,6 +75996,8 @@ export namespace Prisma {
     baseCurrencyId?: string | null
     defaultSalesSequenceId?: string | null
     isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
@@ -76011,6 +76125,8 @@ export namespace Prisma {
     taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUpdateManyWithoutTenantNestedInput
@@ -76057,6 +76173,8 @@ export namespace Prisma {
     baseCurrencyId?: NullableStringFieldUpdateOperationsInput | string | null
     defaultSalesSequenceId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
@@ -76442,6 +76560,8 @@ export namespace Prisma {
     taxNumber?: string | null
     website?: string | null
     isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserCreateNestedManyWithoutTenantInput
@@ -76488,6 +76608,8 @@ export namespace Prisma {
     baseCurrencyId?: string | null
     defaultSalesSequenceId?: string | null
     isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
@@ -76572,6 +76694,8 @@ export namespace Prisma {
     taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUpdateManyWithoutTenantNestedInput
@@ -76618,6 +76742,8 @@ export namespace Prisma {
     baseCurrencyId?: NullableStringFieldUpdateOperationsInput | string | null
     defaultSalesSequenceId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
@@ -76740,6 +76866,8 @@ export namespace Prisma {
     taxNumber?: string | null
     website?: string | null
     isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserCreateNestedManyWithoutTenantInput
@@ -76786,6 +76914,8 @@ export namespace Prisma {
     baseCurrencyId?: string | null
     defaultSalesSequenceId?: string | null
     isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
@@ -76844,6 +76974,8 @@ export namespace Prisma {
     taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUpdateManyWithoutTenantNestedInput
@@ -76890,6 +77022,8 @@ export namespace Prisma {
     baseCurrencyId?: NullableStringFieldUpdateOperationsInput | string | null
     defaultSalesSequenceId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
@@ -76932,6 +77066,8 @@ export namespace Prisma {
     taxNumber?: string | null
     website?: string | null
     isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserCreateNestedManyWithoutTenantInput
@@ -76978,6 +77114,8 @@ export namespace Prisma {
     baseCurrencyId?: string | null
     defaultSalesSequenceId?: string | null
     isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
@@ -77102,6 +77240,8 @@ export namespace Prisma {
     taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUpdateManyWithoutTenantNestedInput
@@ -77148,6 +77288,8 @@ export namespace Prisma {
     baseCurrencyId?: NullableStringFieldUpdateOperationsInput | string | null
     defaultSalesSequenceId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
@@ -77230,6 +77372,8 @@ export namespace Prisma {
     taxNumber?: string | null
     website?: string | null
     isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserCreateNestedManyWithoutTenantInput
@@ -77276,6 +77420,8 @@ export namespace Prisma {
     baseCurrencyId?: string | null
     defaultSalesSequenceId?: string | null
     isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
@@ -77536,6 +77682,8 @@ export namespace Prisma {
     taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUpdateManyWithoutTenantNestedInput
@@ -77582,6 +77730,8 @@ export namespace Prisma {
     baseCurrencyId?: NullableStringFieldUpdateOperationsInput | string | null
     defaultSalesSequenceId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
@@ -77809,6 +77959,8 @@ export namespace Prisma {
     taxNumber?: string | null
     website?: string | null
     isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserCreateNestedManyWithoutTenantInput
@@ -77855,6 +78007,8 @@ export namespace Prisma {
     baseCurrencyId?: string | null
     defaultSalesSequenceId?: string | null
     isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
@@ -78089,6 +78243,8 @@ export namespace Prisma {
     taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUpdateManyWithoutTenantNestedInput
@@ -78135,6 +78291,8 @@ export namespace Prisma {
     baseCurrencyId?: NullableStringFieldUpdateOperationsInput | string | null
     defaultSalesSequenceId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
@@ -78623,6 +78781,8 @@ export namespace Prisma {
     taxNumber?: string | null
     website?: string | null
     isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserCreateNestedManyWithoutTenantInput
@@ -78669,6 +78829,8 @@ export namespace Prisma {
     baseCurrencyId?: string | null
     defaultSalesSequenceId?: string | null
     isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
@@ -78818,6 +78980,8 @@ export namespace Prisma {
     taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUpdateManyWithoutTenantNestedInput
@@ -78864,6 +79028,8 @@ export namespace Prisma {
     baseCurrencyId?: NullableStringFieldUpdateOperationsInput | string | null
     defaultSalesSequenceId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
@@ -79001,6 +79167,8 @@ export namespace Prisma {
     taxNumber?: string | null
     website?: string | null
     isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserCreateNestedManyWithoutTenantInput
@@ -79047,6 +79215,8 @@ export namespace Prisma {
     baseCurrencyId?: string | null
     defaultSalesSequenceId?: string | null
     isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
@@ -79258,6 +79428,8 @@ export namespace Prisma {
     taxNumber?: string | null
     website?: string | null
     isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserCreateNestedManyWithoutTenantInput
@@ -79303,6 +79475,8 @@ export namespace Prisma {
     website?: string | null
     defaultSalesSequenceId?: string | null
     isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
@@ -79421,6 +79595,8 @@ export namespace Prisma {
     taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUpdateManyWithoutTenantNestedInput
@@ -79467,6 +79643,8 @@ export namespace Prisma {
     baseCurrencyId?: NullableStringFieldUpdateOperationsInput | string | null
     defaultSalesSequenceId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
@@ -79608,6 +79786,8 @@ export namespace Prisma {
     baseCurrencyId?: StringNullableFilter<"Tenant"> | string | null
     defaultSalesSequenceId?: StringNullableFilter<"Tenant"> | string | null
     isActive?: BoolFilter<"Tenant"> | boolean
+    onboardingStep?: IntFilter<"Tenant"> | number
+    onboardingCompletedAt?: DateTimeNullableFilter<"Tenant"> | Date | string | null
     createdAt?: DateTimeFilter<"Tenant"> | Date | string
     updatedAt?: DateTimeFilter<"Tenant"> | Date | string
   }
@@ -79770,6 +79950,8 @@ export namespace Prisma {
     taxNumber?: string | null
     website?: string | null
     isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserCreateNestedManyWithoutTenantInput
@@ -79816,6 +79998,8 @@ export namespace Prisma {
     baseCurrencyId?: string | null
     defaultSalesSequenceId?: string | null
     isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
@@ -79863,6 +80047,8 @@ export namespace Prisma {
     taxNumber?: string | null
     website?: string | null
     isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserCreateNestedManyWithoutTenantInput
@@ -79908,6 +80094,8 @@ export namespace Prisma {
     website?: string | null
     baseCurrencyId?: string | null
     isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
@@ -79972,6 +80160,8 @@ export namespace Prisma {
     taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUpdateManyWithoutTenantNestedInput
@@ -80018,6 +80208,8 @@ export namespace Prisma {
     baseCurrencyId?: NullableStringFieldUpdateOperationsInput | string | null
     defaultSalesSequenceId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
@@ -80076,6 +80268,8 @@ export namespace Prisma {
     taxNumber?: string | null
     website?: string | null
     isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserCreateNestedManyWithoutTenantInput
@@ -80122,6 +80316,8 @@ export namespace Prisma {
     baseCurrencyId?: string | null
     defaultSalesSequenceId?: string | null
     isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
@@ -80317,6 +80513,8 @@ export namespace Prisma {
     taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUpdateManyWithoutTenantNestedInput
@@ -80363,6 +80561,8 @@ export namespace Prisma {
     baseCurrencyId?: NullableStringFieldUpdateOperationsInput | string | null
     defaultSalesSequenceId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
@@ -80758,6 +80958,8 @@ export namespace Prisma {
     taxNumber?: string | null
     website?: string | null
     isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserCreateNestedManyWithoutTenantInput
@@ -80804,6 +81006,8 @@ export namespace Prisma {
     baseCurrencyId?: string | null
     defaultSalesSequenceId?: string | null
     isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
@@ -81117,6 +81321,8 @@ export namespace Prisma {
     taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUpdateManyWithoutTenantNestedInput
@@ -81163,6 +81369,8 @@ export namespace Prisma {
     baseCurrencyId?: NullableStringFieldUpdateOperationsInput | string | null
     defaultSalesSequenceId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
@@ -81490,6 +81698,8 @@ export namespace Prisma {
     taxNumber?: string | null
     website?: string | null
     isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserCreateNestedManyWithoutTenantInput
@@ -81536,6 +81746,8 @@ export namespace Prisma {
     baseCurrencyId?: string | null
     defaultSalesSequenceId?: string | null
     isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
@@ -81900,6 +82112,8 @@ export namespace Prisma {
     taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUpdateManyWithoutTenantNestedInput
@@ -81946,6 +82160,8 @@ export namespace Prisma {
     baseCurrencyId?: NullableStringFieldUpdateOperationsInput | string | null
     defaultSalesSequenceId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
@@ -82142,6 +82358,8 @@ export namespace Prisma {
     taxNumber?: string | null
     website?: string | null
     isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserCreateNestedManyWithoutTenantInput
@@ -82188,6 +82406,8 @@ export namespace Prisma {
     baseCurrencyId?: string | null
     defaultSalesSequenceId?: string | null
     isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
@@ -82312,6 +82532,8 @@ export namespace Prisma {
     taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUpdateManyWithoutTenantNestedInput
@@ -82358,6 +82580,8 @@ export namespace Prisma {
     baseCurrencyId?: NullableStringFieldUpdateOperationsInput | string | null
     defaultSalesSequenceId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
@@ -82416,6 +82640,8 @@ export namespace Prisma {
     taxNumber?: string | null
     website?: string | null
     isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserCreateNestedManyWithoutTenantInput
@@ -82462,6 +82688,8 @@ export namespace Prisma {
     baseCurrencyId?: string | null
     defaultSalesSequenceId?: string | null
     isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
@@ -82769,6 +82997,8 @@ export namespace Prisma {
     taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUpdateManyWithoutTenantNestedInput
@@ -82815,6 +83045,8 @@ export namespace Prisma {
     baseCurrencyId?: NullableStringFieldUpdateOperationsInput | string | null
     defaultSalesSequenceId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
@@ -83436,6 +83668,8 @@ export namespace Prisma {
     taxNumber?: string | null
     website?: string | null
     isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserCreateNestedManyWithoutTenantInput
@@ -83482,6 +83716,8 @@ export namespace Prisma {
     baseCurrencyId?: string | null
     defaultSalesSequenceId?: string | null
     isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
@@ -83632,6 +83868,8 @@ export namespace Prisma {
     taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUpdateManyWithoutTenantNestedInput
@@ -83678,6 +83916,8 @@ export namespace Prisma {
     baseCurrencyId?: NullableStringFieldUpdateOperationsInput | string | null
     defaultSalesSequenceId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
@@ -83824,6 +84064,8 @@ export namespace Prisma {
     taxNumber?: string | null
     website?: string | null
     isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserCreateNestedManyWithoutTenantInput
@@ -83870,6 +84112,8 @@ export namespace Prisma {
     baseCurrencyId?: string | null
     defaultSalesSequenceId?: string | null
     isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
@@ -84061,6 +84305,8 @@ export namespace Prisma {
     taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUpdateManyWithoutTenantNestedInput
@@ -84107,6 +84353,8 @@ export namespace Prisma {
     baseCurrencyId?: NullableStringFieldUpdateOperationsInput | string | null
     defaultSalesSequenceId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
@@ -84233,6 +84481,8 @@ export namespace Prisma {
     taxNumber?: string | null
     website?: string | null
     isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserCreateNestedManyWithoutTenantInput
@@ -84279,6 +84529,8 @@ export namespace Prisma {
     baseCurrencyId?: string | null
     defaultSalesSequenceId?: string | null
     isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
@@ -84459,6 +84711,8 @@ export namespace Prisma {
     taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUpdateManyWithoutTenantNestedInput
@@ -84505,6 +84759,8 @@ export namespace Prisma {
     baseCurrencyId?: NullableStringFieldUpdateOperationsInput | string | null
     defaultSalesSequenceId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
@@ -84681,6 +84937,8 @@ export namespace Prisma {
     taxNumber?: string | null
     website?: string | null
     isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserCreateNestedManyWithoutTenantInput
@@ -84727,6 +84985,8 @@ export namespace Prisma {
     baseCurrencyId?: string | null
     defaultSalesSequenceId?: string | null
     isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
@@ -85122,6 +85382,8 @@ export namespace Prisma {
     taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUpdateManyWithoutTenantNestedInput
@@ -85168,6 +85430,8 @@ export namespace Prisma {
     baseCurrencyId?: NullableStringFieldUpdateOperationsInput | string | null
     defaultSalesSequenceId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
@@ -85494,6 +85758,8 @@ export namespace Prisma {
     taxNumber?: string | null
     website?: string | null
     isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserCreateNestedManyWithoutTenantInput
@@ -85540,6 +85806,8 @@ export namespace Prisma {
     baseCurrencyId?: string | null
     defaultSalesSequenceId?: string | null
     isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
@@ -85858,6 +86126,8 @@ export namespace Prisma {
     taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUpdateManyWithoutTenantNestedInput
@@ -85904,6 +86174,8 @@ export namespace Prisma {
     baseCurrencyId?: NullableStringFieldUpdateOperationsInput | string | null
     defaultSalesSequenceId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
@@ -86108,6 +86380,8 @@ export namespace Prisma {
     taxNumber?: string | null
     website?: string | null
     isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserCreateNestedManyWithoutTenantInput
@@ -86154,6 +86428,8 @@ export namespace Prisma {
     baseCurrencyId?: string | null
     defaultSalesSequenceId?: string | null
     isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
@@ -86314,6 +86590,8 @@ export namespace Prisma {
     taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUpdateManyWithoutTenantNestedInput
@@ -86360,6 +86638,8 @@ export namespace Prisma {
     baseCurrencyId?: NullableStringFieldUpdateOperationsInput | string | null
     defaultSalesSequenceId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
@@ -87254,6 +87534,8 @@ export namespace Prisma {
     taxNumber?: string | null
     website?: string | null
     isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserCreateNestedManyWithoutTenantInput
@@ -87300,6 +87582,8 @@ export namespace Prisma {
     baseCurrencyId?: string | null
     defaultSalesSequenceId?: string | null
     isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
@@ -87384,6 +87668,8 @@ export namespace Prisma {
     taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUpdateManyWithoutTenantNestedInput
@@ -87430,6 +87716,8 @@ export namespace Prisma {
     baseCurrencyId?: NullableStringFieldUpdateOperationsInput | string | null
     defaultSalesSequenceId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
@@ -87500,6 +87788,8 @@ export namespace Prisma {
     taxNumber?: string | null
     website?: string | null
     isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserCreateNestedManyWithoutTenantInput
@@ -87546,6 +87836,8 @@ export namespace Prisma {
     baseCurrencyId?: string | null
     defaultSalesSequenceId?: string | null
     isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
@@ -87604,6 +87896,8 @@ export namespace Prisma {
     taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUpdateManyWithoutTenantNestedInput
@@ -87650,6 +87944,8 @@ export namespace Prisma {
     baseCurrencyId?: NullableStringFieldUpdateOperationsInput | string | null
     defaultSalesSequenceId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
@@ -89527,6 +89823,8 @@ export namespace Prisma {
     taxNumber?: string | null
     website?: string | null
     isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserCreateNestedManyWithoutTenantInput
@@ -89573,6 +89871,8 @@ export namespace Prisma {
     baseCurrencyId?: string | null
     defaultSalesSequenceId?: string | null
     isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
@@ -89739,6 +90039,8 @@ export namespace Prisma {
     taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUpdateManyWithoutTenantNestedInput
@@ -89785,6 +90087,8 @@ export namespace Prisma {
     baseCurrencyId?: NullableStringFieldUpdateOperationsInput | string | null
     defaultSalesSequenceId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
@@ -89859,6 +90163,8 @@ export namespace Prisma {
     taxNumber?: string | null
     website?: string | null
     isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     roles?: RoleCreateNestedManyWithoutTenantInput
@@ -89905,6 +90211,8 @@ export namespace Prisma {
     baseCurrencyId?: string | null
     defaultSalesSequenceId?: string | null
     isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
@@ -89985,6 +90293,8 @@ export namespace Prisma {
     taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     roles?: RoleUpdateManyWithoutTenantNestedInput
@@ -90031,6 +90341,8 @@ export namespace Prisma {
     baseCurrencyId?: NullableStringFieldUpdateOperationsInput | string | null
     defaultSalesSequenceId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
@@ -90099,6 +90411,8 @@ export namespace Prisma {
     taxNumber?: string | null
     website?: string | null
     isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserCreateNestedManyWithoutTenantInput
@@ -90145,6 +90459,8 @@ export namespace Prisma {
     baseCurrencyId?: string | null
     defaultSalesSequenceId?: string | null
     isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
@@ -90225,6 +90541,8 @@ export namespace Prisma {
     taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUpdateManyWithoutTenantNestedInput
@@ -90271,6 +90589,8 @@ export namespace Prisma {
     baseCurrencyId?: NullableStringFieldUpdateOperationsInput | string | null
     defaultSalesSequenceId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
@@ -90453,6 +90773,8 @@ export namespace Prisma {
     taxNumber?: string | null
     website?: string | null
     isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserCreateNestedManyWithoutTenantInput
@@ -90499,6 +90821,8 @@ export namespace Prisma {
     baseCurrencyId?: string | null
     defaultSalesSequenceId?: string | null
     isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
@@ -90763,6 +91087,8 @@ export namespace Prisma {
     taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUpdateManyWithoutTenantNestedInput
@@ -90809,6 +91135,8 @@ export namespace Prisma {
     baseCurrencyId?: NullableStringFieldUpdateOperationsInput | string | null
     defaultSalesSequenceId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
@@ -92228,6 +92556,8 @@ export namespace Prisma {
     website?: string | null
     defaultSalesSequenceId?: string | null
     isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -92461,6 +92791,8 @@ export namespace Prisma {
     taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUpdateManyWithoutTenantNestedInput
@@ -92506,6 +92838,8 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     defaultSalesSequenceId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
@@ -92550,6 +92884,8 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     defaultSalesSequenceId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -92664,6 +93000,8 @@ export namespace Prisma {
     website?: string | null
     baseCurrencyId?: string | null
     isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -92680,6 +93018,8 @@ export namespace Prisma {
     taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUpdateManyWithoutTenantNestedInput
@@ -92725,6 +93065,8 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     baseCurrencyId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
@@ -92769,6 +93111,8 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     baseCurrencyId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
