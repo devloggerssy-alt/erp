@@ -22,6 +22,15 @@ export class AuthService {
                 userRoles: {
                     include: { role: true },
                 },
+                tenant: {
+                    select: {
+                        id: true,
+                        name: true,
+                        slug: true,
+                        onboardingStep: true,
+                        onboardingCompletedAt: true,
+                    },
+                },
             },
         });
 
@@ -52,6 +61,13 @@ export class AuthService {
         email: string;
         fullName: string;
         userRoles: Array<{ role: { name: unknown } }>;
+        tenant: {
+            id: string;
+            name: string;
+            slug: string;
+            onboardingStep: number;
+            onboardingCompletedAt: Date | null;
+        };
     }) {
         return {
             id: user.id,
@@ -59,6 +75,13 @@ export class AuthService {
             email: user.email,
             fullName: user.fullName,
             roles: user.userRoles.map((ur) => this.resolveRoleName(ur.role.name)),
+            tenant: {
+                id: user.tenant.id,
+                name: user.tenant.name,
+                slug: user.tenant.slug,
+                onboardingStep: user.tenant.onboardingStep,
+                onboardingCompletedAt: user.tenant.onboardingCompletedAt?.toISOString() ?? null,
+            },
         };
     }
 
@@ -117,7 +140,13 @@ export class AuthService {
                     include: { role: true },
                 },
                 tenant: {
-                    select: { id: true, name: true, slug: true },
+                    select: {
+                        id: true,
+                        name: true,
+                        slug: true,
+                        onboardingStep: true,
+                        onboardingCompletedAt: true,
+                    },
                 },
             },
         });
@@ -133,7 +162,13 @@ export class AuthService {
             fullName: user.fullName,
             phone: user.phone,
             roles: user.userRoles.map((ur) => this.resolveRoleName(ur.role.name)),
-            tenant: user.tenant,
+            tenant: {
+                id: user.tenant.id,
+                name: user.tenant.name,
+                slug: user.tenant.slug,
+                onboardingStep: user.tenant.onboardingStep,
+                onboardingCompletedAt: user.tenant.onboardingCompletedAt?.toISOString() ?? null,
+            },
         };
     }
 }
