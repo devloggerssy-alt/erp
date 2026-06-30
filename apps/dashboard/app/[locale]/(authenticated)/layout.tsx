@@ -1,6 +1,6 @@
 import Image from "next/image"
 import { redirect } from "next/navigation"
-import { getLocale, getTranslations } from "next-intl/server"
+import { getLocale } from "next-intl/server"
 
 import { DashboardLayout } from "@/infrastructure/components/layout/dashboard"
 import { navGroups } from "@/config/navGroups"
@@ -37,13 +37,15 @@ export default async function AuthenticatedLayout({
     redirect(`/${locale}/login`)
   }
 
-  const userInfo = user
-    ? {
-      name: user.fullName,
-      email: user.email,
-      initials: user.fullName.charAt(0).toUpperCase(),
-    }
-    : undefined
+  if (!user.tenant?.onboardingCompletedAt) {
+    redirect(`/${locale}/onboarding`)
+  }
+
+  const userInfo = {
+    name: user.fullName,
+    email: user.email,
+    initials: user.fullName.charAt(0).toUpperCase(),
+  }
 
   return (
     <DashboardLayout navGroups={navGroups} logo={<Logo />} user={userInfo} breadcrumbs={breadcrumbs}>
