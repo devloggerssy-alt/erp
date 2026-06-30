@@ -1,9 +1,15 @@
 "use client"
 
 import { useReducer } from "react"
+import { useRouter } from "next/navigation"
+import { useLocale } from "next-intl"
+import { useMutation } from "@tanstack/react-query"
 import { CompanyStep } from "./components/company-step"
 import { FiscalYearStep } from "./components/fiscal-year-step"
 import { ChartOfAccountsStep } from "./components/chart-of-accounts-step"
+import { GlDefaultsStep } from "./components/gl-defaults-step"
+import { DocumentSequencesStep } from "./components/document-sequences-step"
+import { onboardingApi } from "./onboarding.config"
 
 type WizardState = {
     currentStep: number
@@ -34,9 +40,17 @@ const STEP_TITLES = [
 type Props = { initialStep?: number; token: string; initialName?: string }
 
 export function OnboardingWizard({ initialStep = 1, token, initialName }: Props) {
+    const router = useRouter()
+    const locale = useLocale()
+
     const [state, dispatch] = useReducer(wizardReducer, {
         currentStep: Math.max(1, Math.min(initialStep, 5)),
         codeToId: {},
+    })
+
+    const { mutate: complete } = useMutation({
+        mutationFn: () => onboardingApi.complete(token),
+        onSuccess: () => router.push(`/${locale}`),
     })
 
     return (
@@ -82,9 +96,19 @@ export function OnboardingWizard({ initialStep = 1, token, initialName }: Props)
                         />
                     )}
 
-                    {/* Steps 4-5 will be added in Task 9 */}
-                    {state.currentStep > 3 && (
-                        <p className="text-muted-foreground">Step {state.currentStep} coming soon…</p>
+                    {state.currentStep === 4 && (
+                        <GlDefaultsStep
+                            token={token}
+                            codeToId={state.codeToId}
+                            onSuccess={() => dispatch({ type: "NEXT" })}
+                        />
+                    )}
+
+                    {state.currentStep === 5 && (
+                        <DocumentSequencesStep
+                            token={token}
+                            onSuccess={() => complete()}
+                        />
                     )}
                 </div>
             </div>
