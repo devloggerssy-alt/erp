@@ -2,6 +2,8 @@
 
 import { useReducer } from "react"
 import { CompanyStep } from "./components/company-step"
+import { FiscalYearStep } from "./components/fiscal-year-step"
+import { ChartOfAccountsStep } from "./components/chart-of-accounts-step"
 
 type WizardState = {
     currentStep: number
@@ -66,8 +68,22 @@ export function OnboardingWizard({ initialStep = 1, token, initialName }: Props)
                         />
                     )}
 
-                    {/* Steps 2-5 will be added in Tasks 8-9 */}
-                    {state.currentStep > 1 && (
+                    {state.currentStep === 2 && (
+                        <FiscalYearStep
+                            token={token}
+                            onSuccess={() => dispatch({ type: "NEXT" })}
+                        />
+                    )}
+
+                    {state.currentStep === 3 && (
+                        <ChartOfAccountsStep
+                            token={token}
+                            onSuccess={(codeToId) => dispatch({ type: "SET_CODE_TO_ID", payload: codeToId })}
+                        />
+                    )}
+
+                    {/* Steps 4-5 will be added in Task 9 */}
+                    {state.currentStep > 3 && (
                         <p className="text-muted-foreground">Step {state.currentStep} coming soon…</p>
                     )}
                 </div>
