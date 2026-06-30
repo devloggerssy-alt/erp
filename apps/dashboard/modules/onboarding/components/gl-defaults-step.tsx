@@ -8,30 +8,27 @@ import { Button } from "@/shared/components/ui/button"
 import {
     Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from "@/shared/components/ui/select"
+import { useApi } from "@/shared/useApi"
 import {
     glDefaultsStepSchema, GL_DEFAULT_CODES,
-    type GlDefaultsStepValues, onboardingApi,
+    type GlDefaultsStepValues,
 } from "../onboarding.config"
 
 type Props = {
     codeToId: Record<string, string>
     onSuccess: () => void
-    token: string
 }
 
-export function GlDefaultsStep({ codeToId, onSuccess, token }: Props) {
-    const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4040"
+export function GlDefaultsStep({ codeToId, onSuccess }: Props) {
+    const api = useApi()
 
     const { data: accountsData } = useQuery({
         queryKey: ["accounts", "list"],
-        queryFn: () =>
-            fetch(`${API_BASE}/accounts?limit=200`, {
-                headers: { Authorization: `Bearer ${token}` },
-            }).then((r) => r.json()),
+        queryFn: () => api['chart-of-accounts'].list({ limit: 200 }),
     })
 
     const accounts: Array<{ id: string; code: string; name: { en?: string; ar?: string } }> =
-        accountsData?.data ?? []
+        (accountsData as any)?.data ?? []
 
     const defaultValues: GlDefaultsStepValues = {
         defaultSalesAccountId:      codeToId[GL_DEFAULT_CODES.defaultSalesAccountId]      ?? "",
@@ -54,7 +51,7 @@ export function GlDefaultsStep({ codeToId, onSuccess, token }: Props) {
     }, [codeToId])
 
     const { mutate, isPending, error } = useMutation({
-        mutationFn: (values: GlDefaultsStepValues) => onboardingApi.stepGlDefaults(token, values),
+        mutationFn: (values: GlDefaultsStepValues) => api.onboarding.stepGlDefaults(values),
         onSuccess,
     })
 

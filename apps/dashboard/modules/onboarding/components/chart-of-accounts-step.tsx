@@ -2,7 +2,7 @@
 
 import { useMutation } from "@tanstack/react-query"
 import { Button } from "@/shared/components/ui/button"
-import { onboardingApi } from "../onboarding.config"
+import { useApi } from "@/shared/useApi"
 
 const COA_PREVIEW = [
     { code: "1000", name: "Assets",        children: ["1100 Current Assets", "1200 Non-Current Assets"] },
@@ -13,11 +13,12 @@ const COA_PREVIEW = [
     { code: "6000", name: "Expenses",      children: ["6100 Operating Expenses", "6200 Administrative Expenses"] },
 ]
 
-type Props = { onSuccess: (codeToId: Record<string, string>) => void; token: string }
+type Props = { onSuccess: (codeToId: Record<string, string>) => void }
 
-export function ChartOfAccountsStep({ onSuccess, token }: Props) {
+export function ChartOfAccountsStep({ onSuccess }: Props) {
+    const api = useApi()
     const { mutate, isPending, error } = useMutation({
-        mutationFn: () => onboardingApi.stepChartOfAccounts(token),
+        mutationFn: () => api.onboarding.stepChartOfAccounts(),
         onSuccess: (data) => onSuccess(data.codeToId),
     })
 

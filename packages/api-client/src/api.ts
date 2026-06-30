@@ -31,6 +31,7 @@ import { ReportsClient } from "./clients/reports.client"
 import { authResource, itemCategoryResource, itemResource, unitResource, warehouseResource, partyResource, accountResource, currencyResource, fiscalPeriodResource, documentSequenceResource, roleResource, userResource, tenantResource, invoiceTypeResource, invoiceResource, customFieldResource, expenseResource, paymentResource, tagResource, tagAssignmentResource, itemRelationResource, catalogEntityResource, itemCatalogEntityResource, brandResource, inventoryResource, stockLedgerResource, stockCountResource, cashboxResource, financialSettingResource, reportResource } from "@devloggers/api-contracts"
 import { CustomFieldsClient } from "./clients/custom-fields.client"
 import { DashboardClient } from "./clients/dashboard.client"
+import { OnboardingClient } from "./clients/onboarding.client"
 
 export function createApi(options?: ApiClientOptions, baseUrl = 'http://localhost:4040') {
     const client = new ApiClient(baseUrl, options)
@@ -67,6 +68,7 @@ export function createApi(options?: ApiClientOptions, baseUrl = 'http://localhos
         [financialSettingResource.key]: new FinancialSettingClient(client),
         [reportResource.key]: new ReportsClient(client),
         dashboard: new DashboardClient(client),
+        onboarding: new OnboardingClient(client),
     } as const
 }
 

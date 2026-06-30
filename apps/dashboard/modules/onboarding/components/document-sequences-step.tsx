@@ -5,14 +5,16 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation } from "@tanstack/react-query"
 import { Button } from "@/shared/components/ui/button"
 import { Input } from "@/shared/components/ui/input"
+import { useApi } from "@/shared/useApi"
 import {
     documentSequencesStepSchema, DEFAULT_DOCUMENT_SEQUENCES_VALUES,
-    type DocumentSequencesStepValues, onboardingApi,
+    type DocumentSequencesStepValues,
 } from "../onboarding.config"
 
-type Props = { onSuccess: () => void; token: string }
+type Props = { onSuccess: () => void }
 
-export function DocumentSequencesStep({ onSuccess, token }: Props) {
+export function DocumentSequencesStep({ onSuccess }: Props) {
+    const api = useApi()
     const { register, control, handleSubmit, formState: { errors } } = useForm<DocumentSequencesStepValues>({
         resolver: zodResolver(documentSequencesStepSchema),
         defaultValues: DEFAULT_DOCUMENT_SEQUENCES_VALUES,
@@ -21,7 +23,7 @@ export function DocumentSequencesStep({ onSuccess, token }: Props) {
     const { fields } = useFieldArray({ control, name: "sequences" })
 
     const { mutate, isPending, error } = useMutation({
-        mutationFn: (values: DocumentSequencesStepValues) => onboardingApi.stepDocumentSequences(token, values),
+        mutationFn: (values: DocumentSequencesStepValues) => api.onboarding.stepDocumentSequences(values),
         onSuccess,
     })
 

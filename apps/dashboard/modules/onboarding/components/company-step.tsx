@@ -8,9 +8,10 @@ import { Input } from "@/shared/components/ui/input"
 import {
     Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from "@/shared/components/ui/select"
+import { useApi } from "@/shared/useApi"
 import {
     companyStepSchema, DEFAULT_COMPANY_VALUES,
-    type CompanyStepValues, onboardingApi,
+    type CompanyStepValues,
 } from "../onboarding.config"
 
 const TIMEZONES = ["UTC", "Asia/Damascus", "Asia/Riyadh", "Europe/Istanbul", "America/New_York"]
@@ -22,16 +23,17 @@ const LOCALES = [
 const DATE_FORMATS = ["YYYY-MM-DD", "DD/MM/YYYY", "MM/DD/YYYY"]
 const NUMBER_FORMATS = ["1,234.56", "1.234,56"]
 
-type Props = { onSuccess: () => void; initialName?: string; token: string }
+type Props = { onSuccess: () => void; initialName?: string }
 
-export function CompanyStep({ onSuccess, initialName, token }: Props) {
+export function CompanyStep({ onSuccess, initialName }: Props) {
+    const api = useApi()
     const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm<CompanyStepValues>({
         resolver: zodResolver(companyStepSchema),
         defaultValues: { ...DEFAULT_COMPANY_VALUES, name: initialName ?? "" },
     })
 
     const { mutate, isPending, error } = useMutation({
-        mutationFn: (values: CompanyStepValues) => onboardingApi.stepCompany(token, values),
+        mutationFn: (values: CompanyStepValues) => api.onboarding.stepCompany(values),
         onSuccess,
     })
 

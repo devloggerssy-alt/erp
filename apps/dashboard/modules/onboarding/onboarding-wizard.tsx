@@ -9,7 +9,7 @@ import { FiscalYearStep } from "./components/fiscal-year-step"
 import { ChartOfAccountsStep } from "./components/chart-of-accounts-step"
 import { GlDefaultsStep } from "./components/gl-defaults-step"
 import { DocumentSequencesStep } from "./components/document-sequences-step"
-import { onboardingApi } from "./onboarding.config"
+import { useApi } from "@/shared/useApi"
 
 type WizardState = {
     currentStep: number
@@ -37,11 +37,12 @@ const STEP_TITLES = [
     "Document Sequences",
 ]
 
-type Props = { initialStep?: number; token: string; initialName?: string }
+type Props = { initialStep?: number; initialName?: string }
 
-export function OnboardingWizard({ initialStep = 1, token, initialName }: Props) {
+export function OnboardingWizard({ initialStep = 1, initialName }: Props) {
     const router = useRouter()
     const locale = useLocale()
+    const api = useApi()
 
     const [state, dispatch] = useReducer(wizardReducer, {
         currentStep: Math.max(1, Math.min(initialStep, 5)),
@@ -49,7 +50,7 @@ export function OnboardingWizard({ initialStep = 1, token, initialName }: Props)
     })
 
     const { mutate: complete } = useMutation({
-        mutationFn: () => onboardingApi.complete(token),
+        mutationFn: () => api.onboarding.complete(),
         onSuccess: () => router.push(`/${locale}`),
     })
 
@@ -76,7 +77,6 @@ export function OnboardingWizard({ initialStep = 1, token, initialName }: Props)
 
                     {state.currentStep === 1 && (
                         <CompanyStep
-                            token={token}
                             initialName={initialName}
                             onSuccess={() => dispatch({ type: "NEXT" })}
                         />
@@ -84,21 +84,18 @@ export function OnboardingWizard({ initialStep = 1, token, initialName }: Props)
 
                     {state.currentStep === 2 && (
                         <FiscalYearStep
-                            token={token}
                             onSuccess={() => dispatch({ type: "NEXT" })}
                         />
                     )}
 
                     {state.currentStep === 3 && (
                         <ChartOfAccountsStep
-                            token={token}
                             onSuccess={(codeToId) => dispatch({ type: "SET_CODE_TO_ID", payload: codeToId })}
                         />
                     )}
 
                     {state.currentStep === 4 && (
                         <GlDefaultsStep
-                            token={token}
                             codeToId={state.codeToId}
                             onSuccess={() => dispatch({ type: "NEXT" })}
                         />
@@ -106,7 +103,6 @@ export function OnboardingWizard({ initialStep = 1, token, initialName }: Props)
 
                     {state.currentStep === 5 && (
                         <DocumentSequencesStep
-                            token={token}
                             onSuccess={() => complete()}
                         />
                     )}

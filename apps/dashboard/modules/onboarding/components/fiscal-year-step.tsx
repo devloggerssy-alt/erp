@@ -5,21 +5,23 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation } from "@tanstack/react-query"
 import { Button } from "@/shared/components/ui/button"
 import { Input } from "@/shared/components/ui/input"
+import { useApi } from "@/shared/useApi"
 import {
     fiscalYearStepSchema, DEFAULT_FISCAL_YEAR_VALUES,
-    type FiscalYearStepValues, onboardingApi,
+    type FiscalYearStepValues,
 } from "../onboarding.config"
 
-type Props = { onSuccess: () => void; token: string }
+type Props = { onSuccess: () => void }
 
-export function FiscalYearStep({ onSuccess, token }: Props) {
+export function FiscalYearStep({ onSuccess }: Props) {
+    const api = useApi()
     const { register, handleSubmit, formState: { errors } } = useForm<FiscalYearStepValues>({
         resolver: zodResolver(fiscalYearStepSchema),
         defaultValues: DEFAULT_FISCAL_YEAR_VALUES,
     })
 
     const { mutate, isPending, error } = useMutation({
-        mutationFn: (values: FiscalYearStepValues) => onboardingApi.stepFiscalYear(token, values),
+        mutationFn: (values: FiscalYearStepValues) => api.onboarding.stepFiscalYear(values),
         onSuccess,
     })
 
