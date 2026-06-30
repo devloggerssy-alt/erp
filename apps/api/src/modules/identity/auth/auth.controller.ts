@@ -9,12 +9,12 @@ import {
     HttpStatus,
 } from '@nestjs/common';
 import * as express from 'express';
-import { ApiTags, ApiBearerAuth, ApiOperation, ApiOkResponse, ApiCreatedResponse } from '@nestjs/swagger';
+import { ApiTags, ApiBearerAuth, ApiOperation, ApiOkResponse } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { LoginDto, RegisterDto, LoginDataDto, MeDataDto } from './dto';
 import { JwtAuthGuard } from './guards';
 import { CurrentUser, RequestUser } from './decorators';
-import { ApiOkResponseStandard, ApiStandardErrors } from '../../../common/decorators/api-swagger.decorators';
+import { ApiOkResponseStandard, ApiCreatedResponseStandard, ApiStandardErrors } from '../../../common/decorators/api-swagger.decorators';
 import { ApiResponseBuilder } from '../../../common/api/api-response-builder';
 
 @ApiTags('Auth')
@@ -53,25 +53,7 @@ export class AuthController {
         summary: 'Register a new account',
         description: 'Creates a new tenant with an admin user, then returns a JWT access token (auto-login).',
     })
-    @ApiCreatedResponse({
-        description: 'Registration successful – tenant created and JWT returned',
-        schema: {
-            example: {
-                status: 'success',
-                message: 'Registration successful',
-                data: {
-                    accessToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
-                    user: {
-                        id: '00000000-0000-4000-a100-000000000001',
-                        tenantId: '00000000-0000-4000-a000-000000000001',
-                        email: 'admin@demo-shop.com',
-                        fullName: 'Admin User',
-                        roles: ['Admin'],
-                    },
-                },
-            },
-        },
-    })
+    @ApiCreatedResponseStandard(LoginDataDto, { description: 'Registration successful – tenant created and JWT returned' })
     @ApiStandardErrors()
     async register(
         @Body() dto: RegisterDto,
