@@ -17,6 +17,7 @@ import { seedCurrencies } from './seeds/currencies.seed'
 import { seedFiscalPeriod } from './seeds/fiscal-period.seed'
 import { seedDocumentSequences } from './seeds/document-sequences.seed'
 import { seedChartOfAccounts } from './seeds/chart-of-accounts.seed'
+import { seedFinancialSettings } from './seeds/financial-settings.seed'
 import { seedItemCategories } from './seeds/item-categories.seed'
 import { seedUnits } from './seeds/units.seed'
 import { seedItems } from './seeds/items.seed'
@@ -61,6 +62,9 @@ async function main() {
 
         console.log('  → Building chart of accounts...')
         await seedChartOfAccounts(prisma, tenantId)
+
+        console.log('  → Wiring GL financial settings...')
+        await seedFinancialSettings(prisma, tenantId)
 
         console.log('  → Creating item categories...')
         await seedItemCategories(prisma, tenantId)
