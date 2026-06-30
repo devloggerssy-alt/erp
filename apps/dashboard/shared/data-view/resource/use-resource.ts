@@ -15,6 +15,7 @@ import {
 } from "@/shared/data-view/table-view"
 import type { ColumnDef } from "@tanstack/react-table"
 import type { ICrudClient } from "@devloggers/api-client"
+import { toastErrorMessage } from "@/shared/lib/utils"
 import type {
     ResourceContext,
     ResourceItem,
@@ -56,7 +57,7 @@ export function useResource<TClient extends ICrudClient>({
             toast.promise(promise, {
                 loading: t("toastDeleting"),
                 success: t("toastDeleted"),
-                error: t("toastDeleteFailed"),
+                error: (err: unknown) => toastErrorMessage(err, t("toastDeleteFailed")),
             })
             return promise
         },

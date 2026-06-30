@@ -4,6 +4,7 @@ import { useMutation } from "@tanstack/react-query"
 import { toast } from "sonner"
 import { useTranslations } from "next-intl"
 import type { ICrudClient } from "@devloggers/api-client"
+import { toastErrorMessage } from "@/shared/lib/utils"
 
 export type UseResourceMutationsConfig = {
     invalidateQuery: () => void
@@ -24,7 +25,7 @@ export function useResourceMutations<TClient extends ICrudClient>(
             toast.promise(promise, {
                 loading: t("toastDeleting"),
                 success: t("toastDeleted"),
-                error: t("toastDeleteFailed"),
+                error: (err: unknown) => toastErrorMessage(err, t("toastDeleteFailed")),
             })
             return promise
         },

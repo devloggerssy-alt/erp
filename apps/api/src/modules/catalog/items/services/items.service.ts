@@ -20,8 +20,8 @@ export class ItemsService extends CrudService<Item, ItemResponseDto, CreateItemD
         private readonly itemPresenter: ItemPresenter,
         private readonly customFieldValuesService: CustomFieldValuesService,
         private readonly prisma: PrismaService,
-        private readonly emitter: EventEmitter2,
         private readonly inventoryService: InventoryService,
+        private readonly emitter: EventEmitter2,
     ) {
         super(itemsRepository, itemPresenter, emitter);
     }
@@ -46,8 +46,6 @@ export class ItemsService extends CrudService<Item, ItemResponseDto, CreateItemD
             })),
         };
     }
-
-
 
     override async findById(tenantId: string, id: string): Promise<ItemResponseDto> {
         const entity = await this.itemsRepository.findByIdWithRelations(tenantId, id);

@@ -1,14 +1,8 @@
 "use client"
 
 import type { Table } from "@tanstack/react-table"
-import {
-    ChevronLeft,
-    ChevronRight,
-    ChevronsLeft,
-    ChevronsRight,
-} from "lucide-react"
+import { ChevronsLeft, ChevronsRight } from "lucide-react"
 import { useTranslations } from "next-intl"
-import { Button } from "@/shared/components/ui/button"
 import {
     Select,
     SelectContent,
@@ -16,7 +10,14 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/shared/components/ui/select"
-import { IconTooltip } from "@/shared/components/icon-tooltip"
+import {
+    Pagination,
+    PaginationContent,
+    PaginationItem,
+    PaginationLink,
+    PaginationNext,
+    PaginationPrevious,
+} from "@/shared/components/ui/pagination"
 import { useDataView } from "./data-view-context"
 
 const PAGE_SIZE_OPTIONS = [10, 20, 30, 50, 100]
@@ -29,6 +30,12 @@ export function DataViewPagination<TData>({ table }: DataViewPaginationProps<TDa
     const tPagination = useTranslations("system.resourcePagination")
     const t = useTranslations("system.dataView")
     const { pagination } = useDataView()
+
+    const canPrevious = table.getCanPreviousPage()
+    const canNext = table.getCanNextPage()
+
+    const disabledPrev = !canPrevious ? "pointer-events-none opacity-50" : undefined
+    const disabledNext = !canNext ? "pointer-events-none opacity-50" : undefined
 
     return (
         <div
@@ -65,56 +72,52 @@ export function DataViewPagination<TData>({ table }: DataViewPaginationProps<TDa
                     </Select>
                 </div>
 
-                <div className="flex items-center gap-1">
-                    <IconTooltip label={t("firstPage")}>
-                        <Button
-                            variant="outline"
-                            size="icon-sm"
-                            className="bg-background"
-                            onClick={() => table.firstPage()}
-                            disabled={!table.getCanPreviousPage()}
-                        >
-                            <ChevronsLeft className="size-4" />
-                            <span className="sr-only">{t("firstPage")}</span>
-                        </Button>
-                    </IconTooltip>
-                    <IconTooltip label={t("previousPage")}>
-                        <Button
-                            variant="outline"
-                            size="icon-sm"
-                            className="bg-background"
-                            onClick={() => table.previousPage()}
-                            disabled={!table.getCanPreviousPage()}
-                        >
-                            <ChevronLeft className="size-4" />
-                            <span className="sr-only">{t("previousPage")}</span>
-                        </Button>
-                    </IconTooltip>
-                    <IconTooltip label={t("nextPage")}>
-                        <Button
-                            variant="outline"
-                            size="icon-sm"
-                            className="bg-background"
-                            onClick={() => table.nextPage()}
-                            disabled={!table.getCanNextPage()}
-                        >
-                            <ChevronRight className="size-4" />
-                            <span className="sr-only">{t("nextPage")}</span>
-                        </Button>
-                    </IconTooltip>
-                    <IconTooltip label={t("lastPage")}>
-                        <Button
-                            variant="outline"
-                            size="icon-sm"
-                            className="bg-background"
-                            onClick={() => table.lastPage()}
-                            disabled={!table.getCanNextPage()}
-                        >
-                            <ChevronsRight className="size-4" />
-                            <span className="sr-only">{t("lastPage")}</span>
-                        </Button>
-                    </IconTooltip>
-                </div>
+                <Pagination className="mx-0 w-auto">
+                    <PaginationContent className="gap-0">
+                        <PaginationItem>
+                            <PaginationLink
+                                size="icon-sm"
+                                href="#"
+                                aria-label={t("firstPage")}
+                                aria-disabled={!canPrevious}
+                                className={disabledPrev}
+                                onClick={(e) => { e.preventDefault(); table.firstPage() }}
+                            >
+                                <ChevronsLeft className="size-4 rtl:rotate-180" />
+                            </PaginationLink>
+                        </PaginationItem>
+                        <PaginationItem>
+                            <PaginationPrevious
+                                href="#"
+                                text={t("previousPage")}
+                                aria-disabled={!canPrevious}
+                                className={disabledPrev}
+                                onClick={(e) => { e.preventDefault(); table.previousPage() }}
+                            />
+                        </PaginationItem>
+                        <PaginationItem>
+                            <PaginationNext
+                                href="#"
+                                text={t("nextPage")}
+                                aria-disabled={!canNext}
+                                className={disabledNext}
+                                onClick={(e) => { e.preventDefault(); table.nextPage() }}
+                            />
+                        </PaginationItem>
+                        <PaginationItem>
+                            <PaginationLink
+                                size="icon-sm"
+                                href="#"
+                                aria-label={t("lastPage")}
+                                aria-disabled={!canNext}
+                                className={disabledNext}
+                                onClick={(e) => { e.preventDefault(); table.lastPage() }}
+                            >
+                                <ChevronsRight className="size-4 rtl:rotate-180" />
+                            </PaginationLink>
+                        </PaginationItem>
+                    </PaginationContent>
+                </Pagination>
             </div>
         </div>
     )

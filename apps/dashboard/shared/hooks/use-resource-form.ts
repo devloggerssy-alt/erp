@@ -37,6 +37,7 @@ export function useResourceForm<TFormValues extends FieldValues, TApiData = unkn
         queryKey: queryKey ?? ["resource", resourceId],
         queryFn: () => initialize!(resourceId!),
         enabled: isEditing && !!initialize,
+    
     })
 
     const resolvedData = queriedData ?? (isEditing ? initialData : undefined)

@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 
 // ── Entity contracts ─────────────────────────────────────────────────────────
 
@@ -20,6 +20,36 @@ export interface FindManyOptions {
 export interface FindManyResult<T> {
   data: T[];
   total: number;
+}
+
+// ── Prisma error → HTTP exception mapper ─────────────────────────────────────
+
+function mapPrismaError(error: unknown): never {
+  // Structural check — works for PrismaClientKnownRequestError and driver adapter wrappers alike
+  if (error != null && typeof error === 'object' && 'code' in error) {
+    const e = error as { code: string; meta?: { target?: unknown; field_name?: string; constraint?: string } };
+    if (e.code === 'P2003') {
+      throw new ConflictException(
+        'Cannot complete operation: this record is referenced by another record and cannot be modified or deleted.',
+      );
+    }
+    if (e.code === 'P2002') {
+      const target = e.meta?.target;
+      const field = Array.isArray(target) ? target.join(', ') : String(target ?? 'field');
+      throw new ConflictException(`A record with this ${field} already exists.`);
+    }
+  }
+  // Fallback: driver adapter FK errors that bubble up without a P-code
+  if (
+    error instanceof Error &&
+    (error.message.includes('ForeignKeyConstraintViolation') ||
+      error.message.toLowerCase().includes('foreign key constraint'))
+  ) {
+    throw new ConflictException(
+      'Cannot complete operation: this record is referenced by another record and cannot be modified or deleted.',
+    );
+  }
+  throw error;
 }
 
 // ── Base CRUD repository ──────────────────────────────────────────────────────
@@ -87,21 +117,33 @@ export abstract class CrudRepository<T extends TenantEntity> {
    * Create a new record. Caller is responsible for including `tenantId` in data.
    */
   async create(data: Record<string, any>): Promise<T> {
-    return this.model.create({ data });
+    try {
+      return await this.model.create({ data });
+    } catch (error) {
+      mapPrismaError(error);
+    }
   }
 
   /**
    * Update a record by id.
    */
   async update(id: string, data: Record<string, any>): Promise<T> {
-    return this.model.update({ where: { id }, data });
+    try {
+      return await this.model.update({ where: { id }, data });
+    } catch (error) {
+      mapPrismaError(error);
+    }
   }
 
   /**
    * Hard-delete a record by id.
    */
   async delete(id: string): Promise<T> {
-    return this.model.delete({ where: { id } });
+    try {
+      return await this.model.delete({ where: { id } });
+    } catch (error) {
+      mapPrismaError(error);
+    }
   }
 
   /**

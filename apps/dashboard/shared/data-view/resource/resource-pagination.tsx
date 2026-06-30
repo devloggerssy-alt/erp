@@ -1,8 +1,7 @@
 "use client"
 
-import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from "lucide-react"
+import { ChevronsLeft, ChevronsRight } from "lucide-react"
 import { useTranslations } from "next-intl"
-import { Button } from "@/shared/components/ui/button"
 import {
     Select,
     SelectContent,
@@ -10,12 +9,21 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/shared/components/ui/select"
+import {
+    Pagination,
+    PaginationContent,
+    PaginationItem,
+    PaginationLink,
+    PaginationNext,
+    PaginationPrevious,
+} from "@/shared/components/ui/pagination"
 import { useResourceContext } from "./resource-context"
 
 const PAGE_SIZE_OPTIONS = [10, 20, 30, 50, 100]
 
 export function ResourcePagination() {
     const t = useTranslations("system.resourcePagination")
+    const tDataView = useTranslations("system.dataView")
     const { pagination, handleChange } = useResourceContext()
     const { page, pageSize, pageCount, total } = pagination
 
@@ -35,6 +43,9 @@ export function ResourcePagination() {
             pagination: { page: 1, pageSize: size, pageCount, total },
         })
     }
+
+    const disabledPrev = !canPrevious ? "pointer-events-none opacity-50" : undefined
+    const disabledNext = !canNext ? "pointer-events-none opacity-50" : undefined
 
     return (
         <div data-slot="resource-pagination" className="flex items-center justify-between px-2">
@@ -60,40 +71,52 @@ export function ResourcePagination() {
                         </SelectContent>
                     </Select>
                 </div>
-                <div className="flex items-center gap-1">
-                    <Button
-                        variant="outline"
-                        size="icon-sm"
-                        onClick={() => goToPage(1)}
-                        disabled={!canPrevious}
-                    >
-                        <ChevronsLeft className="size-4" />
-                    </Button>
-                    <Button
-                        variant="outline"
-                        size="icon-sm"
-                        onClick={() => goToPage(page - 1)}
-                        disabled={!canPrevious}
-                    >
-                        <ChevronLeft className="size-4" />
-                    </Button>
-                    <Button
-                        variant="outline"
-                        size="icon-sm"
-                        onClick={() => goToPage(page + 1)}
-                        disabled={!canNext}
-                    >
-                        <ChevronRight className="size-4" />
-                    </Button>
-                    <Button
-                        variant="outline"
-                        size="icon-sm"
-                        onClick={() => goToPage(pageCount)}
-                        disabled={!canNext}
-                    >
-                        <ChevronsRight className="size-4" />
-                    </Button>
-                </div>
+                <Pagination className="mx-0 w-auto">
+                    <PaginationContent className="gap-0">
+                        <PaginationItem>
+                            <PaginationLink
+                                size="icon-sm"
+                                href="#"
+                                aria-label={tDataView("firstPage")}
+                                aria-disabled={!canPrevious}
+                                className={disabledPrev}
+                                onClick={(e) => { e.preventDefault(); goToPage(1) }}
+                            >
+                                <ChevronsLeft className="size-4 rtl:rotate-180" />
+                            </PaginationLink>
+                        </PaginationItem>
+                        <PaginationItem>
+                            <PaginationPrevious
+                                href="#"
+                                text={tDataView("previousPage")}
+                                aria-disabled={!canPrevious}
+                                className={disabledPrev}
+                                onClick={(e) => { e.preventDefault(); goToPage(page - 1) }}
+                            />
+                        </PaginationItem>
+                        <PaginationItem>
+                            <PaginationNext
+                                href="#"
+                                text={tDataView("nextPage")}
+                                aria-disabled={!canNext}
+                                className={disabledNext}
+                                onClick={(e) => { e.preventDefault(); goToPage(page + 1) }}
+                            />
+                        </PaginationItem>
+                        <PaginationItem>
+                            <PaginationLink
+                                size="icon-sm"
+                                href="#"
+                                aria-label={tDataView("lastPage")}
+                                aria-disabled={!canNext}
+                                className={disabledNext}
+                                onClick={(e) => { e.preventDefault(); goToPage(pageCount) }}
+                            >
+                                <ChevronsRight className="size-4 rtl:rotate-180" />
+                            </PaginationLink>
+                        </PaginationItem>
+                    </PaginationContent>
+                </Pagination>
             </div>
         </div>
     )

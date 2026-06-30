@@ -1,6 +1,6 @@
 # @devloggers/db-prisma
 
-Database package containing Prisma schema and generated client for the e-dukan application.
+Database package containing Prisma schema and generated client for the ERP application.
 
 ## Usage
 
@@ -32,6 +32,6 @@ const user: User = {
 Make sure to set the `DATABASE_URL` environment variable:
 
 ```env
-DATABASE_URL="postgresql://username:password@localhost:5432/e-dukan"
+DATABASE_URL="postgresql://username:password@localhost:5432/erp"
 ```
 

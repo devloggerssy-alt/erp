@@ -8,6 +8,7 @@ import type { ZodType } from "zod"
 import type { ICrudClient } from "@devloggers/api-client"
 import { useFormDialog } from "@/shared/components/form-dialog"
 import { useApi } from "@/shared/useApi"
+import { toastErrorMessage } from "@/shared/lib/utils"
 import { useFormMutation } from "./use-form-mutation"
 import { useResourceForm } from "./use-resource-form"
 
@@ -107,9 +108,12 @@ export function useResourceFormController<
                 success: isEditing
                     ? t("updated", { entity: entityLabel })
                     : t("created", { entity: entityLabel }),
-                error: isEditing
-                    ? t("updateFailed", { entity: entityLabel })
-                    : t("createFailed", { entity: entityLabel }),
+                error: (err: unknown) => toastErrorMessage(
+                    err,
+                    isEditing
+                        ? t("updateFailed", { entity: entityLabel })
+                        : t("createFailed", { entity: entityLabel }),
+                ),
             })
 
             return promise

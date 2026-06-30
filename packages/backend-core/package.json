@@ -1,7 +1,7 @@
 {
   "name": "@devloggers/backend-core",
   "version": "0.0.1",
-  "description": "Backend core package for E-Dukan apps",
+  "description": "Backend core package for Devloggers monorepo",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
