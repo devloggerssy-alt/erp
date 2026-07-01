@@ -12,7 +12,10 @@ export class PrismaService extends PrismaClient implements OnModuleInit, OnModul
   }
 
   async onModuleInit() {
-    await this.$connect();
+    // Skip DB connection during spec generation (decorators are enough for Swagger)
+    if (!process.env.GENERATE_SPEC) {
+      await this.$connect();
+    }
   }
 
   async onModuleDestroy() {

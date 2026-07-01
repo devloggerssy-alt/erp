@@ -8,6 +8,7 @@
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "generate:spec": "ts-node -r tsconfig-paths/register --project tsconfig.json scripts/generate-spec.ts",
     "start": "nest start",
     "dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
@@ -71,6 +72,7 @@
     "@types/supertest": "^6.0.2",
     "cross-env": "^10.1.0",
     "eslint": "^9.18.0",
+    "openapi-typescript": "^7.10.1",
     "eslint-config-prettier": "^10.0.1",
     "eslint-plugin-prettier": "^5.2.2",
     "globals": "^16.0.0",

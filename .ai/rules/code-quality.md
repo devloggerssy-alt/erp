@@ -45,7 +45,12 @@ package. The exact commands live in each package's `package.json`, but the
 defaults for this monorepo are:
 
 ```bash
-# After touching apps/api/**
+# After touching apps/api/** DTOs, controllers, or Swagger decorators — MANDATORY
+# (see api.md for the full decorator requirements and why this matters)
+pnpm generate:dev                              # requires API running in another terminal
+pnpm --filter @devloggers/api-contracts build  # makes new types available to dashboard
+
+# After touching apps/api/** (non-DTO changes)
 pnpm --filter @devloggers/api lint
 pnpm --filter @devloggers/api test
 

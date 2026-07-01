@@ -2,6 +2,7 @@
 
 import { cookies } from "next/headers"
 import type { AuthUser } from "@devloggers/api-contracts"
+import { createApi } from "@devloggers/api-client"
 
 const TOKEN_COOKIE = "auth_token"
 const USER_COOKIE = "auth_user"
@@ -54,4 +55,21 @@ export async function getAuthCookies(): Promise<{
     }
 
     return { token, user }
+}
+
+/**
+ * Refreshes the auth_user cookie from /auth/me. Call after server-side
+ * mutations that change the user or tenant (e.g. completing onboarding).
+ */
+export async function refreshUserCookie(): Promise<void> {
+    const { token } = await getAuthCookies()
+    if (!token) return
+    try {
+        const api = createApi({ headers: { Authorization: `Bearer ${token}` } })
+        const result = await api.auth.me()
+        const user = (result as { data?: AuthUser }).data
+        if (user) await setAuthCookies(token, user)
+    } catch {
+        // ignore — stale cookie is better than a broken session
+    }
 }

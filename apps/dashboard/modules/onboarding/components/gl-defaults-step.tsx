@@ -1,98 +1,95 @@
 "use client"
 
-import { useEffect } from "react"
-import { useForm } from "react-hook-form"
+import { useEffect, useMemo } from "react"
+import { useForm, FormProvider } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation, useQuery } from "@tanstack/react-query"
 import { Button } from "@/shared/components/ui/button"
-import {
-    Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
-} from "@/shared/components/ui/select"
 import { useApi } from "@/shared/useApi"
+import { accountResource } from "@devloggers/api-contracts"
+import { RhfAccountField } from "@/modules/accounts/components/account-picker"
 import {
     glDefaultsStepSchema, GL_DEFAULT_CODES,
     type GlDefaultsStepValues,
 } from "../onboarding.config"
+import type { AccountListItem } from "@/modules/accounts/accounts.types"
 
 type Props = {
     codeToId: Record<string, string>
     onSuccess: () => void
 }
 
+const GL_FIELDS: Array<{ key: keyof GlDefaultsStepValues; label: string }> = [
+    { key: "defaultSalesAccount",      label: "Default Sales Account" },
+    { key: "defaultPurchaseAccount",   label: "Default Purchase Account" },
+    { key: "defaultTaxAccount",        label: "Default Tax Account" },
+    { key: "defaultReceivableAccount", label: "Default Receivable Account" },
+    { key: "defaultPayableAccount",    label: "Default Payable Account" },
+]
+
+const DEFAULT_GL_VALUES: GlDefaultsStepValues = {
+    defaultSalesAccount:      null,
+    defaultPurchaseAccount:   null,
+    defaultTaxAccount:        null,
+    defaultReceivableAccount: null,
+    defaultPayableAccount:    null,
+}
+
 export function GlDefaultsStep({ codeToId, onSuccess }: Props) {
     const api = useApi()
 
-    const { data: accountsData } = useQuery({
-        queryKey: ["accounts", "list"],
-        queryFn: () => api['chart-of-accounts'].list({ limit: 200 }),
+    const { data } = useQuery({
+        queryKey: [accountResource.key, "list", "picker"],
+        queryFn: () => api[accountResource.key].list({ page: 1, limit: 500 }),
+        staleTime: 60_000,
     })
 
-    const accounts: Array<{ id: string; code: string; name: { en?: string; ar?: string } }> =
-        (accountsData as any)?.data ?? []
+    const accounts = useMemo(() => (data?.data ?? []) as unknown as AccountListItem[], [data])
 
-    const defaultValues: GlDefaultsStepValues = {
-        defaultSalesAccountId:      codeToId[GL_DEFAULT_CODES.defaultSalesAccountId]      ?? "",
-        defaultPurchaseAccountId:   codeToId[GL_DEFAULT_CODES.defaultPurchaseAccountId]   ?? "",
-        defaultTaxAccountId:        codeToId[GL_DEFAULT_CODES.defaultTaxAccountId]        ?? "",
-        defaultReceivableAccountId: codeToId[GL_DEFAULT_CODES.defaultReceivableAccountId] ?? "",
-        defaultPayableAccountId:    codeToId[GL_DEFAULT_CODES.defaultPayableAccountId]    ?? "",
-    }
-
-    const { setValue, watch, handleSubmit, reset, formState: { errors } } = useForm<GlDefaultsStepValues>({
+    const form = useForm<GlDefaultsStepValues>({
         resolver: zodResolver(glDefaultsStepSchema),
-        defaultValues,
+        defaultValues: DEFAULT_GL_VALUES,
     })
 
     useEffect(() => {
-        if (Object.values(codeToId).some(Boolean)) {
-            reset(defaultValues)
+        if (!accounts.length || !Object.values(codeToId).some(Boolean)) return
+        const prefill = {} as GlDefaultsStepValues
+        for (const { key } of GL_FIELDS) {
+            const code = GL_DEFAULT_CODES[key]
+            const id = codeToId[code]
+            const acct = id ? accounts.find((a) => a.id === id) : undefined
+            prefill[key] = acct ? { id: acct.id, code: acct.code, name: acct.name } : null
         }
+        form.reset(prefill)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [codeToId])
+    }, [accounts, codeToId])
 
     const { mutate, isPending, error } = useMutation({
-        mutationFn: (values: GlDefaultsStepValues) => api.onboarding.stepGlDefaults(values),
+        mutationFn: (values: GlDefaultsStepValues) =>
+            api.onboarding.stepGlDefaults({
+                defaultSalesAccountId:      values.defaultSalesAccount?.id ?? "",
+                defaultPurchaseAccountId:   values.defaultPurchaseAccount?.id ?? "",
+                defaultTaxAccountId:        values.defaultTaxAccount?.id ?? "",
+                defaultReceivableAccountId: values.defaultReceivableAccount?.id ?? "",
+                defaultPayableAccountId:    values.defaultPayableAccount?.id ?? "",
+            }),
         onSuccess,
     })
 
-    const GL_FIELDS: Array<{ key: keyof GlDefaultsStepValues; label: string }> = [
-        { key: "defaultSalesAccountId",      label: "Default Sales Account" },
-        { key: "defaultPurchaseAccountId",   label: "Default Purchase Account" },
-        { key: "defaultTaxAccountId",        label: "Default Tax Account" },
-        { key: "defaultReceivableAccountId", label: "Default Receivable Account" },
-        { key: "defaultPayableAccountId",    label: "Default Payable Account" },
-    ]
-
     return (
-        <form onSubmit={handleSubmit((v) => mutate(v))} className="space-y-4">
-            <p className="text-sm text-muted-foreground">
-                These accounts are used automatically when posting invoices and payments.
-            </p>
-            {GL_FIELDS.map(({ key, label }) => (
-                <div key={key} className="space-y-2">
-                    <label className="text-sm font-medium">{label} *</label>
-                    <Select
-                        value={watch(key)}
-                        onValueChange={(v) => setValue(key, v)}
-                    >
-                        <SelectTrigger>
-                            <SelectValue placeholder="Select account…" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            {accounts.map((a) => (
-                                <SelectItem key={a.id} value={a.id}>
-                                    {a.code} — {a.name?.en ?? a.name?.ar}
-                                </SelectItem>
-                            ))}
-                        </SelectContent>
-                    </Select>
-                    {errors[key] && <p className="text-sm text-destructive">{errors[key]?.message}</p>}
-                </div>
-            ))}
-            {error && <p className="text-sm text-destructive">{(error as Error).message}</p>}
-            <Button type="submit" disabled={isPending} className="w-full">
-                {isPending ? "Saving…" : "Continue →"}
-            </Button>
-        </form>
+        <FormProvider {...form}>
+            <form onSubmit={form.handleSubmit((v) => mutate(v))} className="space-y-4">
+                <p className="text-sm text-muted-foreground">
+                    These accounts are used automatically when posting invoices and payments.
+                </p>
+                {GL_FIELDS.map(({ key, label }) => (
+                    <RhfAccountField key={key} name={key} label={label} required />
+                ))}
+                {error && <p className="text-sm text-destructive">{(error as Error).message}</p>}
+                <Button type="submit" disabled={isPending} className="w-full">
+                    {isPending ? "Saving…" : "Continue →"}
+                </Button>
+            </form>
+        </FormProvider>
     )
 }

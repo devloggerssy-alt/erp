@@ -10,6 +10,7 @@ import { ChartOfAccountsStep } from "./components/chart-of-accounts-step"
 import { GlDefaultsStep } from "./components/gl-defaults-step"
 import { DocumentSequencesStep } from "./components/document-sequences-step"
 import { useApi } from "@/shared/useApi"
+import { refreshUserCookie } from "@/modules/auth/auth.actions"
 
 type WizardState = {
     currentStep: number
@@ -50,7 +51,10 @@ export function OnboardingWizard({ initialStep = 1, initialName }: Props) {
     })
 
     const { mutate: complete } = useMutation({
-        mutationFn: () => api.onboarding.complete(),
+        mutationFn: async () => {
+            await api.onboarding.complete()
+            await refreshUserCookie()
+        },
         onSuccess: () => router.push(`/${locale}`),
     })
 

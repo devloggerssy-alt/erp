@@ -9,6 +9,7 @@ import { toast } from "sonner"
 import { useApi } from "@/shared/useApi"
 import { useResourceForm } from "@/shared/hooks/use-resource-form"
 import { useFormMutation } from "@/shared/hooks/use-form-mutation"
+import { useFormDefaultsQuery } from "@/modules/settings/hooks/use-form-defaults-query"
 import type { InvoiceStatus } from "@devloggers/api-contracts"
 import {
     DEFAULT_INVOICE_FORM_VALUES,
@@ -80,6 +81,7 @@ export function useInvoiceForm({
     const t = useTranslations("business.resources.invoices")
     const queryClient = useQueryClient()
     const { data: invoiceTypesData } = useCrudList(api["invoice-types"])
+    const { data: formDefaults } = useFormDefaultsQuery()
 
     // ── Form init ──────────────────────────────────────────────────────────────
 
@@ -211,6 +213,20 @@ export function useInvoiceForm({
         )
         if (match) form.setValue("invoiceType", match)
     }, [invoiceTypesData, open, isEditing, direction, form, initialTypeCode])
+
+    useEffect(() => {
+        if (!open || isEditing || !formDefaults) return
+        const { fiscalPeriod, currency, cashbox } = formDefaults
+        if (fiscalPeriod && !form.getValues("fiscalPeriod")?.id) {
+            form.setValue("fiscalPeriod", fiscalPeriod, { shouldDirty: false })
+        }
+        if (currency && !form.getValues("currency")?.id) {
+            form.setValue("currency", currency, { shouldDirty: false })
+        }
+        if (cashbox && !form.getValues("openingPaymentCashbox")?.id) {
+            form.setValue("openingPaymentCashbox", cashbox, { shouldDirty: false })
+        }
+    }, [open, isEditing, formDefaults]) // eslint-disable-line react-hooks/exhaustive-deps
 
     // ── Return controller ──────────────────────────────────────────────────────
 

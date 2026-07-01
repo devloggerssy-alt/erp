@@ -56,7 +56,7 @@ export class ItemsController extends ItemsCrudBase {
         super(itemsService, 'Item');
     }
 
-    protected async beforeCreate(user: RequestUser, dto: CreateItemDto): Promise<void> {
+    protected beforeCreate(user: RequestUser, dto: CreateItemDto)  {
         if (dto.openingStock) {
             dto.openingStock._userId = user.id;
         }

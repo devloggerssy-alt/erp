@@ -17,17 +17,14 @@
         }
     },
     "scripts": {
-        "dev": "tsc --watch && node scripts/generate-types.cjs http://localhost:4049/swagger.yaml --watch",
+        "dev": "tsc --watch",
         "build": "tsc",
         "clean": "node -e \"require('fs').rmSync('./dist', { recursive: true, force: true })\"",
-        "generate": "node scripts/generate-types.cjs",
-        "generate:dev": "node scripts/generate-types.cjs http://localhost:4049/swagger.yaml",
         "test": "vitest run",
         "typecheck": "tsc --noEmit"
     },
     "dependencies": {
         "@devloggers/db-prisma": "workspace:*",
-        "openapi-typescript": "^7.10.1",
         "zod": "^4.3.6"
     },
     "devDependencies": {

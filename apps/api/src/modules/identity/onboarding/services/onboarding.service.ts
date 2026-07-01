@@ -1,4 +1,4 @@
-import { Injectable, ConflictException } from '@nestjs/common';
+import { Injectable, ConflictException, BadRequestException } from '@nestjs/common';
 import { AccountType } from '@devloggers/db-prisma';
 import { PrismaService } from '@devloggers/db-prisma/nest';
 import { SettingsService } from '../../settings/services/settings.service';
@@ -60,12 +60,19 @@ export class OnboardingService {
     async stepFiscalYear(tenantId: string, dto: OnboardingFiscalYearStepDto): Promise<void> {
         await this.assertNotCompleted(tenantId);
 
-        const name = dto.name ?? `FY ${new Date(dto.startDate).getFullYear()}`;
-        await this.fiscalPeriodsService.create(tenantId, {
-            name,
-            startDate: dto.startDate,
-            endDate: dto.endDate,
-        });
+        try {
+            const name = dto.name ?? `FY ${new Date(dto.startDate).getFullYear()}`;
+            await this.fiscalPeriodsService.create(tenantId, {
+                name,
+                startDate: dto.startDate,
+                endDate: dto.endDate,
+            });
+        } catch (err: unknown) {
+            if (!(err instanceof BadRequestException) && !(err instanceof ConflictException)) {
+                throw err;
+            }
+            // period already exists or overlaps — idempotent, continue
+        }
 
         await this.advanceStep(tenantId, 2);
     }

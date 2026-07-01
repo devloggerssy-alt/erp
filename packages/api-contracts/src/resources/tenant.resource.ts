@@ -9,5 +9,6 @@ export const tenantResource = defineResource({
     updateCurrent: '/tenants/current',
     settings: '/settings',
     updateSettings: '/settings',
-  },
-})
+    defaults: '/settings/defaults',
+  } as const,
+}) 

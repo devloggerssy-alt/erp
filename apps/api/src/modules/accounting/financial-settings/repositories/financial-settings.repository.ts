@@ -4,10 +4,18 @@ import type { FinancialSetting } from '@devloggers/db-prisma';
 
 @Injectable()
 export class FinancialSettingsRepository {
-    constructor(private readonly prisma: PrismaService) {}
+    constructor(private readonly prisma: PrismaService) { }
 
     async findByTenantId(tenantId: string): Promise<FinancialSetting | null> {
-        return this.prisma.financialSetting.findUnique({ where: { tenantId } });
+        return this.prisma.financialSetting.findUnique({ where: { tenantId },
+             include: {
+                defaultPayableAccount: true,
+                defaultReceivableAccount: true,
+                defaultSalesAccount: true,
+                defaultPurchaseAccount: true,
+                defaultTaxAccount: true,
+                
+              } });
     }
 
     async upsert(tenantId: string, data: Partial<Omit<FinancialSetting, 'id' | 'tenantId' | 'createdAt' | 'updatedAt'>>): Promise<FinancialSetting> {

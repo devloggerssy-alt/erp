@@ -124,7 +124,7 @@ function InvoiceHeaderFields({
                                 name="openingPaymentCashbox"
                                 label={t("openingPayment.cashbox")}
                                 client={(api) => api.cashboxes}
-                                getLabel={(it) => `${(it as Record<string, string>)["code"]} — ${(it as Record<string, string>)["name"]}`}
+                                getLabel={(it) => `${(it)["code"]} — ${(it)["name"]}`}
                                 getValue={(it) => it}
                                 required
                                 disabled={disabled}

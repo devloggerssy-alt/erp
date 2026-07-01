@@ -173,6 +173,26 @@ export interface paths {
         patch: operations["Tenants.updateCurrent"];
         trace?: never;
     };
+    "/settings/defaults": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get form auto-fill defaults
+         * @description Returns the current open fiscal period, base currency, and first active cashbox for invoice form pre-population.
+         */
+        get: operations["Settings.getDefaults"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/settings": {
         parameters: {
             query?: never;
@@ -255,6 +275,216 @@ export interface paths {
          * @description Activates or deactivates a user account. Deactivated users cannot log in.
          */
         patch: operations["Users.updateStatus"];
+        trace?: never;
+    };
+    "/onboarding/step/company": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Step 1 — Company profile & localization */
+        post: operations["Onboarding.stepCompany"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/onboarding/step/fiscal-year": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Step 2 — First fiscal period */
+        post: operations["Onboarding.stepFiscalYear"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/onboarding/step/chart-of-accounts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Step 3 — Bootstrap default chart of accounts; returns codeToId map */
+        post: operations["Onboarding.stepChartOfAccounts"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/onboarding/step/gl-defaults": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Step 4 — Set default GL accounts */
+        post: operations["Onboarding.stepGlDefaults"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/onboarding/step/document-sequences": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Step 5 — Create document sequences */
+        post: operations["Onboarding.stepDocumentSequences"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/onboarding/complete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Mark onboarding as completed */
+        post: operations["Onboarding.complete"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/fiscal-periods": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List fiscal periods */
+        get: operations["FiscalPeriods.list"];
+        put?: never;
+        /**
+         * Create a fiscal period
+         * @description Start/end dates must not overlap with existing periods.
+         */
+        post: operations["FiscalPeriods.create"];
+        /** Bulk delete by ids */
+        delete: operations["FiscalPeriods.bulkDelete"];
+        options?: never;
+        head?: never;
+        /** Bulk partial update */
+        patch: operations["FiscalPeriods.bulkUpdate"];
+        trace?: never;
+    };
+    "/fiscal-periods/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get a fiscal period by ID */
+        get: operations["FiscalPeriods.show"];
+        put?: never;
+        post?: never;
+        /** Delete a fiscal period */
+        delete: operations["FiscalPeriods.delete"];
+        options?: never;
+        head?: never;
+        /**
+         * Update a fiscal period
+         * @description LOCKED periods cannot be modified.
+         */
+        patch: operations["FiscalPeriods.update"];
+        trace?: never;
+    };
+    "/document-sequences": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List document sequences */
+        get: operations["DocumentSequences.list"];
+        put?: never;
+        /**
+         * Create a document sequence
+         * @description Each document type can have only one sequence per tenant.
+         */
+        post: operations["DocumentSequences.create"];
+        /** Bulk delete by ids */
+        delete: operations["DocumentSequences.bulkDelete"];
+        options?: never;
+        head?: never;
+        /** Bulk partial update */
+        patch: operations["DocumentSequences.bulkUpdate"];
+        trace?: never;
+    };
+    "/document-sequences/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get a document sequence by ID */
+        get: operations["DocumentSequences.show"];
+        put?: never;
+        post?: never;
+        /** Delete a document sequence */
+        delete: operations["DocumentSequences.delete"];
+        options?: never;
+        head?: never;
+        /**
+         * Update a document sequence
+         * @description Update prefix, padding, or manually advance the sequence number.
+         */
+        patch: operations["DocumentSequences.update"];
+        trace?: never;
+    };
+    "/settings/financial": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get financial GL account settings */
+        get: operations["FinancialSettings.get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Save (upsert) financial GL account settings */
+        patch: operations["FinancialSettings.upsert"];
         trace?: never;
     };
     "/units/export": {
@@ -1022,96 +1252,6 @@ export interface paths {
         patch: operations["Currencies.update"];
         trace?: never;
     };
-    "/fiscal-periods": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** List fiscal periods */
-        get: operations["FiscalPeriods.list"];
-        put?: never;
-        /**
-         * Create a fiscal period
-         * @description Start/end dates must not overlap with existing periods.
-         */
-        post: operations["FiscalPeriods.create"];
-        /** Bulk delete by ids */
-        delete: operations["FiscalPeriods.bulkDelete"];
-        options?: never;
-        head?: never;
-        /** Bulk partial update */
-        patch: operations["FiscalPeriods.bulkUpdate"];
-        trace?: never;
-    };
-    "/fiscal-periods/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get a fiscal period by ID */
-        get: operations["FiscalPeriods.show"];
-        put?: never;
-        post?: never;
-        /** Delete a fiscal period */
-        delete: operations["FiscalPeriods.delete"];
-        options?: never;
-        head?: never;
-        /**
-         * Update a fiscal period
-         * @description LOCKED periods cannot be modified.
-         */
-        patch: operations["FiscalPeriods.update"];
-        trace?: never;
-    };
-    "/document-sequences": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** List document sequences */
-        get: operations["DocumentSequences.list"];
-        put?: never;
-        /**
-         * Create a document sequence
-         * @description Each document type can have only one sequence per tenant.
-         */
-        post: operations["DocumentSequences.create"];
-        /** Bulk delete by ids */
-        delete: operations["DocumentSequences.bulkDelete"];
-        options?: never;
-        head?: never;
-        /** Bulk partial update */
-        patch: operations["DocumentSequences.bulkUpdate"];
-        trace?: never;
-    };
-    "/document-sequences/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get a document sequence by ID */
-        get: operations["DocumentSequences.show"];
-        put?: never;
-        post?: never;
-        /** Delete a document sequence */
-        delete: operations["DocumentSequences.delete"];
-        options?: never;
-        head?: never;
-        /**
-         * Update a document sequence
-         * @description Update prefix, padding, or manually advance the sequence number.
-         */
-        patch: operations["DocumentSequences.update"];
-        trace?: never;
-    };
     "/accounting/chart-of-accounts": {
         parameters: {
             query?: never;
@@ -1164,24 +1304,6 @@ export interface paths {
          * @description Partial update — only provided fields are changed. Account code is immutable.
          */
         patch: operations["Accounts.update"];
-        trace?: never;
-    };
-    "/settings/financial": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get financial GL account settings */
-        get: operations["FinancialSettings.get"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        /** Save (upsert) financial GL account settings */
-        patch: operations["FinancialSettings.upsert"];
         trace?: never;
     };
     "/invoice-types": {
@@ -1792,9 +1914,29 @@ export interface paths {
         };
         /**
          * Get dashboard summary
-         * @description Returns key business metrics: total revenue, total expenses, outstanding receivables/payables, inventory value, and recent activity counts.
+         * @description Key business metrics for the selected date range. Defaults to current calendar month.
          */
         get: operations["Dashboard.summary"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/dashboard/chart-data": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get dashboard chart data
+         * @description Day-by-day sales and purchases totals for the selected date range (max 90 days).
+         */
+        get: operations["Dashboard.chartData"];
         put?: never;
         post?: never;
         delete?: never;
@@ -1988,25 +2130,94 @@ export interface components {
             message: string;
             meta?: components["schemas"]["ApiMetaDto"];
         };
-        AuthUserDto: {
-            /** @example 00000000-0000-4000-a100-000000000001 */
+        AuthTenantDto: {
+            /**
+             * @default
+             * @example 00000000-0000-4000-a000-000000000001
+             */
             id: string;
-            /** @example 00000000-0000-4000-a000-000000000001 */
+            /**
+             * @default
+             * @example Demo Shop
+             */
+            name: string;
+            /**
+             * @default
+             * @example demo-shop
+             */
+            slug: string;
+            /**
+             * @default 0
+             * @example 0
+             */
+            onboardingStep: number;
+            /**
+             * @default null
+             * @example null
+             */
+            onboardingCompletedAt: string | null;
+        };
+        AuthUserDto: {
+            /**
+             * @default
+             * @example 00000000-0000-4000-a200-000000000001
+             */
+            id: string;
+            /**
+             * @default
+             * @example 00000000-0000-4000-a000-000000000001
+             */
             tenantId: string;
-            /** @example admin@demo-shop.com */
+            /**
+             * @default
+             * @example admin@demo-shop.com
+             */
             email: string;
-            /** @example Admin User */
+            /**
+             * @default
+             * @example Admin User
+             */
             fullName: string;
             /**
+             * @default []
              * @example [
              *       "Admin"
              *     ]
              */
             roles: string[];
+            /**
+             * @default {
+             *       "id": "",
+             *       "name": "",
+             *       "slug": "",
+             *       "onboardingStep": 0,
+             *       "onboardingCompletedAt": null
+             *     }
+             */
+            tenant: components["schemas"]["AuthTenantDto"];
         };
         LoginDataDto: {
-            /** @example eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9... */
+            /**
+             * @default
+             * @example eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+             */
             accessToken: string;
+            /**
+             * @default {
+             *       "id": "",
+             *       "tenantId": "",
+             *       "email": "",
+             *       "fullName": "",
+             *       "roles": [],
+             *       "tenant": {
+             *         "id": "",
+             *         "name": "",
+             *         "slug": "",
+             *         "onboardingStep": 0,
+             *         "onboardingCompletedAt": null
+             *       }
+             *     }
+             */
             user: components["schemas"]["AuthUserDto"];
         };
         LoginDto: {
@@ -2042,32 +2253,46 @@ export interface components {
             /** @example +963-11-1234567 */
             phone?: string;
         };
-        MeTenantDto: {
-            /** @example 00000000-0000-4000-a000-000000000001 */
-            id: string;
-            /** @example Demo Shop */
-            name: string;
-            /** @example demo-shop */
-            slug: string;
-        };
         MeDataDto: {
-            /** @example 00000000-0000-4000-a100-000000000001 */
+            /**
+             * @default
+             * @example 00000000-0000-4000-a200-000000000001
+             */
             id: string;
-            /** @example 00000000-0000-4000-a000-000000000001 */
+            /**
+             * @default
+             * @example 00000000-0000-4000-a000-000000000001
+             */
             tenantId: string;
-            /** @example admin@demo-shop.com */
+            /**
+             * @default
+             * @example admin@demo-shop.com
+             */
             email: string;
-            /** @example Admin User */
+            /**
+             * @default
+             * @example Admin User
+             */
             fullName: string;
             /**
+             * @default []
              * @example [
              *       "Admin"
              *     ]
              */
             roles: string[];
+            /**
+             * @default {
+             *       "id": "",
+             *       "name": "",
+             *       "slug": "",
+             *       "onboardingStep": 0,
+             *       "onboardingCompletedAt": null
+             *     }
+             */
+            tenant: components["schemas"]["AuthTenantDto"];
             /** @example null */
             phone?: string | null;
-            tenant: components["schemas"]["MeTenantDto"];
         };
         LocalizedStringDto: {
             /** @example الليرة السورية */
@@ -2233,6 +2458,202 @@ export interface components {
              */
             defaultSalesSequenceId?: string;
         };
+        FormDefaultFiscalPeriodDto: {
+            /**
+             * @default
+             * @example 00000000-0000-4000-a700-000000000001
+             */
+            id: string;
+            /**
+             * @default
+             * @example 2026
+             */
+            name: string;
+        };
+        FormDefaultCurrencyDto: {
+            /**
+             * @default
+             * @example 00000000-0000-4000-a700-000000000002
+             */
+            id: string;
+            /**
+             * @default
+             * @example USD
+             */
+            code: string;
+            /**
+             * @default
+             * @example US Dollar
+             */
+            name: string;
+        };
+        FormDefaultCashboxDto: {
+            /**
+             * @default
+             * @example 00000000-0000-4000-a700-000000000003
+             */
+            id: string;
+            /**
+             * @default
+             * @example MAIN
+             */
+            code: string;
+            /**
+             * @default
+             * @example Main Cashbox
+             */
+            name: string;
+        };
+        FormDefaultsResponseDto: {
+            /**
+             * @description Current open fiscal period covering today, or null
+             * @default null
+             */
+            fiscalPeriod: components["schemas"]["FormDefaultFiscalPeriodDto"] | null;
+            /**
+             * @description Tenant base currency, or null if not configured
+             * @default null
+             */
+            currency: components["schemas"]["FormDefaultCurrencyDto"] | null;
+            /**
+             * @description First active cashbox in the base currency, or null
+             * @default null
+             */
+            cashbox: components["schemas"]["FormDefaultCashboxDto"] | null;
+        };
+        LocalizationSettingsDto: {
+            /**
+             * @description IANA timezone identifier
+             * @default UTC
+             * @example UTC
+             */
+            timezone: string;
+            /**
+             * @default en
+             * @example en
+             * @enum {string}
+             */
+            locale: "en" | "ar" | "tr";
+            /**
+             * @default YYYY-MM-DD
+             * @example YYYY-MM-DD
+             * @enum {string}
+             */
+            dateFormat: "YYYY-MM-DD" | "DD/MM/YYYY" | "MM/DD/YYYY";
+            /**
+             * @default 1,234.56
+             * @example 1,234.56
+             * @enum {string}
+             */
+            numberFormat: "1,234.56" | "1.234,56";
+            /**
+             * @description 0 = Sunday … 6 = Saturday
+             * @default 1
+             * @example 1
+             */
+            firstDayOfWeek: number;
+        };
+        FinancialSettingsDto: {
+            /**
+             * @description Default tax rate percentage (0–100)
+             * @default 0
+             * @example 0
+             */
+            defaultTaxRate: number;
+            /**
+             * @description Decimal places used when rounding amounts (0–6)
+             * @default 2
+             * @example 2
+             */
+            roundingPrecision: number;
+            /**
+             * @description Month the fiscal year starts (1 = January)
+             * @default 1
+             * @example 1
+             */
+            fiscalYearStartMonth: number;
+        };
+        DocumentsSettingsDto: {
+            /**
+             * @description Default notes appended to invoices
+             * @default
+             * @example
+             */
+            invoiceDefaultNotes: string;
+            /**
+             * @description Default payment terms appended to invoices
+             * @default
+             * @example
+             */
+            invoiceDefaultTerms: string;
+            /**
+             * @description Footer text printed on all documents
+             * @default
+             * @example
+             */
+            documentFooter: string;
+            /**
+             * @description Whether to print the tenant logo on documents
+             * @default true
+             * @example true
+             */
+            showLogoOnDocuments: boolean;
+        };
+        SettingsResponseDto: {
+            /**
+             * @default {
+             *       "timezone": "UTC",
+             *       "locale": "en",
+             *       "dateFormat": "YYYY-MM-DD",
+             *       "numberFormat": "1,234.56",
+             *       "firstDayOfWeek": 1
+             *     }
+             */
+            localization: components["schemas"]["LocalizationSettingsDto"];
+            /**
+             * @default {
+             *       "defaultTaxRate": 0,
+             *       "roundingPrecision": 2,
+             *       "fiscalYearStartMonth": 1
+             *     }
+             */
+            financial: components["schemas"]["FinancialSettingsDto"];
+            /**
+             * @default {
+             *       "invoiceDefaultNotes": "",
+             *       "invoiceDefaultTerms": "",
+             *       "documentFooter": "",
+             *       "showLogoOnDocuments": true
+             *     }
+             */
+            documents: components["schemas"]["DocumentsSettingsDto"];
+        };
+        UpdateSettingsDto: {
+            /** @example Europe/Istanbul */
+            timezone?: string;
+            /** @enum {string} */
+            locale?: "en" | "ar" | "tr";
+            /** @enum {string} */
+            dateFormat?: "YYYY-MM-DD" | "DD/MM/YYYY" | "MM/DD/YYYY";
+            /** @enum {string} */
+            numberFormat?: "1,234.56" | "1.234,56";
+            /** @example 1 */
+            firstDayOfWeek?: number;
+            /** @example 15 */
+            defaultTaxRate?: number;
+            /** @example 2 */
+            roundingPrecision?: number;
+            /** @example 1 */
+            fiscalYearStartMonth?: number;
+            /** @example Thank you for your business. */
+            invoiceDefaultNotes?: string;
+            /** @example Net 30 */
+            invoiceDefaultTerms?: string;
+            /** @example Company Reg. No. 12345 */
+            documentFooter?: string;
+            /** @example true */
+            showLogoOnDocuments?: boolean;
+        };
         CreateUserDto: {
             /**
              * Format: email
@@ -2285,6 +2706,342 @@ export interface components {
              * @example false
              */
             isActive: boolean;
+        };
+        OnboardingCompanyStepDto: {
+            /**
+             * @default
+             * @example My Company
+             */
+            name: string;
+            address?: string;
+            phone?: string;
+            /**
+             * @default en
+             * @example en
+             * @enum {string}
+             */
+            locale: "en" | "ar" | "tr";
+            /**
+             * @default UTC
+             * @example UTC
+             */
+            timezone: string;
+            /**
+             * @default YYYY-MM-DD
+             * @example YYYY-MM-DD
+             * @enum {string}
+             */
+            dateFormat: "YYYY-MM-DD" | "DD/MM/YYYY" | "MM/DD/YYYY";
+            /**
+             * @default 1,234.56
+             * @example 1,234.56
+             * @enum {string}
+             */
+            numberFormat: "1,234.56" | "1.234,56";
+        };
+        OnboardingFiscalYearStepDto: {
+            /**
+             * @default
+             * @example 2026-01-01
+             */
+            startDate: string;
+            /**
+             * @default
+             * @example 2026-12-31
+             */
+            endDate: string;
+            /** @example FY 2026 */
+            name?: string;
+        };
+        OnboardingGlDefaultsStepDto: {
+            /**
+             * Format: uuid
+             * @default
+             */
+            defaultSalesAccountId: string;
+            /**
+             * Format: uuid
+             * @default
+             */
+            defaultPurchaseAccountId: string;
+            /**
+             * Format: uuid
+             * @default
+             */
+            defaultTaxAccountId: string;
+            /**
+             * Format: uuid
+             * @default
+             */
+            defaultReceivableAccountId: string;
+            /**
+             * Format: uuid
+             * @default
+             */
+            defaultPayableAccountId: string;
+        };
+        OnboardingSequenceItemDto: {
+            /**
+             * @default
+             * @example SALES_INVOICE
+             */
+            type: string;
+            /**
+             * @default
+             * @example INV-
+             */
+            prefix: string;
+            /** @example 1 */
+            startNumber?: number;
+            /** @example 5 */
+            padLength?: number;
+        };
+        OnboardingDocumentSequencesStepDto: {
+            /** @default [] */
+            sequences: components["schemas"]["OnboardingSequenceItemDto"][];
+        };
+        FiscalPeriodResponseDto: {
+            /**
+             * @default
+             * @example 00000000-0000-4000-b200-000000000001
+             */
+            id: string;
+            /**
+             * @default
+             * @example 2026
+             */
+            name: string;
+            /**
+             * @default
+             * @example 2026-01-01T00:00:00.000Z
+             */
+            startDate: string;
+            /**
+             * @default
+             * @example 2026-12-31T00:00:00.000Z
+             */
+            endDate: string;
+            /**
+             * @default OPEN
+             * @example OPEN
+             * @enum {string}
+             */
+            status: "OPEN" | "CLOSED" | "LOCKED";
+            /**
+             * @default
+             * @example 2025-01-01T00:00:00.000Z
+             */
+            createdAt: string;
+            /**
+             * @default
+             * @example 2025-01-01T00:00:00.000Z
+             */
+            updatedAt: string;
+        };
+        CreateFiscalPeriodDto: {
+            /**
+             * @default
+             * @example 2026
+             */
+            name: string;
+            /**
+             * @description Period start date (ISO 8601)
+             * @default
+             * @example 2026-01-01
+             */
+            startDate: string;
+            /**
+             * @description Period end date (ISO 8601)
+             * @default
+             * @example 2026-12-31
+             */
+            endDate: string;
+        };
+        UpdateFiscalPeriodDto: {
+            /** @example 2026 – Extended */
+            name?: string;
+            /** @example 2026-01-01 */
+            startDate?: string;
+            /** @example 2026-12-31 */
+            endDate?: string;
+            /**
+             * @example OPEN
+             * @enum {string}
+             */
+            status?: "OPEN" | "CLOSED" | "LOCKED";
+        };
+        DocumentSequenceResponseDto: {
+            /**
+             * @default
+             * @example 00000000-0000-4000-b300-000000000001
+             */
+            id: string;
+            /**
+             * @default
+             * @example SALES_INVOICE
+             */
+            documentType: string;
+            /**
+             * @default
+             * @example SAL
+             */
+            prefix: string;
+            /**
+             * @default 1
+             * @example 42
+             */
+            nextNumber: number;
+            /**
+             * @default 5
+             * @example 5
+             */
+            padding: number;
+            /**
+             * @default
+             * @example 2025-01-01T00:00:00.000Z
+             */
+            createdAt: string;
+            /**
+             * @default
+             * @example 2025-01-01T00:00:00.000Z
+             */
+            updatedAt: string;
+        };
+        CreateDocumentSequenceDto: {
+            /**
+             * @description Document type (e.g. SALES_INVOICE, PURCHASE_INVOICE, PAYMENT, STOCK_COUNT)
+             * @default
+             * @example SALES_INVOICE
+             */
+            documentType: string;
+            /**
+             * @description Prefix for generated document numbers
+             * @default
+             * @example SAL
+             */
+            prefix: string;
+            /**
+             * @description Starting number for the sequence
+             * @example 1
+             */
+            nextNumber?: number;
+            /**
+             * @description Zero-pad length (e.g. 5 → SAL-00001)
+             * @example 5
+             */
+            padding?: number;
+        };
+        UpdateDocumentSequenceDto: {
+            /**
+             * @description Updated prefix
+             * @example INV
+             */
+            prefix?: string;
+            /**
+             * @description Jump sequence to a specific number
+             * @example 100
+             */
+            nextNumber?: number;
+            /** @example 6 */
+            padding?: number;
+        };
+        ChartOfAccountResponseDto: {
+            /**
+             * @default
+             * @example 00000000-0000-4000-a601-000000000001
+             */
+            id: string;
+            /**
+             * @default
+             * @example 1110
+             */
+            code: string;
+            /**
+             * @default
+             * @example نقد وما يعادله
+             */
+            name: string;
+            /**
+             * @default {
+             *       "ar": ""
+             *     }
+             */
+            nameI18n: components["schemas"]["LocalizedStringDto"];
+            /**
+             * @default
+             * @example ASSET
+             * @enum {string}
+             */
+            type: "ASSET" | "LIABILITY" | "EQUITY" | "REVENUE" | "EXPENSE";
+            /**
+             * @default null
+             * @example 00000000-0000-4000-a601-000000000001
+             */
+            parentId: string | null;
+            /**
+             * @default null
+             * @example 1000
+             */
+            parentCode: string | null;
+            /**
+             * @default null
+             * @example الأصول المتداولة
+             */
+            parentName: string | null;
+            /**
+             * @default true
+             * @example true
+             */
+            isActive: boolean;
+            /**
+             * @default
+             * @example 2025-01-01T00:00:00.000Z
+             */
+            createdAt: string;
+            /**
+             * @default
+             * @example 2025-01-01T00:00:00.000Z
+             */
+            updatedAt: string;
+        };
+        FinancialSettingResponseDto: {
+            /** @default null */
+            defaultSalesAccount: components["schemas"]["ChartOfAccountResponseDto"] | null;
+            /** @default null */
+            defaultPurchaseAccount: components["schemas"]["ChartOfAccountResponseDto"] | null;
+            /** @default null */
+            defaultTaxAccount: components["schemas"]["ChartOfAccountResponseDto"] | null;
+            /** @default null */
+            defaultReceivableAccount: components["schemas"]["ChartOfAccountResponseDto"] | null;
+            /** @default null */
+            defaultPayableAccount: components["schemas"]["ChartOfAccountResponseDto"] | null;
+        };
+        UpsertFinancialSettingBodyDto: {
+            /**
+             * @description Default sales revenue account
+             * @example 00000000-0000-4000-a600-000000000001
+             */
+            defaultSalesAccountId?: string | null;
+            /**
+             * @description Default purchase/COGS account
+             * @example 00000000-0000-4000-a600-000000000002
+             */
+            defaultPurchaseAccountId?: string | null;
+            /**
+             * @description Default tax/VAT payable account
+             * @example 00000000-0000-4000-a600-000000000003
+             */
+            defaultTaxAccountId?: string | null;
+            /**
+             * @description Default accounts receivable (AR) account
+             * @example 00000000-0000-4000-a600-000000000004
+             */
+            defaultReceivableAccountId?: string | null;
+            /**
+             * @description Default accounts payable (AP) account
+             * @example 00000000-0000-4000-a600-000000000005
+             */
+            defaultPayableAccountId?: string | null;
         };
         ImportFileDto: {
             /**
@@ -3309,210 +4066,6 @@ export interface components {
             /** @example true */
             isActive?: boolean;
         };
-        FiscalPeriodResponseDto: {
-            /**
-             * @default
-             * @example 00000000-0000-4000-b200-000000000001
-             */
-            id: string;
-            /**
-             * @default
-             * @example 2026
-             */
-            name: string;
-            /**
-             * @default
-             * @example 2026-01-01T00:00:00.000Z
-             */
-            startDate: string;
-            /**
-             * @default
-             * @example 2026-12-31T00:00:00.000Z
-             */
-            endDate: string;
-            /**
-             * @default OPEN
-             * @example OPEN
-             * @enum {string}
-             */
-            status: "OPEN" | "CLOSED" | "LOCKED";
-            /**
-             * @default
-             * @example 2025-01-01T00:00:00.000Z
-             */
-            createdAt: string;
-            /**
-             * @default
-             * @example 2025-01-01T00:00:00.000Z
-             */
-            updatedAt: string;
-        };
-        CreateFiscalPeriodDto: {
-            /**
-             * @default
-             * @example 2026
-             */
-            name: string;
-            /**
-             * @description Period start date (ISO 8601)
-             * @default
-             * @example 2026-01-01
-             */
-            startDate: string;
-            /**
-             * @description Period end date (ISO 8601)
-             * @default
-             * @example 2026-12-31
-             */
-            endDate: string;
-        };
-        UpdateFiscalPeriodDto: {
-            /** @example 2026 – Extended */
-            name?: string;
-            /** @example 2026-01-01 */
-            startDate?: string;
-            /** @example 2026-12-31 */
-            endDate?: string;
-            /**
-             * @example OPEN
-             * @enum {string}
-             */
-            status?: "OPEN" | "CLOSED" | "LOCKED";
-        };
-        DocumentSequenceResponseDto: {
-            /**
-             * @default
-             * @example 00000000-0000-4000-b300-000000000001
-             */
-            id: string;
-            /**
-             * @default
-             * @example SALES_INVOICE
-             */
-            documentType: string;
-            /**
-             * @default
-             * @example SAL
-             */
-            prefix: string;
-            /**
-             * @default 1
-             * @example 42
-             */
-            nextNumber: number;
-            /**
-             * @default 5
-             * @example 5
-             */
-            padding: number;
-            /**
-             * @default
-             * @example 2025-01-01T00:00:00.000Z
-             */
-            createdAt: string;
-            /**
-             * @default
-             * @example 2025-01-01T00:00:00.000Z
-             */
-            updatedAt: string;
-        };
-        CreateDocumentSequenceDto: {
-            /**
-             * @description Document type (e.g. SALES_INVOICE, PURCHASE_INVOICE, PAYMENT, STOCK_COUNT)
-             * @default
-             * @example SALES_INVOICE
-             */
-            documentType: string;
-            /**
-             * @description Prefix for generated document numbers
-             * @default
-             * @example SAL
-             */
-            prefix: string;
-            /**
-             * @description Starting number for the sequence
-             * @example 1
-             */
-            nextNumber?: number;
-            /**
-             * @description Zero-pad length (e.g. 5 → SAL-00001)
-             * @example 5
-             */
-            padding?: number;
-        };
-        UpdateDocumentSequenceDto: {
-            /**
-             * @description Updated prefix
-             * @example INV
-             */
-            prefix?: string;
-            /**
-             * @description Jump sequence to a specific number
-             * @example 100
-             */
-            nextNumber?: number;
-            /** @example 6 */
-            padding?: number;
-        };
-        ChartOfAccountResponseDto: {
-            /**
-             * @default
-             * @example 00000000-0000-4000-a601-000000000001
-             */
-            id: string;
-            /**
-             * @default
-             * @example 1110
-             */
-            code: string;
-            /**
-             * @default
-             * @example نقد وما يعادله
-             */
-            name: string;
-            /**
-             * @default {
-             *       "ar": ""
-             *     }
-             */
-            nameI18n: components["schemas"]["LocalizedStringDto"];
-            /**
-             * @default
-             * @example ASSET
-             * @enum {string}
-             */
-            type: "ASSET" | "LIABILITY" | "EQUITY" | "REVENUE" | "EXPENSE";
-            /**
-             * @default null
-             * @example 00000000-0000-4000-a601-000000000001
-             */
-            parentId: string | null;
-            /**
-             * @default null
-             * @example 1000
-             */
-            parentCode: string | null;
-            /**
-             * @default null
-             * @example الأصول المتداولة
-             */
-            parentName: string | null;
-            /**
-             * @default true
-             * @example true
-             */
-            isActive: boolean;
-            /**
-             * @default
-             * @example 2025-01-01T00:00:00.000Z
-             */
-            createdAt: string;
-            /**
-             * @default
-             * @example 2025-01-01T00:00:00.000Z
-             */
-            updatedAt: string;
-        };
         CreateChartOfAccountDto: {
             /**
              * @description Unique account code within the tenant
@@ -3553,33 +4106,6 @@ export interface components {
              * @example true
              */
             isActive?: boolean;
-        };
-        UpsertFinancialSettingBodyDto: {
-            /**
-             * @description Default sales revenue account
-             * @example 00000000-0000-4000-a600-000000000001
-             */
-            defaultSalesAccountId?: Record<string, never>;
-            /**
-             * @description Default purchase/COGS account
-             * @example 00000000-0000-4000-a600-000000000002
-             */
-            defaultPurchaseAccountId?: Record<string, never>;
-            /**
-             * @description Default tax/VAT payable account
-             * @example 00000000-0000-4000-a600-000000000003
-             */
-            defaultTaxAccountId?: Record<string, never>;
-            /**
-             * @description Default accounts receivable (AR) account
-             * @example 00000000-0000-4000-a600-000000000004
-             */
-            defaultReceivableAccountId?: Record<string, never>;
-            /**
-             * @description Default accounts payable (AP) account
-             * @example 00000000-0000-4000-a600-000000000005
-             */
-            defaultPayableAccountId?: Record<string, never>;
         };
         InvoiceTypeResponseDto: {
             /**
@@ -4306,7 +4832,9 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["LoginDataDto"];
+                    };
                 };
             };
             /** @description JWT token is missing, expired, or invalid */
@@ -5099,6 +5627,71 @@ export interface operations {
             };
         };
     };
+    "Settings.getDefaults": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Computed defaults for form pre-population */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FormDefaultsResponseDto"];
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
     "Settings.getAll": {
         parameters: {
             query?: never;
@@ -5114,7 +5707,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["SettingsResponseDto"];
                 };
             };
             /** @description JWT token is missing, expired, or invalid */
@@ -5171,12 +5764,9 @@ export interface operations {
             path?: never;
             cookie?: never;
         };
-        /** @description Partial map of registry keys to new values */
         requestBody: {
             content: {
-                "application/json": {
-                    [key: string]: unknown;
-                };
+                "application/json": components["schemas"]["UpdateSettingsDto"];
             };
         };
         responses: {
@@ -5185,7 +5775,9 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "application/json": components["schemas"]["SettingsResponseDto"];
+                };
             };
             /** @description JWT token is missing, expired, or invalid */
             401: {
@@ -5640,6 +6232,984 @@ export interface operations {
                 };
                 content: {
                     "application/json": unknown;
+                };
+            };
+        };
+    };
+    "Onboarding.stepCompany": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["OnboardingCompanyStepDto"];
+            };
+        };
+        responses: {
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    "Onboarding.stepFiscalYear": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["OnboardingFiscalYearStepDto"];
+            };
+        };
+        responses: {
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    "Onboarding.stepChartOfAccounts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    "Onboarding.stepGlDefaults": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["OnboardingGlDefaultsStepDto"];
+            };
+        };
+        responses: {
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    "Onboarding.stepDocumentSequences": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["OnboardingDocumentSequencesStepDto"];
+            };
+        };
+        responses: {
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    "Onboarding.complete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    "FiscalPeriods.list": {
+        parameters: {
+            query?: {
+                /** @description Page number (1-based) */
+                page?: number;
+                /** @description Number of items per page */
+                limit?: number;
+                /** @description Field name to sort by */
+                sortField?: string;
+                sortOrder?: "asc" | "desc";
+                /** @description Full-text search keyword */
+                search?: string;
+                /** @description Comma-separated field names to search within (e.g. name,symbol) */
+                searchIn?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Paginated list of fiscal periods */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["FiscalPeriodResponseDto"][];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "FiscalPeriods.create": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateFiscalPeriodDto"];
+            };
+        };
+        responses: {
+            /** @description Fiscal period created successfully */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["FiscalPeriodResponseDto"];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "FiscalPeriods.bulkDelete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BulkDeleteBodyDto"];
+            };
+        };
+        responses: {
+            /** @description Bulk delete result ({ total, succeeded, failed, errors }) */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BulkResultResponseDto"];
+                };
+            };
+        };
+    };
+    "FiscalPeriods.bulkUpdate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BulkUpdateBody"];
+            };
+        };
+        responses: {
+            /** @description Bulk partial-update result ({ total, succeeded, failed, errors }) */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BulkResultResponseDto"];
+                };
+            };
+        };
+    };
+    "FiscalPeriods.show": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Fiscal period UUID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Fiscal period details */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["FiscalPeriodResponseDto"];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "FiscalPeriods.delete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Fiscal period UUID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Fiscal period deleted successfully */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "FiscalPeriods.update": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Fiscal period UUID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateFiscalPeriodDto"];
+            };
+        };
+        responses: {
+            /** @description Updated fiscal period */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["FiscalPeriodResponseDto"];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "DocumentSequences.list": {
+        parameters: {
+            query?: {
+                /** @description Page number (1-based) */
+                page?: number;
+                /** @description Number of items per page */
+                limit?: number;
+                /** @description Field name to sort by */
+                sortField?: string;
+                sortOrder?: "asc" | "desc";
+                /** @description Full-text search keyword */
+                search?: string;
+                /** @description Comma-separated field names to search within (e.g. name,symbol) */
+                searchIn?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Paginated list of document sequences */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["DocumentSequenceResponseDto"][];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "DocumentSequences.create": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateDocumentSequenceDto"];
+            };
+        };
+        responses: {
+            /** @description Document sequence created successfully */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["DocumentSequenceResponseDto"];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "DocumentSequences.bulkDelete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BulkDeleteBodyDto"];
+            };
+        };
+        responses: {
+            /** @description Bulk delete result ({ total, succeeded, failed, errors }) */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BulkResultResponseDto"];
+                };
+            };
+        };
+    };
+    "DocumentSequences.bulkUpdate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BulkUpdateBody"];
+            };
+        };
+        responses: {
+            /** @description Bulk partial-update result ({ total, succeeded, failed, errors }) */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BulkResultResponseDto"];
+                };
+            };
+        };
+    };
+    "DocumentSequences.show": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Document sequence UUID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Document sequence details */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["DocumentSequenceResponseDto"];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "DocumentSequences.delete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Document sequence UUID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Document sequence deleted successfully */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "DocumentSequences.update": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Document sequence UUID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateDocumentSequenceDto"];
+            };
+        };
+        responses: {
+            /** @description Updated document sequence */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["DocumentSequenceResponseDto"];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "FinancialSettings.get": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Financial settings or null */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FinancialSettingResponseDto"];
+                };
+            };
+        };
+    };
+    "FinancialSettings.upsert": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpsertFinancialSettingBodyDto"];
+            };
+        };
+        responses: {
+            /** @description Updated financial settings */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FinancialSettingResponseDto"];
                 };
             };
         };
@@ -11815,822 +13385,6 @@ export interface operations {
             };
         };
     };
-    "FiscalPeriods.list": {
-        parameters: {
-            query?: {
-                /** @description Page number (1-based) */
-                page?: number;
-                /** @description Number of items per page */
-                limit?: number;
-                /** @description Field name to sort by */
-                sortField?: string;
-                sortOrder?: "asc" | "desc";
-                /** @description Full-text search keyword */
-                search?: string;
-                /** @description Comma-separated field names to search within (e.g. name,symbol) */
-                searchIn?: string;
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Paginated list of fiscal periods */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
-                        data?: components["schemas"]["FiscalPeriodResponseDto"][];
-                    };
-                };
-            };
-            /** @description JWT token is missing, expired, or invalid */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Insufficient permissions to perform this action */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description The requested resource was not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Request body validation failed */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description An unexpected internal server error occurred */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-        };
-    };
-    "FiscalPeriods.create": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["CreateFiscalPeriodDto"];
-            };
-        };
-        responses: {
-            /** @description Fiscal period created successfully */
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
-                        data?: components["schemas"]["FiscalPeriodResponseDto"];
-                    };
-                };
-            };
-            /** @description JWT token is missing, expired, or invalid */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Insufficient permissions to perform this action */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description The requested resource was not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Request body validation failed */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description An unexpected internal server error occurred */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-        };
-    };
-    "FiscalPeriods.bulkDelete": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["BulkDeleteBodyDto"];
-            };
-        };
-        responses: {
-            /** @description Bulk delete result ({ total, succeeded, failed, errors }) */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["BulkResultResponseDto"];
-                };
-            };
-        };
-    };
-    "FiscalPeriods.bulkUpdate": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["BulkUpdateBody"];
-            };
-        };
-        responses: {
-            /** @description Bulk partial-update result ({ total, succeeded, failed, errors }) */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["BulkResultResponseDto"];
-                };
-            };
-        };
-    };
-    "FiscalPeriods.show": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description Fiscal period UUID */
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Fiscal period details */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
-                        data?: components["schemas"]["FiscalPeriodResponseDto"];
-                    };
-                };
-            };
-            /** @description JWT token is missing, expired, or invalid */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Insufficient permissions to perform this action */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description The requested resource was not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Request body validation failed */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description An unexpected internal server error occurred */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-        };
-    };
-    "FiscalPeriods.delete": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description Fiscal period UUID */
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Fiscal period deleted successfully */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description JWT token is missing, expired, or invalid */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Insufficient permissions to perform this action */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description The requested resource was not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Request body validation failed */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description An unexpected internal server error occurred */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-        };
-    };
-    "FiscalPeriods.update": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description Fiscal period UUID */
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["UpdateFiscalPeriodDto"];
-            };
-        };
-        responses: {
-            /** @description Updated fiscal period */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
-                        data?: components["schemas"]["FiscalPeriodResponseDto"];
-                    };
-                };
-            };
-            /** @description JWT token is missing, expired, or invalid */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Insufficient permissions to perform this action */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description The requested resource was not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Request body validation failed */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description An unexpected internal server error occurred */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-        };
-    };
-    "DocumentSequences.list": {
-        parameters: {
-            query?: {
-                /** @description Page number (1-based) */
-                page?: number;
-                /** @description Number of items per page */
-                limit?: number;
-                /** @description Field name to sort by */
-                sortField?: string;
-                sortOrder?: "asc" | "desc";
-                /** @description Full-text search keyword */
-                search?: string;
-                /** @description Comma-separated field names to search within (e.g. name,symbol) */
-                searchIn?: string;
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Paginated list of document sequences */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
-                        data?: components["schemas"]["DocumentSequenceResponseDto"][];
-                    };
-                };
-            };
-            /** @description JWT token is missing, expired, or invalid */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Insufficient permissions to perform this action */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description The requested resource was not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Request body validation failed */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description An unexpected internal server error occurred */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-        };
-    };
-    "DocumentSequences.create": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["CreateDocumentSequenceDto"];
-            };
-        };
-        responses: {
-            /** @description Document sequence created successfully */
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
-                        data?: components["schemas"]["DocumentSequenceResponseDto"];
-                    };
-                };
-            };
-            /** @description JWT token is missing, expired, or invalid */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Insufficient permissions to perform this action */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description The requested resource was not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Request body validation failed */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description An unexpected internal server error occurred */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-        };
-    };
-    "DocumentSequences.bulkDelete": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["BulkDeleteBodyDto"];
-            };
-        };
-        responses: {
-            /** @description Bulk delete result ({ total, succeeded, failed, errors }) */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["BulkResultResponseDto"];
-                };
-            };
-        };
-    };
-    "DocumentSequences.bulkUpdate": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["BulkUpdateBody"];
-            };
-        };
-        responses: {
-            /** @description Bulk partial-update result ({ total, succeeded, failed, errors }) */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["BulkResultResponseDto"];
-                };
-            };
-        };
-    };
-    "DocumentSequences.show": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description Document sequence UUID */
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Document sequence details */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
-                        data?: components["schemas"]["DocumentSequenceResponseDto"];
-                    };
-                };
-            };
-            /** @description JWT token is missing, expired, or invalid */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Insufficient permissions to perform this action */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description The requested resource was not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Request body validation failed */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description An unexpected internal server error occurred */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-        };
-    };
-    "DocumentSequences.delete": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description Document sequence UUID */
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Document sequence deleted successfully */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description JWT token is missing, expired, or invalid */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Insufficient permissions to perform this action */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description The requested resource was not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Request body validation failed */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description An unexpected internal server error occurred */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-        };
-    };
-    "DocumentSequences.update": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description Document sequence UUID */
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["UpdateDocumentSequenceDto"];
-            };
-        };
-        responses: {
-            /** @description Updated document sequence */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
-                        data?: components["schemas"]["DocumentSequenceResponseDto"];
-                    };
-                };
-            };
-            /** @description JWT token is missing, expired, or invalid */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Insufficient permissions to perform this action */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description The requested resource was not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Request body validation failed */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description An unexpected internal server error occurred */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-        };
-    };
     "Accounts.list": {
         parameters: {
             query?: {
@@ -13036,46 +13790,6 @@ export interface operations {
                 content: {
                     "application/json": unknown;
                 };
-            };
-        };
-    };
-    "FinancialSettings.get": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Financial settings or null */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    "FinancialSettings.upsert": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["UpsertFinancialSettingBodyDto"];
-            };
-        };
-        responses: {
-            /** @description Updated financial settings */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
             };
         };
     };
@@ -16684,7 +17398,12 @@ export interface operations {
     };
     "Dashboard.summary": {
         parameters: {
-            query?: never;
+            query?: {
+                /** @description Start date (ISO 8601) */
+                from?: string;
+                /** @description End date (ISO 8601) */
+                to?: string;
+            };
             header?: never;
             path?: never;
             cookie?: never;
@@ -16692,6 +17411,74 @@ export interface operations {
         requestBody?: never;
         responses: {
             /** @description Dashboard summary data */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "Dashboard.chartData": {
+        parameters: {
+            query?: {
+                /** @description Start date (ISO 8601) */
+                from?: string;
+                /** @description End date (ISO 8601) */
+                to?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Chart data points */
             200: {
                 headers: {
                     [name: string]: unknown;

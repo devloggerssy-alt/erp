@@ -24,4 +24,8 @@ export class TenantsClient {
             patch as ApiRequestBody<typeof tenantResource.routes.updateSettings, "patch">,
         )
     }
+
+    getDefaults = async () => {
+        return this.apiClient.get(tenantResource.routes.defaults)
+    }
 }

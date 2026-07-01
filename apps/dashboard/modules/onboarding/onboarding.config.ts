@@ -40,13 +40,31 @@ export const DEFAULT_FISCAL_YEAR_VALUES: FiscalYearStepValues = {
 
 // ── Step 4: GL Defaults ──────────────────────────────────────────────────────
 
-export const glDefaultsStepSchema = z.object({
-    defaultSalesAccountId: z.string().uuid("Select a sales account"),
-    defaultPurchaseAccountId: z.string().uuid("Select a purchase account"),
-    defaultTaxAccountId: z.string().uuid("Select a tax account"),
-    defaultReceivableAccountId: z.string().uuid("Select a receivable account"),
-    defaultPayableAccountId: z.string().uuid("Select a payable account"),
-})
+const accountPickerValueSchema = z
+    .object({ id: z.string(), code: z.string(), name: z.string() })
+    .passthrough()
+    .nullable()
+
+export const glDefaultsStepSchema = z
+    .object({
+        defaultSalesAccount:      accountPickerValueSchema,
+        defaultPurchaseAccount:   accountPickerValueSchema,
+        defaultTaxAccount:        accountPickerValueSchema,
+        defaultReceivableAccount: accountPickerValueSchema,
+        defaultPayableAccount:    accountPickerValueSchema,
+    })
+    .superRefine((data, ctx) => {
+        const fields = [
+            { key: "defaultSalesAccount",      msg: "Select a sales account" },
+            { key: "defaultPurchaseAccount",   msg: "Select a purchase account" },
+            { key: "defaultTaxAccount",        msg: "Select a tax account" },
+            { key: "defaultReceivableAccount", msg: "Select a receivable account" },
+            { key: "defaultPayableAccount",    msg: "Select a payable account" },
+        ] as const
+        for (const { key, msg } of fields) {
+            if (!data[key]) ctx.addIssue({ code: "custom", path: [key], message: msg })
+        }
+    })
 export type GlDefaultsStepValues = z.infer<typeof glDefaultsStepSchema>
 
 // ── Step 5: Document Sequences ───────────────────────────────────────────────
@@ -80,9 +98,9 @@ export const DEFAULT_DOCUMENT_SEQUENCES_VALUES: DocumentSequencesStepValues = {
 // ── GL pre-fill map — code → recommended field ────────────────────────────────
 
 export const GL_DEFAULT_CODES: Record<keyof GlDefaultsStepValues, string> = {
-    defaultSalesAccountId:      "4100",
-    defaultPurchaseAccountId:   "5100",
-    defaultTaxAccountId:        "2140",
-    defaultReceivableAccountId: "1120",
-    defaultPayableAccountId:    "2110",
+    defaultSalesAccount:      "4100",
+    defaultPurchaseAccount:   "5100",
+    defaultTaxAccount:        "2140",
+    defaultReceivableAccount: "1120",
+    defaultPayableAccount:    "2110",
 }
