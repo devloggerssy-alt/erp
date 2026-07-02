@@ -51,8 +51,12 @@ export class StockCountsService {
                     },
                 },
             });
+
             const systemQty = balance ? Number(balance.quantity) : 0;
+         
             const difference = line.countedQuantity - systemQty;
+
+            
             return {
                 tenantId,
                 itemId: line.itemId,

@@ -19,9 +19,11 @@ This is a comprehensive Enterprise Resource Planning (ERP) system database desig
 - **Inventory Management**: Warehouses, stock tracking, and stock counts
 - **Catalog Classification**: Item types, brands, dynamic catalog entities, item-to-item relations, reusable tags, and polymorphic tag assignments
 - **Sales & Purchases**: Invoices, parties (customers/suppliers), and payments
-- **Financial Operations**: Multiple currencies, cashboxes, and payment allocations
+- **Financial Operations**: Multiple currencies (with locked exchange rates), cashboxes, and payment allocations
 - **Expense Management**: Itemized expense documents with double-entry journal posting
-- **Tenant Configuration**: Per-tenant settings (localization, financial, documents)
+- **General Ledger Mapping**: Per-tenant default GL accounts for sales, purchase, tax, receivable, and payable postings
+- **Tenant Configuration**: Per-tenant settings (localization, financial, documents) and onboarding progress tracking
+- **File Storage**: Uploaded file metadata (images, attachments)
 - **Audit Trail**: Complete audit logging for compliance
 - **AI Integration**: Chat sessions for intelligent assistance
 
@@ -41,9 +43,10 @@ Tenant (root organization)
 ├── AppUser (employees)
 │   └── Role (permissions)
 ├── TenantSetting (per-tenant configuration)
+├── FinancialSetting (default GL account mapping, 1-to-1)
 ├── Party (customers/suppliers)
 ├── Warehouse (inventory locations)
-├── Item (products/services/vehicles/bundles)
+├── Item (products/services)
 │   ├── Brand (manufacturer/brand)
 │   ├── CatalogEntity (dynamic catalog taxonomy)
 │   ├── ItemRelation (compatibility/replacement/requirements)
@@ -55,6 +58,7 @@ Tenant (root organization)
 ├── Invoice & Payment (transactions)
 ├── Expense (itemized expense documents)
 ├── ChartOfAccount (accounting structure)
+├── File (uploaded file metadata)
 └── AuditLog (compliance tracking)
 ```
 
@@ -80,10 +84,12 @@ Tenant (root organization)
 | base_currency_id | UUID? | FK | Default reporting currency |
 | default_sales_sequence_id | UUID? | FK | Default document sequence for sales |
 | is_active | Boolean | - | Soft delete flag (default: true) |
+| onboarding_step | Int | - | Current onboarding wizard step (default: 0) |
+| onboarding_completed_at | DateTime? | - | Onboarding completion timestamp (null until finished) |
 | created_at | DateTime | - | Creation timestamp |
 | updated_at | DateTime | - | Last modification timestamp |
 
-**Relationships**: Parent to all other entities
+**Relationships**: Parent to all other entities. One-to-one with `FinancialSetting`.
 
 ---
 
@@ -174,6 +180,8 @@ Tenant (root organization)
 | address | String? | - | Physical address |
 | opening_balance | Decimal(18,4) | - | Starting balance for reconciliation (default: 0) |
 | is_active | Boolean | - | Status flag (default: true) |
+| receivable_account_id | UUID? | FK | Party-level override for the receivable ChartOfAccount (falls back to FinancialSetting default) |
+| payable_account_id | UUID? | FK | Party-level override for the payable ChartOfAccount (falls back to FinancialSetting default) |
 | created_at | DateTime | - | Creation timestamp |
 | updated_at | DateTime | - | Last update timestamp |
 
@@ -197,7 +205,11 @@ Tenant (root organization)
 | brand_id | UUID? | FK | Optional item brand |
 | default_selling_price | Decimal(18,4)? | - | Standard selling price (optional) |
 | latest_purchase_price | Decimal(18,4)? | - | Most recent purchase price (optional) |
-| item_type | ItemType | - | Catalog type: product, service, vehicle, or bundle (default: product) |
+| main_image_url | String? | - | Primary item image URL |
+| description | String? | - | Long-form item description |
+| note | String? | - | Internal note |
+| gallery_urls | String[] | - | Additional image URLs (gallery) |
+| item_type | ItemType | - | Catalog type: product or service (default: product) |
 | is_active | Boolean | - | Status flag (default: true) |
 | created_at | DateTime | - | Creation timestamp |
 | updated_at | DateTime | - | Last update timestamp |
@@ -327,6 +339,7 @@ Tenant (root organization)
 | tenant_id | UUID | FK | Owner tenant |
 | name | String | - | Category name |
 | description | String? | - | Category description |
+| image_url | String? | - | Optional category image URL |
 | parent_id | UUID? | FK | Parent category for nesting |
 | is_active | Boolean | - | Status flag (default: true) |
 | created_at | DateTime | - | Creation timestamp |
@@ -534,6 +547,7 @@ Tenant (root organization)
 | warehouse_id | UUID? | FK | Source/destination warehouse (optional) |
 | fiscal_period_id | UUID | FK | Accounting period |
 | currency_id | UUID | FK | Transaction currency |
+| exchange_rate | Decimal(18,6) | - | Rate of invoice currency to tenant base currency, locked at posting (default: 1) |
 | status | InvoiceStatus | - | DRAFT, POSTED, or CANCELLED |
 | subtotal | Decimal(18,4) | - | Pre-tax total (default: 0) |
 | discount_amount | Decimal(18,4) | - | Total discount applied (default: 0) |
@@ -610,6 +624,7 @@ Tenant (root organization)
 | cashbox_id | UUID | FK | Source/destination cashbox |
 | party_id | UUID? | FK | Related party (optional) |
 | currency_id | UUID | FK | Payment currency |
+| exchange_rate | Decimal(18,6) | - | Rate of payment currency to tenant base currency, locked at posting (default: 1) |
 | fiscal_period_id | UUID | FK | Accounting period |
 | amount | Decimal(18,4) | - | Total payment amount |
 | allocated_amount | Decimal(18,4) | - | Amount allocated to invoices (default: 0) |
@@ -657,6 +672,7 @@ Tenant (root organization)
 | date | DateTime | - | Expense date |
 | cashbox_id | UUID | FK | Cashbox that funds the expense (credit side on post) |
 | currency_id | UUID | FK | Expense currency |
+| exchange_rate | Decimal(18,6) | - | Rate of expense currency to tenant base currency, locked at posting (default: 1) |
 | fiscal_period_id | UUID | FK | Accounting period |
 | total_amount | Decimal(18,4) | - | Sum of all expense item amounts (default: 0) |
 | status | ExpenseStatus | - | DRAFT, POSTED, or CANCELLED |
@@ -744,12 +760,14 @@ Tenant (root organization)
 | type | AccountType | - | ASSET, LIABILITY, EQUITY, REVENUE, EXPENSE |
 | parent_id | UUID? | FK | Parent account for hierarchy |
 | is_active | Boolean | - | Status flag (default: true) |
+| current_balance | Decimal(18,4) | - | Denormalized cached balance (default: 0); source of truth is JournalLine rows, updated by app logic after each posted entry |
 | created_at | DateTime | - | Creation timestamp |
 | updated_at | DateTime | - | Last update timestamp |
 
 **Unique Constraint**: (tenant_id, code)
 **Indexes**: tenant_id
 **Self-Relation**: AccountHierarchy for account structure
+**Note**: `FinancialSetting` and `Party` reference accounts here for default GL postings and party-level overrides.
 
 ---
 
@@ -767,6 +785,7 @@ Tenant (root organization)
 | reference_id | UUID? | - | Source document ID |
 | description | String? | - | Entry description |
 | status | JournalEntryStatus | - | DRAFT or POSTED |
+| exchange_rate | Decimal(18,6) | - | Rate to tenant base currency, locked at posting (default: 1) |
 | posted_at | DateTime? | - | Post timestamp |
 | created_by | UUID | - | Creator user |
 | created_at | DateTime | - | Creation timestamp |
@@ -786,6 +805,7 @@ Tenant (root organization)
 | tenant_id | UUID | FK | Owner tenant |
 | journal_entry_id | UUID | FK | Parent journal entry (cascade delete) |
 | account_id | UUID | FK | Chart of account |
+| party_id | UUID? | FK | Optional party for subledger (receivable/payable) lines |
 | debit | Decimal(18,4) | - | Debit amount (0 if credit line, default: 0) |
 | credit | Decimal(18,4) | - | Credit amount (0 if debit line, default: 0) |
 | description | String? | - | Line description |
@@ -887,6 +907,51 @@ Tenant (root organization)
 
 ---
 
+### 41. FINANCIAL_SETTINGS
+**Purpose**: Per-tenant mapping of system accounting events to their default general-ledger accounts (one row per tenant)
+
+| Column | Type | Key | Description |
+|--------|------|-----|-------------|
+| id | UUID | PK | Setting record ID |
+| tenant_id | UUID | FK | Owner tenant (unique — 1-to-1 with Tenant) |
+| default_sales_account_id | UUID? | FK | Default ChartOfAccount for sales revenue postings |
+| default_purchase_account_id | UUID? | FK | Default ChartOfAccount for purchase postings |
+| default_tax_account_id | UUID? | FK | Default ChartOfAccount for tax postings |
+| default_receivable_account_id | UUID? | FK | Default ChartOfAccount for receivables |
+| default_payable_account_id | UUID? | FK | Default ChartOfAccount for payables |
+| created_at | DateTime | - | Creation timestamp |
+| updated_at | DateTime | - | Last update timestamp |
+
+**Unique Constraint**: (tenant_id)
+**Indexes**: tenant_id
+**Note**: All account fields are optional and must be configured before posting transactions that need them. `Party.receivable_account_id` / `Party.payable_account_id` override these defaults per party.
+
+---
+
+### 42. FILES
+**Purpose**: Metadata for uploaded files (images, attachments)
+
+| Column | Type | Key | Description |
+|--------|------|-----|-------------|
+| id | UUID | PK | File identifier |
+| tenantId | UUID | - | Owner tenant scope for queries |
+| originalName | String | - | Original file name at upload |
+| mimeType | String | - | MIME content type |
+| size | Int | - | File size in bytes |
+| extension | String? | - | File extension |
+| folder | String | - | Logical storage folder/bucket path |
+| path | String | UNIQUE | Storage path (globally unique) |
+| url | String | - | Public/access URL |
+| checksum | String? | - | Optional content checksum |
+| createdAt | DateTime | - | Upload timestamp |
+| updatedAt | DateTime | - | Last update timestamp |
+
+**Unique Constraint**: (path)
+**Indexes**: tenantId
+**Note**: This table uses camelCase columns (no `@map`) and has no direct FK to `tenants`; `tenantId` is a scoping column only.
+
+---
+
 ## Enumerations
 
 ### AccountType
@@ -918,8 +983,6 @@ Classification of parties:
 Catalog item classification:
 - `product` - Stockable or sellable product
 - `service` - Non-stock service item
-- `vehicle` - Vehicle catalog item
-- `bundle` - Bundle or kit composed at the application layer
 
 ### RelationType
 Directed item relationship classification:
@@ -994,7 +1057,7 @@ AI chat message participants:
 ## Data Relationships
 
 ### Multi-Tenancy Pattern
-Most tenant-owned tables include a `tenant_id` foreign key with `onDelete: Cascade`. Polymorphic extension tables such as `custom_field_values` and `tag_assignments` include `tenant_id` for scoped querying, but their direct FK is to the owning definition row (`field_id` or `tag_id`). This ensures:
+Most tenant-owned tables include a `tenant_id` foreign key with `onDelete: Cascade`. Polymorphic extension tables such as `custom_field_values` and `tag_assignments` include `tenant_id` for scoped querying, but their direct FK is to the owning definition row (`field_id` or `tag_id`). The `files` table is scope-only — it carries `tenantId` for filtering but has no FK to `tenants`. This ensures:
 - Complete data isolation between organizations
 - Cascade deletion when a tenant is removed
 - Ability to query per-tenant data efficiently
@@ -1116,6 +1179,8 @@ All tables use UUID (`@id @default(uuid())`) as primary key
 - **JournalEntry**: (tenant_id, number)
 - **CustomFieldValue**: (tenant_id, field_id, entity_id)
 - **DocumentSequence**: (tenant_id, document_type)
+- **FinancialSetting**: (tenant_id) — one row per tenant
+- **File**: (path)
 
 ### Key Performance Indexes
 
@@ -1142,6 +1207,8 @@ All tables use UUID (`@id @default(uuid())`) as primary key
 | CustomFieldValue | tenant_id, entity_type, entity_id | Entity customization |
 | CustomFieldValue | field_id, value | Field value lookups |
 | TenantSetting | tenant_id, category | Category-scoped settings |
+| FinancialSetting | tenant_id | Default GL account lookup |
+| File | tenantId | Per-tenant file listings |
 | AuditLog | tenant_id, entity_type, entity_id | Compliance tracking |
 | AiChatSession | tenant_id, user_id | User session retrieval |
 
@@ -1199,6 +1266,11 @@ All foreign keys use:
 - Scale: 4 decimal places
 - Represents values up to 99,999,999,999,999.9999
 - Suitable for financial calculations with sub-cent precision
+
+### Decimal Fields (Exchange Rates)
+- Precision: 18 digits total, scale: 6 decimal places (`Decimal(18,6)`)
+- Used by `Invoice.exchange_rate`, `Payment.exchange_rate`, `Expense.exchange_rate`, `JournalEntry.exchange_rate`
+- Rate of the document currency to the tenant base currency, locked at posting time (default: 1)
 
 ### JSONB Fields (Localized Strings)
 - Shape: `{ ar: string; en?: string }`
@@ -1377,6 +1449,7 @@ DELETE FROM audit_logs WHERE created_at < NOW() - INTERVAL '2 years';
 | 2.0 | 2026-06-11 | Added Expense/ExpenseItem tables; added TenantSetting table; added Cashbox.linked_account_id; updated PaymentType (removed EXPENSE); updated Role/Currency/Cashbox/InvoiceType/ChartOfAccount name fields to JSONB LocalizedString; updated CustomField/CustomFieldValue to generic entity pattern with show_in_list; added FILE to FieldType; added Tenant.legal_name, tax_number, website, base_currency_id, default_sales_sequence_id; corrected nullable columns throughout |
 | 2.1 | 2026-06-12 | Added Item.item_type and ItemType enum; added ItemRelation/RelationType; added Tag and TagAssignment tables; updated catalog relationships, unique constraints, indexes, and query examples |
 | 2.2 | 2026-06-13 | Added Brand, CatalogEntity, and ItemCatalogEntity tables; added Item.brand_id; updated catalog-engine relationships, indexes, data integrity notes, query examples, and ERD |
+| 2.3 | 2026-07-02 | Added FinancialSetting (default GL account mapping) and File tables; added exchange_rate (Decimal 18,6) to Invoice/Payment/Expense/JournalEntry; added ChartOfAccount.current_balance; added Party.receivable_account_id/payable_account_id and JournalLine.party_id subledger dimension; added Tenant.onboarding_step/onboarding_completed_at; added Item.main_image_url/description/note/gallery_urls and ItemCategory.image_url; narrowed ItemType enum to product/service (removed vehicle, bundle) |
 
 ---
 
@@ -1394,9 +1467,11 @@ DELETE FROM audit_logs WHERE created_at < NOW() - INTERVAL '2 years';
     │                                               │
     ├─→ TENANT_SETTINGS (Configuration)            │
     │                                               │
+    ├─→ FINANCIAL_SETTINGS (Default GL accounts)   │
+    │                                               │
     ├─→ PARTIES (Customers/Suppliers)              │
     │                                               │
-    ├─→ ITEMS (Products/Services/Vehicles/Bundles) │
+    ├─→ ITEMS (Products/Services)                  │
     │   ├─→ ITEM_CATEGORIES (Hierarchy)            │
     │   ├─→ UNITS (UOM)                            │
     │   ├─→ BRANDS                                 │
@@ -1455,6 +1530,8 @@ DELETE FROM audit_logs WHERE created_at < NOW() - INTERVAL '2 years';
     │                                               │
     ├─→ BRANDS                                     │
     │   └─→ ITEMS                                  │
+    │                                               │
+    ├─→ FILES (Uploaded file metadata)            │
     │                                               │
     ├─→ AUDIT_LOGS (Compliance)                    │
     │                                               │
