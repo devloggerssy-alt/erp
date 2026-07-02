@@ -19124,12 +19124,36 @@ components:
           default: null
           allOf:
             - $ref: '#/components/schemas/ChartOfAccountResponseDto'
+        defaultInventoryAccount:
+          nullable: true
+          default: null
+          allOf:
+            - $ref: '#/components/schemas/ChartOfAccountResponseDto'
+        defaultCogsAccount:
+          nullable: true
+          default: null
+          allOf:
+            - $ref: '#/components/schemas/ChartOfAccountResponseDto'
+        defaultInventoryAdjustmentAccount:
+          nullable: true
+          default: null
+          allOf:
+            - $ref: '#/components/schemas/ChartOfAccountResponseDto'
+        defaultOpeningEquityAccount:
+          nullable: true
+          default: null
+          allOf:
+            - $ref: '#/components/schemas/ChartOfAccountResponseDto'
       required:
         - defaultSalesAccount
         - defaultPurchaseAccount
         - defaultTaxAccount
         - defaultReceivableAccount
         - defaultPayableAccount
+        - defaultInventoryAccount
+        - defaultCogsAccount
+        - defaultInventoryAdjustmentAccount
+        - defaultOpeningEquityAccount
     UpsertFinancialSettingBodyDto:
       type: object
       properties:
@@ -19158,6 +19182,26 @@ components:
           nullable: true
           example: 00000000-0000-4000-a600-000000000005
           description: Default accounts payable (AP) account
+        defaultInventoryAccountId:
+          type: string
+          nullable: true
+          example: 00000000-0000-4000-a602-000000000003
+          description: Default inventory asset account
+        defaultCogsAccountId:
+          type: string
+          nullable: true
+          example: 00000000-0000-4000-a602-000000000016
+          description: Default cost-of-goods-sold account
+        defaultInventoryAdjustmentAccountId:
+          type: string
+          nullable: true
+          example: 00000000-0000-4000-a602-000000005200
+          description: Default inventory adjustment / shrinkage account
+        defaultOpeningEquityAccountId:
+          type: string
+          nullable: true
+          example: 00000000-0000-4000-a602-000000003300
+          description: Default opening-balance equity account
     ImportFileDto:
       type: object
       properties:
