@@ -8,14 +8,20 @@ import {
     Query,
     UseGuards,
 } from '@nestjs/common';
-import { ApiTags, ApiBearerAuth, ApiQuery, ApiOperation, ApiOkResponse, ApiCreatedResponse } from '@nestjs/swagger';
+import { ApiTags, ApiBearerAuth, ApiQuery, ApiOperation } from '@nestjs/swagger';
 import { InvoicesService } from './invoices.service';
 import { InvoicePostingService } from './invoice-posting.service';
-import { CreateInvoiceDto, UpdateInvoiceDto } from './dto';
+import { InvoicePresenter } from './presenters/invoice.presenter';
+import { CreateInvoiceDto, UpdateInvoiceDto, AddInvoicePaymentDto, InvoiceResponseDto } from './dto';
 import { JwtAuthGuard } from '../../identity/auth/guards';
 import { CurrentUser, RequestUser } from '../../identity/auth/decorators';
 import { ApiResponseBuilder } from '../../../common/api/api-response-builder';
-import { ApiStandardErrors } from '../../../common/decorators/api-swagger.decorators';
+import {
+    ApiStandardErrors,
+    ApiOkResponseStandard,
+    ApiOkResponsePaginated,
+    ApiCreatedResponseStandard,
+} from '../../../common/decorators/api-swagger.decorators';
 
 @ApiTags('Invoices')
 @Controller('invoices')
@@ -25,6 +31,7 @@ export class InvoicesController {
     constructor(
         private readonly invoicesService: InvoicesService,
         private readonly postingService: InvoicePostingService,
+        private readonly presenter: InvoicePresenter,
     ) {}
 
     @Get()
@@ -34,26 +41,7 @@ export class InvoicesController {
     @ApiQuery({ name: 'partyId', required: false })
     @ApiQuery({ name: 'page', required: false })
     @ApiQuery({ name: 'limit', required: false })
-    @ApiOkResponse({
-        description: 'Paginated list of invoices',
-        schema: {
-            example: {
-                message: 'Invoices list',
-                data: [
-                    {
-                        id: '00000000-0000-4000-ae00-000000000001',
-                        number: 'PUR-000001',
-                        date: '2026-04-14',
-                        status: 'DRAFT',
-                        direction: 'PURCHASE',
-                        totalAmount: 5740000,
-                        party: { id: '00000000-0000-4000-aa00-000000000004', name: 'Damascus Import Co.' },
-                    },
-                ],
-                meta: { pagination: { total: 1, page: 1, limit: 50, totalPages: 1 } },
-            },
-        },
-    })
+    @ApiOkResponsePaginated(InvoiceResponseDto, { description: 'Paginated list of invoices' })
     @ApiStandardErrors()
     async findAll(
         @CurrentUser() user: RequestUser,
@@ -71,7 +59,9 @@ export class InvoicesController {
             limit: limit ? Number(limit) : 50,
         });
 
-        return ApiResponseBuilder.success(result.data, 'Invoices list', {
+        const data = this.presenter.toListResponseList(result.data);
+
+        return ApiResponseBuilder.success(data, 'Invoices list', {
             pagination: {
                 total: result.total,
                 page: result.page,
@@ -83,64 +73,25 @@ export class InvoicesController {
 
     @Get(':id')
     @ApiOperation({ summary: 'Get invoice by ID' })
-    @ApiOkResponse({
-        description: 'Invoice details with lines',
-        schema: {
-            example: {
-                message: 'Invoice details',
-                data: {
-                    id: '00000000-0000-4000-ae00-000000000001',
-                    number: 'PUR-000001',
-                    date: '2026-04-14',
-                    status: 'DRAFT',
-                    totalAmount: 5740000,
-                    lines: [
-                        { id: '...', itemId: '00000000-0000-4000-a900-000000000001', quantity: 5, unitPrice: 600000, lineTotal: 2940000 },
-                    ],
-                },
-            },
-        },
-    })
+    @ApiOkResponseStandard(InvoiceResponseDto, { description: 'Invoice details with lines' })
     @ApiStandardErrors()
     async findOne(@CurrentUser() user: RequestUser, @Param('id') id: string) {
         const invoice = await this.invoicesService.findById(user.tenantId, id);
-        return ApiResponseBuilder.success(invoice, 'Invoice details');
+        return ApiResponseBuilder.success(this.presenter.toDetailResponse(invoice), 'Invoice details');
     }
 
     @Post()
     @ApiOperation({ summary: 'Create a new invoice' })
-    @ApiCreatedResponse({
-        description: 'Invoice created in DRAFT status',
-        schema: {
-            example: {
-                message: 'Invoice created',
-                data: {
-                    id: '00000000-0000-4000-ae00-000000000002',
-                    number: 'PUR-000002',
-                    date: '2026-04-14',
-                    status: 'DRAFT',
-                    totalAmount: 5740000,
-                },
-            },
-        },
-    })
+    @ApiCreatedResponseStandard(InvoiceResponseDto, { description: 'Invoice created in DRAFT status' })
     @ApiStandardErrors()
     async create(@CurrentUser() user: RequestUser, @Body() dto: CreateInvoiceDto) {
         const created = await this.invoicesService.create(user.tenantId, user.id, dto);
-        return ApiResponseBuilder.success(created, 'Invoice created');
+        return ApiResponseBuilder.success(this.presenter.toDetailResponse(created), 'Invoice created');
     }
 
     @Patch(':id')
     @ApiOperation({ summary: 'Update a draft invoice' })
-    @ApiOkResponse({
-        description: 'Invoice updated',
-        schema: {
-            example: {
-                message: 'Invoice updated',
-                data: { id: '00000000-0000-4000-ae00-000000000001', status: 'DRAFT', totalAmount: 6000000 },
-            },
-        },
-    })
+    @ApiOkResponseStandard(InvoiceResponseDto, { description: 'Invoice updated' })
     @ApiStandardErrors()
     async update(
         @CurrentUser() user: RequestUser,
@@ -148,7 +99,23 @@ export class InvoicesController {
         @Body() dto: UpdateInvoiceDto,
     ) {
         const updated = await this.invoicesService.update(user.tenantId, id, dto);
-        return ApiResponseBuilder.success(updated, 'Invoice updated');
+        return ApiResponseBuilder.success(this.presenter.toDetailResponse(updated), 'Invoice updated');
+    }
+
+    @Post(':id/payments')
+    @ApiOperation({
+        summary: 'Add a payment to a posted invoice',
+        description: 'Creates, posts, and allocates a new payment against an already-posted invoice — the way to bring a partially-paid invoice toward fully paid. Rejects amounts exceeding the invoice\'s remaining balance.',
+    })
+    @ApiOkResponseStandard(InvoiceResponseDto, { description: 'Invoice with the new payment allocated' })
+    @ApiStandardErrors()
+    async addPayment(
+        @CurrentUser() user: RequestUser,
+        @Param('id') id: string,
+        @Body() dto: AddInvoicePaymentDto,
+    ) {
+        const updated = await this.invoicesService.addPayment(user.tenantId, user.id, id, dto);
+        return ApiResponseBuilder.success(this.presenter.toDetailResponse(updated), 'Payment added to invoice');
     }
 
     @Post(':id/post')
@@ -156,20 +123,12 @@ export class InvoicesController {
         summary: 'Post (confirm) an invoice',
         description: 'Transitions a DRAFT invoice to POSTED status. For purchase invoices this increases warehouse stock and creates accounting journal entries. For sales invoices this decreases stock and records revenue. This action is irreversible — use cancel instead.',
     })
-    @ApiOkResponse({
-        description: 'Invoice posted – stock and journal entries created',
-        schema: {
-            example: {
-                message: 'Invoice posted successfully',
-                data: { id: '00000000-0000-4000-ae00-000000000001', status: 'POSTED', postedAt: '2026-04-14T12:00:00.000Z' },
-            },
-        },
-    })
+    @ApiOkResponseStandard(InvoiceResponseDto, { description: 'Invoice posted – stock and journal entries created' })
     @ApiStandardErrors()
     async postInvoice(@CurrentUser() user: RequestUser, @Param('id') id: string) {
         // Determine direction from the invoice type to route to correct posting logic
         const invoice = await this.invoicesService.findById(user.tenantId, id);
-        
+
         let posted;
         if (invoice.invoiceType.direction === 'PURCHASE') {
             posted = await this.postingService.postPurchaseInvoice(user.tenantId, id, user.id);
@@ -177,7 +136,7 @@ export class InvoicesController {
             posted = await this.postingService.postSalesInvoice(user.tenantId, id, user.id);
         }
 
-        return ApiResponseBuilder.success(posted, 'Invoice posted successfully');
+        return ApiResponseBuilder.success(this.presenter.toDetailResponse(posted), 'Invoice posted successfully');
     }
 
     @Post(':id/cancel')
@@ -185,18 +144,10 @@ export class InvoicesController {
         summary: 'Cancel a posted invoice',
         description: 'Reverses a POSTED invoice by creating counter journal entries and restoring stock quantities. The invoice status changes to CANCELLED. Only posted invoices can be cancelled.',
     })
-    @ApiOkResponse({
-        description: 'Invoice cancelled – reversing entries created',
-        schema: {
-            example: {
-                message: 'Invoice cancelled successfully',
-                data: { id: '00000000-0000-4000-ae00-000000000001', status: 'CANCELLED', cancelledAt: '2026-04-14T14:00:00.000Z' },
-            },
-        },
-    })
+    @ApiOkResponseStandard(InvoiceResponseDto, { description: 'Invoice cancelled – reversing entries created' })
     @ApiStandardErrors()
     async cancelInvoice(@CurrentUser() user: RequestUser, @Param('id') id: string) {
         const cancelled = await this.postingService.cancelInvoice(user.tenantId, id, user.id);
-        return ApiResponseBuilder.success(cancelled, 'Invoice cancelled successfully');
+        return ApiResponseBuilder.success(this.presenter.toDetailResponse(cancelled), 'Invoice cancelled successfully');
     }
 }

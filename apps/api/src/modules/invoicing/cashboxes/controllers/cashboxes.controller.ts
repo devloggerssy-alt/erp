@@ -4,6 +4,7 @@ import { CashboxesService } from '../services/cashboxes.service';
 import { CreateCashboxDto, UpdateCashboxDto, CashboxResponseDto } from '../dto';
 import { createCrudController, type CrudOpenApi } from '@devloggers/backend-core';
 import { JwtAuthGuard } from '@/modules/identity/auth/guards';
+import { currencyResource } from '@devloggers/api-contracts';
 
 const CASHBOXES_OPENAPI = {
     list: {
@@ -35,6 +36,9 @@ const CashboxesCrudBase = createCrudController({
     responseDto: CashboxResponseDto,
     createDto: CreateCashboxDto,
     updateDto: UpdateCashboxDto,
+    filterSchema: [
+        { field: 'currencyId', type: 'id', foreignResourceKey: currencyResource.key },
+    ],
     openApi: CASHBOXES_OPENAPI,
 });
 

@@ -217,6 +217,46 @@ export interface paths {
         patch: operations["Settings.update"];
         trace?: never;
     };
+    "/settings/danger/reset-finance": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Reset all financial records
+         * @description DANGER: permanently deletes every payment, invoice, expense and journal entry for the tenant and zeroes cashbox and GL account balances. Master data is preserved. Requires the exact confirmation phrase in the body.
+         */
+        post: operations["DataReset.resetFinance"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/settings/danger/reset-inventory": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Reset all inventory records
+         * @description DANGER: permanently deletes every stock movement, stock count and stock balance for the tenant. Warehouses and items are preserved. Requires the exact confirmation phrase in the body.
+         */
+        post: operations["DataReset.resetInventory"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/users": {
         parameters: {
             query?: never;
@@ -1424,6 +1464,26 @@ export interface paths {
         head?: never;
         /** Update a draft invoice */
         patch: operations["Invoices.update"];
+        trace?: never;
+    };
+    "/invoices/{id}/payments": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Add a payment to a posted invoice
+         * @description Creates, posts, and allocates a new payment against an already-posted invoice — the way to bring a partially-paid invoice toward fully paid. Rejects amounts exceeding the invoice's remaining balance.
+         */
+        post: operations["Invoices.addPayment"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
         trace?: never;
     };
     "/invoices/{id}/post": {
@@ -2653,6 +2713,86 @@ export interface components {
             documentFooter?: string;
             /** @example true */
             showLogoOnDocuments?: boolean;
+        };
+        FinanceResetResultDto: {
+            /**
+             * @description Payment allocations deleted
+             * @default 0
+             * @example 30
+             */
+            paymentAllocations: number;
+            /**
+             * @description Payments deleted
+             * @default 0
+             * @example 12
+             */
+            payments: number;
+            /**
+             * @description Invoices deleted (lines cascade)
+             * @default 0
+             * @example 8
+             */
+            invoices: number;
+            /**
+             * @description Expenses deleted (items cascade)
+             * @default 0
+             * @example 5
+             */
+            expenses: number;
+            /**
+             * @description Journal entries deleted (lines cascade)
+             * @default 0
+             * @example 20
+             */
+            journalEntries: number;
+            /**
+             * @description Cashboxes whose balance was reset to 0
+             * @default 0
+             * @example 3
+             */
+            cashboxesReset: number;
+            /**
+             * @description GL accounts whose balance was reset to 0
+             * @default 0
+             * @example 15
+             */
+            accountsReset: number;
+        };
+        ResetFinanceDto: {
+            /**
+             * @description Confirmation phrase. Must be exactly "RESET FINANCE".
+             * @default
+             * @example RESET FINANCE
+             */
+            confirmation: string;
+        };
+        InventoryResetResultDto: {
+            /**
+             * @description Stock movements deleted
+             * @default 0
+             * @example 120
+             */
+            stockMovements: number;
+            /**
+             * @description Stock balances deleted
+             * @default 0
+             * @example 45
+             */
+            stockBalances: number;
+            /**
+             * @description Stock counts deleted (lines cascade)
+             * @default 0
+             * @example 6
+             */
+            stockCounts: number;
+        };
+        ResetInventoryDto: {
+            /**
+             * @description Confirmation phrase. Must be exactly "RESET INVENTORY".
+             * @default
+             * @example RESET INVENTORY
+             */
+            confirmation: string;
         };
         CreateUserDto: {
             /**
@@ -4264,6 +4404,185 @@ export interface components {
             /** @example true */
             isActive?: boolean;
         };
+        /**
+         * @description Derived from amountPaid vs total
+         * @enum {string}
+         */
+        InvoicePaidStatus: "UNPAID" | "PARTIAL" | "PAID";
+        InvoiceLineResponseDto: {
+            /** @default  */
+            id: string;
+            /** @default  */
+            itemId: string;
+            itemName?: string;
+            itemCode?: string;
+            /** @default  */
+            unitId: string;
+            unitName?: string;
+            unitAbbreviation?: string;
+            /** @default 0 */
+            quantity: number;
+            /** @default 0 */
+            unitPrice: number;
+            /** @default 0 */
+            discountPercent: number;
+            /** @default 0 */
+            discountAmount: number;
+            /** @default 0 */
+            taxPercent: number;
+            /** @default 0 */
+            taxAmount: number;
+            /** @default 0 */
+            total: number;
+            /** @default null */
+            notes: string | null;
+            sortOrder?: number;
+        };
+        InvoicePaymentResponseDto: {
+            /**
+             * @description Payment allocation ID
+             * @default
+             */
+            id: string;
+            /** @default  */
+            paymentId: string;
+            /**
+             * @default
+             * @example PAY-00002
+             */
+            paymentNumber: string;
+            /**
+             * @default 0
+             * @example 250000
+             */
+            amount: number;
+            /**
+             * @default
+             * @example 2026-04-14T00:00:00.000Z
+             */
+            date: string;
+            /** @default  */
+            createdAt: string;
+        };
+        InvoiceResponseDto: {
+            /**
+             * @default
+             * @example 00000000-0000-4000-ae00-000000000001
+             */
+            id: string;
+            /**
+             * @default
+             * @example INV-00001
+             */
+            number: string;
+            /**
+             * @default
+             * @example 00000000-0000-4000-ad00-000000000001
+             */
+            invoiceTypeId: string;
+            /**
+             * @description Invoice type display name, resolved to the request locale
+             * @example Purchase Invoice
+             */
+            invoiceTypeName?: string;
+            /**
+             * @description PURCHASE | SALE
+             * @example PURCHASE
+             */
+            invoiceTypeDirection?: string;
+            /**
+             * @default
+             * @example 2026-04-14T00:00:00.000Z
+             */
+            date: string;
+            /** @default null */
+            dueDate: string | null;
+            /**
+             * @default
+             * @example 00000000-0000-4000-aa00-000000000004
+             */
+            partyId: string;
+            /** @example Damascus Import Co. */
+            partyName?: string;
+            /** @default null */
+            warehouseId: string | null;
+            /** @example Main Warehouse */
+            warehouseName?: string;
+            /** @default  */
+            fiscalPeriodId: string;
+            /** @default  */
+            currencyId: string;
+            /** @example SYP */
+            currencyCode?: string;
+            /**
+             * @description Exchange rate to tenant base currency
+             * @default 1
+             * @example 1
+             */
+            exchangeRate: number;
+            /**
+             * @description DRAFT | POSTED | CANCELLED
+             * @default DRAFT
+             * @example DRAFT
+             */
+            status: string;
+            /** @default 0 */
+            subtotal: number;
+            /** @default 0 */
+            discountAmount: number;
+            /** @default 0 */
+            taxAmount: number;
+            /** @default 0 */
+            total: number;
+            /** @default null */
+            notes: string | null;
+            /** @default null */
+            postedAt: string | null;
+            /** @default  */
+            createdAt: string;
+            /** @default  */
+            updatedAt: string;
+            /**
+             * @description Sum of payments allocated to this invoice
+             * @default 0
+             * @example 500000
+             */
+            amountPaid: number;
+            /**
+             * @description Remaining unpaid amount (total - amountPaid)
+             * @default 0
+             * @example 700000
+             */
+            balanceDue: number;
+            /**
+             * @description Derived from amountPaid vs total
+             * @default UNPAID
+             * @example UNPAID
+             */
+            paidStatus: components["schemas"]["InvoicePaidStatus"];
+            lines?: components["schemas"]["InvoiceLineResponseDto"][];
+            /** @description Payments allocated to this invoice (detail view only) */
+            payments?: components["schemas"]["InvoicePaymentResponseDto"][];
+            /** @description Total line count (list view only) */
+            lineCount?: number;
+        };
+        CreateInvoiceOpeningPaymentDto: {
+            /**
+             * @description Cashbox ID the opening payment is deposited into
+             * @example 00000000-0000-4000-ac00-000000000001
+             */
+            cashboxId: string;
+            /**
+             * @description Opening payment amount in invoice currency
+             * @example 250000
+             */
+            amount: number;
+            /**
+             * @description Exchange rate to base currency (defaults to the invoice exchange rate)
+             * @example 1
+             */
+            exchangeRate?: number;
+        };
         InvoiceLineDto: {
             /**
              * @description Item ID (Laptop 15")
@@ -4346,6 +4665,13 @@ export interface components {
             /** @example Purchase order for Q2 stock replenishment */
             notes?: string;
             /**
+             * @description If true, the invoice is posted immediately after creation instead of staying DRAFT
+             * @example false
+             */
+            complete?: boolean;
+            /** @description Optional opening payment recorded against this invoice at creation time */
+            openingPayment?: components["schemas"]["CreateInvoiceOpeningPaymentDto"];
+            /**
              * @example [
              *       {
              *         "itemId": "00000000-0000-4000-a900-000000000001",
@@ -4409,6 +4735,28 @@ export interface components {
              */
             lines?: components["schemas"]["InvoiceLineDto"][];
         };
+        AddInvoicePaymentDto: {
+            /**
+             * @description Cashbox ID the payment is deposited into
+             * @example 00000000-0000-4000-ac00-000000000001
+             */
+            cashboxId: string;
+            /**
+             * @description Payment amount in invoice currency
+             * @example 250000
+             */
+            amount: number;
+            /**
+             * @description Payment date (ISO 8601)
+             * @example 2026-04-20
+             */
+            date: string;
+            /**
+             * @description Exchange rate to base currency (defaults to the invoice exchange rate)
+             * @example 1
+             */
+            exchangeRate?: number;
+        };
         CreatePaymentDto: {
             /**
              * @description Payment type
@@ -4453,6 +4801,11 @@ export interface components {
             exchangeRate?: number;
             /** @example Payment received for invoice SAL-00001 */
             notes?: string;
+            /**
+             * @description If true, the payment is posted immediately after creation instead of staying DRAFT
+             * @example false
+             */
+            complete?: boolean;
         };
         UpdatePaymentDto: {
             /** @example 2026-04-15 */
@@ -5642,7 +5995,9 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["FormDefaultsResponseDto"];
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["FormDefaultsResponseDto"];
+                    };
                 };
             };
             /** @description JWT token is missing, expired, or invalid */
@@ -5777,6 +6132,148 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["SettingsResponseDto"];
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "DataReset.resetFinance": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ResetFinanceDto"];
+            };
+        };
+        responses: {
+            /** @description Financial records reset; returns deletion counts */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["FinanceResetResultDto"];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "DataReset.resetInventory": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ResetInventoryDto"];
+            };
+        };
+        responses: {
+            /** @description Inventory records reset; returns deletion counts */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["InventoryResetResultDto"];
+                    };
                 };
             };
             /** @description JWT token is missing, expired, or invalid */
@@ -14215,6 +14712,22 @@ export interface operations {
                 search?: string;
                 /** @description Comma-separated field names to search within (e.g. name,symbol) */
                 searchIn?: string;
+                /** @description Structured filters. Example: filters[currencyId][$eq]=018e1234-abcd-7000-a001-000000000001 */
+                filters?: {
+                    /**
+                     * @description Filter on `currencyId` (id)
+                     * @example {
+                     *       "$eq": "018e1234-abcd-7000-a001-000000000001"
+                     *     }
+                     */
+                    currencyId?: {
+                        /** @example 018e1234-abcd-7000-a001-000000000001 */
+                        $eq?: string;
+                        $in?: string[];
+                        /** @enum {boolean} */
+                        $isNull?: true;
+                    };
+                };
             };
             header?: never;
             path?: never;
@@ -14230,6 +14743,33 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
                         data?: components["schemas"]["CashboxResponseDto"][];
+                        meta?: {
+                            pagination?: {
+                                /** @example 0 */
+                                total?: number;
+                                /** @example 1 */
+                                page?: number;
+                                /** @example 10 */
+                                limit?: number;
+                                /** @example 0 */
+                                totalPages?: number;
+                            };
+                            /**
+                             * @example [
+                             *       {
+                             *         "field": "currencyId",
+                             *         "type": "id",
+                             *         "operators": [
+                             *           "$eq",
+                             *           "$in",
+                             *           "$isNull"
+                             *         ],
+                             *         "foreignResourceKey": "currencies"
+                             *       }
+                             *     ]
+                             */
+                            filterOptions?: unknown[];
+                        };
                     };
                 };
             };
@@ -14630,7 +15170,9 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["InvoiceResponseDto"][];
+                    };
                 };
             };
             /** @description JWT token is missing, expired, or invalid */
@@ -14699,7 +15241,9 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["InvoiceResponseDto"];
+                    };
                 };
             };
             /** @description JWT token is missing, expired, or invalid */
@@ -14766,7 +15310,9 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["InvoiceResponseDto"];
+                    };
                 };
             };
             /** @description JWT token is missing, expired, or invalid */
@@ -14837,8 +15383,89 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["InvoiceResponseDto"];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
                     "application/json": unknown;
                 };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "Invoices.addPayment": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AddInvoicePaymentDto"];
+            };
+        };
+        responses: {
+            /** @description Invoice with the new payment allocated */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["InvoiceResponseDto"];
+                    };
+                };
+            };
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
             /** @description JWT token is missing, expired, or invalid */
             401: {
@@ -14904,7 +15531,9 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["InvoiceResponseDto"];
+                    };
                 };
             };
             201: {
@@ -14977,7 +15606,9 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["InvoiceResponseDto"];
+                    };
                 };
             };
             201: {

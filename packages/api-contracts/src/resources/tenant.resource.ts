@@ -10,5 +10,7 @@ export const tenantResource = defineResource({
     settings: '/settings',
     updateSettings: '/settings',
     defaults: '/settings/defaults',
+    resetFinance: '/settings/danger/reset-finance',
+    resetInventory: '/settings/danger/reset-inventory',
   } as const,
 }) 

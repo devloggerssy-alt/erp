@@ -1,6 +1,8 @@
 "use client"
 
+import { useEffect, useRef } from "react"
 import { useTranslations } from "next-intl"
+import { useWatch } from "react-hook-form"
 import type {
     CashboxesClient,
     CurrenciesClient,
@@ -15,6 +17,18 @@ import type { PaymentFormController } from "../hooks/use-payment-form"
 export function PaymentForm({ ctrl }: { ctrl: PaymentFormController }) {
     const t = useTranslations("business.resources.payments")
     const disabled = ctrl.isReadOnly || ctrl.isBusy
+    const currencyId = useWatch({ control: ctrl.form.control, name: "currency", compute: (c) => c?.id })
+
+    // Reset the cashbox when currency changes so a cashbox in the previous
+    // currency can't linger selected. Skip the first undefined → value transition
+    // so edit-mode prefill (currency + cashbox loaded together) isn't clobbered.
+    const prevCurrencyIdRef = useRef<string | undefined>(undefined)
+    useEffect(() => {
+        if (prevCurrencyIdRef.current !== undefined && prevCurrencyIdRef.current !== currencyId) {
+            ctrl.form.setValue("cashbox", null, { shouldDirty: false })
+        }
+        prevCurrencyIdRef.current = currencyId
+    }, [currencyId]) // eslint-disable-line react-hooks/exhaustive-deps
 
     const typeOptions = [
         { value: "RECEIPT", label: t("types.RECEIPT") },
@@ -23,7 +37,7 @@ export function PaymentForm({ ctrl }: { ctrl: PaymentFormController }) {
     ]
 
     return (
-        <Rhform form={ctrl.form} onSubmit={ctrl.onSubmit}>
+        <Rhform form={ctrl.form} onSubmit={() => ctrl.onSubmit(ctrl.isEditing ? undefined : "draft")}>
             <div className="p-6 space-y-4">
                 <RhfSelectField<PaymentFormValues, "type">
                     name="type"
@@ -44,6 +58,7 @@ export function PaymentForm({ ctrl }: { ctrl: PaymentFormController }) {
                     client={(api) => api.cashboxes}
                     getLabel={(it) => `${(it as Record<string, string>)["code"]} — ${(it as Record<string, string>)["name"]}`}
                     getValue={(it) => it}
+                    extraQuery={currencyId ? { filters: { currencyId: { $eq: currencyId } } } : undefined}
                     required
                     disabled={disabled}
                 />

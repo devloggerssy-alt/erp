@@ -12,6 +12,7 @@ import { Button } from "@/shared/components/ui/button"
 import { useInvoiceForm } from "../hooks/use-invoice-form"
 import { DEFAULT_INVOICE_FORM_VALUES, type InvoiceDirection, type InvoiceTotals } from "../invoices.config"
 import { InvoiceStatusBadge } from "./invoice-status-badge"
+import { InvoicePaidStatusBadge } from "./invoice-paid-status-badge"
 import { InvoiceForm } from "./invoice-form"
 
 // ── Types ──────────────────────────────────────────────────────────────────────
@@ -80,6 +81,7 @@ export function InvoiceFormModal({
                             {ctrl.isEditing && ctrl.invoiceNumber ? ctrl.invoiceNumber : t("newInvoice")}
                         </DialogTitle>
                         <InvoiceStatusBadge status={ctrl.status} />
+                        <InvoicePaidStatusBadge status={ctrl.paidStatus} invoiceStatus={ctrl.status} />
                     </div>
                     <div className="flex items-center gap-2">
                         {ctrl.status === "DRAFT" && ctrl.isEditing && (
@@ -117,12 +119,20 @@ export function InvoiceFormModal({
                     </div>
                     <div className="flex items-center gap-6">
                         <ModalTotals totals={ctrl.totals} t={t} />
-                        {!ctrl.isReadOnly && (
-                            <Button type="button" onClick={ctrl.onSubmit} disabled={ctrl.isBusy}>
-                                {ctrl.isBusy
-                                    ? (ctrl.isEditing ? tf("updating") : tf("creating"))
-                                    : (ctrl.isEditing ? tf("update", { entity: t("entity") }) : tf("create", { entity: t("entity") }))}
+                        {!ctrl.isReadOnly && ctrl.isEditing && (
+                            <Button type="button" onClick={() => ctrl.onSubmit()} disabled={ctrl.isBusy}>
+                                {ctrl.isBusy ? tf("updating") : tf("update", { entity: t("entity") })}
                             </Button>
+                        )}
+                        {!ctrl.isReadOnly && !ctrl.isEditing && (
+                            <div className="flex items-center gap-2">
+                                <Button type="button" variant="outline" onClick={() => ctrl.onSubmit("draft")} disabled={ctrl.isBusy}>
+                                    {ctrl.isBusy ? tf("creating") : t("actions.saveDraft")}
+                                </Button>
+                                <Button type="button" onClick={() => ctrl.onSubmit("complete")} disabled={ctrl.isBusy}>
+                                    {ctrl.isBusy ? tf("creating") : t("actions.saveComplete")}
+                                </Button>
+                            </div>
                         )}
                     </div>
                 </div>

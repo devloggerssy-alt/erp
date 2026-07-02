@@ -59,7 +59,8 @@
     "groups": {
       "company": "Company",
       "preferences": "Preferences",
-      "systemData": "System data"
+      "systemData": "System data",
+      "danger": "Danger zone"
     },
     "currencies": {
       "navLabel": "Currencies"
@@ -143,6 +144,41 @@
       "invoiceDefaultTerms": "Default terms",
       "documentFooter": "Document footer",
       "showLogoOnDocuments": "Show logo on documents"
+    },
+    "danger": {
+      "navLabel": "Danger zone",
+      "title": "Danger zone",
+      "description": "Irreversible, destructive actions. Master data (accounts, items, parties, cashboxes) is preserved — only transactional records are removed.",
+      "confirmPrompt": "Type {phrase} to confirm",
+      "cancel": "Cancel",
+      "finance": {
+        "title": "Reset financial records",
+        "description": "Permanently deletes all financial transactions for this organisation and resets balances to zero.",
+        "item_payments": "All payments and their allocations",
+        "item_invoices": "All invoices and invoice lines",
+        "item_expenses": "All expenses and expense items",
+        "item_journal": "All journal entries and lines",
+        "item_balances": "Cashbox and GL account balances are reset to zero",
+        "dialogTitle": "Reset all financial records?",
+        "dialogDescription": "This cannot be undone. Every payment, invoice, expense and journal entry will be permanently deleted and all balances reset to zero.",
+        "action": "Reset finance",
+        "running": "Resetting financial records…",
+        "success": "Financial records reset",
+        "failed": "Could not reset financial records"
+      },
+      "inventory": {
+        "title": "Reset inventory records",
+        "description": "Permanently deletes all stock movements and counts, and clears on-hand balances.",
+        "item_movements": "All stock movements (the inventory ledger)",
+        "item_counts": "All stock counts and count lines",
+        "item_balances": "All on-hand stock balances",
+        "dialogTitle": "Reset all inventory records?",
+        "dialogDescription": "This cannot be undone. Every stock movement, stock count and on-hand balance will be permanently deleted.",
+        "action": "Reset inventory",
+        "running": "Resetting inventory records…",
+        "success": "Inventory records reset",
+        "failed": "Could not reset inventory records"
+      }
     }
   },
   "resources": {
@@ -488,7 +524,9 @@
         "deleteConfirm": "This will permanently delete the draft invoice. This cannot be undone.",
         "postTitle": "Post Invoice?",
         "cancelTitle": "Cancel Invoice?",
-        "deleteTitle": "Delete Invoice?"
+        "deleteTitle": "Delete Invoice?",
+        "saveDraft": "Save as Draft",
+        "saveComplete": "Save & Complete"
       },
       "lines": {
         "item": "Item",
@@ -512,10 +550,25 @@
         "label": "Fully paid on creation",
         "description": "Create a payment record linked to this invoice",
         "cashbox": "Cashbox",
-        "amount": "Amount",
-        "creating": "Creating payment…",
-        "created": "Payment created",
-        "failed": "Payment creation failed (invoice was saved)"
+        "amount": "Amount"
+      },
+      "paidStatus": {
+        "unpaid": "Unpaid",
+        "partial": "Partial",
+        "paid": "Paid"
+      },
+      "payments": {
+        "title": "Payments",
+        "empty": "No payments recorded yet.",
+        "add": "Add payment",
+        "remove": "Remove",
+        "removeTitle": "Remove payment allocation?",
+        "removeConfirm": "This unlinks the payment from this invoice. The payment itself is not cancelled.",
+        "paidOf": "Paid: {paid} / {total}",
+        "adding": "Recording payment…",
+        "added": "Payment recorded",
+        "removing": "Removing…",
+        "removed": "Payment allocation removed"
       }
     },
     "cashboxes": {
@@ -583,6 +636,7 @@
         "PAYMENT": "Payment",
         "ADJUSTMENT": "Adjustment"
       },
+      "statusLabel": "Status",
       "status": {
         "draft": "Draft",
         "posted": "Posted",
@@ -595,6 +649,8 @@
         "view": "View",
         "postConfirm": "This will lock the payment and update the cashbox balance. This cannot be undone.",
         "cancelConfirm": "This will reverse the cashbox balance. The payment will be marked as cancelled.",
+        "saveDraft": "Save as Draft",
+        "saveComplete": "Save & Post",
         "postTitle": "Post Payment?",
         "cancelTitle": "Cancel Payment?"
       }
@@ -682,7 +738,16 @@
       "lines": "Count Lines",
       "item": "Item",
       "countedQty": "Counted Qty",
-      "addLine": "Add Item"
+      "addLine": "Add Item",
+      "actions": {
+        "saveDraft": "Save as Draft",
+        "savePost": "Save & Post",
+        "post": "Post",
+        "postTitle": "Post Stock Count?",
+        "postConfirm": "This will finalize the count and create inventory adjustments for any discrepancies. This cannot be undone.",
+        "posting": "Posting...",
+        "posted": "Stock count posted"
+      }
     },
     "reports": {
       "stock": {

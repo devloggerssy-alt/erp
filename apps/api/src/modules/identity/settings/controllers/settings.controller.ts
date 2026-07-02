@@ -4,7 +4,7 @@ import { SettingsService } from '../services/settings.service';
 import { JwtAuthGuard } from '../../auth/guards';
 import { CurrentUser, RequestUser } from '../../auth/decorators';
 import { ApiResponseBuilder } from '../../../../common/api/api-response-builder';
-import { ApiStandardErrors } from '../../../../common/decorators/api-swagger.decorators';
+import { ApiStandardErrors, ApiOkResponseStandard } from '../../../../common/decorators/api-swagger.decorators';
 import { SettingsResponseDto, UpdateSettingsDto, FormDefaultsResponseDto } from '../dto/settings.dto';
 
 @ApiTags('Settings')
@@ -19,7 +19,7 @@ export class SettingsController {
         summary: 'Get form auto-fill defaults',
         description: 'Returns the current open fiscal period, base currency, and first active cashbox for invoice form pre-population.',
     })
-    @ApiOkResponse({ description: 'Computed defaults for form pre-population', type: FormDefaultsResponseDto })
+    @ApiOkResponseStandard(FormDefaultsResponseDto, { description: 'Computed defaults for form pre-population' })
     @ApiStandardErrors()
     async getDefaults(@CurrentUser() user: RequestUser) {
         const defaults = await this.settingsService.getDefaults(user.tenantId);

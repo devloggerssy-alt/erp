@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useMemo } from "react"
+import { useEffect, useRef } from "react"
 import { useTranslations } from "next-intl"
 import { useFieldArray, useWatch, type UseFormReturn } from "react-hook-form"
 import type { FieldArrayWithId } from "react-hook-form"
@@ -10,7 +10,7 @@ import { useApi } from "@/shared/useApi"
 import { useResourceForm } from "@/shared/hooks/use-resource-form"
 import { useFormMutation } from "@/shared/hooks/use-form-mutation"
 import { useFormDefaultsQuery } from "@/modules/settings/hooks/use-form-defaults-query"
-import type { InvoiceStatus } from "@devloggers/api-contracts"
+import type { InvoiceStatus, InvoicePaidStatus } from "@devloggers/api-contracts"
 import {
     DEFAULT_INVOICE_FORM_VALUES,
     DEFAULT_INVOICE_LINE,
@@ -39,6 +39,14 @@ export type UseInvoiceFormOptions = {
     onClose: () => void
 }
 
+export type InvoicePaymentItem = {
+    id: string
+    paymentId: string
+    paymentNumber: string
+    amount: number
+    date: string
+}
+
 export type InvoiceFormController = {
     form: UseFormReturn<InvoiceFormValues>
     fields: FieldArrayWithId<InvoiceFormValues, "lines">[]
@@ -50,8 +58,13 @@ export type InvoiceFormController = {
     isPending: boolean
     status: InvoiceStatus | undefined
     invoiceNumber: string | undefined
+    invoiceId: string | null
+    amountPaid: number | undefined
+    balanceDue: number | undefined
+    paidStatus: InvoicePaidStatus | undefined
+    payments: InvoicePaymentItem[] | undefined
     totals: InvoiceTotals
-    onSubmit: () => void
+    onSubmit: (mode?: "draft" | "complete") => void
     postInvoice: () => void
     cancelInvoice: () => void
     direction: InvoiceDirection
@@ -61,9 +74,20 @@ export type InvoiceFormController = {
 // Cache entry shape — InvoicesClient.show() returns any internally, so we
 // define what we expect to find and pass it as a type parameter to getQueryData.
 interface CachedInvoiceEntry {
-    data?: { status?: InvoiceStatus; number?: string }
+    data?: {
+        status?: InvoiceStatus
+        number?: string
+        amountPaid?: number
+        balanceDue?: number
+        paidStatus?: InvoicePaidStatus
+        payments?: InvoicePaymentItem[]
+    }
     status?: InvoiceStatus
     number?: string
+    amountPaid?: number
+    balanceDue?: number
+    paidStatus?: InvoicePaidStatus
+    payments?: InvoicePaymentItem[]
 }
 
 // ── Hook ───────────────────────────────────────────────────────────────────────
@@ -109,19 +133,24 @@ export function useInvoiceForm({
 
     const status: InvoiceStatus | undefined = cached?.data?.status ?? cached?.status
     const invoiceNumber: string | undefined = cached?.data?.number ?? cached?.number
+    const amountPaid: number | undefined = cached?.data?.amountPaid ?? cached?.amountPaid
+    const balanceDue: number | undefined = cached?.data?.balanceDue ?? cached?.balanceDue
+    const paidStatus: InvoicePaidStatus | undefined = cached?.data?.paidStatus ?? cached?.paidStatus
+    const payments: InvoicePaymentItem[] | undefined = cached?.data?.payments ?? cached?.payments
     const isReadOnly = status === "POSTED" || status === "CANCELLED"
 
     // ── Live totals ────────────────────────────────────────────────────────────
 
-    const watchedLines = useWatch({
+    // Compute totals inside useWatch so RHF's deepEqual guard suppresses no-op
+    // updates. A bare useWatch on an object/array slice calls setState on every
+    // form notification (including a child field's register() during render),
+    // which triggers "Cannot update a component while rendering" warnings.
+    const totals = useWatch({
         control: form.control,
         name: "lines",
-    }) as InvoiceLineFormValues[]
-
-    const totals = useMemo(
-        () => computeInvoiceTotals(watchedLines ?? []),
-        [watchedLines],
-    )
+        compute: (lines) =>
+            computeInvoiceTotals((lines as InvoiceLineFormValues[] | undefined) ?? []),
+    })
 
     // Sync opening payment amount with invoice total when checkbox is on and amount hasn't been manually changed
     const watchedOpeningPayment = useWatch({ control: form.control, name: "openingPayment" })
@@ -136,11 +165,14 @@ export function useInvoiceForm({
 
     // ── Submit mutation ────────────────────────────────────────────────────────
 
+    const submitModeRef = useRef<"draft" | "complete">("draft")
+
     const { mutate, isPending } = useFormMutation(form, {
         mutationFn: async (values: InvoiceFormValues) => {
+            const complete = submitModeRef.current === "complete"
             const promise = isEditing && invoiceId
                 ? api.invoices.update(invoiceId, toUpdateInvoiceDto(values))
-                : api.invoices.create(toCreateInvoiceDto(values))
+                : api.invoices.create(toCreateInvoiceDto(values, { complete }))
 
             toast.promise(promise, {
                 loading: isEditing ? tf("updating") : tf("creating"),
@@ -152,30 +184,7 @@ export function useInvoiceForm({
                     : tf("createFailed", { entity: t("entity") }),
             })
 
-            const result = await promise
-
-            // After a new invoice is created, optionally create an opening payment
-            if (!isEditing && values.openingPayment && values.openingPaymentCashbox?.id) {
-                const paymentType = direction === "SALE" ? "RECEIPT" : "PAYMENT"
-                const paymentPromise = api.payments.create({
-                    type: paymentType,
-                    date: values.date,
-                    cashboxId: values.openingPaymentCashbox.id,
-                    partyId: values.party?.id || undefined,
-                    currencyId: values.currency?.id ?? "",
-                    fiscalPeriodId: values.fiscalPeriod?.id ?? "",
-                    amount: values.openingPaymentAmount ?? totals.total,
-                    exchangeRate: values.exchangeRate !== 1 ? values.exchangeRate : undefined,
-                })
-                toast.promise(paymentPromise, {
-                    loading: t("openingPayment.creating"),
-                    success: t("openingPayment.created"),
-                    error: t("openingPayment.failed"),
-                })
-                await paymentPromise
-            }
-
-            return result
+            return promise
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: [api.invoices.key] })
@@ -215,8 +224,11 @@ export function useInvoiceForm({
     }, [invoiceTypesData, open, isEditing, direction, form, initialTypeCode])
 
     useEffect(() => {
-        if (!open || isEditing || !formDefaults) return
-        const { fiscalPeriod, currency, cashbox } = formDefaults
+        if (!open || isEditing) return
+        // getDefaults() returns the standard API envelope — values live under `.data`.
+        const defaults = formDefaults?.data
+        if (!defaults) return
+        const { fiscalPeriod, currency, cashbox } = defaults
         if (fiscalPeriod && !form.getValues("fiscalPeriod")?.id) {
             form.setValue("fiscalPeriod", fiscalPeriod, { shouldDirty: false })
         }
@@ -242,8 +254,29 @@ export function useInvoiceForm({
         isPending,
         status,
         invoiceNumber,
+        invoiceId,
+        amountPaid,
+        balanceDue,
+        paidStatus,
+        payments,
         totals,
-        onSubmit: () => form.handleSubmit((values) => mutate(values))(),
+        onSubmit: (mode = "draft") => {
+            // Completing posts the invoice immediately, and posting a stock-affecting
+            // invoice without a warehouse fails server-side — catch it here so the
+            // user sees the error before the round trip instead of after.
+            if (mode === "complete") {
+                const invoiceTypeId = form.getValues("invoiceType")?.id
+                const selectedType = (invoiceTypesData?.data ?? []).find(
+                    (it: CrudListDataItem<InvoiceTypesClient>) => it.id === invoiceTypeId,
+                )
+                if (selectedType?.affectsStock && !form.getValues("warehouse")?.id) {
+                    form.setError("warehouse", { message: "Warehouse is required to complete a stock-affecting invoice" })
+                    return
+                }
+            }
+            submitModeRef.current = mode
+            form.handleSubmit((values) => mutate(values))()
+        },
         postInvoice: () => { if (invoiceId) postById(invoiceId) },
         cancelInvoice: () => { if (invoiceId) cancelById(invoiceId) },
         direction,

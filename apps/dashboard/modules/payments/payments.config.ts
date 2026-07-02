@@ -74,7 +74,7 @@ export function mapPaymentToFormValues(data: unknown): PaymentFormValues {
     }
 }
 
-export function toCreatePaymentDto(values: PaymentFormValues): CreatePaymentDto {
+export function toCreatePaymentDto(values: PaymentFormValues, options?: { complete?: boolean }): CreatePaymentDto {
     return {
         type: values.type,
         date: values.date,
@@ -85,6 +85,7 @@ export function toCreatePaymentDto(values: PaymentFormValues): CreatePaymentDto 
         amount: values.amount,
         exchangeRate: values.exchangeRate !== 1 ? values.exchangeRate : undefined,
         notes: values.notes || undefined,
+        complete: options?.complete ?? false,
     }
 }
 

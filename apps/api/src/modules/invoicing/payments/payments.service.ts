@@ -4,7 +4,7 @@ import { CreatePaymentDto, UpdatePaymentDto, AllocatePaymentDto } from './dto';
 import { DocumentSequencesService } from '../../accounting/document-sequences/services/document-sequences.service';
 import { FinancialSettingsService } from '../../accounting/financial-settings/services/financial-settings.service';
 import { buildPaymentJournalLines } from './payment-journal';
-import { updateAccountBalances } from '../../accounting/accounts/utils/account-balance.utils';
+import { createPostingJournalEntry } from '../../accounting/accounts/utils/create-posting-journal-entry';
 
 @Injectable()
 export class PaymentsService {
@@ -60,7 +60,7 @@ export class PaymentsService {
 
         const number = await this.docSeqService.getNextNumber(tenantId, docType);
 
-        return this.prisma.payment.create({
+        const payment = await this.prisma.payment.create({
             data: {
                 tenantId,
                 number,
@@ -77,6 +77,12 @@ export class PaymentsService {
                 createdBy: userId,
             },
         });
+
+        if (dto.complete) {
+            return this.post(tenantId, payment.id, userId);
+        }
+
+        return payment;
     }
 
     async update(tenantId: string, id: string, dto: UpdatePaymentDto) {
@@ -134,34 +140,18 @@ export class PaymentsService {
         const jeNumber = await this.docSeqService.getNextNumber(tenantId, 'JOURNAL_ENTRY');
 
         await this.prisma.$transaction(async (tx) => {
-            await tx.journalEntry.create({
-                data: {
-                    tenantId,
-                    number: jeNumber,
-                    date: payment.date,
-                    fiscalPeriodId: payment.fiscalPeriodId,
-                    referenceType: 'payment',
-                    referenceId: payment.id,
-                    description: `Payment ${payment.number}`,
-                    status: 'POSTED',
-                    exchangeRate,
-                    postedAt: new Date(),
-                    createdBy: userId,
-                    lines: {
-                        create: journalLines.map((l) => ({
-                            tenantId,
-                            accountId: l.accountId,
-                            partyId: l.partyId ?? null,
-                            debit: l.debit,
-                            credit: l.credit,
-                            description: l.description,
-                            sortOrder: l.sortOrder,
-                        })),
-                    },
-                },
+            await createPostingJournalEntry(tx, {
+                tenantId,
+                number: jeNumber,
+                date: payment.date,
+                fiscalPeriodId: payment.fiscalPeriodId,
+                referenceType: 'payment',
+                referenceId: payment.id,
+                description: `Payment ${payment.number}`,
+                exchangeRate,
+                userId,
+                lines: journalLines,
             });
-
-            await updateAccountBalances(tx, journalLines);
 
             await tx.cashbox.update({
                 where: { id: payment.cashboxId },
@@ -215,34 +205,18 @@ export class PaymentsService {
         const jeNumber = await this.docSeqService.getNextNumber(tenantId, 'JOURNAL_ENTRY');
 
         await this.prisma.$transaction(async (tx) => {
-            await tx.journalEntry.create({
-                data: {
-                    tenantId,
-                    number: jeNumber,
-                    date: new Date(),
-                    fiscalPeriodId: payment.fiscalPeriodId,
-                    referenceType: 'payment_cancellation',
-                    referenceId: payment.id,
-                    description: `Reversal of payment ${payment.number}`,
-                    status: 'POSTED',
-                    exchangeRate,
-                    postedAt: new Date(),
-                    createdBy: userId,
-                    lines: {
-                        create: reversalLines.map((l) => ({
-                            tenantId,
-                            accountId: l.accountId,
-                            partyId: l.partyId ?? null,
-                            debit: l.debit,
-                            credit: l.credit,
-                            description: l.description,
-                            sortOrder: l.sortOrder,
-                        })),
-                    },
-                },
+            await createPostingJournalEntry(tx, {
+                tenantId,
+                number: jeNumber,
+                date: new Date(),
+                fiscalPeriodId: payment.fiscalPeriodId,
+                referenceType: 'payment_cancellation',
+                referenceId: payment.id,
+                description: `Reversal of payment ${payment.number}`,
+                exchangeRate,
+                userId,
+                lines: reversalLines,
             });
-
-            await updateAccountBalances(tx, reversalLines);
 
             await tx.cashbox.update({
                 where: { id: payment.cashboxId },
@@ -265,6 +239,25 @@ export class PaymentsService {
         const unallocated = Number(payment.unallocatedAmount);
         if (dto.amount > unallocated) {
             throw new BadRequestException(`Allocation amount (${dto.amount}) exceeds unallocated balance (${unallocated})`);
+        }
+
+        const invoice = await this.prisma.invoice.findFirst({ where: { id: dto.invoiceId, tenantId } });
+        if (!invoice) throw new NotFoundException('Invoice not found');
+
+        if (payment.partyId && payment.partyId !== invoice.partyId) {
+            throw new BadRequestException('Payment and invoice belong to different parties');
+        }
+        if (payment.currencyId !== invoice.currencyId) {
+            throw new BadRequestException('Payment and invoice currencies do not match');
+        }
+
+        const allocatedAgg = await this.prisma.paymentAllocation.aggregate({
+            where: { tenantId, invoiceId: dto.invoiceId },
+            _sum: { amount: true },
+        });
+        const invoiceRemaining = Number(invoice.total) - Number(allocatedAgg._sum.amount ?? 0);
+        if (dto.amount > invoiceRemaining) {
+            throw new BadRequestException(`Allocation amount (${dto.amount}) exceeds the invoice's remaining balance (${invoiceRemaining})`);
         }
 
         return this.prisma.$transaction(async (tx) => {

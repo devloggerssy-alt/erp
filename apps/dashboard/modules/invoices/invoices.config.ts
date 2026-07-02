@@ -2,7 +2,12 @@ import { z } from "zod"
 import type { InvoiceStatus } from "@devloggers/api-contracts"
 import type { CreateInvoiceDto, UpdateInvoiceDto } from "@devloggers/api-contracts"
 import { unwrapApiData } from "@/shared/hooks/unwrap-api-data"
-import { CrudListDataItem, ItemsClient, UnitsClient } from "@devloggers/api-client"
+import type { CrudListDataItem, CrudShowResponse, InvoicesClient, ItemsClient, UnitsClient } from "@devloggers/api-client"
+
+// Detail (show) response shape, derived from the typed API contract — the single
+// source of truth for what `api.invoices.show()` returns.
+type InvoiceDetail = NonNullable<CrudShowResponse<InvoicesClient>["data"]>
+type InvoiceDetailLine = NonNullable<InvoiceDetail["lines"]>[number]
 
 // Re-export InvoiceStatus from contracts so module consumers have one import point
 export type { InvoiceStatus }
@@ -23,22 +28,6 @@ export interface InvoiceTotals {
     discountAmount: number
     taxAmount: number
     total: number
-}
-
-/** Typed shape for raw API line data coming back from the server */
-interface InvoiceLineApiData {
-    itemId?: string
-    itemName?: string
-    itemCode?: string
-    unitId?: string
-    unitName?: string
-    unitAbbreviation?: string
-    quantity?: number | string
-    unitPrice?: number | string
-    discountPercent?: number | string
-    taxPercent?: number | string
-    notes?: string
-    sortOrder?: number
 }
 
 // ── Line item schema ───────────────────────────────────────────────────────────
@@ -143,21 +132,31 @@ export const DEFAULT_INVOICE_FORM_VALUES: InvoiceFormValues = {
 
 // ── Mapper ─────────────────────────────────────────────────────────────────────
 
-interface InvoiceApiResponse {
-    invoiceTypeId?: string
-    date?: string
-    dueDate?: string
-    partyId?: string
-    warehouseId?: string
-    fiscalPeriodId?: string
-    currencyId?: string
-    exchangeRate?: number | string
-    notes?: string
-    lines?: InvoiceLineApiData[]
+function mapDetailLineToFormLine(line: InvoiceDetailLine): InvoiceLineFormValues {
+    return {
+        _item: line.itemId ? {
+            id: line.itemId,
+            name: line.itemName,
+            code: line.itemCode,
+            baseUnitId: line.unitId,
+        } : null,
+        // Store full unit object so the combobox label renders before options load
+        _unit: line.unitId ? { id: line.unitId, name: line.unitName, abbreviation: line.unitAbbreviation } : null,
+        itemId: line.itemId ?? "",
+        quantity: Number(line.quantity) || 1,
+        unitPrice: Number(line.unitPrice) || 0,
+        discountPercent: Number(line.discountPercent) || 0,
+        taxPercent: Number(line.taxPercent) || 0,
+        notes: line.notes ?? "",
+        sortOrder: line.sortOrder,
+    }
 }
 
 export function mapInvoiceToFormValues(data: unknown): InvoiceFormValues {
-    const resolved = unwrapApiData<InvoiceApiResponse>(data)
+    const resolved = unwrapApiData<InvoiceDetail>(data)
+    const lines = resolved?.lines?.length
+        ? resolved.lines.map(mapDetailLineToFormLine)
+        : [{ ...DEFAULT_INVOICE_LINE }]
     return {
         invoiceType: resolved?.invoiceTypeId ? { id: resolved.invoiceTypeId } : null,
         date: resolved?.date ? new Date(resolved.date).toISOString().split("T")[0]! : "",
@@ -168,29 +167,17 @@ export function mapInvoiceToFormValues(data: unknown): InvoiceFormValues {
         currency: resolved?.currencyId ? { id: resolved.currencyId } : null,
         exchangeRate: Number(resolved?.exchangeRate) || 1,
         notes: resolved?.notes ?? "",
-        lines: (resolved?.lines ?? [{ ...DEFAULT_INVOICE_LINE }]).map((line) => ({
-            _item: line.itemId ? {
-                id: line.itemId,
-                name: line.itemName,
-                code: line.itemCode,
-                baseUnitId: line.unitId,
-            } : null,
-            // Store full unit object so the combobox label renders before options load
-            _unit: line.unitId ? { id: line.unitId, name: line.unitName, abbreviation: line.unitAbbreviation } : null,
-            itemId: line.itemId ?? "",
-            quantity: Number(line.quantity) || 1,
-            unitPrice: Number(line.unitPrice) || 0,
-            discountPercent: Number(line.discountPercent) || 0,
-            taxPercent: Number(line.taxPercent) || 0,
-            notes: line.notes ?? "",
-            sortOrder: line.sortOrder,
-        })),
+        lines,
+        // Opening payment is a create-time-only concern — never pre-filled when editing.
+        openingPayment: false,
+        openingPaymentCashbox: null,
+        openingPaymentAmount: undefined,
     }
 }
 
 // ── Payload builders ───────────────────────────────────────────────────────────
 
-export function toCreateInvoiceDto(values: InvoiceFormValues): CreateInvoiceDto {
+export function toCreateInvoiceDto(values: InvoiceFormValues, options?: { complete?: boolean }): CreateInvoiceDto {
     return {
         invoiceTypeId: values.invoiceType?.id ?? "",
         date: values.date,
@@ -201,6 +188,14 @@ export function toCreateInvoiceDto(values: InvoiceFormValues): CreateInvoiceDto 
         currencyId: values.currency?.id ?? "",
         exchangeRate: values.exchangeRate,
         notes: values.notes || undefined,
+        complete: options?.complete ?? false,
+        openingPayment: values.openingPayment && values.openingPaymentCashbox?.id
+            ? {
+                cashboxId: values.openingPaymentCashbox.id,
+                amount: values.openingPaymentAmount ?? 0,
+                exchangeRate: values.exchangeRate !== 1 ? values.exchangeRate : undefined,
+            }
+            : undefined,
         lines: values.lines.map((line, index) => ({
             itemId: line.itemId,
             unitId: line._unit?.id ?? "",

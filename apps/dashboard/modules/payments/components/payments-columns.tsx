@@ -138,7 +138,7 @@ export function createPaymentsColumns(
         },
         {
             accessorKey: "status",
-            header: ({ column }) => <ColumnHeader column={column} title={t("status")} />,
+            header: ({ column }) => <ColumnHeader column={column} title={t("statusLabel")} />,
             cell: ({ row }) => {
                 const status = row.getValue("status") as string
                 return (

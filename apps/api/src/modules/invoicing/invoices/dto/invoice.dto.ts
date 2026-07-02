@@ -5,6 +5,7 @@ import {
     IsNumber,
     IsArray,
     IsDateString,
+    IsBoolean,
     ValidateNested,
     Min,
 } from 'class-validator';
@@ -53,6 +54,24 @@ export class InvoiceLineDto {
     sortOrder?: number;
 }
 
+export class CreateInvoiceOpeningPaymentDto {
+    @ApiProperty({ example: '00000000-0000-4000-ac00-000000000001', description: 'Cashbox ID the opening payment is deposited into' })
+    @IsString()
+    @IsNotEmpty()
+    cashboxId: string;
+
+    @ApiProperty({ example: 250000, description: 'Opening payment amount in invoice currency' })
+    @IsNumber()
+    @Min(0.01)
+    amount: number;
+
+    @ApiPropertyOptional({ example: 1.0, description: 'Exchange rate to base currency (defaults to the invoice exchange rate)' })
+    @IsOptional()
+    @IsNumber()
+    @Min(0.0001)
+    exchangeRate?: number;
+}
+
 export class CreateInvoiceDto {
     @ApiProperty({ example: '00000000-0000-4000-ad00-000000000001', description: 'Invoice type ID (Purchase Invoice)' })
     @IsString()
@@ -98,6 +117,17 @@ export class CreateInvoiceDto {
     @IsOptional()
     @IsString()
     notes?: string;
+
+    @ApiPropertyOptional({ example: false, description: 'If true, the invoice is posted immediately after creation instead of staying DRAFT' })
+    @IsOptional()
+    @IsBoolean()
+    complete?: boolean;
+
+    @ApiPropertyOptional({ type: () => CreateInvoiceOpeningPaymentDto, description: 'Optional opening payment recorded against this invoice at creation time' })
+    @IsOptional()
+    @ValidateNested()
+    @Type(() => CreateInvoiceOpeningPaymentDto)
+    openingPayment?: CreateInvoiceOpeningPaymentDto;
 
     @ApiProperty({
         type: [InvoiceLineDto],
@@ -156,73 +186,128 @@ export class UpdateInvoiceDto {
     lines?: InvoiceLineDto[];
 }
 
+export class AddInvoicePaymentDto {
+    @ApiProperty({ example: '00000000-0000-4000-ac00-000000000001', description: 'Cashbox ID the payment is deposited into' })
+    @IsString()
+    @IsNotEmpty()
+    cashboxId: string;
+
+    @ApiProperty({ example: 250000, description: 'Payment amount in invoice currency' })
+    @IsNumber()
+    @Min(0.01)
+    amount: number;
+
+    @ApiProperty({ example: '2026-04-20', description: 'Payment date (ISO 8601)' })
+    @IsDateString()
+    date: string;
+
+    @ApiPropertyOptional({ example: 1.0, description: 'Exchange rate to base currency (defaults to the invoice exchange rate)' })
+    @IsOptional()
+    @IsNumber()
+    @Min(0.0001)
+    exchangeRate?: number;
+}
+
 // ─── Response DTOs ────────────────────────────────────────────────────────────
 
 export class InvoiceLineResponseDto {
-    @ApiProperty() id: string = '';
-    @ApiProperty() itemId: string = '';
-    @ApiPropertyOptional() itemName?: string;
-    @ApiPropertyOptional() itemCode?: string;
-    @ApiProperty() unitId: string = '';
-    @ApiPropertyOptional() unitName?: string;
-    @ApiPropertyOptional() unitAbbreviation?: string;
-    @ApiProperty() quantity: number = 0;
-    @ApiProperty() unitPrice: number = 0;
-    @ApiProperty() discountPercent: number = 0;
-    @ApiProperty() discountAmount: number = 0;
-    @ApiProperty() taxPercent: number = 0;
-    @ApiProperty() taxAmount: number = 0;
-    @ApiProperty() total: number = 0;
-    @ApiPropertyOptional({ nullable: true }) notes: string | null = null;
-    @ApiPropertyOptional() sortOrder?: number;
+    @ApiProperty({ type: 'string' }) id: string = '';
+    @ApiProperty({ type: 'string' }) itemId: string = '';
+    @ApiPropertyOptional({ type: 'string' }) itemName?: string;
+    @ApiPropertyOptional({ type: 'string' }) itemCode?: string;
+    @ApiProperty({ type: 'string' }) unitId: string = '';
+    @ApiPropertyOptional({ type: 'string' }) unitName?: string;
+    @ApiPropertyOptional({ type: 'string' }) unitAbbreviation?: string;
+    @ApiProperty({ type: 'number' }) quantity: number = 0;
+    @ApiProperty({ type: 'number' }) unitPrice: number = 0;
+    @ApiProperty({ type: 'number' }) discountPercent: number = 0;
+    @ApiProperty({ type: 'number' }) discountAmount: number = 0;
+    @ApiProperty({ type: 'number' }) taxPercent: number = 0;
+    @ApiProperty({ type: 'number' }) taxAmount: number = 0;
+    @ApiProperty({ type: 'number' }) total: number = 0;
+    @ApiPropertyOptional({ type: 'string', nullable: true }) notes: string | null = null;
+    @ApiPropertyOptional({ type: 'number' }) sortOrder?: number;
+}
+
+export enum InvoicePaidStatus {
+    UNPAID = 'UNPAID',
+    PARTIAL = 'PARTIAL',
+    PAID = 'PAID',
+}
+
+export class InvoicePaymentResponseDto {
+    @ApiProperty({ type: 'string', description: 'Payment allocation ID' }) id: string = '';
+    @ApiProperty({ type: 'string' }) paymentId: string = '';
+    @ApiProperty({ type: 'string', example: 'PAY-00002' }) paymentNumber: string = '';
+    @ApiProperty({ type: 'number', example: 250000 }) amount: number = 0;
+    @ApiProperty({ type: 'string', example: '2026-04-14T00:00:00.000Z' }) date: string = '';
+    @ApiProperty({ type: 'string' }) createdAt: string = '';
 }
 
 export class InvoiceResponseDto {
-    @ApiProperty({ example: '00000000-0000-4000-ae00-000000000001' })
+    @ApiProperty({ type: 'string', example: '00000000-0000-4000-ae00-000000000001' })
     id: string = '';
 
-    @ApiProperty({ example: 'INV-00001' })
+    @ApiProperty({ type: 'string', example: 'INV-00001' })
     number: string = '';
 
-    @ApiProperty({ example: '00000000-0000-4000-ad00-000000000001' })
+    @ApiProperty({ type: 'string', example: '00000000-0000-4000-ad00-000000000001' })
     invoiceTypeId: string = '';
 
-    @ApiPropertyOptional() invoiceTypeName?: string;
-    @ApiPropertyOptional() invoiceTypeDirection?: string;
+    @ApiPropertyOptional({ type: 'string', example: 'Purchase Invoice', description: 'Invoice type display name, resolved to the request locale' })
+    invoiceTypeName?: string;
 
-    @ApiProperty({ example: '2026-04-14T00:00:00.000Z' })
+    @ApiPropertyOptional({ type: 'string', example: 'PURCHASE', description: 'PURCHASE | SALE' })
+    invoiceTypeDirection?: string;
+
+    @ApiProperty({ type: 'string', example: '2026-04-14T00:00:00.000Z' })
     date: string = '';
 
-    @ApiPropertyOptional({ nullable: true }) dueDate: string | null = null;
+    @ApiPropertyOptional({ type: 'string', nullable: true }) dueDate: string | null = null;
 
-    @ApiProperty({ example: '00000000-0000-4000-aa00-000000000004' })
+    @ApiProperty({ type: 'string', example: '00000000-0000-4000-aa00-000000000004' })
     partyId: string = '';
 
-    @ApiPropertyOptional() partyName?: string;
+    @ApiPropertyOptional({ type: 'string', example: 'Damascus Import Co.' }) partyName?: string;
 
-    @ApiPropertyOptional({ nullable: true }) warehouseId: string | null = null;
-    @ApiPropertyOptional() warehouseName?: string;
+    @ApiPropertyOptional({ type: 'string', nullable: true }) warehouseId: string | null = null;
+    @ApiPropertyOptional({ type: 'string', example: 'Main Warehouse' }) warehouseName?: string;
 
-    @ApiProperty() fiscalPeriodId: string = '';
-    @ApiProperty() currencyId: string = '';
-    @ApiPropertyOptional() currencyCode?: string;
+    @ApiProperty({ type: 'string' }) fiscalPeriodId: string = '';
+    @ApiProperty({ type: 'string' }) currencyId: string = '';
+    @ApiPropertyOptional({ type: 'string', example: 'SYP' }) currencyCode?: string;
 
-    @ApiProperty({ example: 'DRAFT', description: 'DRAFT | POSTED | CANCELLED' })
+    @ApiProperty({ type: 'number', example: 1, description: 'Exchange rate to tenant base currency' })
+    exchangeRate: number = 1;
+
+    @ApiProperty({ type: 'string', example: 'DRAFT', description: 'DRAFT | POSTED | CANCELLED' })
     status: string = 'DRAFT';
 
-    @ApiProperty() subtotal: number = 0;
-    @ApiProperty() discountAmount: number = 0;
-    @ApiProperty() taxAmount: number = 0;
-    @ApiProperty() total: number = 0;
+    @ApiProperty({ type: 'number' }) subtotal: number = 0;
+    @ApiProperty({ type: 'number' }) discountAmount: number = 0;
+    @ApiProperty({ type: 'number' }) taxAmount: number = 0;
+    @ApiProperty({ type: 'number' }) total: number = 0;
 
-    @ApiPropertyOptional({ nullable: true }) notes: string | null = null;
-    @ApiPropertyOptional({ nullable: true }) postedAt: string | null = null;
-    @ApiProperty() createdAt: string = '';
-    @ApiProperty() updatedAt: string = '';
+    @ApiPropertyOptional({ type: 'string', nullable: true }) notes: string | null = null;
+    @ApiPropertyOptional({ type: 'string', nullable: true }) postedAt: string | null = null;
+    @ApiProperty({ type: 'string' }) createdAt: string = '';
+    @ApiProperty({ type: 'string' }) updatedAt: string = '';
 
-    @ApiPropertyOptional({ type: [InvoiceLineResponseDto] })
+    @ApiProperty({ type: 'number', example: 500000, description: 'Sum of payments allocated to this invoice' })
+    amountPaid: number = 0;
+
+    @ApiProperty({ type: 'number', example: 700000, description: 'Remaining unpaid amount (total - amountPaid)' })
+    balanceDue: number = 0;
+
+    @ApiProperty({ enum: InvoicePaidStatus, enumName: 'InvoicePaidStatus', example: InvoicePaidStatus.UNPAID, description: 'Derived from amountPaid vs total' })
+    paidStatus: InvoicePaidStatus = InvoicePaidStatus.UNPAID;
+
+    @ApiPropertyOptional({ type: () => InvoiceLineResponseDto, isArray: true })
     lines?: InvoiceLineResponseDto[];
 
-    @ApiPropertyOptional({ description: 'Total line count (list view only)' })
+    @ApiPropertyOptional({ type: () => InvoicePaymentResponseDto, isArray: true, description: 'Payments allocated to this invoice (detail view only)' })
+    payments?: InvoicePaymentResponseDto[];
+
+    @ApiPropertyOptional({ type: 'number', description: 'Total line count (list view only)' })
     lineCount?: number;
 }

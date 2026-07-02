@@ -15,8 +15,17 @@ import {
 } from "@/shared/components/ui/table"
 import { Badge } from "@/shared/components/ui/badge"
 import { Skeleton } from "@/shared/components/ui/skeleton"
-import { useTranslations } from "next-intl"
+import { useTranslations, useLocale } from "next-intl"
 import { useDashboardMovements } from "../hooks"
+
+function resolveLocalizedName(name: unknown, locale: string): string {
+    if (typeof name === "string") return name
+    if (name && typeof name === "object") {
+        const n = name as Record<string, string>
+        return n[locale] ?? n["ar"] ?? n["en"] ?? ""
+    }
+    return ""
+}
 
 const TYPE_VARIANT: Record<string, "default" | "destructive" | "secondary"> = {
     RECEIPT: "default",
@@ -26,6 +35,7 @@ const TYPE_VARIANT: Record<string, "default" | "destructive" | "secondary"> = {
 
 export function DashboardRecentPayments() {
     const t = useTranslations("business.dashboard.recentPayments")
+    const locale = useLocale()
     const { data, isLoading } = useDashboardMovements()
 
     const payments = (data as any)?.data ?? []
@@ -68,7 +78,7 @@ export function DashboardRecentPayments() {
                                         </Badge>
                                     </TableCell>
                                     <TableCell className="text-sm text-muted-foreground">
-                                        {payment.cashbox?.name ?? "—"}
+                                        {resolveLocalizedName(payment.cashbox?.name, locale) || "—"}
                                     </TableCell>
                                     <TableCell className="text-end font-bold">
                                         {new Intl.NumberFormat(undefined, {

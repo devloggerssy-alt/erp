@@ -1,13 +1,21 @@
-import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException, BadRequestException } from '@nestjs/common';
 import { PrismaService } from '@devloggers/db-prisma/nest';
-import { CreateInvoiceDto, UpdateInvoiceDto, InvoiceLineDto } from './dto';
+import { CreateInvoiceDto, UpdateInvoiceDto, InvoiceLineDto, AddInvoicePaymentDto } from './dto';
 import { DocumentSequencesService } from '../../accounting/document-sequences/services/document-sequences.service';
+import { InvoicePostingService } from './invoice-posting.service';
+import { PaymentsService } from '../payments/payments.service';
+import { CreatePaymentDto, PaymentTypeEnum } from '../payments/dto';
+import { computeInvoicePaidState } from './presenters/invoice.presenter';
 
 @Injectable()
 export class InvoicesService {
+    private readonly logger = new Logger(InvoicesService.name);
+
     constructor(
         private readonly prisma: PrismaService,
         private readonly documentSequencesService: DocumentSequencesService,
+        private readonly postingService: InvoicePostingService,
+        private readonly paymentsService: PaymentsService,
     ) {}
 
     /**
@@ -51,6 +59,7 @@ export class InvoicesService {
                     party: { select: { name: true, code: true } },
                     warehouse: { select: { name: true, code: true } },
                     currency: { select: { code: true, symbol: true } },
+                    paymentAllocations: { select: { amount: true } },
                     _count: { select: { lines: true } },
                 },
                 orderBy: { createdAt: 'desc' },
@@ -79,6 +88,10 @@ export class InvoicesService {
                     },
                     orderBy: { sortOrder: 'asc' },
                 },
+                paymentAllocations: {
+                    include: { payment: { select: { number: true, date: true } } },
+                    orderBy: { createdAt: 'asc' },
+                },
             },
         });
 
@@ -87,6 +100,39 @@ export class InvoicesService {
         }
 
         return invoice;
+    }
+
+    /**
+     * Create (and, if requested, post + allocate) a payment against an invoice.
+     * Shared by the opening-payment path in `create()` and the `addPayment()` endpoint.
+     * Throws if post/allocate fails past the initial DRAFT payment creation — it's up
+     * to the caller to decide whether that's fatal (addPayment) or best-effort (opening
+     * payment, where the invoice itself is already saved and shouldn't be lost).
+     */
+    private async recordInvoicePayment(
+        tenantId: string,
+        userId: string,
+        invoice: { id: string; partyId: string; currencyId: string; fiscalPeriodId: string; exchangeRate: unknown },
+        direction: 'PURCHASE' | 'SALE',
+        dto: { cashboxId: string; amount: number; date: string; exchangeRate?: number },
+        complete: boolean,
+    ): Promise<void> {
+        const paymentDto: CreatePaymentDto = {
+            type: direction === 'PURCHASE' ? PaymentTypeEnum.PAYMENT : PaymentTypeEnum.RECEIPT,
+            date: dto.date,
+            cashboxId: dto.cashboxId,
+            partyId: invoice.partyId,
+            currencyId: invoice.currencyId,
+            fiscalPeriodId: invoice.fiscalPeriodId,
+            amount: dto.amount,
+            exchangeRate: dto.exchangeRate ?? Number(invoice.exchangeRate),
+        };
+        const payment = await this.paymentsService.create(tenantId, userId, paymentDto);
+
+        if (!complete) return;
+
+        await this.paymentsService.post(tenantId, payment.id, userId);
+        await this.paymentsService.allocate(tenantId, payment.id, { invoiceId: invoice.id, amount: dto.amount });
     }
 
     async create(tenantId: string, userId: string, dto: CreateInvoiceDto) {
@@ -140,7 +186,7 @@ export class InvoicesService {
 
         const grandTotal = subtotal - totalDiscount + totalTax;
 
-        return this.prisma.invoice.create({
+        const created = await this.prisma.invoice.create({
             data: {
                 tenantId,
                 invoiceTypeId: dto.invoiceTypeId,
@@ -167,6 +213,61 @@ export class InvoicesService {
                 invoiceType: true,
             },
         });
+
+        // Complete + opening payment are both best-effort follow-ups: the invoice row
+        // above is already committed, so a failure here must not look like the whole
+        // create failed — it's reported but the invoice remains saved as DRAFT.
+        let finalInvoice: typeof created = created;
+        let postingError: unknown;
+
+        if (dto.complete) {
+            try {
+                finalInvoice = invoiceType.direction === 'PURCHASE'
+                    ? await this.postingService.postPurchaseInvoice(tenantId, created.id, userId)
+                    : await this.postingService.postSalesInvoice(tenantId, created.id, userId);
+            } catch (error) {
+                postingError = error;
+            }
+        }
+
+        if (dto.openingPayment) {
+            // Only post + allocate the opening payment if the invoice itself was
+            // posted — an opening payment against a still-draft invoice stays draft too.
+            // Best-effort: the invoice is already saved, so a failure here is reported
+            // but must not roll back or fail the whole request.
+            try {
+                await this.recordInvoicePayment(
+                    tenantId,
+                    userId,
+                    {
+                        id: created.id,
+                        partyId: dto.partyId,
+                        currencyId: dto.currencyId,
+                        fiscalPeriodId: dto.fiscalPeriodId,
+                        exchangeRate: dto.exchangeRate ?? 1,
+                    },
+                    invoiceType.direction,
+                    {
+                        cashboxId: dto.openingPayment.cashboxId,
+                        amount: dto.openingPayment.amount,
+                        date: dto.date,
+                        exchangeRate: dto.openingPayment.exchangeRate,
+                    },
+                    finalInvoice.status === 'POSTED',
+                );
+            } catch (error) {
+                this.logger.warn(
+                    `Opening payment for invoice ${created.id} could not be completed: ${(error as Error).message}`,
+                );
+            }
+        }
+
+        if (postingError) {
+            throw postingError;
+        }
+
+        // Re-fetch so the response reflects any opening-payment allocation applied above.
+        return this.findById(tenantId, created.id);
     }
 
     async update(tenantId: string, id: string, dto: UpdateInvoiceDto) {
@@ -234,6 +335,46 @@ export class InvoicesService {
                 invoiceType: true,
             },
         });
+    }
+
+    /**
+     * Record an additional payment against an already-posted invoice — the
+     * mechanism for bringing a PARTIAL invoice toward PAID over time. Unlike the
+     * opening-payment path, failures here propagate: the caller explicitly asked
+     * for this payment to be recorded now, so a silent no-op would be misleading.
+     */
+    async addPayment(tenantId: string, userId: string, invoiceId: string, dto: AddInvoicePaymentDto) {
+        const invoice = await this.findById(tenantId, invoiceId);
+        if (invoice.status !== 'POSTED') {
+            throw new BadRequestException('Payments can only be added to posted invoices');
+        }
+
+        const { balanceDue } = computeInvoicePaidState(invoice.total, invoice.paymentAllocations);
+        if (dto.amount > balanceDue) {
+            throw new BadRequestException(`Payment amount (${dto.amount}) exceeds the invoice's remaining balance (${balanceDue})`);
+        }
+
+        await this.recordInvoicePayment(
+            tenantId,
+            userId,
+            {
+                id: invoice.id,
+                partyId: invoice.partyId,
+                currencyId: invoice.currencyId,
+                fiscalPeriodId: invoice.fiscalPeriodId,
+                exchangeRate: invoice.exchangeRate,
+            },
+            invoice.invoiceType.direction,
+            {
+                cashboxId: dto.cashboxId,
+                amount: dto.amount,
+                date: dto.date,
+                exchangeRate: dto.exchangeRate,
+            },
+            true,
+        );
+
+        return this.findById(tenantId, invoiceId);
     }
 
     async delete(tenantId: string, id: string): Promise<void> {

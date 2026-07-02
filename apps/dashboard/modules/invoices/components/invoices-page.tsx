@@ -46,7 +46,7 @@ export function InvoicesPage({ direction, initialTypeCode }: { direction: Invoic
                                 postInvoice: (id) => postInvoice(id),
                                 cancelInvoice: (id) => cancelInvoice(id),
                                 deleteInvoice: (id) => deleteInvoice(id),
-                            })) as any)}
+                            })))}
                     />
                 </InvoicesResource.Page>
             </InvoicesResource>

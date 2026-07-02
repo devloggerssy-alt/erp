@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, IsOptional, IsNumber, IsEnum, IsDateString, Min } from 'class-validator';
+import { IsString, IsNotEmpty, IsOptional, IsNumber, IsEnum, IsDateString, IsBoolean, Min } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export enum PaymentTypeEnum {
@@ -43,6 +43,10 @@ export class CreatePaymentDto {
     @ApiPropertyOptional({ example: 'Payment received for invoice SAL-00001' })
     @IsOptional() @IsString()
     notes?: string;
+
+    @ApiPropertyOptional({ example: false, description: 'If true, the payment is posted immediately after creation instead of staying DRAFT' })
+    @IsOptional() @IsBoolean()
+    complete?: boolean;
 }
 
 export class UpdatePaymentDto {

@@ -16,9 +16,11 @@ import { DEFAULT_INVOICE_LINE } from "../invoices.config"
 import type { InvoiceFormValues, InvoiceRelationalField, InvoiceDirection } from "../invoices.config"
 import type { InvoiceFormController } from "../hooks/use-invoice-form"
 import { InvoiceLineRow } from "./invoice-line-row"
+import { InvoicePaymentsPanel } from "./invoice-payments-panel"
 import { RhfDateField } from "@/shared/components/form/fields/rhf-date-field"
 import { InvoicePartySelect, type PartyTypeFilter } from "./invoice-party-select"
 import { useWatch } from "react-hook-form"
+import { useEffect, useRef } from "react"
 
 const PARTY_TYPES_BY_DIRECTION: Record<InvoiceDirection, PartyTypeFilter[]> = {
     SALE: ["CUSTOMER", "CUSTOMER_SUPPLIER"],
@@ -39,8 +41,20 @@ function InvoiceHeaderFields({
     const t = useTranslations("business.resources.invoices")
     const gt = useTranslations()
     const partyTitle = direction === "SALE" ? gt("business.resources.customers.entity") : gt("business.resources.suppliers.entity")
-
     const openingPayment = useWatch({ control: ctrl.form.control, name: "openingPayment" })
+    const currencyId = useWatch({ control: ctrl.form.control, name: "currency", compute: (c) => c?.id })
+
+    // Reset the opening-payment cashbox when the invoice currency changes so a
+    // cashbox in the previous currency can't linger selected. Skip the very first
+    // currency assignment (undefined → default) so form-defaults prefill isn't clobbered.
+    const prevCurrencyIdRef = useRef<string | undefined>(undefined)
+    useEffect(() => {
+        if (prevCurrencyIdRef.current !== undefined && prevCurrencyIdRef.current !== currencyId) {
+            ctrl.form.setValue("openingPaymentCashbox", null, { shouldDirty: false })
+        }
+        prevCurrencyIdRef.current = currencyId
+    }, [currencyId]) // eslint-disable-line react-hooks/exhaustive-deps
+
 
     return (
         <div className="space-y-4">
@@ -126,6 +140,7 @@ function InvoiceHeaderFields({
                                 client={(api) => api.cashboxes}
                                 getLabel={(it) => `${(it)["code"]} — ${(it)["name"]}`}
                                 getValue={(it) => it}
+                                extraQuery={currencyId ? { filters: { currencyId: { $eq: currencyId } } } : undefined}
                                 required
                                 disabled={disabled}
                             />
@@ -212,7 +227,7 @@ export function InvoiceForm({ ctrl }: { ctrl: InvoiceFormController }) {
     const disabled = ctrl.isReadOnly || ctrl.isBusy
 
     return (
-        <Rhform form={ctrl.form} onSubmit={ctrl.onSubmit} errorHandler={ers => {
+        <Rhform form={ctrl.form} onSubmit={() => ctrl.onSubmit(ctrl.isEditing ? undefined : "draft")} errorHandler={ers => {
             console.log("Form submission errors:", ers)
         }}>
             <div className="p-6 grid grid-cols-12 gap-8">
@@ -221,9 +236,10 @@ export function InvoiceForm({ ctrl }: { ctrl: InvoiceFormController }) {
                     <InvoiceHeaderFields ctrl={ctrl} disabled={disabled} direction={ctrl.direction} />
                 </div>
 
-                <div className="col-span-9">
+                <div className="col-span-9 space-y-6">
 
                     <InvoiceLineItems ctrl={ctrl} />
+                    <InvoicePaymentsPanel ctrl={ctrl} />
                 </div>
             </div>
         </Rhform>

@@ -3,7 +3,7 @@ import { PrismaService } from '@devloggers/db-prisma/nest';
 import { CreateExpenseDto, UpdateExpenseDto, CreateExpenseItemDto } from './dto';
 import { DocumentSequencesService } from '../../accounting/document-sequences/services/document-sequences.service';
 import { buildExpenseJournalLines } from './expense-journal';
-import { updateAccountBalances } from '../../accounting/accounts/utils/account-balance.utils';
+import { createPostingJournalEntry } from '../../accounting/accounts/utils/create-posting-journal-entry';
 
 @Injectable()
 export class ExpensesService {
@@ -125,33 +125,18 @@ export class ExpensesService {
         const jeNumber = await this.docSeqService.getNextNumber(tenantId, 'JOURNAL_ENTRY');
 
         await this.prisma.$transaction(async (tx) => {
-            const entry = await tx.journalEntry.create({
-                data: {
-                    tenantId,
-                    number: jeNumber,
-                    date: expense.date,
-                    fiscalPeriodId: expense.fiscalPeriodId,
-                    referenceType: 'expense',
-                    referenceId: expense.id,
-                    description: `Expense ${expense.number}`,
-                    status: 'POSTED',
-                    exchangeRate,
-                    postedAt: new Date(),
-                    createdBy: userId,
-                    lines: {
-                        create: lines.map((l) => ({
-                            tenantId,
-                            accountId: l.accountId,
-                            debit: l.debit,
-                            credit: l.credit,
-                            description: l.description,
-                            sortOrder: l.sortOrder,
-                        })),
-                    },
-                },
+            const entry = await createPostingJournalEntry(tx, {
+                tenantId,
+                number: jeNumber,
+                date: expense.date,
+                fiscalPeriodId: expense.fiscalPeriodId,
+                referenceType: 'expense',
+                referenceId: expense.id,
+                description: `Expense ${expense.number}`,
+                exchangeRate,
+                userId,
+                lines,
             });
-
-            await updateAccountBalances(tx, lines);
 
             await tx.cashbox.update({
                 where: { id: expense.cashboxId },
@@ -193,33 +178,18 @@ export class ExpensesService {
         const jeNumber = await this.docSeqService.getNextNumber(tenantId, 'JOURNAL_ENTRY');
 
         await this.prisma.$transaction(async (tx) => {
-            await tx.journalEntry.create({
-                data: {
-                    tenantId,
-                    number: jeNumber,
-                    date: new Date(),
-                    fiscalPeriodId: expense.fiscalPeriodId,
-                    referenceType: 'expense_cancellation',
-                    referenceId: expense.id,
-                    description: `Reversal of expense ${expense.number}`,
-                    status: 'POSTED',
-                    exchangeRate,
-                    postedAt: new Date(),
-                    createdBy: userId,
-                    lines: {
-                        create: lines.map((l) => ({
-                            tenantId,
-                            accountId: l.accountId,
-                            debit: l.debit,
-                            credit: l.credit,
-                            description: l.description,
-                            sortOrder: l.sortOrder,
-                        })),
-                    },
-                },
+            await createPostingJournalEntry(tx, {
+                tenantId,
+                number: jeNumber,
+                date: new Date(),
+                fiscalPeriodId: expense.fiscalPeriodId,
+                referenceType: 'expense_cancellation',
+                referenceId: expense.id,
+                description: `Reversal of expense ${expense.number}`,
+                exchangeRate,
+                userId,
+                lines,
             });
-
-            await updateAccountBalances(tx, lines);
 
             await tx.cashbox.update({
                 where: { id: expense.cashboxId },

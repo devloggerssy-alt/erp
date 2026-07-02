@@ -29,6 +29,10 @@ const SECTIONS: { groupKey: string; items: NavItem[] }[] = [
       { href: "/settings/document-sequences", labelKey: "documentSequences.navLabel" },
     ],
   },
+  {
+    groupKey: "danger",
+    items: [{ href: "/settings/danger", labelKey: "danger.navLabel" }],
+  },
 ]
 
 export function SettingsNav() {

@@ -130,7 +130,7 @@ export class ApiClient {
 
     async post<Path extends ApiPathByMethod<"post">>(
         endpoint: Path,
-        body: ApiRequestBody<Path, "post">,
+        body: ApiRequestBody<Path, "post"> | undefined,
         options: Omit<ApiRequestOptions<Path, "post">, "body"> = {} as Omit<ApiRequestOptions<Path, "post">, "body">,
     ): Promise<ApiResponse<Path, "post">> {
         const requestOptions = this.toFetchOptions({ ...options, body })

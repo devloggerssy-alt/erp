@@ -45,6 +45,40 @@ function StatusBadge({ status, t }: { status: string; t: ColumnTranslator }) {
     )
 }
 
+function PaidStatusCell({ row, t }: { row: InvoiceItem; t: ColumnTranslator }) {
+    if (row.status !== "POSTED") return <span className="text-muted-foreground">—</span>
+
+    const paidStatus = row.paidStatus as string | undefined
+    const amountPaid = row.amountPaid as number | undefined
+    const total = row.total as number | undefined
+    if (!paidStatus) return <span className="text-muted-foreground">—</span>
+
+    return (
+        <div className="flex flex-col gap-0.5">
+            <Badge
+                variant="outline"
+                className={cn(
+                    "w-fit font-medium text-xs",
+                    paidStatus === "PAID" && "border-green-500 text-green-700 dark:text-green-400",
+                    paidStatus === "PARTIAL" && "border-amber-500 text-amber-700 dark:text-amber-400",
+                    paidStatus === "UNPAID" && "border-muted-foreground text-muted-foreground",
+                )}
+            >
+                {paidStatus === "PAID"
+                    ? t("paidStatus.paid")
+                    : paidStatus === "PARTIAL"
+                        ? t("paidStatus.partial")
+                        : t("paidStatus.unpaid")}
+            </Badge>
+            {typeof amountPaid === "number" && typeof total === "number" && (
+                <span className="text-xs text-muted-foreground tabular-nums">
+                    {amountPaid.toLocaleString()} / {total.toLocaleString()}
+                </span>
+            )}
+        </div>
+    )
+}
+
 function InvoiceActionsCell({
     row,
     t,
@@ -54,7 +88,7 @@ function InvoiceActionsCell({
     t: ColumnTranslator
     actions: InvoiceColumnActions
 }) {
-    const status = (row as any).status as string
+    const status = row.status ?? ""
     const id = String(row.id)
 
     return (
@@ -115,7 +149,7 @@ export function createInvoicesColumns(
     _helpers: ResourceTableHelpers<InvoicesClient>,
     t: ColumnTranslator,
     actions: InvoiceColumnActions,
-): ColumnDef<InvoiceItem | any>[] {
+): ColumnDef<InvoiceItem>[] {
     return [
         {
             accessorKey: "number",
@@ -127,6 +161,22 @@ export function createInvoicesColumns(
         {
             accessorKey: "partyName",
             header: ({ column }) => <ColumnHeader column={column} title={t("party")} />,
+        },
+        {
+            accessorKey: "invoiceTypeName",
+            header: ({ column }) => <ColumnHeader column={column} title={t("invoiceType")} />,
+            cell: ({ row }) => {
+                const name = row.original.invoiceTypeName
+                return name ? <span>{name}</span> : <span className="text-muted-foreground">—</span>
+            },
+        },
+        {
+            accessorKey: "warehouseName",
+            header: ({ column }) => <ColumnHeader column={column} title={t("warehouse")} />,
+            cell: ({ row }) => {
+                const name = row.original.warehouseName
+                return name ? <span>{name}</span> : <span className="text-muted-foreground">—</span>
+            },
         },
         {
             accessorKey: "date",
@@ -154,15 +204,20 @@ export function createInvoicesColumns(
             cell: ({ row }) => <StatusBadge status={row.getValue("status")} t={t} />,
         },
         {
+            id: "paidStatus",
+            header: () => <span className="text-xs text-muted-foreground">Paid</span>,
+            cell: ({ row }) => <PaidStatusCell row={row.original} t={t} />,
+        },
+        {
             accessorKey: "total",
             header: ({ column }) => (
                 <ColumnHeader column={column} title={t("totals.total")} className="text-end" />
             ),
             cell: ({ row }) => {
                 const total = row.getValue("total") as number
-                const currency = (row.original as any).currencyCode ?? ""
+                const currency = row.original.currencyCode ?? ""
                 return (
-                    <div className="text-end font-medium tabular-nums">
+                    <div className="font-medium tabular-nums">
                         {total?.toLocaleString()} {currency}
                     </div>
                 )
@@ -172,7 +227,7 @@ export function createInvoicesColumns(
             accessorKey: "lineCount",
             header: () => <span className="text-xs text-muted-foreground">Lines</span>,
             cell: ({ row }) => {
-                const count = (row.original as any).lineCount as number | undefined
+                const count = row.original.lineCount
                 return count !== undefined ? (
                     <Badge variant="secondary" className="text-xs">{count}</Badge>
                 ) : null

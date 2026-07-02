@@ -5,7 +5,7 @@ import { InventoryService } from '../../inventory/inventory.service';
 import { FinancialSettingsService } from '../../accounting/financial-settings/services/financial-settings.service';
 import { DocumentSequencesService } from '../../accounting/document-sequences/services/document-sequences.service';
 import { buildInvoiceJournalLines } from './invoice-journal';
-import { updateAccountBalances } from '../../accounting/accounts/utils/account-balance.utils';
+import { createPostingJournalEntry } from '../../accounting/accounts/utils/create-posting-journal-entry';
 
 @Injectable()
 export class InvoicePostingService {
@@ -81,34 +81,18 @@ export class InvoicePostingService {
         const jeNumber = await this.docSeqService.getNextNumber(tenantId, 'JOURNAL_ENTRY');
 
         return this.prisma.$transaction(async (tx) => {
-            await tx.journalEntry.create({
-                data: {
-                    tenantId,
-                    number: jeNumber,
-                    date: invoice.date,
-                    fiscalPeriodId: invoice.fiscalPeriodId,
-                    referenceType: 'invoice',
-                    referenceId: invoice.id,
-                    description: `Purchase invoice ${invoice.number}`,
-                    status: 'POSTED',
-                    exchangeRate,
-                    postedAt: new Date(),
-                    createdBy: userId,
-                    lines: {
-                        create: journalLines.map((l) => ({
-                            tenantId,
-                            accountId: l.accountId,
-                            partyId: l.partyId ?? null,
-                            debit: l.debit,
-                            credit: l.credit,
-                            description: l.description,
-                            sortOrder: l.sortOrder,
-                        })),
-                    },
-                },
+            await createPostingJournalEntry(tx, {
+                tenantId,
+                number: jeNumber,
+                date: invoice.date,
+                fiscalPeriodId: invoice.fiscalPeriodId,
+                referenceType: 'invoice',
+                referenceId: invoice.id,
+                description: `Purchase invoice ${invoice.number}`,
+                exchangeRate,
+                userId,
+                lines: journalLines,
             });
-
-            await updateAccountBalances(tx, journalLines);
 
             return tx.invoice.update({
                 where: { id: invoiceId },
@@ -190,34 +174,18 @@ export class InvoicePostingService {
         const jeNumber = await this.docSeqService.getNextNumber(tenantId, 'JOURNAL_ENTRY');
 
         return this.prisma.$transaction(async (tx) => {
-            await tx.journalEntry.create({
-                data: {
-                    tenantId,
-                    number: jeNumber,
-                    date: invoice.date,
-                    fiscalPeriodId: invoice.fiscalPeriodId,
-                    referenceType: 'invoice',
-                    referenceId: invoice.id,
-                    description: `Sales invoice ${invoice.number}`,
-                    status: 'POSTED',
-                    exchangeRate,
-                    postedAt: new Date(),
-                    createdBy: userId,
-                    lines: {
-                        create: journalLines.map((l) => ({
-                            tenantId,
-                            accountId: l.accountId,
-                            partyId: l.partyId ?? null,
-                            debit: l.debit,
-                            credit: l.credit,
-                            description: l.description,
-                            sortOrder: l.sortOrder,
-                        })),
-                    },
-                },
+            await createPostingJournalEntry(tx, {
+                tenantId,
+                number: jeNumber,
+                date: invoice.date,
+                fiscalPeriodId: invoice.fiscalPeriodId,
+                referenceType: 'invoice',
+                referenceId: invoice.id,
+                description: `Sales invoice ${invoice.number}`,
+                exchangeRate,
+                userId,
+                lines: journalLines,
             });
-
-            await updateAccountBalances(tx, journalLines);
 
             return tx.invoice.update({
                 where: { id: invoiceId },
@@ -234,11 +202,17 @@ export class InvoicePostingService {
                 invoiceType: true,
                 lines: { include: { item: { select: { itemType: true } } } },
                 party: { select: { receivableAccountId: true, payableAccountId: true } },
+                paymentAllocations: true,
             },
         });
 
         if (!invoice) throw new NotFoundException('Invoice not found');
         if (invoice.status !== 'POSTED') throw new BadRequestException('Only posted invoices can be cancelled');
+        if (invoice.paymentAllocations.length > 0) {
+            throw new BadRequestException(
+                'Cannot cancel an invoice with payments allocated to it. Remove the payment allocations first.',
+            );
+        }
 
         const settings = await this.financialSettingsService.getOrThrow(tenantId);
         const isPurchase = invoice.invoiceType.direction === 'PURCHASE';
@@ -290,34 +264,18 @@ export class InvoicePostingService {
         const jeNumber = await this.docSeqService.getNextNumber(tenantId, 'JOURNAL_ENTRY');
 
         return this.prisma.$transaction(async (tx) => {
-            await tx.journalEntry.create({
-                data: {
-                    tenantId,
-                    number: jeNumber,
-                    date: new Date(),
-                    fiscalPeriodId: invoice.fiscalPeriodId,
-                    referenceType: 'invoice_cancellation',
-                    referenceId: invoice.id,
-                    description: `Reversal of invoice ${invoice.number}`,
-                    status: 'POSTED',
-                    exchangeRate,
-                    postedAt: new Date(),
-                    createdBy: userId,
-                    lines: {
-                        create: reversalLines.map((l) => ({
-                            tenantId,
-                            accountId: l.accountId,
-                            partyId: l.partyId ?? null,
-                            debit: l.debit,
-                            credit: l.credit,
-                            description: l.description,
-                            sortOrder: l.sortOrder,
-                        })),
-                    },
-                },
+            await createPostingJournalEntry(tx, {
+                tenantId,
+                number: jeNumber,
+                date: new Date(),
+                fiscalPeriodId: invoice.fiscalPeriodId,
+                referenceType: 'invoice_cancellation',
+                referenceId: invoice.id,
+                description: `Reversal of invoice ${invoice.number}`,
+                exchangeRate,
+                userId,
+                lines: reversalLines,
             });
-
-            await updateAccountBalances(tx, reversalLines);
 
             return tx.invoice.update({
                 where: { id: invoiceId },

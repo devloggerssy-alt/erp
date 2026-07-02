@@ -11,6 +11,7 @@ export const invoiceResource = defineCrudResource({
     update: '/invoices/{id}',
     post: '/invoices/{id}/post',
     cancel: '/invoices/{id}/cancel',
+    addPayment: '/invoices/{id}/payments',
   },
 })
 

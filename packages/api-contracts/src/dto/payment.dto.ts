@@ -24,6 +24,8 @@ export interface CreatePaymentDto {
     /** Exchange rate to tenant base currency. Defaults to 1 for base-currency payments. */
     exchangeRate?: number;
     notes?: string;
+    /** If true, the payment is posted immediately after creation instead of staying DRAFT. */
+    complete?: boolean;
 }
 
 export interface UpdatePaymentDto {

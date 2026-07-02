@@ -28,4 +28,16 @@ export class TenantsClient {
     getDefaults = async () => {
         return this.apiClient.get(tenantResource.routes.defaults)
     }
+
+    resetFinance = async (
+        payload: ApiRequestBody<typeof tenantResource.routes.resetFinance, "post">,
+    ) => {
+        return this.apiClient.post(tenantResource.routes.resetFinance, payload)
+    }
+
+    resetInventory = async (
+        payload: ApiRequestBody<typeof tenantResource.routes.resetInventory, "post">,
+    ) => {
+        return this.apiClient.post(tenantResource.routes.resetInventory, payload)
+    }
 }

@@ -1,10 +1,24 @@
+"use client"
+
 import type { ColumnDef } from "@tanstack/react-table"
 import type { StockCountsClient } from "@devloggers/api-client"
 import type { ResourceItem, ResourceTableHelpers } from "@/shared/data-view/resource"
 import { ColumnHeader } from "@/shared/data-view/table-view"
 import { Badge } from "@/shared/components/ui/badge"
+import { Button } from "@/shared/components/ui/button"
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from "@/shared/components/ui/dropdown-menu"
+import { MoreHorizontal, Send } from "lucide-react"
 
 type ColumnTranslator = (key: string) => string
+
+export type StockCountColumnActions = {
+    postStockCount: (id: string) => Promise<unknown>
+}
 
 function StatusBadge({ status }: { status: string }) {
     const variant =
@@ -14,9 +28,42 @@ function StatusBadge({ status }: { status: string }) {
     return <Badge variant={variant}>{status}</Badge>
 }
 
+function StockCountActionsCell({
+    row,
+    t,
+    actions,
+}: {
+    row: ResourceItem<StockCountsClient>
+    t: ColumnTranslator
+    actions: StockCountColumnActions
+}) {
+    if (row.status !== "DRAFT") return null
+    const id = String(row.id)
+
+    return (
+        <div className="flex justify-end">
+            <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" size="icon-sm" className="h-7 w-7">
+                        <MoreHorizontal className="size-4" />
+                        <span className="sr-only">{t("actions.post")}</span>
+                    </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                    <DropdownMenuItem onClick={() => actions.postStockCount(id)}>
+                        <Send className="me-2 size-4" />
+                        {t("actions.post")}
+                    </DropdownMenuItem>
+                </DropdownMenuContent>
+            </DropdownMenu>
+        </div>
+    )
+}
+
 export function createStockCountsColumns(
     _helpers: ResourceTableHelpers<StockCountsClient>,
     t: ColumnTranslator,
+    actions: StockCountColumnActions,
 ): ColumnDef<ResourceItem<StockCountsClient>>[] {
     return [
         {
@@ -54,6 +101,10 @@ export function createStockCountsColumns(
                 const val = row.getValue("createdAt") as string
                 return val ? new Date(val).toLocaleDateString() : "—"
             },
+        },
+        {
+            id: "actions",
+            cell: ({ row }) => <StockCountActionsCell row={row.original} t={t} actions={actions} />,
         },
     ]
 }

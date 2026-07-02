@@ -49,4 +49,9 @@ export class PaymentsClient implements ICrudClient {
         const route = paymentResource.routes.allocate as ApiPathByMethod<"post">
         return this.apiClient.post(route, body as never, { params: { id } } as never)
     }
+
+    removeAllocation = (id: string, allocationId: string): Promise<unknown> => {
+        const route = paymentResource.routes.removeAllocation as ApiPathByMethod<"delete">
+        return this.apiClient.delete(route, { params: { id, allocationId } } as never)
+    }
 }

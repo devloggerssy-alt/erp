@@ -42,11 +42,14 @@ export function InvoiceLineRow({
 }: InvoiceLineRowProps) {
     const t = useTranslations("business.resources.invoices")
 
-    // Watch the full item object to auto-fill unit + price on selection
+    // Watch the full item object to auto-fill unit + price on selection.
+    // The identity `compute` engages RHF's deepEqual guard so a sibling field's
+    // register() during render doesn't setState this row mid-render.
     const itemOption = useWatch({
         control,
         name: `lines.${index}._item` as `lines.${number}._item`,
-    }) as InvoiceItemOption | null
+        compute: (item) => (item as InvoiceItemOption | null) ?? null,
+    })
 
     useEffect(() => {
         if (!itemOption?.id) return
@@ -67,13 +70,15 @@ export function InvoiceLineRow({
         }
     }, [itemOption?.id]) // eslint-disable-line react-hooks/exhaustive-deps
 
-    // Watch the full line for live total display
-    const watchedLine = useWatch({
+    // Watch the full line for live total display. Compute the total inside
+    // useWatch so the deepEqual guard collapses no-op notifications, and tolerate
+    // a transiently-undefined line (e.g. during a field-array remove).
+    const lineTotal = useWatch({
         control,
         name: `lines.${index}` as `lines.${number}`,
-    }) as InvoiceLineFormValues
-
-    const { lineTotal } = computeLineTotals(watchedLine)
+        compute: (line) =>
+            line ? computeLineTotals(line as InvoiceLineFormValues).lineTotal : 0,
+    })
 
     return (
         <tr className="border-b last:border-0 group">

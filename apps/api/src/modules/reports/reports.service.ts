@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@devloggers/db-prisma/nest';
+import { computeInvoicePaidState } from '../invoicing/invoices/presenters/invoice.presenter';
 
 @Injectable()
 export class ReportsService {
@@ -61,7 +62,10 @@ export class ReportsService {
             this.prisma.party.findFirst({ where: { id: partyId, tenantId } }),
             this.prisma.invoice.findMany({
                 where: { tenantId, partyId, status: 'POSTED' },
-                include: { invoiceType: { select: { direction: true } } },
+                include: {
+                    invoiceType: { select: { direction: true } },
+                    paymentAllocations: { select: { amount: true } },
+                },
                 orderBy: { date: 'asc' },
             }),
             this.prisma.payment.findMany({
@@ -71,7 +75,13 @@ export class ReportsService {
         ]);
 
         const totalInvoiced = invoices.reduce((s, i) => s + Number(i.total), 0);
-        const totalPaid = payments.reduce((s, p) => s + Number(p.amount), 0);
+        // "Paid" is derived from PaymentAllocation, matching the per-invoice amountPaid
+        // shown in the dashboard — a payment only counts once it's actually allocated
+        // to one of this party's invoices, not just received into a cashbox.
+        const totalPaid = invoices.reduce(
+            (s, i) => s + computeInvoicePaidState(i.total, i.paymentAllocations).amountPaid,
+            0,
+        );
         const balance = totalInvoiced - totalPaid;
 
         return { party, invoices, payments, totalInvoiced, totalPaid, balance };

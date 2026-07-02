@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect } from "react"
+import { useEffect, useRef } from "react"
 import { useTranslations } from "next-intl"
 import { type UseFormReturn } from "react-hook-form"
 import { useQueryClient } from "@tanstack/react-query"
@@ -40,7 +40,7 @@ export type PaymentFormController = {
     isPending: boolean
     status: PaymentStatus | undefined
     paymentNumber: string | undefined
-    onSubmit: () => void
+    onSubmit: (mode?: "draft" | "complete") => void
 }
 
 export function usePaymentForm({
@@ -71,11 +71,14 @@ export function usePaymentForm({
     const paymentNumber: string | undefined = cached?.data?.number ?? cached?.number
     const isReadOnly = status === "POSTED" || status === "CANCELLED"
 
+    const submitModeRef = useRef<"draft" | "complete">("draft")
+
     const { mutate, isPending } = useFormMutation(form, {
         mutationFn: (values: PaymentFormValues) => {
+            const complete = submitModeRef.current === "complete"
             const promise = isEditing && paymentId
                 ? api.payments.update(paymentId, toUpdatePaymentDto(values))
-                : api.payments.create(toCreatePaymentDto(values))
+                : api.payments.create(toCreatePaymentDto(values, { complete }))
 
             toast.promise(promise, {
                 loading: isEditing ? tf("updating") : tf("creating"),
@@ -111,6 +114,9 @@ export function usePaymentForm({
         isPending,
         status,
         paymentNumber,
-        onSubmit: () => form.handleSubmit((values) => mutate(values))(),
+        onSubmit: (mode = "draft") => {
+            submitModeRef.current = mode
+            form.handleSubmit((values) => mutate(values))()
+        },
     }
 }

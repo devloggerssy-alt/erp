@@ -59,7 +59,8 @@
     "groups": {
       "company": "Şirket",
       "preferences": "Tercihler",
-      "systemData": "Sistem verileri"
+      "systemData": "Sistem verileri",
+      "danger": "Tehlike bölgesi"
     },
     "currencies": {
       "navLabel": "Para birimleri"
@@ -143,6 +144,41 @@
       "invoiceDefaultTerms": "Varsayılan şartlar",
       "documentFooter": "Belge alt bilgisi",
       "showLogoOnDocuments": "Belgelerde logoyu göster"
+    },
+    "danger": {
+      "navLabel": "Tehlike bölgesi",
+      "title": "Tehlike bölgesi",
+      "description": "Geri alınamaz, yıkıcı işlemler. Ana veriler (hesaplar, ürünler, taraflar, kasalar) korunur — yalnızca işlem kayıtları silinir.",
+      "confirmPrompt": "Onaylamak için {phrase} yazın",
+      "cancel": "İptal",
+      "finance": {
+        "title": "Finansal kayıtları sıfırla",
+        "description": "Bu kuruluşa ait tüm finansal işlemleri kalıcı olarak siler ve bakiyeleri sıfırlar.",
+        "item_payments": "Tüm ödemeler ve tahsisleri",
+        "item_invoices": "Tüm faturalar ve fatura satırları",
+        "item_expenses": "Tüm giderler ve gider kalemleri",
+        "item_journal": "Tüm yevmiye kayıtları ve satırları",
+        "item_balances": "Kasa ve büyük defter hesap bakiyeleri sıfırlanır",
+        "dialogTitle": "Tüm finansal kayıtlar sıfırlansın mı?",
+        "dialogDescription": "Bu işlem geri alınamaz. Her ödeme, fatura, gider ve yevmiye kaydı kalıcı olarak silinir ve tüm bakiyeler sıfırlanır.",
+        "action": "Finansı sıfırla",
+        "running": "Finansal kayıtlar sıfırlanıyor…",
+        "success": "Finansal kayıtlar sıfırlandı",
+        "failed": "Finansal kayıtlar sıfırlanamadı"
+      },
+      "inventory": {
+        "title": "Stok kayıtlarını sıfırla",
+        "description": "Tüm stok hareketlerini ve sayımlarını kalıcı olarak siler ve eldeki bakiyeleri temizler.",
+        "item_movements": "Tüm stok hareketleri (stok defteri)",
+        "item_counts": "Tüm stok sayımları ve satırları",
+        "item_balances": "Eldeki tüm stok bakiyeleri",
+        "dialogTitle": "Tüm stok kayıtları sıfırlansın mı?",
+        "dialogDescription": "Bu işlem geri alınamaz. Her stok hareketi, stok sayımı ve eldeki bakiye kalıcı olarak silinir.",
+        "action": "Stoğu sıfırla",
+        "running": "Stok kayıtları sıfırlanıyor…",
+        "success": "Stok kayıtları sıfırlandı",
+        "failed": "Stok kayıtları sıfırlanamadı"
+      }
     }
   },
   "resources": {
@@ -488,7 +524,9 @@
         "deleteConfirm": "Bu işlem taslak faturayı kalıcı olarak silecektir. Bu işlem geri alınamaz.",
         "postTitle": "Fatura Gönderilsin mi?",
         "cancelTitle": "Fatura İptal Edilsin mi?",
-        "deleteTitle": "Fatura Silinsin mi?"
+        "deleteTitle": "Fatura Silinsin mi?",
+        "saveDraft": "Taslak Olarak Kaydet",
+        "saveComplete": "Kaydet ve Tamamla"
       },
       "lines": {
         "item": "Ürün",
@@ -506,10 +544,25 @@
         "label": "Oluşturulurken tamamen ödendi",
         "description": "Bu faturaya bağlı bir ödeme kaydı oluştur",
         "cashbox": "Kasa",
-        "amount": "Tutar",
-        "creating": "Ödeme oluşturuluyor…",
-        "created": "Ödeme oluşturuldu",
-        "failed": "Ödeme oluşturulamadı (fatura kaydedildi)"
+        "amount": "Tutar"
+      },
+      "paidStatus": {
+        "unpaid": "Ödenmedi",
+        "partial": "Kısmi Ödendi",
+        "paid": "Ödendi"
+      },
+      "payments": {
+        "title": "Ödemeler",
+        "empty": "Henüz kaydedilmiş ödeme yok.",
+        "add": "Ödeme ekle",
+        "remove": "Kaldır",
+        "removeTitle": "Ödeme bağlantısı kaldırılsın mı?",
+        "removeConfirm": "Bu işlem ödemenin faturayla bağlantısını kaldırır. Ödemenin kendisi iptal edilmez.",
+        "paidOf": "Ödenen: {paid} / {total}",
+        "adding": "Ödeme kaydediliyor…",
+        "added": "Ödeme kaydedildi",
+        "removing": "Kaldırılıyor…",
+        "removed": "Ödeme bağlantısı kaldırıldı"
       },
       "totals": {
         "subtotal": "Ara Toplam",
@@ -583,6 +636,7 @@
         "PAYMENT": "Ödeme",
         "ADJUSTMENT": "Düzeltme"
       },
+      "statusLabel": "Durum",
       "status": {
         "draft": "Taslak",
         "posted": "Gönderildi",
@@ -595,6 +649,8 @@
         "view": "Görüntüle",
         "postConfirm": "Bu işlem ödemeyi kilitler ve kasa bakiyesini günceller. Geri alınamaz.",
         "cancelConfirm": "Bu işlem kasa bakiyesini geri alır. Ödeme iptal olarak işaretlenir.",
+        "saveDraft": "Taslak Olarak Kaydet",
+        "saveComplete": "Kaydet ve Gönder",
         "postTitle": "Ödeme Gönderilsin mi?",
         "cancelTitle": "Ödeme İptal Edilsin mi?"
       }
@@ -682,7 +738,16 @@
       "lines": "Sayım Satırları",
       "item": "Ürün",
       "countedQty": "Sayılan Miktar",
-      "addLine": "Ürün Ekle"
+      "addLine": "Ürün Ekle",
+      "actions": {
+        "saveDraft": "Taslak Olarak Kaydet",
+        "savePost": "Kaydet ve Gönder",
+        "post": "Gönder",
+        "postTitle": "Stok Sayımı Gönderilsin mi?",
+        "postConfirm": "Bu işlem sayımı tamamlayacak ve farklar için stok düzeltmeleri oluşturacaktır. Bu işlem geri alınamaz.",
+        "posting": "Gönderiliyor...",
+        "posted": "Stok sayımı gönderildi"
+      }
     },
     "reports": {
       "stock": {
