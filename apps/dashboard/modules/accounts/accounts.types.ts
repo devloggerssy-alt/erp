@@ -32,6 +32,24 @@ export type AccountTreeNode = {
     haystack: string
 }
 
+export type AccountBalanceItem = AccountListItem & {
+    ownBalance: number
+    rolledBalance: number
+}
+
+export type AccountLedgerLine = {
+    id: string
+    date: string
+    entryNumber: string
+    description: string | null
+    referenceType: string | null
+    referenceId: string | null
+    debit: number
+    credit: number
+}
+
+export type BreadcrumbCrumb = { id: string; code: string; label: string }
+
 export type AccountTypeBucket = {
     type: AccountType
     /** Root accounts of this type (orphans included). */
