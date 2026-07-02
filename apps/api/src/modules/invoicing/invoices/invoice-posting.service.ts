@@ -232,6 +232,7 @@ export class InvoicePostingService {
                 lines: { include: { item: { select: { itemType: true } } } },
                 party: { select: { receivableAccountId: true, payableAccountId: true } },
                 paymentAllocations: true,
+                fiscalPeriod: { select: { status: true } },
             },
         });
 
@@ -243,56 +244,49 @@ export class InvoicePostingService {
             );
         }
 
-        const settings = await this.financialSettingsService.getOrThrow(tenantId);
+        assertFiscalPeriodOpen(invoice.fiscalPeriod?.status);
+
+        const original = await this.prisma.journalEntry.findFirst({
+            where: { tenantId, referenceType: 'invoice', referenceId: invoice.id, status: 'POSTED' },
+            include: { lines: true },
+            orderBy: { createdAt: 'desc' },
+        });
+        if (!original) throw new BadRequestException('Original journal entry not found for this invoice.');
+
+        const reversalLines = original.lines.map((l, i) => ({
+            accountId: l.accountId,
+            debit: Number(l.credit),
+            credit: Number(l.debit),
+            description: l.description,
+            sortOrder: i,
+            partyId: l.partyId ?? null,
+        }));
+
         const isPurchase = invoice.invoiceType.direction === 'PURCHASE';
-
-        const receivableAccountId = invoice.party?.receivableAccountId ?? settings.defaultReceivableAccountId ?? '';
-        const payableAccountId = invoice.party?.payableAccountId ?? settings.defaultPayableAccountId ?? '';
-
-        // Reverse stock movements
-        if (invoice.invoiceType.affectsStock && invoice.warehouseId) {
-            for (const line of invoice.lines) {
-                if (line.item.itemType !== 'service') {
-                    const reverseQty = isPurchase ? -Number(line.quantity) : Number(line.quantity);
-                    await this.inventoryService.postMovement({
-                        tenantId,
-                        warehouseId: invoice.warehouseId,
-                        itemId: line.itemId,
-                        fiscalPeriodId: invoice.fiscalPeriodId,
-                        movementType: StockMovementType.ADJUSTMENT,
-                        quantity: reverseQty,
-                        unitCost: Number(line.unitPrice),
-                        referenceType: 'invoice_cancellation',
-                        referenceId: invoice.id,
-                        notes: `Cancellation of invoice ${invoice.number}`,
-                        userId,
-                    });
-                }
-            }
-        }
-
         const exchangeRate = Number(invoice.exchangeRate);
-        const netAmount = Number(invoice.subtotal) - Number(invoice.discountAmount);
-        const reversalLines = buildInvoiceJournalLines(
-            {
-                direction: invoice.invoiceType.direction as 'PURCHASE' | 'SALE',
-                netAmount,
-                taxAmount: Number(invoice.taxAmount),
-                total: Number(invoice.total),
-                exchangeRate,
-                receivableAccountId,
-                payableAccountId,
-                salesAccountId: settings.defaultSalesAccountId ?? '',
-                purchaseAccountId: settings.defaultPurchaseAccountId ?? '',
-                taxAccountId: settings.defaultTaxAccountId ?? null,
-                partyId: invoice.partyId,
-            },
-            { reverse: true },
-        );
-
         const jeNumber = await this.docSeqService.getNextNumber(tenantId, 'JOURNAL_ENTRY');
 
         return this.prisma.$transaction(async (tx) => {
+            if (invoice.invoiceType.affectsStock && invoice.warehouseId) {
+                for (const line of invoice.lines) {
+                    if (line.item.itemType !== 'service') {
+                        await this.inventoryService.postMovementTx(tx as any, {
+                            tenantId,
+                            warehouseId: invoice.warehouseId,
+                            itemId: line.itemId,
+                            fiscalPeriodId: invoice.fiscalPeriodId,
+                            movementType: StockMovementType.ADJUSTMENT,
+                            quantity: isPurchase ? -Number(line.quantity) : Number(line.quantity),
+                            unitCost: Number(line.unitPrice) * exchangeRate,
+                            referenceType: 'invoice_cancellation',
+                            referenceId: invoice.id,
+                            notes: `Cancellation of invoice ${invoice.number}`,
+                            userId,
+                        });
+                    }
+                }
+            }
+
             await createPostingJournalEntry(tx, {
                 tenantId,
                 number: jeNumber,

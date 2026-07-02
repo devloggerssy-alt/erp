@@ -2,12 +2,21 @@ import { InvoicePostingService } from './invoice-posting.service';
 
 function buildDeps() {
     const tx = {
-        journalEntry: { create: jest.fn().mockResolvedValue({}) },
+        journalEntry: { create: jest.fn().mockResolvedValue({ id: 'je-rev' }) },
         invoice: { update: jest.fn().mockResolvedValue({ id: 'inv-1', status: 'CANCELLED' }) },
-        chartOfAccount: { findUnique: jest.fn(), update: jest.fn() },
+        chartOfAccount: { findUnique: jest.fn().mockResolvedValue({ type: 'ASSET' }), update: jest.fn() },
+        stockMovement: { create: jest.fn() },
+        stockBalance: { findUnique: jest.fn(), create: jest.fn(), update: jest.fn() },
     };
     const prisma = {
         invoice: { findFirst: jest.fn() },
+        journalEntry: { findFirst: jest.fn().mockResolvedValue({
+            id: 'je-orig',
+            lines: [
+                { accountId: 'ar', debit: 1000, credit: 0, partyId: 'party-1', description: null, sortOrder: 0 },
+                { accountId: 'sales', debit: 0, credit: 1000, partyId: null, description: null, sortOrder: 1 },
+            ],
+        }) },
         $transaction: jest.fn((cb: any) => cb(tx)),
     } as any;
     const inventoryService = { postMovement: jest.fn() } as any;
@@ -42,6 +51,7 @@ const baseInvoice = {
     invoiceType: { direction: 'SALE', affectsStock: false },
     lines: [],
     party: { receivableAccountId: null, payableAccountId: null },
+    fiscalPeriod: { status: 'OPEN' },
 };
 
 describe('InvoicePostingService.cancelInvoice', () => {
@@ -60,5 +70,16 @@ describe('InvoicePostingService.cancelInvoice', () => {
 
         expect(tx.invoice.update).toHaveBeenCalled();
         expect(result.status).toBe('CANCELLED');
+    });
+
+    it('reverses the original journal entry line-for-line', async () => {
+        const { service, prisma, tx } = buildDeps();
+        prisma.invoice.findFirst.mockResolvedValue({ ...baseInvoice, warehouseId: null, invoiceType: { direction: 'SALE', affectsStock: false }, paymentAllocations: [], fiscalPeriod: { status: 'OPEN' } });
+        await service.cancelInvoice('tenant-1', 'inv-1', 'user-1');
+        const revLines = tx.journalEntry.create.mock.calls[0][0].data.lines.create;
+        expect(revLines).toEqual(expect.arrayContaining([
+            expect.objectContaining({ accountId: 'ar', debit: 0, credit: 1000 }),
+            expect.objectContaining({ accountId: 'sales', debit: 1000, credit: 0 }),
+        ]));
     });
 });
