@@ -11,6 +11,10 @@ export async function seedFinancialSettings(prisma: PrismaClient, tenantId: stri
             defaultTaxAccountId:        SEED_IDS.ACCT_2140_VAT,
             defaultReceivableAccountId: SEED_IDS.ACCT_1120_RECEIVABLE,
             defaultPayableAccountId:    SEED_IDS.ACCT_2110_PAYABLE,
+            defaultInventoryAccountId:           SEED_IDS.ACCT_1130_INVENTORY,
+            defaultCogsAccountId:                SEED_IDS.ACCT_5100_COGS,
+            defaultInventoryAdjustmentAccountId: SEED_IDS.ACCT_5200_INV_ADJUSTMENT,
+            defaultOpeningEquityAccountId:       SEED_IDS.ACCT_3300_OPENING_EQUITY,
         },
         update: {},
     })

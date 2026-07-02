@@ -365,6 +365,10 @@ exports.Prisma.FinancialSettingScalarFieldEnum = {
   defaultTaxAccountId: 'defaultTaxAccountId',
   defaultReceivableAccountId: 'defaultReceivableAccountId',
   defaultPayableAccountId: 'defaultPayableAccountId',
+  defaultInventoryAccountId: 'defaultInventoryAccountId',
+  defaultCogsAccountId: 'defaultCogsAccountId',
+  defaultInventoryAdjustmentAccountId: 'defaultInventoryAdjustmentAccountId',
+  defaultOpeningEquityAccountId: 'defaultOpeningEquityAccountId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };

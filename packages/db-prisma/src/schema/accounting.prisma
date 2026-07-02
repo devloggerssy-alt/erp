@@ -41,6 +41,10 @@ model ChartOfAccount {
     defaultTaxFor        FinancialSetting[] @relation("DefaultTaxAccount")
     defaultReceivableFor FinancialSetting[] @relation("DefaultReceivableAccount")
     defaultPayableFor    FinancialSetting[] @relation("DefaultPayableAccount")
+    defaultInventoryFor           FinancialSetting[] @relation("DefaultInventoryAccount")
+    defaultCogsFor                FinancialSetting[] @relation("DefaultCogsAccount")
+    defaultInventoryAdjustmentFor FinancialSetting[] @relation("DefaultInventoryAdjustmentAccount")
+    defaultOpeningEquityFor       FinancialSetting[] @relation("DefaultOpeningEquityAccount")
     // Party-level override back-relations
     partyReceivables Party[] @relation("PartyReceivableAccount")
     partyPayables    Party[] @relation("PartyPayableAccount")

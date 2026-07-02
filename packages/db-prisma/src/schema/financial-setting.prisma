@@ -10,6 +10,10 @@ model FinancialSetting {
     defaultTaxAccountId        String?  @map("default_tax_account_id")
     defaultReceivableAccountId String?  @map("default_receivable_account_id")
     defaultPayableAccountId    String?  @map("default_payable_account_id")
+    defaultInventoryAccountId           String?  @map("default_inventory_account_id")
+    defaultCogsAccountId                String?  @map("default_cogs_account_id")
+    defaultInventoryAdjustmentAccountId String?  @map("default_inventory_adjustment_account_id")
+    defaultOpeningEquityAccountId       String?  @map("default_opening_equity_account_id")
     createdAt                  DateTime @default(now()) @map("created_at")
     updatedAt                  DateTime @updatedAt @map("updated_at")
 
@@ -19,6 +23,10 @@ model FinancialSetting {
     defaultTaxAccount        ChartOfAccount? @relation("DefaultTaxAccount", fields: [defaultTaxAccountId], references: [id])
     defaultReceivableAccount ChartOfAccount? @relation("DefaultReceivableAccount", fields: [defaultReceivableAccountId], references: [id])
     defaultPayableAccount    ChartOfAccount? @relation("DefaultPayableAccount", fields: [defaultPayableAccountId], references: [id])
+    defaultInventoryAccount           ChartOfAccount? @relation("DefaultInventoryAccount", fields: [defaultInventoryAccountId], references: [id])
+    defaultCogsAccount                ChartOfAccount? @relation("DefaultCogsAccount", fields: [defaultCogsAccountId], references: [id])
+    defaultInventoryAdjustmentAccount ChartOfAccount? @relation("DefaultInventoryAdjustmentAccount", fields: [defaultInventoryAdjustmentAccountId], references: [id])
+    defaultOpeningEquityAccount       ChartOfAccount? @relation("DefaultOpeningEquityAccount", fields: [defaultOpeningEquityAccountId], references: [id])
 
     @@index([tenantId])
     @@map("financial_settings")

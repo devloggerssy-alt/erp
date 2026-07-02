@@ -49,6 +49,10 @@ export async function seedChartOfAccounts(prisma: PrismaClient, tenantId: string
         prisma.chartOfAccount.create({ data: { id: SEED_IDS.ACCT_4200_OTHER_REV,   tenantId, code: '4200', name: n('إيرادات أخرى',               'Other Revenue'),             type: 'REVENUE',   parentId: SEED_IDS.ACCT_REVENUE } }),
         // Cost of Sales
         prisma.chartOfAccount.create({ data: { id: SEED_IDS.ACCT_5100_COGS,        tenantId, code: '5100', name: n('تكلفة البضاعة المباعة',       'Cost of Goods Sold'),        type: 'EXPENSE',   parentId: SEED_IDS.ACCT_COST_OF_SALES } }),
+        // Inventory adjustment (under Cost of Sales)
+        prisma.chartOfAccount.create({ data: { id: SEED_IDS.ACCT_5200_INV_ADJUSTMENT, tenantId, code: '5200', name: n('تسويات المخزون', 'Inventory Adjustment'), type: 'EXPENSE', parentId: SEED_IDS.ACCT_COST_OF_SALES } }),
+        // Opening balance equity (under Equity)
+        prisma.chartOfAccount.create({ data: { id: SEED_IDS.ACCT_3300_OPENING_EQUITY, tenantId, code: '3300', name: n('رأس المال الافتتاحي', 'Opening Balance Equity'), type: 'EQUITY', parentId: SEED_IDS.ACCT_EQUITY } }),
         // Operating Expenses
         prisma.chartOfAccount.create({ data: { id: SEED_IDS.ACCT_6110_SALARIES,    tenantId, code: '6110', name: n('الرواتب والأجور',             'Salaries and Wages'),        type: 'EXPENSE',   parentId: SEED_IDS.ACCT_OPERATING_EXP } }),
         prisma.chartOfAccount.create({ data: { id: SEED_IDS.ACCT_6120_RENT,        tenantId, code: '6120', name: n('مصروف الإيجار',              'Rent Expense'),              type: 'EXPENSE',   parentId: SEED_IDS.ACCT_OPERATING_EXP } }),

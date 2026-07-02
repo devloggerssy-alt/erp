@@ -4824,6 +4824,10 @@ export namespace Prisma {
     defaultTaxFor: number
     defaultReceivableFor: number
     defaultPayableFor: number
+    defaultInventoryFor: number
+    defaultCogsFor: number
+    defaultInventoryAdjustmentFor: number
+    defaultOpeningEquityFor: number
     partyReceivables: number
     partyPayables: number
   }
@@ -4838,6 +4842,10 @@ export namespace Prisma {
     defaultTaxFor?: boolean | ChartOfAccountCountOutputTypeCountDefaultTaxForArgs
     defaultReceivableFor?: boolean | ChartOfAccountCountOutputTypeCountDefaultReceivableForArgs
     defaultPayableFor?: boolean | ChartOfAccountCountOutputTypeCountDefaultPayableForArgs
+    defaultInventoryFor?: boolean | ChartOfAccountCountOutputTypeCountDefaultInventoryForArgs
+    defaultCogsFor?: boolean | ChartOfAccountCountOutputTypeCountDefaultCogsForArgs
+    defaultInventoryAdjustmentFor?: boolean | ChartOfAccountCountOutputTypeCountDefaultInventoryAdjustmentForArgs
+    defaultOpeningEquityFor?: boolean | ChartOfAccountCountOutputTypeCountDefaultOpeningEquityForArgs
     partyReceivables?: boolean | ChartOfAccountCountOutputTypeCountPartyReceivablesArgs
     partyPayables?: boolean | ChartOfAccountCountOutputTypeCountPartyPayablesArgs
   }
@@ -4913,6 +4921,34 @@ export namespace Prisma {
    * ChartOfAccountCountOutputType without action
    */
   export type ChartOfAccountCountOutputTypeCountDefaultPayableForArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FinancialSettingWhereInput
+  }
+
+  /**
+   * ChartOfAccountCountOutputType without action
+   */
+  export type ChartOfAccountCountOutputTypeCountDefaultInventoryForArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FinancialSettingWhereInput
+  }
+
+  /**
+   * ChartOfAccountCountOutputType without action
+   */
+  export type ChartOfAccountCountOutputTypeCountDefaultCogsForArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FinancialSettingWhereInput
+  }
+
+  /**
+   * ChartOfAccountCountOutputType without action
+   */
+  export type ChartOfAccountCountOutputTypeCountDefaultInventoryAdjustmentForArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FinancialSettingWhereInput
+  }
+
+  /**
+   * ChartOfAccountCountOutputType without action
+   */
+  export type ChartOfAccountCountOutputTypeCountDefaultOpeningEquityForArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: FinancialSettingWhereInput
   }
 
@@ -6361,6 +6397,10 @@ export namespace Prisma {
     defaultTaxFor?: boolean | ChartOfAccount$defaultTaxForArgs<ExtArgs>
     defaultReceivableFor?: boolean | ChartOfAccount$defaultReceivableForArgs<ExtArgs>
     defaultPayableFor?: boolean | ChartOfAccount$defaultPayableForArgs<ExtArgs>
+    defaultInventoryFor?: boolean | ChartOfAccount$defaultInventoryForArgs<ExtArgs>
+    defaultCogsFor?: boolean | ChartOfAccount$defaultCogsForArgs<ExtArgs>
+    defaultInventoryAdjustmentFor?: boolean | ChartOfAccount$defaultInventoryAdjustmentForArgs<ExtArgs>
+    defaultOpeningEquityFor?: boolean | ChartOfAccount$defaultOpeningEquityForArgs<ExtArgs>
     partyReceivables?: boolean | ChartOfAccount$partyReceivablesArgs<ExtArgs>
     partyPayables?: boolean | ChartOfAccount$partyPayablesArgs<ExtArgs>
     _count?: boolean | ChartOfAccountCountOutputTypeDefaultArgs<ExtArgs>
@@ -6422,6 +6462,10 @@ export namespace Prisma {
     defaultTaxFor?: boolean | ChartOfAccount$defaultTaxForArgs<ExtArgs>
     defaultReceivableFor?: boolean | ChartOfAccount$defaultReceivableForArgs<ExtArgs>
     defaultPayableFor?: boolean | ChartOfAccount$defaultPayableForArgs<ExtArgs>
+    defaultInventoryFor?: boolean | ChartOfAccount$defaultInventoryForArgs<ExtArgs>
+    defaultCogsFor?: boolean | ChartOfAccount$defaultCogsForArgs<ExtArgs>
+    defaultInventoryAdjustmentFor?: boolean | ChartOfAccount$defaultInventoryAdjustmentForArgs<ExtArgs>
+    defaultOpeningEquityFor?: boolean | ChartOfAccount$defaultOpeningEquityForArgs<ExtArgs>
     partyReceivables?: boolean | ChartOfAccount$partyReceivablesArgs<ExtArgs>
     partyPayables?: boolean | ChartOfAccount$partyPayablesArgs<ExtArgs>
     _count?: boolean | ChartOfAccountCountOutputTypeDefaultArgs<ExtArgs>
@@ -6449,6 +6493,10 @@ export namespace Prisma {
       defaultTaxFor: Prisma.$FinancialSettingPayload<ExtArgs>[]
       defaultReceivableFor: Prisma.$FinancialSettingPayload<ExtArgs>[]
       defaultPayableFor: Prisma.$FinancialSettingPayload<ExtArgs>[]
+      defaultInventoryFor: Prisma.$FinancialSettingPayload<ExtArgs>[]
+      defaultCogsFor: Prisma.$FinancialSettingPayload<ExtArgs>[]
+      defaultInventoryAdjustmentFor: Prisma.$FinancialSettingPayload<ExtArgs>[]
+      defaultOpeningEquityFor: Prisma.$FinancialSettingPayload<ExtArgs>[]
       partyReceivables: Prisma.$PartyPayload<ExtArgs>[]
       partyPayables: Prisma.$PartyPayload<ExtArgs>[]
     }
@@ -6873,6 +6921,10 @@ export namespace Prisma {
     defaultTaxFor<T extends ChartOfAccount$defaultTaxForArgs<ExtArgs> = {}>(args?: Subset<T, ChartOfAccount$defaultTaxForArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FinancialSettingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     defaultReceivableFor<T extends ChartOfAccount$defaultReceivableForArgs<ExtArgs> = {}>(args?: Subset<T, ChartOfAccount$defaultReceivableForArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FinancialSettingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     defaultPayableFor<T extends ChartOfAccount$defaultPayableForArgs<ExtArgs> = {}>(args?: Subset<T, ChartOfAccount$defaultPayableForArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FinancialSettingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    defaultInventoryFor<T extends ChartOfAccount$defaultInventoryForArgs<ExtArgs> = {}>(args?: Subset<T, ChartOfAccount$defaultInventoryForArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FinancialSettingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    defaultCogsFor<T extends ChartOfAccount$defaultCogsForArgs<ExtArgs> = {}>(args?: Subset<T, ChartOfAccount$defaultCogsForArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FinancialSettingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    defaultInventoryAdjustmentFor<T extends ChartOfAccount$defaultInventoryAdjustmentForArgs<ExtArgs> = {}>(args?: Subset<T, ChartOfAccount$defaultInventoryAdjustmentForArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FinancialSettingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    defaultOpeningEquityFor<T extends ChartOfAccount$defaultOpeningEquityForArgs<ExtArgs> = {}>(args?: Subset<T, ChartOfAccount$defaultOpeningEquityForArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FinancialSettingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     partyReceivables<T extends ChartOfAccount$partyReceivablesArgs<ExtArgs> = {}>(args?: Subset<T, ChartOfAccount$partyReceivablesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PartyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     partyPayables<T extends ChartOfAccount$partyPayablesArgs<ExtArgs> = {}>(args?: Subset<T, ChartOfAccount$partyPayablesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PartyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
@@ -7529,6 +7581,102 @@ export namespace Prisma {
    * ChartOfAccount.defaultPayableFor
    */
   export type ChartOfAccount$defaultPayableForArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FinancialSetting
+     */
+    select?: FinancialSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FinancialSetting
+     */
+    omit?: FinancialSettingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FinancialSettingInclude<ExtArgs> | null
+    where?: FinancialSettingWhereInput
+    orderBy?: FinancialSettingOrderByWithRelationInput | FinancialSettingOrderByWithRelationInput[]
+    cursor?: FinancialSettingWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: FinancialSettingScalarFieldEnum | FinancialSettingScalarFieldEnum[]
+  }
+
+  /**
+   * ChartOfAccount.defaultInventoryFor
+   */
+  export type ChartOfAccount$defaultInventoryForArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FinancialSetting
+     */
+    select?: FinancialSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FinancialSetting
+     */
+    omit?: FinancialSettingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FinancialSettingInclude<ExtArgs> | null
+    where?: FinancialSettingWhereInput
+    orderBy?: FinancialSettingOrderByWithRelationInput | FinancialSettingOrderByWithRelationInput[]
+    cursor?: FinancialSettingWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: FinancialSettingScalarFieldEnum | FinancialSettingScalarFieldEnum[]
+  }
+
+  /**
+   * ChartOfAccount.defaultCogsFor
+   */
+  export type ChartOfAccount$defaultCogsForArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FinancialSetting
+     */
+    select?: FinancialSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FinancialSetting
+     */
+    omit?: FinancialSettingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FinancialSettingInclude<ExtArgs> | null
+    where?: FinancialSettingWhereInput
+    orderBy?: FinancialSettingOrderByWithRelationInput | FinancialSettingOrderByWithRelationInput[]
+    cursor?: FinancialSettingWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: FinancialSettingScalarFieldEnum | FinancialSettingScalarFieldEnum[]
+  }
+
+  /**
+   * ChartOfAccount.defaultInventoryAdjustmentFor
+   */
+  export type ChartOfAccount$defaultInventoryAdjustmentForArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FinancialSetting
+     */
+    select?: FinancialSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FinancialSetting
+     */
+    omit?: FinancialSettingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FinancialSettingInclude<ExtArgs> | null
+    where?: FinancialSettingWhereInput
+    orderBy?: FinancialSettingOrderByWithRelationInput | FinancialSettingOrderByWithRelationInput[]
+    cursor?: FinancialSettingWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: FinancialSettingScalarFieldEnum | FinancialSettingScalarFieldEnum[]
+  }
+
+  /**
+   * ChartOfAccount.defaultOpeningEquityFor
+   */
+  export type ChartOfAccount$defaultOpeningEquityForArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the FinancialSetting
      */
@@ -27739,6 +27887,10 @@ export namespace Prisma {
     defaultTaxAccountId: string | null
     defaultReceivableAccountId: string | null
     defaultPayableAccountId: string | null
+    defaultInventoryAccountId: string | null
+    defaultCogsAccountId: string | null
+    defaultInventoryAdjustmentAccountId: string | null
+    defaultOpeningEquityAccountId: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -27751,6 +27903,10 @@ export namespace Prisma {
     defaultTaxAccountId: string | null
     defaultReceivableAccountId: string | null
     defaultPayableAccountId: string | null
+    defaultInventoryAccountId: string | null
+    defaultCogsAccountId: string | null
+    defaultInventoryAdjustmentAccountId: string | null
+    defaultOpeningEquityAccountId: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -27763,6 +27919,10 @@ export namespace Prisma {
     defaultTaxAccountId: number
     defaultReceivableAccountId: number
     defaultPayableAccountId: number
+    defaultInventoryAccountId: number
+    defaultCogsAccountId: number
+    defaultInventoryAdjustmentAccountId: number
+    defaultOpeningEquityAccountId: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -27777,6 +27937,10 @@ export namespace Prisma {
     defaultTaxAccountId?: true
     defaultReceivableAccountId?: true
     defaultPayableAccountId?: true
+    defaultInventoryAccountId?: true
+    defaultCogsAccountId?: true
+    defaultInventoryAdjustmentAccountId?: true
+    defaultOpeningEquityAccountId?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -27789,6 +27953,10 @@ export namespace Prisma {
     defaultTaxAccountId?: true
     defaultReceivableAccountId?: true
     defaultPayableAccountId?: true
+    defaultInventoryAccountId?: true
+    defaultCogsAccountId?: true
+    defaultInventoryAdjustmentAccountId?: true
+    defaultOpeningEquityAccountId?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -27801,6 +27969,10 @@ export namespace Prisma {
     defaultTaxAccountId?: true
     defaultReceivableAccountId?: true
     defaultPayableAccountId?: true
+    defaultInventoryAccountId?: true
+    defaultCogsAccountId?: true
+    defaultInventoryAdjustmentAccountId?: true
+    defaultOpeningEquityAccountId?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -27886,6 +28058,10 @@ export namespace Prisma {
     defaultTaxAccountId: string | null
     defaultReceivableAccountId: string | null
     defaultPayableAccountId: string | null
+    defaultInventoryAccountId: string | null
+    defaultCogsAccountId: string | null
+    defaultInventoryAdjustmentAccountId: string | null
+    defaultOpeningEquityAccountId: string | null
     createdAt: Date
     updatedAt: Date
     _count: FinancialSettingCountAggregateOutputType | null
@@ -27915,6 +28091,10 @@ export namespace Prisma {
     defaultTaxAccountId?: boolean
     defaultReceivableAccountId?: boolean
     defaultPayableAccountId?: boolean
+    defaultInventoryAccountId?: boolean
+    defaultCogsAccountId?: boolean
+    defaultInventoryAdjustmentAccountId?: boolean
+    defaultOpeningEquityAccountId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
@@ -27923,6 +28103,10 @@ export namespace Prisma {
     defaultTaxAccount?: boolean | FinancialSetting$defaultTaxAccountArgs<ExtArgs>
     defaultReceivableAccount?: boolean | FinancialSetting$defaultReceivableAccountArgs<ExtArgs>
     defaultPayableAccount?: boolean | FinancialSetting$defaultPayableAccountArgs<ExtArgs>
+    defaultInventoryAccount?: boolean | FinancialSetting$defaultInventoryAccountArgs<ExtArgs>
+    defaultCogsAccount?: boolean | FinancialSetting$defaultCogsAccountArgs<ExtArgs>
+    defaultInventoryAdjustmentAccount?: boolean | FinancialSetting$defaultInventoryAdjustmentAccountArgs<ExtArgs>
+    defaultOpeningEquityAccount?: boolean | FinancialSetting$defaultOpeningEquityAccountArgs<ExtArgs>
   }, ExtArgs["result"]["financialSetting"]>
 
   export type FinancialSettingSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -27933,6 +28117,10 @@ export namespace Prisma {
     defaultTaxAccountId?: boolean
     defaultReceivableAccountId?: boolean
     defaultPayableAccountId?: boolean
+    defaultInventoryAccountId?: boolean
+    defaultCogsAccountId?: boolean
+    defaultInventoryAdjustmentAccountId?: boolean
+    defaultOpeningEquityAccountId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
@@ -27941,6 +28129,10 @@ export namespace Prisma {
     defaultTaxAccount?: boolean | FinancialSetting$defaultTaxAccountArgs<ExtArgs>
     defaultReceivableAccount?: boolean | FinancialSetting$defaultReceivableAccountArgs<ExtArgs>
     defaultPayableAccount?: boolean | FinancialSetting$defaultPayableAccountArgs<ExtArgs>
+    defaultInventoryAccount?: boolean | FinancialSetting$defaultInventoryAccountArgs<ExtArgs>
+    defaultCogsAccount?: boolean | FinancialSetting$defaultCogsAccountArgs<ExtArgs>
+    defaultInventoryAdjustmentAccount?: boolean | FinancialSetting$defaultInventoryAdjustmentAccountArgs<ExtArgs>
+    defaultOpeningEquityAccount?: boolean | FinancialSetting$defaultOpeningEquityAccountArgs<ExtArgs>
   }, ExtArgs["result"]["financialSetting"]>
 
   export type FinancialSettingSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -27951,6 +28143,10 @@ export namespace Prisma {
     defaultTaxAccountId?: boolean
     defaultReceivableAccountId?: boolean
     defaultPayableAccountId?: boolean
+    defaultInventoryAccountId?: boolean
+    defaultCogsAccountId?: boolean
+    defaultInventoryAdjustmentAccountId?: boolean
+    defaultOpeningEquityAccountId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
@@ -27959,6 +28155,10 @@ export namespace Prisma {
     defaultTaxAccount?: boolean | FinancialSetting$defaultTaxAccountArgs<ExtArgs>
     defaultReceivableAccount?: boolean | FinancialSetting$defaultReceivableAccountArgs<ExtArgs>
     defaultPayableAccount?: boolean | FinancialSetting$defaultPayableAccountArgs<ExtArgs>
+    defaultInventoryAccount?: boolean | FinancialSetting$defaultInventoryAccountArgs<ExtArgs>
+    defaultCogsAccount?: boolean | FinancialSetting$defaultCogsAccountArgs<ExtArgs>
+    defaultInventoryAdjustmentAccount?: boolean | FinancialSetting$defaultInventoryAdjustmentAccountArgs<ExtArgs>
+    defaultOpeningEquityAccount?: boolean | FinancialSetting$defaultOpeningEquityAccountArgs<ExtArgs>
   }, ExtArgs["result"]["financialSetting"]>
 
   export type FinancialSettingSelectScalar = {
@@ -27969,11 +28169,15 @@ export namespace Prisma {
     defaultTaxAccountId?: boolean
     defaultReceivableAccountId?: boolean
     defaultPayableAccountId?: boolean
+    defaultInventoryAccountId?: boolean
+    defaultCogsAccountId?: boolean
+    defaultInventoryAdjustmentAccountId?: boolean
+    defaultOpeningEquityAccountId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type FinancialSettingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "defaultSalesAccountId" | "defaultPurchaseAccountId" | "defaultTaxAccountId" | "defaultReceivableAccountId" | "defaultPayableAccountId" | "createdAt" | "updatedAt", ExtArgs["result"]["financialSetting"]>
+  export type FinancialSettingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "defaultSalesAccountId" | "defaultPurchaseAccountId" | "defaultTaxAccountId" | "defaultReceivableAccountId" | "defaultPayableAccountId" | "defaultInventoryAccountId" | "defaultCogsAccountId" | "defaultInventoryAdjustmentAccountId" | "defaultOpeningEquityAccountId" | "createdAt" | "updatedAt", ExtArgs["result"]["financialSetting"]>
   export type FinancialSettingInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     defaultSalesAccount?: boolean | FinancialSetting$defaultSalesAccountArgs<ExtArgs>
@@ -27981,6 +28185,10 @@ export namespace Prisma {
     defaultTaxAccount?: boolean | FinancialSetting$defaultTaxAccountArgs<ExtArgs>
     defaultReceivableAccount?: boolean | FinancialSetting$defaultReceivableAccountArgs<ExtArgs>
     defaultPayableAccount?: boolean | FinancialSetting$defaultPayableAccountArgs<ExtArgs>
+    defaultInventoryAccount?: boolean | FinancialSetting$defaultInventoryAccountArgs<ExtArgs>
+    defaultCogsAccount?: boolean | FinancialSetting$defaultCogsAccountArgs<ExtArgs>
+    defaultInventoryAdjustmentAccount?: boolean | FinancialSetting$defaultInventoryAdjustmentAccountArgs<ExtArgs>
+    defaultOpeningEquityAccount?: boolean | FinancialSetting$defaultOpeningEquityAccountArgs<ExtArgs>
   }
   export type FinancialSettingIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
@@ -27989,6 +28197,10 @@ export namespace Prisma {
     defaultTaxAccount?: boolean | FinancialSetting$defaultTaxAccountArgs<ExtArgs>
     defaultReceivableAccount?: boolean | FinancialSetting$defaultReceivableAccountArgs<ExtArgs>
     defaultPayableAccount?: boolean | FinancialSetting$defaultPayableAccountArgs<ExtArgs>
+    defaultInventoryAccount?: boolean | FinancialSetting$defaultInventoryAccountArgs<ExtArgs>
+    defaultCogsAccount?: boolean | FinancialSetting$defaultCogsAccountArgs<ExtArgs>
+    defaultInventoryAdjustmentAccount?: boolean | FinancialSetting$defaultInventoryAdjustmentAccountArgs<ExtArgs>
+    defaultOpeningEquityAccount?: boolean | FinancialSetting$defaultOpeningEquityAccountArgs<ExtArgs>
   }
   export type FinancialSettingIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
@@ -27997,6 +28209,10 @@ export namespace Prisma {
     defaultTaxAccount?: boolean | FinancialSetting$defaultTaxAccountArgs<ExtArgs>
     defaultReceivableAccount?: boolean | FinancialSetting$defaultReceivableAccountArgs<ExtArgs>
     defaultPayableAccount?: boolean | FinancialSetting$defaultPayableAccountArgs<ExtArgs>
+    defaultInventoryAccount?: boolean | FinancialSetting$defaultInventoryAccountArgs<ExtArgs>
+    defaultCogsAccount?: boolean | FinancialSetting$defaultCogsAccountArgs<ExtArgs>
+    defaultInventoryAdjustmentAccount?: boolean | FinancialSetting$defaultInventoryAdjustmentAccountArgs<ExtArgs>
+    defaultOpeningEquityAccount?: boolean | FinancialSetting$defaultOpeningEquityAccountArgs<ExtArgs>
   }
 
   export type $FinancialSettingPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -28008,6 +28224,10 @@ export namespace Prisma {
       defaultTaxAccount: Prisma.$ChartOfAccountPayload<ExtArgs> | null
       defaultReceivableAccount: Prisma.$ChartOfAccountPayload<ExtArgs> | null
       defaultPayableAccount: Prisma.$ChartOfAccountPayload<ExtArgs> | null
+      defaultInventoryAccount: Prisma.$ChartOfAccountPayload<ExtArgs> | null
+      defaultCogsAccount: Prisma.$ChartOfAccountPayload<ExtArgs> | null
+      defaultInventoryAdjustmentAccount: Prisma.$ChartOfAccountPayload<ExtArgs> | null
+      defaultOpeningEquityAccount: Prisma.$ChartOfAccountPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -28017,6 +28237,10 @@ export namespace Prisma {
       defaultTaxAccountId: string | null
       defaultReceivableAccountId: string | null
       defaultPayableAccountId: string | null
+      defaultInventoryAccountId: string | null
+      defaultCogsAccountId: string | null
+      defaultInventoryAdjustmentAccountId: string | null
+      defaultOpeningEquityAccountId: string | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["financialSetting"]>
@@ -28419,6 +28643,10 @@ export namespace Prisma {
     defaultTaxAccount<T extends FinancialSetting$defaultTaxAccountArgs<ExtArgs> = {}>(args?: Subset<T, FinancialSetting$defaultTaxAccountArgs<ExtArgs>>): Prisma__ChartOfAccountClient<$Result.GetResult<Prisma.$ChartOfAccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     defaultReceivableAccount<T extends FinancialSetting$defaultReceivableAccountArgs<ExtArgs> = {}>(args?: Subset<T, FinancialSetting$defaultReceivableAccountArgs<ExtArgs>>): Prisma__ChartOfAccountClient<$Result.GetResult<Prisma.$ChartOfAccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     defaultPayableAccount<T extends FinancialSetting$defaultPayableAccountArgs<ExtArgs> = {}>(args?: Subset<T, FinancialSetting$defaultPayableAccountArgs<ExtArgs>>): Prisma__ChartOfAccountClient<$Result.GetResult<Prisma.$ChartOfAccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    defaultInventoryAccount<T extends FinancialSetting$defaultInventoryAccountArgs<ExtArgs> = {}>(args?: Subset<T, FinancialSetting$defaultInventoryAccountArgs<ExtArgs>>): Prisma__ChartOfAccountClient<$Result.GetResult<Prisma.$ChartOfAccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    defaultCogsAccount<T extends FinancialSetting$defaultCogsAccountArgs<ExtArgs> = {}>(args?: Subset<T, FinancialSetting$defaultCogsAccountArgs<ExtArgs>>): Prisma__ChartOfAccountClient<$Result.GetResult<Prisma.$ChartOfAccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    defaultInventoryAdjustmentAccount<T extends FinancialSetting$defaultInventoryAdjustmentAccountArgs<ExtArgs> = {}>(args?: Subset<T, FinancialSetting$defaultInventoryAdjustmentAccountArgs<ExtArgs>>): Prisma__ChartOfAccountClient<$Result.GetResult<Prisma.$ChartOfAccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    defaultOpeningEquityAccount<T extends FinancialSetting$defaultOpeningEquityAccountArgs<ExtArgs> = {}>(args?: Subset<T, FinancialSetting$defaultOpeningEquityAccountArgs<ExtArgs>>): Prisma__ChartOfAccountClient<$Result.GetResult<Prisma.$ChartOfAccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -28455,6 +28683,10 @@ export namespace Prisma {
     readonly defaultTaxAccountId: FieldRef<"FinancialSetting", 'String'>
     readonly defaultReceivableAccountId: FieldRef<"FinancialSetting", 'String'>
     readonly defaultPayableAccountId: FieldRef<"FinancialSetting", 'String'>
+    readonly defaultInventoryAccountId: FieldRef<"FinancialSetting", 'String'>
+    readonly defaultCogsAccountId: FieldRef<"FinancialSetting", 'String'>
+    readonly defaultInventoryAdjustmentAccountId: FieldRef<"FinancialSetting", 'String'>
+    readonly defaultOpeningEquityAccountId: FieldRef<"FinancialSetting", 'String'>
     readonly createdAt: FieldRef<"FinancialSetting", 'DateTime'>
     readonly updatedAt: FieldRef<"FinancialSetting", 'DateTime'>
   }
@@ -28937,6 +29169,82 @@ export namespace Prisma {
    * FinancialSetting.defaultPayableAccount
    */
   export type FinancialSetting$defaultPayableAccountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChartOfAccount
+     */
+    select?: ChartOfAccountSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChartOfAccount
+     */
+    omit?: ChartOfAccountOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChartOfAccountInclude<ExtArgs> | null
+    where?: ChartOfAccountWhereInput
+  }
+
+  /**
+   * FinancialSetting.defaultInventoryAccount
+   */
+  export type FinancialSetting$defaultInventoryAccountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChartOfAccount
+     */
+    select?: ChartOfAccountSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChartOfAccount
+     */
+    omit?: ChartOfAccountOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChartOfAccountInclude<ExtArgs> | null
+    where?: ChartOfAccountWhereInput
+  }
+
+  /**
+   * FinancialSetting.defaultCogsAccount
+   */
+  export type FinancialSetting$defaultCogsAccountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChartOfAccount
+     */
+    select?: ChartOfAccountSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChartOfAccount
+     */
+    omit?: ChartOfAccountOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChartOfAccountInclude<ExtArgs> | null
+    where?: ChartOfAccountWhereInput
+  }
+
+  /**
+   * FinancialSetting.defaultInventoryAdjustmentAccount
+   */
+  export type FinancialSetting$defaultInventoryAdjustmentAccountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChartOfAccount
+     */
+    select?: ChartOfAccountSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChartOfAccount
+     */
+    omit?: ChartOfAccountOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChartOfAccountInclude<ExtArgs> | null
+    where?: ChartOfAccountWhereInput
+  }
+
+  /**
+   * FinancialSetting.defaultOpeningEquityAccount
+   */
+  export type FinancialSetting$defaultOpeningEquityAccountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the ChartOfAccount
      */
@@ -57640,6 +57948,10 @@ export namespace Prisma {
     defaultTaxAccountId: 'defaultTaxAccountId',
     defaultReceivableAccountId: 'defaultReceivableAccountId',
     defaultPayableAccountId: 'defaultPayableAccountId',
+    defaultInventoryAccountId: 'defaultInventoryAccountId',
+    defaultCogsAccountId: 'defaultCogsAccountId',
+    defaultInventoryAdjustmentAccountId: 'defaultInventoryAdjustmentAccountId',
+    defaultOpeningEquityAccountId: 'defaultOpeningEquityAccountId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -58398,6 +58710,10 @@ export namespace Prisma {
     defaultTaxFor?: FinancialSettingListRelationFilter
     defaultReceivableFor?: FinancialSettingListRelationFilter
     defaultPayableFor?: FinancialSettingListRelationFilter
+    defaultInventoryFor?: FinancialSettingListRelationFilter
+    defaultCogsFor?: FinancialSettingListRelationFilter
+    defaultInventoryAdjustmentFor?: FinancialSettingListRelationFilter
+    defaultOpeningEquityFor?: FinancialSettingListRelationFilter
     partyReceivables?: PartyListRelationFilter
     partyPayables?: PartyListRelationFilter
   }
@@ -58424,6 +58740,10 @@ export namespace Prisma {
     defaultTaxFor?: FinancialSettingOrderByRelationAggregateInput
     defaultReceivableFor?: FinancialSettingOrderByRelationAggregateInput
     defaultPayableFor?: FinancialSettingOrderByRelationAggregateInput
+    defaultInventoryFor?: FinancialSettingOrderByRelationAggregateInput
+    defaultCogsFor?: FinancialSettingOrderByRelationAggregateInput
+    defaultInventoryAdjustmentFor?: FinancialSettingOrderByRelationAggregateInput
+    defaultOpeningEquityFor?: FinancialSettingOrderByRelationAggregateInput
     partyReceivables?: PartyOrderByRelationAggregateInput
     partyPayables?: PartyOrderByRelationAggregateInput
   }
@@ -58454,6 +58774,10 @@ export namespace Prisma {
     defaultTaxFor?: FinancialSettingListRelationFilter
     defaultReceivableFor?: FinancialSettingListRelationFilter
     defaultPayableFor?: FinancialSettingListRelationFilter
+    defaultInventoryFor?: FinancialSettingListRelationFilter
+    defaultCogsFor?: FinancialSettingListRelationFilter
+    defaultInventoryAdjustmentFor?: FinancialSettingListRelationFilter
+    defaultOpeningEquityFor?: FinancialSettingListRelationFilter
     partyReceivables?: PartyListRelationFilter
     partyPayables?: PartyListRelationFilter
   }, "id" | "tenantId_code">
@@ -59991,6 +60315,10 @@ export namespace Prisma {
     defaultTaxAccountId?: StringNullableFilter<"FinancialSetting"> | string | null
     defaultReceivableAccountId?: StringNullableFilter<"FinancialSetting"> | string | null
     defaultPayableAccountId?: StringNullableFilter<"FinancialSetting"> | string | null
+    defaultInventoryAccountId?: StringNullableFilter<"FinancialSetting"> | string | null
+    defaultCogsAccountId?: StringNullableFilter<"FinancialSetting"> | string | null
+    defaultInventoryAdjustmentAccountId?: StringNullableFilter<"FinancialSetting"> | string | null
+    defaultOpeningEquityAccountId?: StringNullableFilter<"FinancialSetting"> | string | null
     createdAt?: DateTimeFilter<"FinancialSetting"> | Date | string
     updatedAt?: DateTimeFilter<"FinancialSetting"> | Date | string
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
@@ -59999,6 +60327,10 @@ export namespace Prisma {
     defaultTaxAccount?: XOR<ChartOfAccountNullableScalarRelationFilter, ChartOfAccountWhereInput> | null
     defaultReceivableAccount?: XOR<ChartOfAccountNullableScalarRelationFilter, ChartOfAccountWhereInput> | null
     defaultPayableAccount?: XOR<ChartOfAccountNullableScalarRelationFilter, ChartOfAccountWhereInput> | null
+    defaultInventoryAccount?: XOR<ChartOfAccountNullableScalarRelationFilter, ChartOfAccountWhereInput> | null
+    defaultCogsAccount?: XOR<ChartOfAccountNullableScalarRelationFilter, ChartOfAccountWhereInput> | null
+    defaultInventoryAdjustmentAccount?: XOR<ChartOfAccountNullableScalarRelationFilter, ChartOfAccountWhereInput> | null
+    defaultOpeningEquityAccount?: XOR<ChartOfAccountNullableScalarRelationFilter, ChartOfAccountWhereInput> | null
   }
 
   export type FinancialSettingOrderByWithRelationInput = {
@@ -60009,6 +60341,10 @@ export namespace Prisma {
     defaultTaxAccountId?: SortOrderInput | SortOrder
     defaultReceivableAccountId?: SortOrderInput | SortOrder
     defaultPayableAccountId?: SortOrderInput | SortOrder
+    defaultInventoryAccountId?: SortOrderInput | SortOrder
+    defaultCogsAccountId?: SortOrderInput | SortOrder
+    defaultInventoryAdjustmentAccountId?: SortOrderInput | SortOrder
+    defaultOpeningEquityAccountId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     tenant?: TenantOrderByWithRelationInput
@@ -60017,6 +60353,10 @@ export namespace Prisma {
     defaultTaxAccount?: ChartOfAccountOrderByWithRelationInput
     defaultReceivableAccount?: ChartOfAccountOrderByWithRelationInput
     defaultPayableAccount?: ChartOfAccountOrderByWithRelationInput
+    defaultInventoryAccount?: ChartOfAccountOrderByWithRelationInput
+    defaultCogsAccount?: ChartOfAccountOrderByWithRelationInput
+    defaultInventoryAdjustmentAccount?: ChartOfAccountOrderByWithRelationInput
+    defaultOpeningEquityAccount?: ChartOfAccountOrderByWithRelationInput
   }
 
   export type FinancialSettingWhereUniqueInput = Prisma.AtLeast<{
@@ -60030,6 +60370,10 @@ export namespace Prisma {
     defaultTaxAccountId?: StringNullableFilter<"FinancialSetting"> | string | null
     defaultReceivableAccountId?: StringNullableFilter<"FinancialSetting"> | string | null
     defaultPayableAccountId?: StringNullableFilter<"FinancialSetting"> | string | null
+    defaultInventoryAccountId?: StringNullableFilter<"FinancialSetting"> | string | null
+    defaultCogsAccountId?: StringNullableFilter<"FinancialSetting"> | string | null
+    defaultInventoryAdjustmentAccountId?: StringNullableFilter<"FinancialSetting"> | string | null
+    defaultOpeningEquityAccountId?: StringNullableFilter<"FinancialSetting"> | string | null
     createdAt?: DateTimeFilter<"FinancialSetting"> | Date | string
     updatedAt?: DateTimeFilter<"FinancialSetting"> | Date | string
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
@@ -60038,6 +60382,10 @@ export namespace Prisma {
     defaultTaxAccount?: XOR<ChartOfAccountNullableScalarRelationFilter, ChartOfAccountWhereInput> | null
     defaultReceivableAccount?: XOR<ChartOfAccountNullableScalarRelationFilter, ChartOfAccountWhereInput> | null
     defaultPayableAccount?: XOR<ChartOfAccountNullableScalarRelationFilter, ChartOfAccountWhereInput> | null
+    defaultInventoryAccount?: XOR<ChartOfAccountNullableScalarRelationFilter, ChartOfAccountWhereInput> | null
+    defaultCogsAccount?: XOR<ChartOfAccountNullableScalarRelationFilter, ChartOfAccountWhereInput> | null
+    defaultInventoryAdjustmentAccount?: XOR<ChartOfAccountNullableScalarRelationFilter, ChartOfAccountWhereInput> | null
+    defaultOpeningEquityAccount?: XOR<ChartOfAccountNullableScalarRelationFilter, ChartOfAccountWhereInput> | null
   }, "id" | "tenantId">
 
   export type FinancialSettingOrderByWithAggregationInput = {
@@ -60048,6 +60396,10 @@ export namespace Prisma {
     defaultTaxAccountId?: SortOrderInput | SortOrder
     defaultReceivableAccountId?: SortOrderInput | SortOrder
     defaultPayableAccountId?: SortOrderInput | SortOrder
+    defaultInventoryAccountId?: SortOrderInput | SortOrder
+    defaultCogsAccountId?: SortOrderInput | SortOrder
+    defaultInventoryAdjustmentAccountId?: SortOrderInput | SortOrder
+    defaultOpeningEquityAccountId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: FinancialSettingCountOrderByAggregateInput
@@ -60066,6 +60418,10 @@ export namespace Prisma {
     defaultTaxAccountId?: StringNullableWithAggregatesFilter<"FinancialSetting"> | string | null
     defaultReceivableAccountId?: StringNullableWithAggregatesFilter<"FinancialSetting"> | string | null
     defaultPayableAccountId?: StringNullableWithAggregatesFilter<"FinancialSetting"> | string | null
+    defaultInventoryAccountId?: StringNullableWithAggregatesFilter<"FinancialSetting"> | string | null
+    defaultCogsAccountId?: StringNullableWithAggregatesFilter<"FinancialSetting"> | string | null
+    defaultInventoryAdjustmentAccountId?: StringNullableWithAggregatesFilter<"FinancialSetting"> | string | null
+    defaultOpeningEquityAccountId?: StringNullableWithAggregatesFilter<"FinancialSetting"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"FinancialSetting"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"FinancialSetting"> | Date | string
   }
@@ -62228,6 +62584,10 @@ export namespace Prisma {
     defaultTaxFor?: FinancialSettingCreateNestedManyWithoutDefaultTaxAccountInput
     defaultReceivableFor?: FinancialSettingCreateNestedManyWithoutDefaultReceivableAccountInput
     defaultPayableFor?: FinancialSettingCreateNestedManyWithoutDefaultPayableAccountInput
+    defaultInventoryFor?: FinancialSettingCreateNestedManyWithoutDefaultInventoryAccountInput
+    defaultCogsFor?: FinancialSettingCreateNestedManyWithoutDefaultCogsAccountInput
+    defaultInventoryAdjustmentFor?: FinancialSettingCreateNestedManyWithoutDefaultInventoryAdjustmentAccountInput
+    defaultOpeningEquityFor?: FinancialSettingCreateNestedManyWithoutDefaultOpeningEquityAccountInput
     partyReceivables?: PartyCreateNestedManyWithoutReceivableAccountInput
     partyPayables?: PartyCreateNestedManyWithoutPayableAccountInput
   }
@@ -62252,6 +62612,10 @@ export namespace Prisma {
     defaultTaxFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultTaxAccountInput
     defaultReceivableFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultReceivableAccountInput
     defaultPayableFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultPayableAccountInput
+    defaultInventoryFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultInventoryAccountInput
+    defaultCogsFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultCogsAccountInput
+    defaultInventoryAdjustmentFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultInventoryAdjustmentAccountInput
+    defaultOpeningEquityFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultOpeningEquityAccountInput
     partyReceivables?: PartyUncheckedCreateNestedManyWithoutReceivableAccountInput
     partyPayables?: PartyUncheckedCreateNestedManyWithoutPayableAccountInput
   }
@@ -62276,6 +62640,10 @@ export namespace Prisma {
     defaultTaxFor?: FinancialSettingUpdateManyWithoutDefaultTaxAccountNestedInput
     defaultReceivableFor?: FinancialSettingUpdateManyWithoutDefaultReceivableAccountNestedInput
     defaultPayableFor?: FinancialSettingUpdateManyWithoutDefaultPayableAccountNestedInput
+    defaultInventoryFor?: FinancialSettingUpdateManyWithoutDefaultInventoryAccountNestedInput
+    defaultCogsFor?: FinancialSettingUpdateManyWithoutDefaultCogsAccountNestedInput
+    defaultInventoryAdjustmentFor?: FinancialSettingUpdateManyWithoutDefaultInventoryAdjustmentAccountNestedInput
+    defaultOpeningEquityFor?: FinancialSettingUpdateManyWithoutDefaultOpeningEquityAccountNestedInput
     partyReceivables?: PartyUpdateManyWithoutReceivableAccountNestedInput
     partyPayables?: PartyUpdateManyWithoutPayableAccountNestedInput
   }
@@ -62300,6 +62668,10 @@ export namespace Prisma {
     defaultTaxFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultTaxAccountNestedInput
     defaultReceivableFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultReceivableAccountNestedInput
     defaultPayableFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultPayableAccountNestedInput
+    defaultInventoryFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultInventoryAccountNestedInput
+    defaultCogsFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultCogsAccountNestedInput
+    defaultInventoryAdjustmentFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultInventoryAdjustmentAccountNestedInput
+    defaultOpeningEquityFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultOpeningEquityAccountNestedInput
     partyReceivables?: PartyUncheckedUpdateManyWithoutReceivableAccountNestedInput
     partyPayables?: PartyUncheckedUpdateManyWithoutPayableAccountNestedInput
   }
@@ -63953,6 +64325,10 @@ export namespace Prisma {
     defaultTaxAccount?: ChartOfAccountCreateNestedOneWithoutDefaultTaxForInput
     defaultReceivableAccount?: ChartOfAccountCreateNestedOneWithoutDefaultReceivableForInput
     defaultPayableAccount?: ChartOfAccountCreateNestedOneWithoutDefaultPayableForInput
+    defaultInventoryAccount?: ChartOfAccountCreateNestedOneWithoutDefaultInventoryForInput
+    defaultCogsAccount?: ChartOfAccountCreateNestedOneWithoutDefaultCogsForInput
+    defaultInventoryAdjustmentAccount?: ChartOfAccountCreateNestedOneWithoutDefaultInventoryAdjustmentForInput
+    defaultOpeningEquityAccount?: ChartOfAccountCreateNestedOneWithoutDefaultOpeningEquityForInput
   }
 
   export type FinancialSettingUncheckedCreateInput = {
@@ -63963,6 +64339,10 @@ export namespace Prisma {
     defaultTaxAccountId?: string | null
     defaultReceivableAccountId?: string | null
     defaultPayableAccountId?: string | null
+    defaultInventoryAccountId?: string | null
+    defaultCogsAccountId?: string | null
+    defaultInventoryAdjustmentAccountId?: string | null
+    defaultOpeningEquityAccountId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -63977,6 +64357,10 @@ export namespace Prisma {
     defaultTaxAccount?: ChartOfAccountUpdateOneWithoutDefaultTaxForNestedInput
     defaultReceivableAccount?: ChartOfAccountUpdateOneWithoutDefaultReceivableForNestedInput
     defaultPayableAccount?: ChartOfAccountUpdateOneWithoutDefaultPayableForNestedInput
+    defaultInventoryAccount?: ChartOfAccountUpdateOneWithoutDefaultInventoryForNestedInput
+    defaultCogsAccount?: ChartOfAccountUpdateOneWithoutDefaultCogsForNestedInput
+    defaultInventoryAdjustmentAccount?: ChartOfAccountUpdateOneWithoutDefaultInventoryAdjustmentForNestedInput
+    defaultOpeningEquityAccount?: ChartOfAccountUpdateOneWithoutDefaultOpeningEquityForNestedInput
   }
 
   export type FinancialSettingUncheckedUpdateInput = {
@@ -63987,6 +64371,10 @@ export namespace Prisma {
     defaultTaxAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     defaultReceivableAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     defaultPayableAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultInventoryAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultCogsAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultInventoryAdjustmentAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultOpeningEquityAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -63999,6 +64387,10 @@ export namespace Prisma {
     defaultTaxAccountId?: string | null
     defaultReceivableAccountId?: string | null
     defaultPayableAccountId?: string | null
+    defaultInventoryAccountId?: string | null
+    defaultCogsAccountId?: string | null
+    defaultInventoryAdjustmentAccountId?: string | null
+    defaultOpeningEquityAccountId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -64017,6 +64409,10 @@ export namespace Prisma {
     defaultTaxAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     defaultReceivableAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     defaultPayableAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultInventoryAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultCogsAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultInventoryAdjustmentAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultOpeningEquityAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -67794,6 +68190,10 @@ export namespace Prisma {
     defaultTaxAccountId?: SortOrder
     defaultReceivableAccountId?: SortOrder
     defaultPayableAccountId?: SortOrder
+    defaultInventoryAccountId?: SortOrder
+    defaultCogsAccountId?: SortOrder
+    defaultInventoryAdjustmentAccountId?: SortOrder
+    defaultOpeningEquityAccountId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -67806,6 +68206,10 @@ export namespace Prisma {
     defaultTaxAccountId?: SortOrder
     defaultReceivableAccountId?: SortOrder
     defaultPayableAccountId?: SortOrder
+    defaultInventoryAccountId?: SortOrder
+    defaultCogsAccountId?: SortOrder
+    defaultInventoryAdjustmentAccountId?: SortOrder
+    defaultOpeningEquityAccountId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -67818,6 +68222,10 @@ export namespace Prisma {
     defaultTaxAccountId?: SortOrder
     defaultReceivableAccountId?: SortOrder
     defaultPayableAccountId?: SortOrder
+    defaultInventoryAccountId?: SortOrder
+    defaultCogsAccountId?: SortOrder
+    defaultInventoryAdjustmentAccountId?: SortOrder
+    defaultOpeningEquityAccountId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -69472,6 +69880,34 @@ export namespace Prisma {
     connect?: FinancialSettingWhereUniqueInput | FinancialSettingWhereUniqueInput[]
   }
 
+  export type FinancialSettingCreateNestedManyWithoutDefaultInventoryAccountInput = {
+    create?: XOR<FinancialSettingCreateWithoutDefaultInventoryAccountInput, FinancialSettingUncheckedCreateWithoutDefaultInventoryAccountInput> | FinancialSettingCreateWithoutDefaultInventoryAccountInput[] | FinancialSettingUncheckedCreateWithoutDefaultInventoryAccountInput[]
+    connectOrCreate?: FinancialSettingCreateOrConnectWithoutDefaultInventoryAccountInput | FinancialSettingCreateOrConnectWithoutDefaultInventoryAccountInput[]
+    createMany?: FinancialSettingCreateManyDefaultInventoryAccountInputEnvelope
+    connect?: FinancialSettingWhereUniqueInput | FinancialSettingWhereUniqueInput[]
+  }
+
+  export type FinancialSettingCreateNestedManyWithoutDefaultCogsAccountInput = {
+    create?: XOR<FinancialSettingCreateWithoutDefaultCogsAccountInput, FinancialSettingUncheckedCreateWithoutDefaultCogsAccountInput> | FinancialSettingCreateWithoutDefaultCogsAccountInput[] | FinancialSettingUncheckedCreateWithoutDefaultCogsAccountInput[]
+    connectOrCreate?: FinancialSettingCreateOrConnectWithoutDefaultCogsAccountInput | FinancialSettingCreateOrConnectWithoutDefaultCogsAccountInput[]
+    createMany?: FinancialSettingCreateManyDefaultCogsAccountInputEnvelope
+    connect?: FinancialSettingWhereUniqueInput | FinancialSettingWhereUniqueInput[]
+  }
+
+  export type FinancialSettingCreateNestedManyWithoutDefaultInventoryAdjustmentAccountInput = {
+    create?: XOR<FinancialSettingCreateWithoutDefaultInventoryAdjustmentAccountInput, FinancialSettingUncheckedCreateWithoutDefaultInventoryAdjustmentAccountInput> | FinancialSettingCreateWithoutDefaultInventoryAdjustmentAccountInput[] | FinancialSettingUncheckedCreateWithoutDefaultInventoryAdjustmentAccountInput[]
+    connectOrCreate?: FinancialSettingCreateOrConnectWithoutDefaultInventoryAdjustmentAccountInput | FinancialSettingCreateOrConnectWithoutDefaultInventoryAdjustmentAccountInput[]
+    createMany?: FinancialSettingCreateManyDefaultInventoryAdjustmentAccountInputEnvelope
+    connect?: FinancialSettingWhereUniqueInput | FinancialSettingWhereUniqueInput[]
+  }
+
+  export type FinancialSettingCreateNestedManyWithoutDefaultOpeningEquityAccountInput = {
+    create?: XOR<FinancialSettingCreateWithoutDefaultOpeningEquityAccountInput, FinancialSettingUncheckedCreateWithoutDefaultOpeningEquityAccountInput> | FinancialSettingCreateWithoutDefaultOpeningEquityAccountInput[] | FinancialSettingUncheckedCreateWithoutDefaultOpeningEquityAccountInput[]
+    connectOrCreate?: FinancialSettingCreateOrConnectWithoutDefaultOpeningEquityAccountInput | FinancialSettingCreateOrConnectWithoutDefaultOpeningEquityAccountInput[]
+    createMany?: FinancialSettingCreateManyDefaultOpeningEquityAccountInputEnvelope
+    connect?: FinancialSettingWhereUniqueInput | FinancialSettingWhereUniqueInput[]
+  }
+
   export type PartyCreateNestedManyWithoutReceivableAccountInput = {
     create?: XOR<PartyCreateWithoutReceivableAccountInput, PartyUncheckedCreateWithoutReceivableAccountInput> | PartyCreateWithoutReceivableAccountInput[] | PartyUncheckedCreateWithoutReceivableAccountInput[]
     connectOrCreate?: PartyCreateOrConnectWithoutReceivableAccountInput | PartyCreateOrConnectWithoutReceivableAccountInput[]
@@ -69546,6 +69982,34 @@ export namespace Prisma {
     create?: XOR<FinancialSettingCreateWithoutDefaultPayableAccountInput, FinancialSettingUncheckedCreateWithoutDefaultPayableAccountInput> | FinancialSettingCreateWithoutDefaultPayableAccountInput[] | FinancialSettingUncheckedCreateWithoutDefaultPayableAccountInput[]
     connectOrCreate?: FinancialSettingCreateOrConnectWithoutDefaultPayableAccountInput | FinancialSettingCreateOrConnectWithoutDefaultPayableAccountInput[]
     createMany?: FinancialSettingCreateManyDefaultPayableAccountInputEnvelope
+    connect?: FinancialSettingWhereUniqueInput | FinancialSettingWhereUniqueInput[]
+  }
+
+  export type FinancialSettingUncheckedCreateNestedManyWithoutDefaultInventoryAccountInput = {
+    create?: XOR<FinancialSettingCreateWithoutDefaultInventoryAccountInput, FinancialSettingUncheckedCreateWithoutDefaultInventoryAccountInput> | FinancialSettingCreateWithoutDefaultInventoryAccountInput[] | FinancialSettingUncheckedCreateWithoutDefaultInventoryAccountInput[]
+    connectOrCreate?: FinancialSettingCreateOrConnectWithoutDefaultInventoryAccountInput | FinancialSettingCreateOrConnectWithoutDefaultInventoryAccountInput[]
+    createMany?: FinancialSettingCreateManyDefaultInventoryAccountInputEnvelope
+    connect?: FinancialSettingWhereUniqueInput | FinancialSettingWhereUniqueInput[]
+  }
+
+  export type FinancialSettingUncheckedCreateNestedManyWithoutDefaultCogsAccountInput = {
+    create?: XOR<FinancialSettingCreateWithoutDefaultCogsAccountInput, FinancialSettingUncheckedCreateWithoutDefaultCogsAccountInput> | FinancialSettingCreateWithoutDefaultCogsAccountInput[] | FinancialSettingUncheckedCreateWithoutDefaultCogsAccountInput[]
+    connectOrCreate?: FinancialSettingCreateOrConnectWithoutDefaultCogsAccountInput | FinancialSettingCreateOrConnectWithoutDefaultCogsAccountInput[]
+    createMany?: FinancialSettingCreateManyDefaultCogsAccountInputEnvelope
+    connect?: FinancialSettingWhereUniqueInput | FinancialSettingWhereUniqueInput[]
+  }
+
+  export type FinancialSettingUncheckedCreateNestedManyWithoutDefaultInventoryAdjustmentAccountInput = {
+    create?: XOR<FinancialSettingCreateWithoutDefaultInventoryAdjustmentAccountInput, FinancialSettingUncheckedCreateWithoutDefaultInventoryAdjustmentAccountInput> | FinancialSettingCreateWithoutDefaultInventoryAdjustmentAccountInput[] | FinancialSettingUncheckedCreateWithoutDefaultInventoryAdjustmentAccountInput[]
+    connectOrCreate?: FinancialSettingCreateOrConnectWithoutDefaultInventoryAdjustmentAccountInput | FinancialSettingCreateOrConnectWithoutDefaultInventoryAdjustmentAccountInput[]
+    createMany?: FinancialSettingCreateManyDefaultInventoryAdjustmentAccountInputEnvelope
+    connect?: FinancialSettingWhereUniqueInput | FinancialSettingWhereUniqueInput[]
+  }
+
+  export type FinancialSettingUncheckedCreateNestedManyWithoutDefaultOpeningEquityAccountInput = {
+    create?: XOR<FinancialSettingCreateWithoutDefaultOpeningEquityAccountInput, FinancialSettingUncheckedCreateWithoutDefaultOpeningEquityAccountInput> | FinancialSettingCreateWithoutDefaultOpeningEquityAccountInput[] | FinancialSettingUncheckedCreateWithoutDefaultOpeningEquityAccountInput[]
+    connectOrCreate?: FinancialSettingCreateOrConnectWithoutDefaultOpeningEquityAccountInput | FinancialSettingCreateOrConnectWithoutDefaultOpeningEquityAccountInput[]
+    createMany?: FinancialSettingCreateManyDefaultOpeningEquityAccountInputEnvelope
     connect?: FinancialSettingWhereUniqueInput | FinancialSettingWhereUniqueInput[]
   }
 
@@ -69731,6 +70195,62 @@ export namespace Prisma {
     deleteMany?: FinancialSettingScalarWhereInput | FinancialSettingScalarWhereInput[]
   }
 
+  export type FinancialSettingUpdateManyWithoutDefaultInventoryAccountNestedInput = {
+    create?: XOR<FinancialSettingCreateWithoutDefaultInventoryAccountInput, FinancialSettingUncheckedCreateWithoutDefaultInventoryAccountInput> | FinancialSettingCreateWithoutDefaultInventoryAccountInput[] | FinancialSettingUncheckedCreateWithoutDefaultInventoryAccountInput[]
+    connectOrCreate?: FinancialSettingCreateOrConnectWithoutDefaultInventoryAccountInput | FinancialSettingCreateOrConnectWithoutDefaultInventoryAccountInput[]
+    upsert?: FinancialSettingUpsertWithWhereUniqueWithoutDefaultInventoryAccountInput | FinancialSettingUpsertWithWhereUniqueWithoutDefaultInventoryAccountInput[]
+    createMany?: FinancialSettingCreateManyDefaultInventoryAccountInputEnvelope
+    set?: FinancialSettingWhereUniqueInput | FinancialSettingWhereUniqueInput[]
+    disconnect?: FinancialSettingWhereUniqueInput | FinancialSettingWhereUniqueInput[]
+    delete?: FinancialSettingWhereUniqueInput | FinancialSettingWhereUniqueInput[]
+    connect?: FinancialSettingWhereUniqueInput | FinancialSettingWhereUniqueInput[]
+    update?: FinancialSettingUpdateWithWhereUniqueWithoutDefaultInventoryAccountInput | FinancialSettingUpdateWithWhereUniqueWithoutDefaultInventoryAccountInput[]
+    updateMany?: FinancialSettingUpdateManyWithWhereWithoutDefaultInventoryAccountInput | FinancialSettingUpdateManyWithWhereWithoutDefaultInventoryAccountInput[]
+    deleteMany?: FinancialSettingScalarWhereInput | FinancialSettingScalarWhereInput[]
+  }
+
+  export type FinancialSettingUpdateManyWithoutDefaultCogsAccountNestedInput = {
+    create?: XOR<FinancialSettingCreateWithoutDefaultCogsAccountInput, FinancialSettingUncheckedCreateWithoutDefaultCogsAccountInput> | FinancialSettingCreateWithoutDefaultCogsAccountInput[] | FinancialSettingUncheckedCreateWithoutDefaultCogsAccountInput[]
+    connectOrCreate?: FinancialSettingCreateOrConnectWithoutDefaultCogsAccountInput | FinancialSettingCreateOrConnectWithoutDefaultCogsAccountInput[]
+    upsert?: FinancialSettingUpsertWithWhereUniqueWithoutDefaultCogsAccountInput | FinancialSettingUpsertWithWhereUniqueWithoutDefaultCogsAccountInput[]
+    createMany?: FinancialSettingCreateManyDefaultCogsAccountInputEnvelope
+    set?: FinancialSettingWhereUniqueInput | FinancialSettingWhereUniqueInput[]
+    disconnect?: FinancialSettingWhereUniqueInput | FinancialSettingWhereUniqueInput[]
+    delete?: FinancialSettingWhereUniqueInput | FinancialSettingWhereUniqueInput[]
+    connect?: FinancialSettingWhereUniqueInput | FinancialSettingWhereUniqueInput[]
+    update?: FinancialSettingUpdateWithWhereUniqueWithoutDefaultCogsAccountInput | FinancialSettingUpdateWithWhereUniqueWithoutDefaultCogsAccountInput[]
+    updateMany?: FinancialSettingUpdateManyWithWhereWithoutDefaultCogsAccountInput | FinancialSettingUpdateManyWithWhereWithoutDefaultCogsAccountInput[]
+    deleteMany?: FinancialSettingScalarWhereInput | FinancialSettingScalarWhereInput[]
+  }
+
+  export type FinancialSettingUpdateManyWithoutDefaultInventoryAdjustmentAccountNestedInput = {
+    create?: XOR<FinancialSettingCreateWithoutDefaultInventoryAdjustmentAccountInput, FinancialSettingUncheckedCreateWithoutDefaultInventoryAdjustmentAccountInput> | FinancialSettingCreateWithoutDefaultInventoryAdjustmentAccountInput[] | FinancialSettingUncheckedCreateWithoutDefaultInventoryAdjustmentAccountInput[]
+    connectOrCreate?: FinancialSettingCreateOrConnectWithoutDefaultInventoryAdjustmentAccountInput | FinancialSettingCreateOrConnectWithoutDefaultInventoryAdjustmentAccountInput[]
+    upsert?: FinancialSettingUpsertWithWhereUniqueWithoutDefaultInventoryAdjustmentAccountInput | FinancialSettingUpsertWithWhereUniqueWithoutDefaultInventoryAdjustmentAccountInput[]
+    createMany?: FinancialSettingCreateManyDefaultInventoryAdjustmentAccountInputEnvelope
+    set?: FinancialSettingWhereUniqueInput | FinancialSettingWhereUniqueInput[]
+    disconnect?: FinancialSettingWhereUniqueInput | FinancialSettingWhereUniqueInput[]
+    delete?: FinancialSettingWhereUniqueInput | FinancialSettingWhereUniqueInput[]
+    connect?: FinancialSettingWhereUniqueInput | FinancialSettingWhereUniqueInput[]
+    update?: FinancialSettingUpdateWithWhereUniqueWithoutDefaultInventoryAdjustmentAccountInput | FinancialSettingUpdateWithWhereUniqueWithoutDefaultInventoryAdjustmentAccountInput[]
+    updateMany?: FinancialSettingUpdateManyWithWhereWithoutDefaultInventoryAdjustmentAccountInput | FinancialSettingUpdateManyWithWhereWithoutDefaultInventoryAdjustmentAccountInput[]
+    deleteMany?: FinancialSettingScalarWhereInput | FinancialSettingScalarWhereInput[]
+  }
+
+  export type FinancialSettingUpdateManyWithoutDefaultOpeningEquityAccountNestedInput = {
+    create?: XOR<FinancialSettingCreateWithoutDefaultOpeningEquityAccountInput, FinancialSettingUncheckedCreateWithoutDefaultOpeningEquityAccountInput> | FinancialSettingCreateWithoutDefaultOpeningEquityAccountInput[] | FinancialSettingUncheckedCreateWithoutDefaultOpeningEquityAccountInput[]
+    connectOrCreate?: FinancialSettingCreateOrConnectWithoutDefaultOpeningEquityAccountInput | FinancialSettingCreateOrConnectWithoutDefaultOpeningEquityAccountInput[]
+    upsert?: FinancialSettingUpsertWithWhereUniqueWithoutDefaultOpeningEquityAccountInput | FinancialSettingUpsertWithWhereUniqueWithoutDefaultOpeningEquityAccountInput[]
+    createMany?: FinancialSettingCreateManyDefaultOpeningEquityAccountInputEnvelope
+    set?: FinancialSettingWhereUniqueInput | FinancialSettingWhereUniqueInput[]
+    disconnect?: FinancialSettingWhereUniqueInput | FinancialSettingWhereUniqueInput[]
+    delete?: FinancialSettingWhereUniqueInput | FinancialSettingWhereUniqueInput[]
+    connect?: FinancialSettingWhereUniqueInput | FinancialSettingWhereUniqueInput[]
+    update?: FinancialSettingUpdateWithWhereUniqueWithoutDefaultOpeningEquityAccountInput | FinancialSettingUpdateWithWhereUniqueWithoutDefaultOpeningEquityAccountInput[]
+    updateMany?: FinancialSettingUpdateManyWithWhereWithoutDefaultOpeningEquityAccountInput | FinancialSettingUpdateManyWithWhereWithoutDefaultOpeningEquityAccountInput[]
+    deleteMany?: FinancialSettingScalarWhereInput | FinancialSettingScalarWhereInput[]
+  }
+
   export type PartyUpdateManyWithoutReceivableAccountNestedInput = {
     create?: XOR<PartyCreateWithoutReceivableAccountInput, PartyUncheckedCreateWithoutReceivableAccountInput> | PartyCreateWithoutReceivableAccountInput[] | PartyUncheckedCreateWithoutReceivableAccountInput[]
     connectOrCreate?: PartyCreateOrConnectWithoutReceivableAccountInput | PartyCreateOrConnectWithoutReceivableAccountInput[]
@@ -69886,6 +70406,62 @@ export namespace Prisma {
     connect?: FinancialSettingWhereUniqueInput | FinancialSettingWhereUniqueInput[]
     update?: FinancialSettingUpdateWithWhereUniqueWithoutDefaultPayableAccountInput | FinancialSettingUpdateWithWhereUniqueWithoutDefaultPayableAccountInput[]
     updateMany?: FinancialSettingUpdateManyWithWhereWithoutDefaultPayableAccountInput | FinancialSettingUpdateManyWithWhereWithoutDefaultPayableAccountInput[]
+    deleteMany?: FinancialSettingScalarWhereInput | FinancialSettingScalarWhereInput[]
+  }
+
+  export type FinancialSettingUncheckedUpdateManyWithoutDefaultInventoryAccountNestedInput = {
+    create?: XOR<FinancialSettingCreateWithoutDefaultInventoryAccountInput, FinancialSettingUncheckedCreateWithoutDefaultInventoryAccountInput> | FinancialSettingCreateWithoutDefaultInventoryAccountInput[] | FinancialSettingUncheckedCreateWithoutDefaultInventoryAccountInput[]
+    connectOrCreate?: FinancialSettingCreateOrConnectWithoutDefaultInventoryAccountInput | FinancialSettingCreateOrConnectWithoutDefaultInventoryAccountInput[]
+    upsert?: FinancialSettingUpsertWithWhereUniqueWithoutDefaultInventoryAccountInput | FinancialSettingUpsertWithWhereUniqueWithoutDefaultInventoryAccountInput[]
+    createMany?: FinancialSettingCreateManyDefaultInventoryAccountInputEnvelope
+    set?: FinancialSettingWhereUniqueInput | FinancialSettingWhereUniqueInput[]
+    disconnect?: FinancialSettingWhereUniqueInput | FinancialSettingWhereUniqueInput[]
+    delete?: FinancialSettingWhereUniqueInput | FinancialSettingWhereUniqueInput[]
+    connect?: FinancialSettingWhereUniqueInput | FinancialSettingWhereUniqueInput[]
+    update?: FinancialSettingUpdateWithWhereUniqueWithoutDefaultInventoryAccountInput | FinancialSettingUpdateWithWhereUniqueWithoutDefaultInventoryAccountInput[]
+    updateMany?: FinancialSettingUpdateManyWithWhereWithoutDefaultInventoryAccountInput | FinancialSettingUpdateManyWithWhereWithoutDefaultInventoryAccountInput[]
+    deleteMany?: FinancialSettingScalarWhereInput | FinancialSettingScalarWhereInput[]
+  }
+
+  export type FinancialSettingUncheckedUpdateManyWithoutDefaultCogsAccountNestedInput = {
+    create?: XOR<FinancialSettingCreateWithoutDefaultCogsAccountInput, FinancialSettingUncheckedCreateWithoutDefaultCogsAccountInput> | FinancialSettingCreateWithoutDefaultCogsAccountInput[] | FinancialSettingUncheckedCreateWithoutDefaultCogsAccountInput[]
+    connectOrCreate?: FinancialSettingCreateOrConnectWithoutDefaultCogsAccountInput | FinancialSettingCreateOrConnectWithoutDefaultCogsAccountInput[]
+    upsert?: FinancialSettingUpsertWithWhereUniqueWithoutDefaultCogsAccountInput | FinancialSettingUpsertWithWhereUniqueWithoutDefaultCogsAccountInput[]
+    createMany?: FinancialSettingCreateManyDefaultCogsAccountInputEnvelope
+    set?: FinancialSettingWhereUniqueInput | FinancialSettingWhereUniqueInput[]
+    disconnect?: FinancialSettingWhereUniqueInput | FinancialSettingWhereUniqueInput[]
+    delete?: FinancialSettingWhereUniqueInput | FinancialSettingWhereUniqueInput[]
+    connect?: FinancialSettingWhereUniqueInput | FinancialSettingWhereUniqueInput[]
+    update?: FinancialSettingUpdateWithWhereUniqueWithoutDefaultCogsAccountInput | FinancialSettingUpdateWithWhereUniqueWithoutDefaultCogsAccountInput[]
+    updateMany?: FinancialSettingUpdateManyWithWhereWithoutDefaultCogsAccountInput | FinancialSettingUpdateManyWithWhereWithoutDefaultCogsAccountInput[]
+    deleteMany?: FinancialSettingScalarWhereInput | FinancialSettingScalarWhereInput[]
+  }
+
+  export type FinancialSettingUncheckedUpdateManyWithoutDefaultInventoryAdjustmentAccountNestedInput = {
+    create?: XOR<FinancialSettingCreateWithoutDefaultInventoryAdjustmentAccountInput, FinancialSettingUncheckedCreateWithoutDefaultInventoryAdjustmentAccountInput> | FinancialSettingCreateWithoutDefaultInventoryAdjustmentAccountInput[] | FinancialSettingUncheckedCreateWithoutDefaultInventoryAdjustmentAccountInput[]
+    connectOrCreate?: FinancialSettingCreateOrConnectWithoutDefaultInventoryAdjustmentAccountInput | FinancialSettingCreateOrConnectWithoutDefaultInventoryAdjustmentAccountInput[]
+    upsert?: FinancialSettingUpsertWithWhereUniqueWithoutDefaultInventoryAdjustmentAccountInput | FinancialSettingUpsertWithWhereUniqueWithoutDefaultInventoryAdjustmentAccountInput[]
+    createMany?: FinancialSettingCreateManyDefaultInventoryAdjustmentAccountInputEnvelope
+    set?: FinancialSettingWhereUniqueInput | FinancialSettingWhereUniqueInput[]
+    disconnect?: FinancialSettingWhereUniqueInput | FinancialSettingWhereUniqueInput[]
+    delete?: FinancialSettingWhereUniqueInput | FinancialSettingWhereUniqueInput[]
+    connect?: FinancialSettingWhereUniqueInput | FinancialSettingWhereUniqueInput[]
+    update?: FinancialSettingUpdateWithWhereUniqueWithoutDefaultInventoryAdjustmentAccountInput | FinancialSettingUpdateWithWhereUniqueWithoutDefaultInventoryAdjustmentAccountInput[]
+    updateMany?: FinancialSettingUpdateManyWithWhereWithoutDefaultInventoryAdjustmentAccountInput | FinancialSettingUpdateManyWithWhereWithoutDefaultInventoryAdjustmentAccountInput[]
+    deleteMany?: FinancialSettingScalarWhereInput | FinancialSettingScalarWhereInput[]
+  }
+
+  export type FinancialSettingUncheckedUpdateManyWithoutDefaultOpeningEquityAccountNestedInput = {
+    create?: XOR<FinancialSettingCreateWithoutDefaultOpeningEquityAccountInput, FinancialSettingUncheckedCreateWithoutDefaultOpeningEquityAccountInput> | FinancialSettingCreateWithoutDefaultOpeningEquityAccountInput[] | FinancialSettingUncheckedCreateWithoutDefaultOpeningEquityAccountInput[]
+    connectOrCreate?: FinancialSettingCreateOrConnectWithoutDefaultOpeningEquityAccountInput | FinancialSettingCreateOrConnectWithoutDefaultOpeningEquityAccountInput[]
+    upsert?: FinancialSettingUpsertWithWhereUniqueWithoutDefaultOpeningEquityAccountInput | FinancialSettingUpsertWithWhereUniqueWithoutDefaultOpeningEquityAccountInput[]
+    createMany?: FinancialSettingCreateManyDefaultOpeningEquityAccountInputEnvelope
+    set?: FinancialSettingWhereUniqueInput | FinancialSettingWhereUniqueInput[]
+    disconnect?: FinancialSettingWhereUniqueInput | FinancialSettingWhereUniqueInput[]
+    delete?: FinancialSettingWhereUniqueInput | FinancialSettingWhereUniqueInput[]
+    connect?: FinancialSettingWhereUniqueInput | FinancialSettingWhereUniqueInput[]
+    update?: FinancialSettingUpdateWithWhereUniqueWithoutDefaultOpeningEquityAccountInput | FinancialSettingUpdateWithWhereUniqueWithoutDefaultOpeningEquityAccountInput[]
+    updateMany?: FinancialSettingUpdateManyWithWhereWithoutDefaultOpeningEquityAccountInput | FinancialSettingUpdateManyWithWhereWithoutDefaultOpeningEquityAccountInput[]
     deleteMany?: FinancialSettingScalarWhereInput | FinancialSettingScalarWhereInput[]
   }
 
@@ -71098,6 +71674,30 @@ export namespace Prisma {
     connect?: ChartOfAccountWhereUniqueInput
   }
 
+  export type ChartOfAccountCreateNestedOneWithoutDefaultInventoryForInput = {
+    create?: XOR<ChartOfAccountCreateWithoutDefaultInventoryForInput, ChartOfAccountUncheckedCreateWithoutDefaultInventoryForInput>
+    connectOrCreate?: ChartOfAccountCreateOrConnectWithoutDefaultInventoryForInput
+    connect?: ChartOfAccountWhereUniqueInput
+  }
+
+  export type ChartOfAccountCreateNestedOneWithoutDefaultCogsForInput = {
+    create?: XOR<ChartOfAccountCreateWithoutDefaultCogsForInput, ChartOfAccountUncheckedCreateWithoutDefaultCogsForInput>
+    connectOrCreate?: ChartOfAccountCreateOrConnectWithoutDefaultCogsForInput
+    connect?: ChartOfAccountWhereUniqueInput
+  }
+
+  export type ChartOfAccountCreateNestedOneWithoutDefaultInventoryAdjustmentForInput = {
+    create?: XOR<ChartOfAccountCreateWithoutDefaultInventoryAdjustmentForInput, ChartOfAccountUncheckedCreateWithoutDefaultInventoryAdjustmentForInput>
+    connectOrCreate?: ChartOfAccountCreateOrConnectWithoutDefaultInventoryAdjustmentForInput
+    connect?: ChartOfAccountWhereUniqueInput
+  }
+
+  export type ChartOfAccountCreateNestedOneWithoutDefaultOpeningEquityForInput = {
+    create?: XOR<ChartOfAccountCreateWithoutDefaultOpeningEquityForInput, ChartOfAccountUncheckedCreateWithoutDefaultOpeningEquityForInput>
+    connectOrCreate?: ChartOfAccountCreateOrConnectWithoutDefaultOpeningEquityForInput
+    connect?: ChartOfAccountWhereUniqueInput
+  }
+
   export type TenantUpdateOneRequiredWithoutFinancialSettingNestedInput = {
     create?: XOR<TenantCreateWithoutFinancialSettingInput, TenantUncheckedCreateWithoutFinancialSettingInput>
     connectOrCreate?: TenantCreateOrConnectWithoutFinancialSettingInput
@@ -71154,6 +71754,46 @@ export namespace Prisma {
     delete?: ChartOfAccountWhereInput | boolean
     connect?: ChartOfAccountWhereUniqueInput
     update?: XOR<XOR<ChartOfAccountUpdateToOneWithWhereWithoutDefaultPayableForInput, ChartOfAccountUpdateWithoutDefaultPayableForInput>, ChartOfAccountUncheckedUpdateWithoutDefaultPayableForInput>
+  }
+
+  export type ChartOfAccountUpdateOneWithoutDefaultInventoryForNestedInput = {
+    create?: XOR<ChartOfAccountCreateWithoutDefaultInventoryForInput, ChartOfAccountUncheckedCreateWithoutDefaultInventoryForInput>
+    connectOrCreate?: ChartOfAccountCreateOrConnectWithoutDefaultInventoryForInput
+    upsert?: ChartOfAccountUpsertWithoutDefaultInventoryForInput
+    disconnect?: ChartOfAccountWhereInput | boolean
+    delete?: ChartOfAccountWhereInput | boolean
+    connect?: ChartOfAccountWhereUniqueInput
+    update?: XOR<XOR<ChartOfAccountUpdateToOneWithWhereWithoutDefaultInventoryForInput, ChartOfAccountUpdateWithoutDefaultInventoryForInput>, ChartOfAccountUncheckedUpdateWithoutDefaultInventoryForInput>
+  }
+
+  export type ChartOfAccountUpdateOneWithoutDefaultCogsForNestedInput = {
+    create?: XOR<ChartOfAccountCreateWithoutDefaultCogsForInput, ChartOfAccountUncheckedCreateWithoutDefaultCogsForInput>
+    connectOrCreate?: ChartOfAccountCreateOrConnectWithoutDefaultCogsForInput
+    upsert?: ChartOfAccountUpsertWithoutDefaultCogsForInput
+    disconnect?: ChartOfAccountWhereInput | boolean
+    delete?: ChartOfAccountWhereInput | boolean
+    connect?: ChartOfAccountWhereUniqueInput
+    update?: XOR<XOR<ChartOfAccountUpdateToOneWithWhereWithoutDefaultCogsForInput, ChartOfAccountUpdateWithoutDefaultCogsForInput>, ChartOfAccountUncheckedUpdateWithoutDefaultCogsForInput>
+  }
+
+  export type ChartOfAccountUpdateOneWithoutDefaultInventoryAdjustmentForNestedInput = {
+    create?: XOR<ChartOfAccountCreateWithoutDefaultInventoryAdjustmentForInput, ChartOfAccountUncheckedCreateWithoutDefaultInventoryAdjustmentForInput>
+    connectOrCreate?: ChartOfAccountCreateOrConnectWithoutDefaultInventoryAdjustmentForInput
+    upsert?: ChartOfAccountUpsertWithoutDefaultInventoryAdjustmentForInput
+    disconnect?: ChartOfAccountWhereInput | boolean
+    delete?: ChartOfAccountWhereInput | boolean
+    connect?: ChartOfAccountWhereUniqueInput
+    update?: XOR<XOR<ChartOfAccountUpdateToOneWithWhereWithoutDefaultInventoryAdjustmentForInput, ChartOfAccountUpdateWithoutDefaultInventoryAdjustmentForInput>, ChartOfAccountUncheckedUpdateWithoutDefaultInventoryAdjustmentForInput>
+  }
+
+  export type ChartOfAccountUpdateOneWithoutDefaultOpeningEquityForNestedInput = {
+    create?: XOR<ChartOfAccountCreateWithoutDefaultOpeningEquityForInput, ChartOfAccountUncheckedCreateWithoutDefaultOpeningEquityForInput>
+    connectOrCreate?: ChartOfAccountCreateOrConnectWithoutDefaultOpeningEquityForInput
+    upsert?: ChartOfAccountUpsertWithoutDefaultOpeningEquityForInput
+    disconnect?: ChartOfAccountWhereInput | boolean
+    delete?: ChartOfAccountWhereInput | boolean
+    connect?: ChartOfAccountWhereUniqueInput
+    update?: XOR<XOR<ChartOfAccountUpdateToOneWithWhereWithoutDefaultOpeningEquityForInput, ChartOfAccountUpdateWithoutDefaultOpeningEquityForInput>, ChartOfAccountUncheckedUpdateWithoutDefaultOpeningEquityForInput>
   }
 
   export type TenantCreateNestedOneWithoutFiscalPeriodsInput = {
@@ -75060,6 +75700,10 @@ export namespace Prisma {
     defaultTaxFor?: FinancialSettingCreateNestedManyWithoutDefaultTaxAccountInput
     defaultReceivableFor?: FinancialSettingCreateNestedManyWithoutDefaultReceivableAccountInput
     defaultPayableFor?: FinancialSettingCreateNestedManyWithoutDefaultPayableAccountInput
+    defaultInventoryFor?: FinancialSettingCreateNestedManyWithoutDefaultInventoryAccountInput
+    defaultCogsFor?: FinancialSettingCreateNestedManyWithoutDefaultCogsAccountInput
+    defaultInventoryAdjustmentFor?: FinancialSettingCreateNestedManyWithoutDefaultInventoryAdjustmentAccountInput
+    defaultOpeningEquityFor?: FinancialSettingCreateNestedManyWithoutDefaultOpeningEquityAccountInput
     partyReceivables?: PartyCreateNestedManyWithoutReceivableAccountInput
     partyPayables?: PartyCreateNestedManyWithoutPayableAccountInput
   }
@@ -75083,6 +75727,10 @@ export namespace Prisma {
     defaultTaxFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultTaxAccountInput
     defaultReceivableFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultReceivableAccountInput
     defaultPayableFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultPayableAccountInput
+    defaultInventoryFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultInventoryAccountInput
+    defaultCogsFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultCogsAccountInput
+    defaultInventoryAdjustmentFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultInventoryAdjustmentAccountInput
+    defaultOpeningEquityFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultOpeningEquityAccountInput
     partyReceivables?: PartyUncheckedCreateNestedManyWithoutReceivableAccountInput
     partyPayables?: PartyUncheckedCreateNestedManyWithoutPayableAccountInput
   }
@@ -75111,6 +75759,10 @@ export namespace Prisma {
     defaultTaxFor?: FinancialSettingCreateNestedManyWithoutDefaultTaxAccountInput
     defaultReceivableFor?: FinancialSettingCreateNestedManyWithoutDefaultReceivableAccountInput
     defaultPayableFor?: FinancialSettingCreateNestedManyWithoutDefaultPayableAccountInput
+    defaultInventoryFor?: FinancialSettingCreateNestedManyWithoutDefaultInventoryAccountInput
+    defaultCogsFor?: FinancialSettingCreateNestedManyWithoutDefaultCogsAccountInput
+    defaultInventoryAdjustmentFor?: FinancialSettingCreateNestedManyWithoutDefaultInventoryAdjustmentAccountInput
+    defaultOpeningEquityFor?: FinancialSettingCreateNestedManyWithoutDefaultOpeningEquityAccountInput
     partyReceivables?: PartyCreateNestedManyWithoutReceivableAccountInput
     partyPayables?: PartyCreateNestedManyWithoutPayableAccountInput
   }
@@ -75134,6 +75786,10 @@ export namespace Prisma {
     defaultTaxFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultTaxAccountInput
     defaultReceivableFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultReceivableAccountInput
     defaultPayableFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultPayableAccountInput
+    defaultInventoryFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultInventoryAccountInput
+    defaultCogsFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultCogsAccountInput
+    defaultInventoryAdjustmentFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultInventoryAdjustmentAccountInput
+    defaultOpeningEquityFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultOpeningEquityAccountInput
     partyReceivables?: PartyUncheckedCreateNestedManyWithoutReceivableAccountInput
     partyPayables?: PartyUncheckedCreateNestedManyWithoutPayableAccountInput
   }
@@ -75257,6 +75913,10 @@ export namespace Prisma {
     defaultTaxAccount?: ChartOfAccountCreateNestedOneWithoutDefaultTaxForInput
     defaultReceivableAccount?: ChartOfAccountCreateNestedOneWithoutDefaultReceivableForInput
     defaultPayableAccount?: ChartOfAccountCreateNestedOneWithoutDefaultPayableForInput
+    defaultInventoryAccount?: ChartOfAccountCreateNestedOneWithoutDefaultInventoryForInput
+    defaultCogsAccount?: ChartOfAccountCreateNestedOneWithoutDefaultCogsForInput
+    defaultInventoryAdjustmentAccount?: ChartOfAccountCreateNestedOneWithoutDefaultInventoryAdjustmentForInput
+    defaultOpeningEquityAccount?: ChartOfAccountCreateNestedOneWithoutDefaultOpeningEquityForInput
   }
 
   export type FinancialSettingUncheckedCreateWithoutDefaultSalesAccountInput = {
@@ -75266,6 +75926,10 @@ export namespace Prisma {
     defaultTaxAccountId?: string | null
     defaultReceivableAccountId?: string | null
     defaultPayableAccountId?: string | null
+    defaultInventoryAccountId?: string | null
+    defaultCogsAccountId?: string | null
+    defaultInventoryAdjustmentAccountId?: string | null
+    defaultOpeningEquityAccountId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -75289,6 +75953,10 @@ export namespace Prisma {
     defaultTaxAccount?: ChartOfAccountCreateNestedOneWithoutDefaultTaxForInput
     defaultReceivableAccount?: ChartOfAccountCreateNestedOneWithoutDefaultReceivableForInput
     defaultPayableAccount?: ChartOfAccountCreateNestedOneWithoutDefaultPayableForInput
+    defaultInventoryAccount?: ChartOfAccountCreateNestedOneWithoutDefaultInventoryForInput
+    defaultCogsAccount?: ChartOfAccountCreateNestedOneWithoutDefaultCogsForInput
+    defaultInventoryAdjustmentAccount?: ChartOfAccountCreateNestedOneWithoutDefaultInventoryAdjustmentForInput
+    defaultOpeningEquityAccount?: ChartOfAccountCreateNestedOneWithoutDefaultOpeningEquityForInput
   }
 
   export type FinancialSettingUncheckedCreateWithoutDefaultPurchaseAccountInput = {
@@ -75298,6 +75966,10 @@ export namespace Prisma {
     defaultTaxAccountId?: string | null
     defaultReceivableAccountId?: string | null
     defaultPayableAccountId?: string | null
+    defaultInventoryAccountId?: string | null
+    defaultCogsAccountId?: string | null
+    defaultInventoryAdjustmentAccountId?: string | null
+    defaultOpeningEquityAccountId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -75321,6 +75993,10 @@ export namespace Prisma {
     defaultPurchaseAccount?: ChartOfAccountCreateNestedOneWithoutDefaultPurchaseForInput
     defaultReceivableAccount?: ChartOfAccountCreateNestedOneWithoutDefaultReceivableForInput
     defaultPayableAccount?: ChartOfAccountCreateNestedOneWithoutDefaultPayableForInput
+    defaultInventoryAccount?: ChartOfAccountCreateNestedOneWithoutDefaultInventoryForInput
+    defaultCogsAccount?: ChartOfAccountCreateNestedOneWithoutDefaultCogsForInput
+    defaultInventoryAdjustmentAccount?: ChartOfAccountCreateNestedOneWithoutDefaultInventoryAdjustmentForInput
+    defaultOpeningEquityAccount?: ChartOfAccountCreateNestedOneWithoutDefaultOpeningEquityForInput
   }
 
   export type FinancialSettingUncheckedCreateWithoutDefaultTaxAccountInput = {
@@ -75330,6 +76006,10 @@ export namespace Prisma {
     defaultPurchaseAccountId?: string | null
     defaultReceivableAccountId?: string | null
     defaultPayableAccountId?: string | null
+    defaultInventoryAccountId?: string | null
+    defaultCogsAccountId?: string | null
+    defaultInventoryAdjustmentAccountId?: string | null
+    defaultOpeningEquityAccountId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -75353,6 +76033,10 @@ export namespace Prisma {
     defaultPurchaseAccount?: ChartOfAccountCreateNestedOneWithoutDefaultPurchaseForInput
     defaultTaxAccount?: ChartOfAccountCreateNestedOneWithoutDefaultTaxForInput
     defaultPayableAccount?: ChartOfAccountCreateNestedOneWithoutDefaultPayableForInput
+    defaultInventoryAccount?: ChartOfAccountCreateNestedOneWithoutDefaultInventoryForInput
+    defaultCogsAccount?: ChartOfAccountCreateNestedOneWithoutDefaultCogsForInput
+    defaultInventoryAdjustmentAccount?: ChartOfAccountCreateNestedOneWithoutDefaultInventoryAdjustmentForInput
+    defaultOpeningEquityAccount?: ChartOfAccountCreateNestedOneWithoutDefaultOpeningEquityForInput
   }
 
   export type FinancialSettingUncheckedCreateWithoutDefaultReceivableAccountInput = {
@@ -75362,6 +76046,10 @@ export namespace Prisma {
     defaultPurchaseAccountId?: string | null
     defaultTaxAccountId?: string | null
     defaultPayableAccountId?: string | null
+    defaultInventoryAccountId?: string | null
+    defaultCogsAccountId?: string | null
+    defaultInventoryAdjustmentAccountId?: string | null
+    defaultOpeningEquityAccountId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -75385,6 +76073,10 @@ export namespace Prisma {
     defaultPurchaseAccount?: ChartOfAccountCreateNestedOneWithoutDefaultPurchaseForInput
     defaultTaxAccount?: ChartOfAccountCreateNestedOneWithoutDefaultTaxForInput
     defaultReceivableAccount?: ChartOfAccountCreateNestedOneWithoutDefaultReceivableForInput
+    defaultInventoryAccount?: ChartOfAccountCreateNestedOneWithoutDefaultInventoryForInput
+    defaultCogsAccount?: ChartOfAccountCreateNestedOneWithoutDefaultCogsForInput
+    defaultInventoryAdjustmentAccount?: ChartOfAccountCreateNestedOneWithoutDefaultInventoryAdjustmentForInput
+    defaultOpeningEquityAccount?: ChartOfAccountCreateNestedOneWithoutDefaultOpeningEquityForInput
   }
 
   export type FinancialSettingUncheckedCreateWithoutDefaultPayableAccountInput = {
@@ -75394,6 +76086,10 @@ export namespace Prisma {
     defaultPurchaseAccountId?: string | null
     defaultTaxAccountId?: string | null
     defaultReceivableAccountId?: string | null
+    defaultInventoryAccountId?: string | null
+    defaultCogsAccountId?: string | null
+    defaultInventoryAdjustmentAccountId?: string | null
+    defaultOpeningEquityAccountId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -75405,6 +76101,166 @@ export namespace Prisma {
 
   export type FinancialSettingCreateManyDefaultPayableAccountInputEnvelope = {
     data: FinancialSettingCreateManyDefaultPayableAccountInput | FinancialSettingCreateManyDefaultPayableAccountInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type FinancialSettingCreateWithoutDefaultInventoryAccountInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutFinancialSettingInput
+    defaultSalesAccount?: ChartOfAccountCreateNestedOneWithoutDefaultSalesForInput
+    defaultPurchaseAccount?: ChartOfAccountCreateNestedOneWithoutDefaultPurchaseForInput
+    defaultTaxAccount?: ChartOfAccountCreateNestedOneWithoutDefaultTaxForInput
+    defaultReceivableAccount?: ChartOfAccountCreateNestedOneWithoutDefaultReceivableForInput
+    defaultPayableAccount?: ChartOfAccountCreateNestedOneWithoutDefaultPayableForInput
+    defaultCogsAccount?: ChartOfAccountCreateNestedOneWithoutDefaultCogsForInput
+    defaultInventoryAdjustmentAccount?: ChartOfAccountCreateNestedOneWithoutDefaultInventoryAdjustmentForInput
+    defaultOpeningEquityAccount?: ChartOfAccountCreateNestedOneWithoutDefaultOpeningEquityForInput
+  }
+
+  export type FinancialSettingUncheckedCreateWithoutDefaultInventoryAccountInput = {
+    id?: string
+    tenantId: string
+    defaultSalesAccountId?: string | null
+    defaultPurchaseAccountId?: string | null
+    defaultTaxAccountId?: string | null
+    defaultReceivableAccountId?: string | null
+    defaultPayableAccountId?: string | null
+    defaultCogsAccountId?: string | null
+    defaultInventoryAdjustmentAccountId?: string | null
+    defaultOpeningEquityAccountId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type FinancialSettingCreateOrConnectWithoutDefaultInventoryAccountInput = {
+    where: FinancialSettingWhereUniqueInput
+    create: XOR<FinancialSettingCreateWithoutDefaultInventoryAccountInput, FinancialSettingUncheckedCreateWithoutDefaultInventoryAccountInput>
+  }
+
+  export type FinancialSettingCreateManyDefaultInventoryAccountInputEnvelope = {
+    data: FinancialSettingCreateManyDefaultInventoryAccountInput | FinancialSettingCreateManyDefaultInventoryAccountInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type FinancialSettingCreateWithoutDefaultCogsAccountInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutFinancialSettingInput
+    defaultSalesAccount?: ChartOfAccountCreateNestedOneWithoutDefaultSalesForInput
+    defaultPurchaseAccount?: ChartOfAccountCreateNestedOneWithoutDefaultPurchaseForInput
+    defaultTaxAccount?: ChartOfAccountCreateNestedOneWithoutDefaultTaxForInput
+    defaultReceivableAccount?: ChartOfAccountCreateNestedOneWithoutDefaultReceivableForInput
+    defaultPayableAccount?: ChartOfAccountCreateNestedOneWithoutDefaultPayableForInput
+    defaultInventoryAccount?: ChartOfAccountCreateNestedOneWithoutDefaultInventoryForInput
+    defaultInventoryAdjustmentAccount?: ChartOfAccountCreateNestedOneWithoutDefaultInventoryAdjustmentForInput
+    defaultOpeningEquityAccount?: ChartOfAccountCreateNestedOneWithoutDefaultOpeningEquityForInput
+  }
+
+  export type FinancialSettingUncheckedCreateWithoutDefaultCogsAccountInput = {
+    id?: string
+    tenantId: string
+    defaultSalesAccountId?: string | null
+    defaultPurchaseAccountId?: string | null
+    defaultTaxAccountId?: string | null
+    defaultReceivableAccountId?: string | null
+    defaultPayableAccountId?: string | null
+    defaultInventoryAccountId?: string | null
+    defaultInventoryAdjustmentAccountId?: string | null
+    defaultOpeningEquityAccountId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type FinancialSettingCreateOrConnectWithoutDefaultCogsAccountInput = {
+    where: FinancialSettingWhereUniqueInput
+    create: XOR<FinancialSettingCreateWithoutDefaultCogsAccountInput, FinancialSettingUncheckedCreateWithoutDefaultCogsAccountInput>
+  }
+
+  export type FinancialSettingCreateManyDefaultCogsAccountInputEnvelope = {
+    data: FinancialSettingCreateManyDefaultCogsAccountInput | FinancialSettingCreateManyDefaultCogsAccountInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type FinancialSettingCreateWithoutDefaultInventoryAdjustmentAccountInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutFinancialSettingInput
+    defaultSalesAccount?: ChartOfAccountCreateNestedOneWithoutDefaultSalesForInput
+    defaultPurchaseAccount?: ChartOfAccountCreateNestedOneWithoutDefaultPurchaseForInput
+    defaultTaxAccount?: ChartOfAccountCreateNestedOneWithoutDefaultTaxForInput
+    defaultReceivableAccount?: ChartOfAccountCreateNestedOneWithoutDefaultReceivableForInput
+    defaultPayableAccount?: ChartOfAccountCreateNestedOneWithoutDefaultPayableForInput
+    defaultInventoryAccount?: ChartOfAccountCreateNestedOneWithoutDefaultInventoryForInput
+    defaultCogsAccount?: ChartOfAccountCreateNestedOneWithoutDefaultCogsForInput
+    defaultOpeningEquityAccount?: ChartOfAccountCreateNestedOneWithoutDefaultOpeningEquityForInput
+  }
+
+  export type FinancialSettingUncheckedCreateWithoutDefaultInventoryAdjustmentAccountInput = {
+    id?: string
+    tenantId: string
+    defaultSalesAccountId?: string | null
+    defaultPurchaseAccountId?: string | null
+    defaultTaxAccountId?: string | null
+    defaultReceivableAccountId?: string | null
+    defaultPayableAccountId?: string | null
+    defaultInventoryAccountId?: string | null
+    defaultCogsAccountId?: string | null
+    defaultOpeningEquityAccountId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type FinancialSettingCreateOrConnectWithoutDefaultInventoryAdjustmentAccountInput = {
+    where: FinancialSettingWhereUniqueInput
+    create: XOR<FinancialSettingCreateWithoutDefaultInventoryAdjustmentAccountInput, FinancialSettingUncheckedCreateWithoutDefaultInventoryAdjustmentAccountInput>
+  }
+
+  export type FinancialSettingCreateManyDefaultInventoryAdjustmentAccountInputEnvelope = {
+    data: FinancialSettingCreateManyDefaultInventoryAdjustmentAccountInput | FinancialSettingCreateManyDefaultInventoryAdjustmentAccountInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type FinancialSettingCreateWithoutDefaultOpeningEquityAccountInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutFinancialSettingInput
+    defaultSalesAccount?: ChartOfAccountCreateNestedOneWithoutDefaultSalesForInput
+    defaultPurchaseAccount?: ChartOfAccountCreateNestedOneWithoutDefaultPurchaseForInput
+    defaultTaxAccount?: ChartOfAccountCreateNestedOneWithoutDefaultTaxForInput
+    defaultReceivableAccount?: ChartOfAccountCreateNestedOneWithoutDefaultReceivableForInput
+    defaultPayableAccount?: ChartOfAccountCreateNestedOneWithoutDefaultPayableForInput
+    defaultInventoryAccount?: ChartOfAccountCreateNestedOneWithoutDefaultInventoryForInput
+    defaultCogsAccount?: ChartOfAccountCreateNestedOneWithoutDefaultCogsForInput
+    defaultInventoryAdjustmentAccount?: ChartOfAccountCreateNestedOneWithoutDefaultInventoryAdjustmentForInput
+  }
+
+  export type FinancialSettingUncheckedCreateWithoutDefaultOpeningEquityAccountInput = {
+    id?: string
+    tenantId: string
+    defaultSalesAccountId?: string | null
+    defaultPurchaseAccountId?: string | null
+    defaultTaxAccountId?: string | null
+    defaultReceivableAccountId?: string | null
+    defaultPayableAccountId?: string | null
+    defaultInventoryAccountId?: string | null
+    defaultCogsAccountId?: string | null
+    defaultInventoryAdjustmentAccountId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type FinancialSettingCreateOrConnectWithoutDefaultOpeningEquityAccountInput = {
+    where: FinancialSettingWhereUniqueInput
+    create: XOR<FinancialSettingCreateWithoutDefaultOpeningEquityAccountInput, FinancialSettingUncheckedCreateWithoutDefaultOpeningEquityAccountInput>
+  }
+
+  export type FinancialSettingCreateManyDefaultOpeningEquityAccountInputEnvelope = {
+    data: FinancialSettingCreateManyDefaultOpeningEquityAccountInput | FinancialSettingCreateManyDefaultOpeningEquityAccountInput[]
     skipDuplicates?: boolean
   }
 
@@ -75637,6 +76493,10 @@ export namespace Prisma {
     defaultTaxFor?: FinancialSettingUpdateManyWithoutDefaultTaxAccountNestedInput
     defaultReceivableFor?: FinancialSettingUpdateManyWithoutDefaultReceivableAccountNestedInput
     defaultPayableFor?: FinancialSettingUpdateManyWithoutDefaultPayableAccountNestedInput
+    defaultInventoryFor?: FinancialSettingUpdateManyWithoutDefaultInventoryAccountNestedInput
+    defaultCogsFor?: FinancialSettingUpdateManyWithoutDefaultCogsAccountNestedInput
+    defaultInventoryAdjustmentFor?: FinancialSettingUpdateManyWithoutDefaultInventoryAdjustmentAccountNestedInput
+    defaultOpeningEquityFor?: FinancialSettingUpdateManyWithoutDefaultOpeningEquityAccountNestedInput
     partyReceivables?: PartyUpdateManyWithoutReceivableAccountNestedInput
     partyPayables?: PartyUpdateManyWithoutPayableAccountNestedInput
   }
@@ -75660,6 +76520,10 @@ export namespace Prisma {
     defaultTaxFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultTaxAccountNestedInput
     defaultReceivableFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultReceivableAccountNestedInput
     defaultPayableFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultPayableAccountNestedInput
+    defaultInventoryFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultInventoryAccountNestedInput
+    defaultCogsFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultCogsAccountNestedInput
+    defaultInventoryAdjustmentFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultInventoryAdjustmentAccountNestedInput
+    defaultOpeningEquityFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultOpeningEquityAccountNestedInput
     partyReceivables?: PartyUncheckedUpdateManyWithoutReceivableAccountNestedInput
     partyPayables?: PartyUncheckedUpdateManyWithoutPayableAccountNestedInput
   }
@@ -75816,6 +76680,10 @@ export namespace Prisma {
     defaultTaxAccountId?: StringNullableFilter<"FinancialSetting"> | string | null
     defaultReceivableAccountId?: StringNullableFilter<"FinancialSetting"> | string | null
     defaultPayableAccountId?: StringNullableFilter<"FinancialSetting"> | string | null
+    defaultInventoryAccountId?: StringNullableFilter<"FinancialSetting"> | string | null
+    defaultCogsAccountId?: StringNullableFilter<"FinancialSetting"> | string | null
+    defaultInventoryAdjustmentAccountId?: StringNullableFilter<"FinancialSetting"> | string | null
+    defaultOpeningEquityAccountId?: StringNullableFilter<"FinancialSetting"> | string | null
     createdAt?: DateTimeFilter<"FinancialSetting"> | Date | string
     updatedAt?: DateTimeFilter<"FinancialSetting"> | Date | string
   }
@@ -75882,6 +76750,70 @@ export namespace Prisma {
   export type FinancialSettingUpdateManyWithWhereWithoutDefaultPayableAccountInput = {
     where: FinancialSettingScalarWhereInput
     data: XOR<FinancialSettingUpdateManyMutationInput, FinancialSettingUncheckedUpdateManyWithoutDefaultPayableAccountInput>
+  }
+
+  export type FinancialSettingUpsertWithWhereUniqueWithoutDefaultInventoryAccountInput = {
+    where: FinancialSettingWhereUniqueInput
+    update: XOR<FinancialSettingUpdateWithoutDefaultInventoryAccountInput, FinancialSettingUncheckedUpdateWithoutDefaultInventoryAccountInput>
+    create: XOR<FinancialSettingCreateWithoutDefaultInventoryAccountInput, FinancialSettingUncheckedCreateWithoutDefaultInventoryAccountInput>
+  }
+
+  export type FinancialSettingUpdateWithWhereUniqueWithoutDefaultInventoryAccountInput = {
+    where: FinancialSettingWhereUniqueInput
+    data: XOR<FinancialSettingUpdateWithoutDefaultInventoryAccountInput, FinancialSettingUncheckedUpdateWithoutDefaultInventoryAccountInput>
+  }
+
+  export type FinancialSettingUpdateManyWithWhereWithoutDefaultInventoryAccountInput = {
+    where: FinancialSettingScalarWhereInput
+    data: XOR<FinancialSettingUpdateManyMutationInput, FinancialSettingUncheckedUpdateManyWithoutDefaultInventoryAccountInput>
+  }
+
+  export type FinancialSettingUpsertWithWhereUniqueWithoutDefaultCogsAccountInput = {
+    where: FinancialSettingWhereUniqueInput
+    update: XOR<FinancialSettingUpdateWithoutDefaultCogsAccountInput, FinancialSettingUncheckedUpdateWithoutDefaultCogsAccountInput>
+    create: XOR<FinancialSettingCreateWithoutDefaultCogsAccountInput, FinancialSettingUncheckedCreateWithoutDefaultCogsAccountInput>
+  }
+
+  export type FinancialSettingUpdateWithWhereUniqueWithoutDefaultCogsAccountInput = {
+    where: FinancialSettingWhereUniqueInput
+    data: XOR<FinancialSettingUpdateWithoutDefaultCogsAccountInput, FinancialSettingUncheckedUpdateWithoutDefaultCogsAccountInput>
+  }
+
+  export type FinancialSettingUpdateManyWithWhereWithoutDefaultCogsAccountInput = {
+    where: FinancialSettingScalarWhereInput
+    data: XOR<FinancialSettingUpdateManyMutationInput, FinancialSettingUncheckedUpdateManyWithoutDefaultCogsAccountInput>
+  }
+
+  export type FinancialSettingUpsertWithWhereUniqueWithoutDefaultInventoryAdjustmentAccountInput = {
+    where: FinancialSettingWhereUniqueInput
+    update: XOR<FinancialSettingUpdateWithoutDefaultInventoryAdjustmentAccountInput, FinancialSettingUncheckedUpdateWithoutDefaultInventoryAdjustmentAccountInput>
+    create: XOR<FinancialSettingCreateWithoutDefaultInventoryAdjustmentAccountInput, FinancialSettingUncheckedCreateWithoutDefaultInventoryAdjustmentAccountInput>
+  }
+
+  export type FinancialSettingUpdateWithWhereUniqueWithoutDefaultInventoryAdjustmentAccountInput = {
+    where: FinancialSettingWhereUniqueInput
+    data: XOR<FinancialSettingUpdateWithoutDefaultInventoryAdjustmentAccountInput, FinancialSettingUncheckedUpdateWithoutDefaultInventoryAdjustmentAccountInput>
+  }
+
+  export type FinancialSettingUpdateManyWithWhereWithoutDefaultInventoryAdjustmentAccountInput = {
+    where: FinancialSettingScalarWhereInput
+    data: XOR<FinancialSettingUpdateManyMutationInput, FinancialSettingUncheckedUpdateManyWithoutDefaultInventoryAdjustmentAccountInput>
+  }
+
+  export type FinancialSettingUpsertWithWhereUniqueWithoutDefaultOpeningEquityAccountInput = {
+    where: FinancialSettingWhereUniqueInput
+    update: XOR<FinancialSettingUpdateWithoutDefaultOpeningEquityAccountInput, FinancialSettingUncheckedUpdateWithoutDefaultOpeningEquityAccountInput>
+    create: XOR<FinancialSettingCreateWithoutDefaultOpeningEquityAccountInput, FinancialSettingUncheckedCreateWithoutDefaultOpeningEquityAccountInput>
+  }
+
+  export type FinancialSettingUpdateWithWhereUniqueWithoutDefaultOpeningEquityAccountInput = {
+    where: FinancialSettingWhereUniqueInput
+    data: XOR<FinancialSettingUpdateWithoutDefaultOpeningEquityAccountInput, FinancialSettingUncheckedUpdateWithoutDefaultOpeningEquityAccountInput>
+  }
+
+  export type FinancialSettingUpdateManyWithWhereWithoutDefaultOpeningEquityAccountInput = {
+    where: FinancialSettingScalarWhereInput
+    data: XOR<FinancialSettingUpdateManyMutationInput, FinancialSettingUncheckedUpdateManyWithoutDefaultOpeningEquityAccountInput>
   }
 
   export type PartyUpsertWithWhereUniqueWithoutReceivableAccountInput = {
@@ -76322,6 +77254,10 @@ export namespace Prisma {
     defaultTaxFor?: FinancialSettingCreateNestedManyWithoutDefaultTaxAccountInput
     defaultReceivableFor?: FinancialSettingCreateNestedManyWithoutDefaultReceivableAccountInput
     defaultPayableFor?: FinancialSettingCreateNestedManyWithoutDefaultPayableAccountInput
+    defaultInventoryFor?: FinancialSettingCreateNestedManyWithoutDefaultInventoryAccountInput
+    defaultCogsFor?: FinancialSettingCreateNestedManyWithoutDefaultCogsAccountInput
+    defaultInventoryAdjustmentFor?: FinancialSettingCreateNestedManyWithoutDefaultInventoryAdjustmentAccountInput
+    defaultOpeningEquityFor?: FinancialSettingCreateNestedManyWithoutDefaultOpeningEquityAccountInput
     partyReceivables?: PartyCreateNestedManyWithoutReceivableAccountInput
     partyPayables?: PartyCreateNestedManyWithoutPayableAccountInput
   }
@@ -76345,6 +77281,10 @@ export namespace Prisma {
     defaultTaxFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultTaxAccountInput
     defaultReceivableFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultReceivableAccountInput
     defaultPayableFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultPayableAccountInput
+    defaultInventoryFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultInventoryAccountInput
+    defaultCogsFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultCogsAccountInput
+    defaultInventoryAdjustmentFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultInventoryAdjustmentAccountInput
+    defaultOpeningEquityFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultOpeningEquityAccountInput
     partyReceivables?: PartyUncheckedCreateNestedManyWithoutReceivableAccountInput
     partyPayables?: PartyUncheckedCreateNestedManyWithoutPayableAccountInput
   }
@@ -76472,6 +77412,10 @@ export namespace Prisma {
     defaultTaxFor?: FinancialSettingUpdateManyWithoutDefaultTaxAccountNestedInput
     defaultReceivableFor?: FinancialSettingUpdateManyWithoutDefaultReceivableAccountNestedInput
     defaultPayableFor?: FinancialSettingUpdateManyWithoutDefaultPayableAccountNestedInput
+    defaultInventoryFor?: FinancialSettingUpdateManyWithoutDefaultInventoryAccountNestedInput
+    defaultCogsFor?: FinancialSettingUpdateManyWithoutDefaultCogsAccountNestedInput
+    defaultInventoryAdjustmentFor?: FinancialSettingUpdateManyWithoutDefaultInventoryAdjustmentAccountNestedInput
+    defaultOpeningEquityFor?: FinancialSettingUpdateManyWithoutDefaultOpeningEquityAccountNestedInput
     partyReceivables?: PartyUpdateManyWithoutReceivableAccountNestedInput
     partyPayables?: PartyUpdateManyWithoutPayableAccountNestedInput
   }
@@ -76495,6 +77439,10 @@ export namespace Prisma {
     defaultTaxFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultTaxAccountNestedInput
     defaultReceivableFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultReceivableAccountNestedInput
     defaultPayableFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultPayableAccountNestedInput
+    defaultInventoryFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultInventoryAccountNestedInput
+    defaultCogsFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultCogsAccountNestedInput
+    defaultInventoryAdjustmentFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultInventoryAdjustmentAccountNestedInput
+    defaultOpeningEquityFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultOpeningEquityAccountNestedInput
     partyReceivables?: PartyUncheckedUpdateManyWithoutReceivableAccountNestedInput
     partyPayables?: PartyUncheckedUpdateManyWithoutPayableAccountNestedInput
   }
@@ -77513,6 +78461,10 @@ export namespace Prisma {
     defaultTaxFor?: FinancialSettingCreateNestedManyWithoutDefaultTaxAccountInput
     defaultReceivableFor?: FinancialSettingCreateNestedManyWithoutDefaultReceivableAccountInput
     defaultPayableFor?: FinancialSettingCreateNestedManyWithoutDefaultPayableAccountInput
+    defaultInventoryFor?: FinancialSettingCreateNestedManyWithoutDefaultInventoryAccountInput
+    defaultCogsFor?: FinancialSettingCreateNestedManyWithoutDefaultCogsAccountInput
+    defaultInventoryAdjustmentFor?: FinancialSettingCreateNestedManyWithoutDefaultInventoryAdjustmentAccountInput
+    defaultOpeningEquityFor?: FinancialSettingCreateNestedManyWithoutDefaultOpeningEquityAccountInput
     partyReceivables?: PartyCreateNestedManyWithoutReceivableAccountInput
     partyPayables?: PartyCreateNestedManyWithoutPayableAccountInput
   }
@@ -77536,6 +78488,10 @@ export namespace Prisma {
     defaultTaxFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultTaxAccountInput
     defaultReceivableFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultReceivableAccountInput
     defaultPayableFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultPayableAccountInput
+    defaultInventoryFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultInventoryAccountInput
+    defaultCogsFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultCogsAccountInput
+    defaultInventoryAdjustmentFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultInventoryAdjustmentAccountInput
+    defaultOpeningEquityFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultOpeningEquityAccountInput
     partyReceivables?: PartyUncheckedCreateNestedManyWithoutReceivableAccountInput
     partyPayables?: PartyUncheckedCreateNestedManyWithoutPayableAccountInput
   }
@@ -77835,6 +78791,10 @@ export namespace Prisma {
     defaultTaxFor?: FinancialSettingUpdateManyWithoutDefaultTaxAccountNestedInput
     defaultReceivableFor?: FinancialSettingUpdateManyWithoutDefaultReceivableAccountNestedInput
     defaultPayableFor?: FinancialSettingUpdateManyWithoutDefaultPayableAccountNestedInput
+    defaultInventoryFor?: FinancialSettingUpdateManyWithoutDefaultInventoryAccountNestedInput
+    defaultCogsFor?: FinancialSettingUpdateManyWithoutDefaultCogsAccountNestedInput
+    defaultInventoryAdjustmentFor?: FinancialSettingUpdateManyWithoutDefaultInventoryAdjustmentAccountNestedInput
+    defaultOpeningEquityFor?: FinancialSettingUpdateManyWithoutDefaultOpeningEquityAccountNestedInput
     partyReceivables?: PartyUpdateManyWithoutReceivableAccountNestedInput
     partyPayables?: PartyUpdateManyWithoutPayableAccountNestedInput
   }
@@ -77858,6 +78818,10 @@ export namespace Prisma {
     defaultTaxFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultTaxAccountNestedInput
     defaultReceivableFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultReceivableAccountNestedInput
     defaultPayableFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultPayableAccountNestedInput
+    defaultInventoryFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultInventoryAccountNestedInput
+    defaultCogsFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultCogsAccountNestedInput
+    defaultInventoryAdjustmentFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultInventoryAdjustmentAccountNestedInput
+    defaultOpeningEquityFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultOpeningEquityAccountNestedInput
     partyReceivables?: PartyUncheckedUpdateManyWithoutReceivableAccountNestedInput
     partyPayables?: PartyUncheckedUpdateManyWithoutPayableAccountNestedInput
   }
@@ -80802,6 +81766,10 @@ export namespace Prisma {
     defaultTaxFor?: FinancialSettingCreateNestedManyWithoutDefaultTaxAccountInput
     defaultReceivableFor?: FinancialSettingCreateNestedManyWithoutDefaultReceivableAccountInput
     defaultPayableFor?: FinancialSettingCreateNestedManyWithoutDefaultPayableAccountInput
+    defaultInventoryFor?: FinancialSettingCreateNestedManyWithoutDefaultInventoryAccountInput
+    defaultCogsFor?: FinancialSettingCreateNestedManyWithoutDefaultCogsAccountInput
+    defaultInventoryAdjustmentFor?: FinancialSettingCreateNestedManyWithoutDefaultInventoryAdjustmentAccountInput
+    defaultOpeningEquityFor?: FinancialSettingCreateNestedManyWithoutDefaultOpeningEquityAccountInput
     partyReceivables?: PartyCreateNestedManyWithoutReceivableAccountInput
     partyPayables?: PartyCreateNestedManyWithoutPayableAccountInput
   }
@@ -80825,6 +81793,10 @@ export namespace Prisma {
     defaultTaxFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultTaxAccountInput
     defaultReceivableFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultReceivableAccountInput
     defaultPayableFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultPayableAccountInput
+    defaultInventoryFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultInventoryAccountInput
+    defaultCogsFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultCogsAccountInput
+    defaultInventoryAdjustmentFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultInventoryAdjustmentAccountInput
+    defaultOpeningEquityFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultOpeningEquityAccountInput
     partyReceivables?: PartyUncheckedCreateNestedManyWithoutReceivableAccountInput
     partyPayables?: PartyUncheckedCreateNestedManyWithoutPayableAccountInput
   }
@@ -80919,6 +81891,10 @@ export namespace Prisma {
     defaultTaxFor?: FinancialSettingUpdateManyWithoutDefaultTaxAccountNestedInput
     defaultReceivableFor?: FinancialSettingUpdateManyWithoutDefaultReceivableAccountNestedInput
     defaultPayableFor?: FinancialSettingUpdateManyWithoutDefaultPayableAccountNestedInput
+    defaultInventoryFor?: FinancialSettingUpdateManyWithoutDefaultInventoryAccountNestedInput
+    defaultCogsFor?: FinancialSettingUpdateManyWithoutDefaultCogsAccountNestedInput
+    defaultInventoryAdjustmentFor?: FinancialSettingUpdateManyWithoutDefaultInventoryAdjustmentAccountNestedInput
+    defaultOpeningEquityFor?: FinancialSettingUpdateManyWithoutDefaultOpeningEquityAccountNestedInput
     partyReceivables?: PartyUpdateManyWithoutReceivableAccountNestedInput
     partyPayables?: PartyUpdateManyWithoutPayableAccountNestedInput
   }
@@ -80942,6 +81918,10 @@ export namespace Prisma {
     defaultTaxFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultTaxAccountNestedInput
     defaultReceivableFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultReceivableAccountNestedInput
     defaultPayableFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultPayableAccountNestedInput
+    defaultInventoryFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultInventoryAccountNestedInput
+    defaultCogsFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultCogsAccountNestedInput
+    defaultInventoryAdjustmentFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultInventoryAdjustmentAccountNestedInput
+    defaultOpeningEquityFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultOpeningEquityAccountNestedInput
     partyReceivables?: PartyUncheckedUpdateManyWithoutReceivableAccountNestedInput
     partyPayables?: PartyUncheckedUpdateManyWithoutPayableAccountNestedInput
   }
@@ -81062,6 +82042,10 @@ export namespace Prisma {
     defaultTaxFor?: FinancialSettingCreateNestedManyWithoutDefaultTaxAccountInput
     defaultReceivableFor?: FinancialSettingCreateNestedManyWithoutDefaultReceivableAccountInput
     defaultPayableFor?: FinancialSettingCreateNestedManyWithoutDefaultPayableAccountInput
+    defaultInventoryFor?: FinancialSettingCreateNestedManyWithoutDefaultInventoryAccountInput
+    defaultCogsFor?: FinancialSettingCreateNestedManyWithoutDefaultCogsAccountInput
+    defaultInventoryAdjustmentFor?: FinancialSettingCreateNestedManyWithoutDefaultInventoryAdjustmentAccountInput
+    defaultOpeningEquityFor?: FinancialSettingCreateNestedManyWithoutDefaultOpeningEquityAccountInput
     partyReceivables?: PartyCreateNestedManyWithoutReceivableAccountInput
     partyPayables?: PartyCreateNestedManyWithoutPayableAccountInput
   }
@@ -81085,6 +82069,10 @@ export namespace Prisma {
     defaultTaxFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultTaxAccountInput
     defaultReceivableFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultReceivableAccountInput
     defaultPayableFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultPayableAccountInput
+    defaultInventoryFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultInventoryAccountInput
+    defaultCogsFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultCogsAccountInput
+    defaultInventoryAdjustmentFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultInventoryAdjustmentAccountInput
+    defaultOpeningEquityFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultOpeningEquityAccountInput
     partyReceivables?: PartyUncheckedCreateNestedManyWithoutReceivableAccountInput
     partyPayables?: PartyUncheckedCreateNestedManyWithoutPayableAccountInput
   }
@@ -81113,6 +82101,10 @@ export namespace Prisma {
     defaultTaxFor?: FinancialSettingCreateNestedManyWithoutDefaultTaxAccountInput
     defaultReceivableFor?: FinancialSettingCreateNestedManyWithoutDefaultReceivableAccountInput
     defaultPayableFor?: FinancialSettingCreateNestedManyWithoutDefaultPayableAccountInput
+    defaultInventoryFor?: FinancialSettingCreateNestedManyWithoutDefaultInventoryAccountInput
+    defaultCogsFor?: FinancialSettingCreateNestedManyWithoutDefaultCogsAccountInput
+    defaultInventoryAdjustmentFor?: FinancialSettingCreateNestedManyWithoutDefaultInventoryAdjustmentAccountInput
+    defaultOpeningEquityFor?: FinancialSettingCreateNestedManyWithoutDefaultOpeningEquityAccountInput
     partyReceivables?: PartyCreateNestedManyWithoutReceivableAccountInput
     partyPayables?: PartyCreateNestedManyWithoutPayableAccountInput
   }
@@ -81136,6 +82128,10 @@ export namespace Prisma {
     defaultTaxFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultTaxAccountInput
     defaultReceivableFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultReceivableAccountInput
     defaultPayableFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultPayableAccountInput
+    defaultInventoryFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultInventoryAccountInput
+    defaultCogsFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultCogsAccountInput
+    defaultInventoryAdjustmentFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultInventoryAdjustmentAccountInput
+    defaultOpeningEquityFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultOpeningEquityAccountInput
     partyReceivables?: PartyUncheckedCreateNestedManyWithoutReceivableAccountInput
     partyPayables?: PartyUncheckedCreateNestedManyWithoutPayableAccountInput
   }
@@ -81164,6 +82160,10 @@ export namespace Prisma {
     defaultPurchaseFor?: FinancialSettingCreateNestedManyWithoutDefaultPurchaseAccountInput
     defaultReceivableFor?: FinancialSettingCreateNestedManyWithoutDefaultReceivableAccountInput
     defaultPayableFor?: FinancialSettingCreateNestedManyWithoutDefaultPayableAccountInput
+    defaultInventoryFor?: FinancialSettingCreateNestedManyWithoutDefaultInventoryAccountInput
+    defaultCogsFor?: FinancialSettingCreateNestedManyWithoutDefaultCogsAccountInput
+    defaultInventoryAdjustmentFor?: FinancialSettingCreateNestedManyWithoutDefaultInventoryAdjustmentAccountInput
+    defaultOpeningEquityFor?: FinancialSettingCreateNestedManyWithoutDefaultOpeningEquityAccountInput
     partyReceivables?: PartyCreateNestedManyWithoutReceivableAccountInput
     partyPayables?: PartyCreateNestedManyWithoutPayableAccountInput
   }
@@ -81187,6 +82187,10 @@ export namespace Prisma {
     defaultPurchaseFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultPurchaseAccountInput
     defaultReceivableFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultReceivableAccountInput
     defaultPayableFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultPayableAccountInput
+    defaultInventoryFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultInventoryAccountInput
+    defaultCogsFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultCogsAccountInput
+    defaultInventoryAdjustmentFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultInventoryAdjustmentAccountInput
+    defaultOpeningEquityFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultOpeningEquityAccountInput
     partyReceivables?: PartyUncheckedCreateNestedManyWithoutReceivableAccountInput
     partyPayables?: PartyUncheckedCreateNestedManyWithoutPayableAccountInput
   }
@@ -81215,6 +82219,10 @@ export namespace Prisma {
     defaultPurchaseFor?: FinancialSettingCreateNestedManyWithoutDefaultPurchaseAccountInput
     defaultTaxFor?: FinancialSettingCreateNestedManyWithoutDefaultTaxAccountInput
     defaultPayableFor?: FinancialSettingCreateNestedManyWithoutDefaultPayableAccountInput
+    defaultInventoryFor?: FinancialSettingCreateNestedManyWithoutDefaultInventoryAccountInput
+    defaultCogsFor?: FinancialSettingCreateNestedManyWithoutDefaultCogsAccountInput
+    defaultInventoryAdjustmentFor?: FinancialSettingCreateNestedManyWithoutDefaultInventoryAdjustmentAccountInput
+    defaultOpeningEquityFor?: FinancialSettingCreateNestedManyWithoutDefaultOpeningEquityAccountInput
     partyReceivables?: PartyCreateNestedManyWithoutReceivableAccountInput
     partyPayables?: PartyCreateNestedManyWithoutPayableAccountInput
   }
@@ -81238,6 +82246,10 @@ export namespace Prisma {
     defaultPurchaseFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultPurchaseAccountInput
     defaultTaxFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultTaxAccountInput
     defaultPayableFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultPayableAccountInput
+    defaultInventoryFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultInventoryAccountInput
+    defaultCogsFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultCogsAccountInput
+    defaultInventoryAdjustmentFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultInventoryAdjustmentAccountInput
+    defaultOpeningEquityFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultOpeningEquityAccountInput
     partyReceivables?: PartyUncheckedCreateNestedManyWithoutReceivableAccountInput
     partyPayables?: PartyUncheckedCreateNestedManyWithoutPayableAccountInput
   }
@@ -81266,6 +82278,10 @@ export namespace Prisma {
     defaultPurchaseFor?: FinancialSettingCreateNestedManyWithoutDefaultPurchaseAccountInput
     defaultTaxFor?: FinancialSettingCreateNestedManyWithoutDefaultTaxAccountInput
     defaultReceivableFor?: FinancialSettingCreateNestedManyWithoutDefaultReceivableAccountInput
+    defaultInventoryFor?: FinancialSettingCreateNestedManyWithoutDefaultInventoryAccountInput
+    defaultCogsFor?: FinancialSettingCreateNestedManyWithoutDefaultCogsAccountInput
+    defaultInventoryAdjustmentFor?: FinancialSettingCreateNestedManyWithoutDefaultInventoryAdjustmentAccountInput
+    defaultOpeningEquityFor?: FinancialSettingCreateNestedManyWithoutDefaultOpeningEquityAccountInput
     partyReceivables?: PartyCreateNestedManyWithoutReceivableAccountInput
     partyPayables?: PartyCreateNestedManyWithoutPayableAccountInput
   }
@@ -81289,6 +82305,10 @@ export namespace Prisma {
     defaultPurchaseFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultPurchaseAccountInput
     defaultTaxFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultTaxAccountInput
     defaultReceivableFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultReceivableAccountInput
+    defaultInventoryFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultInventoryAccountInput
+    defaultCogsFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultCogsAccountInput
+    defaultInventoryAdjustmentFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultInventoryAdjustmentAccountInput
+    defaultOpeningEquityFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultOpeningEquityAccountInput
     partyReceivables?: PartyUncheckedCreateNestedManyWithoutReceivableAccountInput
     partyPayables?: PartyUncheckedCreateNestedManyWithoutPayableAccountInput
   }
@@ -81296,6 +82316,242 @@ export namespace Prisma {
   export type ChartOfAccountCreateOrConnectWithoutDefaultPayableForInput = {
     where: ChartOfAccountWhereUniqueInput
     create: XOR<ChartOfAccountCreateWithoutDefaultPayableForInput, ChartOfAccountUncheckedCreateWithoutDefaultPayableForInput>
+  }
+
+  export type ChartOfAccountCreateWithoutDefaultInventoryForInput = {
+    id?: string
+    code: string
+    name: JsonNullValueInput | InputJsonValue
+    type: $Enums.AccountType
+    isActive?: boolean
+    currentBalance?: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutChartOfAccountsInput
+    parent?: ChartOfAccountCreateNestedOneWithoutChildrenInput
+    children?: ChartOfAccountCreateNestedManyWithoutParentInput
+    journalLines?: JournalLineCreateNestedManyWithoutAccountInput
+    expenseItems?: ExpenseItemCreateNestedManyWithoutAccountInput
+    linkedCashboxes?: CashboxCreateNestedManyWithoutLinkedAccountInput
+    defaultSalesFor?: FinancialSettingCreateNestedManyWithoutDefaultSalesAccountInput
+    defaultPurchaseFor?: FinancialSettingCreateNestedManyWithoutDefaultPurchaseAccountInput
+    defaultTaxFor?: FinancialSettingCreateNestedManyWithoutDefaultTaxAccountInput
+    defaultReceivableFor?: FinancialSettingCreateNestedManyWithoutDefaultReceivableAccountInput
+    defaultPayableFor?: FinancialSettingCreateNestedManyWithoutDefaultPayableAccountInput
+    defaultCogsFor?: FinancialSettingCreateNestedManyWithoutDefaultCogsAccountInput
+    defaultInventoryAdjustmentFor?: FinancialSettingCreateNestedManyWithoutDefaultInventoryAdjustmentAccountInput
+    defaultOpeningEquityFor?: FinancialSettingCreateNestedManyWithoutDefaultOpeningEquityAccountInput
+    partyReceivables?: PartyCreateNestedManyWithoutReceivableAccountInput
+    partyPayables?: PartyCreateNestedManyWithoutPayableAccountInput
+  }
+
+  export type ChartOfAccountUncheckedCreateWithoutDefaultInventoryForInput = {
+    id?: string
+    tenantId: string
+    code: string
+    name: JsonNullValueInput | InputJsonValue
+    type: $Enums.AccountType
+    parentId?: string | null
+    isActive?: boolean
+    currentBalance?: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    children?: ChartOfAccountUncheckedCreateNestedManyWithoutParentInput
+    journalLines?: JournalLineUncheckedCreateNestedManyWithoutAccountInput
+    expenseItems?: ExpenseItemUncheckedCreateNestedManyWithoutAccountInput
+    linkedCashboxes?: CashboxUncheckedCreateNestedManyWithoutLinkedAccountInput
+    defaultSalesFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultSalesAccountInput
+    defaultPurchaseFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultPurchaseAccountInput
+    defaultTaxFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultTaxAccountInput
+    defaultReceivableFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultReceivableAccountInput
+    defaultPayableFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultPayableAccountInput
+    defaultCogsFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultCogsAccountInput
+    defaultInventoryAdjustmentFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultInventoryAdjustmentAccountInput
+    defaultOpeningEquityFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultOpeningEquityAccountInput
+    partyReceivables?: PartyUncheckedCreateNestedManyWithoutReceivableAccountInput
+    partyPayables?: PartyUncheckedCreateNestedManyWithoutPayableAccountInput
+  }
+
+  export type ChartOfAccountCreateOrConnectWithoutDefaultInventoryForInput = {
+    where: ChartOfAccountWhereUniqueInput
+    create: XOR<ChartOfAccountCreateWithoutDefaultInventoryForInput, ChartOfAccountUncheckedCreateWithoutDefaultInventoryForInput>
+  }
+
+  export type ChartOfAccountCreateWithoutDefaultCogsForInput = {
+    id?: string
+    code: string
+    name: JsonNullValueInput | InputJsonValue
+    type: $Enums.AccountType
+    isActive?: boolean
+    currentBalance?: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutChartOfAccountsInput
+    parent?: ChartOfAccountCreateNestedOneWithoutChildrenInput
+    children?: ChartOfAccountCreateNestedManyWithoutParentInput
+    journalLines?: JournalLineCreateNestedManyWithoutAccountInput
+    expenseItems?: ExpenseItemCreateNestedManyWithoutAccountInput
+    linkedCashboxes?: CashboxCreateNestedManyWithoutLinkedAccountInput
+    defaultSalesFor?: FinancialSettingCreateNestedManyWithoutDefaultSalesAccountInput
+    defaultPurchaseFor?: FinancialSettingCreateNestedManyWithoutDefaultPurchaseAccountInput
+    defaultTaxFor?: FinancialSettingCreateNestedManyWithoutDefaultTaxAccountInput
+    defaultReceivableFor?: FinancialSettingCreateNestedManyWithoutDefaultReceivableAccountInput
+    defaultPayableFor?: FinancialSettingCreateNestedManyWithoutDefaultPayableAccountInput
+    defaultInventoryFor?: FinancialSettingCreateNestedManyWithoutDefaultInventoryAccountInput
+    defaultInventoryAdjustmentFor?: FinancialSettingCreateNestedManyWithoutDefaultInventoryAdjustmentAccountInput
+    defaultOpeningEquityFor?: FinancialSettingCreateNestedManyWithoutDefaultOpeningEquityAccountInput
+    partyReceivables?: PartyCreateNestedManyWithoutReceivableAccountInput
+    partyPayables?: PartyCreateNestedManyWithoutPayableAccountInput
+  }
+
+  export type ChartOfAccountUncheckedCreateWithoutDefaultCogsForInput = {
+    id?: string
+    tenantId: string
+    code: string
+    name: JsonNullValueInput | InputJsonValue
+    type: $Enums.AccountType
+    parentId?: string | null
+    isActive?: boolean
+    currentBalance?: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    children?: ChartOfAccountUncheckedCreateNestedManyWithoutParentInput
+    journalLines?: JournalLineUncheckedCreateNestedManyWithoutAccountInput
+    expenseItems?: ExpenseItemUncheckedCreateNestedManyWithoutAccountInput
+    linkedCashboxes?: CashboxUncheckedCreateNestedManyWithoutLinkedAccountInput
+    defaultSalesFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultSalesAccountInput
+    defaultPurchaseFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultPurchaseAccountInput
+    defaultTaxFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultTaxAccountInput
+    defaultReceivableFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultReceivableAccountInput
+    defaultPayableFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultPayableAccountInput
+    defaultInventoryFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultInventoryAccountInput
+    defaultInventoryAdjustmentFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultInventoryAdjustmentAccountInput
+    defaultOpeningEquityFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultOpeningEquityAccountInput
+    partyReceivables?: PartyUncheckedCreateNestedManyWithoutReceivableAccountInput
+    partyPayables?: PartyUncheckedCreateNestedManyWithoutPayableAccountInput
+  }
+
+  export type ChartOfAccountCreateOrConnectWithoutDefaultCogsForInput = {
+    where: ChartOfAccountWhereUniqueInput
+    create: XOR<ChartOfAccountCreateWithoutDefaultCogsForInput, ChartOfAccountUncheckedCreateWithoutDefaultCogsForInput>
+  }
+
+  export type ChartOfAccountCreateWithoutDefaultInventoryAdjustmentForInput = {
+    id?: string
+    code: string
+    name: JsonNullValueInput | InputJsonValue
+    type: $Enums.AccountType
+    isActive?: boolean
+    currentBalance?: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutChartOfAccountsInput
+    parent?: ChartOfAccountCreateNestedOneWithoutChildrenInput
+    children?: ChartOfAccountCreateNestedManyWithoutParentInput
+    journalLines?: JournalLineCreateNestedManyWithoutAccountInput
+    expenseItems?: ExpenseItemCreateNestedManyWithoutAccountInput
+    linkedCashboxes?: CashboxCreateNestedManyWithoutLinkedAccountInput
+    defaultSalesFor?: FinancialSettingCreateNestedManyWithoutDefaultSalesAccountInput
+    defaultPurchaseFor?: FinancialSettingCreateNestedManyWithoutDefaultPurchaseAccountInput
+    defaultTaxFor?: FinancialSettingCreateNestedManyWithoutDefaultTaxAccountInput
+    defaultReceivableFor?: FinancialSettingCreateNestedManyWithoutDefaultReceivableAccountInput
+    defaultPayableFor?: FinancialSettingCreateNestedManyWithoutDefaultPayableAccountInput
+    defaultInventoryFor?: FinancialSettingCreateNestedManyWithoutDefaultInventoryAccountInput
+    defaultCogsFor?: FinancialSettingCreateNestedManyWithoutDefaultCogsAccountInput
+    defaultOpeningEquityFor?: FinancialSettingCreateNestedManyWithoutDefaultOpeningEquityAccountInput
+    partyReceivables?: PartyCreateNestedManyWithoutReceivableAccountInput
+    partyPayables?: PartyCreateNestedManyWithoutPayableAccountInput
+  }
+
+  export type ChartOfAccountUncheckedCreateWithoutDefaultInventoryAdjustmentForInput = {
+    id?: string
+    tenantId: string
+    code: string
+    name: JsonNullValueInput | InputJsonValue
+    type: $Enums.AccountType
+    parentId?: string | null
+    isActive?: boolean
+    currentBalance?: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    children?: ChartOfAccountUncheckedCreateNestedManyWithoutParentInput
+    journalLines?: JournalLineUncheckedCreateNestedManyWithoutAccountInput
+    expenseItems?: ExpenseItemUncheckedCreateNestedManyWithoutAccountInput
+    linkedCashboxes?: CashboxUncheckedCreateNestedManyWithoutLinkedAccountInput
+    defaultSalesFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultSalesAccountInput
+    defaultPurchaseFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultPurchaseAccountInput
+    defaultTaxFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultTaxAccountInput
+    defaultReceivableFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultReceivableAccountInput
+    defaultPayableFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultPayableAccountInput
+    defaultInventoryFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultInventoryAccountInput
+    defaultCogsFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultCogsAccountInput
+    defaultOpeningEquityFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultOpeningEquityAccountInput
+    partyReceivables?: PartyUncheckedCreateNestedManyWithoutReceivableAccountInput
+    partyPayables?: PartyUncheckedCreateNestedManyWithoutPayableAccountInput
+  }
+
+  export type ChartOfAccountCreateOrConnectWithoutDefaultInventoryAdjustmentForInput = {
+    where: ChartOfAccountWhereUniqueInput
+    create: XOR<ChartOfAccountCreateWithoutDefaultInventoryAdjustmentForInput, ChartOfAccountUncheckedCreateWithoutDefaultInventoryAdjustmentForInput>
+  }
+
+  export type ChartOfAccountCreateWithoutDefaultOpeningEquityForInput = {
+    id?: string
+    code: string
+    name: JsonNullValueInput | InputJsonValue
+    type: $Enums.AccountType
+    isActive?: boolean
+    currentBalance?: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutChartOfAccountsInput
+    parent?: ChartOfAccountCreateNestedOneWithoutChildrenInput
+    children?: ChartOfAccountCreateNestedManyWithoutParentInput
+    journalLines?: JournalLineCreateNestedManyWithoutAccountInput
+    expenseItems?: ExpenseItemCreateNestedManyWithoutAccountInput
+    linkedCashboxes?: CashboxCreateNestedManyWithoutLinkedAccountInput
+    defaultSalesFor?: FinancialSettingCreateNestedManyWithoutDefaultSalesAccountInput
+    defaultPurchaseFor?: FinancialSettingCreateNestedManyWithoutDefaultPurchaseAccountInput
+    defaultTaxFor?: FinancialSettingCreateNestedManyWithoutDefaultTaxAccountInput
+    defaultReceivableFor?: FinancialSettingCreateNestedManyWithoutDefaultReceivableAccountInput
+    defaultPayableFor?: FinancialSettingCreateNestedManyWithoutDefaultPayableAccountInput
+    defaultInventoryFor?: FinancialSettingCreateNestedManyWithoutDefaultInventoryAccountInput
+    defaultCogsFor?: FinancialSettingCreateNestedManyWithoutDefaultCogsAccountInput
+    defaultInventoryAdjustmentFor?: FinancialSettingCreateNestedManyWithoutDefaultInventoryAdjustmentAccountInput
+    partyReceivables?: PartyCreateNestedManyWithoutReceivableAccountInput
+    partyPayables?: PartyCreateNestedManyWithoutPayableAccountInput
+  }
+
+  export type ChartOfAccountUncheckedCreateWithoutDefaultOpeningEquityForInput = {
+    id?: string
+    tenantId: string
+    code: string
+    name: JsonNullValueInput | InputJsonValue
+    type: $Enums.AccountType
+    parentId?: string | null
+    isActive?: boolean
+    currentBalance?: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    children?: ChartOfAccountUncheckedCreateNestedManyWithoutParentInput
+    journalLines?: JournalLineUncheckedCreateNestedManyWithoutAccountInput
+    expenseItems?: ExpenseItemUncheckedCreateNestedManyWithoutAccountInput
+    linkedCashboxes?: CashboxUncheckedCreateNestedManyWithoutLinkedAccountInput
+    defaultSalesFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultSalesAccountInput
+    defaultPurchaseFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultPurchaseAccountInput
+    defaultTaxFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultTaxAccountInput
+    defaultReceivableFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultReceivableAccountInput
+    defaultPayableFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultPayableAccountInput
+    defaultInventoryFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultInventoryAccountInput
+    defaultCogsFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultCogsAccountInput
+    defaultInventoryAdjustmentFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultInventoryAdjustmentAccountInput
+    partyReceivables?: PartyUncheckedCreateNestedManyWithoutReceivableAccountInput
+    partyPayables?: PartyUncheckedCreateNestedManyWithoutPayableAccountInput
+  }
+
+  export type ChartOfAccountCreateOrConnectWithoutDefaultOpeningEquityForInput = {
+    where: ChartOfAccountWhereUniqueInput
+    create: XOR<ChartOfAccountCreateWithoutDefaultOpeningEquityForInput, ChartOfAccountUncheckedCreateWithoutDefaultOpeningEquityForInput>
   }
 
   export type TenantUpsertWithoutFinancialSettingInput = {
@@ -81431,6 +82687,10 @@ export namespace Prisma {
     defaultTaxFor?: FinancialSettingUpdateManyWithoutDefaultTaxAccountNestedInput
     defaultReceivableFor?: FinancialSettingUpdateManyWithoutDefaultReceivableAccountNestedInput
     defaultPayableFor?: FinancialSettingUpdateManyWithoutDefaultPayableAccountNestedInput
+    defaultInventoryFor?: FinancialSettingUpdateManyWithoutDefaultInventoryAccountNestedInput
+    defaultCogsFor?: FinancialSettingUpdateManyWithoutDefaultCogsAccountNestedInput
+    defaultInventoryAdjustmentFor?: FinancialSettingUpdateManyWithoutDefaultInventoryAdjustmentAccountNestedInput
+    defaultOpeningEquityFor?: FinancialSettingUpdateManyWithoutDefaultOpeningEquityAccountNestedInput
     partyReceivables?: PartyUpdateManyWithoutReceivableAccountNestedInput
     partyPayables?: PartyUpdateManyWithoutPayableAccountNestedInput
   }
@@ -81454,6 +82714,10 @@ export namespace Prisma {
     defaultTaxFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultTaxAccountNestedInput
     defaultReceivableFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultReceivableAccountNestedInput
     defaultPayableFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultPayableAccountNestedInput
+    defaultInventoryFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultInventoryAccountNestedInput
+    defaultCogsFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultCogsAccountNestedInput
+    defaultInventoryAdjustmentFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultInventoryAdjustmentAccountNestedInput
+    defaultOpeningEquityFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultOpeningEquityAccountNestedInput
     partyReceivables?: PartyUncheckedUpdateManyWithoutReceivableAccountNestedInput
     partyPayables?: PartyUncheckedUpdateManyWithoutPayableAccountNestedInput
   }
@@ -81488,6 +82752,10 @@ export namespace Prisma {
     defaultTaxFor?: FinancialSettingUpdateManyWithoutDefaultTaxAccountNestedInput
     defaultReceivableFor?: FinancialSettingUpdateManyWithoutDefaultReceivableAccountNestedInput
     defaultPayableFor?: FinancialSettingUpdateManyWithoutDefaultPayableAccountNestedInput
+    defaultInventoryFor?: FinancialSettingUpdateManyWithoutDefaultInventoryAccountNestedInput
+    defaultCogsFor?: FinancialSettingUpdateManyWithoutDefaultCogsAccountNestedInput
+    defaultInventoryAdjustmentFor?: FinancialSettingUpdateManyWithoutDefaultInventoryAdjustmentAccountNestedInput
+    defaultOpeningEquityFor?: FinancialSettingUpdateManyWithoutDefaultOpeningEquityAccountNestedInput
     partyReceivables?: PartyUpdateManyWithoutReceivableAccountNestedInput
     partyPayables?: PartyUpdateManyWithoutPayableAccountNestedInput
   }
@@ -81511,6 +82779,10 @@ export namespace Prisma {
     defaultTaxFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultTaxAccountNestedInput
     defaultReceivableFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultReceivableAccountNestedInput
     defaultPayableFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultPayableAccountNestedInput
+    defaultInventoryFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultInventoryAccountNestedInput
+    defaultCogsFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultCogsAccountNestedInput
+    defaultInventoryAdjustmentFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultInventoryAdjustmentAccountNestedInput
+    defaultOpeningEquityFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultOpeningEquityAccountNestedInput
     partyReceivables?: PartyUncheckedUpdateManyWithoutReceivableAccountNestedInput
     partyPayables?: PartyUncheckedUpdateManyWithoutPayableAccountNestedInput
   }
@@ -81545,6 +82817,10 @@ export namespace Prisma {
     defaultPurchaseFor?: FinancialSettingUpdateManyWithoutDefaultPurchaseAccountNestedInput
     defaultReceivableFor?: FinancialSettingUpdateManyWithoutDefaultReceivableAccountNestedInput
     defaultPayableFor?: FinancialSettingUpdateManyWithoutDefaultPayableAccountNestedInput
+    defaultInventoryFor?: FinancialSettingUpdateManyWithoutDefaultInventoryAccountNestedInput
+    defaultCogsFor?: FinancialSettingUpdateManyWithoutDefaultCogsAccountNestedInput
+    defaultInventoryAdjustmentFor?: FinancialSettingUpdateManyWithoutDefaultInventoryAdjustmentAccountNestedInput
+    defaultOpeningEquityFor?: FinancialSettingUpdateManyWithoutDefaultOpeningEquityAccountNestedInput
     partyReceivables?: PartyUpdateManyWithoutReceivableAccountNestedInput
     partyPayables?: PartyUpdateManyWithoutPayableAccountNestedInput
   }
@@ -81568,6 +82844,10 @@ export namespace Prisma {
     defaultPurchaseFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultPurchaseAccountNestedInput
     defaultReceivableFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultReceivableAccountNestedInput
     defaultPayableFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultPayableAccountNestedInput
+    defaultInventoryFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultInventoryAccountNestedInput
+    defaultCogsFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultCogsAccountNestedInput
+    defaultInventoryAdjustmentFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultInventoryAdjustmentAccountNestedInput
+    defaultOpeningEquityFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultOpeningEquityAccountNestedInput
     partyReceivables?: PartyUncheckedUpdateManyWithoutReceivableAccountNestedInput
     partyPayables?: PartyUncheckedUpdateManyWithoutPayableAccountNestedInput
   }
@@ -81602,6 +82882,10 @@ export namespace Prisma {
     defaultPurchaseFor?: FinancialSettingUpdateManyWithoutDefaultPurchaseAccountNestedInput
     defaultTaxFor?: FinancialSettingUpdateManyWithoutDefaultTaxAccountNestedInput
     defaultPayableFor?: FinancialSettingUpdateManyWithoutDefaultPayableAccountNestedInput
+    defaultInventoryFor?: FinancialSettingUpdateManyWithoutDefaultInventoryAccountNestedInput
+    defaultCogsFor?: FinancialSettingUpdateManyWithoutDefaultCogsAccountNestedInput
+    defaultInventoryAdjustmentFor?: FinancialSettingUpdateManyWithoutDefaultInventoryAdjustmentAccountNestedInput
+    defaultOpeningEquityFor?: FinancialSettingUpdateManyWithoutDefaultOpeningEquityAccountNestedInput
     partyReceivables?: PartyUpdateManyWithoutReceivableAccountNestedInput
     partyPayables?: PartyUpdateManyWithoutPayableAccountNestedInput
   }
@@ -81625,6 +82909,10 @@ export namespace Prisma {
     defaultPurchaseFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultPurchaseAccountNestedInput
     defaultTaxFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultTaxAccountNestedInput
     defaultPayableFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultPayableAccountNestedInput
+    defaultInventoryFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultInventoryAccountNestedInput
+    defaultCogsFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultCogsAccountNestedInput
+    defaultInventoryAdjustmentFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultInventoryAdjustmentAccountNestedInput
+    defaultOpeningEquityFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultOpeningEquityAccountNestedInput
     partyReceivables?: PartyUncheckedUpdateManyWithoutReceivableAccountNestedInput
     partyPayables?: PartyUncheckedUpdateManyWithoutPayableAccountNestedInput
   }
@@ -81659,6 +82947,10 @@ export namespace Prisma {
     defaultPurchaseFor?: FinancialSettingUpdateManyWithoutDefaultPurchaseAccountNestedInput
     defaultTaxFor?: FinancialSettingUpdateManyWithoutDefaultTaxAccountNestedInput
     defaultReceivableFor?: FinancialSettingUpdateManyWithoutDefaultReceivableAccountNestedInput
+    defaultInventoryFor?: FinancialSettingUpdateManyWithoutDefaultInventoryAccountNestedInput
+    defaultCogsFor?: FinancialSettingUpdateManyWithoutDefaultCogsAccountNestedInput
+    defaultInventoryAdjustmentFor?: FinancialSettingUpdateManyWithoutDefaultInventoryAdjustmentAccountNestedInput
+    defaultOpeningEquityFor?: FinancialSettingUpdateManyWithoutDefaultOpeningEquityAccountNestedInput
     partyReceivables?: PartyUpdateManyWithoutReceivableAccountNestedInput
     partyPayables?: PartyUpdateManyWithoutPayableAccountNestedInput
   }
@@ -81682,6 +82974,270 @@ export namespace Prisma {
     defaultPurchaseFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultPurchaseAccountNestedInput
     defaultTaxFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultTaxAccountNestedInput
     defaultReceivableFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultReceivableAccountNestedInput
+    defaultInventoryFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultInventoryAccountNestedInput
+    defaultCogsFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultCogsAccountNestedInput
+    defaultInventoryAdjustmentFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultInventoryAdjustmentAccountNestedInput
+    defaultOpeningEquityFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultOpeningEquityAccountNestedInput
+    partyReceivables?: PartyUncheckedUpdateManyWithoutReceivableAccountNestedInput
+    partyPayables?: PartyUncheckedUpdateManyWithoutPayableAccountNestedInput
+  }
+
+  export type ChartOfAccountUpsertWithoutDefaultInventoryForInput = {
+    update: XOR<ChartOfAccountUpdateWithoutDefaultInventoryForInput, ChartOfAccountUncheckedUpdateWithoutDefaultInventoryForInput>
+    create: XOR<ChartOfAccountCreateWithoutDefaultInventoryForInput, ChartOfAccountUncheckedCreateWithoutDefaultInventoryForInput>
+    where?: ChartOfAccountWhereInput
+  }
+
+  export type ChartOfAccountUpdateToOneWithWhereWithoutDefaultInventoryForInput = {
+    where?: ChartOfAccountWhereInput
+    data: XOR<ChartOfAccountUpdateWithoutDefaultInventoryForInput, ChartOfAccountUncheckedUpdateWithoutDefaultInventoryForInput>
+  }
+
+  export type ChartOfAccountUpdateWithoutDefaultInventoryForInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
+    type?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    currentBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutChartOfAccountsNestedInput
+    parent?: ChartOfAccountUpdateOneWithoutChildrenNestedInput
+    children?: ChartOfAccountUpdateManyWithoutParentNestedInput
+    journalLines?: JournalLineUpdateManyWithoutAccountNestedInput
+    expenseItems?: ExpenseItemUpdateManyWithoutAccountNestedInput
+    linkedCashboxes?: CashboxUpdateManyWithoutLinkedAccountNestedInput
+    defaultSalesFor?: FinancialSettingUpdateManyWithoutDefaultSalesAccountNestedInput
+    defaultPurchaseFor?: FinancialSettingUpdateManyWithoutDefaultPurchaseAccountNestedInput
+    defaultTaxFor?: FinancialSettingUpdateManyWithoutDefaultTaxAccountNestedInput
+    defaultReceivableFor?: FinancialSettingUpdateManyWithoutDefaultReceivableAccountNestedInput
+    defaultPayableFor?: FinancialSettingUpdateManyWithoutDefaultPayableAccountNestedInput
+    defaultCogsFor?: FinancialSettingUpdateManyWithoutDefaultCogsAccountNestedInput
+    defaultInventoryAdjustmentFor?: FinancialSettingUpdateManyWithoutDefaultInventoryAdjustmentAccountNestedInput
+    defaultOpeningEquityFor?: FinancialSettingUpdateManyWithoutDefaultOpeningEquityAccountNestedInput
+    partyReceivables?: PartyUpdateManyWithoutReceivableAccountNestedInput
+    partyPayables?: PartyUpdateManyWithoutPayableAccountNestedInput
+  }
+
+  export type ChartOfAccountUncheckedUpdateWithoutDefaultInventoryForInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
+    type?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
+    parentId?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    currentBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    children?: ChartOfAccountUncheckedUpdateManyWithoutParentNestedInput
+    journalLines?: JournalLineUncheckedUpdateManyWithoutAccountNestedInput
+    expenseItems?: ExpenseItemUncheckedUpdateManyWithoutAccountNestedInput
+    linkedCashboxes?: CashboxUncheckedUpdateManyWithoutLinkedAccountNestedInput
+    defaultSalesFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultSalesAccountNestedInput
+    defaultPurchaseFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultPurchaseAccountNestedInput
+    defaultTaxFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultTaxAccountNestedInput
+    defaultReceivableFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultReceivableAccountNestedInput
+    defaultPayableFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultPayableAccountNestedInput
+    defaultCogsFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultCogsAccountNestedInput
+    defaultInventoryAdjustmentFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultInventoryAdjustmentAccountNestedInput
+    defaultOpeningEquityFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultOpeningEquityAccountNestedInput
+    partyReceivables?: PartyUncheckedUpdateManyWithoutReceivableAccountNestedInput
+    partyPayables?: PartyUncheckedUpdateManyWithoutPayableAccountNestedInput
+  }
+
+  export type ChartOfAccountUpsertWithoutDefaultCogsForInput = {
+    update: XOR<ChartOfAccountUpdateWithoutDefaultCogsForInput, ChartOfAccountUncheckedUpdateWithoutDefaultCogsForInput>
+    create: XOR<ChartOfAccountCreateWithoutDefaultCogsForInput, ChartOfAccountUncheckedCreateWithoutDefaultCogsForInput>
+    where?: ChartOfAccountWhereInput
+  }
+
+  export type ChartOfAccountUpdateToOneWithWhereWithoutDefaultCogsForInput = {
+    where?: ChartOfAccountWhereInput
+    data: XOR<ChartOfAccountUpdateWithoutDefaultCogsForInput, ChartOfAccountUncheckedUpdateWithoutDefaultCogsForInput>
+  }
+
+  export type ChartOfAccountUpdateWithoutDefaultCogsForInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
+    type?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    currentBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutChartOfAccountsNestedInput
+    parent?: ChartOfAccountUpdateOneWithoutChildrenNestedInput
+    children?: ChartOfAccountUpdateManyWithoutParentNestedInput
+    journalLines?: JournalLineUpdateManyWithoutAccountNestedInput
+    expenseItems?: ExpenseItemUpdateManyWithoutAccountNestedInput
+    linkedCashboxes?: CashboxUpdateManyWithoutLinkedAccountNestedInput
+    defaultSalesFor?: FinancialSettingUpdateManyWithoutDefaultSalesAccountNestedInput
+    defaultPurchaseFor?: FinancialSettingUpdateManyWithoutDefaultPurchaseAccountNestedInput
+    defaultTaxFor?: FinancialSettingUpdateManyWithoutDefaultTaxAccountNestedInput
+    defaultReceivableFor?: FinancialSettingUpdateManyWithoutDefaultReceivableAccountNestedInput
+    defaultPayableFor?: FinancialSettingUpdateManyWithoutDefaultPayableAccountNestedInput
+    defaultInventoryFor?: FinancialSettingUpdateManyWithoutDefaultInventoryAccountNestedInput
+    defaultInventoryAdjustmentFor?: FinancialSettingUpdateManyWithoutDefaultInventoryAdjustmentAccountNestedInput
+    defaultOpeningEquityFor?: FinancialSettingUpdateManyWithoutDefaultOpeningEquityAccountNestedInput
+    partyReceivables?: PartyUpdateManyWithoutReceivableAccountNestedInput
+    partyPayables?: PartyUpdateManyWithoutPayableAccountNestedInput
+  }
+
+  export type ChartOfAccountUncheckedUpdateWithoutDefaultCogsForInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
+    type?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
+    parentId?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    currentBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    children?: ChartOfAccountUncheckedUpdateManyWithoutParentNestedInput
+    journalLines?: JournalLineUncheckedUpdateManyWithoutAccountNestedInput
+    expenseItems?: ExpenseItemUncheckedUpdateManyWithoutAccountNestedInput
+    linkedCashboxes?: CashboxUncheckedUpdateManyWithoutLinkedAccountNestedInput
+    defaultSalesFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultSalesAccountNestedInput
+    defaultPurchaseFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultPurchaseAccountNestedInput
+    defaultTaxFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultTaxAccountNestedInput
+    defaultReceivableFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultReceivableAccountNestedInput
+    defaultPayableFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultPayableAccountNestedInput
+    defaultInventoryFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultInventoryAccountNestedInput
+    defaultInventoryAdjustmentFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultInventoryAdjustmentAccountNestedInput
+    defaultOpeningEquityFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultOpeningEquityAccountNestedInput
+    partyReceivables?: PartyUncheckedUpdateManyWithoutReceivableAccountNestedInput
+    partyPayables?: PartyUncheckedUpdateManyWithoutPayableAccountNestedInput
+  }
+
+  export type ChartOfAccountUpsertWithoutDefaultInventoryAdjustmentForInput = {
+    update: XOR<ChartOfAccountUpdateWithoutDefaultInventoryAdjustmentForInput, ChartOfAccountUncheckedUpdateWithoutDefaultInventoryAdjustmentForInput>
+    create: XOR<ChartOfAccountCreateWithoutDefaultInventoryAdjustmentForInput, ChartOfAccountUncheckedCreateWithoutDefaultInventoryAdjustmentForInput>
+    where?: ChartOfAccountWhereInput
+  }
+
+  export type ChartOfAccountUpdateToOneWithWhereWithoutDefaultInventoryAdjustmentForInput = {
+    where?: ChartOfAccountWhereInput
+    data: XOR<ChartOfAccountUpdateWithoutDefaultInventoryAdjustmentForInput, ChartOfAccountUncheckedUpdateWithoutDefaultInventoryAdjustmentForInput>
+  }
+
+  export type ChartOfAccountUpdateWithoutDefaultInventoryAdjustmentForInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
+    type?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    currentBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutChartOfAccountsNestedInput
+    parent?: ChartOfAccountUpdateOneWithoutChildrenNestedInput
+    children?: ChartOfAccountUpdateManyWithoutParentNestedInput
+    journalLines?: JournalLineUpdateManyWithoutAccountNestedInput
+    expenseItems?: ExpenseItemUpdateManyWithoutAccountNestedInput
+    linkedCashboxes?: CashboxUpdateManyWithoutLinkedAccountNestedInput
+    defaultSalesFor?: FinancialSettingUpdateManyWithoutDefaultSalesAccountNestedInput
+    defaultPurchaseFor?: FinancialSettingUpdateManyWithoutDefaultPurchaseAccountNestedInput
+    defaultTaxFor?: FinancialSettingUpdateManyWithoutDefaultTaxAccountNestedInput
+    defaultReceivableFor?: FinancialSettingUpdateManyWithoutDefaultReceivableAccountNestedInput
+    defaultPayableFor?: FinancialSettingUpdateManyWithoutDefaultPayableAccountNestedInput
+    defaultInventoryFor?: FinancialSettingUpdateManyWithoutDefaultInventoryAccountNestedInput
+    defaultCogsFor?: FinancialSettingUpdateManyWithoutDefaultCogsAccountNestedInput
+    defaultOpeningEquityFor?: FinancialSettingUpdateManyWithoutDefaultOpeningEquityAccountNestedInput
+    partyReceivables?: PartyUpdateManyWithoutReceivableAccountNestedInput
+    partyPayables?: PartyUpdateManyWithoutPayableAccountNestedInput
+  }
+
+  export type ChartOfAccountUncheckedUpdateWithoutDefaultInventoryAdjustmentForInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
+    type?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
+    parentId?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    currentBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    children?: ChartOfAccountUncheckedUpdateManyWithoutParentNestedInput
+    journalLines?: JournalLineUncheckedUpdateManyWithoutAccountNestedInput
+    expenseItems?: ExpenseItemUncheckedUpdateManyWithoutAccountNestedInput
+    linkedCashboxes?: CashboxUncheckedUpdateManyWithoutLinkedAccountNestedInput
+    defaultSalesFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultSalesAccountNestedInput
+    defaultPurchaseFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultPurchaseAccountNestedInput
+    defaultTaxFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultTaxAccountNestedInput
+    defaultReceivableFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultReceivableAccountNestedInput
+    defaultPayableFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultPayableAccountNestedInput
+    defaultInventoryFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultInventoryAccountNestedInput
+    defaultCogsFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultCogsAccountNestedInput
+    defaultOpeningEquityFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultOpeningEquityAccountNestedInput
+    partyReceivables?: PartyUncheckedUpdateManyWithoutReceivableAccountNestedInput
+    partyPayables?: PartyUncheckedUpdateManyWithoutPayableAccountNestedInput
+  }
+
+  export type ChartOfAccountUpsertWithoutDefaultOpeningEquityForInput = {
+    update: XOR<ChartOfAccountUpdateWithoutDefaultOpeningEquityForInput, ChartOfAccountUncheckedUpdateWithoutDefaultOpeningEquityForInput>
+    create: XOR<ChartOfAccountCreateWithoutDefaultOpeningEquityForInput, ChartOfAccountUncheckedCreateWithoutDefaultOpeningEquityForInput>
+    where?: ChartOfAccountWhereInput
+  }
+
+  export type ChartOfAccountUpdateToOneWithWhereWithoutDefaultOpeningEquityForInput = {
+    where?: ChartOfAccountWhereInput
+    data: XOR<ChartOfAccountUpdateWithoutDefaultOpeningEquityForInput, ChartOfAccountUncheckedUpdateWithoutDefaultOpeningEquityForInput>
+  }
+
+  export type ChartOfAccountUpdateWithoutDefaultOpeningEquityForInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
+    type?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    currentBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutChartOfAccountsNestedInput
+    parent?: ChartOfAccountUpdateOneWithoutChildrenNestedInput
+    children?: ChartOfAccountUpdateManyWithoutParentNestedInput
+    journalLines?: JournalLineUpdateManyWithoutAccountNestedInput
+    expenseItems?: ExpenseItemUpdateManyWithoutAccountNestedInput
+    linkedCashboxes?: CashboxUpdateManyWithoutLinkedAccountNestedInput
+    defaultSalesFor?: FinancialSettingUpdateManyWithoutDefaultSalesAccountNestedInput
+    defaultPurchaseFor?: FinancialSettingUpdateManyWithoutDefaultPurchaseAccountNestedInput
+    defaultTaxFor?: FinancialSettingUpdateManyWithoutDefaultTaxAccountNestedInput
+    defaultReceivableFor?: FinancialSettingUpdateManyWithoutDefaultReceivableAccountNestedInput
+    defaultPayableFor?: FinancialSettingUpdateManyWithoutDefaultPayableAccountNestedInput
+    defaultInventoryFor?: FinancialSettingUpdateManyWithoutDefaultInventoryAccountNestedInput
+    defaultCogsFor?: FinancialSettingUpdateManyWithoutDefaultCogsAccountNestedInput
+    defaultInventoryAdjustmentFor?: FinancialSettingUpdateManyWithoutDefaultInventoryAdjustmentAccountNestedInput
+    partyReceivables?: PartyUpdateManyWithoutReceivableAccountNestedInput
+    partyPayables?: PartyUpdateManyWithoutPayableAccountNestedInput
+  }
+
+  export type ChartOfAccountUncheckedUpdateWithoutDefaultOpeningEquityForInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
+    type?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
+    parentId?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    currentBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    children?: ChartOfAccountUncheckedUpdateManyWithoutParentNestedInput
+    journalLines?: JournalLineUncheckedUpdateManyWithoutAccountNestedInput
+    expenseItems?: ExpenseItemUncheckedUpdateManyWithoutAccountNestedInput
+    linkedCashboxes?: CashboxUncheckedUpdateManyWithoutLinkedAccountNestedInput
+    defaultSalesFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultSalesAccountNestedInput
+    defaultPurchaseFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultPurchaseAccountNestedInput
+    defaultTaxFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultTaxAccountNestedInput
+    defaultReceivableFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultReceivableAccountNestedInput
+    defaultPayableFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultPayableAccountNestedInput
+    defaultInventoryFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultInventoryAccountNestedInput
+    defaultCogsFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultCogsAccountNestedInput
+    defaultInventoryAdjustmentFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultInventoryAdjustmentAccountNestedInput
     partyReceivables?: PartyUncheckedUpdateManyWithoutReceivableAccountNestedInput
     partyPayables?: PartyUncheckedUpdateManyWithoutPayableAccountNestedInput
   }
@@ -86021,6 +87577,10 @@ export namespace Prisma {
     defaultTaxFor?: FinancialSettingCreateNestedManyWithoutDefaultTaxAccountInput
     defaultReceivableFor?: FinancialSettingCreateNestedManyWithoutDefaultReceivableAccountInput
     defaultPayableFor?: FinancialSettingCreateNestedManyWithoutDefaultPayableAccountInput
+    defaultInventoryFor?: FinancialSettingCreateNestedManyWithoutDefaultInventoryAccountInput
+    defaultCogsFor?: FinancialSettingCreateNestedManyWithoutDefaultCogsAccountInput
+    defaultInventoryAdjustmentFor?: FinancialSettingCreateNestedManyWithoutDefaultInventoryAdjustmentAccountInput
+    defaultOpeningEquityFor?: FinancialSettingCreateNestedManyWithoutDefaultOpeningEquityAccountInput
     partyPayables?: PartyCreateNestedManyWithoutPayableAccountInput
   }
 
@@ -86044,6 +87604,10 @@ export namespace Prisma {
     defaultTaxFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultTaxAccountInput
     defaultReceivableFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultReceivableAccountInput
     defaultPayableFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultPayableAccountInput
+    defaultInventoryFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultInventoryAccountInput
+    defaultCogsFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultCogsAccountInput
+    defaultInventoryAdjustmentFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultInventoryAdjustmentAccountInput
+    defaultOpeningEquityFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultOpeningEquityAccountInput
     partyPayables?: PartyUncheckedCreateNestedManyWithoutPayableAccountInput
   }
 
@@ -86072,6 +87636,10 @@ export namespace Prisma {
     defaultTaxFor?: FinancialSettingCreateNestedManyWithoutDefaultTaxAccountInput
     defaultReceivableFor?: FinancialSettingCreateNestedManyWithoutDefaultReceivableAccountInput
     defaultPayableFor?: FinancialSettingCreateNestedManyWithoutDefaultPayableAccountInput
+    defaultInventoryFor?: FinancialSettingCreateNestedManyWithoutDefaultInventoryAccountInput
+    defaultCogsFor?: FinancialSettingCreateNestedManyWithoutDefaultCogsAccountInput
+    defaultInventoryAdjustmentFor?: FinancialSettingCreateNestedManyWithoutDefaultInventoryAdjustmentAccountInput
+    defaultOpeningEquityFor?: FinancialSettingCreateNestedManyWithoutDefaultOpeningEquityAccountInput
     partyReceivables?: PartyCreateNestedManyWithoutReceivableAccountInput
   }
 
@@ -86095,6 +87663,10 @@ export namespace Prisma {
     defaultTaxFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultTaxAccountInput
     defaultReceivableFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultReceivableAccountInput
     defaultPayableFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultPayableAccountInput
+    defaultInventoryFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultInventoryAccountInput
+    defaultCogsFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultCogsAccountInput
+    defaultInventoryAdjustmentFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultInventoryAdjustmentAccountInput
+    defaultOpeningEquityFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultOpeningEquityAccountInput
     partyReceivables?: PartyUncheckedCreateNestedManyWithoutReceivableAccountInput
   }
 
@@ -86285,6 +87857,10 @@ export namespace Prisma {
     defaultTaxFor?: FinancialSettingUpdateManyWithoutDefaultTaxAccountNestedInput
     defaultReceivableFor?: FinancialSettingUpdateManyWithoutDefaultReceivableAccountNestedInput
     defaultPayableFor?: FinancialSettingUpdateManyWithoutDefaultPayableAccountNestedInput
+    defaultInventoryFor?: FinancialSettingUpdateManyWithoutDefaultInventoryAccountNestedInput
+    defaultCogsFor?: FinancialSettingUpdateManyWithoutDefaultCogsAccountNestedInput
+    defaultInventoryAdjustmentFor?: FinancialSettingUpdateManyWithoutDefaultInventoryAdjustmentAccountNestedInput
+    defaultOpeningEquityFor?: FinancialSettingUpdateManyWithoutDefaultOpeningEquityAccountNestedInput
     partyPayables?: PartyUpdateManyWithoutPayableAccountNestedInput
   }
 
@@ -86308,6 +87884,10 @@ export namespace Prisma {
     defaultTaxFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultTaxAccountNestedInput
     defaultReceivableFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultReceivableAccountNestedInput
     defaultPayableFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultPayableAccountNestedInput
+    defaultInventoryFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultInventoryAccountNestedInput
+    defaultCogsFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultCogsAccountNestedInput
+    defaultInventoryAdjustmentFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultInventoryAdjustmentAccountNestedInput
+    defaultOpeningEquityFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultOpeningEquityAccountNestedInput
     partyPayables?: PartyUncheckedUpdateManyWithoutPayableAccountNestedInput
   }
 
@@ -86342,6 +87922,10 @@ export namespace Prisma {
     defaultTaxFor?: FinancialSettingUpdateManyWithoutDefaultTaxAccountNestedInput
     defaultReceivableFor?: FinancialSettingUpdateManyWithoutDefaultReceivableAccountNestedInput
     defaultPayableFor?: FinancialSettingUpdateManyWithoutDefaultPayableAccountNestedInput
+    defaultInventoryFor?: FinancialSettingUpdateManyWithoutDefaultInventoryAccountNestedInput
+    defaultCogsFor?: FinancialSettingUpdateManyWithoutDefaultCogsAccountNestedInput
+    defaultInventoryAdjustmentFor?: FinancialSettingUpdateManyWithoutDefaultInventoryAdjustmentAccountNestedInput
+    defaultOpeningEquityFor?: FinancialSettingUpdateManyWithoutDefaultOpeningEquityAccountNestedInput
     partyReceivables?: PartyUpdateManyWithoutReceivableAccountNestedInput
   }
 
@@ -86365,6 +87949,10 @@ export namespace Prisma {
     defaultTaxFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultTaxAccountNestedInput
     defaultReceivableFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultReceivableAccountNestedInput
     defaultPayableFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultPayableAccountNestedInput
+    defaultInventoryFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultInventoryAccountNestedInput
+    defaultCogsFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultCogsAccountNestedInput
+    defaultInventoryAdjustmentFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultInventoryAdjustmentAccountNestedInput
+    defaultOpeningEquityFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultOpeningEquityAccountNestedInput
     partyReceivables?: PartyUncheckedUpdateManyWithoutReceivableAccountNestedInput
   }
 
@@ -88597,6 +90185,10 @@ export namespace Prisma {
     defaultTaxFor?: FinancialSettingCreateNestedManyWithoutDefaultTaxAccountInput
     defaultReceivableFor?: FinancialSettingCreateNestedManyWithoutDefaultReceivableAccountInput
     defaultPayableFor?: FinancialSettingCreateNestedManyWithoutDefaultPayableAccountInput
+    defaultInventoryFor?: FinancialSettingCreateNestedManyWithoutDefaultInventoryAccountInput
+    defaultCogsFor?: FinancialSettingCreateNestedManyWithoutDefaultCogsAccountInput
+    defaultInventoryAdjustmentFor?: FinancialSettingCreateNestedManyWithoutDefaultInventoryAdjustmentAccountInput
+    defaultOpeningEquityFor?: FinancialSettingCreateNestedManyWithoutDefaultOpeningEquityAccountInput
     partyReceivables?: PartyCreateNestedManyWithoutReceivableAccountInput
     partyPayables?: PartyCreateNestedManyWithoutPayableAccountInput
   }
@@ -88620,6 +90212,10 @@ export namespace Prisma {
     defaultTaxFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultTaxAccountInput
     defaultReceivableFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultReceivableAccountInput
     defaultPayableFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultPayableAccountInput
+    defaultInventoryFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultInventoryAccountInput
+    defaultCogsFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultCogsAccountInput
+    defaultInventoryAdjustmentFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultInventoryAdjustmentAccountInput
+    defaultOpeningEquityFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultOpeningEquityAccountInput
     partyReceivables?: PartyUncheckedCreateNestedManyWithoutReceivableAccountInput
     partyPayables?: PartyUncheckedCreateNestedManyWithoutPayableAccountInput
   }
@@ -88883,6 +90479,10 @@ export namespace Prisma {
     defaultTaxAccount?: ChartOfAccountCreateNestedOneWithoutDefaultTaxForInput
     defaultReceivableAccount?: ChartOfAccountCreateNestedOneWithoutDefaultReceivableForInput
     defaultPayableAccount?: ChartOfAccountCreateNestedOneWithoutDefaultPayableForInput
+    defaultInventoryAccount?: ChartOfAccountCreateNestedOneWithoutDefaultInventoryForInput
+    defaultCogsAccount?: ChartOfAccountCreateNestedOneWithoutDefaultCogsForInput
+    defaultInventoryAdjustmentAccount?: ChartOfAccountCreateNestedOneWithoutDefaultInventoryAdjustmentForInput
+    defaultOpeningEquityAccount?: ChartOfAccountCreateNestedOneWithoutDefaultOpeningEquityForInput
   }
 
   export type FinancialSettingUncheckedCreateWithoutTenantInput = {
@@ -88892,6 +90492,10 @@ export namespace Prisma {
     defaultTaxAccountId?: string | null
     defaultReceivableAccountId?: string | null
     defaultPayableAccountId?: string | null
+    defaultInventoryAccountId?: string | null
+    defaultCogsAccountId?: string | null
+    defaultInventoryAdjustmentAccountId?: string | null
+    defaultOpeningEquityAccountId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -89676,6 +91280,10 @@ export namespace Prisma {
     defaultTaxAccount?: ChartOfAccountUpdateOneWithoutDefaultTaxForNestedInput
     defaultReceivableAccount?: ChartOfAccountUpdateOneWithoutDefaultReceivableForNestedInput
     defaultPayableAccount?: ChartOfAccountUpdateOneWithoutDefaultPayableForNestedInput
+    defaultInventoryAccount?: ChartOfAccountUpdateOneWithoutDefaultInventoryForNestedInput
+    defaultCogsAccount?: ChartOfAccountUpdateOneWithoutDefaultCogsForNestedInput
+    defaultInventoryAdjustmentAccount?: ChartOfAccountUpdateOneWithoutDefaultInventoryAdjustmentForNestedInput
+    defaultOpeningEquityAccount?: ChartOfAccountUpdateOneWithoutDefaultOpeningEquityForNestedInput
   }
 
   export type FinancialSettingUncheckedUpdateWithoutTenantInput = {
@@ -89685,6 +91293,10 @@ export namespace Prisma {
     defaultTaxAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     defaultReceivableAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     defaultPayableAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultInventoryAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultCogsAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultInventoryAdjustmentAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultOpeningEquityAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -91503,6 +93115,10 @@ export namespace Prisma {
     defaultTaxAccountId?: string | null
     defaultReceivableAccountId?: string | null
     defaultPayableAccountId?: string | null
+    defaultInventoryAccountId?: string | null
+    defaultCogsAccountId?: string | null
+    defaultInventoryAdjustmentAccountId?: string | null
+    defaultOpeningEquityAccountId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -91514,6 +93130,10 @@ export namespace Prisma {
     defaultTaxAccountId?: string | null
     defaultReceivableAccountId?: string | null
     defaultPayableAccountId?: string | null
+    defaultInventoryAccountId?: string | null
+    defaultCogsAccountId?: string | null
+    defaultInventoryAdjustmentAccountId?: string | null
+    defaultOpeningEquityAccountId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -91525,6 +93145,10 @@ export namespace Prisma {
     defaultPurchaseAccountId?: string | null
     defaultReceivableAccountId?: string | null
     defaultPayableAccountId?: string | null
+    defaultInventoryAccountId?: string | null
+    defaultCogsAccountId?: string | null
+    defaultInventoryAdjustmentAccountId?: string | null
+    defaultOpeningEquityAccountId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -91536,6 +93160,10 @@ export namespace Prisma {
     defaultPurchaseAccountId?: string | null
     defaultTaxAccountId?: string | null
     defaultPayableAccountId?: string | null
+    defaultInventoryAccountId?: string | null
+    defaultCogsAccountId?: string | null
+    defaultInventoryAdjustmentAccountId?: string | null
+    defaultOpeningEquityAccountId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -91547,6 +93175,70 @@ export namespace Prisma {
     defaultPurchaseAccountId?: string | null
     defaultTaxAccountId?: string | null
     defaultReceivableAccountId?: string | null
+    defaultInventoryAccountId?: string | null
+    defaultCogsAccountId?: string | null
+    defaultInventoryAdjustmentAccountId?: string | null
+    defaultOpeningEquityAccountId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type FinancialSettingCreateManyDefaultInventoryAccountInput = {
+    id?: string
+    tenantId: string
+    defaultSalesAccountId?: string | null
+    defaultPurchaseAccountId?: string | null
+    defaultTaxAccountId?: string | null
+    defaultReceivableAccountId?: string | null
+    defaultPayableAccountId?: string | null
+    defaultCogsAccountId?: string | null
+    defaultInventoryAdjustmentAccountId?: string | null
+    defaultOpeningEquityAccountId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type FinancialSettingCreateManyDefaultCogsAccountInput = {
+    id?: string
+    tenantId: string
+    defaultSalesAccountId?: string | null
+    defaultPurchaseAccountId?: string | null
+    defaultTaxAccountId?: string | null
+    defaultReceivableAccountId?: string | null
+    defaultPayableAccountId?: string | null
+    defaultInventoryAccountId?: string | null
+    defaultInventoryAdjustmentAccountId?: string | null
+    defaultOpeningEquityAccountId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type FinancialSettingCreateManyDefaultInventoryAdjustmentAccountInput = {
+    id?: string
+    tenantId: string
+    defaultSalesAccountId?: string | null
+    defaultPurchaseAccountId?: string | null
+    defaultTaxAccountId?: string | null
+    defaultReceivableAccountId?: string | null
+    defaultPayableAccountId?: string | null
+    defaultInventoryAccountId?: string | null
+    defaultCogsAccountId?: string | null
+    defaultOpeningEquityAccountId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type FinancialSettingCreateManyDefaultOpeningEquityAccountInput = {
+    id?: string
+    tenantId: string
+    defaultSalesAccountId?: string | null
+    defaultPurchaseAccountId?: string | null
+    defaultTaxAccountId?: string | null
+    defaultReceivableAccountId?: string | null
+    defaultPayableAccountId?: string | null
+    defaultInventoryAccountId?: string | null
+    defaultCogsAccountId?: string | null
+    defaultInventoryAdjustmentAccountId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -91602,6 +93294,10 @@ export namespace Prisma {
     defaultTaxFor?: FinancialSettingUpdateManyWithoutDefaultTaxAccountNestedInput
     defaultReceivableFor?: FinancialSettingUpdateManyWithoutDefaultReceivableAccountNestedInput
     defaultPayableFor?: FinancialSettingUpdateManyWithoutDefaultPayableAccountNestedInput
+    defaultInventoryFor?: FinancialSettingUpdateManyWithoutDefaultInventoryAccountNestedInput
+    defaultCogsFor?: FinancialSettingUpdateManyWithoutDefaultCogsAccountNestedInput
+    defaultInventoryAdjustmentFor?: FinancialSettingUpdateManyWithoutDefaultInventoryAdjustmentAccountNestedInput
+    defaultOpeningEquityFor?: FinancialSettingUpdateManyWithoutDefaultOpeningEquityAccountNestedInput
     partyReceivables?: PartyUpdateManyWithoutReceivableAccountNestedInput
     partyPayables?: PartyUpdateManyWithoutPayableAccountNestedInput
   }
@@ -91625,6 +93321,10 @@ export namespace Prisma {
     defaultTaxFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultTaxAccountNestedInput
     defaultReceivableFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultReceivableAccountNestedInput
     defaultPayableFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultPayableAccountNestedInput
+    defaultInventoryFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultInventoryAccountNestedInput
+    defaultCogsFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultCogsAccountNestedInput
+    defaultInventoryAdjustmentFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultInventoryAdjustmentAccountNestedInput
+    defaultOpeningEquityFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultOpeningEquityAccountNestedInput
     partyReceivables?: PartyUncheckedUpdateManyWithoutReceivableAccountNestedInput
     partyPayables?: PartyUncheckedUpdateManyWithoutPayableAccountNestedInput
   }
@@ -91753,6 +93453,10 @@ export namespace Prisma {
     defaultTaxAccount?: ChartOfAccountUpdateOneWithoutDefaultTaxForNestedInput
     defaultReceivableAccount?: ChartOfAccountUpdateOneWithoutDefaultReceivableForNestedInput
     defaultPayableAccount?: ChartOfAccountUpdateOneWithoutDefaultPayableForNestedInput
+    defaultInventoryAccount?: ChartOfAccountUpdateOneWithoutDefaultInventoryForNestedInput
+    defaultCogsAccount?: ChartOfAccountUpdateOneWithoutDefaultCogsForNestedInput
+    defaultInventoryAdjustmentAccount?: ChartOfAccountUpdateOneWithoutDefaultInventoryAdjustmentForNestedInput
+    defaultOpeningEquityAccount?: ChartOfAccountUpdateOneWithoutDefaultOpeningEquityForNestedInput
   }
 
   export type FinancialSettingUncheckedUpdateWithoutDefaultSalesAccountInput = {
@@ -91762,6 +93466,10 @@ export namespace Prisma {
     defaultTaxAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     defaultReceivableAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     defaultPayableAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultInventoryAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultCogsAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultInventoryAdjustmentAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultOpeningEquityAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -91773,6 +93481,10 @@ export namespace Prisma {
     defaultTaxAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     defaultReceivableAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     defaultPayableAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultInventoryAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultCogsAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultInventoryAdjustmentAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultOpeningEquityAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -91786,6 +93498,10 @@ export namespace Prisma {
     defaultTaxAccount?: ChartOfAccountUpdateOneWithoutDefaultTaxForNestedInput
     defaultReceivableAccount?: ChartOfAccountUpdateOneWithoutDefaultReceivableForNestedInput
     defaultPayableAccount?: ChartOfAccountUpdateOneWithoutDefaultPayableForNestedInput
+    defaultInventoryAccount?: ChartOfAccountUpdateOneWithoutDefaultInventoryForNestedInput
+    defaultCogsAccount?: ChartOfAccountUpdateOneWithoutDefaultCogsForNestedInput
+    defaultInventoryAdjustmentAccount?: ChartOfAccountUpdateOneWithoutDefaultInventoryAdjustmentForNestedInput
+    defaultOpeningEquityAccount?: ChartOfAccountUpdateOneWithoutDefaultOpeningEquityForNestedInput
   }
 
   export type FinancialSettingUncheckedUpdateWithoutDefaultPurchaseAccountInput = {
@@ -91795,6 +93511,10 @@ export namespace Prisma {
     defaultTaxAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     defaultReceivableAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     defaultPayableAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultInventoryAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultCogsAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultInventoryAdjustmentAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultOpeningEquityAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -91806,6 +93526,10 @@ export namespace Prisma {
     defaultTaxAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     defaultReceivableAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     defaultPayableAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultInventoryAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultCogsAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultInventoryAdjustmentAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultOpeningEquityAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -91819,6 +93543,10 @@ export namespace Prisma {
     defaultPurchaseAccount?: ChartOfAccountUpdateOneWithoutDefaultPurchaseForNestedInput
     defaultReceivableAccount?: ChartOfAccountUpdateOneWithoutDefaultReceivableForNestedInput
     defaultPayableAccount?: ChartOfAccountUpdateOneWithoutDefaultPayableForNestedInput
+    defaultInventoryAccount?: ChartOfAccountUpdateOneWithoutDefaultInventoryForNestedInput
+    defaultCogsAccount?: ChartOfAccountUpdateOneWithoutDefaultCogsForNestedInput
+    defaultInventoryAdjustmentAccount?: ChartOfAccountUpdateOneWithoutDefaultInventoryAdjustmentForNestedInput
+    defaultOpeningEquityAccount?: ChartOfAccountUpdateOneWithoutDefaultOpeningEquityForNestedInput
   }
 
   export type FinancialSettingUncheckedUpdateWithoutDefaultTaxAccountInput = {
@@ -91828,6 +93556,10 @@ export namespace Prisma {
     defaultPurchaseAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     defaultReceivableAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     defaultPayableAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultInventoryAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultCogsAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultInventoryAdjustmentAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultOpeningEquityAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -91839,6 +93571,10 @@ export namespace Prisma {
     defaultPurchaseAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     defaultReceivableAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     defaultPayableAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultInventoryAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultCogsAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultInventoryAdjustmentAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultOpeningEquityAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -91852,6 +93588,10 @@ export namespace Prisma {
     defaultPurchaseAccount?: ChartOfAccountUpdateOneWithoutDefaultPurchaseForNestedInput
     defaultTaxAccount?: ChartOfAccountUpdateOneWithoutDefaultTaxForNestedInput
     defaultPayableAccount?: ChartOfAccountUpdateOneWithoutDefaultPayableForNestedInput
+    defaultInventoryAccount?: ChartOfAccountUpdateOneWithoutDefaultInventoryForNestedInput
+    defaultCogsAccount?: ChartOfAccountUpdateOneWithoutDefaultCogsForNestedInput
+    defaultInventoryAdjustmentAccount?: ChartOfAccountUpdateOneWithoutDefaultInventoryAdjustmentForNestedInput
+    defaultOpeningEquityAccount?: ChartOfAccountUpdateOneWithoutDefaultOpeningEquityForNestedInput
   }
 
   export type FinancialSettingUncheckedUpdateWithoutDefaultReceivableAccountInput = {
@@ -91861,6 +93601,10 @@ export namespace Prisma {
     defaultPurchaseAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     defaultTaxAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     defaultPayableAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultInventoryAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultCogsAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultInventoryAdjustmentAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultOpeningEquityAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -91872,6 +93616,10 @@ export namespace Prisma {
     defaultPurchaseAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     defaultTaxAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     defaultPayableAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultInventoryAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultCogsAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultInventoryAdjustmentAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultOpeningEquityAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -91885,6 +93633,10 @@ export namespace Prisma {
     defaultPurchaseAccount?: ChartOfAccountUpdateOneWithoutDefaultPurchaseForNestedInput
     defaultTaxAccount?: ChartOfAccountUpdateOneWithoutDefaultTaxForNestedInput
     defaultReceivableAccount?: ChartOfAccountUpdateOneWithoutDefaultReceivableForNestedInput
+    defaultInventoryAccount?: ChartOfAccountUpdateOneWithoutDefaultInventoryForNestedInput
+    defaultCogsAccount?: ChartOfAccountUpdateOneWithoutDefaultCogsForNestedInput
+    defaultInventoryAdjustmentAccount?: ChartOfAccountUpdateOneWithoutDefaultInventoryAdjustmentForNestedInput
+    defaultOpeningEquityAccount?: ChartOfAccountUpdateOneWithoutDefaultOpeningEquityForNestedInput
   }
 
   export type FinancialSettingUncheckedUpdateWithoutDefaultPayableAccountInput = {
@@ -91894,6 +93646,10 @@ export namespace Prisma {
     defaultPurchaseAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     defaultTaxAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     defaultReceivableAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultInventoryAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultCogsAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultInventoryAdjustmentAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultOpeningEquityAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -91905,6 +93661,190 @@ export namespace Prisma {
     defaultPurchaseAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     defaultTaxAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     defaultReceivableAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultInventoryAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultCogsAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultInventoryAdjustmentAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultOpeningEquityAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FinancialSettingUpdateWithoutDefaultInventoryAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutFinancialSettingNestedInput
+    defaultSalesAccount?: ChartOfAccountUpdateOneWithoutDefaultSalesForNestedInput
+    defaultPurchaseAccount?: ChartOfAccountUpdateOneWithoutDefaultPurchaseForNestedInput
+    defaultTaxAccount?: ChartOfAccountUpdateOneWithoutDefaultTaxForNestedInput
+    defaultReceivableAccount?: ChartOfAccountUpdateOneWithoutDefaultReceivableForNestedInput
+    defaultPayableAccount?: ChartOfAccountUpdateOneWithoutDefaultPayableForNestedInput
+    defaultCogsAccount?: ChartOfAccountUpdateOneWithoutDefaultCogsForNestedInput
+    defaultInventoryAdjustmentAccount?: ChartOfAccountUpdateOneWithoutDefaultInventoryAdjustmentForNestedInput
+    defaultOpeningEquityAccount?: ChartOfAccountUpdateOneWithoutDefaultOpeningEquityForNestedInput
+  }
+
+  export type FinancialSettingUncheckedUpdateWithoutDefaultInventoryAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    defaultSalesAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultPurchaseAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultTaxAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultReceivableAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultPayableAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultCogsAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultInventoryAdjustmentAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultOpeningEquityAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FinancialSettingUncheckedUpdateManyWithoutDefaultInventoryAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    defaultSalesAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultPurchaseAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultTaxAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultReceivableAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultPayableAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultCogsAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultInventoryAdjustmentAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultOpeningEquityAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FinancialSettingUpdateWithoutDefaultCogsAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutFinancialSettingNestedInput
+    defaultSalesAccount?: ChartOfAccountUpdateOneWithoutDefaultSalesForNestedInput
+    defaultPurchaseAccount?: ChartOfAccountUpdateOneWithoutDefaultPurchaseForNestedInput
+    defaultTaxAccount?: ChartOfAccountUpdateOneWithoutDefaultTaxForNestedInput
+    defaultReceivableAccount?: ChartOfAccountUpdateOneWithoutDefaultReceivableForNestedInput
+    defaultPayableAccount?: ChartOfAccountUpdateOneWithoutDefaultPayableForNestedInput
+    defaultInventoryAccount?: ChartOfAccountUpdateOneWithoutDefaultInventoryForNestedInput
+    defaultInventoryAdjustmentAccount?: ChartOfAccountUpdateOneWithoutDefaultInventoryAdjustmentForNestedInput
+    defaultOpeningEquityAccount?: ChartOfAccountUpdateOneWithoutDefaultOpeningEquityForNestedInput
+  }
+
+  export type FinancialSettingUncheckedUpdateWithoutDefaultCogsAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    defaultSalesAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultPurchaseAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultTaxAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultReceivableAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultPayableAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultInventoryAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultInventoryAdjustmentAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultOpeningEquityAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FinancialSettingUncheckedUpdateManyWithoutDefaultCogsAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    defaultSalesAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultPurchaseAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultTaxAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultReceivableAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultPayableAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultInventoryAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultInventoryAdjustmentAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultOpeningEquityAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FinancialSettingUpdateWithoutDefaultInventoryAdjustmentAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutFinancialSettingNestedInput
+    defaultSalesAccount?: ChartOfAccountUpdateOneWithoutDefaultSalesForNestedInput
+    defaultPurchaseAccount?: ChartOfAccountUpdateOneWithoutDefaultPurchaseForNestedInput
+    defaultTaxAccount?: ChartOfAccountUpdateOneWithoutDefaultTaxForNestedInput
+    defaultReceivableAccount?: ChartOfAccountUpdateOneWithoutDefaultReceivableForNestedInput
+    defaultPayableAccount?: ChartOfAccountUpdateOneWithoutDefaultPayableForNestedInput
+    defaultInventoryAccount?: ChartOfAccountUpdateOneWithoutDefaultInventoryForNestedInput
+    defaultCogsAccount?: ChartOfAccountUpdateOneWithoutDefaultCogsForNestedInput
+    defaultOpeningEquityAccount?: ChartOfAccountUpdateOneWithoutDefaultOpeningEquityForNestedInput
+  }
+
+  export type FinancialSettingUncheckedUpdateWithoutDefaultInventoryAdjustmentAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    defaultSalesAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultPurchaseAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultTaxAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultReceivableAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultPayableAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultInventoryAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultCogsAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultOpeningEquityAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FinancialSettingUncheckedUpdateManyWithoutDefaultInventoryAdjustmentAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    defaultSalesAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultPurchaseAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultTaxAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultReceivableAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultPayableAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultInventoryAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultCogsAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultOpeningEquityAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FinancialSettingUpdateWithoutDefaultOpeningEquityAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutFinancialSettingNestedInput
+    defaultSalesAccount?: ChartOfAccountUpdateOneWithoutDefaultSalesForNestedInput
+    defaultPurchaseAccount?: ChartOfAccountUpdateOneWithoutDefaultPurchaseForNestedInput
+    defaultTaxAccount?: ChartOfAccountUpdateOneWithoutDefaultTaxForNestedInput
+    defaultReceivableAccount?: ChartOfAccountUpdateOneWithoutDefaultReceivableForNestedInput
+    defaultPayableAccount?: ChartOfAccountUpdateOneWithoutDefaultPayableForNestedInput
+    defaultInventoryAccount?: ChartOfAccountUpdateOneWithoutDefaultInventoryForNestedInput
+    defaultCogsAccount?: ChartOfAccountUpdateOneWithoutDefaultCogsForNestedInput
+    defaultInventoryAdjustmentAccount?: ChartOfAccountUpdateOneWithoutDefaultInventoryAdjustmentForNestedInput
+  }
+
+  export type FinancialSettingUncheckedUpdateWithoutDefaultOpeningEquityAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    defaultSalesAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultPurchaseAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultTaxAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultReceivableAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultPayableAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultInventoryAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultCogsAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultInventoryAdjustmentAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FinancialSettingUncheckedUpdateManyWithoutDefaultOpeningEquityAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    defaultSalesAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultPurchaseAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultTaxAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultReceivableAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultPayableAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultInventoryAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultCogsAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultInventoryAdjustmentAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -95657,6 +97597,10 @@ export namespace Prisma {
     defaultTaxFor?: FinancialSettingUpdateManyWithoutDefaultTaxAccountNestedInput
     defaultReceivableFor?: FinancialSettingUpdateManyWithoutDefaultReceivableAccountNestedInput
     defaultPayableFor?: FinancialSettingUpdateManyWithoutDefaultPayableAccountNestedInput
+    defaultInventoryFor?: FinancialSettingUpdateManyWithoutDefaultInventoryAccountNestedInput
+    defaultCogsFor?: FinancialSettingUpdateManyWithoutDefaultCogsAccountNestedInput
+    defaultInventoryAdjustmentFor?: FinancialSettingUpdateManyWithoutDefaultInventoryAdjustmentAccountNestedInput
+    defaultOpeningEquityFor?: FinancialSettingUpdateManyWithoutDefaultOpeningEquityAccountNestedInput
     partyReceivables?: PartyUpdateManyWithoutReceivableAccountNestedInput
     partyPayables?: PartyUpdateManyWithoutPayableAccountNestedInput
   }
@@ -95680,6 +97624,10 @@ export namespace Prisma {
     defaultTaxFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultTaxAccountNestedInput
     defaultReceivableFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultReceivableAccountNestedInput
     defaultPayableFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultPayableAccountNestedInput
+    defaultInventoryFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultInventoryAccountNestedInput
+    defaultCogsFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultCogsAccountNestedInput
+    defaultInventoryAdjustmentFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultInventoryAdjustmentAccountNestedInput
+    defaultOpeningEquityFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultOpeningEquityAccountNestedInput
     partyReceivables?: PartyUncheckedUpdateManyWithoutReceivableAccountNestedInput
     partyPayables?: PartyUncheckedUpdateManyWithoutPayableAccountNestedInput
   }
