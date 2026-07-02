@@ -8,7 +8,10 @@ describe('InventoryService.registerOpeningBalance', () => {
             journalEntry: { create: jest.fn().mockResolvedValue({ id: 'je-open' }) },
             chartOfAccount: { findUnique: jest.fn().mockResolvedValue({ type: 'ASSET' }), update: jest.fn() },
         };
-        const prisma = { $transaction: jest.fn((cb: any) => cb(tx)) } as any;
+        const prisma = {
+            $transaction: jest.fn((cb: any) => cb(tx)),
+            fiscalPeriod: { findFirst: jest.fn().mockResolvedValue({ status: 'OPEN' }) },
+        } as any;
         const fs = { getOrThrow: jest.fn().mockResolvedValue({ defaultInventoryAccountId: 'inv', defaultOpeningEquityAccountId: 'oe' }) } as any;
         const seq = { getNextNumber: jest.fn().mockResolvedValue('JE-1') } as any;
         const svc = new InventoryService(prisma, {} as any, {} as any, fs, seq);
@@ -25,5 +28,20 @@ describe('InventoryService.registerOpeningBalance', () => {
             expect.objectContaining({ accountId: 'oe', credit: 120 }),
         ]));
         expect(res).toMatchObject({ count: 2, warehouseId: 'w1', journalEntryId: 'je-open' });
+    });
+
+    it('rejects registering an opening balance in a CLOSED fiscal period', async () => {
+        const prisma = {
+            $transaction: jest.fn(),
+            fiscalPeriod: { findFirst: jest.fn().mockResolvedValue({ status: 'CLOSED' }) },
+        } as any;
+        const fs = { getOrThrow: jest.fn().mockResolvedValue({ defaultInventoryAccountId: 'inv', defaultOpeningEquityAccountId: 'oe' }) } as any;
+        const seq = { getNextNumber: jest.fn().mockResolvedValue('JE-1') } as any;
+        const svc = new InventoryService(prisma, {} as any, {} as any, fs, seq);
+
+        await expect(svc.registerOpeningBalance('t', 'u', {
+            warehouseId: 'w1', fiscalPeriodId: 'fp',
+            items: [{ itemId: 'i1', quantity: 10, unitCost: 6 }],
+        } as any)).rejects.toThrow(/closed/i);
     });
 });

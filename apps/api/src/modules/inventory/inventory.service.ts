@@ -8,6 +8,7 @@ import { FinancialSettingsService } from '../accounting/financial-settings/servi
 import { DocumentSequencesService } from '../accounting/document-sequences/services/document-sequences.service';
 import { createPostingJournalEntry } from '../accounting/accounts/utils/create-posting-journal-entry';
 import { buildOpeningBalanceLines } from '../accounting/accounts/utils/inventory-journal';
+import { assertFiscalPeriodOpen } from '../accounting/accounts/utils/assert-period-open';
 
 export interface MovementParams {
     tenantId: string;
@@ -109,6 +110,13 @@ export class InventoryService {
         if (!settings.defaultInventoryAccountId || !settings.defaultOpeningEquityAccountId) {
             throw new BadRequestException('No default Inventory / Opening-Equity account configured in Financial Settings.');
         }
+
+        const period = await this.prisma.fiscalPeriod.findFirst({
+            where: { id: dto.fiscalPeriodId, tenantId },
+            select: { status: true },
+        });
+        assertFiscalPeriodOpen(period?.status);
+
         const totalValue = dto.items.reduce((s, it) => s + it.quantity * it.unitCost, 0);
         const jeNumber = await this.docSeqService.getNextNumber(tenantId, 'JOURNAL_ENTRY');
 

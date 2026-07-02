@@ -37,6 +37,21 @@ describe('InvoicePostingService — perpetual', () => {
         expect(jeArg.some((l: any) => l.accountId === 'inv' && Number(l.debit) === 600)).toBe(true);
     });
 
+    it('purchase: capitalizes stock at NET-of-discount cost so GL debit equals ledger cost', async () => {
+        const { svc, prisma, tx, inventory } = deps(SETTINGS);
+        const discountedLine = { itemId: 'i1', quantity: 2, unitPrice: 300, total: 500, taxAmount: 0, item: { itemType: 'product' } };
+        prisma.invoice.findFirst.mockResolvedValue({
+            id: 'inv', status: 'DRAFT', warehouseId: 'w1', fiscalPeriodId: 'fp', date: new Date(), number: 'P2',
+            exchangeRate: 1, subtotal: 500, discountAmount: 0, taxAmount: 0, total: 500, partyId: 'p1',
+            invoiceType: { direction: 'PURCHASE', affectsStock: true }, lines: [discountedLine],
+            party: { payableAccountId: null }, fiscalPeriod: { status: 'OPEN' },
+        });
+        await svc.postPurchaseInvoice('t', 'inv', 'u');
+        expect(inventory.postMovementTx).toHaveBeenCalledWith(tx, expect.objectContaining({ movementType: 'PURCHASE', unitCost: 250 }));
+        const jeArg = tx.journalEntry.create.mock.calls[0][0].data.lines.create;
+        expect(jeArg.some((l: any) => l.accountId === 'inv' && Number(l.debit) === 500)).toBe(true);
+    });
+
     it('sale: posts a COGS leg at averageCost with no rate applied', async () => {
         const { svc, prisma, tx } = deps(SETTINGS);
         prisma.invoice.findFirst.mockResolvedValue({

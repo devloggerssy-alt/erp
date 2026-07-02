@@ -85,7 +85,7 @@ export class InvoicePostingService {
                         fiscalPeriodId: invoice.fiscalPeriodId,
                         movementType: StockMovementType.PURCHASE,
                         quantity: Number(line.quantity),
-                        unitCost: Number(line.unitPrice) * exchangeRate,
+                        unitCost: (Number(line.total) - Number(line.taxAmount)) / Number(line.quantity) * exchangeRate,
                         referenceType: 'invoice',
                         referenceId: invoice.id,
                         userId,
@@ -262,29 +262,28 @@ export class InvoicePostingService {
             partyId: l.partyId ?? null,
         }));
 
-        const isPurchase = invoice.invoiceType.direction === 'PURCHASE';
         const exchangeRate = Number(invoice.exchangeRate);
         const jeNumber = await this.docSeqService.getNextNumber(tenantId, 'JOURNAL_ENTRY');
 
         return this.prisma.$transaction(async (tx) => {
-            if (invoice.invoiceType.affectsStock && invoice.warehouseId) {
-                for (const line of invoice.lines) {
-                    if (line.item.itemType !== 'service') {
-                        await this.inventoryService.postMovementTx(tx as any, {
-                            tenantId,
-                            warehouseId: invoice.warehouseId,
-                            itemId: line.itemId,
-                            fiscalPeriodId: invoice.fiscalPeriodId,
-                            movementType: StockMovementType.ADJUSTMENT,
-                            quantity: isPurchase ? -Number(line.quantity) : Number(line.quantity),
-                            unitCost: Number(line.unitPrice) * exchangeRate,
-                            referenceType: 'invoice_cancellation',
-                            referenceId: invoice.id,
-                            notes: `Cancellation of invoice ${invoice.number}`,
-                            userId,
-                        });
-                    }
-                }
+            // Reverse the original stock movements at their recorded cost (keeps averageCost exact).
+            const originalMovements = await tx.stockMovement.findMany({
+                where: { tenantId, referenceType: 'invoice', referenceId: invoice.id },
+            });
+            for (const mv of originalMovements) {
+                await this.inventoryService.postMovementTx(tx as any, {
+                    tenantId,
+                    warehouseId: mv.warehouseId,
+                    itemId: mv.itemId,
+                    fiscalPeriodId: invoice.fiscalPeriodId,
+                    movementType: StockMovementType.ADJUSTMENT,
+                    quantity: -Number(mv.quantity),
+                    unitCost: Number(mv.unitCost),
+                    referenceType: 'invoice_cancellation',
+                    referenceId: invoice.id,
+                    notes: `Cancellation of invoice ${invoice.number}`,
+                    userId,
+                });
             }
 
             await createPostingJournalEntry(tx, {
