@@ -19,6 +19,15 @@ export interface MovementParams {
     userId: string;
 }
 
+export type InventoryTx = {
+    stockMovement: { create: (args: any) => Promise<{ id: string }> };
+    stockBalance: {
+        findUnique: (args: any) => Promise<any>;
+        create: (args: any) => Promise<any>;
+        update: (args: any) => Promise<any>;
+    };
+};
+
 @Injectable()
 export class InventoryService {
     constructor(
@@ -28,74 +37,65 @@ export class InventoryService {
     ) {}
 
     /**
-     * The core Posting Engine.
-     * Atomically creates a movement and updates the balance projection.
+     * Transaction-aware core posting engine. Runs inside the caller's $transaction
+     * so stock + GL + entity-status changes commit atomically.
      */
-    async postMovement(params: MovementParams) {
-        return this.prisma.$transaction(async (tx) => {
-            // 1. Create the Movement record (the Audit Trail)
-            const movement = await tx.stockMovement.create({
+    async postMovementTx(tx: InventoryTx, params: MovementParams): Promise<{ id: string }> {
+        const movement = await tx.stockMovement.create({
+            data: {
+                tenantId: params.tenantId,
+                warehouseId: params.warehouseId,
+                itemId: params.itemId,
+                fiscalPeriodId: params.fiscalPeriodId,
+                movementType: params.movementType,
+                quantity: params.quantity,
+                unitCost: params.unitCost,
+                referenceType: params.referenceType,
+                referenceId: params.referenceId,
+                notes: params.notes,
+                createdBy: params.userId,
+            },
+        });
+
+        const balance = await tx.stockBalance.findUnique({
+            where: {
+                tenantId_warehouseId_itemId: {
+                    tenantId: params.tenantId,
+                    warehouseId: params.warehouseId,
+                    itemId: params.itemId,
+                },
+            },
+        });
+
+        if (!balance) {
+            await tx.stockBalance.create({
                 data: {
                     tenantId: params.tenantId,
                     warehouseId: params.warehouseId,
                     itemId: params.itemId,
-                    fiscalPeriodId: params.fiscalPeriodId,
-                    movementType: params.movementType,
                     quantity: params.quantity,
-                    unitCost: params.unitCost,
-                    referenceType: params.referenceType,
-                    referenceId: params.referenceId,
-                    notes: params.notes,
-                    createdBy: params.userId,
+                    averageCost: params.unitCost,
                 },
             });
-
-            // 2. Update the Balance projection
-            // We use upsert to handle the first time an item enters a warehouse
-            const balance = await tx.stockBalance.findUnique({
-                where: {
-                    tenantId_warehouseId_itemId: {
-                        tenantId: params.tenantId,
-                        warehouseId: params.warehouseId,
-                        itemId: params.itemId,
-                    },
-                },
-            });
-
-            if (!balance) {
-                // First time: initial quantity and cost
-                await tx.stockBalance.create({
-                    data: {
-                        tenantId: params.tenantId,
-                        warehouseId: params.warehouseId,
-                        itemId: params.itemId,
-                        quantity: params.quantity,
-                        averageCost: params.unitCost, // Initial average cost
-                    },
-                });
-            } else {
-                const newQuantity = Number(balance.quantity) + params.quantity;
-                
-                // Average conversion logic (simplified for MVP)
-                // In a real system, we'd handle complex COGS logic here.
-                // For now, if it's an inflow, we recalculate average.
-                let newAverageCost = Number(balance.averageCost);
-                if (params.quantity > 0) {
-                    const totalValue = (Number(balance.quantity) * Number(balance.averageCost)) + (params.quantity * params.unitCost);
-                    newAverageCost = totalValue / newQuantity;
-                }
-
-                await tx.stockBalance.update({
-                    where: { id: balance.id },
-                    data: {
-                        quantity: newQuantity,
-                        averageCost: newAverageCost,
-                    },
-                });
+        } else {
+            const newQuantity = Number(balance.quantity) + params.quantity;
+            let newAverageCost = Number(balance.averageCost);
+            if (params.quantity > 0) {
+                const totalValue = (Number(balance.quantity) * Number(balance.averageCost)) + (params.quantity * params.unitCost);
+                newAverageCost = totalValue / newQuantity;
             }
+            await tx.stockBalance.update({
+                where: { id: balance.id },
+                data: { quantity: newQuantity, averageCost: newAverageCost },
+            });
+        }
 
-            return movement;
-        });
+        return movement;
+    }
+
+    /** Standalone entry point — wraps postMovementTx in its own transaction. */
+    async postMovement(params: MovementParams) {
+        return this.prisma.$transaction((tx) => this.postMovementTx(tx as unknown as InventoryTx, params));
     }
 
     async registerOpeningBalance(tenantId: string, userId: string, dto: PostOpeningBalanceDto) {
