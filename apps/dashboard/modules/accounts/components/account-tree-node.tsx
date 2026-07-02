@@ -43,7 +43,7 @@ export function AccountTreeNodeRow({
 
     const isSelectMode = mode === "select"
     const canSelect = isSelectMode && selectable(node)
-    const isSelected = isSelectMode && selectedId === node.id
+    const isSelected = selectedId === node.id
     const isDisabledForSelect = isSelectMode && !canSelect
 
     const handleRowClick = () => {
@@ -52,6 +52,8 @@ export function AccountTreeNodeRow({
             else if (hasChildren) onToggle(node.id)
             return
         }
+        // manage mode: select the node (drives the balances panel) and expand parents
+        onSelect?.(node)
         if (hasChildren) onToggle(node.id)
     }
 
