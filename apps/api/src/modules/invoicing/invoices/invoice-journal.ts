@@ -16,6 +16,10 @@ export interface InvoiceJournalInput {
     /** May be null if the tenant has not configured a tax account. */
     taxAccountId: string | null;
     partyId: string;
+    /** Stock-line net (invoice currency) to capitalize to Inventory on a PURCHASE. Optional. */
+    inventoryAmount?: number;
+    /** Inventory account for the capitalized portion. Required when inventoryAmount > 0. */
+    inventoryAccountId?: string;
 }
 
 /**
@@ -74,22 +78,35 @@ export function buildInvoiceJournalLines(
     }
 
     // PURCHASE
-    const lines: (JournalLineInput & { partyId?: string })[] = [
-        {
-            accountId: input.purchaseAccountId,
-            debit: rev ? 0 : netBase,
-            credit: rev ? netBase : 0,
+    const invBase = round((input.inventoryAmount ?? 0) * rate);
+    const expenseBase = round(netBase - invBase);
+    const lines: (JournalLineInput & { partyId?: string })[] = [];
+
+    if (invBase > 0 && input.inventoryAccountId) {
+        lines.push({
+            accountId: input.inventoryAccountId,
+            debit: rev ? 0 : invBase,
+            credit: rev ? invBase : 0,
             description: null,
-            sortOrder: 0,
-        },
-    ];
+            sortOrder: lines.length,
+        });
+    }
+    if (expenseBase > 0) {
+        lines.push({
+            accountId: input.purchaseAccountId,
+            debit: rev ? 0 : expenseBase,
+            credit: rev ? expenseBase : 0,
+            description: null,
+            sortOrder: lines.length,
+        });
+    }
     if (taxBase > 0 && input.taxAccountId) {
         lines.push({
             accountId: input.taxAccountId,
             debit: rev ? 0 : taxBase,
             credit: rev ? taxBase : 0,
             description: null,
-            sortOrder: 1,
+            sortOrder: lines.length,
         });
     }
     lines.push({
