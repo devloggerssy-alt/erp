@@ -28,6 +28,7 @@ export class StockCountsRepository {
             include: {
                 warehouse: true,
                 lines: { include: { item: { select: { name: true, code: true } } } },
+                fiscalPeriod: { select: { status: true } },
             },
         });
     }

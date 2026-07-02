@@ -7,6 +7,10 @@ import { DocumentSequencesService } from '../../accounting/document-sequences/se
 import { StockCountsRepository } from './repositories/stock-counts.repository';
 import { StockCountPresenter } from './presenters/stock-count.presenter';
 import { StockCountCreatedEvent, StockCountPostedEvent } from './events/stock-count.events';
+import { FinancialSettingsService } from '../../accounting/financial-settings/services/financial-settings.service';
+import { createPostingJournalEntry } from '../../accounting/accounts/utils/create-posting-journal-entry';
+import { buildStockCountVarianceLines } from '../../accounting/accounts/utils/inventory-journal';
+import { assertFiscalPeriodOpen } from '../../accounting/accounts/utils/assert-period-open';
 
 @Injectable()
 export class StockCountsService {
@@ -17,6 +21,7 @@ export class StockCountsService {
         private readonly stockCountsRepository: StockCountsRepository,
         private readonly stockCountPresenter: StockCountPresenter,
         private readonly eventEmitter: EventEmitter2,
+        private readonly financialSettingsService: FinancialSettingsService,
     ) {}
 
     async findAll(tenantId: string, page = 1, limit = 50) {
@@ -89,39 +94,72 @@ export class StockCountsService {
         const stockCount = await this.stockCountsRepository.findById(tenantId, id);
         if (!stockCount) throw new NotFoundException('Stock count not found');
         if (stockCount.status !== 'DRAFT') throw new BadRequestException('Only draft stock counts can be posted');
+        assertFiscalPeriodOpen((stockCount as any).fiscalPeriod?.status);
 
         const itemTypes = await this.prisma.item.findMany({
-            where: { tenantId, id: { in: stockCount.lines.map(l => l.itemId) } },
+            where: { tenantId, id: { in: stockCount.lines.map((l) => l.itemId) } },
             select: { id: true, itemType: true },
         });
-        const itemTypeMap = new Map(itemTypes.map(i => [i.id, i.itemType]));
+        const itemTypeMap = new Map(itemTypes.map((i) => [i.id, i.itemType]));
 
-        for (const line of stockCount.lines) {
-            const diff = Number(line.difference);
-            if (diff !== 0 && itemTypeMap.get(line.itemId) !== 'service') {
-                await this.inventoryService.postMovement({
+        const settings = await this.financialSettingsService.getOrThrow(tenantId);
+        if (!settings.defaultInventoryAccountId || !settings.defaultInventoryAdjustmentAccountId) {
+            throw new BadRequestException('No default Inventory / Inventory-Adjustment account configured in Financial Settings.');
+        }
+
+        const jeNumber = await this.docSeqService.getNextNumber(tenantId, 'JOURNAL_ENTRY');
+
+        return this.prisma.$transaction(async (tx) => {
+            let netVariance = 0;
+            for (const line of stockCount.lines) {
+                const diff = Number(line.difference);
+                if (diff === 0 || itemTypeMap.get(line.itemId) === 'service') continue;
+                const balance = await tx.stockBalance.findUnique({
+                    where: { tenantId_warehouseId_itemId: { tenantId, warehouseId: stockCount.warehouseId, itemId: line.itemId } },
+                });
+                const unitCost = balance ? Number(balance.averageCost) : 0;
+                netVariance += diff * unitCost;
+                await this.inventoryService.postMovementTx(tx as any, {
                     tenantId,
                     warehouseId: stockCount.warehouseId,
                     itemId: line.itemId,
                     fiscalPeriodId: stockCount.fiscalPeriodId,
                     movementType: StockMovementType.STOCK_COUNT,
                     quantity: diff,
-                    unitCost: 0,
+                    unitCost,
                     referenceType: 'stock_count',
                     referenceId: id,
                     notes: `Stock count adjustment: ${stockCount.number}`,
                     userId,
                 });
             }
-        }
 
-        const updated = await this.prisma.stockCount.update({
-            where: { id },
-            data: { status: 'POSTED', postedAt: new Date(), postedBy: userId },
-            include: { lines: true, warehouse: true },
+            if (netVariance !== 0) {
+                await createPostingJournalEntry(tx as any, {
+                    tenantId,
+                    number: jeNumber,
+                    date: new Date(),
+                    fiscalPeriodId: stockCount.fiscalPeriodId,
+                    referenceType: 'stock_count',
+                    referenceId: id,
+                    description: `Stock count variance ${stockCount.number}`,
+                    exchangeRate: 1,
+                    userId,
+                    lines: buildStockCountVarianceLines({
+                        inventoryAccountId: settings.defaultInventoryAccountId!,
+                        adjustmentAccountId: settings.defaultInventoryAdjustmentAccountId!,
+                        netAmount: netVariance,
+                    }),
+                });
+            }
+
+            const updated = await tx.stockCount.update({
+                where: { id },
+                data: { status: 'POSTED', postedAt: new Date(), postedBy: userId },
+                include: { lines: true, warehouse: true },
+            });
+            this.eventEmitter.emit(StockCountPostedEvent.NAME, new StockCountPostedEvent(tenantId, 'stock-count', updated as any, stockCount as any));
+            return this.stockCountPresenter.toDetailResponse(updated);
         });
-
-        this.eventEmitter.emit(StockCountPostedEvent.NAME, new StockCountPostedEvent(tenantId, 'stock-count', updated as any, stockCount as any));
-        return this.stockCountPresenter.toDetailResponse(updated);
     }
 }
