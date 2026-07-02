@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo } from "react"
 import { useLocale, useTranslations } from "next-intl"
-import { useQuery } from "@tanstack/react-query"
+import { useQuery, useQueryClient } from "@tanstack/react-query"
 import { type AccountsClient } from "@devloggers/api-client"
 import { accountResource } from "@devloggers/api-contracts"
 import { ResourceFormShell, RhfTextField, RhfLocalizedTextField, RhfCheckboxField, RhfSelectField } from "@/shared/components/form"
@@ -10,6 +10,7 @@ import type { ResourceFormProps } from "@/shared/data-view/resource"
 import { useResourceFormController } from "@/shared/hooks/use-resource-form-controller"
 import { useApi } from "@/shared/useApi"
 import { accountsFormConfig, type AccountFormValues } from "../accounts.config"
+import { ACCOUNT_BALANCES_KEY } from "../hooks"
 import { ACCOUNT_TYPES } from "../lib/account-types"
 import { useAccountDraftStore } from "../accounts-draft.store"
 import { buildAccountTree, collectDescendantIds, findNodeById } from "../lib/build-account-tree"
@@ -21,6 +22,7 @@ export function AccountsForm({ resourceId, initialData, onSuccess, paramKey }: R
     const tf = useTranslations("system.resourceForm")
     const locale = useLocale()
     const api = useApi()
+    const queryClient = useQueryClient()
     const draft = useAccountDraftStore((s) => s.draft)
 
     const ctrl = useResourceFormController<AccountsClient, AccountFormValues>({
@@ -30,7 +32,10 @@ export function AccountsForm({ resourceId, initialData, onSuccess, paramKey }: R
         resourceId,
         initialData,
         paramKey,
-        onSuccess,
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ACCOUNT_BALANCES_KEY })
+            onSuccess?.()
+        },
     })
 
     const isEditing = ctrl.isEditing

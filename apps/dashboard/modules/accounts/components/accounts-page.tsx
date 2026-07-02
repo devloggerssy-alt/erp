@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react"
 import { useTranslations } from "next-intl"
+import { useQueryClient } from "@tanstack/react-query"
 import { BookOpen, ChevronsDownUp, ChevronsUpDown, Plus, Search, X } from "lucide-react"
 import { confirm } from "@/shared/components/confirm-dialog"
 import { Button } from "@/shared/components/ui/button"
@@ -11,10 +12,11 @@ import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from "
 import { Skeleton } from "@/shared/components/ui/skeleton"
 import { ApiError } from "@devloggers/api-client"
 import { AccountsResource } from "../accounts.resource"
-import { useAccountsResource } from "../hooks"
+import { useAccountsResource, useAccountBalances, ACCOUNT_BALANCES_KEY } from "../hooks"
 import { useAccountDraftStore } from "../accounts-draft.store"
 import { AccountsForm } from "./accounts-form"
 import { AccountsTree, type AccountsTreeHandle } from "./accounts-tree"
+import { AccountBalancesPanel } from "./account-balances-panel"
 import type { AccountListItem, AccountTreeNode } from "../accounts.types"
 
 function TreeSkeleton() {
@@ -47,16 +49,23 @@ function TreeSkeleton() {
 function AccountsTreePanel({
     query,
     treeRef,
+    items,
+    isLoading,
+    selectedId,
+    onSelect,
 }: {
     query: string
     treeRef: React.RefObject<AccountsTreeHandle | null>
+    items: AccountListItem[]
+    isLoading: boolean
+    selectedId: string | null
+    onSelect: (id: string | null) => void
 }) {
     const t = useTranslations("business.resources.accounts")
     const resource = useAccountsResource()
+    const queryClient = useQueryClient()
     const setDraft = useAccountDraftStore((s) => s.setDraft)
     const clearDraft = useAccountDraftStore((s) => s.clear)
-
-    const items = ((resource.items ?? []) as unknown) as AccountListItem[]
 
     useEffect(() => {
         if (!resource.isDialogOpen) clearDraft()
@@ -71,7 +80,8 @@ function AccountsTreePanel({
     }
 
     const onEdit = (node: AccountTreeNode) => {
-        resource.openEdit(resource.items.find((i) => String(i.id) === node.id)!)
+        const raw = resource.items.find((i) => String(i.id) === node.id)
+        if (raw) resource.openEdit(raw)
     }
 
     const onDelete = async (node: AccountTreeNode) => {
@@ -84,6 +94,7 @@ function AccountsTreePanel({
         if (!confirmed) return
         try {
             await resource.deleteItem(node.id)
+            queryClient.invalidateQueries({ queryKey: ACCOUNT_BALANCES_KEY })
         } catch (err) {
             const message = err instanceof ApiError ? err.message : t("deleteFailed")
             await confirm({
@@ -96,7 +107,7 @@ function AccountsTreePanel({
 
     return (
         <div className="rounded-lg border bg-card p-3">
-            {resource.isLoading ? (
+            {isLoading ? (
                 <TreeSkeleton />
             ) : items.length === 0 ? (
                 <Empty className="border-0 py-10">
@@ -114,6 +125,8 @@ function AccountsTreePanel({
                     items={items}
                     query={query}
                     mode="manage"
+                    selectedId={selectedId}
+                    onSelect={(node) => onSelect(node.id)}
                     actions={{ onAddChild, onEdit, onDelete }}
                 />
             )}
@@ -139,7 +152,9 @@ function AddRootButton() {
 export function AccountsPage() {
     const t = useTranslations("business.resources.accounts")
     const [query, setQuery] = useState("")
+    const [selectedId, setSelectedId] = useState<string | null>(null)
     const treeRef = useRef<AccountsTreeHandle>(null)
+    const { data: items = [], isLoading } = useAccountBalances()
 
     return (
         <AccountsResource>
@@ -202,7 +217,21 @@ export function AccountsPage() {
                     />
                 }
             >
-                <AccountsTreePanel query={query} treeRef={treeRef} />
+                <div className="grid gap-4 lg:grid-cols-[minmax(280px,340px)_1fr]">
+                    <AccountsTreePanel
+                        query={query}
+                        treeRef={treeRef}
+                        items={items}
+                        isLoading={isLoading}
+                        selectedId={selectedId}
+                        onSelect={setSelectedId}
+                    />
+                    <AccountBalancesPanel
+                        items={items}
+                        selectedId={selectedId}
+                        onSelectAccount={setSelectedId}
+                    />
+                </div>
             </AccountsResource.Page>
         </AccountsResource>
     )
