@@ -3155,6 +3155,14 @@ export interface components {
             defaultReceivableAccount: components["schemas"]["ChartOfAccountResponseDto"] | null;
             /** @default null */
             defaultPayableAccount: components["schemas"]["ChartOfAccountResponseDto"] | null;
+            /** @default null */
+            defaultInventoryAccount: components["schemas"]["ChartOfAccountResponseDto"] | null;
+            /** @default null */
+            defaultCogsAccount: components["schemas"]["ChartOfAccountResponseDto"] | null;
+            /** @default null */
+            defaultInventoryAdjustmentAccount: components["schemas"]["ChartOfAccountResponseDto"] | null;
+            /** @default null */
+            defaultOpeningEquityAccount: components["schemas"]["ChartOfAccountResponseDto"] | null;
         };
         UpsertFinancialSettingBodyDto: {
             /**
@@ -3182,6 +3190,26 @@ export interface components {
              * @example 00000000-0000-4000-a600-000000000005
              */
             defaultPayableAccountId?: string | null;
+            /**
+             * @description Default inventory asset account
+             * @example 00000000-0000-4000-a602-000000000003
+             */
+            defaultInventoryAccountId?: string | null;
+            /**
+             * @description Default cost-of-goods-sold account
+             * @example 00000000-0000-4000-a602-000000000016
+             */
+            defaultCogsAccountId?: string | null;
+            /**
+             * @description Default inventory adjustment / shrinkage account
+             * @example 00000000-0000-4000-a602-000000005200
+             */
+            defaultInventoryAdjustmentAccountId?: string | null;
+            /**
+             * @description Default opening-balance equity account
+             * @example 00000000-0000-4000-a602-000000003300
+             */
+            defaultOpeningEquityAccountId?: string | null;
         };
         ImportFileDto: {
             /**

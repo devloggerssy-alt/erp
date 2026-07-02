@@ -14,7 +14,11 @@ export class FinancialSettingsRepository {
                 defaultSalesAccount: true,
                 defaultPurchaseAccount: true,
                 defaultTaxAccount: true,
-                
+                defaultInventoryAccount: true,
+                defaultCogsAccount: true,
+                defaultInventoryAdjustmentAccount: true,
+                defaultOpeningEquityAccount: true,
+
               } });
     }
 

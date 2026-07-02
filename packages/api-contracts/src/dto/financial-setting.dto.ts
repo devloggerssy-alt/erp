@@ -4,6 +4,10 @@ export interface UpsertFinancialSettingDto {
     defaultTaxAccountId?: string | null;
     defaultReceivableAccountId?: string | null;
     defaultPayableAccountId?: string | null;
+    defaultInventoryAccountId?: string | null;
+    defaultCogsAccountId?: string | null;
+    defaultInventoryAdjustmentAccountId?: string | null;
+    defaultOpeningEquityAccountId?: string | null;
 }
 
 export interface FinancialSettingResponseDto {
@@ -14,5 +18,9 @@ export interface FinancialSettingResponseDto {
     defaultTaxAccountId: string | null;
     defaultReceivableAccountId: string | null;
     defaultPayableAccountId: string | null;
+    defaultInventoryAccountId: string | null;
+    defaultCogsAccountId: string | null;
+    defaultInventoryAdjustmentAccountId: string | null;
+    defaultOpeningEquityAccountId: string | null;
     updatedAt: string;
 }
