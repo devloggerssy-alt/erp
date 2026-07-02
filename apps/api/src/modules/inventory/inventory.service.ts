@@ -4,6 +4,10 @@ import { StockMovementType } from '@devloggers/db-prisma';
 import { PostOpeningBalanceDto } from './dto/inventory.dto';
 import { InventoryRepository } from './repositories/inventory.repository';
 import { InventoryPresenter } from './presenters/inventory.presenter';
+import { FinancialSettingsService } from '../accounting/financial-settings/services/financial-settings.service';
+import { DocumentSequencesService } from '../accounting/document-sequences/services/document-sequences.service';
+import { createPostingJournalEntry } from '../accounting/accounts/utils/create-posting-journal-entry';
+import { buildOpeningBalanceLines } from '../accounting/accounts/utils/inventory-journal';
 
 export interface MovementParams {
     tenantId: string;
@@ -34,6 +38,8 @@ export class InventoryService {
         private readonly prisma: PrismaService,
         private readonly inventoryRepository: InventoryRepository,
         private readonly inventoryPresenter: InventoryPresenter,
+        private readonly financialSettingsService: FinancialSettingsService,
+        private readonly docSeqService: DocumentSequencesService,
     ) {}
 
     /**
@@ -99,24 +105,51 @@ export class InventoryService {
     }
 
     async registerOpeningBalance(tenantId: string, userId: string, dto: PostOpeningBalanceDto) {
-        const results: any[] = [];
-        // We run all opening balances for a warehouse in a single transaction if possible
-        // but for simplicity and error reporting, we leverage postMovement.
-        for (const item of dto.items) {
-            const res = await this.postMovement({
-                tenantId,
-                userId,
-                warehouseId: dto.warehouseId,
-                itemId: item.itemId,
-                fiscalPeriodId: dto.fiscalPeriodId,
-                movementType: StockMovementType.OPENING,
-                quantity: item.quantity,
-                unitCost: item.unitCost,
-                notes: 'Opening Balance Registration',
-            });
-            results.push(res);
+        const settings = await this.financialSettingsService.getOrThrow(tenantId);
+        if (!settings.defaultInventoryAccountId || !settings.defaultOpeningEquityAccountId) {
+            throw new BadRequestException('No default Inventory / Opening-Equity account configured in Financial Settings.');
         }
-        return results;
+        const totalValue = dto.items.reduce((s, it) => s + it.quantity * it.unitCost, 0);
+        const jeNumber = await this.docSeqService.getNextNumber(tenantId, 'JOURNAL_ENTRY');
+
+        return this.prisma.$transaction(async (tx) => {
+            for (const item of dto.items) {
+                await this.postMovementTx(tx as unknown as InventoryTx, {
+                    tenantId,
+                    userId,
+                    warehouseId: dto.warehouseId,
+                    itemId: item.itemId,
+                    fiscalPeriodId: dto.fiscalPeriodId,
+                    movementType: StockMovementType.OPENING,
+                    quantity: item.quantity,
+                    unitCost: item.unitCost,
+                    notes: 'Opening Balance Registration',
+                });
+            }
+
+            let journalEntryId: string | null = null;
+            if (totalValue !== 0) {
+                const entry = await createPostingJournalEntry(tx as any, {
+                    tenantId,
+                    number: jeNumber,
+                    date: new Date(),
+                    fiscalPeriodId: dto.fiscalPeriodId,
+                    referenceType: 'opening_balance',
+                    referenceId: dto.warehouseId,
+                    description: 'Opening inventory balance',
+                    exchangeRate: 1,
+                    userId,
+                    lines: buildOpeningBalanceLines({
+                        inventoryAccountId: settings.defaultInventoryAccountId!,
+                        openingEquityAccountId: settings.defaultOpeningEquityAccountId!,
+                        amount: totalValue,
+                    }),
+                });
+                journalEntryId = entry.id;
+            }
+
+            return { count: dto.items.length, warehouseId: dto.warehouseId, journalEntryId };
+        });
     }
 
     async getBalances(tenantId: string, filters: { warehouseId?: string; itemId?: string }) {

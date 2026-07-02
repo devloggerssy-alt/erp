@@ -4,9 +4,11 @@ import { InventoryService } from './inventory.service';
 import { InventoryRepository } from './repositories/inventory.repository';
 import { InventoryPresenter } from './presenters/inventory.presenter';
 import { WarehousesModule } from './warehouses/warehouses.module';
+import { FinancialSettingsModule } from '../accounting/financial-settings/financial-settings.module';
+import { DocumentSequencesModule } from '../accounting/document-sequences/document-sequences.module';
 
 @Module({
-    imports: [WarehousesModule],
+    imports: [WarehousesModule, FinancialSettingsModule, DocumentSequencesModule],
     controllers: [InventoryController],
     providers: [InventoryService, InventoryRepository, InventoryPresenter],
     exports: [InventoryService, WarehousesModule],
