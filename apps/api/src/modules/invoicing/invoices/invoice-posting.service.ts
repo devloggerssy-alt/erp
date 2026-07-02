@@ -6,6 +6,8 @@ import { FinancialSettingsService } from '../../accounting/financial-settings/se
 import { DocumentSequencesService } from '../../accounting/document-sequences/services/document-sequences.service';
 import { buildInvoiceJournalLines } from './invoice-journal';
 import { createPostingJournalEntry } from '../../accounting/accounts/utils/create-posting-journal-entry';
+import { buildCogsJournalLines } from '../../accounting/accounts/utils/inventory-journal';
+import { assertFiscalPeriodOpen } from '../../accounting/accounts/utils/assert-period-open';
 
 @Injectable()
 export class InvoicePostingService {
@@ -23,11 +25,13 @@ export class InvoicePostingService {
                 invoiceType: true,
                 lines: { include: { item: { select: { itemType: true } } } },
                 party: { select: { payableAccountId: true } },
+                fiscalPeriod: { select: { status: true } },
             },
         });
 
         if (!invoice) throw new NotFoundException('Invoice not found');
         if (invoice.status !== 'DRAFT') throw new BadRequestException('Only draft invoices can be posted');
+        assertFiscalPeriodOpen(invoice.fiscalPeriod?.status);
         if (invoice.invoiceType.direction !== 'PURCHASE') throw new BadRequestException('This is not a purchase invoice');
         if (!invoice.warehouseId) throw new BadRequestException('Purchase invoice must have a warehouse assigned');
         if (invoice.lines.length === 0) throw new BadRequestException('Invoice must have at least one line');
@@ -38,32 +42,21 @@ export class InvoicePostingService {
         if (!payableAccountId) throw new BadRequestException('No Accounts Payable account configured. Set a default in Financial Settings or on the party.');
         if (!settings.defaultPurchaseAccountId) throw new BadRequestException('No default Purchase account configured in Financial Settings.');
 
-        // Stock movements (outside the GL transaction — InventoryService has its own)
-        if (invoice.invoiceType.affectsStock) {
-            for (const line of invoice.lines) {
-                if (line.item.itemType !== 'service') {
-                    await this.inventoryService.postMovement({
-                        tenantId,
-                        warehouseId: invoice.warehouseId,
-                        itemId: line.itemId,
-                        fiscalPeriodId: invoice.fiscalPeriodId,
-                        movementType: StockMovementType.PURCHASE,
-                        quantity: Number(line.quantity),
-                        unitCost: Number(line.unitPrice),
-                        referenceType: 'invoice',
-                        referenceId: invoice.id,
-                        userId,
-                    });
-                    await this.prisma.item.update({
-                        where: { id: line.itemId },
-                        data: { latestPurchasePrice: line.unitPrice },
-                    });
-                }
-            }
-        }
-
         const exchangeRate = Number(invoice.exchangeRate);
         const netAmount = Number(invoice.subtotal) - Number(invoice.discountAmount);
+
+        // Stock lines capitalized to Inventory (invoice-currency net); services stay as Purchase expense.
+        const stockLines = invoice.invoiceType.affectsStock
+            ? invoice.lines.filter((l) => l.item.itemType !== 'service')
+            : [];
+        const inventoryAmount = stockLines.reduce(
+            (s, l) => s + (Number(l.total) - Number(l.taxAmount)),
+            0,
+        );
+        if (inventoryAmount > 0 && !settings.defaultInventoryAccountId) {
+            throw new BadRequestException('No default Inventory account configured in Financial Settings.');
+        }
+
         const journalLines = buildInvoiceJournalLines({
             direction: 'PURCHASE',
             netAmount,
@@ -76,11 +69,31 @@ export class InvoicePostingService {
             purchaseAccountId: settings.defaultPurchaseAccountId,
             taxAccountId: settings.defaultTaxAccountId ?? null,
             partyId: invoice.partyId,
+            inventoryAmount,
+            inventoryAccountId: settings.defaultInventoryAccountId ?? undefined,
         });
 
         const jeNumber = await this.docSeqService.getNextNumber(tenantId, 'JOURNAL_ENTRY');
 
         return this.prisma.$transaction(async (tx) => {
+            if (invoice.invoiceType.affectsStock) {
+                for (const line of stockLines) {
+                    await this.inventoryService.postMovementTx(tx as any, {
+                        tenantId,
+                        warehouseId: invoice.warehouseId!,
+                        itemId: line.itemId,
+                        fiscalPeriodId: invoice.fiscalPeriodId,
+                        movementType: StockMovementType.PURCHASE,
+                        quantity: Number(line.quantity),
+                        unitCost: Number(line.unitPrice) * exchangeRate,
+                        referenceType: 'invoice',
+                        referenceId: invoice.id,
+                        userId,
+                    });
+                    await tx.item.update({ where: { id: line.itemId }, data: { latestPurchasePrice: line.unitPrice } });
+                }
+            }
+
             await createPostingJournalEntry(tx, {
                 tenantId,
                 number: jeNumber,
@@ -109,11 +122,13 @@ export class InvoicePostingService {
                 invoiceType: true,
                 lines: { include: { item: { select: { itemType: true } } } },
                 party: { select: { receivableAccountId: true } },
+                fiscalPeriod: { select: { status: true } },
             },
         });
 
         if (!invoice) throw new NotFoundException('Invoice not found');
         if (invoice.status !== 'DRAFT') throw new BadRequestException('Only draft invoices can be posted');
+        assertFiscalPeriodOpen(invoice.fiscalPeriod?.status);
         if (invoice.invoiceType.direction !== 'SALE') throw new BadRequestException('This is not a sales invoice');
         if (!invoice.warehouseId) throw new BadRequestException('Sales invoice must have a warehouse assigned');
         if (invoice.lines.length === 0) throw new BadRequestException('Invoice must have at least one line');
@@ -124,40 +139,18 @@ export class InvoicePostingService {
         if (!receivableAccountId) throw new BadRequestException('No Accounts Receivable account configured. Set a default in Financial Settings or on the party.');
         if (!settings.defaultSalesAccountId) throw new BadRequestException('No default Sales account configured in Financial Settings.');
 
-        // Stock movements
-        if (invoice.invoiceType.affectsStock) {
-            for (const line of invoice.lines) {
-                if (line.item.itemType !== 'service') {
-                    const balance = await this.prisma.stockBalance.findUnique({
-                        where: { tenantId_warehouseId_itemId: { tenantId, warehouseId: invoice.warehouseId!, itemId: line.itemId } },
-                    });
-                    const currentQty = balance ? Number(balance.quantity) : 0;
-                    const requestedQty = Number(line.quantity);
-                    if (currentQty < requestedQty) {
-                        const item = await this.prisma.item.findUnique({ where: { id: line.itemId } });
-                        throw new BadRequestException(
-                            `Insufficient stock for item "${item?.name || line.itemId}". Available: ${currentQty}, Requested: ${requestedQty}`,
-                        );
-                    }
-                    await this.inventoryService.postMovement({
-                        tenantId,
-                        warehouseId: invoice.warehouseId!,
-                        itemId: line.itemId,
-                        fiscalPeriodId: invoice.fiscalPeriodId,
-                        movementType: StockMovementType.SALE,
-                        quantity: -requestedQty,
-                        unitCost: balance ? Number(balance.averageCost) : Number(line.unitPrice),
-                        referenceType: 'invoice',
-                        referenceId: invoice.id,
-                        userId,
-                    });
-                }
-            }
-        }
-
         const exchangeRate = Number(invoice.exchangeRate);
         const netAmount = Number(invoice.subtotal) - Number(invoice.discountAmount);
-        const journalLines = buildInvoiceJournalLines({
+
+        // Stock lines drive COGS (base-currency averageCost); services have no COGS leg.
+        const stockLines = invoice.invoiceType.affectsStock
+            ? invoice.lines.filter((l) => l.item.itemType !== 'service')
+            : [];
+        if (stockLines.length > 0 && (!settings.defaultCogsAccountId || !settings.defaultInventoryAccountId)) {
+            throw new BadRequestException('No default COGS / Inventory account configured in Financial Settings.');
+        }
+
+        const revenueLines = buildInvoiceJournalLines({
             direction: 'SALE',
             netAmount,
             taxAmount: Number(invoice.taxAmount),
@@ -174,6 +167,42 @@ export class InvoicePostingService {
         const jeNumber = await this.docSeqService.getNextNumber(tenantId, 'JOURNAL_ENTRY');
 
         return this.prisma.$transaction(async (tx) => {
+            let cogsTotal = 0;
+            for (const line of stockLines) {
+                const balance = await tx.stockBalance.findUnique({
+                    where: { tenantId_warehouseId_itemId: { tenantId, warehouseId: invoice.warehouseId!, itemId: line.itemId } },
+                });
+                const currentQty = balance ? Number(balance.quantity) : 0;
+                const requestedQty = Number(line.quantity);
+                if (currentQty < requestedQty) {
+                    throw new BadRequestException(
+                        `Insufficient stock for item "${line.itemId}". Available: ${currentQty}, Requested: ${requestedQty}`,
+                    );
+                }
+                const unitCost = balance ? Number(balance.averageCost) : Number(line.unitPrice);
+                cogsTotal += requestedQty * unitCost;
+                await this.inventoryService.postMovementTx(tx as any, {
+                    tenantId,
+                    warehouseId: invoice.warehouseId!,
+                    itemId: line.itemId,
+                    fiscalPeriodId: invoice.fiscalPeriodId,
+                    movementType: StockMovementType.SALE,
+                    quantity: -requestedQty,
+                    unitCost,
+                    referenceType: 'invoice',
+                    referenceId: invoice.id,
+                    userId,
+                });
+            }
+
+            const cogsLines = cogsTotal > 0
+                ? buildCogsJournalLines({
+                    cogsAccountId: settings.defaultCogsAccountId!,
+                    inventoryAccountId: settings.defaultInventoryAccountId!,
+                    amount: cogsTotal,
+                }).map((l, i) => ({ ...l, sortOrder: revenueLines.length + i }))
+                : [];
+
             await createPostingJournalEntry(tx, {
                 tenantId,
                 number: jeNumber,
@@ -184,7 +213,7 @@ export class InvoicePostingService {
                 description: `Sales invoice ${invoice.number}`,
                 exchangeRate,
                 userId,
-                lines: journalLines,
+                lines: [...revenueLines, ...cogsLines],
             });
 
             return tx.invoice.update({
