@@ -49,6 +49,22 @@ export class AccountsRepository extends CrudRepository<ChartOfAccount> {
         });
     }
 
+    /** Lightweight account list for tree navigation (no balance computation). */
+    async findAllForTree(tenantId: string) {
+        return this.prisma.chartOfAccount.findMany({
+            where: { tenantId },
+            select: {
+                id: true,
+                code: true,
+                name: true,
+                type: true,
+                parentId: true,
+                isActive: true,
+            },
+            orderBy: { code: 'asc' },
+        });
+    }
+
     /** Sum of POSTED debit/credit grouped by account, tenant-scoped. */
     async sumPostedLinesByAccount(
         tenantId: string,
