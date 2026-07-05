@@ -40,27 +40,11 @@ export class AccountsRepository extends CrudRepository<ChartOfAccount> {
         return count > 0;
     }
 
-    /** All accounts (minimal columns) for the balances read-model. */
+    /** All accounts (minimal columns) for balances read-model and tree navigation. */
     async findAllForBalances(tenantId: string) {
         return this.prisma.chartOfAccount.findMany({
             where: { tenantId },
             select: { id: true, code: true, name: true, type: true, parentId: true, isActive: true },
-            orderBy: { code: 'asc' },
-        });
-    }
-
-    /** Lightweight account list for tree navigation (no balance computation). */
-    async findAllForTree(tenantId: string) {
-        return this.prisma.chartOfAccount.findMany({
-            where: { tenantId },
-            select: {
-                id: true,
-                code: true,
-                name: true,
-                type: true,
-                parentId: true,
-                isActive: true,
-            },
             orderBy: { code: 'asc' },
         });
     }
