@@ -1,9 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import {
-    type SheetColumn,
-    type WorkbookSheet,
-} from '@devloggers/import-export';
-import {
     customFieldModules,
     ITEMS_CUSTOM_FIELD_PREFIX,
     ITEMS_EXPORT_MAX_ROWS,
@@ -19,6 +15,8 @@ import {
     CrudExportServiceBase,
     type ExportRow,
     type FindManyOptions,
+    type SheetColumn,
+    type WorkbookSheet,
 } from '@devloggers/backend-core';
 import { ItemsRepository, type ItemWithListRelations } from '../repositories/items.repository';
 import { ItemPresenter } from '../presenters/item.presenter';

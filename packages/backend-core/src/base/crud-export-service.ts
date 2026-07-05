@@ -4,7 +4,7 @@ import {
     buildWorkbookBuffer,
     type SheetColumn,
     type WorkbookSheet,
-} from '@devloggers/import-export';
+} from '../import-export/index.js';
 import { ApiQueryOptionsDto } from '../api/api-query-options.dto.js';
 import { buildPrismaWhere } from '../api/api-query.utils.js';
 import type { FilterSchema } from '../api/filter-schema.js';

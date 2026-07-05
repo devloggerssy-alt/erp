@@ -1,17 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import {
-    parseBooleanCell,
-    parseListCell,
-    parseNumberCell,
-    parseStringCell,
-    normalizeLookupKey,
-    type ImportResult,
-} from '@devloggers/import-export';
-import {
     customFieldModules,
     ITEMS_CUSTOM_FIELD_PREFIX,
     ITEMS_IMPORT_COLUMNS,
     type CustomFieldValuesMap,
+    type ImportResult,
     type ItemType,
 } from '@devloggers/api-contracts';
 import type { CustomField, Item } from '@devloggers/db-prisma';
@@ -19,6 +12,11 @@ import { PrismaService } from '@devloggers/db-prisma/nest';
 import { CustomFieldsRepository } from '@/modules/custom-fields/repositories/custom-fields.repository';
 import {
     CrudImportServiceBase,
+    normalizeLookupKey,
+    parseBooleanCell,
+    parseListCell,
+    parseNumberCell,
+    parseStringCell,
     type ParsedImportRow,
 } from '@devloggers/backend-core';
 import { ItemsService } from './items.service';

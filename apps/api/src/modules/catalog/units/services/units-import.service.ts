@@ -1,15 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import {
-    parseBooleanCell,
-    parseStringCell,
-    normalizeLookupKey,
-    type ImportResult,
-} from '@devloggers/import-export';
-import { UNITS_IMPORT_COLUMNS } from '@devloggers/api-contracts';
+import { type ImportResult, UNITS_IMPORT_COLUMNS } from '@devloggers/api-contracts';
 import type { Unit } from '@devloggers/db-prisma';
 import { PrismaService } from '@devloggers/db-prisma/nest';
 import {
     CrudImportServiceBase,
+    normalizeLookupKey,
+    parseBooleanCell,
+    parseStringCell,
     type ParsedImportRow,
 } from '@devloggers/backend-core';
 import { UnitsService } from './units.service';

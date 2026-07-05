@@ -1,4 +1,5 @@
 export * from './base';
+export * from './import-export';
 export * from './base/base.service';
 export * from './base/base.controller';
 export * from './prisma/prisma-delegate.interface';

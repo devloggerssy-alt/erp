@@ -35,9 +35,6 @@ importers:
       '@devloggers/i18n':
         specifier: workspace:*
         version: link:../../packages/i18n
-      '@devloggers/import-export':
-        specifier: workspace:*
-        version: link:../../packages/import-export
       '@nestjs-modules/mailer':
         specifier: ^2.0.2
         version: 2.3.4(@nestjs/common@11.1.17(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.17(@nestjs/common@11.1.17(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/platform-express@11.1.17)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/event-emitter@3.1.0(@nestjs/common@11.1.17(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.17(@nestjs/common@11.1.17(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/platform-express@11.1.17)(reflect-metadata@0.2.2)(rxjs@7.8.2)))(chokidar@4.0.3)(nodemailer@7.0.13)(svgo@4.0.1)(terser@5.46.1)(typescript@5.9.3)
@@ -438,9 +435,9 @@ importers:
       '@devloggers/db-prisma':
         specifier: workspace:*
         version: link:../db-prisma
-      '@devloggers/import-export':
-        specifier: workspace:*
-        version: link:../import-export
+      exceljs:
+        specifier: ^4.4.0
+        version: 4.4.0
     devDependencies:
       '@devloggers/eslint-config':
         specifier: workspace:*
@@ -582,22 +579,6 @@ importers:
       '@types/node':
         specifier: ^22.19.0
         version: 22.19.15
-
-  packages/import-export:
-    dependencies:
-      exceljs:
-        specifier: ^4.4.0
-        version: 4.4.0
-    devDependencies:
-      '@devloggers/typescript-config':
-        specifier: workspace:*
-        version: link:../typescript-config
-      '@types/node':
-        specifier: ^22.0.0
-        version: 22.19.15
-      typescript:
-        specifier: ^5.7.3
-        version: 5.9.3
 
   packages/typescript-config: {}
 
