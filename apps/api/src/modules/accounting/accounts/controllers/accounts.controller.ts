@@ -1,9 +1,12 @@
-import { Controller, UseGuards } from '@nestjs/common';
-import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
+import { Controller, Get, UseGuards } from '@nestjs/common';
+import { ApiTags, ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
 import { createCrudController, type CrudOpenApi } from '@devloggers/backend-core';
 import { AccountsService } from '../services/accounts.service';
-import { CreateChartOfAccountDto, UpdateChartOfAccountDto, ChartOfAccountResponseDto } from '../dto';
+import { CreateChartOfAccountDto, UpdateChartOfAccountDto, ChartOfAccountResponseDto, ChartOfAccountTreeDto } from '../dto';
 import { JwtAuthGuard } from '@/modules/identity/auth/guards';
+import { CurrentUser, type RequestUser } from '@/modules/identity/auth/decorators';
+import { ApiResponseBuilder } from '@/common/api/api-response-builder';
+import { ApiStandardErrors, ApiOkResponseStandard } from '@/common/decorators/api-swagger.decorators';
 
 // ── OpenAPI config ────────────────────────────────────────────────────────────
 
@@ -63,5 +66,17 @@ const AccountsCrudBase = createCrudController({
 export class AccountsController extends AccountsCrudBase {
     constructor(private readonly accountsService: AccountsService) {
         super(accountsService, 'Account');
+    }
+
+    @Get('tree')
+    @ApiOperation({
+        summary: 'Get account tree structure',
+        description: 'Lightweight account list for tree navigation. No balance computation.',
+    })
+    @ApiOkResponseStandard(ChartOfAccountTreeDto, { isArray: true, description: 'Account tree' })
+    @ApiStandardErrors()
+    async tree(@CurrentUser() user: RequestUser) {
+        const data = await this.accountsService.getTree(user.tenantId);
+        return ApiResponseBuilder.success(data, 'Account tree');
     }
 }
