@@ -60,8 +60,8 @@ export class AccountsRepository extends CrudRepository<ChartOfAccount> {
         });
         return grouped.map((g) => ({
             accountId: g.accountId,
-            debit: Number(g._sum.debit ?? 0),
-            credit: Number(g._sum.credit ?? 0),
+            debit: g._sum.debit ? Number(g._sum.debit) : 0,
+            credit: g._sum.credit ? Number(g._sum.credit) : 0,
         }));
     }
 
