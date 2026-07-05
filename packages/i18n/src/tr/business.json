@@ -430,7 +430,8 @@
         "columnCode": "Kod",
         "columnName": "Hesap",
         "columnType": "Tür",
-        "columnBalance": "Bakiye",
+        "columnOwnBalance": "Öz Bakiye",
+        "columnRolledBalance": "Toplam Bakiye",
         "empty": "Gösterilecek alt hesap yok."
       },
       "ledger": {

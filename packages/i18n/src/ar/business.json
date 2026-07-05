@@ -430,7 +430,8 @@
         "columnCode": "الرمز",
         "columnName": "الحساب",
         "columnType": "النوع",
-        "columnBalance": "الرصيد",
+        "columnOwnBalance": "الرصيد الخاص",
+        "columnRolledBalance": "الرصيد الإجمالي",
         "empty": "لا توجد حسابات فرعية للعرض."
       },
       "ledger": {

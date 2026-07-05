@@ -39,7 +39,8 @@ export function AccountBalancesTable({
                         <th className="px-3 py-2 text-start font-medium">{t("balances.columnCode")}</th>
                         <th className="px-3 py-2 text-start font-medium">{t("balances.columnName")}</th>
                         {showType && <th className="px-3 py-2 text-start font-medium">{t("balances.columnType")}</th>}
-                        <th className="px-3 py-2 text-end font-medium">{t("balances.columnBalance")}</th>
+                        <th className="px-3 py-2 text-end font-medium">{t("balances.columnOwnBalance")}</th>
+                        <th className="px-3 py-2 text-end font-medium">{t("balances.columnRolledBalance")}</th>
                         <th className="w-8" />
                     </tr>
                 </thead>
@@ -70,6 +71,12 @@ export function AccountBalancesTable({
                                         </span>
                                     </td>
                                 )}
+                                <td className={cn(
+                                    "px-3 py-2 text-end font-mono tabular-nums",
+                                    row.ownBalance < 0 ? "text-destructive" : "text-muted-foreground",
+                                )}>
+                                    {formatBalance(row.ownBalance)}
+                                </td>
                                 <td className={cn(
                                     "px-3 py-2 text-end font-mono tabular-nums",
                                     row.rolledBalance < 0 ? "text-destructive" : "text-foreground",
