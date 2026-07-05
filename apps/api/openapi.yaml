@@ -1995,6 +1995,8 @@ paths:
           schema:
             type: string
       responses:
+        '204':
+          description: ''
         '401':
           description: JWT token is missing, expired, or invalid
           content:
@@ -13534,6 +13536,8 @@ paths:
                   - properties:
                       data:
                         $ref: '#/components/schemas/InvoiceResponseDto'
+        '201':
+          description: ''
         '401':
           description: JWT token is missing, expired, or invalid
           content:
@@ -13628,6 +13632,8 @@ paths:
                   - properties:
                       data:
                         $ref: '#/components/schemas/InvoiceResponseDto'
+        '201':
+          description: ''
         '401':
           description: JWT token is missing, expired, or invalid
           content:
@@ -13721,6 +13727,8 @@ paths:
                   - properties:
                       data:
                         $ref: '#/components/schemas/InvoiceResponseDto'
+        '201':
+          description: ''
         '401':
           description: JWT token is missing, expired, or invalid
           content:
@@ -14217,6 +14225,8 @@ paths:
                     id: ...
                     status: POSTED
                     postedAt: '2026-04-14T12:00:00.000Z'
+        '201':
+          description: ''
         '401':
           description: JWT token is missing, expired, or invalid
           content:
@@ -14310,6 +14320,8 @@ paths:
                     id: ...
                     status: CANCELLED
                     cancelledAt: '2026-04-14T14:00:00.000Z'
+        '201':
+          description: ''
         '401':
           description: JWT token is missing, expired, or invalid
           content:
@@ -14411,6 +14423,8 @@ paths:
                     allocations:
                       - invoiceId: ...
                         amount: 300000
+        '201':
+          description: ''
         '401':
           description: JWT token is missing, expired, or invalid
           content:
@@ -15014,6 +15028,8 @@ paths:
       responses:
         '200':
           description: Expense posted — journal entry created, cashbox decremented
+        '201':
+          description: ''
         '401':
           description: JWT token is missing, expired, or invalid
           content:
@@ -15098,6 +15114,8 @@ paths:
       responses:
         '200':
           description: Expense cancelled — reversing entry created
+        '201':
+          description: ''
         '401':
           description: JWT token is missing, expired, or invalid
           content:
@@ -16317,6 +16335,8 @@ paths:
                     status: POSTED
                     postedAt: '2026-04-14T12:00:00.000Z'
                     adjustments: 2
+        '201':
+          description: ''
         '401':
           description: JWT token is missing, expired, or invalid
           content:
@@ -17791,6 +17811,8 @@ paths:
       responses:
         '200':
           description: File metadata record
+        '201':
+          description: ''
       security:
         - JWT-auth: []
       summary: Upload a file
@@ -17819,7 +17841,9 @@ info:
   version: 1.0.0
   contact: {}
 tags: []
-servers: []
+servers:
+  - url: http://localhost:4049
+    description: Development server
 components:
   securitySchemes:
     JWT-auth:
@@ -17827,6 +17851,7 @@ components:
       bearerFormat: JWT
       type: http
       name: JWT
+      description: Enter JWT token
       in: header
   schemas:
     PaginationMetaDto:
@@ -17924,19 +17949,24 @@ components:
       properties:
         id:
           type: string
+          default: ''
           example: 00000000-0000-4000-a000-000000000001
         name:
           type: string
+          default: ''
           example: Demo Shop
         slug:
           type: string
+          default: ''
           example: demo-shop
         onboardingStep:
           type: number
+          default: 0
           example: 0
         onboardingCompletedAt:
-          type: object
+          type: string
           nullable: true
+          default: null
           example: null
       required:
         - id
@@ -17949,24 +17979,36 @@ components:
       properties:
         id:
           type: string
+          default: ''
           example: 00000000-0000-4000-a200-000000000001
         tenantId:
           type: string
+          default: ''
           example: 00000000-0000-4000-a000-000000000001
         email:
           type: string
+          default: ''
           example: admin@demo-shop.com
         fullName:
           type: string
+          default: ''
           example: Admin User
         roles:
+          default: []
           example:
             - Admin
           type: array
           items:
             type: string
         tenant:
-          $ref: '#/components/schemas/AuthTenantDto'
+          default:
+            id: ''
+            name: ''
+            slug: ''
+            onboardingStep: 0
+            onboardingCompletedAt: null
+          allOf:
+            - $ref: '#/components/schemas/AuthTenantDto'
       required:
         - id
         - tenantId
@@ -17979,9 +18021,23 @@ components:
       properties:
         accessToken:
           type: string
+          default: ''
           example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
         user:
-          $ref: '#/components/schemas/AuthUserDto'
+          default:
+            id: ''
+            tenantId: ''
+            email: ''
+            fullName: ''
+            roles: []
+            tenant:
+              id: ''
+              name: ''
+              slug: ''
+              onboardingStep: 0
+              onboardingCompletedAt: null
+          allOf:
+            - $ref: '#/components/schemas/AuthUserDto'
       required:
         - accessToken
         - user
@@ -17990,6 +18046,7 @@ components:
       properties:
         email:
           type: string
+          format: email
           example: admin@demo-shop.com
         password:
           type: string
@@ -18010,9 +18067,11 @@ components:
           description: Full name of the account owner
         email:
           type: string
+          format: email
           example: admin@demo-shop.com
         password:
           type: string
+          minLength: 8
           example: admin123
           description: Password (min 8 characters)
         phone:
@@ -18028,26 +18087,38 @@ components:
       properties:
         id:
           type: string
+          default: ''
           example: 00000000-0000-4000-a200-000000000001
         tenantId:
           type: string
+          default: ''
           example: 00000000-0000-4000-a000-000000000001
         email:
           type: string
+          default: ''
           example: admin@demo-shop.com
         fullName:
           type: string
+          default: ''
           example: Admin User
         roles:
+          default: []
           example:
             - Admin
           type: array
           items:
             type: string
         tenant:
-          $ref: '#/components/schemas/AuthTenantDto'
+          default:
+            id: ''
+            name: ''
+            slug: ''
+            onboardingStep: 0
+            onboardingCompletedAt: null
+          allOf:
+            - $ref: '#/components/schemas/AuthTenantDto'
         phone:
-          type: object
+          type: string
           nullable: true
           example: null
       required:
@@ -18057,7 +18128,6 @@ components:
         - fullName
         - roles
         - tenant
-        - phone
     LocalizedStringDto:
       type: object
       properties:
@@ -18074,28 +18144,38 @@ components:
       properties:
         id:
           type: string
+          default: ''
           example: 00000000-0000-4000-b100-000000000001
         name:
           type: string
+          default: ''
           example: محاسب
         nameI18n:
-          $ref: '#/components/schemas/LocalizedStringDto'
+          default:
+            ar: ''
+          allOf:
+            - $ref: '#/components/schemas/LocalizedStringDto'
         description:
-          type: object
-          example: صلاحيات المحاسبة والمالية
+          type: string
           nullable: true
+          default: null
+          example: صلاحيات المحاسبة والمالية
         descriptionI18n:
           nullable: true
+          default: null
           allOf:
             - $ref: '#/components/schemas/LocalizedStringDto'
         isSystem:
           type: boolean
+          default: false
           example: false
         createdAt:
           type: string
+          default: ''
           example: '2025-01-01T00:00:00.000Z'
         updatedAt:
           type: string
+          default: ''
           example: '2025-01-01T00:00:00.000Z'
       required:
         - id
@@ -18109,6 +18189,8 @@ components:
       type: object
       properties:
         name:
+          default:
+            ar: ''
           description: Role display name
           allOf:
             - $ref: '#/components/schemas/LocalizedStringDto'
@@ -18198,6 +18280,7 @@ components:
           description: Company / tenant name
         slug:
           type: string
+          pattern: /^[a-z0-9-]+$/
           example: demo-shop
           description: URL-friendly slug (lowercase, alphanumeric, dashes)
         address:
@@ -18208,13 +18291,16 @@ components:
           example: +963-11-1234567
         email:
           type: string
+          format: email
           example: admin@demo-shop.com
         adminEmail:
           type: string
+          format: email
           example: admin@demo-shop.com
           description: Email for the initial admin user
         adminPassword:
           type: string
+          minLength: 8
           example: admin123
           description: Password for the initial admin user (min 8 chars)
         adminFullName:
@@ -18241,6 +18327,7 @@ components:
           example: +963-11-7654321
         email:
           type: string
+          format: email
           example: contact@demo-shop.com
         logo:
           type: string
@@ -18268,9 +18355,11 @@ components:
       properties:
         id:
           type: string
+          default: ''
           example: 00000000-0000-4000-a700-000000000001
         name:
           type: string
+          default: ''
           example: '2026'
       required:
         - id
@@ -18280,12 +18369,15 @@ components:
       properties:
         id:
           type: string
+          default: ''
           example: 00000000-0000-4000-a700-000000000002
         code:
           type: string
+          default: ''
           example: USD
         name:
           type: string
+          default: ''
           example: US Dollar
       required:
         - id
@@ -18296,12 +18388,15 @@ components:
       properties:
         id:
           type: string
+          default: ''
           example: 00000000-0000-4000-a700-000000000003
         code:
           type: string
+          default: ''
           example: MAIN
         name:
           type: string
+          default: ''
           example: Main Cashbox
       required:
         - id
@@ -18312,16 +18407,19 @@ components:
       properties:
         fiscalPeriod:
           nullable: true
+          default: null
           description: Current open fiscal period covering today, or null
           allOf:
             - $ref: '#/components/schemas/FormDefaultFiscalPeriodDto'
         currency:
           nullable: true
+          default: null
           description: Tenant base currency, or null if not configured
           allOf:
             - $ref: '#/components/schemas/FormDefaultCurrencyDto'
         cashbox:
           nullable: true
+          default: null
           description: First active cashbox in the base currency, or null
           allOf:
             - $ref: '#/components/schemas/FormDefaultCashboxDto'
@@ -18330,10 +18428,12 @@ components:
       properties:
         timezone:
           type: string
+          default: UTC
           example: UTC
           description: IANA timezone identifier
         locale:
           type: string
+          default: en
           enum:
             - en
             - ar
@@ -18341,6 +18441,7 @@ components:
           example: en
         dateFormat:
           type: string
+          default: YYYY-MM-DD
           enum:
             - YYYY-MM-DD
             - DD/MM/YYYY
@@ -18348,12 +18449,14 @@ components:
           example: YYYY-MM-DD
         numberFormat:
           type: string
+          default: 1,234.56
           enum:
             - 1,234.56
             - 1.234,56
           example: 1,234.56
         firstDayOfWeek:
           type: number
+          default: 1
           example: 1
           description: 0 = Sunday … 6 = Saturday
       required:
@@ -18367,14 +18470,17 @@ components:
       properties:
         defaultTaxRate:
           type: number
+          default: 0
           example: 0
           description: Default tax rate percentage (0–100)
         roundingPrecision:
           type: number
+          default: 2
           example: 2
           description: Decimal places used when rounding amounts (0–6)
         fiscalYearStartMonth:
           type: number
+          default: 1
           example: 1
           description: Month the fiscal year starts (1 = January)
       required:
@@ -18386,18 +18492,22 @@ components:
       properties:
         invoiceDefaultNotes:
           type: string
+          default: ''
           example: ''
           description: Default notes appended to invoices
         invoiceDefaultTerms:
           type: string
+          default: ''
           example: ''
           description: Default payment terms appended to invoices
         documentFooter:
           type: string
+          default: ''
           example: ''
           description: Footer text printed on all documents
         showLogoOnDocuments:
           type: boolean
+          default: true
           example: true
           description: Whether to print the tenant logo on documents
       required:
@@ -18409,11 +18519,29 @@ components:
       type: object
       properties:
         localization:
-          $ref: '#/components/schemas/LocalizationSettingsDto'
+          default:
+            timezone: UTC
+            locale: en
+            dateFormat: YYYY-MM-DD
+            numberFormat: 1,234.56
+            firstDayOfWeek: 1
+          allOf:
+            - $ref: '#/components/schemas/LocalizationSettingsDto'
         financial:
-          $ref: '#/components/schemas/FinancialSettingsDto'
+          default:
+            defaultTaxRate: 0
+            roundingPrecision: 2
+            fiscalYearStartMonth: 1
+          allOf:
+            - $ref: '#/components/schemas/FinancialSettingsDto'
         documents:
-          $ref: '#/components/schemas/DocumentsSettingsDto'
+          default:
+            invoiceDefaultNotes: ''
+            invoiceDefaultTerms: ''
+            documentFooter: ''
+            showLogoOnDocuments: true
+          allOf:
+            - $ref: '#/components/schemas/DocumentsSettingsDto'
       required:
         - localization
         - financial
@@ -18470,30 +18598,37 @@ components:
       properties:
         paymentAllocations:
           type: number
+          default: 0
           example: 30
           description: Payment allocations deleted
         payments:
           type: number
+          default: 0
           example: 12
           description: Payments deleted
         invoices:
           type: number
+          default: 0
           example: 8
           description: Invoices deleted (lines cascade)
         expenses:
           type: number
+          default: 0
           example: 5
           description: Expenses deleted (items cascade)
         journalEntries:
           type: number
+          default: 0
           example: 20
           description: Journal entries deleted (lines cascade)
         cashboxesReset:
           type: number
+          default: 0
           example: 3
           description: Cashboxes whose balance was reset to 0
         accountsReset:
           type: number
+          default: 0
           example: 15
           description: GL accounts whose balance was reset to 0
       required:
@@ -18509,6 +18644,7 @@ components:
       properties:
         confirmation:
           type: string
+          default: ''
           example: RESET FINANCE
           description: Confirmation phrase. Must be exactly "RESET FINANCE".
       required:
@@ -18518,14 +18654,17 @@ components:
       properties:
         stockMovements:
           type: number
+          default: 0
           example: 120
           description: Stock movements deleted
         stockBalances:
           type: number
+          default: 0
           example: 45
           description: Stock balances deleted
         stockCounts:
           type: number
+          default: 0
           example: 6
           description: Stock counts deleted (lines cascade)
       required:
@@ -18537,6 +18676,7 @@ components:
       properties:
         confirmation:
           type: string
+          default: ''
           example: RESET INVENTORY
           description: Confirmation phrase. Must be exactly "RESET INVENTORY".
       required:
@@ -18546,10 +18686,12 @@ components:
       properties:
         email:
           type: string
+          format: email
           example: accountant@demo-shop.com
           description: User email (unique per tenant)
         password:
           type: string
+          minLength: 8
           example: user123
           description: Password (min 8 characters)
         fullName:
@@ -18575,6 +18717,7 @@ components:
       properties:
         email:
           type: string
+          format: email
           example: newemail@demo-shop.com
         fullName:
           type: string
@@ -18604,6 +18747,7 @@ components:
       properties:
         name:
           type: string
+          default: ''
           example: My Company
         address:
           type: string
@@ -18611,6 +18755,7 @@ components:
           type: string
         locale:
           type: string
+          default: en
           enum:
             - en
             - ar
@@ -18618,9 +18763,11 @@ components:
           example: en
         timezone:
           type: string
+          default: UTC
           example: UTC
         dateFormat:
           type: string
+          default: YYYY-MM-DD
           enum:
             - YYYY-MM-DD
             - DD/MM/YYYY
@@ -18628,6 +18775,7 @@ components:
           example: YYYY-MM-DD
         numberFormat:
           type: string
+          default: 1,234.56
           enum:
             - 1,234.56
             - 1.234,56
@@ -18643,9 +18791,11 @@ components:
       properties:
         startDate:
           type: string
+          default: ''
           example: '2026-01-01'
         endDate:
           type: string
+          default: ''
           example: '2026-12-31'
         name:
           type: string
@@ -18658,14 +18808,24 @@ components:
       properties:
         defaultSalesAccountId:
           type: string
+          default: ''
+          format: uuid
         defaultPurchaseAccountId:
           type: string
+          default: ''
+          format: uuid
         defaultTaxAccountId:
           type: string
+          default: ''
+          format: uuid
         defaultReceivableAccountId:
           type: string
+          default: ''
+          format: uuid
         defaultPayableAccountId:
           type: string
+          default: ''
+          format: uuid
       required:
         - defaultSalesAccountId
         - defaultPurchaseAccountId
@@ -18677,15 +18837,19 @@ components:
       properties:
         type:
           type: string
+          default: ''
           example: SALES_INVOICE
         prefix:
           type: string
+          default: ''
           example: INV-
         startNumber:
           type: number
+          minimum: 1
           example: 1
         padLength:
           type: number
+          minimum: 1
           example: 5
       required:
         - type
@@ -18694,6 +18858,7 @@ components:
       type: object
       properties:
         sequences:
+          default: []
           type: array
           items:
             $ref: '#/components/schemas/OnboardingSequenceItemDto'
@@ -18704,18 +18869,23 @@ components:
       properties:
         id:
           type: string
+          default: ''
           example: 00000000-0000-4000-b200-000000000001
         name:
           type: string
+          default: ''
           example: '2026'
         startDate:
           type: string
+          default: ''
           example: '2026-01-01T00:00:00.000Z'
         endDate:
           type: string
+          default: ''
           example: '2026-12-31T00:00:00.000Z'
         status:
           type: string
+          default: OPEN
           enum:
             - OPEN
             - CLOSED
@@ -18723,9 +18893,11 @@ components:
           example: OPEN
         createdAt:
           type: string
+          default: ''
           example: '2025-01-01T00:00:00.000Z'
         updatedAt:
           type: string
+          default: ''
           example: '2025-01-01T00:00:00.000Z'
       required:
         - id
@@ -18740,13 +18912,16 @@ components:
       properties:
         name:
           type: string
+          default: ''
           example: '2026'
         startDate:
           type: string
+          default: ''
           example: '2026-01-01'
           description: Period start date (ISO 8601)
         endDate:
           type: string
+          default: ''
           example: '2026-12-31'
           description: Period end date (ISO 8601)
       required:
@@ -18777,24 +18952,31 @@ components:
       properties:
         id:
           type: string
+          default: ''
           example: 00000000-0000-4000-b300-000000000001
         documentType:
           type: string
+          default: ''
           example: SALES_INVOICE
         prefix:
           type: string
+          default: ''
           example: SAL
         nextNumber:
           type: number
+          default: 1
           example: 42
         padding:
           type: number
+          default: 5
           example: 5
         createdAt:
           type: string
+          default: ''
           example: '2025-01-01T00:00:00.000Z'
         updatedAt:
           type: string
+          default: ''
           example: '2025-01-01T00:00:00.000Z'
       required:
         - id
@@ -18809,20 +18991,24 @@ components:
       properties:
         documentType:
           type: string
+          default: ''
           example: SALES_INVOICE
           description: >-
             Document type (e.g. SALES_INVOICE, PURCHASE_INVOICE, PAYMENT,
             STOCK_COUNT)
         prefix:
           type: string
+          default: ''
           example: SAL
           description: Prefix for generated document numbers
         nextNumber:
           type: number
+          minimum: 1
           example: 1
           description: Starting number for the sequence
         padding:
           type: number
+          minimum: 1
           example: 5
           description: Zero-pad length (e.g. 5 → SAL-00001)
       required:
@@ -18837,14 +19023,137 @@ components:
           description: Updated prefix
         nextNumber:
           type: number
+          minimum: 1
           example: 100
           description: Jump sequence to a specific number
         padding:
           type: number
+          minimum: 1
           example: 6
+    ChartOfAccountResponseDto:
+      type: object
+      properties:
+        id:
+          type: string
+          default: ''
+          example: 00000000-0000-4000-a601-000000000001
+        code:
+          type: string
+          default: ''
+          example: '1110'
+        name:
+          type: string
+          default: ''
+          example: نقد وما يعادله
+        nameI18n:
+          default:
+            ar: ''
+          allOf:
+            - $ref: '#/components/schemas/LocalizedStringDto'
+        type:
+          type: string
+          default: ''
+          enum:
+            - ASSET
+            - LIABILITY
+            - EQUITY
+            - REVENUE
+            - EXPENSE
+          example: ASSET
+        parentId:
+          type: string
+          nullable: true
+          default: null
+          example: 00000000-0000-4000-a601-000000000001
+        parentCode:
+          type: string
+          nullable: true
+          default: null
+          example: '1000'
+        parentName:
+          type: string
+          nullable: true
+          default: null
+          example: الأصول المتداولة
+        isActive:
+          type: boolean
+          default: true
+          example: true
+        createdAt:
+          type: string
+          default: ''
+          example: '2025-01-01T00:00:00.000Z'
+        updatedAt:
+          type: string
+          default: ''
+          example: '2025-01-01T00:00:00.000Z'
+      required:
+        - id
+        - code
+        - name
+        - nameI18n
+        - type
+        - isActive
+        - createdAt
+        - updatedAt
     FinancialSettingResponseDto:
       type: object
-      properties: {}
+      properties:
+        defaultSalesAccount:
+          nullable: true
+          default: null
+          allOf:
+            - $ref: '#/components/schemas/ChartOfAccountResponseDto'
+        defaultPurchaseAccount:
+          nullable: true
+          default: null
+          allOf:
+            - $ref: '#/components/schemas/ChartOfAccountResponseDto'
+        defaultTaxAccount:
+          nullable: true
+          default: null
+          allOf:
+            - $ref: '#/components/schemas/ChartOfAccountResponseDto'
+        defaultReceivableAccount:
+          nullable: true
+          default: null
+          allOf:
+            - $ref: '#/components/schemas/ChartOfAccountResponseDto'
+        defaultPayableAccount:
+          nullable: true
+          default: null
+          allOf:
+            - $ref: '#/components/schemas/ChartOfAccountResponseDto'
+        defaultInventoryAccount:
+          nullable: true
+          default: null
+          allOf:
+            - $ref: '#/components/schemas/ChartOfAccountResponseDto'
+        defaultCogsAccount:
+          nullable: true
+          default: null
+          allOf:
+            - $ref: '#/components/schemas/ChartOfAccountResponseDto'
+        defaultInventoryAdjustmentAccount:
+          nullable: true
+          default: null
+          allOf:
+            - $ref: '#/components/schemas/ChartOfAccountResponseDto'
+        defaultOpeningEquityAccount:
+          nullable: true
+          default: null
+          allOf:
+            - $ref: '#/components/schemas/ChartOfAccountResponseDto'
+      required:
+        - defaultSalesAccount
+        - defaultPurchaseAccount
+        - defaultTaxAccount
+        - defaultReceivableAccount
+        - defaultPayableAccount
+        - defaultInventoryAccount
+        - defaultCogsAccount
+        - defaultInventoryAdjustmentAccount
+        - defaultOpeningEquityAccount
     UpsertFinancialSettingBodyDto:
       type: object
       properties:
@@ -18951,21 +19260,27 @@ components:
       properties:
         id:
           type: string
+          default: ''
           example: 018e1234-abcd-7000-a001-000000000001
         name:
           type: string
+          default: ''
           example: Kilogram
         abbreviation:
           type: string
+          default: ''
           example: kg
         isActive:
           type: boolean
+          default: true
           example: true
         createdAt:
           type: string
+          default: ''
           example: '2025-01-01T00:00:00.000Z'
         updatedAt:
           type: string
+          default: ''
           example: '2025-01-01T00:00:00.000Z'
       required:
         - id
@@ -18979,10 +19294,12 @@ components:
       properties:
         name:
           type: string
+          default: ''
           example: Kilogram
           description: Unit display name
         abbreviation:
           type: string
+          default: ''
           example: kg
           description: Short abbreviation used on documents
       required:
@@ -19003,37 +19320,61 @@ components:
           type: boolean
           example: true
           description: Whether the unit is active
+    ParentCategoryDto:
+      type: object
+      properties:
+        id:
+          type: string
+          default: ''
+          example: 00000000-0000-4000-a700-000000000001
+        name:
+          type: string
+          default: ''
+          example: Electronics
+      required:
+        - id
+        - name
     ItemCategoryResponseDto:
       type: object
       properties:
         id:
           type: string
+          default: ''
           example: 00000000-0000-4000-a700-000000000002
         name:
           type: string
+          default: ''
           example: Electronics
         description:
           type: string
+          default: ''
           example: Electronic devices and accessories
         imageUrl:
-          type: object
+          type: string
+          nullable: true
+          default: null
           example: https://cdn.example.com/electronics.png
-          nullable: true
         parentId:
-          type: object
-          example: 00000000-0000-4000-a700-000000000001
+          type: string
           nullable: true
+          default: null
+          example: 00000000-0000-4000-a700-000000000001
         parent:
-          type: object
+          nullable: true
           description: Parent category summary
+          allOf:
+            - $ref: '#/components/schemas/ParentCategoryDto'
         isActive:
           type: boolean
+          default: true
           example: true
         createdAt:
           type: string
+          default: ''
           example: '2025-01-01T00:00:00.000Z'
         updatedAt:
           type: string
+          default: ''
           example: '2025-01-01T00:00:00.000Z'
       required:
         - id
@@ -19048,22 +19389,27 @@ components:
       properties:
         name:
           type: string
+          default: ''
           example: Electronics
           description: Category display name
         description:
           type: string
+          default: ''
           example: Electronic devices and accessories
         imageUrl:
-          type: object
+          type: string
+          nullable: true
+          format: uri
           example: https://cdn.example.com/electronics.png
           description: Category image URL
-          nullable: true
         parentId:
-          type: object
+          type: string
+          nullable: true
           example: 00000000-0000-4000-a700-000000000001
           description: Parent category ID for nesting
         isActive:
           type: boolean
+          default: true
           example: true
       required:
         - name
@@ -19077,9 +19423,10 @@ components:
           type: string
           example: Updated description for electronics category
         imageUrl:
-          type: object
-          example: https://cdn.example.com/electronics.png
+          type: string
           nullable: true
+          format: uri
+          example: https://cdn.example.com/electronics.png
         parentId:
           type: string
           example: 00000000-0000-4000-a700-000000000001
@@ -19092,59 +19439,99 @@ components:
       properties:
         id:
           type: string
+          default: ''
           example: 00000000-0000-4000-a900-000000000001
         code:
           type: string
+          default: ''
           example: ELEC-001
         name:
           type: string
+          default: ''
           example: Laptop 15"
         barcode:
-          type: object
-          example: '6901234567890'
+          type: string
           nullable: true
+          default: null
+          example: '6901234567890'
         categoryId:
           type: string
+          default: ''
           example: 00000000-0000-4000-a700-000000000001
         baseUnitId:
           type: string
+          default: ''
           example: 00000000-0000-4000-a800-000000000001
         brandId:
-          type: object
-          example: 00000000-0000-4000-b000-000000000001
+          type: string
           nullable: true
+          default: null
+          example: 00000000-0000-4000-b000-000000000001
         category:
           type: object
-          description: Populated in show responses only
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+          required:
+            - id
+            - name
         baseUnit:
           type: object
-          description: Populated in show responses only
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+            abbreviation:
+              type: string
+          required:
+            - id
+            - name
+            - abbreviation
         brand:
           type: object
-          description: Populated in show responses only
-          nullable: true
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+            imageUrl:
+              type: string
+              nullable: true
+          required:
+            - id
+            - name
+            - imageUrl
         defaultSellingPrice:
-          type: object
+          type: number
+          nullable: true
+          default: null
           example: 750000
-          nullable: true
         latestPurchasePrice:
-          type: object
-          example: 600000
+          type: number
           nullable: true
+          default: null
+          example: 600000
         isActive:
           type: boolean
+          default: true
           example: true
         mainImageUrl:
-          type: object
-          example: https://cdn.example.com/item-main.png
+          type: string
           nullable: true
+          default: null
+          example: https://cdn.example.com/item-main.png
         galleryUrls:
+          default: []
           example: []
           type: array
           items:
             type: string
         itemType:
           type: string
+          default: product
           example: product
           enum:
             - product
@@ -19153,13 +19540,16 @@ components:
             - bundle
         customFields:
           type: object
+          default: {}
           additionalProperties: true
           example: {}
         createdAt:
           type: string
+          default: ''
           example: '2025-01-01T00:00:00.000Z'
         updatedAt:
           type: string
+          default: ''
           example: '2025-01-01T00:00:00.000Z'
       required:
         - id
@@ -19181,14 +19571,18 @@ components:
       properties:
         warehouseId:
           type: string
+          default: ''
           example: 00000000-0000-4000-b100-000000000001
           description: Warehouse to register the opening stock in
         quantity:
           type: number
+          default: 0
+          minimum: 0
           example: 10
           description: Opening quantity
         unitCost:
           type: number
+          minimum: 0
           example: 500
           description: Unit cost for weighted average calculation
       required:
@@ -19199,10 +19593,12 @@ components:
       properties:
         code:
           type: string
+          default: ''
           example: ELEC-001
           description: Unique item code
         name:
           type: string
+          default: ''
           example: Laptop 15"
           description: Item display name
         barcode:
@@ -19211,17 +19607,19 @@ components:
           description: Optional barcode / EAN
         categoryId:
           type: string
+          default: ''
           example: 00000000-0000-4000-a700-000000000001
           description: Category ID
         baseUnitId:
           type: string
+          default: ''
           example: 00000000-0000-4000-a800-000000000001
           description: Base unit ID
         brandId:
-          type: object
+          type: string
+          nullable: true
           example: 00000000-0000-4000-b000-000000000001
           description: Brand ID
-          nullable: true
         defaultSellingPrice:
           type: number
           example: 750000
@@ -19232,18 +19630,19 @@ components:
           description: Latest purchase price
         itemType:
           type: string
-          example: product
-          description: Item type
           enum:
             - product
             - service
             - vehicle
             - bundle
+          example: product
+          description: Item type
         mainImageUrl:
-          type: object
+          type: string
+          nullable: true
+          format: uri
           example: https://cdn.example.com/item-main.png
           description: Main product image URL
-          nullable: true
         galleryUrls:
           example:
             - https://cdn.example.com/item-1.png
@@ -19251,6 +19650,7 @@ components:
           type: array
           items:
             type: string
+            format: uri
         customFields:
           type: object
           description: Custom field values keyed by field ID
@@ -19283,9 +19683,9 @@ components:
           type: string
           example: 00000000-0000-4000-a800-000000000001
         brandId:
-          type: object
-          example: 00000000-0000-4000-b000-000000000001
+          type: string
           nullable: true
+          example: 00000000-0000-4000-b000-000000000001
         defaultSellingPrice:
           type: number
           example: 780000
@@ -19297,22 +19697,24 @@ components:
           example: true
         itemType:
           type: string
-          example: product
           enum:
             - product
             - service
             - vehicle
             - bundle
+          example: product
         mainImageUrl:
-          type: object
-          example: https://cdn.example.com/item-main.png
+          type: string
           nullable: true
+          format: uri
+          example: https://cdn.example.com/item-main.png
         galleryUrls:
           example:
             - https://cdn.example.com/item-1.png
           type: array
           items:
             type: string
+            format: uri
         customFields:
           type: object
           description: Custom field values keyed by field ID
@@ -19322,15 +19724,24 @@ components:
       properties:
         id:
           type: string
+          default: ''
         module:
           type: string
+          default: items
           example: items
         name:
-          $ref: '#/components/schemas/LocalizedStringDto'
+          default:
+            ar: ''
+          allOf:
+            - $ref: '#/components/schemas/LocalizedStringDto'
         label:
-          $ref: '#/components/schemas/LocalizedStringDto'
+          default:
+            ar: ''
+          allOf:
+            - $ref: '#/components/schemas/LocalizedStringDto'
         type:
           type: string
+          default: TEXT
           enum:
             - TEXT
             - DATE
@@ -19340,22 +19751,28 @@ components:
             - MULTI_SELECT
             - FILE
         defaultValue:
-          type: object
+          type: string
           nullable: true
+          default: null
         placeholder:
           nullable: true
+          default: null
           allOf:
             - $ref: '#/components/schemas/LocalizedStringDto'
         options:
+          default: []
           type: array
           items:
             type: string
         isRequired:
           type: boolean
+          default: false
         showInList:
           type: boolean
+          default: false
         createdAt:
           type: string
+          default: ''
       required:
         - id
         - module
@@ -19373,13 +19790,21 @@ components:
       properties:
         module:
           type: string
+          default: items
           example: items
         name:
-          $ref: '#/components/schemas/LocalizedStringDto'
+          default:
+            ar: ''
+          allOf:
+            - $ref: '#/components/schemas/LocalizedStringDto'
         label:
-          $ref: '#/components/schemas/LocalizedStringDto'
+          default:
+            ar: ''
+          allOf:
+            - $ref: '#/components/schemas/LocalizedStringDto'
         type:
           type: string
+          default: TEXT
           enum:
             - TEXT
             - DATE
@@ -19491,25 +19916,32 @@ components:
       properties:
         id:
           type: string
+          default: ''
           example: 00000000-0000-4000-c100-000000000001
         code:
           type: string
+          default: ''
           example: WH-MAIN
         name:
           type: string
+          default: ''
           example: Main Warehouse
         address:
-          type: object
-          example: Damascus Industrial Zone
+          type: string
           nullable: true
+          default: null
+          example: Damascus Industrial Zone
         isActive:
           type: boolean
+          default: true
           example: true
         createdAt:
           type: string
+          default: ''
           example: '2025-01-01T00:00:00.000Z'
         updatedAt:
           type: string
+          default: ''
           example: '2025-01-01T00:00:00.000Z'
       required:
         - id
@@ -19524,10 +19956,12 @@ components:
       properties:
         code:
           type: string
+          default: ''
           example: WH-MAIN
           description: Unique warehouse code
         name:
           type: string
+          default: ''
           example: Main Warehouse
           description: Warehouse display name
         address:
@@ -19556,16 +19990,20 @@ components:
       properties:
         id:
           type: string
+          default: ''
           example: 018e1234-abcd-7000-a001-000000000001
         name:
           type: string
+          default: ''
           example: Fragile
         color:
-          type: object
-          example: '#FF5733'
+          type: string
           nullable: true
+          default: null
+          example: '#FF5733'
         module:
           type: string
+          default: ''
           example: items
           enum:
             - items
@@ -19574,9 +20012,11 @@ components:
             - warehouses
         createdAt:
           type: string
+          default: ''
           example: '2025-01-01T00:00:00.000Z'
         updatedAt:
           type: string
+          default: ''
           example: '2025-01-01T00:00:00.000Z'
       required:
         - id
@@ -19590,21 +20030,24 @@ components:
       properties:
         name:
           type: string
+          default: ''
           example: Fragile
           description: Tag display name
         color:
           type: string
+          pattern: /^#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})$/
           example: '#FF5733'
           description: Hex color code
         module:
           type: string
-          example: items
-          description: Module this tag belongs to
+          default: ''
           enum:
             - items
             - parties
             - invoices
             - warehouses
+          example: items
+          description: Module this tag belongs to
       required:
         - name
         - module
@@ -19616,20 +20059,30 @@ components:
           example: Fragile (Updated)
         color:
           type: string
+          pattern: /^#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})$/
           example: '#3498DB'
     TagAssignmentResponseDto:
       type: object
       properties:
         id:
           type: string
+          default: ''
         tagId:
           type: string
+          default: ''
         entityType:
           type: string
+          default: ''
         entityId:
           type: string
+          default: ''
         tag:
           type: object
+          default:
+            id: ''
+            name: ''
+            color: null
+            module: ''
           description: The tag details
           additionalProperties: false
           properties:
@@ -19644,6 +20097,7 @@ components:
               type: string
         createdAt:
           type: string
+          default: ''
       required:
         - id
         - tagId
@@ -19656,19 +20110,24 @@ components:
       properties:
         tagId:
           type: string
+          default: ''
+          format: uuid
           example: 018e1234-abcd-7000-a001-000000000001
           description: Tag ID
         entityType:
           type: string
-          example: item
-          description: Entity type
+          default: ''
           enum:
             - item
             - party
             - invoice
             - warehouse
+          example: item
+          description: Entity type
         entityId:
           type: string
+          default: ''
+          format: uuid
           example: 018e1234-abcd-7000-a002-000000000001
           description: Entity ID
       required:
@@ -19680,10 +20139,13 @@ components:
       properties:
         id:
           type: string
+          default: ''
         name:
           type: string
+          default: ''
         code:
           type: string
+          default: ''
       required:
         - id
         - name
@@ -19693,26 +20155,38 @@ components:
       properties:
         id:
           type: string
+          default: ''
         itemId:
           type: string
+          default: ''
         relatedItemId:
           type: string
+          default: ''
         relationType:
           type: string
+          default: compatible_with
           example: compatible_with
           enum:
             - compatible_with
             - replaces
             - requires
         notes:
-          type: object
+          type: string
           nullable: true
+          default: null
         relatedItem:
-          $ref: '#/components/schemas/RelatedItemSummaryDto'
+          default:
+            id: ''
+            name: ''
+            code: ''
+          allOf:
+            - $ref: '#/components/schemas/RelatedItemSummaryDto'
         createdAt:
           type: string
+          default: ''
         updatedAt:
           type: string
+          default: ''
       required:
         - id
         - itemId
@@ -19727,17 +20201,22 @@ components:
       properties:
         itemId:
           type: string
+          default: ''
+          format: uuid
           description: The source item ID
         relatedItemId:
           type: string
+          default: ''
+          format: uuid
           description: The related item ID
         relationType:
           type: string
-          example: compatible_with
+          default: compatible_with
           enum:
             - compatible_with
             - replaces
             - requires
+          example: compatible_with
         notes:
           type: string
           example: Fits model X and Y
@@ -19750,11 +20229,11 @@ components:
       properties:
         relationType:
           type: string
-          example: replaces
           enum:
             - compatible_with
             - replaces
             - requires
+          example: replaces
         notes:
           type: string
           example: Updated notes
@@ -19763,26 +20242,35 @@ components:
       properties:
         id:
           type: string
+          default: ''
         name:
           type: string
+          default: ''
         kind:
           type: string
+          default: ''
         parentId:
-          type: object
+          type: string
           nullable: true
+          default: null
         parent:
           type: object
           nullable: true
+          default: null
         attributes:
           type: object
           nullable: true
+          default: null
           additionalProperties: true
         isActive:
           type: boolean
+          default: true
         createdAt:
           type: string
+          default: ''
         updatedAt:
           type: string
+          default: ''
       required:
         - id
         - name
@@ -19798,19 +20286,21 @@ components:
       properties:
         name:
           type: string
+          default: ''
           example: Hyundai
         kind:
           type: string
+          default: ''
           example: brand
           description: Entity kind (brand | model | generation | variant | year)
         parentId:
-          type: object
-          example: null
+          type: string
           nullable: true
+          example: null
         attributes:
           type: object
-          additionalProperties: true
           nullable: true
+          additionalProperties: true
       required:
         - name
         - kind
@@ -19824,12 +20314,12 @@ components:
           type: string
           example: brand
         parentId:
-          type: object
+          type: string
           nullable: true
         attributes:
           type: object
-          additionalProperties: true
           nullable: true
+          additionalProperties: true
         isActive:
           type: boolean
           example: true
@@ -19838,14 +20328,23 @@ components:
       properties:
         id:
           type: string
+          default: ''
         itemId:
           type: string
+          default: ''
         catalogEntityId:
           type: string
+          default: ''
         catalogEntity:
           type: object
+          default:
+            id: ''
+            name: ''
+            kind: ''
+            parentId: null
         createdAt:
           type: string
+          default: ''
       required:
         - id
         - itemId
@@ -19857,9 +20356,13 @@ components:
       properties:
         itemId:
           type: string
+          default: ''
+          format: uuid
           example: uuid-of-item
         catalogEntityId:
           type: string
+          default: ''
+          format: uuid
           example: uuid-of-catalog-entity
       required:
         - itemId
@@ -19872,22 +20375,28 @@ components:
       properties:
         id:
           type: string
+          default: ''
           example: 018e1234-abcd-7000-a001-000000000001
         name:
           type: string
+          default: ''
           example: Toyota
         imageUrl:
-          type: object
-          example: https://cdn.example.com/toyota.png
+          type: string
           nullable: true
+          default: null
+          example: https://cdn.example.com/toyota.png
         isActive:
           type: boolean
+          default: true
           example: true
         createdAt:
           type: string
+          default: ''
           example: '2025-01-01T00:00:00.000Z'
         updatedAt:
           type: string
+          default: ''
           example: '2025-01-01T00:00:00.000Z'
       required:
         - id
@@ -19900,10 +20409,13 @@ components:
       properties:
         name:
           type: string
+          default: ''
           example: Toyota
           description: Brand display name
         imageUrl:
-          type: object
+          type: string
+          nullable: true
+          format: uri
           example: https://cdn.example.com/toyota.png
           description: Brand logo URL
       required:
@@ -19916,7 +20428,9 @@ components:
           example: Toyota (Updated)
           description: Updated display name
         imageUrl:
-          type: object
+          type: string
+          nullable: true
+          format: uri
           example: https://cdn.example.com/toyota-new.png
           description: Updated logo URL
         isActive:
@@ -19928,34 +20442,46 @@ components:
       properties:
         id:
           type: string
+          default: ''
           example: 00000000-0000-4000-b100-000000000001
         code:
           type: string
+          default: ''
           example: SYP
         name:
           type: string
+          default: ''
           example: الليرة السورية
         nameI18n:
-          $ref: '#/components/schemas/LocalizedStringDto'
+          default:
+            ar: ''
+          allOf:
+            - $ref: '#/components/schemas/LocalizedStringDto'
         symbol:
-          type: object
-          example: £
+          type: string
           nullable: true
+          default: null
+          example: £
         symbolI18n:
           nullable: true
+          default: null
           allOf:
             - $ref: '#/components/schemas/LocalizedStringDto'
         isBase:
           type: boolean
+          default: false
           example: true
         isActive:
           type: boolean
+          default: true
           example: true
         createdAt:
           type: string
+          default: ''
           example: '2025-01-01T00:00:00.000Z'
         updatedAt:
           type: string
+          default: ''
           example: '2025-01-01T00:00:00.000Z'
       required:
         - id
@@ -19972,10 +20498,14 @@ components:
       properties:
         code:
           type: string
+          default: ''
           example: SYP
           description: ISO 4217 currency code
         name:
-          $ref: '#/components/schemas/LocalizedStringDto'
+          default:
+            ar: ''
+          allOf:
+            - $ref: '#/components/schemas/LocalizedStringDto'
         symbol:
           description: Currency symbol for display
           allOf:
@@ -20000,78 +20530,29 @@ components:
         isActive:
           type: boolean
           example: true
-    ChartOfAccountResponseDto:
-      type: object
-      properties:
-        id:
-          type: string
-          example: 00000000-0000-4000-a601-000000000001
-        code:
-          type: string
-          example: '1110'
-        name:
-          type: string
-          example: نقد وما يعادله
-        nameI18n:
-          $ref: '#/components/schemas/LocalizedStringDto'
-        type:
-          type: string
-          enum:
-            - ASSET
-            - LIABILITY
-            - EQUITY
-            - REVENUE
-            - EXPENSE
-          example: ASSET
-        parentId:
-          type: object
-          example: 00000000-0000-4000-a601-000000000001
-          nullable: true
-        parentCode:
-          type: object
-          example: '1000'
-          nullable: true
-        parentName:
-          type: object
-          example: الأصول المتداولة
-          nullable: true
-        isActive:
-          type: boolean
-          example: true
-        createdAt:
-          type: string
-          example: '2025-01-01T00:00:00.000Z'
-        updatedAt:
-          type: string
-          example: '2025-01-01T00:00:00.000Z'
-      required:
-        - id
-        - code
-        - name
-        - nameI18n
-        - type
-        - isActive
-        - createdAt
-        - updatedAt
     CreateChartOfAccountDto:
       type: object
       properties:
         code:
           type: string
+          default: ''
           example: '1110'
           description: Unique account code within the tenant
         name:
+          default:
+            ar: ''
           description: Account display name
           allOf:
             - $ref: '#/components/schemas/LocalizedStringDto'
         type:
-          type: string
+          default: ASSET
           enum:
             - ASSET
             - LIABILITY
             - EQUITY
             - REVENUE
             - EXPENSE
+          type: string
           example: ASSET
           description: Account type classification
         parentId:
@@ -20090,9 +20571,9 @@ components:
           allOf:
             - $ref: '#/components/schemas/LocalizedStringDto'
         parentId:
-          type: object
-          example: 00000000-0000-4000-a601-000000000001
+          type: string
           nullable: true
+          example: 00000000-0000-4000-a601-000000000001
           description: Updated parent account UUID — set to null to make it a root account
         isActive:
           type: boolean
@@ -20103,32 +20584,43 @@ components:
       properties:
         id:
           type: string
+          default: ''
           example: 00000000-0000-4000-d100-000000000001
         code:
           type: string
+          default: ''
           example: PINV
         name:
           type: string
+          default: ''
           example: فاتورة شراء
         nameI18n:
-          $ref: '#/components/schemas/LocalizedStringDto'
+          default:
+            ar: ''
+          allOf:
+            - $ref: '#/components/schemas/LocalizedStringDto'
         direction:
           type: string
+          default: ''
           enum:
             - PURCHASE
             - SALE
           example: PURCHASE
         affectsStock:
           type: boolean
+          default: true
           example: true
         isActive:
           type: boolean
+          default: true
           example: true
         createdAt:
           type: string
+          default: ''
           example: '2025-01-01T00:00:00.000Z'
         updatedAt:
           type: string
+          default: ''
           example: '2025-01-01T00:00:00.000Z'
       required:
         - id
@@ -20145,17 +20637,21 @@ components:
       properties:
         code:
           type: string
+          default: ''
           example: PINV
           description: Unique invoice type code
         name:
+          default:
+            ar: ''
           description: Invoice type display name
           allOf:
             - $ref: '#/components/schemas/LocalizedStringDto'
         direction:
-          type: string
+          default: PURCHASE
           enum:
             - PURCHASE
             - SALE
+          type: string
           example: PURCHASE
           description: PURCHASE = inbound, SALE = outbound
         affectsStock:
@@ -20182,29 +20678,40 @@ components:
       properties:
         id:
           type: string
+          default: ''
           example: 00000000-0000-4000-d200-000000000001
         code:
           type: string
+          default: ''
           example: CASH-SYP
         name:
           type: string
+          default: ''
           example: الصندوق الرئيسي
         nameI18n:
-          $ref: '#/components/schemas/LocalizedStringDto'
+          default:
+            ar: ''
+          allOf:
+            - $ref: '#/components/schemas/LocalizedStringDto'
         currencyId:
           type: string
+          default: ''
           example: 00000000-0000-4000-a300-000000000001
         isActive:
           type: boolean
+          default: true
           example: true
         createdAt:
           type: string
+          default: ''
           example: '2025-01-01T00:00:00.000Z'
         updatedAt:
           type: string
+          default: ''
           example: '2025-01-01T00:00:00.000Z'
         balance:
           type: string
+          default: ''
           example: '0.00'
       required:
         - id
@@ -20221,14 +20728,18 @@ components:
       properties:
         code:
           type: string
+          default: ''
           example: CASH-SYP
           description: Unique cashbox code
         name:
+          default:
+            ar: ''
           description: Cashbox display name
           allOf:
             - $ref: '#/components/schemas/LocalizedStringDto'
         currencyId:
           type: string
+          default: ''
           example: 00000000-0000-4000-a300-000000000001
           description: Currency ID
       required:
@@ -20255,35 +20766,46 @@ components:
       properties:
         id:
           type: string
+          default: ''
         itemId:
           type: string
+          default: ''
         itemName:
           type: string
         itemCode:
           type: string
         unitId:
           type: string
+          default: ''
         unitName:
           type: string
         unitAbbreviation:
           type: string
         quantity:
           type: number
+          default: 0
         unitPrice:
           type: number
+          default: 0
         discountPercent:
           type: number
+          default: 0
         discountAmount:
           type: number
+          default: 0
         taxPercent:
           type: number
+          default: 0
         taxAmount:
           type: number
+          default: 0
         total:
           type: number
+          default: 0
         notes:
           type: string
           nullable: true
+          default: null
         sortOrder:
           type: number
       required:
@@ -20302,20 +20824,26 @@ components:
       properties:
         id:
           type: string
+          default: ''
           description: Payment allocation ID
         paymentId:
           type: string
+          default: ''
         paymentNumber:
           type: string
+          default: ''
           example: PAY-00002
         amount:
           type: number
+          default: 0
           example: 250000
         date:
           type: string
+          default: ''
           example: '2026-04-14T00:00:00.000Z'
         createdAt:
           type: string
+          default: ''
       required:
         - id
         - paymentId
@@ -20328,12 +20856,15 @@ components:
       properties:
         id:
           type: string
+          default: ''
           example: 00000000-0000-4000-ae00-000000000001
         number:
           type: string
+          default: ''
           example: INV-00001
         invoiceTypeId:
           type: string
+          default: ''
           example: 00000000-0000-4000-ad00-000000000001
         invoiceTypeName:
           type: string
@@ -20345,12 +20876,15 @@ components:
           description: PURCHASE | SALE
         date:
           type: string
+          default: ''
           example: '2026-04-14T00:00:00.000Z'
         dueDate:
           type: string
           nullable: true
+          default: null
         partyId:
           type: string
+          default: ''
           example: 00000000-0000-4000-aa00-000000000004
         partyName:
           type: string
@@ -20358,51 +20892,67 @@ components:
         warehouseId:
           type: string
           nullable: true
+          default: null
         warehouseName:
           type: string
           example: Main Warehouse
         fiscalPeriodId:
           type: string
+          default: ''
         currencyId:
           type: string
+          default: ''
         currencyCode:
           type: string
           example: SYP
         exchangeRate:
           type: number
+          default: 1
           example: 1
           description: Exchange rate to tenant base currency
         status:
           type: string
+          default: DRAFT
           example: DRAFT
           description: DRAFT | POSTED | CANCELLED
         subtotal:
           type: number
+          default: 0
         discountAmount:
           type: number
+          default: 0
         taxAmount:
           type: number
+          default: 0
         total:
           type: number
+          default: 0
         notes:
           type: string
           nullable: true
+          default: null
         postedAt:
           type: string
           nullable: true
+          default: null
         createdAt:
           type: string
+          default: ''
         updatedAt:
           type: string
+          default: ''
         amountPaid:
           type: number
+          default: 0
           example: 500000
           description: Sum of payments allocated to this invoice
         balanceDue:
           type: number
+          default: 0
           example: 700000
           description: Remaining unpaid amount (total - amountPaid)
         paidStatus:
+          default: UNPAID
           example: UNPAID
           description: Derived from amountPaid vs total
           allOf:
@@ -20447,10 +20997,12 @@ components:
           description: Cashbox ID the opening payment is deposited into
         amount:
           type: number
+          minimum: 0.01
           example: 250000
           description: Opening payment amount in invoice currency
         exchangeRate:
           type: number
+          minimum: 0.0001
           example: 1
           description: >-
             Exchange rate to base currency (defaults to the invoice exchange
@@ -20471,9 +21023,11 @@ components:
           description: Unit ID (Piece)
         quantity:
           type: number
+          minimum: 0.0001
           example: 5
         unitPrice:
           type: number
+          minimum: 0
           example: 600000
           description: Unit price in base currency (SYP)
         discountPercent:
@@ -20531,6 +21085,7 @@ components:
           description: Currency ID (SYP)
         exchangeRate:
           type: number
+          minimum: 0.0001
           example: 1
           description: Exchange rate to base currency (default 1)
         notes:
@@ -20622,6 +21177,7 @@ components:
           description: Cashbox ID the payment is deposited into
         amount:
           type: number
+          minimum: 0.01
           example: 250000
           description: Payment amount in invoice currency
         date:
@@ -20630,6 +21186,7 @@ components:
           description: Payment date (ISO 8601)
         exchangeRate:
           type: number
+          minimum: 0.0001
           example: 1
           description: >-
             Exchange rate to base currency (defaults to the invoice exchange
@@ -20642,11 +21199,11 @@ components:
       type: object
       properties:
         type:
-          type: string
           enum:
             - RECEIPT
             - PAYMENT
             - ADJUSTMENT
+          type: string
           example: RECEIPT
           description: Payment type
         date:
@@ -20671,10 +21228,12 @@ components:
           description: Fiscal period ID (2026)
         amount:
           type: number
+          minimum: 0.01
           example: 250000
           description: Payment amount in currency
         exchangeRate:
           type: number
+          minimum: 0.0001
           example: 1
           description: Exchange rate to base currency (default 1)
         notes:
@@ -20709,6 +21268,7 @@ components:
           description: Party ID
         amount:
           type: number
+          minimum: 0.01
           example: 300000
           description: Updated amount
         notes:
@@ -20723,6 +21283,7 @@ components:
           description: Invoice ID placeholder (Real ID would be from creation)
         amount:
           type: number
+          minimum: 0.01
           example: 250000
           description: Amount to allocate to this invoice
       required:
@@ -20741,6 +21302,7 @@ components:
           description: Line description
         amount:
           type: number
+          minimum: 0.01
           example: 200000
           description: Line amount
         notes:
@@ -20775,12 +21337,14 @@ components:
           description: Fiscal period ID
         exchangeRate:
           type: number
+          minimum: 0.0001
           example: 1
           description: Exchange rate to base currency (default 1)
         notes:
           type: string
           example: April fixed costs
         items:
+          minItems: 1
           type: array
           items:
             $ref: '#/components/schemas/CreateExpenseItemDto'
@@ -20809,6 +21373,7 @@ components:
           type: string
           example: Updated notes
         items:
+          minItems: 1
           description: Replaces all items when provided
           type: array
           items:
@@ -20818,44 +21383,55 @@ components:
       properties:
         id:
           type: string
+          default: ''
           example: 00000000-0000-4000-e100-000000000001
         code:
-          type: object
-          example: SUPP-001
+          type: string
           nullable: true
+          default: null
+          example: SUPP-001
         name:
           type: string
+          default: ''
           example: Damascus Import Co.
         type:
           type: string
+          default: ''
           enum:
             - CUSTOMER
             - SUPPLIER
             - CUSTOMER_SUPPLIER
           example: SUPPLIER
         phone:
-          type: object
+          type: string
+          nullable: true
+          default: null
           example: +963-11-9876543
-          nullable: true
         email:
-          type: object
+          type: string
+          nullable: true
+          default: null
           example: info@damsimport.sy
-          nullable: true
         address:
-          type: object
-          example: Damascus, Industrial Zone
+          type: string
           nullable: true
+          default: null
+          example: Damascus, Industrial Zone
         openingBalance:
           type: number
+          default: 0
           example: 0
         isActive:
           type: boolean
+          default: true
           example: true
         createdAt:
           type: string
+          default: ''
           example: '2025-01-01T00:00:00.000Z'
         updatedAt:
           type: string
+          default: ''
           example: '2025-01-01T00:00:00.000Z'
       required:
         - id
@@ -20881,11 +21457,11 @@ components:
           example: Damascus Import Co.
           description: Party display name
         type:
-          type: string
           enum:
             - CUSTOMER
             - SUPPLIER
             - CUSTOMER_SUPPLIER
+          type: string
           example: SUPPLIER
         phone:
           type: string
@@ -20913,11 +21489,11 @@ components:
           type: string
           example: Damascus Import Co. (Updated)
         type:
-          type: string
           enum:
             - CUSTOMER
             - SUPPLIER
             - CUSTOMER_SUPPLIER
+          type: string
           example: CUSTOMER_SUPPLIER
         phone:
           type: string
