@@ -2,6 +2,7 @@ import { IsString, IsNotEmpty, IsOptional, IsBoolean, IsEnum, ValidateNested } f
 import { Type } from 'class-transformer';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { LocalizedStringDto } from '@devloggers/backend-core';
+import { AccountType } from '@devloggers/db-prisma';
 
 // ── Enum ──────────────────────────────────────────────────────────────────────
 
@@ -91,4 +92,29 @@ export class ChartOfAccountResponseDto {
 
     @ApiProperty({ example: '2025-01-01T00:00:00.000Z' })
     updatedAt: string = '';
+}
+
+// ── Tree DTO ─────────────────────────────────────────────────────────────────
+
+export class ChartOfAccountTreeDto {
+    @ApiProperty({ description: 'Account UUID' })
+    id: string;
+
+    @ApiProperty({ description: 'Account code' })
+    code: string;
+
+    @ApiProperty({ description: 'Locale-resolved display name' })
+    name: string;
+
+    @ApiProperty({ description: 'Raw localized name object' })
+    nameI18n: object;
+
+    @ApiProperty({ enum: AccountType, description: 'Account type' })
+    type: AccountType;
+
+    @ApiProperty({ nullable: true, description: 'Parent account UUID or null' })
+    parentId: string | null;
+
+    @ApiProperty({ description: 'Whether account is active' })
+    isActive: boolean;
 }
