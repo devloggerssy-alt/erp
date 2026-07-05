@@ -1292,6 +1292,26 @@ export interface paths {
         patch: operations["Currencies.update"];
         trace?: never;
     };
+    "/accounting/chart-of-accounts/tree": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get account tree structure
+         * @description Lightweight account list for tree navigation. No balance computation.
+         */
+        get: operations["Accounts.tree"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/accounting/chart-of-accounts": {
         parameters: {
             query?: never;
@@ -2231,100 +2251,41 @@ export interface components {
             meta?: components["schemas"]["ApiMetaDto"];
         };
         AuthTenantDto: {
-            /**
-             * @default
-             * @example 00000000-0000-4000-a000-000000000001
-             */
+            /** @example 00000000-0000-4000-a000-000000000001 */
             id: string;
-            /**
-             * @default
-             * @example Demo Shop
-             */
+            /** @example Demo Shop */
             name: string;
-            /**
-             * @default
-             * @example demo-shop
-             */
+            /** @example demo-shop */
             slug: string;
-            /**
-             * @default 0
-             * @example 0
-             */
+            /** @example 0 */
             onboardingStep: number;
-            /**
-             * @default null
-             * @example null
-             */
-            onboardingCompletedAt: string | null;
+            /** @example null */
+            onboardingCompletedAt: Record<string, never> | null;
         };
         AuthUserDto: {
-            /**
-             * @default
-             * @example 00000000-0000-4000-a200-000000000001
-             */
+            /** @example 00000000-0000-4000-a200-000000000001 */
             id: string;
-            /**
-             * @default
-             * @example 00000000-0000-4000-a000-000000000001
-             */
+            /** @example 00000000-0000-4000-a000-000000000001 */
             tenantId: string;
-            /**
-             * @default
-             * @example admin@demo-shop.com
-             */
+            /** @example admin@demo-shop.com */
             email: string;
-            /**
-             * @default
-             * @example Admin User
-             */
+            /** @example Admin User */
             fullName: string;
             /**
-             * @default []
              * @example [
              *       "Admin"
              *     ]
              */
             roles: string[];
-            /**
-             * @default {
-             *       "id": "",
-             *       "name": "",
-             *       "slug": "",
-             *       "onboardingStep": 0,
-             *       "onboardingCompletedAt": null
-             *     }
-             */
             tenant: components["schemas"]["AuthTenantDto"];
         };
         LoginDataDto: {
-            /**
-             * @default
-             * @example eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
-             */
+            /** @example eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9... */
             accessToken: string;
-            /**
-             * @default {
-             *       "id": "",
-             *       "tenantId": "",
-             *       "email": "",
-             *       "fullName": "",
-             *       "roles": [],
-             *       "tenant": {
-             *         "id": "",
-             *         "name": "",
-             *         "slug": "",
-             *         "onboardingStep": 0,
-             *         "onboardingCompletedAt": null
-             *       }
-             *     }
-             */
             user: components["schemas"]["AuthUserDto"];
         };
         LoginDto: {
-            /**
-             * Format: email
-             * @example admin@demo-shop.com
-             */
+            /** @example admin@demo-shop.com */
             email: string;
             /** @example admin123 */
             password: string;
@@ -2340,10 +2301,7 @@ export interface components {
              * @example Admin User
              */
             fullName: string;
-            /**
-             * Format: email
-             * @example admin@demo-shop.com
-             */
+            /** @example admin@demo-shop.com */
             email: string;
             /**
              * @description Password (min 8 characters)
@@ -2354,45 +2312,23 @@ export interface components {
             phone?: string;
         };
         MeDataDto: {
-            /**
-             * @default
-             * @example 00000000-0000-4000-a200-000000000001
-             */
+            /** @example 00000000-0000-4000-a200-000000000001 */
             id: string;
-            /**
-             * @default
-             * @example 00000000-0000-4000-a000-000000000001
-             */
+            /** @example 00000000-0000-4000-a000-000000000001 */
             tenantId: string;
-            /**
-             * @default
-             * @example admin@demo-shop.com
-             */
+            /** @example admin@demo-shop.com */
             email: string;
-            /**
-             * @default
-             * @example Admin User
-             */
+            /** @example Admin User */
             fullName: string;
             /**
-             * @default []
              * @example [
              *       "Admin"
              *     ]
              */
             roles: string[];
-            /**
-             * @default {
-             *       "id": "",
-             *       "name": "",
-             *       "slug": "",
-             *       "onboardingStep": 0,
-             *       "onboardingCompletedAt": null
-             *     }
-             */
             tenant: components["schemas"]["AuthTenantDto"];
             /** @example null */
-            phone?: string | null;
+            phone: Record<string, never> | null;
         };
         LocalizedStringDto: {
             /** @example الليرة السورية */
@@ -2401,52 +2337,23 @@ export interface components {
             en?: string;
         };
         RoleResponseDto: {
-            /**
-             * @default
-             * @example 00000000-0000-4000-b100-000000000001
-             */
+            /** @example 00000000-0000-4000-b100-000000000001 */
             id: string;
-            /**
-             * @default
-             * @example محاسب
-             */
+            /** @example محاسب */
             name: string;
-            /**
-             * @default {
-             *       "ar": ""
-             *     }
-             */
             nameI18n: components["schemas"]["LocalizedStringDto"];
-            /**
-             * @default null
-             * @example صلاحيات المحاسبة والمالية
-             */
-            description: string | null;
-            /** @default null */
-            descriptionI18n: components["schemas"]["LocalizedStringDto"] | null;
-            /**
-             * @default false
-             * @example false
-             */
+            /** @example صلاحيات المحاسبة والمالية */
+            description: Record<string, never> | null;
+            descriptionI18n?: components["schemas"]["LocalizedStringDto"] | null;
+            /** @example false */
             isSystem: boolean;
-            /**
-             * @default
-             * @example 2025-01-01T00:00:00.000Z
-             */
+            /** @example 2025-01-01T00:00:00.000Z */
             createdAt: string;
-            /**
-             * @default
-             * @example 2025-01-01T00:00:00.000Z
-             */
+            /** @example 2025-01-01T00:00:00.000Z */
             updatedAt: string;
         };
         CreateRoleDto: {
-            /**
-             * @description Role display name
-             * @default {
-             *       "ar": ""
-             *     }
-             */
+            /** @description Role display name */
             name: components["schemas"]["LocalizedStringDto"];
             /** @description Role description */
             description?: components["schemas"]["LocalizedStringDto"];
@@ -2502,13 +2409,9 @@ export interface components {
             address?: string;
             /** @example +963-11-1234567 */
             phone?: string;
-            /**
-             * Format: email
-             * @example admin@demo-shop.com
-             */
+            /** @example admin@demo-shop.com */
             email?: string;
             /**
-             * Format: email
              * @description Email for the initial admin user
              * @example admin@demo-shop.com
              */
@@ -2531,10 +2434,7 @@ export interface components {
             address?: string;
             /** @example +963-11-7654321 */
             phone?: string;
-            /**
-             * Format: email
-             * @example contact@demo-shop.com
-             */
+            /** @example contact@demo-shop.com */
             email?: string;
             /**
              * @description Logo URL
@@ -2559,96 +2459,58 @@ export interface components {
             defaultSalesSequenceId?: string;
         };
         FormDefaultFiscalPeriodDto: {
-            /**
-             * @default
-             * @example 00000000-0000-4000-a700-000000000001
-             */
+            /** @example 00000000-0000-4000-a700-000000000001 */
             id: string;
-            /**
-             * @default
-             * @example 2026
-             */
+            /** @example 2026 */
             name: string;
         };
         FormDefaultCurrencyDto: {
-            /**
-             * @default
-             * @example 00000000-0000-4000-a700-000000000002
-             */
+            /** @example 00000000-0000-4000-a700-000000000002 */
             id: string;
-            /**
-             * @default
-             * @example USD
-             */
+            /** @example USD */
             code: string;
-            /**
-             * @default
-             * @example US Dollar
-             */
+            /** @example US Dollar */
             name: string;
         };
         FormDefaultCashboxDto: {
-            /**
-             * @default
-             * @example 00000000-0000-4000-a700-000000000003
-             */
+            /** @example 00000000-0000-4000-a700-000000000003 */
             id: string;
-            /**
-             * @default
-             * @example MAIN
-             */
+            /** @example MAIN */
             code: string;
-            /**
-             * @default
-             * @example Main Cashbox
-             */
+            /** @example Main Cashbox */
             name: string;
         };
         FormDefaultsResponseDto: {
-            /**
-             * @description Current open fiscal period covering today, or null
-             * @default null
-             */
-            fiscalPeriod: components["schemas"]["FormDefaultFiscalPeriodDto"] | null;
-            /**
-             * @description Tenant base currency, or null if not configured
-             * @default null
-             */
-            currency: components["schemas"]["FormDefaultCurrencyDto"] | null;
-            /**
-             * @description First active cashbox in the base currency, or null
-             * @default null
-             */
-            cashbox: components["schemas"]["FormDefaultCashboxDto"] | null;
+            /** @description Current open fiscal period covering today, or null */
+            fiscalPeriod?: components["schemas"]["FormDefaultFiscalPeriodDto"] | null;
+            /** @description Tenant base currency, or null if not configured */
+            currency?: components["schemas"]["FormDefaultCurrencyDto"] | null;
+            /** @description First active cashbox in the base currency, or null */
+            cashbox?: components["schemas"]["FormDefaultCashboxDto"] | null;
         };
         LocalizationSettingsDto: {
             /**
              * @description IANA timezone identifier
-             * @default UTC
              * @example UTC
              */
             timezone: string;
             /**
-             * @default en
              * @example en
              * @enum {string}
              */
             locale: "en" | "ar" | "tr";
             /**
-             * @default YYYY-MM-DD
              * @example YYYY-MM-DD
              * @enum {string}
              */
             dateFormat: "YYYY-MM-DD" | "DD/MM/YYYY" | "MM/DD/YYYY";
             /**
-             * @default 1,234.56
              * @example 1,234.56
              * @enum {string}
              */
             numberFormat: "1,234.56" | "1.234,56";
             /**
              * @description 0 = Sunday … 6 = Saturday
-             * @default 1
              * @example 1
              */
             firstDayOfWeek: number;
@@ -2656,19 +2518,16 @@ export interface components {
         FinancialSettingsDto: {
             /**
              * @description Default tax rate percentage (0–100)
-             * @default 0
              * @example 0
              */
             defaultTaxRate: number;
             /**
              * @description Decimal places used when rounding amounts (0–6)
-             * @default 2
              * @example 2
              */
             roundingPrecision: number;
             /**
              * @description Month the fiscal year starts (1 = January)
-             * @default 1
              * @example 1
              */
             fiscalYearStartMonth: number;
@@ -2676,56 +2535,28 @@ export interface components {
         DocumentsSettingsDto: {
             /**
              * @description Default notes appended to invoices
-             * @default
              * @example
              */
             invoiceDefaultNotes: string;
             /**
              * @description Default payment terms appended to invoices
-             * @default
              * @example
              */
             invoiceDefaultTerms: string;
             /**
              * @description Footer text printed on all documents
-             * @default
              * @example
              */
             documentFooter: string;
             /**
              * @description Whether to print the tenant logo on documents
-             * @default true
              * @example true
              */
             showLogoOnDocuments: boolean;
         };
         SettingsResponseDto: {
-            /**
-             * @default {
-             *       "timezone": "UTC",
-             *       "locale": "en",
-             *       "dateFormat": "YYYY-MM-DD",
-             *       "numberFormat": "1,234.56",
-             *       "firstDayOfWeek": 1
-             *     }
-             */
             localization: components["schemas"]["LocalizationSettingsDto"];
-            /**
-             * @default {
-             *       "defaultTaxRate": 0,
-             *       "roundingPrecision": 2,
-             *       "fiscalYearStartMonth": 1
-             *     }
-             */
             financial: components["schemas"]["FinancialSettingsDto"];
-            /**
-             * @default {
-             *       "invoiceDefaultNotes": "",
-             *       "invoiceDefaultTerms": "",
-             *       "documentFooter": "",
-             *       "showLogoOnDocuments": true
-             *     }
-             */
             documents: components["schemas"]["DocumentsSettingsDto"];
         };
         UpdateSettingsDto: {
@@ -2757,43 +2588,36 @@ export interface components {
         FinanceResetResultDto: {
             /**
              * @description Payment allocations deleted
-             * @default 0
              * @example 30
              */
             paymentAllocations: number;
             /**
              * @description Payments deleted
-             * @default 0
              * @example 12
              */
             payments: number;
             /**
              * @description Invoices deleted (lines cascade)
-             * @default 0
              * @example 8
              */
             invoices: number;
             /**
              * @description Expenses deleted (items cascade)
-             * @default 0
              * @example 5
              */
             expenses: number;
             /**
              * @description Journal entries deleted (lines cascade)
-             * @default 0
              * @example 20
              */
             journalEntries: number;
             /**
              * @description Cashboxes whose balance was reset to 0
-             * @default 0
              * @example 3
              */
             cashboxesReset: number;
             /**
              * @description GL accounts whose balance was reset to 0
-             * @default 0
              * @example 15
              */
             accountsReset: number;
@@ -2801,7 +2625,6 @@ export interface components {
         ResetFinanceDto: {
             /**
              * @description Confirmation phrase. Must be exactly "RESET FINANCE".
-             * @default
              * @example RESET FINANCE
              */
             confirmation: string;
@@ -2809,19 +2632,16 @@ export interface components {
         InventoryResetResultDto: {
             /**
              * @description Stock movements deleted
-             * @default 0
              * @example 120
              */
             stockMovements: number;
             /**
              * @description Stock balances deleted
-             * @default 0
              * @example 45
              */
             stockBalances: number;
             /**
              * @description Stock counts deleted (lines cascade)
-             * @default 0
              * @example 6
              */
             stockCounts: number;
@@ -2829,14 +2649,12 @@ export interface components {
         ResetInventoryDto: {
             /**
              * @description Confirmation phrase. Must be exactly "RESET INVENTORY".
-             * @default
              * @example RESET INVENTORY
              */
             confirmation: string;
         };
         CreateUserDto: {
             /**
-             * Format: email
              * @description User email (unique per tenant)
              * @example accountant@demo-shop.com
              */
@@ -2862,10 +2680,7 @@ export interface components {
             roleIds?: string[];
         };
         UpdateUserDto: {
-            /**
-             * Format: email
-             * @example newemail@demo-shop.com
-             */
+            /** @example newemail@demo-shop.com */
             email?: string;
             /** @example Sara Al-Amin (Updated) */
             fullName?: string;
@@ -2888,88 +2703,47 @@ export interface components {
             isActive: boolean;
         };
         OnboardingCompanyStepDto: {
-            /**
-             * @default
-             * @example My Company
-             */
+            /** @example My Company */
             name: string;
             address?: string;
             phone?: string;
             /**
-             * @default en
              * @example en
              * @enum {string}
              */
             locale: "en" | "ar" | "tr";
-            /**
-             * @default UTC
-             * @example UTC
-             */
+            /** @example UTC */
             timezone: string;
             /**
-             * @default YYYY-MM-DD
              * @example YYYY-MM-DD
              * @enum {string}
              */
             dateFormat: "YYYY-MM-DD" | "DD/MM/YYYY" | "MM/DD/YYYY";
             /**
-             * @default 1,234.56
              * @example 1,234.56
              * @enum {string}
              */
             numberFormat: "1,234.56" | "1.234,56";
         };
         OnboardingFiscalYearStepDto: {
-            /**
-             * @default
-             * @example 2026-01-01
-             */
+            /** @example 2026-01-01 */
             startDate: string;
-            /**
-             * @default
-             * @example 2026-12-31
-             */
+            /** @example 2026-12-31 */
             endDate: string;
             /** @example FY 2026 */
             name?: string;
         };
         OnboardingGlDefaultsStepDto: {
-            /**
-             * Format: uuid
-             * @default
-             */
             defaultSalesAccountId: string;
-            /**
-             * Format: uuid
-             * @default
-             */
             defaultPurchaseAccountId: string;
-            /**
-             * Format: uuid
-             * @default
-             */
             defaultTaxAccountId: string;
-            /**
-             * Format: uuid
-             * @default
-             */
             defaultReceivableAccountId: string;
-            /**
-             * Format: uuid
-             * @default
-             */
             defaultPayableAccountId: string;
         };
         OnboardingSequenceItemDto: {
-            /**
-             * @default
-             * @example SALES_INVOICE
-             */
+            /** @example SALES_INVOICE */
             type: string;
-            /**
-             * @default
-             * @example INV-
-             */
+            /** @example INV- */
             prefix: string;
             /** @example 1 */
             startNumber?: number;
@@ -2977,62 +2751,37 @@ export interface components {
             padLength?: number;
         };
         OnboardingDocumentSequencesStepDto: {
-            /** @default [] */
             sequences: components["schemas"]["OnboardingSequenceItemDto"][];
         };
         FiscalPeriodResponseDto: {
-            /**
-             * @default
-             * @example 00000000-0000-4000-b200-000000000001
-             */
+            /** @example 00000000-0000-4000-b200-000000000001 */
             id: string;
-            /**
-             * @default
-             * @example 2026
-             */
+            /** @example 2026 */
             name: string;
-            /**
-             * @default
-             * @example 2026-01-01T00:00:00.000Z
-             */
+            /** @example 2026-01-01T00:00:00.000Z */
             startDate: string;
-            /**
-             * @default
-             * @example 2026-12-31T00:00:00.000Z
-             */
+            /** @example 2026-12-31T00:00:00.000Z */
             endDate: string;
             /**
-             * @default OPEN
              * @example OPEN
              * @enum {string}
              */
             status: "OPEN" | "CLOSED" | "LOCKED";
-            /**
-             * @default
-             * @example 2025-01-01T00:00:00.000Z
-             */
+            /** @example 2025-01-01T00:00:00.000Z */
             createdAt: string;
-            /**
-             * @default
-             * @example 2025-01-01T00:00:00.000Z
-             */
+            /** @example 2025-01-01T00:00:00.000Z */
             updatedAt: string;
         };
         CreateFiscalPeriodDto: {
-            /**
-             * @default
-             * @example 2026
-             */
+            /** @example 2026 */
             name: string;
             /**
              * @description Period start date (ISO 8601)
-             * @default
              * @example 2026-01-01
              */
             startDate: string;
             /**
              * @description Period end date (ISO 8601)
-             * @default
              * @example 2026-12-31
              */
             endDate: string;
@@ -3051,52 +2800,29 @@ export interface components {
             status?: "OPEN" | "CLOSED" | "LOCKED";
         };
         DocumentSequenceResponseDto: {
-            /**
-             * @default
-             * @example 00000000-0000-4000-b300-000000000001
-             */
+            /** @example 00000000-0000-4000-b300-000000000001 */
             id: string;
-            /**
-             * @default
-             * @example SALES_INVOICE
-             */
+            /** @example SALES_INVOICE */
             documentType: string;
-            /**
-             * @default
-             * @example SAL
-             */
+            /** @example SAL */
             prefix: string;
-            /**
-             * @default 1
-             * @example 42
-             */
+            /** @example 42 */
             nextNumber: number;
-            /**
-             * @default 5
-             * @example 5
-             */
+            /** @example 5 */
             padding: number;
-            /**
-             * @default
-             * @example 2025-01-01T00:00:00.000Z
-             */
+            /** @example 2025-01-01T00:00:00.000Z */
             createdAt: string;
-            /**
-             * @default
-             * @example 2025-01-01T00:00:00.000Z
-             */
+            /** @example 2025-01-01T00:00:00.000Z */
             updatedAt: string;
         };
         CreateDocumentSequenceDto: {
             /**
              * @description Document type (e.g. SALES_INVOICE, PURCHASE_INVOICE, PAYMENT, STOCK_COUNT)
-             * @default
              * @example SALES_INVOICE
              */
             documentType: string;
             /**
              * @description Prefix for generated document numbers
-             * @default
              * @example SAL
              */
             prefix: string;
@@ -3125,85 +2851,7 @@ export interface components {
             /** @example 6 */
             padding?: number;
         };
-        ChartOfAccountResponseDto: {
-            /**
-             * @default
-             * @example 00000000-0000-4000-a601-000000000001
-             */
-            id: string;
-            /**
-             * @default
-             * @example 1110
-             */
-            code: string;
-            /**
-             * @default
-             * @example نقد وما يعادله
-             */
-            name: string;
-            /**
-             * @default {
-             *       "ar": ""
-             *     }
-             */
-            nameI18n: components["schemas"]["LocalizedStringDto"];
-            /**
-             * @default
-             * @example ASSET
-             * @enum {string}
-             */
-            type: "ASSET" | "LIABILITY" | "EQUITY" | "REVENUE" | "EXPENSE";
-            /**
-             * @default null
-             * @example 00000000-0000-4000-a601-000000000001
-             */
-            parentId: string | null;
-            /**
-             * @default null
-             * @example 1000
-             */
-            parentCode: string | null;
-            /**
-             * @default null
-             * @example الأصول المتداولة
-             */
-            parentName: string | null;
-            /**
-             * @default true
-             * @example true
-             */
-            isActive: boolean;
-            /**
-             * @default
-             * @example 2025-01-01T00:00:00.000Z
-             */
-            createdAt: string;
-            /**
-             * @default
-             * @example 2025-01-01T00:00:00.000Z
-             */
-            updatedAt: string;
-        };
-        FinancialSettingResponseDto: {
-            /** @default null */
-            defaultSalesAccount: components["schemas"]["ChartOfAccountResponseDto"] | null;
-            /** @default null */
-            defaultPurchaseAccount: components["schemas"]["ChartOfAccountResponseDto"] | null;
-            /** @default null */
-            defaultTaxAccount: components["schemas"]["ChartOfAccountResponseDto"] | null;
-            /** @default null */
-            defaultReceivableAccount: components["schemas"]["ChartOfAccountResponseDto"] | null;
-            /** @default null */
-            defaultPayableAccount: components["schemas"]["ChartOfAccountResponseDto"] | null;
-            /** @default null */
-            defaultInventoryAccount: components["schemas"]["ChartOfAccountResponseDto"] | null;
-            /** @default null */
-            defaultCogsAccount: components["schemas"]["ChartOfAccountResponseDto"] | null;
-            /** @default null */
-            defaultInventoryAdjustmentAccount: components["schemas"]["ChartOfAccountResponseDto"] | null;
-            /** @default null */
-            defaultOpeningEquityAccount: components["schemas"]["ChartOfAccountResponseDto"] | null;
-        };
+        FinancialSettingResponseDto: Record<string, never>;
         UpsertFinancialSettingBodyDto: {
             /**
              * @description Default sales revenue account
@@ -3280,47 +2928,27 @@ export interface components {
             dryRun: boolean;
         };
         UnitResponseDto: {
-            /**
-             * @default
-             * @example 018e1234-abcd-7000-a001-000000000001
-             */
+            /** @example 018e1234-abcd-7000-a001-000000000001 */
             id: string;
-            /**
-             * @default
-             * @example Kilogram
-             */
+            /** @example Kilogram */
             name: string;
-            /**
-             * @default
-             * @example kg
-             */
+            /** @example kg */
             abbreviation: string;
-            /**
-             * @default true
-             * @example true
-             */
+            /** @example true */
             isActive: boolean;
-            /**
-             * @default
-             * @example 2025-01-01T00:00:00.000Z
-             */
+            /** @example 2025-01-01T00:00:00.000Z */
             createdAt: string;
-            /**
-             * @default
-             * @example 2025-01-01T00:00:00.000Z
-             */
+            /** @example 2025-01-01T00:00:00.000Z */
             updatedAt: string;
         };
         CreateUnitDto: {
             /**
              * @description Unit display name
-             * @default
              * @example Kilogram
              */
             name: string;
             /**
              * @description Short abbreviation used on documents
-             * @default
              * @example kg
              */
             abbreviation: string;
@@ -3342,101 +2970,54 @@ export interface components {
              */
             isActive?: boolean;
         };
-        ParentCategoryDto: {
-            /**
-             * @default
-             * @example 00000000-0000-4000-a700-000000000001
-             */
-            id: string;
-            /**
-             * @default
-             * @example Electronics
-             */
-            name: string;
-        };
         ItemCategoryResponseDto: {
-            /**
-             * @default
-             * @example 00000000-0000-4000-a700-000000000002
-             */
+            /** @example 00000000-0000-4000-a700-000000000002 */
             id: string;
-            /**
-             * @default
-             * @example Electronics
-             */
+            /** @example Electronics */
             name: string;
-            /**
-             * @default
-             * @example Electronic devices and accessories
-             */
+            /** @example Electronic devices and accessories */
             description: string;
-            /**
-             * @default null
-             * @example https://cdn.example.com/electronics.png
-             */
-            imageUrl: string | null;
-            /**
-             * @default null
-             * @example 00000000-0000-4000-a700-000000000001
-             */
-            parentId: string | null;
+            /** @example https://cdn.example.com/electronics.png */
+            imageUrl?: Record<string, never> | null;
+            /** @example 00000000-0000-4000-a700-000000000001 */
+            parentId: Record<string, never> | null;
             /** @description Parent category summary */
-            parent?: components["schemas"]["ParentCategoryDto"] | null;
-            /**
-             * @default true
-             * @example true
-             */
+            parent?: Record<string, never>;
+            /** @example true */
             isActive: boolean;
-            /**
-             * @default
-             * @example 2025-01-01T00:00:00.000Z
-             */
+            /** @example 2025-01-01T00:00:00.000Z */
             createdAt: string;
-            /**
-             * @default
-             * @example 2025-01-01T00:00:00.000Z
-             */
+            /** @example 2025-01-01T00:00:00.000Z */
             updatedAt: string;
         };
         CreateItemCategoryDto: {
             /**
              * @description Category display name
-             * @default
              * @example Electronics
              */
             name: string;
+            /** @example Electronic devices and accessories */
+            description?: string;
             /**
-             * @default
-             * @example Electronic devices and accessories
-             */
-            description: string;
-            /**
-             * Format: uri
              * @description Category image URL
              * @example https://cdn.example.com/electronics.png
              */
-            imageUrl?: string | null;
+            imageUrl?: Record<string, never> | null;
             /**
              * @description Parent category ID for nesting
              * @example 00000000-0000-4000-a700-000000000001
              */
-            parentId?: string | null;
-            /**
-             * @default true
-             * @example true
-             */
-            isActive: boolean;
+            parentId?: Record<string, never>;
+            /** @example true */
+            isActive?: boolean;
         };
         UpdateItemCategoryDto: {
             /** @example Electronics & Accessories */
             name?: string;
             /** @example Updated description for electronics category */
             description?: string;
-            /**
-             * Format: uri
-             * @example https://cdn.example.com/electronics.png
-             */
-            imageUrl?: string | null;
+            /** @example https://cdn.example.com/electronics.png */
+            imageUrl?: Record<string, never> | null;
             /**
              * @description Parent category ID
              * @example 00000000-0000-4000-a700-000000000001
@@ -3446,114 +3027,58 @@ export interface components {
             isActive?: boolean;
         };
         ItemResponseDto: {
-            /**
-             * @default
-             * @example 00000000-0000-4000-a900-000000000001
-             */
+            /** @example 00000000-0000-4000-a900-000000000001 */
             id: string;
-            /**
-             * @default
-             * @example ELEC-001
-             */
+            /** @example ELEC-001 */
             code: string;
-            /**
-             * @default
-             * @example Laptop 15"
-             */
+            /** @example Laptop 15" */
             name: string;
-            /**
-             * @default null
-             * @example 6901234567890
-             */
-            barcode: string | null;
-            /**
-             * @default
-             * @example 00000000-0000-4000-a700-000000000001
-             */
+            /** @example 6901234567890 */
+            barcode: Record<string, never> | null;
+            /** @example 00000000-0000-4000-a700-000000000001 */
             categoryId: string;
-            /**
-             * @default
-             * @example 00000000-0000-4000-a800-000000000001
-             */
+            /** @example 00000000-0000-4000-a800-000000000001 */
             baseUnitId: string;
-            /**
-             * @default null
-             * @example 00000000-0000-4000-b000-000000000001
-             */
-            brandId: string | null;
-            category?: {
-                id: string;
-                name: string;
-            };
-            baseUnit?: {
-                id: string;
-                name: string;
-                abbreviation: string;
-            };
-            brand?: {
-                id: string;
-                name: string;
-                imageUrl: string | null;
-            };
-            /**
-             * @default null
-             * @example 750000
-             */
-            defaultSellingPrice: number | null;
-            /**
-             * @default null
-             * @example 600000
-             */
-            latestPurchasePrice: number | null;
-            /**
-             * @default true
-             * @example true
-             */
+            /** @example 00000000-0000-4000-b000-000000000001 */
+            brandId?: Record<string, never> | null;
+            /** @description Populated in show responses only */
+            category?: Record<string, never>;
+            /** @description Populated in show responses only */
+            baseUnit?: Record<string, never>;
+            /** @description Populated in show responses only */
+            brand?: Record<string, never> | null;
+            /** @example 750000 */
+            defaultSellingPrice: Record<string, never> | null;
+            /** @example 600000 */
+            latestPurchasePrice: Record<string, never> | null;
+            /** @example true */
             isActive: boolean;
-            /**
-             * @default null
-             * @example https://cdn.example.com/item-main.png
-             */
-            mainImageUrl: string | null;
-            /**
-             * @default []
-             * @example []
-             */
+            /** @example https://cdn.example.com/item-main.png */
+            mainImageUrl?: Record<string, never> | null;
+            /** @example [] */
             galleryUrls: string[];
             /**
-             * @default product
              * @example product
              * @enum {string}
              */
             itemType: "product" | "service" | "vehicle" | "bundle";
-            /**
-             * @default {}
-             * @example {}
-             */
+            /** @example {} */
             customFields: {
                 [key: string]: unknown;
             };
-            /**
-             * @default
-             * @example 2025-01-01T00:00:00.000Z
-             */
+            /** @example 2025-01-01T00:00:00.000Z */
             createdAt: string;
-            /**
-             * @default
-             * @example 2025-01-01T00:00:00.000Z
-             */
+            /** @example 2025-01-01T00:00:00.000Z */
             updatedAt: string;
         };
         CreateItemOpeningStockDto: {
             /**
              * @description Warehouse to register the opening stock in
-             * @default
              * @example 00000000-0000-4000-b100-000000000001
              */
             warehouseId: string;
             /**
              * @description Opening quantity
-             * @default 0
              * @example 10
              */
             quantity: number;
@@ -3566,13 +3091,11 @@ export interface components {
         CreateItemDto: {
             /**
              * @description Unique item code
-             * @default
              * @example ELEC-001
              */
             code: string;
             /**
              * @description Item display name
-             * @default
              * @example Laptop 15"
              */
             name: string;
@@ -3583,13 +3106,11 @@ export interface components {
             barcode?: string;
             /**
              * @description Category ID
-             * @default
              * @example 00000000-0000-4000-a700-000000000001
              */
             categoryId: string;
             /**
              * @description Base unit ID
-             * @default
              * @example 00000000-0000-4000-a800-000000000001
              */
             baseUnitId: string;
@@ -3597,7 +3118,7 @@ export interface components {
              * @description Brand ID
              * @example 00000000-0000-4000-b000-000000000001
              */
-            brandId?: string | null;
+            brandId?: Record<string, never> | null;
             /**
              * @description Default selling price
              * @example 750000
@@ -3615,11 +3136,10 @@ export interface components {
              */
             itemType?: "product" | "service" | "vehicle" | "bundle";
             /**
-             * Format: uri
              * @description Main product image URL
              * @example https://cdn.example.com/item-main.png
              */
-            mainImageUrl?: string | null;
+            mainImageUrl?: Record<string, never> | null;
             /**
              * @description Gallery image URLs
              * @example [
@@ -3646,7 +3166,7 @@ export interface components {
             /** @example 00000000-0000-4000-a800-000000000001 */
             baseUnitId?: string;
             /** @example 00000000-0000-4000-b000-000000000001 */
-            brandId?: string | null;
+            brandId?: Record<string, never> | null;
             /** @example 780000 */
             defaultSellingPrice?: number;
             /** @example 620000 */
@@ -3658,11 +3178,8 @@ export interface components {
              * @enum {string}
              */
             itemType?: "product" | "service" | "vehicle" | "bundle";
-            /**
-             * Format: uri
-             * @example https://cdn.example.com/item-main.png
-             */
-            mainImageUrl?: string | null;
+            /** @example https://cdn.example.com/item-main.png */
+            mainImageUrl?: Record<string, never> | null;
             /**
              * @example [
              *       "https://cdn.example.com/item-1.png"
@@ -3675,65 +3192,26 @@ export interface components {
             };
         };
         CustomFieldResponseDto: {
-            /** @default  */
             id: string;
-            /**
-             * @default items
-             * @example items
-             */
+            /** @example items */
             module: string;
-            /**
-             * @default {
-             *       "ar": ""
-             *     }
-             */
             name: components["schemas"]["LocalizedStringDto"];
-            /**
-             * @default {
-             *       "ar": ""
-             *     }
-             */
             label: components["schemas"]["LocalizedStringDto"];
-            /**
-             * @default TEXT
-             * @enum {string}
-             */
+            /** @enum {string} */
             type: "TEXT" | "DATE" | "NUMBER" | "SELECT" | "BOOLEAN" | "MULTI_SELECT" | "FILE";
-            /** @default null */
-            defaultValue: string | null;
-            /** @default null */
+            defaultValue: Record<string, never> | null;
             placeholder: components["schemas"]["LocalizedStringDto"] | null;
-            /** @default [] */
             options: string[];
-            /** @default false */
             isRequired: boolean;
-            /** @default false */
             showInList: boolean;
-            /** @default  */
             createdAt: string;
         };
         CreateCustomFieldDto: {
-            /**
-             * @default items
-             * @example items
-             */
+            /** @example items */
             module: string;
-            /**
-             * @default {
-             *       "ar": ""
-             *     }
-             */
             name: components["schemas"]["LocalizedStringDto"];
-            /**
-             * @default {
-             *       "ar": ""
-             *     }
-             */
             label: components["schemas"]["LocalizedStringDto"];
-            /**
-             * @default TEXT
-             * @enum {string}
-             */
+            /** @enum {string} */
             type: "TEXT" | "DATE" | "NUMBER" | "SELECT" | "BOOLEAN" | "MULTI_SELECT" | "FILE";
             /** @example  */
             defaultValue?: string;
@@ -3807,52 +3285,29 @@ export interface components {
             items: components["schemas"]["OpeningBalanceItemDto"][];
         };
         WarehouseResponseDto: {
-            /**
-             * @default
-             * @example 00000000-0000-4000-c100-000000000001
-             */
+            /** @example 00000000-0000-4000-c100-000000000001 */
             id: string;
-            /**
-             * @default
-             * @example WH-MAIN
-             */
+            /** @example WH-MAIN */
             code: string;
-            /**
-             * @default
-             * @example Main Warehouse
-             */
+            /** @example Main Warehouse */
             name: string;
-            /**
-             * @default null
-             * @example Damascus Industrial Zone
-             */
-            address: string | null;
-            /**
-             * @default true
-             * @example true
-             */
+            /** @example Damascus Industrial Zone */
+            address: Record<string, never> | null;
+            /** @example true */
             isActive: boolean;
-            /**
-             * @default
-             * @example 2025-01-01T00:00:00.000Z
-             */
+            /** @example 2025-01-01T00:00:00.000Z */
             createdAt: string;
-            /**
-             * @default
-             * @example 2025-01-01T00:00:00.000Z
-             */
+            /** @example 2025-01-01T00:00:00.000Z */
             updatedAt: string;
         };
         CreateWarehouseDto: {
             /**
              * @description Unique warehouse code
-             * @default
              * @example WH-MAIN
              */
             code: string;
             /**
              * @description Warehouse display name
-             * @default
              * @example Main Warehouse
              */
             name: string;
@@ -3870,42 +3325,25 @@ export interface components {
             isActive?: boolean;
         };
         TagResponseDto: {
-            /**
-             * @default
-             * @example 018e1234-abcd-7000-a001-000000000001
-             */
+            /** @example 018e1234-abcd-7000-a001-000000000001 */
             id: string;
-            /**
-             * @default
-             * @example Fragile
-             */
+            /** @example Fragile */
             name: string;
+            /** @example #FF5733 */
+            color: Record<string, never> | null;
             /**
-             * @default null
-             * @example #FF5733
-             */
-            color: string | null;
-            /**
-             * @default
              * @example items
              * @enum {string}
              */
             module: "items" | "parties" | "invoices" | "warehouses";
-            /**
-             * @default
-             * @example 2025-01-01T00:00:00.000Z
-             */
+            /** @example 2025-01-01T00:00:00.000Z */
             createdAt: string;
-            /**
-             * @default
-             * @example 2025-01-01T00:00:00.000Z
-             */
+            /** @example 2025-01-01T00:00:00.000Z */
             updatedAt: string;
         };
         CreateTagDto: {
             /**
              * @description Tag display name
-             * @default
              * @example Fragile
              */
             name: string;
@@ -3916,7 +3354,6 @@ export interface components {
             color?: string;
             /**
              * @description Module this tag belongs to
-             * @default
              * @example items
              * @enum {string}
              */
@@ -3929,106 +3366,62 @@ export interface components {
             color?: string;
         };
         TagAssignmentResponseDto: {
-            /** @default  */
             id: string;
-            /** @default  */
             tagId: string;
-            /** @default  */
             entityType: string;
-            /** @default  */
             entityId: string;
-            /**
-             * @description The tag details
-             * @default {
-             *       "id": "",
-             *       "name": "",
-             *       "color": null,
-             *       "module": ""
-             *     }
-             */
+            /** @description The tag details */
             tag: {
                 id?: string;
                 name?: string;
                 color?: string | null;
                 module?: string;
             };
-            /** @default  */
             createdAt: string;
         };
         CreateTagAssignmentDto: {
             /**
-             * Format: uuid
              * @description Tag ID
-             * @default
              * @example 018e1234-abcd-7000-a001-000000000001
              */
             tagId: string;
             /**
              * @description Entity type
-             * @default
              * @example item
              * @enum {string}
              */
             entityType: "item" | "party" | "invoice" | "warehouse";
             /**
-             * Format: uuid
              * @description Entity ID
-             * @default
              * @example 018e1234-abcd-7000-a002-000000000001
              */
             entityId: string;
         };
         RelatedItemSummaryDto: {
-            /** @default  */
             id: string;
-            /** @default  */
             name: string;
-            /** @default  */
             code: string;
         };
         ItemRelationResponseDto: {
-            /** @default  */
             id: string;
-            /** @default  */
             itemId: string;
-            /** @default  */
             relatedItemId: string;
             /**
-             * @default compatible_with
              * @example compatible_with
              * @enum {string}
              */
             relationType: "compatible_with" | "replaces" | "requires";
-            /** @default null */
-            notes: string | null;
-            /**
-             * @default {
-             *       "id": "",
-             *       "name": "",
-             *       "code": ""
-             *     }
-             */
+            notes: Record<string, never> | null;
             relatedItem: components["schemas"]["RelatedItemSummaryDto"];
-            /** @default  */
             createdAt: string;
-            /** @default  */
             updatedAt: string;
         };
         CreateItemRelationDto: {
-            /**
-             * Format: uuid
-             * @description The source item ID
-             * @default
-             */
+            /** @description The source item ID */
             itemId: string;
-            /**
-             * Format: uuid
-             * @description The related item ID
-             * @default
-             */
+            /** @description The related item ID */
             relatedItemId: string;
             /**
-             * @default compatible_with
              * @example compatible_with
              * @enum {string}
              */
@@ -4046,41 +3439,28 @@ export interface components {
             notes?: string;
         };
         CatalogEntityResponseDto: {
-            /** @default  */
             id: string;
-            /** @default  */
             name: string;
-            /** @default  */
             kind: string;
-            /** @default null */
-            parentId: string | null;
-            /** @default null */
+            parentId: Record<string, never> | null;
             parent: Record<string, never> | null;
-            /** @default null */
             attributes: {
                 [key: string]: unknown;
             } | null;
-            /** @default true */
             isActive: boolean;
-            /** @default  */
             createdAt: string;
-            /** @default  */
             updatedAt: string;
         };
         CreateCatalogEntityDto: {
-            /**
-             * @default
-             * @example Hyundai
-             */
+            /** @example Hyundai */
             name: string;
             /**
              * @description Entity kind (brand | model | generation | variant | year)
-             * @default
              * @example brand
              */
             kind: string;
             /** @example null */
-            parentId?: string | null;
+            parentId?: Record<string, never> | null;
             attributes?: {
                 [key: string]: unknown;
             } | null;
@@ -4090,7 +3470,7 @@ export interface components {
             name?: string;
             /** @example brand */
             kind?: string;
-            parentId?: string | null;
+            parentId?: Record<string, never> | null;
             attributes?: {
                 [key: string]: unknown;
             } | null;
@@ -4098,84 +3478,44 @@ export interface components {
             isActive?: boolean;
         };
         ItemCatalogEntityResponseDto: {
-            /** @default  */
             id: string;
-            /** @default  */
             itemId: string;
-            /** @default  */
             catalogEntityId: string;
-            /**
-             * @default {
-             *       "id": "",
-             *       "name": "",
-             *       "kind": "",
-             *       "parentId": null
-             *     }
-             */
             catalogEntity: Record<string, never>;
-            /** @default  */
             createdAt: string;
         };
         CreateItemCatalogEntityDto: {
-            /**
-             * Format: uuid
-             * @default
-             * @example uuid-of-item
-             */
+            /** @example uuid-of-item */
             itemId: string;
-            /**
-             * Format: uuid
-             * @default
-             * @example uuid-of-catalog-entity
-             */
+            /** @example uuid-of-catalog-entity */
             catalogEntityId: string;
         };
         UpdateItemCatalogEntityDto: Record<string, never>;
         BrandResponseDto: {
-            /**
-             * @default
-             * @example 018e1234-abcd-7000-a001-000000000001
-             */
+            /** @example 018e1234-abcd-7000-a001-000000000001 */
             id: string;
-            /**
-             * @default
-             * @example Toyota
-             */
+            /** @example Toyota */
             name: string;
-            /**
-             * @default null
-             * @example https://cdn.example.com/toyota.png
-             */
-            imageUrl: string | null;
-            /**
-             * @default true
-             * @example true
-             */
+            /** @example https://cdn.example.com/toyota.png */
+            imageUrl?: Record<string, never> | null;
+            /** @example true */
             isActive: boolean;
-            /**
-             * @default
-             * @example 2025-01-01T00:00:00.000Z
-             */
+            /** @example 2025-01-01T00:00:00.000Z */
             createdAt: string;
-            /**
-             * @default
-             * @example 2025-01-01T00:00:00.000Z
-             */
+            /** @example 2025-01-01T00:00:00.000Z */
             updatedAt: string;
         };
         CreateBrandDto: {
             /**
              * @description Brand display name
-             * @default
              * @example Toyota
              */
             name: string;
             /**
-             * Format: uri
              * @description Brand logo URL
              * @example https://cdn.example.com/toyota.png
              */
-            imageUrl?: string | null;
+            imageUrl?: Record<string, never>;
         };
         UpdateBrandDto: {
             /**
@@ -4184,11 +3524,10 @@ export interface components {
              */
             name?: string;
             /**
-             * Format: uri
              * @description Updated logo URL
              * @example https://cdn.example.com/toyota-new.png
              */
-            imageUrl?: string | null;
+            imageUrl?: Record<string, never>;
             /**
              * @description Whether the brand is active
              * @example true
@@ -4196,67 +3535,31 @@ export interface components {
             isActive?: boolean;
         };
         CurrencyResponseDto: {
-            /**
-             * @default
-             * @example 00000000-0000-4000-b100-000000000001
-             */
+            /** @example 00000000-0000-4000-b100-000000000001 */
             id: string;
-            /**
-             * @default
-             * @example SYP
-             */
+            /** @example SYP */
             code: string;
-            /**
-             * @default
-             * @example الليرة السورية
-             */
+            /** @example الليرة السورية */
             name: string;
-            /**
-             * @default {
-             *       "ar": ""
-             *     }
-             */
             nameI18n: components["schemas"]["LocalizedStringDto"];
-            /**
-             * @default null
-             * @example £
-             */
-            symbol: string | null;
-            /** @default null */
-            symbolI18n: components["schemas"]["LocalizedStringDto"] | null;
-            /**
-             * @default false
-             * @example true
-             */
+            /** @example £ */
+            symbol: Record<string, never> | null;
+            symbolI18n?: components["schemas"]["LocalizedStringDto"] | null;
+            /** @example true */
             isBase: boolean;
-            /**
-             * @default true
-             * @example true
-             */
+            /** @example true */
             isActive: boolean;
-            /**
-             * @default
-             * @example 2025-01-01T00:00:00.000Z
-             */
+            /** @example 2025-01-01T00:00:00.000Z */
             createdAt: string;
-            /**
-             * @default
-             * @example 2025-01-01T00:00:00.000Z
-             */
+            /** @example 2025-01-01T00:00:00.000Z */
             updatedAt: string;
         };
         CreateCurrencyDto: {
             /**
              * @description ISO 4217 currency code
-             * @default
              * @example SYP
              */
             code: string;
-            /**
-             * @default {
-             *       "ar": ""
-             *     }
-             */
             name: components["schemas"]["LocalizedStringDto"];
             /** @description Currency symbol for display */
             symbol?: components["schemas"]["LocalizedStringDto"];
@@ -4274,23 +3577,61 @@ export interface components {
             /** @example true */
             isActive?: boolean;
         };
+        ChartOfAccountTreeDto: {
+            /** @description Account UUID */
+            id: string;
+            /** @description Account code */
+            code: string;
+            /** @description Locale-resolved display name */
+            name: string;
+            /** @description Raw localized name object */
+            nameI18n: Record<string, never>;
+            /**
+             * @description Account type
+             * @enum {string}
+             */
+            type: "ASSET" | "LIABILITY" | "EQUITY" | "REVENUE" | "EXPENSE";
+            /** @description Parent account UUID or null */
+            parentId: Record<string, never> | null;
+            /** @description Whether account is active */
+            isActive: boolean;
+        };
+        ChartOfAccountResponseDto: {
+            /** @example 00000000-0000-4000-a601-000000000001 */
+            id: string;
+            /** @example 1110 */
+            code: string;
+            /** @example نقد وما يعادله */
+            name: string;
+            nameI18n: components["schemas"]["LocalizedStringDto"];
+            /**
+             * @example ASSET
+             * @enum {string}
+             */
+            type: "ASSET" | "LIABILITY" | "EQUITY" | "REVENUE" | "EXPENSE";
+            /** @example 00000000-0000-4000-a601-000000000001 */
+            parentId?: Record<string, never> | null;
+            /** @example 1000 */
+            parentCode?: Record<string, never> | null;
+            /** @example الأصول المتداولة */
+            parentName?: Record<string, never> | null;
+            /** @example true */
+            isActive: boolean;
+            /** @example 2025-01-01T00:00:00.000Z */
+            createdAt: string;
+            /** @example 2025-01-01T00:00:00.000Z */
+            updatedAt: string;
+        };
         CreateChartOfAccountDto: {
             /**
              * @description Unique account code within the tenant
-             * @default
              * @example 1110
              */
             code: string;
-            /**
-             * @description Account display name
-             * @default {
-             *       "ar": ""
-             *     }
-             */
+            /** @description Account display name */
             name: components["schemas"]["LocalizedStringDto"];
             /**
              * @description Account type classification
-             * @default ASSET
              * @example ASSET
              * @enum {string}
              */
@@ -4308,7 +3649,7 @@ export interface components {
              * @description Updated parent account UUID — set to null to make it a root account
              * @example 00000000-0000-4000-a601-000000000001
              */
-            parentId?: string | null;
+            parentId?: Record<string, never> | null;
             /**
              * @description Deactivate to hide from document selection
              * @example true
@@ -4318,164 +3659,83 @@ export interface components {
         /** @enum {string} */
         AccountTypeEnum: "ASSET" | "LIABILITY" | "EQUITY" | "REVENUE" | "EXPENSE";
         AccountBalanceDto: {
-            /**
-             * @default
-             * @example 00000000-0000-4000-a601-000000000001
-             */
+            /** @example 00000000-0000-4000-a601-000000000001 */
             id: string;
-            /**
-             * @default
-             * @example 1110
-             */
+            /** @example 1110 */
             code: string;
-            /**
-             * @default
-             * @example نقد وما يعادله
-             */
+            /** @example نقد وما يعادله */
             name: string;
-            /**
-             * @default {
-             *       "ar": ""
-             *     }
-             */
             nameI18n: components["schemas"]["LocalizedStringDto"];
-            /**
-             * @default ASSET
-             * @example ASSET
-             */
+            /** @example ASSET */
             type: components["schemas"]["AccountTypeEnum"];
-            /**
-             * @default null
-             * @example 00000000-0000-4000-a601-000000000000
-             */
-            parentId: string | null;
-            /**
-             * @default true
-             * @example true
-             */
+            /** @example 00000000-0000-4000-a601-000000000000 */
+            parentId?: string | null;
+            /** @example true */
             isActive: boolean;
             /**
              * @description Signed balance of lines posted directly to this account
-             * @default 0
              * @example 1500
              */
             ownBalance: number;
             /**
              * @description ownBalance plus the rolled-up balance of all descendants
-             * @default 0
              * @example 4200
              */
             rolledBalance: number;
         };
         AccountLedgerLineDto: {
-            /**
-             * @default
-             * @example 00000000-0000-4000-b101-000000000001
-             */
+            /** @example 00000000-0000-4000-b101-000000000001 */
             id: string;
             /**
              * Format: date-time
-             * @default
              * @example 2026-01-15T00:00:00.000Z
              */
             date: string;
-            /**
-             * @default
-             * @example JE-2026-000042
-             */
+            /** @example JE-2026-000042 */
             entryNumber: string;
-            /**
-             * @default null
-             * @example Sales invoice INV-000042
-             */
-            description: string | null;
-            /**
-             * @default null
-             * @example invoice
-             */
-            referenceType: string | null;
-            /**
-             * @default null
-             * @example 00000000-0000-4000-c101-000000000001
-             */
-            referenceId: string | null;
-            /**
-             * @default 0
-             * @example 1500
-             */
+            /** @example Sales invoice INV-000042 */
+            description?: string | null;
+            /** @example invoice */
+            referenceType?: string | null;
+            /** @example 00000000-0000-4000-c101-000000000001 */
+            referenceId?: string | null;
+            /** @example 1500 */
             debit: number;
-            /**
-             * @default 0
-             * @example 0
-             */
+            /** @example 0 */
             credit: number;
         };
         InvoiceTypeResponseDto: {
-            /**
-             * @default
-             * @example 00000000-0000-4000-d100-000000000001
-             */
+            /** @example 00000000-0000-4000-d100-000000000001 */
             id: string;
-            /**
-             * @default
-             * @example PINV
-             */
+            /** @example PINV */
             code: string;
-            /**
-             * @default
-             * @example فاتورة شراء
-             */
+            /** @example فاتورة شراء */
             name: string;
-            /**
-             * @default {
-             *       "ar": ""
-             *     }
-             */
             nameI18n: components["schemas"]["LocalizedStringDto"];
             /**
-             * @default
              * @example PURCHASE
              * @enum {string}
              */
             direction: "PURCHASE" | "SALE";
-            /**
-             * @default true
-             * @example true
-             */
+            /** @example true */
             affectsStock: boolean;
-            /**
-             * @default true
-             * @example true
-             */
+            /** @example true */
             isActive: boolean;
-            /**
-             * @default
-             * @example 2025-01-01T00:00:00.000Z
-             */
+            /** @example 2025-01-01T00:00:00.000Z */
             createdAt: string;
-            /**
-             * @default
-             * @example 2025-01-01T00:00:00.000Z
-             */
+            /** @example 2025-01-01T00:00:00.000Z */
             updatedAt: string;
         };
         CreateInvoiceTypeDto: {
             /**
              * @description Unique invoice type code
-             * @default
              * @example PINV
              */
             code: string;
-            /**
-             * @description Invoice type display name
-             * @default {
-             *       "ar": ""
-             *     }
-             */
+            /** @description Invoice type display name */
             name: components["schemas"]["LocalizedStringDto"];
             /**
              * @description PURCHASE = inbound, SALE = outbound
-             * @default PURCHASE
              * @example PURCHASE
              * @enum {string}
              */
@@ -4494,70 +3754,34 @@ export interface components {
             isActive?: boolean;
         };
         CashboxResponseDto: {
-            /**
-             * @default
-             * @example 00000000-0000-4000-d200-000000000001
-             */
+            /** @example 00000000-0000-4000-d200-000000000001 */
             id: string;
-            /**
-             * @default
-             * @example CASH-SYP
-             */
+            /** @example CASH-SYP */
             code: string;
-            /**
-             * @default
-             * @example الصندوق الرئيسي
-             */
+            /** @example الصندوق الرئيسي */
             name: string;
-            /**
-             * @default {
-             *       "ar": ""
-             *     }
-             */
             nameI18n: components["schemas"]["LocalizedStringDto"];
-            /**
-             * @default
-             * @example 00000000-0000-4000-a300-000000000001
-             */
+            /** @example 00000000-0000-4000-a300-000000000001 */
             currencyId: string;
-            /**
-             * @default true
-             * @example true
-             */
+            /** @example true */
             isActive: boolean;
-            /**
-             * @default
-             * @example 2025-01-01T00:00:00.000Z
-             */
+            /** @example 2025-01-01T00:00:00.000Z */
             createdAt: string;
-            /**
-             * @default
-             * @example 2025-01-01T00:00:00.000Z
-             */
+            /** @example 2025-01-01T00:00:00.000Z */
             updatedAt: string;
-            /**
-             * @default
-             * @example 0.00
-             */
+            /** @example 0.00 */
             balance: string;
         };
         CreateCashboxDto: {
             /**
              * @description Unique cashbox code
-             * @default
              * @example CASH-SYP
              */
             code: string;
-            /**
-             * @description Cashbox display name
-             * @default {
-             *       "ar": ""
-             *     }
-             */
+            /** @description Cashbox display name */
             name: components["schemas"]["LocalizedStringDto"];
             /**
              * @description Currency ID
-             * @default
              * @example 00000000-0000-4000-a300-000000000001
              */
             currencyId: string;
@@ -4573,75 +3797,41 @@ export interface components {
          */
         InvoicePaidStatus: "UNPAID" | "PARTIAL" | "PAID";
         InvoiceLineResponseDto: {
-            /** @default  */
             id: string;
-            /** @default  */
             itemId: string;
             itemName?: string;
             itemCode?: string;
-            /** @default  */
             unitId: string;
             unitName?: string;
             unitAbbreviation?: string;
-            /** @default 0 */
             quantity: number;
-            /** @default 0 */
             unitPrice: number;
-            /** @default 0 */
             discountPercent: number;
-            /** @default 0 */
             discountAmount: number;
-            /** @default 0 */
             taxPercent: number;
-            /** @default 0 */
             taxAmount: number;
-            /** @default 0 */
             total: number;
-            /** @default null */
-            notes: string | null;
+            notes?: string | null;
             sortOrder?: number;
         };
         InvoicePaymentResponseDto: {
-            /**
-             * @description Payment allocation ID
-             * @default
-             */
+            /** @description Payment allocation ID */
             id: string;
-            /** @default  */
             paymentId: string;
-            /**
-             * @default
-             * @example PAY-00002
-             */
+            /** @example PAY-00002 */
             paymentNumber: string;
-            /**
-             * @default 0
-             * @example 250000
-             */
+            /** @example 250000 */
             amount: number;
-            /**
-             * @default
-             * @example 2026-04-14T00:00:00.000Z
-             */
+            /** @example 2026-04-14T00:00:00.000Z */
             date: string;
-            /** @default  */
             createdAt: string;
         };
         InvoiceResponseDto: {
-            /**
-             * @default
-             * @example 00000000-0000-4000-ae00-000000000001
-             */
+            /** @example 00000000-0000-4000-ae00-000000000001 */
             id: string;
-            /**
-             * @default
-             * @example INV-00001
-             */
+            /** @example INV-00001 */
             number: string;
-            /**
-             * @default
-             * @example 00000000-0000-4000-ad00-000000000001
-             */
+            /** @example 00000000-0000-4000-ad00-000000000001 */
             invoiceTypeId: string;
             /**
              * @description Invoice type display name, resolved to the request locale
@@ -4653,73 +3843,50 @@ export interface components {
              * @example PURCHASE
              */
             invoiceTypeDirection?: string;
-            /**
-             * @default
-             * @example 2026-04-14T00:00:00.000Z
-             */
+            /** @example 2026-04-14T00:00:00.000Z */
             date: string;
-            /** @default null */
-            dueDate: string | null;
-            /**
-             * @default
-             * @example 00000000-0000-4000-aa00-000000000004
-             */
+            dueDate?: string | null;
+            /** @example 00000000-0000-4000-aa00-000000000004 */
             partyId: string;
             /** @example Damascus Import Co. */
             partyName?: string;
-            /** @default null */
-            warehouseId: string | null;
+            warehouseId?: string | null;
             /** @example Main Warehouse */
             warehouseName?: string;
-            /** @default  */
             fiscalPeriodId: string;
-            /** @default  */
             currencyId: string;
             /** @example SYP */
             currencyCode?: string;
             /**
              * @description Exchange rate to tenant base currency
-             * @default 1
              * @example 1
              */
             exchangeRate: number;
             /**
              * @description DRAFT | POSTED | CANCELLED
-             * @default DRAFT
              * @example DRAFT
              */
             status: string;
-            /** @default 0 */
             subtotal: number;
-            /** @default 0 */
             discountAmount: number;
-            /** @default 0 */
             taxAmount: number;
-            /** @default 0 */
             total: number;
-            /** @default null */
-            notes: string | null;
-            /** @default null */
-            postedAt: string | null;
-            /** @default  */
+            notes?: string | null;
+            postedAt?: string | null;
             createdAt: string;
-            /** @default  */
             updatedAt: string;
             /**
              * @description Sum of payments allocated to this invoice
-             * @default 0
              * @example 500000
              */
             amountPaid: number;
             /**
              * @description Remaining unpaid amount (total - amountPaid)
-             * @default 0
              * @example 700000
              */
             balanceDue: number;
             /**
              * @description Derived from amountPaid vs total
-             * @default UNPAID
              * @example UNPAID
              */
             paidStatus: components["schemas"]["InvoicePaidStatus"];
@@ -5072,61 +4239,30 @@ export interface components {
             items?: components["schemas"]["CreateExpenseItemDto"][];
         };
         PartyResponseDto: {
-            /**
-             * @default
-             * @example 00000000-0000-4000-e100-000000000001
-             */
+            /** @example 00000000-0000-4000-e100-000000000001 */
             id: string;
-            /**
-             * @default null
-             * @example SUPP-001
-             */
-            code: string | null;
-            /**
-             * @default
-             * @example Damascus Import Co.
-             */
+            /** @example SUPP-001 */
+            code: Record<string, never> | null;
+            /** @example Damascus Import Co. */
             name: string;
             /**
-             * @default
              * @example SUPPLIER
              * @enum {string}
              */
             type: "CUSTOMER" | "SUPPLIER" | "CUSTOMER_SUPPLIER";
-            /**
-             * @default null
-             * @example +963-11-9876543
-             */
-            phone: string | null;
-            /**
-             * @default null
-             * @example info@damsimport.sy
-             */
-            email: string | null;
-            /**
-             * @default null
-             * @example Damascus, Industrial Zone
-             */
-            address: string | null;
-            /**
-             * @default 0
-             * @example 0
-             */
+            /** @example +963-11-9876543 */
+            phone: Record<string, never> | null;
+            /** @example info@damsimport.sy */
+            email: Record<string, never> | null;
+            /** @example Damascus, Industrial Zone */
+            address: Record<string, never> | null;
+            /** @example 0 */
             openingBalance: number;
-            /**
-             * @default true
-             * @example true
-             */
+            /** @example true */
             isActive: boolean;
-            /**
-             * @default
-             * @example 2025-01-01T00:00:00.000Z
-             */
+            /** @example 2025-01-01T00:00:00.000Z */
             createdAt: string;
-            /**
-             * @default
-             * @example 2025-01-01T00:00:00.000Z
-             */
+            /** @example 2025-01-01T00:00:00.000Z */
             updatedAt: string;
         };
         CreatePartyDto: {
@@ -6701,12 +5837,6 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
             /** @description JWT token is missing, expired, or invalid */
             401: {
                 headers: {
@@ -14045,6 +13175,73 @@ export interface operations {
             };
         };
     };
+    "Accounts.tree": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Account tree */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["ChartOfAccountTreeDto"][];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
     "Accounts.list": {
         parameters: {
             query?: {
@@ -15764,12 +14961,6 @@ export interface operations {
                     };
                 };
             };
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
             /** @description JWT token is missing, expired, or invalid */
             401: {
                 headers: {
@@ -15839,12 +15030,6 @@ export interface operations {
                     };
                 };
             };
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
             /** @description JWT token is missing, expired, or invalid */
             401: {
                 headers: {
@@ -15913,12 +15098,6 @@ export interface operations {
                         data?: components["schemas"]["InvoiceResponseDto"];
                     };
                 };
-            };
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
             };
             /** @description JWT token is missing, expired, or invalid */
             401: {
@@ -16264,12 +15443,6 @@ export interface operations {
                     "application/json": unknown;
                 };
             };
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
             /** @description JWT token is missing, expired, or invalid */
             401: {
                 headers: {
@@ -16336,12 +15509,6 @@ export interface operations {
                 content: {
                     "application/json": unknown;
                 };
-            };
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
             };
             /** @description JWT token is missing, expired, or invalid */
             401: {
@@ -16413,12 +15580,6 @@ export interface operations {
                 content: {
                     "application/json": unknown;
                 };
-            };
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
             };
             /** @description JWT token is missing, expired, or invalid */
             401: {
@@ -16886,12 +16047,6 @@ export interface operations {
                 };
                 content?: never;
             };
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
             /** @description JWT token is missing, expired, or invalid */
             401: {
                 headers: {
@@ -16952,12 +16107,6 @@ export interface operations {
         responses: {
             /** @description Expense cancelled — reversing entry created */
             200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            201: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -17858,12 +17007,6 @@ export interface operations {
                 content: {
                     "application/json": unknown;
                 };
-            };
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
             };
             /** @description JWT token is missing, expired, or invalid */
             401: {
@@ -18892,12 +18035,6 @@ export interface operations {
         responses: {
             /** @description File metadata record */
             200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            201: {
                 headers: {
                     [name: string]: unknown;
                 };
