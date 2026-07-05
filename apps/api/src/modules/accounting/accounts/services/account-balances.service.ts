@@ -24,7 +24,7 @@ export class AccountBalancesService {
 
     const own = accounts.map((a) => {
       const s = sumByAccount.get(a.id);
-      const ownBalance = s ? getAccountBalanceDelta(a.type as AccountType, s.debit, s.credit) : 0;
+      const ownBalance = s ? getAccountBalanceDelta(a.type, s.debit, s.credit) : 0;
       return { id: a.id, parentId: a.parentId ?? null, ownBalance };
     });
     const ownById = new Map(own.map((o) => [o.id, o.ownBalance]));

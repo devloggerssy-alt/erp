@@ -21,7 +21,7 @@ describe('AccountsRepository', () => {
 
   beforeEach(() => {
     prismaMock = makePrismaMock();
-    repository = new AccountsRepository(prismaMock as any);
+    repository = new AccountsRepository(prismaMock);
   });
 
   describe('findAllForBalances', () => {
