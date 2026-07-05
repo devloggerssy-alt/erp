@@ -12,6 +12,11 @@ export class AccountsClient extends CrudClient<typeof accountResource> {
     return this.apiClient.get(route)
   }
 
+  tree = () => {
+    const route = accountResource.routes.tree as ApiPathByMethod<"get">
+    return this.apiClient.get(route)
+  }
+
   ledger = (id: string, query?: { page?: number; limit?: number }) => {
     const route = accountResource.routes.ledger as ApiPathByMethod<"get">
     return this.apiClient.get(route, { params: { id }, query } as never)
