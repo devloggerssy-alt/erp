@@ -37,6 +37,39 @@ describe('AccountBalancesService.getBalances', () => {
     expect(byId['rev'].ownBalance).toBe(500);
     expect(byId['assets'].name).toBe('الأصول'); // locale-resolved
   });
+
+  it('rolls up balances through multiple hierarchy levels', async () => {
+    const repo = makeRepo({
+      findAllForBalances: jest.fn().mockResolvedValue([
+        { id: 'assets', code: '1000', name: { ar: 'الأصول' }, type: 'ASSET', parentId: null, isActive: true },
+        { id: 'current', code: '1100', name: { ar: 'أصول متداولة' }, type: 'ASSET', parentId: 'assets', isActive: true },
+        { id: 'cash', code: '1110', name: { ar: 'نقد' }, type: 'ASSET', parentId: 'current', isActive: true },
+        { id: 'bank', code: '1120', name: { ar: 'بنك' }, type: 'ASSET', parentId: 'current', isActive: true },
+      ]),
+      sumPostedLinesByAccount: jest.fn().mockResolvedValue([
+        { accountId: 'cash', debit: 500, credit: 100 }, // ASSET → +400
+        { accountId: 'bank', debit: 1000, credit: 200 }, // ASSET → +800
+      ]),
+    });
+    const service = new AccountBalancesService(repo, localeStub);
+
+    const result = await service.getBalances('t1');
+    const byId = Object.fromEntries(result.map((r) => [r.id, r]));
+
+    // Leaf accounts: own = rolled
+    expect(byId['cash'].ownBalance).toBe(400);
+    expect(byId['cash'].rolledBalance).toBe(400);
+    expect(byId['bank'].ownBalance).toBe(800);
+    expect(byId['bank'].rolledBalance).toBe(800);
+
+    // Parent: own = 0, rolled = sum of children
+    expect(byId['current'].ownBalance).toBe(0);
+    expect(byId['current'].rolledBalance).toBe(1200); // 400 + 800
+
+    // Grandparent: own = 0, rolled = sum of all descendants
+    expect(byId['assets'].ownBalance).toBe(0);
+    expect(byId['assets'].rolledBalance).toBe(1200); // rolled from current
+  });
 });
 
 describe('AccountBalancesService.getLedger', () => {
