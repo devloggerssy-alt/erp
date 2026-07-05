@@ -19123,9 +19123,107 @@ components:
         padding:
           type: number
           example: 6
+    ChartOfAccountResponseDto:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 00000000-0000-4000-a601-000000000001
+        code:
+          type: string
+          example: '1110'
+        name:
+          type: string
+          example: نقد وما يعادله
+        nameI18n:
+          $ref: '#/components/schemas/LocalizedStringDto'
+        type:
+          type: string
+          enum:
+            - ASSET
+            - LIABILITY
+            - EQUITY
+            - REVENUE
+            - EXPENSE
+          example: ASSET
+        parentId:
+          type: object
+          example: 00000000-0000-4000-a601-000000000001
+          nullable: true
+        parentCode:
+          type: object
+          example: '1000'
+          nullable: true
+        parentName:
+          type: object
+          example: الأصول المتداولة
+          nullable: true
+        isActive:
+          type: boolean
+          example: true
+        createdAt:
+          type: string
+          example: '2025-01-01T00:00:00.000Z'
+        updatedAt:
+          type: string
+          example: '2025-01-01T00:00:00.000Z'
+      required:
+        - id
+        - code
+        - name
+        - nameI18n
+        - type
+        - isActive
+        - createdAt
+        - updatedAt
     FinancialSettingResponseDto:
       type: object
-      properties: {}
+      properties:
+        defaultSalesAccount:
+          nullable: true
+          description: Default sales revenue account
+          allOf:
+            - $ref: '#/components/schemas/ChartOfAccountResponseDto'
+        defaultPurchaseAccount:
+          nullable: true
+          description: Default purchase/COGS account
+          allOf:
+            - $ref: '#/components/schemas/ChartOfAccountResponseDto'
+        defaultTaxAccount:
+          nullable: true
+          description: Default tax/VAT payable account
+          allOf:
+            - $ref: '#/components/schemas/ChartOfAccountResponseDto'
+        defaultReceivableAccount:
+          nullable: true
+          description: Default accounts receivable (AR) account
+          allOf:
+            - $ref: '#/components/schemas/ChartOfAccountResponseDto'
+        defaultPayableAccount:
+          nullable: true
+          description: Default accounts payable (AP) account
+          allOf:
+            - $ref: '#/components/schemas/ChartOfAccountResponseDto'
+        defaultInventoryAccount:
+          nullable: true
+          description: Default inventory asset account
+          allOf:
+            - $ref: '#/components/schemas/ChartOfAccountResponseDto'
+        defaultCogsAccount:
+          nullable: true
+          description: Default cost-of-goods-sold account
+          allOf:
+            - $ref: '#/components/schemas/ChartOfAccountResponseDto'
+        defaultInventoryAdjustmentAccount:
+          nullable: true
+          description: Default inventory adjustment / shrinkage account
+          allOf:
+            - $ref: '#/components/schemas/ChartOfAccountResponseDto'
+        defaultOpeningEquityAccount:
+          nullable: true
+          description: Default opening-balance equity account
+          allOf:
+            - $ref: '#/components/schemas/ChartOfAccountResponseDto'
     UpsertFinancialSettingBodyDto:
       type: object
       properties:
@@ -20320,59 +20418,6 @@ components:
         - type
         - parentId
         - isActive
-    ChartOfAccountResponseDto:
-      type: object
-      properties:
-        id:
-          type: string
-          example: 00000000-0000-4000-a601-000000000001
-        code:
-          type: string
-          example: '1110'
-        name:
-          type: string
-          example: نقد وما يعادله
-        nameI18n:
-          $ref: '#/components/schemas/LocalizedStringDto'
-        type:
-          type: string
-          enum:
-            - ASSET
-            - LIABILITY
-            - EQUITY
-            - REVENUE
-            - EXPENSE
-          example: ASSET
-        parentId:
-          type: object
-          example: 00000000-0000-4000-a601-000000000001
-          nullable: true
-        parentCode:
-          type: object
-          example: '1000'
-          nullable: true
-        parentName:
-          type: object
-          example: الأصول المتداولة
-          nullable: true
-        isActive:
-          type: boolean
-          example: true
-        createdAt:
-          type: string
-          example: '2025-01-01T00:00:00.000Z'
-        updatedAt:
-          type: string
-          example: '2025-01-01T00:00:00.000Z'
-      required:
-        - id
-        - code
-        - name
-        - nameI18n
-        - type
-        - isActive
-        - createdAt
-        - updatedAt
     CreateChartOfAccountDto:
       type: object
       properties:

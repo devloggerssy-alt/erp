@@ -2851,7 +2851,52 @@ export interface components {
             /** @example 6 */
             padding?: number;
         };
-        FinancialSettingResponseDto: Record<string, never>;
+        ChartOfAccountResponseDto: {
+            /** @example 00000000-0000-4000-a601-000000000001 */
+            id: string;
+            /** @example 1110 */
+            code: string;
+            /** @example نقد وما يعادله */
+            name: string;
+            nameI18n: components["schemas"]["LocalizedStringDto"];
+            /**
+             * @example ASSET
+             * @enum {string}
+             */
+            type: "ASSET" | "LIABILITY" | "EQUITY" | "REVENUE" | "EXPENSE";
+            /** @example 00000000-0000-4000-a601-000000000001 */
+            parentId?: Record<string, never> | null;
+            /** @example 1000 */
+            parentCode?: Record<string, never> | null;
+            /** @example الأصول المتداولة */
+            parentName?: Record<string, never> | null;
+            /** @example true */
+            isActive: boolean;
+            /** @example 2025-01-01T00:00:00.000Z */
+            createdAt: string;
+            /** @example 2025-01-01T00:00:00.000Z */
+            updatedAt: string;
+        };
+        FinancialSettingResponseDto: {
+            /** @description Default sales revenue account */
+            defaultSalesAccount?: components["schemas"]["ChartOfAccountResponseDto"] | null;
+            /** @description Default purchase/COGS account */
+            defaultPurchaseAccount?: components["schemas"]["ChartOfAccountResponseDto"] | null;
+            /** @description Default tax/VAT payable account */
+            defaultTaxAccount?: components["schemas"]["ChartOfAccountResponseDto"] | null;
+            /** @description Default accounts receivable (AR) account */
+            defaultReceivableAccount?: components["schemas"]["ChartOfAccountResponseDto"] | null;
+            /** @description Default accounts payable (AP) account */
+            defaultPayableAccount?: components["schemas"]["ChartOfAccountResponseDto"] | null;
+            /** @description Default inventory asset account */
+            defaultInventoryAccount?: components["schemas"]["ChartOfAccountResponseDto"] | null;
+            /** @description Default cost-of-goods-sold account */
+            defaultCogsAccount?: components["schemas"]["ChartOfAccountResponseDto"] | null;
+            /** @description Default inventory adjustment / shrinkage account */
+            defaultInventoryAdjustmentAccount?: components["schemas"]["ChartOfAccountResponseDto"] | null;
+            /** @description Default opening-balance equity account */
+            defaultOpeningEquityAccount?: components["schemas"]["ChartOfAccountResponseDto"] | null;
+        };
         UpsertFinancialSettingBodyDto: {
             /**
              * @description Default sales revenue account
@@ -3595,32 +3640,6 @@ export interface components {
             parentId: Record<string, never> | null;
             /** @description Whether account is active */
             isActive: boolean;
-        };
-        ChartOfAccountResponseDto: {
-            /** @example 00000000-0000-4000-a601-000000000001 */
-            id: string;
-            /** @example 1110 */
-            code: string;
-            /** @example نقد وما يعادله */
-            name: string;
-            nameI18n: components["schemas"]["LocalizedStringDto"];
-            /**
-             * @example ASSET
-             * @enum {string}
-             */
-            type: "ASSET" | "LIABILITY" | "EQUITY" | "REVENUE" | "EXPENSE";
-            /** @example 00000000-0000-4000-a601-000000000001 */
-            parentId?: Record<string, never> | null;
-            /** @example 1000 */
-            parentCode?: Record<string, never> | null;
-            /** @example الأصول المتداولة */
-            parentName?: Record<string, never> | null;
-            /** @example true */
-            isActive: boolean;
-            /** @example 2025-01-01T00:00:00.000Z */
-            createdAt: string;
-            /** @example 2025-01-01T00:00:00.000Z */
-            updatedAt: string;
         };
         CreateChartOfAccountDto: {
             /**
