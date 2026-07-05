@@ -45,11 +45,23 @@ export function AccountBalancesPanel({
             <div className="flex flex-wrap items-center justify-between gap-2">
                 <AccountBreadcrumb crumbs={crumbs} onSelect={onSelectAccount} />
                 {selected && (
-                    <div className={cn(
-                        "font-mono text-sm tabular-nums",
-                        selected.rolledBalance < 0 ? "text-destructive" : "text-foreground",
-                    )}>
-                        {selected.rolledBalance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                    <div className="flex items-center gap-4 font-mono text-sm tabular-nums">
+                        <div>
+                            <span className="text-xs text-muted-foreground">Own: </span>
+                            <span className={cn(
+                                selected.ownBalance < 0 ? "text-destructive" : "text-foreground",
+                            )}>
+                                {selected.ownBalance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                            </span>
+                        </div>
+                        <div>
+                            <span className="text-xs text-muted-foreground">Total: </span>
+                            <span className={cn(
+                                selected.rolledBalance < 0 ? "text-destructive" : "text-foreground",
+                            )}>
+                                {selected.rolledBalance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                            </span>
+                        </div>
                     </div>
                 )}
             </div>
