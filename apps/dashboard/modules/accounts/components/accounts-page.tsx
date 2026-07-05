@@ -12,7 +12,7 @@ import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from "
 import { Skeleton } from "@/shared/components/ui/skeleton"
 import { ApiError } from "@devloggers/api-client"
 import { AccountsResource } from "../accounts.resource"
-import { useAccountsResource, useAccountBalances, ACCOUNT_BALANCES_KEY } from "../hooks"
+import { useAccountsResource, useAccountBalances, useAccountTree, ACCOUNT_BALANCES_KEY } from "../hooks"
 import { useAccountDraftStore } from "../accounts-draft.store"
 import { AccountsForm } from "./accounts-form"
 import { AccountsTree, type AccountsTreeHandle } from "./accounts-tree"
@@ -154,7 +154,8 @@ export function AccountsPage() {
     const [query, setQuery] = useState("")
     const [selectedId, setSelectedId] = useState<string | null>(null)
     const treeRef = useRef<AccountsTreeHandle>(null)
-    const { data: items = [], isLoading } = useAccountBalances()
+    const { data: treeItems = [], isLoading: treeLoading } = useAccountTree()
+    const { data: balanceItems = [] } = useAccountBalances()
 
     return (
         <AccountsResource>
@@ -221,13 +222,13 @@ export function AccountsPage() {
                     <AccountsTreePanel
                         query={query}
                         treeRef={treeRef}
-                        items={items}
-                        isLoading={isLoading}
+                        items={treeItems}
+                        isLoading={treeLoading}
                         selectedId={selectedId}
                         onSelect={setSelectedId}
                     />
                     <AccountBalancesPanel
-                        items={items}
+                        items={balanceItems}
                         selectedId={selectedId}
                         onSelectAccount={setSelectedId}
                     />
