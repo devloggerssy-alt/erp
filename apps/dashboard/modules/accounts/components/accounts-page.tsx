@@ -12,7 +12,7 @@ import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from "
 import { Skeleton } from "@/shared/components/ui/skeleton"
 import { ApiError } from "@devloggers/api-client"
 import { AccountsResource } from "../accounts.resource"
-import { useAccountsResource, useAccountBalances, useAccountTree, ACCOUNT_BALANCES_KEY } from "../hooks"
+import { useAccountsResource, useAccountBalances, useAccountTree, ACCOUNT_BALANCES_KEY, ACCOUNT_TREE_KEY } from "../hooks"
 import { useAccountDraftStore } from "../accounts-draft.store"
 import { AccountsForm } from "./accounts-form"
 import { AccountsTree, type AccountsTreeHandle } from "./accounts-tree"
@@ -95,6 +95,7 @@ function AccountsTreePanel({
         try {
             await resource.deleteItem(node.id)
             queryClient.invalidateQueries({ queryKey: ACCOUNT_BALANCES_KEY })
+            queryClient.invalidateQueries({ queryKey: ACCOUNT_TREE_KEY })
         } catch (err) {
             const message = err instanceof ApiError ? err.message : t("deleteFailed")
             await confirm({

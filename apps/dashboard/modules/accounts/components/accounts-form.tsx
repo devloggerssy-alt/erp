@@ -10,7 +10,7 @@ import type { ResourceFormProps } from "@/shared/data-view/resource"
 import { useResourceFormController } from "@/shared/hooks/use-resource-form-controller"
 import { useApi } from "@/shared/useApi"
 import { accountsFormConfig, type AccountFormValues } from "../accounts.config"
-import { ACCOUNT_BALANCES_KEY } from "../hooks"
+import { ACCOUNT_BALANCES_KEY, ACCOUNT_TREE_KEY } from "../hooks"
 import { ACCOUNT_TYPES } from "../lib/account-types"
 import { useAccountDraftStore } from "../accounts-draft.store"
 import { buildAccountTree, collectDescendantIds, findNodeById } from "../lib/build-account-tree"
@@ -34,6 +34,7 @@ export function AccountsForm({ resourceId, initialData, onSuccess, paramKey }: R
         paramKey,
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ACCOUNT_BALANCES_KEY })
+            queryClient.invalidateQueries({ queryKey: ACCOUNT_TREE_KEY })
             onSuccess?.()
         },
     })
