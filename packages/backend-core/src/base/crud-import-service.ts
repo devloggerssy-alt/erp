@@ -1,5 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { parseWorksheetRows, type ImportResult } from '@devloggers/import-export';
+import type { ImportResult } from '@devloggers/api-contracts';
+import { parseWorksheetRows } from '../import-export/excel-workbook.js';
 import type { TenantEntity } from './crud-repository.js';
 import type { ICrudService } from './crud-service.js';
 

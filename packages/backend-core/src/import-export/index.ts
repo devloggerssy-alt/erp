@@ -1,4 +1,4 @@
-export type { ImportRowError, ImportResult, SheetColumn, WorkbookSheet } from './types.js';
+export type { SheetColumn, WorkbookSheet } from './types.js';
 export {
     parseBooleanCell,
     parseNumberCell,

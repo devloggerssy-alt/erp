@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import type { SheetColumn } from '@devloggers/import-export';
 import {
     UNITS_IMPORT_COLUMNS,
     UNITS_EXPORT_MAX_ROWS,
@@ -10,6 +9,7 @@ import {
     CrudExportServiceBase,
     type ExportRow,
     type FindManyOptions,
+    type SheetColumn,
 } from '@devloggers/backend-core';
 import { UnitsRepository } from '../repositories/units.repository';
 import { UnitPresenter } from '../presenters/unit.presenter';

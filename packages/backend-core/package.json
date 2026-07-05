@@ -19,7 +19,7 @@
   "dependencies": {
     "@devloggers/api-contracts": "workspace:*",
     "@devloggers/db-prisma": "workspace:*",
-    "@devloggers/import-export": "workspace:*"
+    "exceljs": "^4.4.0"
   },
   "peerDependencies": {
     "@nestjs/common": "^11.0.0",
