@@ -21,8 +21,17 @@ erp/
 ├── scripts/                      Utility scripts (e.g. OpenAPI type generation)
 ├── reference/                    Reference files / specs
 ├── docs/                         Documentation (this directory)
-├── AGENTS.md                     Agent guide
-├── CLAUDE.md                     Claude Code project instructions (thin adapter)
+│   ├── ai-engineering.md         AI workflow onboarding (rules, skills, superpowers)
+│   └── superpowers/              Spec-driven development (specs, plans, templates)
+├── .ai/                          Canonical AI rules & skills (portable)
+├── .cursor/                      Cursor AI config (tiered rules, superpowers plugin)
+├── .claude/                      Claude Code config (settings, skills, team README)
+├── CLAUDE.md                     Claude project memory (@ imports rules + skills)
+├── apps/api/CLAUDE.md            Path-scoped API context for Claude
+├── apps/dashboard/CLAUDE.md       Path-scoped dashboard context for Claude
+├── packages/CLAUDE.md            Path-scoped packages context for Claude
+├── packages/db-prisma/CLAUDE.md   Path-scoped database context for Claude
+├── AGENTS.md                     Agent guide (Cursor, Claude, OpenCode)
 ├── PRODUCT.md                    Product brief (target users, brand, design principles)
 ├── DESIGN.md                     Design documentation
 ├── turbo.json                    Turborepo task graph

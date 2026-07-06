@@ -7,7 +7,8 @@
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "turbo run check-types",
-    "generate": "pnpm --filter @devloggers/api generate:spec && pnpm --filter @devloggers/api-contracts build"
+    "generate": "pnpm --filter @devloggers/api generate:spec && pnpm --filter @devloggers/api-contracts build",
+    "sync:claude": "node scripts/sync-claude-artifacts.mjs"
   },
   "devDependencies": {
     "prettier": "^3.7.4",

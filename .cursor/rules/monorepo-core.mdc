@@ -33,7 +33,12 @@ pnpm --filter @devloggers/db-prisma db:seed
 ## Golden reference
 Copy the **units** feature end-to-end when adding CRUD entities.
 
+## Spec-driven development
+Non-trivial work: approved spec in `docs/superpowers/specs/` before code. See `docs/superpowers/README.md`.
+
 ## Skills
-- Project map: skill `erp-project-map`
-- Full-stack CRUD: skill `add-crud-feature`
+- Full cycle: `caveman` (`/caveman`)
+- Project map: `erp-project-map`
+- Full-stack CRUD: `add-crud-feature`, `feature-scaffold`
 - Layer details: `.cursor/skills/` (api-contracts, api-client, backend-resource-module, frontend-resource-pattern)
+- AI onboarding: `docs/ai-engineering.md`

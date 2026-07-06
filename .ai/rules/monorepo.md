@@ -24,6 +24,17 @@ scope: always
 ## Golden reference
 Copy the **units** feature end-to-end when adding CRUD entities.
 
+## Spec-driven development
+Non-trivial features require an approved design before implementation:
+- Specs: `docs/superpowers/specs/YYYY-MM-DD-<topic>-design.md`
+- Plans: `docs/superpowers/plans/YYYY-MM-DD-<topic>.md`
+- Templates: `docs/superpowers/templates/`
+- Workflow: `docs/superpowers/README.md`, skill **`caveman`**
+
+## AI engineering docs
+- Onboarding: `docs/ai-engineering.md`
+- Agent entry: `AGENTS.md`
+
 ## Commands
 ```bash
 pnpm dev
