@@ -41,22 +41,39 @@ export class UpsertFinancialSettingBodyDto {
 }
 
 export class FinancialSettingResponseDto {
+    @ApiPropertyOptional({ type: ChartOfAccountResponseDto, nullable: true, description: 'Default sales revenue account' })
     @Type(() => ChartOfAccountResponseDto)
     defaultSalesAccount: ChartOfAccountResponseDto | null = null
+
+    @ApiPropertyOptional({ type: ChartOfAccountResponseDto, nullable: true, description: 'Default purchase/COGS account' })
     @Type(() => ChartOfAccountResponseDto)
     defaultPurchaseAccount: ChartOfAccountResponseDto | null = null
+
+    @ApiPropertyOptional({ type: ChartOfAccountResponseDto, nullable: true, description: 'Default tax/VAT payable account' })
     @Type(() => ChartOfAccountResponseDto)
     defaultTaxAccount: ChartOfAccountResponseDto | null = null
+
+    @ApiPropertyOptional({ type: ChartOfAccountResponseDto, nullable: true, description: 'Default accounts receivable (AR) account' })
     @Type(() => ChartOfAccountResponseDto)
     defaultReceivableAccount: ChartOfAccountResponseDto | null = null
+
+    @ApiPropertyOptional({ type: ChartOfAccountResponseDto, nullable: true, description: 'Default accounts payable (AP) account' })
     @Type(() => ChartOfAccountResponseDto)
     defaultPayableAccount: ChartOfAccountResponseDto | null = null
+
+    @ApiPropertyOptional({ type: ChartOfAccountResponseDto, nullable: true, description: 'Default inventory asset account' })
     @Type(() => ChartOfAccountResponseDto)
     defaultInventoryAccount: ChartOfAccountResponseDto | null = null
+
+    @ApiPropertyOptional({ type: ChartOfAccountResponseDto, nullable: true, description: 'Default cost-of-goods-sold account' })
     @Type(() => ChartOfAccountResponseDto)
     defaultCogsAccount: ChartOfAccountResponseDto | null = null
+
+    @ApiPropertyOptional({ type: ChartOfAccountResponseDto, nullable: true, description: 'Default inventory adjustment / shrinkage account' })
     @Type(() => ChartOfAccountResponseDto)
     defaultInventoryAdjustmentAccount: ChartOfAccountResponseDto | null = null
+
+    @ApiPropertyOptional({ type: ChartOfAccountResponseDto, nullable: true, description: 'Default opening-balance equity account' })
     @Type(() => ChartOfAccountResponseDto)
     defaultOpeningEquityAccount: ChartOfAccountResponseDto | null = null
 }

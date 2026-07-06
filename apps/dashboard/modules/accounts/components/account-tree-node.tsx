@@ -43,7 +43,7 @@ export function AccountTreeNodeRow({
 
     const isSelectMode = mode === "select"
     const canSelect = isSelectMode && selectable(node)
-    const isSelected = isSelectMode && selectedId === node.id
+    const isSelected = selectedId === node.id
     const isDisabledForSelect = isSelectMode && !canSelect
 
     const handleRowClick = () => {
@@ -52,6 +52,8 @@ export function AccountTreeNodeRow({
             else if (hasChildren) onToggle(node.id)
             return
         }
+        // manage mode: select the node (drives the balances panel) and expand parents
+        onSelect?.(node)
         if (hasChildren) onToggle(node.id)
     }
 
@@ -96,7 +98,7 @@ export function AccountTreeNodeRow({
                     <Badge variant="secondary" className="ms-auto shrink-0 text-[10px] tabular-nums">{node.children.length}</Badge>
                 )}
 
-                {mode === "manage" && node.account.currentBalance != null && (
+                {/* {mode === "manage" && node.account.currentBalance != null && (
                     <span className={cn(
                         "shrink-0 font-mono text-xs tabular-nums",
                         hasChildren ? "ms-2" : "ms-auto",
@@ -104,7 +106,7 @@ export function AccountTreeNodeRow({
                     )}>
                         {node.account.currentBalance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                     </span>
-                )}
+                )} */}
 
                 {mode === "manage" && actions && (
                     <div className={cn("flex shrink-0 items-center gap-0.5 opacity-0 transition-opacity group-hover:opacity-100", !hasChildren && "ms-auto")}>

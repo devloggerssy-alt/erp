@@ -422,6 +422,30 @@
         "EQUITY": "Equity",
         "REVENUE": "Revenue",
         "EXPENSE": "Expenses"
+      },
+      "breadcrumb": {
+        "root": "All accounts"
+      },
+      "balances": {
+        "columnCode": "Code",
+        "columnName": "Account",
+        "columnType": "Type",
+        "columnOwnBalance": "Own Balance",
+        "columnRolledBalance": "Total Balance",
+        "empty": "No sub-accounts to display."
+      },
+      "ledger": {
+        "back": "Back",
+        "title": "Ledger",
+        "balanceLabel": "Balance",
+        "date": "Date",
+        "entry": "Entry",
+        "description": "Description",
+        "reference": "Reference",
+        "debit": "Debit",
+        "credit": "Credit",
+        "empty": "No journal lines posted to this account yet.",
+        "pageOf": "Page {page} of {total}"
       }
     },
     "currencies": {

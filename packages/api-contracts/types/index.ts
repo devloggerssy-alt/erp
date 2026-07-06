@@ -1292,6 +1292,26 @@ export interface paths {
         patch: operations["Currencies.update"];
         trace?: never;
     };
+    "/accounting/chart-of-accounts/tree": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get account tree structure
+         * @description Lightweight account list for tree navigation. No balance computation.
+         */
+        get: operations["Accounts.tree"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/accounting/chart-of-accounts": {
         parameters: {
             query?: never;
@@ -1344,6 +1364,46 @@ export interface paths {
          * @description Partial update — only provided fields are changed. Account code is immutable.
          */
         patch: operations["Accounts.update"];
+        trace?: never;
+    };
+    "/accounting/account-balances": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List account balances
+         * @description All chart-of-accounts entries with ledger-computed own and rolled-up balances (POSTED entries only).
+         */
+        get: operations["AccountBalances.list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/accounting/account-balances/{id}/ledger": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get an account ledger
+         * @description Paginated POSTED journal lines posted to a single account, newest entry first.
+         */
+        get: operations["AccountBalances.ledger"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
         trace?: never;
     };
     "/invoice-types": {
@@ -3145,23 +3205,50 @@ export interface components {
             updatedAt: string;
         };
         FinancialSettingResponseDto: {
-            /** @default null */
+            /**
+             * @description Default sales revenue account
+             * @default null
+             */
             defaultSalesAccount: components["schemas"]["ChartOfAccountResponseDto"] | null;
-            /** @default null */
+            /**
+             * @description Default purchase/COGS account
+             * @default null
+             */
             defaultPurchaseAccount: components["schemas"]["ChartOfAccountResponseDto"] | null;
-            /** @default null */
+            /**
+             * @description Default tax/VAT payable account
+             * @default null
+             */
             defaultTaxAccount: components["schemas"]["ChartOfAccountResponseDto"] | null;
-            /** @default null */
+            /**
+             * @description Default accounts receivable (AR) account
+             * @default null
+             */
             defaultReceivableAccount: components["schemas"]["ChartOfAccountResponseDto"] | null;
-            /** @default null */
+            /**
+             * @description Default accounts payable (AP) account
+             * @default null
+             */
             defaultPayableAccount: components["schemas"]["ChartOfAccountResponseDto"] | null;
-            /** @default null */
+            /**
+             * @description Default inventory asset account
+             * @default null
+             */
             defaultInventoryAccount: components["schemas"]["ChartOfAccountResponseDto"] | null;
-            /** @default null */
+            /**
+             * @description Default cost-of-goods-sold account
+             * @default null
+             */
             defaultCogsAccount: components["schemas"]["ChartOfAccountResponseDto"] | null;
-            /** @default null */
+            /**
+             * @description Default inventory adjustment / shrinkage account
+             * @default null
+             */
             defaultInventoryAdjustmentAccount: components["schemas"]["ChartOfAccountResponseDto"] | null;
-            /** @default null */
+            /**
+             * @description Default opening-balance equity account
+             * @default null
+             */
             defaultOpeningEquityAccount: components["schemas"]["ChartOfAccountResponseDto"] | null;
         };
         UpsertFinancialSettingBodyDto: {
@@ -4234,6 +4321,25 @@ export interface components {
             /** @example true */
             isActive?: boolean;
         };
+        ChartOfAccountTreeDto: {
+            /** @description Account UUID */
+            id: string;
+            /** @description Account code */
+            code: string;
+            /** @description Locale-resolved display name */
+            name: string;
+            /** @description Raw localized name object */
+            nameI18n: Record<string, never>;
+            /**
+             * @description Account type
+             * @enum {string}
+             */
+            type: "ASSET" | "LIABILITY" | "EQUITY" | "REVENUE" | "EXPENSE";
+            /** @description Parent account UUID or null */
+            parentId: string | null;
+            /** @description Whether account is active */
+            isActive: boolean;
+        };
         CreateChartOfAccountDto: {
             /**
              * @description Unique account code within the tenant
@@ -4274,6 +4380,101 @@ export interface components {
              * @example true
              */
             isActive?: boolean;
+        };
+        /** @enum {string} */
+        AccountTypeEnum: "ASSET" | "LIABILITY" | "EQUITY" | "REVENUE" | "EXPENSE";
+        AccountBalanceDto: {
+            /**
+             * @default
+             * @example 00000000-0000-4000-a601-000000000001
+             */
+            id: string;
+            /**
+             * @default
+             * @example 1110
+             */
+            code: string;
+            /**
+             * @default
+             * @example نقد وما يعادله
+             */
+            name: string;
+            /**
+             * @default {
+             *       "ar": ""
+             *     }
+             */
+            nameI18n: components["schemas"]["LocalizedStringDto"];
+            /**
+             * @default ASSET
+             * @example ASSET
+             */
+            type: components["schemas"]["AccountTypeEnum"];
+            /**
+             * @default null
+             * @example 00000000-0000-4000-a601-000000000000
+             */
+            parentId: string | null;
+            /**
+             * @default true
+             * @example true
+             */
+            isActive: boolean;
+            /**
+             * @description Signed balance of lines posted directly to this account
+             * @default 0
+             * @example 1500
+             */
+            ownBalance: number;
+            /**
+             * @description ownBalance plus the rolled-up balance of all descendants
+             * @default 0
+             * @example 4200
+             */
+            rolledBalance: number;
+        };
+        AccountLedgerLineDto: {
+            /**
+             * @default
+             * @example 00000000-0000-4000-b101-000000000001
+             */
+            id: string;
+            /**
+             * Format: date-time
+             * @default
+             * @example 2026-01-15T00:00:00.000Z
+             */
+            date: string;
+            /**
+             * @default
+             * @example JE-2026-000042
+             */
+            entryNumber: string;
+            /**
+             * @default null
+             * @example Sales invoice INV-000042
+             */
+            description: string | null;
+            /**
+             * @default null
+             * @example invoice
+             */
+            referenceType: string | null;
+            /**
+             * @default null
+             * @example 00000000-0000-4000-c101-000000000001
+             */
+            referenceId: string | null;
+            /**
+             * @default 0
+             * @example 1500
+             */
+            debit: number;
+            /**
+             * @default 0
+             * @example 0
+             */
+            credit: number;
         };
         InvoiceTypeResponseDto: {
             /**
@@ -13910,6 +14111,73 @@ export interface operations {
             };
         };
     };
+    "Accounts.tree": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Account tree */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["ChartOfAccountTreeDto"][];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
     "Accounts.list": {
         parameters: {
             query?: {
@@ -14268,6 +14536,146 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
                         data?: components["schemas"]["ChartOfAccountResponseDto"];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "AccountBalances.list": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Account balances */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["AccountBalanceDto"][];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "AccountBalances.ledger": {
+        parameters: {
+            query?: {
+                page?: number;
+                limit?: number;
+            };
+            header?: never;
+            path: {
+                /** @description Account UUID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Account ledger lines */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["AccountLedgerLineDto"][];
                     };
                 };
             };

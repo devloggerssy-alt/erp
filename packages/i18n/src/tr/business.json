@@ -422,6 +422,30 @@
         "EQUITY": "Özkaynak",
         "REVENUE": "Gelir",
         "EXPENSE": "Giderler"
+      },
+      "breadcrumb": {
+        "root": "Tüm hesaplar"
+      },
+      "balances": {
+        "columnCode": "Kod",
+        "columnName": "Hesap",
+        "columnType": "Tür",
+        "columnOwnBalance": "Öz Bakiye",
+        "columnRolledBalance": "Toplam Bakiye",
+        "empty": "Gösterilecek alt hesap yok."
+      },
+      "ledger": {
+        "back": "Geri",
+        "title": "Defter",
+        "balanceLabel": "Bakiye",
+        "date": "Tarih",
+        "entry": "Kayıt",
+        "description": "Açıklama",
+        "reference": "Referans",
+        "debit": "Borç",
+        "credit": "Alacak",
+        "empty": "Bu hesaba henüz kayıt işlenmedi.",
+        "pageOf": "Sayfa {page} / {total}"
       }
     },
     "currencies": {
@@ -753,23 +777,66 @@
       "stock": {
         "title": "Stok Bakiye Raporu",
         "description": "Ürün ve depoya göre mevcut stok seviyeleri.",
-        "filters": { "warehouse": "Depo", "allWarehouses": "Tüm depolar", "clear": "Temizle" },
-        "stats": { "itemsInStock": "Stokta ürün", "totalQuantity": "Toplam miktar", "outOfStock": "Stok dışı" },
-        "columns": { "itemCode": "Ürün Kodu", "itemName": "Ürün Adı", "warehouse": "Depo", "quantity": "Miktar", "avgCost": "Ort. Maliyet", "lastUpdated": "Son Güncelleme" }
+        "filters": {
+          "warehouse": "Depo",
+          "allWarehouses": "Tüm depolar",
+          "clear": "Temizle"
+        },
+        "stats": {
+          "itemsInStock": "Stokta ürün",
+          "totalQuantity": "Toplam miktar",
+          "outOfStock": "Stok dışı"
+        },
+        "columns": {
+          "itemCode": "Ürün Kodu",
+          "itemName": "Ürün Adı",
+          "warehouse": "Depo",
+          "quantity": "Miktar",
+          "avgCost": "Ort. Maliyet",
+          "lastUpdated": "Son Güncelleme"
+        }
       },
       "sales": {
         "title": "Satış Raporu",
         "description": "Satış faturası özeti ile toplamlar ve kâr genel bakışı.",
-        "filters": { "from": "Başlangıç", "to": "Bitiş", "apply": "Uygula", "clear": "Temizle" },
-        "stats": { "totalSales": "Toplam Satış", "invoices": "Faturalar", "grossProfit": "Brüt Kâr", "netProfit": "Net Kâr" },
-        "columns": { "number": "Fatura #", "date": "Tarih", "customer": "Müşteri", "total": "Toplam" }
+        "filters": {
+          "from": "Başlangıç",
+          "to": "Bitiş",
+          "apply": "Uygula",
+          "clear": "Temizle"
+        },
+        "stats": {
+          "totalSales": "Toplam Satış",
+          "invoices": "Faturalar",
+          "grossProfit": "Brüt Kâr",
+          "netProfit": "Net Kâr"
+        },
+        "columns": {
+          "number": "Fatura #",
+          "date": "Tarih",
+          "customer": "Müşteri",
+          "total": "Toplam"
+        }
       },
       "purchases": {
         "title": "Satın Alma Raporu",
         "description": "Tedarikçi detaylı satın alma faturası özeti.",
-        "filters": { "from": "Başlangıç", "to": "Bitiş", "apply": "Uygula", "clear": "Temizle" },
-        "stats": { "totalPurchases": "Toplam Satın Alma", "invoices": "Faturalar" },
-        "columns": { "number": "Fatura #", "date": "Tarih", "supplier": "Tedarikçi", "total": "Toplam" }
+        "filters": {
+          "from": "Başlangıç",
+          "to": "Bitiş",
+          "apply": "Uygula",
+          "clear": "Temizle"
+        },
+        "stats": {
+          "totalPurchases": "Toplam Satın Alma",
+          "invoices": "Faturalar"
+        },
+        "columns": {
+          "number": "Fatura #",
+          "date": "Tarih",
+          "supplier": "Tedarikçi",
+          "total": "Toplam"
+        }
       },
       "partyStatement": {
         "title": "Hesap Ekstreleri",
@@ -777,10 +844,25 @@
         "selectPrompt": "Ekstresini görmek için bir {partyType} seçin.",
         "customer": "müşteri",
         "supplier": "tedarikçi",
-        "tabs": { "customers": "Müşteriler", "suppliers": "Tedarikçiler" },
-        "stats": { "totalInvoiced": "Toplam Faturalandırma", "totalPaid": "Toplam Ödenen", "balance": "Açık Bakiye" },
-        "sections": { "invoices": "Faturalar", "payments": "Ödemeler" },
-        "columns": { "number": "Fatura #", "date": "Tarih", "amount": "Tutar", "type": "Tür" }
+        "tabs": {
+          "customers": "Müşteriler",
+          "suppliers": "Tedarikçiler"
+        },
+        "stats": {
+          "totalInvoiced": "Toplam Faturalandırma",
+          "totalPaid": "Toplam Ödenen",
+          "balance": "Açık Bakiye"
+        },
+        "sections": {
+          "invoices": "Faturalar",
+          "payments": "Ödemeler"
+        },
+        "columns": {
+          "number": "Fatura #",
+          "date": "Tarih",
+          "amount": "Tutar",
+          "type": "Tür"
+        }
       }
     }
   },

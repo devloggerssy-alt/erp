@@ -11445,6 +11445,93 @@ paths:
       summary: Delete a currency
       tags:
         - Accounting / Currencies
+  /accounting/chart-of-accounts/tree:
+    get:
+      description: Lightweight account list for tree navigation. No balance computation.
+      operationId: Accounts.tree
+      parameters: []
+      responses:
+        '200':
+          description: Account tree
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiSuccessResponseDto'
+                  - properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/ChartOfAccountTreeDto'
+        '401':
+          description: JWT token is missing, expired, or invalid
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Unauthorized
+                  data: null
+                  error:
+                    code: UNAUTHORIZED
+                    message: JWT token is missing, expired, or invalid
+        '403':
+          description: Insufficient permissions to perform this action
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Forbidden
+                  data: null
+                  error:
+                    code: FORBIDDEN
+                    message: Insufficient permissions to perform this action
+        '404':
+          description: The requested resource was not found
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Not found
+                  data: null
+                  error:
+                    code: NOT_FOUND
+                    message: The requested resource was not found
+        '422':
+          description: Request body validation failed
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Validation failed
+                  data: null
+                  error:
+                    code: VALIDATION_ERROR
+                    message: Validation failed
+                    details:
+                      - property: email
+                        constraints:
+                          isEmail: email must be a valid email address
+        '500':
+          description: An unexpected internal server error occurred
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Internal server error
+                  data: null
+                  error:
+                    code: INTERNAL_ERROR
+                    message: An unexpected internal server error occurred
+      security:
+        - JWT-auth: []
+      summary: Get account tree structure
+      tags:
+        - Accounting / Accounts
   /accounting/chart-of-accounts:
     get:
       description: >-
@@ -11989,6 +12076,200 @@ paths:
       summary: Delete a chart-of-account entry
       tags:
         - Accounting / Accounts
+  /accounting/account-balances:
+    get:
+      description: >-
+        All chart-of-accounts entries with ledger-computed own and rolled-up
+        balances (POSTED entries only).
+      operationId: AccountBalances.list
+      parameters: []
+      responses:
+        '200':
+          description: Account balances
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiSuccessResponseDto'
+                  - properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/AccountBalanceDto'
+        '401':
+          description: JWT token is missing, expired, or invalid
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Unauthorized
+                  data: null
+                  error:
+                    code: UNAUTHORIZED
+                    message: JWT token is missing, expired, or invalid
+        '403':
+          description: Insufficient permissions to perform this action
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Forbidden
+                  data: null
+                  error:
+                    code: FORBIDDEN
+                    message: Insufficient permissions to perform this action
+        '404':
+          description: The requested resource was not found
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Not found
+                  data: null
+                  error:
+                    code: NOT_FOUND
+                    message: The requested resource was not found
+        '422':
+          description: Request body validation failed
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Validation failed
+                  data: null
+                  error:
+                    code: VALIDATION_ERROR
+                    message: Validation failed
+                    details:
+                      - property: email
+                        constraints:
+                          isEmail: email must be a valid email address
+        '500':
+          description: An unexpected internal server error occurred
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Internal server error
+                  data: null
+                  error:
+                    code: INTERNAL_ERROR
+                    message: An unexpected internal server error occurred
+      security:
+        - JWT-auth: []
+      summary: List account balances
+      tags:
+        - Accounting / Account Balances
+  /accounting/account-balances/{id}/ledger:
+    get:
+      description: >-
+        Paginated POSTED journal lines posted to a single account, newest entry
+        first.
+      operationId: AccountBalances.ledger
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: Account UUID
+          schema:
+            type: string
+        - name: page
+          required: false
+          in: query
+          schema:
+            type: number
+        - name: limit
+          required: false
+          in: query
+          schema:
+            type: number
+      responses:
+        '200':
+          description: Account ledger lines
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiSuccessResponseDto'
+                  - properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/AccountLedgerLineDto'
+        '401':
+          description: JWT token is missing, expired, or invalid
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Unauthorized
+                  data: null
+                  error:
+                    code: UNAUTHORIZED
+                    message: JWT token is missing, expired, or invalid
+        '403':
+          description: Insufficient permissions to perform this action
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Forbidden
+                  data: null
+                  error:
+                    code: FORBIDDEN
+                    message: Insufficient permissions to perform this action
+        '404':
+          description: The requested resource was not found
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Not found
+                  data: null
+                  error:
+                    code: NOT_FOUND
+                    message: The requested resource was not found
+        '422':
+          description: Request body validation failed
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Validation failed
+                  data: null
+                  error:
+                    code: VALIDATION_ERROR
+                    message: Validation failed
+                    details:
+                      - property: email
+                        constraints:
+                          isEmail: email must be a valid email address
+        '500':
+          description: An unexpected internal server error occurred
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Internal server error
+                  data: null
+                  error:
+                    code: INTERNAL_ERROR
+                    message: An unexpected internal server error occurred
+      security:
+        - JWT-auth: []
+      summary: Get an account ledger
+      tags:
+        - Accounting / Account Balances
   /invoice-types:
     get:
       operationId: InvoiceTypes.list
@@ -19102,58 +19383,57 @@ components:
         defaultSalesAccount:
           nullable: true
           default: null
+          description: Default sales revenue account
           allOf:
             - $ref: '#/components/schemas/ChartOfAccountResponseDto'
         defaultPurchaseAccount:
           nullable: true
           default: null
+          description: Default purchase/COGS account
           allOf:
             - $ref: '#/components/schemas/ChartOfAccountResponseDto'
         defaultTaxAccount:
           nullable: true
           default: null
+          description: Default tax/VAT payable account
           allOf:
             - $ref: '#/components/schemas/ChartOfAccountResponseDto'
         defaultReceivableAccount:
           nullable: true
           default: null
+          description: Default accounts receivable (AR) account
           allOf:
             - $ref: '#/components/schemas/ChartOfAccountResponseDto'
         defaultPayableAccount:
           nullable: true
           default: null
+          description: Default accounts payable (AP) account
           allOf:
             - $ref: '#/components/schemas/ChartOfAccountResponseDto'
         defaultInventoryAccount:
           nullable: true
           default: null
+          description: Default inventory asset account
           allOf:
             - $ref: '#/components/schemas/ChartOfAccountResponseDto'
         defaultCogsAccount:
           nullable: true
           default: null
+          description: Default cost-of-goods-sold account
           allOf:
             - $ref: '#/components/schemas/ChartOfAccountResponseDto'
         defaultInventoryAdjustmentAccount:
           nullable: true
           default: null
+          description: Default inventory adjustment / shrinkage account
           allOf:
             - $ref: '#/components/schemas/ChartOfAccountResponseDto'
         defaultOpeningEquityAccount:
           nullable: true
           default: null
+          description: Default opening-balance equity account
           allOf:
             - $ref: '#/components/schemas/ChartOfAccountResponseDto'
-      required:
-        - defaultSalesAccount
-        - defaultPurchaseAccount
-        - defaultTaxAccount
-        - defaultReceivableAccount
-        - defaultPayableAccount
-        - defaultInventoryAccount
-        - defaultCogsAccount
-        - defaultInventoryAdjustmentAccount
-        - defaultOpeningEquityAccount
     UpsertFinancialSettingBodyDto:
       type: object
       properties:
@@ -20530,6 +20810,45 @@ components:
         isActive:
           type: boolean
           example: true
+    ChartOfAccountTreeDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Account UUID
+        code:
+          type: string
+          description: Account code
+        name:
+          type: string
+          description: Locale-resolved display name
+        nameI18n:
+          type: object
+          description: Raw localized name object
+        type:
+          type: string
+          enum:
+            - ASSET
+            - LIABILITY
+            - EQUITY
+            - REVENUE
+            - EXPENSE
+          description: Account type
+        parentId:
+          type: string
+          nullable: true
+          description: Parent account UUID or null
+        isActive:
+          type: boolean
+          description: Whether account is active
+      required:
+        - id
+        - code
+        - name
+        - nameI18n
+        - type
+        - parentId
+        - isActive
     CreateChartOfAccountDto:
       type: object
       properties:
@@ -20579,6 +20898,112 @@ components:
           type: boolean
           example: true
           description: Deactivate to hide from document selection
+    AccountTypeEnum:
+      type: string
+      enum:
+        - ASSET
+        - LIABILITY
+        - EQUITY
+        - REVENUE
+        - EXPENSE
+    AccountBalanceDto:
+      type: object
+      properties:
+        id:
+          type: string
+          default: ''
+          example: 00000000-0000-4000-a601-000000000001
+        code:
+          type: string
+          default: ''
+          example: '1110'
+        name:
+          type: string
+          default: ''
+          example: نقد وما يعادله
+        nameI18n:
+          default:
+            ar: ''
+          allOf:
+            - $ref: '#/components/schemas/LocalizedStringDto'
+        type:
+          default: ASSET
+          example: ASSET
+          allOf:
+            - $ref: '#/components/schemas/AccountTypeEnum'
+        parentId:
+          type: string
+          nullable: true
+          default: null
+          example: 00000000-0000-4000-a601-000000000000
+        isActive:
+          type: boolean
+          default: true
+          example: true
+        ownBalance:
+          type: number
+          default: 0
+          example: 1500
+          description: Signed balance of lines posted directly to this account
+        rolledBalance:
+          type: number
+          default: 0
+          example: 4200
+          description: ownBalance plus the rolled-up balance of all descendants
+      required:
+        - id
+        - code
+        - name
+        - nameI18n
+        - type
+        - isActive
+        - ownBalance
+        - rolledBalance
+    AccountLedgerLineDto:
+      type: object
+      properties:
+        id:
+          type: string
+          default: ''
+          example: 00000000-0000-4000-b101-000000000001
+        date:
+          type: string
+          default: ''
+          format: date-time
+          example: '2026-01-15T00:00:00.000Z'
+        entryNumber:
+          type: string
+          default: ''
+          example: JE-2026-000042
+        description:
+          type: string
+          nullable: true
+          default: null
+          example: Sales invoice INV-000042
+        referenceType:
+          type: string
+          nullable: true
+          default: null
+          example: invoice
+        referenceId:
+          type: string
+          nullable: true
+          default: null
+          example: 00000000-0000-4000-c101-000000000001
+        debit:
+          type: number
+          default: 0
+          example: 1500
+        credit:
+          type: number
+          default: 0
+          example: 0
+      required:
+        - id
+        - date
+        - entryNumber
+        - debit
+        - credit
     InvoiceTypeResponseDto:
       type: object
       properties:
