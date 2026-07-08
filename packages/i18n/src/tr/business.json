@@ -550,7 +550,23 @@
         "cancelTitle": "Fatura İptal Edilsin mi?",
         "deleteTitle": "Fatura Silinsin mi?",
         "saveDraft": "Taslak Olarak Kaydet",
-        "saveComplete": "Kaydet ve Tamamla"
+        "saveComplete": "Kaydet ve Tamamla",
+        "print": "Yazdır"
+      },
+      "print": {
+        "salesTitle": "Satış Faturası",
+        "purchaseTitle": "Satın Alma Faturası",
+        "billTo": "Fatura Adresi",
+        "supplier": "Tedarikçi",
+        "terms": "Ödeme Koşulları",
+        "amountPaid": "Ödenen Tutar",
+        "balanceDue": "Kalan Bakiye",
+        "paymentNumber": "Ödeme No",
+        "amount": "Tutar",
+        "print": "Yazdır",
+        "close": "Kapat",
+        "loading": "Fatura yükleniyor…",
+        "loadFailed": "Fatura yazdırma için yüklenemedi."
       },
       "lines": {
         "item": "Ürün",

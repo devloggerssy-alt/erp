@@ -12,7 +12,7 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from "@/shared/components/ui/dropdown-menu"
-import { MoreHorizontalIcon, SendIcon, XCircleIcon, PencilIcon, EyeIcon, Trash2Icon } from "lucide-react"
+import { MoreHorizontalIcon, SendIcon, XCircleIcon, PencilIcon, EyeIcon, Trash2Icon, PrinterIcon } from "lucide-react"
 import { cn } from "@/shared/lib/utils"
 
 type InvoiceItem = ResourceItem<InvoicesClient>
@@ -20,6 +20,7 @@ type ColumnTranslator = (key: string) => string
 
 export type InvoiceColumnActions = {
     onOpenModal: (id: string) => void
+    onPrint: (id: string) => void
     postInvoice: (id: string) => Promise<unknown>
     cancelInvoice: (id: string) => Promise<unknown>
     deleteInvoice: (id: string) => Promise<unknown>
@@ -100,6 +101,10 @@ function InvoiceActionsCell({
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
+                <DropdownMenuItem onClick={() => actions.onPrint(id)}>
+                    <PrinterIcon className="me-2 h-4 w-4" />
+                    {t("actions.print")}
+                </DropdownMenuItem>
                 {status === "DRAFT" && (
                     <>
                         <DropdownMenuItem onClick={() => actions.onOpenModal(id)}>

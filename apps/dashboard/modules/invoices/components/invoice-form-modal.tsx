@@ -1,7 +1,7 @@
 "use client"
 
-import { useTranslations } from "next-intl"
-import { SendIcon, XCircleIcon, XIcon } from "lucide-react"
+import { useLocale, useTranslations } from "next-intl"
+import { PrinterIcon, SendIcon, XCircleIcon, XIcon } from "lucide-react"
 import {
     Dialog,
     DialogContent,
@@ -14,6 +14,7 @@ import { DEFAULT_INVOICE_FORM_VALUES, type InvoiceDirection, type InvoiceTotals 
 import { InvoiceStatusBadge } from "./invoice-status-badge"
 import { InvoicePaidStatusBadge } from "./invoice-paid-status-badge"
 import { InvoiceForm } from "./invoice-form"
+import { getInvoicePrintPath } from "../invoices-print.utils"
 
 // ── Types ──────────────────────────────────────────────────────────────────────
 
@@ -60,6 +61,7 @@ export function InvoiceFormModal({
     initialTypeCode,
     onSuccess,
 }: InvoiceFormModalProps) {
+    const locale = useLocale()
     const t = useTranslations("business.resources.invoices")
     const tf = useTranslations("system.resourceForm")
     const ctrl = useInvoiceForm({ invoiceId, direction, open, onSuccess, onClose ,initialTypeCode})
@@ -84,6 +86,20 @@ export function InvoiceFormModal({
                         <InvoicePaidStatusBadge status={ctrl.paidStatus} invoiceStatus={ctrl.status} />
                     </div>
                     <div className="flex items-center gap-2">
+                        {ctrl.isEditing && ctrl.invoiceId && (
+                            <Button
+                                type="button"
+                                size="sm"
+                                variant="outline"
+                                onClick={() => window.open(
+                                    getInvoicePrintPath(locale, direction, ctrl.invoiceId!),
+                                    "_blank",
+                                    "noopener,noreferrer",
+                                )}
+                            >
+                                <PrinterIcon className="me-1.5 h-3.5 w-3.5" />{t("actions.print")}
+                            </Button>
+                        )}
                         {ctrl.status === "DRAFT" && ctrl.isEditing && (
                             <Button type="button" size="sm" onClick={ctrl.postInvoice} disabled={ctrl.isPending}>
                                 <SendIcon className="me-1.5 h-3.5 w-3.5" />{t("actions.post")}

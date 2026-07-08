@@ -48,11 +48,18 @@ export class InvoicePresenter {
             dueDate: entity.dueDate ? new Date(entity.dueDate).toISOString() : null,
             partyId: entity.partyId,
             partyName: entity.party?.name,
+            partyAddress: entity.party?.address ?? null,
+            partyPhone: entity.party?.phone ?? null,
+            partyEmail: entity.party?.email ?? null,
             warehouseId: entity.warehouseId ?? null,
             warehouseName: entity.warehouse?.name,
             fiscalPeriodId: entity.fiscalPeriodId,
             currencyId: entity.currencyId,
             currencyCode: entity.currency?.code,
+            // currency.symbol is a LocalizedString ({ ar, en }) — resolve to the request locale.
+            currencySymbol: entity.currency?.symbol
+                ? this.locale.resolve(entity.currency.symbol as LocalizedString)
+                : undefined,
             exchangeRate: toNum(entity.exchangeRate),
             status: entity.status,
             subtotal: toNum(entity.subtotal),

@@ -270,12 +270,17 @@ export class InvoiceResponseDto {
 
     @ApiPropertyOptional({ type: 'string', example: 'Damascus Import Co.' }) partyName?: string;
 
+    @ApiPropertyOptional({ type: 'string', nullable: true, example: '123 Main St' }) partyAddress?: string | null;
+    @ApiPropertyOptional({ type: 'string', nullable: true, example: '+963 11 1234567' }) partyPhone?: string | null;
+    @ApiPropertyOptional({ type: 'string', nullable: true, example: 'contact@example.com' }) partyEmail?: string | null;
+
     @ApiPropertyOptional({ type: 'string', nullable: true }) warehouseId: string | null = null;
     @ApiPropertyOptional({ type: 'string', example: 'Main Warehouse' }) warehouseName?: string;
 
     @ApiProperty({ type: 'string' }) fiscalPeriodId: string = '';
     @ApiProperty({ type: 'string' }) currencyId: string = '';
     @ApiPropertyOptional({ type: 'string', example: 'SYP' }) currencyCode?: string;
+    @ApiPropertyOptional({ type: 'string', example: '£' }) currencySymbol?: string;
 
     @ApiProperty({ type: 'number', example: 1, description: 'Exchange rate to tenant base currency' })
     exchangeRate: number = 1;

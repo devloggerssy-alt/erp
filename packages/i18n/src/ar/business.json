@@ -550,7 +550,23 @@
         "cancelTitle": "إلغاء الفاتورة؟",
         "deleteTitle": "حذف الفاتورة؟",
         "saveDraft": "حفظ كمسودة",
-        "saveComplete": "حفظ وترحيل"
+        "saveComplete": "حفظ وترحيل",
+        "print": "طباعة"
+      },
+      "print": {
+        "salesTitle": "فاتورة مبيعات",
+        "purchaseTitle": "فاتورة مشتريات",
+        "billTo": "فاتورة إلى",
+        "supplier": "المورد",
+        "terms": "شروط الدفع",
+        "amountPaid": "المبلغ المدفوع",
+        "balanceDue": "الرصيد المستحق",
+        "paymentNumber": "رقم الدفعة",
+        "amount": "المبلغ",
+        "print": "طباعة",
+        "close": "إغلاق",
+        "loading": "جاري تحميل الفاتورة…",
+        "loadFailed": "تعذر تحميل الفاتورة للطباعة."
       },
       "lines": {
         "item": "الصنف",

@@ -550,7 +550,23 @@
         "cancelTitle": "Cancel Invoice?",
         "deleteTitle": "Delete Invoice?",
         "saveDraft": "Save as Draft",
-        "saveComplete": "Save & Complete"
+        "saveComplete": "Save & Complete",
+        "print": "Print"
+      },
+      "print": {
+        "salesTitle": "Sales Invoice",
+        "purchaseTitle": "Purchase Invoice",
+        "billTo": "Bill To",
+        "supplier": "Supplier",
+        "terms": "Payment Terms",
+        "amountPaid": "Amount Paid",
+        "balanceDue": "Balance Due",
+        "paymentNumber": "Payment #",
+        "amount": "Amount",
+        "print": "Print",
+        "close": "Close",
+        "loading": "Loading invoice…",
+        "loadFailed": "Could not load invoice for printing."
       },
       "lines": {
         "item": "Item",
