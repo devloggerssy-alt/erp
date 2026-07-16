@@ -128,7 +128,9 @@ exports.Prisma.ChartOfAccountScalarFieldEnum = {
   type: 'type',
   parentId: 'parentId',
   isActive: 'isActive',
-  currentBalance: 'currentBalance',
+  isPostable: 'isPostable',
+  isContra: 'isContra',
+  deletedAt: 'deletedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };

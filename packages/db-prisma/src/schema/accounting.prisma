@@ -15,19 +15,18 @@ enum JournalEntryStatus {
 
 // ─── Chart Of Accounts ───────────────────────────────────────────────────────
 model ChartOfAccount {
-    id        String      @id @default(uuid())
-    tenantId  String      @map("tenant_id")
-    code      String
-    name      Json        @db.JsonB // LocalizedString: { ar: string; en?: string }
-    type      AccountType
-    parentId  String?     @map("parent_id")
-    isActive  Boolean     @default(true) @map("is_active")
-    /// Denormalized cached balance for fast reads.
-    /// Source of truth is JournalLine rows — this field is updated by application
-    /// logic after every posted JournalEntry. Never write to it directly from ad-hoc queries.
-    currentBalance Decimal @default(0) @map("current_balance") @db.Decimal(18, 4)
-    createdAt DateTime    @default(now()) @map("created_at")
-    updatedAt DateTime    @updatedAt @map("updated_at")
+    id         String      @id @default(uuid())
+    tenantId   String      @map("tenant_id")
+    code       String
+    name       Json        @db.JsonB // LocalizedString: { ar: string; en?: string }
+    type       AccountType
+    parentId   String?     @map("parent_id")
+    isActive   Boolean     @default(true) @map("is_active")
+    isPostable Boolean     @default(true) @map("is_postable")
+    isContra   Boolean     @default(false) @map("is_contra")
+    deletedAt  DateTime?   @map("deleted_at")
+    createdAt  DateTime    @default(now()) @map("created_at")
+    updatedAt  DateTime    @updatedAt @map("updated_at")
 
     tenant       Tenant           @relation(fields: [tenantId], references: [id], onDelete: Cascade)
     parent       ChartOfAccount?  @relation("AccountHierarchy", fields: [parentId], references: [id])
@@ -48,9 +47,11 @@ model ChartOfAccount {
     // Party-level override back-relations
     partyReceivables Party[] @relation("PartyReceivableAccount")
     partyPayables    Party[] @relation("PartyPayableAccount")
+    // REMOVED: currentBalance Decimal (source of truth is JournalLine; balances computed on read)
 
     @@unique([tenantId, code])
     @@index([tenantId])
+    @@index([parentId])
     @@map("chart_of_accounts")
 }
 
