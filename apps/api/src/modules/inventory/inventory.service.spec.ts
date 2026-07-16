@@ -19,7 +19,7 @@ const params = {
 describe('InventoryService.postMovementTx', () => {
     it('creates a movement and a new balance on first entry', async () => {
         const tx = buildTx(null);
-        const svc = new InventoryService({} as any, {} as any, {} as any);
+        const svc = new InventoryService({} as any, {} as any, {} as any, {} as any, {} as any, {} as any);
         await svc.postMovementTx(tx as any, params);
         expect(tx.stockMovement.create).toHaveBeenCalled();
         expect(tx.stockBalance.create).toHaveBeenCalledWith(
@@ -29,7 +29,7 @@ describe('InventoryService.postMovementTx', () => {
 
     it('recomputes weighted-average cost on an inflow', async () => {
         const tx = buildTx({ id: 'b1', quantity: 10, averageCost: 4 });
-        const svc = new InventoryService({} as any, {} as any, {} as any);
+        const svc = new InventoryService({} as any, {} as any, {} as any, {} as any, {} as any, {} as any);
         await svc.postMovementTx(tx as any, params); // +10 @ 5 over 10 @ 4 => avg 4.5
         expect(tx.stockBalance.update).toHaveBeenCalledWith(
             expect.objectContaining({ data: expect.objectContaining({ quantity: 20, averageCost: 4.5 }) }),

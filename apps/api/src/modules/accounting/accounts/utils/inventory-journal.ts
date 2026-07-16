@@ -1,4 +1,4 @@
-import type { PostingJournalLine } from './create-posting-journal-entry';
+import type { PostingJournalLine } from '../services/journal-posting.service';
 
 function round(v: number): number {
     return Math.round(v * 10000) / 10000;

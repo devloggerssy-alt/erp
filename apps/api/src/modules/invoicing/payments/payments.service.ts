@@ -1,10 +1,11 @@
 import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { PrismaService } from '@devloggers/db-prisma/nest';
+import { ReferenceType } from '@devloggers/db-prisma';
 import { CreatePaymentDto, UpdatePaymentDto, AllocatePaymentDto } from './dto';
 import { DocumentSequencesService } from '../../accounting/document-sequences/services/document-sequences.service';
 import { FinancialSettingsService } from '../../accounting/financial-settings/services/financial-settings.service';
+import { JournalPostingService } from '../../accounting/accounts/services/journal-posting.service';
 import { buildPaymentJournalLines } from './payment-journal';
-import { createPostingJournalEntry } from '../../accounting/accounts/utils/create-posting-journal-entry';
 
 @Injectable()
 export class PaymentsService {
@@ -12,6 +13,7 @@ export class PaymentsService {
         private readonly prisma: PrismaService,
         private readonly docSeqService: DocumentSequencesService,
         private readonly financialSettingsService: FinancialSettingsService,
+        private readonly journalPosting: JournalPostingService,
     ) {}
 
     async findAll(tenantId: string, filters: { type?: string; status?: string; page?: number; limit?: number }) {
@@ -45,7 +47,7 @@ export class PaymentsService {
                 cashbox: true,
                 party: { select: { name: true, receivableAccountId: true, payableAccountId: true } },
                 currency: true,
-                fiscalPeriod: true,
+                fiscalPeriod: { select: { status: true } },
                 allocations: { include: { invoice: { select: { number: true, total: true } } } },
             },
         });
@@ -140,12 +142,13 @@ export class PaymentsService {
         const jeNumber = await this.docSeqService.getNextNumber(tenantId, 'JOURNAL_ENTRY');
 
         await this.prisma.$transaction(async (tx) => {
-            await createPostingJournalEntry(tx, {
+            await this.journalPosting.post(tx, {
                 tenantId,
                 number: jeNumber,
                 date: payment.date,
                 fiscalPeriodId: payment.fiscalPeriodId,
-                referenceType: 'payment',
+                fiscalPeriodStatus: payment.fiscalPeriod?.status,
+                referenceType: ReferenceType.PAYMENT,
                 referenceId: payment.id,
                 description: `Payment ${payment.number}`,
                 exchangeRate,
@@ -179,43 +182,34 @@ export class PaymentsService {
             throw new BadRequestException('Cashbox has no linked GL account; cannot cancel the payment');
         }
 
-        const settings = await this.financialSettingsService.getOrThrow(tenantId);
         const isReceipt = payment.type === 'RECEIPT';
-
-        const counterpartAccountId = isReceipt
-            ? (payment.party?.receivableAccountId ?? settings.defaultReceivableAccountId ?? '')
-            : (payment.party?.payableAccountId ?? settings.defaultPayableAccountId ?? '');
 
         const exchangeRate = Number(payment.exchangeRate);
         const amount = Number(payment.amount);
         const reverseDelta = isReceipt ? -amount : amount;
 
-        const reversalLines = buildPaymentJournalLines(
-            {
-                type: payment.type as 'RECEIPT' | 'PAYMENT' | 'ADJUSTMENT',
-                amount,
-                exchangeRate,
-                cashboxAccountId: cashbox.linkedAccountId,
-                counterpartAccountId,
-                partyId: payment.partyId ?? null,
-            },
-            { reverse: true },
-        );
+        const original = await this.prisma.journalEntry.findFirst({
+            where: { tenantId, referenceType: ReferenceType.PAYMENT, referenceId: payment.id, status: 'POSTED' },
+        });
+        if (!original) {
+            throw new BadRequestException('Original journal entry not found for this payment.');
+        }
 
         const jeNumber = await this.docSeqService.getNextNumber(tenantId, 'JOURNAL_ENTRY');
 
         await this.prisma.$transaction(async (tx) => {
-            await createPostingJournalEntry(tx, {
+            await this.journalPosting.reverse(tx, {
                 tenantId,
                 number: jeNumber,
-                date: new Date(),
-                fiscalPeriodId: payment.fiscalPeriodId,
-                referenceType: 'payment_cancellation',
+                originalEntryId: original.id,
+                referenceType: ReferenceType.PAYMENT_CANCELLATION,
                 referenceId: payment.id,
                 description: `Reversal of payment ${payment.number}`,
                 exchangeRate,
                 userId,
-                lines: reversalLines,
+                reversalDate: payment.date,
+                fiscalPeriodId: payment.fiscalPeriodId,
+                fiscalPeriodStatus: payment.fiscalPeriod?.status,
             });
 
             await tx.cashbox.update({

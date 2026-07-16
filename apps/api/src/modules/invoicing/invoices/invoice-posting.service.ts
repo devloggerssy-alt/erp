@@ -1,11 +1,11 @@
 import { Injectable, BadRequestException, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '@devloggers/db-prisma/nest';
-import { StockMovementType } from '@devloggers/db-prisma';
+import { ReferenceType, StockMovementType } from '@devloggers/db-prisma';
 import { InventoryService } from '../../inventory/inventory.service';
 import { FinancialSettingsService } from '../../accounting/financial-settings/services/financial-settings.service';
 import { DocumentSequencesService } from '../../accounting/document-sequences/services/document-sequences.service';
+import { JournalPostingService } from '../../accounting/accounts/services/journal-posting.service';
 import { buildInvoiceJournalLines } from './invoice-journal';
-import { createPostingJournalEntry } from '../../accounting/accounts/utils/create-posting-journal-entry';
 import { buildCogsJournalLines } from '../../accounting/accounts/utils/inventory-journal';
 import { assertFiscalPeriodOpen } from '../../accounting/accounts/utils/assert-period-open';
 
@@ -16,6 +16,7 @@ export class InvoicePostingService {
         private readonly inventoryService: InventoryService,
         private readonly financialSettingsService: FinancialSettingsService,
         private readonly docSeqService: DocumentSequencesService,
+        private readonly journalPosting: JournalPostingService,
     ) {}
 
     async postPurchaseInvoice(tenantId: string, invoiceId: string, userId: string) {
@@ -94,12 +95,13 @@ export class InvoicePostingService {
                 }
             }
 
-            await createPostingJournalEntry(tx, {
+            await this.journalPosting.post(tx, {
                 tenantId,
                 number: jeNumber,
                 date: invoice.date,
                 fiscalPeriodId: invoice.fiscalPeriodId,
-                referenceType: 'invoice',
+                fiscalPeriodStatus: invoice.fiscalPeriod?.status,
+                referenceType: ReferenceType.INVOICE,
                 referenceId: invoice.id,
                 description: `Purchase invoice ${invoice.number}`,
                 exchangeRate,
@@ -203,12 +205,13 @@ export class InvoicePostingService {
                 }).map((l, i) => ({ ...l, sortOrder: revenueLines.length + i }))
                 : [];
 
-            await createPostingJournalEntry(tx, {
+            await this.journalPosting.post(tx, {
                 tenantId,
                 number: jeNumber,
                 date: invoice.date,
                 fiscalPeriodId: invoice.fiscalPeriodId,
-                referenceType: 'invoice',
+                fiscalPeriodStatus: invoice.fiscalPeriod?.status,
+                referenceType: ReferenceType.INVOICE,
                 referenceId: invoice.id,
                 description: `Sales invoice ${invoice.number}`,
                 exchangeRate,
@@ -247,20 +250,11 @@ export class InvoicePostingService {
         assertFiscalPeriodOpen(invoice.fiscalPeriod?.status);
 
         const original = await this.prisma.journalEntry.findFirst({
-            where: { tenantId, referenceType: 'invoice', referenceId: invoice.id, status: 'POSTED' },
+            where: { tenantId, referenceType: ReferenceType.INVOICE, referenceId: invoice.id, status: 'POSTED' },
             include: { lines: true },
             orderBy: { createdAt: 'desc' },
         });
         if (!original) throw new BadRequestException('Original journal entry not found for this invoice.');
-
-        const reversalLines = original.lines.map((l, i) => ({
-            accountId: l.accountId,
-            debit: Number(l.credit),
-            credit: Number(l.debit),
-            description: l.description,
-            sortOrder: i,
-            partyId: l.partyId ?? null,
-        }));
 
         const exchangeRate = Number(invoice.exchangeRate);
         const jeNumber = await this.docSeqService.getNextNumber(tenantId, 'JOURNAL_ENTRY');
@@ -286,17 +280,18 @@ export class InvoicePostingService {
                 });
             }
 
-            await createPostingJournalEntry(tx, {
+            await this.journalPosting.reverse(tx, {
                 tenantId,
                 number: jeNumber,
-                date: new Date(),
-                fiscalPeriodId: invoice.fiscalPeriodId,
-                referenceType: 'invoice_cancellation',
+                originalEntryId: original.id,
+                referenceType: ReferenceType.INVOICE_CANCELLATION,
                 referenceId: invoice.id,
                 description: `Reversal of invoice ${invoice.number}`,
                 exchangeRate,
                 userId,
-                lines: reversalLines,
+                reversalDate: invoice.date,
+                fiscalPeriodId: invoice.fiscalPeriodId,
+                fiscalPeriodStatus: invoice.fiscalPeriod?.status,
             });
 
             return tx.invoice.update({

@@ -6,9 +6,10 @@ import { InventoryPresenter } from './presenters/inventory.presenter';
 import { WarehousesModule } from './warehouses/warehouses.module';
 import { FinancialSettingsModule } from '../accounting/financial-settings/financial-settings.module';
 import { DocumentSequencesModule } from '../accounting/document-sequences/document-sequences.module';
+import { AccountsModule } from '../accounting/accounts/accounts.module';
 
 @Module({
-    imports: [WarehousesModule, FinancialSettingsModule, DocumentSequencesModule],
+    imports: [WarehousesModule, FinancialSettingsModule, DocumentSequencesModule, AccountsModule],
     controllers: [InventoryController],
     providers: [InventoryService, InventoryRepository, InventoryPresenter],
     exports: [InventoryService, WarehousesModule],

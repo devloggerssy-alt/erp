@@ -1,15 +1,18 @@
 import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { PrismaService } from '@devloggers/db-prisma/nest';
+import { ReferenceType } from '@devloggers/db-prisma';
 import { CreateExpenseDto, UpdateExpenseDto, CreateExpenseItemDto } from './dto';
 import { DocumentSequencesService } from '../../accounting/document-sequences/services/document-sequences.service';
+import { JournalPostingService } from '../../accounting/accounts/services/journal-posting.service';
+import { assertAccountFitsSlot } from '../../accounting/accounts/utils/assert-account-fits-slot';
 import { buildExpenseJournalLines } from './expense-journal';
-import { createPostingJournalEntry } from '../../accounting/accounts/utils/create-posting-journal-entry';
 
 @Injectable()
 export class ExpensesService {
     constructor(
         private readonly prisma: PrismaService,
         private readonly docSeqService: DocumentSequencesService,
+        private readonly journalPosting: JournalPostingService,
     ) {}
 
     async findAll(tenantId: string, filters: { status?: string; page?: number; limit?: number }) {
@@ -40,7 +43,7 @@ export class ExpensesService {
             include: {
                 cashbox: true,
                 currency: true,
-                fiscalPeriod: true,
+                fiscalPeriod: { select: { status: true } },
                 items: { orderBy: { sortOrder: 'asc' } },
             },
         });
@@ -111,6 +114,21 @@ export class ExpensesService {
 
         const exchangeRate = Number(expense.exchangeRate);
         const totalAmount = Number(expense.totalAmount);
+
+        const accountIds = Array.from(new Set([
+            ...expense.items.map((i) => i.accountId),
+            expense.cashbox.linkedAccountId,
+        ]));
+        const accounts = await this.prisma.chartOfAccount.findMany({
+            where: { id: { in: accountIds }, tenantId },
+            select: { id: true, code: true, type: true, isPostable: true, isContra: true, deletedAt: true, isActive: true },
+        });
+        const byId = new Map(accounts.map((a) => [a.id, a]));
+        for (const item of expense.items) {
+            assertAccountFitsSlot(byId.get(item.accountId) ?? null, 'EXPENSE' as any, 'defaultPurchase');
+        }
+        assertAccountFitsSlot(byId.get(expense.cashbox.linkedAccountId) ?? null, 'ASSET' as any, 'defaultReceivable');
+
         const lines = buildExpenseJournalLines({
             totalAmount: totalAmount * exchangeRate,
             cashboxAccountId: expense.cashbox.linkedAccountId,
@@ -125,12 +143,13 @@ export class ExpensesService {
         const jeNumber = await this.docSeqService.getNextNumber(tenantId, 'JOURNAL_ENTRY');
 
         await this.prisma.$transaction(async (tx) => {
-            const entry = await createPostingJournalEntry(tx, {
+            const entry = await this.journalPosting.post(tx, {
                 tenantId,
                 number: jeNumber,
                 date: expense.date,
                 fiscalPeriodId: expense.fiscalPeriodId,
-                referenceType: 'expense',
+                fiscalPeriodStatus: expense.fiscalPeriod?.status,
+                referenceType: ReferenceType.EXPENSE,
                 referenceId: expense.id,
                 description: `Expense ${expense.number}`,
                 exchangeRate,
@@ -159,36 +178,30 @@ export class ExpensesService {
             throw new BadRequestException('Cashbox has no linked account; cannot cancel the expense');
         }
 
+        const original = await this.prisma.journalEntry.findFirst({
+            where: { tenantId, referenceType: ReferenceType.EXPENSE, referenceId: expense.id, status: 'POSTED' },
+        });
+        if (!original) {
+            throw new BadRequestException('Original journal entry not found for this expense.');
+        }
+
         const exchangeRate = Number(expense.exchangeRate);
         const totalAmount = Number(expense.totalAmount);
-        const lines = buildExpenseJournalLines(
-            {
-                totalAmount: totalAmount * exchangeRate,
-                cashboxAccountId: expense.cashbox.linkedAccountId,
-                items: expense.items.map((it) => ({
-                    accountId: it.accountId,
-                    amount: Number(it.amount) * exchangeRate,
-                    description: it.description,
-                    sortOrder: it.sortOrder,
-                })),
-            },
-            { reverse: true },
-        );
-
         const jeNumber = await this.docSeqService.getNextNumber(tenantId, 'JOURNAL_ENTRY');
 
         await this.prisma.$transaction(async (tx) => {
-            await createPostingJournalEntry(tx, {
+            await this.journalPosting.reverse(tx, {
                 tenantId,
                 number: jeNumber,
-                date: new Date(),
-                fiscalPeriodId: expense.fiscalPeriodId,
-                referenceType: 'expense_cancellation',
+                originalEntryId: original.id,
+                referenceType: ReferenceType.EXPENSE_CANCELLATION,
                 referenceId: expense.id,
                 description: `Reversal of expense ${expense.number}`,
                 exchangeRate,
                 userId,
-                lines,
+                reversalDate: expense.date,
+                fiscalPeriodId: expense.fiscalPeriodId,
+                fiscalPeriodStatus: expense.fiscalPeriod?.status,
             });
 
             await tx.cashbox.update({

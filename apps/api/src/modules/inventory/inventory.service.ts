@@ -1,12 +1,12 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
 import { PrismaService } from '@devloggers/db-prisma/nest';
-import { StockMovementType } from '@devloggers/db-prisma';
+import { ReferenceType, StockMovementType } from '@devloggers/db-prisma';
 import { PostOpeningBalanceDto } from './dto/inventory.dto';
 import { InventoryRepository } from './repositories/inventory.repository';
 import { InventoryPresenter } from './presenters/inventory.presenter';
 import { FinancialSettingsService } from '../accounting/financial-settings/services/financial-settings.service';
 import { DocumentSequencesService } from '../accounting/document-sequences/services/document-sequences.service';
-import { createPostingJournalEntry } from '../accounting/accounts/utils/create-posting-journal-entry';
+import { JournalPostingService } from '../accounting/accounts/services/journal-posting.service';
 import { buildOpeningBalanceLines } from '../accounting/accounts/utils/inventory-journal';
 import { assertFiscalPeriodOpen } from '../accounting/accounts/utils/assert-period-open';
 
@@ -41,6 +41,7 @@ export class InventoryService {
         private readonly inventoryPresenter: InventoryPresenter,
         private readonly financialSettingsService: FinancialSettingsService,
         private readonly docSeqService: DocumentSequencesService,
+        private readonly journalPosting: JournalPostingService,
     ) {}
 
     /**
@@ -137,12 +138,13 @@ export class InventoryService {
 
             let journalEntryId: string | null = null;
             if (totalValue !== 0) {
-                const entry = await createPostingJournalEntry(tx as any, {
+                const entry = await this.journalPosting.post(tx as any, {
                     tenantId,
                     number: jeNumber,
                     date: new Date(),
                     fiscalPeriodId: dto.fiscalPeriodId,
-                    referenceType: 'opening_balance',
+                    fiscalPeriodStatus: period?.status,
+                    referenceType: ReferenceType.OPENING_BALANCE,
                     referenceId: dto.warehouseId,
                     description: 'Opening inventory balance',
                     exchangeRate: 1,

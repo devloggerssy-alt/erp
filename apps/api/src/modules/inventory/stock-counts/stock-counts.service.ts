@@ -1,14 +1,14 @@
 import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { PrismaService } from '@devloggers/db-prisma/nest';
-import { StockMovementType } from '@devloggers/db-prisma';
+import { ReferenceType, StockMovementType } from '@devloggers/db-prisma';
 import { InventoryService } from '../inventory.service';
 import { DocumentSequencesService } from '../../accounting/document-sequences/services/document-sequences.service';
+import { JournalPostingService } from '../../accounting/accounts/services/journal-posting.service';
 import { StockCountsRepository } from './repositories/stock-counts.repository';
 import { StockCountPresenter } from './presenters/stock-count.presenter';
 import { StockCountCreatedEvent, StockCountPostedEvent } from './events/stock-count.events';
 import { FinancialSettingsService } from '../../accounting/financial-settings/services/financial-settings.service';
-import { createPostingJournalEntry } from '../../accounting/accounts/utils/create-posting-journal-entry';
 import { buildStockCountVarianceLines } from '../../accounting/accounts/utils/inventory-journal';
 import { assertFiscalPeriodOpen } from '../../accounting/accounts/utils/assert-period-open';
 
@@ -22,6 +22,7 @@ export class StockCountsService {
         private readonly stockCountPresenter: StockCountPresenter,
         private readonly eventEmitter: EventEmitter2,
         private readonly financialSettingsService: FinancialSettingsService,
+        private readonly journalPosting: JournalPostingService,
     ) {}
 
     async findAll(tenantId: string, page = 1, limit = 50) {
@@ -135,12 +136,13 @@ export class StockCountsService {
             }
 
             if (netVariance !== 0) {
-                await createPostingJournalEntry(tx as any, {
+                await this.journalPosting.post(tx as any, {
                     tenantId,
                     number: jeNumber,
                     date: new Date(),
                     fiscalPeriodId: stockCount.fiscalPeriodId,
-                    referenceType: 'stock_count',
+                    fiscalPeriodStatus: (stockCount as any).fiscalPeriod?.status,
+                    referenceType: ReferenceType.STOCK_COUNT,
                     referenceId: id,
                     description: `Stock count variance ${stockCount.number}`,
                     exchangeRate: 1,

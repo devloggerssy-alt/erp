@@ -7,9 +7,10 @@ import { StockCountPresenter } from './presenters/stock-count.presenter';
 import { InventoryModule } from '../inventory.module';
 import { DocumentSequencesModule } from '../../accounting/document-sequences/document-sequences.module';
 import { FinancialSettingsModule } from '../../accounting/financial-settings/financial-settings.module';
+import { AccountsModule } from '../../accounting/accounts/accounts.module';
 
 @Module({
-    imports: [PrismaModule, InventoryModule, DocumentSequencesModule, FinancialSettingsModule],
+    imports: [PrismaModule, InventoryModule, DocumentSequencesModule, FinancialSettingsModule, AccountsModule],
     controllers: [StockCountsController],
     providers: [StockCountsService, StockCountsRepository, StockCountPresenter],
     exports: [StockCountsService],
