@@ -259,6 +259,22 @@ export const JournalEntryStatus: {
 export type JournalEntryStatus = (typeof JournalEntryStatus)[keyof typeof JournalEntryStatus]
 
 
+export const ReferenceType: {
+  INVOICE: 'INVOICE',
+  INVOICE_CANCELLATION: 'INVOICE_CANCELLATION',
+  PAYMENT: 'PAYMENT',
+  PAYMENT_CANCELLATION: 'PAYMENT_CANCELLATION',
+  EXPENSE: 'EXPENSE',
+  EXPENSE_CANCELLATION: 'EXPENSE_CANCELLATION',
+  OPENING_BALANCE: 'OPENING_BALANCE',
+  OPENING_BALANCE_CANCELLATION: 'OPENING_BALANCE_CANCELLATION',
+  STOCK_COUNT: 'STOCK_COUNT',
+  STOCK_COUNT_CANCELLATION: 'STOCK_COUNT_CANCELLATION'
+};
+
+export type ReferenceType = (typeof ReferenceType)[keyof typeof ReferenceType]
+
+
 export const MessageRole: {
   USER: 'USER',
   ASSISTANT: 'ASSISTANT'
@@ -389,6 +405,10 @@ export const AccountType: typeof $Enums.AccountType
 export type JournalEntryStatus = $Enums.JournalEntryStatus
 
 export const JournalEntryStatus: typeof $Enums.JournalEntryStatus
+
+export type ReferenceType = $Enums.ReferenceType
+
+export const ReferenceType: typeof $Enums.ReferenceType
 
 export type MessageRole = $Enums.MessageRole
 
@@ -4972,10 +4992,12 @@ export namespace Prisma {
    */
 
   export type JournalEntryCountOutputType = {
+    reversedBy: number
     lines: number
   }
 
   export type JournalEntryCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    reversedBy?: boolean | JournalEntryCountOutputTypeCountReversedByArgs
     lines?: boolean | JournalEntryCountOutputTypeCountLinesArgs
   }
 
@@ -4988,6 +5010,13 @@ export namespace Prisma {
      * Select specific fields to fetch from the JournalEntryCountOutputType
      */
     select?: JournalEntryCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * JournalEntryCountOutputType without action
+   */
+  export type JournalEntryCountOutputTypeCountReversedByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: JournalEntryWhereInput
   }
 
   /**
@@ -7777,12 +7806,14 @@ export namespace Prisma {
     number: string | null
     date: Date | null
     fiscalPeriodId: string | null
-    referenceType: string | null
+    referenceType: $Enums.ReferenceType | null
     referenceId: string | null
     description: string | null
     status: $Enums.JournalEntryStatus | null
     exchangeRate: Decimal | null
     postedAt: Date | null
+    reversalOfId: string | null
+    reversalDate: Date | null
     createdBy: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -7794,12 +7825,14 @@ export namespace Prisma {
     number: string | null
     date: Date | null
     fiscalPeriodId: string | null
-    referenceType: string | null
+    referenceType: $Enums.ReferenceType | null
     referenceId: string | null
     description: string | null
     status: $Enums.JournalEntryStatus | null
     exchangeRate: Decimal | null
     postedAt: Date | null
+    reversalOfId: string | null
+    reversalDate: Date | null
     createdBy: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -7817,6 +7850,8 @@ export namespace Prisma {
     status: number
     exchangeRate: number
     postedAt: number
+    reversalOfId: number
+    reversalDate: number
     createdBy: number
     createdAt: number
     updatedAt: number
@@ -7844,6 +7879,8 @@ export namespace Prisma {
     status?: true
     exchangeRate?: true
     postedAt?: true
+    reversalOfId?: true
+    reversalDate?: true
     createdBy?: true
     createdAt?: true
     updatedAt?: true
@@ -7861,6 +7898,8 @@ export namespace Prisma {
     status?: true
     exchangeRate?: true
     postedAt?: true
+    reversalOfId?: true
+    reversalDate?: true
     createdBy?: true
     createdAt?: true
     updatedAt?: true
@@ -7878,6 +7917,8 @@ export namespace Prisma {
     status?: true
     exchangeRate?: true
     postedAt?: true
+    reversalOfId?: true
+    reversalDate?: true
     createdBy?: true
     createdAt?: true
     updatedAt?: true
@@ -7976,12 +8017,14 @@ export namespace Prisma {
     number: string
     date: Date
     fiscalPeriodId: string
-    referenceType: string | null
+    referenceType: $Enums.ReferenceType | null
     referenceId: string | null
     description: string | null
     status: $Enums.JournalEntryStatus
     exchangeRate: Decimal
     postedAt: Date | null
+    reversalOfId: string | null
+    reversalDate: Date | null
     createdBy: string
     createdAt: Date
     updatedAt: Date
@@ -8018,11 +8061,15 @@ export namespace Prisma {
     status?: boolean
     exchangeRate?: boolean
     postedAt?: boolean
+    reversalOfId?: boolean
+    reversalDate?: boolean
     createdBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     fiscalPeriod?: boolean | FiscalPeriodDefaultArgs<ExtArgs>
+    reversalOf?: boolean | JournalEntry$reversalOfArgs<ExtArgs>
+    reversedBy?: boolean | JournalEntry$reversedByArgs<ExtArgs>
     lines?: boolean | JournalEntry$linesArgs<ExtArgs>
     _count?: boolean | JournalEntryCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["journalEntry"]>
@@ -8039,11 +8086,14 @@ export namespace Prisma {
     status?: boolean
     exchangeRate?: boolean
     postedAt?: boolean
+    reversalOfId?: boolean
+    reversalDate?: boolean
     createdBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     fiscalPeriod?: boolean | FiscalPeriodDefaultArgs<ExtArgs>
+    reversalOf?: boolean | JournalEntry$reversalOfArgs<ExtArgs>
   }, ExtArgs["result"]["journalEntry"]>
 
   export type JournalEntrySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -8058,11 +8108,14 @@ export namespace Prisma {
     status?: boolean
     exchangeRate?: boolean
     postedAt?: boolean
+    reversalOfId?: boolean
+    reversalDate?: boolean
     createdBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     fiscalPeriod?: boolean | FiscalPeriodDefaultArgs<ExtArgs>
+    reversalOf?: boolean | JournalEntry$reversalOfArgs<ExtArgs>
   }, ExtArgs["result"]["journalEntry"]>
 
   export type JournalEntrySelectScalar = {
@@ -8077,25 +8130,31 @@ export namespace Prisma {
     status?: boolean
     exchangeRate?: boolean
     postedAt?: boolean
+    reversalOfId?: boolean
+    reversalDate?: boolean
     createdBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type JournalEntryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "number" | "date" | "fiscalPeriodId" | "referenceType" | "referenceId" | "description" | "status" | "exchangeRate" | "postedAt" | "createdBy" | "createdAt" | "updatedAt", ExtArgs["result"]["journalEntry"]>
+  export type JournalEntryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "number" | "date" | "fiscalPeriodId" | "referenceType" | "referenceId" | "description" | "status" | "exchangeRate" | "postedAt" | "reversalOfId" | "reversalDate" | "createdBy" | "createdAt" | "updatedAt", ExtArgs["result"]["journalEntry"]>
   export type JournalEntryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     fiscalPeriod?: boolean | FiscalPeriodDefaultArgs<ExtArgs>
+    reversalOf?: boolean | JournalEntry$reversalOfArgs<ExtArgs>
+    reversedBy?: boolean | JournalEntry$reversedByArgs<ExtArgs>
     lines?: boolean | JournalEntry$linesArgs<ExtArgs>
     _count?: boolean | JournalEntryCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type JournalEntryIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     fiscalPeriod?: boolean | FiscalPeriodDefaultArgs<ExtArgs>
+    reversalOf?: boolean | JournalEntry$reversalOfArgs<ExtArgs>
   }
   export type JournalEntryIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     fiscalPeriod?: boolean | FiscalPeriodDefaultArgs<ExtArgs>
+    reversalOf?: boolean | JournalEntry$reversalOfArgs<ExtArgs>
   }
 
   export type $JournalEntryPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -8103,6 +8162,8 @@ export namespace Prisma {
     objects: {
       tenant: Prisma.$TenantPayload<ExtArgs>
       fiscalPeriod: Prisma.$FiscalPeriodPayload<ExtArgs>
+      reversalOf: Prisma.$JournalEntryPayload<ExtArgs> | null
+      reversedBy: Prisma.$JournalEntryPayload<ExtArgs>[]
       lines: Prisma.$JournalLinePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -8111,7 +8172,7 @@ export namespace Prisma {
       number: string
       date: Date
       fiscalPeriodId: string
-      referenceType: string | null
+      referenceType: $Enums.ReferenceType | null
       referenceId: string | null
       description: string | null
       status: $Enums.JournalEntryStatus
@@ -8120,6 +8181,8 @@ export namespace Prisma {
        */
       exchangeRate: Prisma.Decimal
       postedAt: Date | null
+      reversalOfId: string | null
+      reversalDate: Date | null
       createdBy: string
       createdAt: Date
       updatedAt: Date
@@ -8519,6 +8582,8 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     fiscalPeriod<T extends FiscalPeriodDefaultArgs<ExtArgs> = {}>(args?: Subset<T, FiscalPeriodDefaultArgs<ExtArgs>>): Prisma__FiscalPeriodClient<$Result.GetResult<Prisma.$FiscalPeriodPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    reversalOf<T extends JournalEntry$reversalOfArgs<ExtArgs> = {}>(args?: Subset<T, JournalEntry$reversalOfArgs<ExtArgs>>): Prisma__JournalEntryClient<$Result.GetResult<Prisma.$JournalEntryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    reversedBy<T extends JournalEntry$reversedByArgs<ExtArgs> = {}>(args?: Subset<T, JournalEntry$reversedByArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$JournalEntryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     lines<T extends JournalEntry$linesArgs<ExtArgs> = {}>(args?: Subset<T, JournalEntry$linesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$JournalLinePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -8554,12 +8619,14 @@ export namespace Prisma {
     readonly number: FieldRef<"JournalEntry", 'String'>
     readonly date: FieldRef<"JournalEntry", 'DateTime'>
     readonly fiscalPeriodId: FieldRef<"JournalEntry", 'String'>
-    readonly referenceType: FieldRef<"JournalEntry", 'String'>
+    readonly referenceType: FieldRef<"JournalEntry", 'ReferenceType'>
     readonly referenceId: FieldRef<"JournalEntry", 'String'>
     readonly description: FieldRef<"JournalEntry", 'String'>
     readonly status: FieldRef<"JournalEntry", 'JournalEntryStatus'>
     readonly exchangeRate: FieldRef<"JournalEntry", 'Decimal'>
     readonly postedAt: FieldRef<"JournalEntry", 'DateTime'>
+    readonly reversalOfId: FieldRef<"JournalEntry", 'String'>
+    readonly reversalDate: FieldRef<"JournalEntry", 'DateTime'>
     readonly createdBy: FieldRef<"JournalEntry", 'String'>
     readonly createdAt: FieldRef<"JournalEntry", 'DateTime'>
     readonly updatedAt: FieldRef<"JournalEntry", 'DateTime'>
@@ -8961,6 +9028,49 @@ export namespace Prisma {
      * Limit how many JournalEntries to delete.
      */
     limit?: number
+  }
+
+  /**
+   * JournalEntry.reversalOf
+   */
+  export type JournalEntry$reversalOfArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JournalEntry
+     */
+    select?: JournalEntrySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the JournalEntry
+     */
+    omit?: JournalEntryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JournalEntryInclude<ExtArgs> | null
+    where?: JournalEntryWhereInput
+  }
+
+  /**
+   * JournalEntry.reversedBy
+   */
+  export type JournalEntry$reversedByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JournalEntry
+     */
+    select?: JournalEntrySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the JournalEntry
+     */
+    omit?: JournalEntryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JournalEntryInclude<ExtArgs> | null
+    where?: JournalEntryWhereInput
+    orderBy?: JournalEntryOrderByWithRelationInput | JournalEntryOrderByWithRelationInput[]
+    cursor?: JournalEntryWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: JournalEntryScalarFieldEnum | JournalEntryScalarFieldEnum[]
   }
 
   /**
@@ -57666,6 +57776,8 @@ export namespace Prisma {
     status: 'status',
     exchangeRate: 'exchangeRate',
     postedAt: 'postedAt',
+    reversalOfId: 'reversalOfId',
+    reversalDate: 'reversalDate',
     createdBy: 'createdBy',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -58434,6 +58546,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'ReferenceType'
+   */
+  export type EnumReferenceTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ReferenceType'>
+    
+
+
+  /**
+   * Reference to a field of type 'ReferenceType[]'
+   */
+  export type ListEnumReferenceTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ReferenceType[]'>
+    
+
+
+  /**
    * Reference to a field of type 'JournalEntryStatus'
    */
   export type EnumJournalEntryStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'JournalEntryStatus'>
@@ -58822,17 +58948,21 @@ export namespace Prisma {
     number?: StringFilter<"JournalEntry"> | string
     date?: DateTimeFilter<"JournalEntry"> | Date | string
     fiscalPeriodId?: StringFilter<"JournalEntry"> | string
-    referenceType?: StringNullableFilter<"JournalEntry"> | string | null
+    referenceType?: EnumReferenceTypeNullableFilter<"JournalEntry"> | $Enums.ReferenceType | null
     referenceId?: StringNullableFilter<"JournalEntry"> | string | null
     description?: StringNullableFilter<"JournalEntry"> | string | null
     status?: EnumJournalEntryStatusFilter<"JournalEntry"> | $Enums.JournalEntryStatus
     exchangeRate?: DecimalFilter<"JournalEntry"> | Decimal | DecimalJsLike | number | string
     postedAt?: DateTimeNullableFilter<"JournalEntry"> | Date | string | null
+    reversalOfId?: StringNullableFilter<"JournalEntry"> | string | null
+    reversalDate?: DateTimeNullableFilter<"JournalEntry"> | Date | string | null
     createdBy?: StringFilter<"JournalEntry"> | string
     createdAt?: DateTimeFilter<"JournalEntry"> | Date | string
     updatedAt?: DateTimeFilter<"JournalEntry"> | Date | string
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
     fiscalPeriod?: XOR<FiscalPeriodScalarRelationFilter, FiscalPeriodWhereInput>
+    reversalOf?: XOR<JournalEntryNullableScalarRelationFilter, JournalEntryWhereInput> | null
+    reversedBy?: JournalEntryListRelationFilter
     lines?: JournalLineListRelationFilter
   }
 
@@ -58848,11 +58978,15 @@ export namespace Prisma {
     status?: SortOrder
     exchangeRate?: SortOrder
     postedAt?: SortOrderInput | SortOrder
+    reversalOfId?: SortOrderInput | SortOrder
+    reversalDate?: SortOrderInput | SortOrder
     createdBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     tenant?: TenantOrderByWithRelationInput
     fiscalPeriod?: FiscalPeriodOrderByWithRelationInput
+    reversalOf?: JournalEntryOrderByWithRelationInput
+    reversedBy?: JournalEntryOrderByRelationAggregateInput
     lines?: JournalLineOrderByRelationAggregateInput
   }
 
@@ -58866,17 +59000,21 @@ export namespace Prisma {
     number?: StringFilter<"JournalEntry"> | string
     date?: DateTimeFilter<"JournalEntry"> | Date | string
     fiscalPeriodId?: StringFilter<"JournalEntry"> | string
-    referenceType?: StringNullableFilter<"JournalEntry"> | string | null
+    referenceType?: EnumReferenceTypeNullableFilter<"JournalEntry"> | $Enums.ReferenceType | null
     referenceId?: StringNullableFilter<"JournalEntry"> | string | null
     description?: StringNullableFilter<"JournalEntry"> | string | null
     status?: EnumJournalEntryStatusFilter<"JournalEntry"> | $Enums.JournalEntryStatus
     exchangeRate?: DecimalFilter<"JournalEntry"> | Decimal | DecimalJsLike | number | string
     postedAt?: DateTimeNullableFilter<"JournalEntry"> | Date | string | null
+    reversalOfId?: StringNullableFilter<"JournalEntry"> | string | null
+    reversalDate?: DateTimeNullableFilter<"JournalEntry"> | Date | string | null
     createdBy?: StringFilter<"JournalEntry"> | string
     createdAt?: DateTimeFilter<"JournalEntry"> | Date | string
     updatedAt?: DateTimeFilter<"JournalEntry"> | Date | string
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
     fiscalPeriod?: XOR<FiscalPeriodScalarRelationFilter, FiscalPeriodWhereInput>
+    reversalOf?: XOR<JournalEntryNullableScalarRelationFilter, JournalEntryWhereInput> | null
+    reversedBy?: JournalEntryListRelationFilter
     lines?: JournalLineListRelationFilter
   }, "id" | "tenantId_number">
 
@@ -58892,6 +59030,8 @@ export namespace Prisma {
     status?: SortOrder
     exchangeRate?: SortOrder
     postedAt?: SortOrderInput | SortOrder
+    reversalOfId?: SortOrderInput | SortOrder
+    reversalDate?: SortOrderInput | SortOrder
     createdBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -58911,12 +59051,14 @@ export namespace Prisma {
     number?: StringWithAggregatesFilter<"JournalEntry"> | string
     date?: DateTimeWithAggregatesFilter<"JournalEntry"> | Date | string
     fiscalPeriodId?: StringWithAggregatesFilter<"JournalEntry"> | string
-    referenceType?: StringNullableWithAggregatesFilter<"JournalEntry"> | string | null
+    referenceType?: EnumReferenceTypeNullableWithAggregatesFilter<"JournalEntry"> | $Enums.ReferenceType | null
     referenceId?: StringNullableWithAggregatesFilter<"JournalEntry"> | string | null
     description?: StringNullableWithAggregatesFilter<"JournalEntry"> | string | null
     status?: EnumJournalEntryStatusWithAggregatesFilter<"JournalEntry"> | $Enums.JournalEntryStatus
     exchangeRate?: DecimalWithAggregatesFilter<"JournalEntry"> | Decimal | DecimalJsLike | number | string
     postedAt?: DateTimeNullableWithAggregatesFilter<"JournalEntry"> | Date | string | null
+    reversalOfId?: StringNullableWithAggregatesFilter<"JournalEntry"> | string | null
+    reversalDate?: DateTimeNullableWithAggregatesFilter<"JournalEntry"> | Date | string | null
     createdBy?: StringWithAggregatesFilter<"JournalEntry"> | string
     createdAt?: DateTimeWithAggregatesFilter<"JournalEntry"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"JournalEntry"> | Date | string
@@ -62728,17 +62870,20 @@ export namespace Prisma {
     id?: string
     number: string
     date: Date | string
-    referenceType?: string | null
+    referenceType?: $Enums.ReferenceType | null
     referenceId?: string | null
     description?: string | null
     status?: $Enums.JournalEntryStatus
     exchangeRate?: Decimal | DecimalJsLike | number | string
     postedAt?: Date | string | null
+    reversalDate?: Date | string | null
     createdBy: string
     createdAt?: Date | string
     updatedAt?: Date | string
     tenant: TenantCreateNestedOneWithoutJournalEntriesInput
     fiscalPeriod: FiscalPeriodCreateNestedOneWithoutJournalEntriesInput
+    reversalOf?: JournalEntryCreateNestedOneWithoutReversedByInput
+    reversedBy?: JournalEntryCreateNestedManyWithoutReversalOfInput
     lines?: JournalLineCreateNestedManyWithoutJournalEntryInput
   }
 
@@ -62748,15 +62893,18 @@ export namespace Prisma {
     number: string
     date: Date | string
     fiscalPeriodId: string
-    referenceType?: string | null
+    referenceType?: $Enums.ReferenceType | null
     referenceId?: string | null
     description?: string | null
     status?: $Enums.JournalEntryStatus
     exchangeRate?: Decimal | DecimalJsLike | number | string
     postedAt?: Date | string | null
+    reversalOfId?: string | null
+    reversalDate?: Date | string | null
     createdBy: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    reversedBy?: JournalEntryUncheckedCreateNestedManyWithoutReversalOfInput
     lines?: JournalLineUncheckedCreateNestedManyWithoutJournalEntryInput
   }
 
@@ -62764,17 +62912,20 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     number?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
-    referenceType?: NullableStringFieldUpdateOperationsInput | string | null
+    referenceType?: NullableEnumReferenceTypeFieldUpdateOperationsInput | $Enums.ReferenceType | null
     referenceId?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumJournalEntryStatusFieldUpdateOperationsInput | $Enums.JournalEntryStatus
     exchangeRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reversalDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: TenantUpdateOneRequiredWithoutJournalEntriesNestedInput
     fiscalPeriod?: FiscalPeriodUpdateOneRequiredWithoutJournalEntriesNestedInput
+    reversalOf?: JournalEntryUpdateOneWithoutReversedByNestedInput
+    reversedBy?: JournalEntryUpdateManyWithoutReversalOfNestedInput
     lines?: JournalLineUpdateManyWithoutJournalEntryNestedInput
   }
 
@@ -62784,15 +62935,18 @@ export namespace Prisma {
     number?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     fiscalPeriodId?: StringFieldUpdateOperationsInput | string
-    referenceType?: NullableStringFieldUpdateOperationsInput | string | null
+    referenceType?: NullableEnumReferenceTypeFieldUpdateOperationsInput | $Enums.ReferenceType | null
     referenceId?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumJournalEntryStatusFieldUpdateOperationsInput | $Enums.JournalEntryStatus
     exchangeRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reversalOfId?: NullableStringFieldUpdateOperationsInput | string | null
+    reversalDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reversedBy?: JournalEntryUncheckedUpdateManyWithoutReversalOfNestedInput
     lines?: JournalLineUncheckedUpdateManyWithoutJournalEntryNestedInput
   }
 
@@ -62802,12 +62956,14 @@ export namespace Prisma {
     number: string
     date: Date | string
     fiscalPeriodId: string
-    referenceType?: string | null
+    referenceType?: $Enums.ReferenceType | null
     referenceId?: string | null
     description?: string | null
     status?: $Enums.JournalEntryStatus
     exchangeRate?: Decimal | DecimalJsLike | number | string
     postedAt?: Date | string | null
+    reversalOfId?: string | null
+    reversalDate?: Date | string | null
     createdBy: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -62817,12 +62973,13 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     number?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
-    referenceType?: NullableStringFieldUpdateOperationsInput | string | null
+    referenceType?: NullableEnumReferenceTypeFieldUpdateOperationsInput | $Enums.ReferenceType | null
     referenceId?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumJournalEntryStatusFieldUpdateOperationsInput | $Enums.JournalEntryStatus
     exchangeRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reversalDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -62834,12 +62991,14 @@ export namespace Prisma {
     number?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     fiscalPeriodId?: StringFieldUpdateOperationsInput | string
-    referenceType?: NullableStringFieldUpdateOperationsInput | string | null
+    referenceType?: NullableEnumReferenceTypeFieldUpdateOperationsInput | $Enums.ReferenceType | null
     referenceId?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumJournalEntryStatusFieldUpdateOperationsInput | $Enums.JournalEntryStatus
     exchangeRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reversalOfId?: NullableStringFieldUpdateOperationsInput | string | null
+    reversalDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -67037,6 +67196,13 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type EnumReferenceTypeNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.ReferenceType | EnumReferenceTypeFieldRefInput<$PrismaModel> | null
+    in?: $Enums.ReferenceType[] | ListEnumReferenceTypeFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.ReferenceType[] | ListEnumReferenceTypeFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumReferenceTypeNullableFilter<$PrismaModel> | $Enums.ReferenceType | null
+  }
+
   export type EnumJournalEntryStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.JournalEntryStatus | EnumJournalEntryStatusFieldRefInput<$PrismaModel>
     in?: $Enums.JournalEntryStatus[] | ListEnumJournalEntryStatusFieldRefInput<$PrismaModel>
@@ -67060,6 +67226,21 @@ export namespace Prisma {
     isNot?: FiscalPeriodWhereInput
   }
 
+  export type JournalEntryNullableScalarRelationFilter = {
+    is?: JournalEntryWhereInput | null
+    isNot?: JournalEntryWhereInput | null
+  }
+
+  export type JournalEntryListRelationFilter = {
+    every?: JournalEntryWhereInput
+    some?: JournalEntryWhereInput
+    none?: JournalEntryWhereInput
+  }
+
+  export type JournalEntryOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type JournalEntryTenantIdNumberCompoundUniqueInput = {
     tenantId: string
     number: string
@@ -67077,6 +67258,8 @@ export namespace Prisma {
     status?: SortOrder
     exchangeRate?: SortOrder
     postedAt?: SortOrder
+    reversalOfId?: SortOrder
+    reversalDate?: SortOrder
     createdBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -67098,6 +67281,8 @@ export namespace Prisma {
     status?: SortOrder
     exchangeRate?: SortOrder
     postedAt?: SortOrder
+    reversalOfId?: SortOrder
+    reversalDate?: SortOrder
     createdBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -67115,6 +67300,8 @@ export namespace Prisma {
     status?: SortOrder
     exchangeRate?: SortOrder
     postedAt?: SortOrder
+    reversalOfId?: SortOrder
+    reversalDate?: SortOrder
     createdBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -67122,6 +67309,16 @@ export namespace Prisma {
 
   export type JournalEntrySumOrderByAggregateInput = {
     exchangeRate?: SortOrder
+  }
+
+  export type EnumReferenceTypeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ReferenceType | EnumReferenceTypeFieldRefInput<$PrismaModel> | null
+    in?: $Enums.ReferenceType[] | ListEnumReferenceTypeFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.ReferenceType[] | ListEnumReferenceTypeFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumReferenceTypeNullableWithAggregatesFilter<$PrismaModel> | $Enums.ReferenceType | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumReferenceTypeNullableFilter<$PrismaModel>
+    _max?: NestedEnumReferenceTypeNullableFilter<$PrismaModel>
   }
 
   export type EnumJournalEntryStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -68252,12 +68449,6 @@ export namespace Prisma {
     none?: StockMovementWhereInput
   }
 
-  export type JournalEntryListRelationFilter = {
-    every?: JournalEntryWhereInput
-    some?: JournalEntryWhereInput
-    none?: JournalEntryWhereInput
-  }
-
   export type StockCountListRelationFilter = {
     every?: StockCountWhereInput
     some?: StockCountWhereInput
@@ -68265,10 +68456,6 @@ export namespace Prisma {
   }
 
   export type StockMovementOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type JournalEntryOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -70510,6 +70697,19 @@ export namespace Prisma {
     connect?: FiscalPeriodWhereUniqueInput
   }
 
+  export type JournalEntryCreateNestedOneWithoutReversedByInput = {
+    create?: XOR<JournalEntryCreateWithoutReversedByInput, JournalEntryUncheckedCreateWithoutReversedByInput>
+    connectOrCreate?: JournalEntryCreateOrConnectWithoutReversedByInput
+    connect?: JournalEntryWhereUniqueInput
+  }
+
+  export type JournalEntryCreateNestedManyWithoutReversalOfInput = {
+    create?: XOR<JournalEntryCreateWithoutReversalOfInput, JournalEntryUncheckedCreateWithoutReversalOfInput> | JournalEntryCreateWithoutReversalOfInput[] | JournalEntryUncheckedCreateWithoutReversalOfInput[]
+    connectOrCreate?: JournalEntryCreateOrConnectWithoutReversalOfInput | JournalEntryCreateOrConnectWithoutReversalOfInput[]
+    createMany?: JournalEntryCreateManyReversalOfInputEnvelope
+    connect?: JournalEntryWhereUniqueInput | JournalEntryWhereUniqueInput[]
+  }
+
   export type JournalLineCreateNestedManyWithoutJournalEntryInput = {
     create?: XOR<JournalLineCreateWithoutJournalEntryInput, JournalLineUncheckedCreateWithoutJournalEntryInput> | JournalLineCreateWithoutJournalEntryInput[] | JournalLineUncheckedCreateWithoutJournalEntryInput[]
     connectOrCreate?: JournalLineCreateOrConnectWithoutJournalEntryInput | JournalLineCreateOrConnectWithoutJournalEntryInput[]
@@ -70517,11 +70717,22 @@ export namespace Prisma {
     connect?: JournalLineWhereUniqueInput | JournalLineWhereUniqueInput[]
   }
 
+  export type JournalEntryUncheckedCreateNestedManyWithoutReversalOfInput = {
+    create?: XOR<JournalEntryCreateWithoutReversalOfInput, JournalEntryUncheckedCreateWithoutReversalOfInput> | JournalEntryCreateWithoutReversalOfInput[] | JournalEntryUncheckedCreateWithoutReversalOfInput[]
+    connectOrCreate?: JournalEntryCreateOrConnectWithoutReversalOfInput | JournalEntryCreateOrConnectWithoutReversalOfInput[]
+    createMany?: JournalEntryCreateManyReversalOfInputEnvelope
+    connect?: JournalEntryWhereUniqueInput | JournalEntryWhereUniqueInput[]
+  }
+
   export type JournalLineUncheckedCreateNestedManyWithoutJournalEntryInput = {
     create?: XOR<JournalLineCreateWithoutJournalEntryInput, JournalLineUncheckedCreateWithoutJournalEntryInput> | JournalLineCreateWithoutJournalEntryInput[] | JournalLineUncheckedCreateWithoutJournalEntryInput[]
     connectOrCreate?: JournalLineCreateOrConnectWithoutJournalEntryInput | JournalLineCreateOrConnectWithoutJournalEntryInput[]
     createMany?: JournalLineCreateManyJournalEntryInputEnvelope
     connect?: JournalLineWhereUniqueInput | JournalLineWhereUniqueInput[]
+  }
+
+  export type NullableEnumReferenceTypeFieldUpdateOperationsInput = {
+    set?: $Enums.ReferenceType | null
   }
 
   export type EnumJournalEntryStatusFieldUpdateOperationsInput = {
@@ -70552,6 +70763,30 @@ export namespace Prisma {
     update?: XOR<XOR<FiscalPeriodUpdateToOneWithWhereWithoutJournalEntriesInput, FiscalPeriodUpdateWithoutJournalEntriesInput>, FiscalPeriodUncheckedUpdateWithoutJournalEntriesInput>
   }
 
+  export type JournalEntryUpdateOneWithoutReversedByNestedInput = {
+    create?: XOR<JournalEntryCreateWithoutReversedByInput, JournalEntryUncheckedCreateWithoutReversedByInput>
+    connectOrCreate?: JournalEntryCreateOrConnectWithoutReversedByInput
+    upsert?: JournalEntryUpsertWithoutReversedByInput
+    disconnect?: JournalEntryWhereInput | boolean
+    delete?: JournalEntryWhereInput | boolean
+    connect?: JournalEntryWhereUniqueInput
+    update?: XOR<XOR<JournalEntryUpdateToOneWithWhereWithoutReversedByInput, JournalEntryUpdateWithoutReversedByInput>, JournalEntryUncheckedUpdateWithoutReversedByInput>
+  }
+
+  export type JournalEntryUpdateManyWithoutReversalOfNestedInput = {
+    create?: XOR<JournalEntryCreateWithoutReversalOfInput, JournalEntryUncheckedCreateWithoutReversalOfInput> | JournalEntryCreateWithoutReversalOfInput[] | JournalEntryUncheckedCreateWithoutReversalOfInput[]
+    connectOrCreate?: JournalEntryCreateOrConnectWithoutReversalOfInput | JournalEntryCreateOrConnectWithoutReversalOfInput[]
+    upsert?: JournalEntryUpsertWithWhereUniqueWithoutReversalOfInput | JournalEntryUpsertWithWhereUniqueWithoutReversalOfInput[]
+    createMany?: JournalEntryCreateManyReversalOfInputEnvelope
+    set?: JournalEntryWhereUniqueInput | JournalEntryWhereUniqueInput[]
+    disconnect?: JournalEntryWhereUniqueInput | JournalEntryWhereUniqueInput[]
+    delete?: JournalEntryWhereUniqueInput | JournalEntryWhereUniqueInput[]
+    connect?: JournalEntryWhereUniqueInput | JournalEntryWhereUniqueInput[]
+    update?: JournalEntryUpdateWithWhereUniqueWithoutReversalOfInput | JournalEntryUpdateWithWhereUniqueWithoutReversalOfInput[]
+    updateMany?: JournalEntryUpdateManyWithWhereWithoutReversalOfInput | JournalEntryUpdateManyWithWhereWithoutReversalOfInput[]
+    deleteMany?: JournalEntryScalarWhereInput | JournalEntryScalarWhereInput[]
+  }
+
   export type JournalLineUpdateManyWithoutJournalEntryNestedInput = {
     create?: XOR<JournalLineCreateWithoutJournalEntryInput, JournalLineUncheckedCreateWithoutJournalEntryInput> | JournalLineCreateWithoutJournalEntryInput[] | JournalLineUncheckedCreateWithoutJournalEntryInput[]
     connectOrCreate?: JournalLineCreateOrConnectWithoutJournalEntryInput | JournalLineCreateOrConnectWithoutJournalEntryInput[]
@@ -70564,6 +70799,20 @@ export namespace Prisma {
     update?: JournalLineUpdateWithWhereUniqueWithoutJournalEntryInput | JournalLineUpdateWithWhereUniqueWithoutJournalEntryInput[]
     updateMany?: JournalLineUpdateManyWithWhereWithoutJournalEntryInput | JournalLineUpdateManyWithWhereWithoutJournalEntryInput[]
     deleteMany?: JournalLineScalarWhereInput | JournalLineScalarWhereInput[]
+  }
+
+  export type JournalEntryUncheckedUpdateManyWithoutReversalOfNestedInput = {
+    create?: XOR<JournalEntryCreateWithoutReversalOfInput, JournalEntryUncheckedCreateWithoutReversalOfInput> | JournalEntryCreateWithoutReversalOfInput[] | JournalEntryUncheckedCreateWithoutReversalOfInput[]
+    connectOrCreate?: JournalEntryCreateOrConnectWithoutReversalOfInput | JournalEntryCreateOrConnectWithoutReversalOfInput[]
+    upsert?: JournalEntryUpsertWithWhereUniqueWithoutReversalOfInput | JournalEntryUpsertWithWhereUniqueWithoutReversalOfInput[]
+    createMany?: JournalEntryCreateManyReversalOfInputEnvelope
+    set?: JournalEntryWhereUniqueInput | JournalEntryWhereUniqueInput[]
+    disconnect?: JournalEntryWhereUniqueInput | JournalEntryWhereUniqueInput[]
+    delete?: JournalEntryWhereUniqueInput | JournalEntryWhereUniqueInput[]
+    connect?: JournalEntryWhereUniqueInput | JournalEntryWhereUniqueInput[]
+    update?: JournalEntryUpdateWithWhereUniqueWithoutReversalOfInput | JournalEntryUpdateWithWhereUniqueWithoutReversalOfInput[]
+    updateMany?: JournalEntryUpdateManyWithWhereWithoutReversalOfInput | JournalEntryUpdateManyWithWhereWithoutReversalOfInput[]
+    deleteMany?: JournalEntryScalarWhereInput | JournalEntryScalarWhereInput[]
   }
 
   export type JournalLineUncheckedUpdateManyWithoutJournalEntryNestedInput = {
@@ -75251,6 +75500,13 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type NestedEnumReferenceTypeNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.ReferenceType | EnumReferenceTypeFieldRefInput<$PrismaModel> | null
+    in?: $Enums.ReferenceType[] | ListEnumReferenceTypeFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.ReferenceType[] | ListEnumReferenceTypeFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumReferenceTypeNullableFilter<$PrismaModel> | $Enums.ReferenceType | null
+  }
+
   export type NestedEnumJournalEntryStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.JournalEntryStatus | EnumJournalEntryStatusFieldRefInput<$PrismaModel>
     in?: $Enums.JournalEntryStatus[] | ListEnumJournalEntryStatusFieldRefInput<$PrismaModel>
@@ -75267,6 +75523,16 @@ export namespace Prisma {
     gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
     gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
     not?: NestedDecimalFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
+  }
+
+  export type NestedEnumReferenceTypeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ReferenceType | EnumReferenceTypeFieldRefInput<$PrismaModel> | null
+    in?: $Enums.ReferenceType[] | ListEnumReferenceTypeFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.ReferenceType[] | ListEnumReferenceTypeFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumReferenceTypeNullableWithAggregatesFilter<$PrismaModel> | $Enums.ReferenceType | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumReferenceTypeNullableFilter<$PrismaModel>
+    _max?: NestedEnumReferenceTypeNullableFilter<$PrismaModel>
   }
 
   export type NestedEnumJournalEntryStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -77025,6 +77291,101 @@ export namespace Prisma {
     create: XOR<FiscalPeriodCreateWithoutJournalEntriesInput, FiscalPeriodUncheckedCreateWithoutJournalEntriesInput>
   }
 
+  export type JournalEntryCreateWithoutReversedByInput = {
+    id?: string
+    number: string
+    date: Date | string
+    referenceType?: $Enums.ReferenceType | null
+    referenceId?: string | null
+    description?: string | null
+    status?: $Enums.JournalEntryStatus
+    exchangeRate?: Decimal | DecimalJsLike | number | string
+    postedAt?: Date | string | null
+    reversalDate?: Date | string | null
+    createdBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutJournalEntriesInput
+    fiscalPeriod: FiscalPeriodCreateNestedOneWithoutJournalEntriesInput
+    reversalOf?: JournalEntryCreateNestedOneWithoutReversedByInput
+    lines?: JournalLineCreateNestedManyWithoutJournalEntryInput
+  }
+
+  export type JournalEntryUncheckedCreateWithoutReversedByInput = {
+    id?: string
+    tenantId: string
+    number: string
+    date: Date | string
+    fiscalPeriodId: string
+    referenceType?: $Enums.ReferenceType | null
+    referenceId?: string | null
+    description?: string | null
+    status?: $Enums.JournalEntryStatus
+    exchangeRate?: Decimal | DecimalJsLike | number | string
+    postedAt?: Date | string | null
+    reversalOfId?: string | null
+    reversalDate?: Date | string | null
+    createdBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lines?: JournalLineUncheckedCreateNestedManyWithoutJournalEntryInput
+  }
+
+  export type JournalEntryCreateOrConnectWithoutReversedByInput = {
+    where: JournalEntryWhereUniqueInput
+    create: XOR<JournalEntryCreateWithoutReversedByInput, JournalEntryUncheckedCreateWithoutReversedByInput>
+  }
+
+  export type JournalEntryCreateWithoutReversalOfInput = {
+    id?: string
+    number: string
+    date: Date | string
+    referenceType?: $Enums.ReferenceType | null
+    referenceId?: string | null
+    description?: string | null
+    status?: $Enums.JournalEntryStatus
+    exchangeRate?: Decimal | DecimalJsLike | number | string
+    postedAt?: Date | string | null
+    reversalDate?: Date | string | null
+    createdBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutJournalEntriesInput
+    fiscalPeriod: FiscalPeriodCreateNestedOneWithoutJournalEntriesInput
+    reversedBy?: JournalEntryCreateNestedManyWithoutReversalOfInput
+    lines?: JournalLineCreateNestedManyWithoutJournalEntryInput
+  }
+
+  export type JournalEntryUncheckedCreateWithoutReversalOfInput = {
+    id?: string
+    tenantId: string
+    number: string
+    date: Date | string
+    fiscalPeriodId: string
+    referenceType?: $Enums.ReferenceType | null
+    referenceId?: string | null
+    description?: string | null
+    status?: $Enums.JournalEntryStatus
+    exchangeRate?: Decimal | DecimalJsLike | number | string
+    postedAt?: Date | string | null
+    reversalDate?: Date | string | null
+    createdBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    reversedBy?: JournalEntryUncheckedCreateNestedManyWithoutReversalOfInput
+    lines?: JournalLineUncheckedCreateNestedManyWithoutJournalEntryInput
+  }
+
+  export type JournalEntryCreateOrConnectWithoutReversalOfInput = {
+    where: JournalEntryWhereUniqueInput
+    create: XOR<JournalEntryCreateWithoutReversalOfInput, JournalEntryUncheckedCreateWithoutReversalOfInput>
+  }
+
+  export type JournalEntryCreateManyReversalOfInputEnvelope = {
+    data: JournalEntryCreateManyReversalOfInput | JournalEntryCreateManyReversalOfInput[]
+    skipDuplicates?: boolean
+  }
+
   export type JournalLineCreateWithoutJournalEntryInput = {
     id?: string
     tenantId: string
@@ -77203,6 +77564,95 @@ export namespace Prisma {
     expenses?: ExpenseUncheckedUpdateManyWithoutFiscalPeriodNestedInput
   }
 
+  export type JournalEntryUpsertWithoutReversedByInput = {
+    update: XOR<JournalEntryUpdateWithoutReversedByInput, JournalEntryUncheckedUpdateWithoutReversedByInput>
+    create: XOR<JournalEntryCreateWithoutReversedByInput, JournalEntryUncheckedCreateWithoutReversedByInput>
+    where?: JournalEntryWhereInput
+  }
+
+  export type JournalEntryUpdateToOneWithWhereWithoutReversedByInput = {
+    where?: JournalEntryWhereInput
+    data: XOR<JournalEntryUpdateWithoutReversedByInput, JournalEntryUncheckedUpdateWithoutReversedByInput>
+  }
+
+  export type JournalEntryUpdateWithoutReversedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    referenceType?: NullableEnumReferenceTypeFieldUpdateOperationsInput | $Enums.ReferenceType | null
+    referenceId?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumJournalEntryStatusFieldUpdateOperationsInput | $Enums.JournalEntryStatus
+    exchangeRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reversalDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutJournalEntriesNestedInput
+    fiscalPeriod?: FiscalPeriodUpdateOneRequiredWithoutJournalEntriesNestedInput
+    reversalOf?: JournalEntryUpdateOneWithoutReversedByNestedInput
+    lines?: JournalLineUpdateManyWithoutJournalEntryNestedInput
+  }
+
+  export type JournalEntryUncheckedUpdateWithoutReversedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    fiscalPeriodId?: StringFieldUpdateOperationsInput | string
+    referenceType?: NullableEnumReferenceTypeFieldUpdateOperationsInput | $Enums.ReferenceType | null
+    referenceId?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumJournalEntryStatusFieldUpdateOperationsInput | $Enums.JournalEntryStatus
+    exchangeRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reversalOfId?: NullableStringFieldUpdateOperationsInput | string | null
+    reversalDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lines?: JournalLineUncheckedUpdateManyWithoutJournalEntryNestedInput
+  }
+
+  export type JournalEntryUpsertWithWhereUniqueWithoutReversalOfInput = {
+    where: JournalEntryWhereUniqueInput
+    update: XOR<JournalEntryUpdateWithoutReversalOfInput, JournalEntryUncheckedUpdateWithoutReversalOfInput>
+    create: XOR<JournalEntryCreateWithoutReversalOfInput, JournalEntryUncheckedCreateWithoutReversalOfInput>
+  }
+
+  export type JournalEntryUpdateWithWhereUniqueWithoutReversalOfInput = {
+    where: JournalEntryWhereUniqueInput
+    data: XOR<JournalEntryUpdateWithoutReversalOfInput, JournalEntryUncheckedUpdateWithoutReversalOfInput>
+  }
+
+  export type JournalEntryUpdateManyWithWhereWithoutReversalOfInput = {
+    where: JournalEntryScalarWhereInput
+    data: XOR<JournalEntryUpdateManyMutationInput, JournalEntryUncheckedUpdateManyWithoutReversalOfInput>
+  }
+
+  export type JournalEntryScalarWhereInput = {
+    AND?: JournalEntryScalarWhereInput | JournalEntryScalarWhereInput[]
+    OR?: JournalEntryScalarWhereInput[]
+    NOT?: JournalEntryScalarWhereInput | JournalEntryScalarWhereInput[]
+    id?: StringFilter<"JournalEntry"> | string
+    tenantId?: StringFilter<"JournalEntry"> | string
+    number?: StringFilter<"JournalEntry"> | string
+    date?: DateTimeFilter<"JournalEntry"> | Date | string
+    fiscalPeriodId?: StringFilter<"JournalEntry"> | string
+    referenceType?: EnumReferenceTypeNullableFilter<"JournalEntry"> | $Enums.ReferenceType | null
+    referenceId?: StringNullableFilter<"JournalEntry"> | string | null
+    description?: StringNullableFilter<"JournalEntry"> | string | null
+    status?: EnumJournalEntryStatusFilter<"JournalEntry"> | $Enums.JournalEntryStatus
+    exchangeRate?: DecimalFilter<"JournalEntry"> | Decimal | DecimalJsLike | number | string
+    postedAt?: DateTimeNullableFilter<"JournalEntry"> | Date | string | null
+    reversalOfId?: StringNullableFilter<"JournalEntry"> | string | null
+    reversalDate?: DateTimeNullableFilter<"JournalEntry"> | Date | string | null
+    createdBy?: StringFilter<"JournalEntry"> | string
+    createdAt?: DateTimeFilter<"JournalEntry"> | Date | string
+    updatedAt?: DateTimeFilter<"JournalEntry"> | Date | string
+  }
+
   export type JournalLineUpsertWithWhereUniqueWithoutJournalEntryInput = {
     where: JournalLineWhereUniqueInput
     update: XOR<JournalLineUpdateWithoutJournalEntryInput, JournalLineUncheckedUpdateWithoutJournalEntryInput>
@@ -77223,17 +77673,20 @@ export namespace Prisma {
     id?: string
     number: string
     date: Date | string
-    referenceType?: string | null
+    referenceType?: $Enums.ReferenceType | null
     referenceId?: string | null
     description?: string | null
     status?: $Enums.JournalEntryStatus
     exchangeRate?: Decimal | DecimalJsLike | number | string
     postedAt?: Date | string | null
+    reversalDate?: Date | string | null
     createdBy: string
     createdAt?: Date | string
     updatedAt?: Date | string
     tenant: TenantCreateNestedOneWithoutJournalEntriesInput
     fiscalPeriod: FiscalPeriodCreateNestedOneWithoutJournalEntriesInput
+    reversalOf?: JournalEntryCreateNestedOneWithoutReversedByInput
+    reversedBy?: JournalEntryCreateNestedManyWithoutReversalOfInput
   }
 
   export type JournalEntryUncheckedCreateWithoutLinesInput = {
@@ -77242,15 +77695,18 @@ export namespace Prisma {
     number: string
     date: Date | string
     fiscalPeriodId: string
-    referenceType?: string | null
+    referenceType?: $Enums.ReferenceType | null
     referenceId?: string | null
     description?: string | null
     status?: $Enums.JournalEntryStatus
     exchangeRate?: Decimal | DecimalJsLike | number | string
     postedAt?: Date | string | null
+    reversalOfId?: string | null
+    reversalDate?: Date | string | null
     createdBy: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    reversedBy?: JournalEntryUncheckedCreateNestedManyWithoutReversalOfInput
   }
 
   export type JournalEntryCreateOrConnectWithoutLinesInput = {
@@ -77379,17 +77835,20 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     number?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
-    referenceType?: NullableStringFieldUpdateOperationsInput | string | null
+    referenceType?: NullableEnumReferenceTypeFieldUpdateOperationsInput | $Enums.ReferenceType | null
     referenceId?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumJournalEntryStatusFieldUpdateOperationsInput | $Enums.JournalEntryStatus
     exchangeRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reversalDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: TenantUpdateOneRequiredWithoutJournalEntriesNestedInput
     fiscalPeriod?: FiscalPeriodUpdateOneRequiredWithoutJournalEntriesNestedInput
+    reversalOf?: JournalEntryUpdateOneWithoutReversedByNestedInput
+    reversedBy?: JournalEntryUpdateManyWithoutReversalOfNestedInput
   }
 
   export type JournalEntryUncheckedUpdateWithoutLinesInput = {
@@ -77398,15 +77857,18 @@ export namespace Prisma {
     number?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     fiscalPeriodId?: StringFieldUpdateOperationsInput | string
-    referenceType?: NullableStringFieldUpdateOperationsInput | string | null
+    referenceType?: NullableEnumReferenceTypeFieldUpdateOperationsInput | $Enums.ReferenceType | null
     referenceId?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumJournalEntryStatusFieldUpdateOperationsInput | $Enums.JournalEntryStatus
     exchangeRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reversalOfId?: NullableStringFieldUpdateOperationsInput | string | null
+    reversalDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reversedBy?: JournalEntryUncheckedUpdateManyWithoutReversalOfNestedInput
   }
 
   export type ChartOfAccountUpsertWithoutJournalLinesInput = {
@@ -83628,16 +84090,19 @@ export namespace Prisma {
     id?: string
     number: string
     date: Date | string
-    referenceType?: string | null
+    referenceType?: $Enums.ReferenceType | null
     referenceId?: string | null
     description?: string | null
     status?: $Enums.JournalEntryStatus
     exchangeRate?: Decimal | DecimalJsLike | number | string
     postedAt?: Date | string | null
+    reversalDate?: Date | string | null
     createdBy: string
     createdAt?: Date | string
     updatedAt?: Date | string
     tenant: TenantCreateNestedOneWithoutJournalEntriesInput
+    reversalOf?: JournalEntryCreateNestedOneWithoutReversedByInput
+    reversedBy?: JournalEntryCreateNestedManyWithoutReversalOfInput
     lines?: JournalLineCreateNestedManyWithoutJournalEntryInput
   }
 
@@ -83646,15 +84111,18 @@ export namespace Prisma {
     tenantId: string
     number: string
     date: Date | string
-    referenceType?: string | null
+    referenceType?: $Enums.ReferenceType | null
     referenceId?: string | null
     description?: string | null
     status?: $Enums.JournalEntryStatus
     exchangeRate?: Decimal | DecimalJsLike | number | string
     postedAt?: Date | string | null
+    reversalOfId?: string | null
+    reversalDate?: Date | string | null
     createdBy: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    reversedBy?: JournalEntryUncheckedCreateNestedManyWithoutReversalOfInput
     lines?: JournalLineUncheckedCreateNestedManyWithoutJournalEntryInput
   }
 
@@ -83948,26 +84416,6 @@ export namespace Prisma {
   export type JournalEntryUpdateManyWithWhereWithoutFiscalPeriodInput = {
     where: JournalEntryScalarWhereInput
     data: XOR<JournalEntryUpdateManyMutationInput, JournalEntryUncheckedUpdateManyWithoutFiscalPeriodInput>
-  }
-
-  export type JournalEntryScalarWhereInput = {
-    AND?: JournalEntryScalarWhereInput | JournalEntryScalarWhereInput[]
-    OR?: JournalEntryScalarWhereInput[]
-    NOT?: JournalEntryScalarWhereInput | JournalEntryScalarWhereInput[]
-    id?: StringFilter<"JournalEntry"> | string
-    tenantId?: StringFilter<"JournalEntry"> | string
-    number?: StringFilter<"JournalEntry"> | string
-    date?: DateTimeFilter<"JournalEntry"> | Date | string
-    fiscalPeriodId?: StringFilter<"JournalEntry"> | string
-    referenceType?: StringNullableFilter<"JournalEntry"> | string | null
-    referenceId?: StringNullableFilter<"JournalEntry"> | string | null
-    description?: StringNullableFilter<"JournalEntry"> | string | null
-    status?: EnumJournalEntryStatusFilter<"JournalEntry"> | $Enums.JournalEntryStatus
-    exchangeRate?: DecimalFilter<"JournalEntry"> | Decimal | DecimalJsLike | number | string
-    postedAt?: DateTimeNullableFilter<"JournalEntry"> | Date | string | null
-    createdBy?: StringFilter<"JournalEntry"> | string
-    createdAt?: DateTimeFilter<"JournalEntry"> | Date | string
-    updatedAt?: DateTimeFilter<"JournalEntry"> | Date | string
   }
 
   export type StockCountUpsertWithWhereUniqueWithoutFiscalPeriodInput = {
@@ -90373,16 +90821,19 @@ export namespace Prisma {
     id?: string
     number: string
     date: Date | string
-    referenceType?: string | null
+    referenceType?: $Enums.ReferenceType | null
     referenceId?: string | null
     description?: string | null
     status?: $Enums.JournalEntryStatus
     exchangeRate?: Decimal | DecimalJsLike | number | string
     postedAt?: Date | string | null
+    reversalDate?: Date | string | null
     createdBy: string
     createdAt?: Date | string
     updatedAt?: Date | string
     fiscalPeriod: FiscalPeriodCreateNestedOneWithoutJournalEntriesInput
+    reversalOf?: JournalEntryCreateNestedOneWithoutReversedByInput
+    reversedBy?: JournalEntryCreateNestedManyWithoutReversalOfInput
     lines?: JournalLineCreateNestedManyWithoutJournalEntryInput
   }
 
@@ -90391,15 +90842,18 @@ export namespace Prisma {
     number: string
     date: Date | string
     fiscalPeriodId: string
-    referenceType?: string | null
+    referenceType?: $Enums.ReferenceType | null
     referenceId?: string | null
     description?: string | null
     status?: $Enums.JournalEntryStatus
     exchangeRate?: Decimal | DecimalJsLike | number | string
     postedAt?: Date | string | null
+    reversalOfId?: string | null
+    reversalDate?: Date | string | null
     createdBy: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    reversedBy?: JournalEntryUncheckedCreateNestedManyWithoutReversalOfInput
     lines?: JournalLineUncheckedCreateNestedManyWithoutJournalEntryInput
   }
 
@@ -94104,6 +94558,24 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type JournalEntryCreateManyReversalOfInput = {
+    id?: string
+    tenantId: string
+    number: string
+    date: Date | string
+    fiscalPeriodId: string
+    referenceType?: $Enums.ReferenceType | null
+    referenceId?: string | null
+    description?: string | null
+    status?: $Enums.JournalEntryStatus
+    exchangeRate?: Decimal | DecimalJsLike | number | string
+    postedAt?: Date | string | null
+    reversalDate?: Date | string | null
+    createdBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type JournalLineCreateManyJournalEntryInput = {
     id?: string
     tenantId: string
@@ -94113,6 +94585,64 @@ export namespace Prisma {
     credit?: Decimal | DecimalJsLike | number | string
     description?: string | null
     sortOrder?: number
+  }
+
+  export type JournalEntryUpdateWithoutReversalOfInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    referenceType?: NullableEnumReferenceTypeFieldUpdateOperationsInput | $Enums.ReferenceType | null
+    referenceId?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumJournalEntryStatusFieldUpdateOperationsInput | $Enums.JournalEntryStatus
+    exchangeRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reversalDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutJournalEntriesNestedInput
+    fiscalPeriod?: FiscalPeriodUpdateOneRequiredWithoutJournalEntriesNestedInput
+    reversedBy?: JournalEntryUpdateManyWithoutReversalOfNestedInput
+    lines?: JournalLineUpdateManyWithoutJournalEntryNestedInput
+  }
+
+  export type JournalEntryUncheckedUpdateWithoutReversalOfInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    fiscalPeriodId?: StringFieldUpdateOperationsInput | string
+    referenceType?: NullableEnumReferenceTypeFieldUpdateOperationsInput | $Enums.ReferenceType | null
+    referenceId?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumJournalEntryStatusFieldUpdateOperationsInput | $Enums.JournalEntryStatus
+    exchangeRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reversalDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reversedBy?: JournalEntryUncheckedUpdateManyWithoutReversalOfNestedInput
+    lines?: JournalLineUncheckedUpdateManyWithoutJournalEntryNestedInput
+  }
+
+  export type JournalEntryUncheckedUpdateManyWithoutReversalOfInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    fiscalPeriodId?: StringFieldUpdateOperationsInput | string
+    referenceType?: NullableEnumReferenceTypeFieldUpdateOperationsInput | $Enums.ReferenceType | null
+    referenceId?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumJournalEntryStatusFieldUpdateOperationsInput | $Enums.JournalEntryStatus
+    exchangeRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reversalDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type JournalLineUpdateWithoutJournalEntryInput = {
@@ -95314,12 +95844,14 @@ export namespace Prisma {
     tenantId: string
     number: string
     date: Date | string
-    referenceType?: string | null
+    referenceType?: $Enums.ReferenceType | null
     referenceId?: string | null
     description?: string | null
     status?: $Enums.JournalEntryStatus
     exchangeRate?: Decimal | DecimalJsLike | number | string
     postedAt?: Date | string | null
+    reversalOfId?: string | null
+    reversalDate?: Date | string | null
     createdBy: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -95566,16 +96098,19 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     number?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
-    referenceType?: NullableStringFieldUpdateOperationsInput | string | null
+    referenceType?: NullableEnumReferenceTypeFieldUpdateOperationsInput | $Enums.ReferenceType | null
     referenceId?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumJournalEntryStatusFieldUpdateOperationsInput | $Enums.JournalEntryStatus
     exchangeRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reversalDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: TenantUpdateOneRequiredWithoutJournalEntriesNestedInput
+    reversalOf?: JournalEntryUpdateOneWithoutReversedByNestedInput
+    reversedBy?: JournalEntryUpdateManyWithoutReversalOfNestedInput
     lines?: JournalLineUpdateManyWithoutJournalEntryNestedInput
   }
 
@@ -95584,15 +96119,18 @@ export namespace Prisma {
     tenantId?: StringFieldUpdateOperationsInput | string
     number?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
-    referenceType?: NullableStringFieldUpdateOperationsInput | string | null
+    referenceType?: NullableEnumReferenceTypeFieldUpdateOperationsInput | $Enums.ReferenceType | null
     referenceId?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumJournalEntryStatusFieldUpdateOperationsInput | $Enums.JournalEntryStatus
     exchangeRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reversalOfId?: NullableStringFieldUpdateOperationsInput | string | null
+    reversalDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reversedBy?: JournalEntryUncheckedUpdateManyWithoutReversalOfNestedInput
     lines?: JournalLineUncheckedUpdateManyWithoutJournalEntryNestedInput
   }
 
@@ -95601,12 +96139,14 @@ export namespace Prisma {
     tenantId?: StringFieldUpdateOperationsInput | string
     number?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
-    referenceType?: NullableStringFieldUpdateOperationsInput | string | null
+    referenceType?: NullableEnumReferenceTypeFieldUpdateOperationsInput | $Enums.ReferenceType | null
     referenceId?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumJournalEntryStatusFieldUpdateOperationsInput | $Enums.JournalEntryStatus
     exchangeRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reversalOfId?: NullableStringFieldUpdateOperationsInput | string | null
+    reversalDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -96952,12 +97492,14 @@ export namespace Prisma {
     number: string
     date: Date | string
     fiscalPeriodId: string
-    referenceType?: string | null
+    referenceType?: $Enums.ReferenceType | null
     referenceId?: string | null
     description?: string | null
     status?: $Enums.JournalEntryStatus
     exchangeRate?: Decimal | DecimalJsLike | number | string
     postedAt?: Date | string | null
+    reversalOfId?: string | null
+    reversalDate?: Date | string | null
     createdBy: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -97803,16 +98345,19 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     number?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
-    referenceType?: NullableStringFieldUpdateOperationsInput | string | null
+    referenceType?: NullableEnumReferenceTypeFieldUpdateOperationsInput | $Enums.ReferenceType | null
     referenceId?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumJournalEntryStatusFieldUpdateOperationsInput | $Enums.JournalEntryStatus
     exchangeRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reversalDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     fiscalPeriod?: FiscalPeriodUpdateOneRequiredWithoutJournalEntriesNestedInput
+    reversalOf?: JournalEntryUpdateOneWithoutReversedByNestedInput
+    reversedBy?: JournalEntryUpdateManyWithoutReversalOfNestedInput
     lines?: JournalLineUpdateManyWithoutJournalEntryNestedInput
   }
 
@@ -97821,15 +98366,18 @@ export namespace Prisma {
     number?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     fiscalPeriodId?: StringFieldUpdateOperationsInput | string
-    referenceType?: NullableStringFieldUpdateOperationsInput | string | null
+    referenceType?: NullableEnumReferenceTypeFieldUpdateOperationsInput | $Enums.ReferenceType | null
     referenceId?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumJournalEntryStatusFieldUpdateOperationsInput | $Enums.JournalEntryStatus
     exchangeRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reversalOfId?: NullableStringFieldUpdateOperationsInput | string | null
+    reversalDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reversedBy?: JournalEntryUncheckedUpdateManyWithoutReversalOfNestedInput
     lines?: JournalLineUncheckedUpdateManyWithoutJournalEntryNestedInput
   }
 
@@ -97838,12 +98386,14 @@ export namespace Prisma {
     number?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     fiscalPeriodId?: StringFieldUpdateOperationsInput | string
-    referenceType?: NullableStringFieldUpdateOperationsInput | string | null
+    referenceType?: NullableEnumReferenceTypeFieldUpdateOperationsInput | $Enums.ReferenceType | null
     referenceId?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumJournalEntryStatusFieldUpdateOperationsInput | $Enums.JournalEntryStatus
     exchangeRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reversalOfId?: NullableStringFieldUpdateOperationsInput | string | null
+    reversalDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string

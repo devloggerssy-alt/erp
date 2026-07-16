@@ -13,6 +13,20 @@ enum JournalEntryStatus {
   POSTED
 }
 
+// ─── Reference Type Enum ───────────────────────────────────────────────────────
+enum ReferenceType {
+  INVOICE
+  INVOICE_CANCELLATION
+  PAYMENT
+  PAYMENT_CANCELLATION
+  EXPENSE
+  EXPENSE_CANCELLATION
+  OPENING_BALANCE
+  OPENING_BALANCE_CANCELLATION
+  STOCK_COUNT
+  STOCK_COUNT_CANCELLATION
+}
+
 // ─── Chart Of Accounts ───────────────────────────────────────────────────────
 model ChartOfAccount {
   id         String      @id @default(uuid())
@@ -62,23 +76,28 @@ model JournalEntry {
   number         String
   date           DateTime
   fiscalPeriodId String             @map("fiscal_period_id")
-  referenceType  String?            @map("reference_type") // e.g. "invoice", "payment"
+  referenceType  ReferenceType?     @map("reference_type")
   referenceId    String?            @map("reference_id")
   description    String?
   status         JournalEntryStatus @default(DRAFT)
   /// Exchange rate to tenant base currency locked at posting time.
   exchangeRate   Decimal            @default(1) @map("exchange_rate") @db.Decimal(18, 6)
   postedAt       DateTime?          @map("posted_at")
+  reversalOfId   String?            @map("reversal_of_id")
+  reversalDate   DateTime?          @map("reversal_date")
   createdBy      String             @map("created_by")
   createdAt      DateTime           @default(now()) @map("created_at")
   updatedAt      DateTime           @updatedAt @map("updated_at")
 
-  tenant       Tenant        @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-  fiscalPeriod FiscalPeriod  @relation(fields: [fiscalPeriodId], references: [id])
+  tenant       Tenant         @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  fiscalPeriod FiscalPeriod   @relation(fields: [fiscalPeriodId], references: [id])
+  reversalOf   JournalEntry?  @relation("JournalReversals", fields: [reversalOfId], references: [id])
+  reversedBy   JournalEntry[] @relation("JournalReversals")
   lines        JournalLine[]
 
   @@unique([tenantId, number])
   @@index([tenantId])
+  @@index([referenceType, referenceId])
   @@map("journal_entries")
 }
 
@@ -100,6 +119,7 @@ model JournalLine {
 
   @@index([tenantId])
   @@index([journalEntryId])
+  @@index([accountId])
   @@map("journal_lines")
 }
 
