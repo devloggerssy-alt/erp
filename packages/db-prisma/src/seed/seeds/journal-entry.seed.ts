@@ -1,4 +1,4 @@
-import type { PrismaClient } from '../../../generated/client'
+import { PrismaClient, ReferenceType } from '../../../generated/client'
 import { SEED_IDS } from '../seed-ids'
 
 export async function seedJournalEntry(prisma: PrismaClient, tenantId: string): Promise<void> {
@@ -10,7 +10,7 @@ export async function seedJournalEntry(prisma: PrismaClient, tenantId: string): 
             number: 'JE-00001',
             date: new Date(`${year}-01-01`),
             fiscalPeriodId: SEED_IDS.FISCAL_PERIOD_2026,
-            referenceType: 'opening',
+            referenceType: ReferenceType.OPENING_BALANCE,
             description: 'Opening balance entry',
             status: 'POSTED',
             postedAt: new Date(`${year}-01-01`),
