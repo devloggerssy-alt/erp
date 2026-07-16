@@ -70,6 +70,7 @@ export * from './catalog-entity.resource'
 export * from './item-catalog-entity.resource'
 export * from './brand.resource'
 export * from './financial-setting.resource'
+export * from './accounting.types'
 
 export const resources = {
   auth: authResource,

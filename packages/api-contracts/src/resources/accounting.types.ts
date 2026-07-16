@@ -1,0 +1,14 @@
+export const REFERENCE_TYPES = [
+    'INVOICE',
+    'INVOICE_CANCELLATION',
+    'PAYMENT',
+    'PAYMENT_CANCELLATION',
+    'EXPENSE',
+    'EXPENSE_CANCELLATION',
+    'OPENING_BALANCE',
+    'OPENING_BALANCE_CANCELLATION',
+    'STOCK_COUNT',
+    'STOCK_COUNT_CANCELLATION',
+] as const;
+
+export type ReferenceType = (typeof REFERENCE_TYPES)[number];
