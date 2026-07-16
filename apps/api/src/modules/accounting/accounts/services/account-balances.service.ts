@@ -1,9 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { LocaleResolverService } from '@devloggers/backend-core';
 import type { LocalizedString } from '@devloggers/api-contracts';
-import type { AccountType } from '@devloggers/db-prisma';
 import { AccountsRepository } from '../repositories/accounts.repository';
-import { getAccountBalanceDelta } from '../utils/account-balance.utils';
+import { getAccountBalanceDelta } from '../utils/account-normal-side';
 import { rollUpBalances } from '../utils/roll-up-balances';
 import { AccountBalanceDto, AccountLedgerLineDto } from '../dto';
 
@@ -24,7 +23,7 @@ export class AccountBalancesService {
 
     const own = accounts.map((a) => {
       const s = sumByAccount.get(a.id);
-      const ownBalance = s ? getAccountBalanceDelta(a.type, s.debit, s.credit) : 0;
+      const ownBalance = s ? getAccountBalanceDelta(a.type, a.isContra ?? false, s.debit, s.credit) : 0;
       return { id: a.id, parentId: a.parentId ?? null, ownBalance };
     });
     const ownById = new Map(own.map((o) => [o.id, o.ownBalance]));
