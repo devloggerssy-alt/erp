@@ -44,6 +44,7 @@ describe('AccountsRepository', () => {
           type: true,
           parentId: true,
           isActive: true,
+          isContra: true,
         },
         orderBy: { code: 'asc' },
       });
@@ -66,6 +67,7 @@ describe('AccountsRepository', () => {
           type: true,
           parentId: true,
           isActive: true,
+          isContra: true,
         },
         orderBy: { code: 'asc' },
       });
