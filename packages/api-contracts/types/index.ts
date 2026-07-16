@@ -4733,6 +4733,12 @@ export interface components {
             partyId: string;
             /** @example Damascus Import Co. */
             partyName?: string;
+            /** @example 123 Main St */
+            partyAddress?: string | null;
+            /** @example +963 11 1234567 */
+            partyPhone?: string | null;
+            /** @example contact@example.com */
+            partyEmail?: string | null;
             /** @default null */
             warehouseId: string | null;
             /** @example Main Warehouse */
@@ -4743,6 +4749,8 @@ export interface components {
             currencyId: string;
             /** @example SYP */
             currencyCode?: string;
+            /** @example £ */
+            currencySymbol?: string;
             /**
              * @description Exchange rate to tenant base currency
              * @default 1
