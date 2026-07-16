@@ -128,7 +128,9 @@ exports.Prisma.ChartOfAccountScalarFieldEnum = {
   type: 'type',
   parentId: 'parentId',
   isActive: 'isActive',
-  currentBalance: 'currentBalance',
+  isPostable: 'isPostable',
+  isContra: 'isContra',
+  deletedAt: 'deletedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -145,6 +147,8 @@ exports.Prisma.JournalEntryScalarFieldEnum = {
   status: 'status',
   exchangeRate: 'exchangeRate',
   postedAt: 'postedAt',
+  reversalOfId: 'reversalOfId',
+  reversalDate: 'reversalDate',
   createdBy: 'createdBy',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -708,6 +712,19 @@ exports.AccountType = exports.$Enums.AccountType = {
   EQUITY: 'EQUITY',
   REVENUE: 'REVENUE',
   EXPENSE: 'EXPENSE'
+};
+
+exports.ReferenceType = exports.$Enums.ReferenceType = {
+  INVOICE: 'INVOICE',
+  INVOICE_CANCELLATION: 'INVOICE_CANCELLATION',
+  PAYMENT: 'PAYMENT',
+  PAYMENT_CANCELLATION: 'PAYMENT_CANCELLATION',
+  EXPENSE: 'EXPENSE',
+  EXPENSE_CANCELLATION: 'EXPENSE_CANCELLATION',
+  OPENING_BALANCE: 'OPENING_BALANCE',
+  OPENING_BALANCE_CANCELLATION: 'OPENING_BALANCE_CANCELLATION',
+  STOCK_COUNT: 'STOCK_COUNT',
+  STOCK_COUNT_CANCELLATION: 'STOCK_COUNT_CANCELLATION'
 };
 
 exports.JournalEntryStatus = exports.$Enums.JournalEntryStatus = {

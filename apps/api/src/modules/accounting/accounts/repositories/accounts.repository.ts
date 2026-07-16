@@ -44,7 +44,7 @@ export class AccountsRepository extends CrudRepository<ChartOfAccount> {
     async findAllForBalances(tenantId: string) {
         return this.prisma.chartOfAccount.findMany({
             where: { tenantId },
-            select: { id: true, code: true, name: true, type: true, parentId: true, isActive: true },
+            select: { id: true, code: true, name: true, type: true, parentId: true, isActive: true, isContra: true },
             orderBy: { code: 'asc' },
         });
     }

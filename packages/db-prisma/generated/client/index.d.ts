@@ -259,6 +259,22 @@ export const JournalEntryStatus: {
 export type JournalEntryStatus = (typeof JournalEntryStatus)[keyof typeof JournalEntryStatus]
 
 
+export const ReferenceType: {
+  INVOICE: 'INVOICE',
+  INVOICE_CANCELLATION: 'INVOICE_CANCELLATION',
+  PAYMENT: 'PAYMENT',
+  PAYMENT_CANCELLATION: 'PAYMENT_CANCELLATION',
+  EXPENSE: 'EXPENSE',
+  EXPENSE_CANCELLATION: 'EXPENSE_CANCELLATION',
+  OPENING_BALANCE: 'OPENING_BALANCE',
+  OPENING_BALANCE_CANCELLATION: 'OPENING_BALANCE_CANCELLATION',
+  STOCK_COUNT: 'STOCK_COUNT',
+  STOCK_COUNT_CANCELLATION: 'STOCK_COUNT_CANCELLATION'
+};
+
+export type ReferenceType = (typeof ReferenceType)[keyof typeof ReferenceType]
+
+
 export const MessageRole: {
   USER: 'USER',
   ASSISTANT: 'ASSISTANT'
@@ -389,6 +405,10 @@ export const AccountType: typeof $Enums.AccountType
 export type JournalEntryStatus = $Enums.JournalEntryStatus
 
 export const JournalEntryStatus: typeof $Enums.JournalEntryStatus
+
+export type ReferenceType = $Enums.ReferenceType
+
+export const ReferenceType: typeof $Enums.ReferenceType
 
 export type MessageRole = $Enums.MessageRole
 
@@ -4972,10 +4992,12 @@ export namespace Prisma {
    */
 
   export type JournalEntryCountOutputType = {
+    reversedBy: number
     lines: number
   }
 
   export type JournalEntryCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    reversedBy?: boolean | JournalEntryCountOutputTypeCountReversedByArgs
     lines?: boolean | JournalEntryCountOutputTypeCountLinesArgs
   }
 
@@ -4988,6 +5010,13 @@ export namespace Prisma {
      * Select specific fields to fetch from the JournalEntryCountOutputType
      */
     select?: JournalEntryCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * JournalEntryCountOutputType without action
+   */
+  export type JournalEntryCountOutputTypeCountReversedByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: JournalEntryWhereInput
   }
 
   /**
@@ -6158,18 +6187,8 @@ export namespace Prisma {
 
   export type AggregateChartOfAccount = {
     _count: ChartOfAccountCountAggregateOutputType | null
-    _avg: ChartOfAccountAvgAggregateOutputType | null
-    _sum: ChartOfAccountSumAggregateOutputType | null
     _min: ChartOfAccountMinAggregateOutputType | null
     _max: ChartOfAccountMaxAggregateOutputType | null
-  }
-
-  export type ChartOfAccountAvgAggregateOutputType = {
-    currentBalance: Decimal | null
-  }
-
-  export type ChartOfAccountSumAggregateOutputType = {
-    currentBalance: Decimal | null
   }
 
   export type ChartOfAccountMinAggregateOutputType = {
@@ -6179,7 +6198,9 @@ export namespace Prisma {
     type: $Enums.AccountType | null
     parentId: string | null
     isActive: boolean | null
-    currentBalance: Decimal | null
+    isPostable: boolean | null
+    isContra: boolean | null
+    deletedAt: Date | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -6191,7 +6212,9 @@ export namespace Prisma {
     type: $Enums.AccountType | null
     parentId: string | null
     isActive: boolean | null
-    currentBalance: Decimal | null
+    isPostable: boolean | null
+    isContra: boolean | null
+    deletedAt: Date | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -6204,20 +6227,14 @@ export namespace Prisma {
     type: number
     parentId: number
     isActive: number
-    currentBalance: number
+    isPostable: number
+    isContra: number
+    deletedAt: number
     createdAt: number
     updatedAt: number
     _all: number
   }
 
-
-  export type ChartOfAccountAvgAggregateInputType = {
-    currentBalance?: true
-  }
-
-  export type ChartOfAccountSumAggregateInputType = {
-    currentBalance?: true
-  }
 
   export type ChartOfAccountMinAggregateInputType = {
     id?: true
@@ -6226,7 +6243,9 @@ export namespace Prisma {
     type?: true
     parentId?: true
     isActive?: true
-    currentBalance?: true
+    isPostable?: true
+    isContra?: true
+    deletedAt?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -6238,7 +6257,9 @@ export namespace Prisma {
     type?: true
     parentId?: true
     isActive?: true
-    currentBalance?: true
+    isPostable?: true
+    isContra?: true
+    deletedAt?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -6251,7 +6272,9 @@ export namespace Prisma {
     type?: true
     parentId?: true
     isActive?: true
-    currentBalance?: true
+    isPostable?: true
+    isContra?: true
+    deletedAt?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -6295,18 +6318,6 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Select which fields to average
-    **/
-    _avg?: ChartOfAccountAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: ChartOfAccountSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
      * Select which fields to find the minimum value
     **/
     _min?: ChartOfAccountMinAggregateInputType
@@ -6337,8 +6348,6 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: ChartOfAccountCountAggregateInputType | true
-    _avg?: ChartOfAccountAvgAggregateInputType
-    _sum?: ChartOfAccountSumAggregateInputType
     _min?: ChartOfAccountMinAggregateInputType
     _max?: ChartOfAccountMaxAggregateInputType
   }
@@ -6351,12 +6360,12 @@ export namespace Prisma {
     type: $Enums.AccountType
     parentId: string | null
     isActive: boolean
-    currentBalance: Decimal
+    isPostable: boolean
+    isContra: boolean
+    deletedAt: Date | null
     createdAt: Date
     updatedAt: Date
     _count: ChartOfAccountCountAggregateOutputType | null
-    _avg: ChartOfAccountAvgAggregateOutputType | null
-    _sum: ChartOfAccountSumAggregateOutputType | null
     _min: ChartOfAccountMinAggregateOutputType | null
     _max: ChartOfAccountMaxAggregateOutputType | null
   }
@@ -6383,7 +6392,9 @@ export namespace Prisma {
     type?: boolean
     parentId?: boolean
     isActive?: boolean
-    currentBalance?: boolean
+    isPostable?: boolean
+    isContra?: boolean
+    deletedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
@@ -6414,7 +6425,9 @@ export namespace Prisma {
     type?: boolean
     parentId?: boolean
     isActive?: boolean
-    currentBalance?: boolean
+    isPostable?: boolean
+    isContra?: boolean
+    deletedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
@@ -6429,7 +6442,9 @@ export namespace Prisma {
     type?: boolean
     parentId?: boolean
     isActive?: boolean
-    currentBalance?: boolean
+    isPostable?: boolean
+    isContra?: boolean
+    deletedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
@@ -6444,12 +6459,14 @@ export namespace Prisma {
     type?: boolean
     parentId?: boolean
     isActive?: boolean
-    currentBalance?: boolean
+    isPostable?: boolean
+    isContra?: boolean
+    deletedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type ChartOfAccountOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "code" | "name" | "type" | "parentId" | "isActive" | "currentBalance" | "createdAt" | "updatedAt", ExtArgs["result"]["chartOfAccount"]>
+  export type ChartOfAccountOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "code" | "name" | "type" | "parentId" | "isActive" | "isPostable" | "isContra" | "deletedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["chartOfAccount"]>
   export type ChartOfAccountInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     parent?: boolean | ChartOfAccount$parentArgs<ExtArgs>
@@ -6508,12 +6525,9 @@ export namespace Prisma {
       type: $Enums.AccountType
       parentId: string | null
       isActive: boolean
-      /**
-       * Denormalized cached balance for fast reads.
-       * Source of truth is JournalLine rows — this field is updated by application
-       * logic after every posted JournalEntry. Never write to it directly from ad-hoc queries.
-       */
-      currentBalance: Prisma.Decimal
+      isPostable: boolean
+      isContra: boolean
+      deletedAt: Date | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["chartOfAccount"]>
@@ -6963,7 +6977,9 @@ export namespace Prisma {
     readonly type: FieldRef<"ChartOfAccount", 'AccountType'>
     readonly parentId: FieldRef<"ChartOfAccount", 'String'>
     readonly isActive: FieldRef<"ChartOfAccount", 'Boolean'>
-    readonly currentBalance: FieldRef<"ChartOfAccount", 'Decimal'>
+    readonly isPostable: FieldRef<"ChartOfAccount", 'Boolean'>
+    readonly isContra: FieldRef<"ChartOfAccount", 'Boolean'>
+    readonly deletedAt: FieldRef<"ChartOfAccount", 'DateTime'>
     readonly createdAt: FieldRef<"ChartOfAccount", 'DateTime'>
     readonly updatedAt: FieldRef<"ChartOfAccount", 'DateTime'>
   }
@@ -7790,12 +7806,14 @@ export namespace Prisma {
     number: string | null
     date: Date | null
     fiscalPeriodId: string | null
-    referenceType: string | null
+    referenceType: $Enums.ReferenceType | null
     referenceId: string | null
     description: string | null
     status: $Enums.JournalEntryStatus | null
     exchangeRate: Decimal | null
     postedAt: Date | null
+    reversalOfId: string | null
+    reversalDate: Date | null
     createdBy: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -7807,12 +7825,14 @@ export namespace Prisma {
     number: string | null
     date: Date | null
     fiscalPeriodId: string | null
-    referenceType: string | null
+    referenceType: $Enums.ReferenceType | null
     referenceId: string | null
     description: string | null
     status: $Enums.JournalEntryStatus | null
     exchangeRate: Decimal | null
     postedAt: Date | null
+    reversalOfId: string | null
+    reversalDate: Date | null
     createdBy: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -7830,6 +7850,8 @@ export namespace Prisma {
     status: number
     exchangeRate: number
     postedAt: number
+    reversalOfId: number
+    reversalDate: number
     createdBy: number
     createdAt: number
     updatedAt: number
@@ -7857,6 +7879,8 @@ export namespace Prisma {
     status?: true
     exchangeRate?: true
     postedAt?: true
+    reversalOfId?: true
+    reversalDate?: true
     createdBy?: true
     createdAt?: true
     updatedAt?: true
@@ -7874,6 +7898,8 @@ export namespace Prisma {
     status?: true
     exchangeRate?: true
     postedAt?: true
+    reversalOfId?: true
+    reversalDate?: true
     createdBy?: true
     createdAt?: true
     updatedAt?: true
@@ -7891,6 +7917,8 @@ export namespace Prisma {
     status?: true
     exchangeRate?: true
     postedAt?: true
+    reversalOfId?: true
+    reversalDate?: true
     createdBy?: true
     createdAt?: true
     updatedAt?: true
@@ -7989,12 +8017,14 @@ export namespace Prisma {
     number: string
     date: Date
     fiscalPeriodId: string
-    referenceType: string | null
+    referenceType: $Enums.ReferenceType | null
     referenceId: string | null
     description: string | null
     status: $Enums.JournalEntryStatus
     exchangeRate: Decimal
     postedAt: Date | null
+    reversalOfId: string | null
+    reversalDate: Date | null
     createdBy: string
     createdAt: Date
     updatedAt: Date
@@ -8031,11 +8061,15 @@ export namespace Prisma {
     status?: boolean
     exchangeRate?: boolean
     postedAt?: boolean
+    reversalOfId?: boolean
+    reversalDate?: boolean
     createdBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     fiscalPeriod?: boolean | FiscalPeriodDefaultArgs<ExtArgs>
+    reversalOf?: boolean | JournalEntry$reversalOfArgs<ExtArgs>
+    reversedBy?: boolean | JournalEntry$reversedByArgs<ExtArgs>
     lines?: boolean | JournalEntry$linesArgs<ExtArgs>
     _count?: boolean | JournalEntryCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["journalEntry"]>
@@ -8052,11 +8086,14 @@ export namespace Prisma {
     status?: boolean
     exchangeRate?: boolean
     postedAt?: boolean
+    reversalOfId?: boolean
+    reversalDate?: boolean
     createdBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     fiscalPeriod?: boolean | FiscalPeriodDefaultArgs<ExtArgs>
+    reversalOf?: boolean | JournalEntry$reversalOfArgs<ExtArgs>
   }, ExtArgs["result"]["journalEntry"]>
 
   export type JournalEntrySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -8071,11 +8108,14 @@ export namespace Prisma {
     status?: boolean
     exchangeRate?: boolean
     postedAt?: boolean
+    reversalOfId?: boolean
+    reversalDate?: boolean
     createdBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     fiscalPeriod?: boolean | FiscalPeriodDefaultArgs<ExtArgs>
+    reversalOf?: boolean | JournalEntry$reversalOfArgs<ExtArgs>
   }, ExtArgs["result"]["journalEntry"]>
 
   export type JournalEntrySelectScalar = {
@@ -8090,25 +8130,31 @@ export namespace Prisma {
     status?: boolean
     exchangeRate?: boolean
     postedAt?: boolean
+    reversalOfId?: boolean
+    reversalDate?: boolean
     createdBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type JournalEntryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "number" | "date" | "fiscalPeriodId" | "referenceType" | "referenceId" | "description" | "status" | "exchangeRate" | "postedAt" | "createdBy" | "createdAt" | "updatedAt", ExtArgs["result"]["journalEntry"]>
+  export type JournalEntryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "number" | "date" | "fiscalPeriodId" | "referenceType" | "referenceId" | "description" | "status" | "exchangeRate" | "postedAt" | "reversalOfId" | "reversalDate" | "createdBy" | "createdAt" | "updatedAt", ExtArgs["result"]["journalEntry"]>
   export type JournalEntryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     fiscalPeriod?: boolean | FiscalPeriodDefaultArgs<ExtArgs>
+    reversalOf?: boolean | JournalEntry$reversalOfArgs<ExtArgs>
+    reversedBy?: boolean | JournalEntry$reversedByArgs<ExtArgs>
     lines?: boolean | JournalEntry$linesArgs<ExtArgs>
     _count?: boolean | JournalEntryCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type JournalEntryIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     fiscalPeriod?: boolean | FiscalPeriodDefaultArgs<ExtArgs>
+    reversalOf?: boolean | JournalEntry$reversalOfArgs<ExtArgs>
   }
   export type JournalEntryIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     fiscalPeriod?: boolean | FiscalPeriodDefaultArgs<ExtArgs>
+    reversalOf?: boolean | JournalEntry$reversalOfArgs<ExtArgs>
   }
 
   export type $JournalEntryPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -8116,6 +8162,8 @@ export namespace Prisma {
     objects: {
       tenant: Prisma.$TenantPayload<ExtArgs>
       fiscalPeriod: Prisma.$FiscalPeriodPayload<ExtArgs>
+      reversalOf: Prisma.$JournalEntryPayload<ExtArgs> | null
+      reversedBy: Prisma.$JournalEntryPayload<ExtArgs>[]
       lines: Prisma.$JournalLinePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -8124,7 +8172,7 @@ export namespace Prisma {
       number: string
       date: Date
       fiscalPeriodId: string
-      referenceType: string | null
+      referenceType: $Enums.ReferenceType | null
       referenceId: string | null
       description: string | null
       status: $Enums.JournalEntryStatus
@@ -8133,6 +8181,8 @@ export namespace Prisma {
        */
       exchangeRate: Prisma.Decimal
       postedAt: Date | null
+      reversalOfId: string | null
+      reversalDate: Date | null
       createdBy: string
       createdAt: Date
       updatedAt: Date
@@ -8532,6 +8582,8 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     fiscalPeriod<T extends FiscalPeriodDefaultArgs<ExtArgs> = {}>(args?: Subset<T, FiscalPeriodDefaultArgs<ExtArgs>>): Prisma__FiscalPeriodClient<$Result.GetResult<Prisma.$FiscalPeriodPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    reversalOf<T extends JournalEntry$reversalOfArgs<ExtArgs> = {}>(args?: Subset<T, JournalEntry$reversalOfArgs<ExtArgs>>): Prisma__JournalEntryClient<$Result.GetResult<Prisma.$JournalEntryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    reversedBy<T extends JournalEntry$reversedByArgs<ExtArgs> = {}>(args?: Subset<T, JournalEntry$reversedByArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$JournalEntryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     lines<T extends JournalEntry$linesArgs<ExtArgs> = {}>(args?: Subset<T, JournalEntry$linesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$JournalLinePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -8567,12 +8619,14 @@ export namespace Prisma {
     readonly number: FieldRef<"JournalEntry", 'String'>
     readonly date: FieldRef<"JournalEntry", 'DateTime'>
     readonly fiscalPeriodId: FieldRef<"JournalEntry", 'String'>
-    readonly referenceType: FieldRef<"JournalEntry", 'String'>
+    readonly referenceType: FieldRef<"JournalEntry", 'ReferenceType'>
     readonly referenceId: FieldRef<"JournalEntry", 'String'>
     readonly description: FieldRef<"JournalEntry", 'String'>
     readonly status: FieldRef<"JournalEntry", 'JournalEntryStatus'>
     readonly exchangeRate: FieldRef<"JournalEntry", 'Decimal'>
     readonly postedAt: FieldRef<"JournalEntry", 'DateTime'>
+    readonly reversalOfId: FieldRef<"JournalEntry", 'String'>
+    readonly reversalDate: FieldRef<"JournalEntry", 'DateTime'>
     readonly createdBy: FieldRef<"JournalEntry", 'String'>
     readonly createdAt: FieldRef<"JournalEntry", 'DateTime'>
     readonly updatedAt: FieldRef<"JournalEntry", 'DateTime'>
@@ -8974,6 +9028,49 @@ export namespace Prisma {
      * Limit how many JournalEntries to delete.
      */
     limit?: number
+  }
+
+  /**
+   * JournalEntry.reversalOf
+   */
+  export type JournalEntry$reversalOfArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JournalEntry
+     */
+    select?: JournalEntrySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the JournalEntry
+     */
+    omit?: JournalEntryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JournalEntryInclude<ExtArgs> | null
+    where?: JournalEntryWhereInput
+  }
+
+  /**
+   * JournalEntry.reversedBy
+   */
+  export type JournalEntry$reversedByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JournalEntry
+     */
+    select?: JournalEntrySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the JournalEntry
+     */
+    omit?: JournalEntryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JournalEntryInclude<ExtArgs> | null
+    where?: JournalEntryWhereInput
+    orderBy?: JournalEntryOrderByWithRelationInput | JournalEntryOrderByWithRelationInput[]
+    cursor?: JournalEntryWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: JournalEntryScalarFieldEnum | JournalEntryScalarFieldEnum[]
   }
 
   /**
@@ -57657,7 +57754,9 @@ export namespace Prisma {
     type: 'type',
     parentId: 'parentId',
     isActive: 'isActive',
-    currentBalance: 'currentBalance',
+    isPostable: 'isPostable',
+    isContra: 'isContra',
+    deletedAt: 'deletedAt',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -57677,6 +57776,8 @@ export namespace Prisma {
     status: 'status',
     exchangeRate: 'exchangeRate',
     postedAt: 'postedAt',
+    reversalOfId: 'reversalOfId',
+    reversalDate: 'reversalDate',
     createdBy: 'createdBy',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -58431,20 +58532,6 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Decimal'
-   */
-  export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal'>
-    
-
-
-  /**
-   * Reference to a field of type 'Decimal[]'
-   */
-  export type ListDecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal[]'>
-    
-
-
-  /**
    * Reference to a field of type 'DateTime'
    */
   export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
@@ -58459,6 +58546,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'ReferenceType'
+   */
+  export type EnumReferenceTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ReferenceType'>
+    
+
+
+  /**
+   * Reference to a field of type 'ReferenceType[]'
+   */
+  export type ListEnumReferenceTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ReferenceType[]'>
+    
+
+
+  /**
    * Reference to a field of type 'JournalEntryStatus'
    */
   export type EnumJournalEntryStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'JournalEntryStatus'>
@@ -58469,6 +58570,20 @@ export namespace Prisma {
    * Reference to a field of type 'JournalEntryStatus[]'
    */
   export type ListEnumJournalEntryStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'JournalEntryStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Decimal'
+   */
+  export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal'>
+    
+
+
+  /**
+   * Reference to a field of type 'Decimal[]'
+   */
+  export type ListDecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal[]'>
     
 
 
@@ -58696,7 +58811,9 @@ export namespace Prisma {
     type?: EnumAccountTypeFilter<"ChartOfAccount"> | $Enums.AccountType
     parentId?: StringNullableFilter<"ChartOfAccount"> | string | null
     isActive?: BoolFilter<"ChartOfAccount"> | boolean
-    currentBalance?: DecimalFilter<"ChartOfAccount"> | Decimal | DecimalJsLike | number | string
+    isPostable?: BoolFilter<"ChartOfAccount"> | boolean
+    isContra?: BoolFilter<"ChartOfAccount"> | boolean
+    deletedAt?: DateTimeNullableFilter<"ChartOfAccount"> | Date | string | null
     createdAt?: DateTimeFilter<"ChartOfAccount"> | Date | string
     updatedAt?: DateTimeFilter<"ChartOfAccount"> | Date | string
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
@@ -58726,7 +58843,9 @@ export namespace Prisma {
     type?: SortOrder
     parentId?: SortOrderInput | SortOrder
     isActive?: SortOrder
-    currentBalance?: SortOrder
+    isPostable?: SortOrder
+    isContra?: SortOrder
+    deletedAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     tenant?: TenantOrderByWithRelationInput
@@ -58760,7 +58879,9 @@ export namespace Prisma {
     type?: EnumAccountTypeFilter<"ChartOfAccount"> | $Enums.AccountType
     parentId?: StringNullableFilter<"ChartOfAccount"> | string | null
     isActive?: BoolFilter<"ChartOfAccount"> | boolean
-    currentBalance?: DecimalFilter<"ChartOfAccount"> | Decimal | DecimalJsLike | number | string
+    isPostable?: BoolFilter<"ChartOfAccount"> | boolean
+    isContra?: BoolFilter<"ChartOfAccount"> | boolean
+    deletedAt?: DateTimeNullableFilter<"ChartOfAccount"> | Date | string | null
     createdAt?: DateTimeFilter<"ChartOfAccount"> | Date | string
     updatedAt?: DateTimeFilter<"ChartOfAccount"> | Date | string
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
@@ -58790,14 +58911,14 @@ export namespace Prisma {
     type?: SortOrder
     parentId?: SortOrderInput | SortOrder
     isActive?: SortOrder
-    currentBalance?: SortOrder
+    isPostable?: SortOrder
+    isContra?: SortOrder
+    deletedAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: ChartOfAccountCountOrderByAggregateInput
-    _avg?: ChartOfAccountAvgOrderByAggregateInput
     _max?: ChartOfAccountMaxOrderByAggregateInput
     _min?: ChartOfAccountMinOrderByAggregateInput
-    _sum?: ChartOfAccountSumOrderByAggregateInput
   }
 
   export type ChartOfAccountScalarWhereWithAggregatesInput = {
@@ -58811,7 +58932,9 @@ export namespace Prisma {
     type?: EnumAccountTypeWithAggregatesFilter<"ChartOfAccount"> | $Enums.AccountType
     parentId?: StringNullableWithAggregatesFilter<"ChartOfAccount"> | string | null
     isActive?: BoolWithAggregatesFilter<"ChartOfAccount"> | boolean
-    currentBalance?: DecimalWithAggregatesFilter<"ChartOfAccount"> | Decimal | DecimalJsLike | number | string
+    isPostable?: BoolWithAggregatesFilter<"ChartOfAccount"> | boolean
+    isContra?: BoolWithAggregatesFilter<"ChartOfAccount"> | boolean
+    deletedAt?: DateTimeNullableWithAggregatesFilter<"ChartOfAccount"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"ChartOfAccount"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"ChartOfAccount"> | Date | string
   }
@@ -58825,17 +58948,21 @@ export namespace Prisma {
     number?: StringFilter<"JournalEntry"> | string
     date?: DateTimeFilter<"JournalEntry"> | Date | string
     fiscalPeriodId?: StringFilter<"JournalEntry"> | string
-    referenceType?: StringNullableFilter<"JournalEntry"> | string | null
+    referenceType?: EnumReferenceTypeNullableFilter<"JournalEntry"> | $Enums.ReferenceType | null
     referenceId?: StringNullableFilter<"JournalEntry"> | string | null
     description?: StringNullableFilter<"JournalEntry"> | string | null
     status?: EnumJournalEntryStatusFilter<"JournalEntry"> | $Enums.JournalEntryStatus
     exchangeRate?: DecimalFilter<"JournalEntry"> | Decimal | DecimalJsLike | number | string
     postedAt?: DateTimeNullableFilter<"JournalEntry"> | Date | string | null
+    reversalOfId?: StringNullableFilter<"JournalEntry"> | string | null
+    reversalDate?: DateTimeNullableFilter<"JournalEntry"> | Date | string | null
     createdBy?: StringFilter<"JournalEntry"> | string
     createdAt?: DateTimeFilter<"JournalEntry"> | Date | string
     updatedAt?: DateTimeFilter<"JournalEntry"> | Date | string
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
     fiscalPeriod?: XOR<FiscalPeriodScalarRelationFilter, FiscalPeriodWhereInput>
+    reversalOf?: XOR<JournalEntryNullableScalarRelationFilter, JournalEntryWhereInput> | null
+    reversedBy?: JournalEntryListRelationFilter
     lines?: JournalLineListRelationFilter
   }
 
@@ -58851,11 +58978,15 @@ export namespace Prisma {
     status?: SortOrder
     exchangeRate?: SortOrder
     postedAt?: SortOrderInput | SortOrder
+    reversalOfId?: SortOrderInput | SortOrder
+    reversalDate?: SortOrderInput | SortOrder
     createdBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     tenant?: TenantOrderByWithRelationInput
     fiscalPeriod?: FiscalPeriodOrderByWithRelationInput
+    reversalOf?: JournalEntryOrderByWithRelationInput
+    reversedBy?: JournalEntryOrderByRelationAggregateInput
     lines?: JournalLineOrderByRelationAggregateInput
   }
 
@@ -58869,17 +59000,21 @@ export namespace Prisma {
     number?: StringFilter<"JournalEntry"> | string
     date?: DateTimeFilter<"JournalEntry"> | Date | string
     fiscalPeriodId?: StringFilter<"JournalEntry"> | string
-    referenceType?: StringNullableFilter<"JournalEntry"> | string | null
+    referenceType?: EnumReferenceTypeNullableFilter<"JournalEntry"> | $Enums.ReferenceType | null
     referenceId?: StringNullableFilter<"JournalEntry"> | string | null
     description?: StringNullableFilter<"JournalEntry"> | string | null
     status?: EnumJournalEntryStatusFilter<"JournalEntry"> | $Enums.JournalEntryStatus
     exchangeRate?: DecimalFilter<"JournalEntry"> | Decimal | DecimalJsLike | number | string
     postedAt?: DateTimeNullableFilter<"JournalEntry"> | Date | string | null
+    reversalOfId?: StringNullableFilter<"JournalEntry"> | string | null
+    reversalDate?: DateTimeNullableFilter<"JournalEntry"> | Date | string | null
     createdBy?: StringFilter<"JournalEntry"> | string
     createdAt?: DateTimeFilter<"JournalEntry"> | Date | string
     updatedAt?: DateTimeFilter<"JournalEntry"> | Date | string
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
     fiscalPeriod?: XOR<FiscalPeriodScalarRelationFilter, FiscalPeriodWhereInput>
+    reversalOf?: XOR<JournalEntryNullableScalarRelationFilter, JournalEntryWhereInput> | null
+    reversedBy?: JournalEntryListRelationFilter
     lines?: JournalLineListRelationFilter
   }, "id" | "tenantId_number">
 
@@ -58895,6 +59030,8 @@ export namespace Prisma {
     status?: SortOrder
     exchangeRate?: SortOrder
     postedAt?: SortOrderInput | SortOrder
+    reversalOfId?: SortOrderInput | SortOrder
+    reversalDate?: SortOrderInput | SortOrder
     createdBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -58914,12 +59051,14 @@ export namespace Prisma {
     number?: StringWithAggregatesFilter<"JournalEntry"> | string
     date?: DateTimeWithAggregatesFilter<"JournalEntry"> | Date | string
     fiscalPeriodId?: StringWithAggregatesFilter<"JournalEntry"> | string
-    referenceType?: StringNullableWithAggregatesFilter<"JournalEntry"> | string | null
+    referenceType?: EnumReferenceTypeNullableWithAggregatesFilter<"JournalEntry"> | $Enums.ReferenceType | null
     referenceId?: StringNullableWithAggregatesFilter<"JournalEntry"> | string | null
     description?: StringNullableWithAggregatesFilter<"JournalEntry"> | string | null
     status?: EnumJournalEntryStatusWithAggregatesFilter<"JournalEntry"> | $Enums.JournalEntryStatus
     exchangeRate?: DecimalWithAggregatesFilter<"JournalEntry"> | Decimal | DecimalJsLike | number | string
     postedAt?: DateTimeNullableWithAggregatesFilter<"JournalEntry"> | Date | string | null
+    reversalOfId?: StringNullableWithAggregatesFilter<"JournalEntry"> | string | null
+    reversalDate?: DateTimeNullableWithAggregatesFilter<"JournalEntry"> | Date | string | null
     createdBy?: StringWithAggregatesFilter<"JournalEntry"> | string
     createdAt?: DateTimeWithAggregatesFilter<"JournalEntry"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"JournalEntry"> | Date | string
@@ -62570,7 +62709,9 @@ export namespace Prisma {
     name: JsonNullValueInput | InputJsonValue
     type: $Enums.AccountType
     isActive?: boolean
-    currentBalance?: Decimal | DecimalJsLike | number | string
+    isPostable?: boolean
+    isContra?: boolean
+    deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     tenant: TenantCreateNestedOneWithoutChartOfAccountsInput
@@ -62600,7 +62741,9 @@ export namespace Prisma {
     type: $Enums.AccountType
     parentId?: string | null
     isActive?: boolean
-    currentBalance?: Decimal | DecimalJsLike | number | string
+    isPostable?: boolean
+    isContra?: boolean
+    deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     children?: ChartOfAccountUncheckedCreateNestedManyWithoutParentInput
@@ -62626,7 +62769,9 @@ export namespace Prisma {
     name?: JsonNullValueInput | InputJsonValue
     type?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    currentBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    isPostable?: BoolFieldUpdateOperationsInput | boolean
+    isContra?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: TenantUpdateOneRequiredWithoutChartOfAccountsNestedInput
@@ -62656,7 +62801,9 @@ export namespace Prisma {
     type?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    currentBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    isPostable?: BoolFieldUpdateOperationsInput | boolean
+    isContra?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     children?: ChartOfAccountUncheckedUpdateManyWithoutParentNestedInput
@@ -62684,7 +62831,9 @@ export namespace Prisma {
     type: $Enums.AccountType
     parentId?: string | null
     isActive?: boolean
-    currentBalance?: Decimal | DecimalJsLike | number | string
+    isPostable?: boolean
+    isContra?: boolean
+    deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -62695,7 +62844,9 @@ export namespace Prisma {
     name?: JsonNullValueInput | InputJsonValue
     type?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    currentBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    isPostable?: BoolFieldUpdateOperationsInput | boolean
+    isContra?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -62708,7 +62859,9 @@ export namespace Prisma {
     type?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    currentBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    isPostable?: BoolFieldUpdateOperationsInput | boolean
+    isContra?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -62717,17 +62870,20 @@ export namespace Prisma {
     id?: string
     number: string
     date: Date | string
-    referenceType?: string | null
+    referenceType?: $Enums.ReferenceType | null
     referenceId?: string | null
     description?: string | null
     status?: $Enums.JournalEntryStatus
     exchangeRate?: Decimal | DecimalJsLike | number | string
     postedAt?: Date | string | null
+    reversalDate?: Date | string | null
     createdBy: string
     createdAt?: Date | string
     updatedAt?: Date | string
     tenant: TenantCreateNestedOneWithoutJournalEntriesInput
     fiscalPeriod: FiscalPeriodCreateNestedOneWithoutJournalEntriesInput
+    reversalOf?: JournalEntryCreateNestedOneWithoutReversedByInput
+    reversedBy?: JournalEntryCreateNestedManyWithoutReversalOfInput
     lines?: JournalLineCreateNestedManyWithoutJournalEntryInput
   }
 
@@ -62737,15 +62893,18 @@ export namespace Prisma {
     number: string
     date: Date | string
     fiscalPeriodId: string
-    referenceType?: string | null
+    referenceType?: $Enums.ReferenceType | null
     referenceId?: string | null
     description?: string | null
     status?: $Enums.JournalEntryStatus
     exchangeRate?: Decimal | DecimalJsLike | number | string
     postedAt?: Date | string | null
+    reversalOfId?: string | null
+    reversalDate?: Date | string | null
     createdBy: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    reversedBy?: JournalEntryUncheckedCreateNestedManyWithoutReversalOfInput
     lines?: JournalLineUncheckedCreateNestedManyWithoutJournalEntryInput
   }
 
@@ -62753,17 +62912,20 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     number?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
-    referenceType?: NullableStringFieldUpdateOperationsInput | string | null
+    referenceType?: NullableEnumReferenceTypeFieldUpdateOperationsInput | $Enums.ReferenceType | null
     referenceId?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumJournalEntryStatusFieldUpdateOperationsInput | $Enums.JournalEntryStatus
     exchangeRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reversalDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: TenantUpdateOneRequiredWithoutJournalEntriesNestedInput
     fiscalPeriod?: FiscalPeriodUpdateOneRequiredWithoutJournalEntriesNestedInput
+    reversalOf?: JournalEntryUpdateOneWithoutReversedByNestedInput
+    reversedBy?: JournalEntryUpdateManyWithoutReversalOfNestedInput
     lines?: JournalLineUpdateManyWithoutJournalEntryNestedInput
   }
 
@@ -62773,15 +62935,18 @@ export namespace Prisma {
     number?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     fiscalPeriodId?: StringFieldUpdateOperationsInput | string
-    referenceType?: NullableStringFieldUpdateOperationsInput | string | null
+    referenceType?: NullableEnumReferenceTypeFieldUpdateOperationsInput | $Enums.ReferenceType | null
     referenceId?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumJournalEntryStatusFieldUpdateOperationsInput | $Enums.JournalEntryStatus
     exchangeRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reversalOfId?: NullableStringFieldUpdateOperationsInput | string | null
+    reversalDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reversedBy?: JournalEntryUncheckedUpdateManyWithoutReversalOfNestedInput
     lines?: JournalLineUncheckedUpdateManyWithoutJournalEntryNestedInput
   }
 
@@ -62791,12 +62956,14 @@ export namespace Prisma {
     number: string
     date: Date | string
     fiscalPeriodId: string
-    referenceType?: string | null
+    referenceType?: $Enums.ReferenceType | null
     referenceId?: string | null
     description?: string | null
     status?: $Enums.JournalEntryStatus
     exchangeRate?: Decimal | DecimalJsLike | number | string
     postedAt?: Date | string | null
+    reversalOfId?: string | null
+    reversalDate?: Date | string | null
     createdBy: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -62806,12 +62973,13 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     number?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
-    referenceType?: NullableStringFieldUpdateOperationsInput | string | null
+    referenceType?: NullableEnumReferenceTypeFieldUpdateOperationsInput | $Enums.ReferenceType | null
     referenceId?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumJournalEntryStatusFieldUpdateOperationsInput | $Enums.JournalEntryStatus
     exchangeRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reversalDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -62823,12 +62991,14 @@ export namespace Prisma {
     number?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     fiscalPeriodId?: StringFieldUpdateOperationsInput | string
-    referenceType?: NullableStringFieldUpdateOperationsInput | string | null
+    referenceType?: NullableEnumReferenceTypeFieldUpdateOperationsInput | $Enums.ReferenceType | null
     referenceId?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumJournalEntryStatusFieldUpdateOperationsInput | $Enums.JournalEntryStatus
     exchangeRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reversalOfId?: NullableStringFieldUpdateOperationsInput | string | null
+    reversalDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -66773,15 +66943,15 @@ export namespace Prisma {
     not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
-  export type DecimalFilter<$PrismaModel = never> = {
-    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
-    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
-    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    not?: NestedDecimalFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
   export type DateTimeFilter<$PrismaModel = never> = {
@@ -66883,13 +67053,11 @@ export namespace Prisma {
     type?: SortOrder
     parentId?: SortOrder
     isActive?: SortOrder
-    currentBalance?: SortOrder
+    isPostable?: SortOrder
+    isContra?: SortOrder
+    deletedAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-  }
-
-  export type ChartOfAccountAvgOrderByAggregateInput = {
-    currentBalance?: SortOrder
   }
 
   export type ChartOfAccountMaxOrderByAggregateInput = {
@@ -66899,7 +67067,9 @@ export namespace Prisma {
     type?: SortOrder
     parentId?: SortOrder
     isActive?: SortOrder
-    currentBalance?: SortOrder
+    isPostable?: SortOrder
+    isContra?: SortOrder
+    deletedAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -66911,13 +67081,11 @@ export namespace Prisma {
     type?: SortOrder
     parentId?: SortOrder
     isActive?: SortOrder
-    currentBalance?: SortOrder
+    isPostable?: SortOrder
+    isContra?: SortOrder
+    deletedAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-  }
-
-  export type ChartOfAccountSumOrderByAggregateInput = {
-    currentBalance?: SortOrder
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -67000,20 +67168,18 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
-  export type DecimalWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
-    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
-    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    not?: NestedDecimalWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedDecimalFilter<$PrismaModel>
-    _sum?: NestedDecimalFilter<$PrismaModel>
-    _min?: NestedDecimalFilter<$PrismaModel>
-    _max?: NestedDecimalFilter<$PrismaModel>
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -67030,6 +67196,13 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type EnumReferenceTypeNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.ReferenceType | EnumReferenceTypeFieldRefInput<$PrismaModel> | null
+    in?: $Enums.ReferenceType[] | ListEnumReferenceTypeFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.ReferenceType[] | ListEnumReferenceTypeFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumReferenceTypeNullableFilter<$PrismaModel> | $Enums.ReferenceType | null
+  }
+
   export type EnumJournalEntryStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.JournalEntryStatus | EnumJournalEntryStatusFieldRefInput<$PrismaModel>
     in?: $Enums.JournalEntryStatus[] | ListEnumJournalEntryStatusFieldRefInput<$PrismaModel>
@@ -67037,20 +67210,35 @@ export namespace Prisma {
     not?: NestedEnumJournalEntryStatusFilter<$PrismaModel> | $Enums.JournalEntryStatus
   }
 
-  export type DateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  export type DecimalFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
   }
 
   export type FiscalPeriodScalarRelationFilter = {
     is?: FiscalPeriodWhereInput
     isNot?: FiscalPeriodWhereInput
+  }
+
+  export type JournalEntryNullableScalarRelationFilter = {
+    is?: JournalEntryWhereInput | null
+    isNot?: JournalEntryWhereInput | null
+  }
+
+  export type JournalEntryListRelationFilter = {
+    every?: JournalEntryWhereInput
+    some?: JournalEntryWhereInput
+    none?: JournalEntryWhereInput
+  }
+
+  export type JournalEntryOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type JournalEntryTenantIdNumberCompoundUniqueInput = {
@@ -67070,6 +67258,8 @@ export namespace Prisma {
     status?: SortOrder
     exchangeRate?: SortOrder
     postedAt?: SortOrder
+    reversalOfId?: SortOrder
+    reversalDate?: SortOrder
     createdBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -67091,6 +67281,8 @@ export namespace Prisma {
     status?: SortOrder
     exchangeRate?: SortOrder
     postedAt?: SortOrder
+    reversalOfId?: SortOrder
+    reversalDate?: SortOrder
     createdBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -67108,6 +67300,8 @@ export namespace Prisma {
     status?: SortOrder
     exchangeRate?: SortOrder
     postedAt?: SortOrder
+    reversalOfId?: SortOrder
+    reversalDate?: SortOrder
     createdBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -67115,6 +67309,16 @@ export namespace Prisma {
 
   export type JournalEntrySumOrderByAggregateInput = {
     exchangeRate?: SortOrder
+  }
+
+  export type EnumReferenceTypeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ReferenceType | EnumReferenceTypeFieldRefInput<$PrismaModel> | null
+    in?: $Enums.ReferenceType[] | ListEnumReferenceTypeFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.ReferenceType[] | ListEnumReferenceTypeFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumReferenceTypeNullableWithAggregatesFilter<$PrismaModel> | $Enums.ReferenceType | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumReferenceTypeNullableFilter<$PrismaModel>
+    _max?: NestedEnumReferenceTypeNullableFilter<$PrismaModel>
   }
 
   export type EnumJournalEntryStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -67127,18 +67331,20 @@ export namespace Prisma {
     _max?: NestedEnumJournalEntryStatusFilter<$PrismaModel>
   }
 
-  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  export type DecimalWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedDecimalFilter<$PrismaModel>
+    _sum?: NestedDecimalFilter<$PrismaModel>
+    _min?: NestedDecimalFilter<$PrismaModel>
+    _max?: NestedDecimalFilter<$PrismaModel>
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -68243,12 +68449,6 @@ export namespace Prisma {
     none?: StockMovementWhereInput
   }
 
-  export type JournalEntryListRelationFilter = {
-    every?: JournalEntryWhereInput
-    some?: JournalEntryWhereInput
-    none?: JournalEntryWhereInput
-  }
-
   export type StockCountListRelationFilter = {
     every?: StockCountWhereInput
     some?: StockCountWhereInput
@@ -68256,10 +68456,6 @@ export namespace Prisma {
   }
 
   export type StockMovementOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type JournalEntryOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -70039,12 +70235,8 @@ export namespace Prisma {
     set?: boolean
   }
 
-  export type DecimalFieldUpdateOperationsInput = {
-    set?: Decimal | DecimalJsLike | number | string
-    increment?: Decimal | DecimalJsLike | number | string
-    decrement?: Decimal | DecimalJsLike | number | string
-    multiply?: Decimal | DecimalJsLike | number | string
-    divide?: Decimal | DecimalJsLike | number | string
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
   }
 
   export type DateTimeFieldUpdateOperationsInput = {
@@ -70505,11 +70697,31 @@ export namespace Prisma {
     connect?: FiscalPeriodWhereUniqueInput
   }
 
+  export type JournalEntryCreateNestedOneWithoutReversedByInput = {
+    create?: XOR<JournalEntryCreateWithoutReversedByInput, JournalEntryUncheckedCreateWithoutReversedByInput>
+    connectOrCreate?: JournalEntryCreateOrConnectWithoutReversedByInput
+    connect?: JournalEntryWhereUniqueInput
+  }
+
+  export type JournalEntryCreateNestedManyWithoutReversalOfInput = {
+    create?: XOR<JournalEntryCreateWithoutReversalOfInput, JournalEntryUncheckedCreateWithoutReversalOfInput> | JournalEntryCreateWithoutReversalOfInput[] | JournalEntryUncheckedCreateWithoutReversalOfInput[]
+    connectOrCreate?: JournalEntryCreateOrConnectWithoutReversalOfInput | JournalEntryCreateOrConnectWithoutReversalOfInput[]
+    createMany?: JournalEntryCreateManyReversalOfInputEnvelope
+    connect?: JournalEntryWhereUniqueInput | JournalEntryWhereUniqueInput[]
+  }
+
   export type JournalLineCreateNestedManyWithoutJournalEntryInput = {
     create?: XOR<JournalLineCreateWithoutJournalEntryInput, JournalLineUncheckedCreateWithoutJournalEntryInput> | JournalLineCreateWithoutJournalEntryInput[] | JournalLineUncheckedCreateWithoutJournalEntryInput[]
     connectOrCreate?: JournalLineCreateOrConnectWithoutJournalEntryInput | JournalLineCreateOrConnectWithoutJournalEntryInput[]
     createMany?: JournalLineCreateManyJournalEntryInputEnvelope
     connect?: JournalLineWhereUniqueInput | JournalLineWhereUniqueInput[]
+  }
+
+  export type JournalEntryUncheckedCreateNestedManyWithoutReversalOfInput = {
+    create?: XOR<JournalEntryCreateWithoutReversalOfInput, JournalEntryUncheckedCreateWithoutReversalOfInput> | JournalEntryCreateWithoutReversalOfInput[] | JournalEntryUncheckedCreateWithoutReversalOfInput[]
+    connectOrCreate?: JournalEntryCreateOrConnectWithoutReversalOfInput | JournalEntryCreateOrConnectWithoutReversalOfInput[]
+    createMany?: JournalEntryCreateManyReversalOfInputEnvelope
+    connect?: JournalEntryWhereUniqueInput | JournalEntryWhereUniqueInput[]
   }
 
   export type JournalLineUncheckedCreateNestedManyWithoutJournalEntryInput = {
@@ -70519,12 +70731,20 @@ export namespace Prisma {
     connect?: JournalLineWhereUniqueInput | JournalLineWhereUniqueInput[]
   }
 
+  export type NullableEnumReferenceTypeFieldUpdateOperationsInput = {
+    set?: $Enums.ReferenceType | null
+  }
+
   export type EnumJournalEntryStatusFieldUpdateOperationsInput = {
     set?: $Enums.JournalEntryStatus
   }
 
-  export type NullableDateTimeFieldUpdateOperationsInput = {
-    set?: Date | string | null
+  export type DecimalFieldUpdateOperationsInput = {
+    set?: Decimal | DecimalJsLike | number | string
+    increment?: Decimal | DecimalJsLike | number | string
+    decrement?: Decimal | DecimalJsLike | number | string
+    multiply?: Decimal | DecimalJsLike | number | string
+    divide?: Decimal | DecimalJsLike | number | string
   }
 
   export type TenantUpdateOneRequiredWithoutJournalEntriesNestedInput = {
@@ -70543,6 +70763,30 @@ export namespace Prisma {
     update?: XOR<XOR<FiscalPeriodUpdateToOneWithWhereWithoutJournalEntriesInput, FiscalPeriodUpdateWithoutJournalEntriesInput>, FiscalPeriodUncheckedUpdateWithoutJournalEntriesInput>
   }
 
+  export type JournalEntryUpdateOneWithoutReversedByNestedInput = {
+    create?: XOR<JournalEntryCreateWithoutReversedByInput, JournalEntryUncheckedCreateWithoutReversedByInput>
+    connectOrCreate?: JournalEntryCreateOrConnectWithoutReversedByInput
+    upsert?: JournalEntryUpsertWithoutReversedByInput
+    disconnect?: JournalEntryWhereInput | boolean
+    delete?: JournalEntryWhereInput | boolean
+    connect?: JournalEntryWhereUniqueInput
+    update?: XOR<XOR<JournalEntryUpdateToOneWithWhereWithoutReversedByInput, JournalEntryUpdateWithoutReversedByInput>, JournalEntryUncheckedUpdateWithoutReversedByInput>
+  }
+
+  export type JournalEntryUpdateManyWithoutReversalOfNestedInput = {
+    create?: XOR<JournalEntryCreateWithoutReversalOfInput, JournalEntryUncheckedCreateWithoutReversalOfInput> | JournalEntryCreateWithoutReversalOfInput[] | JournalEntryUncheckedCreateWithoutReversalOfInput[]
+    connectOrCreate?: JournalEntryCreateOrConnectWithoutReversalOfInput | JournalEntryCreateOrConnectWithoutReversalOfInput[]
+    upsert?: JournalEntryUpsertWithWhereUniqueWithoutReversalOfInput | JournalEntryUpsertWithWhereUniqueWithoutReversalOfInput[]
+    createMany?: JournalEntryCreateManyReversalOfInputEnvelope
+    set?: JournalEntryWhereUniqueInput | JournalEntryWhereUniqueInput[]
+    disconnect?: JournalEntryWhereUniqueInput | JournalEntryWhereUniqueInput[]
+    delete?: JournalEntryWhereUniqueInput | JournalEntryWhereUniqueInput[]
+    connect?: JournalEntryWhereUniqueInput | JournalEntryWhereUniqueInput[]
+    update?: JournalEntryUpdateWithWhereUniqueWithoutReversalOfInput | JournalEntryUpdateWithWhereUniqueWithoutReversalOfInput[]
+    updateMany?: JournalEntryUpdateManyWithWhereWithoutReversalOfInput | JournalEntryUpdateManyWithWhereWithoutReversalOfInput[]
+    deleteMany?: JournalEntryScalarWhereInput | JournalEntryScalarWhereInput[]
+  }
+
   export type JournalLineUpdateManyWithoutJournalEntryNestedInput = {
     create?: XOR<JournalLineCreateWithoutJournalEntryInput, JournalLineUncheckedCreateWithoutJournalEntryInput> | JournalLineCreateWithoutJournalEntryInput[] | JournalLineUncheckedCreateWithoutJournalEntryInput[]
     connectOrCreate?: JournalLineCreateOrConnectWithoutJournalEntryInput | JournalLineCreateOrConnectWithoutJournalEntryInput[]
@@ -70555,6 +70799,20 @@ export namespace Prisma {
     update?: JournalLineUpdateWithWhereUniqueWithoutJournalEntryInput | JournalLineUpdateWithWhereUniqueWithoutJournalEntryInput[]
     updateMany?: JournalLineUpdateManyWithWhereWithoutJournalEntryInput | JournalLineUpdateManyWithWhereWithoutJournalEntryInput[]
     deleteMany?: JournalLineScalarWhereInput | JournalLineScalarWhereInput[]
+  }
+
+  export type JournalEntryUncheckedUpdateManyWithoutReversalOfNestedInput = {
+    create?: XOR<JournalEntryCreateWithoutReversalOfInput, JournalEntryUncheckedCreateWithoutReversalOfInput> | JournalEntryCreateWithoutReversalOfInput[] | JournalEntryUncheckedCreateWithoutReversalOfInput[]
+    connectOrCreate?: JournalEntryCreateOrConnectWithoutReversalOfInput | JournalEntryCreateOrConnectWithoutReversalOfInput[]
+    upsert?: JournalEntryUpsertWithWhereUniqueWithoutReversalOfInput | JournalEntryUpsertWithWhereUniqueWithoutReversalOfInput[]
+    createMany?: JournalEntryCreateManyReversalOfInputEnvelope
+    set?: JournalEntryWhereUniqueInput | JournalEntryWhereUniqueInput[]
+    disconnect?: JournalEntryWhereUniqueInput | JournalEntryWhereUniqueInput[]
+    delete?: JournalEntryWhereUniqueInput | JournalEntryWhereUniqueInput[]
+    connect?: JournalEntryWhereUniqueInput | JournalEntryWhereUniqueInput[]
+    update?: JournalEntryUpdateWithWhereUniqueWithoutReversalOfInput | JournalEntryUpdateWithWhereUniqueWithoutReversalOfInput[]
+    updateMany?: JournalEntryUpdateManyWithWhereWithoutReversalOfInput | JournalEntryUpdateManyWithWhereWithoutReversalOfInput[]
+    deleteMany?: JournalEntryScalarWhereInput | JournalEntryScalarWhereInput[]
   }
 
   export type JournalLineUncheckedUpdateManyWithoutJournalEntryNestedInput = {
@@ -75095,15 +75353,15 @@ export namespace Prisma {
     not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
-  export type NestedDecimalFilter<$PrismaModel = never> = {
-    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
-    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
-    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    not?: NestedDecimalFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
   export type NestedDateTimeFilter<$PrismaModel = never> = {
@@ -75214,20 +75472,18 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
-  export type NestedDecimalWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
-    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
-    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    not?: NestedDecimalWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedDecimalFilter<$PrismaModel>
-    _sum?: NestedDecimalFilter<$PrismaModel>
-    _min?: NestedDecimalFilter<$PrismaModel>
-    _max?: NestedDecimalFilter<$PrismaModel>
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -75244,6 +75500,13 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type NestedEnumReferenceTypeNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.ReferenceType | EnumReferenceTypeFieldRefInput<$PrismaModel> | null
+    in?: $Enums.ReferenceType[] | ListEnumReferenceTypeFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.ReferenceType[] | ListEnumReferenceTypeFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumReferenceTypeNullableFilter<$PrismaModel> | $Enums.ReferenceType | null
+  }
+
   export type NestedEnumJournalEntryStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.JournalEntryStatus | EnumJournalEntryStatusFieldRefInput<$PrismaModel>
     in?: $Enums.JournalEntryStatus[] | ListEnumJournalEntryStatusFieldRefInput<$PrismaModel>
@@ -75251,15 +75514,25 @@ export namespace Prisma {
     not?: NestedEnumJournalEntryStatusFilter<$PrismaModel> | $Enums.JournalEntryStatus
   }
 
-  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  export type NestedDecimalFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
+  }
+
+  export type NestedEnumReferenceTypeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ReferenceType | EnumReferenceTypeFieldRefInput<$PrismaModel> | null
+    in?: $Enums.ReferenceType[] | ListEnumReferenceTypeFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.ReferenceType[] | ListEnumReferenceTypeFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumReferenceTypeNullableWithAggregatesFilter<$PrismaModel> | $Enums.ReferenceType | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumReferenceTypeNullableFilter<$PrismaModel>
+    _max?: NestedEnumReferenceTypeNullableFilter<$PrismaModel>
   }
 
   export type NestedEnumJournalEntryStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -75272,18 +75545,20 @@ export namespace Prisma {
     _max?: NestedEnumJournalEntryStatusFilter<$PrismaModel>
   }
 
-  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  export type NestedDecimalWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedDecimalFilter<$PrismaModel>
+    _sum?: NestedDecimalFilter<$PrismaModel>
+    _min?: NestedDecimalFilter<$PrismaModel>
+    _max?: NestedDecimalFilter<$PrismaModel>
   }
 
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
@@ -75687,7 +75962,9 @@ export namespace Prisma {
     name: JsonNullValueInput | InputJsonValue
     type: $Enums.AccountType
     isActive?: boolean
-    currentBalance?: Decimal | DecimalJsLike | number | string
+    isPostable?: boolean
+    isContra?: boolean
+    deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     tenant: TenantCreateNestedOneWithoutChartOfAccountsInput
@@ -75716,7 +75993,9 @@ export namespace Prisma {
     type: $Enums.AccountType
     parentId?: string | null
     isActive?: boolean
-    currentBalance?: Decimal | DecimalJsLike | number | string
+    isPostable?: boolean
+    isContra?: boolean
+    deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     journalLines?: JournalLineUncheckedCreateNestedManyWithoutAccountInput
@@ -75746,7 +76025,9 @@ export namespace Prisma {
     name: JsonNullValueInput | InputJsonValue
     type: $Enums.AccountType
     isActive?: boolean
-    currentBalance?: Decimal | DecimalJsLike | number | string
+    isPostable?: boolean
+    isContra?: boolean
+    deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     tenant: TenantCreateNestedOneWithoutChartOfAccountsInput
@@ -75774,7 +76055,9 @@ export namespace Prisma {
     name: JsonNullValueInput | InputJsonValue
     type: $Enums.AccountType
     isActive?: boolean
-    currentBalance?: Decimal | DecimalJsLike | number | string
+    isPostable?: boolean
+    isContra?: boolean
+    deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     children?: ChartOfAccountUncheckedCreateNestedManyWithoutParentInput
@@ -76480,7 +76763,9 @@ export namespace Prisma {
     name?: JsonNullValueInput | InputJsonValue
     type?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    currentBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    isPostable?: BoolFieldUpdateOperationsInput | boolean
+    isContra?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: TenantUpdateOneRequiredWithoutChartOfAccountsNestedInput
@@ -76509,7 +76794,9 @@ export namespace Prisma {
     type?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    currentBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    isPostable?: BoolFieldUpdateOperationsInput | boolean
+    isContra?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     journalLines?: JournalLineUncheckedUpdateManyWithoutAccountNestedInput
@@ -76555,7 +76842,9 @@ export namespace Prisma {
     type?: EnumAccountTypeFilter<"ChartOfAccount"> | $Enums.AccountType
     parentId?: StringNullableFilter<"ChartOfAccount"> | string | null
     isActive?: BoolFilter<"ChartOfAccount"> | boolean
-    currentBalance?: DecimalFilter<"ChartOfAccount"> | Decimal | DecimalJsLike | number | string
+    isPostable?: BoolFilter<"ChartOfAccount"> | boolean
+    isContra?: BoolFilter<"ChartOfAccount"> | boolean
+    deletedAt?: DateTimeNullableFilter<"ChartOfAccount"> | Date | string | null
     createdAt?: DateTimeFilter<"ChartOfAccount"> | Date | string
     updatedAt?: DateTimeFilter<"ChartOfAccount"> | Date | string
   }
@@ -77002,6 +77291,101 @@ export namespace Prisma {
     create: XOR<FiscalPeriodCreateWithoutJournalEntriesInput, FiscalPeriodUncheckedCreateWithoutJournalEntriesInput>
   }
 
+  export type JournalEntryCreateWithoutReversedByInput = {
+    id?: string
+    number: string
+    date: Date | string
+    referenceType?: $Enums.ReferenceType | null
+    referenceId?: string | null
+    description?: string | null
+    status?: $Enums.JournalEntryStatus
+    exchangeRate?: Decimal | DecimalJsLike | number | string
+    postedAt?: Date | string | null
+    reversalDate?: Date | string | null
+    createdBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutJournalEntriesInput
+    fiscalPeriod: FiscalPeriodCreateNestedOneWithoutJournalEntriesInput
+    reversalOf?: JournalEntryCreateNestedOneWithoutReversedByInput
+    lines?: JournalLineCreateNestedManyWithoutJournalEntryInput
+  }
+
+  export type JournalEntryUncheckedCreateWithoutReversedByInput = {
+    id?: string
+    tenantId: string
+    number: string
+    date: Date | string
+    fiscalPeriodId: string
+    referenceType?: $Enums.ReferenceType | null
+    referenceId?: string | null
+    description?: string | null
+    status?: $Enums.JournalEntryStatus
+    exchangeRate?: Decimal | DecimalJsLike | number | string
+    postedAt?: Date | string | null
+    reversalOfId?: string | null
+    reversalDate?: Date | string | null
+    createdBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lines?: JournalLineUncheckedCreateNestedManyWithoutJournalEntryInput
+  }
+
+  export type JournalEntryCreateOrConnectWithoutReversedByInput = {
+    where: JournalEntryWhereUniqueInput
+    create: XOR<JournalEntryCreateWithoutReversedByInput, JournalEntryUncheckedCreateWithoutReversedByInput>
+  }
+
+  export type JournalEntryCreateWithoutReversalOfInput = {
+    id?: string
+    number: string
+    date: Date | string
+    referenceType?: $Enums.ReferenceType | null
+    referenceId?: string | null
+    description?: string | null
+    status?: $Enums.JournalEntryStatus
+    exchangeRate?: Decimal | DecimalJsLike | number | string
+    postedAt?: Date | string | null
+    reversalDate?: Date | string | null
+    createdBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutJournalEntriesInput
+    fiscalPeriod: FiscalPeriodCreateNestedOneWithoutJournalEntriesInput
+    reversedBy?: JournalEntryCreateNestedManyWithoutReversalOfInput
+    lines?: JournalLineCreateNestedManyWithoutJournalEntryInput
+  }
+
+  export type JournalEntryUncheckedCreateWithoutReversalOfInput = {
+    id?: string
+    tenantId: string
+    number: string
+    date: Date | string
+    fiscalPeriodId: string
+    referenceType?: $Enums.ReferenceType | null
+    referenceId?: string | null
+    description?: string | null
+    status?: $Enums.JournalEntryStatus
+    exchangeRate?: Decimal | DecimalJsLike | number | string
+    postedAt?: Date | string | null
+    reversalDate?: Date | string | null
+    createdBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    reversedBy?: JournalEntryUncheckedCreateNestedManyWithoutReversalOfInput
+    lines?: JournalLineUncheckedCreateNestedManyWithoutJournalEntryInput
+  }
+
+  export type JournalEntryCreateOrConnectWithoutReversalOfInput = {
+    where: JournalEntryWhereUniqueInput
+    create: XOR<JournalEntryCreateWithoutReversalOfInput, JournalEntryUncheckedCreateWithoutReversalOfInput>
+  }
+
+  export type JournalEntryCreateManyReversalOfInputEnvelope = {
+    data: JournalEntryCreateManyReversalOfInput | JournalEntryCreateManyReversalOfInput[]
+    skipDuplicates?: boolean
+  }
+
   export type JournalLineCreateWithoutJournalEntryInput = {
     id?: string
     tenantId: string
@@ -77180,6 +77564,95 @@ export namespace Prisma {
     expenses?: ExpenseUncheckedUpdateManyWithoutFiscalPeriodNestedInput
   }
 
+  export type JournalEntryUpsertWithoutReversedByInput = {
+    update: XOR<JournalEntryUpdateWithoutReversedByInput, JournalEntryUncheckedUpdateWithoutReversedByInput>
+    create: XOR<JournalEntryCreateWithoutReversedByInput, JournalEntryUncheckedCreateWithoutReversedByInput>
+    where?: JournalEntryWhereInput
+  }
+
+  export type JournalEntryUpdateToOneWithWhereWithoutReversedByInput = {
+    where?: JournalEntryWhereInput
+    data: XOR<JournalEntryUpdateWithoutReversedByInput, JournalEntryUncheckedUpdateWithoutReversedByInput>
+  }
+
+  export type JournalEntryUpdateWithoutReversedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    referenceType?: NullableEnumReferenceTypeFieldUpdateOperationsInput | $Enums.ReferenceType | null
+    referenceId?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumJournalEntryStatusFieldUpdateOperationsInput | $Enums.JournalEntryStatus
+    exchangeRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reversalDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutJournalEntriesNestedInput
+    fiscalPeriod?: FiscalPeriodUpdateOneRequiredWithoutJournalEntriesNestedInput
+    reversalOf?: JournalEntryUpdateOneWithoutReversedByNestedInput
+    lines?: JournalLineUpdateManyWithoutJournalEntryNestedInput
+  }
+
+  export type JournalEntryUncheckedUpdateWithoutReversedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    fiscalPeriodId?: StringFieldUpdateOperationsInput | string
+    referenceType?: NullableEnumReferenceTypeFieldUpdateOperationsInput | $Enums.ReferenceType | null
+    referenceId?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumJournalEntryStatusFieldUpdateOperationsInput | $Enums.JournalEntryStatus
+    exchangeRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reversalOfId?: NullableStringFieldUpdateOperationsInput | string | null
+    reversalDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lines?: JournalLineUncheckedUpdateManyWithoutJournalEntryNestedInput
+  }
+
+  export type JournalEntryUpsertWithWhereUniqueWithoutReversalOfInput = {
+    where: JournalEntryWhereUniqueInput
+    update: XOR<JournalEntryUpdateWithoutReversalOfInput, JournalEntryUncheckedUpdateWithoutReversalOfInput>
+    create: XOR<JournalEntryCreateWithoutReversalOfInput, JournalEntryUncheckedCreateWithoutReversalOfInput>
+  }
+
+  export type JournalEntryUpdateWithWhereUniqueWithoutReversalOfInput = {
+    where: JournalEntryWhereUniqueInput
+    data: XOR<JournalEntryUpdateWithoutReversalOfInput, JournalEntryUncheckedUpdateWithoutReversalOfInput>
+  }
+
+  export type JournalEntryUpdateManyWithWhereWithoutReversalOfInput = {
+    where: JournalEntryScalarWhereInput
+    data: XOR<JournalEntryUpdateManyMutationInput, JournalEntryUncheckedUpdateManyWithoutReversalOfInput>
+  }
+
+  export type JournalEntryScalarWhereInput = {
+    AND?: JournalEntryScalarWhereInput | JournalEntryScalarWhereInput[]
+    OR?: JournalEntryScalarWhereInput[]
+    NOT?: JournalEntryScalarWhereInput | JournalEntryScalarWhereInput[]
+    id?: StringFilter<"JournalEntry"> | string
+    tenantId?: StringFilter<"JournalEntry"> | string
+    number?: StringFilter<"JournalEntry"> | string
+    date?: DateTimeFilter<"JournalEntry"> | Date | string
+    fiscalPeriodId?: StringFilter<"JournalEntry"> | string
+    referenceType?: EnumReferenceTypeNullableFilter<"JournalEntry"> | $Enums.ReferenceType | null
+    referenceId?: StringNullableFilter<"JournalEntry"> | string | null
+    description?: StringNullableFilter<"JournalEntry"> | string | null
+    status?: EnumJournalEntryStatusFilter<"JournalEntry"> | $Enums.JournalEntryStatus
+    exchangeRate?: DecimalFilter<"JournalEntry"> | Decimal | DecimalJsLike | number | string
+    postedAt?: DateTimeNullableFilter<"JournalEntry"> | Date | string | null
+    reversalOfId?: StringNullableFilter<"JournalEntry"> | string | null
+    reversalDate?: DateTimeNullableFilter<"JournalEntry"> | Date | string | null
+    createdBy?: StringFilter<"JournalEntry"> | string
+    createdAt?: DateTimeFilter<"JournalEntry"> | Date | string
+    updatedAt?: DateTimeFilter<"JournalEntry"> | Date | string
+  }
+
   export type JournalLineUpsertWithWhereUniqueWithoutJournalEntryInput = {
     where: JournalLineWhereUniqueInput
     update: XOR<JournalLineUpdateWithoutJournalEntryInput, JournalLineUncheckedUpdateWithoutJournalEntryInput>
@@ -77200,17 +77673,20 @@ export namespace Prisma {
     id?: string
     number: string
     date: Date | string
-    referenceType?: string | null
+    referenceType?: $Enums.ReferenceType | null
     referenceId?: string | null
     description?: string | null
     status?: $Enums.JournalEntryStatus
     exchangeRate?: Decimal | DecimalJsLike | number | string
     postedAt?: Date | string | null
+    reversalDate?: Date | string | null
     createdBy: string
     createdAt?: Date | string
     updatedAt?: Date | string
     tenant: TenantCreateNestedOneWithoutJournalEntriesInput
     fiscalPeriod: FiscalPeriodCreateNestedOneWithoutJournalEntriesInput
+    reversalOf?: JournalEntryCreateNestedOneWithoutReversedByInput
+    reversedBy?: JournalEntryCreateNestedManyWithoutReversalOfInput
   }
 
   export type JournalEntryUncheckedCreateWithoutLinesInput = {
@@ -77219,15 +77695,18 @@ export namespace Prisma {
     number: string
     date: Date | string
     fiscalPeriodId: string
-    referenceType?: string | null
+    referenceType?: $Enums.ReferenceType | null
     referenceId?: string | null
     description?: string | null
     status?: $Enums.JournalEntryStatus
     exchangeRate?: Decimal | DecimalJsLike | number | string
     postedAt?: Date | string | null
+    reversalOfId?: string | null
+    reversalDate?: Date | string | null
     createdBy: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    reversedBy?: JournalEntryUncheckedCreateNestedManyWithoutReversalOfInput
   }
 
   export type JournalEntryCreateOrConnectWithoutLinesInput = {
@@ -77241,7 +77720,9 @@ export namespace Prisma {
     name: JsonNullValueInput | InputJsonValue
     type: $Enums.AccountType
     isActive?: boolean
-    currentBalance?: Decimal | DecimalJsLike | number | string
+    isPostable?: boolean
+    isContra?: boolean
+    deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     tenant: TenantCreateNestedOneWithoutChartOfAccountsInput
@@ -77270,7 +77751,9 @@ export namespace Prisma {
     type: $Enums.AccountType
     parentId?: string | null
     isActive?: boolean
-    currentBalance?: Decimal | DecimalJsLike | number | string
+    isPostable?: boolean
+    isContra?: boolean
+    deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     children?: ChartOfAccountUncheckedCreateNestedManyWithoutParentInput
@@ -77352,17 +77835,20 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     number?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
-    referenceType?: NullableStringFieldUpdateOperationsInput | string | null
+    referenceType?: NullableEnumReferenceTypeFieldUpdateOperationsInput | $Enums.ReferenceType | null
     referenceId?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumJournalEntryStatusFieldUpdateOperationsInput | $Enums.JournalEntryStatus
     exchangeRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reversalDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: TenantUpdateOneRequiredWithoutJournalEntriesNestedInput
     fiscalPeriod?: FiscalPeriodUpdateOneRequiredWithoutJournalEntriesNestedInput
+    reversalOf?: JournalEntryUpdateOneWithoutReversedByNestedInput
+    reversedBy?: JournalEntryUpdateManyWithoutReversalOfNestedInput
   }
 
   export type JournalEntryUncheckedUpdateWithoutLinesInput = {
@@ -77371,15 +77857,18 @@ export namespace Prisma {
     number?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     fiscalPeriodId?: StringFieldUpdateOperationsInput | string
-    referenceType?: NullableStringFieldUpdateOperationsInput | string | null
+    referenceType?: NullableEnumReferenceTypeFieldUpdateOperationsInput | $Enums.ReferenceType | null
     referenceId?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumJournalEntryStatusFieldUpdateOperationsInput | $Enums.JournalEntryStatus
     exchangeRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reversalOfId?: NullableStringFieldUpdateOperationsInput | string | null
+    reversalDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reversedBy?: JournalEntryUncheckedUpdateManyWithoutReversalOfNestedInput
   }
 
   export type ChartOfAccountUpsertWithoutJournalLinesInput = {
@@ -77399,7 +77888,9 @@ export namespace Prisma {
     name?: JsonNullValueInput | InputJsonValue
     type?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    currentBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    isPostable?: BoolFieldUpdateOperationsInput | boolean
+    isContra?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: TenantUpdateOneRequiredWithoutChartOfAccountsNestedInput
@@ -77428,7 +77919,9 @@ export namespace Prisma {
     type?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    currentBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    isPostable?: BoolFieldUpdateOperationsInput | boolean
+    isContra?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     children?: ChartOfAccountUncheckedUpdateManyWithoutParentNestedInput
@@ -78448,7 +78941,9 @@ export namespace Prisma {
     name: JsonNullValueInput | InputJsonValue
     type: $Enums.AccountType
     isActive?: boolean
-    currentBalance?: Decimal | DecimalJsLike | number | string
+    isPostable?: boolean
+    isContra?: boolean
+    deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     tenant: TenantCreateNestedOneWithoutChartOfAccountsInput
@@ -78477,7 +78972,9 @@ export namespace Prisma {
     type: $Enums.AccountType
     parentId?: string | null
     isActive?: boolean
-    currentBalance?: Decimal | DecimalJsLike | number | string
+    isPostable?: boolean
+    isContra?: boolean
+    deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     children?: ChartOfAccountUncheckedCreateNestedManyWithoutParentInput
@@ -78778,7 +79275,9 @@ export namespace Prisma {
     name?: JsonNullValueInput | InputJsonValue
     type?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    currentBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    isPostable?: BoolFieldUpdateOperationsInput | boolean
+    isContra?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: TenantUpdateOneRequiredWithoutChartOfAccountsNestedInput
@@ -78807,7 +79306,9 @@ export namespace Prisma {
     type?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    currentBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    isPostable?: BoolFieldUpdateOperationsInput | boolean
+    isContra?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     children?: ChartOfAccountUncheckedUpdateManyWithoutParentNestedInput
@@ -81753,7 +82254,9 @@ export namespace Prisma {
     name: JsonNullValueInput | InputJsonValue
     type: $Enums.AccountType
     isActive?: boolean
-    currentBalance?: Decimal | DecimalJsLike | number | string
+    isPostable?: boolean
+    isContra?: boolean
+    deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     tenant: TenantCreateNestedOneWithoutChartOfAccountsInput
@@ -81782,7 +82285,9 @@ export namespace Prisma {
     type: $Enums.AccountType
     parentId?: string | null
     isActive?: boolean
-    currentBalance?: Decimal | DecimalJsLike | number | string
+    isPostable?: boolean
+    isContra?: boolean
+    deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     children?: ChartOfAccountUncheckedCreateNestedManyWithoutParentInput
@@ -81878,7 +82383,9 @@ export namespace Prisma {
     name?: JsonNullValueInput | InputJsonValue
     type?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    currentBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    isPostable?: BoolFieldUpdateOperationsInput | boolean
+    isContra?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: TenantUpdateOneRequiredWithoutChartOfAccountsNestedInput
@@ -81907,7 +82414,9 @@ export namespace Prisma {
     type?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    currentBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    isPostable?: BoolFieldUpdateOperationsInput | boolean
+    isContra?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     children?: ChartOfAccountUncheckedUpdateManyWithoutParentNestedInput
@@ -82029,7 +82538,9 @@ export namespace Prisma {
     name: JsonNullValueInput | InputJsonValue
     type: $Enums.AccountType
     isActive?: boolean
-    currentBalance?: Decimal | DecimalJsLike | number | string
+    isPostable?: boolean
+    isContra?: boolean
+    deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     tenant: TenantCreateNestedOneWithoutChartOfAccountsInput
@@ -82058,7 +82569,9 @@ export namespace Prisma {
     type: $Enums.AccountType
     parentId?: string | null
     isActive?: boolean
-    currentBalance?: Decimal | DecimalJsLike | number | string
+    isPostable?: boolean
+    isContra?: boolean
+    deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     children?: ChartOfAccountUncheckedCreateNestedManyWithoutParentInput
@@ -82088,7 +82601,9 @@ export namespace Prisma {
     name: JsonNullValueInput | InputJsonValue
     type: $Enums.AccountType
     isActive?: boolean
-    currentBalance?: Decimal | DecimalJsLike | number | string
+    isPostable?: boolean
+    isContra?: boolean
+    deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     tenant: TenantCreateNestedOneWithoutChartOfAccountsInput
@@ -82117,7 +82632,9 @@ export namespace Prisma {
     type: $Enums.AccountType
     parentId?: string | null
     isActive?: boolean
-    currentBalance?: Decimal | DecimalJsLike | number | string
+    isPostable?: boolean
+    isContra?: boolean
+    deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     children?: ChartOfAccountUncheckedCreateNestedManyWithoutParentInput
@@ -82147,7 +82664,9 @@ export namespace Prisma {
     name: JsonNullValueInput | InputJsonValue
     type: $Enums.AccountType
     isActive?: boolean
-    currentBalance?: Decimal | DecimalJsLike | number | string
+    isPostable?: boolean
+    isContra?: boolean
+    deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     tenant: TenantCreateNestedOneWithoutChartOfAccountsInput
@@ -82176,7 +82695,9 @@ export namespace Prisma {
     type: $Enums.AccountType
     parentId?: string | null
     isActive?: boolean
-    currentBalance?: Decimal | DecimalJsLike | number | string
+    isPostable?: boolean
+    isContra?: boolean
+    deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     children?: ChartOfAccountUncheckedCreateNestedManyWithoutParentInput
@@ -82206,7 +82727,9 @@ export namespace Prisma {
     name: JsonNullValueInput | InputJsonValue
     type: $Enums.AccountType
     isActive?: boolean
-    currentBalance?: Decimal | DecimalJsLike | number | string
+    isPostable?: boolean
+    isContra?: boolean
+    deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     tenant: TenantCreateNestedOneWithoutChartOfAccountsInput
@@ -82235,7 +82758,9 @@ export namespace Prisma {
     type: $Enums.AccountType
     parentId?: string | null
     isActive?: boolean
-    currentBalance?: Decimal | DecimalJsLike | number | string
+    isPostable?: boolean
+    isContra?: boolean
+    deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     children?: ChartOfAccountUncheckedCreateNestedManyWithoutParentInput
@@ -82265,7 +82790,9 @@ export namespace Prisma {
     name: JsonNullValueInput | InputJsonValue
     type: $Enums.AccountType
     isActive?: boolean
-    currentBalance?: Decimal | DecimalJsLike | number | string
+    isPostable?: boolean
+    isContra?: boolean
+    deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     tenant: TenantCreateNestedOneWithoutChartOfAccountsInput
@@ -82294,7 +82821,9 @@ export namespace Prisma {
     type: $Enums.AccountType
     parentId?: string | null
     isActive?: boolean
-    currentBalance?: Decimal | DecimalJsLike | number | string
+    isPostable?: boolean
+    isContra?: boolean
+    deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     children?: ChartOfAccountUncheckedCreateNestedManyWithoutParentInput
@@ -82324,7 +82853,9 @@ export namespace Prisma {
     name: JsonNullValueInput | InputJsonValue
     type: $Enums.AccountType
     isActive?: boolean
-    currentBalance?: Decimal | DecimalJsLike | number | string
+    isPostable?: boolean
+    isContra?: boolean
+    deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     tenant: TenantCreateNestedOneWithoutChartOfAccountsInput
@@ -82353,7 +82884,9 @@ export namespace Prisma {
     type: $Enums.AccountType
     parentId?: string | null
     isActive?: boolean
-    currentBalance?: Decimal | DecimalJsLike | number | string
+    isPostable?: boolean
+    isContra?: boolean
+    deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     children?: ChartOfAccountUncheckedCreateNestedManyWithoutParentInput
@@ -82383,7 +82916,9 @@ export namespace Prisma {
     name: JsonNullValueInput | InputJsonValue
     type: $Enums.AccountType
     isActive?: boolean
-    currentBalance?: Decimal | DecimalJsLike | number | string
+    isPostable?: boolean
+    isContra?: boolean
+    deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     tenant: TenantCreateNestedOneWithoutChartOfAccountsInput
@@ -82412,7 +82947,9 @@ export namespace Prisma {
     type: $Enums.AccountType
     parentId?: string | null
     isActive?: boolean
-    currentBalance?: Decimal | DecimalJsLike | number | string
+    isPostable?: boolean
+    isContra?: boolean
+    deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     children?: ChartOfAccountUncheckedCreateNestedManyWithoutParentInput
@@ -82442,7 +82979,9 @@ export namespace Prisma {
     name: JsonNullValueInput | InputJsonValue
     type: $Enums.AccountType
     isActive?: boolean
-    currentBalance?: Decimal | DecimalJsLike | number | string
+    isPostable?: boolean
+    isContra?: boolean
+    deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     tenant: TenantCreateNestedOneWithoutChartOfAccountsInput
@@ -82471,7 +83010,9 @@ export namespace Prisma {
     type: $Enums.AccountType
     parentId?: string | null
     isActive?: boolean
-    currentBalance?: Decimal | DecimalJsLike | number | string
+    isPostable?: boolean
+    isContra?: boolean
+    deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     children?: ChartOfAccountUncheckedCreateNestedManyWithoutParentInput
@@ -82501,7 +83042,9 @@ export namespace Prisma {
     name: JsonNullValueInput | InputJsonValue
     type: $Enums.AccountType
     isActive?: boolean
-    currentBalance?: Decimal | DecimalJsLike | number | string
+    isPostable?: boolean
+    isContra?: boolean
+    deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     tenant: TenantCreateNestedOneWithoutChartOfAccountsInput
@@ -82530,7 +83073,9 @@ export namespace Prisma {
     type: $Enums.AccountType
     parentId?: string | null
     isActive?: boolean
-    currentBalance?: Decimal | DecimalJsLike | number | string
+    isPostable?: boolean
+    isContra?: boolean
+    deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     children?: ChartOfAccountUncheckedCreateNestedManyWithoutParentInput
@@ -82674,7 +83219,9 @@ export namespace Prisma {
     name?: JsonNullValueInput | InputJsonValue
     type?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    currentBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    isPostable?: BoolFieldUpdateOperationsInput | boolean
+    isContra?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: TenantUpdateOneRequiredWithoutChartOfAccountsNestedInput
@@ -82703,7 +83250,9 @@ export namespace Prisma {
     type?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    currentBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    isPostable?: BoolFieldUpdateOperationsInput | boolean
+    isContra?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     children?: ChartOfAccountUncheckedUpdateManyWithoutParentNestedInput
@@ -82739,7 +83288,9 @@ export namespace Prisma {
     name?: JsonNullValueInput | InputJsonValue
     type?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    currentBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    isPostable?: BoolFieldUpdateOperationsInput | boolean
+    isContra?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: TenantUpdateOneRequiredWithoutChartOfAccountsNestedInput
@@ -82768,7 +83319,9 @@ export namespace Prisma {
     type?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    currentBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    isPostable?: BoolFieldUpdateOperationsInput | boolean
+    isContra?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     children?: ChartOfAccountUncheckedUpdateManyWithoutParentNestedInput
@@ -82804,7 +83357,9 @@ export namespace Prisma {
     name?: JsonNullValueInput | InputJsonValue
     type?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    currentBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    isPostable?: BoolFieldUpdateOperationsInput | boolean
+    isContra?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: TenantUpdateOneRequiredWithoutChartOfAccountsNestedInput
@@ -82833,7 +83388,9 @@ export namespace Prisma {
     type?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    currentBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    isPostable?: BoolFieldUpdateOperationsInput | boolean
+    isContra?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     children?: ChartOfAccountUncheckedUpdateManyWithoutParentNestedInput
@@ -82869,7 +83426,9 @@ export namespace Prisma {
     name?: JsonNullValueInput | InputJsonValue
     type?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    currentBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    isPostable?: BoolFieldUpdateOperationsInput | boolean
+    isContra?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: TenantUpdateOneRequiredWithoutChartOfAccountsNestedInput
@@ -82898,7 +83457,9 @@ export namespace Prisma {
     type?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    currentBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    isPostable?: BoolFieldUpdateOperationsInput | boolean
+    isContra?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     children?: ChartOfAccountUncheckedUpdateManyWithoutParentNestedInput
@@ -82934,7 +83495,9 @@ export namespace Prisma {
     name?: JsonNullValueInput | InputJsonValue
     type?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    currentBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    isPostable?: BoolFieldUpdateOperationsInput | boolean
+    isContra?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: TenantUpdateOneRequiredWithoutChartOfAccountsNestedInput
@@ -82963,7 +83526,9 @@ export namespace Prisma {
     type?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    currentBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    isPostable?: BoolFieldUpdateOperationsInput | boolean
+    isContra?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     children?: ChartOfAccountUncheckedUpdateManyWithoutParentNestedInput
@@ -82999,7 +83564,9 @@ export namespace Prisma {
     name?: JsonNullValueInput | InputJsonValue
     type?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    currentBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    isPostable?: BoolFieldUpdateOperationsInput | boolean
+    isContra?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: TenantUpdateOneRequiredWithoutChartOfAccountsNestedInput
@@ -83028,7 +83595,9 @@ export namespace Prisma {
     type?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    currentBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    isPostable?: BoolFieldUpdateOperationsInput | boolean
+    isContra?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     children?: ChartOfAccountUncheckedUpdateManyWithoutParentNestedInput
@@ -83064,7 +83633,9 @@ export namespace Prisma {
     name?: JsonNullValueInput | InputJsonValue
     type?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    currentBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    isPostable?: BoolFieldUpdateOperationsInput | boolean
+    isContra?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: TenantUpdateOneRequiredWithoutChartOfAccountsNestedInput
@@ -83093,7 +83664,9 @@ export namespace Prisma {
     type?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    currentBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    isPostable?: BoolFieldUpdateOperationsInput | boolean
+    isContra?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     children?: ChartOfAccountUncheckedUpdateManyWithoutParentNestedInput
@@ -83129,7 +83702,9 @@ export namespace Prisma {
     name?: JsonNullValueInput | InputJsonValue
     type?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    currentBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    isPostable?: BoolFieldUpdateOperationsInput | boolean
+    isContra?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: TenantUpdateOneRequiredWithoutChartOfAccountsNestedInput
@@ -83158,7 +83733,9 @@ export namespace Prisma {
     type?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    currentBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    isPostable?: BoolFieldUpdateOperationsInput | boolean
+    isContra?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     children?: ChartOfAccountUncheckedUpdateManyWithoutParentNestedInput
@@ -83194,7 +83771,9 @@ export namespace Prisma {
     name?: JsonNullValueInput | InputJsonValue
     type?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    currentBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    isPostable?: BoolFieldUpdateOperationsInput | boolean
+    isContra?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: TenantUpdateOneRequiredWithoutChartOfAccountsNestedInput
@@ -83223,7 +83802,9 @@ export namespace Prisma {
     type?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    currentBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    isPostable?: BoolFieldUpdateOperationsInput | boolean
+    isContra?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     children?: ChartOfAccountUncheckedUpdateManyWithoutParentNestedInput
@@ -83509,16 +84090,19 @@ export namespace Prisma {
     id?: string
     number: string
     date: Date | string
-    referenceType?: string | null
+    referenceType?: $Enums.ReferenceType | null
     referenceId?: string | null
     description?: string | null
     status?: $Enums.JournalEntryStatus
     exchangeRate?: Decimal | DecimalJsLike | number | string
     postedAt?: Date | string | null
+    reversalDate?: Date | string | null
     createdBy: string
     createdAt?: Date | string
     updatedAt?: Date | string
     tenant: TenantCreateNestedOneWithoutJournalEntriesInput
+    reversalOf?: JournalEntryCreateNestedOneWithoutReversedByInput
+    reversedBy?: JournalEntryCreateNestedManyWithoutReversalOfInput
     lines?: JournalLineCreateNestedManyWithoutJournalEntryInput
   }
 
@@ -83527,15 +84111,18 @@ export namespace Prisma {
     tenantId: string
     number: string
     date: Date | string
-    referenceType?: string | null
+    referenceType?: $Enums.ReferenceType | null
     referenceId?: string | null
     description?: string | null
     status?: $Enums.JournalEntryStatus
     exchangeRate?: Decimal | DecimalJsLike | number | string
     postedAt?: Date | string | null
+    reversalOfId?: string | null
+    reversalDate?: Date | string | null
     createdBy: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    reversedBy?: JournalEntryUncheckedCreateNestedManyWithoutReversalOfInput
     lines?: JournalLineUncheckedCreateNestedManyWithoutJournalEntryInput
   }
 
@@ -83829,26 +84416,6 @@ export namespace Prisma {
   export type JournalEntryUpdateManyWithWhereWithoutFiscalPeriodInput = {
     where: JournalEntryScalarWhereInput
     data: XOR<JournalEntryUpdateManyMutationInput, JournalEntryUncheckedUpdateManyWithoutFiscalPeriodInput>
-  }
-
-  export type JournalEntryScalarWhereInput = {
-    AND?: JournalEntryScalarWhereInput | JournalEntryScalarWhereInput[]
-    OR?: JournalEntryScalarWhereInput[]
-    NOT?: JournalEntryScalarWhereInput | JournalEntryScalarWhereInput[]
-    id?: StringFilter<"JournalEntry"> | string
-    tenantId?: StringFilter<"JournalEntry"> | string
-    number?: StringFilter<"JournalEntry"> | string
-    date?: DateTimeFilter<"JournalEntry"> | Date | string
-    fiscalPeriodId?: StringFilter<"JournalEntry"> | string
-    referenceType?: StringNullableFilter<"JournalEntry"> | string | null
-    referenceId?: StringNullableFilter<"JournalEntry"> | string | null
-    description?: StringNullableFilter<"JournalEntry"> | string | null
-    status?: EnumJournalEntryStatusFilter<"JournalEntry"> | $Enums.JournalEntryStatus
-    exchangeRate?: DecimalFilter<"JournalEntry"> | Decimal | DecimalJsLike | number | string
-    postedAt?: DateTimeNullableFilter<"JournalEntry"> | Date | string | null
-    createdBy?: StringFilter<"JournalEntry"> | string
-    createdAt?: DateTimeFilter<"JournalEntry"> | Date | string
-    updatedAt?: DateTimeFilter<"JournalEntry"> | Date | string
   }
 
   export type StockCountUpsertWithWhereUniqueWithoutFiscalPeriodInput = {
@@ -87563,7 +88130,9 @@ export namespace Prisma {
     name: JsonNullValueInput | InputJsonValue
     type: $Enums.AccountType
     isActive?: boolean
-    currentBalance?: Decimal | DecimalJsLike | number | string
+    isPostable?: boolean
+    isContra?: boolean
+    deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     tenant: TenantCreateNestedOneWithoutChartOfAccountsInput
@@ -87592,7 +88161,9 @@ export namespace Prisma {
     type: $Enums.AccountType
     parentId?: string | null
     isActive?: boolean
-    currentBalance?: Decimal | DecimalJsLike | number | string
+    isPostable?: boolean
+    isContra?: boolean
+    deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     children?: ChartOfAccountUncheckedCreateNestedManyWithoutParentInput
@@ -87622,7 +88193,9 @@ export namespace Prisma {
     name: JsonNullValueInput | InputJsonValue
     type: $Enums.AccountType
     isActive?: boolean
-    currentBalance?: Decimal | DecimalJsLike | number | string
+    isPostable?: boolean
+    isContra?: boolean
+    deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     tenant: TenantCreateNestedOneWithoutChartOfAccountsInput
@@ -87651,7 +88224,9 @@ export namespace Prisma {
     type: $Enums.AccountType
     parentId?: string | null
     isActive?: boolean
-    currentBalance?: Decimal | DecimalJsLike | number | string
+    isPostable?: boolean
+    isContra?: boolean
+    deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     children?: ChartOfAccountUncheckedCreateNestedManyWithoutParentInput
@@ -87843,7 +88418,9 @@ export namespace Prisma {
     name?: JsonNullValueInput | InputJsonValue
     type?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    currentBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    isPostable?: BoolFieldUpdateOperationsInput | boolean
+    isContra?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: TenantUpdateOneRequiredWithoutChartOfAccountsNestedInput
@@ -87872,7 +88449,9 @@ export namespace Prisma {
     type?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    currentBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    isPostable?: BoolFieldUpdateOperationsInput | boolean
+    isContra?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     children?: ChartOfAccountUncheckedUpdateManyWithoutParentNestedInput
@@ -87908,7 +88487,9 @@ export namespace Prisma {
     name?: JsonNullValueInput | InputJsonValue
     type?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    currentBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    isPostable?: BoolFieldUpdateOperationsInput | boolean
+    isContra?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: TenantUpdateOneRequiredWithoutChartOfAccountsNestedInput
@@ -87937,7 +88518,9 @@ export namespace Prisma {
     type?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    currentBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    isPostable?: BoolFieldUpdateOperationsInput | boolean
+    isContra?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     children?: ChartOfAccountUncheckedUpdateManyWithoutParentNestedInput
@@ -90172,7 +90755,9 @@ export namespace Prisma {
     name: JsonNullValueInput | InputJsonValue
     type: $Enums.AccountType
     isActive?: boolean
-    currentBalance?: Decimal | DecimalJsLike | number | string
+    isPostable?: boolean
+    isContra?: boolean
+    deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     parent?: ChartOfAccountCreateNestedOneWithoutChildrenInput
@@ -90200,7 +90785,9 @@ export namespace Prisma {
     type: $Enums.AccountType
     parentId?: string | null
     isActive?: boolean
-    currentBalance?: Decimal | DecimalJsLike | number | string
+    isPostable?: boolean
+    isContra?: boolean
+    deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     children?: ChartOfAccountUncheckedCreateNestedManyWithoutParentInput
@@ -90234,16 +90821,19 @@ export namespace Prisma {
     id?: string
     number: string
     date: Date | string
-    referenceType?: string | null
+    referenceType?: $Enums.ReferenceType | null
     referenceId?: string | null
     description?: string | null
     status?: $Enums.JournalEntryStatus
     exchangeRate?: Decimal | DecimalJsLike | number | string
     postedAt?: Date | string | null
+    reversalDate?: Date | string | null
     createdBy: string
     createdAt?: Date | string
     updatedAt?: Date | string
     fiscalPeriod: FiscalPeriodCreateNestedOneWithoutJournalEntriesInput
+    reversalOf?: JournalEntryCreateNestedOneWithoutReversedByInput
+    reversedBy?: JournalEntryCreateNestedManyWithoutReversalOfInput
     lines?: JournalLineCreateNestedManyWithoutJournalEntryInput
   }
 
@@ -90252,15 +90842,18 @@ export namespace Prisma {
     number: string
     date: Date | string
     fiscalPeriodId: string
-    referenceType?: string | null
+    referenceType?: $Enums.ReferenceType | null
     referenceId?: string | null
     description?: string | null
     status?: $Enums.JournalEntryStatus
     exchangeRate?: Decimal | DecimalJsLike | number | string
     postedAt?: Date | string | null
+    reversalOfId?: string | null
+    reversalDate?: Date | string | null
     createdBy: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    reversedBy?: JournalEntryUncheckedCreateNestedManyWithoutReversalOfInput
     lines?: JournalLineUncheckedCreateNestedManyWithoutJournalEntryInput
   }
 
@@ -93070,7 +93663,9 @@ export namespace Prisma {
     name: JsonNullValueInput | InputJsonValue
     type: $Enums.AccountType
     isActive?: boolean
-    currentBalance?: Decimal | DecimalJsLike | number | string
+    isPostable?: boolean
+    isContra?: boolean
+    deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -93281,7 +93876,9 @@ export namespace Prisma {
     name?: JsonNullValueInput | InputJsonValue
     type?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    currentBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    isPostable?: BoolFieldUpdateOperationsInput | boolean
+    isContra?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: TenantUpdateOneRequiredWithoutChartOfAccountsNestedInput
@@ -93309,7 +93906,9 @@ export namespace Prisma {
     name?: JsonNullValueInput | InputJsonValue
     type?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    currentBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    isPostable?: BoolFieldUpdateOperationsInput | boolean
+    isContra?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     children?: ChartOfAccountUncheckedUpdateManyWithoutParentNestedInput
@@ -93336,7 +93935,9 @@ export namespace Prisma {
     name?: JsonNullValueInput | InputJsonValue
     type?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    currentBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    isPostable?: BoolFieldUpdateOperationsInput | boolean
+    isContra?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -93957,6 +94558,24 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type JournalEntryCreateManyReversalOfInput = {
+    id?: string
+    tenantId: string
+    number: string
+    date: Date | string
+    fiscalPeriodId: string
+    referenceType?: $Enums.ReferenceType | null
+    referenceId?: string | null
+    description?: string | null
+    status?: $Enums.JournalEntryStatus
+    exchangeRate?: Decimal | DecimalJsLike | number | string
+    postedAt?: Date | string | null
+    reversalDate?: Date | string | null
+    createdBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type JournalLineCreateManyJournalEntryInput = {
     id?: string
     tenantId: string
@@ -93966,6 +94585,64 @@ export namespace Prisma {
     credit?: Decimal | DecimalJsLike | number | string
     description?: string | null
     sortOrder?: number
+  }
+
+  export type JournalEntryUpdateWithoutReversalOfInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    referenceType?: NullableEnumReferenceTypeFieldUpdateOperationsInput | $Enums.ReferenceType | null
+    referenceId?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumJournalEntryStatusFieldUpdateOperationsInput | $Enums.JournalEntryStatus
+    exchangeRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reversalDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutJournalEntriesNestedInput
+    fiscalPeriod?: FiscalPeriodUpdateOneRequiredWithoutJournalEntriesNestedInput
+    reversedBy?: JournalEntryUpdateManyWithoutReversalOfNestedInput
+    lines?: JournalLineUpdateManyWithoutJournalEntryNestedInput
+  }
+
+  export type JournalEntryUncheckedUpdateWithoutReversalOfInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    fiscalPeriodId?: StringFieldUpdateOperationsInput | string
+    referenceType?: NullableEnumReferenceTypeFieldUpdateOperationsInput | $Enums.ReferenceType | null
+    referenceId?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumJournalEntryStatusFieldUpdateOperationsInput | $Enums.JournalEntryStatus
+    exchangeRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reversalDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reversedBy?: JournalEntryUncheckedUpdateManyWithoutReversalOfNestedInput
+    lines?: JournalLineUncheckedUpdateManyWithoutJournalEntryNestedInput
+  }
+
+  export type JournalEntryUncheckedUpdateManyWithoutReversalOfInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    fiscalPeriodId?: StringFieldUpdateOperationsInput | string
+    referenceType?: NullableEnumReferenceTypeFieldUpdateOperationsInput | $Enums.ReferenceType | null
+    referenceId?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumJournalEntryStatusFieldUpdateOperationsInput | $Enums.JournalEntryStatus
+    exchangeRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reversalDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type JournalLineUpdateWithoutJournalEntryInput = {
@@ -95167,12 +95844,14 @@ export namespace Prisma {
     tenantId: string
     number: string
     date: Date | string
-    referenceType?: string | null
+    referenceType?: $Enums.ReferenceType | null
     referenceId?: string | null
     description?: string | null
     status?: $Enums.JournalEntryStatus
     exchangeRate?: Decimal | DecimalJsLike | number | string
     postedAt?: Date | string | null
+    reversalOfId?: string | null
+    reversalDate?: Date | string | null
     createdBy: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -95419,16 +96098,19 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     number?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
-    referenceType?: NullableStringFieldUpdateOperationsInput | string | null
+    referenceType?: NullableEnumReferenceTypeFieldUpdateOperationsInput | $Enums.ReferenceType | null
     referenceId?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumJournalEntryStatusFieldUpdateOperationsInput | $Enums.JournalEntryStatus
     exchangeRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reversalDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: TenantUpdateOneRequiredWithoutJournalEntriesNestedInput
+    reversalOf?: JournalEntryUpdateOneWithoutReversedByNestedInput
+    reversedBy?: JournalEntryUpdateManyWithoutReversalOfNestedInput
     lines?: JournalLineUpdateManyWithoutJournalEntryNestedInput
   }
 
@@ -95437,15 +96119,18 @@ export namespace Prisma {
     tenantId?: StringFieldUpdateOperationsInput | string
     number?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
-    referenceType?: NullableStringFieldUpdateOperationsInput | string | null
+    referenceType?: NullableEnumReferenceTypeFieldUpdateOperationsInput | $Enums.ReferenceType | null
     referenceId?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumJournalEntryStatusFieldUpdateOperationsInput | $Enums.JournalEntryStatus
     exchangeRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reversalOfId?: NullableStringFieldUpdateOperationsInput | string | null
+    reversalDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reversedBy?: JournalEntryUncheckedUpdateManyWithoutReversalOfNestedInput
     lines?: JournalLineUncheckedUpdateManyWithoutJournalEntryNestedInput
   }
 
@@ -95454,12 +96139,14 @@ export namespace Prisma {
     tenantId?: StringFieldUpdateOperationsInput | string
     number?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
-    referenceType?: NullableStringFieldUpdateOperationsInput | string | null
+    referenceType?: NullableEnumReferenceTypeFieldUpdateOperationsInput | $Enums.ReferenceType | null
     referenceId?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumJournalEntryStatusFieldUpdateOperationsInput | $Enums.JournalEntryStatus
     exchangeRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reversalOfId?: NullableStringFieldUpdateOperationsInput | string | null
+    reversalDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -96793,7 +97480,9 @@ export namespace Prisma {
     type: $Enums.AccountType
     parentId?: string | null
     isActive?: boolean
-    currentBalance?: Decimal | DecimalJsLike | number | string
+    isPostable?: boolean
+    isContra?: boolean
+    deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -96803,12 +97492,14 @@ export namespace Prisma {
     number: string
     date: Date | string
     fiscalPeriodId: string
-    referenceType?: string | null
+    referenceType?: $Enums.ReferenceType | null
     referenceId?: string | null
     description?: string | null
     status?: $Enums.JournalEntryStatus
     exchangeRate?: Decimal | DecimalJsLike | number | string
     postedAt?: Date | string | null
+    reversalOfId?: string | null
+    reversalDate?: Date | string | null
     createdBy: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -97584,7 +98275,9 @@ export namespace Prisma {
     name?: JsonNullValueInput | InputJsonValue
     type?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    currentBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    isPostable?: BoolFieldUpdateOperationsInput | boolean
+    isContra?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     parent?: ChartOfAccountUpdateOneWithoutChildrenNestedInput
@@ -97612,7 +98305,9 @@ export namespace Prisma {
     type?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    currentBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    isPostable?: BoolFieldUpdateOperationsInput | boolean
+    isContra?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     children?: ChartOfAccountUncheckedUpdateManyWithoutParentNestedInput
@@ -97639,7 +98334,9 @@ export namespace Prisma {
     type?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    currentBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    isPostable?: BoolFieldUpdateOperationsInput | boolean
+    isContra?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -97648,16 +98345,19 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     number?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
-    referenceType?: NullableStringFieldUpdateOperationsInput | string | null
+    referenceType?: NullableEnumReferenceTypeFieldUpdateOperationsInput | $Enums.ReferenceType | null
     referenceId?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumJournalEntryStatusFieldUpdateOperationsInput | $Enums.JournalEntryStatus
     exchangeRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reversalDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     fiscalPeriod?: FiscalPeriodUpdateOneRequiredWithoutJournalEntriesNestedInput
+    reversalOf?: JournalEntryUpdateOneWithoutReversedByNestedInput
+    reversedBy?: JournalEntryUpdateManyWithoutReversalOfNestedInput
     lines?: JournalLineUpdateManyWithoutJournalEntryNestedInput
   }
 
@@ -97666,15 +98366,18 @@ export namespace Prisma {
     number?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     fiscalPeriodId?: StringFieldUpdateOperationsInput | string
-    referenceType?: NullableStringFieldUpdateOperationsInput | string | null
+    referenceType?: NullableEnumReferenceTypeFieldUpdateOperationsInput | $Enums.ReferenceType | null
     referenceId?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumJournalEntryStatusFieldUpdateOperationsInput | $Enums.JournalEntryStatus
     exchangeRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reversalOfId?: NullableStringFieldUpdateOperationsInput | string | null
+    reversalDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reversedBy?: JournalEntryUncheckedUpdateManyWithoutReversalOfNestedInput
     lines?: JournalLineUncheckedUpdateManyWithoutJournalEntryNestedInput
   }
 
@@ -97683,12 +98386,14 @@ export namespace Prisma {
     number?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     fiscalPeriodId?: StringFieldUpdateOperationsInput | string
-    referenceType?: NullableStringFieldUpdateOperationsInput | string | null
+    referenceType?: NullableEnumReferenceTypeFieldUpdateOperationsInput | $Enums.ReferenceType | null
     referenceId?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumJournalEntryStatusFieldUpdateOperationsInput | $Enums.JournalEntryStatus
     exchangeRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reversalOfId?: NullableStringFieldUpdateOperationsInput | string | null
+    reversalDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string

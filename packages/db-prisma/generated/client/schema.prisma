@@ -13,21 +13,34 @@ enum JournalEntryStatus {
   POSTED
 }
 
+// ─── Reference Type Enum ───────────────────────────────────────────────────────
+enum ReferenceType {
+  INVOICE
+  INVOICE_CANCELLATION
+  PAYMENT
+  PAYMENT_CANCELLATION
+  EXPENSE
+  EXPENSE_CANCELLATION
+  OPENING_BALANCE
+  OPENING_BALANCE_CANCELLATION
+  STOCK_COUNT
+  STOCK_COUNT_CANCELLATION
+}
+
 // ─── Chart Of Accounts ───────────────────────────────────────────────────────
 model ChartOfAccount {
-  id             String      @id @default(uuid())
-  tenantId       String      @map("tenant_id")
-  code           String
-  name           Json        @db.JsonB // LocalizedString: { ar: string; en?: string }
-  type           AccountType
-  parentId       String?     @map("parent_id")
-  isActive       Boolean     @default(true) @map("is_active")
-  /// Denormalized cached balance for fast reads.
-  /// Source of truth is JournalLine rows — this field is updated by application
-  /// logic after every posted JournalEntry. Never write to it directly from ad-hoc queries.
-  currentBalance Decimal     @default(0) @map("current_balance") @db.Decimal(18, 4)
-  createdAt      DateTime    @default(now()) @map("created_at")
-  updatedAt      DateTime    @updatedAt @map("updated_at")
+  id         String      @id @default(uuid())
+  tenantId   String      @map("tenant_id")
+  code       String
+  name       Json        @db.JsonB // LocalizedString: { ar: string; en?: string }
+  type       AccountType
+  parentId   String?     @map("parent_id")
+  isActive   Boolean     @default(true) @map("is_active")
+  isPostable Boolean     @default(true) @map("is_postable")
+  isContra   Boolean     @default(false) @map("is_contra")
+  deletedAt  DateTime?   @map("deleted_at")
+  createdAt  DateTime    @default(now()) @map("created_at")
+  updatedAt  DateTime    @updatedAt @map("updated_at")
 
   tenant                        Tenant             @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   parent                        ChartOfAccount?    @relation("AccountHierarchy", fields: [parentId], references: [id])
@@ -48,9 +61,11 @@ model ChartOfAccount {
   // Party-level override back-relations
   partyReceivables              Party[]            @relation("PartyReceivableAccount")
   partyPayables                 Party[]            @relation("PartyPayableAccount")
+  // REMOVED: currentBalance Decimal (source of truth is JournalLine; balances computed on read)
 
   @@unique([tenantId, code])
   @@index([tenantId])
+  @@index([parentId])
   @@map("chart_of_accounts")
 }
 
@@ -61,23 +76,28 @@ model JournalEntry {
   number         String
   date           DateTime
   fiscalPeriodId String             @map("fiscal_period_id")
-  referenceType  String?            @map("reference_type") // e.g. "invoice", "payment"
+  referenceType  ReferenceType?     @map("reference_type")
   referenceId    String?            @map("reference_id")
   description    String?
   status         JournalEntryStatus @default(DRAFT)
   /// Exchange rate to tenant base currency locked at posting time.
   exchangeRate   Decimal            @default(1) @map("exchange_rate") @db.Decimal(18, 6)
   postedAt       DateTime?          @map("posted_at")
+  reversalOfId   String?            @map("reversal_of_id")
+  reversalDate   DateTime?          @map("reversal_date")
   createdBy      String             @map("created_by")
   createdAt      DateTime           @default(now()) @map("created_at")
   updatedAt      DateTime           @updatedAt @map("updated_at")
 
-  tenant       Tenant        @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-  fiscalPeriod FiscalPeriod  @relation(fields: [fiscalPeriodId], references: [id])
+  tenant       Tenant         @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  fiscalPeriod FiscalPeriod   @relation(fields: [fiscalPeriodId], references: [id])
+  reversalOf   JournalEntry?  @relation("JournalReversals", fields: [reversalOfId], references: [id])
+  reversedBy   JournalEntry[] @relation("JournalReversals")
   lines        JournalLine[]
 
   @@unique([tenantId, number])
   @@index([tenantId])
+  @@index([referenceType, referenceId])
   @@map("journal_entries")
 }
 
@@ -99,6 +119,7 @@ model JournalLine {
 
   @@index([tenantId])
   @@index([journalEntryId])
+  @@index([accountId])
   @@map("journal_lines")
 }
 
