@@ -36,7 +36,7 @@ describe('AccountsRepository', () => {
       const result = await repository.findAllForBalances('tenant-1');
 
       expect(prismaMock.chartOfAccount.findMany).toHaveBeenCalledWith({
-        where: { tenantId: 'tenant-1' },
+        where: { tenantId: 'tenant-1', deletedAt: null },
         select: {
           id: true,
           code: true,
@@ -59,7 +59,7 @@ describe('AccountsRepository', () => {
 
       expect(result).toEqual([]);
       expect(prismaMock.chartOfAccount.findMany).toHaveBeenCalledWith({
-        where: { tenantId: 'tenant-empty' },
+        where: { tenantId: 'tenant-empty', deletedAt: null },
         select: {
           id: true,
           code: true,
