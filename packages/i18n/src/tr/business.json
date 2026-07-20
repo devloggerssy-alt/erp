@@ -933,6 +933,19 @@
       "active": "Aktif",
       "lowStock": "Düşük Stok",
       "outOfStock": "Stok Tükendi"
+    },
+    "openingBalances": {
+      "title": "Açılış Bakiyeleri",
+      "description": "Yeni mali yıl başlarken bilanço hesapları için açılış bakiyelerini girin.",
+      "code": "Kod",
+      "name": "Ad",
+      "type": "Tür",
+      "currentBalance": "Mevcut Bakiye",
+      "openingAmount": "Açılış Tutarı",
+      "selectPeriod": "Mali dönem seçin…",
+      "saveAll": "Tümünü Kaydet",
+      "saving": "Kaydediliyor…",
+      "noAccounts": "Bilanço hesabı bulunamadı."
     }
   }
 }

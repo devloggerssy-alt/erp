@@ -933,6 +933,19 @@
       "active": "Active",
       "lowStock": "Low Stock",
       "outOfStock": "Out of Stock"
+    },
+    "openingBalances": {
+      "title": "Opening Balances",
+      "description": "Set opening balances for balance-sheet accounts when starting a new fiscal year.",
+      "code": "Code",
+      "name": "Name",
+      "type": "Type",
+      "currentBalance": "Current Balance",
+      "openingAmount": "Opening Amount",
+      "selectPeriod": "Select fiscal period…",
+      "saveAll": "Save All",
+      "saving": "Saving…",
+      "noAccounts": "No balance-sheet accounts found."
     }
   }
 }
