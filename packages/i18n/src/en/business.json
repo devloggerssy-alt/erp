@@ -735,6 +735,21 @@
       "imageUrlPlaceholder": "https://example.com/logo.png",
       "active": "Active"
     },
+    "openingStock": {
+      "title": "Opening Stock",
+      "description": "Set opening stock quantities and unit costs for items when starting a new fiscal year or onboarding inventory.",
+      "code": "Code",
+      "name": "Name",
+      "category": "Category",
+      "currentQty": "Current Qty",
+      "openingQty": "Opening Qty",
+      "unitCost": "Unit Cost",
+      "selectWarehouse": "Select warehouse…",
+      "selectPeriod": "Select fiscal period…",
+      "saveAll": "Save All",
+      "saving": "Saving…",
+      "noItems": "No active items found."
+    },
     "stockBalances": {
       "title": "Stock Balances",
       "warehouse": "Warehouse",

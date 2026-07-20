@@ -735,6 +735,21 @@
       "imageUrlPlaceholder": "https://example.com/logo.png",
       "active": "نشط"
     },
+    "openingStock": {
+      "title": "المخزون الافتتاحي",
+      "description": "أدخل كميات وتكاليف المخزون الافتتاحي عند بدء سنة مالية جديدة أو عند إدراج المخزون لأول مرة.",
+      "code": "الرمز",
+      "name": "الاسم",
+      "category": "الفئة",
+      "currentQty": "الكمية الحالية",
+      "openingQty": "الكمية الافتتاحية",
+      "unitCost": "تكلفة الوحدة",
+      "selectWarehouse": "اختر المستودع…",
+      "selectPeriod": "اختر الفترة المالية…",
+      "saveAll": "حفظ الكل",
+      "saving": "جارٍ الحفظ…",
+      "noItems": "لا توجد أصناف نشطة."
+    },
     "stockBalances": {
       "title": "أرصدة المخزون",
       "warehouse": "المستودع",

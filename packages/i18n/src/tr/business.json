@@ -735,6 +735,21 @@
       "imageUrlPlaceholder": "https://example.com/logo.png",
       "active": "Aktif"
     },
+    "openingStock": {
+      "title": "Açılış Stoku",
+      "description": "Yeni mali yıl başlarken veya envanter eklerken açılış stok miktarlarını ve birim maliyetlerini girin.",
+      "code": "Kod",
+      "name": "Ad",
+      "category": "Kategori",
+      "currentQty": "Mevcut Miktar",
+      "openingQty": "Açılış Miktarı",
+      "unitCost": "Birim Maliyet",
+      "selectWarehouse": "Depo seçin…",
+      "selectPeriod": "Mali dönem seçin…",
+      "saveAll": "Tümünü Kaydet",
+      "saving": "Kaydediliyor…",
+      "noItems": "Aktif ürün bulunamadı."
+    },
     "stockBalances": {
       "title": "Stok Bakiyeleri",
       "warehouse": "Depo",
