@@ -15,7 +15,7 @@ export interface PaymentJournalInput {
 }
 
 /**
- * Build balanced double-entry lines for a payment.
+ * Build balanced double-entry lines for a payment (forward direction).
  *
  * RECEIPT (customer pays us):
  *   DR  Cashbox (cash)        = amount × rate
@@ -25,29 +25,28 @@ export interface PaymentJournalInput {
  *   DR  Accounts Payable      = amount × rate  (partyId set for sub-ledger)
  *   CR  Cashbox (cash)        = amount × rate
  *
- * When reverse=true the debit/credit sides are swapped (cancellation entry).
+ * Reversals are produced by JournalPostingService.reverse, which swaps the
+ * credited/debited sides from the stored original — so this builder is forward-only.
  */
 export function buildPaymentJournalLines(
     input: PaymentJournalInput,
-    opts: { reverse?: boolean } = {},
 ): (JournalLineInput & { partyId?: string | null })[] {
-    const rev = opts.reverse ?? false;
     const amountBase = round(input.amount * input.exchangeRate);
     const isReceipt = input.type === 'RECEIPT';
 
     return [
         {
             accountId: isReceipt ? input.cashboxAccountId : input.counterpartAccountId,
-            debit: rev ? 0 : amountBase,
-            credit: rev ? amountBase : 0,
+            debit: amountBase,
+            credit: 0,
             description: null,
             sortOrder: 0,
             partyId: isReceipt ? null : input.partyId,
         },
         {
             accountId: isReceipt ? input.counterpartAccountId : input.cashboxAccountId,
-            debit: rev ? amountBase : 0,
-            credit: rev ? 0 : amountBase,
+            debit: 0,
+            credit: amountBase,
             description: null,
             sortOrder: 1,
             partyId: isReceipt ? input.partyId : null,

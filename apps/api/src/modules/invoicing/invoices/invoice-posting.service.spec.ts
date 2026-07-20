@@ -4,10 +4,14 @@ function buildDeps() {
     const tx = {
         journalEntry: { create: jest.fn().mockResolvedValue({ id: 'je-rev' }) },
         invoice: { update: jest.fn().mockResolvedValue({ id: 'inv-1', status: 'CANCELLED' }) },
-        chartOfAccount: { findUnique: jest.fn().mockResolvedValue({ type: 'ASSET' }), update: jest.fn() },
+        chartOfAccount: { findMany: jest.fn().mockResolvedValue([{ id: 'ar', code: 'ar', type: 'ASSET', isPostable: true, isContra: false, deletedAt: null }, { id: 'sales', code: 'sales', type: 'REVENUE', isPostable: true, isContra: false, deletedAt: null }]) },
         stockMovement: { findMany: jest.fn().mockResolvedValue([]), create: jest.fn() },
         stockBalance: { findUnique: jest.fn(), create: jest.fn(), update: jest.fn() },
     };
+    const journalPosting = {
+        post: jest.fn().mockResolvedValue({ id: 'je-1' }),
+        reverse: jest.fn().mockResolvedValue({ id: 'je-rev' }),
+    } as any;
     const prisma = {
         invoice: { findFirst: jest.fn() },
         journalEntry: { findFirst: jest.fn().mockResolvedValue({
@@ -31,8 +35,8 @@ function buildDeps() {
     } as any;
     const docSeqService = { getNextNumber: jest.fn().mockResolvedValue('JE-00001') } as any;
 
-    const service = new InvoicePostingService(prisma, inventoryService, financialSettingsService, docSeqService);
-    return { service, prisma, tx, inventoryService, financialSettingsService, docSeqService };
+    const service = new InvoicePostingService(prisma, inventoryService, financialSettingsService, docSeqService, journalPosting);
+    return { service, prisma, tx, inventoryService, financialSettingsService, docSeqService, journalPosting };
 }
 
 const baseInvoice = {
@@ -72,15 +76,16 @@ describe('InvoicePostingService.cancelInvoice', () => {
         expect(result.status).toBe('CANCELLED');
     });
 
-    it('reverses the original journal entry line-for-line', async () => {
-        const { service, prisma, tx } = buildDeps();
+    it('reverses the original journal entry via journalPosting.reverse', async () => {
+        const { service, prisma, journalPosting } = buildDeps();
         prisma.invoice.findFirst.mockResolvedValue({ ...baseInvoice, warehouseId: null, invoiceType: { direction: 'SALE', affectsStock: false }, paymentAllocations: [], fiscalPeriod: { status: 'OPEN' } });
         await service.cancelInvoice('tenant-1', 'inv-1', 'user-1');
-        const revLines = tx.journalEntry.create.mock.calls[0][0].data.lines.create;
-        expect(revLines).toEqual(expect.arrayContaining([
-            expect.objectContaining({ accountId: 'ar', debit: 0, credit: 1000 }),
-            expect.objectContaining({ accountId: 'sales', debit: 1000, credit: 0 }),
-        ]));
+        expect(journalPosting.reverse).toHaveBeenCalledTimes(1);
+        const arg = journalPosting.reverse.mock.calls[0][1];
+        expect(arg.originalEntryId).toBe('je-orig');
+        expect(arg.reversalDate).toEqual(baseInvoice.date);
+        expect(arg.referenceType).toBe('INVOICE_CANCELLATION');
+        expect(arg.referenceId).toBe('inv-1');
     });
 
     it('reverses stock at the ORIGINAL recorded cost, not the invoice unitPrice', async () => {

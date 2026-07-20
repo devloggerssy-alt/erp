@@ -31,7 +31,11 @@ export class DataResetService {
             const journalEntries = await tx.journalEntry.deleteMany({ where: { tenantId } });
             // Zero the denormalized balances that the deleted documents fed.
             const cashboxesReset = await tx.cashbox.updateMany({ where: { tenantId }, data: { balance: 0 } });
-            const accountsReset = await tx.chartOfAccount.updateMany({ where: { tenantId }, data: { currentBalance: 0 } });
+            // Note: ChartOfAccount.currentBalance was removed in the COA refactor —
+            // GL account balances are now computed on read from JournalLine, so there
+            // is no denormalized column to zero here. accountsReset kept as 0 for
+            // backwards-compatible response shape.
+            const accountsReset = 0;
 
             return {
                 paymentAllocations: paymentAllocations.count,
@@ -40,7 +44,7 @@ export class DataResetService {
                 expenses: expenses.count,
                 journalEntries: journalEntries.count,
                 cashboxesReset: cashboxesReset.count,
-                accountsReset: accountsReset.count,
+                accountsReset,
             };
         });
 

@@ -21,12 +21,12 @@ describe('buildExpenseJournalLines', () => {
         expect(debits).toBe(credits);
     });
 
-    it('reverses debits and credits when reverse=true', () => {
-        const lines = buildExpenseJournalLines(input, { reverse: true });
-        expect(lines[0]).toEqual({ accountId: 'rent-acct', debit: 0, credit: 200, description: 'Rent', sortOrder: 0 });
-        expect(lines[2]).toEqual({ accountId: 'cash-acct', debit: 300, credit: 0, description: null, sortOrder: 2 });
+    it('stays balanced (debits equal credits)', () => {
+        const lines = buildExpenseJournalLines(input);
         const debits = lines.reduce((s, l) => s + l.debit, 0);
         const credits = lines.reduce((s, l) => s + l.credit, 0);
         expect(debits).toBe(credits);
+        // Expense reversals are now produced by JournalPostingService.reverse
+        // from the stored original — this builder is forward-only.
     });
 });

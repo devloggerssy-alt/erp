@@ -8,9 +8,10 @@ import { DocumentSequencesModule } from '../../accounting/document-sequences/doc
 import { InventoryModule } from '../../inventory/inventory.module';
 import { FinancialSettingsModule } from '../../accounting/financial-settings/financial-settings.module';
 import { PaymentsModule } from '../payments/payments.module';
+import { AccountsModule } from '../../accounting/accounts/accounts.module';
 
 @Module({
-    imports: [DocumentSequencesModule, InventoryModule, FinancialSettingsModule, PaymentsModule],
+    imports: [DocumentSequencesModule, InventoryModule, FinancialSettingsModule, PaymentsModule, AccountsModule],
     controllers: [InvoicesController],
     providers: [InvoicesService, InvoicePostingService, InvoicePresenter, LocaleResolverService],
     exports: [InvoicesService, InvoicePostingService],

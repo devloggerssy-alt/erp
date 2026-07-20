@@ -13,6 +13,7 @@ export class AccountsRepository extends CrudRepository<ChartOfAccount> {
     override async findMany(tenantId: string, options: FindManyOptions = {}) {
         return super.findMany(tenantId, {
             ...options,
+            where: { ...options.where, deletedAt: null },
             orderBy: options.orderBy ?? { code: 'asc' },
             include: { parent: { select: { code: true, name: true } } },
         });
@@ -21,7 +22,7 @@ export class AccountsRepository extends CrudRepository<ChartOfAccount> {
     /** Detail view includes parent and direct children. */
     override async findById(tenantId: string, id: string): Promise<ChartOfAccount | null> {
         return this.prisma.chartOfAccount.findFirst({
-            where: { id, tenantId },
+            where: { id, tenantId, deletedAt: null },
             include: {
                 parent: { select: { id: true, code: true, name: true } },
                 children: { select: { id: true, code: true, name: true, type: true, isActive: true }, orderBy: { code: 'asc' } },
@@ -43,7 +44,7 @@ export class AccountsRepository extends CrudRepository<ChartOfAccount> {
     /** All accounts (minimal columns) for balances read-model and tree navigation. */
     async findAllForBalances(tenantId: string) {
         return this.prisma.chartOfAccount.findMany({
-            where: { tenantId },
+            where: { tenantId, deletedAt: null },
             select: { id: true, code: true, name: true, type: true, parentId: true, isActive: true, isContra: true },
             orderBy: { code: 'asc' },
         });
@@ -85,6 +86,31 @@ export class AccountsRepository extends CrudRepository<ChartOfAccount> {
     async countLedgerLines(tenantId: string, accountId: string): Promise<number> {
         return this.prisma.journalLine.count({
             where: { tenantId, accountId, journalEntry: { status: JournalEntryStatus.POSTED } },
+        });
+    }
+
+    async countJournalLines(tenantId: string, id: string): Promise<number> {
+        return this.prisma.journalLine.count({ where: { tenantId, accountId: id } });
+    }
+
+    async archive(tenantId: string, id: string): Promise<void> {
+        await this.prisma.chartOfAccount.update({
+            where: { id, tenantId },
+            data: { deletedAt: new Date(), isPostable: false },
+        });
+    }
+
+    async restore(tenantId: string, id: string): Promise<void> {
+        await this.prisma.chartOfAccount.update({
+            where: { id, tenantId },
+            data: { deletedAt: null },
+        });
+    }
+
+    async convertToGroup(tenantId: string, id: string): Promise<void> {
+        await this.prisma.chartOfAccount.update({
+            where: { id, tenantId },
+            data: { isPostable: false },
         });
     }
 }

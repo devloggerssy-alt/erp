@@ -55,8 +55,33 @@ export class AccountsService extends CrudService<
     ): Promise<void> {
         // code is immutable after creation — no duplicate check needed on update
         // validate no self-referencing parent
+        await Promise.resolve();
         if (dto.parentId === id) {
             throw new ConflictException('An account cannot be its own parent');
         }
+    }
+
+    override async delete(tenantId: string, id: string): Promise<void> {
+        const lineCount = await this.accountsRepository.countJournalLines(tenantId, id);
+        if (lineCount > 0) {
+            throw new ConflictException(
+                'Cannot archive an account that has journal entries. Re-assign its lines to another account first.',
+            );
+        }
+        await this.accountsRepository.archive(tenantId, id);
+    }
+
+    async restore(tenantId: string, id: string): Promise<void> {
+        await this.accountsRepository.restore(tenantId, id);
+    }
+
+    async convertToGroup(tenantId: string, id: string): Promise<void> {
+        const lineCount = await this.accountsRepository.countJournalLines(tenantId, id);
+        if (lineCount > 0) {
+            throw new ConflictException(
+                'Cannot convert an account that has journal entries to a group account. Re-assign its lines first.',
+            );
+        }
+        await this.accountsRepository.convertToGroup(tenantId, id);
     }
 }

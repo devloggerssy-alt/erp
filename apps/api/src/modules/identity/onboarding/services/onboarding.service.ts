@@ -87,12 +87,22 @@ export class OnboardingService {
     async stepGlDefaults(tenantId: string, dto: OnboardingGlDefaultsStepDto): Promise<void> {
         await this.assertNotCompleted(tenantId);
 
+        const seededAccounts = await this.prisma.chartOfAccount.findMany({
+            where: { tenantId, code: { in: ['1130', '3100', '5100', '5210'] } },
+            select: { id: true, code: true },
+        });
+        const ids = Object.fromEntries(seededAccounts.map((a) => [a.code, a.id]));
+
         await this.financialSettingsService.upsert(tenantId, {
             defaultSalesAccountId: dto.defaultSalesAccountId,
             defaultPurchaseAccountId: dto.defaultPurchaseAccountId,
             defaultTaxAccountId: dto.defaultTaxAccountId,
             defaultReceivableAccountId: dto.defaultReceivableAccountId,
             defaultPayableAccountId: dto.defaultPayableAccountId,
+            defaultInventoryAccountId: ids['1130'],
+            defaultCogsAccountId: ids['5100'],
+            defaultInventoryAdjustmentAccountId: ids['5210'],
+            defaultOpeningEquityAccountId: ids['3100'],
         });
 
         await this.advanceStep(tenantId, 4);
@@ -154,6 +164,7 @@ export class OnboardingService {
                         code: acct.code,
                         name: n(acct.nameAr, acct.nameEn),
                         type: acct.type,
+                        isPostable: false,
                     },
                 });
             }
@@ -170,6 +181,7 @@ export class OnboardingService {
                         name: n(acct.nameAr, acct.nameEn),
                         type: acct.type,
                         parentId: ids[acct.parentCode!],
+                        isPostable: false,
                     },
                 });
             }
@@ -186,6 +198,7 @@ export class OnboardingService {
                         name: n(acct.nameAr, acct.nameEn),
                         type: acct.type,
                         parentId: ids[acct.parentCode!],
+                        ...(acct.code === '1220' ? { isContra: true } : {}),
                     },
                 });
             }
@@ -239,6 +252,7 @@ export class OnboardingService {
             { code: '4200', nameAr: 'إيرادات أخرى',         nameEn: 'Other Revenue',             type: AccountType.REVENUE,   parentCode: '4000' },
             // Level 3 — Cost of Sales
             { code: '5100', nameAr: 'تكلفة البضاعة المباعة', nameEn: 'Cost of Goods Sold',       type: AccountType.EXPENSE,   parentCode: '5000' },
+            { code: '5210', nameAr: 'تسويات المخزون', nameEn: 'Inventory Adjustments', type: AccountType.EXPENSE, parentCode: '5000' },
             // Level 3 — Operating Expenses
             { code: '6110', nameAr: 'الرواتب والأجور',      nameEn: 'Salaries and Wages',        type: AccountType.EXPENSE,   parentCode: '6100' },
             { code: '6120', nameAr: 'مصروف الإيجار',        nameEn: 'Rent Expense',              type: AccountType.EXPENSE,   parentCode: '6100' },

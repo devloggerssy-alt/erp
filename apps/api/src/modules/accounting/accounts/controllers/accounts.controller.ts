@@ -1,4 +1,4 @@
-import { Controller, Get, UseGuards } from '@nestjs/common';
+import { Controller, Get, Patch, Post, Param, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
 import { createCrudController, type CrudOpenApi } from '@devloggers/backend-core';
 import { AccountsService } from '../services/accounts.service';
@@ -78,5 +78,27 @@ export class AccountsController extends AccountsCrudBase {
     async tree(@CurrentUser() user: RequestUser) {
         const data = await this.accountsService.getTree(user.tenantId);
         return ApiResponseBuilder.success(data, 'Account tree');
+    }
+
+    @Patch(':id/restore')
+    @ApiOperation({
+        summary: 'Restore an archived account',
+        description: 'Nulls deletedAt. The account becomes visible again.',
+    })
+    @ApiStandardErrors()
+    async restore(@CurrentUser() user: RequestUser, @Param('id') id: string) {
+        await this.accountsService.restore(user.tenantId, id);
+        return ApiResponseBuilder.success(null, 'Account restored');
+    }
+
+    @Post(':id/convert-to-group')
+    @ApiOperation({
+        summary: 'Convert a leaf account to a group account',
+        description: 'Sets isPostable=false. Fails if the account has journal entries.',
+    })
+    @ApiStandardErrors()
+    async convertToGroup(@CurrentUser() user: RequestUser, @Param('id') id: string) {
+        await this.accountsService.convertToGroup(user.tenantId, id);
+        return ApiResponseBuilder.success(null, 'Account converted to group');
     }
 }

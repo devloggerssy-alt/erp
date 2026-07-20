@@ -13,9 +13,10 @@ function buildDeps() {
     } as any;
     const docSeqService = { getNextNumber: jest.fn().mockResolvedValue('REC-00001') } as any;
     const financialSettingsService = { getOrThrow: jest.fn() } as any;
+    const journalPosting = { post: jest.fn().mockResolvedValue({ id: 'je-1' }), reverse: jest.fn().mockResolvedValue({ id: 'je-r' }) } as any;
 
-    const service = new PaymentsService(prisma, docSeqService, financialSettingsService);
-    return { service, prisma, tx, docSeqService, financialSettingsService };
+    const service = new PaymentsService(prisma, docSeqService, financialSettingsService, journalPosting);
+    return { service, prisma, tx, docSeqService, financialSettingsService, journalPosting };
 }
 
 describe('PaymentsService.allocate', () => {

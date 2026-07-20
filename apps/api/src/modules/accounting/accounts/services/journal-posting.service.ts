@@ -16,7 +16,7 @@ export interface PostInput {
     number: string;
     date: Date;
     fiscalPeriodId: string;
-    fiscalPeriodStatus: string;
+    fiscalPeriodStatus: string | undefined;
     referenceType: ReferenceType;
     referenceId: string;
     description: string;
@@ -38,7 +38,7 @@ export interface ReverseInput {
     userId: string;
     reversalDate: Date;
     fiscalPeriodId: string;
-    fiscalPeriodStatus: string;
+    fiscalPeriodStatus: string | undefined;
 }
 
 interface AccountMeta {
