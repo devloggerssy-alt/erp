@@ -1077,6 +1077,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/accounting/opening-balances": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Post account opening balances
+         * @description Records initial account balances for the chart of accounts. Used during system setup or fiscal year rollover.
+         */
+        post: operations["AccountOpeningBalances.post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/tags": {
         parameters: {
             query?: never;
@@ -2275,7 +2295,7 @@ export interface components {
              *     ]
              */
             enumValues?: string[];
-            /** @example auth|tenants|users|roles|currencies|fiscal-periods|document-sequences|units|item-categories|items|custom-fields|parties|warehouses|inventory|stock-ledger|invoice-types|invoices|cashboxes|payments|expenses|accounting|chart-of-accounts|stock-counts|reports|dashboard|ai|audit-logs|tags|tag-assignments|item-relations|catalog-entities|item-catalog-entities|brands|financial-settings */
+            /** @example auth|tenants|users|roles|currencies|fiscal-periods|document-sequences|units|item-categories|items|custom-fields|parties|warehouses|inventory|stock-ledger|invoice-types|invoices|cashboxes|payments|expenses|accounting|chart-of-accounts|stock-counts|reports|dashboard|ai|audit-logs|tags|tag-assignments|item-relations|catalog-entities|item-catalog-entities|brands|financial-settings|account-opening-balances */
             foreignResourceKey?: string;
         };
         ApiMetaDto: {
@@ -11716,6 +11736,75 @@ export interface operations {
                     "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
                         data?: components["schemas"]["AccountLedgerLineDto"][];
                     };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "AccountOpeningBalances.post": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": unknown;
+            };
+        };
+        responses: {
+            /** @description Account opening balances posted */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
                 };
             };
             /** @description JWT token is missing, expired, or invalid */
