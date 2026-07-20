@@ -99,10 +99,10 @@ export class OnboardingService {
             defaultTaxAccountId: dto.defaultTaxAccountId,
             defaultReceivableAccountId: dto.defaultReceivableAccountId,
             defaultPayableAccountId: dto.defaultPayableAccountId,
-            defaultInventoryAccountId: ids['1130'] ?? dto.defaultInventoryAccountId,
-            defaultCogsAccountId: ids['5100'] ?? dto.defaultCogsAccountId,
-            defaultInventoryAdjustmentAccountId: ids['5210'] ?? dto.defaultInventoryAdjustmentAccountId,
-            defaultOpeningEquityAccountId: ids['3100'] ?? dto.defaultOpeningEquityAccountId,
+            defaultInventoryAccountId: ids['1130'],
+            defaultCogsAccountId: ids['5100'],
+            defaultInventoryAdjustmentAccountId: ids['5210'],
+            defaultOpeningEquityAccountId: ids['3100'],
         });
 
         await this.advanceStep(tenantId, 4);

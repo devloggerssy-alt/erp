@@ -55,6 +55,7 @@ export class AccountsService extends CrudService<
     ): Promise<void> {
         // code is immutable after creation — no duplicate check needed on update
         // validate no self-referencing parent
+        await Promise.resolve();
         if (dto.parentId === id) {
             throw new ConflictException('An account cannot be its own parent');
         }
