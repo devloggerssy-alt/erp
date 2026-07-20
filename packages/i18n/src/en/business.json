@@ -34,6 +34,7 @@
       "payments": "Payments",
       "accounting": "Accounting",
       "chartOfAccounts": "Chart of Accounts",
+      "openingBalancesGL": "Opening Balances",
       "generalReports": "General Reports",
       "stockReports": "Stock Reports",
       "salesReports": "Sales Reports",

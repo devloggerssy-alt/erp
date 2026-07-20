@@ -204,6 +204,11 @@ export const navGroups: NavGroup[] = [
             href: "/finance/chart-of-accounts",
             icon: <BookIcon />,
           },
+          {
+            titleKey: "business.navigation.items.openingBalancesGL",
+            href: "/finance/opening-balances",
+            icon: <ScaleIcon />,
+          },
         ],
       },
     ],
