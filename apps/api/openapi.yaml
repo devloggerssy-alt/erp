@@ -7337,6 +7337,995 @@ paths:
       summary: Delete a warehouse
       tags:
         - Inventory / Warehouses
+  /accounting/chart-of-accounts/tree:
+    get:
+      description: Lightweight account list for tree navigation. No balance computation.
+      operationId: Accounts.tree
+      parameters: []
+      responses:
+        '200':
+          description: Account tree
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiSuccessResponseDto'
+                  - properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/ChartOfAccountTreeDto'
+        '401':
+          description: JWT token is missing, expired, or invalid
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Unauthorized
+                  data: null
+                  error:
+                    code: UNAUTHORIZED
+                    message: JWT token is missing, expired, or invalid
+        '403':
+          description: Insufficient permissions to perform this action
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Forbidden
+                  data: null
+                  error:
+                    code: FORBIDDEN
+                    message: Insufficient permissions to perform this action
+        '404':
+          description: The requested resource was not found
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Not found
+                  data: null
+                  error:
+                    code: NOT_FOUND
+                    message: The requested resource was not found
+        '422':
+          description: Request body validation failed
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Validation failed
+                  data: null
+                  error:
+                    code: VALIDATION_ERROR
+                    message: Validation failed
+                    details:
+                      - property: email
+                        constraints:
+                          isEmail: email must be a valid email address
+        '500':
+          description: An unexpected internal server error occurred
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Internal server error
+                  data: null
+                  error:
+                    code: INTERNAL_ERROR
+                    message: An unexpected internal server error occurred
+      security:
+        - JWT-auth: []
+      summary: Get account tree structure
+      tags:
+        - Accounting / Accounts
+  /accounting/chart-of-accounts/{id}/restore:
+    patch:
+      description: Nulls deletedAt. The account becomes visible again.
+      operationId: Accounts.restore
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+        '401':
+          description: JWT token is missing, expired, or invalid
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Unauthorized
+                  data: null
+                  error:
+                    code: UNAUTHORIZED
+                    message: JWT token is missing, expired, or invalid
+        '403':
+          description: Insufficient permissions to perform this action
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Forbidden
+                  data: null
+                  error:
+                    code: FORBIDDEN
+                    message: Insufficient permissions to perform this action
+        '404':
+          description: The requested resource was not found
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Not found
+                  data: null
+                  error:
+                    code: NOT_FOUND
+                    message: The requested resource was not found
+        '422':
+          description: Request body validation failed
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Validation failed
+                  data: null
+                  error:
+                    code: VALIDATION_ERROR
+                    message: Validation failed
+                    details:
+                      - property: email
+                        constraints:
+                          isEmail: email must be a valid email address
+        '500':
+          description: An unexpected internal server error occurred
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Internal server error
+                  data: null
+                  error:
+                    code: INTERNAL_ERROR
+                    message: An unexpected internal server error occurred
+      security:
+        - JWT-auth: []
+      summary: Restore an archived account
+      tags:
+        - Accounting / Accounts
+  /accounting/chart-of-accounts/{id}/convert-to-group:
+    post:
+      description: Sets isPostable=false. Fails if the account has journal entries.
+      operationId: Accounts.convertToGroup
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '201':
+          description: ''
+        '401':
+          description: JWT token is missing, expired, or invalid
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Unauthorized
+                  data: null
+                  error:
+                    code: UNAUTHORIZED
+                    message: JWT token is missing, expired, or invalid
+        '403':
+          description: Insufficient permissions to perform this action
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Forbidden
+                  data: null
+                  error:
+                    code: FORBIDDEN
+                    message: Insufficient permissions to perform this action
+        '404':
+          description: The requested resource was not found
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Not found
+                  data: null
+                  error:
+                    code: NOT_FOUND
+                    message: The requested resource was not found
+        '422':
+          description: Request body validation failed
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Validation failed
+                  data: null
+                  error:
+                    code: VALIDATION_ERROR
+                    message: Validation failed
+                    details:
+                      - property: email
+                        constraints:
+                          isEmail: email must be a valid email address
+        '500':
+          description: An unexpected internal server error occurred
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Internal server error
+                  data: null
+                  error:
+                    code: INTERNAL_ERROR
+                    message: An unexpected internal server error occurred
+      security:
+        - JWT-auth: []
+      summary: Convert a leaf account to a group account
+      tags:
+        - Accounting / Accounts
+  /accounting/chart-of-accounts:
+    get:
+      description: >-
+        Returns all accounts for the tenant, ordered by code. Includes the
+        parent account name/code for hierarchical display.
+      operationId: Accounts.list
+      parameters:
+        - name: page
+          required: false
+          in: query
+          description: Page number (1-based)
+          schema:
+            default: 1
+            example: 1
+            type: number
+        - name: limit
+          required: false
+          in: query
+          description: Number of items per page
+          schema:
+            default: 10
+            example: 10
+            type: number
+        - name: sortField
+          required: false
+          in: query
+          description: Field name to sort by
+          schema:
+            example: createdAt
+            type: string
+        - name: sortOrder
+          required: false
+          in: query
+          schema:
+            default: asc
+            example: asc
+            type: string
+            enum:
+              - asc
+              - desc
+        - name: search
+          required: false
+          in: query
+          description: Full-text search keyword
+          schema:
+            example: ''
+            type: string
+        - name: searchIn
+          required: false
+          in: query
+          description: Comma-separated field names to search within (e.g. name,symbol)
+          schema:
+            example: ''
+            type: string
+      responses:
+        '200':
+          description: Chart-of-accounts list
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiSuccessResponseDto'
+                  - properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/ChartOfAccountResponseDto'
+        '401':
+          description: JWT token is missing, expired, or invalid
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Unauthorized
+                  data: null
+                  error:
+                    code: UNAUTHORIZED
+                    message: JWT token is missing, expired, or invalid
+        '403':
+          description: Insufficient permissions to perform this action
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Forbidden
+                  data: null
+                  error:
+                    code: FORBIDDEN
+                    message: Insufficient permissions to perform this action
+        '404':
+          description: The requested resource was not found
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Not found
+                  data: null
+                  error:
+                    code: NOT_FOUND
+                    message: The requested resource was not found
+        '422':
+          description: Request body validation failed
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Validation failed
+                  data: null
+                  error:
+                    code: VALIDATION_ERROR
+                    message: Validation failed
+                    details:
+                      - property: email
+                        constraints:
+                          isEmail: email must be a valid email address
+        '500':
+          description: An unexpected internal server error occurred
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Internal server error
+                  data: null
+                  error:
+                    code: INTERNAL_ERROR
+                    message: An unexpected internal server error occurred
+      security:
+        - JWT-auth: []
+      summary: List chart-of-accounts
+      tags:
+        - Accounting / Accounts
+    post:
+      description: Account code must be unique within the tenant.
+      operationId: Accounts.create
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateChartOfAccountDto'
+      responses:
+        '201':
+          description: Account created successfully
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiSuccessResponseDto'
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/ChartOfAccountResponseDto'
+        '401':
+          description: JWT token is missing, expired, or invalid
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Unauthorized
+                  data: null
+                  error:
+                    code: UNAUTHORIZED
+                    message: JWT token is missing, expired, or invalid
+        '403':
+          description: Insufficient permissions to perform this action
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Forbidden
+                  data: null
+                  error:
+                    code: FORBIDDEN
+                    message: Insufficient permissions to perform this action
+        '404':
+          description: The requested resource was not found
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Not found
+                  data: null
+                  error:
+                    code: NOT_FOUND
+                    message: The requested resource was not found
+        '422':
+          description: Request body validation failed
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Validation failed
+                  data: null
+                  error:
+                    code: VALIDATION_ERROR
+                    message: Validation failed
+                    details:
+                      - property: email
+                        constraints:
+                          isEmail: email must be a valid email address
+        '500':
+          description: An unexpected internal server error occurred
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Internal server error
+                  data: null
+                  error:
+                    code: INTERNAL_ERROR
+                    message: An unexpected internal server error occurred
+      security:
+        - JWT-auth: []
+      summary: Create a chart-of-account entry
+      tags:
+        - Accounting / Accounts
+    delete:
+      operationId: Accounts.bulkDelete
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BulkDeleteBodyDto'
+      responses:
+        '200':
+          description: Bulk delete result ({ total, succeeded, failed, errors })
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BulkResultResponseDto'
+      security:
+        - JWT-auth: []
+      summary: Bulk delete by ids
+      tags:
+        - Accounting / Accounts
+    patch:
+      operationId: Accounts.bulkUpdate
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BulkUpdateBody'
+      responses:
+        '200':
+          description: Bulk partial-update result ({ total, succeeded, failed, errors })
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BulkResultResponseDto'
+      security:
+        - JWT-auth: []
+      summary: Bulk partial update
+      tags:
+        - Accounting / Accounts
+  /accounting/chart-of-accounts/{id}:
+    get:
+      description: Returns account details including parent and direct children.
+      operationId: Accounts.show
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: Account UUID
+          schema:
+            example: 018e1234-abcd-7000-a001-000000000001
+            type: string
+      responses:
+        '200':
+          description: Account details
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiSuccessResponseDto'
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/ChartOfAccountResponseDto'
+        '401':
+          description: JWT token is missing, expired, or invalid
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Unauthorized
+                  data: null
+                  error:
+                    code: UNAUTHORIZED
+                    message: JWT token is missing, expired, or invalid
+        '403':
+          description: Insufficient permissions to perform this action
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Forbidden
+                  data: null
+                  error:
+                    code: FORBIDDEN
+                    message: Insufficient permissions to perform this action
+        '404':
+          description: The requested resource was not found
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Not found
+                  data: null
+                  error:
+                    code: NOT_FOUND
+                    message: The requested resource was not found
+        '422':
+          description: Request body validation failed
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Validation failed
+                  data: null
+                  error:
+                    code: VALIDATION_ERROR
+                    message: Validation failed
+                    details:
+                      - property: email
+                        constraints:
+                          isEmail: email must be a valid email address
+        '500':
+          description: An unexpected internal server error occurred
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Internal server error
+                  data: null
+                  error:
+                    code: INTERNAL_ERROR
+                    message: An unexpected internal server error occurred
+      security:
+        - JWT-auth: []
+      summary: Get an account by ID
+      tags:
+        - Accounting / Accounts
+    patch:
+      description: >-
+        Partial update — only provided fields are changed. Account code is
+        immutable.
+      operationId: Accounts.update
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: Account UUID
+          schema:
+            example: 018e1234-abcd-7000-a001-000000000001
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateChartOfAccountDto'
+      responses:
+        '200':
+          description: Updated account
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiSuccessResponseDto'
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/ChartOfAccountResponseDto'
+        '401':
+          description: JWT token is missing, expired, or invalid
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Unauthorized
+                  data: null
+                  error:
+                    code: UNAUTHORIZED
+                    message: JWT token is missing, expired, or invalid
+        '403':
+          description: Insufficient permissions to perform this action
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Forbidden
+                  data: null
+                  error:
+                    code: FORBIDDEN
+                    message: Insufficient permissions to perform this action
+        '404':
+          description: The requested resource was not found
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Not found
+                  data: null
+                  error:
+                    code: NOT_FOUND
+                    message: The requested resource was not found
+        '422':
+          description: Request body validation failed
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Validation failed
+                  data: null
+                  error:
+                    code: VALIDATION_ERROR
+                    message: Validation failed
+                    details:
+                      - property: email
+                        constraints:
+                          isEmail: email must be a valid email address
+        '500':
+          description: An unexpected internal server error occurred
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Internal server error
+                  data: null
+                  error:
+                    code: INTERNAL_ERROR
+                    message: An unexpected internal server error occurred
+      security:
+        - JWT-auth: []
+      summary: Update a chart-of-account entry
+      tags:
+        - Accounting / Accounts
+    delete:
+      description: >-
+        Hard-deletes the account. Will fail if the account has journal lines
+        referencing it.
+      operationId: Accounts.delete
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: Account UUID
+          schema:
+            example: 018e1234-abcd-7000-a001-000000000001
+            type: string
+      responses:
+        '204':
+          description: Account deleted successfully
+        '401':
+          description: JWT token is missing, expired, or invalid
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Unauthorized
+                  data: null
+                  error:
+                    code: UNAUTHORIZED
+                    message: JWT token is missing, expired, or invalid
+        '403':
+          description: Insufficient permissions to perform this action
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Forbidden
+                  data: null
+                  error:
+                    code: FORBIDDEN
+                    message: Insufficient permissions to perform this action
+        '404':
+          description: The requested resource was not found
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Not found
+                  data: null
+                  error:
+                    code: NOT_FOUND
+                    message: The requested resource was not found
+        '422':
+          description: Request body validation failed
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Validation failed
+                  data: null
+                  error:
+                    code: VALIDATION_ERROR
+                    message: Validation failed
+                    details:
+                      - property: email
+                        constraints:
+                          isEmail: email must be a valid email address
+        '500':
+          description: An unexpected internal server error occurred
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Internal server error
+                  data: null
+                  error:
+                    code: INTERNAL_ERROR
+                    message: An unexpected internal server error occurred
+      security:
+        - JWT-auth: []
+      summary: Delete a chart-of-account entry
+      tags:
+        - Accounting / Accounts
+  /accounting/account-balances:
+    get:
+      description: >-
+        All chart-of-accounts entries with ledger-computed own and rolled-up
+        balances (POSTED entries only).
+      operationId: AccountBalances.list
+      parameters: []
+      responses:
+        '200':
+          description: Account balances
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiSuccessResponseDto'
+                  - properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/AccountBalanceDto'
+        '401':
+          description: JWT token is missing, expired, or invalid
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Unauthorized
+                  data: null
+                  error:
+                    code: UNAUTHORIZED
+                    message: JWT token is missing, expired, or invalid
+        '403':
+          description: Insufficient permissions to perform this action
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Forbidden
+                  data: null
+                  error:
+                    code: FORBIDDEN
+                    message: Insufficient permissions to perform this action
+        '404':
+          description: The requested resource was not found
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Not found
+                  data: null
+                  error:
+                    code: NOT_FOUND
+                    message: The requested resource was not found
+        '422':
+          description: Request body validation failed
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Validation failed
+                  data: null
+                  error:
+                    code: VALIDATION_ERROR
+                    message: Validation failed
+                    details:
+                      - property: email
+                        constraints:
+                          isEmail: email must be a valid email address
+        '500':
+          description: An unexpected internal server error occurred
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Internal server error
+                  data: null
+                  error:
+                    code: INTERNAL_ERROR
+                    message: An unexpected internal server error occurred
+      security:
+        - JWT-auth: []
+      summary: List account balances
+      tags:
+        - Accounting / Account Balances
+  /accounting/account-balances/{id}/ledger:
+    get:
+      description: >-
+        Paginated POSTED journal lines posted to a single account, newest entry
+        first.
+      operationId: AccountBalances.ledger
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: Account UUID
+          schema:
+            type: string
+        - name: page
+          required: false
+          in: query
+          schema:
+            type: number
+        - name: limit
+          required: false
+          in: query
+          schema:
+            type: number
+      responses:
+        '200':
+          description: Account ledger lines
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiSuccessResponseDto'
+                  - properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/AccountLedgerLineDto'
+        '401':
+          description: JWT token is missing, expired, or invalid
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Unauthorized
+                  data: null
+                  error:
+                    code: UNAUTHORIZED
+                    message: JWT token is missing, expired, or invalid
+        '403':
+          description: Insufficient permissions to perform this action
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Forbidden
+                  data: null
+                  error:
+                    code: FORBIDDEN
+                    message: Insufficient permissions to perform this action
+        '404':
+          description: The requested resource was not found
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Not found
+                  data: null
+                  error:
+                    code: NOT_FOUND
+                    message: The requested resource was not found
+        '422':
+          description: Request body validation failed
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Validation failed
+                  data: null
+                  error:
+                    code: VALIDATION_ERROR
+                    message: Validation failed
+                    details:
+                      - property: email
+                        constraints:
+                          isEmail: email must be a valid email address
+        '500':
+          description: An unexpected internal server error occurred
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Internal server error
+                  data: null
+                  error:
+                    code: INTERNAL_ERROR
+                    message: An unexpected internal server error occurred
+      security:
+        - JWT-auth: []
+      summary: Get an account ledger
+      tags:
+        - Accounting / Account Balances
   /tags:
     get:
       description: Returns a paginated list of tags for the tenant, filterable by module.
@@ -11445,831 +12434,6 @@ paths:
       summary: Delete a currency
       tags:
         - Accounting / Currencies
-  /accounting/chart-of-accounts/tree:
-    get:
-      description: Lightweight account list for tree navigation. No balance computation.
-      operationId: Accounts.tree
-      parameters: []
-      responses:
-        '200':
-          description: Account tree
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/ApiSuccessResponseDto'
-                  - properties:
-                      data:
-                        type: array
-                        items:
-                          $ref: '#/components/schemas/ChartOfAccountTreeDto'
-        '401':
-          description: JWT token is missing, expired, or invalid
-          content:
-            application/json:
-              schema:
-                example:
-                  status: error
-                  message: Unauthorized
-                  data: null
-                  error:
-                    code: UNAUTHORIZED
-                    message: JWT token is missing, expired, or invalid
-        '403':
-          description: Insufficient permissions to perform this action
-          content:
-            application/json:
-              schema:
-                example:
-                  status: error
-                  message: Forbidden
-                  data: null
-                  error:
-                    code: FORBIDDEN
-                    message: Insufficient permissions to perform this action
-        '404':
-          description: The requested resource was not found
-          content:
-            application/json:
-              schema:
-                example:
-                  status: error
-                  message: Not found
-                  data: null
-                  error:
-                    code: NOT_FOUND
-                    message: The requested resource was not found
-        '422':
-          description: Request body validation failed
-          content:
-            application/json:
-              schema:
-                example:
-                  status: error
-                  message: Validation failed
-                  data: null
-                  error:
-                    code: VALIDATION_ERROR
-                    message: Validation failed
-                    details:
-                      - property: email
-                        constraints:
-                          isEmail: email must be a valid email address
-        '500':
-          description: An unexpected internal server error occurred
-          content:
-            application/json:
-              schema:
-                example:
-                  status: error
-                  message: Internal server error
-                  data: null
-                  error:
-                    code: INTERNAL_ERROR
-                    message: An unexpected internal server error occurred
-      security:
-        - JWT-auth: []
-      summary: Get account tree structure
-      tags:
-        - Accounting / Accounts
-  /accounting/chart-of-accounts:
-    get:
-      description: >-
-        Returns all accounts for the tenant, ordered by code. Includes the
-        parent account name/code for hierarchical display.
-      operationId: Accounts.list
-      parameters:
-        - name: page
-          required: false
-          in: query
-          description: Page number (1-based)
-          schema:
-            default: 1
-            example: 1
-            type: number
-        - name: limit
-          required: false
-          in: query
-          description: Number of items per page
-          schema:
-            default: 10
-            example: 10
-            type: number
-        - name: sortField
-          required: false
-          in: query
-          description: Field name to sort by
-          schema:
-            example: createdAt
-            type: string
-        - name: sortOrder
-          required: false
-          in: query
-          schema:
-            default: asc
-            example: asc
-            type: string
-            enum:
-              - asc
-              - desc
-        - name: search
-          required: false
-          in: query
-          description: Full-text search keyword
-          schema:
-            example: ''
-            type: string
-        - name: searchIn
-          required: false
-          in: query
-          description: Comma-separated field names to search within (e.g. name,symbol)
-          schema:
-            example: ''
-            type: string
-      responses:
-        '200':
-          description: Chart-of-accounts list
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/ApiSuccessResponseDto'
-                  - properties:
-                      data:
-                        type: array
-                        items:
-                          $ref: '#/components/schemas/ChartOfAccountResponseDto'
-        '401':
-          description: JWT token is missing, expired, or invalid
-          content:
-            application/json:
-              schema:
-                example:
-                  status: error
-                  message: Unauthorized
-                  data: null
-                  error:
-                    code: UNAUTHORIZED
-                    message: JWT token is missing, expired, or invalid
-        '403':
-          description: Insufficient permissions to perform this action
-          content:
-            application/json:
-              schema:
-                example:
-                  status: error
-                  message: Forbidden
-                  data: null
-                  error:
-                    code: FORBIDDEN
-                    message: Insufficient permissions to perform this action
-        '404':
-          description: The requested resource was not found
-          content:
-            application/json:
-              schema:
-                example:
-                  status: error
-                  message: Not found
-                  data: null
-                  error:
-                    code: NOT_FOUND
-                    message: The requested resource was not found
-        '422':
-          description: Request body validation failed
-          content:
-            application/json:
-              schema:
-                example:
-                  status: error
-                  message: Validation failed
-                  data: null
-                  error:
-                    code: VALIDATION_ERROR
-                    message: Validation failed
-                    details:
-                      - property: email
-                        constraints:
-                          isEmail: email must be a valid email address
-        '500':
-          description: An unexpected internal server error occurred
-          content:
-            application/json:
-              schema:
-                example:
-                  status: error
-                  message: Internal server error
-                  data: null
-                  error:
-                    code: INTERNAL_ERROR
-                    message: An unexpected internal server error occurred
-      security:
-        - JWT-auth: []
-      summary: List chart-of-accounts
-      tags:
-        - Accounting / Accounts
-    post:
-      description: Account code must be unique within the tenant.
-      operationId: Accounts.create
-      parameters: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreateChartOfAccountDto'
-      responses:
-        '201':
-          description: Account created successfully
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/ApiSuccessResponseDto'
-                  - properties:
-                      data:
-                        $ref: '#/components/schemas/ChartOfAccountResponseDto'
-        '401':
-          description: JWT token is missing, expired, or invalid
-          content:
-            application/json:
-              schema:
-                example:
-                  status: error
-                  message: Unauthorized
-                  data: null
-                  error:
-                    code: UNAUTHORIZED
-                    message: JWT token is missing, expired, or invalid
-        '403':
-          description: Insufficient permissions to perform this action
-          content:
-            application/json:
-              schema:
-                example:
-                  status: error
-                  message: Forbidden
-                  data: null
-                  error:
-                    code: FORBIDDEN
-                    message: Insufficient permissions to perform this action
-        '404':
-          description: The requested resource was not found
-          content:
-            application/json:
-              schema:
-                example:
-                  status: error
-                  message: Not found
-                  data: null
-                  error:
-                    code: NOT_FOUND
-                    message: The requested resource was not found
-        '422':
-          description: Request body validation failed
-          content:
-            application/json:
-              schema:
-                example:
-                  status: error
-                  message: Validation failed
-                  data: null
-                  error:
-                    code: VALIDATION_ERROR
-                    message: Validation failed
-                    details:
-                      - property: email
-                        constraints:
-                          isEmail: email must be a valid email address
-        '500':
-          description: An unexpected internal server error occurred
-          content:
-            application/json:
-              schema:
-                example:
-                  status: error
-                  message: Internal server error
-                  data: null
-                  error:
-                    code: INTERNAL_ERROR
-                    message: An unexpected internal server error occurred
-      security:
-        - JWT-auth: []
-      summary: Create a chart-of-account entry
-      tags:
-        - Accounting / Accounts
-    delete:
-      operationId: Accounts.bulkDelete
-      parameters: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/BulkDeleteBodyDto'
-      responses:
-        '200':
-          description: Bulk delete result ({ total, succeeded, failed, errors })
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BulkResultResponseDto'
-      security:
-        - JWT-auth: []
-      summary: Bulk delete by ids
-      tags:
-        - Accounting / Accounts
-    patch:
-      operationId: Accounts.bulkUpdate
-      parameters: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/BulkUpdateBody'
-      responses:
-        '200':
-          description: Bulk partial-update result ({ total, succeeded, failed, errors })
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BulkResultResponseDto'
-      security:
-        - JWT-auth: []
-      summary: Bulk partial update
-      tags:
-        - Accounting / Accounts
-  /accounting/chart-of-accounts/{id}:
-    get:
-      description: Returns account details including parent and direct children.
-      operationId: Accounts.show
-      parameters:
-        - name: id
-          required: true
-          in: path
-          description: Account UUID
-          schema:
-            example: 018e1234-abcd-7000-a001-000000000001
-            type: string
-      responses:
-        '200':
-          description: Account details
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/ApiSuccessResponseDto'
-                  - properties:
-                      data:
-                        $ref: '#/components/schemas/ChartOfAccountResponseDto'
-        '401':
-          description: JWT token is missing, expired, or invalid
-          content:
-            application/json:
-              schema:
-                example:
-                  status: error
-                  message: Unauthorized
-                  data: null
-                  error:
-                    code: UNAUTHORIZED
-                    message: JWT token is missing, expired, or invalid
-        '403':
-          description: Insufficient permissions to perform this action
-          content:
-            application/json:
-              schema:
-                example:
-                  status: error
-                  message: Forbidden
-                  data: null
-                  error:
-                    code: FORBIDDEN
-                    message: Insufficient permissions to perform this action
-        '404':
-          description: The requested resource was not found
-          content:
-            application/json:
-              schema:
-                example:
-                  status: error
-                  message: Not found
-                  data: null
-                  error:
-                    code: NOT_FOUND
-                    message: The requested resource was not found
-        '422':
-          description: Request body validation failed
-          content:
-            application/json:
-              schema:
-                example:
-                  status: error
-                  message: Validation failed
-                  data: null
-                  error:
-                    code: VALIDATION_ERROR
-                    message: Validation failed
-                    details:
-                      - property: email
-                        constraints:
-                          isEmail: email must be a valid email address
-        '500':
-          description: An unexpected internal server error occurred
-          content:
-            application/json:
-              schema:
-                example:
-                  status: error
-                  message: Internal server error
-                  data: null
-                  error:
-                    code: INTERNAL_ERROR
-                    message: An unexpected internal server error occurred
-      security:
-        - JWT-auth: []
-      summary: Get an account by ID
-      tags:
-        - Accounting / Accounts
-    patch:
-      description: >-
-        Partial update — only provided fields are changed. Account code is
-        immutable.
-      operationId: Accounts.update
-      parameters:
-        - name: id
-          required: true
-          in: path
-          description: Account UUID
-          schema:
-            example: 018e1234-abcd-7000-a001-000000000001
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UpdateChartOfAccountDto'
-      responses:
-        '200':
-          description: Updated account
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/ApiSuccessResponseDto'
-                  - properties:
-                      data:
-                        $ref: '#/components/schemas/ChartOfAccountResponseDto'
-        '401':
-          description: JWT token is missing, expired, or invalid
-          content:
-            application/json:
-              schema:
-                example:
-                  status: error
-                  message: Unauthorized
-                  data: null
-                  error:
-                    code: UNAUTHORIZED
-                    message: JWT token is missing, expired, or invalid
-        '403':
-          description: Insufficient permissions to perform this action
-          content:
-            application/json:
-              schema:
-                example:
-                  status: error
-                  message: Forbidden
-                  data: null
-                  error:
-                    code: FORBIDDEN
-                    message: Insufficient permissions to perform this action
-        '404':
-          description: The requested resource was not found
-          content:
-            application/json:
-              schema:
-                example:
-                  status: error
-                  message: Not found
-                  data: null
-                  error:
-                    code: NOT_FOUND
-                    message: The requested resource was not found
-        '422':
-          description: Request body validation failed
-          content:
-            application/json:
-              schema:
-                example:
-                  status: error
-                  message: Validation failed
-                  data: null
-                  error:
-                    code: VALIDATION_ERROR
-                    message: Validation failed
-                    details:
-                      - property: email
-                        constraints:
-                          isEmail: email must be a valid email address
-        '500':
-          description: An unexpected internal server error occurred
-          content:
-            application/json:
-              schema:
-                example:
-                  status: error
-                  message: Internal server error
-                  data: null
-                  error:
-                    code: INTERNAL_ERROR
-                    message: An unexpected internal server error occurred
-      security:
-        - JWT-auth: []
-      summary: Update a chart-of-account entry
-      tags:
-        - Accounting / Accounts
-    delete:
-      description: >-
-        Hard-deletes the account. Will fail if the account has journal lines
-        referencing it.
-      operationId: Accounts.delete
-      parameters:
-        - name: id
-          required: true
-          in: path
-          description: Account UUID
-          schema:
-            example: 018e1234-abcd-7000-a001-000000000001
-            type: string
-      responses:
-        '204':
-          description: Account deleted successfully
-        '401':
-          description: JWT token is missing, expired, or invalid
-          content:
-            application/json:
-              schema:
-                example:
-                  status: error
-                  message: Unauthorized
-                  data: null
-                  error:
-                    code: UNAUTHORIZED
-                    message: JWT token is missing, expired, or invalid
-        '403':
-          description: Insufficient permissions to perform this action
-          content:
-            application/json:
-              schema:
-                example:
-                  status: error
-                  message: Forbidden
-                  data: null
-                  error:
-                    code: FORBIDDEN
-                    message: Insufficient permissions to perform this action
-        '404':
-          description: The requested resource was not found
-          content:
-            application/json:
-              schema:
-                example:
-                  status: error
-                  message: Not found
-                  data: null
-                  error:
-                    code: NOT_FOUND
-                    message: The requested resource was not found
-        '422':
-          description: Request body validation failed
-          content:
-            application/json:
-              schema:
-                example:
-                  status: error
-                  message: Validation failed
-                  data: null
-                  error:
-                    code: VALIDATION_ERROR
-                    message: Validation failed
-                    details:
-                      - property: email
-                        constraints:
-                          isEmail: email must be a valid email address
-        '500':
-          description: An unexpected internal server error occurred
-          content:
-            application/json:
-              schema:
-                example:
-                  status: error
-                  message: Internal server error
-                  data: null
-                  error:
-                    code: INTERNAL_ERROR
-                    message: An unexpected internal server error occurred
-      security:
-        - JWT-auth: []
-      summary: Delete a chart-of-account entry
-      tags:
-        - Accounting / Accounts
-  /accounting/account-balances:
-    get:
-      description: >-
-        All chart-of-accounts entries with ledger-computed own and rolled-up
-        balances (POSTED entries only).
-      operationId: AccountBalances.list
-      parameters: []
-      responses:
-        '200':
-          description: Account balances
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/ApiSuccessResponseDto'
-                  - properties:
-                      data:
-                        type: array
-                        items:
-                          $ref: '#/components/schemas/AccountBalanceDto'
-        '401':
-          description: JWT token is missing, expired, or invalid
-          content:
-            application/json:
-              schema:
-                example:
-                  status: error
-                  message: Unauthorized
-                  data: null
-                  error:
-                    code: UNAUTHORIZED
-                    message: JWT token is missing, expired, or invalid
-        '403':
-          description: Insufficient permissions to perform this action
-          content:
-            application/json:
-              schema:
-                example:
-                  status: error
-                  message: Forbidden
-                  data: null
-                  error:
-                    code: FORBIDDEN
-                    message: Insufficient permissions to perform this action
-        '404':
-          description: The requested resource was not found
-          content:
-            application/json:
-              schema:
-                example:
-                  status: error
-                  message: Not found
-                  data: null
-                  error:
-                    code: NOT_FOUND
-                    message: The requested resource was not found
-        '422':
-          description: Request body validation failed
-          content:
-            application/json:
-              schema:
-                example:
-                  status: error
-                  message: Validation failed
-                  data: null
-                  error:
-                    code: VALIDATION_ERROR
-                    message: Validation failed
-                    details:
-                      - property: email
-                        constraints:
-                          isEmail: email must be a valid email address
-        '500':
-          description: An unexpected internal server error occurred
-          content:
-            application/json:
-              schema:
-                example:
-                  status: error
-                  message: Internal server error
-                  data: null
-                  error:
-                    code: INTERNAL_ERROR
-                    message: An unexpected internal server error occurred
-      security:
-        - JWT-auth: []
-      summary: List account balances
-      tags:
-        - Accounting / Account Balances
-  /accounting/account-balances/{id}/ledger:
-    get:
-      description: >-
-        Paginated POSTED journal lines posted to a single account, newest entry
-        first.
-      operationId: AccountBalances.ledger
-      parameters:
-        - name: id
-          required: true
-          in: path
-          description: Account UUID
-          schema:
-            type: string
-        - name: page
-          required: false
-          in: query
-          schema:
-            type: number
-        - name: limit
-          required: false
-          in: query
-          schema:
-            type: number
-      responses:
-        '200':
-          description: Account ledger lines
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/ApiSuccessResponseDto'
-                  - properties:
-                      data:
-                        type: array
-                        items:
-                          $ref: '#/components/schemas/AccountLedgerLineDto'
-        '401':
-          description: JWT token is missing, expired, or invalid
-          content:
-            application/json:
-              schema:
-                example:
-                  status: error
-                  message: Unauthorized
-                  data: null
-                  error:
-                    code: UNAUTHORIZED
-                    message: JWT token is missing, expired, or invalid
-        '403':
-          description: Insufficient permissions to perform this action
-          content:
-            application/json:
-              schema:
-                example:
-                  status: error
-                  message: Forbidden
-                  data: null
-                  error:
-                    code: FORBIDDEN
-                    message: Insufficient permissions to perform this action
-        '404':
-          description: The requested resource was not found
-          content:
-            application/json:
-              schema:
-                example:
-                  status: error
-                  message: Not found
-                  data: null
-                  error:
-                    code: NOT_FOUND
-                    message: The requested resource was not found
-        '422':
-          description: Request body validation failed
-          content:
-            application/json:
-              schema:
-                example:
-                  status: error
-                  message: Validation failed
-                  data: null
-                  error:
-                    code: VALIDATION_ERROR
-                    message: Validation failed
-                    details:
-                      - property: email
-                        constraints:
-                          isEmail: email must be a valid email address
-        '500':
-          description: An unexpected internal server error occurred
-          content:
-            application/json:
-              schema:
-                example:
-                  status: error
-                  message: Internal server error
-                  data: null
-                  error:
-                    code: INTERNAL_ERROR
-                    message: An unexpected internal server error occurred
-      security:
-        - JWT-auth: []
-      summary: Get an account ledger
-      tags:
-        - Accounting / Account Balances
   /invoice-types:
     get:
       operationId: InvoiceTypes.list
@@ -20265,6 +20429,200 @@ components:
         isActive:
           type: boolean
           example: true
+    ChartOfAccountTreeDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Account UUID
+        code:
+          type: string
+          description: Account code
+        name:
+          type: string
+          description: Locale-resolved display name
+        nameI18n:
+          type: object
+          description: Raw localized name object
+        type:
+          type: string
+          enum:
+            - ASSET
+            - LIABILITY
+            - EQUITY
+            - REVENUE
+            - EXPENSE
+          description: Account type
+        parentId:
+          type: string
+          nullable: true
+          description: Parent account UUID or null
+        isActive:
+          type: boolean
+          description: Whether account is active
+      required:
+        - id
+        - code
+        - name
+        - nameI18n
+        - type
+        - parentId
+        - isActive
+    CreateChartOfAccountDto:
+      type: object
+      properties:
+        code:
+          type: string
+          default: ''
+          example: '1110'
+          description: Unique account code within the tenant
+        name:
+          default:
+            ar: ''
+          description: Account display name
+          allOf:
+            - $ref: '#/components/schemas/LocalizedStringDto'
+        type:
+          default: ASSET
+          enum:
+            - ASSET
+            - LIABILITY
+            - EQUITY
+            - REVENUE
+            - EXPENSE
+          type: string
+          example: ASSET
+          description: Account type classification
+        parentId:
+          type: string
+          example: 00000000-0000-4000-a601-000000000001
+          description: Parent account UUID for hierarchical grouping
+      required:
+        - code
+        - name
+        - type
+    UpdateChartOfAccountDto:
+      type: object
+      properties:
+        name:
+          description: Updated account name
+          allOf:
+            - $ref: '#/components/schemas/LocalizedStringDto'
+        parentId:
+          type: string
+          nullable: true
+          example: 00000000-0000-4000-a601-000000000001
+          description: Updated parent account UUID — set to null to make it a root account
+        isActive:
+          type: boolean
+          example: true
+          description: Deactivate to hide from document selection
+    AccountTypeEnum:
+      type: string
+      enum:
+        - ASSET
+        - LIABILITY
+        - EQUITY
+        - REVENUE
+        - EXPENSE
+    AccountBalanceDto:
+      type: object
+      properties:
+        id:
+          type: string
+          default: ''
+          example: 00000000-0000-4000-a601-000000000001
+        code:
+          type: string
+          default: ''
+          example: '1110'
+        name:
+          type: string
+          default: ''
+          example: نقد وما يعادله
+        nameI18n:
+          default:
+            ar: ''
+          allOf:
+            - $ref: '#/components/schemas/LocalizedStringDto'
+        type:
+          default: ASSET
+          example: ASSET
+          allOf:
+            - $ref: '#/components/schemas/AccountTypeEnum'
+        parentId:
+          type: string
+          nullable: true
+          default: null
+          example: 00000000-0000-4000-a601-000000000000
+        isActive:
+          type: boolean
+          default: true
+          example: true
+        ownBalance:
+          type: number
+          default: 0
+          example: 1500
+          description: Signed balance of lines posted directly to this account
+        rolledBalance:
+          type: number
+          default: 0
+          example: 4200
+          description: ownBalance plus the rolled-up balance of all descendants
+      required:
+        - id
+        - code
+        - name
+        - nameI18n
+        - type
+        - isActive
+        - ownBalance
+        - rolledBalance
+    AccountLedgerLineDto:
+      type: object
+      properties:
+        id:
+          type: string
+          default: ''
+          example: 00000000-0000-4000-b101-000000000001
+        date:
+          type: string
+          default: ''
+          format: date-time
+          example: '2026-01-15T00:00:00.000Z'
+        entryNumber:
+          type: string
+          default: ''
+          example: JE-2026-000042
+        description:
+          type: string
+          nullable: true
+          default: null
+          example: Sales invoice INV-000042
+        referenceType:
+          type: string
+          nullable: true
+          default: null
+          example: invoice
+        referenceId:
+          type: string
+          nullable: true
+          default: null
+          example: 00000000-0000-4000-c101-000000000001
+        debit:
+          type: number
+          default: 0
+          example: 1500
+        credit:
+          type: number
+          default: 0
+          example: 0
+      required:
+        - id
+        - date
+        - entryNumber
+        - debit
+        - credit
     TagResponseDto:
       type: object
       properties:
@@ -20810,200 +21168,6 @@ components:
         isActive:
           type: boolean
           example: true
-    ChartOfAccountTreeDto:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Account UUID
-        code:
-          type: string
-          description: Account code
-        name:
-          type: string
-          description: Locale-resolved display name
-        nameI18n:
-          type: object
-          description: Raw localized name object
-        type:
-          type: string
-          enum:
-            - ASSET
-            - LIABILITY
-            - EQUITY
-            - REVENUE
-            - EXPENSE
-          description: Account type
-        parentId:
-          type: string
-          nullable: true
-          description: Parent account UUID or null
-        isActive:
-          type: boolean
-          description: Whether account is active
-      required:
-        - id
-        - code
-        - name
-        - nameI18n
-        - type
-        - parentId
-        - isActive
-    CreateChartOfAccountDto:
-      type: object
-      properties:
-        code:
-          type: string
-          default: ''
-          example: '1110'
-          description: Unique account code within the tenant
-        name:
-          default:
-            ar: ''
-          description: Account display name
-          allOf:
-            - $ref: '#/components/schemas/LocalizedStringDto'
-        type:
-          default: ASSET
-          enum:
-            - ASSET
-            - LIABILITY
-            - EQUITY
-            - REVENUE
-            - EXPENSE
-          type: string
-          example: ASSET
-          description: Account type classification
-        parentId:
-          type: string
-          example: 00000000-0000-4000-a601-000000000001
-          description: Parent account UUID for hierarchical grouping
-      required:
-        - code
-        - name
-        - type
-    UpdateChartOfAccountDto:
-      type: object
-      properties:
-        name:
-          description: Updated account name
-          allOf:
-            - $ref: '#/components/schemas/LocalizedStringDto'
-        parentId:
-          type: string
-          nullable: true
-          example: 00000000-0000-4000-a601-000000000001
-          description: Updated parent account UUID — set to null to make it a root account
-        isActive:
-          type: boolean
-          example: true
-          description: Deactivate to hide from document selection
-    AccountTypeEnum:
-      type: string
-      enum:
-        - ASSET
-        - LIABILITY
-        - EQUITY
-        - REVENUE
-        - EXPENSE
-    AccountBalanceDto:
-      type: object
-      properties:
-        id:
-          type: string
-          default: ''
-          example: 00000000-0000-4000-a601-000000000001
-        code:
-          type: string
-          default: ''
-          example: '1110'
-        name:
-          type: string
-          default: ''
-          example: نقد وما يعادله
-        nameI18n:
-          default:
-            ar: ''
-          allOf:
-            - $ref: '#/components/schemas/LocalizedStringDto'
-        type:
-          default: ASSET
-          example: ASSET
-          allOf:
-            - $ref: '#/components/schemas/AccountTypeEnum'
-        parentId:
-          type: string
-          nullable: true
-          default: null
-          example: 00000000-0000-4000-a601-000000000000
-        isActive:
-          type: boolean
-          default: true
-          example: true
-        ownBalance:
-          type: number
-          default: 0
-          example: 1500
-          description: Signed balance of lines posted directly to this account
-        rolledBalance:
-          type: number
-          default: 0
-          example: 4200
-          description: ownBalance plus the rolled-up balance of all descendants
-      required:
-        - id
-        - code
-        - name
-        - nameI18n
-        - type
-        - isActive
-        - ownBalance
-        - rolledBalance
-    AccountLedgerLineDto:
-      type: object
-      properties:
-        id:
-          type: string
-          default: ''
-          example: 00000000-0000-4000-b101-000000000001
-        date:
-          type: string
-          default: ''
-          format: date-time
-          example: '2026-01-15T00:00:00.000Z'
-        entryNumber:
-          type: string
-          default: ''
-          example: JE-2026-000042
-        description:
-          type: string
-          nullable: true
-          default: null
-          example: Sales invoice INV-000042
-        referenceType:
-          type: string
-          nullable: true
-          default: null
-          example: invoice
-        referenceId:
-          type: string
-          nullable: true
-          default: null
-          example: 00000000-0000-4000-c101-000000000001
-        debit:
-          type: number
-          default: 0
-          example: 1500
-        credit:
-          type: number
-          default: 0
-          example: 0
-      required:
-        - id
-        - date
-        - entryNumber
-        - debit
-        - credit
     InvoiceTypeResponseDto:
       type: object
       properties:

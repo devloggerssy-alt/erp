@@ -923,6 +923,160 @@ export interface paths {
         patch: operations["Warehouses.update"];
         trace?: never;
     };
+    "/accounting/chart-of-accounts/tree": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get account tree structure
+         * @description Lightweight account list for tree navigation. No balance computation.
+         */
+        get: operations["Accounts.tree"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/accounting/chart-of-accounts/{id}/restore": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /**
+         * Restore an archived account
+         * @description Nulls deletedAt. The account becomes visible again.
+         */
+        patch: operations["Accounts.restore"];
+        trace?: never;
+    };
+    "/accounting/chart-of-accounts/{id}/convert-to-group": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Convert a leaf account to a group account
+         * @description Sets isPostable=false. Fails if the account has journal entries.
+         */
+        post: operations["Accounts.convertToGroup"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/accounting/chart-of-accounts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List chart-of-accounts
+         * @description Returns all accounts for the tenant, ordered by code. Includes the parent account name/code for hierarchical display.
+         */
+        get: operations["Accounts.list"];
+        put?: never;
+        /**
+         * Create a chart-of-account entry
+         * @description Account code must be unique within the tenant.
+         */
+        post: operations["Accounts.create"];
+        /** Bulk delete by ids */
+        delete: operations["Accounts.bulkDelete"];
+        options?: never;
+        head?: never;
+        /** Bulk partial update */
+        patch: operations["Accounts.bulkUpdate"];
+        trace?: never;
+    };
+    "/accounting/chart-of-accounts/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get an account by ID
+         * @description Returns account details including parent and direct children.
+         */
+        get: operations["Accounts.show"];
+        put?: never;
+        post?: never;
+        /**
+         * Delete a chart-of-account entry
+         * @description Hard-deletes the account. Will fail if the account has journal lines referencing it.
+         */
+        delete: operations["Accounts.delete"];
+        options?: never;
+        head?: never;
+        /**
+         * Update a chart-of-account entry
+         * @description Partial update — only provided fields are changed. Account code is immutable.
+         */
+        patch: operations["Accounts.update"];
+        trace?: never;
+    };
+    "/accounting/account-balances": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List account balances
+         * @description All chart-of-accounts entries with ledger-computed own and rolled-up balances (POSTED entries only).
+         */
+        get: operations["AccountBalances.list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/accounting/account-balances/{id}/ledger": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get an account ledger
+         * @description Paginated POSTED journal lines posted to a single account, newest entry first.
+         */
+        get: operations["AccountBalances.ledger"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/tags": {
         parameters: {
             query?: never;
@@ -1290,120 +1444,6 @@ export interface paths {
          * @description Setting isBase=true will unset the previous base currency.
          */
         patch: operations["Currencies.update"];
-        trace?: never;
-    };
-    "/accounting/chart-of-accounts/tree": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Get account tree structure
-         * @description Lightweight account list for tree navigation. No balance computation.
-         */
-        get: operations["Accounts.tree"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/accounting/chart-of-accounts": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * List chart-of-accounts
-         * @description Returns all accounts for the tenant, ordered by code. Includes the parent account name/code for hierarchical display.
-         */
-        get: operations["Accounts.list"];
-        put?: never;
-        /**
-         * Create a chart-of-account entry
-         * @description Account code must be unique within the tenant.
-         */
-        post: operations["Accounts.create"];
-        /** Bulk delete by ids */
-        delete: operations["Accounts.bulkDelete"];
-        options?: never;
-        head?: never;
-        /** Bulk partial update */
-        patch: operations["Accounts.bulkUpdate"];
-        trace?: never;
-    };
-    "/accounting/chart-of-accounts/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Get an account by ID
-         * @description Returns account details including parent and direct children.
-         */
-        get: operations["Accounts.show"];
-        put?: never;
-        post?: never;
-        /**
-         * Delete a chart-of-account entry
-         * @description Hard-deletes the account. Will fail if the account has journal lines referencing it.
-         */
-        delete: operations["Accounts.delete"];
-        options?: never;
-        head?: never;
-        /**
-         * Update a chart-of-account entry
-         * @description Partial update — only provided fields are changed. Account code is immutable.
-         */
-        patch: operations["Accounts.update"];
-        trace?: never;
-    };
-    "/accounting/account-balances": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * List account balances
-         * @description All chart-of-accounts entries with ledger-computed own and rolled-up balances (POSTED entries only).
-         */
-        get: operations["AccountBalances.list"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/accounting/account-balances/{id}/ledger": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Get an account ledger
-         * @description Paginated POSTED journal lines posted to a single account, newest entry first.
-         */
-        get: operations["AccountBalances.ledger"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
         trace?: never;
     };
     "/invoice-types": {
@@ -3916,6 +3956,161 @@ export interface components {
             /** @example true */
             isActive?: boolean;
         };
+        ChartOfAccountTreeDto: {
+            /** @description Account UUID */
+            id: string;
+            /** @description Account code */
+            code: string;
+            /** @description Locale-resolved display name */
+            name: string;
+            /** @description Raw localized name object */
+            nameI18n: Record<string, never>;
+            /**
+             * @description Account type
+             * @enum {string}
+             */
+            type: "ASSET" | "LIABILITY" | "EQUITY" | "REVENUE" | "EXPENSE";
+            /** @description Parent account UUID or null */
+            parentId: string | null;
+            /** @description Whether account is active */
+            isActive: boolean;
+        };
+        CreateChartOfAccountDto: {
+            /**
+             * @description Unique account code within the tenant
+             * @default
+             * @example 1110
+             */
+            code: string;
+            /**
+             * @description Account display name
+             * @default {
+             *       "ar": ""
+             *     }
+             */
+            name: components["schemas"]["LocalizedStringDto"];
+            /**
+             * @description Account type classification
+             * @default ASSET
+             * @example ASSET
+             * @enum {string}
+             */
+            type: "ASSET" | "LIABILITY" | "EQUITY" | "REVENUE" | "EXPENSE";
+            /**
+             * @description Parent account UUID for hierarchical grouping
+             * @example 00000000-0000-4000-a601-000000000001
+             */
+            parentId?: string;
+        };
+        UpdateChartOfAccountDto: {
+            /** @description Updated account name */
+            name?: components["schemas"]["LocalizedStringDto"];
+            /**
+             * @description Updated parent account UUID — set to null to make it a root account
+             * @example 00000000-0000-4000-a601-000000000001
+             */
+            parentId?: string | null;
+            /**
+             * @description Deactivate to hide from document selection
+             * @example true
+             */
+            isActive?: boolean;
+        };
+        /** @enum {string} */
+        AccountTypeEnum: "ASSET" | "LIABILITY" | "EQUITY" | "REVENUE" | "EXPENSE";
+        AccountBalanceDto: {
+            /**
+             * @default
+             * @example 00000000-0000-4000-a601-000000000001
+             */
+            id: string;
+            /**
+             * @default
+             * @example 1110
+             */
+            code: string;
+            /**
+             * @default
+             * @example نقد وما يعادله
+             */
+            name: string;
+            /**
+             * @default {
+             *       "ar": ""
+             *     }
+             */
+            nameI18n: components["schemas"]["LocalizedStringDto"];
+            /**
+             * @default ASSET
+             * @example ASSET
+             */
+            type: components["schemas"]["AccountTypeEnum"];
+            /**
+             * @default null
+             * @example 00000000-0000-4000-a601-000000000000
+             */
+            parentId: string | null;
+            /**
+             * @default true
+             * @example true
+             */
+            isActive: boolean;
+            /**
+             * @description Signed balance of lines posted directly to this account
+             * @default 0
+             * @example 1500
+             */
+            ownBalance: number;
+            /**
+             * @description ownBalance plus the rolled-up balance of all descendants
+             * @default 0
+             * @example 4200
+             */
+            rolledBalance: number;
+        };
+        AccountLedgerLineDto: {
+            /**
+             * @default
+             * @example 00000000-0000-4000-b101-000000000001
+             */
+            id: string;
+            /**
+             * Format: date-time
+             * @default
+             * @example 2026-01-15T00:00:00.000Z
+             */
+            date: string;
+            /**
+             * @default
+             * @example JE-2026-000042
+             */
+            entryNumber: string;
+            /**
+             * @default null
+             * @example Sales invoice INV-000042
+             */
+            description: string | null;
+            /**
+             * @default null
+             * @example invoice
+             */
+            referenceType: string | null;
+            /**
+             * @default null
+             * @example 00000000-0000-4000-c101-000000000001
+             */
+            referenceId: string | null;
+            /**
+             * @default 0
+             * @example 1500
+             */
+            debit: number;
+            /**
+             * @default 0
+             * @example 0
+             */
+            credit: number;
+        };
         TagResponseDto: {
             /**
              * @default
@@ -4320,161 +4515,6 @@ export interface components {
             isBase?: boolean;
             /** @example true */
             isActive?: boolean;
-        };
-        ChartOfAccountTreeDto: {
-            /** @description Account UUID */
-            id: string;
-            /** @description Account code */
-            code: string;
-            /** @description Locale-resolved display name */
-            name: string;
-            /** @description Raw localized name object */
-            nameI18n: Record<string, never>;
-            /**
-             * @description Account type
-             * @enum {string}
-             */
-            type: "ASSET" | "LIABILITY" | "EQUITY" | "REVENUE" | "EXPENSE";
-            /** @description Parent account UUID or null */
-            parentId: string | null;
-            /** @description Whether account is active */
-            isActive: boolean;
-        };
-        CreateChartOfAccountDto: {
-            /**
-             * @description Unique account code within the tenant
-             * @default
-             * @example 1110
-             */
-            code: string;
-            /**
-             * @description Account display name
-             * @default {
-             *       "ar": ""
-             *     }
-             */
-            name: components["schemas"]["LocalizedStringDto"];
-            /**
-             * @description Account type classification
-             * @default ASSET
-             * @example ASSET
-             * @enum {string}
-             */
-            type: "ASSET" | "LIABILITY" | "EQUITY" | "REVENUE" | "EXPENSE";
-            /**
-             * @description Parent account UUID for hierarchical grouping
-             * @example 00000000-0000-4000-a601-000000000001
-             */
-            parentId?: string;
-        };
-        UpdateChartOfAccountDto: {
-            /** @description Updated account name */
-            name?: components["schemas"]["LocalizedStringDto"];
-            /**
-             * @description Updated parent account UUID — set to null to make it a root account
-             * @example 00000000-0000-4000-a601-000000000001
-             */
-            parentId?: string | null;
-            /**
-             * @description Deactivate to hide from document selection
-             * @example true
-             */
-            isActive?: boolean;
-        };
-        /** @enum {string} */
-        AccountTypeEnum: "ASSET" | "LIABILITY" | "EQUITY" | "REVENUE" | "EXPENSE";
-        AccountBalanceDto: {
-            /**
-             * @default
-             * @example 00000000-0000-4000-a601-000000000001
-             */
-            id: string;
-            /**
-             * @default
-             * @example 1110
-             */
-            code: string;
-            /**
-             * @default
-             * @example نقد وما يعادله
-             */
-            name: string;
-            /**
-             * @default {
-             *       "ar": ""
-             *     }
-             */
-            nameI18n: components["schemas"]["LocalizedStringDto"];
-            /**
-             * @default ASSET
-             * @example ASSET
-             */
-            type: components["schemas"]["AccountTypeEnum"];
-            /**
-             * @default null
-             * @example 00000000-0000-4000-a601-000000000000
-             */
-            parentId: string | null;
-            /**
-             * @default true
-             * @example true
-             */
-            isActive: boolean;
-            /**
-             * @description Signed balance of lines posted directly to this account
-             * @default 0
-             * @example 1500
-             */
-            ownBalance: number;
-            /**
-             * @description ownBalance plus the rolled-up balance of all descendants
-             * @default 0
-             * @example 4200
-             */
-            rolledBalance: number;
-        };
-        AccountLedgerLineDto: {
-            /**
-             * @default
-             * @example 00000000-0000-4000-b101-000000000001
-             */
-            id: string;
-            /**
-             * Format: date-time
-             * @default
-             * @example 2026-01-15T00:00:00.000Z
-             */
-            date: string;
-            /**
-             * @default
-             * @example JE-2026-000042
-             */
-            entryNumber: string;
-            /**
-             * @default null
-             * @example Sales invoice INV-000042
-             */
-            description: string | null;
-            /**
-             * @default null
-             * @example invoice
-             */
-            referenceType: string | null;
-            /**
-             * @default null
-             * @example 00000000-0000-4000-c101-000000000001
-             */
-            referenceId: string | null;
-            /**
-             * @default 0
-             * @example 1500
-             */
-            debit: number;
-            /**
-             * @default 0
-             * @example 0
-             */
-            credit: number;
         };
         InvoiceTypeResponseDto: {
             /**
@@ -10982,6 +11022,749 @@ export interface operations {
             };
         };
     };
+    "Accounts.tree": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Account tree */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["ChartOfAccountTreeDto"][];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "Accounts.restore": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "Accounts.convertToGroup": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "Accounts.list": {
+        parameters: {
+            query?: {
+                /** @description Page number (1-based) */
+                page?: number;
+                /** @description Number of items per page */
+                limit?: number;
+                /** @description Field name to sort by */
+                sortField?: string;
+                sortOrder?: "asc" | "desc";
+                /** @description Full-text search keyword */
+                search?: string;
+                /** @description Comma-separated field names to search within (e.g. name,symbol) */
+                searchIn?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Chart-of-accounts list */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["ChartOfAccountResponseDto"][];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "Accounts.create": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateChartOfAccountDto"];
+            };
+        };
+        responses: {
+            /** @description Account created successfully */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["ChartOfAccountResponseDto"];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "Accounts.bulkDelete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BulkDeleteBodyDto"];
+            };
+        };
+        responses: {
+            /** @description Bulk delete result ({ total, succeeded, failed, errors }) */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BulkResultResponseDto"];
+                };
+            };
+        };
+    };
+    "Accounts.bulkUpdate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BulkUpdateBody"];
+            };
+        };
+        responses: {
+            /** @description Bulk partial-update result ({ total, succeeded, failed, errors }) */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BulkResultResponseDto"];
+                };
+            };
+        };
+    };
+    "Accounts.show": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Account UUID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Account details */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["ChartOfAccountResponseDto"];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "Accounts.delete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Account UUID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Account deleted successfully */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "Accounts.update": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Account UUID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateChartOfAccountDto"];
+            };
+        };
+        responses: {
+            /** @description Updated account */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["ChartOfAccountResponseDto"];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "AccountBalances.list": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Account balances */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["AccountBalanceDto"][];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "AccountBalances.ledger": {
+        parameters: {
+            query?: {
+                page?: number;
+                limit?: number;
+            };
+            header?: never;
+            path: {
+                /** @description Account UUID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Account ledger lines */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["AccountLedgerLineDto"][];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
     "Tags.list": {
         parameters: {
             query?: {
@@ -14069,621 +14852,6 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
                         data?: components["schemas"]["CurrencyResponseDto"];
-                    };
-                };
-            };
-            /** @description JWT token is missing, expired, or invalid */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Insufficient permissions to perform this action */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description The requested resource was not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Request body validation failed */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description An unexpected internal server error occurred */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-        };
-    };
-    "Accounts.tree": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Account tree */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
-                        data?: components["schemas"]["ChartOfAccountTreeDto"][];
-                    };
-                };
-            };
-            /** @description JWT token is missing, expired, or invalid */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Insufficient permissions to perform this action */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description The requested resource was not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Request body validation failed */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description An unexpected internal server error occurred */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-        };
-    };
-    "Accounts.list": {
-        parameters: {
-            query?: {
-                /** @description Page number (1-based) */
-                page?: number;
-                /** @description Number of items per page */
-                limit?: number;
-                /** @description Field name to sort by */
-                sortField?: string;
-                sortOrder?: "asc" | "desc";
-                /** @description Full-text search keyword */
-                search?: string;
-                /** @description Comma-separated field names to search within (e.g. name,symbol) */
-                searchIn?: string;
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Chart-of-accounts list */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
-                        data?: components["schemas"]["ChartOfAccountResponseDto"][];
-                    };
-                };
-            };
-            /** @description JWT token is missing, expired, or invalid */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Insufficient permissions to perform this action */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description The requested resource was not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Request body validation failed */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description An unexpected internal server error occurred */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-        };
-    };
-    "Accounts.create": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["CreateChartOfAccountDto"];
-            };
-        };
-        responses: {
-            /** @description Account created successfully */
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
-                        data?: components["schemas"]["ChartOfAccountResponseDto"];
-                    };
-                };
-            };
-            /** @description JWT token is missing, expired, or invalid */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Insufficient permissions to perform this action */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description The requested resource was not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Request body validation failed */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description An unexpected internal server error occurred */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-        };
-    };
-    "Accounts.bulkDelete": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["BulkDeleteBodyDto"];
-            };
-        };
-        responses: {
-            /** @description Bulk delete result ({ total, succeeded, failed, errors }) */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["BulkResultResponseDto"];
-                };
-            };
-        };
-    };
-    "Accounts.bulkUpdate": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["BulkUpdateBody"];
-            };
-        };
-        responses: {
-            /** @description Bulk partial-update result ({ total, succeeded, failed, errors }) */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["BulkResultResponseDto"];
-                };
-            };
-        };
-    };
-    "Accounts.show": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description Account UUID */
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Account details */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
-                        data?: components["schemas"]["ChartOfAccountResponseDto"];
-                    };
-                };
-            };
-            /** @description JWT token is missing, expired, or invalid */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Insufficient permissions to perform this action */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description The requested resource was not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Request body validation failed */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description An unexpected internal server error occurred */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-        };
-    };
-    "Accounts.delete": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description Account UUID */
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Account deleted successfully */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description JWT token is missing, expired, or invalid */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Insufficient permissions to perform this action */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description The requested resource was not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Request body validation failed */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description An unexpected internal server error occurred */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-        };
-    };
-    "Accounts.update": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description Account UUID */
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["UpdateChartOfAccountDto"];
-            };
-        };
-        responses: {
-            /** @description Updated account */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
-                        data?: components["schemas"]["ChartOfAccountResponseDto"];
-                    };
-                };
-            };
-            /** @description JWT token is missing, expired, or invalid */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Insufficient permissions to perform this action */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description The requested resource was not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Request body validation failed */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description An unexpected internal server error occurred */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-        };
-    };
-    "AccountBalances.list": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Account balances */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
-                        data?: components["schemas"]["AccountBalanceDto"][];
-                    };
-                };
-            };
-            /** @description JWT token is missing, expired, or invalid */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Insufficient permissions to perform this action */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description The requested resource was not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Request body validation failed */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description An unexpected internal server error occurred */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-        };
-    };
-    "AccountBalances.ledger": {
-        parameters: {
-            query?: {
-                page?: number;
-                limit?: number;
-            };
-            header?: never;
-            path: {
-                /** @description Account UUID */
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Account ledger lines */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
-                        data?: components["schemas"]["AccountLedgerLineDto"][];
                     };
                 };
             };
