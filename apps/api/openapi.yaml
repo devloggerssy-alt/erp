@@ -8326,6 +8326,98 @@ paths:
       summary: Get an account ledger
       tags:
         - Accounting / Account Balances
+  /accounting/opening-balances:
+    post:
+      operationId: OpeningBalances.postOpeningBalances
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostAccountOpeningBalanceDto'
+      responses:
+        '200':
+          description: Opening balances posted
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiSuccessResponseDto'
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/AccountOpeningBalanceResponseDto'
+        '201':
+          description: ''
+        '401':
+          description: JWT token is missing, expired, or invalid
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Unauthorized
+                  data: null
+                  error:
+                    code: UNAUTHORIZED
+                    message: JWT token is missing, expired, or invalid
+        '403':
+          description: Insufficient permissions to perform this action
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Forbidden
+                  data: null
+                  error:
+                    code: FORBIDDEN
+                    message: Insufficient permissions to perform this action
+        '404':
+          description: The requested resource was not found
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Not found
+                  data: null
+                  error:
+                    code: NOT_FOUND
+                    message: The requested resource was not found
+        '422':
+          description: Request body validation failed
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Validation failed
+                  data: null
+                  error:
+                    code: VALIDATION_ERROR
+                    message: Validation failed
+                    details:
+                      - property: email
+                        constraints:
+                          isEmail: email must be a valid email address
+        '500':
+          description: An unexpected internal server error occurred
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Internal server error
+                  data: null
+                  error:
+                    code: INTERNAL_ERROR
+                    message: An unexpected internal server error occurred
+      security:
+        - JWT-auth: []
+      summary: Post opening balances for chart of accounts
+      tags:
+        - Accounting / Opening Balances
   /tags:
     get:
       description: Returns a paginated list of tags for the tenant, filterable by module.
@@ -18360,7 +18452,7 @@ components:
         foreignResourceKey:
           type: string
           example: >-
-            auth|tenants|users|roles|currencies|fiscal-periods|document-sequences|units|item-categories|items|custom-fields|parties|warehouses|inventory|stock-ledger|invoice-types|invoices|cashboxes|payments|expenses|accounting|chart-of-accounts|stock-counts|reports|dashboard|ai|audit-logs|tags|tag-assignments|item-relations|catalog-entities|item-catalog-entities|brands|financial-settings
+            auth|tenants|users|roles|currencies|fiscal-periods|document-sequences|units|item-categories|items|custom-fields|parties|warehouses|inventory|stock-ledger|invoice-types|invoices|cashboxes|payments|expenses|accounting|chart-of-accounts|stock-counts|reports|dashboard|ai|audit-logs|tags|tag-assignments|item-relations|catalog-entities|item-catalog-entities|brands|financial-settings|account-opening-balances
       required:
         - field
         - type
@@ -20623,6 +20715,47 @@ components:
         - entryNumber
         - debit
         - credit
+    AccountOpeningBalanceResponseDto:
+      type: object
+      properties:
+        journalEntryId:
+          type: string
+          default: ''
+        entriesCount:
+          type: number
+          default: 0
+      required:
+        - journalEntryId
+        - entriesCount
+    AccountOpeningBalanceEntryDto:
+      type: object
+      properties:
+        accountId:
+          type: string
+          default: ''
+          example: 00000000-0000-4000-a601-000000000001
+        amount:
+          type: number
+          default: 0
+          example: 1500
+      required:
+        - accountId
+        - amount
+    PostAccountOpeningBalanceDto:
+      type: object
+      properties:
+        fiscalPeriodId:
+          type: string
+          default: ''
+          example: 00000000-0000-4000-a601-000000000010
+        entries:
+          default: []
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountOpeningBalanceEntryDto'
+      required:
+        - fiscalPeriodId
+        - entries
     TagResponseDto:
       type: object
       properties:

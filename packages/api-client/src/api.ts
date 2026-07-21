@@ -28,7 +28,9 @@ import { StockMovementsClient } from "./clients/stock-movements.client"
 import { StockCountsClient } from "./clients/stock-counts.client"
 import { FinancialSettingClient } from "./clients/financial-setting.client"
 import { ReportsClient } from "./clients/reports.client"
-import { authResource, itemCategoryResource, itemResource, unitResource, warehouseResource, partyResource, accountResource, currencyResource, fiscalPeriodResource, documentSequenceResource, roleResource, userResource, tenantResource, invoiceTypeResource, invoiceResource, customFieldResource, expenseResource, paymentResource, tagResource, tagAssignmentResource, itemRelationResource, catalogEntityResource, itemCatalogEntityResource, brandResource, inventoryResource, stockLedgerResource, stockCountResource, cashboxResource, financialSettingResource, reportResource } from "@devloggers/api-contracts"
+import { AccountOpeningBalancesClient } from "./clients/account-opening-balances.client"
+import { InventoryOpeningBalancesClient } from "./clients/inventory-opening-balances.client"
+import { authResource, itemCategoryResource, itemResource, unitResource, warehouseResource, partyResource, accountResource, currencyResource, fiscalPeriodResource, documentSequenceResource, roleResource, userResource, tenantResource, invoiceTypeResource, invoiceResource, customFieldResource, expenseResource, paymentResource, tagResource, tagAssignmentResource, itemRelationResource, catalogEntityResource, itemCatalogEntityResource, brandResource, inventoryResource, stockLedgerResource, stockCountResource, cashboxResource, financialSettingResource, reportResource, accountOpeningBalanceResource } from "@devloggers/api-contracts"
 import { CustomFieldsClient } from "./clients/custom-fields.client"
 import { DashboardClient } from "./clients/dashboard.client"
 import { OnboardingClient } from "./clients/onboarding.client"
@@ -67,6 +69,8 @@ export function createApi(options?: ApiClientOptions, baseUrl = 'http://localhos
         [stockCountResource.key]: new StockCountsClient(client),
         [financialSettingResource.key]: new FinancialSettingClient(client),
         [reportResource.key]: new ReportsClient(client),
+        [accountOpeningBalanceResource.key]: new AccountOpeningBalancesClient(client),
+        inventoryOpening: new InventoryOpeningBalancesClient(client),
         dashboard: new DashboardClient(client),
         onboarding: new OnboardingClient(client),
     } as const

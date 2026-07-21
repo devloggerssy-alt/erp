@@ -1077,6 +1077,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/accounting/opening-balances": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Post opening balances for chart of accounts */
+        post: operations["OpeningBalances.postOpeningBalances"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/tags": {
         parameters: {
             query?: never;
@@ -2275,7 +2292,7 @@ export interface components {
              *     ]
              */
             enumValues?: string[];
-            /** @example auth|tenants|users|roles|currencies|fiscal-periods|document-sequences|units|item-categories|items|custom-fields|parties|warehouses|inventory|stock-ledger|invoice-types|invoices|cashboxes|payments|expenses|accounting|chart-of-accounts|stock-counts|reports|dashboard|ai|audit-logs|tags|tag-assignments|item-relations|catalog-entities|item-catalog-entities|brands|financial-settings */
+            /** @example auth|tenants|users|roles|currencies|fiscal-periods|document-sequences|units|item-categories|items|custom-fields|parties|warehouses|inventory|stock-ledger|invoice-types|invoices|cashboxes|payments|expenses|accounting|chart-of-accounts|stock-counts|reports|dashboard|ai|audit-logs|tags|tag-assignments|item-relations|catalog-entities|item-catalog-entities|brands|financial-settings|account-opening-balances */
             foreignResourceKey?: string;
         };
         ApiMetaDto: {
@@ -4110,6 +4127,33 @@ export interface components {
              * @example 0
              */
             credit: number;
+        };
+        AccountOpeningBalanceResponseDto: {
+            /** @default  */
+            journalEntryId: string;
+            /** @default 0 */
+            entriesCount: number;
+        };
+        AccountOpeningBalanceEntryDto: {
+            /**
+             * @default
+             * @example 00000000-0000-4000-a601-000000000001
+             */
+            accountId: string;
+            /**
+             * @default 0
+             * @example 1500
+             */
+            amount: number;
+        };
+        PostAccountOpeningBalanceDto: {
+            /**
+             * @default
+             * @example 00000000-0000-4000-a601-000000000010
+             */
+            fiscalPeriodId: string;
+            /** @default [] */
+            entries: components["schemas"]["AccountOpeningBalanceEntryDto"][];
         };
         TagResponseDto: {
             /**
@@ -11717,6 +11761,83 @@ export interface operations {
                         data?: components["schemas"]["AccountLedgerLineDto"][];
                     };
                 };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "OpeningBalances.postOpeningBalances": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PostAccountOpeningBalanceDto"];
+            };
+        };
+        responses: {
+            /** @description Opening balances posted */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["AccountOpeningBalanceResponseDto"];
+                    };
+                };
+            };
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
             /** @description JWT token is missing, expired, or invalid */
             401: {
