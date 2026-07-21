@@ -137,17 +137,29 @@ export class OnboardingService {
     }
 
     private async bootstrapChartOfAccounts(tenantId: string): Promise<Record<string, string>> {
-        const existing = await this.prisma.chartOfAccount.count({ where: { tenantId } });
-        if (existing > 0) {
-            const accounts = await this.prisma.chartOfAccount.findMany({
-                where: { tenantId },
-                select: { id: true, code: true },
-            });
-            return Object.fromEntries(accounts.map((a) => [a.code, a.id]));
+        const existingAccounts = await this.prisma.chartOfAccount.findMany({
+            where: { tenantId },
+            select: { id: true, code: true, isPostable: true },
+        });
+        if (existingAccounts.length > 0) {
+            const template = this.getCoaTemplate();
+            const parentCodes = new Set(template.map((a) => a.parentCode).filter(Boolean) as string[]);
+            const leafCodes = new Set(template.filter((a) => !parentCodes.has(a.code)).map((a) => a.code));
+            const staleIds = existingAccounts
+                .filter((a) => !a.isPostable && leafCodes.has(a.code))
+                .map((a) => a.id);
+            if (staleIds.length > 0) {
+                await this.prisma.chartOfAccount.updateMany({
+                    where: { id: { in: staleIds }, tenantId },
+                    data: { isPostable: true },
+                });
+            }
+            return Object.fromEntries(existingAccounts.map((a) => [a.code, a.id]));
         }
 
         const ids: Record<string, string> = {};
         const template = this.getCoaTemplate();
+        const parentCodes = new Set(template.map((a) => a.parentCode).filter(Boolean) as string[]);
         for (const acct of template) {
             ids[acct.code] = crypto.randomUUID();
         }
@@ -155,8 +167,8 @@ export class OnboardingService {
         const n = (ar: string, en: string) => ({ ar, en });
 
         await this.prisma.$transaction(async (tx) => {
-            const level1 = template.filter((a) => !a.parentCode);
-            for (const acct of level1) {
+            for (const acct of template) {
+                const isParent = parentCodes.has(acct.code);
                 await tx.chartOfAccount.create({
                     data: {
                         id: ids[acct.code],
@@ -164,45 +176,13 @@ export class OnboardingService {
                         code: acct.code,
                         name: n(acct.nameAr, acct.nameEn),
                         type: acct.type,
-                        isPostable: false,
-                    },
-                });
-            }
-            const level2 = template.filter((a) => {
-                if (!a.parentCode) return false;
-                return level1.some((l) => l.code === a.parentCode);
-            });
-            for (const acct of level2) {
-                await tx.chartOfAccount.create({
-                    data: {
-                        id: ids[acct.code],
-                        tenantId,
-                        code: acct.code,
-                        name: n(acct.nameAr, acct.nameEn),
-                        type: acct.type,
-                        parentId: ids[acct.parentCode!],
-                        isPostable: false,
-                    },
-                });
-            }
-            const level3 = template.filter((a) => {
-                if (!a.parentCode) return false;
-                return level2.some((l) => l.code === a.parentCode);
-            });
-            for (const acct of level3) {
-                await tx.chartOfAccount.create({
-                    data: {
-                        id: ids[acct.code],
-                        tenantId,
-                        code: acct.code,
-                        name: n(acct.nameAr, acct.nameEn),
-                        type: acct.type,
-                        parentId: ids[acct.parentCode!],
+                        ...(acct.parentCode ? { parentId: ids[acct.parentCode] } : {}),
+                        isPostable: !isParent,
                         ...(acct.code === '1220' ? { isContra: true } : {}),
                     },
                 });
             }
-        });
+        }, { timeout: 30000 });
 
         return Object.fromEntries(template.map((a) => [a.code, ids[a.code]]));
     }

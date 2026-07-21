@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useCallback, useEffect } from "react"
+import { useState, useCallback, useEffect, useMemo, useRef } from "react"
 import {
   useReactTable,
   getCoreRowModel,
@@ -75,28 +75,40 @@ export function EditableGrid<TData>({
     [],
   )
 
+  const dataRef = useRef(data)
+  dataRef.current = data
+  const getRowIdRef = useRef(getRowId)
+  getRowIdRef.current = getRowId
+  const onDirtyChangeRef = useRef(onDirtyChange)
+  onDirtyChangeRef.current = onDirtyChange
+
   useEffect(() => {
-    if (!onDirtyChange) return
+    const cb = onDirtyChangeRef.current
+    if (!cb) return
     const dirtyRows: Record<string, TData> = {}
     for (const [rowId, values] of Object.entries(editedValues)) {
       const hasNonZero = Object.values(values).some((v) => v !== 0)
       if (hasNonZero) {
-        const original = data.find((_, i) => getRowId(data[i]) === rowId)
+        const original = dataRef.current.find((_, i) => getRowIdRef.current(dataRef.current[i]) === rowId)
         if (original) {
           dirtyRows[rowId] = { ...original, ...values } as TData
         }
       }
     }
-    onDirtyChange(dirtyRows)
-  }, [editedValues, data, getRowId, onDirtyChange])
+    cb(dirtyRows)
+  }, [editedValues])
 
-  const wrappedColumns: ColumnDef<TData, unknown>[] = columns.map((col) => {
-    const colId = "id" in col ? col.id : undefined
-    if (colId && editableColumnIds.includes(colId)) {
-      return { ...col, cell: EditableCell }
-    }
-    return col
-  })
+  const wrappedColumns = useMemo<ColumnDef<TData, unknown>[]>(
+    () =>
+      columns.map((col) => {
+        const colId = "id" in col ? col.id : undefined
+        if (colId && editableColumnIds.includes(colId)) {
+          return { ...col, cell: EditableCell }
+        }
+        return col
+      }),
+    [columns, editableColumnIds],
+  )
 
   const table = useReactTable({
     data,

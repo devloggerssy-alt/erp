@@ -9,7 +9,6 @@ export function useOpeningBalances() {
   const queryClient = useQueryClient()
   const [selectedPeriodId, setSelectedPeriodId] = useState<string>("")
   const [dirtyRows, setDirtyRows] = useState<Record<string, OpeningBalanceRow>>({})
-
   const { data: accountsData, isLoading: isLoadingAccounts } = useQuery({
     queryKey: ["opening-balances-accounts"],
     queryFn: () => api[accountResource.key].list(),

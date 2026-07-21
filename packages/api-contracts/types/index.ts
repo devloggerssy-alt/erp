@@ -1086,11 +1086,8 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /**
-         * Post account opening balances
-         * @description Records initial account balances for the chart of accounts. Used during system setup or fiscal year rollover.
-         */
-        post: operations["AccountOpeningBalances.post"];
+        /** Post opening balances for chart of accounts */
+        post: operations["OpeningBalances.postOpeningBalances"];
         delete?: never;
         options?: never;
         head?: never;
@@ -4130,6 +4127,33 @@ export interface components {
              * @example 0
              */
             credit: number;
+        };
+        AccountOpeningBalanceResponseDto: {
+            /** @default  */
+            journalEntryId: string;
+            /** @default 0 */
+            entriesCount: number;
+        };
+        AccountOpeningBalanceEntryDto: {
+            /**
+             * @default
+             * @example 00000000-0000-4000-a601-000000000001
+             */
+            accountId: string;
+            /**
+             * @default 0
+             * @example 1500
+             */
+            amount: number;
+        };
+        PostAccountOpeningBalanceDto: {
+            /**
+             * @default
+             * @example 00000000-0000-4000-a601-000000000010
+             */
+            fiscalPeriodId: string;
+            /** @default [] */
+            entries: components["schemas"]["AccountOpeningBalanceEntryDto"][];
         };
         TagResponseDto: {
             /**
@@ -11785,7 +11809,7 @@ export interface operations {
             };
         };
     };
-    "AccountOpeningBalances.post": {
+    "OpeningBalances.postOpeningBalances": {
         parameters: {
             query?: never;
             header?: never;
@@ -11794,18 +11818,26 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": unknown;
+                "application/json": components["schemas"]["PostAccountOpeningBalanceDto"];
             };
         };
         responses: {
-            /** @description Account opening balances posted */
-            201: {
+            /** @description Opening balances posted */
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["AccountOpeningBalanceResponseDto"];
+                    };
                 };
+            };
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
             /** @description JWT token is missing, expired, or invalid */
             401: {

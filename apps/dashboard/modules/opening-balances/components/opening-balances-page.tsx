@@ -1,6 +1,7 @@
 "use client"
 
 import { useTranslations } from "next-intl"
+import { useCallback, useMemo } from "react"
 import { Button } from "@/shared/components/ui/button"
 import {
   Select,
@@ -32,30 +33,38 @@ export function OpeningBalancesPage() {
     isLoadingPeriods,
   } = useOpeningBalances()
 
-  const columns = createOpeningBalancesColumns(t)
+  const columns = useMemo(() => createOpeningBalancesColumns(t), [t])
 
-  const toolbarStart = (
-    <Select value={selectedPeriodId} onValueChange={setSelectedPeriodId}>
-      <SelectTrigger className="w-[250px]">
-        <SelectValue placeholder={t("selectPeriod")} />
-      </SelectTrigger>
-      <SelectContent>
-        {periods.map((period) => (
-          <SelectItem key={period.id} value={period.id}>
-            {period.name}
-          </SelectItem>
-        ))}
-      </SelectContent>
-    </Select>
+  const getRowId = useCallback((row: OpeningBalanceRow) => row.id, [])
+
+  const toolbarStart = useMemo(
+    () => (
+      <Select value={selectedPeriodId} onValueChange={setSelectedPeriodId}>
+        <SelectTrigger className="w-[250px]">
+          <SelectValue placeholder={t("selectPeriod")} />
+        </SelectTrigger>
+        <SelectContent>
+          {periods.map((period) => (
+            <SelectItem key={period.id} value={period.id}>
+              {period.name}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+    ),
+    [selectedPeriodId, periods, t],
   )
 
-  const toolbarEnd = (
-    <Button
-      onClick={handleSave}
-      disabled={!hasDirtyRows || !selectedPeriodId || isSaving}
-    >
-      {isSaving ? t("saving") : t("saveAll")}
-    </Button>
+  const toolbarEnd = useMemo(
+    () => (
+      <Button
+        onClick={handleSave}
+        disabled={!hasDirtyRows || !selectedPeriodId || isSaving}
+      >
+        {isSaving ? t("saving") : t("saveAll")}
+      </Button>
+    ),
+    [handleSave, hasDirtyRows, selectedPeriodId, isSaving, t],
   )
 
   return (
@@ -64,11 +73,12 @@ export function OpeningBalancesPage() {
         <h1 className="text-2xl font-bold">{t("title")}</h1>
         <p className="text-muted-foreground">{t("description")}</p>
       </div>
+
       <EditableGrid<OpeningBalanceRow>
         data={rows}
         columns={columns}
         editableColumnIds={["openingAmount"]}
-        getRowId={(row) => row.id}
+        getRowId={getRowId}
         onDirtyChange={handleDirtyChange}
         toolbarStart={toolbarStart}
         toolbarEnd={toolbarEnd}

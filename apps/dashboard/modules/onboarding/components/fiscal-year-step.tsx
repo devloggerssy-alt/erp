@@ -1,11 +1,12 @@
 "use client"
 
-import { useForm } from "react-hook-form"
+import { useForm, useController } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation } from "@tanstack/react-query"
 import { Button } from "@/shared/components/ui/button"
 import { Input } from "@/shared/components/ui/input"
 import { useApi } from "@/shared/useApi"
+import { DatePickerField } from "@/shared/components/form/controls/date-picker-field"
 import {
     fiscalYearStepSchema, DEFAULT_FISCAL_YEAR_VALUES,
     type FiscalYearStepValues,
@@ -15,13 +16,22 @@ type Props = { onSuccess: () => void }
 
 export function FiscalYearStep({ onSuccess }: Props) {
     const api = useApi()
-    const { register, handleSubmit, formState: { errors } } = useForm<FiscalYearStepValues>({
+    const { control, register, handleSubmit, formState: { errors } } = useForm<FiscalYearStepValues>({
         resolver: zodResolver(fiscalYearStepSchema),
         defaultValues: DEFAULT_FISCAL_YEAR_VALUES,
     })
 
+    const startDate = useController({ name: "startDate", control })
+    const endDate = useController({ name: "endDate", control })
+
+    const formattedPayload = (values: FiscalYearStepValues) => ({
+        ...values,
+        startDate: new Date(values.startDate).toISOString(),
+        endDate: new Date(values.endDate).toISOString(),
+    })
+
     const { mutate, isPending, error } = useMutation({
-        mutationFn: (values: FiscalYearStepValues) => api.onboarding.stepFiscalYear(values),
+        mutationFn: (values: FiscalYearStepValues) => api.onboarding.stepFiscalYear(formattedPayload(values)),
         onSuccess,
     })
 
@@ -34,12 +44,24 @@ export function FiscalYearStep({ onSuccess }: Props) {
             </div>
             <div className="space-y-2">
                 <label className="text-sm font-medium">Start Date *</label>
-                <Input {...register("startDate")} type="date" />
+                <DatePickerField
+                    value={startDate.field.value}
+                    onChange={startDate.field.onChange}
+                    onBlur={startDate.field.onBlur}
+                    name={startDate.field.name}
+                    invalid={!!errors.startDate}
+                />
                 {errors.startDate && <p className="text-sm text-destructive">{errors.startDate.message}</p>}
             </div>
             <div className="space-y-2">
                 <label className="text-sm font-medium">End Date *</label>
-                <Input {...register("endDate")} type="date" />
+                <DatePickerField
+                    value={endDate.field.value}
+                    onChange={endDate.field.onChange}
+                    onBlur={endDate.field.onBlur}
+                    name={endDate.field.name}
+                    invalid={!!errors.endDate}
+                />
                 {errors.endDate && <p className="text-sm text-destructive">{errors.endDate.message}</p>}
             </div>
             {error && <p className="text-sm text-destructive">{error.message}</p>}

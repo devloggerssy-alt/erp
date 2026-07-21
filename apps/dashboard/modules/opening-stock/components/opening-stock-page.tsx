@@ -1,5 +1,6 @@
 "use client"
 
+import { useCallback, useMemo } from "react"
 import { useTranslations } from "next-intl"
 import { Button } from "@/shared/components/ui/button"
 import {
@@ -15,6 +16,8 @@ import {
   createOpeningStockColumns,
   type OpeningStockRow,
 } from "./opening-stock-columns"
+
+const EDITABLE_COLUMNS = ["openingQty", "unitCost"] as const
 
 export function OpeningStockPage() {
   const t = useTranslations("business.resources.openingStock")
@@ -34,44 +37,51 @@ export function OpeningStockPage() {
     isLoading,
   } = useOpeningStock()
 
-  const columns = createOpeningStockColumns(t)
+  const columns = useMemo(() => createOpeningStockColumns(t), [t])
+  const getRowId = useCallback((row: OpeningStockRow) => row.id, [])
 
-  const toolbarStart = (
-    <>
-      <Select value={selectedWarehouseId} onValueChange={setSelectedWarehouseId}>
-        <SelectTrigger className="w-[200px]">
-          <SelectValue placeholder={t("selectWarehouse")} />
-        </SelectTrigger>
-        <SelectContent>
-          {warehouses.map((wh) => (
-            <SelectItem key={wh.id} value={wh.id}>
-              {wh.name}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
-      <Select value={selectedPeriodId} onValueChange={setSelectedPeriodId}>
-        <SelectTrigger className="w-[200px]">
-          <SelectValue placeholder={t("selectPeriod")} />
-        </SelectTrigger>
-        <SelectContent>
-          {periods.map((period) => (
-            <SelectItem key={period.id} value={period.id}>
-              {period.name}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
-    </>
+  const toolbarStart = useMemo(
+    () => (
+      <>
+        <Select value={selectedWarehouseId} onValueChange={setSelectedWarehouseId}>
+          <SelectTrigger className="w-[200px]">
+            <SelectValue placeholder={t("selectWarehouse")} />
+          </SelectTrigger>
+          <SelectContent>
+            {warehouses.map((wh) => (
+              <SelectItem key={wh.id} value={wh.id}>
+                {wh.name}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+        <Select value={selectedPeriodId} onValueChange={setSelectedPeriodId}>
+          <SelectTrigger className="w-[200px]">
+            <SelectValue placeholder={t("selectPeriod")} />
+          </SelectTrigger>
+          <SelectContent>
+            {periods.map((period) => (
+              <SelectItem key={period.id} value={period.id}>
+                {period.name}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </>
+    ),
+    [selectedWarehouseId, selectedPeriodId, warehouses, periods, t, setSelectedWarehouseId, setSelectedPeriodId],
   )
 
-  const toolbarEnd = (
-    <Button
-      onClick={handleSave}
-      disabled={!hasDirtyRows || !selectedWarehouseId || !selectedPeriodId || isSaving}
-    >
-      {isSaving ? t("saving") : t("saveAll")}
-    </Button>
+  const toolbarEnd = useMemo(
+    () => (
+      <Button
+        onClick={handleSave}
+        disabled={!hasDirtyRows || !selectedWarehouseId || !selectedPeriodId || isSaving}
+      >
+        {isSaving ? t("saving") : t("saveAll")}
+      </Button>
+    ),
+    [handleSave, hasDirtyRows, selectedWarehouseId, selectedPeriodId, isSaving, t],
   )
 
   return (
@@ -83,8 +93,8 @@ export function OpeningStockPage() {
       <EditableGrid<OpeningStockRow>
         data={rows}
         columns={columns}
-        editableColumnIds={["openingQty", "unitCost"]}
-        getRowId={(row) => row.id}
+        editableColumnIds={EDITABLE_COLUMNS as unknown as string[]}
+        getRowId={getRowId}
         onDirtyChange={handleDirtyChange}
         toolbarStart={toolbarStart}
         toolbarEnd={toolbarEnd}
