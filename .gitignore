@@ -38,3 +38,8 @@ yarn-error.log*
 *.pem
 apps/api/openapi.yaml
 packages/api-contracts/types/index.ts
+
+
+# Generated files
+packages/api-contracts/types/index.ts
+apps/api/openapi.yaml
