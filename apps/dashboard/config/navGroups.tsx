@@ -40,6 +40,7 @@ import {
   WalletIcon,
   WrenchIcon,
   ShoppingCartIcon,
+  MessageSquareIcon,
 } from "lucide-react"
 export const navGroups: NavGroup[] = [
   {
@@ -63,6 +64,16 @@ export const navGroups: NavGroup[] = [
         title: "Reports",
         href: "/reports",
         icon: <BarChart3Icon />,
+      },
+      {
+        title: "الكاشير",
+        href: "/cashier",
+        icon: <ReceiptIcon />,
+      },
+      {
+        title: "المساعد الذكي",
+        href: "/ai/chat",
+        icon: <MessageSquareIcon />,
       },
     ],
   },
