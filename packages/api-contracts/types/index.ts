@@ -385,6 +385,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/onboarding/step/currencies": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Step 4 — Bootstrap currencies (SYP + USD) and cashboxes */
+        post: operations["Onboarding.stepCurrencies"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/onboarding/step/document-sequences": {
         parameters: {
             query?: never;
@@ -3037,6 +3054,13 @@ export interface components {
              */
             defaultPayableAccountId: string;
         };
+        OnboardingCurrenciesStepDto: {
+            /**
+             * @description Code-to-ID map from chart of accounts bootstrap
+             * @default {}
+             */
+            codeToId: Record<string, never>;
+        };
         OnboardingSequenceItemDto: {
             /**
              * @default
@@ -3395,6 +3419,12 @@ export interface components {
              */
             name: string;
             /**
+             * @default {
+             *       "ar": ""
+             *     }
+             */
+            nameI18n: components["schemas"]["LocalizedStringDto"];
+            /**
              * @default
              * @example kg
              */
@@ -3418,10 +3448,11 @@ export interface components {
         CreateUnitDto: {
             /**
              * @description Unit display name
-             * @default
-             * @example Kilogram
+             * @default {
+             *       "ar": ""
+             *     }
              */
-            name: string;
+            name: components["schemas"]["LocalizedStringDto"];
             /**
              * @description Short abbreviation used on documents
              * @default
@@ -3430,11 +3461,8 @@ export interface components {
             abbreviation: string;
         };
         UpdateUnitDto: {
-            /**
-             * @description Updated display name
-             * @example Kilogram (Updated)
-             */
-            name?: string;
+            /** @description Updated display name */
+            name?: components["schemas"]["LocalizedStringDto"];
             /**
              * @description Updated abbreviation
              * @example kg
@@ -3927,6 +3955,12 @@ export interface components {
              */
             name: string;
             /**
+             * @default {
+             *       "ar": ""
+             *     }
+             */
+            nameI18n: components["schemas"]["LocalizedStringDto"];
+            /**
              * @default null
              * @example Damascus Industrial Zone
              */
@@ -3956,18 +3990,18 @@ export interface components {
             code: string;
             /**
              * @description Warehouse display name
-             * @default
-             * @example Main Warehouse
+             * @default {
+             *       "ar": ""
+             *     }
              */
-            name: string;
+            name: components["schemas"]["LocalizedStringDto"];
             /** @example Damascus Industrial Zone */
             address?: string;
         };
         UpdateWarehouseDto: {
             /** @example WH-MAIN */
             code?: string;
-            /** @example Main Warehouse (Renovated) */
-            name?: string;
+            name?: components["schemas"]["LocalizedStringDto"];
             /** @example Damascus Industrial Zone, Building 5 */
             address?: string;
             /** @example true */
@@ -7123,6 +7157,27 @@ export interface operations {
         requestBody: {
             content: {
                 "application/json": components["schemas"]["OnboardingGlDefaultsStepDto"];
+            };
+        };
+        responses: {
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    "Onboarding.stepCurrencies": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["OnboardingCurrenciesStepDto"];
             };
         };
         responses: {

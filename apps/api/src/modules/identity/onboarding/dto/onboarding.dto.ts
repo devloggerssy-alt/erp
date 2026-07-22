@@ -1,6 +1,6 @@
 import {
     IsString, IsNotEmpty, IsOptional, IsIn,
-    IsDateString, IsInt, IsArray, ValidateNested, Min, IsUUID,
+    IsDateString, IsInt, IsArray, ValidateNested, Min, IsUUID, IsObject,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
@@ -93,4 +93,10 @@ export class OnboardingDocumentSequencesStepDto {
     @ApiProperty({ type: [OnboardingSequenceItemDto] })
     @IsArray() @ValidateNested({ each: true }) @Type(() => OnboardingSequenceItemDto)
     sequences: OnboardingSequenceItemDto[] = [];
+}
+
+export class OnboardingCurrenciesStepDto {
+    @ApiProperty({ description: 'Code-to-ID map from chart of accounts bootstrap' })
+    @IsObject()
+    codeToId: Record<string, string> = {};
 }

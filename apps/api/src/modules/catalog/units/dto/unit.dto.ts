@@ -1,13 +1,15 @@
-import { IsString, IsNotEmpty, IsOptional, IsBoolean } from 'class-validator';
+import { IsString, IsNotEmpty, IsOptional, IsBoolean, ValidateNested } from 'class-validator';
+import { Type } from 'class-transformer';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { LocalizedStringDto } from '@devloggers/backend-core';
 
 // ── Create DTO ────────────────────────────────────────────────────────────────
 
 export class CreateUnitDto {
-  @ApiProperty({ example: 'Kilogram', description: 'Unit display name' })
-  @IsString()
-  @IsNotEmpty()
-  name: string = '';
+  @ApiProperty({ type: LocalizedStringDto, description: 'Unit display name' })
+  @ValidateNested()
+  @Type(() => LocalizedStringDto)
+  name: LocalizedStringDto = new LocalizedStringDto();
 
   @ApiProperty({ example: 'kg', description: 'Short abbreviation used on documents' })
   @IsString()
@@ -18,11 +20,11 @@ export class CreateUnitDto {
 // ── Update DTO ────────────────────────────────────────────────────────────────
 
 export class UpdateUnitDto {
-  @ApiPropertyOptional({ example: 'Kilogram (Updated)', description: 'Updated display name' })
+  @ApiPropertyOptional({ type: LocalizedStringDto, description: 'Updated display name' })
   @IsOptional()
-  @IsString()
-  @IsNotEmpty()
-  name?: string;
+  @ValidateNested()
+  @Type(() => LocalizedStringDto)
+  name?: LocalizedStringDto;
 
   @ApiPropertyOptional({ example: 'kg', description: 'Updated abbreviation' })
   @IsOptional()
@@ -44,6 +46,9 @@ export class UnitResponseDto {
 
   @ApiProperty({ example: 'Kilogram' })
   name: string = '';
+
+  @ApiProperty({ type: LocalizedStringDto })
+  nameI18n: LocalizedStringDto = new LocalizedStringDto();
 
   @ApiProperty({ example: 'kg' })
   abbreviation: string = '';

@@ -36,6 +36,7 @@ import { DashboardClient } from "./clients/dashboard.client"
 import { OnboardingClient } from "./clients/onboarding.client"
 
 export function createApi(options?: ApiClientOptions, baseUrl = 'http://localhost:4040') {
+    console.log("[createApi] baseUrl arg:", baseUrl, "| process.env.NEXT_PUBLIC_API_BASE_URL:", typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_BASE_URL : 'N/A (browser)')
     const client = new ApiClient(baseUrl, options)
     return {
         client,

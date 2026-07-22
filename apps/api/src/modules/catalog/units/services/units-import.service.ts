@@ -39,7 +39,12 @@ export class UnitsImportService extends CrudImportServiceBase<
         });
         return {
             existingByName: new Map(
-                units.map((unit) => [normalizeLookupKey(unit.name), unit.id]),
+                units.map((unit) => {
+                    const resolvedName = typeof unit.name === 'object' && unit.name
+                        ? ((unit.name as any).en || (unit.name as any).ar || '')
+                        : String(unit.name);
+                    return [normalizeLookupKey(resolvedName), unit.id] as [string, string];
+                }),
             ),
         };
     }
@@ -68,8 +73,9 @@ export class UnitsImportService extends CrudImportServiceBase<
 
         const isActive = parseBooleanCell(rawRow[UNITS_IMPORT_COLUMNS.isActive]) ?? true;
 
-        const createDto: CreateUnitDto = { name, abbreviation };
-        const updateDto: UpdateUnitDto = { name, abbreviation, isActive };
+        const localizedName = { ar: name, en: name };
+        const createDto: CreateUnitDto = { name: localizedName, abbreviation };
+        const updateDto: UpdateUnitDto = { name: localizedName, abbreviation, isActive };
 
         const existingId = existingByName.get(normalizeLookupKey(name));
 

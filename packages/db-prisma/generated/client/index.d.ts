@@ -50879,7 +50879,6 @@ export namespace Prisma {
   export type UnitMinAggregateOutputType = {
     id: string | null
     tenantId: string | null
-    name: string | null
     abbreviation: string | null
     isActive: boolean | null
     createdAt: Date | null
@@ -50889,7 +50888,6 @@ export namespace Prisma {
   export type UnitMaxAggregateOutputType = {
     id: string | null
     tenantId: string | null
-    name: string | null
     abbreviation: string | null
     isActive: boolean | null
     createdAt: Date | null
@@ -50911,7 +50909,6 @@ export namespace Prisma {
   export type UnitMinAggregateInputType = {
     id?: true
     tenantId?: true
-    name?: true
     abbreviation?: true
     isActive?: true
     createdAt?: true
@@ -50921,7 +50918,6 @@ export namespace Prisma {
   export type UnitMaxAggregateInputType = {
     id?: true
     tenantId?: true
-    name?: true
     abbreviation?: true
     isActive?: true
     createdAt?: true
@@ -51014,7 +51010,7 @@ export namespace Prisma {
   export type UnitGroupByOutputType = {
     id: string
     tenantId: string
-    name: string
+    name: JsonValue
     abbreviation: string
     isActive: boolean
     createdAt: Date
@@ -51108,7 +51104,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       tenantId: string
-      name: string
+      name: Prisma.JsonValue
       abbreviation: string
       isActive: boolean
       createdAt: Date
@@ -51541,7 +51537,7 @@ export namespace Prisma {
   interface UnitFieldRefs {
     readonly id: FieldRef<"Unit", 'String'>
     readonly tenantId: FieldRef<"Unit", 'String'>
-    readonly name: FieldRef<"Unit", 'String'>
+    readonly name: FieldRef<"Unit", 'Json'>
     readonly abbreviation: FieldRef<"Unit", 'String'>
     readonly isActive: FieldRef<"Unit", 'Boolean'>
     readonly createdAt: FieldRef<"Unit", 'DateTime'>
@@ -55354,7 +55350,6 @@ export namespace Prisma {
     id: string | null
     tenantId: string | null
     code: string | null
-    name: string | null
     address: string | null
     isActive: boolean | null
     createdAt: Date | null
@@ -55365,7 +55360,6 @@ export namespace Prisma {
     id: string | null
     tenantId: string | null
     code: string | null
-    name: string | null
     address: string | null
     isActive: boolean | null
     createdAt: Date | null
@@ -55389,7 +55383,6 @@ export namespace Prisma {
     id?: true
     tenantId?: true
     code?: true
-    name?: true
     address?: true
     isActive?: true
     createdAt?: true
@@ -55400,7 +55393,6 @@ export namespace Prisma {
     id?: true
     tenantId?: true
     code?: true
-    name?: true
     address?: true
     isActive?: true
     createdAt?: true
@@ -55495,7 +55487,7 @@ export namespace Prisma {
     id: string
     tenantId: string
     code: string
-    name: string
+    name: JsonValue
     address: string | null
     isActive: boolean
     createdAt: Date
@@ -55603,7 +55595,7 @@ export namespace Prisma {
       id: string
       tenantId: string
       code: string
-      name: string
+      name: Prisma.JsonValue
       address: string | null
       isActive: boolean
       createdAt: Date
@@ -56040,7 +56032,7 @@ export namespace Prisma {
     readonly id: FieldRef<"Warehouse", 'String'>
     readonly tenantId: FieldRef<"Warehouse", 'String'>
     readonly code: FieldRef<"Warehouse", 'String'>
-    readonly name: FieldRef<"Warehouse", 'String'>
+    readonly name: FieldRef<"Warehouse", 'Json'>
     readonly address: FieldRef<"Warehouse", 'String'>
     readonly isActive: FieldRef<"Warehouse", 'Boolean'>
     readonly createdAt: FieldRef<"Warehouse", 'DateTime'>
@@ -62269,7 +62261,7 @@ export namespace Prisma {
     NOT?: UnitWhereInput | UnitWhereInput[]
     id?: StringFilter<"Unit"> | string
     tenantId?: StringFilter<"Unit"> | string
-    name?: StringFilter<"Unit"> | string
+    name?: JsonFilter<"Unit">
     abbreviation?: StringFilter<"Unit"> | string
     isActive?: BoolFilter<"Unit"> | boolean
     createdAt?: DateTimeFilter<"Unit"> | Date | string
@@ -62294,12 +62286,11 @@ export namespace Prisma {
 
   export type UnitWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    tenantId_name?: UnitTenantIdNameCompoundUniqueInput
     AND?: UnitWhereInput | UnitWhereInput[]
     OR?: UnitWhereInput[]
     NOT?: UnitWhereInput | UnitWhereInput[]
     tenantId?: StringFilter<"Unit"> | string
-    name?: StringFilter<"Unit"> | string
+    name?: JsonFilter<"Unit">
     abbreviation?: StringFilter<"Unit"> | string
     isActive?: BoolFilter<"Unit"> | boolean
     createdAt?: DateTimeFilter<"Unit"> | Date | string
@@ -62307,7 +62298,7 @@ export namespace Prisma {
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
     items?: ItemListRelationFilter
     invoiceLines?: InvoiceLineListRelationFilter
-  }, "id" | "tenantId_name">
+  }, "id">
 
   export type UnitOrderByWithAggregationInput = {
     id?: SortOrder
@@ -62328,7 +62319,7 @@ export namespace Prisma {
     NOT?: UnitScalarWhereWithAggregatesInput | UnitScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Unit"> | string
     tenantId?: StringWithAggregatesFilter<"Unit"> | string
-    name?: StringWithAggregatesFilter<"Unit"> | string
+    name?: JsonWithAggregatesFilter<"Unit">
     abbreviation?: StringWithAggregatesFilter<"Unit"> | string
     isActive?: BoolWithAggregatesFilter<"Unit"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"Unit"> | Date | string
@@ -62548,7 +62539,7 @@ export namespace Prisma {
     id?: StringFilter<"Warehouse"> | string
     tenantId?: StringFilter<"Warehouse"> | string
     code?: StringFilter<"Warehouse"> | string
-    name?: StringFilter<"Warehouse"> | string
+    name?: JsonFilter<"Warehouse">
     address?: StringNullableFilter<"Warehouse"> | string | null
     isActive?: BoolFilter<"Warehouse"> | boolean
     createdAt?: DateTimeFilter<"Warehouse"> | Date | string
@@ -62586,7 +62577,7 @@ export namespace Prisma {
     NOT?: WarehouseWhereInput | WarehouseWhereInput[]
     tenantId?: StringFilter<"Warehouse"> | string
     code?: StringFilter<"Warehouse"> | string
-    name?: StringFilter<"Warehouse"> | string
+    name?: JsonFilter<"Warehouse">
     address?: StringNullableFilter<"Warehouse"> | string | null
     isActive?: BoolFilter<"Warehouse"> | boolean
     createdAt?: DateTimeFilter<"Warehouse"> | Date | string
@@ -62620,7 +62611,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Warehouse"> | string
     tenantId?: StringWithAggregatesFilter<"Warehouse"> | string
     code?: StringWithAggregatesFilter<"Warehouse"> | string
-    name?: StringWithAggregatesFilter<"Warehouse"> | string
+    name?: JsonWithAggregatesFilter<"Warehouse">
     address?: StringNullableWithAggregatesFilter<"Warehouse"> | string | null
     isActive?: BoolWithAggregatesFilter<"Warehouse"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"Warehouse"> | Date | string
@@ -66418,7 +66409,7 @@ export namespace Prisma {
 
   export type UnitCreateInput = {
     id?: string
-    name: string
+    name: JsonNullValueInput | InputJsonValue
     abbreviation: string
     isActive?: boolean
     createdAt?: Date | string
@@ -66431,7 +66422,7 @@ export namespace Prisma {
   export type UnitUncheckedCreateInput = {
     id?: string
     tenantId: string
-    name: string
+    name: JsonNullValueInput | InputJsonValue
     abbreviation: string
     isActive?: boolean
     createdAt?: Date | string
@@ -66442,7 +66433,7 @@ export namespace Prisma {
 
   export type UnitUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
     abbreviation?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -66455,7 +66446,7 @@ export namespace Prisma {
   export type UnitUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     tenantId?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
     abbreviation?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -66467,7 +66458,7 @@ export namespace Prisma {
   export type UnitCreateManyInput = {
     id?: string
     tenantId: string
-    name: string
+    name: JsonNullValueInput | InputJsonValue
     abbreviation: string
     isActive?: boolean
     createdAt?: Date | string
@@ -66476,7 +66467,7 @@ export namespace Prisma {
 
   export type UnitUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
     abbreviation?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -66486,7 +66477,7 @@ export namespace Prisma {
   export type UnitUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     tenantId?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
     abbreviation?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -66710,7 +66701,7 @@ export namespace Prisma {
   export type WarehouseCreateInput = {
     id?: string
     code: string
-    name: string
+    name: JsonNullValueInput | InputJsonValue
     address?: string | null
     isActive?: boolean
     createdAt?: Date | string
@@ -66727,7 +66718,7 @@ export namespace Prisma {
     id?: string
     tenantId: string
     code: string
-    name: string
+    name: JsonNullValueInput | InputJsonValue
     address?: string | null
     isActive?: boolean
     createdAt?: Date | string
@@ -66742,7 +66733,7 @@ export namespace Prisma {
   export type WarehouseUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
     address?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -66759,7 +66750,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     tenantId?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
     address?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -66775,7 +66766,7 @@ export namespace Prisma {
     id?: string
     tenantId: string
     code: string
-    name: string
+    name: JsonNullValueInput | InputJsonValue
     address?: string | null
     isActive?: boolean
     createdAt?: Date | string
@@ -66785,7 +66776,7 @@ export namespace Prisma {
   export type WarehouseUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
     address?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -66796,7 +66787,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     tenantId?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
     address?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -69764,11 +69755,6 @@ export namespace Prisma {
     onboardingStep?: SortOrder
   }
 
-  export type UnitTenantIdNameCompoundUniqueInput = {
-    tenantId: string
-    name: string
-  }
-
   export type UnitCountOrderByAggregateInput = {
     id?: SortOrder
     tenantId?: SortOrder
@@ -69782,7 +69768,6 @@ export namespace Prisma {
   export type UnitMaxOrderByAggregateInput = {
     id?: SortOrder
     tenantId?: SortOrder
-    name?: SortOrder
     abbreviation?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
@@ -69792,7 +69777,6 @@ export namespace Prisma {
   export type UnitMinOrderByAggregateInput = {
     id?: SortOrder
     tenantId?: SortOrder
-    name?: SortOrder
     abbreviation?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
@@ -69935,7 +69919,6 @@ export namespace Prisma {
     id?: SortOrder
     tenantId?: SortOrder
     code?: SortOrder
-    name?: SortOrder
     address?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
@@ -69946,7 +69929,6 @@ export namespace Prisma {
     id?: SortOrder
     tenantId?: SortOrder
     code?: SortOrder
-    name?: SortOrder
     address?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
@@ -84923,7 +84905,7 @@ export namespace Prisma {
   export type WarehouseCreateWithoutInvoicesInput = {
     id?: string
     code: string
-    name: string
+    name: JsonNullValueInput | InputJsonValue
     address?: string | null
     isActive?: boolean
     createdAt?: Date | string
@@ -84939,7 +84921,7 @@ export namespace Prisma {
     id?: string
     tenantId: string
     code: string
-    name: string
+    name: JsonNullValueInput | InputJsonValue
     address?: string | null
     isActive?: boolean
     createdAt?: Date | string
@@ -85298,7 +85280,7 @@ export namespace Prisma {
   export type WarehouseUpdateWithoutInvoicesInput = {
     id?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
     address?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -85314,7 +85296,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     tenantId?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
     address?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -85587,7 +85569,7 @@ export namespace Prisma {
 
   export type UnitCreateWithoutInvoiceLinesInput = {
     id?: string
-    name: string
+    name: JsonNullValueInput | InputJsonValue
     abbreviation: string
     isActive?: boolean
     createdAt?: Date | string
@@ -85599,7 +85581,7 @@ export namespace Prisma {
   export type UnitUncheckedCreateWithoutInvoiceLinesInput = {
     id?: string
     tenantId: string
-    name: string
+    name: JsonNullValueInput | InputJsonValue
     abbreviation: string
     isActive?: boolean
     createdAt?: Date | string
@@ -85759,7 +85741,7 @@ export namespace Prisma {
 
   export type UnitUpdateWithoutInvoiceLinesInput = {
     id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
     abbreviation?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -85771,7 +85753,7 @@ export namespace Prisma {
   export type UnitUncheckedUpdateWithoutInvoiceLinesInput = {
     id?: StringFieldUpdateOperationsInput | string
     tenantId?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
     abbreviation?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -87178,7 +87160,7 @@ export namespace Prisma {
 
   export type UnitCreateWithoutItemsInput = {
     id?: string
-    name: string
+    name: JsonNullValueInput | InputJsonValue
     abbreviation: string
     isActive?: boolean
     createdAt?: Date | string
@@ -87190,7 +87172,7 @@ export namespace Prisma {
   export type UnitUncheckedCreateWithoutItemsInput = {
     id?: string
     tenantId: string
-    name: string
+    name: JsonNullValueInput | InputJsonValue
     abbreviation: string
     isActive?: boolean
     createdAt?: Date | string
@@ -87635,7 +87617,7 @@ export namespace Prisma {
 
   export type UnitUpdateWithoutItemsInput = {
     id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
     abbreviation?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -87647,7 +87629,7 @@ export namespace Prisma {
   export type UnitUncheckedUpdateWithoutItemsInput = {
     id?: StringFieldUpdateOperationsInput | string
     tenantId?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
     abbreviation?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -88639,7 +88621,7 @@ export namespace Prisma {
   export type WarehouseCreateWithoutStockCountsInput = {
     id?: string
     code: string
-    name: string
+    name: JsonNullValueInput | InputJsonValue
     address?: string | null
     isActive?: boolean
     createdAt?: Date | string
@@ -88655,7 +88637,7 @@ export namespace Prisma {
     id?: string
     tenantId: string
     code: string
-    name: string
+    name: JsonNullValueInput | InputJsonValue
     address?: string | null
     isActive?: boolean
     createdAt?: Date | string
@@ -88855,7 +88837,7 @@ export namespace Prisma {
   export type WarehouseUpdateWithoutStockCountsInput = {
     id?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
     address?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -88871,7 +88853,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     tenantId?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
     address?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -89152,7 +89134,7 @@ export namespace Prisma {
   export type WarehouseCreateWithoutStockBalancesInput = {
     id?: string
     code: string
-    name: string
+    name: JsonNullValueInput | InputJsonValue
     address?: string | null
     isActive?: boolean
     createdAt?: Date | string
@@ -89168,7 +89150,7 @@ export namespace Prisma {
     id?: string
     tenantId: string
     code: string
-    name: string
+    name: JsonNullValueInput | InputJsonValue
     address?: string | null
     isActive?: boolean
     createdAt?: Date | string
@@ -89259,7 +89241,7 @@ export namespace Prisma {
   export type WarehouseUpdateWithoutStockBalancesInput = {
     id?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
     address?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -89275,7 +89257,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     tenantId?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
     address?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -89356,7 +89338,7 @@ export namespace Prisma {
   export type WarehouseCreateWithoutStockMovementsInput = {
     id?: string
     code: string
-    name: string
+    name: JsonNullValueInput | InputJsonValue
     address?: string | null
     isActive?: boolean
     createdAt?: Date | string
@@ -89372,7 +89354,7 @@ export namespace Prisma {
     id?: string
     tenantId: string
     code: string
-    name: string
+    name: JsonNullValueInput | InputJsonValue
     address?: string | null
     isActive?: boolean
     createdAt?: Date | string
@@ -89500,7 +89482,7 @@ export namespace Prisma {
   export type WarehouseUpdateWithoutStockMovementsInput = {
     id?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
     address?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -89516,7 +89498,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     tenantId?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
     address?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -90367,7 +90349,7 @@ export namespace Prisma {
 
   export type UnitCreateWithoutTenantInput = {
     id?: string
-    name: string
+    name: JsonNullValueInput | InputJsonValue
     abbreviation: string
     isActive?: boolean
     createdAt?: Date | string
@@ -90378,7 +90360,7 @@ export namespace Prisma {
 
   export type UnitUncheckedCreateWithoutTenantInput = {
     id?: string
-    name: string
+    name: JsonNullValueInput | InputJsonValue
     abbreviation: string
     isActive?: boolean
     createdAt?: Date | string
@@ -90514,7 +90496,7 @@ export namespace Prisma {
   export type WarehouseCreateWithoutTenantInput = {
     id?: string
     code: string
-    name: string
+    name: JsonNullValueInput | InputJsonValue
     address?: string | null
     isActive?: boolean
     createdAt?: Date | string
@@ -90529,7 +90511,7 @@ export namespace Prisma {
   export type WarehouseUncheckedCreateWithoutTenantInput = {
     id?: string
     code: string
-    name: string
+    name: JsonNullValueInput | InputJsonValue
     address?: string | null
     isActive?: boolean
     createdAt?: Date | string
@@ -91492,7 +91474,7 @@ export namespace Prisma {
     NOT?: UnitScalarWhereInput | UnitScalarWhereInput[]
     id?: StringFilter<"Unit"> | string
     tenantId?: StringFilter<"Unit"> | string
-    name?: StringFilter<"Unit"> | string
+    name?: JsonFilter<"Unit">
     abbreviation?: StringFilter<"Unit"> | string
     isActive?: BoolFilter<"Unit"> | boolean
     createdAt?: DateTimeFilter<"Unit"> | Date | string
@@ -91554,7 +91536,7 @@ export namespace Prisma {
     id?: StringFilter<"Warehouse"> | string
     tenantId?: StringFilter<"Warehouse"> | string
     code?: StringFilter<"Warehouse"> | string
-    name?: StringFilter<"Warehouse"> | string
+    name?: JsonFilter<"Warehouse">
     address?: StringNullableFilter<"Warehouse"> | string | null
     isActive?: BoolFilter<"Warehouse"> | boolean
     createdAt?: DateTimeFilter<"Warehouse"> | Date | string
@@ -93455,7 +93437,7 @@ export namespace Prisma {
   export type WarehouseCreateWithoutWarehouseItemsInput = {
     id?: string
     code: string
-    name: string
+    name: JsonNullValueInput | InputJsonValue
     address?: string | null
     isActive?: boolean
     createdAt?: Date | string
@@ -93471,7 +93453,7 @@ export namespace Prisma {
     id?: string
     tenantId: string
     code: string
-    name: string
+    name: JsonNullValueInput | InputJsonValue
     address?: string | null
     isActive?: boolean
     createdAt?: Date | string
@@ -93562,7 +93544,7 @@ export namespace Prisma {
   export type WarehouseUpdateWithoutWarehouseItemsInput = {
     id?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
     address?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -93578,7 +93560,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     tenantId?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
     address?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -97347,7 +97329,7 @@ export namespace Prisma {
 
   export type UnitCreateManyTenantInput = {
     id?: string
-    name: string
+    name: JsonNullValueInput | InputJsonValue
     abbreviation: string
     isActive?: boolean
     createdAt?: Date | string
@@ -97393,7 +97375,7 @@ export namespace Prisma {
   export type WarehouseCreateManyTenantInput = {
     id?: string
     code: string
-    name: string
+    name: JsonNullValueInput | InputJsonValue
     address?: string | null
     isActive?: boolean
     createdAt?: Date | string
@@ -97839,7 +97821,7 @@ export namespace Prisma {
 
   export type UnitUpdateWithoutTenantInput = {
     id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
     abbreviation?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -97850,7 +97832,7 @@ export namespace Prisma {
 
   export type UnitUncheckedUpdateWithoutTenantInput = {
     id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
     abbreviation?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -97861,7 +97843,7 @@ export namespace Prisma {
 
   export type UnitUncheckedUpdateManyWithoutTenantInput = {
     id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
     abbreviation?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -98001,7 +97983,7 @@ export namespace Prisma {
   export type WarehouseUpdateWithoutTenantInput = {
     id?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
     address?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -98016,7 +97998,7 @@ export namespace Prisma {
   export type WarehouseUncheckedUpdateWithoutTenantInput = {
     id?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
     address?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -98031,7 +98013,7 @@ export namespace Prisma {
   export type WarehouseUncheckedUpdateManyWithoutTenantInput = {
     id?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
     address?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string

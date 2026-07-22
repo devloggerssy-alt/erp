@@ -259,6 +259,11 @@
         "bundle": "Paket"
       },
       "active": "Aktif",
+      "sectionDescription": "Açıklama",
+      "description": "Açıklama",
+      "descriptionPlaceholder": "Ürün açıklaması...",
+      "note": "Not",
+      "notePlaceholder": "Dahili notlar...",
       "sectionTags": "Etiketler",
       "noTags": "Etiket atanmamış",
       "addTagPlaceholder": "Etiket ekle...",

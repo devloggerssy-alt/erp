@@ -3,7 +3,7 @@ model Warehouse {
     id        String   @id @default(uuid())
     tenantId  String   @map("tenant_id")
     code      String
-    name      String
+    name      Json     @db.JsonB
     address   String?
     isActive  Boolean  @default(true) @map("is_active")
     createdAt DateTime @default(now()) @map("created_at")

@@ -62,6 +62,8 @@ export class ApiClient {
         protected baseUrl: string = process.env.NEXT_PUBLIC_API_URL ?? "",
         protected defaultOptions: ApiClientOptions = {},
     ) {
+        console.log("[ApiClient] constructor baseUrl:", baseUrl)
+        console.log("[ApiClient] constructor baseUrl (normalized):", this.normalizeBaseUrl(baseUrl))
         this.client = createClient<paths>({
             baseUrl: `${this.normalizeBaseUrl(baseUrl)}/`,
             querySerializer(queryParams) {
@@ -118,11 +120,15 @@ export class ApiClient {
         options: ApiRequestOptions<Path, "get"> = {} as ApiRequestOptions<Path, "get">,
     ): Promise<ApiResponse<Path, "get">> {
         const requestOptions = this.toFetchOptions(options)
+        const fullUrl = `${this.normalizeBaseUrl(this.baseUrl)}${endpoint}`
+        console.log("[ApiClient] GET ->", fullUrl, "headers:", requestOptions.headers)
 
         try {
             const { data, error, response } = await this.client.GET(endpoint, requestOptions as any)
+            console.log("[ApiClient] GET <-", fullUrl, "status:", response.status)
             return this.resolveResult(endpoint, "get", data, error, response)
         } catch (err) {
+            console.log("[ApiClient] GET ERROR", fullUrl, "raw error:", err)
             if (err instanceof ApiError) throw err
             throw this.createNetworkError(endpoint, "get")
         }
@@ -134,11 +140,15 @@ export class ApiClient {
         options: Omit<ApiRequestOptions<Path, "post">, "body"> = {} as Omit<ApiRequestOptions<Path, "post">, "body">,
     ): Promise<ApiResponse<Path, "post">> {
         const requestOptions = this.toFetchOptions({ ...options, body })
+        const fullUrl = `${this.normalizeBaseUrl(this.baseUrl)}${endpoint}`
+        console.log("[ApiClient] POST ->", fullUrl)
 
         try {
             const { data, error, response } = await this.client.POST(endpoint, requestOptions as any)
+            console.log("[ApiClient] POST <-", fullUrl, "status:", response.status)
             return this.resolveResult(endpoint, "post", data, error, response)
         } catch (err) {
+            console.log("[ApiClient] POST ERROR", fullUrl, "raw error:", err)
             if (err instanceof ApiError) throw err
             throw this.createNetworkError(endpoint, "post")
         }
@@ -150,14 +160,16 @@ export class ApiClient {
         options: Omit<ApiRequestOptions<Path, "put">, "body"> = {} as Omit<ApiRequestOptions<Path, "put">, "body">,
     ): Promise<ApiResponse<Path, "put">> {
         const requestOptions = this.toFetchOptions({ ...options, body })
-
-
+        const fullUrl = `${this.normalizeBaseUrl(this.baseUrl)}${endpoint}`
+        console.log("[ApiClient] PUT ->", fullUrl)
 
 
         try {
             const { data, error, response } = await this.client.PUT(endpoint, requestOptions as any)
+            console.log("[ApiClient] PUT <-", fullUrl, "status:", response.status)
             return this.resolveResult(endpoint, "put", data, error, response)
         } catch (err) {
+            console.log("[ApiClient] PUT ERROR", fullUrl, "raw error:", err)
             if (err instanceof ApiError) throw err
             throw this.createNetworkError(endpoint, "put")
         }
@@ -168,11 +180,15 @@ export class ApiClient {
         options: ApiRequestOptions<Path, "delete"> = {} as ApiRequestOptions<Path, "delete">,
     ): Promise<ApiResponse<Path, "delete">> {
         const requestOptions = this.toFetchOptions(options)
+        const fullUrl = `${this.normalizeBaseUrl(this.baseUrl)}${endpoint}`
+        console.log("[ApiClient] DELETE ->", fullUrl)
 
         try {
             const { data, error, response } = await this.client.DELETE(endpoint, requestOptions as any)
+            console.log("[ApiClient] DELETE <-", fullUrl, "status:", response.status)
             return this.resolveResult(endpoint, "delete", data, error, response)
         } catch (err) {
+            console.log("[ApiClient] DELETE ERROR", fullUrl, "raw error:", err)
             if (err instanceof ApiError) throw err
             throw this.createNetworkError(endpoint, "delete")
         }
@@ -184,11 +200,15 @@ export class ApiClient {
         options: Omit<ApiRequestOptions<Path, "patch">, "body"> = {} as Omit<ApiRequestOptions<Path, "patch">, "body">,
     ): Promise<ApiResponse<Path, "patch">> {
         const requestOptions = this.toFetchOptions({ ...options, body })
+        const fullUrl = `${this.normalizeBaseUrl(this.baseUrl)}${endpoint}`
+        console.log("[ApiClient] PATCH ->", fullUrl)
 
         try {
             const { data, error, response } = await this.client.PATCH(endpoint, requestOptions as any)
+            console.log("[ApiClient] PATCH <-", fullUrl, "status:", response.status)
             return this.resolveResult(endpoint, "patch", data, error, response)
         } catch (err) {
+            console.log("[ApiClient] PATCH ERROR", fullUrl, "raw error:", err)
             if (err instanceof ApiError) throw err
             throw this.createNetworkError(endpoint, "patch")
         }

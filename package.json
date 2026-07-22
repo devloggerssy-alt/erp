@@ -8,6 +8,11 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "turbo run check-types",
     "generate": "pnpm --filter @devloggers/api generate:spec && pnpm --filter @devloggers/api-contracts build",
+    "n8n:dev": "pnpm --filter @devloggers/n8n dev",
+    "n8n:start": "pnpm --filter @devloggers/n8n start",
+    "n8n:stop": "pnpm --filter @devloggers/n8n stop",
+    "n8n:logs": "pnpm --filter @devloggers/n8n logs",
+    "n8n:config": "pnpm --filter @devloggers/n8n compose:config",
     "sync:claude": "node scripts/sync-claude-artifacts.mjs"
   },
   "devDependencies": {

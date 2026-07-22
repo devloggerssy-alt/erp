@@ -1,5 +1,7 @@
-import { IsString, IsNotEmpty, IsOptional, IsBoolean } from 'class-validator';
+import { IsString, IsNotEmpty, IsOptional, IsBoolean, ValidateNested } from 'class-validator';
+import { Type } from 'class-transformer';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { LocalizedStringDto } from '@devloggers/backend-core';
 
 export class CreateWarehouseDto {
     @ApiProperty({ example: 'WH-MAIN', description: 'Unique warehouse code' })
@@ -7,10 +9,10 @@ export class CreateWarehouseDto {
     @IsNotEmpty()
     code: string = '';
 
-    @ApiProperty({ example: 'Main Warehouse', description: 'Warehouse display name' })
-    @IsString()
-    @IsNotEmpty()
-    name: string = '';
+    @ApiProperty({ type: LocalizedStringDto, description: 'Warehouse display name' })
+    @ValidateNested()
+    @Type(() => LocalizedStringDto)
+    name: LocalizedStringDto = new LocalizedStringDto();
 
     @ApiPropertyOptional({ example: 'Damascus Industrial Zone' })
     @IsOptional()
@@ -24,10 +26,11 @@ export class UpdateWarehouseDto {
     @IsString()
     code?: string;
 
-    @ApiPropertyOptional({ example: 'Main Warehouse (Renovated)' })
+    @ApiPropertyOptional({ type: LocalizedStringDto })
     @IsOptional()
-    @IsString()
-    name?: string;
+    @ValidateNested()
+    @Type(() => LocalizedStringDto)
+    name?: LocalizedStringDto;
 
     @ApiPropertyOptional({ example: 'Damascus Industrial Zone, Building 5' })
     @IsOptional()
@@ -49,6 +52,9 @@ export class WarehouseResponseDto {
 
     @ApiProperty({ example: 'Main Warehouse' })
     name: string = '';
+
+    @ApiProperty({ type: LocalizedStringDto })
+    nameI18n: LocalizedStringDto = new LocalizedStringDto();
 
     @ApiProperty({ example: 'Damascus Industrial Zone', nullable: true })
     address: string | null = null;

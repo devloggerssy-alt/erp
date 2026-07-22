@@ -36,6 +36,22 @@
 |----------|-------------|
 | `NEXT_PUBLIC_API_BASE_URL` | API base URL (default: `http://localhost:4040`) |
 
+### n8n (`apps/n8n/.env`)
+
+| Variable | Required | Default | Description |
+|----------|----------|---------|-------------|
+| `N8N_IMAGE` | No | `docker.n8n.io/n8nio/n8n:latest` | n8n Docker image |
+| `N8N_PORT` | No | `5678` | Host port exposed for n8n |
+| `N8N_HOST` | No | `localhost` | Public host used by n8n |
+| `N8N_PROTOCOL` | No | `http` | Public protocol, usually `http` locally and `https` behind a proxy |
+| `N8N_WEBHOOK_URL` | No | `http://localhost:5678/` | Public webhook base URL |
+| `GENERIC_TIMEZONE` | No | `Asia/Damascus` | Timezone for schedule and cron nodes |
+| `TZ` | No | `Asia/Damascus` | Container system timezone |
+| `N8N_DB_NAME` | Yes | `n8n` | n8n PostgreSQL database name |
+| `N8N_DB_USER` | Yes | `n8n` | n8n PostgreSQL user |
+| `N8N_DB_PASSWORD` | Yes | — | n8n PostgreSQL password |
+| `N8N_ENCRYPTION_KEY` | Yes | — | Stable key used to encrypt n8n credentials |
+
 ---
 
 ## Build Process
@@ -51,6 +67,12 @@ pnpm --filter @devloggers/api dev
 
 # Start only the dashboard
 pnpm --filter @devloggers/dashboard dev
+
+# Start n8n in the foreground
+pnpm n8n:dev
+
+# Start n8n in the background
+pnpm n8n:start
 ```
 
 Note: The dashboard `predev` script runs `pnpm --filter @devloggers/api run generate` automatically to regenerate OpenAPI types before starting.
@@ -122,6 +144,16 @@ pnpm check-types
 | `pnpm --filter @devloggers/db-prisma db:seed` | Run seed (idempotent) |
 | `pnpm --filter @devloggers/db-prisma db:studio` | Open Prisma Studio |
 
+### n8n (`apps/n8n`)
+
+| Script | Description |
+|--------|-------------|
+| `pnpm n8n:dev` | Start n8n + its PostgreSQL database in the foreground |
+| `pnpm n8n:start` | Start n8n + its PostgreSQL database in the background |
+| `pnpm n8n:stop` | Stop and remove the n8n containers |
+| `pnpm n8n:logs` | Follow n8n container logs |
+| `pnpm n8n:config` | Render the resolved Docker Compose config |
+
 ### OpenAPI Types
 
 ```bash
@@ -136,13 +168,19 @@ pnpm --filter @devloggers/api-contracts build
 
 ## Docker Setup
 
-No Docker Compose file is present in this repository. The development setup requires:
+The API and dashboard are still run directly with pnpm in development. The development setup requires:
 
-1. A locally running PostgreSQL instance (or remote, via `DATABASE_URL`).
+1. A locally running PostgreSQL instance for the ERP API (or remote, via `DATABASE_URL`).
 2. Manual `.env.development` configuration in `apps/api/`.
 3. Optional: `.env.local` in `apps/dashboard/` for `NEXT_PUBLIC_API_BASE_URL`.
 
-For production, containerization of the NestJS API and Next.js app would follow standard Node.js container patterns. A PostgreSQL managed service (e.g., AWS RDS, Supabase) is recommended.
+n8n is provided as an isolated Docker Compose app at `apps/n8n`. It runs n8n plus a dedicated PostgreSQL container and stores state in Docker volumes:
+
+- `n8n_data` for n8n user data and credential encryption metadata.
+- `n8n_postgres_data` for the n8n database.
+- `apps/n8n/local-files` mounted into n8n at `/files` for workflows that read or write local files.
+
+For production, put n8n behind HTTPS, set `N8N_PROTOCOL=https`, set `N8N_WEBHOOK_URL` to the public URL, replace local secrets in `apps/n8n/.env`, and keep `N8N_ENCRYPTION_KEY` stable across deployments. Containerization of the NestJS API and Next.js app would follow standard Node.js container patterns. A PostgreSQL managed service (e.g., AWS RDS, Supabase) is recommended for the ERP database.
 
 ---
 

@@ -1,12 +1,14 @@
+import type { LocalizedString } from './i18n.dto';
+
 export interface CreateWarehouseDto {
     code: string;
-    name: string;
+    name: LocalizedString;
     address?: string;
 }
 
 export interface UpdateWarehouseDto {
     code?: string;
-    name?: string;
+    name?: LocalizedString;
     address?: string | null;
     isActive?: boolean;
 }

@@ -8,6 +8,7 @@ import {
     OnboardingFiscalYearStepDto,
     OnboardingGlDefaultsStepDto,
     OnboardingDocumentSequencesStepDto,
+    OnboardingCurrenciesStepDto,
 } from '../dto/onboarding.dto';
 
 @ApiTags('Onboarding')
@@ -44,6 +45,13 @@ export class OnboardingController {
     @ApiOperation({ summary: 'Step 4 — Set default GL accounts' })
     async stepGlDefaults(@CurrentUser() user: RequestUser, @Body() dto: OnboardingGlDefaultsStepDto) {
         await this.onboardingService.stepGlDefaults(user.tenantId, dto);
+    }
+
+    @Post('step/currencies')
+    @HttpCode(HttpStatus.NO_CONTENT)
+    @ApiOperation({ summary: 'Step 4 — Bootstrap currencies (SYP + USD) and cashboxes' })
+    async stepCurrencies(@CurrentUser() user: RequestUser, @Body() dto: OnboardingCurrenciesStepDto) {
+        await this.onboardingService.stepCurrencies(user.tenantId, dto);
     }
 
     @Post('step/document-sequences')

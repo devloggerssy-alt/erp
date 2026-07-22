@@ -27,6 +27,7 @@ export default async function RootLayout({
     <html
       dir={isRtl ? "rtl" : "ltr"}
       lang={locale}
+      suppressContentEditableWarning
       suppressHydrationWarning
       className={cn(
         "antialiased",
@@ -36,9 +37,9 @@ export default async function RootLayout({
       )}
     >
       <body dir={isRtl ? "rtl" : "ltr"}>{children}{/* impeccable-live-start */}
-<script src="http://localhost:8400/live.js"></script>
-{/* impeccable-live-end */}
-</body>
+        <script src="http://localhost:8400/live.js"></script>
+        {/* impeccable-live-end */}
+      </body>
     </html>
   )
 }

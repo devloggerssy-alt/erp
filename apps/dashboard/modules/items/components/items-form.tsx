@@ -17,6 +17,8 @@ import { ItemTagsSection } from "./items-tags-section"
 import { ItemRelationsSection } from "./items-relations-section"
 import { ItemCatalogEntitiesSection } from "./items-catalog-entities-section"
 import { ItemGalleryUrlsField } from "./item-gallery-urls-field"
+import { InlineCategoryCreateForm } from "@/modules/categories/components/inline-category-create-form"
+import { InlineBrandCreateForm } from "@/modules/brands/components/inline-brand-create-form"
 
 export type ItemsFormProps = ResourceFormProps<ItemsClient> & {
     closeOnSuccess?: boolean
@@ -104,10 +106,13 @@ export function ItemsForm({
                                 label={t("category")}
                                 placeholder={t("categoryPlaceholder")}
                                 client={(api) => api[itemCategoryResource.key]}
-                                getLabel={(item) => (item as unknown as { name: string }).name}
+                                getLabel={(item) => item.name}
                                 getValue={(item) => item}
                                 required
                                 disabled={ctrl.isBusy}
+                                createForm={(props) => <InlineCategoryCreateForm  {...props} />}
+                                createLabel={t("category")}
+                                configPageHref="/catalog/categories"
                             />
                             <RhfResourceSelect
                                 name="baseUnit"
@@ -127,6 +132,9 @@ export function ItemsForm({
                                 getLabel={(item) => (item as unknown as { name: string }).name}
                                 getValue={(item) => item}
                                 disabled={ctrl.isBusy}
+                                createForm={(props) => <InlineBrandCreateForm {...props} />}
+                                createLabel={t("brand")}
+                                configPageHref="/catalog/brands"
                             />
                         </CardContent>
                     </Card>
@@ -179,7 +187,7 @@ export function ItemsForm({
 
                     <CustomFieldsFormSection module={customFieldModules.items} disabled={ctrl.isBusy} showWhenEmpty />
 
-                            {resourceId && (
+                    {resourceId && (
                         <ItemRelationsSection itemId={resourceId} disabled={ctrl.isBusy} />
                     )}
 
@@ -233,7 +241,7 @@ export function ItemsForm({
                     </Card>
 
 
-                       <Card>
+                    <Card>
                         <CardHeader>
                             <CardTitle>{t("sectionDescription")}</CardTitle>
                         </CardHeader>
@@ -242,13 +250,13 @@ export function ItemsForm({
                                 name="description"
                                 label={t("description")}
                                 placeholder={t("descriptionPlaceholder")}
-                                 disabled={ctrl.isBusy}
+                                disabled={ctrl.isBusy}
                             />
                             <RhfTextareaField
                                 name="note"
                                 label={t("note")}
                                 placeholder={t("notePlaceholder")}
-                                 disabled={ctrl.isBusy}
+                                disabled={ctrl.isBusy}
                             />
                         </CardContent>
                     </Card>
@@ -273,7 +281,7 @@ export function ItemsForm({
                         <ItemTagsSection itemId={resourceId} disabled={ctrl.isBusy} />
                     )}
 
-            
+
                 </div>
             </div>
         </ResourceFormShell>

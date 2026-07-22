@@ -2,7 +2,7 @@
 
 import { useTranslations } from "next-intl"
 import { type WarehousesClient } from "@devloggers/api-client"
-import { ResourceFormShell, RhfCheckboxField, RhfTextField } from "@/shared/components/form"
+import { ResourceFormShell, RhfCheckboxField, RhfTextField, RhfLocalizedTextField } from "@/shared/components/form"
 import type { ResourceFormProps } from "@/shared/data-view/resource"
 import { useResourceFormController } from "@/shared/hooks/use-resource-form-controller"
 import { warehousesFormConfig, type WarehouseFormValues } from "../warehouses.config"
@@ -30,12 +30,12 @@ export function WarehousesForm({ resourceId, initialData, onSuccess, paramKey }:
                 required
                 disabled={ctrl.isBusy}
             />
-            <RhfTextField
+            <RhfLocalizedTextField
                 name="name"
                 label={t("name")}
-                placeholder={t("namePlaceholder")}
                 required
                 disabled={ctrl.isBusy}
+                placeholder={{ ar: t("namePlaceholderAr"), en: t("namePlaceholderEn") }}
             />
             <RhfTextField
                 name="address"

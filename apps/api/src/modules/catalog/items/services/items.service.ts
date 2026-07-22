@@ -41,7 +41,11 @@ export class ItemsService extends CrudService<Item, ItemResponseDto, CreateItemD
             data: result.data.map((entity) => ({
                 ...this.itemPresenter.toResponse(entity),
                 category: entity.category,
-                baseUnit: entity.baseUnit,
+                baseUnit: {
+                    id: entity.baseUnit.id,
+                    name: this.resolveUnitName(entity.baseUnit.name),
+                    abbreviation: entity.baseUnit.abbreviation,
+                },
                 customFields: customFieldsByItem[entity.id] ?? {},
             })),
         };
@@ -60,10 +64,22 @@ export class ItemsService extends CrudService<Item, ItemResponseDto, CreateItemD
         return {
             ...this.itemPresenter.toResponse(entity),
             category: entity.category,
-            baseUnit: entity.baseUnit,
+            baseUnit: {
+                id: entity.baseUnit.id,
+                name: this.resolveUnitName(entity.baseUnit.name),
+                abbreviation: entity.baseUnit.abbreviation,
+            },
             brand: entity.brand ?? null,
             customFields,
         };
+    }
+
+    private resolveUnitName(name: any): string {
+        if (typeof name === 'string') return name;
+        if (name && typeof name === 'object' && !Array.isArray(name)) {
+            return name.en || name.ar || '';
+        }
+        return '';
     }
 
     override async create(tenantId: string, dto: CreateItemDto): Promise<ItemResponseDto> {

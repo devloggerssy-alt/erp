@@ -1,14 +1,12 @@
-import { Unit } from "@devloggers/db-prisma";
+import type { LocalizedString } from './i18n.dto';
 
 export interface CreateUnitDto {
-    name: string;
+    name: LocalizedString;
     abbreviation: string;
 }
 
 export interface UpdateUnitDto {
-    name?: string;
+    name?: LocalizedString;
     abbreviation?: string;
     isActive?: boolean;
 }
-
-export interface ListUnitsDto extends Pick<Unit,'name' | 'abbreviation'|'isActive'> {}

@@ -16,6 +16,7 @@ Turborepo + **pnpm** monorepo for an ERP system.
 
 ## Before you change code
 
+
 1. Load **`.ai/rules/monorepo.md`** — applies always.
 2. Load **`.ai/rules/code-quality.md`** — applies always (surgical changes + verify-before-complete + lint gates).
 3. Load the **path-scoped rule** from `.ai/rules/` that matches the files you're editing.
@@ -26,7 +27,7 @@ Turborepo + **pnpm** monorepo for an ERP system.
 8. For a **dashboard form** (create/edit dialog, schema, mappers), use skill **`dashboard-form`** (`.ai/skills/dashboard-form/`) — architecture at `.ai/docs/forms-architecture.md`.
 9. For a **single layer**, use the relevant skill from `.ai/skills/`.
 10. For **imported best-practice skills** (NestJS, Prisma, Next.js, testing, DDD, security, …), see `.ai/skills/_imports/README.md`.
-
+11. For **Business or Domain related logic**, always follow **`./ai/rules/domain.md`** instructions
 ## Spec-driven development
 
 | Artifact | Location | When |

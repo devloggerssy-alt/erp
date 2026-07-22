@@ -25,7 +25,7 @@ type ItemsExportContext = {
     customFieldDefinitions: CustomField[];
     customFieldsByItem: Record<string, CustomFieldValuesMap>;
     categories?: Array<{ name: string }>;
-    units?: Array<{ name: string; abbreviation: string }>;
+    units?: Array<{ name: any; abbreviation: string }>;
     brands?: Array<{ name: string }>;
 };
 
@@ -195,16 +195,19 @@ export class ItemsExportService extends CrudExportServiceBase<ItemWithListRelati
 
     private toExportRowInternal(
         response: ReturnType<ItemPresenter['toResponse']>,
-        entity: { category: { name: string }; baseUnit: { name: string }; brand?: { name: string } | null },
+        entity: { category: { name: string }; baseUnit: { name: any }; brand?: { name: string } | null },
         customFields: CustomFieldValuesMap,
         customFieldDefinitions: CustomField[],
     ): ExportRow {
+        const baseUnitName = typeof entity.baseUnit.name === 'object' && entity.baseUnit.name
+            ? (entity.baseUnit.name.en || entity.baseUnit.name.ar || '')
+            : String(entity.baseUnit.name);
         const row: ExportRow = {
             [ITEMS_IMPORT_COLUMNS.code]: response.code,
             [ITEMS_IMPORT_COLUMNS.name]: response.name,
             [ITEMS_IMPORT_COLUMNS.barcode]: response.barcode ?? '',
             [ITEMS_IMPORT_COLUMNS.categoryName]: entity.category.name,
-            [ITEMS_IMPORT_COLUMNS.baseUnitName]: entity.baseUnit.name,
+            [ITEMS_IMPORT_COLUMNS.baseUnitName]: baseUnitName,
             [ITEMS_IMPORT_COLUMNS.brandName]: entity.brand?.name ?? '',
             [ITEMS_IMPORT_COLUMNS.itemType]: response.itemType,
             [ITEMS_IMPORT_COLUMNS.defaultSellingPrice]: response.defaultSellingPrice ?? '',

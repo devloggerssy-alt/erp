@@ -1,21 +1,21 @@
 import { Injectable } from '@nestjs/common';
-import { CrudPresenter } from '@devloggers/backend-core';
+import { CrudPresenter, LocaleResolverService } from '@devloggers/backend-core';
 import type { Unit } from '@devloggers/db-prisma';
+import type { LocalizedString } from '@devloggers/api-contracts';
 import { UnitResponseDto } from '../dto';
 
-/**
- * Unit presenter — maps a Prisma `Unit` entity to the public `UnitResponseDto`.
- *
- * This is the only place that knows the shape of both the DB entity
- * and the API response. If the DB schema changes (e.g. a column rename),
- * only this file needs updating — controllers and services stay clean.
- */
 @Injectable()
 export class UnitPresenter extends CrudPresenter<Unit, UnitResponseDto> {
+  constructor(private readonly locale: LocaleResolverService) {
+    super();
+  }
+
   toResponse(entity: Unit): UnitResponseDto {
+    const name = entity.name as unknown as LocalizedString;
     return {
       id: entity.id,
-      name: entity.name,
+      name: this.locale.resolve(name),
+      nameI18n: name,
       abbreviation: entity.abbreviation,
       isActive: entity.isActive,
       createdAt: entity.createdAt.toISOString(),

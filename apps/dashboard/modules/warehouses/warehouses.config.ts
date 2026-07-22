@@ -3,9 +3,14 @@ import type { CreateWarehouseDto, UpdateWarehouseDto } from "@devloggers/api-con
 import type { ResourceFormConfig } from "@/shared/hooks/use-resource-form-controller"
 import { unwrapApiData } from "@/shared/hooks/unwrap-api-data"
 
+const localizedStringSchema = z.object({
+    ar: z.string().trim().min(1, "Arabic name is required"),
+    en: z.string().trim().optional(),
+})
+
 export const warehouseFormSchema = z.object({
     code: z.string().trim().min(1, "Code is required"),
-    name: z.string().trim().min(1, "Name is required"),
+    name: localizedStringSchema,
     address: z.string().optional(),
     isActive: z.boolean().optional(),
 })
@@ -14,7 +19,7 @@ export type WarehouseFormValues = z.infer<typeof warehouseFormSchema>
 
 export const DEFAULT_WAREHOUSE_FORM_VALUES: WarehouseFormValues = {
     code: "",
-    name: "",
+    name: { ar: "", en: "" },
     address: "",
     isActive: true,
 }
@@ -23,7 +28,7 @@ export function mapWarehouseToFormValues(data: unknown): WarehouseFormValues {
     const resolved = unwrapApiData<WarehouseFormValues>(data)
     return {
         code: resolved.code ?? "",
-        name: resolved.name ?? "",
+        name: resolved.name ?? { ar: "", en: "" },
         address: resolved.address ?? "",
         isActive: resolved.isActive ?? true,
     }
@@ -35,12 +40,12 @@ export const warehousesFormConfig: ResourceFormConfig<WarehouseFormValues, Creat
     mapToFormValues: mapWarehouseToFormValues,
     toCreate: (values) => ({
         code: values.code.trim(),
-        name: values.name.trim(),
+        name: { ar: values.name.ar.trim(), en: values.name.en?.trim() || undefined },
         address: values.address?.trim() || undefined,
     }),
     toUpdate: (values) => ({
         code: values.code.trim(),
-        name: values.name.trim(),
+        name: { ar: values.name.ar.trim(), en: values.name.en?.trim() || undefined },
         address: values.address?.trim() || null,
         isActive: values.isActive ?? true,
     }),

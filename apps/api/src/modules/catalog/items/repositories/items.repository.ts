@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@devloggers/db-prisma/nest';
 import { CrudRepository, FindManyOptions } from '@devloggers/backend-core';
-import type { Item } from '@devloggers/db-prisma';
+import type { Item, Prisma } from '@devloggers/db-prisma';
 
 type CategorySummary = { id: string; name: string };
-type BaseUnitSummary = { id: string; name: string; abbreviation: string };
+type BaseUnitSummary = { id: string; name: Prisma.JsonValue; abbreviation: string };
 type BrandSummary = { id: string; name: string; imageUrl: string | null };
 
 export type ItemWithRelations = Item & {

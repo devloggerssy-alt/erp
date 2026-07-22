@@ -1,5 +1,15 @@
 import { Injectable } from '@nestjs/common';
+import type { Prisma } from '@devloggers/db-prisma';
 import { StockMovementResponseDto } from '../dto/stock-ledger.dto';
+
+function resolveName(name: Prisma.JsonValue | string | null | undefined): string | null {
+    if (!name) return null;
+    if (typeof name === 'string') return name;
+    if (typeof name === 'object' && !Array.isArray(name)) {
+        return ((name as any).en as string) || ((name as any).ar as string) || null;
+    }
+    return null;
+}
 
 type StockMovementWithRelations = {
     id: string;
@@ -13,7 +23,7 @@ type StockMovementWithRelations = {
     referenceId: string | null;
     notes: string | null;
     createdAt: Date;
-    warehouse: { name: string; code: string } | null;
+    warehouse: { name: Prisma.JsonValue; code: string } | null;
     item: { name: string; code: string } | null;
     fiscalPeriod: { name: string } | null;
 };
@@ -27,7 +37,7 @@ export class StockMovementPresenter {
         return {
             id: entity.id,
             warehouseId: entity.warehouseId,
-            warehouseName: entity.warehouse?.name ?? null,
+            warehouseName: entity.warehouse ? resolveName(entity.warehouse.name) : null,
             itemId: entity.itemId,
             itemName: entity.item?.name ?? null,
             itemCode: entity.item?.code ?? null,

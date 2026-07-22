@@ -1,10 +1,11 @@
 import Image from "next/image"
-import { redirect } from "next/navigation"
-import { getLocale } from "next-intl/server"
+ import { getLocale } from "next-intl/server"
 
 import { DashboardLayout } from "@/infrastructure/components/layout/dashboard"
 import { navGroups } from "@/config/navGroups"
 import { getAuthCookies } from "@/modules/auth/auth.actions"
+import { getAuthApi } from "@/shared/api"
+import { redirect } from "@/i18n/navigation"
 
 function Logo() {
 
@@ -30,15 +31,29 @@ export default async function AuthenticatedLayout({
   children: React.ReactNode
   breadcrumbs?: React.ReactNode
 }) {
-  const { token, user } = await getAuthCookies()
+  const api = await getAuthApi()
+  const { token } = await getAuthCookies()
   const locale = await getLocale()
 
-  if (!token || !user) {
-    redirect(`/${locale}/login`)
+  if (!token) {
+    return redirect({href: `/login`, locale})
   }
 
-  if (!user.tenant?.onboardingCompletedAt) {
-    redirect(`/${locale}/onboarding`)
+  let user
+  try {
+    const response = await api['auth'].me()
+    user = response.data
+  } catch (error) {
+    console.error("Error fetching user info:", error)
+    return redirect({href: `/login`, locale})
+  }
+
+  if (!user) {
+    return redirect({href: `/login`, locale})
+  }
+
+  if (!user?.tenant?.onboardingCompletedAt) {
+    return redirect({href: `/onboarding`, locale})
   }
 
   const userInfo = {
@@ -46,7 +61,6 @@ export default async function AuthenticatedLayout({
     email: user.email,
     initials: user.fullName.charAt(0).toUpperCase(),
   }
-
   return (
     <DashboardLayout navGroups={navGroups} logo={<Logo />} user={userInfo} breadcrumbs={breadcrumbs}>
       {children}

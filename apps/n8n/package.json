@@ -1,0 +1,15 @@
+{
+  "name": "@devloggers/n8n",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "docker compose --env-file .env up",
+    "start": "docker compose --env-file .env up -d",
+    "stop": "docker compose --env-file .env down",
+    "restart": "docker compose --env-file .env restart",
+    "logs": "docker compose --env-file .env logs -f n8n",
+    "compose:config": "docker compose --env-file .env config",
+    "lint": "docker compose --env-file .env config --quiet",
+    "check-types": "docker compose --env-file .env config --quiet"
+  }
+}

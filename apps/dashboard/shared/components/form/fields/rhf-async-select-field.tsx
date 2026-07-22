@@ -27,12 +27,12 @@ import { PlusIcon } from "lucide-react"
 
 // ── Inline create types ──
 
-export type InlineCreateFormProps = {
-  onSuccess: (newItem?: { value: string; label: string }) => void
+export type InlineCreateFormProps<TValue = string> = {
+  onSuccess: (newItem?: { value: TValue; label: string }) => void
 }
 
-export type InlineCreateConfig = {
-  createForm: (props: InlineCreateFormProps) => React.ReactNode
+export type InlineCreateConfig<TValue = string> = {
+  createForm: (props: InlineCreateFormProps<TValue>) => React.ReactNode
   createLabel?: string
 }
 

@@ -1,6 +1,7 @@
 "use client"
 
 import { useMutation } from "@tanstack/react-query"
+import { useTranslations } from "next-intl"
 import { Button } from "@/shared/components/ui/button"
 import { useApi } from "@/shared/useApi"
 
@@ -17,6 +18,7 @@ type Props = { onSuccess: (codeToId: Record<string, string>) => void }
 
 export function ChartOfAccountsStep({ onSuccess }: Props) {
     const api = useApi()
+    const t = useTranslations("business")
     const { mutate, isPending, error } = useMutation({
         mutationFn: () => api.onboarding.stepChartOfAccounts(),
         onSuccess: (data) => onSuccess(data.codeToId),
@@ -25,7 +27,7 @@ export function ChartOfAccountsStep({ onSuccess }: Props) {
     return (
         <div className="space-y-6">
             <p className="text-sm text-muted-foreground">
-                We'll create a standard chart of accounts for you. You can add or rename accounts later.
+                {t("onboarding.chartOfAccounts.description")}
             </p>
 
             <div className="border rounded-lg divide-y">
@@ -44,7 +46,7 @@ export function ChartOfAccountsStep({ onSuccess }: Props) {
             {error && <p className="text-sm text-destructive">{error.message}</p>}
 
             <Button onClick={() => mutate()} disabled={isPending} className="w-full">
-                {isPending ? "Creating accounts…" : "Confirm & Continue →"}
+                {isPending ? t("onboarding.chartOfAccounts.creating") : t("onboarding.chartOfAccounts.confirm")}
             </Button>
         </div>
     )

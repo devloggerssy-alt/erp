@@ -4,6 +4,7 @@ import { useEffect, useMemo } from "react"
 import { useForm, FormProvider } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation, useQuery } from "@tanstack/react-query"
+import { useTranslations } from "next-intl"
 import { Button } from "@/shared/components/ui/button"
 import { useApi } from "@/shared/useApi"
 import { accountResource } from "@devloggers/api-contracts"
@@ -19,12 +20,12 @@ type Props = {
     onSuccess: () => void
 }
 
-const GL_FIELDS: Array<{ key: keyof GlDefaultsStepValues; label: string }> = [
-    { key: "defaultSalesAccount",      label: "Default Sales Account" },
-    { key: "defaultPurchaseAccount",   label: "Default Purchase Account" },
-    { key: "defaultTaxAccount",        label: "Default Tax Account" },
-    { key: "defaultReceivableAccount", label: "Default Receivable Account" },
-    { key: "defaultPayableAccount",    label: "Default Payable Account" },
+const GL_FIELDS: Array<{ key: keyof GlDefaultsStepValues; labelKey: string }> = [
+    { key: "defaultSalesAccount",      labelKey: "onboarding.glDefaults.salesAccount" },
+    { key: "defaultPurchaseAccount",   labelKey: "onboarding.glDefaults.purchaseAccount" },
+    { key: "defaultTaxAccount",        labelKey: "onboarding.glDefaults.taxAccount" },
+    { key: "defaultReceivableAccount", labelKey: "onboarding.glDefaults.receivableAccount" },
+    { key: "defaultPayableAccount",    labelKey: "onboarding.glDefaults.payableAccount" },
 ]
 
 const DEFAULT_GL_VALUES: GlDefaultsStepValues = {
@@ -37,6 +38,7 @@ const DEFAULT_GL_VALUES: GlDefaultsStepValues = {
 
 export function GlDefaultsStep({ codeToId, onSuccess }: Props) {
     const api = useApi()
+    const t = useTranslations("business")
 
     const { data } = useQuery({
         queryKey: [accountResource.key, "list", "picker"],
@@ -80,14 +82,14 @@ export function GlDefaultsStep({ codeToId, onSuccess }: Props) {
         <FormProvider {...form}>
             <form onSubmit={form.handleSubmit((v) => mutate(v))} className="space-y-4">
                 <p className="text-sm text-muted-foreground">
-                    These accounts are used automatically when posting invoices and payments.
+                    {t("onboarding.glDefaults.description")}
                 </p>
-                {GL_FIELDS.map(({ key, label }) => (
-                    <RhfAccountField key={key} name={key} label={label} required />
+                {GL_FIELDS.map(({ key, labelKey }) => (
+                    <RhfAccountField key={key} name={key} label={t(labelKey)} required />
                 ))}
                 {error && <p className="text-sm text-destructive">{(error as Error).message}</p>}
                 <Button type="submit" disabled={isPending} className="w-full">
-                    {isPending ? "Saving…" : "Continue →"}
+                    {isPending ? t("onboarding.buttons.saving") : t("onboarding.buttons.continue")}
                 </Button>
             </form>
         </FormProvider>

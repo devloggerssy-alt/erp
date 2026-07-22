@@ -210,8 +210,11 @@ export class ItemsImportService extends CrudImportServiceBase<
 
         const unitMap = new Map<string, LookupEntry>();
         for (const row of units) {
-            const entry = { id: row.id, name: row.name };
-            unitMap.set(normalizeLookupKey(row.name), entry);
+            const resolvedName = typeof row.name === 'object' && row.name
+                ? ((row.name as any).en || (row.name as any).ar || '')
+                : String(row.name);
+            const entry = { id: row.id, name: resolvedName };
+            unitMap.set(normalizeLookupKey(resolvedName), entry);
             unitMap.set(normalizeLookupKey(row.abbreviation), entry);
         }
 

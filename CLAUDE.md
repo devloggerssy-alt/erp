@@ -18,6 +18,7 @@ Turborepo + **pnpm** monorepo. Full agent guide: @AGENTS.md
 
 @.ai/rules/code-quality.md
 
+@.ai/rules/domain.md
 ---
 
 ## Path-scoped rules (load when editing matching paths)
@@ -29,6 +30,7 @@ Turborepo + **pnpm** monorepo. Full agent guide: @AGENTS.md
 @.ai/rules/database.md
 
 @.ai/rules/packages.md
+
 
 ---
 

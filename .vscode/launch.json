@@ -1,0 +1,71 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "API: debug (NestJS)",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "pnpm --filter @devloggers/api run start:debug",
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "name": "API: attach to running process",
+      "type": "node",
+      "request": "attach",
+      "port": 9229,
+      "restart": true,
+      "skipFiles": ["<node_internals>/**"],
+      "cwd": "${workspaceFolder}/apps/api"
+    },
+    {
+      "name": "Dashboard: debug server-side",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "pnpm --filter @devloggers/dashboard run dev -- --inspect -p 3001",
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "name": "Dashboard: debug client-side (Chrome)",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:3001",
+      "webRoot": "${workspaceFolder}/apps/dashboard"
+    },
+    {
+      "name": "Dashboard: debug client-side (Firefox)",
+      "type": "firefox",
+      "request": "launch",
+      "url": "http://localhost:3001",
+      "reAttach": true,
+      "pathMappings": [
+        {
+          "url": "webpack://_N_E",
+          "path": "${workspaceFolder}/apps/dashboard"
+        }
+      ]
+    },
+    {
+      "name": "Dashboard: debug full stack",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/apps/dashboard/node_modules/next/dist/bin/next",
+      "args": ["dev", "--turbopack", "-p", "3001"],
+      "cwd": "${workspaceFolder}/apps/dashboard",
+      "runtimeArgs": ["--inspect"],
+      "skipFiles": ["<node_internals>/**"],
+      "serverReadyAction": {
+        "action": "debugWithEdge",
+        "killOnServerStop": true,
+        "pattern": "- Local:.+(https?://.+)",
+        "uriFormat": "%s",
+        "webRoot": "${workspaceFolder}/apps/dashboard"
+      }
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Full stack: API + Dashboard",
+      "configurations": ["API: debug (NestJS)", "Dashboard: debug server-side"]
+    }
+  ]
+}

@@ -3,6 +3,7 @@
 import { useFieldArray, useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation } from "@tanstack/react-query"
+import { useTranslations } from "next-intl"
 import { Button } from "@/shared/components/ui/button"
 import { Input } from "@/shared/components/ui/input"
 import { useApi } from "@/shared/useApi"
@@ -15,6 +16,7 @@ type Props = { onSuccess: () => void }
 
 export function DocumentSequencesStep({ onSuccess }: Props) {
     const api = useApi()
+    const t = useTranslations("business")
     const { register, control, handleSubmit, formState: { errors } } = useForm<DocumentSequencesStepValues>({
         resolver: zodResolver(documentSequencesStepSchema),
         defaultValues: DEFAULT_DOCUMENT_SEQUENCES_VALUES,
@@ -30,7 +32,7 @@ export function DocumentSequencesStep({ onSuccess }: Props) {
     return (
         <form onSubmit={handleSubmit((v) => mutate(v))} className="space-y-4">
             <p className="text-sm text-muted-foreground">
-                Customize the prefix and starting number for each document type.
+                {t("onboarding.documentSequences.description")}
             </p>
             <div className="border rounded-lg divide-y">
                 {fields.map((field, i) => (
@@ -55,7 +57,7 @@ export function DocumentSequencesStep({ onSuccess }: Props) {
             </div>
             {error && <p className="text-sm text-destructive">{(error as Error).message}</p>}
             <Button type="submit" disabled={isPending} className="w-full">
-                {isPending ? "Saving…" : "Complete Setup →"}
+                {isPending ? t("onboarding.buttons.saving") : t("onboarding.buttons.complete")}
             </Button>
         </form>
     )

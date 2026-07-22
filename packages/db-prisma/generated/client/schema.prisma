@@ -1043,7 +1043,7 @@ model Tenant {
 model Unit {
   id           String   @id @default(uuid())
   tenantId     String   @map("tenant_id")
-  name         String
+  name         Json     @db.JsonB
   abbreviation String
   isActive     Boolean  @default(true) @map("is_active")
   createdAt    DateTime @default(now()) @map("created_at")
@@ -1053,7 +1053,6 @@ model Unit {
   items        Item[]
   invoiceLines InvoiceLine[]
 
-  @@unique([tenantId, name])
   @@index([tenantId])
   @@map("units")
 }
@@ -1116,7 +1115,7 @@ model Warehouse {
   id        String   @id @default(uuid())
   tenantId  String   @map("tenant_id")
   code      String
-  name      String
+  name      Json     @db.JsonB
   address   String?
   isActive  Boolean  @default(true) @map("is_active")
   createdAt DateTime @default(now()) @map("created_at")

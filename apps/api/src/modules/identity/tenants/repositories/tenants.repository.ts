@@ -35,6 +35,7 @@ export class TenantsRepository {
                     address: data.address,
                     phone: data.phone,
                     email: data.email,
+                    
                 },
             });
 

@@ -17,7 +17,7 @@ import {
   ComboboxChipsInput,
   useComboboxAnchor,
 } from "@/shared/components/ui/combobox"
-import { Loader2 } from "lucide-react"
+import {   Loader2, PlusIcon } from "lucide-react"
 
 type ApiInstance = ReturnType<typeof useApi>
 
@@ -63,6 +63,10 @@ type BaseResourceSelectFieldProps<
   invalid?: boolean
   /** Extra params merged into every list() call (e.g. fixed filters) */
   extraQuery?: Record<string, unknown>
+  /** Callback when the user clicks "Add new..." at the bottom of the dropdown */
+  onCreateClick?: () => void
+  /** Label for the "Add new..." item (defaults to "Add new") */
+  createLabel?: string
 }
 
 // ── Single Select ──
@@ -97,6 +101,8 @@ export function ResourceSelectField<
   pageSize = 20,
   lazy = true,
   extraQuery,
+  onCreateClick,
+  createLabel = "Add new",
 }: ResourceSelectFieldProps<TClient, TValue>) {
   const [isOpen, setIsOpen] = useState(false)
   const [search, setSearch] = useState("")
@@ -251,8 +257,36 @@ export function ResourceSelectField<
                 {opt.label}
               </ComboboxItem>
             ))}
-          {!isLoading && options.length === 0 && (
+          {!isLoading && options.length === 0 && !onCreateClick && (
             <ComboboxEmpty>No results found</ComboboxEmpty>
+          )}
+          {onCreateClick && !isLoading && (
+            <>
+              {options.length > 0 && <div className="mx-2 my-1 border-t" />}
+              <div
+                role="option"
+                aria-selected={false}
+                className="relative flex w-full cursor-pointer items-center gap-2 rounded-sm py-1.5 pe-8 ps-2 text-sm outline-none select-none transition-colors hover:bg-accent hover:text-accent-foreground text-muted-foreground"
+                onClick={() => {
+                  setIsOpen(false)
+                  setQuery(null)
+                  setSearch("")
+                  onCreateClick()
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault()
+                    setIsOpen(false)
+                    setQuery(null)
+                    setSearch("")
+                    onCreateClick()
+                  }
+                }}
+              >
+                <PlusIcon className="h-4 w-4" />
+                {createLabel}
+              </div>
+            </>
           )}
           {isFetchingNextPage && (
             <div className="flex items-center justify-center py-2">

@@ -2230,6 +2230,24 @@ paths:
       summary: Step 4 — Set default GL accounts
       tags:
         - Onboarding
+  /onboarding/step/currencies:
+    post:
+      operationId: Onboarding.stepCurrencies
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OnboardingCurrenciesStepDto'
+      responses:
+        '204':
+          description: ''
+      security:
+        - JWT-auth: []
+      summary: Step 4 — Bootstrap currencies (SYP + USD) and cashboxes
+      tags:
+        - Onboarding
   /onboarding/step/document-sequences:
     post:
       operationId: Onboarding.stepDocumentSequences
@@ -19369,6 +19387,15 @@ components:
         - defaultTaxAccountId
         - defaultReceivableAccountId
         - defaultPayableAccountId
+    OnboardingCurrenciesStepDto:
+      type: object
+      properties:
+        codeToId:
+          type: object
+          default: {}
+          description: Code-to-ID map from chart of accounts bootstrap
+      required:
+        - codeToId
     OnboardingSequenceItemDto:
       type: object
       properties:
@@ -19802,6 +19829,11 @@ components:
           type: string
           default: ''
           example: Kilogram
+        nameI18n:
+          default:
+            ar: ''
+          allOf:
+            - $ref: '#/components/schemas/LocalizedStringDto'
         abbreviation:
           type: string
           default: ''
@@ -19821,6 +19853,7 @@ components:
       required:
         - id
         - name
+        - nameI18n
         - abbreviation
         - isActive
         - createdAt
@@ -19829,10 +19862,11 @@ components:
       type: object
       properties:
         name:
-          type: string
-          default: ''
-          example: Kilogram
+          default:
+            ar: ''
           description: Unit display name
+          allOf:
+            - $ref: '#/components/schemas/LocalizedStringDto'
         abbreviation:
           type: string
           default: ''
@@ -19845,9 +19879,9 @@ components:
       type: object
       properties:
         name:
-          type: string
-          example: Kilogram (Updated)
           description: Updated display name
+          allOf:
+            - $ref: '#/components/schemas/LocalizedStringDto'
         abbreviation:
           type: string
           example: kg
@@ -20462,6 +20496,11 @@ components:
           type: string
           default: ''
           example: Main Warehouse
+        nameI18n:
+          default:
+            ar: ''
+          allOf:
+            - $ref: '#/components/schemas/LocalizedStringDto'
         address:
           type: string
           nullable: true
@@ -20483,6 +20522,7 @@ components:
         - id
         - code
         - name
+        - nameI18n
         - address
         - isActive
         - createdAt
@@ -20496,10 +20536,11 @@ components:
           example: WH-MAIN
           description: Unique warehouse code
         name:
-          type: string
-          default: ''
-          example: Main Warehouse
+          default:
+            ar: ''
           description: Warehouse display name
+          allOf:
+            - $ref: '#/components/schemas/LocalizedStringDto'
         address:
           type: string
           example: Damascus Industrial Zone
@@ -20513,8 +20554,7 @@ components:
           type: string
           example: WH-MAIN
         name:
-          type: string
-          example: Main Warehouse (Renovated)
+          $ref: '#/components/schemas/LocalizedStringDto'
         address:
           type: string
           example: Damascus Industrial Zone, Building 5

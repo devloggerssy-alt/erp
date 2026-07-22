@@ -51,6 +51,10 @@ export class OnboardingClient {
         return res as { codeToId: Record<string, string> }
     }
 
+    stepCurrencies = async (codeToId: Record<string, string>): Promise<void> => {
+        await this.apiClient.post('/onboarding/step/currencies' as never, { codeToId } as never)
+    }
+
     stepGlDefaults = async (body: OnboardingGlDefaultsBody): Promise<void> => {
         await this.apiClient.post('/onboarding/step/gl-defaults' as never, body as never)
     }

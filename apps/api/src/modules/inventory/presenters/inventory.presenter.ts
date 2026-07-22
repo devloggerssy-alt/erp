@@ -1,5 +1,14 @@
 import { Injectable } from '@nestjs/common';
+import type { Prisma } from '@devloggers/db-prisma';
 import { BalanceResponseDto } from '../dto/inventory.dto';
+
+function resolveName(name: Prisma.JsonValue | string): string {
+    if (typeof name === 'string') return name;
+    if (name && typeof name === 'object' && !Array.isArray(name)) {
+        return ((name as any).en as string) || ((name as any).ar as string) || '';
+    }
+    return '';
+}
 
 type BalanceWithRelations = {
     warehouseId: string;
@@ -7,7 +16,7 @@ type BalanceWithRelations = {
     quantity: any;
     averageCost: any;
     updatedAt: Date;
-    warehouse: { name: string; code: string };
+    warehouse: { name: Prisma.JsonValue; code: string };
     item: { name: string; code: string };
 };
 
@@ -16,7 +25,7 @@ export class InventoryPresenter {
     toResponse(balance: BalanceWithRelations): BalanceResponseDto {
         const dto = new BalanceResponseDto();
         dto.warehouseId = balance.warehouseId;
-        dto.warehouseName = balance.warehouse.name;
+        dto.warehouseName = resolveName(balance.warehouse.name);
         dto.warehouseCode = balance.warehouse.code;
         dto.itemId = balance.itemId;
         dto.itemName = balance.item.name;
