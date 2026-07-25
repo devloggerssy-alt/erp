@@ -104,7 +104,41 @@ Rules:
 - `UpdateXDto` — all fields optional, `@IsOptional()` before every validator
 - `XResponseDto` — all fields the API returns, with `@ApiProperty` + examples
 - No inheritance between Create/Update — keep them explicit
-- Initialize all `XResponseDto` fields (e.g. `id: string = ''`) to satisfy strict mode
+
+### Satisfying `strictPropertyInitialization` — the rule differs by DTO kind
+
+`apps/api` is strict, so every **required** field needs either an initializer or a
+definite-assignment `!`. **These are not interchangeable.**
+
+| DTO kind | Use | Why |
+|---|---|---|
+| `CreateXDto`, `UpdateXDto` (request) | **`name!: string`** | `!` is compile-time only — no runtime value |
+| `XResponseDto` (response) | **`id: string = ''`** | Built by the presenter, never validated |
+
+```typescript
+// ✅ request DTO — an absent field stays undefined and is still rejected
+@ApiProperty({ enum: PaymentTypeEnum, enumName: 'PaymentTypeEnum' })
+@IsEnum(PaymentTypeEnum)
+type!: PaymentTypeEnum;
+
+// ❌ NEVER on a request DTO
+@IsEnum(PaymentTypeEnum)
+type: PaymentTypeEnum = PaymentTypeEnum.RECEIPT;
+```
+
+**Why it matters:** the global `ValidationPipe` runs with `transform: true`, so
+`plainToInstance` constructs the class and an initializer becomes a **real runtime value**. A
+field omitted from the request body reaches the validators already populated — and passes.
+Measured on an empty body: initializers reject **1 of 5** fields, `!` rejects **5 of 5**.
+Initializers defeat `@IsEnum`, `@IsBoolean`, `@IsNumber`, and `@IsArray` outright; `@IsNotEmpty()`
+strings survive only because `''` is itself rejected.
+
+The concrete hazard: defaulting `CreatePaymentDto.type` would let an omitted `type` silently
+become a RECEIPT — and `payment-journal.ts` branches on that value to choose the debit/credit
+direction, so the cash would post to the wrong side of the ledger.
+
+Pinned by `apps/api/src/common/__tests__/dto-validation-semantics.spec.ts`. See
+`docs/superpowers/specs/2026-07-25-architecture-refactor/00-findings.md` (F11).
 
 ```typescript
 // modules/catalog/units/dto/unit.dto.ts
@@ -117,12 +151,12 @@ export class CreateUnitDto {
   @ApiProperty({ example: 'Kilogram', description: 'Unit display name' })
   @IsString()
   @IsNotEmpty()
-  name: string = '';
+  name!: string;
 
   @ApiProperty({ example: 'kg', description: 'Short abbreviation used on documents' })
   @IsString()
   @IsNotEmpty()
-  abbreviation: string = '';
+  abbreviation!: string;
 }
 
 // ── Update DTO ────────────────────────────────────────────────────────────────

@@ -212,10 +212,10 @@ export function parseS3Url(url: string): { bucket: string; key: string } | null 
         const hostname = urlObj.hostname;
 
         // Handle virtual-hosted-style: bucket.s3.region.amazonaws.com
-        const virtualHostedMatch = hostname.match(/^(.+)\.s3(?:\.(.+))?\.amazonaws\.com$/);
-        if (virtualHostedMatch) {
+        const [, virtualHostedBucket] = hostname.match(/^(.+)\.s3(?:\.(.+))?\.amazonaws\.com$/) ?? [];
+        if (virtualHostedBucket) {
             return {
-                bucket: virtualHostedMatch[1],
+                bucket: virtualHostedBucket,
                 key: urlObj.pathname.substring(1), // Remove leading /
             };
         }
@@ -223,11 +223,13 @@ export function parseS3Url(url: string): { bucket: string; key: string } | null 
         // Handle path-style: s3.region.amazonaws.com/bucket/key
         const pathStyleMatch = hostname.match(/^s3(?:\.(.+))?\.amazonaws\.com$/);
         if (pathStyleMatch) {
-            const pathParts = urlObj.pathname.substring(1).split('/');
-            if (pathParts.length >= 2) {
+            // Destructure rather than index: `pathParts.length >= 2` does not narrow
+            // pathParts[0] away from `string | undefined`.
+            const [pathBucket, ...keyParts] = urlObj.pathname.substring(1).split('/');
+            if (pathBucket && keyParts.length > 0) {
                 return {
-                    bucket: pathParts[0],
-                    key: pathParts.slice(1).join('/'),
+                    bucket: pathBucket,
+                    key: keyParts.join('/'),
                 };
             }
         }

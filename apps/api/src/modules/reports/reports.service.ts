@@ -196,14 +196,14 @@ export class ReportsService {
         const map = new Map<string, { sales: number; purchases: number }>();
 
         for (const inv of salesInvoices) {
-            const key = inv.date.toISOString().split('T')[0];
+            const key = inv.date.toISOString().slice(0, 10);
             const entry = map.get(key) ?? { sales: 0, purchases: 0 };
             entry.sales += Number(inv.total);
             map.set(key, entry);
         }
 
         for (const inv of purchaseInvoices) {
-            const key = inv.date.toISOString().split('T')[0];
+            const key = inv.date.toISOString().slice(0, 10);
             const entry = map.get(key) ?? { sales: 0, purchases: 0 };
             entry.purchases += Number(inv.total);
             map.set(key, entry);

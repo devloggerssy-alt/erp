@@ -1,26 +1,23 @@
 {
+  "extends": "@devloggers/typescript-config/base.json",
   "compilerOptions": {
-    "module": "nodenext",
-    "moduleResolution": "nodenext",
-    "resolvePackageJsonExports": true,
-    "esModuleInterop": true,
-    "isolatedModules": true,
-    "declaration": true,
-    "removeComments": true,
+    // ── API-specific: NestJS decorators ──────────────────────────────────────
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "allowSyntheticDefaultImports": true,
+
+    // ── API-specific: build output ───────────────────────────────────────────
     "target": "ES2023",
-    "sourceMap": true,
     "outDir": "./dist",
-    "baseUrl": "./",
+    "sourceMap": true,
+    "removeComments": true,
     "incremental": true,
-    "skipLibCheck": true,
-    "strictNullChecks": true,
+    "declarationMap": false,
+
+    // ── API-specific: module resolution ──────────────────────────────────────
+    "resolvePackageJsonExports": true,
+    "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
-    "noImplicitAny": false,
-    "strictBindCallApply": false,
-    "noFallthroughCasesInSwitch": false,
+    "baseUrl": "./",
     "paths": {
       "@/*": ["src/*"]
     }

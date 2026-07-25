@@ -2,6 +2,19 @@ import { AccountBalancesService } from './account-balances.service';
 
 const localeStub = { resolve: (v: any) => v?.ar ?? '' } as any;
 
+/**
+ * Index rows by id for assertions. Throws with the available ids if a test asks
+ * for one that isn't there — a clearer failure than `undefined.ownBalance`.
+ */
+function lookupById<T extends { id: string }>(rows: readonly T[]): (id: string) => T {
+  const map = new Map(rows.map((row) => [row.id, row]));
+  return (id) => {
+    const row = map.get(id);
+    if (!row) throw new Error(`No row with id "${id}". Got: ${[...map.keys()].join(', ')}`);
+    return row;
+  };
+}
+
 function makeRepo(overrides: Partial<any> = {}) {
   return {
     findAllForBalances: jest.fn(),
@@ -28,14 +41,14 @@ describe('AccountBalancesService.getBalances', () => {
     const service = new AccountBalancesService(repo, localeStub);
 
     const result = await service.getBalances('t1');
-    const byId = Object.fromEntries(result.map((r) => [r.id, r]));
+    const byId = lookupById(result);
 
-    expect(byId['cash'].ownBalance).toBe(200);
-    expect(byId['cash'].rolledBalance).toBe(200);
-    expect(byId['assets'].ownBalance).toBe(0);
-    expect(byId['assets'].rolledBalance).toBe(200); // rolled from cash
-    expect(byId['rev'].ownBalance).toBe(500);
-    expect(byId['assets'].name).toBe('الأصول'); // locale-resolved
+    expect(byId('cash').ownBalance).toBe(200);
+    expect(byId('cash').rolledBalance).toBe(200);
+    expect(byId('assets').ownBalance).toBe(0);
+    expect(byId('assets').rolledBalance).toBe(200); // rolled from cash
+    expect(byId('rev').ownBalance).toBe(500);
+    expect(byId('assets').name).toBe('الأصول'); // locale-resolved
   });
 
   it('rolls up balances through multiple hierarchy levels', async () => {
@@ -54,21 +67,21 @@ describe('AccountBalancesService.getBalances', () => {
     const service = new AccountBalancesService(repo, localeStub);
 
     const result = await service.getBalances('t1');
-    const byId = Object.fromEntries(result.map((r) => [r.id, r]));
+    const byId = lookupById(result);
 
     // Leaf accounts: own = rolled
-    expect(byId['cash'].ownBalance).toBe(400);
-    expect(byId['cash'].rolledBalance).toBe(400);
-    expect(byId['bank'].ownBalance).toBe(800);
-    expect(byId['bank'].rolledBalance).toBe(800);
+    expect(byId('cash').ownBalance).toBe(400);
+    expect(byId('cash').rolledBalance).toBe(400);
+    expect(byId('bank').ownBalance).toBe(800);
+    expect(byId('bank').rolledBalance).toBe(800);
 
     // Parent: own = 0, rolled = sum of children
-    expect(byId['current'].ownBalance).toBe(0);
-    expect(byId['current'].rolledBalance).toBe(1200); // 400 + 800
+    expect(byId('current').ownBalance).toBe(0);
+    expect(byId('current').rolledBalance).toBe(1200); // 400 + 800
 
     // Grandparent: own = 0, rolled = sum of all descendants
-    expect(byId['assets'].ownBalance).toBe(0);
-    expect(byId['assets'].rolledBalance).toBe(1200); // rolled from current
+    expect(byId('assets').ownBalance).toBe(0);
+    expect(byId('assets').rolledBalance).toBe(1200); // rolled from current
   });
 });
 

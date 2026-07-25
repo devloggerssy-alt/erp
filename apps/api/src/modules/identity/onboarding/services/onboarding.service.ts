@@ -270,7 +270,9 @@ export class OnboardingService {
             }
         }, { timeout: 30000 });
 
-        return Object.fromEntries(template.map((a) => [a.code, ids[a.code]]));
+        // `ids` already holds exactly one entry per template code (populated above),
+        // so rebuilding it from `template` would produce the same object.
+        return ids;
     }
 
     private getCoaTemplate(): Array<{

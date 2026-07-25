@@ -26,7 +26,21 @@ export default tseslint.config(
   },
   {
     rules: {
-      '@typescript-eslint/no-explicit-any': 'off',
+      // ── Escape-hatch gates (Phase 0.4) ───────────────────────────────────
+      // Verified at 0 violations across src/**, so they are safe at error and
+      // will catch the *next* one rather than the existing ones.
+      '@typescript-eslint/no-unnecessary-type-assertion': 'error',
+      '@typescript-eslint/ban-ts-comment': 'error',
+
+      // `warn`, not `error`, deliberately: 67 explicit `any` remain in src/**
+      // (+73 in specs), and most sit in files Phase 1 / 1.5 rewrite outright —
+      // journal-posting, invoice-posting, payments, expenses, stock-counts,
+      // inventory, reports. Fixing them now would be doing that work early and
+      // in the wrong order. Flip to 'error' at the end of Phase 1.5, when those
+      // files have been rewritten and the count should be near zero.
+      // Ratchet: the count must not grow. Current baseline is 140.
+      '@typescript-eslint/no-explicit-any': 'warn',
+
       '@typescript-eslint/no-floating-promises': 'warn',
       '@typescript-eslint/no-unsafe-argument': 'warn',
       "@typescript-eslint/no-unsafe-return": 'off',
