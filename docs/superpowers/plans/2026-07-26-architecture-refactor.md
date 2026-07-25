@@ -15,7 +15,9 @@ caller's Prisma transaction. Services split into three tiers (master data / tran
 
 **Tech Stack:** Turborepo, Prisma, NestJS, api-contracts, api-client, Next.js dashboard, next-intl
 
-**Spec:** [`docs/superpowers/specs/2026-07-25-architecture-refactor-roadmap-design.md`](../specs/2026-07-25-architecture-refactor-roadmap-design.md)
+**Spec:** [`docs/superpowers/specs/2026-07-25-architecture-refactor/`](../specs/2026-07-25-architecture-refactor/README.md)
+— one file per phase. Load [`00-findings.md`](../specs/2026-07-25-architecture-refactor/00-findings.md)
+plus **only** the phase you are executing.
 
 ---
 
