@@ -98,23 +98,23 @@ export class ChartOfAccountResponseDto {
 
 export class ChartOfAccountTreeDto {
     @ApiProperty({ description: 'Account UUID' })
-    id: string;
+    id: string = '';
 
     @ApiProperty({ description: 'Account code' })
-    code: string;
+    code: string = '';
 
     @ApiProperty({ description: 'Locale-resolved display name' })
-    name: string;
+    name: string = '';
 
     @ApiProperty({ description: 'Raw localized name object' })
-    nameI18n: object;
+    nameI18n: object = {};
 
     @ApiProperty({ enum: AccountType, description: 'Account type' })
-    type: AccountType;
+    type: AccountType = AccountType.ASSET;
 
     @ApiProperty({ nullable: true, description: 'Parent account UUID or null' })
-    parentId: string | null;
+    parentId: string | null = null;
 
     @ApiProperty({ description: 'Whether account is active' })
-    isActive: boolean;
+    isActive: boolean = true;
 }

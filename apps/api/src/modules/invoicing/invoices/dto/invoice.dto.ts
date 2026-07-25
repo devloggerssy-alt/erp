@@ -16,22 +16,22 @@ export class InvoiceLineDto {
     @ApiProperty({ example: '00000000-0000-4000-a900-000000000001', description: 'Item ID (Laptop 15")' })
     @IsString()
     @IsNotEmpty()
-    itemId: string;
+    itemId!: string;
 
     @ApiProperty({ example: '00000000-0000-4000-a800-000000000001', description: 'Unit ID (Piece)' })
     @IsString()
     @IsNotEmpty()
-    unitId: string;
+    unitId!: string;
 
     @ApiProperty({ example: 5 })
     @IsNumber()
     @Min(0.0001)
-    quantity: number;
+    quantity!: number;
 
     @ApiProperty({ example: 600000, description: 'Unit price in base currency (SYP)' })
     @IsNumber()
     @Min(0)
-    unitPrice: number;
+    unitPrice!: number;
 
     @ApiPropertyOptional({ example: 2, default: 0, description: 'Discount percentage' })
     @IsOptional()
@@ -58,12 +58,12 @@ export class CreateInvoiceOpeningPaymentDto {
     @ApiProperty({ example: '00000000-0000-4000-ac00-000000000001', description: 'Cashbox ID the opening payment is deposited into' })
     @IsString()
     @IsNotEmpty()
-    cashboxId: string;
+    cashboxId!: string;
 
     @ApiProperty({ example: 250000, description: 'Opening payment amount in invoice currency' })
     @IsNumber()
     @Min(0.01)
-    amount: number;
+    amount!: number;
 
     @ApiPropertyOptional({ example: 1.0, description: 'Exchange rate to base currency (defaults to the invoice exchange rate)' })
     @IsOptional()
@@ -76,11 +76,11 @@ export class CreateInvoiceDto {
     @ApiProperty({ example: '00000000-0000-4000-ad00-000000000001', description: 'Invoice type ID (Purchase Invoice)' })
     @IsString()
     @IsNotEmpty()
-    invoiceTypeId: string;
+    invoiceTypeId!: string;
 
     @ApiProperty({ example: '2026-04-14', description: 'Invoice date (ISO 8601)' })
     @IsDateString()
-    date: string;
+    date!: string;
 
     @ApiPropertyOptional({ example: '2026-05-14', description: 'Payment due date' })
     @IsOptional()
@@ -90,7 +90,7 @@ export class CreateInvoiceDto {
     @ApiProperty({ example: '00000000-0000-4000-aa00-000000000004', description: 'Party ID (Damascus Import Co.)' })
     @IsString()
     @IsNotEmpty()
-    partyId: string;
+    partyId!: string;
 
     @ApiPropertyOptional({ example: '00000000-0000-4000-ab00-000000000001', description: 'Warehouse ID (Main Warehouse)' })
     @IsOptional()
@@ -100,12 +100,12 @@ export class CreateInvoiceDto {
     @ApiProperty({ example: '00000000-0000-4000-a400-000000000001', description: 'Fiscal period ID (2026)' })
     @IsString()
     @IsNotEmpty()
-    fiscalPeriodId: string;
+    fiscalPeriodId!: string;
 
     @ApiProperty({ example: '00000000-0000-4000-a300-000000000001', description: 'Currency ID (SYP)' })
     @IsString()
     @IsNotEmpty()
-    currencyId: string;
+    currencyId!: string;
 
     @ApiPropertyOptional({ example: 1.0, description: 'Exchange rate to base currency (default 1)' })
     @IsOptional()
@@ -139,7 +139,7 @@ export class CreateInvoiceDto {
     @IsArray()
     @ValidateNested({ each: true })
     @Type(() => InvoiceLineDto)
-    lines: InvoiceLineDto[];
+    lines!: InvoiceLineDto[];
 }
 
 export class UpdateInvoiceDto {
@@ -190,16 +190,16 @@ export class AddInvoicePaymentDto {
     @ApiProperty({ example: '00000000-0000-4000-ac00-000000000001', description: 'Cashbox ID the payment is deposited into' })
     @IsString()
     @IsNotEmpty()
-    cashboxId: string;
+    cashboxId!: string;
 
     @ApiProperty({ example: 250000, description: 'Payment amount in invoice currency' })
     @IsNumber()
     @Min(0.01)
-    amount: number;
+    amount!: number;
 
     @ApiProperty({ example: '2026-04-20', description: 'Payment date (ISO 8601)' })
     @IsDateString()
-    date: string;
+    date!: string;
 
     @ApiPropertyOptional({ example: 1.0, description: 'Exchange rate to base currency (defaults to the invoice exchange rate)' })
     @IsOptional()

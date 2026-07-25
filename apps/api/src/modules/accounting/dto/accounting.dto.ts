@@ -11,13 +11,13 @@ export enum AccountTypeEnum {
 
 export class CreateChartOfAccountDto {
     @ApiProperty({ example: '1110', description: 'Unique account code' })
-    @IsString() @IsNotEmpty() code: string;
+    @IsString() @IsNotEmpty() code!: string;
 
     @ApiProperty({ example: 'Cash and Cash Equivalents', description: 'Account display name' })
-    @IsString() @IsNotEmpty() name: string;
+    @IsString() @IsNotEmpty() name!: string;
 
     @ApiProperty({ enum: AccountTypeEnum, example: 'ASSET', description: 'Account type' })
-    @IsEnum(AccountTypeEnum) type: AccountTypeEnum;
+    @IsEnum(AccountTypeEnum) type!: AccountTypeEnum;
 
     @ApiPropertyOptional({ example: '00000000-0000-4000-a601-000000000001', description: 'Parent account ID (Current Assets)' })
     @IsOptional() @IsString() parentId?: string;

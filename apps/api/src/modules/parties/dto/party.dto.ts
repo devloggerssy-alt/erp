@@ -16,12 +16,12 @@ export class CreatePartyDto {
     @ApiProperty({ example: 'Damascus Import Co.', description: 'Party display name' })
     @IsString()
     @IsNotEmpty()
-    name: string;
+    name!: string;
 
     @ApiProperty({ enum: PartyTypeEnum, example: 'SUPPLIER' })
     @IsEnum(PartyTypeEnum)
     @IsNotEmpty()
-    type: PartyTypeEnum;
+    type!: PartyTypeEnum;
 
     @ApiPropertyOptional({ example: '+963-11-9876543' })
     @IsOptional()
@@ -90,7 +90,7 @@ export class UpdatePartyStatusDto {
     @ApiProperty({ example: false, description: 'Set party active/inactive' })
     @IsBoolean()
     @IsNotEmpty()
-    isActive: boolean;
+    isActive!: boolean;
 }
 
 export class PartyResponseDto {

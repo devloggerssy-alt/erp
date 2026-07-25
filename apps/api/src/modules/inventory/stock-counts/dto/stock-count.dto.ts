@@ -4,10 +4,10 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class StockCountLineDto {
     @ApiProperty({ example: '00000000-0000-4000-a900-000000000001', description: 'Item ID (Laptop 15")' })
-    @IsString() @IsNotEmpty() itemId: string;
+    @IsString() @IsNotEmpty() itemId!: string;
 
     @ApiProperty({ example: 9, description: 'Physical counted quantity' })
-    @IsNumber() countedQuantity: number;
+    @IsNumber() countedQuantity!: number;
 
     @ApiPropertyOptional({ example: '1 unit damaged – written off' })
     @IsOptional() @IsString() notes?: string;
@@ -15,13 +15,13 @@ export class StockCountLineDto {
 
 export class CreateStockCountDto {
     @ApiProperty({ example: '2026-04-14', description: 'Count date (ISO 8601)' })
-    @IsDateString() date: string;
+    @IsDateString() date!: string;
 
     @ApiProperty({ example: '00000000-0000-4000-ab00-000000000001', description: 'Warehouse ID (Main Warehouse)' })
-    @IsString() @IsNotEmpty() warehouseId: string;
+    @IsString() @IsNotEmpty() warehouseId!: string;
 
     @ApiProperty({ example: '00000000-0000-4000-a400-000000000001', description: 'Fiscal period ID (2026)' })
-    @IsString() @IsNotEmpty() fiscalPeriodId: string;
+    @IsString() @IsNotEmpty() fiscalPeriodId!: string;
 
     @ApiPropertyOptional({ example: 'Quarterly physical stock count – Q2 2026' })
     @IsOptional() @IsString() notes?: string;
@@ -34,7 +34,7 @@ export class CreateStockCountDto {
         ],
     })
     @IsArray() @ValidateNested({ each: true }) @Type(() => StockCountLineDto)
-    lines: StockCountLineDto[];
+    lines!: StockCountLineDto[];
 }
 
 // ─── Response DTOs ────────────────────────────────────────────────────────────
