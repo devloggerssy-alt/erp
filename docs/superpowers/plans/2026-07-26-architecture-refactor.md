@@ -50,20 +50,31 @@ caller's Prisma transaction. Services split into three tiers (master data / tran
 
 ## Current state (as of 2026-07-26)
 
-Phase 0.4 was started interactively and is **partially applied in the working tree, uncommitted**:
+**Task 0.4 is partially complete and committed.** Steps 1–4 are done; resume at Step 5.
 
-| Step | State |
-|---|---|
-| 0.4.1 delete dead trees | applied (`git rm` staged) |
-| 0.4.2 `@types/js-yaml`, `@types/passport-jwt` | applied |
-| 0.4.3 72 × `TS2564` | applied — 65 `!`, 7 initializers |
-| regression test | added at `apps/api/src/common/__tests__/dto-validation-semantics.spec.ts` |
-| 0.4.4 `noUncheckedIndexedAccess` | **reverted — not applied** |
-| 0.4.5–0.4.8 | not started |
+| Step | State | Commit |
+|---|---|---|
+| 1 — delete dead trees | ✅ done | `a4e7f88` |
+| 2 — `@types/js-yaml`, `@types/passport-jwt` | ✅ done | `27b0228` |
+| 3 — 72 × `TS2564` (65 `!`, 7 initializers) | ✅ done | `27b0228` |
+| 4 — regression test pinning the `!` convention | ✅ done — `apps/api/src/common/__tests__/dto-validation-semantics.spec.ts` | `27b0228` |
+| **5 — 7 source `noUncheckedIndexedAccess`** | ⬜ **resume here** | — |
+| 6 — 17 × `TS2532` in 2 spec files | ⬜ | — |
+| 7 — flip `tsconfig.json` to the strict base | ⬜ | — |
+| 8–12 — verify, prove the gate fails, lint rules, skill fix, commit | ⬜ | — |
 
-**Decide before continuing:** keep this work as the starting point of Task 0.4, or
-`git checkout -- apps/api && git reset` and redo it cleanly from this plan. Either is fine; the
-plan below is written to be run from a clean tree.
+**Important:** the config flip (Step 7) has **not** happened, so `apps/api` is still non-strict.
+The DTO fixes landed but nothing yet enforces them — a new implicit `any` would still pass CI.
+Steps 5–7 are what actually close F4; until then the guardrail is not in place.
+
+### Repo hygiene noted while checking this in
+
+- `apps/api/.impeccable/hook.cache.json` is now **tracked**. It is a per-session tool cache
+  containing absolute local paths and a session UUID — it will cause needless conflicts. Add
+  `.impeccable/` to `.gitignore` and `git rm --cached` it.
+- Commit `a4e7f88` is labelled `docs:` but also carries the dead-tree source deletions — they
+  were staged from an earlier `git rm` and rode along. Cosmetic; not worth rewriting history,
+  but note it if you are reading the log for the code changes.
 
 ---
 
