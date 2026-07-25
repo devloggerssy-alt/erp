@@ -43,3 +43,8 @@ packages/api-contracts/types/index.ts
 # Generated files
 packages/api-contracts/types/index.ts
 apps/api/openapi.yaml
+
+# Impeccable per-session hook cache (absolute local paths + session UUIDs).
+# Note: .impeccable/design.json and .impeccable/live/config.json ARE tracked —
+# they are shared project config, not machine state.
+**/.impeccable/hook.cache.json
