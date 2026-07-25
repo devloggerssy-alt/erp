@@ -126,6 +126,37 @@ Repo-wide escape hatches: 404 `: any`, 112 `@ts-ignore`/`@ts-expect-error`, 67 `
 strict flags above catch — they are deliberate silencing, addressed by lint rules (0.4.5) and,
 for the dashboard, by Phase 2 once response types exist.
 
+**F11 — DTO field initializers silently disable input validation.**
+
+Discovered while executing 0.4, and it invalidates this spec's original guidance. The global
+`ValidationPipe` (`app.module.ts:63`) runs with `transform: true`, so `plainToInstance`
+constructs the DTO class and **any field initializer becomes a real runtime value**. A field
+absent from the request body therefore reaches the validators already populated — and passes.
+
+Measured with `plainToInstance(Dto, {})` + `validateSync`, counting rejected fields:
+
+| DTO style | Fields rejected on an empty body |
+|---|---|
+| No initializer (current) | **5 / 5** |
+| Value initializers | **1 / 5** — only the `@IsNotEmpty()` string |
+| Definite assignment (`!`) | **5 / 5** |
+
+Initializers defeat `@IsEnum`, `@IsBoolean`, `@IsNumber`, and `@IsArray` entirely. `@IsNotEmpty()`
+strings survive only incidentally, because `''` is itself rejected.
+
+The dangerous case is enums. `CreatePaymentDto.type: PaymentTypeEnum = PaymentTypeEnum.RECEIPT`
+would let a client omit `type` and have the payment silently become a **RECEIPT** —
+`payment-journal.ts` branches on exactly that value to choose the debit/credit direction. An
+omitted field would post cash to the wrong side of the ledger.
+
+`!` is a compile-time assertion with no runtime emit, so the field stays `undefined` and is still
+rejected. **Request DTOs must use `!`; only response DTOs may use initializers.**
+
+Note this means `CreateUnitDto.abbreviation: string = ''` and the other conforming Create DTOs
+carry the same latent pattern — currently harmless because every field is an `@IsNotEmpty()`
+string. `.ai/skills/backend-resource-module/SKILL.md` states the initializer rule without this
+qualification and must be corrected (0.4.8).
+
 **F4b — dead duplicate module trees.**
 `src/modules/tenants/dto/tenant.dto.ts` and `src/modules/users/dto/user.dto.ts` are orphans left
 from the `identity/` domain reorganisation — no module, no controller, zero imports anywhere in
@@ -538,12 +569,13 @@ reports type errors honestly, and a CI job that runs both on every PR.
         Removes 9 of the 81 errors and eliminates two decoys for anyone grepping for DTOs.
   - [ ] 0.4.2 `pnpm --filter @devloggers/api add -D @types/js-yaml @types/passport-jwt` —
         clears all 3 `noImplicitAny` errors. No application code changes.
-  - [ ] 0.4.3 Fix the remaining ~72 `TS2564` by adding field initializers per
-        `.ai/skills/backend-resource-module/SKILL.md` (`id: string = ''`). Mechanical, and it
-        brings the DTOs into line with the convention the repo already documents.
-        **Do not** use `!` definite-assignment assertions to silence them — for a
-        `class-validator` DTO the initializer is the correct fix; `!` would lie about a field
-        the pipe may legitimately leave undefined.
+  - [ ] 0.4.3 Fix the remaining 72 `TS2564`. **The fix differs by DTO kind — this was measured,
+        not assumed (see F11).**
+        - **Request DTOs (65 sites)** — use definite assignment (`name!: string`).
+        - **Response DTOs (7 sites, all `ChartOfAccountTreeDto`)** — use initializers
+          (`id: string = ''`), matching `UnitResponseDto` and the
+          `backend-resource-module` skill. Presenter-built, never validated, so no hazard.
+        - Add a regression test pinning the distinction so it cannot be "tidied" back.
   - [ ] 0.4.4 Fix the 24 `noUncheckedIndexedAccess` errors (17 in specs, 7 in source:
         `reports.service.ts` ×4, `s3.utils.ts` ×2, `onboarding.service.ts` ×1).
   - [ ] 0.4.5 Make `apps/api/tsconfig.json` extend `@devloggers/typescript-config/base.json`;
