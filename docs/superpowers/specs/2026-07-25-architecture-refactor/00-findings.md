@@ -155,8 +155,14 @@ statements, and profit-summary. There is no Trial Balance, P&L, or Balance Sheet
 
 Soft delete (`deletedAt`) exists only on `ChartOfAccount`; 44 `console.log` calls in source
 (including `ApiClient`'s constructor logging the API base URL on every instantiation);
-15 `eslint-disable` comments; denormalized balance caches (`ChartOfAccount.currentBalance`,
-`Cashbox.balance`, `StockBalance`) with no reconciliation job.
+15 `eslint-disable` comments (all in the dashboard); denormalized balance caches
+(`Cashbox.balance`, `StockBalance`) with no reconciliation job.
+
+> **Corrected 2026-07-26.** This originally also listed `ChartOfAccount.currentBalance` as a
+> drifting cache. That column **no longer exists** — removed in the CoA refactor
+> (`accounting.prisma:64`), with account balances computed from `JournalLine` on read. Two
+> caches remain, not three. The reconciliation gap itself is real and is now covered by the
+> Phase 0.2 drift checker.
 
 **Addressed by:** Phase 3 (deletion semantics), Phase 2 (logging), Phase 5 (reconciliation).
 
@@ -189,15 +195,30 @@ Hand-rolled controllers document responses with a literal example instead of a D
 
 | Generated `2xx` response | Count | Usable by `CrudClient`? |
 |---|---|---|
-| Typed (`components["schemas"][…]`) | 137 | yes |
+| Typed (`components["schemas"][…]`) | 138 | yes |
 | `"application/json": unknown` | 39 | no |
-| `content?: never` | 24 | no |
+| `content?: never` | 11 | no |
 
-**63 of 200 (32%) success responses carry no type.** Every one traces to a hand-rolled
-controller — `Payments.*`, `Expenses.*`, `Users.*`, `StockCounts.*`, `Accounting.*`, `Reports.*`,
-`Inventory.*`, `Audit.*`, `AiChat.*`, `Tenants.*`, `Invoices.postInvoice/cancelInvoice/addPayment`,
-`Accounts.restore/convertToGroup`, `OpeningBalances.postOpeningBalances`, `Files.uploadFile`,
+**50 of 188 (27%) success responses carry no type.** Every one traces to a hand-rolled controller
+— `Payments.findAll/create/findOne/update`, `Expenses.*`, `Users.*`, `StockCounts.findAll/create/findOne`,
+`Accounting.*`, `Reports.*`, `Inventory.*`, `Audit.*`, `AiChat.*`, `Tenants.*`,
+`Onboarding.stepChartOfAccounts`, `CustomFields.listByModule`, `Files.uploadFile`,
 `Dashboard.summary`.
+
+> **Corrected 2026-07-26.** This finding originally read 137 / 39 / 24 = 63 untyped. That was
+> measured against a **stale committed `types/index.ts`**. Regenerating with `pnpm generate`
+> during Phase 0.2 showed 10 endpoints had already been given typed responses in source
+> (`Invoices.postInvoice/cancelInvoice/addPayment`, `Payments.post/cancel/allocate`,
+> `StockCounts.post`, `Accounts.restore/convertToGroup`, `OpeningBalances.postOpeningBalances`)
+> without the artifact being regenerated.
+>
+> **The underlying process problem is worth more than the number.** `packages/api-contracts/types/index.ts`
+> and `apps/api/openapi.yaml` are both **tracked in git and listed in `.gitignore`**. The listing
+> leads people to assume they are not tracked, so controller changes land without
+> `pnpm generate` and the committed contract silently drifts from the source. Phase 1.5's
+> `scripts/audit-openapi-response-types.mjs` must therefore regenerate before measuring, or it
+> will ratchet against a stale file — and Phase 1.5 should decide whether these artifacts are
+> committed or generated, because right now they are ambiguously both.
 
 The dashboard escape hatches counted in F4 are the **downstream symptom**, not the disease:
 

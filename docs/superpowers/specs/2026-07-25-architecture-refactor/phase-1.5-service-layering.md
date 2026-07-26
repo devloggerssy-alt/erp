@@ -15,7 +15,7 @@ instead of 43% of it.
 
 ## Success criteria
 
-- [ ] Zero untyped `2xx` responses in the generated types (baseline: 39 `unknown` + 24 `never`)
+- [ ] Zero untyped `2xx` responses in the generated types (baseline: 39 `unknown` + 11 `never` = 50)
 - [ ] Every controller returns presenter output, never a raw Prisma entity
 - [ ] No hard-delete path on a posted document
 - [ ] `apps/dashboard/modules/expenses` compiles with no `as any`
@@ -119,7 +119,7 @@ inheriting typed list/show/create/update/delete, pagination, filter schema, and 
 - [ ] 1.5.A.1 `scripts/audit-openapi-response-types.mjs` — parse
       `packages/api-contracts/types/index.ts`, report every `2xx` whose content is `unknown` or
       `never`, grouped by operation
-- [ ] 1.5.A.2 Record the baseline: **137 typed / 39 `unknown` / 24 `never`**
+- [ ] 1.5.A.2 **Run `pnpm generate` first** — the committed artifact goes stale (see F9's correction note). Baseline after regeneration on 2026-07-26: **138 typed / 39 `unknown` / 11 `never` = 50 untyped**
 - [ ] 1.5.A.3 Wire into CI as a **ratchet** — the untyped count may only decrease. Flip to
       hard-fail-at-zero after 1.5.E
 

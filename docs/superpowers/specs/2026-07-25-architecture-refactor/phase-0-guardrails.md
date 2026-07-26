@@ -1,6 +1,6 @@
 # Phase 0 — Guardrails
 
-**Status:** 🟡 in progress — tasks **0.3 ✅** and **0.4 ✅** complete; **0.1 (golden masters) and 0.2 (drift checker) remain — Phase 1 is blocked until 0.1 exists**
+**Status:** ✅ **complete** — 0.1, 0.2, 0.3, 0.4 all done. One follow-up: the 0.2 baseline drift report needs a database to run, and **Q5 stays open until it does**.
 **Depends on:** nothing — this is the entry point of the roadmap
 **Blocks:** Phase 1 (and therefore everything else)
 **Findings addressed:** [F4](00-findings.md#f4--appsapi-is-the-only-workspace-that-is-not-strict), [F4b](00-findings.md#f4b--dead-duplicate-module-trees), [F11](00-findings.md#f11--dto-field-initializers-silently-disable-input-validation)
@@ -14,7 +14,7 @@ Make Phase 1 provably safe before touching a single posting call site.
 
 ## Success criteria
 
-- [ ] A test suite that fails if any journal entry changes shape
+- [x] A test suite that fails if any journal entry changes shape — 25 tests, mutation-verified
 - [x] A compiler that reports type errors honestly (`tsc --noEmit` clean under the strict base)
 - [x] A CI job running the type-checker on every PR, **verified to actually fail** when violated. The golden-master half activates with 0.1
 
@@ -218,35 +218,102 @@ pnpm turbo run build --filter=@devloggers/api
 
 ---
 
-## Task 0.1 — Golden-master characterization suite
+## Task 0.1 — Golden-master characterization suite ✅
 
-**Create:** `apps/api/src/modules/accounting/posting/__tests__/golden-master.spec.ts`
+**Created:** `apps/api/src/modules/accounting/posting/__tests__/golden-master.{spec,harness}.ts`
+— **25 tests, all passing.**
 
-- [ ] 0.1.1 Build an in-memory Prisma transaction double recording `journalEntry.create` payloads
-      verbatim.
-- [ ] 0.1.2 Snapshot current JE output for all **10** posting paths: purchase invoice, sales
-      invoice (with COGS), invoice cancellation, payment, payment cancellation, expense, expense
-      cancellation, stock-count variance, opening balance, opening stock.
-- [ ] 0.1.3 Cover the branch matrix per path: with/without tax, with/without party-level account
-      override, service-only vs stock lines, zero-COGS sales.
-- [ ] 0.1.4 Assert on account IDs, debit/credit amounts, `sortOrder`, `description`,
-      `referenceType`, `partyId`, and **total debits = total credits**.
-- [ ] 0.1.5 Commit the snapshots. **These files must not be regenerated during Phase 1** — a diff
-      here is the signal that the refactor changed behaviour.
+- [x] 0.1.1 In-memory transaction double recording `journalEntry.create` payloads verbatim
+      (`createCapture()` in the harness), with non-deterministic fields normalized out.
+- [x] 0.1.2 All 10 posting paths covered.
+- [x] 0.1.3 Branch matrix: with/without tax, party-level override vs tenant default,
+      service-only vs stock lines, zero-COGS sales, non-unit exchange rates.
+- [x] 0.1.4 Asserts account ids, debit/credit, `sortOrder`, `description`, `referenceType`,
+      `partyId`, `reversalOfId`, plus `expectBalanced()` on **every** captured entry —
+      applied independently of the expected line list, so an error in an *expectation*
+      still cannot let an unbalanced entry through.
+- [x] 0.1.5 Committed. **Do not re-baseline during Phase 1.**
+
+**Deliberately not jest snapshots.** `jest -u` would silently rewrite the one thing this suite
+exists to hold still. Expectations are explicit `toEqual` objects, so a change is a visible,
+reviewable diff.
+
+The suite drives the **real services** (`InvoicePostingService`, `PaymentsService`,
+`ExpensesService`) and the **real `JournalPostingService`** — only the database is replaced.
+Account resolution, the postable/deleted account checks, and the balance assertion are all
+exercised rather than stubbed. That matters because account resolution is precisely what
+Phase 1 relocates.
+
+### Mutation-tested — the suite is proven to catch, not just to pass
+
+It passed on the first run, which is not by itself evidence. Three deliberate mutations were
+introduced and reverted:
+
+| Mutation | Detected |
+|---|---|
+| Purchase tax leg posted to the Purchase account instead of the Tax account | ✅ 1 test failed |
+| `isReceipt` inverted — flips the debit/credit direction of every payment | ✅ 3 tests failed |
+| Party-level payable override removed, falling back to the tenant default | ✅ 1 test failed |
+
+The third is the important one: it is exactly the account-resolution policy that moves into
+`invoice-posted.policy.ts` in task 1.4.1.
+
+> A first mutation attempt appeared to go undetected — the string replacement had silently
+> failed against the file's CRLF line endings. Worth knowing when running this exercise again:
+> assert the mutation actually applied (`git diff --stat`) before believing a passing result.
+
+### Coverage boundary, stated honestly
+
+Paths 8–10 (stock-count variance, opening balance, opening stock) are pinned at their
+**line-builder** level, not end-to-end through the service. Their surrounding dependencies
+(repositories, i18n, DTO validation) are far heavier than the posting logic under test, and the
+journal shape for those paths is fully determined by the builders — which Phase 1 moves verbatim.
+Tasks 1.4.5–1.4.7 should add the service-level capture as each policy lands.
 
 ---
 
-## Task 0.2 — Balance-drift checker
+## Task 0.2 — Balance-drift checker ✅ (code complete; baseline run pending)
 
-**Create:** `apps/api/src/modules/accounting/reconciliation/balance-drift.service.ts`
-(Phase 0 tool; promoted to a scheduled job in Phase 5)
+**Created:** `apps/api/src/modules/accounting/reconciliation/` — service, controller, response
+DTOs, module, and **11 unit tests**. Registered in `AccountingModule`.
+Promoted to a scheduled job in Phase 5 (task 5.4).
 
-- [ ] 0.2.1 Compare `ChartOfAccount.currentBalance` against `SUM(JournalLine)` per account.
-- [ ] 0.2.2 Same for `Cashbox.balance` and `StockBalance` vs `StockMovement`.
-- [ ] 0.2.3 Expose as an authenticated diagnostic endpoint returning drifted rows.
-- [ ] 0.2.4 **Record a baseline drift report before Phase 1.** Pre-existing drift is not a Phase 1
-      regression. **Resolves Q5** — decide here whether pre-existing drift gets corrected now or
-      tracked separately.
+- [x] ~~0.2.1 Compare `ChartOfAccount.currentBalance` against `SUM(JournalLine)`.~~
+      **Obsolete — that column no longer exists.** It was removed in the CoA refactor
+      (`accounting.prisma:64`: *"source of truth is JournalLine; balances computed on read"*).
+      A cache that does not exist cannot drift. **This corrects F8**, which still lists it.
+      The dashboard's `currentBalance` is computed from `rolledBalance` at read time
+      (`use-account-balances.ts:39`), not stored.
+- [x] 0.2.2 `Cashbox.balance` vs `Σ posted receipts − Σ posted payments − Σ posted expenses`;
+      `StockBalance.quantity` vs `SUM(StockMovement.quantity)` per (warehouse, item), including
+      movement groups with **no** `StockBalance` row at all.
+- [x] **Added beyond the plan:** every posted `JournalEntry` must balance.
+      `JournalPostingService` enforces this on write, so a hit means rows were written around the
+      service — the most serious finding this report can produce, and cheap to check.
+- [x] 0.2.3 `GET /accounting/reconciliation/balance-drift`, JWT-guarded, read-only.
+      Response is a typed DTO — verified to generate as a **named schema**, so this new endpoint
+      does not add to the F9 untyped count.
+- [ ] 0.2.4 **Record the baseline — requires a database, so not run here.** Until it runs,
+      **Q5 stays open.**
+
+The report carries an explicit `notChecked` array so an empty result is not over-read as
+"everything verified". It currently lists:
+
+- `StockBalance.averageCost` — a running weighted average whose recomputation means replaying
+  every movement in order. Deferred to Phase 5.
+- `ChartOfAccount.currentBalance` — removed; documented so nobody re-adds the check.
+
+### How to record the baseline (do this before Phase 1)
+
+```bash
+pnpm --filter @devloggers/api dev
+curl -H "Authorization: Bearer <token>" \
+  http://localhost:4040/accounting/reconciliation/balance-drift | tee docs/drift-baseline.json
+```
+
+Then answer **Q5**: if `clean: false`, decide whether pre-existing drift is corrected before
+Phase 1 or tracked separately. Either is defensible — what is not defensible is starting Phase 1
+without knowing the number, because then any drift found afterwards is unattributable.
 
 ---
 

@@ -68,4 +68,13 @@ export default tseslint.config(
       "@typescript-eslint/no-misused-promises": "off",
     },
   },
+  {
+    // Test doubles must match the async signatures they stand in for, so their
+    // methods are `async` with nothing to await. That is the point of a stub,
+    // not an oversight — requiring `await` here would only add noise.
+    files: ['**/*.spec.ts', '**/__tests__/**/*.ts', 'test/**/*.ts'],
+    rules: {
+      '@typescript-eslint/require-await': 'off',
+    },
+  },
 );

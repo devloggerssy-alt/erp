@@ -32,8 +32,8 @@ The task-level execution plan lives at
 
 | # | Spec | Depends on | Status |
 |---|---|---|---|
-| 0 | [Guardrails](phase-0-guardrails.md) — strictness, golden masters, drift checker, CI | nothing | 🟡 **in progress** — 0.3 ✅ · 0.4 ✅ · **0.1 + 0.2 remain** |
-| 1 | [GL Posting Port](phase-1-gl-posting-port.md) — accounting owns all GL policy | 0 | ⬜ not started |
+| 0 | [Guardrails](phase-0-guardrails.md) — strictness, golden masters, drift checker, CI | nothing | ✅ **complete** — baseline drift run still pending (needs a DB) |
+| 1 | [GL Posting Port](phase-1-gl-posting-port.md) — accounting owns all GL policy | 0 ✅ | ⬜ **ready to start** |
 | 1.5 | [Service & Controller Layering](phase-1.5-service-layering.md) — three tiers, typed responses | 1 | ⬜ not started |
 | 2 | [Client & Dashboard Type Safety](phase-2-client-and-dashboard-types.md) | 1.5 | ⬜ not started |
 | 3 | [Remaining Coupling](phase-3-remaining-coupling.md) — inventory port, onboarding saga, deletion semantics | 1.5 | ⬜ needs own spec expansion |
@@ -55,9 +55,9 @@ spec for each before executing.
 | Phase | Why it sits here |
 |---|---|
 | **0.4 — API strictness** | **Start here.** Every later phase verifies with `pnpm turbo run build`. Under `noImplicitAny: false` that command exits 0 on broken refactors. Measured cost ~84 errors (F4) — no reason to defer |
-| 1 — GL posting port | Golden masters cover the 8 posting paths; the type-checker covers the other ~37k LOC the refactor touches. Both must exist first |
+| 1 — GL posting port | Golden masters cover the 10 posting paths; the type-checker covers the other ~37k LOC the refactor touches. Both now exist |
 | 1.5 — Service layering | Phase 1 removes ~60 LOC of GL policy per Tier B service, exposing the seam the base classes attach to. Doing it first means redoing it |
-| 2 — Client & dashboard types | `crud-client` generics and the dashboard casts are unfixable while 63 responses generate as `unknown` / `never` |
+| 2 — Client & dashboard types | `crud-client` generics and the dashboard casts are unfixable while 50 responses generate as `unknown` / `never` |
 
 **On splitting F4 across two phases:** making `apps/api` strict depends on nothing — pure config
 plus mechanical fixes. Making `crud-client.ts` and the dashboard type-safe genuinely requires the
@@ -117,7 +117,7 @@ Testing is a gate on every phase, not a phase of its own. Current state: 23 spec
 
 | Phase | Test obligation |
 |---|---|
-| 0 | Golden-master JE snapshots for all 10 posting paths + `tsc --noEmit` clean under the strict base, **verified to fail** on a deliberately introduced implicit `any` |
+| 0 | ✅ Golden masters for all 10 posting paths (25 tests, mutation-verified) + `tsc --noEmit` clean under the strict base, **verified to fail** on a deliberately introduced implicit `any` |
 | 1 | Per-policy unit tests; golden masters unchanged; balance drift ≤ baseline |
 | 1.5 | Lifecycle-guard tests (posted rejects update **and** delete); response-type audit at 0 untyped; golden masters unchanged |
 | 2 | `expectTypeOf` tests for `crud-client` inference |
@@ -136,7 +136,7 @@ Testing is a gate on every phase, not a phase of its own. Current state: 23 spec
 | Q2 | Accounting bugs surfaced while extracting policies — log, fix in a follow-up spec, **never inside Phase 1** | [Phase 1](phase-1-gl-posting-port.md) task 1.6 |
 | Q3 | `Permission` global vs tenant-scoped | [Phase 6](phase-6-authz.md) |
 | Q4 | `AuditLog` retention policy | [Phase 5](phase-5-audit-observability.md) |
-| Q5 | Pre-existing balance drift — correct now or track separately? | [Phase 0](phase-0-guardrails.md) task 0.2.4 |
+| Q5 | Pre-existing balance drift — correct now or track separately? | [Phase 0](phase-0-guardrails.md) task 0.2.4 — **still open**, needs the baseline run |
 | Q6 | Tier placement of the `FinancialSettingsService` / `SettingsService` singletons | [Phase 1.5](phase-1.5-service-layering.md) |
 | Q7 | `Decimal` serialization in response DTOs | [Phase 1.5](phase-1.5-service-layering.md) task 1.5.E |
 | Q8 | Does `DocumentCrudService` belong in `backend-core`? | [Phase 1.5](phase-1.5-service-layering.md) task 1.5.B |
