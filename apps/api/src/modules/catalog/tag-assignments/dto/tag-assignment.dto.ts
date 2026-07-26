@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, IsIn, IsUUID } from 'class-validator';
+import { IsString, IsIn, IsUUID } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateTagAssignmentDto {

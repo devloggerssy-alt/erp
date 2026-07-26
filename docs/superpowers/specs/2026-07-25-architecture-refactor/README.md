@@ -32,7 +32,7 @@ The task-level execution plan lives at
 
 | # | Spec | Depends on | Status |
 |---|---|---|---|
-| 0 | [Guardrails](phase-0-guardrails.md) — strictness, golden masters, drift checker, CI | nothing | 🟡 **in progress** — 0.4 steps 1–4 done, resume at step 5 |
+| 0 | [Guardrails](phase-0-guardrails.md) — strictness, golden masters, drift checker, CI | nothing | 🟡 **in progress** — 0.3 ✅ · 0.4 ✅ · **0.1 + 0.2 remain** |
 | 1 | [GL Posting Port](phase-1-gl-posting-port.md) — accounting owns all GL policy | 0 | ⬜ not started |
 | 1.5 | [Service & Controller Layering](phase-1.5-service-layering.md) — three tiers, typed responses | 1 | ⬜ not started |
 | 2 | [Client & Dashboard Type Safety](phase-2-client-and-dashboard-types.md) | 1.5 | ⬜ not started |

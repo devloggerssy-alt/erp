@@ -218,7 +218,9 @@ export class InvoicesService {
         // above is already committed, so a failure here must not look like the whole
         // create failed — it's reported but the invoice remains saved as DRAFT.
         let finalInvoice: typeof created = created;
-        let postingError: unknown;
+        // Normalized at the catch so the rethrow below stays a real Error.
+        // HttpException extends Error, so a posting failure keeps its status code.
+        let postingError: Error | undefined;
 
         if (dto.complete) {
             try {
@@ -226,7 +228,9 @@ export class InvoicesService {
                     ? await this.postingService.postPurchaseInvoice(tenantId, created.id, userId)
                     : await this.postingService.postSalesInvoice(tenantId, created.id, userId);
             } catch (error) {
-                postingError = error;
+                postingError = error instanceof Error
+                    ? error
+                    : new Error(`Invoice posting failed for invoice ${created.id}`);
             }
         }
 

@@ -1,6 +1,6 @@
 # Phase 0 — Guardrails
 
-**Status:** 🟡 in progress — **task 0.4 complete ✅**; tasks 0.1, 0.2, 0.3 not started
+**Status:** 🟡 in progress — tasks **0.3 ✅** and **0.4 ✅** complete; **0.1 (golden masters) and 0.2 (drift checker) remain — Phase 1 is blocked until 0.1 exists**
 **Depends on:** nothing — this is the entry point of the roadmap
 **Blocks:** Phase 1 (and therefore everything else)
 **Findings addressed:** [F4](00-findings.md#f4--appsapi-is-the-only-workspace-that-is-not-strict), [F4b](00-findings.md#f4b--dead-duplicate-module-trees), [F11](00-findings.md#f11--dto-field-initializers-silently-disable-input-validation)
@@ -16,7 +16,7 @@ Make Phase 1 provably safe before touching a single posting call site.
 
 - [ ] A test suite that fails if any journal entry changes shape
 - [x] A compiler that reports type errors honestly (`tsc --noEmit` clean under the strict base)
-- [ ] A CI job running both on every PR, **verified to actually fail** when violated
+- [x] A CI job running the type-checker on every PR, **verified to actually fail** when violated. The golden-master half activates with 0.1
 
 > **Task 0.4 is the first thing to do in this entire roadmap** — before 0.1. Golden masters cover
 > the 10 posting paths; the type-checker covers everything else. Refactoring ten posting call
@@ -87,25 +87,25 @@ anyway. **Flip to `error` at the end of Phase 1.5**; treat 140 as a ratchet ceil
 
 ---
 
-## ⚠️ Two pre-existing failures found — both block Task 0.3, neither caused by 0.4
+## Pre-existing failures found during 0.4
 
-Verified by rebuilding at the committed baseline: identical output.
+Verified by rebuilding at the committed baseline: identical output, so none was caused by 0.4.
 
-**1. `pnpm --filter @devloggers/api lint` is already red — 15 errors.**
-Not from the new rules (they contribute 0). From `recommendedTypeChecked`, which was already on:
+**1. `apps/api` lint was red — 15 errors. ✅ FIXED** (prerequisite for 0.3).
+Not from the new rules (they contributed 0). From `recommendedTypeChecked`, already on:
 
-| Rule | Count |
-|---|---|
-| `no-unused-vars` | 8 |
-| `require-await` | 4 |
-| `no-unsafe-argument` | 2 |
-| `no-base-to-string` | 2 |
-| `only-throw-error` | 1 |
+| Rule | Count | Fix |
+|---|---|---|
+| `no-unused-vars` | 8 | 5 unused imports deleted; 3 unused params are required by an overridden signature or a Nest decorator, so the rule now carries `argsIgnorePattern: '^_'` and `fiscal-periods.beforeUpdate` takes `_dto` |
+| `require-await` | 4 | The two repository `create`/`update` overrides cast a **Promise** to the entity type, which `async` silently papered over. Now `await` first, then cast the value — satisfies the rule and makes the cast honest |
+| `no-base-to-string` | 2 | `String(value)` on `unknown` in SELECT / MULTI_SELECT validation. Replaced with a `toOptionString` helper that coerces primitives and returns `null` for objects. **Behaviour-preserving:** an object previously stringified to `'[object Object]'`, which could never match an option, so it already threw |
+| `only-throw-error` | 1 | `postingError` was `unknown` and rethrown raw. Now typed `Error \| undefined` and normalized at the catch, so `HttpException` (which extends `Error`) keeps its status code |
 
-**Task 0.3.1 cannot add `lint` to CI until these 15 are fixed** — a gate that is red on day one
-gets ignored. Small and mechanical; fix as the first step of 0.3.
+Note the first attempt at the `only-throw-error` fix used `String(postingError)` and simply traded
+the error for a `no-base-to-string` one — the linter was right both times. Fixed at the
+declaration instead.
 
-**2. `pnpm turbo run build` fails at `@devloggers/api-client` — 5 errors.**
+**2. `pnpm turbo run build` fails at `@devloggers/api-client` — 5 errors.** (Tracked in CI's `known-debt` job.)
 
 ```
 src/clients/invoices.client.ts(10,52): TS2322: Type '{ id: string; }' is not assignable to type 'undefined'.
@@ -250,11 +250,49 @@ pnpm turbo run build --filter=@devloggers/api
 
 ---
 
-## Task 0.3 — CI gate
+## Task 0.3 — CI gate ✅
 
-- [ ] 0.3.1 Workflow running `pnpm turbo run lint typecheck test` on PR.
-- [ ] 0.3.2 Fail the build on any new `eslint-disable` under `apps/api/src/modules/**`.
-- [ ] 0.3.3 Wire in the strict typecheck (0.4.7) and the golden-master suite (0.1).
+**Created:** `.github/workflows/ci.yml` (the repo had no `.github` at all),
+`scripts/check-eslint-disable.mjs`, a `typecheck` script on `apps/api`, and
+`typecheck` / `test` / `lint:ci` turbo tasks — `turbo.json` previously had only
+`build`, `lint`, `check-types`, `dev`, so the originally-planned
+`turbo run lint typecheck test` could not have run.
+
+- [x] 0.3.1 Workflow on `pull_request` + push to `main`.
+- [x] 0.3.2 Hard gate: **zero** `eslint-disable` under `apps/api/src/modules/**`
+      (that tree measured 0, so this is a gate rather than a ratchet).
+      `--report` prints the 15 repo-wide suppressions as an inventory.
+- [x] 0.3.3 Strict typecheck wired in. Golden masters get a presence check that
+      warns loudly until 0.1 exists — it cannot be a hard gate before the suite is written.
+
+### Two jobs, deliberately
+
+**`guardrails` — blocking.** Only steps verified green locally at the time of writing. All 11 pass:
+
+| Step | Status |
+|---|---|
+| `typecheck` apps/api (strict) · api-contracts · ui | ✅ |
+| `lint:ci` apps/api · api-client · ui | ✅ |
+| eslint-disable gate | ✅ |
+| `test` apps/api (82) · api-contracts | ✅ |
+| `build` apps/api | ✅ |
+
+**`known-debt` — advisory (`continue-on-error`).** The three pre-existing failures, each with an
+owning phase, so they stay visible instead of being forgotten:
+
+| Check | State | Owner |
+|---|---|---|
+| `build` api-client | 5 errors — `Invoices.*` / `Payments.*` responses are `undefined` / `never` | **Phase 1.5** (this is F9) |
+| `lint` dashboard | 89 errors — setState-in-effect, components-during-render | unassigned, pre-existing |
+| `typecheck` dashboard | 21 errors, largely F9 fallout | **Phase 2** |
+
+> **Why two jobs rather than one red one:** a gate that fails on day one gets ignored, and then it
+> protects nothing. Nothing known-broken goes in `guardrails`. Promote a check out of
+> `known-debt` the moment its phase lands.
+
+`apps/api` uses a separate `lint:ci` script rather than `lint`: the latter carries `--fix`, which
+must not run in CI, and `lint:ci` caps warnings at 400 so the 316 `no-explicit-any` warnings stay
+visible without blocking (see the ESLint note above).
 
 ---
 

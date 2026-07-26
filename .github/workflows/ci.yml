@@ -1,0 +1,144 @@
+name: CI
+
+# Phase 0.3 — the guardrail gate for the architecture refactor.
+# Spec: docs/superpowers/specs/2026-07-25-architecture-refactor/phase-0-guardrails.md
+#
+# Two jobs, deliberately:
+#
+#   guardrails  — BLOCKING. Only checks verified green at the time of writing.
+#                 A gate that is red on day one gets ignored, so nothing known-
+#                 broken goes in here. This is what protects Phases 1 and 1.5.
+#
+#   known-debt  — ADVISORY (continue-on-error). Reports the pre-existing
+#                 failures so they stay visible and can be watched down rather
+#                 than forgotten. Each line has an owning phase.
+#
+# Promote a check from known-debt to guardrails the moment its phase lands.
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  TURBO_TELEMETRY_DISABLED: 1
+  NEXT_TELEMETRY_DISABLED: 1
+
+jobs:
+  guardrails:
+    name: Guardrails (blocking)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.0.0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      # db-prisma generates the client that api-contracts and the API type against.
+      - name: Generate Prisma client
+        run: pnpm --filter @devloggers/db-prisma db:generate
+
+      # ── F4 guardrail: the API must type-check under the strict base ──────────
+      # This is the check the whole roadmap's verification depends on. Without
+      # it, `turbo run build` exits 0 on refactors that dropped a parameter type.
+      - name: Typecheck — apps/api (strict)
+        run: pnpm --filter @devloggers/api typecheck
+
+      - name: Typecheck — packages
+        run: |
+          pnpm --filter @devloggers/api-contracts typecheck
+          pnpm --filter @devloggers/ui check-types
+
+      - name: Lint — apps/api
+        run: pnpm --filter @devloggers/api lint:ci
+
+      - name: Lint — packages
+        run: |
+          pnpm --filter @devloggers/api-client lint
+          pnpm --filter @devloggers/ui lint
+
+      # ── 0.3.2 — no new suppressions in the tree the refactor touches ─────────
+      - name: No eslint-disable under apps/api/src/modules
+        run: node scripts/check-eslint-disable.mjs
+
+      - name: Test — apps/api
+        run: pnpm --filter @devloggers/api test
+
+      - name: Test — api-contracts
+        run: pnpm --filter @devloggers/api-contracts test
+
+      - name: Build — apps/api
+        run: pnpm turbo run build --filter=@devloggers/api
+
+      # ── 0.1 — golden masters ────────────────────────────────────────────────
+      # The API test step above already runs them once the suite exists; this
+      # step exists so a missing suite is loud rather than silent.
+      - name: Golden masters present
+        run: |
+          if [ -f apps/api/src/modules/accounting/posting/__tests__/golden-master.spec.ts ]; then
+            echo "✓ golden-master suite present"
+          else
+            echo "⚠ golden-master suite not yet written (Phase 0 task 0.1)."
+            echo "  Phase 1 MUST NOT start until it exists — it is the only check"
+            echo "  that a posting refactor did not change GL output."
+          fi
+
+  known-debt:
+    name: Known debt (advisory)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.0.0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Generate Prisma client
+        run: pnpm --filter @devloggers/db-prisma db:generate
+
+      # Fails with 5 errors: Invoices.* / Payments.* responses generate as
+      # `undefined` / `never` because those controllers declare no response DTO.
+      # This is F9 surfacing as a build failure. Owner: Phase 1.5.
+      - name: Build — api-client (F9, expected red until Phase 1.5)
+        continue-on-error: true
+        run: pnpm --filter @devloggers/api-client build
+
+      # 89 errors — setState-in-effect, components-created-during-render.
+      # Pre-existing React issues, unrelated to the refactor. Owner: unassigned.
+      - name: Lint — dashboard (89 errors, pre-existing)
+        continue-on-error: true
+        run: pnpm --filter @devloggers/dashboard lint
+
+      # 21 errors, largely downstream of the same untyped responses as above.
+      # Owner: Phase 2.
+      - name: Typecheck — dashboard (21 errors, mostly F9 fallout)
+        continue-on-error: true
+        run: pnpm --filter @devloggers/dashboard typecheck
+
+      - name: eslint-disable inventory (repo-wide)
+        continue-on-error: true
+        run: node scripts/check-eslint-disable.mjs --report

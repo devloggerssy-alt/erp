@@ -41,6 +41,13 @@ export default tseslint.config(
       // Ratchet: the count must not grow. Current baseline is 140.
       '@typescript-eslint/no-explicit-any': 'warn',
 
+      // `_`-prefixed args are intentionally unused — required by an overridden
+      // signature or by a Nest decorator that must stay on the method.
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        { argsIgnorePattern: '^_', varsIgnorePattern: '^_', caughtErrorsIgnorePattern: '^_' },
+      ],
+
       '@typescript-eslint/no-floating-promises': 'warn',
       '@typescript-eslint/no-unsafe-argument': 'warn',
       "@typescript-eslint/no-unsafe-return": 'off',

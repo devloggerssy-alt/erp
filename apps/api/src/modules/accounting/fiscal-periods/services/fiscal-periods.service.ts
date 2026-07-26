@@ -36,7 +36,7 @@ export class FiscalPeriodsService extends CrudService<FiscalPeriod, FiscalPeriod
     protected override async beforeUpdate(
         tenantId: string,
         id: string,
-        dto: UpdateFiscalPeriodDto,
+        _dto: UpdateFiscalPeriodDto,
     ): Promise<void> {
         const period = await this.fiscalPeriodsRepository.findById(tenantId, id);
 
