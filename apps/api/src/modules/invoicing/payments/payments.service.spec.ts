@@ -1,22 +1,28 @@
 import { PaymentsService } from './payments.service';
+import { AccountingPostingFacade } from '../../accounting/posting';
 
 function buildDeps() {
     const tx = {
         paymentAllocation: { create: jest.fn().mockResolvedValue({ id: 'alloc-1' }) },
         payment: { update: jest.fn().mockResolvedValue({}) },
+        cashbox: { update: jest.fn().mockResolvedValue({}) },
     };
     const prisma = {
         payment: { findFirst: jest.fn(), create: jest.fn() },
         invoice: { findFirst: jest.fn() },
+        cashbox: { findUnique: jest.fn().mockResolvedValue({ linkedAccountId: 'cashbox-acct' }) },
+        journalEntry: { findFirst: jest.fn().mockResolvedValue({ id: 'je-orig' }) },
         paymentAllocation: { aggregate: jest.fn().mockResolvedValue({ _sum: { amount: 0 } }) },
         $transaction: jest.fn((cb: any) => cb(tx)),
     } as any;
     const docSeqService = { getNextNumber: jest.fn().mockResolvedValue('REC-00001') } as any;
-    const financialSettingsService = { getOrThrow: jest.fn() } as any;
-    const journalPosting = { post: jest.fn().mockResolvedValue({ id: 'je-1' }), reverse: jest.fn().mockResolvedValue({ id: 'je-r' }) } as any;
+    const postingFacade = {
+        record: jest.fn().mockResolvedValue({ journalEntryId: 'je-1' }),
+        reverse: jest.fn().mockResolvedValue({ journalEntryId: 'je-r' }),
+    } as unknown as AccountingPostingFacade;
 
-    const service = new PaymentsService(prisma, docSeqService, financialSettingsService, journalPosting);
-    return { service, prisma, tx, docSeqService, financialSettingsService, journalPosting };
+    const service = new PaymentsService(prisma, docSeqService, postingFacade);
+    return { service, prisma, tx, docSeqService, postingFacade };
 }
 
 describe('PaymentsService.allocate', () => {

@@ -3,17 +3,14 @@ import { PrismaService } from '@devloggers/db-prisma/nest';
 import { ReferenceType } from '@devloggers/db-prisma';
 import { CreatePaymentDto, UpdatePaymentDto, AllocatePaymentDto } from './dto';
 import { DocumentSequencesService } from '../../accounting/document-sequences/services/document-sequences.service';
-import { FinancialSettingsService } from '../../accounting/financial-settings/services/financial-settings.service';
-import { JournalPostingService } from '../../accounting/accounts/services/journal-posting.service';
-import { buildPaymentJournalLines } from './payment-journal';
+import { AccountingPostingFacade, type PaymentRecordedIntent, type PaymentCancelledIntent } from '../../accounting/posting';
 
 @Injectable()
 export class PaymentsService {
     constructor(
         private readonly prisma: PrismaService,
         private readonly docSeqService: DocumentSequencesService,
-        private readonly financialSettingsService: FinancialSettingsService,
-        private readonly journalPosting: JournalPostingService,
+        private readonly postingFacade: AccountingPostingFacade,
     ) {}
 
     async findAll(tenantId: string, filters: { type?: string; status?: string; page?: number; limit?: number }) {
@@ -111,50 +108,29 @@ export class PaymentsService {
             throw new BadRequestException('Cashbox has no linked GL account; cannot post the payment');
         }
 
-        const settings = await this.financialSettingsService.getOrThrow(tenantId);
-        const isReceipt = payment.type === 'RECEIPT';
-
-        const counterpartAccountId = isReceipt
-            ? (payment.party?.receivableAccountId ?? settings.defaultReceivableAccountId)
-            : (payment.party?.payableAccountId ?? settings.defaultPayableAccountId);
-
-        if (!counterpartAccountId) {
-            throw new BadRequestException(
-                isReceipt
-                    ? 'No Accounts Receivable account configured. Set a default in Financial Settings or on the party.'
-                    : 'No Accounts Payable account configured. Set a default in Financial Settings or on the party.',
-            );
-        }
-
         const exchangeRate = Number(payment.exchangeRate);
         const amount = Number(payment.amount);
+        const isReceipt = payment.type === 'RECEIPT';
         const balanceDelta = isReceipt ? amount : -amount;
 
-        const journalLines = buildPaymentJournalLines({
-            type: payment.type as 'RECEIPT' | 'PAYMENT' | 'ADJUSTMENT',
-            amount,
+        const intent: PaymentRecordedIntent = {
+            kind: 'PAYMENT_RECORDED',
+            tenantId,
+            userId,
+            date: payment.date,
+            fiscalPeriodId: payment.fiscalPeriodId,
+            fiscalPeriodStatus: payment.fiscalPeriod?.status,
             exchangeRate,
-            cashboxAccountId: cashbox.linkedAccountId,
-            counterpartAccountId,
+            referenceId: payment.id,
+            description: `Payment ${payment.number}`,
+            type: payment.type as 'RECEIPT' | 'PAYMENT' | 'ADJUSTMENT',
             partyId: payment.partyId ?? null,
-        });
-
-        const jeNumber = await this.docSeqService.getNextNumber(tenantId, 'JOURNAL_ENTRY');
+            amount,
+            cashboxAccountId: cashbox.linkedAccountId,
+        };
 
         await this.prisma.$transaction(async (tx) => {
-            await this.journalPosting.post(tx, {
-                tenantId,
-                number: jeNumber,
-                date: payment.date,
-                fiscalPeriodId: payment.fiscalPeriodId,
-                fiscalPeriodStatus: payment.fiscalPeriod?.status,
-                referenceType: ReferenceType.PAYMENT,
-                referenceId: payment.id,
-                description: `Payment ${payment.number}`,
-                exchangeRate,
-                userId,
-                lines: journalLines,
-            });
+            await this.postingFacade.record(tx, intent);
 
             await tx.cashbox.update({
                 where: { id: payment.cashboxId },
@@ -183,7 +159,6 @@ export class PaymentsService {
         }
 
         const isReceipt = payment.type === 'RECEIPT';
-
         const exchangeRate = Number(payment.exchangeRate);
         const amount = Number(payment.amount);
         const reverseDelta = isReceipt ? -amount : amount;
@@ -195,22 +170,21 @@ export class PaymentsService {
             throw new BadRequestException('Original journal entry not found for this payment.');
         }
 
-        const jeNumber = await this.docSeqService.getNextNumber(tenantId, 'JOURNAL_ENTRY');
+        const intent: PaymentCancelledIntent = {
+            kind: 'PAYMENT_CANCELLED',
+            tenantId,
+            userId,
+            date: payment.date,
+            fiscalPeriodId: payment.fiscalPeriodId,
+            fiscalPeriodStatus: payment.fiscalPeriod?.status,
+            exchangeRate,
+            referenceId: payment.id,
+            description: `Reversal of payment ${payment.number}`,
+            originalEntryId: original.id,
+        };
 
         await this.prisma.$transaction(async (tx) => {
-            await this.journalPosting.reverse(tx, {
-                tenantId,
-                number: jeNumber,
-                originalEntryId: original.id,
-                referenceType: ReferenceType.PAYMENT_CANCELLATION,
-                referenceId: payment.id,
-                description: `Reversal of payment ${payment.number}`,
-                exchangeRate,
-                userId,
-                reversalDate: payment.date,
-                fiscalPeriodId: payment.fiscalPeriodId,
-                fiscalPeriodStatus: payment.fiscalPeriod?.status,
-            });
+            await this.postingFacade.reverse(tx, intent);
 
             await tx.cashbox.update({
                 where: { id: payment.cashboxId },
