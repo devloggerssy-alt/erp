@@ -2,11 +2,7 @@ import { Injectable, BadRequestException, NotFoundException } from '@nestjs/comm
 import { PrismaService } from '@devloggers/db-prisma/nest';
 import { ReferenceType, StockMovementType } from '@devloggers/db-prisma';
 import { InventoryService } from '../../inventory/inventory.service';
-import { FinancialSettingsService } from '../../accounting/financial-settings/services/financial-settings.service';
-import { DocumentSequencesService } from '../../accounting/document-sequences/services/document-sequences.service';
-import { JournalPostingService } from '../../accounting/accounts/services/journal-posting.service';
-import { buildInvoiceJournalLines } from './invoice-journal';
-import { buildCogsJournalLines } from '../../accounting/accounts/utils/inventory-journal';
+import { AccountingPostingFacade, type InvoicePostedIntent, type InvoiceCancelledIntent } from '../../accounting/posting';
 import { assertFiscalPeriodOpen } from '../../accounting/accounts/utils/assert-period-open';
 
 @Injectable()
@@ -14,9 +10,7 @@ export class InvoicePostingService {
     constructor(
         private readonly prisma: PrismaService,
         private readonly inventoryService: InventoryService,
-        private readonly financialSettingsService: FinancialSettingsService,
-        private readonly docSeqService: DocumentSequencesService,
-        private readonly journalPosting: JournalPostingService,
+        private readonly postingFacade: AccountingPostingFacade,
     ) {}
 
     async postPurchaseInvoice(tenantId: string, invoiceId: string, userId: string) {
@@ -25,7 +19,6 @@ export class InvoicePostingService {
             include: {
                 invoiceType: true,
                 lines: { include: { item: { select: { itemType: true } } } },
-                party: { select: { payableAccountId: true } },
                 fiscalPeriod: { select: { status: true } },
             },
         });
@@ -36,12 +29,6 @@ export class InvoicePostingService {
         if (invoice.invoiceType.direction !== 'PURCHASE') throw new BadRequestException('This is not a purchase invoice');
         if (!invoice.warehouseId) throw new BadRequestException('Purchase invoice must have a warehouse assigned');
         if (invoice.lines.length === 0) throw new BadRequestException('Invoice must have at least one line');
-
-        const settings = await this.financialSettingsService.getOrThrow(tenantId);
-
-        const payableAccountId = invoice.party?.payableAccountId ?? settings.defaultPayableAccountId;
-        if (!payableAccountId) throw new BadRequestException('No Accounts Payable account configured. Set a default in Financial Settings or on the party.');
-        if (!settings.defaultPurchaseAccountId) throw new BadRequestException('No default Purchase account configured in Financial Settings.');
 
         const exchangeRate = Number(invoice.exchangeRate);
         const netAmount = Number(invoice.subtotal) - Number(invoice.discountAmount);
@@ -54,32 +41,29 @@ export class InvoicePostingService {
             (s, l) => s + (Number(l.total) - Number(l.taxAmount)),
             0,
         );
-        if (inventoryAmount > 0 && !settings.defaultInventoryAccountId) {
-            throw new BadRequestException('No default Inventory account configured in Financial Settings.');
-        }
 
-        const journalLines = buildInvoiceJournalLines({
+        const intent: InvoicePostedIntent = {
+            kind: 'INVOICE_POSTED',
+            tenantId,
+            userId,
+            date: invoice.date,
+            fiscalPeriodId: invoice.fiscalPeriodId,
+            fiscalPeriodStatus: invoice.fiscalPeriod?.status,
+            exchangeRate,
+            referenceId: invoice.id,
+            description: `Purchase invoice ${invoice.number}`,
             direction: 'PURCHASE',
+            partyId: invoice.partyId,
             netAmount,
             taxAmount: Number(invoice.taxAmount),
             total: Number(invoice.total),
-            exchangeRate,
-            receivableAccountId: settings.defaultReceivableAccountId ?? '',
-            payableAccountId,
-            salesAccountId: settings.defaultSalesAccountId ?? '',
-            purchaseAccountId: settings.defaultPurchaseAccountId,
-            taxAccountId: settings.defaultTaxAccountId ?? null,
-            partyId: invoice.partyId,
             inventoryAmount,
-            inventoryAccountId: settings.defaultInventoryAccountId ?? undefined,
-        });
-
-        const jeNumber = await this.docSeqService.getNextNumber(tenantId, 'JOURNAL_ENTRY');
+        };
 
         return this.prisma.$transaction(async (tx) => {
             if (invoice.invoiceType.affectsStock) {
                 for (const line of stockLines) {
-                    await this.inventoryService.postMovementTx(tx as any, {
+                    await this.inventoryService.postMovementTx(tx, {
                         tenantId,
                         warehouseId: invoice.warehouseId!,
                         itemId: line.itemId,
@@ -95,19 +79,7 @@ export class InvoicePostingService {
                 }
             }
 
-            await this.journalPosting.post(tx, {
-                tenantId,
-                number: jeNumber,
-                date: invoice.date,
-                fiscalPeriodId: invoice.fiscalPeriodId,
-                fiscalPeriodStatus: invoice.fiscalPeriod?.status,
-                referenceType: ReferenceType.INVOICE,
-                referenceId: invoice.id,
-                description: `Purchase invoice ${invoice.number}`,
-                exchangeRate,
-                userId,
-                lines: journalLines,
-            });
+            await this.postingFacade.record(tx, intent);
 
             return tx.invoice.update({
                 where: { id: invoiceId },
@@ -123,7 +95,6 @@ export class InvoicePostingService {
             include: {
                 invoiceType: true,
                 lines: { include: { item: { select: { itemType: true } } } },
-                party: { select: { receivableAccountId: true } },
                 fiscalPeriod: { select: { status: true } },
             },
         });
@@ -135,12 +106,6 @@ export class InvoicePostingService {
         if (!invoice.warehouseId) throw new BadRequestException('Sales invoice must have a warehouse assigned');
         if (invoice.lines.length === 0) throw new BadRequestException('Invoice must have at least one line');
 
-        const settings = await this.financialSettingsService.getOrThrow(tenantId);
-
-        const receivableAccountId = invoice.party?.receivableAccountId ?? settings.defaultReceivableAccountId;
-        if (!receivableAccountId) throw new BadRequestException('No Accounts Receivable account configured. Set a default in Financial Settings or on the party.');
-        if (!settings.defaultSalesAccountId) throw new BadRequestException('No default Sales account configured in Financial Settings.');
-
         const exchangeRate = Number(invoice.exchangeRate);
         const netAmount = Number(invoice.subtotal) - Number(invoice.discountAmount);
 
@@ -148,25 +113,6 @@ export class InvoicePostingService {
         const stockLines = invoice.invoiceType.affectsStock
             ? invoice.lines.filter((l) => l.item.itemType !== 'service')
             : [];
-        if (stockLines.length > 0 && (!settings.defaultCogsAccountId || !settings.defaultInventoryAccountId)) {
-            throw new BadRequestException('No default COGS / Inventory account configured in Financial Settings.');
-        }
-
-        const revenueLines = buildInvoiceJournalLines({
-            direction: 'SALE',
-            netAmount,
-            taxAmount: Number(invoice.taxAmount),
-            total: Number(invoice.total),
-            exchangeRate,
-            receivableAccountId,
-            payableAccountId: settings.defaultPayableAccountId ?? '',
-            salesAccountId: settings.defaultSalesAccountId,
-            purchaseAccountId: settings.defaultPurchaseAccountId ?? '',
-            taxAccountId: settings.defaultTaxAccountId ?? null,
-            partyId: invoice.partyId,
-        });
-
-        const jeNumber = await this.docSeqService.getNextNumber(tenantId, 'JOURNAL_ENTRY');
 
         return this.prisma.$transaction(async (tx) => {
             let cogsTotal = 0;
@@ -183,7 +129,7 @@ export class InvoicePostingService {
                 }
                 const unitCost = balance ? Number(balance.averageCost) : Number(line.unitPrice);
                 cogsTotal += requestedQty * unitCost;
-                await this.inventoryService.postMovementTx(tx as any, {
+                await this.inventoryService.postMovementTx(tx, {
                     tenantId,
                     warehouseId: invoice.warehouseId!,
                     itemId: line.itemId,
@@ -197,27 +143,24 @@ export class InvoicePostingService {
                 });
             }
 
-            const cogsLines = cogsTotal > 0
-                ? buildCogsJournalLines({
-                    cogsAccountId: settings.defaultCogsAccountId!,
-                    inventoryAccountId: settings.defaultInventoryAccountId!,
-                    amount: cogsTotal,
-                }).map((l, i) => ({ ...l, sortOrder: revenueLines.length + i }))
-                : [];
-
-            await this.journalPosting.post(tx, {
+            const intent: InvoicePostedIntent = {
+                kind: 'INVOICE_POSTED',
                 tenantId,
-                number: jeNumber,
+                userId,
                 date: invoice.date,
                 fiscalPeriodId: invoice.fiscalPeriodId,
                 fiscalPeriodStatus: invoice.fiscalPeriod?.status,
-                referenceType: ReferenceType.INVOICE,
+                exchangeRate,
                 referenceId: invoice.id,
                 description: `Sales invoice ${invoice.number}`,
-                exchangeRate,
-                userId,
-                lines: [...revenueLines, ...cogsLines],
-            });
+                direction: 'SALE',
+                partyId: invoice.partyId,
+                netAmount,
+                taxAmount: Number(invoice.taxAmount),
+                total: Number(invoice.total),
+                cogsTotal,
+            };
+            await this.postingFacade.record(tx, intent);
 
             return tx.invoice.update({
                 where: { id: invoiceId },
@@ -233,7 +176,6 @@ export class InvoicePostingService {
             include: {
                 invoiceType: true,
                 lines: { include: { item: { select: { itemType: true } } } },
-                party: { select: { receivableAccountId: true, payableAccountId: true } },
                 paymentAllocations: true,
                 fiscalPeriod: { select: { status: true } },
             },
@@ -251,13 +193,23 @@ export class InvoicePostingService {
 
         const original = await this.prisma.journalEntry.findFirst({
             where: { tenantId, referenceType: ReferenceType.INVOICE, referenceId: invoice.id, status: 'POSTED' },
-            include: { lines: true },
             orderBy: { createdAt: 'desc' },
         });
         if (!original) throw new BadRequestException('Original journal entry not found for this invoice.');
 
         const exchangeRate = Number(invoice.exchangeRate);
-        const jeNumber = await this.docSeqService.getNextNumber(tenantId, 'JOURNAL_ENTRY');
+        const intent: InvoiceCancelledIntent = {
+            kind: 'INVOICE_CANCELLED',
+            tenantId,
+            userId,
+            date: invoice.date,
+            fiscalPeriodId: invoice.fiscalPeriodId,
+            fiscalPeriodStatus: invoice.fiscalPeriod?.status,
+            exchangeRate,
+            referenceId: invoice.id,
+            description: `Reversal of invoice ${invoice.number}`,
+            originalEntryId: original.id,
+        };
 
         return this.prisma.$transaction(async (tx) => {
             // Reverse the original stock movements at their recorded cost (keeps averageCost exact).
@@ -265,7 +217,7 @@ export class InvoicePostingService {
                 where: { tenantId, referenceType: 'invoice', referenceId: invoice.id },
             });
             for (const mv of originalMovements) {
-                await this.inventoryService.postMovementTx(tx as any, {
+                await this.inventoryService.postMovementTx(tx, {
                     tenantId,
                     warehouseId: mv.warehouseId,
                     itemId: mv.itemId,
@@ -280,19 +232,7 @@ export class InvoicePostingService {
                 });
             }
 
-            await this.journalPosting.reverse(tx, {
-                tenantId,
-                number: jeNumber,
-                originalEntryId: original.id,
-                referenceType: ReferenceType.INVOICE_CANCELLATION,
-                referenceId: invoice.id,
-                description: `Reversal of invoice ${invoice.number}`,
-                exchangeRate,
-                userId,
-                reversalDate: invoice.date,
-                fiscalPeriodId: invoice.fiscalPeriodId,
-                fiscalPeriodStatus: invoice.fiscalPeriod?.status,
-            });
+            await this.postingFacade.reverse(tx, intent);
 
             return tx.invoice.update({
                 where: { id: invoiceId },

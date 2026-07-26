@@ -1,42 +1,25 @@
 import { InvoicePostingService } from './invoice-posting.service';
+import { AccountingPostingFacade } from '../../accounting/posting';
 
 function buildDeps() {
     const tx = {
-        journalEntry: { create: jest.fn().mockResolvedValue({ id: 'je-rev' }) },
         invoice: { update: jest.fn().mockResolvedValue({ id: 'inv-1', status: 'CANCELLED' }) },
-        chartOfAccount: { findMany: jest.fn().mockResolvedValue([{ id: 'ar', code: 'ar', type: 'ASSET', isPostable: true, isContra: false, deletedAt: null }, { id: 'sales', code: 'sales', type: 'REVENUE', isPostable: true, isContra: false, deletedAt: null }]) },
         stockMovement: { findMany: jest.fn().mockResolvedValue([]), create: jest.fn() },
         stockBalance: { findUnique: jest.fn(), create: jest.fn(), update: jest.fn() },
     };
-    const journalPosting = {
-        post: jest.fn().mockResolvedValue({ id: 'je-1' }),
-        reverse: jest.fn().mockResolvedValue({ id: 'je-rev' }),
-    } as any;
+    const postingFacade = {
+        record: jest.fn().mockResolvedValue({ journalEntryId: 'je-1' }),
+        reverse: jest.fn().mockResolvedValue({ journalEntryId: 'je-rev' }),
+    } as unknown as AccountingPostingFacade;
     const prisma = {
         invoice: { findFirst: jest.fn() },
-        journalEntry: { findFirst: jest.fn().mockResolvedValue({
-            id: 'je-orig',
-            lines: [
-                { accountId: 'ar', debit: 1000, credit: 0, partyId: 'party-1', description: null, sortOrder: 0 },
-                { accountId: 'sales', debit: 0, credit: 1000, partyId: null, description: null, sortOrder: 1 },
-            ],
-        }) },
+        journalEntry: { findFirst: jest.fn().mockResolvedValue({ id: 'je-orig' }) },
         $transaction: jest.fn((cb: any) => cb(tx)),
     } as any;
     const inventoryService = { postMovement: jest.fn(), postMovementTx: jest.fn() } as any;
-    const financialSettingsService = {
-        getOrThrow: jest.fn().mockResolvedValue({
-            defaultReceivableAccountId: 'ar-1',
-            defaultPayableAccountId: 'ap-1',
-            defaultSalesAccountId: 'sales-1',
-            defaultPurchaseAccountId: 'purchase-1',
-            defaultTaxAccountId: null,
-        }),
-    } as any;
-    const docSeqService = { getNextNumber: jest.fn().mockResolvedValue('JE-00001') } as any;
 
-    const service = new InvoicePostingService(prisma, inventoryService, financialSettingsService, docSeqService, journalPosting);
-    return { service, prisma, tx, inventoryService, financialSettingsService, docSeqService, journalPosting };
+    const service = new InvoicePostingService(prisma, inventoryService, postingFacade);
+    return { service, prisma, tx, inventoryService, postingFacade };
 }
 
 const baseInvoice = {
@@ -54,7 +37,6 @@ const baseInvoice = {
     partyId: 'party-1',
     invoiceType: { direction: 'SALE', affectsStock: false },
     lines: [],
-    party: { receivableAccountId: null, payableAccountId: null },
     fiscalPeriod: { status: 'OPEN' },
 };
 
@@ -76,16 +58,16 @@ describe('InvoicePostingService.cancelInvoice', () => {
         expect(result.status).toBe('CANCELLED');
     });
 
-    it('reverses the original journal entry via journalPosting.reverse', async () => {
-        const { service, prisma, journalPosting } = buildDeps();
+    it('reverses via postingFacade.reverse with the original entry id and reversal metadata', async () => {
+        const { service, prisma, postingFacade } = buildDeps();
         prisma.invoice.findFirst.mockResolvedValue({ ...baseInvoice, warehouseId: null, invoiceType: { direction: 'SALE', affectsStock: false }, paymentAllocations: [], fiscalPeriod: { status: 'OPEN' } });
         await service.cancelInvoice('tenant-1', 'inv-1', 'user-1');
-        expect(journalPosting.reverse).toHaveBeenCalledTimes(1);
-        const arg = journalPosting.reverse.mock.calls[0][1];
-        expect(arg.originalEntryId).toBe('je-orig');
-        expect(arg.reversalDate).toEqual(baseInvoice.date);
-        expect(arg.referenceType).toBe('INVOICE_CANCELLATION');
-        expect(arg.referenceId).toBe('inv-1');
+        expect(postingFacade.reverse).toHaveBeenCalledTimes(1);
+        const [, intent] = (postingFacade.reverse as jest.Mock).mock.calls[0];
+        expect(intent.originalEntryId).toBe('je-orig');
+        expect(intent.date).toEqual(baseInvoice.date);
+        expect(intent.kind).toBe('INVOICE_CANCELLED');
+        expect(intent.referenceId).toBe('inv-1');
     });
 
     it('reverses stock at the ORIGINAL recorded cost, not the invoice unitPrice', async () => {
