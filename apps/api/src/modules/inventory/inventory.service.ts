@@ -1,15 +1,11 @@
-import { Injectable, BadRequestException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@devloggers/db-prisma/nest';
-import { ReferenceType, StockMovementType } from '@devloggers/db-prisma';
+import { StockMovementType } from '@devloggers/db-prisma';
 import { PostOpeningBalanceDto } from './dto/inventory.dto';
 import { InventoryRepository } from './repositories/inventory.repository';
 import { InventoryPresenter } from './presenters/inventory.presenter';
-import { FinancialSettingsService } from '../accounting/financial-settings/services/financial-settings.service';
-import { DocumentSequencesService } from '../accounting/document-sequences/services/document-sequences.service';
-import { JournalPostingService } from '../accounting/accounts/services/journal-posting.service';
-import { buildOpeningBalanceLines } from '../accounting/accounts/utils/inventory-journal';
+import { AccountingPostingFacade, type OpeningStockPostedIntent, type PrismaTransactionClient } from '../accounting/posting';
 import { assertFiscalPeriodOpen } from '../accounting/accounts/utils/assert-period-open';
-import type { PrismaTransactionClient } from '../accounting/posting/contracts/prisma-tx';
 
 export interface MovementParams {
     tenantId: string;
@@ -31,9 +27,7 @@ export class InventoryService {
         private readonly prisma: PrismaService,
         private readonly inventoryRepository: InventoryRepository,
         private readonly inventoryPresenter: InventoryPresenter,
-        private readonly financialSettingsService: FinancialSettingsService,
-        private readonly docSeqService: DocumentSequencesService,
-        private readonly journalPosting: JournalPostingService,
+        private readonly postingFacade: AccountingPostingFacade,
     ) {}
 
     /**
@@ -99,11 +93,6 @@ export class InventoryService {
     }
 
     async registerOpeningBalance(tenantId: string, userId: string, dto: PostOpeningBalanceDto) {
-        const settings = await this.financialSettingsService.getOrThrow(tenantId);
-        if (!settings.defaultInventoryAccountId || !settings.defaultOpeningEquityAccountId) {
-            throw new BadRequestException('No default Inventory / Opening-Equity account configured in Financial Settings.');
-        }
-
         const period = await this.prisma.fiscalPeriod.findFirst({
             where: { id: dto.fiscalPeriodId, tenantId },
             select: { status: true },
@@ -111,7 +100,6 @@ export class InventoryService {
         assertFiscalPeriodOpen(period?.status);
 
         const totalValue = dto.items.reduce((s, it) => s + it.quantity * it.unitCost, 0);
-        const jeNumber = await this.docSeqService.getNextNumber(tenantId, 'JOURNAL_ENTRY');
 
         return this.prisma.$transaction(async (tx) => {
             for (const item of dto.items) {
@@ -130,24 +118,20 @@ export class InventoryService {
 
             let journalEntryId: string | null = null;
             if (totalValue !== 0) {
-                const entry = await this.journalPosting.post(tx, {
+                const intent: OpeningStockPostedIntent = {
+                    kind: 'OPENING_STOCK_POSTED',
                     tenantId,
-                    number: jeNumber,
+                    userId,
                     date: new Date(),
                     fiscalPeriodId: dto.fiscalPeriodId,
                     fiscalPeriodStatus: period?.status,
-                    referenceType: ReferenceType.OPENING_BALANCE,
+                    exchangeRate: 1,
                     referenceId: dto.warehouseId,
                     description: 'Opening inventory balance',
-                    exchangeRate: 1,
-                    userId,
-                    lines: buildOpeningBalanceLines({
-                        inventoryAccountId: settings.defaultInventoryAccountId!,
-                        openingEquityAccountId: settings.defaultOpeningEquityAccountId!,
-                        amount: totalValue,
-                    }),
-                });
-                journalEntryId = entry.id;
+                    totalValue,
+                };
+                const result = await this.postingFacade.record(tx, intent);
+                journalEntryId = result.journalEntryId;
             }
 
             return { count: dto.items.length, warehouseId: dto.warehouseId, journalEntryId };
