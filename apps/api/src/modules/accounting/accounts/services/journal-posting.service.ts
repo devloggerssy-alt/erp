@@ -1,6 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { ReferenceType } from '@devloggers/db-prisma';
 import { assertFiscalPeriodOpen } from '../utils/assert-period-open';
+import type { PrismaTransactionClient } from '../../posting/contracts/prisma-tx';
 
 export interface PostingJournalLine {
     accountId: string;
@@ -54,7 +55,7 @@ const BALANCE_TOLERANCE = 0.0001;
 
 @Injectable()
 export class JournalPostingService {
-    async post(tx: any, input: PostInput): Promise<{ id: string }> {
+    async post(tx: PrismaTransactionClient, input: PostInput): Promise<{ id: string }> {
         assertFiscalPeriodOpen(input.fiscalPeriodStatus);
 
         if (input.lines.length === 0) {
@@ -66,7 +67,7 @@ export class JournalPostingService {
             where: { id: { in: accountIds } },
             select: { id: true, code: true, type: true, isPostable: true, isContra: true, deletedAt: true },
         });
-        const accountMap = new Map<string, AccountMeta>(accounts.map((a: any) => [a.id, a as AccountMeta]));
+        const accountMap = new Map<string, AccountMeta>(accounts.map((a) => [a.id, a]));
 
         for (const id of accountIds) {
             const acc = accountMap.get(id);
@@ -115,7 +116,7 @@ export class JournalPostingService {
         return { id: entry.id };
     }
 
-    async reverse(tx: any, input: ReverseInput): Promise<{ id: string }> {
+    async reverse(tx: PrismaTransactionClient, input: ReverseInput): Promise<{ id: string }> {
         assertFiscalPeriodOpen(input.fiscalPeriodStatus);
 
         const original = await tx.journalEntry.findFirst({
@@ -126,7 +127,7 @@ export class JournalPostingService {
             throw new BadRequestException('Original journal entry not found');
         }
 
-        const reversedLines: PostingJournalLine[] = original.lines.map((l: any) => ({
+        const reversedLines: PostingJournalLine[] = original.lines.map((l) => ({
             accountId: l.accountId,
             debit: Number(l.credit),
             credit: Number(l.debit),

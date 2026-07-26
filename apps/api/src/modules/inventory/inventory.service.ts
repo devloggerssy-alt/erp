@@ -9,6 +9,7 @@ import { DocumentSequencesService } from '../accounting/document-sequences/servi
 import { JournalPostingService } from '../accounting/accounts/services/journal-posting.service';
 import { buildOpeningBalanceLines } from '../accounting/accounts/utils/inventory-journal';
 import { assertFiscalPeriodOpen } from '../accounting/accounts/utils/assert-period-open';
+import type { PrismaTransactionClient } from '../accounting/posting/contracts/prisma-tx';
 
 export interface MovementParams {
     tenantId: string;
@@ -23,15 +24,6 @@ export interface MovementParams {
     notes?: string;
     userId: string;
 }
-
-export type InventoryTx = {
-    stockMovement: { create: (args: any) => Promise<{ id: string }> };
-    stockBalance: {
-        findUnique: (args: any) => Promise<any>;
-        create: (args: any) => Promise<any>;
-        update: (args: any) => Promise<any>;
-    };
-};
 
 @Injectable()
 export class InventoryService {
@@ -48,7 +40,7 @@ export class InventoryService {
      * Transaction-aware core posting engine. Runs inside the caller's $transaction
      * so stock + GL + entity-status changes commit atomically.
      */
-    async postMovementTx(tx: InventoryTx, params: MovementParams): Promise<{ id: string }> {
+    async postMovementTx(tx: PrismaTransactionClient, params: MovementParams): Promise<{ id: string }> {
         const movement = await tx.stockMovement.create({
             data: {
                 tenantId: params.tenantId,
@@ -103,7 +95,7 @@ export class InventoryService {
 
     /** Standalone entry point — wraps postMovementTx in its own transaction. */
     async postMovement(params: MovementParams) {
-        return this.prisma.$transaction((tx) => this.postMovementTx(tx as unknown as InventoryTx, params));
+        return this.prisma.$transaction((tx) => this.postMovementTx(tx, params));
     }
 
     async registerOpeningBalance(tenantId: string, userId: string, dto: PostOpeningBalanceDto) {
@@ -123,7 +115,7 @@ export class InventoryService {
 
         return this.prisma.$transaction(async (tx) => {
             for (const item of dto.items) {
-                await this.postMovementTx(tx as unknown as InventoryTx, {
+                await this.postMovementTx(tx, {
                     tenantId,
                     userId,
                     warehouseId: dto.warehouseId,
@@ -138,7 +130,7 @@ export class InventoryService {
 
             let journalEntryId: string | null = null;
             if (totalValue !== 0) {
-                const entry = await this.journalPosting.post(tx as any, {
+                const entry = await this.journalPosting.post(tx, {
                     tenantId,
                     number: jeNumber,
                     date: new Date(),

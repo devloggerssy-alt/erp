@@ -120,7 +120,7 @@ export class StockCountsService {
                 });
                 const unitCost = balance ? Number(balance.averageCost) : 0;
                 netVariance += diff * unitCost;
-                await this.inventoryService.postMovementTx(tx as any, {
+                await this.inventoryService.postMovementTx(tx, {
                     tenantId,
                     warehouseId: stockCount.warehouseId,
                     itemId: line.itemId,
@@ -136,7 +136,7 @@ export class StockCountsService {
             }
 
             if (netVariance !== 0) {
-                await this.journalPosting.post(tx as any, {
+                await this.journalPosting.post(tx, {
                     tenantId,
                     number: jeNumber,
                     date: new Date(),
