@@ -1,12 +1,10 @@
 import { StockCountsService } from './stock-counts.service';
+import { AccountingPostingFacade } from '../../accounting/posting';
 
-function build(settings = { defaultInventoryAccountId: 'inv', defaultInventoryAdjustmentAccountId: 'adj' }) {
+function build() {
     const tx = {
-        stockMovement: { create: jest.fn() }, stockBalance: { findUnique: jest.fn().mockResolvedValue({ id: 'b', quantity: 5, averageCost: 10 }), create: jest.fn(), update: jest.fn() },
-        chartOfAccount: { findMany: jest.fn().mockResolvedValue([
-            { id: 'inv', code: 'inv', type: 'ASSET', isPostable: true, isContra: false, deletedAt: null },
-            { id: 'adj', code: 'adj', type: 'EXPENSE', isPostable: true, isContra: false, deletedAt: null },
-        ]) },
+        stockMovement: { create: jest.fn() },
+        stockBalance: { findUnique: jest.fn().mockResolvedValue({ id: 'b', quantity: 5, averageCost: 10 }), create: jest.fn(), update: jest.fn() },
         stockCount: { update: jest.fn().mockResolvedValue({ id: 'sc', lines: [], warehouse: {} }) },
     };
     const prisma = { item: { findMany: jest.fn().mockResolvedValue([{ id: 'i1', itemType: 'product' }]) }, $transaction: jest.fn((cb: any) => cb(tx)) } as any;
@@ -15,28 +13,27 @@ function build(settings = { defaultInventoryAccountId: 'inv', defaultInventoryAd
     const repo = { findById: jest.fn() } as any;
     const presenter = { toDetailResponse: jest.fn((x) => x) } as any;
     const emitter = { emit: jest.fn() } as any;
-    const fs = { getOrThrow: jest.fn().mockResolvedValue(settings) } as any;
-    const journalPosting = { post: jest.fn().mockResolvedValue({ id: 'je' }), reverse: jest.fn() } as any;
-    const svc = new StockCountsService(prisma, inventory, seq, repo, presenter, emitter, fs, journalPosting);
-    return { svc, prisma, tx, inventory, repo, journalPosting };
+    const postingFacade = {
+        record: jest.fn().mockResolvedValue({ journalEntryId: 'je' }),
+        reverse: jest.fn(),
+    } as unknown as AccountingPostingFacade;
+    const svc = new StockCountsService(prisma, inventory, seq, repo, presenter, emitter, postingFacade);
+    return { svc, prisma, tx, inventory, repo, postingFacade };
 }
 
 describe('StockCountsService.post', () => {
     it('values the movement at averageCost and posts a variance JE', async () => {
-        const { svc, tx, inventory, repo, journalPosting } = build();
+        const { svc, tx, inventory, repo, postingFacade } = build();
         repo.findById.mockResolvedValue({
             id: 'sc', number: 'SC1', status: 'DRAFT', warehouseId: 'w1', fiscalPeriodId: 'fp',
             fiscalPeriod: { status: 'OPEN' }, lines: [{ itemId: 'i1', difference: 3 }],
         });
         await svc.post('t', 'sc', 'u');
         expect(inventory.postMovementTx).toHaveBeenCalledWith(tx, expect.objectContaining({ movementType: 'STOCK_COUNT', quantity: 3, unitCost: 10 }));
-        expect(journalPosting.post).toHaveBeenCalledTimes(1);
-        const lines = journalPosting.post.mock.calls[0][1].lines;
-        // surplus 3 * 10 = 30 => DR inv 30 / CR adj 30
-        expect(lines).toEqual(expect.arrayContaining([
-            expect.objectContaining({ accountId: 'inv', debit: 30 }),
-            expect.objectContaining({ accountId: 'adj', credit: 30 }),
-        ]));
+        expect(postingFacade.record).toHaveBeenCalledTimes(1);
+        const [, intent] = (postingFacade.record as jest.Mock).mock.calls[0];
+        // surplus 3 * 10 = 30
+        expect(intent.netVariance).toBe(30);
     });
 
     it('rejects posting to a LOCKED period', async () => {
