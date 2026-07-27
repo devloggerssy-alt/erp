@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { LocaleResolverService } from '@devloggers/backend-core';
 import { FinancialSettingsModule } from '../financial-settings/financial-settings.module';
+import { PostingModule } from '../posting';
 import { AccountsRepository } from './repositories/accounts.repository';
 import { AccountsService } from './services/accounts.service';
 import { AccountPresenter } from './presenters/account.presenter';
@@ -9,10 +10,9 @@ import { AccountBalancesController } from './controllers/account-balances.contro
 import { OpeningBalancesController } from './controllers/opening-balances.controller';
 import { AccountBalancesService } from './services/account-balances.service';
 import { OpeningBalancesService } from './services/opening-balances.service';
-import { JournalPostingService } from './services/journal-posting.service';
 
 @Module({
-    imports: [FinancialSettingsModule],
+    imports: [FinancialSettingsModule, PostingModule],
     controllers: [AccountsController, AccountBalancesController, OpeningBalancesController],
     providers: [
         AccountsRepository,
@@ -20,9 +20,8 @@ import { JournalPostingService } from './services/journal-posting.service';
         AccountPresenter,
         AccountBalancesService,
         OpeningBalancesService,
-        JournalPostingService,
         LocaleResolverService,
     ],
-    exports: [AccountsService, JournalPostingService],
+    exports: [AccountsService],
 })
 export class AccountsModule {}
