@@ -77,4 +77,62 @@ export default tseslint.config(
       '@typescript-eslint/require-await': 'off',
     },
   },
+  {
+    // Phase 1 boundary (F1): GL account-resolution / journal-posting internals
+    // (accounting/accounts/services — JournalPostingService, OpeningBalancesService,
+    // AccountsService, ...) may only be reached from outside accounting via the
+    // accounting/posting barrel (AccountingPostingFacade + PostingIntent types).
+    // Exempted as NOT GL-policy, and confirmed still legitimately imported directly
+    // as of Phase 1: document-sequences (document numbering, unrelated to which GL
+    // account gets hit), financial-settings + fiscal-periods (onboarding writes tenant
+    // setup config, doesn't consume it for posting), accounts/utils (assertFiscalPeriodOpen /
+    // assertAccountFitsSlot — shared guards, not account resolution). See
+    // docs/superpowers/plans/2026-07-26-phase-1-gl-posting-port.md Task 18.
+    files: ['src/modules/**/*.ts'],
+    ignores: ['src/modules/accounting/**', '**/*.spec.ts', '**/*.spec-fixtures.ts', '**/__tests__/**'],
+    rules: {
+      'no-restricted-imports': ['error', {
+        patterns: [{
+          // The `ignore` package (gitignore semantics) backs this rule: a negation
+          // cannot re-include a path whose parent directory is still excluded. So
+          // `accounting/accounts` itself must be un-blocked before re-blocking its
+          // services/repositories/presenters/controllers/dto/events subpaths and
+          // its own accounts.module.ts — that's what lets the later
+          // `!**/accounting/accounts/utils/**` exemption actually take effect.
+          group: [
+            '**/accounting/*',
+            '**/accounting/*/**',
+            '!**/accounting/posting',
+            '!**/accounting/posting/**',
+            '!**/accounting/document-sequences',
+            '!**/accounting/document-sequences/**',
+            '!**/accounting/financial-settings',
+            '!**/accounting/financial-settings/**',
+            '!**/accounting/fiscal-periods',
+            '!**/accounting/fiscal-periods/**',
+            '!**/accounting/accounts',
+            '!**/accounting/accounts/**',
+            '**/accounting/accounts/accounts.module',
+            '**/accounting/accounts/services',
+            '**/accounting/accounts/services/**',
+            '**/accounting/accounts/repositories',
+            '**/accounting/accounts/repositories/**',
+            '**/accounting/accounts/presenters',
+            '**/accounting/accounts/presenters/**',
+            '**/accounting/accounts/controllers',
+            '**/accounting/accounts/controllers/**',
+            '**/accounting/accounts/dto',
+            '**/accounting/accounts/dto/**',
+            '**/accounting/accounts/events',
+            '**/accounting/accounts/events/**',
+          ],
+          message:
+            'Import GL account-resolution / journal-posting internals only via the ' +
+            'accounting/posting barrel (AccountingPostingFacade + PostingIntent types). ' +
+            'accounting/accounts/services (JournalPostingService, OpeningBalancesService, ' +
+            'AccountsService, ...) is GL-internal as of Phase 1.',
+        }],
+      }],
+    },
+  },
 );
