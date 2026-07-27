@@ -17,14 +17,11 @@
 import { InvoicePostingService } from '../../../invoicing/invoices/invoice-posting.service';
 import { PaymentsService } from '../../../invoicing/payments/payments.service';
 import { ExpensesService } from '../../../invoicing/expenses/expenses.service';
-// The real posting service, not a stub — so account validation and the
-// balance assertion are exercised on every captured entry.
-import { JournalPostingService } from '../../accounts/services/journal-posting.service';
 import {
     buildStockCountVarianceLines,
     buildOpeningBalanceLines,
     buildCogsJournalLines,
-} from '../../accounts/utils/inventory-journal';
+} from '../policies/legacy-line-math.spec-fixtures';
 import {
     ACC,
     JE_NUMBER,
@@ -36,8 +33,8 @@ import {
     createCapture,
     expectBalanced,
     fakeDocSeq,
-    fakeFinancialSettings,
     fakeInventory,
+    fakePostingFacade,
     fakePrisma,
     type CapturedEntry,
 } from './golden-master.harness';
@@ -81,15 +78,7 @@ function buildInvoicePosting(capture: ReturnType<typeof createCapture>, invoice:
         invoice: { ...capture.tx.invoice, findFirst: async () => invoice },
         journalEntry: { ...capture.tx.journalEntry },
     });
-    return new InvoicePostingService(
-        prisma,
-        fakeInventory,
-        fakeFinancialSettings(settings),
-        fakeDocSeq,
-        // JournalPostingService is stateless — use the real one so account
-        // validation and the balance check are exercised, not stubbed away.
-        new JournalPostingService(),
-    );
+    return new InvoicePostingService(prisma, fakeInventory, fakePostingFacade(settings));
 }
 
 // =============================================================================
@@ -172,11 +161,8 @@ describe('golden master: purchase invoice', () => {
     });
 
     it('party-level payable account overrides the tenant default', async () => {
-        const capture = createCapture();
-        const service = buildInvoicePosting(
-            capture,
-            invoiceFixture({ party: { payableAccountId: ACC.partyPayable } }),
-        );
+        const capture = createCapture({ partyOverride: { payableAccountId: ACC.partyPayable } });
+        const service = buildInvoicePosting(capture, invoiceFixture());
 
         await service.postPurchaseInvoice(TENANT, 'invoice-1', USER);
 
@@ -301,11 +287,10 @@ describe('golden master: sales invoice', () => {
     });
 
     it('party-level receivable account overrides the tenant default', async () => {
-        const capture = createCapture();
+        const capture = createCapture({ partyOverride: { receivableAccountId: ACC.partyReceivable } });
         const service = buildInvoicePosting(
             capture,
             salesInvoice({
-                party: { receivableAccountId: ACC.partyReceivable },
                 lines: [
                     {
                         itemId: 'item-svc', quantity: 1, unitPrice: 1000,
@@ -339,13 +324,7 @@ describe('golden master: invoice cancellation', () => {
             invoice: { ...capture.tx.invoice, findFirst: async () => invoiceFixture({ status: 'POSTED' }) },
             journalEntry: { ...capture.tx.journalEntry, findFirst: async () => original },
         });
-        const service = new InvoicePostingService(
-            prisma,
-            fakeInventory,
-            fakeFinancialSettings(),
-            fakeDocSeq,
-            new JournalPostingService(),
-        );
+        const service = new InvoicePostingService(prisma, fakeInventory, fakePostingFacade());
 
         await service.cancelInvoice(TENANT, 'invoice-1', USER);
 
@@ -390,12 +369,7 @@ describe('golden master: payment', () => {
             cashbox: { ...capture.tx.cashbox, findUnique: async () => ({ linkedAccountId: ACC.cashbox }) },
             journalEntry: { ...capture.tx.journalEntry, findFirst: async () => ({ id: 'je-original' }) },
         });
-        return new PaymentsService(
-            prisma,
-            fakeDocSeq,
-            fakeFinancialSettings(),
-            new JournalPostingService(),
-        );
+        return new PaymentsService(prisma, fakeDocSeq, fakePostingFacade());
     }
 
     it('RECEIPT: debits Cashbox, credits Receivable with the party on the AR leg', async () => {
@@ -432,11 +406,8 @@ describe('golden master: payment', () => {
     });
 
     it('party-level receivable account overrides the tenant default', async () => {
-        const capture = createCapture();
-        await buildPayments(
-            capture,
-            paymentFixture({ party: { receivableAccountId: ACC.partyReceivable } }),
-        ).post(TENANT, 'payment-1', USER);
+        const capture = createCapture({ partyOverride: { receivableAccountId: ACC.partyReceivable } });
+        await buildPayments(capture, paymentFixture()).post(TENANT, 'payment-1', USER);
 
         expect(capture.only().lines[1]!.accountId).toBe(ACC.partyReceivable);
     });
@@ -464,12 +435,7 @@ describe('golden master: payment', () => {
             cashbox: { ...capture.tx.cashbox, findUnique: async () => ({ linkedAccountId: ACC.cashbox }) },
             journalEntry: { ...capture.tx.journalEntry, findFirst: async () => original },
         });
-        const service = new PaymentsService(
-            prisma,
-            fakeDocSeq,
-            fakeFinancialSettings(),
-            new JournalPostingService(),
-        );
+        const service = new PaymentsService(prisma, fakeDocSeq, fakePostingFacade());
 
         await service.cancel(TENANT, 'payment-1', USER);
 
@@ -522,11 +488,7 @@ describe('golden master: expense', () => {
             },
             journalEntry: { ...capture.tx.journalEntry, findFirst: async () => ({ id: 'je-original' }) },
         });
-        return new ExpensesService(
-            prisma,
-            fakeDocSeq,
-            new JournalPostingService(),
-        );
+        return new ExpensesService(prisma, fakeDocSeq, fakePostingFacade());
     }
 
     it('debits each item account and credits the cashbox for the total', async () => {
@@ -573,11 +535,7 @@ describe('golden master: expense', () => {
             expense: { ...capture.tx.expense, findFirst: async () => expenseFixture({ status: 'POSTED' }) },
             journalEntry: { ...capture.tx.journalEntry, findFirst: async () => original },
         });
-        const service = new ExpensesService(
-            prisma,
-            fakeDocSeq,
-            new JournalPostingService(),
-        );
+        const service = new ExpensesService(prisma, fakeDocSeq, fakePostingFacade());
 
         await service.cancel(TENANT, 'expense-1', USER);
 

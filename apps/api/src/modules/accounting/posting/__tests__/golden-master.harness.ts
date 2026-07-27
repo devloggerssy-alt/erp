@@ -120,6 +120,8 @@ export interface TxOptions {
     stockMovements?: Array<{ warehouseId: string; itemId: string; quantity: number; unitCost: number }>;
     /** The entry `journalPosting.reverse` should find and mirror. */
     originalEntry?: { id: string; lines: CapturedLine[] };
+    /** Row returned by `tx.party.findFirst` inside InvoicePostedPolicy / PaymentRecordedPolicy. */
+    partyOverride?: { receivableAccountId?: string | null; payableAccountId?: string | null } | null;
 }
 
 export interface Capture {
@@ -168,6 +170,9 @@ export function createCapture(options: TxOptions = {}): Capture {
         stockMovement: {
             findMany: async () => options.stockMovements ?? [],
             create: noop,
+        },
+        party: {
+            findFirst: async () => options.partyOverride ?? null,
         },
         invoice: { update: async ({ data }: any) => ({ ...data }) },
         payment: { update: async ({ data }: any) => ({ ...data }) },
@@ -221,4 +226,39 @@ export function expectBalanced(entry: CapturedEntry): void {
     const debit = entry.lines.reduce((s, l) => s + l.debit, 0);
     const credit = entry.lines.reduce((s, l) => s + l.credit, 0);
     expect(Number(debit.toFixed(4))).toBe(Number(credit.toFixed(4)));
+}
+
+// ── Facade double ────────────────────────────────────────────────────────────
+
+import { JournalPostingService } from '../../accounts/services/journal-posting.service';
+import { AccountingPostingFacade } from '../accounting-posting.facade';
+import { PostingPolicyRegistry } from '../posting-policy.registry';
+import { InvoicePostedPolicy } from '../policies/invoice-posted.policy';
+import { InvoiceCancelledPolicy } from '../policies/invoice-cancelled.policy';
+import { PaymentRecordedPolicy, PaymentCancelledPolicy } from '../policies/payment-recorded.policy';
+import { ExpenseRecordedPolicy, ExpenseCancelledPolicy } from '../policies/expense-recorded.policy';
+import { StockCountAdjustedPolicy } from '../policies/stock-count-adjusted.policy';
+import { OpeningBalancePolicy } from '../policies/opening-balance.policy';
+import { OpeningStockPolicy } from '../policies/opening-stock.policy';
+
+/**
+ * Builds the *real* AccountingPostingFacade — real registry, real policies,
+ * real JournalPostingService — with only FinancialSettingsService and
+ * DocumentSequencesService faked at the edges. This is what makes the golden
+ * masters exercise the actual Phase 1 code path, not a stand-in for it.
+ */
+export function fakePostingFacade(settings: Partial<typeof SETTINGS> = {}): AccountingPostingFacade {
+    const financialSettingsService = fakeFinancialSettings(settings);
+    const registry = new PostingPolicyRegistry(
+        new InvoicePostedPolicy(financialSettingsService),
+        new PaymentRecordedPolicy(financialSettingsService),
+        new ExpenseRecordedPolicy(),
+        new StockCountAdjustedPolicy(financialSettingsService),
+        new OpeningBalancePolicy(financialSettingsService),
+        new OpeningStockPolicy(financialSettingsService),
+        new InvoiceCancelledPolicy(),
+        new PaymentCancelledPolicy(),
+        new ExpenseCancelledPolicy(),
+    );
+    return new AccountingPostingFacade(registry, new JournalPostingService(), fakeDocSeq);
 }
