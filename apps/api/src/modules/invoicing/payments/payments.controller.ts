@@ -109,9 +109,10 @@ export class PaymentsController extends PaymentsCrudBase {
     @Param('id') id: string,
     @Body() dto: AllocatePaymentDto,
   ) {
+    await this.paymentsService.allocate(user.tenantId, id, dto);
     return ApiResponseBuilder.success(
-      await this.paymentsService.allocate(user.tenantId, id, dto),
-      'Payment allocated',
+      await this.paymentsService.findById(user.tenantId, id),
+      'Allocation created',
     );
   }
 
@@ -124,6 +125,9 @@ export class PaymentsController extends PaymentsCrudBase {
     @Param('allocationId') allocationId: string,
   ) {
     await this.paymentsService.removeAllocation(user.tenantId, id, allocationId);
-    return ApiResponseBuilder.success(null, 'Allocation removed');
+    return ApiResponseBuilder.success(
+      await this.paymentsService.findById(user.tenantId, id),
+      'Allocation removed',
+    );
   }
 }

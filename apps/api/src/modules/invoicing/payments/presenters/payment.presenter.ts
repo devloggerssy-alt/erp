@@ -30,6 +30,7 @@ export class PaymentPresenter extends CrudPresenter<PaymentWithRelations, Paymen
     dto.partyName = entity.party?.name;
     dto.currencyId = entity.currencyId;
     dto.currencyCode = entity.currency?.code;
+    dto.currencySymbol = entity.currency?.symbol as string | undefined;
     dto.fiscalPeriodId = entity.fiscalPeriodId;
     dto.amount = PaymentPresenter.toNum(entity.amount);
     dto.exchangeRate = PaymentPresenter.toNum(entity.exchangeRate);
