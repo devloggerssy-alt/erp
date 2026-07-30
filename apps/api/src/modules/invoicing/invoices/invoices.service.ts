@@ -127,7 +127,7 @@ export class InvoicesService {
             amount: dto.amount,
             exchangeRate: dto.exchangeRate ?? Number(invoice.exchangeRate),
         };
-        const payment = await this.paymentsService.create(tenantId, userId, paymentDto);
+        const payment = await this.paymentsService.createAs(tenantId, userId, paymentDto);
 
         if (!complete) return;
 

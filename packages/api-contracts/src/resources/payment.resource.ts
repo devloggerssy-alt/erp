@@ -11,7 +11,7 @@ export const paymentResource = defineResource({
     post: '/payments/{id}/post',
     cancel: '/payments/{id}/cancel',
     allocate: '/payments/{id}/allocate',
-    removeAllocation: '/payments/{id}/allocations/{allocationId}',
+    removeAllocation: '/payments/{id}/allocations/{allocationId}/remove',
   },
 })
 

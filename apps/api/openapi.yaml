@@ -14430,128 +14430,8 @@ paths:
       tags:
         - Invoices
   /payments:
-    get:
-      operationId: Payments.findAll
-      parameters:
-        - name: type
-          required: false
-          in: query
-          schema:
-            enum:
-              - RECEIPT
-              - PAYMENT
-              - ADJUSTMENT
-            type: string
-        - name: status
-          required: false
-          in: query
-          schema:
-            enum:
-              - DRAFT
-              - POSTED
-              - CANCELLED
-            type: string
-        - name: page
-          required: false
-          in: query
-          schema:
-            type: number
-        - name: limit
-          required: false
-          in: query
-          schema:
-            type: number
-      responses:
-        '200':
-          description: Paginated list of payments
-          content:
-            application/json:
-              schema:
-                example:
-                  message: Payments list
-                  data:
-                    - id: ...
-                      number: PAY-000001
-                      type: RECEIPT
-                      status: DRAFT
-                      amount: 500000
-                      partyId: 00000000-0000-4000-aa00-000000000001
-                  meta:
-                    pagination:
-                      total: 3
-                      page: 1
-                      limit: 50
-                      totalPages: 1
-        '401':
-          description: JWT token is missing, expired, or invalid
-          content:
-            application/json:
-              schema:
-                example:
-                  status: error
-                  message: Unauthorized
-                  data: null
-                  error:
-                    code: UNAUTHORIZED
-                    message: JWT token is missing, expired, or invalid
-        '403':
-          description: Insufficient permissions to perform this action
-          content:
-            application/json:
-              schema:
-                example:
-                  status: error
-                  message: Forbidden
-                  data: null
-                  error:
-                    code: FORBIDDEN
-                    message: Insufficient permissions to perform this action
-        '404':
-          description: The requested resource was not found
-          content:
-            application/json:
-              schema:
-                example:
-                  status: error
-                  message: Not found
-                  data: null
-                  error:
-                    code: NOT_FOUND
-                    message: The requested resource was not found
-        '422':
-          description: Request body validation failed
-          content:
-            application/json:
-              schema:
-                example:
-                  status: error
-                  message: Validation failed
-                  data: null
-                  error:
-                    code: VALIDATION_ERROR
-                    message: Validation failed
-                    details:
-                      - property: email
-                        constraints:
-                          isEmail: email must be a valid email address
-        '500':
-          description: An unexpected internal server error occurred
-          content:
-            application/json:
-              schema:
-                example:
-                  status: error
-                  message: Internal server error
-                  data: null
-                  error:
-                    code: INTERNAL_ERROR
-                    message: An unexpected internal server error occurred
-      security:
-        - JWT-auth: []
-      summary: List all payments
-      tags:
-        - Payments
     post:
+      description: Creates a new payment. Optionally posts immediately if complete=true.
       operationId: Payments.create
       parameters: []
       requestBody:
@@ -14562,18 +14442,15 @@ paths:
               $ref: '#/components/schemas/CreatePaymentDto'
       responses:
         '201':
-          description: Payment created in DRAFT status
+          description: Payment created
           content:
             application/json:
               schema:
-                example:
-                  message: Payment created
-                  data:
-                    id: ...
-                    number: PAY-000002
-                    type: RECEIPT
-                    status: DRAFT
-                    amount: 300000
+                allOf:
+                  - $ref: '#/components/schemas/ApiSuccessResponseDto'
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/PaymentResponseDto'
         '401':
           description: JWT token is missing, expired, or invalid
           content:
@@ -14640,12 +14517,187 @@ paths:
                     message: An unexpected internal server error occurred
       security:
         - JWT-auth: []
-      summary: Create a new payment
+      summary: Create a payment
       tags:
         - Payments
-  /payments/{id}:
     get:
-      operationId: Payments.findOne
+      description: Returns a paginated list of payments for the authenticated tenant.
+      operationId: Payments.list
+      parameters:
+        - name: page
+          required: false
+          in: query
+          description: Page number (1-based)
+          schema:
+            default: 1
+            example: 1
+            type: number
+        - name: limit
+          required: false
+          in: query
+          description: Number of items per page
+          schema:
+            default: 10
+            example: 10
+            type: number
+        - name: sortField
+          required: false
+          in: query
+          description: Field name to sort by
+          schema:
+            example: createdAt
+            type: string
+        - name: sortOrder
+          required: false
+          in: query
+          schema:
+            default: asc
+            example: asc
+            type: string
+            enum:
+              - asc
+              - desc
+        - name: search
+          required: false
+          in: query
+          description: Full-text search keyword
+          schema:
+            example: ''
+            type: string
+        - name: searchIn
+          required: false
+          in: query
+          description: Comma-separated field names to search within (e.g. name,symbol)
+          schema:
+            example: ''
+            type: string
+      responses:
+        '200':
+          description: Paginated list of payments
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiSuccessResponseDto'
+                  - properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/PaymentResponseDto'
+        '401':
+          description: JWT token is missing, expired, or invalid
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Unauthorized
+                  data: null
+                  error:
+                    code: UNAUTHORIZED
+                    message: JWT token is missing, expired, or invalid
+        '403':
+          description: Insufficient permissions to perform this action
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Forbidden
+                  data: null
+                  error:
+                    code: FORBIDDEN
+                    message: Insufficient permissions to perform this action
+        '404':
+          description: The requested resource was not found
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Not found
+                  data: null
+                  error:
+                    code: NOT_FOUND
+                    message: The requested resource was not found
+        '422':
+          description: Request body validation failed
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Validation failed
+                  data: null
+                  error:
+                    code: VALIDATION_ERROR
+                    message: Validation failed
+                    details:
+                      - property: email
+                        constraints:
+                          isEmail: email must be a valid email address
+        '500':
+          description: An unexpected internal server error occurred
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Internal server error
+                  data: null
+                  error:
+                    code: INTERNAL_ERROR
+                    message: An unexpected internal server error occurred
+      security:
+        - JWT-auth: []
+      summary: List payments
+      tags:
+        - Payments
+    delete:
+      operationId: Payments.bulkDelete
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BulkDeleteBodyDto'
+      responses:
+        '200':
+          description: Bulk delete result ({ total, succeeded, failed, errors })
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BulkResultResponseDto'
+      security:
+        - JWT-auth: []
+      summary: Bulk delete by ids
+      tags:
+        - Payments
+    patch:
+      operationId: Payments.bulkUpdate
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BulkUpdateBody'
+      responses:
+        '200':
+          description: Bulk partial-update result ({ total, succeeded, failed, errors })
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BulkResultResponseDto'
+      security:
+        - JWT-auth: []
+      summary: Bulk partial update
+      tags:
+        - Payments
+  /payments/{id}/post:
+    post:
+      operationId: Payments.post
       parameters:
         - name: id
           required: true
@@ -14654,19 +14706,15 @@ paths:
             type: string
       responses:
         '200':
-          description: Payment details returned
+          description: Payment posted
           content:
             application/json:
               schema:
-                example:
-                  message: Payment details
-                  data:
-                    id: ...
-                    number: PAY-000001
-                    type: RECEIPT
-                    status: DRAFT
-                    amount: 500000
-                    allocations: []
+                allOf:
+                  - $ref: '#/components/schemas/ApiSuccessResponseDto'
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/PaymentResponseDto'
         '401':
           description: JWT token is missing, expired, or invalid
           content:
@@ -14733,11 +14781,99 @@ paths:
                     message: An unexpected internal server error occurred
       security:
         - JWT-auth: []
-      summary: Get payment by ID
       tags:
         - Payments
-    patch:
-      operationId: Payments.update
+  /payments/{id}/cancel:
+    post:
+      operationId: Payments.cancel
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Payment cancelled
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiSuccessResponseDto'
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/PaymentResponseDto'
+        '401':
+          description: JWT token is missing, expired, or invalid
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Unauthorized
+                  data: null
+                  error:
+                    code: UNAUTHORIZED
+                    message: JWT token is missing, expired, or invalid
+        '403':
+          description: Insufficient permissions to perform this action
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Forbidden
+                  data: null
+                  error:
+                    code: FORBIDDEN
+                    message: Insufficient permissions to perform this action
+        '404':
+          description: The requested resource was not found
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Not found
+                  data: null
+                  error:
+                    code: NOT_FOUND
+                    message: The requested resource was not found
+        '422':
+          description: Request body validation failed
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Validation failed
+                  data: null
+                  error:
+                    code: VALIDATION_ERROR
+                    message: Validation failed
+                    details:
+                      - property: email
+                        constraints:
+                          isEmail: email must be a valid email address
+        '500':
+          description: An unexpected internal server error occurred
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Internal server error
+                  data: null
+                  error:
+                    code: INTERNAL_ERROR
+                    message: An unexpected internal server error occurred
+      security:
+        - JWT-auth: []
+      tags:
+        - Payments
+  /payments/{id}/allocate:
+    post:
+      operationId: Payments.allocate
       parameters:
         - name: id
           required: true
@@ -14749,19 +14885,298 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UpdatePaymentDto'
+              $ref: '#/components/schemas/AllocatePaymentDto'
       responses:
         '200':
-          description: Payment updated
+          description: Payment allocated
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiSuccessResponseDto'
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/PaymentResponseDto'
+        '401':
+          description: JWT token is missing, expired, or invalid
           content:
             application/json:
               schema:
                 example:
-                  message: Payment updated
-                  data:
-                    id: ...
-                    amount: 350000
-                    status: DRAFT
+                  status: error
+                  message: Unauthorized
+                  data: null
+                  error:
+                    code: UNAUTHORIZED
+                    message: JWT token is missing, expired, or invalid
+        '403':
+          description: Insufficient permissions to perform this action
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Forbidden
+                  data: null
+                  error:
+                    code: FORBIDDEN
+                    message: Insufficient permissions to perform this action
+        '404':
+          description: The requested resource was not found
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Not found
+                  data: null
+                  error:
+                    code: NOT_FOUND
+                    message: The requested resource was not found
+        '422':
+          description: Request body validation failed
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Validation failed
+                  data: null
+                  error:
+                    code: VALIDATION_ERROR
+                    message: Validation failed
+                    details:
+                      - property: email
+                        constraints:
+                          isEmail: email must be a valid email address
+        '500':
+          description: An unexpected internal server error occurred
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Internal server error
+                  data: null
+                  error:
+                    code: INTERNAL_ERROR
+                    message: An unexpected internal server error occurred
+      security:
+        - JWT-auth: []
+      tags:
+        - Payments
+  /payments/{id}/allocations/{allocationId}/remove:
+    post:
+      operationId: Payments.removeAllocation
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+        - name: allocationId
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Allocation removed
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiSuccessResponseDto'
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/PaymentResponseDto'
+        '401':
+          description: JWT token is missing, expired, or invalid
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Unauthorized
+                  data: null
+                  error:
+                    code: UNAUTHORIZED
+                    message: JWT token is missing, expired, or invalid
+        '403':
+          description: Insufficient permissions to perform this action
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Forbidden
+                  data: null
+                  error:
+                    code: FORBIDDEN
+                    message: Insufficient permissions to perform this action
+        '404':
+          description: The requested resource was not found
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Not found
+                  data: null
+                  error:
+                    code: NOT_FOUND
+                    message: The requested resource was not found
+        '422':
+          description: Request body validation failed
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Validation failed
+                  data: null
+                  error:
+                    code: VALIDATION_ERROR
+                    message: Validation failed
+                    details:
+                      - property: email
+                        constraints:
+                          isEmail: email must be a valid email address
+        '500':
+          description: An unexpected internal server error occurred
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Internal server error
+                  data: null
+                  error:
+                    code: INTERNAL_ERROR
+                    message: An unexpected internal server error occurred
+      security:
+        - JWT-auth: []
+      tags:
+        - Payments
+  /payments/{id}:
+    get:
+      operationId: Payments.show
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: Payment UUID
+          schema:
+            example: 018e1234-abcd-7000-a001-000000000001
+            type: string
+      responses:
+        '200':
+          description: Payment details
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiSuccessResponseDto'
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/PaymentResponseDto'
+        '401':
+          description: JWT token is missing, expired, or invalid
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Unauthorized
+                  data: null
+                  error:
+                    code: UNAUTHORIZED
+                    message: JWT token is missing, expired, or invalid
+        '403':
+          description: Insufficient permissions to perform this action
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Forbidden
+                  data: null
+                  error:
+                    code: FORBIDDEN
+                    message: Insufficient permissions to perform this action
+        '404':
+          description: The requested resource was not found
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Not found
+                  data: null
+                  error:
+                    code: NOT_FOUND
+                    message: The requested resource was not found
+        '422':
+          description: Request body validation failed
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Validation failed
+                  data: null
+                  error:
+                    code: VALIDATION_ERROR
+                    message: Validation failed
+                    details:
+                      - property: email
+                        constraints:
+                          isEmail: email must be a valid email address
+        '500':
+          description: An unexpected internal server error occurred
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Internal server error
+                  data: null
+                  error:
+                    code: INTERNAL_ERROR
+                    message: An unexpected internal server error occurred
+      security:
+        - JWT-auth: []
+      summary: Get a payment by ID
+      tags:
+        - Payments
+    patch:
+      description: Partial update — only draft payments can be modified.
+      operationId: Payments.update
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: Payment UUID
+          schema:
+            example: 018e1234-abcd-7000-a001-000000000001
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdatePaymentDto'
+      responses:
+        '200':
+          description: Updated payment
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiSuccessResponseDto'
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/PaymentResponseDto'
         '401':
           description: JWT token is missing, expired, or invalid
           content:
@@ -14831,320 +15246,20 @@ paths:
       summary: Update a draft payment
       tags:
         - Payments
-  /payments/{id}/post:
-    post:
-      description: >-
-        Transitions a DRAFT payment to POSTED status. This updates the cashbox
-        balance and creates accounting journal entries. For receipts, the
-        cashbox balance increases; for payments/expenses, it decreases.
-      operationId: Payments.post
-      parameters:
-        - name: id
-          required: true
-          in: path
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Payment posted – cashbox and journal entries updated
-          content:
-            application/json:
-              schema:
-                example:
-                  message: Payment posted
-                  data:
-                    id: ...
-                    status: POSTED
-                    postedAt: '2026-04-14T12:00:00.000Z'
-        '401':
-          description: JWT token is missing, expired, or invalid
-          content:
-            application/json:
-              schema:
-                example:
-                  status: error
-                  message: Unauthorized
-                  data: null
-                  error:
-                    code: UNAUTHORIZED
-                    message: JWT token is missing, expired, or invalid
-        '403':
-          description: Insufficient permissions to perform this action
-          content:
-            application/json:
-              schema:
-                example:
-                  status: error
-                  message: Forbidden
-                  data: null
-                  error:
-                    code: FORBIDDEN
-                    message: Insufficient permissions to perform this action
-        '404':
-          description: The requested resource was not found
-          content:
-            application/json:
-              schema:
-                example:
-                  status: error
-                  message: Not found
-                  data: null
-                  error:
-                    code: NOT_FOUND
-                    message: The requested resource was not found
-        '422':
-          description: Request body validation failed
-          content:
-            application/json:
-              schema:
-                example:
-                  status: error
-                  message: Validation failed
-                  data: null
-                  error:
-                    code: VALIDATION_ERROR
-                    message: Validation failed
-                    details:
-                      - property: email
-                        constraints:
-                          isEmail: email must be a valid email address
-        '500':
-          description: An unexpected internal server error occurred
-          content:
-            application/json:
-              schema:
-                example:
-                  status: error
-                  message: Internal server error
-                  data: null
-                  error:
-                    code: INTERNAL_ERROR
-                    message: An unexpected internal server error occurred
-      security:
-        - JWT-auth: []
-      summary: Post (confirm) a payment
-      tags:
-        - Payments
-  /payments/{id}/cancel:
-    post:
-      description: >-
-        Reverses a POSTED payment by restoring the cashbox balance and creating
-        counter journal entries. Only posted payments can be cancelled.
-      operationId: Payments.cancel
-      parameters:
-        - name: id
-          required: true
-          in: path
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Payment cancelled – reversing entries created
-          content:
-            application/json:
-              schema:
-                example:
-                  message: Payment cancelled
-                  data:
-                    id: ...
-                    status: CANCELLED
-                    cancelledAt: '2026-04-14T14:00:00.000Z'
-        '401':
-          description: JWT token is missing, expired, or invalid
-          content:
-            application/json:
-              schema:
-                example:
-                  status: error
-                  message: Unauthorized
-                  data: null
-                  error:
-                    code: UNAUTHORIZED
-                    message: JWT token is missing, expired, or invalid
-        '403':
-          description: Insufficient permissions to perform this action
-          content:
-            application/json:
-              schema:
-                example:
-                  status: error
-                  message: Forbidden
-                  data: null
-                  error:
-                    code: FORBIDDEN
-                    message: Insufficient permissions to perform this action
-        '404':
-          description: The requested resource was not found
-          content:
-            application/json:
-              schema:
-                example:
-                  status: error
-                  message: Not found
-                  data: null
-                  error:
-                    code: NOT_FOUND
-                    message: The requested resource was not found
-        '422':
-          description: Request body validation failed
-          content:
-            application/json:
-              schema:
-                example:
-                  status: error
-                  message: Validation failed
-                  data: null
-                  error:
-                    code: VALIDATION_ERROR
-                    message: Validation failed
-                    details:
-                      - property: email
-                        constraints:
-                          isEmail: email must be a valid email address
-        '500':
-          description: An unexpected internal server error occurred
-          content:
-            application/json:
-              schema:
-                example:
-                  status: error
-                  message: Internal server error
-                  data: null
-                  error:
-                    code: INTERNAL_ERROR
-                    message: An unexpected internal server error occurred
-      security:
-        - JWT-auth: []
-      summary: Cancel a posted payment
-      tags:
-        - Payments
-  /payments/{id}/allocate:
-    post:
-      description: >-
-        Links a posted payment to one or more invoices, recording how much of
-        the payment amount settles each invoice. Partially allocated payments
-        remain open for future allocations.
-      operationId: Payments.allocate
-      parameters:
-        - name: id
-          required: true
-          in: path
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/AllocatePaymentDto'
-      responses:
-        '200':
-          description: Payment allocated to invoices
-          content:
-            application/json:
-              schema:
-                example:
-                  message: Payment allocated
-                  data:
-                    id: ...
-                    allocations:
-                      - invoiceId: ...
-                        amount: 300000
-        '401':
-          description: JWT token is missing, expired, or invalid
-          content:
-            application/json:
-              schema:
-                example:
-                  status: error
-                  message: Unauthorized
-                  data: null
-                  error:
-                    code: UNAUTHORIZED
-                    message: JWT token is missing, expired, or invalid
-        '403':
-          description: Insufficient permissions to perform this action
-          content:
-            application/json:
-              schema:
-                example:
-                  status: error
-                  message: Forbidden
-                  data: null
-                  error:
-                    code: FORBIDDEN
-                    message: Insufficient permissions to perform this action
-        '404':
-          description: The requested resource was not found
-          content:
-            application/json:
-              schema:
-                example:
-                  status: error
-                  message: Not found
-                  data: null
-                  error:
-                    code: NOT_FOUND
-                    message: The requested resource was not found
-        '422':
-          description: Request body validation failed
-          content:
-            application/json:
-              schema:
-                example:
-                  status: error
-                  message: Validation failed
-                  data: null
-                  error:
-                    code: VALIDATION_ERROR
-                    message: Validation failed
-                    details:
-                      - property: email
-                        constraints:
-                          isEmail: email must be a valid email address
-        '500':
-          description: An unexpected internal server error occurred
-          content:
-            application/json:
-              schema:
-                example:
-                  status: error
-                  message: Internal server error
-                  data: null
-                  error:
-                    code: INTERNAL_ERROR
-                    message: An unexpected internal server error occurred
-      security:
-        - JWT-auth: []
-      summary: Allocate payment to invoices
-      tags:
-        - Payments
-  /payments/{id}/allocations/{allocationId}:
     delete:
-      description: >-
-        Removes a specific allocation link between a payment and an invoice,
-        freeing the allocated amount.
-      operationId: Payments.removeAllocation
+      description: Hard-deletes a draft payment. Posted payments must be cancelled instead.
+      operationId: Payments.delete
       parameters:
         - name: id
           required: true
           in: path
+          description: Payment UUID
           schema:
-            type: string
-        - name: allocationId
-          required: true
-          in: path
-          schema:
+            example: 018e1234-abcd-7000-a001-000000000001
             type: string
       responses:
-        '200':
-          description: Allocation removed
-          content:
-            application/json:
-              schema:
-                example:
-                  message: Allocation removed
-                  data: null
+        '204':
+          description: Payment deleted
         '401':
           description: JWT token is missing, expired, or invalid
           content:
@@ -15211,7 +15326,7 @@ paths:
                     message: An unexpected internal server error occurred
       security:
         - JWT-auth: []
-      summary: Remove a payment allocation
+      summary: Delete a draft payment
       tags:
         - Payments
   /expenses:
@@ -21627,6 +21742,100 @@ components:
         - cashboxId
         - amount
         - date
+    PaymentAllocationResponseDto:
+      type: object
+      properties:
+        id:
+          type: string
+        invoiceId:
+          type: string
+        invoiceNumber:
+          type: string
+        amount:
+          type: number
+        createdAt:
+          type: string
+      required:
+        - id
+        - invoiceId
+        - amount
+        - createdAt
+    PaymentResponseDto:
+      type: object
+      properties:
+        id:
+          type: string
+        number:
+          type: string
+        type:
+          type: string
+          enum:
+            - RECEIPT
+            - PAYMENT
+            - ADJUSTMENT
+        date:
+          type: string
+        status:
+          type: string
+        cashboxId:
+          type: string
+        cashboxName:
+          type: string
+        cashboxCode:
+          type: string
+        partyId:
+          type: object
+          nullable: true
+        partyName:
+          type: string
+        currencyId:
+          type: string
+        currencyCode:
+          type: string
+        currencySymbol:
+          type: string
+        fiscalPeriodId:
+          type: string
+        amount:
+          type: number
+        exchangeRate:
+          type: number
+        unallocatedAmount:
+          type: number
+        allocatedAmount:
+          type: number
+        notes:
+          type: object
+          nullable: true
+        postedAt:
+          type: object
+          nullable: true
+        cancelledAt:
+          type: object
+          nullable: true
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+        allocations:
+          type: array
+          items:
+            $ref: '#/components/schemas/PaymentAllocationResponseDto'
+      required:
+        - id
+        - number
+        - type
+        - date
+        - status
+        - cashboxId
+        - currencyId
+        - fiscalPeriodId
+        - amount
+        - exchangeRate
+        - unallocatedAmount
+        - allocatedAmount
+        - createdAt
+        - updatedAt
     CreatePaymentDto:
       type: object
       properties:
@@ -21682,6 +21891,20 @@ components:
         - currencyId
         - fiscalPeriodId
         - amount
+    AllocatePaymentDto:
+      type: object
+      properties:
+        invoiceId:
+          type: string
+          example: 00000000-0000-4000-ad00-000000000001
+          description: Invoice ID placeholder (Real ID would be from creation)
+        amount:
+          type: number
+          example: 250000
+          description: Amount to allocate to this invoice
+      required:
+        - invoiceId
+        - amount
     UpdatePaymentDto:
       type: object
       properties:
@@ -21703,20 +21926,6 @@ components:
         notes:
           type: string
           example: Adjusted payment – partial refund applied
-    AllocatePaymentDto:
-      type: object
-      properties:
-        invoiceId:
-          type: string
-          example: 00000000-0000-4000-ad00-000000000001
-          description: Invoice ID placeholder (Real ID would be from creation)
-        amount:
-          type: number
-          example: 250000
-          description: Amount to allocate to this invoice
-      required:
-        - invoiceId
-        - amount
     CreateExpenseItemDto:
       type: object
       properties:

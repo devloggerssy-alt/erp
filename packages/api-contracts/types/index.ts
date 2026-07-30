@@ -1687,33 +1687,23 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** List all payments */
-        get: operations["Payments.findAll"];
+        /**
+         * List payments
+         * @description Returns a paginated list of payments for the authenticated tenant.
+         */
+        get: operations["Payments.list"];
         put?: never;
-        /** Create a new payment */
+        /**
+         * Create a payment
+         * @description Creates a new payment. Optionally posts immediately if complete=true.
+         */
         post: operations["Payments.create"];
-        delete?: never;
+        /** Bulk delete by ids */
+        delete: operations["Payments.bulkDelete"];
         options?: never;
         head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/payments/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get payment by ID */
-        get: operations["Payments.findOne"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        /** Update a draft payment */
-        patch: operations["Payments.update"];
+        /** Bulk partial update */
+        patch: operations["Payments.bulkUpdate"];
         trace?: never;
     };
     "/payments/{id}/post": {
@@ -1725,10 +1715,6 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /**
-         * Post (confirm) a payment
-         * @description Transitions a DRAFT payment to POSTED status. This updates the cashbox balance and creates accounting journal entries. For receipts, the cashbox balance increases; for payments/expenses, it decreases.
-         */
         post: operations["Payments.post"];
         delete?: never;
         options?: never;
@@ -1745,10 +1731,6 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /**
-         * Cancel a posted payment
-         * @description Reverses a POSTED payment by restoring the cashbox balance and creating counter journal entries. Only posted payments can be cancelled.
-         */
         post: operations["Payments.cancel"];
         delete?: never;
         options?: never;
@@ -1765,10 +1747,6 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /**
-         * Allocate payment to invoices
-         * @description Links a posted payment to one or more invoices, recording how much of the payment amount settles each invoice. Partially allocated payments remain open for future allocations.
-         */
         post: operations["Payments.allocate"];
         delete?: never;
         options?: never;
@@ -1776,7 +1754,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/payments/{id}/allocations/{allocationId}": {
+    "/payments/{id}/allocations/{allocationId}/remove": {
         parameters: {
             query?: never;
             header?: never;
@@ -1785,15 +1763,36 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post?: never;
-        /**
-         * Remove a payment allocation
-         * @description Removes a specific allocation link between a payment and an invoice, freeing the allocated amount.
-         */
-        delete: operations["Payments.removeAllocation"];
+        post: operations["Payments.removeAllocation"];
+        delete?: never;
         options?: never;
         head?: never;
         patch?: never;
+        trace?: never;
+    };
+    "/payments/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get a payment by ID */
+        get: operations["Payments.show"];
+        put?: never;
+        post?: never;
+        /**
+         * Delete a draft payment
+         * @description Hard-deletes a draft payment. Posted payments must be cancelled instead.
+         */
+        delete: operations["Payments.delete"];
+        options?: never;
+        head?: never;
+        /**
+         * Update a draft payment
+         * @description Partial update — only draft payments can be modified.
+         */
+        patch: operations["Payments.update"];
         trace?: never;
     };
     "/expenses": {
@@ -4290,6 +4289,40 @@ export interface components {
              */
             exchangeRate?: number;
         };
+        PaymentAllocationResponseDto: {
+            id: string;
+            invoiceId: string;
+            invoiceNumber?: string;
+            amount: number;
+            createdAt: string;
+        };
+        PaymentResponseDto: {
+            id: string;
+            number: string;
+            /** @enum {string} */
+            type: "RECEIPT" | "PAYMENT" | "ADJUSTMENT";
+            date: string;
+            status: string;
+            cashboxId: string;
+            cashboxName?: string;
+            cashboxCode?: string;
+            partyId?: Record<string, never> | null;
+            partyName?: string;
+            currencyId: string;
+            currencyCode?: string;
+            currencySymbol?: string;
+            fiscalPeriodId: string;
+            amount: number;
+            exchangeRate: number;
+            unallocatedAmount: number;
+            allocatedAmount: number;
+            notes?: Record<string, never> | null;
+            postedAt?: Record<string, never> | null;
+            cancelledAt?: Record<string, never> | null;
+            createdAt: string;
+            updatedAt: string;
+            allocations?: components["schemas"]["PaymentAllocationResponseDto"][];
+        };
         CreatePaymentDto: {
             /**
              * @description Payment type
@@ -4340,6 +4373,18 @@ export interface components {
              */
             complete?: boolean;
         };
+        AllocatePaymentDto: {
+            /**
+             * @description Invoice ID placeholder (Real ID would be from creation)
+             * @example 00000000-0000-4000-ad00-000000000001
+             */
+            invoiceId: string;
+            /**
+             * @description Amount to allocate to this invoice
+             * @example 250000
+             */
+            amount: number;
+        };
         UpdatePaymentDto: {
             /** @example 2026-04-15 */
             date?: string;
@@ -4360,18 +4405,6 @@ export interface components {
             amount?: number;
             /** @example Adjusted payment – partial refund applied */
             notes?: string;
-        };
-        AllocatePaymentDto: {
-            /**
-             * @description Invoice ID placeholder (Real ID would be from creation)
-             * @example 00000000-0000-4000-ad00-000000000001
-             */
-            invoiceId: string;
-            /**
-             * @description Amount to allocate to this invoice
-             * @example 250000
-             */
-            amount: number;
         };
         CreateExpenseItemDto: {
             /**
@@ -15624,13 +15657,20 @@ export interface operations {
             };
         };
     };
-    "Payments.findAll": {
+    "Payments.list": {
         parameters: {
             query?: {
-                type?: "RECEIPT" | "PAYMENT" | "ADJUSTMENT";
-                status?: "DRAFT" | "POSTED" | "CANCELLED";
+                /** @description Page number (1-based) */
                 page?: number;
+                /** @description Number of items per page */
                 limit?: number;
+                /** @description Field name to sort by */
+                sortField?: string;
+                sortOrder?: "asc" | "desc";
+                /** @description Full-text search keyword */
+                search?: string;
+                /** @description Comma-separated field names to search within (e.g. name,symbol) */
+                searchIn?: string;
             };
             header?: never;
             path?: never;
@@ -15644,7 +15684,9 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["PaymentResponseDto"][];
+                    };
                 };
             };
             /** @description JWT token is missing, expired, or invalid */
@@ -15707,13 +15749,15 @@ export interface operations {
             };
         };
         responses: {
-            /** @description Payment created in DRAFT status */
+            /** @description Payment created */
             201: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["PaymentResponseDto"];
+                    };
                 };
             };
             /** @description JWT token is missing, expired, or invalid */
@@ -15763,140 +15807,50 @@ export interface operations {
             };
         };
     };
-    "Payments.findOne": {
+    "Payments.bulkDelete": {
         parameters: {
             query?: never;
             header?: never;
-            path: {
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Payment details returned */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description JWT token is missing, expired, or invalid */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Insufficient permissions to perform this action */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description The requested resource was not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Request body validation failed */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description An unexpected internal server error occurred */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-        };
-    };
-    "Payments.update": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: string;
-            };
+            path?: never;
             cookie?: never;
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["UpdatePaymentDto"];
+                "application/json": components["schemas"]["BulkDeleteBodyDto"];
             };
         };
         responses: {
-            /** @description Payment updated */
+            /** @description Bulk delete result ({ total, succeeded, failed, errors }) */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["BulkResultResponseDto"];
                 };
             };
-            /** @description JWT token is missing, expired, or invalid */
-            401: {
+        };
+    };
+    "Payments.bulkUpdate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BulkUpdateBody"];
+            };
+        };
+        responses: {
+            /** @description Bulk partial-update result ({ total, succeeded, failed, errors }) */
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Insufficient permissions to perform this action */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description The requested resource was not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Request body validation failed */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description An unexpected internal server error occurred */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["BulkResultResponseDto"];
                 };
             };
         };
@@ -15912,13 +15866,15 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Payment posted – cashbox and journal entries updated */
+            /** @description Payment posted */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["PaymentResponseDto"];
+                    };
                 };
             };
             /** @description JWT token is missing, expired, or invalid */
@@ -15979,13 +15935,15 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Payment cancelled – reversing entries created */
+            /** @description Payment cancelled */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["PaymentResponseDto"];
+                    };
                 };
             };
             /** @description JWT token is missing, expired, or invalid */
@@ -16050,13 +16008,15 @@ export interface operations {
             };
         };
         responses: {
-            /** @description Payment allocated to invoices */
+            /** @description Payment allocated */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["PaymentResponseDto"];
+                    };
                 };
             };
             /** @description JWT token is missing, expired, or invalid */
@@ -16124,7 +16084,219 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["PaymentResponseDto"];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
                     "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "Payments.show": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Payment UUID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Payment details */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["PaymentResponseDto"];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "Payments.delete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Payment UUID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Payment deleted */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "Payments.update": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Payment UUID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdatePaymentDto"];
+            };
+        };
+        responses: {
+            /** @description Updated payment */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["PaymentResponseDto"];
+                    };
                 };
             };
             /** @description JWT token is missing, expired, or invalid */

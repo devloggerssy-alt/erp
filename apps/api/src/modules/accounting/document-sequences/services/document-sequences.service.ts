@@ -1,6 +1,6 @@
 import { Injectable, ConflictException } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import { CrudService } from '@devloggers/backend-core';
+import { CrudService, IDocumentNumberAllocator } from '@devloggers/backend-core';
 import { resources } from '@devloggers/api-contracts';
 import type { DocumentSequence } from '@devloggers/db-prisma';
 import { DocumentSequencesRepository } from '../repositories/document-sequences.repository';
@@ -8,7 +8,7 @@ import { DocumentSequencePresenter } from '../presenters/document-sequence.prese
 import { CreateDocumentSequenceDto, UpdateDocumentSequenceDto, DocumentSequenceResponseDto } from '../dto';
 
 @Injectable()
-export class DocumentSequencesService extends CrudService<DocumentSequence, DocumentSequenceResponseDto, CreateDocumentSequenceDto, UpdateDocumentSequenceDto> {
+export class DocumentSequencesService extends CrudService<DocumentSequence, DocumentSequenceResponseDto, CreateDocumentSequenceDto, UpdateDocumentSequenceDto> implements IDocumentNumberAllocator {
     protected readonly resourceName = resources.documentSequences.key;
 
     constructor(
