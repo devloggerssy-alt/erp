@@ -9,7 +9,7 @@ function buildDeps() {
     } as any;
     const documentSequencesService = { getNextNumber: jest.fn().mockResolvedValue('SINV-00001') } as any;
     const postingService = { postPurchaseInvoice: jest.fn(), postSalesInvoice: jest.fn() } as any;
-    const paymentsService = { create: jest.fn(), post: jest.fn(), allocate: jest.fn() } as any;
+    const paymentsService = { createAs: jest.fn(), post: jest.fn(), allocate: jest.fn() } as any;
 
     const service = new InvoicesService(prisma, documentSequencesService, postingService, paymentsService);
     return { service, prisma, documentSequencesService, postingService, paymentsService };
@@ -31,7 +31,7 @@ describe('InvoicesService.create', () => {
         prisma.invoice.create.mockResolvedValue({ id: 'inv-1', status: 'DRAFT' });
         prisma.invoice.findFirst.mockResolvedValue({ id: 'inv-1', status: 'POSTED', paymentAllocations: [] });
         postingService.postSalesInvoice.mockResolvedValue({ id: 'inv-1', status: 'POSTED' });
-        paymentsService.create.mockResolvedValue({ id: 'pay-1' });
+        paymentsService.createAs.mockResolvedValue({ id: 'pay-1' });
         paymentsService.post.mockResolvedValue({ id: 'pay-1', status: 'POSTED' });
         paymentsService.allocate.mockResolvedValue({ id: 'alloc-1' });
 
@@ -41,7 +41,7 @@ describe('InvoicesService.create', () => {
             openingPayment: { cashboxId: 'cash-1', amount: 500 },
         });
 
-        expect(paymentsService.create).toHaveBeenCalledTimes(1);
+        expect(paymentsService.createAs).toHaveBeenCalledTimes(1);
         expect(paymentsService.post).toHaveBeenCalledWith('tenant-1', 'pay-1', 'user-1');
         expect(paymentsService.allocate).toHaveBeenCalledWith('tenant-1', 'pay-1', { invoiceId: 'inv-1', amount: 500 });
     });
@@ -51,14 +51,14 @@ describe('InvoicesService.create', () => {
         prisma.invoiceType.findFirst.mockResolvedValue({ id: 'type-1', direction: 'SALE' });
         prisma.invoice.create.mockResolvedValue({ id: 'inv-1', status: 'DRAFT' });
         prisma.invoice.findFirst.mockResolvedValue({ id: 'inv-1', status: 'DRAFT', paymentAllocations: [] });
-        paymentsService.create.mockResolvedValue({ id: 'pay-1' });
+        paymentsService.createAs.mockResolvedValue({ id: 'pay-1' });
 
         await service.create('tenant-1', 'user-1', {
             ...baseDto,
             openingPayment: { cashboxId: 'cash-1', amount: 500 },
         });
 
-        expect(paymentsService.create).toHaveBeenCalledTimes(1);
+        expect(paymentsService.createAs).toHaveBeenCalledTimes(1);
         expect(paymentsService.post).not.toHaveBeenCalled();
         expect(paymentsService.allocate).not.toHaveBeenCalled();
     });

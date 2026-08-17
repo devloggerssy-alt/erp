@@ -1,7 +1,7 @@
 # Phase 1.5 — Service & Controller Layering
 
-**Status:** ⬜ not started
-**Depends on:** [Phase 1](phase-1-gl-posting-port.md)
+**Status:** 🟡 in progress — A (type-audit ratchet) done, B (`StatusGuardedCrudService`) done, C.1 (payments) done. Execution plan: `docs/superpowers/plans/2026-07-30-phase-1.5-service-layering.md`.
+**Depends on:** [Phase 1](phase-1-gl-posting-port.md) ✅ complete
 **Blocks:** [Phase 2](phase-2-client-and-dashboard-types.md)
 **Findings addressed:** [F9](00-findings.md#f9--the-4-layer-pattern-covers-less-than-half-the-api-and-the-gap-breaks-the-type-pipeline), [F10](00-findings.md#f10--crudservice-as-it-stands-does-not-fit-transactional-documents)
 **Index:** [README](README.md)
@@ -116,39 +116,39 @@ inheriting typed list/show/create/update/delete, pagination, filter schema, and 
 
 ### 1.5.A — Type-audit ratchet (do this first)
 
-- [ ] 1.5.A.1 `scripts/audit-openapi-response-types.mjs` — parse
+- [x] 1.5.A.1 `scripts/audit-openapi-response-types.mjs` — parse
       `packages/api-contracts/types/index.ts`, report every `2xx` whose content is `unknown` or
       `never`, grouped by operation
-- [ ] 1.5.A.2 **Run `pnpm generate` first** — the committed artifact goes stale (see F9's correction note). Baseline after regeneration on 2026-07-26: **138 typed / 39 `unknown` / 11 `never` = 50 untyped**
+- [x] 1.5.A.2 **Run `pnpm generate` first** — the committed artifact goes stale (see F9's correction note). Baseline after regeneration on 2026-07-26: **138 typed / 39 `unknown` / 11 `never` = 50 untyped** *(actual ratchet recorded: 76 — see `scripts/.untyped-ratchet`)*
 - [ ] 1.5.A.3 Wire into CI as a **ratchet** — the untyped count may only decrease. Flip to
       hard-fail-at-zero after 1.5.E
 
 ### 1.5.B — `DocumentCrudService` base
 
-- [ ] 1.5.B.1 Add to `packages/backend-core/src/base/`; export from `base/index.ts`.
+- [x] 1.5.B.1 Add to `packages/backend-core/src/base/`; export from `base/index.ts`.
       **Resolves Q8:** does this belong in `backend-core` at all? `.ai/rules/packages.md` says
       *no domain logic in backend-core — infrastructure only*. Lifecycle-guard-by-status is a
       generic mechanism; the naming is what's domain-flavoured.
       **Recommendation: `backend-core`, named `StatusGuardedCrudService`.**
-- [ ] 1.5.B.2 `documentType` → number allocation via an injected `IDocumentNumberAllocator` port,
+- [x] 1.5.B.2 `documentType` → number allocation via an injected `IDocumentNumberAllocator` port,
       keeping `backend-core` free of a domain import
-- [ ] 1.5.B.3 `createAs(tenantId, userId, dto)` — the actor-carrying create `CrudService` lacks
-- [ ] 1.5.B.4 `beforeUpdate` / `beforeDelete` throw unless `status ∈ mutableStatuses`
+- [x] 1.5.B.3 `createAs(tenantId, userId, dto)` — the actor-carrying create `CrudService` lacks
+- [x] 1.5.B.4 `beforeUpdate` / `beforeDelete` throw unless `status ∈ mutableStatuses`
       (default `['DRAFT']`)
-- [ ] 1.5.B.5 Tests: a posted document rejects **both** update and delete; a draft accepts both
+- [x] 1.5.B.5 Tests: a posted document rejects **both** update and delete; a draft accepts both
 
 ### 1.5.C — Tier B migration (one service per PR; **parallelisable**)
 
-- [ ] 1.5.C.1 `payments` — repository + `PaymentResponseDto` + presenter; service extends
+- [x] 1.5.C.1 `payments` — repository + `PaymentResponseDto` + presenter; service extends
       `DocumentCrudService`; controller extends the factory base and keeps `post`, `cancel`,
       `allocate`, `removeAllocation` as explicit routes
 - [ ] 1.5.C.2 `expenses` — nested `items` write stays in an overridden `createAs`
 - [ ] 1.5.C.3 `stock-counts` — presenter already exists
 - [ ] 1.5.C.4 `invoices` — largest; move `InvoicePresenter` from the controller into the service
       first. Split per Phase 3 task 3.5.1 if the diff gets unreviewable
-- [ ] 1.5.C.5 Per PR: `pnpm generate` → the audit count drops → **delete that resource's dashboard
-      casts in the same PR**
-- [ ] 1.5.C.6 Golden masters stay green
+- [x] 1.5.C.5 Per PR: `pnpm generate` → the audit count drops → **delete that resource's dashboard
+      casts in the same PR** *(payments: dashboard casts gone; audit count dropped from 76 → 69 committed)*
+- [ ] 1.5.C.6 Golden masters stay green *(payments PR green; still owed for remaining C.2–C.4)*
 
 ### 1.5.D — Tier A migration
 
@@ -164,13 +164,13 @@ inheriting typed list/show/create/update/delete, pagination, filter schema, and 
       `accounting.service.ts` returns `journalEntry` with nested `lines` verbatim
 - [ ] 1.5.E.3 **Do not** convert these to `CrudService`. Record in each PR description why the
       service stayed bespoke
-- [ ] 1.5.E.4 **Resolves Q7 — `Decimal` serialization.** Prisma returns `Decimal`; hand-rolled
+- [x] 1.5.E.4 **Resolves Q7 — `Decimal` serialization.** Prisma returns `Decimal`; hand-rolled
       controllers leak whatever `JSON.stringify` produces, and the untyped responses have hidden
       the inconsistency. The layered path already chose: `invoice.presenter.ts:6-9` defines a local
       `toNum()` calling `.toNumber()`. **Recommendation: standardise on `number` and lift `toNum`
       into a shared `CrudPresenter` helper** rather than re-declaring it per module. `number`
       loses exactness above 2^53, which `@db.Decimal(18,4)` can exceed — record as a known
-      limitation with a follow-up spec rather than breaking every typed endpoint mid-refactor
+      limitation with a follow-up spec rather than breaking every typed endpoint mid-refactor *(done — `toNum` is now a static helper on `CrudPresenter`; `PaymentPresenter` uses it)*
 - [ ] 1.5.E.5 **Resolves Q6 — singleton tier placement.** `FinancialSettingsService` (1-to-1 with
       `Tenant`) and `SettingsService` (grouped key-value) have `get` + `update` but no list or
       create. **Recommendation: Tier C** — a `SingletonResourceService` base would serve exactly

@@ -17,6 +17,8 @@
 import { InvoicePostingService } from '../../../invoicing/invoices/invoice-posting.service';
 import { PaymentsService } from '../../../invoicing/payments/payments.service';
 import { ExpensesService } from '../../../invoicing/expenses/expenses.service';
+import { PaymentsRepository } from '../../../invoicing/payments/repositories/payments.repository';
+import { PaymentPresenter } from '../../../invoicing/payments/presenters/payment.presenter';
 import {
     buildStockCountVarianceLines,
     buildOpeningBalanceLines,
@@ -360,6 +362,8 @@ describe('golden master: payment', () => {
         allocatedAmount: 0,
         party: {},
         fiscalPeriod: { status: 'OPEN' },
+        createdAt: new Date('2026-03-02T00:00:00.000Z'),
+        updatedAt: new Date('2026-03-02T00:00:00.000Z'),
         ...overrides,
     });
 
@@ -369,7 +373,13 @@ describe('golden master: payment', () => {
             cashbox: { ...capture.tx.cashbox, findUnique: async () => ({ linkedAccountId: ACC.cashbox }) },
             journalEntry: { ...capture.tx.journalEntry, findFirst: async () => ({ id: 'je-original' }) },
         });
-        return new PaymentsService(prisma, fakeDocSeq, fakePostingFacade());
+        return new PaymentsService(
+            new PaymentsRepository(prisma),
+            new PaymentPresenter(),
+            fakeDocSeq,
+            prisma,
+            fakePostingFacade(),
+        );
     }
 
     it('RECEIPT: debits Cashbox, credits Receivable with the party on the AR leg', async () => {
@@ -435,7 +445,13 @@ describe('golden master: payment', () => {
             cashbox: { ...capture.tx.cashbox, findUnique: async () => ({ linkedAccountId: ACC.cashbox }) },
             journalEntry: { ...capture.tx.journalEntry, findFirst: async () => original },
         });
-        const service = new PaymentsService(prisma, fakeDocSeq, fakePostingFacade());
+        const service = new PaymentsService(
+            new PaymentsRepository(prisma),
+            new PaymentPresenter(),
+            fakeDocSeq,
+            prisma,
+            fakePostingFacade(),
+        );
 
         await service.cancel(TENANT, 'payment-1', USER);
 

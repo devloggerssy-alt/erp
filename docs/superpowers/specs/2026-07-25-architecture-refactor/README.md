@@ -33,8 +33,8 @@ The task-level execution plan lives at
 | # | Spec | Depends on | Status |
 |---|---|---|---|
 | 0 | [Guardrails](phase-0-guardrails.md) — strictness, golden masters, drift checker, CI | nothing | ✅ **complete** — baseline drift run still pending (needs a DB) |
-| 1 | [GL Posting Port](phase-1-gl-posting-port.md) — accounting owns all GL policy | 0 ✅ | ⬜ **ready to start** |
-| 1.5 | [Service & Controller Layering](phase-1.5-service-layering.md) — three tiers, typed responses | 1 | ⬜ not started |
+| 1 | [GL Posting Port](phase-1-gl-posting-port.md) — accounting owns all GL policy | 0 ✅ | ✅ **complete** — Q1/Q2 answered; verification re-done 2026-08-17 (tsc clean, 147/147 tests, golden masters 25/25, live-DB balance-drift recorded + clean, full manual smoke test 12/12) |
+| 1.5 | [Service & Controller Layering](phase-1.5-service-layering.md) — three tiers, typed responses | 1 ✅ | 🟡 **in progress** — A (ratchet) done, B (`StatusGuardedCrudService`) done, C.1 (payments) done; execution plan at `docs/superpowers/plans/2026-07-30-phase-1.5-service-layering.md` |
 | 2 | [Client & Dashboard Type Safety](phase-2-client-and-dashboard-types.md) | 1.5 | ⬜ not started |
 | 3 | [Remaining Coupling](phase-3-remaining-coupling.md) — inventory port, onboarding saga, deletion semantics | 1.5 | ⬜ needs own spec expansion |
 | 4 | [Modularity](phase-4-modularity.md) — capability manifest, outbox seam | 3 | ⬜ needs own spec expansion |
@@ -70,12 +70,12 @@ independent half for no reason and left the refactor phases unguarded.
 
 ### Functional
 
-- [ ] No module outside `modules/accounting/**` imports `JournalPostingService`,
+- [x] No module outside `modules/accounting/**` imports `JournalPostingService`,
       `FinancialSettingsService`, `DocumentSequencesService`, `assertFiscalPeriodOpen`, or any
       journal-line builder. *(Phase 1)*
-- [ ] Callers describe **economic facts**; accounting decides accounts, sides, sequence, period. *(Phase 1)*
-- [ ] GL posting stays inside the caller's Prisma transaction — ACID preserved. *(Phase 1)*
-- [ ] Posted journal entries are byte-identical before and after Phase 1.
+- [x] Callers describe **economic facts**; accounting decides accounts, sides, sequence, period. *(Phase 1)*
+- [x] GL posting stays inside the caller's Prisma transaction — ACID preserved. *(Phase 1)*
+- [x] Posted journal entries are byte-identical before and after Phase 1.
 - [ ] `apps/api` compiles under `strict: true` across `src/**`, **before any refactor phase begins**. *(Phase 0.4)*
 - [ ] Every `2xx` response resolves to a named schema — zero `"application/json": unknown` or
       `content?: never` in `packages/api-contracts/types/index.ts`. *(Phase 1.5)*
@@ -118,7 +118,7 @@ Testing is a gate on every phase, not a phase of its own. Current state: 23 spec
 | Phase | Test obligation |
 |---|---|
 | 0 | ✅ Golden masters for all 10 posting paths (25 tests, mutation-verified) + `tsc --noEmit` clean under the strict base, **verified to fail** on a deliberately introduced implicit `any` |
-| 1 | Per-policy unit tests; golden masters unchanged; balance drift ≤ baseline |
+| 1 | ✅ Per-policy unit tests; golden masters unchanged (25/25); boundary lint rule passing. Balance-drift baseline + post-Phase-1 comparison recorded 2026-08-17 (both `clean: true`, identical); manual smoke test 12/12. Q5 remains open — DB has no pre-existing financial data |
 | 1.5 | Lifecycle-guard tests (posted rejects update **and** delete); response-type audit at 0 untyped; golden masters unchanged |
 | 2 | `expectTypeOf` tests for `crud-client` inference |
 | 3 | Facade contract tests for inventory |
@@ -132,14 +132,14 @@ Testing is a gate on every phase, not a phase of its own. Current state: 23 spec
 
 | # | Question | Owner |
 |---|---|---|
-| Q1 | Does `ReferenceType` need an `OPENING_STOCK` member? | [Phase 1](phase-1-gl-posting-port.md) task 1.4.7 |
-| Q2 | Accounting bugs surfaced while extracting policies — log, fix in a follow-up spec, **never inside Phase 1** | [Phase 1](phase-1-gl-posting-port.md) task 1.6 |
+| Q1 | Does `ReferenceType` need an `OPENING_STOCK` member? | [Phase 1](phase-1-gl-posting-port.md) task 1.4.7 — ✅ **answered** (recorded in plan) |
+| Q2 | Accounting bugs surfaced while extracting policies — log, fix in a follow-up spec, **never inside Phase 1** | [Phase 1](phase-1-gl-posting-port.md) task 1.6 — ✅ **answered** (Q2 log recorded in plan) |
 | Q3 | `Permission` global vs tenant-scoped | [Phase 6](phase-6-authz.md) |
 | Q4 | `AuditLog` retention policy | [Phase 5](phase-5-audit-observability.md) |
 | Q5 | Pre-existing balance drift — correct now or track separately? | [Phase 0](phase-0-guardrails.md) task 0.2.4 — **still open**, needs the baseline run |
-| Q6 | Tier placement of the `FinancialSettingsService` / `SettingsService` singletons | [Phase 1.5](phase-1.5-service-layering.md) |
-| Q7 | `Decimal` serialization in response DTOs | [Phase 1.5](phase-1.5-service-layering.md) task 1.5.E |
-| Q8 | Does `DocumentCrudService` belong in `backend-core`? | [Phase 1.5](phase-1.5-service-layering.md) task 1.5.B |
+| Q6 | Tier placement of the `FinancialSettingsService` / `SettingsService` singletons | [Phase 1.5](phase-1.5-service-layering.md) — **recommendation (Tier C) recorded** in spec task 1.5.E.5, decision still open |
+| Q7 | `Decimal` serialization in response DTOs | [Phase 1.5](phase-1.5-service-layering.md) task 1.5.E — ✅ **answered**: standardise on `number`; `toNum` lifted into `CrudPresenter` (`packages/backend-core/src/base/crud-presenter.ts`) |
+| Q8 | Does `DocumentCrudService` belong in `backend-core`? | [Phase 1.5](phase-1.5-service-layering.md) task 1.5.B — ✅ **answered**: yes, `backend-core`, named `StatusGuardedCrudService` |
 
 ---
 
