@@ -5,7 +5,7 @@
   "stockBalances": [],
   "unbalancedEntries": [],
   "notChecked": [
-    "StockBalance.averageCost — a running weighted average whose recomputation requires replaying every movement in order. Deferred to Phase 5 (task 5.4).",
+    "StockBalance.averageCost — a running weighted average whose recomputation requires replaying every movement in order. Deferred to Phase 7.",
     "ChartOfAccount.currentBalance — no longer exists. Removed in the CoA refactor; account balances are computed from JournalLine on read, so the cache cannot drift."
   ]
 }

@@ -10719,215 +10719,6 @@ paths:
       summary: Delete a brand
       tags:
         - Catalog / Brands
-  /accounting/journal-entries:
-    get:
-      description: >-
-        Returns a paginated list of journal entries. Journal entries are
-        automatically created when invoices or payments are posted/cancelled.
-      operationId: Accounting.findJournalEntries
-      parameters:
-        - name: page
-          required: true
-          in: query
-          schema:
-            type: number
-        - name: limit
-          required: true
-          in: query
-          schema:
-            type: number
-      responses:
-        '200':
-          description: Paginated list of journal entries
-          content:
-            application/json:
-              schema:
-                example:
-                  message: Journal entries
-                  data:
-                    - id: ...
-                      referenceType: INVOICE
-                      referenceId: ...
-                      date: '2026-04-14'
-                      lines:
-                        - accountId: ...
-                          debit: 600000
-                          credit: 0
-                  meta:
-                    pagination:
-                      total: 10
-                      page: 1
-                      limit: 50
-                      totalPages: 1
-        '401':
-          description: JWT token is missing, expired, or invalid
-          content:
-            application/json:
-              schema:
-                example:
-                  status: error
-                  message: Unauthorized
-                  data: null
-                  error:
-                    code: UNAUTHORIZED
-                    message: JWT token is missing, expired, or invalid
-        '403':
-          description: Insufficient permissions to perform this action
-          content:
-            application/json:
-              schema:
-                example:
-                  status: error
-                  message: Forbidden
-                  data: null
-                  error:
-                    code: FORBIDDEN
-                    message: Insufficient permissions to perform this action
-        '404':
-          description: The requested resource was not found
-          content:
-            application/json:
-              schema:
-                example:
-                  status: error
-                  message: Not found
-                  data: null
-                  error:
-                    code: NOT_FOUND
-                    message: The requested resource was not found
-        '422':
-          description: Request body validation failed
-          content:
-            application/json:
-              schema:
-                example:
-                  status: error
-                  message: Validation failed
-                  data: null
-                  error:
-                    code: VALIDATION_ERROR
-                    message: Validation failed
-                    details:
-                      - property: email
-                        constraints:
-                          isEmail: email must be a valid email address
-        '500':
-          description: An unexpected internal server error occurred
-          content:
-            application/json:
-              schema:
-                example:
-                  status: error
-                  message: Internal server error
-                  data: null
-                  error:
-                    code: INTERNAL_ERROR
-                    message: An unexpected internal server error occurred
-      security:
-        - JWT-auth: []
-      summary: List all journal entries
-      tags:
-        - Accounting
-  /accounting/journal-entries/{id}:
-    get:
-      operationId: Accounting.findJournalEntry
-      parameters:
-        - name: id
-          required: true
-          in: path
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Journal entry details with lines
-          content:
-            application/json:
-              schema:
-                example:
-                  message: Journal entry details
-                  data:
-                    id: ...
-                    referenceType: INVOICE
-                    referenceId: ...
-                    date: '2026-04-14'
-                    lines:
-                      - accountId: ...
-                        accountName: Inventory
-                        debit: 600000
-                        credit: 0
-                      - accountId: ...
-                        accountName: Accounts Payable
-                        debit: 0
-                        credit: 600000
-        '401':
-          description: JWT token is missing, expired, or invalid
-          content:
-            application/json:
-              schema:
-                example:
-                  status: error
-                  message: Unauthorized
-                  data: null
-                  error:
-                    code: UNAUTHORIZED
-                    message: JWT token is missing, expired, or invalid
-        '403':
-          description: Insufficient permissions to perform this action
-          content:
-            application/json:
-              schema:
-                example:
-                  status: error
-                  message: Forbidden
-                  data: null
-                  error:
-                    code: FORBIDDEN
-                    message: Insufficient permissions to perform this action
-        '404':
-          description: The requested resource was not found
-          content:
-            application/json:
-              schema:
-                example:
-                  status: error
-                  message: Not found
-                  data: null
-                  error:
-                    code: NOT_FOUND
-                    message: The requested resource was not found
-        '422':
-          description: Request body validation failed
-          content:
-            application/json:
-              schema:
-                example:
-                  status: error
-                  message: Validation failed
-                  data: null
-                  error:
-                    code: VALIDATION_ERROR
-                    message: Validation failed
-                    details:
-                      - property: email
-                        constraints:
-                          isEmail: email must be a valid email address
-        '500':
-          description: An unexpected internal server error occurred
-          content:
-            application/json:
-              schema:
-                example:
-                  status: error
-                  message: Internal server error
-                  data: null
-                  error:
-                    code: INTERNAL_ERROR
-                    message: An unexpected internal server error occurred
-      security:
-        - JWT-auth: []
-      summary: Get journal entry by ID
-      tags:
-        - Accounting
   /currencies:
     get:
       operationId: Currencies.list
@@ -12634,6 +12425,215 @@ paths:
       summary: Balance drift report
       tags:
         - Accounting / Reconciliation
+  /accounting/journal-entries:
+    get:
+      description: >-
+        Returns a paginated list of journal entries. Journal entries are
+        automatically created when invoices or payments are posted/cancelled.
+      operationId: JournalEntries.findJournalEntries
+      parameters:
+        - name: page
+          required: true
+          in: query
+          schema:
+            type: number
+        - name: limit
+          required: true
+          in: query
+          schema:
+            type: number
+      responses:
+        '200':
+          description: Paginated list of journal entries
+          content:
+            application/json:
+              schema:
+                example:
+                  message: Journal entries
+                  data:
+                    - id: ...
+                      referenceType: INVOICE
+                      referenceId: ...
+                      date: '2026-04-14'
+                      lines:
+                        - accountId: ...
+                          debit: 600000
+                          credit: 0
+                  meta:
+                    pagination:
+                      total: 10
+                      page: 1
+                      limit: 50
+                      totalPages: 1
+        '401':
+          description: JWT token is missing, expired, or invalid
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Unauthorized
+                  data: null
+                  error:
+                    code: UNAUTHORIZED
+                    message: JWT token is missing, expired, or invalid
+        '403':
+          description: Insufficient permissions to perform this action
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Forbidden
+                  data: null
+                  error:
+                    code: FORBIDDEN
+                    message: Insufficient permissions to perform this action
+        '404':
+          description: The requested resource was not found
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Not found
+                  data: null
+                  error:
+                    code: NOT_FOUND
+                    message: The requested resource was not found
+        '422':
+          description: Request body validation failed
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Validation failed
+                  data: null
+                  error:
+                    code: VALIDATION_ERROR
+                    message: Validation failed
+                    details:
+                      - property: email
+                        constraints:
+                          isEmail: email must be a valid email address
+        '500':
+          description: An unexpected internal server error occurred
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Internal server error
+                  data: null
+                  error:
+                    code: INTERNAL_ERROR
+                    message: An unexpected internal server error occurred
+      security:
+        - JWT-auth: []
+      summary: List all journal entries
+      tags:
+        - Accounting / Journal Entries
+  /accounting/journal-entries/{id}:
+    get:
+      operationId: JournalEntries.findJournalEntry
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Journal entry details with lines
+          content:
+            application/json:
+              schema:
+                example:
+                  message: Journal entry details
+                  data:
+                    id: ...
+                    referenceType: INVOICE
+                    referenceId: ...
+                    date: '2026-04-14'
+                    lines:
+                      - accountId: ...
+                        accountName: Inventory
+                        debit: 600000
+                        credit: 0
+                      - accountId: ...
+                        accountName: Accounts Payable
+                        debit: 0
+                        credit: 600000
+        '401':
+          description: JWT token is missing, expired, or invalid
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Unauthorized
+                  data: null
+                  error:
+                    code: UNAUTHORIZED
+                    message: JWT token is missing, expired, or invalid
+        '403':
+          description: Insufficient permissions to perform this action
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Forbidden
+                  data: null
+                  error:
+                    code: FORBIDDEN
+                    message: Insufficient permissions to perform this action
+        '404':
+          description: The requested resource was not found
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Not found
+                  data: null
+                  error:
+                    code: NOT_FOUND
+                    message: The requested resource was not found
+        '422':
+          description: Request body validation failed
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Validation failed
+                  data: null
+                  error:
+                    code: VALIDATION_ERROR
+                    message: Validation failed
+                    details:
+                      - property: email
+                        constraints:
+                          isEmail: email must be a valid email address
+        '500':
+          description: An unexpected internal server error occurred
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Internal server error
+                  data: null
+                  error:
+                    code: INTERNAL_ERROR
+                    message: An unexpected internal server error occurred
+      security:
+        - JWT-auth: []
+      summary: Get journal entry by ID
+      tags:
+        - Accounting / Journal Entries
   /invoice-types:
     get:
       operationId: InvoiceTypes.list

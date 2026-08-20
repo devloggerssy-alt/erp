@@ -1,7 +1,7 @@
 import { IsOptional, IsString } from 'class-validator';
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { ChartOfAccountResponseDto } from '../accounts/dto';
+import { ChartOfAccountResponseDto } from '../../accounts/dto';
 export class UpsertFinancialSettingBodyDto {
     @ApiPropertyOptional({ type: 'string', nullable: true, example: '00000000-0000-4000-a600-000000000001', description: 'Default sales revenue account' })
     @IsOptional() @IsString()

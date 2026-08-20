@@ -138,7 +138,7 @@ become a RECEIPT — and `payment-journal.ts` branches on that value to choose t
 direction, so the cash would post to the wrong side of the ledger.
 
 Pinned by `apps/api/src/common/__tests__/dto-validation-semantics.spec.ts`. See
-`docs/superpowers/specs/2026-07-25-architecture-refactor/00-findings.md` (F11).
+`docs/superpowers/specs/2026-08-20-erp-roadmap/00-open-issues.md` (DTO validation).
 
 ```typescript
 // modules/catalog/units/dto/unit.dto.ts

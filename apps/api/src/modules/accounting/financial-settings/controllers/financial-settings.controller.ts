@@ -4,7 +4,7 @@ import { ApiTags, ApiBearerAuth, ApiOkResponse, ApiOperation } from '@nestjs/swa
 import { JwtAuthGuard } from '@/modules/identity/auth/guards';
 import { CurrentUser, RequestUser } from '@/modules/identity/auth/decorators';
 import { FinancialSettingsService } from '../services/financial-settings.service';
-import { FinancialSettingResponseDto, UpsertFinancialSettingBodyDto } from '../financial-settings.dto';
+import { FinancialSettingResponseDto, UpsertFinancialSettingBodyDto } from '../dto';
 
 
 

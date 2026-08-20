@@ -12,7 +12,7 @@ function round(value: number): number {
  * Builds balanced double-entry lines for an invoice, absorbing what used to
  * live at the top of InvoicePostingService.postPurchaseInvoice/postSalesInvoice
  * (account resolution) plus invoice-journal.ts and inventory-journal.ts's
- * buildCogsJournalLines (the math). See docs/superpowers/specs/2026-07-25-architecture-refactor/00-findings.md#f1.
+ * buildCogsJournalLines (the math).
  */
 @Injectable()
 export class InvoicePostedPolicy {

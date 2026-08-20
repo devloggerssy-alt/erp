@@ -5,25 +5,18 @@ import {
     CashboxDriftDto,
     StockBalanceDriftDto,
     UnbalancedJournalEntryDto,
-} from './dto/balance-drift.dto';
+} from '../dto/balance-drift.dto';
 
 /**
  * Phase 0.2 — compares denormalized balance caches against their ledger source
- * of truth, so Phase 1 can prove it introduced no new drift.
- *
- * Record a baseline BEFORE Phase 1 starts. Pre-existing drift is not a Phase 1
- * regression; only an increase is.
- *
- * Promoted to a scheduled job in Phase 5 (task 5.4).
- *
- * Spec: docs/superpowers/specs/2026-07-25-architecture-refactor/phase-0-guardrails.md
+ * of truth. See docs/superpowers/specs/2026-08-20-erp-roadmap/drift-baselines.md
  */
 
 /** Decimal(18,4) — compare at the precision the column actually stores. */
 const TOLERANCE = 0.0001;
 
 const NOT_CHECKED = [
-    'StockBalance.averageCost — a running weighted average whose recomputation requires replaying every movement in order. Deferred to Phase 5 (task 5.4).',
+    'StockBalance.averageCost — a running weighted average whose recomputation requires replaying every movement in order. Deferred to Phase 7.',
     'ChartOfAccount.currentBalance — no longer exists. Removed in the CoA refactor; account balances are computed from JournalLine on read, so the cache cannot drift.',
 ];
 
