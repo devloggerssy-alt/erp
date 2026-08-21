@@ -6,7 +6,6 @@ import {
     AccountingPostingFacade,
     type OpeningSessionPostedIntent,
     type OpeningSessionLineDraft,
-    type PrismaTransactionClient,
 } from '../../posting';
 import { OpeningCashService } from '../services/opening-cash.service';
 import { OpeningBankService } from '../services/opening-bank.service';

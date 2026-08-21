@@ -92,6 +92,54 @@ export class InventoryService {
         return this.prisma.$transaction((tx) => this.postMovementTx(tx, params));
     }
 
+    async registerOpeningStockTx(
+        tx: PrismaTransactionClient,
+        params: {
+            tenantId: string;
+            userId: string;
+            warehouseId: string;
+            fiscalPeriodId: string;
+            fiscalPeriodStatus?: string | undefined;
+            items: { itemId: string; quantity: number; unitCost: number }[];
+        },
+    ): Promise<{ count: number; journalEntryId: string | null }> {
+        const totalValue = params.items.reduce((s, it) => s + it.quantity * it.unitCost, 0);
+
+        for (const item of params.items) {
+            await this.postMovementTx(tx, {
+                tenantId: params.tenantId,
+                userId: params.userId,
+                warehouseId: params.warehouseId,
+                itemId: item.itemId,
+                fiscalPeriodId: params.fiscalPeriodId,
+                movementType: StockMovementType.OPENING,
+                quantity: item.quantity,
+                unitCost: item.unitCost,
+                notes: 'Opening Balance Registration',
+            });
+        }
+
+        let journalEntryId: string | null = null;
+        if (totalValue !== 0) {
+            const intent: OpeningStockPostedIntent = {
+                kind: 'OPENING_STOCK_POSTED',
+                tenantId: params.tenantId,
+                userId: params.userId,
+                date: new Date(),
+                fiscalPeriodId: params.fiscalPeriodId,
+                fiscalPeriodStatus: params.fiscalPeriodStatus,
+                exchangeRate: 1,
+                referenceId: params.warehouseId,
+                description: 'Opening inventory balance',
+                totalValue,
+            };
+            const result = await this.postingFacade.record(tx, intent);
+            journalEntryId = result.journalEntryId;
+        }
+
+        return { count: params.items.length, journalEntryId };
+    }
+
     async registerOpeningBalance(tenantId: string, userId: string, dto: PostOpeningBalanceDto) {
         const period = await this.prisma.fiscalPeriod.findFirst({
             where: { id: dto.fiscalPeriodId, tenantId },
@@ -99,43 +147,16 @@ export class InventoryService {
         });
         assertFiscalPeriodOpen(period?.status);
 
-        const totalValue = dto.items.reduce((s, it) => s + it.quantity * it.unitCost, 0);
-
-        return this.prisma.$transaction(async (tx) => {
-            for (const item of dto.items) {
-                await this.postMovementTx(tx, {
-                    tenantId,
-                    userId,
-                    warehouseId: dto.warehouseId,
-                    itemId: item.itemId,
-                    fiscalPeriodId: dto.fiscalPeriodId,
-                    movementType: StockMovementType.OPENING,
-                    quantity: item.quantity,
-                    unitCost: item.unitCost,
-                    notes: 'Opening Balance Registration',
-                });
-            }
-
-            let journalEntryId: string | null = null;
-            if (totalValue !== 0) {
-                const intent: OpeningStockPostedIntent = {
-                    kind: 'OPENING_STOCK_POSTED',
-                    tenantId,
-                    userId,
-                    date: new Date(),
-                    fiscalPeriodId: dto.fiscalPeriodId,
-                    fiscalPeriodStatus: period?.status,
-                    exchangeRate: 1,
-                    referenceId: dto.warehouseId,
-                    description: 'Opening inventory balance',
-                    totalValue,
-                };
-                const result = await this.postingFacade.record(tx, intent);
-                journalEntryId = result.journalEntryId;
-            }
-
-            return { count: dto.items.length, warehouseId: dto.warehouseId, journalEntryId };
-        });
+        return this.prisma.$transaction((tx) =>
+            this.registerOpeningStockTx(tx, {
+                tenantId,
+                userId,
+                warehouseId: dto.warehouseId,
+                fiscalPeriodId: dto.fiscalPeriodId,
+                fiscalPeriodStatus: period?.status,
+                items: dto.items,
+            }),
+        );
     }
 
     async getBalances(tenantId: string, filters: { warehouseId?: string; itemId?: string }) {

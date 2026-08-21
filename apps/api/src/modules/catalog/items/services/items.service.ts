@@ -3,7 +3,6 @@ import { EventEmitter2 } from '@nestjs/event-emitter';
 import { CrudService, FindManyOptions } from '@devloggers/backend-core';
 import { customFieldModules, resources } from '@devloggers/api-contracts';
 import type { Item } from '@devloggers/db-prisma';
-import { StockMovementType } from '@devloggers/db-prisma';
 import { PrismaService } from '@devloggers/db-prisma/nest';
 import { CustomFieldValuesService } from '@/modules/custom-fields/services/custom-field-values.service';
 import { InventoryService } from '@/modules/inventory/inventory.service';
@@ -102,17 +101,18 @@ export class ItemsService extends CrudService<Item, ItemResponseDto, CreateItemD
                     'No open fiscal period found. Please create a fiscal period before registering opening stock.',
                 );
             }
-            await this.inventoryService.postMovement({
-                tenantId,
-                warehouseId: openingStock.warehouseId,
-                itemId: created.id,
-                fiscalPeriodId: fiscalPeriod.id,
-                movementType: StockMovementType.OPENING,
-                quantity: openingStock.quantity,
-                unitCost: openingStock.unitCost ?? 0,
-                userId: openingStock._userId ?? 'system',
-                notes: 'Opening stock registered at item creation',
-            });
+            await this.prisma.$transaction((tx) =>
+                this.inventoryService.registerOpeningStockTx(tx, {
+                    tenantId,
+                    userId: openingStock._userId ?? 'system',
+                    warehouseId: openingStock.warehouseId,
+                    fiscalPeriodId: fiscalPeriod.id,
+                    fiscalPeriodStatus: fiscalPeriod.status,
+                    items: [
+                        { itemId: created.id, quantity: openingStock.quantity, unitCost: openingStock.unitCost ?? 0 },
+                    ],
+                }),
+            );
         }
 
         return this.findById(tenantId, created.id);
