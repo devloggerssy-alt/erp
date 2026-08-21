@@ -37,6 +37,7 @@ import { brandResource } from './brand.resource'
 import { bankAccountResource } from './bank-account.resource'
 import { financialSettingResource } from './financial-setting.resource'
 import { accountOpeningBalanceResource } from './account-opening-balance.resource'
+import { openingBalanceSessionResource } from './opening-balance-session.resource'
 
 export * from './auth.resource'
 export * from './tenant.resource'
@@ -74,6 +75,7 @@ export * from './brand.resource'
 export * from './bank-account.resource'
 export * from './financial-setting.resource'
 export * from './account-opening-balance.resource'
+export * from './opening-balance-session.resource'
 export * from './accounting.types'
 
 export const resources = {
@@ -113,5 +115,6 @@ export const resources = {
   bankAccounts: bankAccountResource,
   financialSettings: financialSettingResource,
   accountOpeningBalances: accountOpeningBalanceResource,
+  openingBalanceSessions: openingBalanceSessionResource,
 } as const
 

@@ -12634,6 +12634,831 @@ paths:
       summary: Get journal entry by ID
       tags:
         - Accounting / Journal Entries
+  /accounting/opening-balance-sessions:
+    post:
+      operationId: OpeningBalanceSessions.create
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOpeningBalanceSessionDto'
+      responses:
+        '200':
+          description: Session created
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiSuccessResponseDto'
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/OpeningBalanceSessionResponseDto'
+        '201':
+          description: ''
+        '401':
+          description: JWT token is missing, expired, or invalid
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Unauthorized
+                  data: null
+                  error:
+                    code: UNAUTHORIZED
+                    message: JWT token is missing, expired, or invalid
+        '403':
+          description: Insufficient permissions to perform this action
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Forbidden
+                  data: null
+                  error:
+                    code: FORBIDDEN
+                    message: Insufficient permissions to perform this action
+        '404':
+          description: The requested resource was not found
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Not found
+                  data: null
+                  error:
+                    code: NOT_FOUND
+                    message: The requested resource was not found
+        '422':
+          description: Request body validation failed
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Validation failed
+                  data: null
+                  error:
+                    code: VALIDATION_ERROR
+                    message: Validation failed
+                    details:
+                      - property: email
+                        constraints:
+                          isEmail: email must be a valid email address
+        '500':
+          description: An unexpected internal server error occurred
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Internal server error
+                  data: null
+                  error:
+                    code: INTERNAL_ERROR
+                    message: An unexpected internal server error occurred
+      security:
+        - JWT-auth: []
+      summary: Create an opening balance session (DRAFT)
+      tags:
+        - Accounting / Opening Balances
+    get:
+      operationId: OpeningBalanceSessions.list
+      parameters:
+        - name: page
+          required: false
+          in: query
+          schema:
+            type: string
+        - name: limit
+          required: false
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Sessions
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiSuccessResponseDto'
+                  - properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: >-
+                            #/components/schemas/OpeningBalanceSessionResponseDto
+        '401':
+          description: JWT token is missing, expired, or invalid
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Unauthorized
+                  data: null
+                  error:
+                    code: UNAUTHORIZED
+                    message: JWT token is missing, expired, or invalid
+        '403':
+          description: Insufficient permissions to perform this action
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Forbidden
+                  data: null
+                  error:
+                    code: FORBIDDEN
+                    message: Insufficient permissions to perform this action
+        '404':
+          description: The requested resource was not found
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Not found
+                  data: null
+                  error:
+                    code: NOT_FOUND
+                    message: The requested resource was not found
+        '422':
+          description: Request body validation failed
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Validation failed
+                  data: null
+                  error:
+                    code: VALIDATION_ERROR
+                    message: Validation failed
+                    details:
+                      - property: email
+                        constraints:
+                          isEmail: email must be a valid email address
+        '500':
+          description: An unexpected internal server error occurred
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Internal server error
+                  data: null
+                  error:
+                    code: INTERNAL_ERROR
+                    message: An unexpected internal server error occurred
+      security:
+        - JWT-auth: []
+      summary: List opening balance sessions
+      tags:
+        - Accounting / Opening Balances
+  /accounting/opening-balance-sessions/{id}:
+    get:
+      operationId: OpeningBalanceSessions.show
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: Session UUID
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Session with lines
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiSuccessResponseDto'
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/OpeningBalanceSessionResponseDto'
+        '401':
+          description: JWT token is missing, expired, or invalid
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Unauthorized
+                  data: null
+                  error:
+                    code: UNAUTHORIZED
+                    message: JWT token is missing, expired, or invalid
+        '403':
+          description: Insufficient permissions to perform this action
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Forbidden
+                  data: null
+                  error:
+                    code: FORBIDDEN
+                    message: Insufficient permissions to perform this action
+        '404':
+          description: The requested resource was not found
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Not found
+                  data: null
+                  error:
+                    code: NOT_FOUND
+                    message: The requested resource was not found
+        '422':
+          description: Request body validation failed
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Validation failed
+                  data: null
+                  error:
+                    code: VALIDATION_ERROR
+                    message: Validation failed
+                    details:
+                      - property: email
+                        constraints:
+                          isEmail: email must be a valid email address
+        '500':
+          description: An unexpected internal server error occurred
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Internal server error
+                  data: null
+                  error:
+                    code: INTERNAL_ERROR
+                    message: An unexpected internal server error occurred
+      security:
+        - JWT-auth: []
+      tags:
+        - Accounting / Opening Balances
+    patch:
+      operationId: OpeningBalanceSessions.update
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: Session UUID
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateOpeningBalanceSessionDto'
+      responses:
+        '200':
+          description: Session updated (DRAFT only)
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiSuccessResponseDto'
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/OpeningBalanceSessionResponseDto'
+        '401':
+          description: JWT token is missing, expired, or invalid
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Unauthorized
+                  data: null
+                  error:
+                    code: UNAUTHORIZED
+                    message: JWT token is missing, expired, or invalid
+        '403':
+          description: Insufficient permissions to perform this action
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Forbidden
+                  data: null
+                  error:
+                    code: FORBIDDEN
+                    message: Insufficient permissions to perform this action
+        '404':
+          description: The requested resource was not found
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Not found
+                  data: null
+                  error:
+                    code: NOT_FOUND
+                    message: The requested resource was not found
+        '422':
+          description: Request body validation failed
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Validation failed
+                  data: null
+                  error:
+                    code: VALIDATION_ERROR
+                    message: Validation failed
+                    details:
+                      - property: email
+                        constraints:
+                          isEmail: email must be a valid email address
+        '500':
+          description: An unexpected internal server error occurred
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Internal server error
+                  data: null
+                  error:
+                    code: INTERNAL_ERROR
+                    message: An unexpected internal server error occurred
+      security:
+        - JWT-auth: []
+      tags:
+        - Accounting / Opening Balances
+    delete:
+      operationId: OpeningBalanceSessions.remove
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: Session UUID
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Session deleted (DRAFT only)
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiSuccessResponseDto'
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/OpeningBalanceSessionResponseDto'
+        '401':
+          description: JWT token is missing, expired, or invalid
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Unauthorized
+                  data: null
+                  error:
+                    code: UNAUTHORIZED
+                    message: JWT token is missing, expired, or invalid
+        '403':
+          description: Insufficient permissions to perform this action
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Forbidden
+                  data: null
+                  error:
+                    code: FORBIDDEN
+                    message: Insufficient permissions to perform this action
+        '404':
+          description: The requested resource was not found
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Not found
+                  data: null
+                  error:
+                    code: NOT_FOUND
+                    message: The requested resource was not found
+        '422':
+          description: Request body validation failed
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Validation failed
+                  data: null
+                  error:
+                    code: VALIDATION_ERROR
+                    message: Validation failed
+                    details:
+                      - property: email
+                        constraints:
+                          isEmail: email must be a valid email address
+        '500':
+          description: An unexpected internal server error occurred
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Internal server error
+                  data: null
+                  error:
+                    code: INTERNAL_ERROR
+                    message: An unexpected internal server error occurred
+      security:
+        - JWT-auth: []
+      tags:
+        - Accounting / Opening Balances
+  /accounting/opening-balance-sessions/{id}/validate:
+    post:
+      operationId: OpeningBalanceSessions.validate
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: Session UUID
+          schema:
+            type: string
+      responses:
+        '200':
+          description: DRAFT → VALIDATED
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiSuccessResponseDto'
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/OpeningBalanceSessionResponseDto'
+        '201':
+          description: ''
+        '401':
+          description: JWT token is missing, expired, or invalid
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Unauthorized
+                  data: null
+                  error:
+                    code: UNAUTHORIZED
+                    message: JWT token is missing, expired, or invalid
+        '403':
+          description: Insufficient permissions to perform this action
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Forbidden
+                  data: null
+                  error:
+                    code: FORBIDDEN
+                    message: Insufficient permissions to perform this action
+        '404':
+          description: The requested resource was not found
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Not found
+                  data: null
+                  error:
+                    code: NOT_FOUND
+                    message: The requested resource was not found
+        '422':
+          description: Request body validation failed
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Validation failed
+                  data: null
+                  error:
+                    code: VALIDATION_ERROR
+                    message: Validation failed
+                    details:
+                      - property: email
+                        constraints:
+                          isEmail: email must be a valid email address
+        '500':
+          description: An unexpected internal server error occurred
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Internal server error
+                  data: null
+                  error:
+                    code: INTERNAL_ERROR
+                    message: An unexpected internal server error occurred
+      security:
+        - JWT-auth: []
+      tags:
+        - Accounting / Opening Balances
+  /accounting/opening-balance-sessions/{id}/review:
+    post:
+      operationId: OpeningBalanceSessions.review
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: Session UUID
+          schema:
+            type: string
+      responses:
+        '200':
+          description: VALIDATED → REVIEWED
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiSuccessResponseDto'
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/OpeningBalanceSessionResponseDto'
+        '201':
+          description: ''
+        '401':
+          description: JWT token is missing, expired, or invalid
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Unauthorized
+                  data: null
+                  error:
+                    code: UNAUTHORIZED
+                    message: JWT token is missing, expired, or invalid
+        '403':
+          description: Insufficient permissions to perform this action
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Forbidden
+                  data: null
+                  error:
+                    code: FORBIDDEN
+                    message: Insufficient permissions to perform this action
+        '404':
+          description: The requested resource was not found
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Not found
+                  data: null
+                  error:
+                    code: NOT_FOUND
+                    message: The requested resource was not found
+        '422':
+          description: Request body validation failed
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Validation failed
+                  data: null
+                  error:
+                    code: VALIDATION_ERROR
+                    message: Validation failed
+                    details:
+                      - property: email
+                        constraints:
+                          isEmail: email must be a valid email address
+        '500':
+          description: An unexpected internal server error occurred
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Internal server error
+                  data: null
+                  error:
+                    code: INTERNAL_ERROR
+                    message: An unexpected internal server error occurred
+      security:
+        - JWT-auth: []
+      tags:
+        - Accounting / Opening Balances
+  /accounting/opening-balance-sessions/{id}/post:
+    post:
+      operationId: OpeningBalanceSessions.post
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: Session UUID
+          schema:
+            type: string
+      responses:
+        '200':
+          description: >-
+            REVIEWED → POSTED; posts the balanced JE via AccountingPostingFacade
+            and syncs cash/bank projections
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiSuccessResponseDto'
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/OpeningBalanceSessionResponseDto'
+        '201':
+          description: ''
+        '401':
+          description: JWT token is missing, expired, or invalid
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Unauthorized
+                  data: null
+                  error:
+                    code: UNAUTHORIZED
+                    message: JWT token is missing, expired, or invalid
+        '403':
+          description: Insufficient permissions to perform this action
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Forbidden
+                  data: null
+                  error:
+                    code: FORBIDDEN
+                    message: Insufficient permissions to perform this action
+        '404':
+          description: The requested resource was not found
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Not found
+                  data: null
+                  error:
+                    code: NOT_FOUND
+                    message: The requested resource was not found
+        '422':
+          description: Request body validation failed
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Validation failed
+                  data: null
+                  error:
+                    code: VALIDATION_ERROR
+                    message: Validation failed
+                    details:
+                      - property: email
+                        constraints:
+                          isEmail: email must be a valid email address
+        '500':
+          description: An unexpected internal server error occurred
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Internal server error
+                  data: null
+                  error:
+                    code: INTERNAL_ERROR
+                    message: An unexpected internal server error occurred
+      security:
+        - JWT-auth: []
+      tags:
+        - Accounting / Opening Balances
+  /accounting/opening-balance-sessions/{id}/lock:
+    post:
+      operationId: OpeningBalanceSessions.lock
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: Session UUID
+          schema:
+            type: string
+      responses:
+        '200':
+          description: POSTED → LOCKED; prevents silent edit
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiSuccessResponseDto'
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/OpeningBalanceSessionResponseDto'
+        '201':
+          description: ''
+        '401':
+          description: JWT token is missing, expired, or invalid
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Unauthorized
+                  data: null
+                  error:
+                    code: UNAUTHORIZED
+                    message: JWT token is missing, expired, or invalid
+        '403':
+          description: Insufficient permissions to perform this action
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Forbidden
+                  data: null
+                  error:
+                    code: FORBIDDEN
+                    message: Insufficient permissions to perform this action
+        '404':
+          description: The requested resource was not found
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Not found
+                  data: null
+                  error:
+                    code: NOT_FOUND
+                    message: The requested resource was not found
+        '422':
+          description: Request body validation failed
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Validation failed
+                  data: null
+                  error:
+                    code: VALIDATION_ERROR
+                    message: Validation failed
+                    details:
+                      - property: email
+                        constraints:
+                          isEmail: email must be a valid email address
+        '500':
+          description: An unexpected internal server error occurred
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Internal server error
+                  data: null
+                  error:
+                    code: INTERNAL_ERROR
+                    message: An unexpected internal server error occurred
+      security:
+        - JWT-auth: []
+      tags:
+        - Accounting / Opening Balances
   /invoice-types:
     get:
       operationId: InvoiceTypes.list
@@ -19270,7 +20095,7 @@ components:
         foreignResourceKey:
           type: string
           example: >-
-            auth|tenants|users|roles|currencies|fiscal-periods|document-sequences|units|item-categories|items|custom-fields|parties|warehouses|inventory|stock-ledger|invoice-types|invoices|cashboxes|payments|expenses|accounting|chart-of-accounts|stock-counts|reports|dashboard|ai|audit-logs|tags|tag-assignments|item-relations|catalog-entities|item-catalog-entities|brands|bank-accounts|financial-settings|account-opening-balances
+            auth|tenants|users|roles|currencies|fiscal-periods|document-sequences|units|item-categories|items|custom-fields|parties|warehouses|inventory|stock-ledger|invoice-types|invoices|cashboxes|payments|expenses|accounting|chart-of-accounts|stock-counts|reports|dashboard|ai|audit-logs|tags|tag-assignments|item-relations|catalog-entities|item-catalog-entities|brands|bank-accounts|financial-settings|account-opening-balances|opening-balance-sessions
       required:
         - field
         - type
@@ -22307,6 +23132,202 @@ components:
         - stockBalances
         - unbalancedEntries
         - notChecked
+    OpeningBalanceSessionStatus:
+      type: string
+      enum:
+        - DRAFT
+        - VALIDATED
+        - REVIEWED
+        - POSTED
+        - LOCKED
+    OpeningBalanceDimension:
+      type: string
+      enum:
+        - CASHBOX
+        - BANK_ACCOUNT
+        - PARTY
+        - ACCOUNT
+    OpeningBalancePartySide:
+      type: string
+      enum:
+        - AR
+        - AP
+    OpeningBalanceSessionLineResponseDto:
+      type: object
+      properties:
+        id:
+          type: string
+          default: ''
+        dimension:
+          default: ''
+          allOf:
+            - $ref: '#/components/schemas/OpeningBalanceDimension'
+        accountId:
+          type: string
+          nullable: true
+          default: null
+        partyId:
+          type: string
+          nullable: true
+          default: null
+        cashboxId:
+          type: string
+          nullable: true
+          default: null
+        bankAccountId:
+          type: string
+          nullable: true
+          default: null
+        currencyId:
+          type: string
+          nullable: true
+          default: null
+        partySide:
+          nullable: true
+          default: null
+          allOf:
+            - $ref: '#/components/schemas/OpeningBalancePartySide'
+        amount:
+          type: number
+          default: 0
+        exchangeRate:
+          type: number
+          default: 1
+      required:
+        - id
+        - dimension
+        - amount
+        - exchangeRate
+    OpeningBalanceSessionResponseDto:
+      type: object
+      properties:
+        id:
+          type: string
+          default: ''
+        number:
+          type: string
+          default: ''
+        fiscalPeriodId:
+          type: string
+          default: ''
+        status:
+          default: ''
+          allOf:
+            - $ref: '#/components/schemas/OpeningBalanceSessionStatus'
+        description:
+          type: string
+          nullable: true
+          default: null
+        postedAt:
+          type: string
+          nullable: true
+          default: null
+        postedBy:
+          type: string
+          nullable: true
+          default: null
+        lockedAt:
+          type: string
+          nullable: true
+          default: null
+        lockedBy:
+          type: string
+          nullable: true
+          default: null
+        lines:
+          default: []
+          type: array
+          items:
+            $ref: '#/components/schemas/OpeningBalanceSessionLineResponseDto'
+        createdAt:
+          type: string
+          default: ''
+        updatedAt:
+          type: string
+          default: ''
+      required:
+        - id
+        - number
+        - fiscalPeriodId
+        - status
+        - lines
+        - createdAt
+        - updatedAt
+    OpeningBalanceSessionLineDto:
+      type: object
+      properties:
+        dimension:
+          default: ACCOUNT
+          example: CASHBOX
+          allOf:
+            - $ref: '#/components/schemas/OpeningBalanceDimension'
+        accountId:
+          type: string
+          nullable: true
+          description: ACCOUNT dimension only — direct GL account input
+        partyId:
+          type: string
+          nullable: true
+          description: PARTY dimension only
+        cashboxId:
+          type: string
+          nullable: true
+          description: CASHBOX dimension only
+        bankAccountId:
+          type: string
+          nullable: true
+          description: BANK_ACCOUNT dimension only
+        currencyId:
+          type: string
+          nullable: true
+          description: Transaction currency. Required for CASHBOX/BANK_ACCOUNT/PARTY.
+        partySide:
+          nullable: true
+          description: >-
+            PARTY only — AR debits the receivable control, AP credits the
+            payable control
+          allOf:
+            - $ref: '#/components/schemas/OpeningBalancePartySide'
+        amount:
+          type: number
+          default: 0
+          example: 1500
+          description: >-
+            Signed transaction-currency amount; positive increases the target
+            balance
+        exchangeRate:
+          type: number
+          example: 1
+          description: Locked rate to tenant base currency (ADR-5)
+      required:
+        - dimension
+        - amount
+    CreateOpeningBalanceSessionDto:
+      type: object
+      properties:
+        fiscalPeriodId:
+          type: string
+          default: ''
+          example: 00000000-0000-4000-a601-000000000010
+        description:
+          type: string
+        lines:
+          default: []
+          type: array
+          items:
+            $ref: '#/components/schemas/OpeningBalanceSessionLineDto'
+      required:
+        - fiscalPeriodId
+        - lines
+    UpdateOpeningBalanceSessionDto:
+      type: object
+      properties:
+        description:
+          type: string
+        lines:
+          type: array
+          items:
+            $ref: '#/components/schemas/OpeningBalanceSessionLineDto'
     InvoiceTypeResponseDto:
       type: object
       properties:
