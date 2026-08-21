@@ -32,8 +32,27 @@ describe('OpeningBalancePolicy.buildLines', () => {
         const { policy, tx } = build(undefined, ACCOUNTS);
         const lines = await policy.buildLines(tx, baseIntent);
         expect(lines).toEqual([
-            { accountId: 'cash', debit: 1000, credit: 0, description: 'Opening balance - cash', sortOrder: 0 },
-            { accountId: 'oe', debit: 0, credit: 1000, description: 'Opening balance offset', sortOrder: 1 },
+            {
+                accountId: 'cash',
+                debit: 1000,
+                credit: 0,
+                description: 'Opening balance - cash',
+                sortOrder: 0,
+                cashboxId: null,
+                bankAccountId: null,
+                currencyId: null,
+                amount: 1000,
+                exchangeRate: 1,
+            },
+            {
+                accountId: 'oe',
+                debit: 0,
+                credit: 1000,
+                description: 'Opening balance offset',
+                sortOrder: 1,
+                amount: 1000,
+                exchangeRate: 1,
+            },
         ]);
     });
 
@@ -47,8 +66,30 @@ describe('OpeningBalancePolicy.buildLines', () => {
             ],
         });
         expect(lines).toEqual([
-            { accountId: 'cash', debit: 1000, credit: 0, description: 'Opening balance - cash', sortOrder: 0 },
-            { accountId: 'loan', debit: 0, credit: 1000, description: 'Opening balance - loan', sortOrder: 1 },
+            {
+                accountId: 'cash',
+                debit: 1000,
+                credit: 0,
+                description: 'Opening balance - cash',
+                sortOrder: 0,
+                cashboxId: null,
+                bankAccountId: null,
+                currencyId: null,
+                amount: 1000,
+                exchangeRate: 1,
+            },
+            {
+                accountId: 'loan',
+                debit: 0,
+                credit: 1000,
+                description: 'Opening balance - loan',
+                sortOrder: 1,
+                cashboxId: null,
+                bankAccountId: null,
+                currencyId: null,
+                amount: 1000,
+                exchangeRate: 1,
+            },
         ]);
     });
 

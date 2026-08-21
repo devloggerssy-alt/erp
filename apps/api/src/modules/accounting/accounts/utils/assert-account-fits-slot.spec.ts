@@ -61,10 +61,12 @@ describe('SLOT_EXPECTATIONS table', () => {
         expect(SLOT_EXPECTATIONS.defaultCogs).toBe('EXPENSE');
         expect(SLOT_EXPECTATIONS.defaultInventoryAdjustment).toBe('EXPENSE');
         expect(SLOT_EXPECTATIONS.defaultOpeningEquity).toBe('EQUITY');
+        expect(SLOT_EXPECTATIONS.defaultCash).toBe('ASSET');
+        expect(SLOT_EXPECTATIONS.defaultBank).toBe('ASSET');
     });
 
-    it('covers all nine slot names', () => {
+    it('covers all eleven slot names', () => {
         const names = Object.keys(SLOT_EXPECTATIONS) as AccountSlotName[];
-        expect(names).toHaveLength(9);
+        expect(names).toHaveLength(11);
     });
 });
