@@ -6,9 +6,10 @@ import { AccountsModule } from './accounts/accounts.module';
 import { FinancialSettingsModule } from './financial-settings/financial-settings.module';
 import { ReconciliationModule } from './reconciliation/reconciliation.module';
 import { JournalEntriesModule } from './journal-entries/journal-entries.module';
+import { OpeningBalancesModule } from './opening-balances/opening-balances.module';
 
 @Module({
-    imports: [CurrenciesModule, FiscalPeriodsModule, DocumentSequencesModule, AccountsModule, FinancialSettingsModule, ReconciliationModule, JournalEntriesModule],
-    exports: [CurrenciesModule, FiscalPeriodsModule, DocumentSequencesModule, AccountsModule, FinancialSettingsModule, ReconciliationModule, JournalEntriesModule],
+    imports: [CurrenciesModule, FiscalPeriodsModule, DocumentSequencesModule, AccountsModule, FinancialSettingsModule, ReconciliationModule, JournalEntriesModule, OpeningBalancesModule],
+    exports: [CurrenciesModule, FiscalPeriodsModule, DocumentSequencesModule, AccountsModule, FinancialSettingsModule, ReconciliationModule, JournalEntriesModule, OpeningBalancesModule],
 })
 export class AccountingModule {}
