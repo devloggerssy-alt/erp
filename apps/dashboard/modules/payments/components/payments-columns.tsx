@@ -20,8 +20,8 @@ type ColumnTranslator = (key: string) => string
 
 export type PaymentColumnActions = {
     onOpenModal: (id: string) => void
-    postPayment: (id: string) => Promise<void>
-    cancelPayment: (id: string) => Promise<void>
+    postPayment: (id: string) => Promise<unknown>
+    cancelPayment: (id: string) => Promise<unknown>
 }
 
 function PaymentActionsCell({
@@ -90,14 +90,14 @@ export function createPaymentsColumns(
 ): ColumnDef<PaymentItem>[] {
     return [
         {
-            accessorKey: "number",
+            accessorKey: "number" as any,
             header: ({ column }) => <ColumnHeader column={column} title={t("number")} />,
             cell: ({ row }) => (
                 <span className="font-mono font-semibold text-sm">{row.getValue("number")}</span>
             ),
         },
         {
-            accessorKey: "type",
+            accessorKey: "type" as any,
             header: ({ column }) => <ColumnHeader column={column} title={t("type")} />,
             cell: ({ row }) => {
                 const type = row.getValue("type") as string
@@ -109,7 +109,7 @@ export function createPaymentsColumns(
             },
         },
         {
-            accessorKey: "date",
+            accessorKey: "date" as any,
             header: ({ column }) => <ColumnHeader column={column} title={t("date")} />,
             cell: ({ row }) => {
                 const val = row.getValue("date") as string
@@ -137,7 +137,7 @@ export function createPaymentsColumns(
             },
         },
         {
-            accessorKey: "status",
+            accessorKey: "status" as any,
             header: ({ column }) => <ColumnHeader column={column} title={t("statusLabel")} />,
             cell: ({ row }) => {
                 const status = row.getValue("status") as string
@@ -161,7 +161,7 @@ export function createPaymentsColumns(
             },
         },
         {
-            accessorKey: "amount",
+            accessorKey: "amount" as any,
             header: ({ column }) => (
                 <ColumnHeader column={column} title={t("amount")} className="text-end" />
             ),

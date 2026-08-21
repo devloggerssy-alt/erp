@@ -13761,6 +13761,599 @@ paths:
       summary: Delete a cashbox
       tags:
         - Invoicing / Cashboxes
+  /bank-accounts:
+    get:
+      operationId: BankAccounts.list
+      parameters:
+        - name: page
+          required: false
+          in: query
+          description: Page number (1-based)
+          schema:
+            default: 1
+            example: 1
+            type: number
+        - name: limit
+          required: false
+          in: query
+          description: Number of items per page
+          schema:
+            default: 10
+            example: 10
+            type: number
+        - name: sortField
+          required: false
+          in: query
+          description: Field name to sort by
+          schema:
+            example: createdAt
+            type: string
+        - name: sortOrder
+          required: false
+          in: query
+          schema:
+            default: asc
+            example: asc
+            type: string
+            enum:
+              - asc
+              - desc
+        - name: search
+          required: false
+          in: query
+          description: Full-text search keyword
+          schema:
+            example: ''
+            type: string
+        - name: searchIn
+          required: false
+          in: query
+          description: Comma-separated field names to search within (e.g. name,symbol)
+          schema:
+            example: ''
+            type: string
+        - name: filters
+          required: false
+          in: query
+          style: deepObject
+          explode: true
+          description: >-
+            Structured filters. Example:
+            filters[currencyId][$eq]=018e1234-abcd-7000-a001-000000000001
+          schema:
+            type: object
+            properties:
+              currencyId:
+                type: object
+                description: Filter on `currencyId` (id)
+                properties:
+                  $eq:
+                    type: string
+                    example: 018e1234-abcd-7000-a001-000000000001
+                  $in:
+                    type: array
+                    items:
+                      type: string
+                  $isNull:
+                    type: boolean
+                    enum:
+                      - true
+                example:
+                  $eq: 018e1234-abcd-7000-a001-000000000001
+            example:
+              currencyId:
+                $eq: 018e1234-abcd-7000-a001-000000000001
+      responses:
+        '200':
+          description: Paginated list of bank accounts
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiSuccessResponseDto'
+                  - properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/BankAccountResponseDto'
+                      meta:
+                        type: object
+                        properties:
+                          pagination:
+                            type: object
+                            properties:
+                              total:
+                                type: number
+                                example: 0
+                              page:
+                                type: number
+                                example: 1
+                              limit:
+                                type: number
+                                example: 10
+                              totalPages:
+                                type: number
+                                example: 0
+                          filterOptions:
+                            type: array
+                            example:
+                              - field: currencyId
+                                type: id
+                                operators:
+                                  - $eq
+                                  - $in
+                                  - $isNull
+                                foreignResourceKey: currencies
+        '401':
+          description: JWT token is missing, expired, or invalid
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Unauthorized
+                  data: null
+                  error:
+                    code: UNAUTHORIZED
+                    message: JWT token is missing, expired, or invalid
+        '403':
+          description: Insufficient permissions to perform this action
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Forbidden
+                  data: null
+                  error:
+                    code: FORBIDDEN
+                    message: Insufficient permissions to perform this action
+        '404':
+          description: The requested resource was not found
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Not found
+                  data: null
+                  error:
+                    code: NOT_FOUND
+                    message: The requested resource was not found
+        '422':
+          description: Request body validation failed
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Validation failed
+                  data: null
+                  error:
+                    code: VALIDATION_ERROR
+                    message: Validation failed
+                    details:
+                      - property: email
+                        constraints:
+                          isEmail: email must be a valid email address
+        '500':
+          description: An unexpected internal server error occurred
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Internal server error
+                  data: null
+                  error:
+                    code: INTERNAL_ERROR
+                    message: An unexpected internal server error occurred
+      security:
+        - JWT-auth: []
+      summary: List bank accounts
+      tags:
+        - Invoicing / BankAccounts
+    post:
+      description: Bank account code must be unique within the tenant.
+      operationId: BankAccounts.create
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateBankAccountDto'
+      responses:
+        '201':
+          description: Bank account created successfully
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiSuccessResponseDto'
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/BankAccountResponseDto'
+        '401':
+          description: JWT token is missing, expired, or invalid
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Unauthorized
+                  data: null
+                  error:
+                    code: UNAUTHORIZED
+                    message: JWT token is missing, expired, or invalid
+        '403':
+          description: Insufficient permissions to perform this action
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Forbidden
+                  data: null
+                  error:
+                    code: FORBIDDEN
+                    message: Insufficient permissions to perform this action
+        '404':
+          description: The requested resource was not found
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Not found
+                  data: null
+                  error:
+                    code: NOT_FOUND
+                    message: The requested resource was not found
+        '422':
+          description: Request body validation failed
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Validation failed
+                  data: null
+                  error:
+                    code: VALIDATION_ERROR
+                    message: Validation failed
+                    details:
+                      - property: email
+                        constraints:
+                          isEmail: email must be a valid email address
+        '500':
+          description: An unexpected internal server error occurred
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Internal server error
+                  data: null
+                  error:
+                    code: INTERNAL_ERROR
+                    message: An unexpected internal server error occurred
+      security:
+        - JWT-auth: []
+      summary: Create a bank account
+      tags:
+        - Invoicing / BankAccounts
+    delete:
+      operationId: BankAccounts.bulkDelete
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BulkDeleteBodyDto'
+      responses:
+        '200':
+          description: Bulk delete result ({ total, succeeded, failed, errors })
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BulkResultResponseDto'
+      security:
+        - JWT-auth: []
+      summary: Bulk delete by ids
+      tags:
+        - Invoicing / BankAccounts
+    patch:
+      operationId: BankAccounts.bulkUpdate
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BulkUpdateBody'
+      responses:
+        '200':
+          description: Bulk partial-update result ({ total, succeeded, failed, errors })
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BulkResultResponseDto'
+      security:
+        - JWT-auth: []
+      summary: Bulk partial update
+      tags:
+        - Invoicing / BankAccounts
+  /bank-accounts/{id}:
+    get:
+      operationId: BankAccounts.show
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: Bank account UUID
+          schema:
+            example: 018e1234-abcd-7000-a001-000000000001
+            type: string
+      responses:
+        '200':
+          description: Bank account details
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiSuccessResponseDto'
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/BankAccountResponseDto'
+        '401':
+          description: JWT token is missing, expired, or invalid
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Unauthorized
+                  data: null
+                  error:
+                    code: UNAUTHORIZED
+                    message: JWT token is missing, expired, or invalid
+        '403':
+          description: Insufficient permissions to perform this action
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Forbidden
+                  data: null
+                  error:
+                    code: FORBIDDEN
+                    message: Insufficient permissions to perform this action
+        '404':
+          description: The requested resource was not found
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Not found
+                  data: null
+                  error:
+                    code: NOT_FOUND
+                    message: The requested resource was not found
+        '422':
+          description: Request body validation failed
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Validation failed
+                  data: null
+                  error:
+                    code: VALIDATION_ERROR
+                    message: Validation failed
+                    details:
+                      - property: email
+                        constraints:
+                          isEmail: email must be a valid email address
+        '500':
+          description: An unexpected internal server error occurred
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Internal server error
+                  data: null
+                  error:
+                    code: INTERNAL_ERROR
+                    message: An unexpected internal server error occurred
+      security:
+        - JWT-auth: []
+      summary: Get a bank account by ID
+      tags:
+        - Invoicing / BankAccounts
+    patch:
+      operationId: BankAccounts.update
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: Bank account UUID
+          schema:
+            example: 018e1234-abcd-7000-a001-000000000001
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateBankAccountDto'
+      responses:
+        '200':
+          description: Updated bank account
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiSuccessResponseDto'
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/BankAccountResponseDto'
+        '401':
+          description: JWT token is missing, expired, or invalid
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Unauthorized
+                  data: null
+                  error:
+                    code: UNAUTHORIZED
+                    message: JWT token is missing, expired, or invalid
+        '403':
+          description: Insufficient permissions to perform this action
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Forbidden
+                  data: null
+                  error:
+                    code: FORBIDDEN
+                    message: Insufficient permissions to perform this action
+        '404':
+          description: The requested resource was not found
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Not found
+                  data: null
+                  error:
+                    code: NOT_FOUND
+                    message: The requested resource was not found
+        '422':
+          description: Request body validation failed
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Validation failed
+                  data: null
+                  error:
+                    code: VALIDATION_ERROR
+                    message: Validation failed
+                    details:
+                      - property: email
+                        constraints:
+                          isEmail: email must be a valid email address
+        '500':
+          description: An unexpected internal server error occurred
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Internal server error
+                  data: null
+                  error:
+                    code: INTERNAL_ERROR
+                    message: An unexpected internal server error occurred
+      security:
+        - JWT-auth: []
+      summary: Update a bank account
+      tags:
+        - Invoicing / BankAccounts
+    delete:
+      operationId: BankAccounts.delete
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: Bank account UUID
+          schema:
+            example: 018e1234-abcd-7000-a001-000000000001
+            type: string
+      responses:
+        '204':
+          description: Bank account deleted successfully
+        '401':
+          description: JWT token is missing, expired, or invalid
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Unauthorized
+                  data: null
+                  error:
+                    code: UNAUTHORIZED
+                    message: JWT token is missing, expired, or invalid
+        '403':
+          description: Insufficient permissions to perform this action
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Forbidden
+                  data: null
+                  error:
+                    code: FORBIDDEN
+                    message: Insufficient permissions to perform this action
+        '404':
+          description: The requested resource was not found
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Not found
+                  data: null
+                  error:
+                    code: NOT_FOUND
+                    message: The requested resource was not found
+        '422':
+          description: Request body validation failed
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Validation failed
+                  data: null
+                  error:
+                    code: VALIDATION_ERROR
+                    message: Validation failed
+                    details:
+                      - property: email
+                        constraints:
+                          isEmail: email must be a valid email address
+        '500':
+          description: An unexpected internal server error occurred
+          content:
+            application/json:
+              schema:
+                example:
+                  status: error
+                  message: Internal server error
+                  data: null
+                  error:
+                    code: INTERNAL_ERROR
+                    message: An unexpected internal server error occurred
+      security:
+        - JWT-auth: []
+      summary: Delete a bank account
+      tags:
+        - Invoicing / BankAccounts
   /invoices:
     get:
       operationId: Invoices.findAll
@@ -18677,7 +19270,7 @@ components:
         foreignResourceKey:
           type: string
           example: >-
-            auth|tenants|users|roles|currencies|fiscal-periods|document-sequences|units|item-categories|items|custom-fields|parties|warehouses|inventory|stock-ledger|invoice-types|invoices|cashboxes|payments|expenses|accounting|chart-of-accounts|stock-counts|reports|dashboard|ai|audit-logs|tags|tag-assignments|item-relations|catalog-entities|item-catalog-entities|brands|financial-settings|account-opening-balances
+            auth|tenants|users|roles|currencies|fiscal-periods|document-sequences|units|item-categories|items|custom-fields|parties|warehouses|inventory|stock-ledger|invoice-types|invoices|cashboxes|payments|expenses|accounting|chart-of-accounts|stock-counts|reports|dashboard|ai|audit-logs|tags|tag-assignments|item-relations|catalog-entities|item-catalog-entities|brands|bank-accounts|financial-settings|account-opening-balances
       required:
         - field
         - type
@@ -19924,6 +20517,18 @@ components:
           description: Default opening-balance equity account
           allOf:
             - $ref: '#/components/schemas/ChartOfAccountResponseDto'
+        defaultCashAccount:
+          nullable: true
+          default: null
+          description: Default Cash control account
+          allOf:
+            - $ref: '#/components/schemas/ChartOfAccountResponseDto'
+        defaultBankAccount:
+          nullable: true
+          default: null
+          description: Default Bank control account
+          allOf:
+            - $ref: '#/components/schemas/ChartOfAccountResponseDto'
     UpsertFinancialSettingBodyDto:
       type: object
       properties:
@@ -19972,6 +20577,16 @@ components:
           nullable: true
           example: 00000000-0000-4000-a602-000000003300
           description: Default opening-balance equity account
+        defaultCashAccountId:
+          type: string
+          nullable: true
+          example: 00000000-0000-4000-a602-000000000001
+          description: Default Cash control account (shared; subledger via cashboxId)
+        defaultBankAccountId:
+          type: string
+          nullable: true
+          example: 00000000-0000-4000-a602-000000000024
+          description: Default Bank control account (shared; subledger via bankAccountId)
     ImportFileDto:
       type: object
       properties:
@@ -21864,6 +22479,111 @@ components:
       properties:
         name:
           $ref: '#/components/schemas/LocalizedStringDto'
+        isActive:
+          type: boolean
+          example: true
+    BankAccountResponseDto:
+      type: object
+      properties:
+        id:
+          type: string
+          default: ''
+          example: 00000000-0000-4000-d200-000000000001
+        code:
+          type: string
+          default: ''
+          example: BANK-SYP
+        name:
+          type: string
+          default: ''
+          example: البنك الرئيسي
+        nameI18n:
+          default:
+            ar: ''
+          allOf:
+            - $ref: '#/components/schemas/LocalizedStringDto'
+        currencyId:
+          type: string
+          default: ''
+          example: 00000000-0000-4000-a300-000000000001
+        accountNumber:
+          type: string
+          nullable: true
+          default: null
+          example: '1234567890'
+        bankName:
+          type: string
+          nullable: true
+          default: null
+          example: Commercial Bank
+        isActive:
+          type: boolean
+          default: true
+          example: true
+        createdAt:
+          type: string
+          default: ''
+          example: '2025-01-01T00:00:00.000Z'
+        updatedAt:
+          type: string
+          default: ''
+          example: '2025-01-01T00:00:00.000Z'
+        balance:
+          type: string
+          default: ''
+          example: '0.00'
+      required:
+        - id
+        - code
+        - name
+        - nameI18n
+        - currencyId
+        - isActive
+        - createdAt
+        - updatedAt
+        - balance
+    CreateBankAccountDto:
+      type: object
+      properties:
+        code:
+          type: string
+          example: BANK-SYP
+          description: Unique bank account code
+        name:
+          description: Bank account display name
+          allOf:
+            - $ref: '#/components/schemas/LocalizedStringDto'
+        currencyId:
+          type: string
+          example: 00000000-0000-4000-a300-000000000001
+          description: Currency ID
+        accountNumber:
+          type: string
+          nullable: true
+          example: '1234567890'
+          description: Bank account number
+        bankName:
+          type: string
+          nullable: true
+          example: Commercial Bank
+          description: Bank name
+      required:
+        - code
+        - name
+        - currencyId
+    UpdateBankAccountDto:
+      type: object
+      properties:
+        name:
+          $ref: '#/components/schemas/LocalizedStringDto'
+        accountNumber:
+          type: string
+          nullable: true
+          example: '1234567890'
+        bankName:
+          type: string
+          nullable: true
+          example: Commercial Bank
         isActive:
           type: boolean
           example: true

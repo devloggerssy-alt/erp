@@ -10,6 +10,11 @@ export interface PostingJournalLine {
     description: string | null;
     sortOrder: number;
     partyId?: string | null;
+    cashboxId?: string | null;
+    bankAccountId?: string | null;
+    currencyId?: string | null;
+    amount?: number;
+    exchangeRate?: number;
 }
 
 export interface PostInput {
@@ -104,6 +109,11 @@ export class JournalPostingService {
                         tenantId: input.tenantId,
                         accountId: l.accountId,
                         partyId: l.partyId ?? null,
+                        cashboxId: l.cashboxId ?? null,
+                        bankAccountId: l.bankAccountId ?? null,
+                        currencyId: l.currencyId ?? null,
+                        amount: l.amount ?? 0,
+                        exchangeRate: l.exchangeRate ?? 1,
                         debit: l.debit,
                         credit: l.credit,
                         description: l.description,
@@ -133,7 +143,12 @@ export class JournalPostingService {
             credit: Number(l.debit),
             description: l.description,
             sortOrder: l.sortOrder,
-            partyId: l.partyId ?? null,
+            partyId: (l as any).partyId ?? null,
+            cashboxId: (l as any).cashboxId ?? null,
+            bankAccountId: (l as any).bankAccountId ?? null,
+            currencyId: (l as any).currencyId ?? null,
+            amount: (l as any).amount != null ? Number((l as any).amount) : 0,
+            exchangeRate: (l as any).exchangeRate != null ? Number((l as any).exchangeRate) : 1,
         }));
 
         return this.post(tx, {

@@ -25,6 +25,7 @@ import { seedCustomFields } from './seeds/custom-fields.seed'
 import { seedParties } from './seeds/parties.seed'
 import { seedWarehouses } from './seeds/warehouses.seed'
 import { seedCashboxes } from './seeds/cashboxes.seed'
+import { seedBankAccounts } from './seeds/bank-accounts.seed'
 import { seedInvoiceTypes } from './seeds/invoice-types.seed'
 import { seedJournalEntry } from './seeds/journal-entry.seed'
 
@@ -86,6 +87,9 @@ async function main() {
 
         console.log('  → Creating cashboxes...')
         await seedCashboxes(prisma, tenantId)
+
+        console.log('  → Creating bank accounts...')
+        await seedBankAccounts(prisma, tenantId)
 
         console.log('  → Creating invoice types...')
         await seedInvoiceTypes(prisma, tenantId)

@@ -632,6 +632,20 @@
       "currency": "العملة",
       "active": "نشط"
     },
+    "bankAccounts": {
+      "title": "الحسابات البنكية",
+      "entity": "حساب بنكي",
+      "addAction": "إضافة حساب بنكي",
+      "code": "الرمز",
+      "codePlaceholder": "مثال: BANK-SYP",
+      "name": "الاسم",
+      "currency": "العملة",
+      "accountNumber": "رقم الحساب",
+      "accountNumberPlaceholder": "مثال: 1234567890",
+      "bankName": "اسم البنك",
+      "bankNamePlaceholder": "مثال: البنك التجاري",
+      "active": "نشط"
+    },
     "expenses": {
       "title": "المصروفات",
       "entity": "مصروف",

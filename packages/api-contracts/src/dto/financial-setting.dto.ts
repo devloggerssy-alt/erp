@@ -8,6 +8,8 @@ export interface UpsertFinancialSettingDto {
     defaultCogsAccountId?: string | null;
     defaultInventoryAdjustmentAccountId?: string | null;
     defaultOpeningEquityAccountId?: string | null;
+    defaultCashAccountId?: string | null;
+    defaultBankAccountId?: string | null;
 }
 
 export interface FinancialSettingResponseDto {
@@ -22,5 +24,7 @@ export interface FinancialSettingResponseDto {
     defaultCogsAccountId: string | null;
     defaultInventoryAdjustmentAccountId: string | null;
     defaultOpeningEquityAccountId: string | null;
+    defaultCashAccountId: string | null;
+    defaultBankAccountId: string | null;
     updatedAt: string;
 }

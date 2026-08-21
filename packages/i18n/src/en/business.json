@@ -30,6 +30,7 @@
       "openingBalances": "Opening Balances",
       "cashboxes": "Cashboxes",
       "cashboxesList": "Cashboxes",
+      "bankAccounts": "Bank Accounts",
       "expenses": "Expenses",
       "payments": "Payments",
       "accounting": "Accounting",
@@ -132,7 +133,9 @@
       "defaultPurchaseAccount": "Default purchase account",
       "defaultTaxAccount": "Default tax account",
       "defaultReceivableAccount": "Default receivable account",
-      "defaultPayableAccount": "Default payable account"
+      "defaultPayableAccount": "Default payable account",
+      "defaultCashAccount": "Default Cash account",
+      "defaultBankAccount": "Default Bank account"
     },
     "documents": {
       "navLabel": "Documents",
@@ -629,6 +632,20 @@
       "codePlaceholder": "e.g. CASH-SYP",
       "name": "Name",
       "currency": "Currency",
+      "active": "Active"
+    },
+    "bankAccounts": {
+      "title": "Bank Accounts",
+      "entity": "Bank Account",
+      "addAction": "Add Bank Account",
+      "code": "Code",
+      "codePlaceholder": "e.g. BANK-SYP",
+      "name": "Name",
+      "currency": "Currency",
+      "accountNumber": "Account Number",
+      "accountNumberPlaceholder": "e.g. 1234567890",
+      "bankName": "Bank Name",
+      "bankNamePlaceholder": "e.g. Commercial Bank",
       "active": "Active"
     },
     "expenses": {

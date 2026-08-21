@@ -4,7 +4,7 @@ import type { Payment } from '@devloggers/db-prisma';
 import { PaymentResponseDto, PaymentAllocationResponseDto } from '../dto/payment-response.dto';
 
 type PaymentWithRelations = Payment & {
-  cashbox?: { name?: string; code?: string; linkedAccountId?: string | null };
+  cashbox?: { name?: string; code?: string };
   party?: { name?: string; receivableAccountId?: string | null; payableAccountId?: string | null } | null;
   currency?: { code?: string; symbol?: unknown };
   fiscalPeriod?: { status?: string };

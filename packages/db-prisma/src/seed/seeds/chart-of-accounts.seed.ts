@@ -31,6 +31,7 @@ export async function seedChartOfAccounts(prisma: PrismaClient, tenantId: string
         prisma.chartOfAccount.create({ data: { id: SEED_IDS.ACCT_1120_RECEIVABLE,   tenantId, code: '1120', name: n('ذمم مدينة',                   'Accounts Receivable'),       type: 'ASSET',     parentId: SEED_IDS.ACCT_CURRENT_ASSETS } }),
         prisma.chartOfAccount.create({ data: { id: SEED_IDS.ACCT_1130_INVENTORY,    tenantId, code: '1130', name: n('المخزون',                     'Inventory'),                 type: 'ASSET',     parentId: SEED_IDS.ACCT_CURRENT_ASSETS } }),
         prisma.chartOfAccount.create({ data: { id: SEED_IDS.ACCT_1140_PREPAID,      tenantId, code: '1140', name: n('مصروفات مدفوعة مقدماً',       'Prepaid Expenses'),          type: 'ASSET',     parentId: SEED_IDS.ACCT_CURRENT_ASSETS } }),
+        prisma.chartOfAccount.create({ data: { id: SEED_IDS.ACCT_1150_BANK,        tenantId, code: '1150', name: n('البنوك',                       'Bank Accounts'),             type: 'ASSET',     parentId: SEED_IDS.ACCT_CURRENT_ASSETS } }),
         // Non-Current Assets
         prisma.chartOfAccount.create({ data: { id: SEED_IDS.ACCT_1210_FIXED,        tenantId, code: '1210', name: n('الأصول الثابتة',              'Fixed Assets'),              type: 'ASSET',     parentId: SEED_IDS.ACCT_NON_CURRENT_ASSETS } }),
         prisma.chartOfAccount.create({ data: { id: SEED_IDS.ACCT_1220_DEPRECIATION, tenantId, code: '1220', name: n('مجمع الإهلاك',                'Accumulated Depreciation'),  type: 'ASSET',     parentId: SEED_IDS.ACCT_NON_CURRENT_ASSETS } }),

@@ -27,6 +27,8 @@ export interface InvoicePostedIntent extends PostingIntentBase {
     kind: 'INVOICE_POSTED';
     direction: 'PURCHASE' | 'SALE';
     partyId: string;
+    /** Invoice transaction currency. */
+    currencyId: string;
     /** subtotal - discountAmount, invoice currency. */
     netAmount: number;
     taxAmount: number;
@@ -47,8 +49,8 @@ export interface PaymentRecordedIntent extends PostingIntentBase {
     type: 'RECEIPT' | 'PAYMENT' | 'ADJUSTMENT';
     partyId: string | null;
     amount: number;
-    /** The Cashbox's linked GL account — a direct 1:1 config mapping, not a resolved policy account. */
-    cashboxAccountId: string;
+    cashboxId: string;
+    currencyId: string;
 }
 
 export interface PaymentCancelledIntent extends PostingIntentBase {
@@ -58,8 +60,9 @@ export interface PaymentCancelledIntent extends PostingIntentBase {
 
 export interface ExpenseRecordedIntent extends PostingIntentBase {
     kind: 'EXPENSE_RECORDED';
-    cashboxAccountId: string;
-    /** Exchange-rate-adjusted total; caller pre-multiplies, matching the pre-Phase-1 builder contract. */
+    cashboxId: string;
+    currencyId: string;
+    /** Total in transaction currency; policy computes base = txn × rate. */
     totalAmount: number;
     /** Each item's `accountId` is direct user input from `CreateExpenseItemDto` — see contracts/posting-intent.ts header. */
     items: { accountId: string; amount: number; description: string; sortOrder: number }[];
@@ -79,7 +82,7 @@ export interface StockCountAdjustedIntent extends PostingIntentBase {
 export interface OpeningBalancePostedIntent extends PostingIntentBase {
     kind: 'OPENING_BALANCE_POSTED';
     /** Direct user input — see contracts/posting-intent.ts header. Pre-filtered to non-zero amounts by the caller. */
-    entries: { accountId: string; amount: number }[];
+    entries: { accountId: string; amount: number; cashboxId?: string | null; bankAccountId?: string | null; currencyId?: string | null; exchangeRate?: number }[];
 }
 
 export interface OpeningStockPostedIntent extends PostingIntentBase {

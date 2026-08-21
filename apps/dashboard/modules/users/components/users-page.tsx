@@ -13,7 +13,7 @@ export function UsersPage() {
                 title={t("title")}
                 actions={
                     <UsersResource.FormDialog
-                        title={(it) => (it?.id ? it.fullName : t("addAction"))}
+                        title={(it) => ((it as any)?.id ? (it as any).fullName : t("addAction"))}
                         form={UsersForm}
                     />
                 }

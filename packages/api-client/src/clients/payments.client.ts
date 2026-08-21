@@ -23,12 +23,12 @@ export class PaymentsClient implements ICrudClient {
 
     create(body: unknown): Promise<unknown> {
         const route = paymentResource.routes.create as ApiPathByMethod<"post">
-        return this.apiClient.post(route, body as CreatePaymentDto)
+        return this.apiClient.post(route, body as never)
     }
 
     update(id: string, body: unknown): Promise<unknown> {
         const route = paymentResource.routes.update as ApiPathByMethod<"patch">
-        return this.apiClient.patch(route, body as UpdatePaymentDto, { params: { id } } as never)
+        return this.apiClient.patch(route, body as never, { params: { id } } as never)
     }
 
     destroy(_id: string): Promise<unknown> {

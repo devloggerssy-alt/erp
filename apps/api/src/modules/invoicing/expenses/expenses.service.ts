@@ -107,17 +107,14 @@ export class ExpensesService {
         const expense = await this.findById(tenantId, id);
         if (expense.status !== 'DRAFT') throw new BadRequestException('Only draft expenses can be posted');
         if (expense.items.length === 0) throw new BadRequestException('Expense must have at least one item');
-        if (!expense.cashbox.linkedAccountId) {
-            throw new BadRequestException('Cashbox has no linked account; cannot post the expense');
+        if (!expense.cashbox) {
+            throw new BadRequestException('Cashbox not found; cannot post the expense');
         }
 
         const exchangeRate = Number(expense.exchangeRate);
         const totalAmount = Number(expense.totalAmount);
 
-        const accountIds = Array.from(new Set([
-            ...expense.items.map((i) => i.accountId),
-            expense.cashbox.linkedAccountId,
-        ]));
+        const accountIds = Array.from(new Set(expense.items.map((i) => i.accountId)));
         const accounts = await this.prisma.chartOfAccount.findMany({
             where: { id: { in: accountIds }, tenantId },
             select: { id: true, code: true, type: true, isPostable: true, isContra: true, deletedAt: true, isActive: true },
@@ -126,7 +123,6 @@ export class ExpensesService {
         for (const item of expense.items) {
             assertAccountFitsSlot(byId.get(item.accountId) ?? null, 'EXPENSE' as any, 'defaultPurchase');
         }
-        assertAccountFitsSlot(byId.get(expense.cashbox.linkedAccountId) ?? null, 'ASSET' as any, 'defaultReceivable');
 
         const intent: ExpenseRecordedIntent = {
             kind: 'EXPENSE_RECORDED',
@@ -138,11 +134,12 @@ export class ExpensesService {
             exchangeRate,
             referenceId: expense.id,
             description: `Expense ${expense.number}`,
-            cashboxAccountId: expense.cashbox.linkedAccountId,
-            totalAmount: totalAmount * exchangeRate,
+            cashboxId: expense.cashboxId,
+            currencyId: expense.currencyId,
+            totalAmount,
             items: expense.items.map((it) => ({
                 accountId: it.accountId,
-                amount: Number(it.amount) * exchangeRate,
+                amount: Number(it.amount),
                 description: it.description,
                 sortOrder: it.sortOrder,
             })),
@@ -168,8 +165,8 @@ export class ExpensesService {
     async cancel(tenantId: string, id: string, userId: string) {
         const expense = await this.findById(tenantId, id);
         if (expense.status !== 'POSTED') throw new BadRequestException('Only posted expenses can be cancelled');
-        if (!expense.cashbox.linkedAccountId) {
-            throw new BadRequestException('Cashbox has no linked account; cannot cancel the expense');
+        if (!expense.cashbox) {
+            throw new BadRequestException('Cashbox not found; cannot cancel the expense');
         }
 
         const original = await this.prisma.journalEntry.findFirst({

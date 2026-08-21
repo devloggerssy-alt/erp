@@ -12,6 +12,8 @@ model Currency {
 
     tenant    Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
     cashboxes Cashbox[]
+    bankAccounts BankAccount[]
+    journalLines JournalLine[]
     invoices  Invoice[]
     payments  Payment[]
     baseForTenants Tenant[] @relation("TenantBaseCurrency")

@@ -160,6 +160,11 @@ exports.Prisma.JournalLineScalarFieldEnum = {
   journalEntryId: 'journalEntryId',
   accountId: 'accountId',
   partyId: 'partyId',
+  cashboxId: 'cashboxId',
+  bankAccountId: 'bankAccountId',
+  currencyId: 'currencyId',
+  amount: 'amount',
+  exchangeRate: 'exchangeRate',
   debit: 'debit',
   credit: 'credit',
   description: 'description',
@@ -197,6 +202,20 @@ exports.Prisma.AuditLogScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.BankAccountScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  code: 'code',
+  name: 'name',
+  currencyId: 'currencyId',
+  accountNumber: 'accountNumber',
+  bankName: 'bankName',
+  balance: 'balance',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.BrandScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
@@ -216,8 +235,7 @@ exports.Prisma.CashboxScalarFieldEnum = {
   balance: 'balance',
   isActive: 'isActive',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  linkedAccountId: 'linkedAccountId'
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.PaymentScalarFieldEnum = {
@@ -373,6 +391,8 @@ exports.Prisma.FinancialSettingScalarFieldEnum = {
   defaultCogsAccountId: 'defaultCogsAccountId',
   defaultInventoryAdjustmentAccountId: 'defaultInventoryAdjustmentAccountId',
   defaultOpeningEquityAccountId: 'defaultOpeningEquityAccountId',
+  defaultCashAccountId: 'defaultCashAccountId',
+  defaultBankAccountId: 'defaultBankAccountId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -822,6 +842,7 @@ exports.Prisma.ModelName = {
   AiChatSession: 'AiChatSession',
   AiChatMessage: 'AiChatMessage',
   AuditLog: 'AuditLog',
+  BankAccount: 'BankAccount',
   Brand: 'Brand',
   Cashbox: 'Cashbox',
   Payment: 'Payment',

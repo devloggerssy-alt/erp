@@ -81,10 +81,8 @@ export class PaymentsService extends StatusGuardedCrudService<Payment, PaymentRe
     if (!payment) throw new NotFoundException('Payment not found');
     if (payment.status !== 'DRAFT') throw new BadRequestException('Only draft payments can be posted');
 
-    const cashbox = await this.prisma.cashbox.findUnique({ where: { id: payment.cashboxId } });
-    if (!cashbox?.linkedAccountId) {
-      throw new BadRequestException('Cashbox has no linked GL account; cannot post the payment');
-    }
+    const cashbox = await this.prisma.cashbox.findUnique({ where: { id: payment.cashboxId }, select: { id: true } });
+    if (!cashbox) throw new BadRequestException('Cashbox not found; cannot post the payment');
 
     const exchangeRate = Number(payment.exchangeRate);
     const amount = Number(payment.amount);
@@ -104,7 +102,8 @@ export class PaymentsService extends StatusGuardedCrudService<Payment, PaymentRe
       type: payment.type as 'RECEIPT' | 'PAYMENT' | 'ADJUSTMENT',
       partyId: payment.partyId ?? null,
       amount,
-      cashboxAccountId: cashbox.linkedAccountId,
+      cashboxId: payment.cashboxId,
+      currencyId: payment.currencyId,
     };
 
     await this.prisma.$transaction(async (tx) => {
@@ -132,10 +131,8 @@ export class PaymentsService extends StatusGuardedCrudService<Payment, PaymentRe
       throw new BadRequestException('Cannot cancel a payment with existing allocations. Remove allocations first.');
     }
 
-    const cashbox = await this.prisma.cashbox.findUnique({ where: { id: payment.cashboxId } });
-    if (!cashbox?.linkedAccountId) {
-      throw new BadRequestException('Cashbox has no linked GL account; cannot cancel the payment');
-    }
+    const cashbox = await this.prisma.cashbox.findUnique({ where: { id: payment.cashboxId }, select: { id: true } });
+    if (!cashbox) throw new BadRequestException('Cashbox not found; cannot cancel the payment');
 
     const isReceipt = payment.type === 'RECEIPT';
     const exchangeRate = Number(payment.exchangeRate);

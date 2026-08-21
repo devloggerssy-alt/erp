@@ -15,6 +15,8 @@ export async function seedFinancialSettings(prisma: PrismaClient, tenantId: stri
             defaultCogsAccountId:                SEED_IDS.ACCT_5100_COGS,
             defaultInventoryAdjustmentAccountId: SEED_IDS.ACCT_5200_INV_ADJUSTMENT,
             defaultOpeningEquityAccountId:       SEED_IDS.ACCT_3300_OPENING_EQUITY,
+            defaultCashAccountId:                SEED_IDS.ACCT_1110_CASH,
+            defaultBankAccountId:                SEED_IDS.ACCT_1150_BANK,
         },
         update: {},
     })

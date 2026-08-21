@@ -38,6 +38,14 @@ export class UpsertFinancialSettingBodyDto {
     @ApiPropertyOptional({ type: 'string', nullable: true, example: '00000000-0000-4000-a602-000000003300', description: 'Default opening-balance equity account' })
     @IsOptional() @IsString()
     defaultOpeningEquityAccountId?: string | null;
+
+    @ApiPropertyOptional({ type: 'string', nullable: true, example: '00000000-0000-4000-a602-000000000001', description: 'Default Cash control account (shared; subledger via cashboxId)' })
+    @IsOptional() @IsString()
+    defaultCashAccountId?: string | null;
+
+    @ApiPropertyOptional({ type: 'string', nullable: true, example: '00000000-0000-4000-a602-000000000024', description: 'Default Bank control account (shared; subledger via bankAccountId)' })
+    @IsOptional() @IsString()
+    defaultBankAccountId?: string | null;
 }
 
 export class FinancialSettingResponseDto {
@@ -76,4 +84,12 @@ export class FinancialSettingResponseDto {
     @ApiPropertyOptional({ type: ChartOfAccountResponseDto, nullable: true, description: 'Default opening-balance equity account' })
     @Type(() => ChartOfAccountResponseDto)
     defaultOpeningEquityAccount: ChartOfAccountResponseDto | null = null
+
+    @ApiPropertyOptional({ type: ChartOfAccountResponseDto, nullable: true, description: 'Default Cash control account' })
+    @Type(() => ChartOfAccountResponseDto)
+    defaultCashAccount: ChartOfAccountResponseDto | null = null
+
+    @ApiPropertyOptional({ type: ChartOfAccountResponseDto, nullable: true, description: 'Default Bank control account' })
+    @Type(() => ChartOfAccountResponseDto)
+    defaultBankAccount: ChartOfAccountResponseDto | null = null
 }

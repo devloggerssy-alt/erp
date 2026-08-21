@@ -31,6 +31,7 @@ model Tenant {
     parties           Party[]
     warehouses        Warehouse[]
     cashboxes         Cashbox[]
+    bankAccounts      BankAccount[]
     invoiceTypes      InvoiceType[]
     invoices          Invoice[]
     payments          Payment[]

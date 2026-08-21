@@ -29,6 +29,7 @@ import {
   ListTreeIcon,
   AwardIcon,
   CreditCardIcon,
+  LandmarkIcon,
 } from "lucide-react"
 
 export const navGroups: NavGroup[] = [
@@ -181,6 +182,11 @@ export const navGroups: NavGroup[] = [
             titleKey: "business.navigation.items.cashboxesList",
             href: "/finance/cashboxes",
             icon: <WalletIcon />,
+          },
+          {
+            titleKey: "business.navigation.items.bankAccounts",
+            href: "/finance/bank-accounts",
+            icon: <LandmarkIcon />,
           },
           {
             titleKey: "business.navigation.items.expenses",

@@ -44,7 +44,7 @@ export class PostingPolicyRegistry {
             case 'PAYMENT_RECORDED':
                 return { referenceType: ReferenceType.PAYMENT, buildLines: (tx) => this.paymentRecorded.buildLines(tx, intent) };
             case 'EXPENSE_RECORDED':
-                return { referenceType: ReferenceType.EXPENSE, buildLines: () => Promise.resolve(this.expenseRecorded.buildLines(intent)) };
+                return { referenceType: ReferenceType.EXPENSE, buildLines: () => this.expenseRecorded.buildLines(intent) };
             case 'STOCK_COUNT_ADJUSTED':
                 return { referenceType: ReferenceType.STOCK_COUNT, buildLines: () => this.stockCountAdjusted.buildLines(intent) };
             case 'OPENING_BALANCE_POSTED':

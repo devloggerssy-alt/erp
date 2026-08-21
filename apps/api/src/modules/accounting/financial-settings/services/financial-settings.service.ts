@@ -15,6 +15,8 @@ const SLOT_ID_FIELDS: Record<AccountSlotName, keyof UpsertFinancialSettingDto> =
     defaultCogs: 'defaultCogsAccountId',
     defaultInventoryAdjustment: 'defaultInventoryAdjustmentAccountId',
     defaultOpeningEquity: 'defaultOpeningEquityAccountId',
+    defaultCash: 'defaultCashAccountId',
+    defaultBank: 'defaultBankAccountId',
 };
 
 @Injectable()

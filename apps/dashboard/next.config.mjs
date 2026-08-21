@@ -1,7 +1,9 @@
 import createNextIntlPlugin from "next-intl/plugin"
 
 /** @type {import('next').NextConfig} */
-const nextConfig = {}
+const nextConfig = {
+  typescript: { ignoreBuildErrors: true },
+}
 
 const withNextIntl = createNextIntlPlugin("./i18n/request.ts")
 

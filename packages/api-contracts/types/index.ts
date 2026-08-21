@@ -1584,6 +1584,48 @@ export interface paths {
         patch: operations["Cashboxes.update"];
         trace?: never;
     };
+    "/bank-accounts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List bank accounts */
+        get: operations["BankAccounts.list"];
+        put?: never;
+        /**
+         * Create a bank account
+         * @description Bank account code must be unique within the tenant.
+         */
+        post: operations["BankAccounts.create"];
+        /** Bulk delete by ids */
+        delete: operations["BankAccounts.bulkDelete"];
+        options?: never;
+        head?: never;
+        /** Bulk partial update */
+        patch: operations["BankAccounts.bulkUpdate"];
+        trace?: never;
+    };
+    "/bank-accounts/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get a bank account by ID */
+        get: operations["BankAccounts.show"];
+        put?: never;
+        post?: never;
+        /** Delete a bank account */
+        delete: operations["BankAccounts.delete"];
+        options?: never;
+        head?: never;
+        /** Update a bank account */
+        patch: operations["BankAccounts.update"];
+        trace?: never;
+    };
     "/invoices": {
         parameters: {
             query?: never;
@@ -2328,7 +2370,7 @@ export interface components {
              *     ]
              */
             enumValues?: string[];
-            /** @example auth|tenants|users|roles|currencies|fiscal-periods|document-sequences|units|item-categories|items|custom-fields|parties|warehouses|inventory|stock-ledger|invoice-types|invoices|cashboxes|payments|expenses|accounting|chart-of-accounts|stock-counts|reports|dashboard|ai|audit-logs|tags|tag-assignments|item-relations|catalog-entities|item-catalog-entities|brands|financial-settings|account-opening-balances */
+            /** @example auth|tenants|users|roles|currencies|fiscal-periods|document-sequences|units|item-categories|items|custom-fields|parties|warehouses|inventory|stock-ledger|invoice-types|invoices|cashboxes|payments|expenses|accounting|chart-of-accounts|stock-counts|reports|dashboard|ai|audit-logs|tags|tag-assignments|item-relations|catalog-entities|item-catalog-entities|brands|bank-accounts|financial-settings|account-opening-balances */
             foreignResourceKey?: string;
         };
         ApiMetaDto: {
@@ -3350,6 +3392,16 @@ export interface components {
              * @default null
              */
             defaultOpeningEquityAccount: components["schemas"]["ChartOfAccountResponseDto"] | null;
+            /**
+             * @description Default Cash control account
+             * @default null
+             */
+            defaultCashAccount: components["schemas"]["ChartOfAccountResponseDto"] | null;
+            /**
+             * @description Default Bank control account
+             * @default null
+             */
+            defaultBankAccount: components["schemas"]["ChartOfAccountResponseDto"] | null;
         };
         UpsertFinancialSettingBodyDto: {
             /**
@@ -3397,6 +3449,16 @@ export interface components {
              * @example 00000000-0000-4000-a602-000000003300
              */
             defaultOpeningEquityAccountId?: string | null;
+            /**
+             * @description Default Cash control account (shared; subledger via cashboxId)
+             * @example 00000000-0000-4000-a602-000000000001
+             */
+            defaultCashAccountId?: string | null;
+            /**
+             * @description Default Bank control account (shared; subledger via bankAccountId)
+             * @example 00000000-0000-4000-a602-000000000024
+             */
+            defaultBankAccountId?: string | null;
         };
         ImportFileDto: {
             /**
@@ -4902,6 +4964,97 @@ export interface components {
         };
         UpdateCashboxDto: {
             name?: components["schemas"]["LocalizedStringDto"];
+            /** @example true */
+            isActive?: boolean;
+        };
+        BankAccountResponseDto: {
+            /**
+             * @default
+             * @example 00000000-0000-4000-d200-000000000001
+             */
+            id: string;
+            /**
+             * @default
+             * @example BANK-SYP
+             */
+            code: string;
+            /**
+             * @default
+             * @example البنك الرئيسي
+             */
+            name: string;
+            /**
+             * @default {
+             *       "ar": ""
+             *     }
+             */
+            nameI18n: components["schemas"]["LocalizedStringDto"];
+            /**
+             * @default
+             * @example 00000000-0000-4000-a300-000000000001
+             */
+            currencyId: string;
+            /**
+             * @default null
+             * @example 1234567890
+             */
+            accountNumber: string | null;
+            /**
+             * @default null
+             * @example Commercial Bank
+             */
+            bankName: string | null;
+            /**
+             * @default true
+             * @example true
+             */
+            isActive: boolean;
+            /**
+             * @default
+             * @example 2025-01-01T00:00:00.000Z
+             */
+            createdAt: string;
+            /**
+             * @default
+             * @example 2025-01-01T00:00:00.000Z
+             */
+            updatedAt: string;
+            /**
+             * @default
+             * @example 0.00
+             */
+            balance: string;
+        };
+        CreateBankAccountDto: {
+            /**
+             * @description Unique bank account code
+             * @example BANK-SYP
+             */
+            code: string;
+            /** @description Bank account display name */
+            name: components["schemas"]["LocalizedStringDto"];
+            /**
+             * @description Currency ID
+             * @example 00000000-0000-4000-a300-000000000001
+             */
+            currencyId: string;
+            /**
+             * @description Bank account number
+             * @example 1234567890
+             */
+            accountNumber?: string | null;
+            /**
+             * @description Bank name
+             * @example Commercial Bank
+             */
+            bankName?: string | null;
+        };
+        UpdateBankAccountDto: {
+            name?: components["schemas"]["LocalizedStringDto"];
+            /** @example 1234567890 */
+            accountNumber?: string | null;
+            /** @example Commercial Bank */
+            bankName?: string | null;
             /** @example true */
             isActive?: boolean;
         };
@@ -16166,6 +16319,457 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
                         data?: components["schemas"]["CashboxResponseDto"];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "BankAccounts.list": {
+        parameters: {
+            query?: {
+                /** @description Page number (1-based) */
+                page?: number;
+                /** @description Number of items per page */
+                limit?: number;
+                /** @description Field name to sort by */
+                sortField?: string;
+                sortOrder?: "asc" | "desc";
+                /** @description Full-text search keyword */
+                search?: string;
+                /** @description Comma-separated field names to search within (e.g. name,symbol) */
+                searchIn?: string;
+                /** @description Structured filters. Example: filters[currencyId][$eq]=018e1234-abcd-7000-a001-000000000001 */
+                filters?: {
+                    /**
+                     * @description Filter on `currencyId` (id)
+                     * @example {
+                     *       "$eq": "018e1234-abcd-7000-a001-000000000001"
+                     *     }
+                     */
+                    currencyId?: {
+                        /** @example 018e1234-abcd-7000-a001-000000000001 */
+                        $eq?: string;
+                        $in?: string[];
+                        /** @enum {boolean} */
+                        $isNull?: true;
+                    };
+                };
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Paginated list of bank accounts */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["BankAccountResponseDto"][];
+                        meta?: {
+                            pagination?: {
+                                /** @example 0 */
+                                total?: number;
+                                /** @example 1 */
+                                page?: number;
+                                /** @example 10 */
+                                limit?: number;
+                                /** @example 0 */
+                                totalPages?: number;
+                            };
+                            /**
+                             * @example [
+                             *       {
+                             *         "field": "currencyId",
+                             *         "type": "id",
+                             *         "operators": [
+                             *           "$eq",
+                             *           "$in",
+                             *           "$isNull"
+                             *         ],
+                             *         "foreignResourceKey": "currencies"
+                             *       }
+                             *     ]
+                             */
+                            filterOptions?: unknown[];
+                        };
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "BankAccounts.create": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateBankAccountDto"];
+            };
+        };
+        responses: {
+            /** @description Bank account created successfully */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["BankAccountResponseDto"];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "BankAccounts.bulkDelete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BulkDeleteBodyDto"];
+            };
+        };
+        responses: {
+            /** @description Bulk delete result ({ total, succeeded, failed, errors }) */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BulkResultResponseDto"];
+                };
+            };
+        };
+    };
+    "BankAccounts.bulkUpdate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BulkUpdateBody"];
+            };
+        };
+        responses: {
+            /** @description Bulk partial-update result ({ total, succeeded, failed, errors }) */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BulkResultResponseDto"];
+                };
+            };
+        };
+    };
+    "BankAccounts.show": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Bank account UUID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Bank account details */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["BankAccountResponseDto"];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "BankAccounts.delete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Bank account UUID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Bank account deleted successfully */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "BankAccounts.update": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Bank account UUID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateBankAccountDto"];
+            };
+        };
+        responses: {
+            /** @description Updated bank account */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["BankAccountResponseDto"];
                     };
                 };
             };

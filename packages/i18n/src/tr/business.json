@@ -30,6 +30,7 @@
       "openingBalances": "Açılış Bakiyeleri",
       "cashboxes": "Kasalar",
       "cashboxesList": "Kasa Listesi",
+      "bankAccounts": "Bank Accounts",
       "expenses": "Giderler",
       "payments": "Ödemeler",
       "accounting": "Muhasebe",
@@ -132,7 +133,9 @@
       "defaultPurchaseAccount": "Varsayılan satın alma hesabı",
       "defaultTaxAccount": "Varsayılan vergi hesabı",
       "defaultReceivableAccount": "Varsayılan alacak hesabı",
-      "defaultPayableAccount": "Varsayılan borç hesabı"
+      "defaultPayableAccount": "Varsayılan borç hesabı",
+      "defaultCashAccount": "Varsayılan Nakit hesabı",
+      "defaultBankAccount": "Varsayılan Banka hesabı"
     },
     "documents": {
       "navLabel": "Belgeler",
@@ -625,6 +628,20 @@
       "codePlaceholder": "örn. CASH-SYP",
       "name": "Ad",
       "currency": "Para Birimi",
+      "active": "Aktif"
+    },
+    "bankAccounts": {
+      "title": "Banka Hesapları",
+      "entity": "Banka Hesabı",
+      "addAction": "Banka Hesabı Ekle",
+      "code": "Kod",
+      "codePlaceholder": "örn. BANK-SYP",
+      "name": "Ad",
+      "currency": "Para Birimi",
+      "accountNumber": "Hesap Numarası",
+      "accountNumberPlaceholder": "örn. 1234567890",
+      "bankName": "Banka Adı",
+      "bankNamePlaceholder": "örn. Ticaret Bankası",
       "active": "Aktif"
     },
     "expenses": {

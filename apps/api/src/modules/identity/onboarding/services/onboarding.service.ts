@@ -89,7 +89,7 @@ export class OnboardingService {
         await this.assertNotCompleted(tenantId);
 
         const seededAccounts = await this.prisma.chartOfAccount.findMany({
-            where: { tenantId, code: { in: ['1130', '3100', '5100', '5210'] } },
+            where: { tenantId, code: { in: ['1110', '1130', '1150', '3100', '5100', '5210'] } },
             select: { id: true, code: true },
         });
         const ids = Object.fromEntries(seededAccounts.map((a) => [a.code, a.id]));
@@ -104,12 +104,14 @@ export class OnboardingService {
             defaultCogsAccountId: ids['5100'],
             defaultInventoryAdjustmentAccountId: ids['5210'],
             defaultOpeningEquityAccountId: ids['3100'],
+            defaultCashAccountId: ids['1110'],
+            defaultBankAccountId: ids['1150'],
         });
 
         await this.advanceStep(tenantId, 5);
     }
 
-    async stepCurrencies(tenantId: string, dto: OnboardingCurrenciesStepDto): Promise<void> {
+    async stepCurrencies(tenantId: string, _dto: OnboardingCurrenciesStepDto): Promise<void> {
         await this.assertNotCompleted(tenantId);
 
         const existing = await this.prisma.currency.findFirst({
@@ -145,27 +147,22 @@ export class OnboardingService {
             data: { baseCurrencyId: usd.id },
         });
 
-        const account1110Id = dto.codeToId['1110'];
-        if (account1110Id) {
-            await this.prisma.cashbox.createMany({
-                data: [
-                    {
-                        tenantId,
-                        code: 'CASH-SYP',
-                        name: { ar: 'الصندوق الرئيسي (ل.س)', en: 'Main Cash (SYP)' },
-                        currencyId: syp.id,
-                        linkedAccountId: account1110Id,
-                    },
-                    {
-                        tenantId,
-                        code: 'CASH-USD',
-                        name: { ar: 'صندوق الدولار', en: 'USD Cash' },
-                        currencyId: usd.id,
-                        linkedAccountId: account1110Id,
-                    },
-                ],
-            });
-        }
+        await this.prisma.cashbox.createMany({
+            data: [
+                {
+                    tenantId,
+                    code: 'CASH-SYP',
+                    name: { ar: 'الصندوق الرئيسي (ل.س)', en: 'Main Cash (SYP)' },
+                    currencyId: syp.id,
+                },
+                {
+                    tenantId,
+                    code: 'CASH-USD',
+                    name: { ar: 'صندوق الدولار', en: 'USD Cash' },
+                    currencyId: usd.id,
+                },
+            ],
+        });
 
         await this.prisma.warehouse.upsert({
             where: { tenantId_code: { tenantId, code: 'WH-MAIN' } },
@@ -302,6 +299,7 @@ export class OnboardingService {
             { code: '1120', nameAr: 'ذمم مدينة', nameEn: 'Accounts Receivable', type: AccountType.ASSET, parentCode: '1100' },
             { code: '1130', nameAr: 'المخزون', nameEn: 'Inventory', type: AccountType.ASSET, parentCode: '1100' },
             { code: '1140', nameAr: 'مصروفات مدفوعة مقدماً', nameEn: 'Prepaid Expenses', type: AccountType.ASSET, parentCode: '1100' },
+            { code: '1150', nameAr: 'البنوك', nameEn: 'Bank Accounts', type: AccountType.ASSET, parentCode: '1100' },
             // Level 3 — Non-Current Assets
             { code: '1210', nameAr: 'الأصول الثابتة', nameEn: 'Fixed Assets', type: AccountType.ASSET, parentCode: '1200' },
             { code: '1220', nameAr: 'مجمع الإهلاك', nameEn: 'Accumulated Depreciation', type: AccountType.ASSET, parentCode: '1200' },

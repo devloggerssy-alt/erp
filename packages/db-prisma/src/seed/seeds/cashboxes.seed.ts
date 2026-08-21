@@ -10,7 +10,6 @@ export async function seedCashboxes(prisma: PrismaClient, tenantId: string): Pro
                 code: 'CASH-SYP',
                 name: { ar: 'الصندوق الرئيسي (ل.س)', en: 'Main Cash (SYP)' },
                 currencyId: SEED_IDS.CURRENCY_SYP,
-                linkedAccountId: SEED_IDS.ACCT_1110_CASH,
             },
         }),
         prisma.cashbox.create({
@@ -20,7 +19,6 @@ export async function seedCashboxes(prisma: PrismaClient, tenantId: string): Pro
                 code: 'CASH-USD',
                 name: { ar: 'صندوق الدولار الأمريكي', en: 'USD Cash Box' },
                 currencyId: SEED_IDS.CURRENCY_USD,
-                linkedAccountId: SEED_IDS.ACCT_1110_CASH,
             },
         }),
     ])
