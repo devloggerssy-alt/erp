@@ -17,7 +17,18 @@ export async function seedJournalEntry(prisma: PrismaClient, tenantId: string): 
             createdBy: 'seed',
             lines: {
                 create: [
-                    { tenantId, accountId: SEED_IDS.ACCT_1110_CASH,          debit: 5000000,  credit: 0,        description: 'Opening cash balance',      sortOrder: 1 },
+                    {
+                        tenantId,
+                        accountId: SEED_IDS.ACCT_1110_CASH,
+                        cashboxId: SEED_IDS.CASHBOX_SYP,
+                        currencyId: SEED_IDS.CURRENCY_SYP,
+                        amount: 5000000,
+                        exchangeRate: 1,
+                        debit: 5000000,
+                        credit: 0,
+                        description: 'Opening cash balance',
+                        sortOrder: 1,
+                    },
                     { tenantId, accountId: SEED_IDS.ACCT_1130_INVENTORY,     debit: 10000000, credit: 0,        description: 'Opening inventory balance', sortOrder: 2 },
                     { tenantId, accountId: SEED_IDS.ACCT_3100_OWNER_EQUITY,  debit: 0,        credit: 15000000, description: "Opening owner's equity",    sortOrder: 3 },
                 ],

@@ -10,6 +10,9 @@ export async function seedCashboxes(prisma: PrismaClient, tenantId: string): Pro
                 code: 'CASH-SYP',
                 name: { ar: 'الصندوق الرئيسي (ل.س)', en: 'Main Cash (SYP)' },
                 currencyId: SEED_IDS.CURRENCY_SYP,
+                // Matches the seeded opening-cash JE (JOURNAL_OPENING) so the
+                // projection reconciles to the ledger (ADR-1).
+                balance: 5000000,
             },
         }),
         prisma.cashbox.create({
