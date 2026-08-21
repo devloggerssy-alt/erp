@@ -37,11 +37,6 @@ export class CreatePartyDto {
     @IsOptional()
     @IsString()
     address?: string;
-
-    @ApiPropertyOptional({ example: 0, description: 'Initial opening balance in base currency' })
-    @IsOptional()
-    @IsNumber()
-    openingBalance?: number;
 }
 
 export class UpdatePartyDto {
@@ -74,11 +69,6 @@ export class UpdatePartyDto {
     @IsOptional()
     @IsString()
     address?: string;
-
-    @ApiPropertyOptional({ example: 500000 })
-    @IsOptional()
-    @IsNumber()
-    openingBalance?: number;
 
     @ApiPropertyOptional({ example: true })
     @IsOptional()
@@ -114,9 +104,6 @@ export class PartyResponseDto {
 
     @ApiProperty({ example: 'Damascus, Industrial Zone', nullable: true })
     address: string | null = null;
-
-    @ApiProperty({ example: 0 })
-    openingBalance: number = 0;
 
     @ApiProperty({ example: true })
     isActive: boolean = true;

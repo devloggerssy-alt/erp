@@ -89,12 +89,6 @@ export function PartiesForm({ resourceId, initialData, onSuccess, paramKey, mode
                 placeholder={t("addressPlaceholder")}
                 disabled={ctrl.isBusy}
             />
-            <RhfTextField
-                name="openingBalance"
-                label={t("openingBalance")}
-                placeholder={t("openingBalancePlaceholder")}
-                disabled={ctrl.isBusy}
-            />
             <RhfResourceSelect<PartyFormValues, "receivableAccount", AccountsClient, PartyAccountField>
                 name="receivableAccount"
                 label={t("receivableAccount")}

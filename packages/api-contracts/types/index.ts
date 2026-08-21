@@ -5965,11 +5965,6 @@ export interface components {
              */
             address: string | null;
             /**
-             * @default 0
-             * @example 0
-             */
-            openingBalance: number;
-            /**
              * @default true
              * @example true
              */
@@ -6007,11 +6002,6 @@ export interface components {
             email?: string;
             /** @example Damascus, Industrial Zone */
             address?: string;
-            /**
-             * @description Initial opening balance in base currency
-             * @example 0
-             */
-            openingBalance?: number;
         };
         UpdatePartyDto: {
             /** @example SUPP-001 */
@@ -6029,8 +6019,6 @@ export interface components {
             email?: string;
             /** @example Damascus, New Industrial Zone */
             address?: string;
-            /** @example 500000 */
-            openingBalance?: number;
             /** @example true */
             isActive?: boolean;
         };

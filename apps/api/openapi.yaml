@@ -24538,10 +24538,6 @@ components:
           nullable: true
           default: null
           example: Damascus, Industrial Zone
-        openingBalance:
-          type: number
-          default: 0
-          example: 0
         isActive:
           type: boolean
           default: true
@@ -24562,7 +24558,6 @@ components:
         - phone
         - email
         - address
-        - openingBalance
         - isActive
         - createdAt
         - updatedAt
@@ -24593,10 +24588,6 @@ components:
         address:
           type: string
           example: Damascus, Industrial Zone
-        openingBalance:
-          type: number
-          example: 0
-          description: Initial opening balance in base currency
       required:
         - name
         - type
@@ -24625,9 +24616,6 @@ components:
         address:
           type: string
           example: Damascus, New Industrial Zone
-        openingBalance:
-          type: number
-          example: 500000
         isActive:
           type: boolean
           example: true
