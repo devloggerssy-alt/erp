@@ -1,5 +1,5 @@
-import { OpeningBalancesPage } from "@/modules/opening-balances"
+import { OpeningBalanceSessionsPage } from "@/modules/opening-balance-sessions"
 
 export default function Page() {
-  return <OpeningBalancesPage />
+  return <OpeningBalanceSessionsPage />
 }

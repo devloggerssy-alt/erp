@@ -785,14 +785,13 @@
       "currentBalance": "الرصيد الحالي",
       "openingBalance": "الرصيد الافتتاحي",
       "selectPeriod": "اختر الفترة المالية…",
-      "openingAmount":"مبلغ الافتتاح",
-      "type":"النوع",
-      "name":"الاسم",
-      "code":"الرمز",
-
+      "openingAmount": "مبلغ الافتتاح",
+      "type": "النوع",
+      "name": "الاسم",
+      "code": "الرمز",
       "saveAll": "حفظ الكل",
-      "saving": "جارٍ الحفظ…"
-      ,"noAccounts": "لا توجد حسابات ميزانية عمومية."
+      "saving": "جارٍ الحفظ…",
+      "noAccounts": "لا توجد حسابات ميزانية عمومية."
     },
     "stockBalances": {
       "title": "أرصدة المخزون",
@@ -939,6 +938,44 @@
           "type": "النوع"
         }
       }
+    },
+    "openingBalanceSessions": {
+      "title": "جلسات الأرصدة الافتتاحية",
+      "subtitle": "أنشئ جلسات الأرصدة الافتتاحية للنقد والمصارف والعملاء والموردين والحسابات بمسار: مسودة → تحقق → مراجعة → ترحيل → قفل.",
+      "newSession": "جلسة جديدة",
+      "number": "الرقم",
+      "status": "الحالة",
+      "description": "الوصف",
+      "createdAt": "تاريخ الإنشاء",
+      "actions": "إجراءات",
+      "loading": "جارٍ التحميل…",
+      "noSessions": "لا توجد جلسات أرصدة افتتاحية.",
+      "selectPeriod": "اختر الفترة المالية…",
+      "dimension": "البُعد",
+      "dimensionCASHBOX": "نقد",
+      "dimensionBANK_ACCOUNT": "مصرف",
+      "dimensionPARTY": "طرف",
+      "dimensionACCOUNT": "حساب دفتر الأستاذ",
+      "cashbox": "الصندوق",
+      "bankAccount": "الحساب المصرفي",
+      "party": "الطرف",
+      "partySide": "جانب الطرف",
+      "sideAR": "ذمم مدينة (AR)",
+      "sideAP": "ذمم دائنة (AP)",
+      "account": "الحساب",
+      "currency": "العملة",
+      "amount": "المبلغ",
+      "exchangeRate": "سعر الصرف",
+      "create": "إنشاء",
+      "cancel": "إلغاء",
+      "select": "اختر…",
+      "post": "ترحيل",
+      "lock": "قفل",
+      "statusDraft": "مسودة",
+      "statusValidated": "تم التحقق",
+      "statusReviewed": "تمت المراجعة",
+      "statusPosted": "تم الترحيل",
+      "statusLocked": "مقفلة"
     }
   },
   "landing": {
