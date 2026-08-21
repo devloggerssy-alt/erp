@@ -1,6 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import type { AccountType } from '@devloggers/db-prisma';
 import { FinancialSettingsService } from '../../financial-settings/services/financial-settings.service';
+import { openingLineSide } from '../../accounts/utils/opening-line-side';
 import type { JournalLineDraft } from '../contracts/journal-line-draft';
 import type { PrismaTransactionClient } from '../contracts/prisma-tx';
 import type { OpeningBalancePostedIntent } from '../contracts/posting-intent';
@@ -48,70 +49,35 @@ export class OpeningBalancePolicy {
 
         for (const entry of intent.entries) {
             const account = accountMap.get(entry.accountId)!;
-            const absAmount = Math.abs(entry.amount);
-            const entryExchangeRate = (entry as any).exchangeRate ?? intent.exchangeRate ?? 1;
-            const entryCurrencyId = (entry as any).currencyId ?? null;
-            const entryCashboxId = (entry as any).cashboxId ?? null;
-            const entryBankAccountId = (entry as any).bankAccountId ?? null;
-            // base amount (for totals/offset) — entries are assumed txn unless exchangeRate !=1
-            const baseAmount = round(absAmount * entryExchangeRate);
-
-            if (account.type === 'ASSET') {
-                const isDebit = entry.amount > 0;
-                lines.push({
-                    accountId: entry.accountId,
-                    debit: isDebit ? baseAmount : 0,
-                    credit: isDebit ? 0 : baseAmount,
-                    description: `Opening balance - ${account.code}`,
-                    sortOrder: sortOrder++,
-                    cashboxId: entryCashboxId,
-                    bankAccountId: entryBankAccountId,
-                    currencyId: entryCurrencyId,
-                    amount: absAmount,
-                    exchangeRate: entryExchangeRate,
-                });
-                if (entry.amount > 0) totalDebits += baseAmount; else totalCredits += baseAmount;
-            } else {
-                const isCredit = entry.amount > 0;
-                lines.push({
-                    accountId: entry.accountId,
-                    debit: isCredit ? 0 : baseAmount,
-                    credit: isCredit ? baseAmount : 0,
-                    description: `Opening balance - ${account.code}`,
-                    sortOrder: sortOrder++,
-                    cashboxId: entryCashboxId,
-                    bankAccountId: entryBankAccountId,
-                    currencyId: entryCurrencyId,
-                    amount: absAmount,
-                    exchangeRate: entryExchangeRate,
-                });
-                if (entry.amount > 0) totalCredits += baseAmount; else totalDebits += baseAmount;
-            }
+            const rate = entry.exchangeRate ?? intent.exchangeRate ?? 1;
+            const { debit, credit } = openingLineSide(account.type, entry.amount, rate);
+            lines.push({
+                accountId: entry.accountId,
+                debit,
+                credit,
+                description: `Opening balance - ${account.code}`,
+                sortOrder: sortOrder++,
+                cashboxId: entry.cashboxId ?? null,
+                bankAccountId: entry.bankAccountId ?? null,
+                currencyId: entry.currencyId ?? null,
+                amount: Math.abs(entry.amount),
+                exchangeRate: rate,
+            });
+            totalDebits += debit;
+            totalCredits += credit;
         }
 
         const diff = round(totalDebits - totalCredits);
         if (diff !== 0) {
-            if (diff > 0) {
-                lines.push({
-                    accountId: openingEquityAccountId,
-                    debit: 0,
-                    credit: diff,
-                    description: 'Opening balance offset',
-                    sortOrder: sortOrder++,
-                    amount: diff,
-                    exchangeRate: 1,
-                });
-            } else {
-                lines.push({
-                    accountId: openingEquityAccountId,
-                    debit: Math.abs(diff),
-                    credit: 0,
-                    description: 'Opening balance offset',
-                    sortOrder: sortOrder++,
-                    amount: Math.abs(diff),
-                    exchangeRate: 1,
-                });
-            }
+            lines.push({
+                accountId: openingEquityAccountId,
+                debit: diff < 0 ? Math.abs(diff) : 0,
+                credit: diff > 0 ? diff : 0,
+                description: 'Opening balance offset',
+                sortOrder: sortOrder++,
+                amount: Math.abs(diff),
+                exchangeRate: 1,
+            });
         }
 
         return lines;
