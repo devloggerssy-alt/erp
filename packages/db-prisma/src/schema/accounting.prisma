@@ -62,6 +62,7 @@ model ChartOfAccount {
     // Party-level override back-relations
     partyReceivables Party[] @relation("PartyReceivableAccount")
     partyPayables    Party[] @relation("PartyPayableAccount")
+    openingBalanceSessionLines OpeningBalanceSessionLine[]
     // REMOVED: currentBalance Decimal (source of truth is JournalLine; balances computed on read)
 
     @@unique([tenantId, code])

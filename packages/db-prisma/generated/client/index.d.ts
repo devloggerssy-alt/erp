@@ -162,6 +162,16 @@ export type ItemRelation = $Result.DefaultSelection<Prisma.$ItemRelationPayload>
  */
 export type Item = $Result.DefaultSelection<Prisma.$ItemPayload>
 /**
+ * Model OpeningBalanceSession
+ * 
+ */
+export type OpeningBalanceSession = $Result.DefaultSelection<Prisma.$OpeningBalanceSessionPayload>
+/**
+ * Model OpeningBalanceSessionLine
+ * 
+ */
+export type OpeningBalanceSessionLine = $Result.DefaultSelection<Prisma.$OpeningBalanceSessionLinePayload>
+/**
  * Model Party
  * 
  */
@@ -371,6 +381,35 @@ export const ItemType: {
 export type ItemType = (typeof ItemType)[keyof typeof ItemType]
 
 
+export const OpeningBalanceSessionStatus: {
+  DRAFT: 'DRAFT',
+  VALIDATED: 'VALIDATED',
+  REVIEWED: 'REVIEWED',
+  POSTED: 'POSTED',
+  LOCKED: 'LOCKED'
+};
+
+export type OpeningBalanceSessionStatus = (typeof OpeningBalanceSessionStatus)[keyof typeof OpeningBalanceSessionStatus]
+
+
+export const OpeningBalanceDimension: {
+  CASHBOX: 'CASHBOX',
+  BANK_ACCOUNT: 'BANK_ACCOUNT',
+  PARTY: 'PARTY',
+  ACCOUNT: 'ACCOUNT'
+};
+
+export type OpeningBalanceDimension = (typeof OpeningBalanceDimension)[keyof typeof OpeningBalanceDimension]
+
+
+export const OpeningBalancePartySide: {
+  AR: 'AR',
+  AP: 'AP'
+};
+
+export type OpeningBalancePartySide = (typeof OpeningBalancePartySide)[keyof typeof OpeningBalancePartySide]
+
+
 export const PartyType: {
   CUSTOMER: 'CUSTOMER',
   SUPPLIER: 'SUPPLIER',
@@ -454,6 +493,18 @@ export const RelationType: typeof $Enums.RelationType
 export type ItemType = $Enums.ItemType
 
 export const ItemType: typeof $Enums.ItemType
+
+export type OpeningBalanceSessionStatus = $Enums.OpeningBalanceSessionStatus
+
+export const OpeningBalanceSessionStatus: typeof $Enums.OpeningBalanceSessionStatus
+
+export type OpeningBalanceDimension = $Enums.OpeningBalanceDimension
+
+export const OpeningBalanceDimension: typeof $Enums.OpeningBalanceDimension
+
+export type OpeningBalancePartySide = $Enums.OpeningBalancePartySide
+
+export const OpeningBalancePartySide: typeof $Enums.OpeningBalancePartySide
 
 export type PartyType = $Enums.PartyType
 
@@ -867,6 +918,26 @@ export class PrismaClient<
     * ```
     */
   get item(): Prisma.ItemDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.openingBalanceSession`: Exposes CRUD operations for the **OpeningBalanceSession** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more OpeningBalanceSessions
+    * const openingBalanceSessions = await prisma.openingBalanceSession.findMany()
+    * ```
+    */
+  get openingBalanceSession(): Prisma.OpeningBalanceSessionDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.openingBalanceSessionLine`: Exposes CRUD operations for the **OpeningBalanceSessionLine** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more OpeningBalanceSessionLines
+    * const openingBalanceSessionLines = await prisma.openingBalanceSessionLine.findMany()
+    * ```
+    */
+  get openingBalanceSessionLine(): Prisma.OpeningBalanceSessionLineDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.party`: Exposes CRUD operations for the **Party** model.
@@ -1479,6 +1550,8 @@ export namespace Prisma {
     ItemCategory: 'ItemCategory',
     ItemRelation: 'ItemRelation',
     Item: 'Item',
+    OpeningBalanceSession: 'OpeningBalanceSession',
+    OpeningBalanceSessionLine: 'OpeningBalanceSessionLine',
     Party: 'Party',
     StockCount: 'StockCount',
     StockCountLine: 'StockCountLine',
@@ -1509,7 +1582,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "chartOfAccount" | "journalEntry" | "journalLine" | "aiChatSession" | "aiChatMessage" | "auditLog" | "bankAccount" | "brand" | "cashbox" | "payment" | "paymentAllocation" | "catalogEntity" | "currency" | "customField" | "customFieldValue" | "documentSequence" | "expense" | "expenseItem" | "file" | "financialSetting" | "fiscalPeriod" | "invoiceType" | "invoice" | "invoiceLine" | "itemCatalogEntity" | "itemCategory" | "itemRelation" | "item" | "party" | "stockCount" | "stockCountLine" | "stockBalance" | "stockMovement" | "tagAssignment" | "tag" | "tenantSetting" | "tenant" | "unit" | "appUser" | "role" | "userRole" | "warehouse" | "warehouseItem"
+      modelProps: "chartOfAccount" | "journalEntry" | "journalLine" | "aiChatSession" | "aiChatMessage" | "auditLog" | "bankAccount" | "brand" | "cashbox" | "payment" | "paymentAllocation" | "catalogEntity" | "currency" | "customField" | "customFieldValue" | "documentSequence" | "expense" | "expenseItem" | "file" | "financialSetting" | "fiscalPeriod" | "invoiceType" | "invoice" | "invoiceLine" | "itemCatalogEntity" | "itemCategory" | "itemRelation" | "item" | "openingBalanceSession" | "openingBalanceSessionLine" | "party" | "stockCount" | "stockCountLine" | "stockBalance" | "stockMovement" | "tagAssignment" | "tag" | "tenantSetting" | "tenant" | "unit" | "appUser" | "role" | "userRole" | "warehouse" | "warehouseItem"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -3585,6 +3658,154 @@ export namespace Prisma {
           }
         }
       }
+      OpeningBalanceSession: {
+        payload: Prisma.$OpeningBalanceSessionPayload<ExtArgs>
+        fields: Prisma.OpeningBalanceSessionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.OpeningBalanceSessionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OpeningBalanceSessionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.OpeningBalanceSessionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OpeningBalanceSessionPayload>
+          }
+          findFirst: {
+            args: Prisma.OpeningBalanceSessionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OpeningBalanceSessionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.OpeningBalanceSessionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OpeningBalanceSessionPayload>
+          }
+          findMany: {
+            args: Prisma.OpeningBalanceSessionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OpeningBalanceSessionPayload>[]
+          }
+          create: {
+            args: Prisma.OpeningBalanceSessionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OpeningBalanceSessionPayload>
+          }
+          createMany: {
+            args: Prisma.OpeningBalanceSessionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.OpeningBalanceSessionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OpeningBalanceSessionPayload>[]
+          }
+          delete: {
+            args: Prisma.OpeningBalanceSessionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OpeningBalanceSessionPayload>
+          }
+          update: {
+            args: Prisma.OpeningBalanceSessionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OpeningBalanceSessionPayload>
+          }
+          deleteMany: {
+            args: Prisma.OpeningBalanceSessionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.OpeningBalanceSessionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.OpeningBalanceSessionUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OpeningBalanceSessionPayload>[]
+          }
+          upsert: {
+            args: Prisma.OpeningBalanceSessionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OpeningBalanceSessionPayload>
+          }
+          aggregate: {
+            args: Prisma.OpeningBalanceSessionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateOpeningBalanceSession>
+          }
+          groupBy: {
+            args: Prisma.OpeningBalanceSessionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<OpeningBalanceSessionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.OpeningBalanceSessionCountArgs<ExtArgs>
+            result: $Utils.Optional<OpeningBalanceSessionCountAggregateOutputType> | number
+          }
+        }
+      }
+      OpeningBalanceSessionLine: {
+        payload: Prisma.$OpeningBalanceSessionLinePayload<ExtArgs>
+        fields: Prisma.OpeningBalanceSessionLineFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.OpeningBalanceSessionLineFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OpeningBalanceSessionLinePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.OpeningBalanceSessionLineFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OpeningBalanceSessionLinePayload>
+          }
+          findFirst: {
+            args: Prisma.OpeningBalanceSessionLineFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OpeningBalanceSessionLinePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.OpeningBalanceSessionLineFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OpeningBalanceSessionLinePayload>
+          }
+          findMany: {
+            args: Prisma.OpeningBalanceSessionLineFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OpeningBalanceSessionLinePayload>[]
+          }
+          create: {
+            args: Prisma.OpeningBalanceSessionLineCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OpeningBalanceSessionLinePayload>
+          }
+          createMany: {
+            args: Prisma.OpeningBalanceSessionLineCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.OpeningBalanceSessionLineCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OpeningBalanceSessionLinePayload>[]
+          }
+          delete: {
+            args: Prisma.OpeningBalanceSessionLineDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OpeningBalanceSessionLinePayload>
+          }
+          update: {
+            args: Prisma.OpeningBalanceSessionLineUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OpeningBalanceSessionLinePayload>
+          }
+          deleteMany: {
+            args: Prisma.OpeningBalanceSessionLineDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.OpeningBalanceSessionLineUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.OpeningBalanceSessionLineUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OpeningBalanceSessionLinePayload>[]
+          }
+          upsert: {
+            args: Prisma.OpeningBalanceSessionLineUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OpeningBalanceSessionLinePayload>
+          }
+          aggregate: {
+            args: Prisma.OpeningBalanceSessionLineAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateOpeningBalanceSessionLine>
+          }
+          groupBy: {
+            args: Prisma.OpeningBalanceSessionLineGroupByArgs<ExtArgs>
+            result: $Utils.Optional<OpeningBalanceSessionLineGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.OpeningBalanceSessionLineCountArgs<ExtArgs>
+            result: $Utils.Optional<OpeningBalanceSessionLineCountAggregateOutputType> | number
+          }
+        }
+      }
       Party: {
         payload: Prisma.$PartyPayload<ExtArgs>
         fields: Prisma.PartyFieldRefs
@@ -4831,6 +5052,8 @@ export namespace Prisma {
     itemCategory?: ItemCategoryOmit
     itemRelation?: ItemRelationOmit
     item?: ItemOmit
+    openingBalanceSession?: OpeningBalanceSessionOmit
+    openingBalanceSessionLine?: OpeningBalanceSessionLineOmit
     party?: PartyOmit
     stockCount?: StockCountOmit
     stockCountLine?: StockCountLineOmit
@@ -4942,6 +5165,7 @@ export namespace Prisma {
     defaultBankFor: number
     partyReceivables: number
     partyPayables: number
+    openingBalanceSessionLines: number
   }
 
   export type ChartOfAccountCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4961,6 +5185,7 @@ export namespace Prisma {
     defaultBankFor?: boolean | ChartOfAccountCountOutputTypeCountDefaultBankForArgs
     partyReceivables?: boolean | ChartOfAccountCountOutputTypeCountPartyReceivablesArgs
     partyPayables?: boolean | ChartOfAccountCountOutputTypeCountPartyPayablesArgs
+    openingBalanceSessionLines?: boolean | ChartOfAccountCountOutputTypeCountOpeningBalanceSessionLinesArgs
   }
 
   // Custom InputTypes
@@ -5086,6 +5311,13 @@ export namespace Prisma {
     where?: PartyWhereInput
   }
 
+  /**
+   * ChartOfAccountCountOutputType without action
+   */
+  export type ChartOfAccountCountOutputTypeCountOpeningBalanceSessionLinesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OpeningBalanceSessionLineWhereInput
+  }
+
 
   /**
    * Count Type JournalEntryCountOutputType
@@ -5164,10 +5396,12 @@ export namespace Prisma {
 
   export type BankAccountCountOutputType = {
     journalLines: number
+    openingBalanceSessionLines: number
   }
 
   export type BankAccountCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     journalLines?: boolean | BankAccountCountOutputTypeCountJournalLinesArgs
+    openingBalanceSessionLines?: boolean | BankAccountCountOutputTypeCountOpeningBalanceSessionLinesArgs
   }
 
   // Custom InputTypes
@@ -5186,6 +5420,13 @@ export namespace Prisma {
    */
   export type BankAccountCountOutputTypeCountJournalLinesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: JournalLineWhereInput
+  }
+
+  /**
+   * BankAccountCountOutputType without action
+   */
+  export type BankAccountCountOutputTypeCountOpeningBalanceSessionLinesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OpeningBalanceSessionLineWhereInput
   }
 
 
@@ -5228,12 +5469,14 @@ export namespace Prisma {
     expenses: number
     payments: number
     journalLines: number
+    openingBalanceSessionLines: number
   }
 
   export type CashboxCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     expenses?: boolean | CashboxCountOutputTypeCountExpensesArgs
     payments?: boolean | CashboxCountOutputTypeCountPaymentsArgs
     journalLines?: boolean | CashboxCountOutputTypeCountJournalLinesArgs
+    openingBalanceSessionLines?: boolean | CashboxCountOutputTypeCountOpeningBalanceSessionLinesArgs
   }
 
   // Custom InputTypes
@@ -5266,6 +5509,13 @@ export namespace Prisma {
    */
   export type CashboxCountOutputTypeCountJournalLinesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: JournalLineWhereInput
+  }
+
+  /**
+   * CashboxCountOutputType without action
+   */
+  export type CashboxCountOutputTypeCountOpeningBalanceSessionLinesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OpeningBalanceSessionLineWhereInput
   }
 
 
@@ -5352,6 +5602,7 @@ export namespace Prisma {
     payments: number
     baseForTenants: number
     expenses: number
+    openingBalanceSessionLines: number
   }
 
   export type CurrencyCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5362,6 +5613,7 @@ export namespace Prisma {
     payments?: boolean | CurrencyCountOutputTypeCountPaymentsArgs
     baseForTenants?: boolean | CurrencyCountOutputTypeCountBaseForTenantsArgs
     expenses?: boolean | CurrencyCountOutputTypeCountExpensesArgs
+    openingBalanceSessionLines?: boolean | CurrencyCountOutputTypeCountOpeningBalanceSessionLinesArgs
   }
 
   // Custom InputTypes
@@ -5422,6 +5674,13 @@ export namespace Prisma {
    */
   export type CurrencyCountOutputTypeCountExpensesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ExpenseWhereInput
+  }
+
+  /**
+   * CurrencyCountOutputType without action
+   */
+  export type CurrencyCountOutputTypeCountOpeningBalanceSessionLinesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OpeningBalanceSessionLineWhereInput
   }
 
 
@@ -5529,6 +5788,7 @@ export namespace Prisma {
     journalEntries: number
     stockCounts: number
     expenses: number
+    openingBalanceSessions: number
   }
 
   export type FiscalPeriodCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5538,6 +5798,7 @@ export namespace Prisma {
     journalEntries?: boolean | FiscalPeriodCountOutputTypeCountJournalEntriesArgs
     stockCounts?: boolean | FiscalPeriodCountOutputTypeCountStockCountsArgs
     expenses?: boolean | FiscalPeriodCountOutputTypeCountExpensesArgs
+    openingBalanceSessions?: boolean | FiscalPeriodCountOutputTypeCountOpeningBalanceSessionsArgs
   }
 
   // Custom InputTypes
@@ -5591,6 +5852,13 @@ export namespace Prisma {
    */
   export type FiscalPeriodCountOutputTypeCountExpensesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ExpenseWhereInput
+  }
+
+  /**
+   * FiscalPeriodCountOutputType without action
+   */
+  export type FiscalPeriodCountOutputTypeCountOpeningBalanceSessionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OpeningBalanceSessionWhereInput
   }
 
 
@@ -5800,6 +6068,37 @@ export namespace Prisma {
 
 
   /**
+   * Count Type OpeningBalanceSessionCountOutputType
+   */
+
+  export type OpeningBalanceSessionCountOutputType = {
+    lines: number
+  }
+
+  export type OpeningBalanceSessionCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    lines?: boolean | OpeningBalanceSessionCountOutputTypeCountLinesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * OpeningBalanceSessionCountOutputType without action
+   */
+  export type OpeningBalanceSessionCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OpeningBalanceSessionCountOutputType
+     */
+    select?: OpeningBalanceSessionCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * OpeningBalanceSessionCountOutputType without action
+   */
+  export type OpeningBalanceSessionCountOutputTypeCountLinesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OpeningBalanceSessionLineWhereInput
+  }
+
+
+  /**
    * Count Type PartyCountOutputType
    */
 
@@ -5807,12 +6106,14 @@ export namespace Prisma {
     invoices: number
     payments: number
     journalLines: number
+    openingBalanceSessionLines: number
   }
 
   export type PartyCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     invoices?: boolean | PartyCountOutputTypeCountInvoicesArgs
     payments?: boolean | PartyCountOutputTypeCountPaymentsArgs
     journalLines?: boolean | PartyCountOutputTypeCountJournalLinesArgs
+    openingBalanceSessionLines?: boolean | PartyCountOutputTypeCountOpeningBalanceSessionLinesArgs
   }
 
   // Custom InputTypes
@@ -5845,6 +6146,13 @@ export namespace Prisma {
    */
   export type PartyCountOutputTypeCountJournalLinesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: JournalLineWhereInput
+  }
+
+  /**
+   * PartyCountOutputType without action
+   */
+  export type PartyCountOutputTypeCountOpeningBalanceSessionLinesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OpeningBalanceSessionLineWhereInput
   }
 
 
@@ -5942,6 +6250,8 @@ export namespace Prisma {
     catalogEntities: number
     itemCatalogEntities: number
     brands: number
+    openingBalanceSessions: number
+    openingBalanceSessionLines: number
   }
 
   export type TenantCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5972,6 +6282,8 @@ export namespace Prisma {
     catalogEntities?: boolean | TenantCountOutputTypeCountCatalogEntitiesArgs
     itemCatalogEntities?: boolean | TenantCountOutputTypeCountItemCatalogEntitiesArgs
     brands?: boolean | TenantCountOutputTypeCountBrandsArgs
+    openingBalanceSessions?: boolean | TenantCountOutputTypeCountOpeningBalanceSessionsArgs
+    openingBalanceSessionLines?: boolean | TenantCountOutputTypeCountOpeningBalanceSessionLinesArgs
   }
 
   // Custom InputTypes
@@ -6172,6 +6484,20 @@ export namespace Prisma {
    */
   export type TenantCountOutputTypeCountBrandsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: BrandWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountOpeningBalanceSessionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OpeningBalanceSessionWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountOpeningBalanceSessionLinesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OpeningBalanceSessionLineWhereInput
   }
 
 
@@ -6582,6 +6908,7 @@ export namespace Prisma {
     defaultBankFor?: boolean | ChartOfAccount$defaultBankForArgs<ExtArgs>
     partyReceivables?: boolean | ChartOfAccount$partyReceivablesArgs<ExtArgs>
     partyPayables?: boolean | ChartOfAccount$partyPayablesArgs<ExtArgs>
+    openingBalanceSessionLines?: boolean | ChartOfAccount$openingBalanceSessionLinesArgs<ExtArgs>
     _count?: boolean | ChartOfAccountCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["chartOfAccount"]>
 
@@ -6654,6 +6981,7 @@ export namespace Prisma {
     defaultBankFor?: boolean | ChartOfAccount$defaultBankForArgs<ExtArgs>
     partyReceivables?: boolean | ChartOfAccount$partyReceivablesArgs<ExtArgs>
     partyPayables?: boolean | ChartOfAccount$partyPayablesArgs<ExtArgs>
+    openingBalanceSessionLines?: boolean | ChartOfAccount$openingBalanceSessionLinesArgs<ExtArgs>
     _count?: boolean | ChartOfAccountCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ChartOfAccountIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6686,6 +7014,7 @@ export namespace Prisma {
       defaultBankFor: Prisma.$FinancialSettingPayload<ExtArgs>[]
       partyReceivables: Prisma.$PartyPayload<ExtArgs>[]
       partyPayables: Prisma.$PartyPayload<ExtArgs>[]
+      openingBalanceSessionLines: Prisma.$OpeningBalanceSessionLinePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -7112,6 +7441,7 @@ export namespace Prisma {
     defaultBankFor<T extends ChartOfAccount$defaultBankForArgs<ExtArgs> = {}>(args?: Subset<T, ChartOfAccount$defaultBankForArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FinancialSettingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     partyReceivables<T extends ChartOfAccount$partyReceivablesArgs<ExtArgs> = {}>(args?: Subset<T, ChartOfAccount$partyReceivablesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PartyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     partyPayables<T extends ChartOfAccount$partyPayablesArgs<ExtArgs> = {}>(args?: Subset<T, ChartOfAccount$partyPayablesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PartyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    openingBalanceSessionLines<T extends ChartOfAccount$openingBalanceSessionLinesArgs<ExtArgs> = {}>(args?: Subset<T, ChartOfAccount$openingBalanceSessionLinesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OpeningBalanceSessionLinePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7954,6 +8284,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: PartyScalarFieldEnum | PartyScalarFieldEnum[]
+  }
+
+  /**
+   * ChartOfAccount.openingBalanceSessionLines
+   */
+  export type ChartOfAccount$openingBalanceSessionLinesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OpeningBalanceSessionLine
+     */
+    select?: OpeningBalanceSessionLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OpeningBalanceSessionLine
+     */
+    omit?: OpeningBalanceSessionLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OpeningBalanceSessionLineInclude<ExtArgs> | null
+    where?: OpeningBalanceSessionLineWhereInput
+    orderBy?: OpeningBalanceSessionLineOrderByWithRelationInput | OpeningBalanceSessionLineOrderByWithRelationInput[]
+    cursor?: OpeningBalanceSessionLineWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: OpeningBalanceSessionLineScalarFieldEnum | OpeningBalanceSessionLineScalarFieldEnum[]
   }
 
   /**
@@ -14210,6 +14564,7 @@ export namespace Prisma {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     currency?: boolean | CurrencyDefaultArgs<ExtArgs>
     journalLines?: boolean | BankAccount$journalLinesArgs<ExtArgs>
+    openingBalanceSessionLines?: boolean | BankAccount$openingBalanceSessionLinesArgs<ExtArgs>
     _count?: boolean | BankAccountCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["bankAccount"]>
 
@@ -14264,6 +14619,7 @@ export namespace Prisma {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     currency?: boolean | CurrencyDefaultArgs<ExtArgs>
     journalLines?: boolean | BankAccount$journalLinesArgs<ExtArgs>
+    openingBalanceSessionLines?: boolean | BankAccount$openingBalanceSessionLinesArgs<ExtArgs>
     _count?: boolean | BankAccountCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type BankAccountIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -14281,6 +14637,7 @@ export namespace Prisma {
       tenant: Prisma.$TenantPayload<ExtArgs>
       currency: Prisma.$CurrencyPayload<ExtArgs>
       journalLines: Prisma.$JournalLinePayload<ExtArgs>[]
+      openingBalanceSessionLines: Prisma.$OpeningBalanceSessionLinePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -14691,6 +15048,7 @@ export namespace Prisma {
     tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     currency<T extends CurrencyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CurrencyDefaultArgs<ExtArgs>>): Prisma__CurrencyClient<$Result.GetResult<Prisma.$CurrencyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     journalLines<T extends BankAccount$journalLinesArgs<ExtArgs> = {}>(args?: Subset<T, BankAccount$journalLinesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$JournalLinePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    openingBalanceSessionLines<T extends BankAccount$openingBalanceSessionLinesArgs<ExtArgs> = {}>(args?: Subset<T, BankAccount$openingBalanceSessionLinesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OpeningBalanceSessionLinePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -15153,6 +15511,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: JournalLineScalarFieldEnum | JournalLineScalarFieldEnum[]
+  }
+
+  /**
+   * BankAccount.openingBalanceSessionLines
+   */
+  export type BankAccount$openingBalanceSessionLinesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OpeningBalanceSessionLine
+     */
+    select?: OpeningBalanceSessionLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OpeningBalanceSessionLine
+     */
+    omit?: OpeningBalanceSessionLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OpeningBalanceSessionLineInclude<ExtArgs> | null
+    where?: OpeningBalanceSessionLineWhereInput
+    orderBy?: OpeningBalanceSessionLineOrderByWithRelationInput | OpeningBalanceSessionLineOrderByWithRelationInput[]
+    cursor?: OpeningBalanceSessionLineWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: OpeningBalanceSessionLineScalarFieldEnum | OpeningBalanceSessionLineScalarFieldEnum[]
   }
 
   /**
@@ -16524,6 +16906,7 @@ export namespace Prisma {
     expenses?: boolean | Cashbox$expensesArgs<ExtArgs>
     payments?: boolean | Cashbox$paymentsArgs<ExtArgs>
     journalLines?: boolean | Cashbox$journalLinesArgs<ExtArgs>
+    openingBalanceSessionLines?: boolean | Cashbox$openingBalanceSessionLinesArgs<ExtArgs>
     _count?: boolean | CashboxCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["cashbox"]>
 
@@ -16574,6 +16957,7 @@ export namespace Prisma {
     expenses?: boolean | Cashbox$expensesArgs<ExtArgs>
     payments?: boolean | Cashbox$paymentsArgs<ExtArgs>
     journalLines?: boolean | Cashbox$journalLinesArgs<ExtArgs>
+    openingBalanceSessionLines?: boolean | Cashbox$openingBalanceSessionLinesArgs<ExtArgs>
     _count?: boolean | CashboxCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type CashboxIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -16593,6 +16977,7 @@ export namespace Prisma {
       expenses: Prisma.$ExpensePayload<ExtArgs>[]
       payments: Prisma.$PaymentPayload<ExtArgs>[]
       journalLines: Prisma.$JournalLinePayload<ExtArgs>[]
+      openingBalanceSessionLines: Prisma.$OpeningBalanceSessionLinePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -17003,6 +17388,7 @@ export namespace Prisma {
     expenses<T extends Cashbox$expensesArgs<ExtArgs> = {}>(args?: Subset<T, Cashbox$expensesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExpensePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     payments<T extends Cashbox$paymentsArgs<ExtArgs> = {}>(args?: Subset<T, Cashbox$paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     journalLines<T extends Cashbox$journalLinesArgs<ExtArgs> = {}>(args?: Subset<T, Cashbox$journalLinesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$JournalLinePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    openingBalanceSessionLines<T extends Cashbox$openingBalanceSessionLinesArgs<ExtArgs> = {}>(args?: Subset<T, Cashbox$openingBalanceSessionLinesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OpeningBalanceSessionLinePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -17511,6 +17897,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: JournalLineScalarFieldEnum | JournalLineScalarFieldEnum[]
+  }
+
+  /**
+   * Cashbox.openingBalanceSessionLines
+   */
+  export type Cashbox$openingBalanceSessionLinesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OpeningBalanceSessionLine
+     */
+    select?: OpeningBalanceSessionLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OpeningBalanceSessionLine
+     */
+    omit?: OpeningBalanceSessionLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OpeningBalanceSessionLineInclude<ExtArgs> | null
+    where?: OpeningBalanceSessionLineWhereInput
+    orderBy?: OpeningBalanceSessionLineOrderByWithRelationInput | OpeningBalanceSessionLineOrderByWithRelationInput[]
+    cursor?: OpeningBalanceSessionLineWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: OpeningBalanceSessionLineScalarFieldEnum | OpeningBalanceSessionLineScalarFieldEnum[]
   }
 
   /**
@@ -21456,6 +21866,7 @@ export namespace Prisma {
     payments?: boolean | Currency$paymentsArgs<ExtArgs>
     baseForTenants?: boolean | Currency$baseForTenantsArgs<ExtArgs>
     expenses?: boolean | Currency$expensesArgs<ExtArgs>
+    openingBalanceSessionLines?: boolean | Currency$openingBalanceSessionLinesArgs<ExtArgs>
     _count?: boolean | CurrencyCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["currency"]>
 
@@ -21507,6 +21918,7 @@ export namespace Prisma {
     payments?: boolean | Currency$paymentsArgs<ExtArgs>
     baseForTenants?: boolean | Currency$baseForTenantsArgs<ExtArgs>
     expenses?: boolean | Currency$expensesArgs<ExtArgs>
+    openingBalanceSessionLines?: boolean | Currency$openingBalanceSessionLinesArgs<ExtArgs>
     _count?: boolean | CurrencyCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type CurrencyIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -21527,6 +21939,7 @@ export namespace Prisma {
       payments: Prisma.$PaymentPayload<ExtArgs>[]
       baseForTenants: Prisma.$TenantPayload<ExtArgs>[]
       expenses: Prisma.$ExpensePayload<ExtArgs>[]
+      openingBalanceSessionLines: Prisma.$OpeningBalanceSessionLinePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -21940,6 +22353,7 @@ export namespace Prisma {
     payments<T extends Currency$paymentsArgs<ExtArgs> = {}>(args?: Subset<T, Currency$paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     baseForTenants<T extends Currency$baseForTenantsArgs<ExtArgs> = {}>(args?: Subset<T, Currency$baseForTenantsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     expenses<T extends Currency$expensesArgs<ExtArgs> = {}>(args?: Subset<T, Currency$expensesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExpensePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    openingBalanceSessionLines<T extends Currency$openingBalanceSessionLinesArgs<ExtArgs> = {}>(args?: Subset<T, Currency$openingBalanceSessionLinesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OpeningBalanceSessionLinePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -22544,6 +22958,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ExpenseScalarFieldEnum | ExpenseScalarFieldEnum[]
+  }
+
+  /**
+   * Currency.openingBalanceSessionLines
+   */
+  export type Currency$openingBalanceSessionLinesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OpeningBalanceSessionLine
+     */
+    select?: OpeningBalanceSessionLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OpeningBalanceSessionLine
+     */
+    omit?: OpeningBalanceSessionLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OpeningBalanceSessionLineInclude<ExtArgs> | null
+    where?: OpeningBalanceSessionLineWhereInput
+    orderBy?: OpeningBalanceSessionLineOrderByWithRelationInput | OpeningBalanceSessionLineOrderByWithRelationInput[]
+    cursor?: OpeningBalanceSessionLineWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: OpeningBalanceSessionLineScalarFieldEnum | OpeningBalanceSessionLineScalarFieldEnum[]
   }
 
   /**
@@ -31259,6 +31697,7 @@ export namespace Prisma {
     journalEntries?: boolean | FiscalPeriod$journalEntriesArgs<ExtArgs>
     stockCounts?: boolean | FiscalPeriod$stockCountsArgs<ExtArgs>
     expenses?: boolean | FiscalPeriod$expensesArgs<ExtArgs>
+    openingBalanceSessions?: boolean | FiscalPeriod$openingBalanceSessionsArgs<ExtArgs>
     _count?: boolean | FiscalPeriodCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["fiscalPeriod"]>
 
@@ -31306,6 +31745,7 @@ export namespace Prisma {
     journalEntries?: boolean | FiscalPeriod$journalEntriesArgs<ExtArgs>
     stockCounts?: boolean | FiscalPeriod$stockCountsArgs<ExtArgs>
     expenses?: boolean | FiscalPeriod$expensesArgs<ExtArgs>
+    openingBalanceSessions?: boolean | FiscalPeriod$openingBalanceSessionsArgs<ExtArgs>
     _count?: boolean | FiscalPeriodCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type FiscalPeriodIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -31325,6 +31765,7 @@ export namespace Prisma {
       journalEntries: Prisma.$JournalEntryPayload<ExtArgs>[]
       stockCounts: Prisma.$StockCountPayload<ExtArgs>[]
       expenses: Prisma.$ExpensePayload<ExtArgs>[]
+      openingBalanceSessions: Prisma.$OpeningBalanceSessionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -31736,6 +32177,7 @@ export namespace Prisma {
     journalEntries<T extends FiscalPeriod$journalEntriesArgs<ExtArgs> = {}>(args?: Subset<T, FiscalPeriod$journalEntriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$JournalEntryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     stockCounts<T extends FiscalPeriod$stockCountsArgs<ExtArgs> = {}>(args?: Subset<T, FiscalPeriod$stockCountsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StockCountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     expenses<T extends FiscalPeriod$expensesArgs<ExtArgs> = {}>(args?: Subset<T, FiscalPeriod$expensesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExpensePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    openingBalanceSessions<T extends FiscalPeriod$openingBalanceSessionsArgs<ExtArgs> = {}>(args?: Subset<T, FiscalPeriod$openingBalanceSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OpeningBalanceSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -32315,6 +32757,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ExpenseScalarFieldEnum | ExpenseScalarFieldEnum[]
+  }
+
+  /**
+   * FiscalPeriod.openingBalanceSessions
+   */
+  export type FiscalPeriod$openingBalanceSessionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OpeningBalanceSession
+     */
+    select?: OpeningBalanceSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OpeningBalanceSession
+     */
+    omit?: OpeningBalanceSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OpeningBalanceSessionInclude<ExtArgs> | null
+    where?: OpeningBalanceSessionWhereInput
+    orderBy?: OpeningBalanceSessionOrderByWithRelationInput | OpeningBalanceSessionOrderByWithRelationInput[]
+    cursor?: OpeningBalanceSessionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: OpeningBalanceSessionScalarFieldEnum | OpeningBalanceSessionScalarFieldEnum[]
   }
 
   /**
@@ -41148,6 +41614,2581 @@ export namespace Prisma {
 
 
   /**
+   * Model OpeningBalanceSession
+   */
+
+  export type AggregateOpeningBalanceSession = {
+    _count: OpeningBalanceSessionCountAggregateOutputType | null
+    _min: OpeningBalanceSessionMinAggregateOutputType | null
+    _max: OpeningBalanceSessionMaxAggregateOutputType | null
+  }
+
+  export type OpeningBalanceSessionMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    number: string | null
+    fiscalPeriodId: string | null
+    status: $Enums.OpeningBalanceSessionStatus | null
+    description: string | null
+    postedAt: Date | null
+    postedBy: string | null
+    lockedAt: Date | null
+    lockedBy: string | null
+    createdBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type OpeningBalanceSessionMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    number: string | null
+    fiscalPeriodId: string | null
+    status: $Enums.OpeningBalanceSessionStatus | null
+    description: string | null
+    postedAt: Date | null
+    postedBy: string | null
+    lockedAt: Date | null
+    lockedBy: string | null
+    createdBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type OpeningBalanceSessionCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    number: number
+    fiscalPeriodId: number
+    status: number
+    description: number
+    postedAt: number
+    postedBy: number
+    lockedAt: number
+    lockedBy: number
+    createdBy: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type OpeningBalanceSessionMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    number?: true
+    fiscalPeriodId?: true
+    status?: true
+    description?: true
+    postedAt?: true
+    postedBy?: true
+    lockedAt?: true
+    lockedBy?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type OpeningBalanceSessionMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    number?: true
+    fiscalPeriodId?: true
+    status?: true
+    description?: true
+    postedAt?: true
+    postedBy?: true
+    lockedAt?: true
+    lockedBy?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type OpeningBalanceSessionCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    number?: true
+    fiscalPeriodId?: true
+    status?: true
+    description?: true
+    postedAt?: true
+    postedBy?: true
+    lockedAt?: true
+    lockedBy?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type OpeningBalanceSessionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which OpeningBalanceSession to aggregate.
+     */
+    where?: OpeningBalanceSessionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OpeningBalanceSessions to fetch.
+     */
+    orderBy?: OpeningBalanceSessionOrderByWithRelationInput | OpeningBalanceSessionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: OpeningBalanceSessionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OpeningBalanceSessions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OpeningBalanceSessions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned OpeningBalanceSessions
+    **/
+    _count?: true | OpeningBalanceSessionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: OpeningBalanceSessionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: OpeningBalanceSessionMaxAggregateInputType
+  }
+
+  export type GetOpeningBalanceSessionAggregateType<T extends OpeningBalanceSessionAggregateArgs> = {
+        [P in keyof T & keyof AggregateOpeningBalanceSession]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateOpeningBalanceSession[P]>
+      : GetScalarType<T[P], AggregateOpeningBalanceSession[P]>
+  }
+
+
+
+
+  export type OpeningBalanceSessionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OpeningBalanceSessionWhereInput
+    orderBy?: OpeningBalanceSessionOrderByWithAggregationInput | OpeningBalanceSessionOrderByWithAggregationInput[]
+    by: OpeningBalanceSessionScalarFieldEnum[] | OpeningBalanceSessionScalarFieldEnum
+    having?: OpeningBalanceSessionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: OpeningBalanceSessionCountAggregateInputType | true
+    _min?: OpeningBalanceSessionMinAggregateInputType
+    _max?: OpeningBalanceSessionMaxAggregateInputType
+  }
+
+  export type OpeningBalanceSessionGroupByOutputType = {
+    id: string
+    tenantId: string
+    number: string
+    fiscalPeriodId: string
+    status: $Enums.OpeningBalanceSessionStatus
+    description: string | null
+    postedAt: Date | null
+    postedBy: string | null
+    lockedAt: Date | null
+    lockedBy: string | null
+    createdBy: string
+    createdAt: Date
+    updatedAt: Date
+    _count: OpeningBalanceSessionCountAggregateOutputType | null
+    _min: OpeningBalanceSessionMinAggregateOutputType | null
+    _max: OpeningBalanceSessionMaxAggregateOutputType | null
+  }
+
+  type GetOpeningBalanceSessionGroupByPayload<T extends OpeningBalanceSessionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<OpeningBalanceSessionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof OpeningBalanceSessionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], OpeningBalanceSessionGroupByOutputType[P]>
+            : GetScalarType<T[P], OpeningBalanceSessionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type OpeningBalanceSessionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    number?: boolean
+    fiscalPeriodId?: boolean
+    status?: boolean
+    description?: boolean
+    postedAt?: boolean
+    postedBy?: boolean
+    lockedAt?: boolean
+    lockedBy?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    fiscalPeriod?: boolean | FiscalPeriodDefaultArgs<ExtArgs>
+    lines?: boolean | OpeningBalanceSession$linesArgs<ExtArgs>
+    _count?: boolean | OpeningBalanceSessionCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["openingBalanceSession"]>
+
+  export type OpeningBalanceSessionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    number?: boolean
+    fiscalPeriodId?: boolean
+    status?: boolean
+    description?: boolean
+    postedAt?: boolean
+    postedBy?: boolean
+    lockedAt?: boolean
+    lockedBy?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    fiscalPeriod?: boolean | FiscalPeriodDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["openingBalanceSession"]>
+
+  export type OpeningBalanceSessionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    number?: boolean
+    fiscalPeriodId?: boolean
+    status?: boolean
+    description?: boolean
+    postedAt?: boolean
+    postedBy?: boolean
+    lockedAt?: boolean
+    lockedBy?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    fiscalPeriod?: boolean | FiscalPeriodDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["openingBalanceSession"]>
+
+  export type OpeningBalanceSessionSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    number?: boolean
+    fiscalPeriodId?: boolean
+    status?: boolean
+    description?: boolean
+    postedAt?: boolean
+    postedBy?: boolean
+    lockedAt?: boolean
+    lockedBy?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type OpeningBalanceSessionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "number" | "fiscalPeriodId" | "status" | "description" | "postedAt" | "postedBy" | "lockedAt" | "lockedBy" | "createdBy" | "createdAt" | "updatedAt", ExtArgs["result"]["openingBalanceSession"]>
+  export type OpeningBalanceSessionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    fiscalPeriod?: boolean | FiscalPeriodDefaultArgs<ExtArgs>
+    lines?: boolean | OpeningBalanceSession$linesArgs<ExtArgs>
+    _count?: boolean | OpeningBalanceSessionCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type OpeningBalanceSessionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    fiscalPeriod?: boolean | FiscalPeriodDefaultArgs<ExtArgs>
+  }
+  export type OpeningBalanceSessionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    fiscalPeriod?: boolean | FiscalPeriodDefaultArgs<ExtArgs>
+  }
+
+  export type $OpeningBalanceSessionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "OpeningBalanceSession"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+      fiscalPeriod: Prisma.$FiscalPeriodPayload<ExtArgs>
+      lines: Prisma.$OpeningBalanceSessionLinePayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      number: string
+      fiscalPeriodId: string
+      status: $Enums.OpeningBalanceSessionStatus
+      description: string | null
+      postedAt: Date | null
+      postedBy: string | null
+      lockedAt: Date | null
+      lockedBy: string | null
+      createdBy: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["openingBalanceSession"]>
+    composites: {}
+  }
+
+  type OpeningBalanceSessionGetPayload<S extends boolean | null | undefined | OpeningBalanceSessionDefaultArgs> = $Result.GetResult<Prisma.$OpeningBalanceSessionPayload, S>
+
+  type OpeningBalanceSessionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<OpeningBalanceSessionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: OpeningBalanceSessionCountAggregateInputType | true
+    }
+
+  export interface OpeningBalanceSessionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['OpeningBalanceSession'], meta: { name: 'OpeningBalanceSession' } }
+    /**
+     * Find zero or one OpeningBalanceSession that matches the filter.
+     * @param {OpeningBalanceSessionFindUniqueArgs} args - Arguments to find a OpeningBalanceSession
+     * @example
+     * // Get one OpeningBalanceSession
+     * const openingBalanceSession = await prisma.openingBalanceSession.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends OpeningBalanceSessionFindUniqueArgs>(args: SelectSubset<T, OpeningBalanceSessionFindUniqueArgs<ExtArgs>>): Prisma__OpeningBalanceSessionClient<$Result.GetResult<Prisma.$OpeningBalanceSessionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one OpeningBalanceSession that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {OpeningBalanceSessionFindUniqueOrThrowArgs} args - Arguments to find a OpeningBalanceSession
+     * @example
+     * // Get one OpeningBalanceSession
+     * const openingBalanceSession = await prisma.openingBalanceSession.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends OpeningBalanceSessionFindUniqueOrThrowArgs>(args: SelectSubset<T, OpeningBalanceSessionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__OpeningBalanceSessionClient<$Result.GetResult<Prisma.$OpeningBalanceSessionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first OpeningBalanceSession that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OpeningBalanceSessionFindFirstArgs} args - Arguments to find a OpeningBalanceSession
+     * @example
+     * // Get one OpeningBalanceSession
+     * const openingBalanceSession = await prisma.openingBalanceSession.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends OpeningBalanceSessionFindFirstArgs>(args?: SelectSubset<T, OpeningBalanceSessionFindFirstArgs<ExtArgs>>): Prisma__OpeningBalanceSessionClient<$Result.GetResult<Prisma.$OpeningBalanceSessionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first OpeningBalanceSession that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OpeningBalanceSessionFindFirstOrThrowArgs} args - Arguments to find a OpeningBalanceSession
+     * @example
+     * // Get one OpeningBalanceSession
+     * const openingBalanceSession = await prisma.openingBalanceSession.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends OpeningBalanceSessionFindFirstOrThrowArgs>(args?: SelectSubset<T, OpeningBalanceSessionFindFirstOrThrowArgs<ExtArgs>>): Prisma__OpeningBalanceSessionClient<$Result.GetResult<Prisma.$OpeningBalanceSessionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more OpeningBalanceSessions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OpeningBalanceSessionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all OpeningBalanceSessions
+     * const openingBalanceSessions = await prisma.openingBalanceSession.findMany()
+     * 
+     * // Get first 10 OpeningBalanceSessions
+     * const openingBalanceSessions = await prisma.openingBalanceSession.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const openingBalanceSessionWithIdOnly = await prisma.openingBalanceSession.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends OpeningBalanceSessionFindManyArgs>(args?: SelectSubset<T, OpeningBalanceSessionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OpeningBalanceSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a OpeningBalanceSession.
+     * @param {OpeningBalanceSessionCreateArgs} args - Arguments to create a OpeningBalanceSession.
+     * @example
+     * // Create one OpeningBalanceSession
+     * const OpeningBalanceSession = await prisma.openingBalanceSession.create({
+     *   data: {
+     *     // ... data to create a OpeningBalanceSession
+     *   }
+     * })
+     * 
+     */
+    create<T extends OpeningBalanceSessionCreateArgs>(args: SelectSubset<T, OpeningBalanceSessionCreateArgs<ExtArgs>>): Prisma__OpeningBalanceSessionClient<$Result.GetResult<Prisma.$OpeningBalanceSessionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many OpeningBalanceSessions.
+     * @param {OpeningBalanceSessionCreateManyArgs} args - Arguments to create many OpeningBalanceSessions.
+     * @example
+     * // Create many OpeningBalanceSessions
+     * const openingBalanceSession = await prisma.openingBalanceSession.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends OpeningBalanceSessionCreateManyArgs>(args?: SelectSubset<T, OpeningBalanceSessionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many OpeningBalanceSessions and returns the data saved in the database.
+     * @param {OpeningBalanceSessionCreateManyAndReturnArgs} args - Arguments to create many OpeningBalanceSessions.
+     * @example
+     * // Create many OpeningBalanceSessions
+     * const openingBalanceSession = await prisma.openingBalanceSession.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many OpeningBalanceSessions and only return the `id`
+     * const openingBalanceSessionWithIdOnly = await prisma.openingBalanceSession.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends OpeningBalanceSessionCreateManyAndReturnArgs>(args?: SelectSubset<T, OpeningBalanceSessionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OpeningBalanceSessionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a OpeningBalanceSession.
+     * @param {OpeningBalanceSessionDeleteArgs} args - Arguments to delete one OpeningBalanceSession.
+     * @example
+     * // Delete one OpeningBalanceSession
+     * const OpeningBalanceSession = await prisma.openingBalanceSession.delete({
+     *   where: {
+     *     // ... filter to delete one OpeningBalanceSession
+     *   }
+     * })
+     * 
+     */
+    delete<T extends OpeningBalanceSessionDeleteArgs>(args: SelectSubset<T, OpeningBalanceSessionDeleteArgs<ExtArgs>>): Prisma__OpeningBalanceSessionClient<$Result.GetResult<Prisma.$OpeningBalanceSessionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one OpeningBalanceSession.
+     * @param {OpeningBalanceSessionUpdateArgs} args - Arguments to update one OpeningBalanceSession.
+     * @example
+     * // Update one OpeningBalanceSession
+     * const openingBalanceSession = await prisma.openingBalanceSession.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends OpeningBalanceSessionUpdateArgs>(args: SelectSubset<T, OpeningBalanceSessionUpdateArgs<ExtArgs>>): Prisma__OpeningBalanceSessionClient<$Result.GetResult<Prisma.$OpeningBalanceSessionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more OpeningBalanceSessions.
+     * @param {OpeningBalanceSessionDeleteManyArgs} args - Arguments to filter OpeningBalanceSessions to delete.
+     * @example
+     * // Delete a few OpeningBalanceSessions
+     * const { count } = await prisma.openingBalanceSession.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends OpeningBalanceSessionDeleteManyArgs>(args?: SelectSubset<T, OpeningBalanceSessionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more OpeningBalanceSessions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OpeningBalanceSessionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many OpeningBalanceSessions
+     * const openingBalanceSession = await prisma.openingBalanceSession.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends OpeningBalanceSessionUpdateManyArgs>(args: SelectSubset<T, OpeningBalanceSessionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more OpeningBalanceSessions and returns the data updated in the database.
+     * @param {OpeningBalanceSessionUpdateManyAndReturnArgs} args - Arguments to update many OpeningBalanceSessions.
+     * @example
+     * // Update many OpeningBalanceSessions
+     * const openingBalanceSession = await prisma.openingBalanceSession.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more OpeningBalanceSessions and only return the `id`
+     * const openingBalanceSessionWithIdOnly = await prisma.openingBalanceSession.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends OpeningBalanceSessionUpdateManyAndReturnArgs>(args: SelectSubset<T, OpeningBalanceSessionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OpeningBalanceSessionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one OpeningBalanceSession.
+     * @param {OpeningBalanceSessionUpsertArgs} args - Arguments to update or create a OpeningBalanceSession.
+     * @example
+     * // Update or create a OpeningBalanceSession
+     * const openingBalanceSession = await prisma.openingBalanceSession.upsert({
+     *   create: {
+     *     // ... data to create a OpeningBalanceSession
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the OpeningBalanceSession we want to update
+     *   }
+     * })
+     */
+    upsert<T extends OpeningBalanceSessionUpsertArgs>(args: SelectSubset<T, OpeningBalanceSessionUpsertArgs<ExtArgs>>): Prisma__OpeningBalanceSessionClient<$Result.GetResult<Prisma.$OpeningBalanceSessionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of OpeningBalanceSessions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OpeningBalanceSessionCountArgs} args - Arguments to filter OpeningBalanceSessions to count.
+     * @example
+     * // Count the number of OpeningBalanceSessions
+     * const count = await prisma.openingBalanceSession.count({
+     *   where: {
+     *     // ... the filter for the OpeningBalanceSessions we want to count
+     *   }
+     * })
+    **/
+    count<T extends OpeningBalanceSessionCountArgs>(
+      args?: Subset<T, OpeningBalanceSessionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], OpeningBalanceSessionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a OpeningBalanceSession.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OpeningBalanceSessionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends OpeningBalanceSessionAggregateArgs>(args: Subset<T, OpeningBalanceSessionAggregateArgs>): Prisma.PrismaPromise<GetOpeningBalanceSessionAggregateType<T>>
+
+    /**
+     * Group by OpeningBalanceSession.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OpeningBalanceSessionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends OpeningBalanceSessionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: OpeningBalanceSessionGroupByArgs['orderBy'] }
+        : { orderBy?: OpeningBalanceSessionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, OpeningBalanceSessionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetOpeningBalanceSessionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the OpeningBalanceSession model
+   */
+  readonly fields: OpeningBalanceSessionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for OpeningBalanceSession.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__OpeningBalanceSessionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    fiscalPeriod<T extends FiscalPeriodDefaultArgs<ExtArgs> = {}>(args?: Subset<T, FiscalPeriodDefaultArgs<ExtArgs>>): Prisma__FiscalPeriodClient<$Result.GetResult<Prisma.$FiscalPeriodPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    lines<T extends OpeningBalanceSession$linesArgs<ExtArgs> = {}>(args?: Subset<T, OpeningBalanceSession$linesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OpeningBalanceSessionLinePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the OpeningBalanceSession model
+   */
+  interface OpeningBalanceSessionFieldRefs {
+    readonly id: FieldRef<"OpeningBalanceSession", 'String'>
+    readonly tenantId: FieldRef<"OpeningBalanceSession", 'String'>
+    readonly number: FieldRef<"OpeningBalanceSession", 'String'>
+    readonly fiscalPeriodId: FieldRef<"OpeningBalanceSession", 'String'>
+    readonly status: FieldRef<"OpeningBalanceSession", 'OpeningBalanceSessionStatus'>
+    readonly description: FieldRef<"OpeningBalanceSession", 'String'>
+    readonly postedAt: FieldRef<"OpeningBalanceSession", 'DateTime'>
+    readonly postedBy: FieldRef<"OpeningBalanceSession", 'String'>
+    readonly lockedAt: FieldRef<"OpeningBalanceSession", 'DateTime'>
+    readonly lockedBy: FieldRef<"OpeningBalanceSession", 'String'>
+    readonly createdBy: FieldRef<"OpeningBalanceSession", 'String'>
+    readonly createdAt: FieldRef<"OpeningBalanceSession", 'DateTime'>
+    readonly updatedAt: FieldRef<"OpeningBalanceSession", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * OpeningBalanceSession findUnique
+   */
+  export type OpeningBalanceSessionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OpeningBalanceSession
+     */
+    select?: OpeningBalanceSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OpeningBalanceSession
+     */
+    omit?: OpeningBalanceSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OpeningBalanceSessionInclude<ExtArgs> | null
+    /**
+     * Filter, which OpeningBalanceSession to fetch.
+     */
+    where: OpeningBalanceSessionWhereUniqueInput
+  }
+
+  /**
+   * OpeningBalanceSession findUniqueOrThrow
+   */
+  export type OpeningBalanceSessionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OpeningBalanceSession
+     */
+    select?: OpeningBalanceSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OpeningBalanceSession
+     */
+    omit?: OpeningBalanceSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OpeningBalanceSessionInclude<ExtArgs> | null
+    /**
+     * Filter, which OpeningBalanceSession to fetch.
+     */
+    where: OpeningBalanceSessionWhereUniqueInput
+  }
+
+  /**
+   * OpeningBalanceSession findFirst
+   */
+  export type OpeningBalanceSessionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OpeningBalanceSession
+     */
+    select?: OpeningBalanceSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OpeningBalanceSession
+     */
+    omit?: OpeningBalanceSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OpeningBalanceSessionInclude<ExtArgs> | null
+    /**
+     * Filter, which OpeningBalanceSession to fetch.
+     */
+    where?: OpeningBalanceSessionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OpeningBalanceSessions to fetch.
+     */
+    orderBy?: OpeningBalanceSessionOrderByWithRelationInput | OpeningBalanceSessionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for OpeningBalanceSessions.
+     */
+    cursor?: OpeningBalanceSessionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OpeningBalanceSessions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OpeningBalanceSessions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of OpeningBalanceSessions.
+     */
+    distinct?: OpeningBalanceSessionScalarFieldEnum | OpeningBalanceSessionScalarFieldEnum[]
+  }
+
+  /**
+   * OpeningBalanceSession findFirstOrThrow
+   */
+  export type OpeningBalanceSessionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OpeningBalanceSession
+     */
+    select?: OpeningBalanceSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OpeningBalanceSession
+     */
+    omit?: OpeningBalanceSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OpeningBalanceSessionInclude<ExtArgs> | null
+    /**
+     * Filter, which OpeningBalanceSession to fetch.
+     */
+    where?: OpeningBalanceSessionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OpeningBalanceSessions to fetch.
+     */
+    orderBy?: OpeningBalanceSessionOrderByWithRelationInput | OpeningBalanceSessionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for OpeningBalanceSessions.
+     */
+    cursor?: OpeningBalanceSessionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OpeningBalanceSessions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OpeningBalanceSessions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of OpeningBalanceSessions.
+     */
+    distinct?: OpeningBalanceSessionScalarFieldEnum | OpeningBalanceSessionScalarFieldEnum[]
+  }
+
+  /**
+   * OpeningBalanceSession findMany
+   */
+  export type OpeningBalanceSessionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OpeningBalanceSession
+     */
+    select?: OpeningBalanceSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OpeningBalanceSession
+     */
+    omit?: OpeningBalanceSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OpeningBalanceSessionInclude<ExtArgs> | null
+    /**
+     * Filter, which OpeningBalanceSessions to fetch.
+     */
+    where?: OpeningBalanceSessionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OpeningBalanceSessions to fetch.
+     */
+    orderBy?: OpeningBalanceSessionOrderByWithRelationInput | OpeningBalanceSessionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing OpeningBalanceSessions.
+     */
+    cursor?: OpeningBalanceSessionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OpeningBalanceSessions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OpeningBalanceSessions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of OpeningBalanceSessions.
+     */
+    distinct?: OpeningBalanceSessionScalarFieldEnum | OpeningBalanceSessionScalarFieldEnum[]
+  }
+
+  /**
+   * OpeningBalanceSession create
+   */
+  export type OpeningBalanceSessionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OpeningBalanceSession
+     */
+    select?: OpeningBalanceSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OpeningBalanceSession
+     */
+    omit?: OpeningBalanceSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OpeningBalanceSessionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a OpeningBalanceSession.
+     */
+    data: XOR<OpeningBalanceSessionCreateInput, OpeningBalanceSessionUncheckedCreateInput>
+  }
+
+  /**
+   * OpeningBalanceSession createMany
+   */
+  export type OpeningBalanceSessionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many OpeningBalanceSessions.
+     */
+    data: OpeningBalanceSessionCreateManyInput | OpeningBalanceSessionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * OpeningBalanceSession createManyAndReturn
+   */
+  export type OpeningBalanceSessionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OpeningBalanceSession
+     */
+    select?: OpeningBalanceSessionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the OpeningBalanceSession
+     */
+    omit?: OpeningBalanceSessionOmit<ExtArgs> | null
+    /**
+     * The data used to create many OpeningBalanceSessions.
+     */
+    data: OpeningBalanceSessionCreateManyInput | OpeningBalanceSessionCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OpeningBalanceSessionIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * OpeningBalanceSession update
+   */
+  export type OpeningBalanceSessionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OpeningBalanceSession
+     */
+    select?: OpeningBalanceSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OpeningBalanceSession
+     */
+    omit?: OpeningBalanceSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OpeningBalanceSessionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a OpeningBalanceSession.
+     */
+    data: XOR<OpeningBalanceSessionUpdateInput, OpeningBalanceSessionUncheckedUpdateInput>
+    /**
+     * Choose, which OpeningBalanceSession to update.
+     */
+    where: OpeningBalanceSessionWhereUniqueInput
+  }
+
+  /**
+   * OpeningBalanceSession updateMany
+   */
+  export type OpeningBalanceSessionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update OpeningBalanceSessions.
+     */
+    data: XOR<OpeningBalanceSessionUpdateManyMutationInput, OpeningBalanceSessionUncheckedUpdateManyInput>
+    /**
+     * Filter which OpeningBalanceSessions to update
+     */
+    where?: OpeningBalanceSessionWhereInput
+    /**
+     * Limit how many OpeningBalanceSessions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * OpeningBalanceSession updateManyAndReturn
+   */
+  export type OpeningBalanceSessionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OpeningBalanceSession
+     */
+    select?: OpeningBalanceSessionSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the OpeningBalanceSession
+     */
+    omit?: OpeningBalanceSessionOmit<ExtArgs> | null
+    /**
+     * The data used to update OpeningBalanceSessions.
+     */
+    data: XOR<OpeningBalanceSessionUpdateManyMutationInput, OpeningBalanceSessionUncheckedUpdateManyInput>
+    /**
+     * Filter which OpeningBalanceSessions to update
+     */
+    where?: OpeningBalanceSessionWhereInput
+    /**
+     * Limit how many OpeningBalanceSessions to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OpeningBalanceSessionIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * OpeningBalanceSession upsert
+   */
+  export type OpeningBalanceSessionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OpeningBalanceSession
+     */
+    select?: OpeningBalanceSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OpeningBalanceSession
+     */
+    omit?: OpeningBalanceSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OpeningBalanceSessionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the OpeningBalanceSession to update in case it exists.
+     */
+    where: OpeningBalanceSessionWhereUniqueInput
+    /**
+     * In case the OpeningBalanceSession found by the `where` argument doesn't exist, create a new OpeningBalanceSession with this data.
+     */
+    create: XOR<OpeningBalanceSessionCreateInput, OpeningBalanceSessionUncheckedCreateInput>
+    /**
+     * In case the OpeningBalanceSession was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<OpeningBalanceSessionUpdateInput, OpeningBalanceSessionUncheckedUpdateInput>
+  }
+
+  /**
+   * OpeningBalanceSession delete
+   */
+  export type OpeningBalanceSessionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OpeningBalanceSession
+     */
+    select?: OpeningBalanceSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OpeningBalanceSession
+     */
+    omit?: OpeningBalanceSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OpeningBalanceSessionInclude<ExtArgs> | null
+    /**
+     * Filter which OpeningBalanceSession to delete.
+     */
+    where: OpeningBalanceSessionWhereUniqueInput
+  }
+
+  /**
+   * OpeningBalanceSession deleteMany
+   */
+  export type OpeningBalanceSessionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which OpeningBalanceSessions to delete
+     */
+    where?: OpeningBalanceSessionWhereInput
+    /**
+     * Limit how many OpeningBalanceSessions to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * OpeningBalanceSession.lines
+   */
+  export type OpeningBalanceSession$linesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OpeningBalanceSessionLine
+     */
+    select?: OpeningBalanceSessionLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OpeningBalanceSessionLine
+     */
+    omit?: OpeningBalanceSessionLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OpeningBalanceSessionLineInclude<ExtArgs> | null
+    where?: OpeningBalanceSessionLineWhereInput
+    orderBy?: OpeningBalanceSessionLineOrderByWithRelationInput | OpeningBalanceSessionLineOrderByWithRelationInput[]
+    cursor?: OpeningBalanceSessionLineWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: OpeningBalanceSessionLineScalarFieldEnum | OpeningBalanceSessionLineScalarFieldEnum[]
+  }
+
+  /**
+   * OpeningBalanceSession without action
+   */
+  export type OpeningBalanceSessionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OpeningBalanceSession
+     */
+    select?: OpeningBalanceSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OpeningBalanceSession
+     */
+    omit?: OpeningBalanceSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OpeningBalanceSessionInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model OpeningBalanceSessionLine
+   */
+
+  export type AggregateOpeningBalanceSessionLine = {
+    _count: OpeningBalanceSessionLineCountAggregateOutputType | null
+    _avg: OpeningBalanceSessionLineAvgAggregateOutputType | null
+    _sum: OpeningBalanceSessionLineSumAggregateOutputType | null
+    _min: OpeningBalanceSessionLineMinAggregateOutputType | null
+    _max: OpeningBalanceSessionLineMaxAggregateOutputType | null
+  }
+
+  export type OpeningBalanceSessionLineAvgAggregateOutputType = {
+    amount: Decimal | null
+    exchangeRate: Decimal | null
+  }
+
+  export type OpeningBalanceSessionLineSumAggregateOutputType = {
+    amount: Decimal | null
+    exchangeRate: Decimal | null
+  }
+
+  export type OpeningBalanceSessionLineMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    sessionId: string | null
+    dimension: $Enums.OpeningBalanceDimension | null
+    accountId: string | null
+    partyId: string | null
+    cashboxId: string | null
+    bankAccountId: string | null
+    currencyId: string | null
+    partySide: $Enums.OpeningBalancePartySide | null
+    amount: Decimal | null
+    exchangeRate: Decimal | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type OpeningBalanceSessionLineMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    sessionId: string | null
+    dimension: $Enums.OpeningBalanceDimension | null
+    accountId: string | null
+    partyId: string | null
+    cashboxId: string | null
+    bankAccountId: string | null
+    currencyId: string | null
+    partySide: $Enums.OpeningBalancePartySide | null
+    amount: Decimal | null
+    exchangeRate: Decimal | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type OpeningBalanceSessionLineCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    sessionId: number
+    dimension: number
+    accountId: number
+    partyId: number
+    cashboxId: number
+    bankAccountId: number
+    currencyId: number
+    partySide: number
+    amount: number
+    exchangeRate: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type OpeningBalanceSessionLineAvgAggregateInputType = {
+    amount?: true
+    exchangeRate?: true
+  }
+
+  export type OpeningBalanceSessionLineSumAggregateInputType = {
+    amount?: true
+    exchangeRate?: true
+  }
+
+  export type OpeningBalanceSessionLineMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    sessionId?: true
+    dimension?: true
+    accountId?: true
+    partyId?: true
+    cashboxId?: true
+    bankAccountId?: true
+    currencyId?: true
+    partySide?: true
+    amount?: true
+    exchangeRate?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type OpeningBalanceSessionLineMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    sessionId?: true
+    dimension?: true
+    accountId?: true
+    partyId?: true
+    cashboxId?: true
+    bankAccountId?: true
+    currencyId?: true
+    partySide?: true
+    amount?: true
+    exchangeRate?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type OpeningBalanceSessionLineCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    sessionId?: true
+    dimension?: true
+    accountId?: true
+    partyId?: true
+    cashboxId?: true
+    bankAccountId?: true
+    currencyId?: true
+    partySide?: true
+    amount?: true
+    exchangeRate?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type OpeningBalanceSessionLineAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which OpeningBalanceSessionLine to aggregate.
+     */
+    where?: OpeningBalanceSessionLineWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OpeningBalanceSessionLines to fetch.
+     */
+    orderBy?: OpeningBalanceSessionLineOrderByWithRelationInput | OpeningBalanceSessionLineOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: OpeningBalanceSessionLineWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OpeningBalanceSessionLines from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OpeningBalanceSessionLines.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned OpeningBalanceSessionLines
+    **/
+    _count?: true | OpeningBalanceSessionLineCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: OpeningBalanceSessionLineAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: OpeningBalanceSessionLineSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: OpeningBalanceSessionLineMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: OpeningBalanceSessionLineMaxAggregateInputType
+  }
+
+  export type GetOpeningBalanceSessionLineAggregateType<T extends OpeningBalanceSessionLineAggregateArgs> = {
+        [P in keyof T & keyof AggregateOpeningBalanceSessionLine]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateOpeningBalanceSessionLine[P]>
+      : GetScalarType<T[P], AggregateOpeningBalanceSessionLine[P]>
+  }
+
+
+
+
+  export type OpeningBalanceSessionLineGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OpeningBalanceSessionLineWhereInput
+    orderBy?: OpeningBalanceSessionLineOrderByWithAggregationInput | OpeningBalanceSessionLineOrderByWithAggregationInput[]
+    by: OpeningBalanceSessionLineScalarFieldEnum[] | OpeningBalanceSessionLineScalarFieldEnum
+    having?: OpeningBalanceSessionLineScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: OpeningBalanceSessionLineCountAggregateInputType | true
+    _avg?: OpeningBalanceSessionLineAvgAggregateInputType
+    _sum?: OpeningBalanceSessionLineSumAggregateInputType
+    _min?: OpeningBalanceSessionLineMinAggregateInputType
+    _max?: OpeningBalanceSessionLineMaxAggregateInputType
+  }
+
+  export type OpeningBalanceSessionLineGroupByOutputType = {
+    id: string
+    tenantId: string
+    sessionId: string
+    dimension: $Enums.OpeningBalanceDimension
+    accountId: string | null
+    partyId: string | null
+    cashboxId: string | null
+    bankAccountId: string | null
+    currencyId: string | null
+    partySide: $Enums.OpeningBalancePartySide | null
+    amount: Decimal
+    exchangeRate: Decimal
+    createdAt: Date
+    updatedAt: Date
+    _count: OpeningBalanceSessionLineCountAggregateOutputType | null
+    _avg: OpeningBalanceSessionLineAvgAggregateOutputType | null
+    _sum: OpeningBalanceSessionLineSumAggregateOutputType | null
+    _min: OpeningBalanceSessionLineMinAggregateOutputType | null
+    _max: OpeningBalanceSessionLineMaxAggregateOutputType | null
+  }
+
+  type GetOpeningBalanceSessionLineGroupByPayload<T extends OpeningBalanceSessionLineGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<OpeningBalanceSessionLineGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof OpeningBalanceSessionLineGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], OpeningBalanceSessionLineGroupByOutputType[P]>
+            : GetScalarType<T[P], OpeningBalanceSessionLineGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type OpeningBalanceSessionLineSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    sessionId?: boolean
+    dimension?: boolean
+    accountId?: boolean
+    partyId?: boolean
+    cashboxId?: boolean
+    bankAccountId?: boolean
+    currencyId?: boolean
+    partySide?: boolean
+    amount?: boolean
+    exchangeRate?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    session?: boolean | OpeningBalanceSessionDefaultArgs<ExtArgs>
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    party?: boolean | OpeningBalanceSessionLine$partyArgs<ExtArgs>
+    cashbox?: boolean | OpeningBalanceSessionLine$cashboxArgs<ExtArgs>
+    bankAccount?: boolean | OpeningBalanceSessionLine$bankAccountArgs<ExtArgs>
+    account?: boolean | OpeningBalanceSessionLine$accountArgs<ExtArgs>
+    currency?: boolean | OpeningBalanceSessionLine$currencyArgs<ExtArgs>
+  }, ExtArgs["result"]["openingBalanceSessionLine"]>
+
+  export type OpeningBalanceSessionLineSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    sessionId?: boolean
+    dimension?: boolean
+    accountId?: boolean
+    partyId?: boolean
+    cashboxId?: boolean
+    bankAccountId?: boolean
+    currencyId?: boolean
+    partySide?: boolean
+    amount?: boolean
+    exchangeRate?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    session?: boolean | OpeningBalanceSessionDefaultArgs<ExtArgs>
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    party?: boolean | OpeningBalanceSessionLine$partyArgs<ExtArgs>
+    cashbox?: boolean | OpeningBalanceSessionLine$cashboxArgs<ExtArgs>
+    bankAccount?: boolean | OpeningBalanceSessionLine$bankAccountArgs<ExtArgs>
+    account?: boolean | OpeningBalanceSessionLine$accountArgs<ExtArgs>
+    currency?: boolean | OpeningBalanceSessionLine$currencyArgs<ExtArgs>
+  }, ExtArgs["result"]["openingBalanceSessionLine"]>
+
+  export type OpeningBalanceSessionLineSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    sessionId?: boolean
+    dimension?: boolean
+    accountId?: boolean
+    partyId?: boolean
+    cashboxId?: boolean
+    bankAccountId?: boolean
+    currencyId?: boolean
+    partySide?: boolean
+    amount?: boolean
+    exchangeRate?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    session?: boolean | OpeningBalanceSessionDefaultArgs<ExtArgs>
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    party?: boolean | OpeningBalanceSessionLine$partyArgs<ExtArgs>
+    cashbox?: boolean | OpeningBalanceSessionLine$cashboxArgs<ExtArgs>
+    bankAccount?: boolean | OpeningBalanceSessionLine$bankAccountArgs<ExtArgs>
+    account?: boolean | OpeningBalanceSessionLine$accountArgs<ExtArgs>
+    currency?: boolean | OpeningBalanceSessionLine$currencyArgs<ExtArgs>
+  }, ExtArgs["result"]["openingBalanceSessionLine"]>
+
+  export type OpeningBalanceSessionLineSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    sessionId?: boolean
+    dimension?: boolean
+    accountId?: boolean
+    partyId?: boolean
+    cashboxId?: boolean
+    bankAccountId?: boolean
+    currencyId?: boolean
+    partySide?: boolean
+    amount?: boolean
+    exchangeRate?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type OpeningBalanceSessionLineOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "sessionId" | "dimension" | "accountId" | "partyId" | "cashboxId" | "bankAccountId" | "currencyId" | "partySide" | "amount" | "exchangeRate" | "createdAt" | "updatedAt", ExtArgs["result"]["openingBalanceSessionLine"]>
+  export type OpeningBalanceSessionLineInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    session?: boolean | OpeningBalanceSessionDefaultArgs<ExtArgs>
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    party?: boolean | OpeningBalanceSessionLine$partyArgs<ExtArgs>
+    cashbox?: boolean | OpeningBalanceSessionLine$cashboxArgs<ExtArgs>
+    bankAccount?: boolean | OpeningBalanceSessionLine$bankAccountArgs<ExtArgs>
+    account?: boolean | OpeningBalanceSessionLine$accountArgs<ExtArgs>
+    currency?: boolean | OpeningBalanceSessionLine$currencyArgs<ExtArgs>
+  }
+  export type OpeningBalanceSessionLineIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    session?: boolean | OpeningBalanceSessionDefaultArgs<ExtArgs>
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    party?: boolean | OpeningBalanceSessionLine$partyArgs<ExtArgs>
+    cashbox?: boolean | OpeningBalanceSessionLine$cashboxArgs<ExtArgs>
+    bankAccount?: boolean | OpeningBalanceSessionLine$bankAccountArgs<ExtArgs>
+    account?: boolean | OpeningBalanceSessionLine$accountArgs<ExtArgs>
+    currency?: boolean | OpeningBalanceSessionLine$currencyArgs<ExtArgs>
+  }
+  export type OpeningBalanceSessionLineIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    session?: boolean | OpeningBalanceSessionDefaultArgs<ExtArgs>
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    party?: boolean | OpeningBalanceSessionLine$partyArgs<ExtArgs>
+    cashbox?: boolean | OpeningBalanceSessionLine$cashboxArgs<ExtArgs>
+    bankAccount?: boolean | OpeningBalanceSessionLine$bankAccountArgs<ExtArgs>
+    account?: boolean | OpeningBalanceSessionLine$accountArgs<ExtArgs>
+    currency?: boolean | OpeningBalanceSessionLine$currencyArgs<ExtArgs>
+  }
+
+  export type $OpeningBalanceSessionLinePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "OpeningBalanceSessionLine"
+    objects: {
+      session: Prisma.$OpeningBalanceSessionPayload<ExtArgs>
+      tenant: Prisma.$TenantPayload<ExtArgs>
+      party: Prisma.$PartyPayload<ExtArgs> | null
+      cashbox: Prisma.$CashboxPayload<ExtArgs> | null
+      bankAccount: Prisma.$BankAccountPayload<ExtArgs> | null
+      account: Prisma.$ChartOfAccountPayload<ExtArgs> | null
+      currency: Prisma.$CurrencyPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      sessionId: string
+      dimension: $Enums.OpeningBalanceDimension
+      accountId: string | null
+      partyId: string | null
+      cashboxId: string | null
+      bankAccountId: string | null
+      currencyId: string | null
+      /**
+       * AR = debit the receivable control account (money owed to us); AP = credit the payable control account (money we owe).
+       */
+      partySide: $Enums.OpeningBalancePartySide | null
+      /**
+       * Signed transaction-currency amount: positive increases the target balance (asset → debit, liability/equity → credit).
+       */
+      amount: Prisma.Decimal
+      /**
+       * Locked exchange rate to tenant base currency (ADR-5).
+       */
+      exchangeRate: Prisma.Decimal
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["openingBalanceSessionLine"]>
+    composites: {}
+  }
+
+  type OpeningBalanceSessionLineGetPayload<S extends boolean | null | undefined | OpeningBalanceSessionLineDefaultArgs> = $Result.GetResult<Prisma.$OpeningBalanceSessionLinePayload, S>
+
+  type OpeningBalanceSessionLineCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<OpeningBalanceSessionLineFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: OpeningBalanceSessionLineCountAggregateInputType | true
+    }
+
+  export interface OpeningBalanceSessionLineDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['OpeningBalanceSessionLine'], meta: { name: 'OpeningBalanceSessionLine' } }
+    /**
+     * Find zero or one OpeningBalanceSessionLine that matches the filter.
+     * @param {OpeningBalanceSessionLineFindUniqueArgs} args - Arguments to find a OpeningBalanceSessionLine
+     * @example
+     * // Get one OpeningBalanceSessionLine
+     * const openingBalanceSessionLine = await prisma.openingBalanceSessionLine.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends OpeningBalanceSessionLineFindUniqueArgs>(args: SelectSubset<T, OpeningBalanceSessionLineFindUniqueArgs<ExtArgs>>): Prisma__OpeningBalanceSessionLineClient<$Result.GetResult<Prisma.$OpeningBalanceSessionLinePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one OpeningBalanceSessionLine that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {OpeningBalanceSessionLineFindUniqueOrThrowArgs} args - Arguments to find a OpeningBalanceSessionLine
+     * @example
+     * // Get one OpeningBalanceSessionLine
+     * const openingBalanceSessionLine = await prisma.openingBalanceSessionLine.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends OpeningBalanceSessionLineFindUniqueOrThrowArgs>(args: SelectSubset<T, OpeningBalanceSessionLineFindUniqueOrThrowArgs<ExtArgs>>): Prisma__OpeningBalanceSessionLineClient<$Result.GetResult<Prisma.$OpeningBalanceSessionLinePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first OpeningBalanceSessionLine that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OpeningBalanceSessionLineFindFirstArgs} args - Arguments to find a OpeningBalanceSessionLine
+     * @example
+     * // Get one OpeningBalanceSessionLine
+     * const openingBalanceSessionLine = await prisma.openingBalanceSessionLine.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends OpeningBalanceSessionLineFindFirstArgs>(args?: SelectSubset<T, OpeningBalanceSessionLineFindFirstArgs<ExtArgs>>): Prisma__OpeningBalanceSessionLineClient<$Result.GetResult<Prisma.$OpeningBalanceSessionLinePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first OpeningBalanceSessionLine that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OpeningBalanceSessionLineFindFirstOrThrowArgs} args - Arguments to find a OpeningBalanceSessionLine
+     * @example
+     * // Get one OpeningBalanceSessionLine
+     * const openingBalanceSessionLine = await prisma.openingBalanceSessionLine.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends OpeningBalanceSessionLineFindFirstOrThrowArgs>(args?: SelectSubset<T, OpeningBalanceSessionLineFindFirstOrThrowArgs<ExtArgs>>): Prisma__OpeningBalanceSessionLineClient<$Result.GetResult<Prisma.$OpeningBalanceSessionLinePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more OpeningBalanceSessionLines that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OpeningBalanceSessionLineFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all OpeningBalanceSessionLines
+     * const openingBalanceSessionLines = await prisma.openingBalanceSessionLine.findMany()
+     * 
+     * // Get first 10 OpeningBalanceSessionLines
+     * const openingBalanceSessionLines = await prisma.openingBalanceSessionLine.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const openingBalanceSessionLineWithIdOnly = await prisma.openingBalanceSessionLine.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends OpeningBalanceSessionLineFindManyArgs>(args?: SelectSubset<T, OpeningBalanceSessionLineFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OpeningBalanceSessionLinePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a OpeningBalanceSessionLine.
+     * @param {OpeningBalanceSessionLineCreateArgs} args - Arguments to create a OpeningBalanceSessionLine.
+     * @example
+     * // Create one OpeningBalanceSessionLine
+     * const OpeningBalanceSessionLine = await prisma.openingBalanceSessionLine.create({
+     *   data: {
+     *     // ... data to create a OpeningBalanceSessionLine
+     *   }
+     * })
+     * 
+     */
+    create<T extends OpeningBalanceSessionLineCreateArgs>(args: SelectSubset<T, OpeningBalanceSessionLineCreateArgs<ExtArgs>>): Prisma__OpeningBalanceSessionLineClient<$Result.GetResult<Prisma.$OpeningBalanceSessionLinePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many OpeningBalanceSessionLines.
+     * @param {OpeningBalanceSessionLineCreateManyArgs} args - Arguments to create many OpeningBalanceSessionLines.
+     * @example
+     * // Create many OpeningBalanceSessionLines
+     * const openingBalanceSessionLine = await prisma.openingBalanceSessionLine.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends OpeningBalanceSessionLineCreateManyArgs>(args?: SelectSubset<T, OpeningBalanceSessionLineCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many OpeningBalanceSessionLines and returns the data saved in the database.
+     * @param {OpeningBalanceSessionLineCreateManyAndReturnArgs} args - Arguments to create many OpeningBalanceSessionLines.
+     * @example
+     * // Create many OpeningBalanceSessionLines
+     * const openingBalanceSessionLine = await prisma.openingBalanceSessionLine.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many OpeningBalanceSessionLines and only return the `id`
+     * const openingBalanceSessionLineWithIdOnly = await prisma.openingBalanceSessionLine.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends OpeningBalanceSessionLineCreateManyAndReturnArgs>(args?: SelectSubset<T, OpeningBalanceSessionLineCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OpeningBalanceSessionLinePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a OpeningBalanceSessionLine.
+     * @param {OpeningBalanceSessionLineDeleteArgs} args - Arguments to delete one OpeningBalanceSessionLine.
+     * @example
+     * // Delete one OpeningBalanceSessionLine
+     * const OpeningBalanceSessionLine = await prisma.openingBalanceSessionLine.delete({
+     *   where: {
+     *     // ... filter to delete one OpeningBalanceSessionLine
+     *   }
+     * })
+     * 
+     */
+    delete<T extends OpeningBalanceSessionLineDeleteArgs>(args: SelectSubset<T, OpeningBalanceSessionLineDeleteArgs<ExtArgs>>): Prisma__OpeningBalanceSessionLineClient<$Result.GetResult<Prisma.$OpeningBalanceSessionLinePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one OpeningBalanceSessionLine.
+     * @param {OpeningBalanceSessionLineUpdateArgs} args - Arguments to update one OpeningBalanceSessionLine.
+     * @example
+     * // Update one OpeningBalanceSessionLine
+     * const openingBalanceSessionLine = await prisma.openingBalanceSessionLine.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends OpeningBalanceSessionLineUpdateArgs>(args: SelectSubset<T, OpeningBalanceSessionLineUpdateArgs<ExtArgs>>): Prisma__OpeningBalanceSessionLineClient<$Result.GetResult<Prisma.$OpeningBalanceSessionLinePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more OpeningBalanceSessionLines.
+     * @param {OpeningBalanceSessionLineDeleteManyArgs} args - Arguments to filter OpeningBalanceSessionLines to delete.
+     * @example
+     * // Delete a few OpeningBalanceSessionLines
+     * const { count } = await prisma.openingBalanceSessionLine.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends OpeningBalanceSessionLineDeleteManyArgs>(args?: SelectSubset<T, OpeningBalanceSessionLineDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more OpeningBalanceSessionLines.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OpeningBalanceSessionLineUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many OpeningBalanceSessionLines
+     * const openingBalanceSessionLine = await prisma.openingBalanceSessionLine.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends OpeningBalanceSessionLineUpdateManyArgs>(args: SelectSubset<T, OpeningBalanceSessionLineUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more OpeningBalanceSessionLines and returns the data updated in the database.
+     * @param {OpeningBalanceSessionLineUpdateManyAndReturnArgs} args - Arguments to update many OpeningBalanceSessionLines.
+     * @example
+     * // Update many OpeningBalanceSessionLines
+     * const openingBalanceSessionLine = await prisma.openingBalanceSessionLine.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more OpeningBalanceSessionLines and only return the `id`
+     * const openingBalanceSessionLineWithIdOnly = await prisma.openingBalanceSessionLine.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends OpeningBalanceSessionLineUpdateManyAndReturnArgs>(args: SelectSubset<T, OpeningBalanceSessionLineUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OpeningBalanceSessionLinePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one OpeningBalanceSessionLine.
+     * @param {OpeningBalanceSessionLineUpsertArgs} args - Arguments to update or create a OpeningBalanceSessionLine.
+     * @example
+     * // Update or create a OpeningBalanceSessionLine
+     * const openingBalanceSessionLine = await prisma.openingBalanceSessionLine.upsert({
+     *   create: {
+     *     // ... data to create a OpeningBalanceSessionLine
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the OpeningBalanceSessionLine we want to update
+     *   }
+     * })
+     */
+    upsert<T extends OpeningBalanceSessionLineUpsertArgs>(args: SelectSubset<T, OpeningBalanceSessionLineUpsertArgs<ExtArgs>>): Prisma__OpeningBalanceSessionLineClient<$Result.GetResult<Prisma.$OpeningBalanceSessionLinePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of OpeningBalanceSessionLines.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OpeningBalanceSessionLineCountArgs} args - Arguments to filter OpeningBalanceSessionLines to count.
+     * @example
+     * // Count the number of OpeningBalanceSessionLines
+     * const count = await prisma.openingBalanceSessionLine.count({
+     *   where: {
+     *     // ... the filter for the OpeningBalanceSessionLines we want to count
+     *   }
+     * })
+    **/
+    count<T extends OpeningBalanceSessionLineCountArgs>(
+      args?: Subset<T, OpeningBalanceSessionLineCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], OpeningBalanceSessionLineCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a OpeningBalanceSessionLine.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OpeningBalanceSessionLineAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends OpeningBalanceSessionLineAggregateArgs>(args: Subset<T, OpeningBalanceSessionLineAggregateArgs>): Prisma.PrismaPromise<GetOpeningBalanceSessionLineAggregateType<T>>
+
+    /**
+     * Group by OpeningBalanceSessionLine.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OpeningBalanceSessionLineGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends OpeningBalanceSessionLineGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: OpeningBalanceSessionLineGroupByArgs['orderBy'] }
+        : { orderBy?: OpeningBalanceSessionLineGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, OpeningBalanceSessionLineGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetOpeningBalanceSessionLineGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the OpeningBalanceSessionLine model
+   */
+  readonly fields: OpeningBalanceSessionLineFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for OpeningBalanceSessionLine.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__OpeningBalanceSessionLineClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    session<T extends OpeningBalanceSessionDefaultArgs<ExtArgs> = {}>(args?: Subset<T, OpeningBalanceSessionDefaultArgs<ExtArgs>>): Prisma__OpeningBalanceSessionClient<$Result.GetResult<Prisma.$OpeningBalanceSessionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    party<T extends OpeningBalanceSessionLine$partyArgs<ExtArgs> = {}>(args?: Subset<T, OpeningBalanceSessionLine$partyArgs<ExtArgs>>): Prisma__PartyClient<$Result.GetResult<Prisma.$PartyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    cashbox<T extends OpeningBalanceSessionLine$cashboxArgs<ExtArgs> = {}>(args?: Subset<T, OpeningBalanceSessionLine$cashboxArgs<ExtArgs>>): Prisma__CashboxClient<$Result.GetResult<Prisma.$CashboxPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    bankAccount<T extends OpeningBalanceSessionLine$bankAccountArgs<ExtArgs> = {}>(args?: Subset<T, OpeningBalanceSessionLine$bankAccountArgs<ExtArgs>>): Prisma__BankAccountClient<$Result.GetResult<Prisma.$BankAccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    account<T extends OpeningBalanceSessionLine$accountArgs<ExtArgs> = {}>(args?: Subset<T, OpeningBalanceSessionLine$accountArgs<ExtArgs>>): Prisma__ChartOfAccountClient<$Result.GetResult<Prisma.$ChartOfAccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    currency<T extends OpeningBalanceSessionLine$currencyArgs<ExtArgs> = {}>(args?: Subset<T, OpeningBalanceSessionLine$currencyArgs<ExtArgs>>): Prisma__CurrencyClient<$Result.GetResult<Prisma.$CurrencyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the OpeningBalanceSessionLine model
+   */
+  interface OpeningBalanceSessionLineFieldRefs {
+    readonly id: FieldRef<"OpeningBalanceSessionLine", 'String'>
+    readonly tenantId: FieldRef<"OpeningBalanceSessionLine", 'String'>
+    readonly sessionId: FieldRef<"OpeningBalanceSessionLine", 'String'>
+    readonly dimension: FieldRef<"OpeningBalanceSessionLine", 'OpeningBalanceDimension'>
+    readonly accountId: FieldRef<"OpeningBalanceSessionLine", 'String'>
+    readonly partyId: FieldRef<"OpeningBalanceSessionLine", 'String'>
+    readonly cashboxId: FieldRef<"OpeningBalanceSessionLine", 'String'>
+    readonly bankAccountId: FieldRef<"OpeningBalanceSessionLine", 'String'>
+    readonly currencyId: FieldRef<"OpeningBalanceSessionLine", 'String'>
+    readonly partySide: FieldRef<"OpeningBalanceSessionLine", 'OpeningBalancePartySide'>
+    readonly amount: FieldRef<"OpeningBalanceSessionLine", 'Decimal'>
+    readonly exchangeRate: FieldRef<"OpeningBalanceSessionLine", 'Decimal'>
+    readonly createdAt: FieldRef<"OpeningBalanceSessionLine", 'DateTime'>
+    readonly updatedAt: FieldRef<"OpeningBalanceSessionLine", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * OpeningBalanceSessionLine findUnique
+   */
+  export type OpeningBalanceSessionLineFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OpeningBalanceSessionLine
+     */
+    select?: OpeningBalanceSessionLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OpeningBalanceSessionLine
+     */
+    omit?: OpeningBalanceSessionLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OpeningBalanceSessionLineInclude<ExtArgs> | null
+    /**
+     * Filter, which OpeningBalanceSessionLine to fetch.
+     */
+    where: OpeningBalanceSessionLineWhereUniqueInput
+  }
+
+  /**
+   * OpeningBalanceSessionLine findUniqueOrThrow
+   */
+  export type OpeningBalanceSessionLineFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OpeningBalanceSessionLine
+     */
+    select?: OpeningBalanceSessionLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OpeningBalanceSessionLine
+     */
+    omit?: OpeningBalanceSessionLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OpeningBalanceSessionLineInclude<ExtArgs> | null
+    /**
+     * Filter, which OpeningBalanceSessionLine to fetch.
+     */
+    where: OpeningBalanceSessionLineWhereUniqueInput
+  }
+
+  /**
+   * OpeningBalanceSessionLine findFirst
+   */
+  export type OpeningBalanceSessionLineFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OpeningBalanceSessionLine
+     */
+    select?: OpeningBalanceSessionLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OpeningBalanceSessionLine
+     */
+    omit?: OpeningBalanceSessionLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OpeningBalanceSessionLineInclude<ExtArgs> | null
+    /**
+     * Filter, which OpeningBalanceSessionLine to fetch.
+     */
+    where?: OpeningBalanceSessionLineWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OpeningBalanceSessionLines to fetch.
+     */
+    orderBy?: OpeningBalanceSessionLineOrderByWithRelationInput | OpeningBalanceSessionLineOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for OpeningBalanceSessionLines.
+     */
+    cursor?: OpeningBalanceSessionLineWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OpeningBalanceSessionLines from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OpeningBalanceSessionLines.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of OpeningBalanceSessionLines.
+     */
+    distinct?: OpeningBalanceSessionLineScalarFieldEnum | OpeningBalanceSessionLineScalarFieldEnum[]
+  }
+
+  /**
+   * OpeningBalanceSessionLine findFirstOrThrow
+   */
+  export type OpeningBalanceSessionLineFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OpeningBalanceSessionLine
+     */
+    select?: OpeningBalanceSessionLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OpeningBalanceSessionLine
+     */
+    omit?: OpeningBalanceSessionLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OpeningBalanceSessionLineInclude<ExtArgs> | null
+    /**
+     * Filter, which OpeningBalanceSessionLine to fetch.
+     */
+    where?: OpeningBalanceSessionLineWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OpeningBalanceSessionLines to fetch.
+     */
+    orderBy?: OpeningBalanceSessionLineOrderByWithRelationInput | OpeningBalanceSessionLineOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for OpeningBalanceSessionLines.
+     */
+    cursor?: OpeningBalanceSessionLineWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OpeningBalanceSessionLines from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OpeningBalanceSessionLines.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of OpeningBalanceSessionLines.
+     */
+    distinct?: OpeningBalanceSessionLineScalarFieldEnum | OpeningBalanceSessionLineScalarFieldEnum[]
+  }
+
+  /**
+   * OpeningBalanceSessionLine findMany
+   */
+  export type OpeningBalanceSessionLineFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OpeningBalanceSessionLine
+     */
+    select?: OpeningBalanceSessionLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OpeningBalanceSessionLine
+     */
+    omit?: OpeningBalanceSessionLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OpeningBalanceSessionLineInclude<ExtArgs> | null
+    /**
+     * Filter, which OpeningBalanceSessionLines to fetch.
+     */
+    where?: OpeningBalanceSessionLineWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OpeningBalanceSessionLines to fetch.
+     */
+    orderBy?: OpeningBalanceSessionLineOrderByWithRelationInput | OpeningBalanceSessionLineOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing OpeningBalanceSessionLines.
+     */
+    cursor?: OpeningBalanceSessionLineWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OpeningBalanceSessionLines from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OpeningBalanceSessionLines.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of OpeningBalanceSessionLines.
+     */
+    distinct?: OpeningBalanceSessionLineScalarFieldEnum | OpeningBalanceSessionLineScalarFieldEnum[]
+  }
+
+  /**
+   * OpeningBalanceSessionLine create
+   */
+  export type OpeningBalanceSessionLineCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OpeningBalanceSessionLine
+     */
+    select?: OpeningBalanceSessionLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OpeningBalanceSessionLine
+     */
+    omit?: OpeningBalanceSessionLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OpeningBalanceSessionLineInclude<ExtArgs> | null
+    /**
+     * The data needed to create a OpeningBalanceSessionLine.
+     */
+    data: XOR<OpeningBalanceSessionLineCreateInput, OpeningBalanceSessionLineUncheckedCreateInput>
+  }
+
+  /**
+   * OpeningBalanceSessionLine createMany
+   */
+  export type OpeningBalanceSessionLineCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many OpeningBalanceSessionLines.
+     */
+    data: OpeningBalanceSessionLineCreateManyInput | OpeningBalanceSessionLineCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * OpeningBalanceSessionLine createManyAndReturn
+   */
+  export type OpeningBalanceSessionLineCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OpeningBalanceSessionLine
+     */
+    select?: OpeningBalanceSessionLineSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the OpeningBalanceSessionLine
+     */
+    omit?: OpeningBalanceSessionLineOmit<ExtArgs> | null
+    /**
+     * The data used to create many OpeningBalanceSessionLines.
+     */
+    data: OpeningBalanceSessionLineCreateManyInput | OpeningBalanceSessionLineCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OpeningBalanceSessionLineIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * OpeningBalanceSessionLine update
+   */
+  export type OpeningBalanceSessionLineUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OpeningBalanceSessionLine
+     */
+    select?: OpeningBalanceSessionLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OpeningBalanceSessionLine
+     */
+    omit?: OpeningBalanceSessionLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OpeningBalanceSessionLineInclude<ExtArgs> | null
+    /**
+     * The data needed to update a OpeningBalanceSessionLine.
+     */
+    data: XOR<OpeningBalanceSessionLineUpdateInput, OpeningBalanceSessionLineUncheckedUpdateInput>
+    /**
+     * Choose, which OpeningBalanceSessionLine to update.
+     */
+    where: OpeningBalanceSessionLineWhereUniqueInput
+  }
+
+  /**
+   * OpeningBalanceSessionLine updateMany
+   */
+  export type OpeningBalanceSessionLineUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update OpeningBalanceSessionLines.
+     */
+    data: XOR<OpeningBalanceSessionLineUpdateManyMutationInput, OpeningBalanceSessionLineUncheckedUpdateManyInput>
+    /**
+     * Filter which OpeningBalanceSessionLines to update
+     */
+    where?: OpeningBalanceSessionLineWhereInput
+    /**
+     * Limit how many OpeningBalanceSessionLines to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * OpeningBalanceSessionLine updateManyAndReturn
+   */
+  export type OpeningBalanceSessionLineUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OpeningBalanceSessionLine
+     */
+    select?: OpeningBalanceSessionLineSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the OpeningBalanceSessionLine
+     */
+    omit?: OpeningBalanceSessionLineOmit<ExtArgs> | null
+    /**
+     * The data used to update OpeningBalanceSessionLines.
+     */
+    data: XOR<OpeningBalanceSessionLineUpdateManyMutationInput, OpeningBalanceSessionLineUncheckedUpdateManyInput>
+    /**
+     * Filter which OpeningBalanceSessionLines to update
+     */
+    where?: OpeningBalanceSessionLineWhereInput
+    /**
+     * Limit how many OpeningBalanceSessionLines to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OpeningBalanceSessionLineIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * OpeningBalanceSessionLine upsert
+   */
+  export type OpeningBalanceSessionLineUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OpeningBalanceSessionLine
+     */
+    select?: OpeningBalanceSessionLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OpeningBalanceSessionLine
+     */
+    omit?: OpeningBalanceSessionLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OpeningBalanceSessionLineInclude<ExtArgs> | null
+    /**
+     * The filter to search for the OpeningBalanceSessionLine to update in case it exists.
+     */
+    where: OpeningBalanceSessionLineWhereUniqueInput
+    /**
+     * In case the OpeningBalanceSessionLine found by the `where` argument doesn't exist, create a new OpeningBalanceSessionLine with this data.
+     */
+    create: XOR<OpeningBalanceSessionLineCreateInput, OpeningBalanceSessionLineUncheckedCreateInput>
+    /**
+     * In case the OpeningBalanceSessionLine was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<OpeningBalanceSessionLineUpdateInput, OpeningBalanceSessionLineUncheckedUpdateInput>
+  }
+
+  /**
+   * OpeningBalanceSessionLine delete
+   */
+  export type OpeningBalanceSessionLineDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OpeningBalanceSessionLine
+     */
+    select?: OpeningBalanceSessionLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OpeningBalanceSessionLine
+     */
+    omit?: OpeningBalanceSessionLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OpeningBalanceSessionLineInclude<ExtArgs> | null
+    /**
+     * Filter which OpeningBalanceSessionLine to delete.
+     */
+    where: OpeningBalanceSessionLineWhereUniqueInput
+  }
+
+  /**
+   * OpeningBalanceSessionLine deleteMany
+   */
+  export type OpeningBalanceSessionLineDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which OpeningBalanceSessionLines to delete
+     */
+    where?: OpeningBalanceSessionLineWhereInput
+    /**
+     * Limit how many OpeningBalanceSessionLines to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * OpeningBalanceSessionLine.party
+   */
+  export type OpeningBalanceSessionLine$partyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Party
+     */
+    select?: PartySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Party
+     */
+    omit?: PartyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PartyInclude<ExtArgs> | null
+    where?: PartyWhereInput
+  }
+
+  /**
+   * OpeningBalanceSessionLine.cashbox
+   */
+  export type OpeningBalanceSessionLine$cashboxArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Cashbox
+     */
+    select?: CashboxSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Cashbox
+     */
+    omit?: CashboxOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CashboxInclude<ExtArgs> | null
+    where?: CashboxWhereInput
+  }
+
+  /**
+   * OpeningBalanceSessionLine.bankAccount
+   */
+  export type OpeningBalanceSessionLine$bankAccountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BankAccount
+     */
+    select?: BankAccountSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BankAccount
+     */
+    omit?: BankAccountOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BankAccountInclude<ExtArgs> | null
+    where?: BankAccountWhereInput
+  }
+
+  /**
+   * OpeningBalanceSessionLine.account
+   */
+  export type OpeningBalanceSessionLine$accountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChartOfAccount
+     */
+    select?: ChartOfAccountSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChartOfAccount
+     */
+    omit?: ChartOfAccountOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChartOfAccountInclude<ExtArgs> | null
+    where?: ChartOfAccountWhereInput
+  }
+
+  /**
+   * OpeningBalanceSessionLine.currency
+   */
+  export type OpeningBalanceSessionLine$currencyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Currency
+     */
+    select?: CurrencySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Currency
+     */
+    omit?: CurrencyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CurrencyInclude<ExtArgs> | null
+    where?: CurrencyWhereInput
+  }
+
+  /**
+   * OpeningBalanceSessionLine without action
+   */
+  export type OpeningBalanceSessionLineDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OpeningBalanceSessionLine
+     */
+    select?: OpeningBalanceSessionLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OpeningBalanceSessionLine
+     */
+    omit?: OpeningBalanceSessionLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OpeningBalanceSessionLineInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model Party
    */
 
@@ -41421,6 +44462,7 @@ export namespace Prisma {
     invoices?: boolean | Party$invoicesArgs<ExtArgs>
     payments?: boolean | Party$paymentsArgs<ExtArgs>
     journalLines?: boolean | Party$journalLinesArgs<ExtArgs>
+    openingBalanceSessionLines?: boolean | Party$openingBalanceSessionLinesArgs<ExtArgs>
     receivableAccount?: boolean | Party$receivableAccountArgs<ExtArgs>
     payableAccount?: boolean | Party$payableAccountArgs<ExtArgs>
     _count?: boolean | PartyCountOutputTypeDefaultArgs<ExtArgs>
@@ -41489,6 +44531,7 @@ export namespace Prisma {
     invoices?: boolean | Party$invoicesArgs<ExtArgs>
     payments?: boolean | Party$paymentsArgs<ExtArgs>
     journalLines?: boolean | Party$journalLinesArgs<ExtArgs>
+    openingBalanceSessionLines?: boolean | Party$openingBalanceSessionLinesArgs<ExtArgs>
     receivableAccount?: boolean | Party$receivableAccountArgs<ExtArgs>
     payableAccount?: boolean | Party$payableAccountArgs<ExtArgs>
     _count?: boolean | PartyCountOutputTypeDefaultArgs<ExtArgs>
@@ -41511,6 +44554,7 @@ export namespace Prisma {
       invoices: Prisma.$InvoicePayload<ExtArgs>[]
       payments: Prisma.$PaymentPayload<ExtArgs>[]
       journalLines: Prisma.$JournalLinePayload<ExtArgs>[]
+      openingBalanceSessionLines: Prisma.$OpeningBalanceSessionLinePayload<ExtArgs>[]
       receivableAccount: Prisma.$ChartOfAccountPayload<ExtArgs> | null
       payableAccount: Prisma.$ChartOfAccountPayload<ExtArgs> | null
     }
@@ -41927,6 +44971,7 @@ export namespace Prisma {
     invoices<T extends Party$invoicesArgs<ExtArgs> = {}>(args?: Subset<T, Party$invoicesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     payments<T extends Party$paymentsArgs<ExtArgs> = {}>(args?: Subset<T, Party$paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     journalLines<T extends Party$journalLinesArgs<ExtArgs> = {}>(args?: Subset<T, Party$journalLinesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$JournalLinePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    openingBalanceSessionLines<T extends Party$openingBalanceSessionLinesArgs<ExtArgs> = {}>(args?: Subset<T, Party$openingBalanceSessionLinesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OpeningBalanceSessionLinePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     receivableAccount<T extends Party$receivableAccountArgs<ExtArgs> = {}>(args?: Subset<T, Party$receivableAccountArgs<ExtArgs>>): Prisma__ChartOfAccountClient<$Result.GetResult<Prisma.$ChartOfAccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     payableAccount<T extends Party$payableAccountArgs<ExtArgs> = {}>(args?: Subset<T, Party$payableAccountArgs<ExtArgs>>): Prisma__ChartOfAccountClient<$Result.GetResult<Prisma.$ChartOfAccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
@@ -42442,6 +45487,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: JournalLineScalarFieldEnum | JournalLineScalarFieldEnum[]
+  }
+
+  /**
+   * Party.openingBalanceSessionLines
+   */
+  export type Party$openingBalanceSessionLinesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OpeningBalanceSessionLine
+     */
+    select?: OpeningBalanceSessionLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OpeningBalanceSessionLine
+     */
+    omit?: OpeningBalanceSessionLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OpeningBalanceSessionLineInclude<ExtArgs> | null
+    where?: OpeningBalanceSessionLineWhereInput
+    orderBy?: OpeningBalanceSessionLineOrderByWithRelationInput | OpeningBalanceSessionLineOrderByWithRelationInput[]
+    cursor?: OpeningBalanceSessionLineWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: OpeningBalanceSessionLineScalarFieldEnum | OpeningBalanceSessionLineScalarFieldEnum[]
   }
 
   /**
@@ -50826,6 +53895,8 @@ export namespace Prisma {
     catalogEntities?: boolean | Tenant$catalogEntitiesArgs<ExtArgs>
     itemCatalogEntities?: boolean | Tenant$itemCatalogEntitiesArgs<ExtArgs>
     brands?: boolean | Tenant$brandsArgs<ExtArgs>
+    openingBalanceSessions?: boolean | Tenant$openingBalanceSessionsArgs<ExtArgs>
+    openingBalanceSessionLines?: boolean | Tenant$openingBalanceSessionLinesArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["tenant"]>
 
@@ -50925,6 +53996,8 @@ export namespace Prisma {
     catalogEntities?: boolean | Tenant$catalogEntitiesArgs<ExtArgs>
     itemCatalogEntities?: boolean | Tenant$itemCatalogEntitiesArgs<ExtArgs>
     brands?: boolean | Tenant$brandsArgs<ExtArgs>
+    openingBalanceSessions?: boolean | Tenant$openingBalanceSessionsArgs<ExtArgs>
+    openingBalanceSessionLines?: boolean | Tenant$openingBalanceSessionLinesArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TenantIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -50969,6 +54042,8 @@ export namespace Prisma {
       catalogEntities: Prisma.$CatalogEntityPayload<ExtArgs>[]
       itemCatalogEntities: Prisma.$ItemCatalogEntityPayload<ExtArgs>[]
       brands: Prisma.$BrandPayload<ExtArgs>[]
+      openingBalanceSessions: Prisma.$OpeningBalanceSessionPayload<ExtArgs>[]
+      openingBalanceSessionLines: Prisma.$OpeningBalanceSessionLinePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -51412,6 +54487,8 @@ export namespace Prisma {
     catalogEntities<T extends Tenant$catalogEntitiesArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$catalogEntitiesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CatalogEntityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     itemCatalogEntities<T extends Tenant$itemCatalogEntitiesArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$itemCatalogEntitiesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ItemCatalogEntityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     brands<T extends Tenant$brandsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$brandsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BrandPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    openingBalanceSessions<T extends Tenant$openingBalanceSessionsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$openingBalanceSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OpeningBalanceSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    openingBalanceSessionLines<T extends Tenant$openingBalanceSessionLinesArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$openingBalanceSessionLinesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OpeningBalanceSessionLinePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -52561,6 +55638,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: BrandScalarFieldEnum | BrandScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.openingBalanceSessions
+   */
+  export type Tenant$openingBalanceSessionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OpeningBalanceSession
+     */
+    select?: OpeningBalanceSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OpeningBalanceSession
+     */
+    omit?: OpeningBalanceSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OpeningBalanceSessionInclude<ExtArgs> | null
+    where?: OpeningBalanceSessionWhereInput
+    orderBy?: OpeningBalanceSessionOrderByWithRelationInput | OpeningBalanceSessionOrderByWithRelationInput[]
+    cursor?: OpeningBalanceSessionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: OpeningBalanceSessionScalarFieldEnum | OpeningBalanceSessionScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.openingBalanceSessionLines
+   */
+  export type Tenant$openingBalanceSessionLinesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OpeningBalanceSessionLine
+     */
+    select?: OpeningBalanceSessionLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OpeningBalanceSessionLine
+     */
+    omit?: OpeningBalanceSessionLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OpeningBalanceSessionLineInclude<ExtArgs> | null
+    where?: OpeningBalanceSessionLineWhereInput
+    orderBy?: OpeningBalanceSessionLineOrderByWithRelationInput | OpeningBalanceSessionLineOrderByWithRelationInput[]
+    cursor?: OpeningBalanceSessionLineWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: OpeningBalanceSessionLineScalarFieldEnum | OpeningBalanceSessionLineScalarFieldEnum[]
   }
 
   /**
@@ -59934,6 +63059,45 @@ export namespace Prisma {
   export type ItemScalarFieldEnum = (typeof ItemScalarFieldEnum)[keyof typeof ItemScalarFieldEnum]
 
 
+  export const OpeningBalanceSessionScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    number: 'number',
+    fiscalPeriodId: 'fiscalPeriodId',
+    status: 'status',
+    description: 'description',
+    postedAt: 'postedAt',
+    postedBy: 'postedBy',
+    lockedAt: 'lockedAt',
+    lockedBy: 'lockedBy',
+    createdBy: 'createdBy',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type OpeningBalanceSessionScalarFieldEnum = (typeof OpeningBalanceSessionScalarFieldEnum)[keyof typeof OpeningBalanceSessionScalarFieldEnum]
+
+
+  export const OpeningBalanceSessionLineScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    sessionId: 'sessionId',
+    dimension: 'dimension',
+    accountId: 'accountId',
+    partyId: 'partyId',
+    cashboxId: 'cashboxId',
+    bankAccountId: 'bankAccountId',
+    currencyId: 'currencyId',
+    partySide: 'partySide',
+    amount: 'amount',
+    exchangeRate: 'exchangeRate',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type OpeningBalanceSessionLineScalarFieldEnum = (typeof OpeningBalanceSessionLineScalarFieldEnum)[keyof typeof OpeningBalanceSessionLineScalarFieldEnum]
+
+
   export const PartyScalarFieldEnum: {
     id: 'id',
     tenantId: 'tenantId',
@@ -60473,6 +63637,48 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'OpeningBalanceSessionStatus'
+   */
+  export type EnumOpeningBalanceSessionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OpeningBalanceSessionStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'OpeningBalanceSessionStatus[]'
+   */
+  export type ListEnumOpeningBalanceSessionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OpeningBalanceSessionStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'OpeningBalanceDimension'
+   */
+  export type EnumOpeningBalanceDimensionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OpeningBalanceDimension'>
+    
+
+
+  /**
+   * Reference to a field of type 'OpeningBalanceDimension[]'
+   */
+  export type ListEnumOpeningBalanceDimensionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OpeningBalanceDimension[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'OpeningBalancePartySide'
+   */
+  export type EnumOpeningBalancePartySideFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OpeningBalancePartySide'>
+    
+
+
+  /**
+   * Reference to a field of type 'OpeningBalancePartySide[]'
+   */
+  export type ListEnumOpeningBalancePartySideFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OpeningBalancePartySide[]'>
+    
+
+
+  /**
    * Reference to a field of type 'PartyType'
    */
   export type EnumPartyTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PartyType'>
@@ -60565,6 +63771,7 @@ export namespace Prisma {
     defaultBankFor?: FinancialSettingListRelationFilter
     partyReceivables?: PartyListRelationFilter
     partyPayables?: PartyListRelationFilter
+    openingBalanceSessionLines?: OpeningBalanceSessionLineListRelationFilter
   }
 
   export type ChartOfAccountOrderByWithRelationInput = {
@@ -60598,6 +63805,7 @@ export namespace Prisma {
     defaultBankFor?: FinancialSettingOrderByRelationAggregateInput
     partyReceivables?: PartyOrderByRelationAggregateInput
     partyPayables?: PartyOrderByRelationAggregateInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineOrderByRelationAggregateInput
   }
 
   export type ChartOfAccountWhereUniqueInput = Prisma.AtLeast<{
@@ -60635,6 +63843,7 @@ export namespace Prisma {
     defaultBankFor?: FinancialSettingListRelationFilter
     partyReceivables?: PartyListRelationFilter
     partyPayables?: PartyListRelationFilter
+    openingBalanceSessionLines?: OpeningBalanceSessionLineListRelationFilter
   }, "id" | "tenantId_code">
 
   export type ChartOfAccountOrderByWithAggregationInput = {
@@ -61136,6 +64345,7 @@ export namespace Prisma {
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
     currency?: XOR<CurrencyScalarRelationFilter, CurrencyWhereInput>
     journalLines?: JournalLineListRelationFilter
+    openingBalanceSessionLines?: OpeningBalanceSessionLineListRelationFilter
   }
 
   export type BankAccountOrderByWithRelationInput = {
@@ -61153,6 +64363,7 @@ export namespace Prisma {
     tenant?: TenantOrderByWithRelationInput
     currency?: CurrencyOrderByWithRelationInput
     journalLines?: JournalLineOrderByRelationAggregateInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineOrderByRelationAggregateInput
   }
 
   export type BankAccountWhereUniqueInput = Prisma.AtLeast<{
@@ -61174,6 +64385,7 @@ export namespace Prisma {
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
     currency?: XOR<CurrencyScalarRelationFilter, CurrencyWhereInput>
     journalLines?: JournalLineListRelationFilter
+    openingBalanceSessionLines?: OpeningBalanceSessionLineListRelationFilter
   }, "id" | "tenantId_code">
 
   export type BankAccountOrderByWithAggregationInput = {
@@ -61299,6 +64511,7 @@ export namespace Prisma {
     expenses?: ExpenseListRelationFilter
     payments?: PaymentListRelationFilter
     journalLines?: JournalLineListRelationFilter
+    openingBalanceSessionLines?: OpeningBalanceSessionLineListRelationFilter
   }
 
   export type CashboxOrderByWithRelationInput = {
@@ -61316,6 +64529,7 @@ export namespace Prisma {
     expenses?: ExpenseOrderByRelationAggregateInput
     payments?: PaymentOrderByRelationAggregateInput
     journalLines?: JournalLineOrderByRelationAggregateInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineOrderByRelationAggregateInput
   }
 
   export type CashboxWhereUniqueInput = Prisma.AtLeast<{
@@ -61337,6 +64551,7 @@ export namespace Prisma {
     expenses?: ExpenseListRelationFilter
     payments?: PaymentListRelationFilter
     journalLines?: JournalLineListRelationFilter
+    openingBalanceSessionLines?: OpeningBalanceSessionLineListRelationFilter
   }, "id" | "tenantId_code">
 
   export type CashboxOrderByWithAggregationInput = {
@@ -61699,6 +64914,7 @@ export namespace Prisma {
     payments?: PaymentListRelationFilter
     baseForTenants?: TenantListRelationFilter
     expenses?: ExpenseListRelationFilter
+    openingBalanceSessionLines?: OpeningBalanceSessionLineListRelationFilter
   }
 
   export type CurrencyOrderByWithRelationInput = {
@@ -61719,6 +64935,7 @@ export namespace Prisma {
     payments?: PaymentOrderByRelationAggregateInput
     baseForTenants?: TenantOrderByRelationAggregateInput
     expenses?: ExpenseOrderByRelationAggregateInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineOrderByRelationAggregateInput
   }
 
   export type CurrencyWhereUniqueInput = Prisma.AtLeast<{
@@ -61743,6 +64960,7 @@ export namespace Prisma {
     payments?: PaymentListRelationFilter
     baseForTenants?: TenantListRelationFilter
     expenses?: ExpenseListRelationFilter
+    openingBalanceSessionLines?: OpeningBalanceSessionLineListRelationFilter
   }, "id" | "tenantId_code">
 
   export type CurrencyOrderByWithAggregationInput = {
@@ -62463,6 +65681,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryListRelationFilter
     stockCounts?: StockCountListRelationFilter
     expenses?: ExpenseListRelationFilter
+    openingBalanceSessions?: OpeningBalanceSessionListRelationFilter
   }
 
   export type FiscalPeriodOrderByWithRelationInput = {
@@ -62481,6 +65700,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryOrderByRelationAggregateInput
     stockCounts?: StockCountOrderByRelationAggregateInput
     expenses?: ExpenseOrderByRelationAggregateInput
+    openingBalanceSessions?: OpeningBalanceSessionOrderByRelationAggregateInput
   }
 
   export type FiscalPeriodWhereUniqueInput = Prisma.AtLeast<{
@@ -62502,6 +65722,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryListRelationFilter
     stockCounts?: StockCountListRelationFilter
     expenses?: ExpenseListRelationFilter
+    openingBalanceSessions?: OpeningBalanceSessionListRelationFilter
   }, "id">
 
   export type FiscalPeriodOrderByWithAggregationInput = {
@@ -63273,6 +66494,228 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"Item"> | Date | string
   }
 
+  export type OpeningBalanceSessionWhereInput = {
+    AND?: OpeningBalanceSessionWhereInput | OpeningBalanceSessionWhereInput[]
+    OR?: OpeningBalanceSessionWhereInput[]
+    NOT?: OpeningBalanceSessionWhereInput | OpeningBalanceSessionWhereInput[]
+    id?: StringFilter<"OpeningBalanceSession"> | string
+    tenantId?: StringFilter<"OpeningBalanceSession"> | string
+    number?: StringFilter<"OpeningBalanceSession"> | string
+    fiscalPeriodId?: StringFilter<"OpeningBalanceSession"> | string
+    status?: EnumOpeningBalanceSessionStatusFilter<"OpeningBalanceSession"> | $Enums.OpeningBalanceSessionStatus
+    description?: StringNullableFilter<"OpeningBalanceSession"> | string | null
+    postedAt?: DateTimeNullableFilter<"OpeningBalanceSession"> | Date | string | null
+    postedBy?: StringNullableFilter<"OpeningBalanceSession"> | string | null
+    lockedAt?: DateTimeNullableFilter<"OpeningBalanceSession"> | Date | string | null
+    lockedBy?: StringNullableFilter<"OpeningBalanceSession"> | string | null
+    createdBy?: StringFilter<"OpeningBalanceSession"> | string
+    createdAt?: DateTimeFilter<"OpeningBalanceSession"> | Date | string
+    updatedAt?: DateTimeFilter<"OpeningBalanceSession"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    fiscalPeriod?: XOR<FiscalPeriodScalarRelationFilter, FiscalPeriodWhereInput>
+    lines?: OpeningBalanceSessionLineListRelationFilter
+  }
+
+  export type OpeningBalanceSessionOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    number?: SortOrder
+    fiscalPeriodId?: SortOrder
+    status?: SortOrder
+    description?: SortOrderInput | SortOrder
+    postedAt?: SortOrderInput | SortOrder
+    postedBy?: SortOrderInput | SortOrder
+    lockedAt?: SortOrderInput | SortOrder
+    lockedBy?: SortOrderInput | SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+    fiscalPeriod?: FiscalPeriodOrderByWithRelationInput
+    lines?: OpeningBalanceSessionLineOrderByRelationAggregateInput
+  }
+
+  export type OpeningBalanceSessionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tenantId_number?: OpeningBalanceSessionTenantIdNumberCompoundUniqueInput
+    AND?: OpeningBalanceSessionWhereInput | OpeningBalanceSessionWhereInput[]
+    OR?: OpeningBalanceSessionWhereInput[]
+    NOT?: OpeningBalanceSessionWhereInput | OpeningBalanceSessionWhereInput[]
+    tenantId?: StringFilter<"OpeningBalanceSession"> | string
+    number?: StringFilter<"OpeningBalanceSession"> | string
+    fiscalPeriodId?: StringFilter<"OpeningBalanceSession"> | string
+    status?: EnumOpeningBalanceSessionStatusFilter<"OpeningBalanceSession"> | $Enums.OpeningBalanceSessionStatus
+    description?: StringNullableFilter<"OpeningBalanceSession"> | string | null
+    postedAt?: DateTimeNullableFilter<"OpeningBalanceSession"> | Date | string | null
+    postedBy?: StringNullableFilter<"OpeningBalanceSession"> | string | null
+    lockedAt?: DateTimeNullableFilter<"OpeningBalanceSession"> | Date | string | null
+    lockedBy?: StringNullableFilter<"OpeningBalanceSession"> | string | null
+    createdBy?: StringFilter<"OpeningBalanceSession"> | string
+    createdAt?: DateTimeFilter<"OpeningBalanceSession"> | Date | string
+    updatedAt?: DateTimeFilter<"OpeningBalanceSession"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    fiscalPeriod?: XOR<FiscalPeriodScalarRelationFilter, FiscalPeriodWhereInput>
+    lines?: OpeningBalanceSessionLineListRelationFilter
+  }, "id" | "tenantId_number">
+
+  export type OpeningBalanceSessionOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    number?: SortOrder
+    fiscalPeriodId?: SortOrder
+    status?: SortOrder
+    description?: SortOrderInput | SortOrder
+    postedAt?: SortOrderInput | SortOrder
+    postedBy?: SortOrderInput | SortOrder
+    lockedAt?: SortOrderInput | SortOrder
+    lockedBy?: SortOrderInput | SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: OpeningBalanceSessionCountOrderByAggregateInput
+    _max?: OpeningBalanceSessionMaxOrderByAggregateInput
+    _min?: OpeningBalanceSessionMinOrderByAggregateInput
+  }
+
+  export type OpeningBalanceSessionScalarWhereWithAggregatesInput = {
+    AND?: OpeningBalanceSessionScalarWhereWithAggregatesInput | OpeningBalanceSessionScalarWhereWithAggregatesInput[]
+    OR?: OpeningBalanceSessionScalarWhereWithAggregatesInput[]
+    NOT?: OpeningBalanceSessionScalarWhereWithAggregatesInput | OpeningBalanceSessionScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"OpeningBalanceSession"> | string
+    tenantId?: StringWithAggregatesFilter<"OpeningBalanceSession"> | string
+    number?: StringWithAggregatesFilter<"OpeningBalanceSession"> | string
+    fiscalPeriodId?: StringWithAggregatesFilter<"OpeningBalanceSession"> | string
+    status?: EnumOpeningBalanceSessionStatusWithAggregatesFilter<"OpeningBalanceSession"> | $Enums.OpeningBalanceSessionStatus
+    description?: StringNullableWithAggregatesFilter<"OpeningBalanceSession"> | string | null
+    postedAt?: DateTimeNullableWithAggregatesFilter<"OpeningBalanceSession"> | Date | string | null
+    postedBy?: StringNullableWithAggregatesFilter<"OpeningBalanceSession"> | string | null
+    lockedAt?: DateTimeNullableWithAggregatesFilter<"OpeningBalanceSession"> | Date | string | null
+    lockedBy?: StringNullableWithAggregatesFilter<"OpeningBalanceSession"> | string | null
+    createdBy?: StringWithAggregatesFilter<"OpeningBalanceSession"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"OpeningBalanceSession"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"OpeningBalanceSession"> | Date | string
+  }
+
+  export type OpeningBalanceSessionLineWhereInput = {
+    AND?: OpeningBalanceSessionLineWhereInput | OpeningBalanceSessionLineWhereInput[]
+    OR?: OpeningBalanceSessionLineWhereInput[]
+    NOT?: OpeningBalanceSessionLineWhereInput | OpeningBalanceSessionLineWhereInput[]
+    id?: StringFilter<"OpeningBalanceSessionLine"> | string
+    tenantId?: StringFilter<"OpeningBalanceSessionLine"> | string
+    sessionId?: StringFilter<"OpeningBalanceSessionLine"> | string
+    dimension?: EnumOpeningBalanceDimensionFilter<"OpeningBalanceSessionLine"> | $Enums.OpeningBalanceDimension
+    accountId?: StringNullableFilter<"OpeningBalanceSessionLine"> | string | null
+    partyId?: StringNullableFilter<"OpeningBalanceSessionLine"> | string | null
+    cashboxId?: StringNullableFilter<"OpeningBalanceSessionLine"> | string | null
+    bankAccountId?: StringNullableFilter<"OpeningBalanceSessionLine"> | string | null
+    currencyId?: StringNullableFilter<"OpeningBalanceSessionLine"> | string | null
+    partySide?: EnumOpeningBalancePartySideNullableFilter<"OpeningBalanceSessionLine"> | $Enums.OpeningBalancePartySide | null
+    amount?: DecimalFilter<"OpeningBalanceSessionLine"> | Decimal | DecimalJsLike | number | string
+    exchangeRate?: DecimalFilter<"OpeningBalanceSessionLine"> | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFilter<"OpeningBalanceSessionLine"> | Date | string
+    updatedAt?: DateTimeFilter<"OpeningBalanceSessionLine"> | Date | string
+    session?: XOR<OpeningBalanceSessionScalarRelationFilter, OpeningBalanceSessionWhereInput>
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    party?: XOR<PartyNullableScalarRelationFilter, PartyWhereInput> | null
+    cashbox?: XOR<CashboxNullableScalarRelationFilter, CashboxWhereInput> | null
+    bankAccount?: XOR<BankAccountNullableScalarRelationFilter, BankAccountWhereInput> | null
+    account?: XOR<ChartOfAccountNullableScalarRelationFilter, ChartOfAccountWhereInput> | null
+    currency?: XOR<CurrencyNullableScalarRelationFilter, CurrencyWhereInput> | null
+  }
+
+  export type OpeningBalanceSessionLineOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    sessionId?: SortOrder
+    dimension?: SortOrder
+    accountId?: SortOrderInput | SortOrder
+    partyId?: SortOrderInput | SortOrder
+    cashboxId?: SortOrderInput | SortOrder
+    bankAccountId?: SortOrderInput | SortOrder
+    currencyId?: SortOrderInput | SortOrder
+    partySide?: SortOrderInput | SortOrder
+    amount?: SortOrder
+    exchangeRate?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    session?: OpeningBalanceSessionOrderByWithRelationInput
+    tenant?: TenantOrderByWithRelationInput
+    party?: PartyOrderByWithRelationInput
+    cashbox?: CashboxOrderByWithRelationInput
+    bankAccount?: BankAccountOrderByWithRelationInput
+    account?: ChartOfAccountOrderByWithRelationInput
+    currency?: CurrencyOrderByWithRelationInput
+  }
+
+  export type OpeningBalanceSessionLineWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: OpeningBalanceSessionLineWhereInput | OpeningBalanceSessionLineWhereInput[]
+    OR?: OpeningBalanceSessionLineWhereInput[]
+    NOT?: OpeningBalanceSessionLineWhereInput | OpeningBalanceSessionLineWhereInput[]
+    tenantId?: StringFilter<"OpeningBalanceSessionLine"> | string
+    sessionId?: StringFilter<"OpeningBalanceSessionLine"> | string
+    dimension?: EnumOpeningBalanceDimensionFilter<"OpeningBalanceSessionLine"> | $Enums.OpeningBalanceDimension
+    accountId?: StringNullableFilter<"OpeningBalanceSessionLine"> | string | null
+    partyId?: StringNullableFilter<"OpeningBalanceSessionLine"> | string | null
+    cashboxId?: StringNullableFilter<"OpeningBalanceSessionLine"> | string | null
+    bankAccountId?: StringNullableFilter<"OpeningBalanceSessionLine"> | string | null
+    currencyId?: StringNullableFilter<"OpeningBalanceSessionLine"> | string | null
+    partySide?: EnumOpeningBalancePartySideNullableFilter<"OpeningBalanceSessionLine"> | $Enums.OpeningBalancePartySide | null
+    amount?: DecimalFilter<"OpeningBalanceSessionLine"> | Decimal | DecimalJsLike | number | string
+    exchangeRate?: DecimalFilter<"OpeningBalanceSessionLine"> | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFilter<"OpeningBalanceSessionLine"> | Date | string
+    updatedAt?: DateTimeFilter<"OpeningBalanceSessionLine"> | Date | string
+    session?: XOR<OpeningBalanceSessionScalarRelationFilter, OpeningBalanceSessionWhereInput>
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    party?: XOR<PartyNullableScalarRelationFilter, PartyWhereInput> | null
+    cashbox?: XOR<CashboxNullableScalarRelationFilter, CashboxWhereInput> | null
+    bankAccount?: XOR<BankAccountNullableScalarRelationFilter, BankAccountWhereInput> | null
+    account?: XOR<ChartOfAccountNullableScalarRelationFilter, ChartOfAccountWhereInput> | null
+    currency?: XOR<CurrencyNullableScalarRelationFilter, CurrencyWhereInput> | null
+  }, "id">
+
+  export type OpeningBalanceSessionLineOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    sessionId?: SortOrder
+    dimension?: SortOrder
+    accountId?: SortOrderInput | SortOrder
+    partyId?: SortOrderInput | SortOrder
+    cashboxId?: SortOrderInput | SortOrder
+    bankAccountId?: SortOrderInput | SortOrder
+    currencyId?: SortOrderInput | SortOrder
+    partySide?: SortOrderInput | SortOrder
+    amount?: SortOrder
+    exchangeRate?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: OpeningBalanceSessionLineCountOrderByAggregateInput
+    _avg?: OpeningBalanceSessionLineAvgOrderByAggregateInput
+    _max?: OpeningBalanceSessionLineMaxOrderByAggregateInput
+    _min?: OpeningBalanceSessionLineMinOrderByAggregateInput
+    _sum?: OpeningBalanceSessionLineSumOrderByAggregateInput
+  }
+
+  export type OpeningBalanceSessionLineScalarWhereWithAggregatesInput = {
+    AND?: OpeningBalanceSessionLineScalarWhereWithAggregatesInput | OpeningBalanceSessionLineScalarWhereWithAggregatesInput[]
+    OR?: OpeningBalanceSessionLineScalarWhereWithAggregatesInput[]
+    NOT?: OpeningBalanceSessionLineScalarWhereWithAggregatesInput | OpeningBalanceSessionLineScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"OpeningBalanceSessionLine"> | string
+    tenantId?: StringWithAggregatesFilter<"OpeningBalanceSessionLine"> | string
+    sessionId?: StringWithAggregatesFilter<"OpeningBalanceSessionLine"> | string
+    dimension?: EnumOpeningBalanceDimensionWithAggregatesFilter<"OpeningBalanceSessionLine"> | $Enums.OpeningBalanceDimension
+    accountId?: StringNullableWithAggregatesFilter<"OpeningBalanceSessionLine"> | string | null
+    partyId?: StringNullableWithAggregatesFilter<"OpeningBalanceSessionLine"> | string | null
+    cashboxId?: StringNullableWithAggregatesFilter<"OpeningBalanceSessionLine"> | string | null
+    bankAccountId?: StringNullableWithAggregatesFilter<"OpeningBalanceSessionLine"> | string | null
+    currencyId?: StringNullableWithAggregatesFilter<"OpeningBalanceSessionLine"> | string | null
+    partySide?: EnumOpeningBalancePartySideNullableWithAggregatesFilter<"OpeningBalanceSessionLine"> | $Enums.OpeningBalancePartySide | null
+    amount?: DecimalWithAggregatesFilter<"OpeningBalanceSessionLine"> | Decimal | DecimalJsLike | number | string
+    exchangeRate?: DecimalWithAggregatesFilter<"OpeningBalanceSessionLine"> | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeWithAggregatesFilter<"OpeningBalanceSessionLine"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"OpeningBalanceSessionLine"> | Date | string
+  }
+
   export type PartyWhereInput = {
     AND?: PartyWhereInput | PartyWhereInput[]
     OR?: PartyWhereInput[]
@@ -63295,6 +66738,7 @@ export namespace Prisma {
     invoices?: InvoiceListRelationFilter
     payments?: PaymentListRelationFilter
     journalLines?: JournalLineListRelationFilter
+    openingBalanceSessionLines?: OpeningBalanceSessionLineListRelationFilter
     receivableAccount?: XOR<ChartOfAccountNullableScalarRelationFilter, ChartOfAccountWhereInput> | null
     payableAccount?: XOR<ChartOfAccountNullableScalarRelationFilter, ChartOfAccountWhereInput> | null
   }
@@ -63318,6 +66762,7 @@ export namespace Prisma {
     invoices?: InvoiceOrderByRelationAggregateInput
     payments?: PaymentOrderByRelationAggregateInput
     journalLines?: JournalLineOrderByRelationAggregateInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineOrderByRelationAggregateInput
     receivableAccount?: ChartOfAccountOrderByWithRelationInput
     payableAccount?: ChartOfAccountOrderByWithRelationInput
   }
@@ -63345,6 +66790,7 @@ export namespace Prisma {
     invoices?: InvoiceListRelationFilter
     payments?: PaymentListRelationFilter
     journalLines?: JournalLineListRelationFilter
+    openingBalanceSessionLines?: OpeningBalanceSessionLineListRelationFilter
     receivableAccount?: XOR<ChartOfAccountNullableScalarRelationFilter, ChartOfAccountWhereInput> | null
     payableAccount?: XOR<ChartOfAccountNullableScalarRelationFilter, ChartOfAccountWhereInput> | null
   }, "id" | "tenantId_code">
@@ -63992,6 +67438,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityListRelationFilter
     itemCatalogEntities?: ItemCatalogEntityListRelationFilter
     brands?: BrandListRelationFilter
+    openingBalanceSessions?: OpeningBalanceSessionListRelationFilter
+    openingBalanceSessionLines?: OpeningBalanceSessionLineListRelationFilter
   }
 
   export type TenantOrderByWithRelationInput = {
@@ -64042,6 +67490,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityOrderByRelationAggregateInput
     itemCatalogEntities?: ItemCatalogEntityOrderByRelationAggregateInput
     brands?: BrandOrderByRelationAggregateInput
+    openingBalanceSessions?: OpeningBalanceSessionOrderByRelationAggregateInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineOrderByRelationAggregateInput
   }
 
   export type TenantWhereUniqueInput = Prisma.AtLeast<{
@@ -64095,6 +67545,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityListRelationFilter
     itemCatalogEntities?: ItemCatalogEntityListRelationFilter
     brands?: BrandListRelationFilter
+    openingBalanceSessions?: OpeningBalanceSessionListRelationFilter
+    openingBalanceSessionLines?: OpeningBalanceSessionLineListRelationFilter
   }, "id" | "slug">
 
   export type TenantOrderByWithAggregationInput = {
@@ -64613,6 +68065,7 @@ export namespace Prisma {
     defaultBankFor?: FinancialSettingCreateNestedManyWithoutDefaultBankAccountInput
     partyReceivables?: PartyCreateNestedManyWithoutReceivableAccountInput
     partyPayables?: PartyCreateNestedManyWithoutPayableAccountInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutAccountInput
   }
 
   export type ChartOfAccountUncheckedCreateInput = {
@@ -64644,6 +68097,7 @@ export namespace Prisma {
     defaultBankFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultBankAccountInput
     partyReceivables?: PartyUncheckedCreateNestedManyWithoutReceivableAccountInput
     partyPayables?: PartyUncheckedCreateNestedManyWithoutPayableAccountInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutAccountInput
   }
 
   export type ChartOfAccountUpdateInput = {
@@ -64675,6 +68129,7 @@ export namespace Prisma {
     defaultBankFor?: FinancialSettingUpdateManyWithoutDefaultBankAccountNestedInput
     partyReceivables?: PartyUpdateManyWithoutReceivableAccountNestedInput
     partyPayables?: PartyUpdateManyWithoutPayableAccountNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutAccountNestedInput
   }
 
   export type ChartOfAccountUncheckedUpdateInput = {
@@ -64706,6 +68161,7 @@ export namespace Prisma {
     defaultBankFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultBankAccountNestedInput
     partyReceivables?: PartyUncheckedUpdateManyWithoutReceivableAccountNestedInput
     partyPayables?: PartyUncheckedUpdateManyWithoutPayableAccountNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutAccountNestedInput
   }
 
   export type ChartOfAccountCreateManyInput = {
@@ -65233,6 +68689,7 @@ export namespace Prisma {
     tenant: TenantCreateNestedOneWithoutBankAccountsInput
     currency: CurrencyCreateNestedOneWithoutBankAccountsInput
     journalLines?: JournalLineCreateNestedManyWithoutBankAccountInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutBankAccountInput
   }
 
   export type BankAccountUncheckedCreateInput = {
@@ -65248,6 +68705,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     journalLines?: JournalLineUncheckedCreateNestedManyWithoutBankAccountInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutBankAccountInput
   }
 
   export type BankAccountUpdateInput = {
@@ -65263,6 +68721,7 @@ export namespace Prisma {
     tenant?: TenantUpdateOneRequiredWithoutBankAccountsNestedInput
     currency?: CurrencyUpdateOneRequiredWithoutBankAccountsNestedInput
     journalLines?: JournalLineUpdateManyWithoutBankAccountNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutBankAccountNestedInput
   }
 
   export type BankAccountUncheckedUpdateInput = {
@@ -65278,6 +68737,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     journalLines?: JournalLineUncheckedUpdateManyWithoutBankAccountNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutBankAccountNestedInput
   }
 
   export type BankAccountCreateManyInput = {
@@ -65406,6 +68866,7 @@ export namespace Prisma {
     expenses?: ExpenseCreateNestedManyWithoutCashboxInput
     payments?: PaymentCreateNestedManyWithoutCashboxInput
     journalLines?: JournalLineCreateNestedManyWithoutCashboxInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutCashboxInput
   }
 
   export type CashboxUncheckedCreateInput = {
@@ -65421,6 +68882,7 @@ export namespace Prisma {
     expenses?: ExpenseUncheckedCreateNestedManyWithoutCashboxInput
     payments?: PaymentUncheckedCreateNestedManyWithoutCashboxInput
     journalLines?: JournalLineUncheckedCreateNestedManyWithoutCashboxInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutCashboxInput
   }
 
   export type CashboxUpdateInput = {
@@ -65436,6 +68898,7 @@ export namespace Prisma {
     expenses?: ExpenseUpdateManyWithoutCashboxNestedInput
     payments?: PaymentUpdateManyWithoutCashboxNestedInput
     journalLines?: JournalLineUpdateManyWithoutCashboxNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutCashboxNestedInput
   }
 
   export type CashboxUncheckedUpdateInput = {
@@ -65451,6 +68914,7 @@ export namespace Prisma {
     expenses?: ExpenseUncheckedUpdateManyWithoutCashboxNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutCashboxNestedInput
     journalLines?: JournalLineUncheckedUpdateManyWithoutCashboxNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutCashboxNestedInput
   }
 
   export type CashboxCreateManyInput = {
@@ -65829,6 +69293,7 @@ export namespace Prisma {
     payments?: PaymentCreateNestedManyWithoutCurrencyInput
     baseForTenants?: TenantCreateNestedManyWithoutBaseCurrencyInput
     expenses?: ExpenseCreateNestedManyWithoutCurrencyInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutCurrencyInput
   }
 
   export type CurrencyUncheckedCreateInput = {
@@ -65848,6 +69313,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedCreateNestedManyWithoutCurrencyInput
     baseForTenants?: TenantUncheckedCreateNestedManyWithoutBaseCurrencyInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutCurrencyInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutCurrencyInput
   }
 
   export type CurrencyUpdateInput = {
@@ -65867,6 +69333,7 @@ export namespace Prisma {
     payments?: PaymentUpdateManyWithoutCurrencyNestedInput
     baseForTenants?: TenantUpdateManyWithoutBaseCurrencyNestedInput
     expenses?: ExpenseUpdateManyWithoutCurrencyNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutCurrencyNestedInput
   }
 
   export type CurrencyUncheckedUpdateInput = {
@@ -65886,6 +69353,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedUpdateManyWithoutCurrencyNestedInput
     baseForTenants?: TenantUncheckedUpdateManyWithoutBaseCurrencyNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutCurrencyNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutCurrencyNestedInput
   }
 
   export type CurrencyCreateManyInput = {
@@ -66637,6 +70105,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryCreateNestedManyWithoutFiscalPeriodInput
     stockCounts?: StockCountCreateNestedManyWithoutFiscalPeriodInput
     expenses?: ExpenseCreateNestedManyWithoutFiscalPeriodInput
+    openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutFiscalPeriodInput
   }
 
   export type FiscalPeriodUncheckedCreateInput = {
@@ -66654,6 +70123,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedCreateNestedManyWithoutFiscalPeriodInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutFiscalPeriodInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutFiscalPeriodInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutFiscalPeriodInput
   }
 
   export type FiscalPeriodUpdateInput = {
@@ -66671,6 +70141,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUpdateManyWithoutFiscalPeriodNestedInput
     stockCounts?: StockCountUpdateManyWithoutFiscalPeriodNestedInput
     expenses?: ExpenseUpdateManyWithoutFiscalPeriodNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutFiscalPeriodNestedInput
   }
 
   export type FiscalPeriodUncheckedUpdateInput = {
@@ -66688,6 +70159,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedUpdateManyWithoutFiscalPeriodNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutFiscalPeriodNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutFiscalPeriodNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutFiscalPeriodNestedInput
   }
 
   export type FiscalPeriodCreateManyInput = {
@@ -67508,6 +70980,232 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type OpeningBalanceSessionCreateInput = {
+    id?: string
+    number: string
+    status?: $Enums.OpeningBalanceSessionStatus
+    description?: string | null
+    postedAt?: Date | string | null
+    postedBy?: string | null
+    lockedAt?: Date | string | null
+    lockedBy?: string | null
+    createdBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutOpeningBalanceSessionsInput
+    fiscalPeriod: FiscalPeriodCreateNestedOneWithoutOpeningBalanceSessionsInput
+    lines?: OpeningBalanceSessionLineCreateNestedManyWithoutSessionInput
+  }
+
+  export type OpeningBalanceSessionUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    number: string
+    fiscalPeriodId: string
+    status?: $Enums.OpeningBalanceSessionStatus
+    description?: string | null
+    postedAt?: Date | string | null
+    postedBy?: string | null
+    lockedAt?: Date | string | null
+    lockedBy?: string | null
+    createdBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutSessionInput
+  }
+
+  export type OpeningBalanceSessionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    status?: EnumOpeningBalanceSessionStatusFieldUpdateOperationsInput | $Enums.OpeningBalanceSessionStatus
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    postedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    lockedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lockedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutOpeningBalanceSessionsNestedInput
+    fiscalPeriod?: FiscalPeriodUpdateOneRequiredWithoutOpeningBalanceSessionsNestedInput
+    lines?: OpeningBalanceSessionLineUpdateManyWithoutSessionNestedInput
+  }
+
+  export type OpeningBalanceSessionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    fiscalPeriodId?: StringFieldUpdateOperationsInput | string
+    status?: EnumOpeningBalanceSessionStatusFieldUpdateOperationsInput | $Enums.OpeningBalanceSessionStatus
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    postedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    lockedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lockedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutSessionNestedInput
+  }
+
+  export type OpeningBalanceSessionCreateManyInput = {
+    id?: string
+    tenantId: string
+    number: string
+    fiscalPeriodId: string
+    status?: $Enums.OpeningBalanceSessionStatus
+    description?: string | null
+    postedAt?: Date | string | null
+    postedBy?: string | null
+    lockedAt?: Date | string | null
+    lockedBy?: string | null
+    createdBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type OpeningBalanceSessionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    status?: EnumOpeningBalanceSessionStatusFieldUpdateOperationsInput | $Enums.OpeningBalanceSessionStatus
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    postedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    lockedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lockedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OpeningBalanceSessionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    fiscalPeriodId?: StringFieldUpdateOperationsInput | string
+    status?: EnumOpeningBalanceSessionStatusFieldUpdateOperationsInput | $Enums.OpeningBalanceSessionStatus
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    postedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    lockedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lockedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OpeningBalanceSessionLineCreateInput = {
+    id?: string
+    dimension: $Enums.OpeningBalanceDimension
+    partySide?: $Enums.OpeningBalancePartySide | null
+    amount: Decimal | DecimalJsLike | number | string
+    exchangeRate?: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    session: OpeningBalanceSessionCreateNestedOneWithoutLinesInput
+    tenant: TenantCreateNestedOneWithoutOpeningBalanceSessionLinesInput
+    party?: PartyCreateNestedOneWithoutOpeningBalanceSessionLinesInput
+    cashbox?: CashboxCreateNestedOneWithoutOpeningBalanceSessionLinesInput
+    bankAccount?: BankAccountCreateNestedOneWithoutOpeningBalanceSessionLinesInput
+    account?: ChartOfAccountCreateNestedOneWithoutOpeningBalanceSessionLinesInput
+    currency?: CurrencyCreateNestedOneWithoutOpeningBalanceSessionLinesInput
+  }
+
+  export type OpeningBalanceSessionLineUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    sessionId: string
+    dimension: $Enums.OpeningBalanceDimension
+    accountId?: string | null
+    partyId?: string | null
+    cashboxId?: string | null
+    bankAccountId?: string | null
+    currencyId?: string | null
+    partySide?: $Enums.OpeningBalancePartySide | null
+    amount: Decimal | DecimalJsLike | number | string
+    exchangeRate?: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type OpeningBalanceSessionLineUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    dimension?: EnumOpeningBalanceDimensionFieldUpdateOperationsInput | $Enums.OpeningBalanceDimension
+    partySide?: NullableEnumOpeningBalancePartySideFieldUpdateOperationsInput | $Enums.OpeningBalancePartySide | null
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    exchangeRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    session?: OpeningBalanceSessionUpdateOneRequiredWithoutLinesNestedInput
+    tenant?: TenantUpdateOneRequiredWithoutOpeningBalanceSessionLinesNestedInput
+    party?: PartyUpdateOneWithoutOpeningBalanceSessionLinesNestedInput
+    cashbox?: CashboxUpdateOneWithoutOpeningBalanceSessionLinesNestedInput
+    bankAccount?: BankAccountUpdateOneWithoutOpeningBalanceSessionLinesNestedInput
+    account?: ChartOfAccountUpdateOneWithoutOpeningBalanceSessionLinesNestedInput
+    currency?: CurrencyUpdateOneWithoutOpeningBalanceSessionLinesNestedInput
+  }
+
+  export type OpeningBalanceSessionLineUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    sessionId?: StringFieldUpdateOperationsInput | string
+    dimension?: EnumOpeningBalanceDimensionFieldUpdateOperationsInput | $Enums.OpeningBalanceDimension
+    accountId?: NullableStringFieldUpdateOperationsInput | string | null
+    partyId?: NullableStringFieldUpdateOperationsInput | string | null
+    cashboxId?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    currencyId?: NullableStringFieldUpdateOperationsInput | string | null
+    partySide?: NullableEnumOpeningBalancePartySideFieldUpdateOperationsInput | $Enums.OpeningBalancePartySide | null
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    exchangeRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OpeningBalanceSessionLineCreateManyInput = {
+    id?: string
+    tenantId: string
+    sessionId: string
+    dimension: $Enums.OpeningBalanceDimension
+    accountId?: string | null
+    partyId?: string | null
+    cashboxId?: string | null
+    bankAccountId?: string | null
+    currencyId?: string | null
+    partySide?: $Enums.OpeningBalancePartySide | null
+    amount: Decimal | DecimalJsLike | number | string
+    exchangeRate?: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type OpeningBalanceSessionLineUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    dimension?: EnumOpeningBalanceDimensionFieldUpdateOperationsInput | $Enums.OpeningBalanceDimension
+    partySide?: NullableEnumOpeningBalancePartySideFieldUpdateOperationsInput | $Enums.OpeningBalancePartySide | null
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    exchangeRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OpeningBalanceSessionLineUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    sessionId?: StringFieldUpdateOperationsInput | string
+    dimension?: EnumOpeningBalanceDimensionFieldUpdateOperationsInput | $Enums.OpeningBalanceDimension
+    accountId?: NullableStringFieldUpdateOperationsInput | string | null
+    partyId?: NullableStringFieldUpdateOperationsInput | string | null
+    cashboxId?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    currencyId?: NullableStringFieldUpdateOperationsInput | string | null
+    partySide?: NullableEnumOpeningBalancePartySideFieldUpdateOperationsInput | $Enums.OpeningBalancePartySide | null
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    exchangeRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type PartyCreateInput = {
     id?: string
     code?: string | null
@@ -67524,6 +71222,7 @@ export namespace Prisma {
     invoices?: InvoiceCreateNestedManyWithoutPartyInput
     payments?: PaymentCreateNestedManyWithoutPartyInput
     journalLines?: JournalLineCreateNestedManyWithoutPartyInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutPartyInput
     receivableAccount?: ChartOfAccountCreateNestedOneWithoutPartyReceivablesInput
     payableAccount?: ChartOfAccountCreateNestedOneWithoutPartyPayablesInput
   }
@@ -67546,6 +71245,7 @@ export namespace Prisma {
     invoices?: InvoiceUncheckedCreateNestedManyWithoutPartyInput
     payments?: PaymentUncheckedCreateNestedManyWithoutPartyInput
     journalLines?: JournalLineUncheckedCreateNestedManyWithoutPartyInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutPartyInput
   }
 
   export type PartyUpdateInput = {
@@ -67564,6 +71264,7 @@ export namespace Prisma {
     invoices?: InvoiceUpdateManyWithoutPartyNestedInput
     payments?: PaymentUpdateManyWithoutPartyNestedInput
     journalLines?: JournalLineUpdateManyWithoutPartyNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutPartyNestedInput
     receivableAccount?: ChartOfAccountUpdateOneWithoutPartyReceivablesNestedInput
     payableAccount?: ChartOfAccountUpdateOneWithoutPartyPayablesNestedInput
   }
@@ -67586,6 +71287,7 @@ export namespace Prisma {
     invoices?: InvoiceUncheckedUpdateManyWithoutPartyNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutPartyNestedInput
     journalLines?: JournalLineUncheckedUpdateManyWithoutPartyNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutPartyNestedInput
   }
 
   export type PartyCreateManyInput = {
@@ -68251,6 +71953,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityCreateNestedManyWithoutTenantInput
     itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutTenantInput
     brands?: BrandCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateInput = {
@@ -68299,6 +72003,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUncheckedCreateNestedManyWithoutTenantInput
     itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutTenantInput
     brands?: BrandUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUpdateInput = {
@@ -68347,6 +72053,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUpdateManyWithoutTenantNestedInput
     itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutTenantNestedInput
     brands?: BrandUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateInput = {
@@ -68395,6 +72103,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
     itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
     brands?: BrandUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateManyInput = {
@@ -69044,6 +72754,12 @@ export namespace Prisma {
     none?: PartyWhereInput
   }
 
+  export type OpeningBalanceSessionLineListRelationFilter = {
+    every?: OpeningBalanceSessionLineWhereInput
+    some?: OpeningBalanceSessionLineWhereInput
+    none?: OpeningBalanceSessionLineWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -69066,6 +72782,10 @@ export namespace Prisma {
   }
 
   export type PartyOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type OpeningBalanceSessionLineOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -70594,11 +74314,21 @@ export namespace Prisma {
     none?: StockCountWhereInput
   }
 
+  export type OpeningBalanceSessionListRelationFilter = {
+    every?: OpeningBalanceSessionWhereInput
+    some?: OpeningBalanceSessionWhereInput
+    none?: OpeningBalanceSessionWhereInput
+  }
+
   export type StockMovementOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
   export type StockCountOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type OpeningBalanceSessionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -71244,6 +74974,176 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumItemTypeFilter<$PrismaModel>
     _max?: NestedEnumItemTypeFilter<$PrismaModel>
+  }
+
+  export type EnumOpeningBalanceSessionStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.OpeningBalanceSessionStatus | EnumOpeningBalanceSessionStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.OpeningBalanceSessionStatus[] | ListEnumOpeningBalanceSessionStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.OpeningBalanceSessionStatus[] | ListEnumOpeningBalanceSessionStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumOpeningBalanceSessionStatusFilter<$PrismaModel> | $Enums.OpeningBalanceSessionStatus
+  }
+
+  export type OpeningBalanceSessionTenantIdNumberCompoundUniqueInput = {
+    tenantId: string
+    number: string
+  }
+
+  export type OpeningBalanceSessionCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    number?: SortOrder
+    fiscalPeriodId?: SortOrder
+    status?: SortOrder
+    description?: SortOrder
+    postedAt?: SortOrder
+    postedBy?: SortOrder
+    lockedAt?: SortOrder
+    lockedBy?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type OpeningBalanceSessionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    number?: SortOrder
+    fiscalPeriodId?: SortOrder
+    status?: SortOrder
+    description?: SortOrder
+    postedAt?: SortOrder
+    postedBy?: SortOrder
+    lockedAt?: SortOrder
+    lockedBy?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type OpeningBalanceSessionMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    number?: SortOrder
+    fiscalPeriodId?: SortOrder
+    status?: SortOrder
+    description?: SortOrder
+    postedAt?: SortOrder
+    postedBy?: SortOrder
+    lockedAt?: SortOrder
+    lockedBy?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EnumOpeningBalanceSessionStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.OpeningBalanceSessionStatus | EnumOpeningBalanceSessionStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.OpeningBalanceSessionStatus[] | ListEnumOpeningBalanceSessionStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.OpeningBalanceSessionStatus[] | ListEnumOpeningBalanceSessionStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumOpeningBalanceSessionStatusWithAggregatesFilter<$PrismaModel> | $Enums.OpeningBalanceSessionStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumOpeningBalanceSessionStatusFilter<$PrismaModel>
+    _max?: NestedEnumOpeningBalanceSessionStatusFilter<$PrismaModel>
+  }
+
+  export type EnumOpeningBalanceDimensionFilter<$PrismaModel = never> = {
+    equals?: $Enums.OpeningBalanceDimension | EnumOpeningBalanceDimensionFieldRefInput<$PrismaModel>
+    in?: $Enums.OpeningBalanceDimension[] | ListEnumOpeningBalanceDimensionFieldRefInput<$PrismaModel>
+    notIn?: $Enums.OpeningBalanceDimension[] | ListEnumOpeningBalanceDimensionFieldRefInput<$PrismaModel>
+    not?: NestedEnumOpeningBalanceDimensionFilter<$PrismaModel> | $Enums.OpeningBalanceDimension
+  }
+
+  export type EnumOpeningBalancePartySideNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.OpeningBalancePartySide | EnumOpeningBalancePartySideFieldRefInput<$PrismaModel> | null
+    in?: $Enums.OpeningBalancePartySide[] | ListEnumOpeningBalancePartySideFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.OpeningBalancePartySide[] | ListEnumOpeningBalancePartySideFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumOpeningBalancePartySideNullableFilter<$PrismaModel> | $Enums.OpeningBalancePartySide | null
+  }
+
+  export type OpeningBalanceSessionScalarRelationFilter = {
+    is?: OpeningBalanceSessionWhereInput
+    isNot?: OpeningBalanceSessionWhereInput
+  }
+
+  export type OpeningBalanceSessionLineCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    sessionId?: SortOrder
+    dimension?: SortOrder
+    accountId?: SortOrder
+    partyId?: SortOrder
+    cashboxId?: SortOrder
+    bankAccountId?: SortOrder
+    currencyId?: SortOrder
+    partySide?: SortOrder
+    amount?: SortOrder
+    exchangeRate?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type OpeningBalanceSessionLineAvgOrderByAggregateInput = {
+    amount?: SortOrder
+    exchangeRate?: SortOrder
+  }
+
+  export type OpeningBalanceSessionLineMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    sessionId?: SortOrder
+    dimension?: SortOrder
+    accountId?: SortOrder
+    partyId?: SortOrder
+    cashboxId?: SortOrder
+    bankAccountId?: SortOrder
+    currencyId?: SortOrder
+    partySide?: SortOrder
+    amount?: SortOrder
+    exchangeRate?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type OpeningBalanceSessionLineMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    sessionId?: SortOrder
+    dimension?: SortOrder
+    accountId?: SortOrder
+    partyId?: SortOrder
+    cashboxId?: SortOrder
+    bankAccountId?: SortOrder
+    currencyId?: SortOrder
+    partySide?: SortOrder
+    amount?: SortOrder
+    exchangeRate?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type OpeningBalanceSessionLineSumOrderByAggregateInput = {
+    amount?: SortOrder
+    exchangeRate?: SortOrder
+  }
+
+  export type EnumOpeningBalanceDimensionWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.OpeningBalanceDimension | EnumOpeningBalanceDimensionFieldRefInput<$PrismaModel>
+    in?: $Enums.OpeningBalanceDimension[] | ListEnumOpeningBalanceDimensionFieldRefInput<$PrismaModel>
+    notIn?: $Enums.OpeningBalanceDimension[] | ListEnumOpeningBalanceDimensionFieldRefInput<$PrismaModel>
+    not?: NestedEnumOpeningBalanceDimensionWithAggregatesFilter<$PrismaModel> | $Enums.OpeningBalanceDimension
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumOpeningBalanceDimensionFilter<$PrismaModel>
+    _max?: NestedEnumOpeningBalanceDimensionFilter<$PrismaModel>
+  }
+
+  export type EnumOpeningBalancePartySideNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.OpeningBalancePartySide | EnumOpeningBalancePartySideFieldRefInput<$PrismaModel> | null
+    in?: $Enums.OpeningBalancePartySide[] | ListEnumOpeningBalancePartySideFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.OpeningBalancePartySide[] | ListEnumOpeningBalancePartySideFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumOpeningBalancePartySideNullableWithAggregatesFilter<$PrismaModel> | $Enums.OpeningBalancePartySide | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumOpeningBalancePartySideNullableFilter<$PrismaModel>
+    _max?: NestedEnumOpeningBalancePartySideNullableFilter<$PrismaModel>
   }
 
   export type EnumPartyTypeFilter<$PrismaModel = never> = {
@@ -72250,6 +76150,13 @@ export namespace Prisma {
     connect?: PartyWhereUniqueInput | PartyWhereUniqueInput[]
   }
 
+  export type OpeningBalanceSessionLineCreateNestedManyWithoutAccountInput = {
+    create?: XOR<OpeningBalanceSessionLineCreateWithoutAccountInput, OpeningBalanceSessionLineUncheckedCreateWithoutAccountInput> | OpeningBalanceSessionLineCreateWithoutAccountInput[] | OpeningBalanceSessionLineUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: OpeningBalanceSessionLineCreateOrConnectWithoutAccountInput | OpeningBalanceSessionLineCreateOrConnectWithoutAccountInput[]
+    createMany?: OpeningBalanceSessionLineCreateManyAccountInputEnvelope
+    connect?: OpeningBalanceSessionLineWhereUniqueInput | OpeningBalanceSessionLineWhereUniqueInput[]
+  }
+
   export type ChartOfAccountUncheckedCreateNestedManyWithoutParentInput = {
     create?: XOR<ChartOfAccountCreateWithoutParentInput, ChartOfAccountUncheckedCreateWithoutParentInput> | ChartOfAccountCreateWithoutParentInput[] | ChartOfAccountUncheckedCreateWithoutParentInput[]
     connectOrCreate?: ChartOfAccountCreateOrConnectWithoutParentInput | ChartOfAccountCreateOrConnectWithoutParentInput[]
@@ -72360,6 +76267,13 @@ export namespace Prisma {
     connectOrCreate?: PartyCreateOrConnectWithoutPayableAccountInput | PartyCreateOrConnectWithoutPayableAccountInput[]
     createMany?: PartyCreateManyPayableAccountInputEnvelope
     connect?: PartyWhereUniqueInput | PartyWhereUniqueInput[]
+  }
+
+  export type OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutAccountInput = {
+    create?: XOR<OpeningBalanceSessionLineCreateWithoutAccountInput, OpeningBalanceSessionLineUncheckedCreateWithoutAccountInput> | OpeningBalanceSessionLineCreateWithoutAccountInput[] | OpeningBalanceSessionLineUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: OpeningBalanceSessionLineCreateOrConnectWithoutAccountInput | OpeningBalanceSessionLineCreateOrConnectWithoutAccountInput[]
+    createMany?: OpeningBalanceSessionLineCreateManyAccountInputEnvelope
+    connect?: OpeningBalanceSessionLineWhereUniqueInput | OpeningBalanceSessionLineWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -72624,6 +76538,20 @@ export namespace Prisma {
     deleteMany?: PartyScalarWhereInput | PartyScalarWhereInput[]
   }
 
+  export type OpeningBalanceSessionLineUpdateManyWithoutAccountNestedInput = {
+    create?: XOR<OpeningBalanceSessionLineCreateWithoutAccountInput, OpeningBalanceSessionLineUncheckedCreateWithoutAccountInput> | OpeningBalanceSessionLineCreateWithoutAccountInput[] | OpeningBalanceSessionLineUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: OpeningBalanceSessionLineCreateOrConnectWithoutAccountInput | OpeningBalanceSessionLineCreateOrConnectWithoutAccountInput[]
+    upsert?: OpeningBalanceSessionLineUpsertWithWhereUniqueWithoutAccountInput | OpeningBalanceSessionLineUpsertWithWhereUniqueWithoutAccountInput[]
+    createMany?: OpeningBalanceSessionLineCreateManyAccountInputEnvelope
+    set?: OpeningBalanceSessionLineWhereUniqueInput | OpeningBalanceSessionLineWhereUniqueInput[]
+    disconnect?: OpeningBalanceSessionLineWhereUniqueInput | OpeningBalanceSessionLineWhereUniqueInput[]
+    delete?: OpeningBalanceSessionLineWhereUniqueInput | OpeningBalanceSessionLineWhereUniqueInput[]
+    connect?: OpeningBalanceSessionLineWhereUniqueInput | OpeningBalanceSessionLineWhereUniqueInput[]
+    update?: OpeningBalanceSessionLineUpdateWithWhereUniqueWithoutAccountInput | OpeningBalanceSessionLineUpdateWithWhereUniqueWithoutAccountInput[]
+    updateMany?: OpeningBalanceSessionLineUpdateManyWithWhereWithoutAccountInput | OpeningBalanceSessionLineUpdateManyWithWhereWithoutAccountInput[]
+    deleteMany?: OpeningBalanceSessionLineScalarWhereInput | OpeningBalanceSessionLineScalarWhereInput[]
+  }
+
   export type NullableStringFieldUpdateOperationsInput = {
     set?: string | null
   }
@@ -72850,6 +76778,20 @@ export namespace Prisma {
     update?: PartyUpdateWithWhereUniqueWithoutPayableAccountInput | PartyUpdateWithWhereUniqueWithoutPayableAccountInput[]
     updateMany?: PartyUpdateManyWithWhereWithoutPayableAccountInput | PartyUpdateManyWithWhereWithoutPayableAccountInput[]
     deleteMany?: PartyScalarWhereInput | PartyScalarWhereInput[]
+  }
+
+  export type OpeningBalanceSessionLineUncheckedUpdateManyWithoutAccountNestedInput = {
+    create?: XOR<OpeningBalanceSessionLineCreateWithoutAccountInput, OpeningBalanceSessionLineUncheckedCreateWithoutAccountInput> | OpeningBalanceSessionLineCreateWithoutAccountInput[] | OpeningBalanceSessionLineUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: OpeningBalanceSessionLineCreateOrConnectWithoutAccountInput | OpeningBalanceSessionLineCreateOrConnectWithoutAccountInput[]
+    upsert?: OpeningBalanceSessionLineUpsertWithWhereUniqueWithoutAccountInput | OpeningBalanceSessionLineUpsertWithWhereUniqueWithoutAccountInput[]
+    createMany?: OpeningBalanceSessionLineCreateManyAccountInputEnvelope
+    set?: OpeningBalanceSessionLineWhereUniqueInput | OpeningBalanceSessionLineWhereUniqueInput[]
+    disconnect?: OpeningBalanceSessionLineWhereUniqueInput | OpeningBalanceSessionLineWhereUniqueInput[]
+    delete?: OpeningBalanceSessionLineWhereUniqueInput | OpeningBalanceSessionLineWhereUniqueInput[]
+    connect?: OpeningBalanceSessionLineWhereUniqueInput | OpeningBalanceSessionLineWhereUniqueInput[]
+    update?: OpeningBalanceSessionLineUpdateWithWhereUniqueWithoutAccountInput | OpeningBalanceSessionLineUpdateWithWhereUniqueWithoutAccountInput[]
+    updateMany?: OpeningBalanceSessionLineUpdateManyWithWhereWithoutAccountInput | OpeningBalanceSessionLineUpdateManyWithWhereWithoutAccountInput[]
+    deleteMany?: OpeningBalanceSessionLineScalarWhereInput | OpeningBalanceSessionLineScalarWhereInput[]
   }
 
   export type TenantCreateNestedOneWithoutJournalEntriesInput = {
@@ -73203,11 +77145,25 @@ export namespace Prisma {
     connect?: JournalLineWhereUniqueInput | JournalLineWhereUniqueInput[]
   }
 
+  export type OpeningBalanceSessionLineCreateNestedManyWithoutBankAccountInput = {
+    create?: XOR<OpeningBalanceSessionLineCreateWithoutBankAccountInput, OpeningBalanceSessionLineUncheckedCreateWithoutBankAccountInput> | OpeningBalanceSessionLineCreateWithoutBankAccountInput[] | OpeningBalanceSessionLineUncheckedCreateWithoutBankAccountInput[]
+    connectOrCreate?: OpeningBalanceSessionLineCreateOrConnectWithoutBankAccountInput | OpeningBalanceSessionLineCreateOrConnectWithoutBankAccountInput[]
+    createMany?: OpeningBalanceSessionLineCreateManyBankAccountInputEnvelope
+    connect?: OpeningBalanceSessionLineWhereUniqueInput | OpeningBalanceSessionLineWhereUniqueInput[]
+  }
+
   export type JournalLineUncheckedCreateNestedManyWithoutBankAccountInput = {
     create?: XOR<JournalLineCreateWithoutBankAccountInput, JournalLineUncheckedCreateWithoutBankAccountInput> | JournalLineCreateWithoutBankAccountInput[] | JournalLineUncheckedCreateWithoutBankAccountInput[]
     connectOrCreate?: JournalLineCreateOrConnectWithoutBankAccountInput | JournalLineCreateOrConnectWithoutBankAccountInput[]
     createMany?: JournalLineCreateManyBankAccountInputEnvelope
     connect?: JournalLineWhereUniqueInput | JournalLineWhereUniqueInput[]
+  }
+
+  export type OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutBankAccountInput = {
+    create?: XOR<OpeningBalanceSessionLineCreateWithoutBankAccountInput, OpeningBalanceSessionLineUncheckedCreateWithoutBankAccountInput> | OpeningBalanceSessionLineCreateWithoutBankAccountInput[] | OpeningBalanceSessionLineUncheckedCreateWithoutBankAccountInput[]
+    connectOrCreate?: OpeningBalanceSessionLineCreateOrConnectWithoutBankAccountInput | OpeningBalanceSessionLineCreateOrConnectWithoutBankAccountInput[]
+    createMany?: OpeningBalanceSessionLineCreateManyBankAccountInputEnvelope
+    connect?: OpeningBalanceSessionLineWhereUniqueInput | OpeningBalanceSessionLineWhereUniqueInput[]
   }
 
   export type TenantUpdateOneRequiredWithoutBankAccountsNestedInput = {
@@ -73240,6 +77196,20 @@ export namespace Prisma {
     deleteMany?: JournalLineScalarWhereInput | JournalLineScalarWhereInput[]
   }
 
+  export type OpeningBalanceSessionLineUpdateManyWithoutBankAccountNestedInput = {
+    create?: XOR<OpeningBalanceSessionLineCreateWithoutBankAccountInput, OpeningBalanceSessionLineUncheckedCreateWithoutBankAccountInput> | OpeningBalanceSessionLineCreateWithoutBankAccountInput[] | OpeningBalanceSessionLineUncheckedCreateWithoutBankAccountInput[]
+    connectOrCreate?: OpeningBalanceSessionLineCreateOrConnectWithoutBankAccountInput | OpeningBalanceSessionLineCreateOrConnectWithoutBankAccountInput[]
+    upsert?: OpeningBalanceSessionLineUpsertWithWhereUniqueWithoutBankAccountInput | OpeningBalanceSessionLineUpsertWithWhereUniqueWithoutBankAccountInput[]
+    createMany?: OpeningBalanceSessionLineCreateManyBankAccountInputEnvelope
+    set?: OpeningBalanceSessionLineWhereUniqueInput | OpeningBalanceSessionLineWhereUniqueInput[]
+    disconnect?: OpeningBalanceSessionLineWhereUniqueInput | OpeningBalanceSessionLineWhereUniqueInput[]
+    delete?: OpeningBalanceSessionLineWhereUniqueInput | OpeningBalanceSessionLineWhereUniqueInput[]
+    connect?: OpeningBalanceSessionLineWhereUniqueInput | OpeningBalanceSessionLineWhereUniqueInput[]
+    update?: OpeningBalanceSessionLineUpdateWithWhereUniqueWithoutBankAccountInput | OpeningBalanceSessionLineUpdateWithWhereUniqueWithoutBankAccountInput[]
+    updateMany?: OpeningBalanceSessionLineUpdateManyWithWhereWithoutBankAccountInput | OpeningBalanceSessionLineUpdateManyWithWhereWithoutBankAccountInput[]
+    deleteMany?: OpeningBalanceSessionLineScalarWhereInput | OpeningBalanceSessionLineScalarWhereInput[]
+  }
+
   export type JournalLineUncheckedUpdateManyWithoutBankAccountNestedInput = {
     create?: XOR<JournalLineCreateWithoutBankAccountInput, JournalLineUncheckedCreateWithoutBankAccountInput> | JournalLineCreateWithoutBankAccountInput[] | JournalLineUncheckedCreateWithoutBankAccountInput[]
     connectOrCreate?: JournalLineCreateOrConnectWithoutBankAccountInput | JournalLineCreateOrConnectWithoutBankAccountInput[]
@@ -73252,6 +77222,20 @@ export namespace Prisma {
     update?: JournalLineUpdateWithWhereUniqueWithoutBankAccountInput | JournalLineUpdateWithWhereUniqueWithoutBankAccountInput[]
     updateMany?: JournalLineUpdateManyWithWhereWithoutBankAccountInput | JournalLineUpdateManyWithWhereWithoutBankAccountInput[]
     deleteMany?: JournalLineScalarWhereInput | JournalLineScalarWhereInput[]
+  }
+
+  export type OpeningBalanceSessionLineUncheckedUpdateManyWithoutBankAccountNestedInput = {
+    create?: XOR<OpeningBalanceSessionLineCreateWithoutBankAccountInput, OpeningBalanceSessionLineUncheckedCreateWithoutBankAccountInput> | OpeningBalanceSessionLineCreateWithoutBankAccountInput[] | OpeningBalanceSessionLineUncheckedCreateWithoutBankAccountInput[]
+    connectOrCreate?: OpeningBalanceSessionLineCreateOrConnectWithoutBankAccountInput | OpeningBalanceSessionLineCreateOrConnectWithoutBankAccountInput[]
+    upsert?: OpeningBalanceSessionLineUpsertWithWhereUniqueWithoutBankAccountInput | OpeningBalanceSessionLineUpsertWithWhereUniqueWithoutBankAccountInput[]
+    createMany?: OpeningBalanceSessionLineCreateManyBankAccountInputEnvelope
+    set?: OpeningBalanceSessionLineWhereUniqueInput | OpeningBalanceSessionLineWhereUniqueInput[]
+    disconnect?: OpeningBalanceSessionLineWhereUniqueInput | OpeningBalanceSessionLineWhereUniqueInput[]
+    delete?: OpeningBalanceSessionLineWhereUniqueInput | OpeningBalanceSessionLineWhereUniqueInput[]
+    connect?: OpeningBalanceSessionLineWhereUniqueInput | OpeningBalanceSessionLineWhereUniqueInput[]
+    update?: OpeningBalanceSessionLineUpdateWithWhereUniqueWithoutBankAccountInput | OpeningBalanceSessionLineUpdateWithWhereUniqueWithoutBankAccountInput[]
+    updateMany?: OpeningBalanceSessionLineUpdateManyWithWhereWithoutBankAccountInput | OpeningBalanceSessionLineUpdateManyWithWhereWithoutBankAccountInput[]
+    deleteMany?: OpeningBalanceSessionLineScalarWhereInput | OpeningBalanceSessionLineScalarWhereInput[]
   }
 
   export type TenantCreateNestedOneWithoutBrandsInput = {
@@ -73343,6 +77327,13 @@ export namespace Prisma {
     connect?: JournalLineWhereUniqueInput | JournalLineWhereUniqueInput[]
   }
 
+  export type OpeningBalanceSessionLineCreateNestedManyWithoutCashboxInput = {
+    create?: XOR<OpeningBalanceSessionLineCreateWithoutCashboxInput, OpeningBalanceSessionLineUncheckedCreateWithoutCashboxInput> | OpeningBalanceSessionLineCreateWithoutCashboxInput[] | OpeningBalanceSessionLineUncheckedCreateWithoutCashboxInput[]
+    connectOrCreate?: OpeningBalanceSessionLineCreateOrConnectWithoutCashboxInput | OpeningBalanceSessionLineCreateOrConnectWithoutCashboxInput[]
+    createMany?: OpeningBalanceSessionLineCreateManyCashboxInputEnvelope
+    connect?: OpeningBalanceSessionLineWhereUniqueInput | OpeningBalanceSessionLineWhereUniqueInput[]
+  }
+
   export type ExpenseUncheckedCreateNestedManyWithoutCashboxInput = {
     create?: XOR<ExpenseCreateWithoutCashboxInput, ExpenseUncheckedCreateWithoutCashboxInput> | ExpenseCreateWithoutCashboxInput[] | ExpenseUncheckedCreateWithoutCashboxInput[]
     connectOrCreate?: ExpenseCreateOrConnectWithoutCashboxInput | ExpenseCreateOrConnectWithoutCashboxInput[]
@@ -73362,6 +77353,13 @@ export namespace Prisma {
     connectOrCreate?: JournalLineCreateOrConnectWithoutCashboxInput | JournalLineCreateOrConnectWithoutCashboxInput[]
     createMany?: JournalLineCreateManyCashboxInputEnvelope
     connect?: JournalLineWhereUniqueInput | JournalLineWhereUniqueInput[]
+  }
+
+  export type OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutCashboxInput = {
+    create?: XOR<OpeningBalanceSessionLineCreateWithoutCashboxInput, OpeningBalanceSessionLineUncheckedCreateWithoutCashboxInput> | OpeningBalanceSessionLineCreateWithoutCashboxInput[] | OpeningBalanceSessionLineUncheckedCreateWithoutCashboxInput[]
+    connectOrCreate?: OpeningBalanceSessionLineCreateOrConnectWithoutCashboxInput | OpeningBalanceSessionLineCreateOrConnectWithoutCashboxInput[]
+    createMany?: OpeningBalanceSessionLineCreateManyCashboxInputEnvelope
+    connect?: OpeningBalanceSessionLineWhereUniqueInput | OpeningBalanceSessionLineWhereUniqueInput[]
   }
 
   export type TenantUpdateOneRequiredWithoutCashboxesNestedInput = {
@@ -73422,6 +77420,20 @@ export namespace Prisma {
     deleteMany?: JournalLineScalarWhereInput | JournalLineScalarWhereInput[]
   }
 
+  export type OpeningBalanceSessionLineUpdateManyWithoutCashboxNestedInput = {
+    create?: XOR<OpeningBalanceSessionLineCreateWithoutCashboxInput, OpeningBalanceSessionLineUncheckedCreateWithoutCashboxInput> | OpeningBalanceSessionLineCreateWithoutCashboxInput[] | OpeningBalanceSessionLineUncheckedCreateWithoutCashboxInput[]
+    connectOrCreate?: OpeningBalanceSessionLineCreateOrConnectWithoutCashboxInput | OpeningBalanceSessionLineCreateOrConnectWithoutCashboxInput[]
+    upsert?: OpeningBalanceSessionLineUpsertWithWhereUniqueWithoutCashboxInput | OpeningBalanceSessionLineUpsertWithWhereUniqueWithoutCashboxInput[]
+    createMany?: OpeningBalanceSessionLineCreateManyCashboxInputEnvelope
+    set?: OpeningBalanceSessionLineWhereUniqueInput | OpeningBalanceSessionLineWhereUniqueInput[]
+    disconnect?: OpeningBalanceSessionLineWhereUniqueInput | OpeningBalanceSessionLineWhereUniqueInput[]
+    delete?: OpeningBalanceSessionLineWhereUniqueInput | OpeningBalanceSessionLineWhereUniqueInput[]
+    connect?: OpeningBalanceSessionLineWhereUniqueInput | OpeningBalanceSessionLineWhereUniqueInput[]
+    update?: OpeningBalanceSessionLineUpdateWithWhereUniqueWithoutCashboxInput | OpeningBalanceSessionLineUpdateWithWhereUniqueWithoutCashboxInput[]
+    updateMany?: OpeningBalanceSessionLineUpdateManyWithWhereWithoutCashboxInput | OpeningBalanceSessionLineUpdateManyWithWhereWithoutCashboxInput[]
+    deleteMany?: OpeningBalanceSessionLineScalarWhereInput | OpeningBalanceSessionLineScalarWhereInput[]
+  }
+
   export type ExpenseUncheckedUpdateManyWithoutCashboxNestedInput = {
     create?: XOR<ExpenseCreateWithoutCashboxInput, ExpenseUncheckedCreateWithoutCashboxInput> | ExpenseCreateWithoutCashboxInput[] | ExpenseUncheckedCreateWithoutCashboxInput[]
     connectOrCreate?: ExpenseCreateOrConnectWithoutCashboxInput | ExpenseCreateOrConnectWithoutCashboxInput[]
@@ -73462,6 +77474,20 @@ export namespace Prisma {
     update?: JournalLineUpdateWithWhereUniqueWithoutCashboxInput | JournalLineUpdateWithWhereUniqueWithoutCashboxInput[]
     updateMany?: JournalLineUpdateManyWithWhereWithoutCashboxInput | JournalLineUpdateManyWithWhereWithoutCashboxInput[]
     deleteMany?: JournalLineScalarWhereInput | JournalLineScalarWhereInput[]
+  }
+
+  export type OpeningBalanceSessionLineUncheckedUpdateManyWithoutCashboxNestedInput = {
+    create?: XOR<OpeningBalanceSessionLineCreateWithoutCashboxInput, OpeningBalanceSessionLineUncheckedCreateWithoutCashboxInput> | OpeningBalanceSessionLineCreateWithoutCashboxInput[] | OpeningBalanceSessionLineUncheckedCreateWithoutCashboxInput[]
+    connectOrCreate?: OpeningBalanceSessionLineCreateOrConnectWithoutCashboxInput | OpeningBalanceSessionLineCreateOrConnectWithoutCashboxInput[]
+    upsert?: OpeningBalanceSessionLineUpsertWithWhereUniqueWithoutCashboxInput | OpeningBalanceSessionLineUpsertWithWhereUniqueWithoutCashboxInput[]
+    createMany?: OpeningBalanceSessionLineCreateManyCashboxInputEnvelope
+    set?: OpeningBalanceSessionLineWhereUniqueInput | OpeningBalanceSessionLineWhereUniqueInput[]
+    disconnect?: OpeningBalanceSessionLineWhereUniqueInput | OpeningBalanceSessionLineWhereUniqueInput[]
+    delete?: OpeningBalanceSessionLineWhereUniqueInput | OpeningBalanceSessionLineWhereUniqueInput[]
+    connect?: OpeningBalanceSessionLineWhereUniqueInput | OpeningBalanceSessionLineWhereUniqueInput[]
+    update?: OpeningBalanceSessionLineUpdateWithWhereUniqueWithoutCashboxInput | OpeningBalanceSessionLineUpdateWithWhereUniqueWithoutCashboxInput[]
+    updateMany?: OpeningBalanceSessionLineUpdateManyWithWhereWithoutCashboxInput | OpeningBalanceSessionLineUpdateManyWithWhereWithoutCashboxInput[]
+    deleteMany?: OpeningBalanceSessionLineScalarWhereInput | OpeningBalanceSessionLineScalarWhereInput[]
   }
 
   export type TenantCreateNestedOneWithoutPaymentsInput = {
@@ -73783,6 +77809,13 @@ export namespace Prisma {
     connect?: ExpenseWhereUniqueInput | ExpenseWhereUniqueInput[]
   }
 
+  export type OpeningBalanceSessionLineCreateNestedManyWithoutCurrencyInput = {
+    create?: XOR<OpeningBalanceSessionLineCreateWithoutCurrencyInput, OpeningBalanceSessionLineUncheckedCreateWithoutCurrencyInput> | OpeningBalanceSessionLineCreateWithoutCurrencyInput[] | OpeningBalanceSessionLineUncheckedCreateWithoutCurrencyInput[]
+    connectOrCreate?: OpeningBalanceSessionLineCreateOrConnectWithoutCurrencyInput | OpeningBalanceSessionLineCreateOrConnectWithoutCurrencyInput[]
+    createMany?: OpeningBalanceSessionLineCreateManyCurrencyInputEnvelope
+    connect?: OpeningBalanceSessionLineWhereUniqueInput | OpeningBalanceSessionLineWhereUniqueInput[]
+  }
+
   export type CashboxUncheckedCreateNestedManyWithoutCurrencyInput = {
     create?: XOR<CashboxCreateWithoutCurrencyInput, CashboxUncheckedCreateWithoutCurrencyInput> | CashboxCreateWithoutCurrencyInput[] | CashboxUncheckedCreateWithoutCurrencyInput[]
     connectOrCreate?: CashboxCreateOrConnectWithoutCurrencyInput | CashboxCreateOrConnectWithoutCurrencyInput[]
@@ -73830,6 +77863,13 @@ export namespace Prisma {
     connectOrCreate?: ExpenseCreateOrConnectWithoutCurrencyInput | ExpenseCreateOrConnectWithoutCurrencyInput[]
     createMany?: ExpenseCreateManyCurrencyInputEnvelope
     connect?: ExpenseWhereUniqueInput | ExpenseWhereUniqueInput[]
+  }
+
+  export type OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutCurrencyInput = {
+    create?: XOR<OpeningBalanceSessionLineCreateWithoutCurrencyInput, OpeningBalanceSessionLineUncheckedCreateWithoutCurrencyInput> | OpeningBalanceSessionLineCreateWithoutCurrencyInput[] | OpeningBalanceSessionLineUncheckedCreateWithoutCurrencyInput[]
+    connectOrCreate?: OpeningBalanceSessionLineCreateOrConnectWithoutCurrencyInput | OpeningBalanceSessionLineCreateOrConnectWithoutCurrencyInput[]
+    createMany?: OpeningBalanceSessionLineCreateManyCurrencyInputEnvelope
+    connect?: OpeningBalanceSessionLineWhereUniqueInput | OpeningBalanceSessionLineWhereUniqueInput[]
   }
 
   export type TenantUpdateOneRequiredWithoutCurrenciesNestedInput = {
@@ -73938,6 +77978,20 @@ export namespace Prisma {
     deleteMany?: ExpenseScalarWhereInput | ExpenseScalarWhereInput[]
   }
 
+  export type OpeningBalanceSessionLineUpdateManyWithoutCurrencyNestedInput = {
+    create?: XOR<OpeningBalanceSessionLineCreateWithoutCurrencyInput, OpeningBalanceSessionLineUncheckedCreateWithoutCurrencyInput> | OpeningBalanceSessionLineCreateWithoutCurrencyInput[] | OpeningBalanceSessionLineUncheckedCreateWithoutCurrencyInput[]
+    connectOrCreate?: OpeningBalanceSessionLineCreateOrConnectWithoutCurrencyInput | OpeningBalanceSessionLineCreateOrConnectWithoutCurrencyInput[]
+    upsert?: OpeningBalanceSessionLineUpsertWithWhereUniqueWithoutCurrencyInput | OpeningBalanceSessionLineUpsertWithWhereUniqueWithoutCurrencyInput[]
+    createMany?: OpeningBalanceSessionLineCreateManyCurrencyInputEnvelope
+    set?: OpeningBalanceSessionLineWhereUniqueInput | OpeningBalanceSessionLineWhereUniqueInput[]
+    disconnect?: OpeningBalanceSessionLineWhereUniqueInput | OpeningBalanceSessionLineWhereUniqueInput[]
+    delete?: OpeningBalanceSessionLineWhereUniqueInput | OpeningBalanceSessionLineWhereUniqueInput[]
+    connect?: OpeningBalanceSessionLineWhereUniqueInput | OpeningBalanceSessionLineWhereUniqueInput[]
+    update?: OpeningBalanceSessionLineUpdateWithWhereUniqueWithoutCurrencyInput | OpeningBalanceSessionLineUpdateWithWhereUniqueWithoutCurrencyInput[]
+    updateMany?: OpeningBalanceSessionLineUpdateManyWithWhereWithoutCurrencyInput | OpeningBalanceSessionLineUpdateManyWithWhereWithoutCurrencyInput[]
+    deleteMany?: OpeningBalanceSessionLineScalarWhereInput | OpeningBalanceSessionLineScalarWhereInput[]
+  }
+
   export type CashboxUncheckedUpdateManyWithoutCurrencyNestedInput = {
     create?: XOR<CashboxCreateWithoutCurrencyInput, CashboxUncheckedCreateWithoutCurrencyInput> | CashboxCreateWithoutCurrencyInput[] | CashboxUncheckedCreateWithoutCurrencyInput[]
     connectOrCreate?: CashboxCreateOrConnectWithoutCurrencyInput | CashboxCreateOrConnectWithoutCurrencyInput[]
@@ -74034,6 +78088,20 @@ export namespace Prisma {
     update?: ExpenseUpdateWithWhereUniqueWithoutCurrencyInput | ExpenseUpdateWithWhereUniqueWithoutCurrencyInput[]
     updateMany?: ExpenseUpdateManyWithWhereWithoutCurrencyInput | ExpenseUpdateManyWithWhereWithoutCurrencyInput[]
     deleteMany?: ExpenseScalarWhereInput | ExpenseScalarWhereInput[]
+  }
+
+  export type OpeningBalanceSessionLineUncheckedUpdateManyWithoutCurrencyNestedInput = {
+    create?: XOR<OpeningBalanceSessionLineCreateWithoutCurrencyInput, OpeningBalanceSessionLineUncheckedCreateWithoutCurrencyInput> | OpeningBalanceSessionLineCreateWithoutCurrencyInput[] | OpeningBalanceSessionLineUncheckedCreateWithoutCurrencyInput[]
+    connectOrCreate?: OpeningBalanceSessionLineCreateOrConnectWithoutCurrencyInput | OpeningBalanceSessionLineCreateOrConnectWithoutCurrencyInput[]
+    upsert?: OpeningBalanceSessionLineUpsertWithWhereUniqueWithoutCurrencyInput | OpeningBalanceSessionLineUpsertWithWhereUniqueWithoutCurrencyInput[]
+    createMany?: OpeningBalanceSessionLineCreateManyCurrencyInputEnvelope
+    set?: OpeningBalanceSessionLineWhereUniqueInput | OpeningBalanceSessionLineWhereUniqueInput[]
+    disconnect?: OpeningBalanceSessionLineWhereUniqueInput | OpeningBalanceSessionLineWhereUniqueInput[]
+    delete?: OpeningBalanceSessionLineWhereUniqueInput | OpeningBalanceSessionLineWhereUniqueInput[]
+    connect?: OpeningBalanceSessionLineWhereUniqueInput | OpeningBalanceSessionLineWhereUniqueInput[]
+    update?: OpeningBalanceSessionLineUpdateWithWhereUniqueWithoutCurrencyInput | OpeningBalanceSessionLineUpdateWithWhereUniqueWithoutCurrencyInput[]
+    updateMany?: OpeningBalanceSessionLineUpdateManyWithWhereWithoutCurrencyInput | OpeningBalanceSessionLineUpdateManyWithWhereWithoutCurrencyInput[]
+    deleteMany?: OpeningBalanceSessionLineScalarWhereInput | OpeningBalanceSessionLineScalarWhereInput[]
   }
 
   export type CustomFieldCreateoptionsInput = {
@@ -74529,6 +78597,13 @@ export namespace Prisma {
     connect?: ExpenseWhereUniqueInput | ExpenseWhereUniqueInput[]
   }
 
+  export type OpeningBalanceSessionCreateNestedManyWithoutFiscalPeriodInput = {
+    create?: XOR<OpeningBalanceSessionCreateWithoutFiscalPeriodInput, OpeningBalanceSessionUncheckedCreateWithoutFiscalPeriodInput> | OpeningBalanceSessionCreateWithoutFiscalPeriodInput[] | OpeningBalanceSessionUncheckedCreateWithoutFiscalPeriodInput[]
+    connectOrCreate?: OpeningBalanceSessionCreateOrConnectWithoutFiscalPeriodInput | OpeningBalanceSessionCreateOrConnectWithoutFiscalPeriodInput[]
+    createMany?: OpeningBalanceSessionCreateManyFiscalPeriodInputEnvelope
+    connect?: OpeningBalanceSessionWhereUniqueInput | OpeningBalanceSessionWhereUniqueInput[]
+  }
+
   export type StockMovementUncheckedCreateNestedManyWithoutFiscalPeriodInput = {
     create?: XOR<StockMovementCreateWithoutFiscalPeriodInput, StockMovementUncheckedCreateWithoutFiscalPeriodInput> | StockMovementCreateWithoutFiscalPeriodInput[] | StockMovementUncheckedCreateWithoutFiscalPeriodInput[]
     connectOrCreate?: StockMovementCreateOrConnectWithoutFiscalPeriodInput | StockMovementCreateOrConnectWithoutFiscalPeriodInput[]
@@ -74569,6 +78644,13 @@ export namespace Prisma {
     connectOrCreate?: ExpenseCreateOrConnectWithoutFiscalPeriodInput | ExpenseCreateOrConnectWithoutFiscalPeriodInput[]
     createMany?: ExpenseCreateManyFiscalPeriodInputEnvelope
     connect?: ExpenseWhereUniqueInput | ExpenseWhereUniqueInput[]
+  }
+
+  export type OpeningBalanceSessionUncheckedCreateNestedManyWithoutFiscalPeriodInput = {
+    create?: XOR<OpeningBalanceSessionCreateWithoutFiscalPeriodInput, OpeningBalanceSessionUncheckedCreateWithoutFiscalPeriodInput> | OpeningBalanceSessionCreateWithoutFiscalPeriodInput[] | OpeningBalanceSessionUncheckedCreateWithoutFiscalPeriodInput[]
+    connectOrCreate?: OpeningBalanceSessionCreateOrConnectWithoutFiscalPeriodInput | OpeningBalanceSessionCreateOrConnectWithoutFiscalPeriodInput[]
+    createMany?: OpeningBalanceSessionCreateManyFiscalPeriodInputEnvelope
+    connect?: OpeningBalanceSessionWhereUniqueInput | OpeningBalanceSessionWhereUniqueInput[]
   }
 
   export type EnumFiscalPeriodStatusFieldUpdateOperationsInput = {
@@ -74667,6 +78749,20 @@ export namespace Prisma {
     deleteMany?: ExpenseScalarWhereInput | ExpenseScalarWhereInput[]
   }
 
+  export type OpeningBalanceSessionUpdateManyWithoutFiscalPeriodNestedInput = {
+    create?: XOR<OpeningBalanceSessionCreateWithoutFiscalPeriodInput, OpeningBalanceSessionUncheckedCreateWithoutFiscalPeriodInput> | OpeningBalanceSessionCreateWithoutFiscalPeriodInput[] | OpeningBalanceSessionUncheckedCreateWithoutFiscalPeriodInput[]
+    connectOrCreate?: OpeningBalanceSessionCreateOrConnectWithoutFiscalPeriodInput | OpeningBalanceSessionCreateOrConnectWithoutFiscalPeriodInput[]
+    upsert?: OpeningBalanceSessionUpsertWithWhereUniqueWithoutFiscalPeriodInput | OpeningBalanceSessionUpsertWithWhereUniqueWithoutFiscalPeriodInput[]
+    createMany?: OpeningBalanceSessionCreateManyFiscalPeriodInputEnvelope
+    set?: OpeningBalanceSessionWhereUniqueInput | OpeningBalanceSessionWhereUniqueInput[]
+    disconnect?: OpeningBalanceSessionWhereUniqueInput | OpeningBalanceSessionWhereUniqueInput[]
+    delete?: OpeningBalanceSessionWhereUniqueInput | OpeningBalanceSessionWhereUniqueInput[]
+    connect?: OpeningBalanceSessionWhereUniqueInput | OpeningBalanceSessionWhereUniqueInput[]
+    update?: OpeningBalanceSessionUpdateWithWhereUniqueWithoutFiscalPeriodInput | OpeningBalanceSessionUpdateWithWhereUniqueWithoutFiscalPeriodInput[]
+    updateMany?: OpeningBalanceSessionUpdateManyWithWhereWithoutFiscalPeriodInput | OpeningBalanceSessionUpdateManyWithWhereWithoutFiscalPeriodInput[]
+    deleteMany?: OpeningBalanceSessionScalarWhereInput | OpeningBalanceSessionScalarWhereInput[]
+  }
+
   export type StockMovementUncheckedUpdateManyWithoutFiscalPeriodNestedInput = {
     create?: XOR<StockMovementCreateWithoutFiscalPeriodInput, StockMovementUncheckedCreateWithoutFiscalPeriodInput> | StockMovementCreateWithoutFiscalPeriodInput[] | StockMovementUncheckedCreateWithoutFiscalPeriodInput[]
     connectOrCreate?: StockMovementCreateOrConnectWithoutFiscalPeriodInput | StockMovementCreateOrConnectWithoutFiscalPeriodInput[]
@@ -74749,6 +78845,20 @@ export namespace Prisma {
     update?: ExpenseUpdateWithWhereUniqueWithoutFiscalPeriodInput | ExpenseUpdateWithWhereUniqueWithoutFiscalPeriodInput[]
     updateMany?: ExpenseUpdateManyWithWhereWithoutFiscalPeriodInput | ExpenseUpdateManyWithWhereWithoutFiscalPeriodInput[]
     deleteMany?: ExpenseScalarWhereInput | ExpenseScalarWhereInput[]
+  }
+
+  export type OpeningBalanceSessionUncheckedUpdateManyWithoutFiscalPeriodNestedInput = {
+    create?: XOR<OpeningBalanceSessionCreateWithoutFiscalPeriodInput, OpeningBalanceSessionUncheckedCreateWithoutFiscalPeriodInput> | OpeningBalanceSessionCreateWithoutFiscalPeriodInput[] | OpeningBalanceSessionUncheckedCreateWithoutFiscalPeriodInput[]
+    connectOrCreate?: OpeningBalanceSessionCreateOrConnectWithoutFiscalPeriodInput | OpeningBalanceSessionCreateOrConnectWithoutFiscalPeriodInput[]
+    upsert?: OpeningBalanceSessionUpsertWithWhereUniqueWithoutFiscalPeriodInput | OpeningBalanceSessionUpsertWithWhereUniqueWithoutFiscalPeriodInput[]
+    createMany?: OpeningBalanceSessionCreateManyFiscalPeriodInputEnvelope
+    set?: OpeningBalanceSessionWhereUniqueInput | OpeningBalanceSessionWhereUniqueInput[]
+    disconnect?: OpeningBalanceSessionWhereUniqueInput | OpeningBalanceSessionWhereUniqueInput[]
+    delete?: OpeningBalanceSessionWhereUniqueInput | OpeningBalanceSessionWhereUniqueInput[]
+    connect?: OpeningBalanceSessionWhereUniqueInput | OpeningBalanceSessionWhereUniqueInput[]
+    update?: OpeningBalanceSessionUpdateWithWhereUniqueWithoutFiscalPeriodInput | OpeningBalanceSessionUpdateWithWhereUniqueWithoutFiscalPeriodInput[]
+    updateMany?: OpeningBalanceSessionUpdateManyWithWhereWithoutFiscalPeriodInput | OpeningBalanceSessionUpdateManyWithWhereWithoutFiscalPeriodInput[]
+    deleteMany?: OpeningBalanceSessionScalarWhereInput | OpeningBalanceSessionScalarWhereInput[]
   }
 
   export type TenantCreateNestedOneWithoutInvoiceTypesInput = {
@@ -75644,6 +79754,196 @@ export namespace Prisma {
     deleteMany?: ItemCatalogEntityScalarWhereInput | ItemCatalogEntityScalarWhereInput[]
   }
 
+  export type TenantCreateNestedOneWithoutOpeningBalanceSessionsInput = {
+    create?: XOR<TenantCreateWithoutOpeningBalanceSessionsInput, TenantUncheckedCreateWithoutOpeningBalanceSessionsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutOpeningBalanceSessionsInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type FiscalPeriodCreateNestedOneWithoutOpeningBalanceSessionsInput = {
+    create?: XOR<FiscalPeriodCreateWithoutOpeningBalanceSessionsInput, FiscalPeriodUncheckedCreateWithoutOpeningBalanceSessionsInput>
+    connectOrCreate?: FiscalPeriodCreateOrConnectWithoutOpeningBalanceSessionsInput
+    connect?: FiscalPeriodWhereUniqueInput
+  }
+
+  export type OpeningBalanceSessionLineCreateNestedManyWithoutSessionInput = {
+    create?: XOR<OpeningBalanceSessionLineCreateWithoutSessionInput, OpeningBalanceSessionLineUncheckedCreateWithoutSessionInput> | OpeningBalanceSessionLineCreateWithoutSessionInput[] | OpeningBalanceSessionLineUncheckedCreateWithoutSessionInput[]
+    connectOrCreate?: OpeningBalanceSessionLineCreateOrConnectWithoutSessionInput | OpeningBalanceSessionLineCreateOrConnectWithoutSessionInput[]
+    createMany?: OpeningBalanceSessionLineCreateManySessionInputEnvelope
+    connect?: OpeningBalanceSessionLineWhereUniqueInput | OpeningBalanceSessionLineWhereUniqueInput[]
+  }
+
+  export type OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutSessionInput = {
+    create?: XOR<OpeningBalanceSessionLineCreateWithoutSessionInput, OpeningBalanceSessionLineUncheckedCreateWithoutSessionInput> | OpeningBalanceSessionLineCreateWithoutSessionInput[] | OpeningBalanceSessionLineUncheckedCreateWithoutSessionInput[]
+    connectOrCreate?: OpeningBalanceSessionLineCreateOrConnectWithoutSessionInput | OpeningBalanceSessionLineCreateOrConnectWithoutSessionInput[]
+    createMany?: OpeningBalanceSessionLineCreateManySessionInputEnvelope
+    connect?: OpeningBalanceSessionLineWhereUniqueInput | OpeningBalanceSessionLineWhereUniqueInput[]
+  }
+
+  export type EnumOpeningBalanceSessionStatusFieldUpdateOperationsInput = {
+    set?: $Enums.OpeningBalanceSessionStatus
+  }
+
+  export type TenantUpdateOneRequiredWithoutOpeningBalanceSessionsNestedInput = {
+    create?: XOR<TenantCreateWithoutOpeningBalanceSessionsInput, TenantUncheckedCreateWithoutOpeningBalanceSessionsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutOpeningBalanceSessionsInput
+    upsert?: TenantUpsertWithoutOpeningBalanceSessionsInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutOpeningBalanceSessionsInput, TenantUpdateWithoutOpeningBalanceSessionsInput>, TenantUncheckedUpdateWithoutOpeningBalanceSessionsInput>
+  }
+
+  export type FiscalPeriodUpdateOneRequiredWithoutOpeningBalanceSessionsNestedInput = {
+    create?: XOR<FiscalPeriodCreateWithoutOpeningBalanceSessionsInput, FiscalPeriodUncheckedCreateWithoutOpeningBalanceSessionsInput>
+    connectOrCreate?: FiscalPeriodCreateOrConnectWithoutOpeningBalanceSessionsInput
+    upsert?: FiscalPeriodUpsertWithoutOpeningBalanceSessionsInput
+    connect?: FiscalPeriodWhereUniqueInput
+    update?: XOR<XOR<FiscalPeriodUpdateToOneWithWhereWithoutOpeningBalanceSessionsInput, FiscalPeriodUpdateWithoutOpeningBalanceSessionsInput>, FiscalPeriodUncheckedUpdateWithoutOpeningBalanceSessionsInput>
+  }
+
+  export type OpeningBalanceSessionLineUpdateManyWithoutSessionNestedInput = {
+    create?: XOR<OpeningBalanceSessionLineCreateWithoutSessionInput, OpeningBalanceSessionLineUncheckedCreateWithoutSessionInput> | OpeningBalanceSessionLineCreateWithoutSessionInput[] | OpeningBalanceSessionLineUncheckedCreateWithoutSessionInput[]
+    connectOrCreate?: OpeningBalanceSessionLineCreateOrConnectWithoutSessionInput | OpeningBalanceSessionLineCreateOrConnectWithoutSessionInput[]
+    upsert?: OpeningBalanceSessionLineUpsertWithWhereUniqueWithoutSessionInput | OpeningBalanceSessionLineUpsertWithWhereUniqueWithoutSessionInput[]
+    createMany?: OpeningBalanceSessionLineCreateManySessionInputEnvelope
+    set?: OpeningBalanceSessionLineWhereUniqueInput | OpeningBalanceSessionLineWhereUniqueInput[]
+    disconnect?: OpeningBalanceSessionLineWhereUniqueInput | OpeningBalanceSessionLineWhereUniqueInput[]
+    delete?: OpeningBalanceSessionLineWhereUniqueInput | OpeningBalanceSessionLineWhereUniqueInput[]
+    connect?: OpeningBalanceSessionLineWhereUniqueInput | OpeningBalanceSessionLineWhereUniqueInput[]
+    update?: OpeningBalanceSessionLineUpdateWithWhereUniqueWithoutSessionInput | OpeningBalanceSessionLineUpdateWithWhereUniqueWithoutSessionInput[]
+    updateMany?: OpeningBalanceSessionLineUpdateManyWithWhereWithoutSessionInput | OpeningBalanceSessionLineUpdateManyWithWhereWithoutSessionInput[]
+    deleteMany?: OpeningBalanceSessionLineScalarWhereInput | OpeningBalanceSessionLineScalarWhereInput[]
+  }
+
+  export type OpeningBalanceSessionLineUncheckedUpdateManyWithoutSessionNestedInput = {
+    create?: XOR<OpeningBalanceSessionLineCreateWithoutSessionInput, OpeningBalanceSessionLineUncheckedCreateWithoutSessionInput> | OpeningBalanceSessionLineCreateWithoutSessionInput[] | OpeningBalanceSessionLineUncheckedCreateWithoutSessionInput[]
+    connectOrCreate?: OpeningBalanceSessionLineCreateOrConnectWithoutSessionInput | OpeningBalanceSessionLineCreateOrConnectWithoutSessionInput[]
+    upsert?: OpeningBalanceSessionLineUpsertWithWhereUniqueWithoutSessionInput | OpeningBalanceSessionLineUpsertWithWhereUniqueWithoutSessionInput[]
+    createMany?: OpeningBalanceSessionLineCreateManySessionInputEnvelope
+    set?: OpeningBalanceSessionLineWhereUniqueInput | OpeningBalanceSessionLineWhereUniqueInput[]
+    disconnect?: OpeningBalanceSessionLineWhereUniqueInput | OpeningBalanceSessionLineWhereUniqueInput[]
+    delete?: OpeningBalanceSessionLineWhereUniqueInput | OpeningBalanceSessionLineWhereUniqueInput[]
+    connect?: OpeningBalanceSessionLineWhereUniqueInput | OpeningBalanceSessionLineWhereUniqueInput[]
+    update?: OpeningBalanceSessionLineUpdateWithWhereUniqueWithoutSessionInput | OpeningBalanceSessionLineUpdateWithWhereUniqueWithoutSessionInput[]
+    updateMany?: OpeningBalanceSessionLineUpdateManyWithWhereWithoutSessionInput | OpeningBalanceSessionLineUpdateManyWithWhereWithoutSessionInput[]
+    deleteMany?: OpeningBalanceSessionLineScalarWhereInput | OpeningBalanceSessionLineScalarWhereInput[]
+  }
+
+  export type OpeningBalanceSessionCreateNestedOneWithoutLinesInput = {
+    create?: XOR<OpeningBalanceSessionCreateWithoutLinesInput, OpeningBalanceSessionUncheckedCreateWithoutLinesInput>
+    connectOrCreate?: OpeningBalanceSessionCreateOrConnectWithoutLinesInput
+    connect?: OpeningBalanceSessionWhereUniqueInput
+  }
+
+  export type TenantCreateNestedOneWithoutOpeningBalanceSessionLinesInput = {
+    create?: XOR<TenantCreateWithoutOpeningBalanceSessionLinesInput, TenantUncheckedCreateWithoutOpeningBalanceSessionLinesInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutOpeningBalanceSessionLinesInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type PartyCreateNestedOneWithoutOpeningBalanceSessionLinesInput = {
+    create?: XOR<PartyCreateWithoutOpeningBalanceSessionLinesInput, PartyUncheckedCreateWithoutOpeningBalanceSessionLinesInput>
+    connectOrCreate?: PartyCreateOrConnectWithoutOpeningBalanceSessionLinesInput
+    connect?: PartyWhereUniqueInput
+  }
+
+  export type CashboxCreateNestedOneWithoutOpeningBalanceSessionLinesInput = {
+    create?: XOR<CashboxCreateWithoutOpeningBalanceSessionLinesInput, CashboxUncheckedCreateWithoutOpeningBalanceSessionLinesInput>
+    connectOrCreate?: CashboxCreateOrConnectWithoutOpeningBalanceSessionLinesInput
+    connect?: CashboxWhereUniqueInput
+  }
+
+  export type BankAccountCreateNestedOneWithoutOpeningBalanceSessionLinesInput = {
+    create?: XOR<BankAccountCreateWithoutOpeningBalanceSessionLinesInput, BankAccountUncheckedCreateWithoutOpeningBalanceSessionLinesInput>
+    connectOrCreate?: BankAccountCreateOrConnectWithoutOpeningBalanceSessionLinesInput
+    connect?: BankAccountWhereUniqueInput
+  }
+
+  export type ChartOfAccountCreateNestedOneWithoutOpeningBalanceSessionLinesInput = {
+    create?: XOR<ChartOfAccountCreateWithoutOpeningBalanceSessionLinesInput, ChartOfAccountUncheckedCreateWithoutOpeningBalanceSessionLinesInput>
+    connectOrCreate?: ChartOfAccountCreateOrConnectWithoutOpeningBalanceSessionLinesInput
+    connect?: ChartOfAccountWhereUniqueInput
+  }
+
+  export type CurrencyCreateNestedOneWithoutOpeningBalanceSessionLinesInput = {
+    create?: XOR<CurrencyCreateWithoutOpeningBalanceSessionLinesInput, CurrencyUncheckedCreateWithoutOpeningBalanceSessionLinesInput>
+    connectOrCreate?: CurrencyCreateOrConnectWithoutOpeningBalanceSessionLinesInput
+    connect?: CurrencyWhereUniqueInput
+  }
+
+  export type EnumOpeningBalanceDimensionFieldUpdateOperationsInput = {
+    set?: $Enums.OpeningBalanceDimension
+  }
+
+  export type NullableEnumOpeningBalancePartySideFieldUpdateOperationsInput = {
+    set?: $Enums.OpeningBalancePartySide | null
+  }
+
+  export type OpeningBalanceSessionUpdateOneRequiredWithoutLinesNestedInput = {
+    create?: XOR<OpeningBalanceSessionCreateWithoutLinesInput, OpeningBalanceSessionUncheckedCreateWithoutLinesInput>
+    connectOrCreate?: OpeningBalanceSessionCreateOrConnectWithoutLinesInput
+    upsert?: OpeningBalanceSessionUpsertWithoutLinesInput
+    connect?: OpeningBalanceSessionWhereUniqueInput
+    update?: XOR<XOR<OpeningBalanceSessionUpdateToOneWithWhereWithoutLinesInput, OpeningBalanceSessionUpdateWithoutLinesInput>, OpeningBalanceSessionUncheckedUpdateWithoutLinesInput>
+  }
+
+  export type TenantUpdateOneRequiredWithoutOpeningBalanceSessionLinesNestedInput = {
+    create?: XOR<TenantCreateWithoutOpeningBalanceSessionLinesInput, TenantUncheckedCreateWithoutOpeningBalanceSessionLinesInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutOpeningBalanceSessionLinesInput
+    upsert?: TenantUpsertWithoutOpeningBalanceSessionLinesInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutOpeningBalanceSessionLinesInput, TenantUpdateWithoutOpeningBalanceSessionLinesInput>, TenantUncheckedUpdateWithoutOpeningBalanceSessionLinesInput>
+  }
+
+  export type PartyUpdateOneWithoutOpeningBalanceSessionLinesNestedInput = {
+    create?: XOR<PartyCreateWithoutOpeningBalanceSessionLinesInput, PartyUncheckedCreateWithoutOpeningBalanceSessionLinesInput>
+    connectOrCreate?: PartyCreateOrConnectWithoutOpeningBalanceSessionLinesInput
+    upsert?: PartyUpsertWithoutOpeningBalanceSessionLinesInput
+    disconnect?: PartyWhereInput | boolean
+    delete?: PartyWhereInput | boolean
+    connect?: PartyWhereUniqueInput
+    update?: XOR<XOR<PartyUpdateToOneWithWhereWithoutOpeningBalanceSessionLinesInput, PartyUpdateWithoutOpeningBalanceSessionLinesInput>, PartyUncheckedUpdateWithoutOpeningBalanceSessionLinesInput>
+  }
+
+  export type CashboxUpdateOneWithoutOpeningBalanceSessionLinesNestedInput = {
+    create?: XOR<CashboxCreateWithoutOpeningBalanceSessionLinesInput, CashboxUncheckedCreateWithoutOpeningBalanceSessionLinesInput>
+    connectOrCreate?: CashboxCreateOrConnectWithoutOpeningBalanceSessionLinesInput
+    upsert?: CashboxUpsertWithoutOpeningBalanceSessionLinesInput
+    disconnect?: CashboxWhereInput | boolean
+    delete?: CashboxWhereInput | boolean
+    connect?: CashboxWhereUniqueInput
+    update?: XOR<XOR<CashboxUpdateToOneWithWhereWithoutOpeningBalanceSessionLinesInput, CashboxUpdateWithoutOpeningBalanceSessionLinesInput>, CashboxUncheckedUpdateWithoutOpeningBalanceSessionLinesInput>
+  }
+
+  export type BankAccountUpdateOneWithoutOpeningBalanceSessionLinesNestedInput = {
+    create?: XOR<BankAccountCreateWithoutOpeningBalanceSessionLinesInput, BankAccountUncheckedCreateWithoutOpeningBalanceSessionLinesInput>
+    connectOrCreate?: BankAccountCreateOrConnectWithoutOpeningBalanceSessionLinesInput
+    upsert?: BankAccountUpsertWithoutOpeningBalanceSessionLinesInput
+    disconnect?: BankAccountWhereInput | boolean
+    delete?: BankAccountWhereInput | boolean
+    connect?: BankAccountWhereUniqueInput
+    update?: XOR<XOR<BankAccountUpdateToOneWithWhereWithoutOpeningBalanceSessionLinesInput, BankAccountUpdateWithoutOpeningBalanceSessionLinesInput>, BankAccountUncheckedUpdateWithoutOpeningBalanceSessionLinesInput>
+  }
+
+  export type ChartOfAccountUpdateOneWithoutOpeningBalanceSessionLinesNestedInput = {
+    create?: XOR<ChartOfAccountCreateWithoutOpeningBalanceSessionLinesInput, ChartOfAccountUncheckedCreateWithoutOpeningBalanceSessionLinesInput>
+    connectOrCreate?: ChartOfAccountCreateOrConnectWithoutOpeningBalanceSessionLinesInput
+    upsert?: ChartOfAccountUpsertWithoutOpeningBalanceSessionLinesInput
+    disconnect?: ChartOfAccountWhereInput | boolean
+    delete?: ChartOfAccountWhereInput | boolean
+    connect?: ChartOfAccountWhereUniqueInput
+    update?: XOR<XOR<ChartOfAccountUpdateToOneWithWhereWithoutOpeningBalanceSessionLinesInput, ChartOfAccountUpdateWithoutOpeningBalanceSessionLinesInput>, ChartOfAccountUncheckedUpdateWithoutOpeningBalanceSessionLinesInput>
+  }
+
+  export type CurrencyUpdateOneWithoutOpeningBalanceSessionLinesNestedInput = {
+    create?: XOR<CurrencyCreateWithoutOpeningBalanceSessionLinesInput, CurrencyUncheckedCreateWithoutOpeningBalanceSessionLinesInput>
+    connectOrCreate?: CurrencyCreateOrConnectWithoutOpeningBalanceSessionLinesInput
+    upsert?: CurrencyUpsertWithoutOpeningBalanceSessionLinesInput
+    disconnect?: CurrencyWhereInput | boolean
+    delete?: CurrencyWhereInput | boolean
+    connect?: CurrencyWhereUniqueInput
+    update?: XOR<XOR<CurrencyUpdateToOneWithWhereWithoutOpeningBalanceSessionLinesInput, CurrencyUpdateWithoutOpeningBalanceSessionLinesInput>, CurrencyUncheckedUpdateWithoutOpeningBalanceSessionLinesInput>
+  }
+
   export type TenantCreateNestedOneWithoutPartiesInput = {
     create?: XOR<TenantCreateWithoutPartiesInput, TenantUncheckedCreateWithoutPartiesInput>
     connectOrCreate?: TenantCreateOrConnectWithoutPartiesInput
@@ -75669,6 +79969,13 @@ export namespace Prisma {
     connectOrCreate?: JournalLineCreateOrConnectWithoutPartyInput | JournalLineCreateOrConnectWithoutPartyInput[]
     createMany?: JournalLineCreateManyPartyInputEnvelope
     connect?: JournalLineWhereUniqueInput | JournalLineWhereUniqueInput[]
+  }
+
+  export type OpeningBalanceSessionLineCreateNestedManyWithoutPartyInput = {
+    create?: XOR<OpeningBalanceSessionLineCreateWithoutPartyInput, OpeningBalanceSessionLineUncheckedCreateWithoutPartyInput> | OpeningBalanceSessionLineCreateWithoutPartyInput[] | OpeningBalanceSessionLineUncheckedCreateWithoutPartyInput[]
+    connectOrCreate?: OpeningBalanceSessionLineCreateOrConnectWithoutPartyInput | OpeningBalanceSessionLineCreateOrConnectWithoutPartyInput[]
+    createMany?: OpeningBalanceSessionLineCreateManyPartyInputEnvelope
+    connect?: OpeningBalanceSessionLineWhereUniqueInput | OpeningBalanceSessionLineWhereUniqueInput[]
   }
 
   export type ChartOfAccountCreateNestedOneWithoutPartyReceivablesInput = {
@@ -75702,6 +80009,13 @@ export namespace Prisma {
     connectOrCreate?: JournalLineCreateOrConnectWithoutPartyInput | JournalLineCreateOrConnectWithoutPartyInput[]
     createMany?: JournalLineCreateManyPartyInputEnvelope
     connect?: JournalLineWhereUniqueInput | JournalLineWhereUniqueInput[]
+  }
+
+  export type OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutPartyInput = {
+    create?: XOR<OpeningBalanceSessionLineCreateWithoutPartyInput, OpeningBalanceSessionLineUncheckedCreateWithoutPartyInput> | OpeningBalanceSessionLineCreateWithoutPartyInput[] | OpeningBalanceSessionLineUncheckedCreateWithoutPartyInput[]
+    connectOrCreate?: OpeningBalanceSessionLineCreateOrConnectWithoutPartyInput | OpeningBalanceSessionLineCreateOrConnectWithoutPartyInput[]
+    createMany?: OpeningBalanceSessionLineCreateManyPartyInputEnvelope
+    connect?: OpeningBalanceSessionLineWhereUniqueInput | OpeningBalanceSessionLineWhereUniqueInput[]
   }
 
   export type EnumPartyTypeFieldUpdateOperationsInput = {
@@ -75756,6 +80070,20 @@ export namespace Prisma {
     update?: JournalLineUpdateWithWhereUniqueWithoutPartyInput | JournalLineUpdateWithWhereUniqueWithoutPartyInput[]
     updateMany?: JournalLineUpdateManyWithWhereWithoutPartyInput | JournalLineUpdateManyWithWhereWithoutPartyInput[]
     deleteMany?: JournalLineScalarWhereInput | JournalLineScalarWhereInput[]
+  }
+
+  export type OpeningBalanceSessionLineUpdateManyWithoutPartyNestedInput = {
+    create?: XOR<OpeningBalanceSessionLineCreateWithoutPartyInput, OpeningBalanceSessionLineUncheckedCreateWithoutPartyInput> | OpeningBalanceSessionLineCreateWithoutPartyInput[] | OpeningBalanceSessionLineUncheckedCreateWithoutPartyInput[]
+    connectOrCreate?: OpeningBalanceSessionLineCreateOrConnectWithoutPartyInput | OpeningBalanceSessionLineCreateOrConnectWithoutPartyInput[]
+    upsert?: OpeningBalanceSessionLineUpsertWithWhereUniqueWithoutPartyInput | OpeningBalanceSessionLineUpsertWithWhereUniqueWithoutPartyInput[]
+    createMany?: OpeningBalanceSessionLineCreateManyPartyInputEnvelope
+    set?: OpeningBalanceSessionLineWhereUniqueInput | OpeningBalanceSessionLineWhereUniqueInput[]
+    disconnect?: OpeningBalanceSessionLineWhereUniqueInput | OpeningBalanceSessionLineWhereUniqueInput[]
+    delete?: OpeningBalanceSessionLineWhereUniqueInput | OpeningBalanceSessionLineWhereUniqueInput[]
+    connect?: OpeningBalanceSessionLineWhereUniqueInput | OpeningBalanceSessionLineWhereUniqueInput[]
+    update?: OpeningBalanceSessionLineUpdateWithWhereUniqueWithoutPartyInput | OpeningBalanceSessionLineUpdateWithWhereUniqueWithoutPartyInput[]
+    updateMany?: OpeningBalanceSessionLineUpdateManyWithWhereWithoutPartyInput | OpeningBalanceSessionLineUpdateManyWithWhereWithoutPartyInput[]
+    deleteMany?: OpeningBalanceSessionLineScalarWhereInput | OpeningBalanceSessionLineScalarWhereInput[]
   }
 
   export type ChartOfAccountUpdateOneWithoutPartyReceivablesNestedInput = {
@@ -75818,6 +80146,20 @@ export namespace Prisma {
     update?: JournalLineUpdateWithWhereUniqueWithoutPartyInput | JournalLineUpdateWithWhereUniqueWithoutPartyInput[]
     updateMany?: JournalLineUpdateManyWithWhereWithoutPartyInput | JournalLineUpdateManyWithWhereWithoutPartyInput[]
     deleteMany?: JournalLineScalarWhereInput | JournalLineScalarWhereInput[]
+  }
+
+  export type OpeningBalanceSessionLineUncheckedUpdateManyWithoutPartyNestedInput = {
+    create?: XOR<OpeningBalanceSessionLineCreateWithoutPartyInput, OpeningBalanceSessionLineUncheckedCreateWithoutPartyInput> | OpeningBalanceSessionLineCreateWithoutPartyInput[] | OpeningBalanceSessionLineUncheckedCreateWithoutPartyInput[]
+    connectOrCreate?: OpeningBalanceSessionLineCreateOrConnectWithoutPartyInput | OpeningBalanceSessionLineCreateOrConnectWithoutPartyInput[]
+    upsert?: OpeningBalanceSessionLineUpsertWithWhereUniqueWithoutPartyInput | OpeningBalanceSessionLineUpsertWithWhereUniqueWithoutPartyInput[]
+    createMany?: OpeningBalanceSessionLineCreateManyPartyInputEnvelope
+    set?: OpeningBalanceSessionLineWhereUniqueInput | OpeningBalanceSessionLineWhereUniqueInput[]
+    disconnect?: OpeningBalanceSessionLineWhereUniqueInput | OpeningBalanceSessionLineWhereUniqueInput[]
+    delete?: OpeningBalanceSessionLineWhereUniqueInput | OpeningBalanceSessionLineWhereUniqueInput[]
+    connect?: OpeningBalanceSessionLineWhereUniqueInput | OpeningBalanceSessionLineWhereUniqueInput[]
+    update?: OpeningBalanceSessionLineUpdateWithWhereUniqueWithoutPartyInput | OpeningBalanceSessionLineUpdateWithWhereUniqueWithoutPartyInput[]
+    updateMany?: OpeningBalanceSessionLineUpdateManyWithWhereWithoutPartyInput | OpeningBalanceSessionLineUpdateManyWithWhereWithoutPartyInput[]
+    deleteMany?: OpeningBalanceSessionLineScalarWhereInput | OpeningBalanceSessionLineScalarWhereInput[]
   }
 
   export type TenantCreateNestedOneWithoutStockCountsInput = {
@@ -76301,6 +80643,20 @@ export namespace Prisma {
     connect?: BrandWhereUniqueInput | BrandWhereUniqueInput[]
   }
 
+  export type OpeningBalanceSessionCreateNestedManyWithoutTenantInput = {
+    create?: XOR<OpeningBalanceSessionCreateWithoutTenantInput, OpeningBalanceSessionUncheckedCreateWithoutTenantInput> | OpeningBalanceSessionCreateWithoutTenantInput[] | OpeningBalanceSessionUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: OpeningBalanceSessionCreateOrConnectWithoutTenantInput | OpeningBalanceSessionCreateOrConnectWithoutTenantInput[]
+    createMany?: OpeningBalanceSessionCreateManyTenantInputEnvelope
+    connect?: OpeningBalanceSessionWhereUniqueInput | OpeningBalanceSessionWhereUniqueInput[]
+  }
+
+  export type OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput = {
+    create?: XOR<OpeningBalanceSessionLineCreateWithoutTenantInput, OpeningBalanceSessionLineUncheckedCreateWithoutTenantInput> | OpeningBalanceSessionLineCreateWithoutTenantInput[] | OpeningBalanceSessionLineUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: OpeningBalanceSessionLineCreateOrConnectWithoutTenantInput | OpeningBalanceSessionLineCreateOrConnectWithoutTenantInput[]
+    createMany?: OpeningBalanceSessionLineCreateManyTenantInputEnvelope
+    connect?: OpeningBalanceSessionLineWhereUniqueInput | OpeningBalanceSessionLineWhereUniqueInput[]
+  }
+
   export type AppUserUncheckedCreateNestedManyWithoutTenantInput = {
     create?: XOR<AppUserCreateWithoutTenantInput, AppUserUncheckedCreateWithoutTenantInput> | AppUserCreateWithoutTenantInput[] | AppUserUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: AppUserCreateOrConnectWithoutTenantInput | AppUserCreateOrConnectWithoutTenantInput[]
@@ -76494,6 +80850,20 @@ export namespace Prisma {
     connectOrCreate?: BrandCreateOrConnectWithoutTenantInput | BrandCreateOrConnectWithoutTenantInput[]
     createMany?: BrandCreateManyTenantInputEnvelope
     connect?: BrandWhereUniqueInput | BrandWhereUniqueInput[]
+  }
+
+  export type OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<OpeningBalanceSessionCreateWithoutTenantInput, OpeningBalanceSessionUncheckedCreateWithoutTenantInput> | OpeningBalanceSessionCreateWithoutTenantInput[] | OpeningBalanceSessionUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: OpeningBalanceSessionCreateOrConnectWithoutTenantInput | OpeningBalanceSessionCreateOrConnectWithoutTenantInput[]
+    createMany?: OpeningBalanceSessionCreateManyTenantInputEnvelope
+    connect?: OpeningBalanceSessionWhereUniqueInput | OpeningBalanceSessionWhereUniqueInput[]
+  }
+
+  export type OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<OpeningBalanceSessionLineCreateWithoutTenantInput, OpeningBalanceSessionLineUncheckedCreateWithoutTenantInput> | OpeningBalanceSessionLineCreateWithoutTenantInput[] | OpeningBalanceSessionLineUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: OpeningBalanceSessionLineCreateOrConnectWithoutTenantInput | OpeningBalanceSessionLineCreateOrConnectWithoutTenantInput[]
+    createMany?: OpeningBalanceSessionLineCreateManyTenantInputEnvelope
+    connect?: OpeningBalanceSessionLineWhereUniqueInput | OpeningBalanceSessionLineWhereUniqueInput[]
   }
 
   export type AppUserUpdateManyWithoutTenantNestedInput = {
@@ -76904,6 +81274,34 @@ export namespace Prisma {
     deleteMany?: BrandScalarWhereInput | BrandScalarWhereInput[]
   }
 
+  export type OpeningBalanceSessionUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<OpeningBalanceSessionCreateWithoutTenantInput, OpeningBalanceSessionUncheckedCreateWithoutTenantInput> | OpeningBalanceSessionCreateWithoutTenantInput[] | OpeningBalanceSessionUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: OpeningBalanceSessionCreateOrConnectWithoutTenantInput | OpeningBalanceSessionCreateOrConnectWithoutTenantInput[]
+    upsert?: OpeningBalanceSessionUpsertWithWhereUniqueWithoutTenantInput | OpeningBalanceSessionUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: OpeningBalanceSessionCreateManyTenantInputEnvelope
+    set?: OpeningBalanceSessionWhereUniqueInput | OpeningBalanceSessionWhereUniqueInput[]
+    disconnect?: OpeningBalanceSessionWhereUniqueInput | OpeningBalanceSessionWhereUniqueInput[]
+    delete?: OpeningBalanceSessionWhereUniqueInput | OpeningBalanceSessionWhereUniqueInput[]
+    connect?: OpeningBalanceSessionWhereUniqueInput | OpeningBalanceSessionWhereUniqueInput[]
+    update?: OpeningBalanceSessionUpdateWithWhereUniqueWithoutTenantInput | OpeningBalanceSessionUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: OpeningBalanceSessionUpdateManyWithWhereWithoutTenantInput | OpeningBalanceSessionUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: OpeningBalanceSessionScalarWhereInput | OpeningBalanceSessionScalarWhereInput[]
+  }
+
+  export type OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<OpeningBalanceSessionLineCreateWithoutTenantInput, OpeningBalanceSessionLineUncheckedCreateWithoutTenantInput> | OpeningBalanceSessionLineCreateWithoutTenantInput[] | OpeningBalanceSessionLineUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: OpeningBalanceSessionLineCreateOrConnectWithoutTenantInput | OpeningBalanceSessionLineCreateOrConnectWithoutTenantInput[]
+    upsert?: OpeningBalanceSessionLineUpsertWithWhereUniqueWithoutTenantInput | OpeningBalanceSessionLineUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: OpeningBalanceSessionLineCreateManyTenantInputEnvelope
+    set?: OpeningBalanceSessionLineWhereUniqueInput | OpeningBalanceSessionLineWhereUniqueInput[]
+    disconnect?: OpeningBalanceSessionLineWhereUniqueInput | OpeningBalanceSessionLineWhereUniqueInput[]
+    delete?: OpeningBalanceSessionLineWhereUniqueInput | OpeningBalanceSessionLineWhereUniqueInput[]
+    connect?: OpeningBalanceSessionLineWhereUniqueInput | OpeningBalanceSessionLineWhereUniqueInput[]
+    update?: OpeningBalanceSessionLineUpdateWithWhereUniqueWithoutTenantInput | OpeningBalanceSessionLineUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: OpeningBalanceSessionLineUpdateManyWithWhereWithoutTenantInput | OpeningBalanceSessionLineUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: OpeningBalanceSessionLineScalarWhereInput | OpeningBalanceSessionLineScalarWhereInput[]
+  }
+
   export type AppUserUncheckedUpdateManyWithoutTenantNestedInput = {
     create?: XOR<AppUserCreateWithoutTenantInput, AppUserUncheckedCreateWithoutTenantInput> | AppUserCreateWithoutTenantInput[] | AppUserUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: AppUserCreateOrConnectWithoutTenantInput | AppUserCreateOrConnectWithoutTenantInput[]
@@ -77290,6 +81688,34 @@ export namespace Prisma {
     update?: BrandUpdateWithWhereUniqueWithoutTenantInput | BrandUpdateWithWhereUniqueWithoutTenantInput[]
     updateMany?: BrandUpdateManyWithWhereWithoutTenantInput | BrandUpdateManyWithWhereWithoutTenantInput[]
     deleteMany?: BrandScalarWhereInput | BrandScalarWhereInput[]
+  }
+
+  export type OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<OpeningBalanceSessionCreateWithoutTenantInput, OpeningBalanceSessionUncheckedCreateWithoutTenantInput> | OpeningBalanceSessionCreateWithoutTenantInput[] | OpeningBalanceSessionUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: OpeningBalanceSessionCreateOrConnectWithoutTenantInput | OpeningBalanceSessionCreateOrConnectWithoutTenantInput[]
+    upsert?: OpeningBalanceSessionUpsertWithWhereUniqueWithoutTenantInput | OpeningBalanceSessionUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: OpeningBalanceSessionCreateManyTenantInputEnvelope
+    set?: OpeningBalanceSessionWhereUniqueInput | OpeningBalanceSessionWhereUniqueInput[]
+    disconnect?: OpeningBalanceSessionWhereUniqueInput | OpeningBalanceSessionWhereUniqueInput[]
+    delete?: OpeningBalanceSessionWhereUniqueInput | OpeningBalanceSessionWhereUniqueInput[]
+    connect?: OpeningBalanceSessionWhereUniqueInput | OpeningBalanceSessionWhereUniqueInput[]
+    update?: OpeningBalanceSessionUpdateWithWhereUniqueWithoutTenantInput | OpeningBalanceSessionUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: OpeningBalanceSessionUpdateManyWithWhereWithoutTenantInput | OpeningBalanceSessionUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: OpeningBalanceSessionScalarWhereInput | OpeningBalanceSessionScalarWhereInput[]
+  }
+
+  export type OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<OpeningBalanceSessionLineCreateWithoutTenantInput, OpeningBalanceSessionLineUncheckedCreateWithoutTenantInput> | OpeningBalanceSessionLineCreateWithoutTenantInput[] | OpeningBalanceSessionLineUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: OpeningBalanceSessionLineCreateOrConnectWithoutTenantInput | OpeningBalanceSessionLineCreateOrConnectWithoutTenantInput[]
+    upsert?: OpeningBalanceSessionLineUpsertWithWhereUniqueWithoutTenantInput | OpeningBalanceSessionLineUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: OpeningBalanceSessionLineCreateManyTenantInputEnvelope
+    set?: OpeningBalanceSessionLineWhereUniqueInput | OpeningBalanceSessionLineWhereUniqueInput[]
+    disconnect?: OpeningBalanceSessionLineWhereUniqueInput | OpeningBalanceSessionLineWhereUniqueInput[]
+    delete?: OpeningBalanceSessionLineWhereUniqueInput | OpeningBalanceSessionLineWhereUniqueInput[]
+    connect?: OpeningBalanceSessionLineWhereUniqueInput | OpeningBalanceSessionLineWhereUniqueInput[]
+    update?: OpeningBalanceSessionLineUpdateWithWhereUniqueWithoutTenantInput | OpeningBalanceSessionLineUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: OpeningBalanceSessionLineUpdateManyWithWhereWithoutTenantInput | OpeningBalanceSessionLineUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: OpeningBalanceSessionLineScalarWhereInput | OpeningBalanceSessionLineScalarWhereInput[]
   }
 
   export type TenantCreateNestedOneWithoutUnitsInput = {
@@ -78277,6 +82703,57 @@ export namespace Prisma {
     _max?: NestedEnumItemTypeFilter<$PrismaModel>
   }
 
+  export type NestedEnumOpeningBalanceSessionStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.OpeningBalanceSessionStatus | EnumOpeningBalanceSessionStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.OpeningBalanceSessionStatus[] | ListEnumOpeningBalanceSessionStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.OpeningBalanceSessionStatus[] | ListEnumOpeningBalanceSessionStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumOpeningBalanceSessionStatusFilter<$PrismaModel> | $Enums.OpeningBalanceSessionStatus
+  }
+
+  export type NestedEnumOpeningBalanceSessionStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.OpeningBalanceSessionStatus | EnumOpeningBalanceSessionStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.OpeningBalanceSessionStatus[] | ListEnumOpeningBalanceSessionStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.OpeningBalanceSessionStatus[] | ListEnumOpeningBalanceSessionStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumOpeningBalanceSessionStatusWithAggregatesFilter<$PrismaModel> | $Enums.OpeningBalanceSessionStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumOpeningBalanceSessionStatusFilter<$PrismaModel>
+    _max?: NestedEnumOpeningBalanceSessionStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumOpeningBalanceDimensionFilter<$PrismaModel = never> = {
+    equals?: $Enums.OpeningBalanceDimension | EnumOpeningBalanceDimensionFieldRefInput<$PrismaModel>
+    in?: $Enums.OpeningBalanceDimension[] | ListEnumOpeningBalanceDimensionFieldRefInput<$PrismaModel>
+    notIn?: $Enums.OpeningBalanceDimension[] | ListEnumOpeningBalanceDimensionFieldRefInput<$PrismaModel>
+    not?: NestedEnumOpeningBalanceDimensionFilter<$PrismaModel> | $Enums.OpeningBalanceDimension
+  }
+
+  export type NestedEnumOpeningBalancePartySideNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.OpeningBalancePartySide | EnumOpeningBalancePartySideFieldRefInput<$PrismaModel> | null
+    in?: $Enums.OpeningBalancePartySide[] | ListEnumOpeningBalancePartySideFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.OpeningBalancePartySide[] | ListEnumOpeningBalancePartySideFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumOpeningBalancePartySideNullableFilter<$PrismaModel> | $Enums.OpeningBalancePartySide | null
+  }
+
+  export type NestedEnumOpeningBalanceDimensionWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.OpeningBalanceDimension | EnumOpeningBalanceDimensionFieldRefInput<$PrismaModel>
+    in?: $Enums.OpeningBalanceDimension[] | ListEnumOpeningBalanceDimensionFieldRefInput<$PrismaModel>
+    notIn?: $Enums.OpeningBalanceDimension[] | ListEnumOpeningBalanceDimensionFieldRefInput<$PrismaModel>
+    not?: NestedEnumOpeningBalanceDimensionWithAggregatesFilter<$PrismaModel> | $Enums.OpeningBalanceDimension
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumOpeningBalanceDimensionFilter<$PrismaModel>
+    _max?: NestedEnumOpeningBalanceDimensionFilter<$PrismaModel>
+  }
+
+  export type NestedEnumOpeningBalancePartySideNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.OpeningBalancePartySide | EnumOpeningBalancePartySideFieldRefInput<$PrismaModel> | null
+    in?: $Enums.OpeningBalancePartySide[] | ListEnumOpeningBalancePartySideFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.OpeningBalancePartySide[] | ListEnumOpeningBalancePartySideFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumOpeningBalancePartySideNullableWithAggregatesFilter<$PrismaModel> | $Enums.OpeningBalancePartySide | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumOpeningBalancePartySideNullableFilter<$PrismaModel>
+    _max?: NestedEnumOpeningBalancePartySideNullableFilter<$PrismaModel>
+  }
+
   export type NestedEnumPartyTypeFilter<$PrismaModel = never> = {
     equals?: $Enums.PartyType | EnumPartyTypeFieldRefInput<$PrismaModel>
     in?: $Enums.PartyType[] | ListEnumPartyTypeFieldRefInput<$PrismaModel>
@@ -78373,6 +82850,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityCreateNestedManyWithoutTenantInput
     itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutTenantInput
     brands?: BrandCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutChartOfAccountsInput = {
@@ -78420,6 +82899,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUncheckedCreateNestedManyWithoutTenantInput
     itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutTenantInput
     brands?: BrandUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutChartOfAccountsInput = {
@@ -78455,6 +82936,7 @@ export namespace Prisma {
     defaultBankFor?: FinancialSettingCreateNestedManyWithoutDefaultBankAccountInput
     partyReceivables?: PartyCreateNestedManyWithoutReceivableAccountInput
     partyPayables?: PartyCreateNestedManyWithoutPayableAccountInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutAccountInput
   }
 
   export type ChartOfAccountUncheckedCreateWithoutChildrenInput = {
@@ -78485,6 +82967,7 @@ export namespace Prisma {
     defaultBankFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultBankAccountInput
     partyReceivables?: PartyUncheckedCreateNestedManyWithoutReceivableAccountInput
     partyPayables?: PartyUncheckedCreateNestedManyWithoutPayableAccountInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutAccountInput
   }
 
   export type ChartOfAccountCreateOrConnectWithoutChildrenInput = {
@@ -78520,6 +83003,7 @@ export namespace Prisma {
     defaultBankFor?: FinancialSettingCreateNestedManyWithoutDefaultBankAccountInput
     partyReceivables?: PartyCreateNestedManyWithoutReceivableAccountInput
     partyPayables?: PartyCreateNestedManyWithoutPayableAccountInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutAccountInput
   }
 
   export type ChartOfAccountUncheckedCreateWithoutParentInput = {
@@ -78550,6 +83034,7 @@ export namespace Prisma {
     defaultBankFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultBankAccountInput
     partyReceivables?: PartyUncheckedCreateNestedManyWithoutReceivableAccountInput
     partyPayables?: PartyUncheckedCreateNestedManyWithoutPayableAccountInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutAccountInput
   }
 
   export type ChartOfAccountCreateOrConnectWithoutParentInput = {
@@ -79134,6 +83619,7 @@ export namespace Prisma {
     invoices?: InvoiceCreateNestedManyWithoutPartyInput
     payments?: PaymentCreateNestedManyWithoutPartyInput
     journalLines?: JournalLineCreateNestedManyWithoutPartyInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutPartyInput
     payableAccount?: ChartOfAccountCreateNestedOneWithoutPartyPayablesInput
   }
 
@@ -79154,6 +83640,7 @@ export namespace Prisma {
     invoices?: InvoiceUncheckedCreateNestedManyWithoutPartyInput
     payments?: PaymentUncheckedCreateNestedManyWithoutPartyInput
     journalLines?: JournalLineUncheckedCreateNestedManyWithoutPartyInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutPartyInput
   }
 
   export type PartyCreateOrConnectWithoutReceivableAccountInput = {
@@ -79182,6 +83669,7 @@ export namespace Prisma {
     invoices?: InvoiceCreateNestedManyWithoutPartyInput
     payments?: PaymentCreateNestedManyWithoutPartyInput
     journalLines?: JournalLineCreateNestedManyWithoutPartyInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutPartyInput
     receivableAccount?: ChartOfAccountCreateNestedOneWithoutPartyReceivablesInput
   }
 
@@ -79202,6 +83690,7 @@ export namespace Prisma {
     invoices?: InvoiceUncheckedCreateNestedManyWithoutPartyInput
     payments?: PaymentUncheckedCreateNestedManyWithoutPartyInput
     journalLines?: JournalLineUncheckedCreateNestedManyWithoutPartyInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutPartyInput
   }
 
   export type PartyCreateOrConnectWithoutPayableAccountInput = {
@@ -79211,6 +83700,48 @@ export namespace Prisma {
 
   export type PartyCreateManyPayableAccountInputEnvelope = {
     data: PartyCreateManyPayableAccountInput | PartyCreateManyPayableAccountInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type OpeningBalanceSessionLineCreateWithoutAccountInput = {
+    id?: string
+    dimension: $Enums.OpeningBalanceDimension
+    partySide?: $Enums.OpeningBalancePartySide | null
+    amount: Decimal | DecimalJsLike | number | string
+    exchangeRate?: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    session: OpeningBalanceSessionCreateNestedOneWithoutLinesInput
+    tenant: TenantCreateNestedOneWithoutOpeningBalanceSessionLinesInput
+    party?: PartyCreateNestedOneWithoutOpeningBalanceSessionLinesInput
+    cashbox?: CashboxCreateNestedOneWithoutOpeningBalanceSessionLinesInput
+    bankAccount?: BankAccountCreateNestedOneWithoutOpeningBalanceSessionLinesInput
+    currency?: CurrencyCreateNestedOneWithoutOpeningBalanceSessionLinesInput
+  }
+
+  export type OpeningBalanceSessionLineUncheckedCreateWithoutAccountInput = {
+    id?: string
+    tenantId: string
+    sessionId: string
+    dimension: $Enums.OpeningBalanceDimension
+    partyId?: string | null
+    cashboxId?: string | null
+    bankAccountId?: string | null
+    currencyId?: string | null
+    partySide?: $Enums.OpeningBalancePartySide | null
+    amount: Decimal | DecimalJsLike | number | string
+    exchangeRate?: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type OpeningBalanceSessionLineCreateOrConnectWithoutAccountInput = {
+    where: OpeningBalanceSessionLineWhereUniqueInput
+    create: XOR<OpeningBalanceSessionLineCreateWithoutAccountInput, OpeningBalanceSessionLineUncheckedCreateWithoutAccountInput>
+  }
+
+  export type OpeningBalanceSessionLineCreateManyAccountInputEnvelope = {
+    data: OpeningBalanceSessionLineCreateManyAccountInput | OpeningBalanceSessionLineCreateManyAccountInput[]
     skipDuplicates?: boolean
   }
 
@@ -79270,6 +83801,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUpdateManyWithoutTenantNestedInput
     itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutTenantNestedInput
     brands?: BrandUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutChartOfAccountsInput = {
@@ -79317,6 +83850,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
     itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
     brands?: BrandUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ChartOfAccountUpsertWithoutChildrenInput = {
@@ -79358,6 +83893,7 @@ export namespace Prisma {
     defaultBankFor?: FinancialSettingUpdateManyWithoutDefaultBankAccountNestedInput
     partyReceivables?: PartyUpdateManyWithoutReceivableAccountNestedInput
     partyPayables?: PartyUpdateManyWithoutPayableAccountNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutAccountNestedInput
   }
 
   export type ChartOfAccountUncheckedUpdateWithoutChildrenInput = {
@@ -79388,6 +83924,7 @@ export namespace Prisma {
     defaultBankFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultBankAccountNestedInput
     partyReceivables?: PartyUncheckedUpdateManyWithoutReceivableAccountNestedInput
     partyPayables?: PartyUncheckedUpdateManyWithoutPayableAccountNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutAccountNestedInput
   }
 
   export type ChartOfAccountUpsertWithWhereUniqueWithoutParentInput = {
@@ -79739,6 +84276,42 @@ export namespace Prisma {
     data: XOR<PartyUpdateManyMutationInput, PartyUncheckedUpdateManyWithoutPayableAccountInput>
   }
 
+  export type OpeningBalanceSessionLineUpsertWithWhereUniqueWithoutAccountInput = {
+    where: OpeningBalanceSessionLineWhereUniqueInput
+    update: XOR<OpeningBalanceSessionLineUpdateWithoutAccountInput, OpeningBalanceSessionLineUncheckedUpdateWithoutAccountInput>
+    create: XOR<OpeningBalanceSessionLineCreateWithoutAccountInput, OpeningBalanceSessionLineUncheckedCreateWithoutAccountInput>
+  }
+
+  export type OpeningBalanceSessionLineUpdateWithWhereUniqueWithoutAccountInput = {
+    where: OpeningBalanceSessionLineWhereUniqueInput
+    data: XOR<OpeningBalanceSessionLineUpdateWithoutAccountInput, OpeningBalanceSessionLineUncheckedUpdateWithoutAccountInput>
+  }
+
+  export type OpeningBalanceSessionLineUpdateManyWithWhereWithoutAccountInput = {
+    where: OpeningBalanceSessionLineScalarWhereInput
+    data: XOR<OpeningBalanceSessionLineUpdateManyMutationInput, OpeningBalanceSessionLineUncheckedUpdateManyWithoutAccountInput>
+  }
+
+  export type OpeningBalanceSessionLineScalarWhereInput = {
+    AND?: OpeningBalanceSessionLineScalarWhereInput | OpeningBalanceSessionLineScalarWhereInput[]
+    OR?: OpeningBalanceSessionLineScalarWhereInput[]
+    NOT?: OpeningBalanceSessionLineScalarWhereInput | OpeningBalanceSessionLineScalarWhereInput[]
+    id?: StringFilter<"OpeningBalanceSessionLine"> | string
+    tenantId?: StringFilter<"OpeningBalanceSessionLine"> | string
+    sessionId?: StringFilter<"OpeningBalanceSessionLine"> | string
+    dimension?: EnumOpeningBalanceDimensionFilter<"OpeningBalanceSessionLine"> | $Enums.OpeningBalanceDimension
+    accountId?: StringNullableFilter<"OpeningBalanceSessionLine"> | string | null
+    partyId?: StringNullableFilter<"OpeningBalanceSessionLine"> | string | null
+    cashboxId?: StringNullableFilter<"OpeningBalanceSessionLine"> | string | null
+    bankAccountId?: StringNullableFilter<"OpeningBalanceSessionLine"> | string | null
+    currencyId?: StringNullableFilter<"OpeningBalanceSessionLine"> | string | null
+    partySide?: EnumOpeningBalancePartySideNullableFilter<"OpeningBalanceSessionLine"> | $Enums.OpeningBalancePartySide | null
+    amount?: DecimalFilter<"OpeningBalanceSessionLine"> | Decimal | DecimalJsLike | number | string
+    exchangeRate?: DecimalFilter<"OpeningBalanceSessionLine"> | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFilter<"OpeningBalanceSessionLine"> | Date | string
+    updatedAt?: DateTimeFilter<"OpeningBalanceSessionLine"> | Date | string
+  }
+
   export type TenantCreateWithoutJournalEntriesInput = {
     id?: string
     name: string
@@ -79784,6 +84357,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityCreateNestedManyWithoutTenantInput
     itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutTenantInput
     brands?: BrandCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutJournalEntriesInput = {
@@ -79831,6 +84406,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUncheckedCreateNestedManyWithoutTenantInput
     itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutTenantInput
     brands?: BrandUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutJournalEntriesInput = {
@@ -79852,6 +84429,7 @@ export namespace Prisma {
     payments?: PaymentCreateNestedManyWithoutFiscalPeriodInput
     stockCounts?: StockCountCreateNestedManyWithoutFiscalPeriodInput
     expenses?: ExpenseCreateNestedManyWithoutFiscalPeriodInput
+    openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutFiscalPeriodInput
   }
 
   export type FiscalPeriodUncheckedCreateWithoutJournalEntriesInput = {
@@ -79868,6 +84446,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedCreateNestedManyWithoutFiscalPeriodInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutFiscalPeriodInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutFiscalPeriodInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutFiscalPeriodInput
   }
 
   export type FiscalPeriodCreateOrConnectWithoutJournalEntriesInput = {
@@ -80068,6 +84647,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUpdateManyWithoutTenantNestedInput
     itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutTenantNestedInput
     brands?: BrandUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutJournalEntriesInput = {
@@ -80115,6 +84696,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
     itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
     brands?: BrandUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type FiscalPeriodUpsertWithoutJournalEntriesInput = {
@@ -80142,6 +84725,7 @@ export namespace Prisma {
     payments?: PaymentUpdateManyWithoutFiscalPeriodNestedInput
     stockCounts?: StockCountUpdateManyWithoutFiscalPeriodNestedInput
     expenses?: ExpenseUpdateManyWithoutFiscalPeriodNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutFiscalPeriodNestedInput
   }
 
   export type FiscalPeriodUncheckedUpdateWithoutJournalEntriesInput = {
@@ -80158,6 +84742,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedUpdateManyWithoutFiscalPeriodNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutFiscalPeriodNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutFiscalPeriodNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutFiscalPeriodNestedInput
   }
 
   export type JournalEntryUpsertWithoutReversedByInput = {
@@ -80338,6 +84923,7 @@ export namespace Prisma {
     defaultBankFor?: FinancialSettingCreateNestedManyWithoutDefaultBankAccountInput
     partyReceivables?: PartyCreateNestedManyWithoutReceivableAccountInput
     partyPayables?: PartyCreateNestedManyWithoutPayableAccountInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutAccountInput
   }
 
   export type ChartOfAccountUncheckedCreateWithoutJournalLinesInput = {
@@ -80368,6 +84954,7 @@ export namespace Prisma {
     defaultBankFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultBankAccountInput
     partyReceivables?: PartyUncheckedCreateNestedManyWithoutReceivableAccountInput
     partyPayables?: PartyUncheckedCreateNestedManyWithoutPayableAccountInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutAccountInput
   }
 
   export type ChartOfAccountCreateOrConnectWithoutJournalLinesInput = {
@@ -80390,6 +84977,7 @@ export namespace Prisma {
     tenant: TenantCreateNestedOneWithoutPartiesInput
     invoices?: InvoiceCreateNestedManyWithoutPartyInput
     payments?: PaymentCreateNestedManyWithoutPartyInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutPartyInput
     receivableAccount?: ChartOfAccountCreateNestedOneWithoutPartyReceivablesInput
     payableAccount?: ChartOfAccountCreateNestedOneWithoutPartyPayablesInput
   }
@@ -80411,6 +84999,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     invoices?: InvoiceUncheckedCreateNestedManyWithoutPartyInput
     payments?: PaymentUncheckedCreateNestedManyWithoutPartyInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutPartyInput
   }
 
   export type PartyCreateOrConnectWithoutJournalLinesInput = {
@@ -80430,6 +85019,7 @@ export namespace Prisma {
     currency: CurrencyCreateNestedOneWithoutCashboxesInput
     expenses?: ExpenseCreateNestedManyWithoutCashboxInput
     payments?: PaymentCreateNestedManyWithoutCashboxInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutCashboxInput
   }
 
   export type CashboxUncheckedCreateWithoutJournalLinesInput = {
@@ -80444,6 +85034,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     expenses?: ExpenseUncheckedCreateNestedManyWithoutCashboxInput
     payments?: PaymentUncheckedCreateNestedManyWithoutCashboxInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutCashboxInput
   }
 
   export type CashboxCreateOrConnectWithoutJournalLinesInput = {
@@ -80463,6 +85054,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     tenant: TenantCreateNestedOneWithoutBankAccountsInput
     currency: CurrencyCreateNestedOneWithoutBankAccountsInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutBankAccountInput
   }
 
   export type BankAccountUncheckedCreateWithoutJournalLinesInput = {
@@ -80477,6 +85069,7 @@ export namespace Prisma {
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutBankAccountInput
   }
 
   export type BankAccountCreateOrConnectWithoutJournalLinesInput = {
@@ -80500,6 +85093,7 @@ export namespace Prisma {
     payments?: PaymentCreateNestedManyWithoutCurrencyInput
     baseForTenants?: TenantCreateNestedManyWithoutBaseCurrencyInput
     expenses?: ExpenseCreateNestedManyWithoutCurrencyInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutCurrencyInput
   }
 
   export type CurrencyUncheckedCreateWithoutJournalLinesInput = {
@@ -80518,6 +85112,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedCreateNestedManyWithoutCurrencyInput
     baseForTenants?: TenantUncheckedCreateNestedManyWithoutBaseCurrencyInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutCurrencyInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutCurrencyInput
   }
 
   export type CurrencyCreateOrConnectWithoutJournalLinesInput = {
@@ -80615,6 +85210,7 @@ export namespace Prisma {
     defaultBankFor?: FinancialSettingUpdateManyWithoutDefaultBankAccountNestedInput
     partyReceivables?: PartyUpdateManyWithoutReceivableAccountNestedInput
     partyPayables?: PartyUpdateManyWithoutPayableAccountNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutAccountNestedInput
   }
 
   export type ChartOfAccountUncheckedUpdateWithoutJournalLinesInput = {
@@ -80645,6 +85241,7 @@ export namespace Prisma {
     defaultBankFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultBankAccountNestedInput
     partyReceivables?: PartyUncheckedUpdateManyWithoutReceivableAccountNestedInput
     partyPayables?: PartyUncheckedUpdateManyWithoutPayableAccountNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutAccountNestedInput
   }
 
   export type PartyUpsertWithoutJournalLinesInput = {
@@ -80673,6 +85270,7 @@ export namespace Prisma {
     tenant?: TenantUpdateOneRequiredWithoutPartiesNestedInput
     invoices?: InvoiceUpdateManyWithoutPartyNestedInput
     payments?: PaymentUpdateManyWithoutPartyNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutPartyNestedInput
     receivableAccount?: ChartOfAccountUpdateOneWithoutPartyReceivablesNestedInput
     payableAccount?: ChartOfAccountUpdateOneWithoutPartyPayablesNestedInput
   }
@@ -80694,6 +85292,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     invoices?: InvoiceUncheckedUpdateManyWithoutPartyNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutPartyNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutPartyNestedInput
   }
 
   export type CashboxUpsertWithoutJournalLinesInput = {
@@ -80719,6 +85318,7 @@ export namespace Prisma {
     currency?: CurrencyUpdateOneRequiredWithoutCashboxesNestedInput
     expenses?: ExpenseUpdateManyWithoutCashboxNestedInput
     payments?: PaymentUpdateManyWithoutCashboxNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutCashboxNestedInput
   }
 
   export type CashboxUncheckedUpdateWithoutJournalLinesInput = {
@@ -80733,6 +85333,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     expenses?: ExpenseUncheckedUpdateManyWithoutCashboxNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutCashboxNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutCashboxNestedInput
   }
 
   export type BankAccountUpsertWithoutJournalLinesInput = {
@@ -80758,6 +85359,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: TenantUpdateOneRequiredWithoutBankAccountsNestedInput
     currency?: CurrencyUpdateOneRequiredWithoutBankAccountsNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutBankAccountNestedInput
   }
 
   export type BankAccountUncheckedUpdateWithoutJournalLinesInput = {
@@ -80772,6 +85374,7 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutBankAccountNestedInput
   }
 
   export type CurrencyUpsertWithoutJournalLinesInput = {
@@ -80801,6 +85404,7 @@ export namespace Prisma {
     payments?: PaymentUpdateManyWithoutCurrencyNestedInput
     baseForTenants?: TenantUpdateManyWithoutBaseCurrencyNestedInput
     expenses?: ExpenseUpdateManyWithoutCurrencyNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutCurrencyNestedInput
   }
 
   export type CurrencyUncheckedUpdateWithoutJournalLinesInput = {
@@ -80819,6 +85423,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedUpdateManyWithoutCurrencyNestedInput
     baseForTenants?: TenantUncheckedUpdateManyWithoutBaseCurrencyNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutCurrencyNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutCurrencyNestedInput
   }
 
   export type TenantCreateWithoutAiChatSessionsInput = {
@@ -80866,6 +85471,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityCreateNestedManyWithoutTenantInput
     itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutTenantInput
     brands?: BrandCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAiChatSessionsInput = {
@@ -80913,6 +85520,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUncheckedCreateNestedManyWithoutTenantInput
     itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutTenantInput
     brands?: BrandUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAiChatSessionsInput = {
@@ -81002,6 +85611,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUpdateManyWithoutTenantNestedInput
     itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutTenantNestedInput
     brands?: BrandUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAiChatSessionsInput = {
@@ -81049,6 +85660,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
     itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
     brands?: BrandUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type AiChatMessageUpsertWithWhereUniqueWithoutSessionInput = {
@@ -81176,6 +85789,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityCreateNestedManyWithoutTenantInput
     itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutTenantInput
     brands?: BrandCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAuditLogsInput = {
@@ -81223,6 +85838,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUncheckedCreateNestedManyWithoutTenantInput
     itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutTenantInput
     brands?: BrandUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAuditLogsInput = {
@@ -81286,6 +85903,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUpdateManyWithoutTenantNestedInput
     itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutTenantNestedInput
     brands?: BrandUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAuditLogsInput = {
@@ -81333,6 +85952,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
     itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
     brands?: BrandUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutBankAccountsInput = {
@@ -81380,6 +86001,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityCreateNestedManyWithoutTenantInput
     itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutTenantInput
     brands?: BrandCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBankAccountsInput = {
@@ -81427,6 +86050,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUncheckedCreateNestedManyWithoutTenantInput
     itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutTenantInput
     brands?: BrandUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBankAccountsInput = {
@@ -81450,6 +86075,7 @@ export namespace Prisma {
     payments?: PaymentCreateNestedManyWithoutCurrencyInput
     baseForTenants?: TenantCreateNestedManyWithoutBaseCurrencyInput
     expenses?: ExpenseCreateNestedManyWithoutCurrencyInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutCurrencyInput
   }
 
   export type CurrencyUncheckedCreateWithoutBankAccountsInput = {
@@ -81468,6 +86094,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedCreateNestedManyWithoutCurrencyInput
     baseForTenants?: TenantUncheckedCreateNestedManyWithoutBaseCurrencyInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutCurrencyInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutCurrencyInput
   }
 
   export type CurrencyCreateOrConnectWithoutBankAccountsInput = {
@@ -81514,6 +86141,48 @@ export namespace Prisma {
 
   export type JournalLineCreateManyBankAccountInputEnvelope = {
     data: JournalLineCreateManyBankAccountInput | JournalLineCreateManyBankAccountInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type OpeningBalanceSessionLineCreateWithoutBankAccountInput = {
+    id?: string
+    dimension: $Enums.OpeningBalanceDimension
+    partySide?: $Enums.OpeningBalancePartySide | null
+    amount: Decimal | DecimalJsLike | number | string
+    exchangeRate?: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    session: OpeningBalanceSessionCreateNestedOneWithoutLinesInput
+    tenant: TenantCreateNestedOneWithoutOpeningBalanceSessionLinesInput
+    party?: PartyCreateNestedOneWithoutOpeningBalanceSessionLinesInput
+    cashbox?: CashboxCreateNestedOneWithoutOpeningBalanceSessionLinesInput
+    account?: ChartOfAccountCreateNestedOneWithoutOpeningBalanceSessionLinesInput
+    currency?: CurrencyCreateNestedOneWithoutOpeningBalanceSessionLinesInput
+  }
+
+  export type OpeningBalanceSessionLineUncheckedCreateWithoutBankAccountInput = {
+    id?: string
+    tenantId: string
+    sessionId: string
+    dimension: $Enums.OpeningBalanceDimension
+    accountId?: string | null
+    partyId?: string | null
+    cashboxId?: string | null
+    currencyId?: string | null
+    partySide?: $Enums.OpeningBalancePartySide | null
+    amount: Decimal | DecimalJsLike | number | string
+    exchangeRate?: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type OpeningBalanceSessionLineCreateOrConnectWithoutBankAccountInput = {
+    where: OpeningBalanceSessionLineWhereUniqueInput
+    create: XOR<OpeningBalanceSessionLineCreateWithoutBankAccountInput, OpeningBalanceSessionLineUncheckedCreateWithoutBankAccountInput>
+  }
+
+  export type OpeningBalanceSessionLineCreateManyBankAccountInputEnvelope = {
+    data: OpeningBalanceSessionLineCreateManyBankAccountInput | OpeningBalanceSessionLineCreateManyBankAccountInput[]
     skipDuplicates?: boolean
   }
 
@@ -81573,6 +86242,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUpdateManyWithoutTenantNestedInput
     itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutTenantNestedInput
     brands?: BrandUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBankAccountsInput = {
@@ -81620,6 +86291,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
     itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
     brands?: BrandUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type CurrencyUpsertWithoutBankAccountsInput = {
@@ -81649,6 +86322,7 @@ export namespace Prisma {
     payments?: PaymentUpdateManyWithoutCurrencyNestedInput
     baseForTenants?: TenantUpdateManyWithoutBaseCurrencyNestedInput
     expenses?: ExpenseUpdateManyWithoutCurrencyNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutCurrencyNestedInput
   }
 
   export type CurrencyUncheckedUpdateWithoutBankAccountsInput = {
@@ -81667,6 +86341,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedUpdateManyWithoutCurrencyNestedInput
     baseForTenants?: TenantUncheckedUpdateManyWithoutBaseCurrencyNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutCurrencyNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutCurrencyNestedInput
   }
 
   export type JournalLineUpsertWithWhereUniqueWithoutBankAccountInput = {
@@ -81683,6 +86358,22 @@ export namespace Prisma {
   export type JournalLineUpdateManyWithWhereWithoutBankAccountInput = {
     where: JournalLineScalarWhereInput
     data: XOR<JournalLineUpdateManyMutationInput, JournalLineUncheckedUpdateManyWithoutBankAccountInput>
+  }
+
+  export type OpeningBalanceSessionLineUpsertWithWhereUniqueWithoutBankAccountInput = {
+    where: OpeningBalanceSessionLineWhereUniqueInput
+    update: XOR<OpeningBalanceSessionLineUpdateWithoutBankAccountInput, OpeningBalanceSessionLineUncheckedUpdateWithoutBankAccountInput>
+    create: XOR<OpeningBalanceSessionLineCreateWithoutBankAccountInput, OpeningBalanceSessionLineUncheckedCreateWithoutBankAccountInput>
+  }
+
+  export type OpeningBalanceSessionLineUpdateWithWhereUniqueWithoutBankAccountInput = {
+    where: OpeningBalanceSessionLineWhereUniqueInput
+    data: XOR<OpeningBalanceSessionLineUpdateWithoutBankAccountInput, OpeningBalanceSessionLineUncheckedUpdateWithoutBankAccountInput>
+  }
+
+  export type OpeningBalanceSessionLineUpdateManyWithWhereWithoutBankAccountInput = {
+    where: OpeningBalanceSessionLineScalarWhereInput
+    data: XOR<OpeningBalanceSessionLineUpdateManyMutationInput, OpeningBalanceSessionLineUncheckedUpdateManyWithoutBankAccountInput>
   }
 
   export type TenantCreateWithoutBrandsInput = {
@@ -81730,6 +86421,8 @@ export namespace Prisma {
     itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
     catalogEntities?: CatalogEntityCreateNestedManyWithoutTenantInput
     itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBrandsInput = {
@@ -81777,6 +86470,8 @@ export namespace Prisma {
     itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
     catalogEntities?: CatalogEntityUncheckedCreateNestedManyWithoutTenantInput
     itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBrandsInput = {
@@ -81906,6 +86601,8 @@ export namespace Prisma {
     itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
     catalogEntities?: CatalogEntityUpdateManyWithoutTenantNestedInput
     itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBrandsInput = {
@@ -81953,6 +86650,8 @@ export namespace Prisma {
     itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
     catalogEntities?: CatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
     itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ItemUpsertWithWhereUniqueWithoutBrandInput = {
@@ -82040,6 +86739,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityCreateNestedManyWithoutTenantInput
     itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutTenantInput
     brands?: BrandCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCashboxesInput = {
@@ -82087,6 +86788,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUncheckedCreateNestedManyWithoutTenantInput
     itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutTenantInput
     brands?: BrandUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCashboxesInput = {
@@ -82110,6 +86813,7 @@ export namespace Prisma {
     payments?: PaymentCreateNestedManyWithoutCurrencyInput
     baseForTenants?: TenantCreateNestedManyWithoutBaseCurrencyInput
     expenses?: ExpenseCreateNestedManyWithoutCurrencyInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutCurrencyInput
   }
 
   export type CurrencyUncheckedCreateWithoutCashboxesInput = {
@@ -82128,6 +86832,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedCreateNestedManyWithoutCurrencyInput
     baseForTenants?: TenantUncheckedCreateNestedManyWithoutBaseCurrencyInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutCurrencyInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutCurrencyInput
   }
 
   export type CurrencyCreateOrConnectWithoutCashboxesInput = {
@@ -82291,6 +86996,48 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type OpeningBalanceSessionLineCreateWithoutCashboxInput = {
+    id?: string
+    dimension: $Enums.OpeningBalanceDimension
+    partySide?: $Enums.OpeningBalancePartySide | null
+    amount: Decimal | DecimalJsLike | number | string
+    exchangeRate?: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    session: OpeningBalanceSessionCreateNestedOneWithoutLinesInput
+    tenant: TenantCreateNestedOneWithoutOpeningBalanceSessionLinesInput
+    party?: PartyCreateNestedOneWithoutOpeningBalanceSessionLinesInput
+    bankAccount?: BankAccountCreateNestedOneWithoutOpeningBalanceSessionLinesInput
+    account?: ChartOfAccountCreateNestedOneWithoutOpeningBalanceSessionLinesInput
+    currency?: CurrencyCreateNestedOneWithoutOpeningBalanceSessionLinesInput
+  }
+
+  export type OpeningBalanceSessionLineUncheckedCreateWithoutCashboxInput = {
+    id?: string
+    tenantId: string
+    sessionId: string
+    dimension: $Enums.OpeningBalanceDimension
+    accountId?: string | null
+    partyId?: string | null
+    bankAccountId?: string | null
+    currencyId?: string | null
+    partySide?: $Enums.OpeningBalancePartySide | null
+    amount: Decimal | DecimalJsLike | number | string
+    exchangeRate?: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type OpeningBalanceSessionLineCreateOrConnectWithoutCashboxInput = {
+    where: OpeningBalanceSessionLineWhereUniqueInput
+    create: XOR<OpeningBalanceSessionLineCreateWithoutCashboxInput, OpeningBalanceSessionLineUncheckedCreateWithoutCashboxInput>
+  }
+
+  export type OpeningBalanceSessionLineCreateManyCashboxInputEnvelope = {
+    data: OpeningBalanceSessionLineCreateManyCashboxInput | OpeningBalanceSessionLineCreateManyCashboxInput[]
+    skipDuplicates?: boolean
+  }
+
   export type TenantUpsertWithoutCashboxesInput = {
     update: XOR<TenantUpdateWithoutCashboxesInput, TenantUncheckedUpdateWithoutCashboxesInput>
     create: XOR<TenantCreateWithoutCashboxesInput, TenantUncheckedCreateWithoutCashboxesInput>
@@ -82347,6 +87094,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUpdateManyWithoutTenantNestedInput
     itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutTenantNestedInput
     brands?: BrandUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCashboxesInput = {
@@ -82394,6 +87143,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
     itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
     brands?: BrandUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type CurrencyUpsertWithoutCashboxesInput = {
@@ -82423,6 +87174,7 @@ export namespace Prisma {
     payments?: PaymentUpdateManyWithoutCurrencyNestedInput
     baseForTenants?: TenantUpdateManyWithoutBaseCurrencyNestedInput
     expenses?: ExpenseUpdateManyWithoutCurrencyNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutCurrencyNestedInput
   }
 
   export type CurrencyUncheckedUpdateWithoutCashboxesInput = {
@@ -82441,6 +87193,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedUpdateManyWithoutCurrencyNestedInput
     baseForTenants?: TenantUncheckedUpdateManyWithoutBaseCurrencyNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutCurrencyNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutCurrencyNestedInput
   }
 
   export type ExpenseUpsertWithWhereUniqueWithoutCashboxInput = {
@@ -82544,6 +87297,22 @@ export namespace Prisma {
     data: XOR<JournalLineUpdateManyMutationInput, JournalLineUncheckedUpdateManyWithoutCashboxInput>
   }
 
+  export type OpeningBalanceSessionLineUpsertWithWhereUniqueWithoutCashboxInput = {
+    where: OpeningBalanceSessionLineWhereUniqueInput
+    update: XOR<OpeningBalanceSessionLineUpdateWithoutCashboxInput, OpeningBalanceSessionLineUncheckedUpdateWithoutCashboxInput>
+    create: XOR<OpeningBalanceSessionLineCreateWithoutCashboxInput, OpeningBalanceSessionLineUncheckedCreateWithoutCashboxInput>
+  }
+
+  export type OpeningBalanceSessionLineUpdateWithWhereUniqueWithoutCashboxInput = {
+    where: OpeningBalanceSessionLineWhereUniqueInput
+    data: XOR<OpeningBalanceSessionLineUpdateWithoutCashboxInput, OpeningBalanceSessionLineUncheckedUpdateWithoutCashboxInput>
+  }
+
+  export type OpeningBalanceSessionLineUpdateManyWithWhereWithoutCashboxInput = {
+    where: OpeningBalanceSessionLineScalarWhereInput
+    data: XOR<OpeningBalanceSessionLineUpdateManyMutationInput, OpeningBalanceSessionLineUncheckedUpdateManyWithoutCashboxInput>
+  }
+
   export type TenantCreateWithoutPaymentsInput = {
     id?: string
     name: string
@@ -82589,6 +87358,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityCreateNestedManyWithoutTenantInput
     itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutTenantInput
     brands?: BrandCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPaymentsInput = {
@@ -82636,6 +87407,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUncheckedCreateNestedManyWithoutTenantInput
     itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutTenantInput
     brands?: BrandUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPaymentsInput = {
@@ -82655,6 +87428,7 @@ export namespace Prisma {
     currency: CurrencyCreateNestedOneWithoutCashboxesInput
     expenses?: ExpenseCreateNestedManyWithoutCashboxInput
     journalLines?: JournalLineCreateNestedManyWithoutCashboxInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutCashboxInput
   }
 
   export type CashboxUncheckedCreateWithoutPaymentsInput = {
@@ -82669,6 +87443,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     expenses?: ExpenseUncheckedCreateNestedManyWithoutCashboxInput
     journalLines?: JournalLineUncheckedCreateNestedManyWithoutCashboxInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutCashboxInput
   }
 
   export type CashboxCreateOrConnectWithoutPaymentsInput = {
@@ -82691,6 +87466,7 @@ export namespace Prisma {
     tenant: TenantCreateNestedOneWithoutPartiesInput
     invoices?: InvoiceCreateNestedManyWithoutPartyInput
     journalLines?: JournalLineCreateNestedManyWithoutPartyInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutPartyInput
     receivableAccount?: ChartOfAccountCreateNestedOneWithoutPartyReceivablesInput
     payableAccount?: ChartOfAccountCreateNestedOneWithoutPartyPayablesInput
   }
@@ -82712,6 +87488,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     invoices?: InvoiceUncheckedCreateNestedManyWithoutPartyInput
     journalLines?: JournalLineUncheckedCreateNestedManyWithoutPartyInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutPartyInput
   }
 
   export type PartyCreateOrConnectWithoutPaymentsInput = {
@@ -82735,6 +87512,7 @@ export namespace Prisma {
     invoices?: InvoiceCreateNestedManyWithoutCurrencyInput
     baseForTenants?: TenantCreateNestedManyWithoutBaseCurrencyInput
     expenses?: ExpenseCreateNestedManyWithoutCurrencyInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutCurrencyInput
   }
 
   export type CurrencyUncheckedCreateWithoutPaymentsInput = {
@@ -82753,6 +87531,7 @@ export namespace Prisma {
     invoices?: InvoiceUncheckedCreateNestedManyWithoutCurrencyInput
     baseForTenants?: TenantUncheckedCreateNestedManyWithoutBaseCurrencyInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutCurrencyInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutCurrencyInput
   }
 
   export type CurrencyCreateOrConnectWithoutPaymentsInput = {
@@ -82774,6 +87553,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryCreateNestedManyWithoutFiscalPeriodInput
     stockCounts?: StockCountCreateNestedManyWithoutFiscalPeriodInput
     expenses?: ExpenseCreateNestedManyWithoutFiscalPeriodInput
+    openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutFiscalPeriodInput
   }
 
   export type FiscalPeriodUncheckedCreateWithoutPaymentsInput = {
@@ -82790,6 +87570,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedCreateNestedManyWithoutFiscalPeriodInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutFiscalPeriodInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutFiscalPeriodInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutFiscalPeriodInput
   }
 
   export type FiscalPeriodCreateOrConnectWithoutPaymentsInput = {
@@ -82879,6 +87660,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUpdateManyWithoutTenantNestedInput
     itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutTenantNestedInput
     brands?: BrandUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPaymentsInput = {
@@ -82926,6 +87709,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
     itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
     brands?: BrandUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type CashboxUpsertWithoutPaymentsInput = {
@@ -82951,6 +87736,7 @@ export namespace Prisma {
     currency?: CurrencyUpdateOneRequiredWithoutCashboxesNestedInput
     expenses?: ExpenseUpdateManyWithoutCashboxNestedInput
     journalLines?: JournalLineUpdateManyWithoutCashboxNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutCashboxNestedInput
   }
 
   export type CashboxUncheckedUpdateWithoutPaymentsInput = {
@@ -82965,6 +87751,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     expenses?: ExpenseUncheckedUpdateManyWithoutCashboxNestedInput
     journalLines?: JournalLineUncheckedUpdateManyWithoutCashboxNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutCashboxNestedInput
   }
 
   export type PartyUpsertWithoutPaymentsInput = {
@@ -82993,6 +87780,7 @@ export namespace Prisma {
     tenant?: TenantUpdateOneRequiredWithoutPartiesNestedInput
     invoices?: InvoiceUpdateManyWithoutPartyNestedInput
     journalLines?: JournalLineUpdateManyWithoutPartyNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutPartyNestedInput
     receivableAccount?: ChartOfAccountUpdateOneWithoutPartyReceivablesNestedInput
     payableAccount?: ChartOfAccountUpdateOneWithoutPartyPayablesNestedInput
   }
@@ -83014,6 +87802,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     invoices?: InvoiceUncheckedUpdateManyWithoutPartyNestedInput
     journalLines?: JournalLineUncheckedUpdateManyWithoutPartyNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutPartyNestedInput
   }
 
   export type CurrencyUpsertWithoutPaymentsInput = {
@@ -83043,6 +87832,7 @@ export namespace Prisma {
     invoices?: InvoiceUpdateManyWithoutCurrencyNestedInput
     baseForTenants?: TenantUpdateManyWithoutBaseCurrencyNestedInput
     expenses?: ExpenseUpdateManyWithoutCurrencyNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutCurrencyNestedInput
   }
 
   export type CurrencyUncheckedUpdateWithoutPaymentsInput = {
@@ -83061,6 +87851,7 @@ export namespace Prisma {
     invoices?: InvoiceUncheckedUpdateManyWithoutCurrencyNestedInput
     baseForTenants?: TenantUncheckedUpdateManyWithoutBaseCurrencyNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutCurrencyNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutCurrencyNestedInput
   }
 
   export type FiscalPeriodUpsertWithoutPaymentsInput = {
@@ -83088,6 +87879,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUpdateManyWithoutFiscalPeriodNestedInput
     stockCounts?: StockCountUpdateManyWithoutFiscalPeriodNestedInput
     expenses?: ExpenseUpdateManyWithoutFiscalPeriodNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutFiscalPeriodNestedInput
   }
 
   export type FiscalPeriodUncheckedUpdateWithoutPaymentsInput = {
@@ -83104,6 +87896,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedUpdateManyWithoutFiscalPeriodNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutFiscalPeriodNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutFiscalPeriodNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutFiscalPeriodNestedInput
   }
 
   export type PaymentAllocationUpsertWithWhereUniqueWithoutPaymentInput = {
@@ -83423,6 +88216,8 @@ export namespace Prisma {
     itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
     itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutTenantInput
     brands?: BrandCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCatalogEntitiesInput = {
@@ -83470,6 +88265,8 @@ export namespace Prisma {
     itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
     itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutTenantInput
     brands?: BrandUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCatalogEntitiesInput = {
@@ -83624,6 +88421,8 @@ export namespace Prisma {
     itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
     itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutTenantNestedInput
     brands?: BrandUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCatalogEntitiesInput = {
@@ -83671,6 +88470,8 @@ export namespace Prisma {
     itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
     itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
     brands?: BrandUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type CatalogEntityUpsertWithoutChildrenInput = {
@@ -83813,6 +88614,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityCreateNestedManyWithoutTenantInput
     itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutTenantInput
     brands?: BrandCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCurrenciesInput = {
@@ -83860,6 +88663,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUncheckedCreateNestedManyWithoutTenantInput
     itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutTenantInput
     brands?: BrandUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCurrenciesInput = {
@@ -83879,6 +88684,7 @@ export namespace Prisma {
     expenses?: ExpenseCreateNestedManyWithoutCashboxInput
     payments?: PaymentCreateNestedManyWithoutCashboxInput
     journalLines?: JournalLineCreateNestedManyWithoutCashboxInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutCashboxInput
   }
 
   export type CashboxUncheckedCreateWithoutCurrencyInput = {
@@ -83893,6 +88699,7 @@ export namespace Prisma {
     expenses?: ExpenseUncheckedCreateNestedManyWithoutCashboxInput
     payments?: PaymentUncheckedCreateNestedManyWithoutCashboxInput
     journalLines?: JournalLineUncheckedCreateNestedManyWithoutCashboxInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutCashboxInput
   }
 
   export type CashboxCreateOrConnectWithoutCurrencyInput = {
@@ -83917,6 +88724,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     tenant: TenantCreateNestedOneWithoutBankAccountsInput
     journalLines?: JournalLineCreateNestedManyWithoutBankAccountInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutBankAccountInput
   }
 
   export type BankAccountUncheckedCreateWithoutCurrencyInput = {
@@ -83931,6 +88739,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     journalLines?: JournalLineUncheckedCreateNestedManyWithoutBankAccountInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutBankAccountInput
   }
 
   export type BankAccountCreateOrConnectWithoutCurrencyInput = {
@@ -84156,6 +88965,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityCreateNestedManyWithoutTenantInput
     itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutTenantInput
     brands?: BrandCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBaseCurrencyInput = {
@@ -84203,6 +89014,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUncheckedCreateNestedManyWithoutTenantInput
     itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutTenantInput
     brands?: BrandUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBaseCurrencyInput = {
@@ -84269,6 +89082,48 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type OpeningBalanceSessionLineCreateWithoutCurrencyInput = {
+    id?: string
+    dimension: $Enums.OpeningBalanceDimension
+    partySide?: $Enums.OpeningBalancePartySide | null
+    amount: Decimal | DecimalJsLike | number | string
+    exchangeRate?: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    session: OpeningBalanceSessionCreateNestedOneWithoutLinesInput
+    tenant: TenantCreateNestedOneWithoutOpeningBalanceSessionLinesInput
+    party?: PartyCreateNestedOneWithoutOpeningBalanceSessionLinesInput
+    cashbox?: CashboxCreateNestedOneWithoutOpeningBalanceSessionLinesInput
+    bankAccount?: BankAccountCreateNestedOneWithoutOpeningBalanceSessionLinesInput
+    account?: ChartOfAccountCreateNestedOneWithoutOpeningBalanceSessionLinesInput
+  }
+
+  export type OpeningBalanceSessionLineUncheckedCreateWithoutCurrencyInput = {
+    id?: string
+    tenantId: string
+    sessionId: string
+    dimension: $Enums.OpeningBalanceDimension
+    accountId?: string | null
+    partyId?: string | null
+    cashboxId?: string | null
+    bankAccountId?: string | null
+    partySide?: $Enums.OpeningBalancePartySide | null
+    amount: Decimal | DecimalJsLike | number | string
+    exchangeRate?: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type OpeningBalanceSessionLineCreateOrConnectWithoutCurrencyInput = {
+    where: OpeningBalanceSessionLineWhereUniqueInput
+    create: XOR<OpeningBalanceSessionLineCreateWithoutCurrencyInput, OpeningBalanceSessionLineUncheckedCreateWithoutCurrencyInput>
+  }
+
+  export type OpeningBalanceSessionLineCreateManyCurrencyInputEnvelope = {
+    data: OpeningBalanceSessionLineCreateManyCurrencyInput | OpeningBalanceSessionLineCreateManyCurrencyInput[]
+    skipDuplicates?: boolean
+  }
+
   export type TenantUpsertWithoutCurrenciesInput = {
     update: XOR<TenantUpdateWithoutCurrenciesInput, TenantUncheckedUpdateWithoutCurrenciesInput>
     create: XOR<TenantCreateWithoutCurrenciesInput, TenantUncheckedCreateWithoutCurrenciesInput>
@@ -84325,6 +89180,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUpdateManyWithoutTenantNestedInput
     itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutTenantNestedInput
     brands?: BrandUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCurrenciesInput = {
@@ -84372,6 +89229,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
     itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
     brands?: BrandUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type CashboxUpsertWithWhereUniqueWithoutCurrencyInput = {
@@ -84571,6 +89430,22 @@ export namespace Prisma {
     data: XOR<ExpenseUpdateManyMutationInput, ExpenseUncheckedUpdateManyWithoutCurrencyInput>
   }
 
+  export type OpeningBalanceSessionLineUpsertWithWhereUniqueWithoutCurrencyInput = {
+    where: OpeningBalanceSessionLineWhereUniqueInput
+    update: XOR<OpeningBalanceSessionLineUpdateWithoutCurrencyInput, OpeningBalanceSessionLineUncheckedUpdateWithoutCurrencyInput>
+    create: XOR<OpeningBalanceSessionLineCreateWithoutCurrencyInput, OpeningBalanceSessionLineUncheckedCreateWithoutCurrencyInput>
+  }
+
+  export type OpeningBalanceSessionLineUpdateWithWhereUniqueWithoutCurrencyInput = {
+    where: OpeningBalanceSessionLineWhereUniqueInput
+    data: XOR<OpeningBalanceSessionLineUpdateWithoutCurrencyInput, OpeningBalanceSessionLineUncheckedUpdateWithoutCurrencyInput>
+  }
+
+  export type OpeningBalanceSessionLineUpdateManyWithWhereWithoutCurrencyInput = {
+    where: OpeningBalanceSessionLineScalarWhereInput
+    data: XOR<OpeningBalanceSessionLineUpdateManyMutationInput, OpeningBalanceSessionLineUncheckedUpdateManyWithoutCurrencyInput>
+  }
+
   export type CustomFieldValueCreateWithoutFieldInput = {
     id?: string
     tenantId: string
@@ -84746,6 +89621,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityCreateNestedManyWithoutTenantInput
     itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutTenantInput
     brands?: BrandCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDocumentSequencesInput = {
@@ -84793,6 +89670,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUncheckedCreateNestedManyWithoutTenantInput
     itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutTenantInput
     brands?: BrandUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDocumentSequencesInput = {
@@ -84845,6 +89724,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityCreateNestedManyWithoutTenantInput
     itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutTenantInput
     brands?: BrandCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDefaultSalesSequenceInput = {
@@ -84892,6 +89773,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUncheckedCreateNestedManyWithoutTenantInput
     itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutTenantInput
     brands?: BrandUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDefaultSalesSequenceInput = {
@@ -84960,6 +89843,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUpdateManyWithoutTenantNestedInput
     itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutTenantNestedInput
     brands?: BrandUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDocumentSequencesInput = {
@@ -85007,6 +89892,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
     itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
     brands?: BrandUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUpsertWithWhereUniqueWithoutDefaultSalesSequenceInput = {
@@ -85070,6 +89957,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityCreateNestedManyWithoutTenantInput
     itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutTenantInput
     brands?: BrandCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutExpensesInput = {
@@ -85117,6 +90006,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUncheckedCreateNestedManyWithoutTenantInput
     itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutTenantInput
     brands?: BrandUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutExpensesInput = {
@@ -85136,6 +90027,7 @@ export namespace Prisma {
     currency: CurrencyCreateNestedOneWithoutCashboxesInput
     payments?: PaymentCreateNestedManyWithoutCashboxInput
     journalLines?: JournalLineCreateNestedManyWithoutCashboxInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutCashboxInput
   }
 
   export type CashboxUncheckedCreateWithoutExpensesInput = {
@@ -85150,6 +90042,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     payments?: PaymentUncheckedCreateNestedManyWithoutCashboxInput
     journalLines?: JournalLineUncheckedCreateNestedManyWithoutCashboxInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutCashboxInput
   }
 
   export type CashboxCreateOrConnectWithoutExpensesInput = {
@@ -85173,6 +90066,7 @@ export namespace Prisma {
     invoices?: InvoiceCreateNestedManyWithoutCurrencyInput
     payments?: PaymentCreateNestedManyWithoutCurrencyInput
     baseForTenants?: TenantCreateNestedManyWithoutBaseCurrencyInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutCurrencyInput
   }
 
   export type CurrencyUncheckedCreateWithoutExpensesInput = {
@@ -85191,6 +90085,7 @@ export namespace Prisma {
     invoices?: InvoiceUncheckedCreateNestedManyWithoutCurrencyInput
     payments?: PaymentUncheckedCreateNestedManyWithoutCurrencyInput
     baseForTenants?: TenantUncheckedCreateNestedManyWithoutBaseCurrencyInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutCurrencyInput
   }
 
   export type CurrencyCreateOrConnectWithoutExpensesInput = {
@@ -85212,6 +90107,7 @@ export namespace Prisma {
     payments?: PaymentCreateNestedManyWithoutFiscalPeriodInput
     journalEntries?: JournalEntryCreateNestedManyWithoutFiscalPeriodInput
     stockCounts?: StockCountCreateNestedManyWithoutFiscalPeriodInput
+    openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutFiscalPeriodInput
   }
 
   export type FiscalPeriodUncheckedCreateWithoutExpensesInput = {
@@ -85228,6 +90124,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedCreateNestedManyWithoutFiscalPeriodInput
     journalEntries?: JournalEntryUncheckedCreateNestedManyWithoutFiscalPeriodInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutFiscalPeriodInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutFiscalPeriodInput
   }
 
   export type FiscalPeriodCreateOrConnectWithoutExpensesInput = {
@@ -85321,6 +90218,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUpdateManyWithoutTenantNestedInput
     itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutTenantNestedInput
     brands?: BrandUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutExpensesInput = {
@@ -85368,6 +90267,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
     itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
     brands?: BrandUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type CashboxUpsertWithoutExpensesInput = {
@@ -85393,6 +90294,7 @@ export namespace Prisma {
     currency?: CurrencyUpdateOneRequiredWithoutCashboxesNestedInput
     payments?: PaymentUpdateManyWithoutCashboxNestedInput
     journalLines?: JournalLineUpdateManyWithoutCashboxNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutCashboxNestedInput
   }
 
   export type CashboxUncheckedUpdateWithoutExpensesInput = {
@@ -85407,6 +90309,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     payments?: PaymentUncheckedUpdateManyWithoutCashboxNestedInput
     journalLines?: JournalLineUncheckedUpdateManyWithoutCashboxNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutCashboxNestedInput
   }
 
   export type CurrencyUpsertWithoutExpensesInput = {
@@ -85436,6 +90339,7 @@ export namespace Prisma {
     invoices?: InvoiceUpdateManyWithoutCurrencyNestedInput
     payments?: PaymentUpdateManyWithoutCurrencyNestedInput
     baseForTenants?: TenantUpdateManyWithoutBaseCurrencyNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutCurrencyNestedInput
   }
 
   export type CurrencyUncheckedUpdateWithoutExpensesInput = {
@@ -85454,6 +90358,7 @@ export namespace Prisma {
     invoices?: InvoiceUncheckedUpdateManyWithoutCurrencyNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutCurrencyNestedInput
     baseForTenants?: TenantUncheckedUpdateManyWithoutBaseCurrencyNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutCurrencyNestedInput
   }
 
   export type FiscalPeriodUpsertWithoutExpensesInput = {
@@ -85481,6 +90386,7 @@ export namespace Prisma {
     payments?: PaymentUpdateManyWithoutFiscalPeriodNestedInput
     journalEntries?: JournalEntryUpdateManyWithoutFiscalPeriodNestedInput
     stockCounts?: StockCountUpdateManyWithoutFiscalPeriodNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutFiscalPeriodNestedInput
   }
 
   export type FiscalPeriodUncheckedUpdateWithoutExpensesInput = {
@@ -85497,6 +90403,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedUpdateManyWithoutFiscalPeriodNestedInput
     journalEntries?: JournalEntryUncheckedUpdateManyWithoutFiscalPeriodNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutFiscalPeriodNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutFiscalPeriodNestedInput
   }
 
   export type ExpenseItemUpsertWithWhereUniqueWithoutExpenseInput = {
@@ -85592,6 +90499,7 @@ export namespace Prisma {
     defaultBankFor?: FinancialSettingCreateNestedManyWithoutDefaultBankAccountInput
     partyReceivables?: PartyCreateNestedManyWithoutReceivableAccountInput
     partyPayables?: PartyCreateNestedManyWithoutPayableAccountInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutAccountInput
   }
 
   export type ChartOfAccountUncheckedCreateWithoutExpenseItemsInput = {
@@ -85622,6 +90530,7 @@ export namespace Prisma {
     defaultBankFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultBankAccountInput
     partyReceivables?: PartyUncheckedCreateNestedManyWithoutReceivableAccountInput
     partyPayables?: PartyUncheckedCreateNestedManyWithoutPayableAccountInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutAccountInput
   }
 
   export type ChartOfAccountCreateOrConnectWithoutExpenseItemsInput = {
@@ -85723,6 +90632,7 @@ export namespace Prisma {
     defaultBankFor?: FinancialSettingUpdateManyWithoutDefaultBankAccountNestedInput
     partyReceivables?: PartyUpdateManyWithoutReceivableAccountNestedInput
     partyPayables?: PartyUpdateManyWithoutPayableAccountNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutAccountNestedInput
   }
 
   export type ChartOfAccountUncheckedUpdateWithoutExpenseItemsInput = {
@@ -85753,6 +90663,7 @@ export namespace Prisma {
     defaultBankFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultBankAccountNestedInput
     partyReceivables?: PartyUncheckedUpdateManyWithoutReceivableAccountNestedInput
     partyPayables?: PartyUncheckedUpdateManyWithoutPayableAccountNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutAccountNestedInput
   }
 
   export type TenantCreateWithoutFinancialSettingInput = {
@@ -85800,6 +90711,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityCreateNestedManyWithoutTenantInput
     itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutTenantInput
     brands?: BrandCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutFinancialSettingInput = {
@@ -85847,6 +90760,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUncheckedCreateNestedManyWithoutTenantInput
     itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutTenantInput
     brands?: BrandUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutFinancialSettingInput = {
@@ -85882,6 +90797,7 @@ export namespace Prisma {
     defaultBankFor?: FinancialSettingCreateNestedManyWithoutDefaultBankAccountInput
     partyReceivables?: PartyCreateNestedManyWithoutReceivableAccountInput
     partyPayables?: PartyCreateNestedManyWithoutPayableAccountInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutAccountInput
   }
 
   export type ChartOfAccountUncheckedCreateWithoutDefaultSalesForInput = {
@@ -85912,6 +90828,7 @@ export namespace Prisma {
     defaultBankFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultBankAccountInput
     partyReceivables?: PartyUncheckedCreateNestedManyWithoutReceivableAccountInput
     partyPayables?: PartyUncheckedCreateNestedManyWithoutPayableAccountInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutAccountInput
   }
 
   export type ChartOfAccountCreateOrConnectWithoutDefaultSalesForInput = {
@@ -85947,6 +90864,7 @@ export namespace Prisma {
     defaultBankFor?: FinancialSettingCreateNestedManyWithoutDefaultBankAccountInput
     partyReceivables?: PartyCreateNestedManyWithoutReceivableAccountInput
     partyPayables?: PartyCreateNestedManyWithoutPayableAccountInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutAccountInput
   }
 
   export type ChartOfAccountUncheckedCreateWithoutDefaultPurchaseForInput = {
@@ -85977,6 +90895,7 @@ export namespace Prisma {
     defaultBankFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultBankAccountInput
     partyReceivables?: PartyUncheckedCreateNestedManyWithoutReceivableAccountInput
     partyPayables?: PartyUncheckedCreateNestedManyWithoutPayableAccountInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutAccountInput
   }
 
   export type ChartOfAccountCreateOrConnectWithoutDefaultPurchaseForInput = {
@@ -86012,6 +90931,7 @@ export namespace Prisma {
     defaultBankFor?: FinancialSettingCreateNestedManyWithoutDefaultBankAccountInput
     partyReceivables?: PartyCreateNestedManyWithoutReceivableAccountInput
     partyPayables?: PartyCreateNestedManyWithoutPayableAccountInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutAccountInput
   }
 
   export type ChartOfAccountUncheckedCreateWithoutDefaultTaxForInput = {
@@ -86042,6 +90962,7 @@ export namespace Prisma {
     defaultBankFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultBankAccountInput
     partyReceivables?: PartyUncheckedCreateNestedManyWithoutReceivableAccountInput
     partyPayables?: PartyUncheckedCreateNestedManyWithoutPayableAccountInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutAccountInput
   }
 
   export type ChartOfAccountCreateOrConnectWithoutDefaultTaxForInput = {
@@ -86077,6 +90998,7 @@ export namespace Prisma {
     defaultBankFor?: FinancialSettingCreateNestedManyWithoutDefaultBankAccountInput
     partyReceivables?: PartyCreateNestedManyWithoutReceivableAccountInput
     partyPayables?: PartyCreateNestedManyWithoutPayableAccountInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutAccountInput
   }
 
   export type ChartOfAccountUncheckedCreateWithoutDefaultReceivableForInput = {
@@ -86107,6 +91029,7 @@ export namespace Prisma {
     defaultBankFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultBankAccountInput
     partyReceivables?: PartyUncheckedCreateNestedManyWithoutReceivableAccountInput
     partyPayables?: PartyUncheckedCreateNestedManyWithoutPayableAccountInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutAccountInput
   }
 
   export type ChartOfAccountCreateOrConnectWithoutDefaultReceivableForInput = {
@@ -86142,6 +91065,7 @@ export namespace Prisma {
     defaultBankFor?: FinancialSettingCreateNestedManyWithoutDefaultBankAccountInput
     partyReceivables?: PartyCreateNestedManyWithoutReceivableAccountInput
     partyPayables?: PartyCreateNestedManyWithoutPayableAccountInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutAccountInput
   }
 
   export type ChartOfAccountUncheckedCreateWithoutDefaultPayableForInput = {
@@ -86172,6 +91096,7 @@ export namespace Prisma {
     defaultBankFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultBankAccountInput
     partyReceivables?: PartyUncheckedCreateNestedManyWithoutReceivableAccountInput
     partyPayables?: PartyUncheckedCreateNestedManyWithoutPayableAccountInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutAccountInput
   }
 
   export type ChartOfAccountCreateOrConnectWithoutDefaultPayableForInput = {
@@ -86207,6 +91132,7 @@ export namespace Prisma {
     defaultBankFor?: FinancialSettingCreateNestedManyWithoutDefaultBankAccountInput
     partyReceivables?: PartyCreateNestedManyWithoutReceivableAccountInput
     partyPayables?: PartyCreateNestedManyWithoutPayableAccountInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutAccountInput
   }
 
   export type ChartOfAccountUncheckedCreateWithoutDefaultInventoryForInput = {
@@ -86237,6 +91163,7 @@ export namespace Prisma {
     defaultBankFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultBankAccountInput
     partyReceivables?: PartyUncheckedCreateNestedManyWithoutReceivableAccountInput
     partyPayables?: PartyUncheckedCreateNestedManyWithoutPayableAccountInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutAccountInput
   }
 
   export type ChartOfAccountCreateOrConnectWithoutDefaultInventoryForInput = {
@@ -86272,6 +91199,7 @@ export namespace Prisma {
     defaultBankFor?: FinancialSettingCreateNestedManyWithoutDefaultBankAccountInput
     partyReceivables?: PartyCreateNestedManyWithoutReceivableAccountInput
     partyPayables?: PartyCreateNestedManyWithoutPayableAccountInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutAccountInput
   }
 
   export type ChartOfAccountUncheckedCreateWithoutDefaultCogsForInput = {
@@ -86302,6 +91230,7 @@ export namespace Prisma {
     defaultBankFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultBankAccountInput
     partyReceivables?: PartyUncheckedCreateNestedManyWithoutReceivableAccountInput
     partyPayables?: PartyUncheckedCreateNestedManyWithoutPayableAccountInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutAccountInput
   }
 
   export type ChartOfAccountCreateOrConnectWithoutDefaultCogsForInput = {
@@ -86337,6 +91266,7 @@ export namespace Prisma {
     defaultBankFor?: FinancialSettingCreateNestedManyWithoutDefaultBankAccountInput
     partyReceivables?: PartyCreateNestedManyWithoutReceivableAccountInput
     partyPayables?: PartyCreateNestedManyWithoutPayableAccountInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutAccountInput
   }
 
   export type ChartOfAccountUncheckedCreateWithoutDefaultInventoryAdjustmentForInput = {
@@ -86367,6 +91297,7 @@ export namespace Prisma {
     defaultBankFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultBankAccountInput
     partyReceivables?: PartyUncheckedCreateNestedManyWithoutReceivableAccountInput
     partyPayables?: PartyUncheckedCreateNestedManyWithoutPayableAccountInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutAccountInput
   }
 
   export type ChartOfAccountCreateOrConnectWithoutDefaultInventoryAdjustmentForInput = {
@@ -86402,6 +91333,7 @@ export namespace Prisma {
     defaultBankFor?: FinancialSettingCreateNestedManyWithoutDefaultBankAccountInput
     partyReceivables?: PartyCreateNestedManyWithoutReceivableAccountInput
     partyPayables?: PartyCreateNestedManyWithoutPayableAccountInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutAccountInput
   }
 
   export type ChartOfAccountUncheckedCreateWithoutDefaultOpeningEquityForInput = {
@@ -86432,6 +91364,7 @@ export namespace Prisma {
     defaultBankFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultBankAccountInput
     partyReceivables?: PartyUncheckedCreateNestedManyWithoutReceivableAccountInput
     partyPayables?: PartyUncheckedCreateNestedManyWithoutPayableAccountInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutAccountInput
   }
 
   export type ChartOfAccountCreateOrConnectWithoutDefaultOpeningEquityForInput = {
@@ -86467,6 +91400,7 @@ export namespace Prisma {
     defaultBankFor?: FinancialSettingCreateNestedManyWithoutDefaultBankAccountInput
     partyReceivables?: PartyCreateNestedManyWithoutReceivableAccountInput
     partyPayables?: PartyCreateNestedManyWithoutPayableAccountInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutAccountInput
   }
 
   export type ChartOfAccountUncheckedCreateWithoutDefaultCashForInput = {
@@ -86497,6 +91431,7 @@ export namespace Prisma {
     defaultBankFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultBankAccountInput
     partyReceivables?: PartyUncheckedCreateNestedManyWithoutReceivableAccountInput
     partyPayables?: PartyUncheckedCreateNestedManyWithoutPayableAccountInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutAccountInput
   }
 
   export type ChartOfAccountCreateOrConnectWithoutDefaultCashForInput = {
@@ -86532,6 +91467,7 @@ export namespace Prisma {
     defaultCashFor?: FinancialSettingCreateNestedManyWithoutDefaultCashAccountInput
     partyReceivables?: PartyCreateNestedManyWithoutReceivableAccountInput
     partyPayables?: PartyCreateNestedManyWithoutPayableAccountInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutAccountInput
   }
 
   export type ChartOfAccountUncheckedCreateWithoutDefaultBankForInput = {
@@ -86562,6 +91498,7 @@ export namespace Prisma {
     defaultCashFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultCashAccountInput
     partyReceivables?: PartyUncheckedCreateNestedManyWithoutReceivableAccountInput
     partyPayables?: PartyUncheckedCreateNestedManyWithoutPayableAccountInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutAccountInput
   }
 
   export type ChartOfAccountCreateOrConnectWithoutDefaultBankForInput = {
@@ -86625,6 +91562,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUpdateManyWithoutTenantNestedInput
     itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutTenantNestedInput
     brands?: BrandUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutFinancialSettingInput = {
@@ -86672,6 +91611,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
     itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
     brands?: BrandUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ChartOfAccountUpsertWithoutDefaultSalesForInput = {
@@ -86713,6 +91654,7 @@ export namespace Prisma {
     defaultBankFor?: FinancialSettingUpdateManyWithoutDefaultBankAccountNestedInput
     partyReceivables?: PartyUpdateManyWithoutReceivableAccountNestedInput
     partyPayables?: PartyUpdateManyWithoutPayableAccountNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutAccountNestedInput
   }
 
   export type ChartOfAccountUncheckedUpdateWithoutDefaultSalesForInput = {
@@ -86743,6 +91685,7 @@ export namespace Prisma {
     defaultBankFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultBankAccountNestedInput
     partyReceivables?: PartyUncheckedUpdateManyWithoutReceivableAccountNestedInput
     partyPayables?: PartyUncheckedUpdateManyWithoutPayableAccountNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutAccountNestedInput
   }
 
   export type ChartOfAccountUpsertWithoutDefaultPurchaseForInput = {
@@ -86784,6 +91727,7 @@ export namespace Prisma {
     defaultBankFor?: FinancialSettingUpdateManyWithoutDefaultBankAccountNestedInput
     partyReceivables?: PartyUpdateManyWithoutReceivableAccountNestedInput
     partyPayables?: PartyUpdateManyWithoutPayableAccountNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutAccountNestedInput
   }
 
   export type ChartOfAccountUncheckedUpdateWithoutDefaultPurchaseForInput = {
@@ -86814,6 +91758,7 @@ export namespace Prisma {
     defaultBankFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultBankAccountNestedInput
     partyReceivables?: PartyUncheckedUpdateManyWithoutReceivableAccountNestedInput
     partyPayables?: PartyUncheckedUpdateManyWithoutPayableAccountNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutAccountNestedInput
   }
 
   export type ChartOfAccountUpsertWithoutDefaultTaxForInput = {
@@ -86855,6 +91800,7 @@ export namespace Prisma {
     defaultBankFor?: FinancialSettingUpdateManyWithoutDefaultBankAccountNestedInput
     partyReceivables?: PartyUpdateManyWithoutReceivableAccountNestedInput
     partyPayables?: PartyUpdateManyWithoutPayableAccountNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutAccountNestedInput
   }
 
   export type ChartOfAccountUncheckedUpdateWithoutDefaultTaxForInput = {
@@ -86885,6 +91831,7 @@ export namespace Prisma {
     defaultBankFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultBankAccountNestedInput
     partyReceivables?: PartyUncheckedUpdateManyWithoutReceivableAccountNestedInput
     partyPayables?: PartyUncheckedUpdateManyWithoutPayableAccountNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutAccountNestedInput
   }
 
   export type ChartOfAccountUpsertWithoutDefaultReceivableForInput = {
@@ -86926,6 +91873,7 @@ export namespace Prisma {
     defaultBankFor?: FinancialSettingUpdateManyWithoutDefaultBankAccountNestedInput
     partyReceivables?: PartyUpdateManyWithoutReceivableAccountNestedInput
     partyPayables?: PartyUpdateManyWithoutPayableAccountNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutAccountNestedInput
   }
 
   export type ChartOfAccountUncheckedUpdateWithoutDefaultReceivableForInput = {
@@ -86956,6 +91904,7 @@ export namespace Prisma {
     defaultBankFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultBankAccountNestedInput
     partyReceivables?: PartyUncheckedUpdateManyWithoutReceivableAccountNestedInput
     partyPayables?: PartyUncheckedUpdateManyWithoutPayableAccountNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutAccountNestedInput
   }
 
   export type ChartOfAccountUpsertWithoutDefaultPayableForInput = {
@@ -86997,6 +91946,7 @@ export namespace Prisma {
     defaultBankFor?: FinancialSettingUpdateManyWithoutDefaultBankAccountNestedInput
     partyReceivables?: PartyUpdateManyWithoutReceivableAccountNestedInput
     partyPayables?: PartyUpdateManyWithoutPayableAccountNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutAccountNestedInput
   }
 
   export type ChartOfAccountUncheckedUpdateWithoutDefaultPayableForInput = {
@@ -87027,6 +91977,7 @@ export namespace Prisma {
     defaultBankFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultBankAccountNestedInput
     partyReceivables?: PartyUncheckedUpdateManyWithoutReceivableAccountNestedInput
     partyPayables?: PartyUncheckedUpdateManyWithoutPayableAccountNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutAccountNestedInput
   }
 
   export type ChartOfAccountUpsertWithoutDefaultInventoryForInput = {
@@ -87068,6 +92019,7 @@ export namespace Prisma {
     defaultBankFor?: FinancialSettingUpdateManyWithoutDefaultBankAccountNestedInput
     partyReceivables?: PartyUpdateManyWithoutReceivableAccountNestedInput
     partyPayables?: PartyUpdateManyWithoutPayableAccountNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutAccountNestedInput
   }
 
   export type ChartOfAccountUncheckedUpdateWithoutDefaultInventoryForInput = {
@@ -87098,6 +92050,7 @@ export namespace Prisma {
     defaultBankFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultBankAccountNestedInput
     partyReceivables?: PartyUncheckedUpdateManyWithoutReceivableAccountNestedInput
     partyPayables?: PartyUncheckedUpdateManyWithoutPayableAccountNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutAccountNestedInput
   }
 
   export type ChartOfAccountUpsertWithoutDefaultCogsForInput = {
@@ -87139,6 +92092,7 @@ export namespace Prisma {
     defaultBankFor?: FinancialSettingUpdateManyWithoutDefaultBankAccountNestedInput
     partyReceivables?: PartyUpdateManyWithoutReceivableAccountNestedInput
     partyPayables?: PartyUpdateManyWithoutPayableAccountNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutAccountNestedInput
   }
 
   export type ChartOfAccountUncheckedUpdateWithoutDefaultCogsForInput = {
@@ -87169,6 +92123,7 @@ export namespace Prisma {
     defaultBankFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultBankAccountNestedInput
     partyReceivables?: PartyUncheckedUpdateManyWithoutReceivableAccountNestedInput
     partyPayables?: PartyUncheckedUpdateManyWithoutPayableAccountNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutAccountNestedInput
   }
 
   export type ChartOfAccountUpsertWithoutDefaultInventoryAdjustmentForInput = {
@@ -87210,6 +92165,7 @@ export namespace Prisma {
     defaultBankFor?: FinancialSettingUpdateManyWithoutDefaultBankAccountNestedInput
     partyReceivables?: PartyUpdateManyWithoutReceivableAccountNestedInput
     partyPayables?: PartyUpdateManyWithoutPayableAccountNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutAccountNestedInput
   }
 
   export type ChartOfAccountUncheckedUpdateWithoutDefaultInventoryAdjustmentForInput = {
@@ -87240,6 +92196,7 @@ export namespace Prisma {
     defaultBankFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultBankAccountNestedInput
     partyReceivables?: PartyUncheckedUpdateManyWithoutReceivableAccountNestedInput
     partyPayables?: PartyUncheckedUpdateManyWithoutPayableAccountNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutAccountNestedInput
   }
 
   export type ChartOfAccountUpsertWithoutDefaultOpeningEquityForInput = {
@@ -87281,6 +92238,7 @@ export namespace Prisma {
     defaultBankFor?: FinancialSettingUpdateManyWithoutDefaultBankAccountNestedInput
     partyReceivables?: PartyUpdateManyWithoutReceivableAccountNestedInput
     partyPayables?: PartyUpdateManyWithoutPayableAccountNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutAccountNestedInput
   }
 
   export type ChartOfAccountUncheckedUpdateWithoutDefaultOpeningEquityForInput = {
@@ -87311,6 +92269,7 @@ export namespace Prisma {
     defaultBankFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultBankAccountNestedInput
     partyReceivables?: PartyUncheckedUpdateManyWithoutReceivableAccountNestedInput
     partyPayables?: PartyUncheckedUpdateManyWithoutPayableAccountNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutAccountNestedInput
   }
 
   export type ChartOfAccountUpsertWithoutDefaultCashForInput = {
@@ -87352,6 +92311,7 @@ export namespace Prisma {
     defaultBankFor?: FinancialSettingUpdateManyWithoutDefaultBankAccountNestedInput
     partyReceivables?: PartyUpdateManyWithoutReceivableAccountNestedInput
     partyPayables?: PartyUpdateManyWithoutPayableAccountNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutAccountNestedInput
   }
 
   export type ChartOfAccountUncheckedUpdateWithoutDefaultCashForInput = {
@@ -87382,6 +92342,7 @@ export namespace Prisma {
     defaultBankFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultBankAccountNestedInput
     partyReceivables?: PartyUncheckedUpdateManyWithoutReceivableAccountNestedInput
     partyPayables?: PartyUncheckedUpdateManyWithoutPayableAccountNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutAccountNestedInput
   }
 
   export type ChartOfAccountUpsertWithoutDefaultBankForInput = {
@@ -87423,6 +92384,7 @@ export namespace Prisma {
     defaultCashFor?: FinancialSettingUpdateManyWithoutDefaultCashAccountNestedInput
     partyReceivables?: PartyUpdateManyWithoutReceivableAccountNestedInput
     partyPayables?: PartyUpdateManyWithoutPayableAccountNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutAccountNestedInput
   }
 
   export type ChartOfAccountUncheckedUpdateWithoutDefaultBankForInput = {
@@ -87453,6 +92415,7 @@ export namespace Prisma {
     defaultCashFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultCashAccountNestedInput
     partyReceivables?: PartyUncheckedUpdateManyWithoutReceivableAccountNestedInput
     partyPayables?: PartyUncheckedUpdateManyWithoutPayableAccountNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutAccountNestedInput
   }
 
   export type TenantCreateWithoutFiscalPeriodsInput = {
@@ -87500,6 +92463,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityCreateNestedManyWithoutTenantInput
     itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutTenantInput
     brands?: BrandCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutFiscalPeriodsInput = {
@@ -87547,6 +92512,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUncheckedCreateNestedManyWithoutTenantInput
     itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutTenantInput
     brands?: BrandUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutFiscalPeriodsInput = {
@@ -87866,6 +92833,48 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type OpeningBalanceSessionCreateWithoutFiscalPeriodInput = {
+    id?: string
+    number: string
+    status?: $Enums.OpeningBalanceSessionStatus
+    description?: string | null
+    postedAt?: Date | string | null
+    postedBy?: string | null
+    lockedAt?: Date | string | null
+    lockedBy?: string | null
+    createdBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutOpeningBalanceSessionsInput
+    lines?: OpeningBalanceSessionLineCreateNestedManyWithoutSessionInput
+  }
+
+  export type OpeningBalanceSessionUncheckedCreateWithoutFiscalPeriodInput = {
+    id?: string
+    tenantId: string
+    number: string
+    status?: $Enums.OpeningBalanceSessionStatus
+    description?: string | null
+    postedAt?: Date | string | null
+    postedBy?: string | null
+    lockedAt?: Date | string | null
+    lockedBy?: string | null
+    createdBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutSessionInput
+  }
+
+  export type OpeningBalanceSessionCreateOrConnectWithoutFiscalPeriodInput = {
+    where: OpeningBalanceSessionWhereUniqueInput
+    create: XOR<OpeningBalanceSessionCreateWithoutFiscalPeriodInput, OpeningBalanceSessionUncheckedCreateWithoutFiscalPeriodInput>
+  }
+
+  export type OpeningBalanceSessionCreateManyFiscalPeriodInputEnvelope = {
+    data: OpeningBalanceSessionCreateManyFiscalPeriodInput | OpeningBalanceSessionCreateManyFiscalPeriodInput[]
+    skipDuplicates?: boolean
+  }
+
   export type TenantUpsertWithoutFiscalPeriodsInput = {
     update: XOR<TenantUpdateWithoutFiscalPeriodsInput, TenantUncheckedUpdateWithoutFiscalPeriodsInput>
     create: XOR<TenantCreateWithoutFiscalPeriodsInput, TenantUncheckedCreateWithoutFiscalPeriodsInput>
@@ -87922,6 +92931,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUpdateManyWithoutTenantNestedInput
     itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutTenantNestedInput
     brands?: BrandUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutFiscalPeriodsInput = {
@@ -87969,6 +92980,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
     itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
     brands?: BrandUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type StockMovementUpsertWithWhereUniqueWithoutFiscalPeriodInput = {
@@ -88105,6 +93118,41 @@ export namespace Prisma {
     data: XOR<ExpenseUpdateManyMutationInput, ExpenseUncheckedUpdateManyWithoutFiscalPeriodInput>
   }
 
+  export type OpeningBalanceSessionUpsertWithWhereUniqueWithoutFiscalPeriodInput = {
+    where: OpeningBalanceSessionWhereUniqueInput
+    update: XOR<OpeningBalanceSessionUpdateWithoutFiscalPeriodInput, OpeningBalanceSessionUncheckedUpdateWithoutFiscalPeriodInput>
+    create: XOR<OpeningBalanceSessionCreateWithoutFiscalPeriodInput, OpeningBalanceSessionUncheckedCreateWithoutFiscalPeriodInput>
+  }
+
+  export type OpeningBalanceSessionUpdateWithWhereUniqueWithoutFiscalPeriodInput = {
+    where: OpeningBalanceSessionWhereUniqueInput
+    data: XOR<OpeningBalanceSessionUpdateWithoutFiscalPeriodInput, OpeningBalanceSessionUncheckedUpdateWithoutFiscalPeriodInput>
+  }
+
+  export type OpeningBalanceSessionUpdateManyWithWhereWithoutFiscalPeriodInput = {
+    where: OpeningBalanceSessionScalarWhereInput
+    data: XOR<OpeningBalanceSessionUpdateManyMutationInput, OpeningBalanceSessionUncheckedUpdateManyWithoutFiscalPeriodInput>
+  }
+
+  export type OpeningBalanceSessionScalarWhereInput = {
+    AND?: OpeningBalanceSessionScalarWhereInput | OpeningBalanceSessionScalarWhereInput[]
+    OR?: OpeningBalanceSessionScalarWhereInput[]
+    NOT?: OpeningBalanceSessionScalarWhereInput | OpeningBalanceSessionScalarWhereInput[]
+    id?: StringFilter<"OpeningBalanceSession"> | string
+    tenantId?: StringFilter<"OpeningBalanceSession"> | string
+    number?: StringFilter<"OpeningBalanceSession"> | string
+    fiscalPeriodId?: StringFilter<"OpeningBalanceSession"> | string
+    status?: EnumOpeningBalanceSessionStatusFilter<"OpeningBalanceSession"> | $Enums.OpeningBalanceSessionStatus
+    description?: StringNullableFilter<"OpeningBalanceSession"> | string | null
+    postedAt?: DateTimeNullableFilter<"OpeningBalanceSession"> | Date | string | null
+    postedBy?: StringNullableFilter<"OpeningBalanceSession"> | string | null
+    lockedAt?: DateTimeNullableFilter<"OpeningBalanceSession"> | Date | string | null
+    lockedBy?: StringNullableFilter<"OpeningBalanceSession"> | string | null
+    createdBy?: StringFilter<"OpeningBalanceSession"> | string
+    createdAt?: DateTimeFilter<"OpeningBalanceSession"> | Date | string
+    updatedAt?: DateTimeFilter<"OpeningBalanceSession"> | Date | string
+  }
+
   export type TenantCreateWithoutInvoiceTypesInput = {
     id?: string
     name: string
@@ -88150,6 +93198,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityCreateNestedManyWithoutTenantInput
     itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutTenantInput
     brands?: BrandCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutInvoiceTypesInput = {
@@ -88197,6 +93247,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUncheckedCreateNestedManyWithoutTenantInput
     itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutTenantInput
     brands?: BrandUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutInvoiceTypesInput = {
@@ -88326,6 +93378,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUpdateManyWithoutTenantNestedInput
     itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutTenantNestedInput
     brands?: BrandUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutInvoiceTypesInput = {
@@ -88373,6 +93427,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
     itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
     brands?: BrandUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type InvoiceUpsertWithWhereUniqueWithoutInvoiceTypeInput = {
@@ -88436,6 +93492,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityCreateNestedManyWithoutTenantInput
     itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutTenantInput
     brands?: BrandCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutInvoicesInput = {
@@ -88483,6 +93541,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUncheckedCreateNestedManyWithoutTenantInput
     itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutTenantInput
     brands?: BrandUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutInvoicesInput = {
@@ -88534,6 +93594,7 @@ export namespace Prisma {
     tenant: TenantCreateNestedOneWithoutPartiesInput
     payments?: PaymentCreateNestedManyWithoutPartyInput
     journalLines?: JournalLineCreateNestedManyWithoutPartyInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutPartyInput
     receivableAccount?: ChartOfAccountCreateNestedOneWithoutPartyReceivablesInput
     payableAccount?: ChartOfAccountCreateNestedOneWithoutPartyPayablesInput
   }
@@ -88555,6 +93616,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     payments?: PaymentUncheckedCreateNestedManyWithoutPartyInput
     journalLines?: JournalLineUncheckedCreateNestedManyWithoutPartyInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutPartyInput
   }
 
   export type PartyCreateOrConnectWithoutInvoicesInput = {
@@ -88611,6 +93673,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryCreateNestedManyWithoutFiscalPeriodInput
     stockCounts?: StockCountCreateNestedManyWithoutFiscalPeriodInput
     expenses?: ExpenseCreateNestedManyWithoutFiscalPeriodInput
+    openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutFiscalPeriodInput
   }
 
   export type FiscalPeriodUncheckedCreateWithoutInvoicesInput = {
@@ -88627,6 +93690,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedCreateNestedManyWithoutFiscalPeriodInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutFiscalPeriodInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutFiscalPeriodInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutFiscalPeriodInput
   }
 
   export type FiscalPeriodCreateOrConnectWithoutInvoicesInput = {
@@ -88650,6 +93714,7 @@ export namespace Prisma {
     payments?: PaymentCreateNestedManyWithoutCurrencyInput
     baseForTenants?: TenantCreateNestedManyWithoutBaseCurrencyInput
     expenses?: ExpenseCreateNestedManyWithoutCurrencyInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutCurrencyInput
   }
 
   export type CurrencyUncheckedCreateWithoutInvoicesInput = {
@@ -88668,6 +93733,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedCreateNestedManyWithoutCurrencyInput
     baseForTenants?: TenantUncheckedCreateNestedManyWithoutBaseCurrencyInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutCurrencyInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutCurrencyInput
   }
 
   export type CurrencyCreateOrConnectWithoutInvoicesInput = {
@@ -88799,6 +93865,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUpdateManyWithoutTenantNestedInput
     itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutTenantNestedInput
     brands?: BrandUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutInvoicesInput = {
@@ -88846,6 +93914,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
     itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
     brands?: BrandUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type InvoiceTypeUpsertWithoutInvoicesInput = {
@@ -88909,6 +93979,7 @@ export namespace Prisma {
     tenant?: TenantUpdateOneRequiredWithoutPartiesNestedInput
     payments?: PaymentUpdateManyWithoutPartyNestedInput
     journalLines?: JournalLineUpdateManyWithoutPartyNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutPartyNestedInput
     receivableAccount?: ChartOfAccountUpdateOneWithoutPartyReceivablesNestedInput
     payableAccount?: ChartOfAccountUpdateOneWithoutPartyPayablesNestedInput
   }
@@ -88930,6 +94001,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     payments?: PaymentUncheckedUpdateManyWithoutPartyNestedInput
     journalLines?: JournalLineUncheckedUpdateManyWithoutPartyNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutPartyNestedInput
   }
 
   export type WarehouseUpsertWithoutInvoicesInput = {
@@ -88998,6 +94070,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUpdateManyWithoutFiscalPeriodNestedInput
     stockCounts?: StockCountUpdateManyWithoutFiscalPeriodNestedInput
     expenses?: ExpenseUpdateManyWithoutFiscalPeriodNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutFiscalPeriodNestedInput
   }
 
   export type FiscalPeriodUncheckedUpdateWithoutInvoicesInput = {
@@ -89014,6 +94087,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedUpdateManyWithoutFiscalPeriodNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutFiscalPeriodNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutFiscalPeriodNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutFiscalPeriodNestedInput
   }
 
   export type CurrencyUpsertWithoutInvoicesInput = {
@@ -89043,6 +94117,7 @@ export namespace Prisma {
     payments?: PaymentUpdateManyWithoutCurrencyNestedInput
     baseForTenants?: TenantUpdateManyWithoutBaseCurrencyNestedInput
     expenses?: ExpenseUpdateManyWithoutCurrencyNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutCurrencyNestedInput
   }
 
   export type CurrencyUncheckedUpdateWithoutInvoicesInput = {
@@ -89061,6 +94136,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedUpdateManyWithoutCurrencyNestedInput
     baseForTenants?: TenantUncheckedUpdateManyWithoutBaseCurrencyNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutCurrencyNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutCurrencyNestedInput
   }
 
   export type InvoiceLineUpsertWithWhereUniqueWithoutInvoiceInput = {
@@ -89476,6 +94552,8 @@ export namespace Prisma {
     itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
     catalogEntities?: CatalogEntityCreateNestedManyWithoutTenantInput
     brands?: BrandCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutItemCatalogEntitiesInput = {
@@ -89523,6 +94601,8 @@ export namespace Prisma {
     itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
     catalogEntities?: CatalogEntityUncheckedCreateNestedManyWithoutTenantInput
     brands?: BrandUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutItemCatalogEntitiesInput = {
@@ -89678,6 +94758,8 @@ export namespace Prisma {
     itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
     catalogEntities?: CatalogEntityUpdateManyWithoutTenantNestedInput
     brands?: BrandUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutItemCatalogEntitiesInput = {
@@ -89725,6 +94807,8 @@ export namespace Prisma {
     itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
     catalogEntities?: CatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
     brands?: BrandUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ItemUpsertWithoutItemCatalogEntitiesInput = {
@@ -89876,6 +94960,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityCreateNestedManyWithoutTenantInput
     itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutTenantInput
     brands?: BrandCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutItemCategoriesInput = {
@@ -89923,6 +95009,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUncheckedCreateNestedManyWithoutTenantInput
     itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutTenantInput
     brands?: BrandUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutItemCategoriesInput = {
@@ -90119,6 +95207,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUpdateManyWithoutTenantNestedInput
     itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutTenantNestedInput
     brands?: BrandUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutItemCategoriesInput = {
@@ -90166,6 +95256,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
     itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
     brands?: BrandUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ItemCategoryUpsertWithoutChildrenInput = {
@@ -90297,6 +95389,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityCreateNestedManyWithoutTenantInput
     itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutTenantInput
     brands?: BrandCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutItemRelationsInput = {
@@ -90344,6 +95438,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUncheckedCreateNestedManyWithoutTenantInput
     itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutTenantInput
     brands?: BrandUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutItemRelationsInput = {
@@ -90529,6 +95625,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUpdateManyWithoutTenantNestedInput
     itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutTenantNestedInput
     brands?: BrandUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutItemRelationsInput = {
@@ -90576,6 +95674,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
     itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
     brands?: BrandUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ItemUpsertWithoutItemRelationsInput = {
@@ -90757,6 +95857,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityCreateNestedManyWithoutTenantInput
     itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutTenantInput
     brands?: BrandCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutItemsInput = {
@@ -90804,6 +95906,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUncheckedCreateNestedManyWithoutTenantInput
     itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutTenantInput
     brands?: BrandUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutItemsInput = {
@@ -91204,6 +96308,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUpdateManyWithoutTenantNestedInput
     itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutTenantNestedInput
     brands?: BrandUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutItemsInput = {
@@ -91251,6 +96357,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
     itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
     brands?: BrandUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ItemCategoryUpsertWithoutItemsInput = {
@@ -91537,6 +96645,1132 @@ export namespace Prisma {
     data: XOR<ItemCatalogEntityUpdateManyMutationInput, ItemCatalogEntityUncheckedUpdateManyWithoutItemInput>
   }
 
+  export type TenantCreateWithoutOpeningBalanceSessionsInput = {
+    id?: string
+    name: string
+    slug: string
+    address?: string | null
+    phone?: string | null
+    email?: string | null
+    logo?: string | null
+    legalName?: string | null
+    taxNumber?: string | null
+    website?: string | null
+    isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: AppUserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    currencies?: CurrencyCreateNestedManyWithoutTenantInput
+    fiscalPeriods?: FiscalPeriodCreateNestedManyWithoutTenantInput
+    documentSequences?: DocumentSequenceCreateNestedManyWithoutTenantInput
+    itemCategories?: ItemCategoryCreateNestedManyWithoutTenantInput
+    units?: UnitCreateNestedManyWithoutTenantInput
+    items?: ItemCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    cashboxes?: CashboxCreateNestedManyWithoutTenantInput
+    bankAccounts?: BankAccountCreateNestedManyWithoutTenantInput
+    invoiceTypes?: InvoiceTypeCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    chartOfAccounts?: ChartOfAccountCreateNestedManyWithoutTenantInput
+    journalEntries?: JournalEntryCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountCreateNestedManyWithoutTenantInput
+    auditLogs?: AuditLogCreateNestedManyWithoutTenantInput
+    aiChatSessions?: AiChatSessionCreateNestedManyWithoutTenantInput
+    baseCurrency?: CurrencyCreateNestedOneWithoutBaseForTenantsInput
+    defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
+    settings?: TenantSettingCreateNestedManyWithoutTenantInput
+    financialSetting?: FinancialSettingCreateNestedOneWithoutTenantInput
+    expenses?: ExpenseCreateNestedManyWithoutTenantInput
+    tags?: TagCreateNestedManyWithoutTenantInput
+    itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
+    catalogEntities?: CatalogEntityCreateNestedManyWithoutTenantInput
+    itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutTenantInput
+    brands?: BrandCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutOpeningBalanceSessionsInput = {
+    id?: string
+    name: string
+    slug: string
+    address?: string | null
+    phone?: string | null
+    email?: string | null
+    logo?: string | null
+    legalName?: string | null
+    taxNumber?: string | null
+    website?: string | null
+    baseCurrencyId?: string | null
+    defaultSalesSequenceId?: string | null
+    isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    currencies?: CurrencyUncheckedCreateNestedManyWithoutTenantInput
+    fiscalPeriods?: FiscalPeriodUncheckedCreateNestedManyWithoutTenantInput
+    documentSequences?: DocumentSequenceUncheckedCreateNestedManyWithoutTenantInput
+    itemCategories?: ItemCategoryUncheckedCreateNestedManyWithoutTenantInput
+    units?: UnitUncheckedCreateNestedManyWithoutTenantInput
+    items?: ItemUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    cashboxes?: CashboxUncheckedCreateNestedManyWithoutTenantInput
+    bankAccounts?: BankAccountUncheckedCreateNestedManyWithoutTenantInput
+    invoiceTypes?: InvoiceTypeUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    chartOfAccounts?: ChartOfAccountUncheckedCreateNestedManyWithoutTenantInput
+    journalEntries?: JournalEntryUncheckedCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTenantInput
+    aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
+    settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
+    financialSetting?: FinancialSettingUncheckedCreateNestedOneWithoutTenantInput
+    expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
+    tags?: TagUncheckedCreateNestedManyWithoutTenantInput
+    itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
+    catalogEntities?: CatalogEntityUncheckedCreateNestedManyWithoutTenantInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutTenantInput
+    brands?: BrandUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutOpeningBalanceSessionsInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutOpeningBalanceSessionsInput, TenantUncheckedCreateWithoutOpeningBalanceSessionsInput>
+  }
+
+  export type FiscalPeriodCreateWithoutOpeningBalanceSessionsInput = {
+    id?: string
+    name: string
+    startDate: Date | string
+    endDate: Date | string
+    status?: $Enums.FiscalPeriodStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutFiscalPeriodsInput
+    stockMovements?: StockMovementCreateNestedManyWithoutFiscalPeriodInput
+    invoices?: InvoiceCreateNestedManyWithoutFiscalPeriodInput
+    payments?: PaymentCreateNestedManyWithoutFiscalPeriodInput
+    journalEntries?: JournalEntryCreateNestedManyWithoutFiscalPeriodInput
+    stockCounts?: StockCountCreateNestedManyWithoutFiscalPeriodInput
+    expenses?: ExpenseCreateNestedManyWithoutFiscalPeriodInput
+  }
+
+  export type FiscalPeriodUncheckedCreateWithoutOpeningBalanceSessionsInput = {
+    id?: string
+    tenantId: string
+    name: string
+    startDate: Date | string
+    endDate: Date | string
+    status?: $Enums.FiscalPeriodStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutFiscalPeriodInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutFiscalPeriodInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutFiscalPeriodInput
+    journalEntries?: JournalEntryUncheckedCreateNestedManyWithoutFiscalPeriodInput
+    stockCounts?: StockCountUncheckedCreateNestedManyWithoutFiscalPeriodInput
+    expenses?: ExpenseUncheckedCreateNestedManyWithoutFiscalPeriodInput
+  }
+
+  export type FiscalPeriodCreateOrConnectWithoutOpeningBalanceSessionsInput = {
+    where: FiscalPeriodWhereUniqueInput
+    create: XOR<FiscalPeriodCreateWithoutOpeningBalanceSessionsInput, FiscalPeriodUncheckedCreateWithoutOpeningBalanceSessionsInput>
+  }
+
+  export type OpeningBalanceSessionLineCreateWithoutSessionInput = {
+    id?: string
+    dimension: $Enums.OpeningBalanceDimension
+    partySide?: $Enums.OpeningBalancePartySide | null
+    amount: Decimal | DecimalJsLike | number | string
+    exchangeRate?: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutOpeningBalanceSessionLinesInput
+    party?: PartyCreateNestedOneWithoutOpeningBalanceSessionLinesInput
+    cashbox?: CashboxCreateNestedOneWithoutOpeningBalanceSessionLinesInput
+    bankAccount?: BankAccountCreateNestedOneWithoutOpeningBalanceSessionLinesInput
+    account?: ChartOfAccountCreateNestedOneWithoutOpeningBalanceSessionLinesInput
+    currency?: CurrencyCreateNestedOneWithoutOpeningBalanceSessionLinesInput
+  }
+
+  export type OpeningBalanceSessionLineUncheckedCreateWithoutSessionInput = {
+    id?: string
+    tenantId: string
+    dimension: $Enums.OpeningBalanceDimension
+    accountId?: string | null
+    partyId?: string | null
+    cashboxId?: string | null
+    bankAccountId?: string | null
+    currencyId?: string | null
+    partySide?: $Enums.OpeningBalancePartySide | null
+    amount: Decimal | DecimalJsLike | number | string
+    exchangeRate?: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type OpeningBalanceSessionLineCreateOrConnectWithoutSessionInput = {
+    where: OpeningBalanceSessionLineWhereUniqueInput
+    create: XOR<OpeningBalanceSessionLineCreateWithoutSessionInput, OpeningBalanceSessionLineUncheckedCreateWithoutSessionInput>
+  }
+
+  export type OpeningBalanceSessionLineCreateManySessionInputEnvelope = {
+    data: OpeningBalanceSessionLineCreateManySessionInput | OpeningBalanceSessionLineCreateManySessionInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TenantUpsertWithoutOpeningBalanceSessionsInput = {
+    update: XOR<TenantUpdateWithoutOpeningBalanceSessionsInput, TenantUncheckedUpdateWithoutOpeningBalanceSessionsInput>
+    create: XOR<TenantCreateWithoutOpeningBalanceSessionsInput, TenantUncheckedCreateWithoutOpeningBalanceSessionsInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutOpeningBalanceSessionsInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutOpeningBalanceSessionsInput, TenantUncheckedUpdateWithoutOpeningBalanceSessionsInput>
+  }
+
+  export type TenantUpdateWithoutOpeningBalanceSessionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: AppUserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    currencies?: CurrencyUpdateManyWithoutTenantNestedInput
+    fiscalPeriods?: FiscalPeriodUpdateManyWithoutTenantNestedInput
+    documentSequences?: DocumentSequenceUpdateManyWithoutTenantNestedInput
+    itemCategories?: ItemCategoryUpdateManyWithoutTenantNestedInput
+    units?: UnitUpdateManyWithoutTenantNestedInput
+    items?: ItemUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    cashboxes?: CashboxUpdateManyWithoutTenantNestedInput
+    bankAccounts?: BankAccountUpdateManyWithoutTenantNestedInput
+    invoiceTypes?: InvoiceTypeUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    chartOfAccounts?: ChartOfAccountUpdateManyWithoutTenantNestedInput
+    journalEntries?: JournalEntryUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutTenantNestedInput
+    aiChatSessions?: AiChatSessionUpdateManyWithoutTenantNestedInput
+    baseCurrency?: CurrencyUpdateOneWithoutBaseForTenantsNestedInput
+    defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
+    settings?: TenantSettingUpdateManyWithoutTenantNestedInput
+    financialSetting?: FinancialSettingUpdateOneWithoutTenantNestedInput
+    expenses?: ExpenseUpdateManyWithoutTenantNestedInput
+    tags?: TagUpdateManyWithoutTenantNestedInput
+    itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
+    catalogEntities?: CatalogEntityUpdateManyWithoutTenantNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutTenantNestedInput
+    brands?: BrandUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutOpeningBalanceSessionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    baseCurrencyId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultSalesSequenceId?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    currencies?: CurrencyUncheckedUpdateManyWithoutTenantNestedInput
+    fiscalPeriods?: FiscalPeriodUncheckedUpdateManyWithoutTenantNestedInput
+    documentSequences?: DocumentSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    itemCategories?: ItemCategoryUncheckedUpdateManyWithoutTenantNestedInput
+    units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
+    items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    cashboxes?: CashboxUncheckedUpdateManyWithoutTenantNestedInput
+    bankAccounts?: BankAccountUncheckedUpdateManyWithoutTenantNestedInput
+    invoiceTypes?: InvoiceTypeUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    chartOfAccounts?: ChartOfAccountUncheckedUpdateManyWithoutTenantNestedInput
+    journalEntries?: JournalEntryUncheckedUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutTenantNestedInput
+    aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
+    settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
+    financialSetting?: FinancialSettingUncheckedUpdateOneWithoutTenantNestedInput
+    expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
+    tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
+    itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
+    catalogEntities?: CatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
+    brands?: BrandUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type FiscalPeriodUpsertWithoutOpeningBalanceSessionsInput = {
+    update: XOR<FiscalPeriodUpdateWithoutOpeningBalanceSessionsInput, FiscalPeriodUncheckedUpdateWithoutOpeningBalanceSessionsInput>
+    create: XOR<FiscalPeriodCreateWithoutOpeningBalanceSessionsInput, FiscalPeriodUncheckedCreateWithoutOpeningBalanceSessionsInput>
+    where?: FiscalPeriodWhereInput
+  }
+
+  export type FiscalPeriodUpdateToOneWithWhereWithoutOpeningBalanceSessionsInput = {
+    where?: FiscalPeriodWhereInput
+    data: XOR<FiscalPeriodUpdateWithoutOpeningBalanceSessionsInput, FiscalPeriodUncheckedUpdateWithoutOpeningBalanceSessionsInput>
+  }
+
+  export type FiscalPeriodUpdateWithoutOpeningBalanceSessionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumFiscalPeriodStatusFieldUpdateOperationsInput | $Enums.FiscalPeriodStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutFiscalPeriodsNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutFiscalPeriodNestedInput
+    invoices?: InvoiceUpdateManyWithoutFiscalPeriodNestedInput
+    payments?: PaymentUpdateManyWithoutFiscalPeriodNestedInput
+    journalEntries?: JournalEntryUpdateManyWithoutFiscalPeriodNestedInput
+    stockCounts?: StockCountUpdateManyWithoutFiscalPeriodNestedInput
+    expenses?: ExpenseUpdateManyWithoutFiscalPeriodNestedInput
+  }
+
+  export type FiscalPeriodUncheckedUpdateWithoutOpeningBalanceSessionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumFiscalPeriodStatusFieldUpdateOperationsInput | $Enums.FiscalPeriodStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutFiscalPeriodNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutFiscalPeriodNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutFiscalPeriodNestedInput
+    journalEntries?: JournalEntryUncheckedUpdateManyWithoutFiscalPeriodNestedInput
+    stockCounts?: StockCountUncheckedUpdateManyWithoutFiscalPeriodNestedInput
+    expenses?: ExpenseUncheckedUpdateManyWithoutFiscalPeriodNestedInput
+  }
+
+  export type OpeningBalanceSessionLineUpsertWithWhereUniqueWithoutSessionInput = {
+    where: OpeningBalanceSessionLineWhereUniqueInput
+    update: XOR<OpeningBalanceSessionLineUpdateWithoutSessionInput, OpeningBalanceSessionLineUncheckedUpdateWithoutSessionInput>
+    create: XOR<OpeningBalanceSessionLineCreateWithoutSessionInput, OpeningBalanceSessionLineUncheckedCreateWithoutSessionInput>
+  }
+
+  export type OpeningBalanceSessionLineUpdateWithWhereUniqueWithoutSessionInput = {
+    where: OpeningBalanceSessionLineWhereUniqueInput
+    data: XOR<OpeningBalanceSessionLineUpdateWithoutSessionInput, OpeningBalanceSessionLineUncheckedUpdateWithoutSessionInput>
+  }
+
+  export type OpeningBalanceSessionLineUpdateManyWithWhereWithoutSessionInput = {
+    where: OpeningBalanceSessionLineScalarWhereInput
+    data: XOR<OpeningBalanceSessionLineUpdateManyMutationInput, OpeningBalanceSessionLineUncheckedUpdateManyWithoutSessionInput>
+  }
+
+  export type OpeningBalanceSessionCreateWithoutLinesInput = {
+    id?: string
+    number: string
+    status?: $Enums.OpeningBalanceSessionStatus
+    description?: string | null
+    postedAt?: Date | string | null
+    postedBy?: string | null
+    lockedAt?: Date | string | null
+    lockedBy?: string | null
+    createdBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutOpeningBalanceSessionsInput
+    fiscalPeriod: FiscalPeriodCreateNestedOneWithoutOpeningBalanceSessionsInput
+  }
+
+  export type OpeningBalanceSessionUncheckedCreateWithoutLinesInput = {
+    id?: string
+    tenantId: string
+    number: string
+    fiscalPeriodId: string
+    status?: $Enums.OpeningBalanceSessionStatus
+    description?: string | null
+    postedAt?: Date | string | null
+    postedBy?: string | null
+    lockedAt?: Date | string | null
+    lockedBy?: string | null
+    createdBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type OpeningBalanceSessionCreateOrConnectWithoutLinesInput = {
+    where: OpeningBalanceSessionWhereUniqueInput
+    create: XOR<OpeningBalanceSessionCreateWithoutLinesInput, OpeningBalanceSessionUncheckedCreateWithoutLinesInput>
+  }
+
+  export type TenantCreateWithoutOpeningBalanceSessionLinesInput = {
+    id?: string
+    name: string
+    slug: string
+    address?: string | null
+    phone?: string | null
+    email?: string | null
+    logo?: string | null
+    legalName?: string | null
+    taxNumber?: string | null
+    website?: string | null
+    isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: AppUserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    currencies?: CurrencyCreateNestedManyWithoutTenantInput
+    fiscalPeriods?: FiscalPeriodCreateNestedManyWithoutTenantInput
+    documentSequences?: DocumentSequenceCreateNestedManyWithoutTenantInput
+    itemCategories?: ItemCategoryCreateNestedManyWithoutTenantInput
+    units?: UnitCreateNestedManyWithoutTenantInput
+    items?: ItemCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    cashboxes?: CashboxCreateNestedManyWithoutTenantInput
+    bankAccounts?: BankAccountCreateNestedManyWithoutTenantInput
+    invoiceTypes?: InvoiceTypeCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    chartOfAccounts?: ChartOfAccountCreateNestedManyWithoutTenantInput
+    journalEntries?: JournalEntryCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountCreateNestedManyWithoutTenantInput
+    auditLogs?: AuditLogCreateNestedManyWithoutTenantInput
+    aiChatSessions?: AiChatSessionCreateNestedManyWithoutTenantInput
+    baseCurrency?: CurrencyCreateNestedOneWithoutBaseForTenantsInput
+    defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
+    settings?: TenantSettingCreateNestedManyWithoutTenantInput
+    financialSetting?: FinancialSettingCreateNestedOneWithoutTenantInput
+    expenses?: ExpenseCreateNestedManyWithoutTenantInput
+    tags?: TagCreateNestedManyWithoutTenantInput
+    itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
+    catalogEntities?: CatalogEntityCreateNestedManyWithoutTenantInput
+    itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutTenantInput
+    brands?: BrandCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutOpeningBalanceSessionLinesInput = {
+    id?: string
+    name: string
+    slug: string
+    address?: string | null
+    phone?: string | null
+    email?: string | null
+    logo?: string | null
+    legalName?: string | null
+    taxNumber?: string | null
+    website?: string | null
+    baseCurrencyId?: string | null
+    defaultSalesSequenceId?: string | null
+    isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    currencies?: CurrencyUncheckedCreateNestedManyWithoutTenantInput
+    fiscalPeriods?: FiscalPeriodUncheckedCreateNestedManyWithoutTenantInput
+    documentSequences?: DocumentSequenceUncheckedCreateNestedManyWithoutTenantInput
+    itemCategories?: ItemCategoryUncheckedCreateNestedManyWithoutTenantInput
+    units?: UnitUncheckedCreateNestedManyWithoutTenantInput
+    items?: ItemUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    cashboxes?: CashboxUncheckedCreateNestedManyWithoutTenantInput
+    bankAccounts?: BankAccountUncheckedCreateNestedManyWithoutTenantInput
+    invoiceTypes?: InvoiceTypeUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    chartOfAccounts?: ChartOfAccountUncheckedCreateNestedManyWithoutTenantInput
+    journalEntries?: JournalEntryUncheckedCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTenantInput
+    aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
+    settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
+    financialSetting?: FinancialSettingUncheckedCreateNestedOneWithoutTenantInput
+    expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
+    tags?: TagUncheckedCreateNestedManyWithoutTenantInput
+    itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
+    catalogEntities?: CatalogEntityUncheckedCreateNestedManyWithoutTenantInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutTenantInput
+    brands?: BrandUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutOpeningBalanceSessionLinesInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutOpeningBalanceSessionLinesInput, TenantUncheckedCreateWithoutOpeningBalanceSessionLinesInput>
+  }
+
+  export type PartyCreateWithoutOpeningBalanceSessionLinesInput = {
+    id?: string
+    code?: string | null
+    name: string
+    type: $Enums.PartyType
+    phone?: string | null
+    email?: string | null
+    address?: string | null
+    openingBalance?: Decimal | DecimalJsLike | number | string
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutPartiesInput
+    invoices?: InvoiceCreateNestedManyWithoutPartyInput
+    payments?: PaymentCreateNestedManyWithoutPartyInput
+    journalLines?: JournalLineCreateNestedManyWithoutPartyInput
+    receivableAccount?: ChartOfAccountCreateNestedOneWithoutPartyReceivablesInput
+    payableAccount?: ChartOfAccountCreateNestedOneWithoutPartyPayablesInput
+  }
+
+  export type PartyUncheckedCreateWithoutOpeningBalanceSessionLinesInput = {
+    id?: string
+    tenantId: string
+    code?: string | null
+    name: string
+    type: $Enums.PartyType
+    phone?: string | null
+    email?: string | null
+    address?: string | null
+    openingBalance?: Decimal | DecimalJsLike | number | string
+    isActive?: boolean
+    receivableAccountId?: string | null
+    payableAccountId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutPartyInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutPartyInput
+    journalLines?: JournalLineUncheckedCreateNestedManyWithoutPartyInput
+  }
+
+  export type PartyCreateOrConnectWithoutOpeningBalanceSessionLinesInput = {
+    where: PartyWhereUniqueInput
+    create: XOR<PartyCreateWithoutOpeningBalanceSessionLinesInput, PartyUncheckedCreateWithoutOpeningBalanceSessionLinesInput>
+  }
+
+  export type CashboxCreateWithoutOpeningBalanceSessionLinesInput = {
+    id?: string
+    code: string
+    name: JsonNullValueInput | InputJsonValue
+    balance?: Decimal | DecimalJsLike | number | string
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutCashboxesInput
+    currency: CurrencyCreateNestedOneWithoutCashboxesInput
+    expenses?: ExpenseCreateNestedManyWithoutCashboxInput
+    payments?: PaymentCreateNestedManyWithoutCashboxInput
+    journalLines?: JournalLineCreateNestedManyWithoutCashboxInput
+  }
+
+  export type CashboxUncheckedCreateWithoutOpeningBalanceSessionLinesInput = {
+    id?: string
+    tenantId: string
+    code: string
+    name: JsonNullValueInput | InputJsonValue
+    currencyId: string
+    balance?: Decimal | DecimalJsLike | number | string
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    expenses?: ExpenseUncheckedCreateNestedManyWithoutCashboxInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutCashboxInput
+    journalLines?: JournalLineUncheckedCreateNestedManyWithoutCashboxInput
+  }
+
+  export type CashboxCreateOrConnectWithoutOpeningBalanceSessionLinesInput = {
+    where: CashboxWhereUniqueInput
+    create: XOR<CashboxCreateWithoutOpeningBalanceSessionLinesInput, CashboxUncheckedCreateWithoutOpeningBalanceSessionLinesInput>
+  }
+
+  export type BankAccountCreateWithoutOpeningBalanceSessionLinesInput = {
+    id?: string
+    code: string
+    name: JsonNullValueInput | InputJsonValue
+    accountNumber?: string | null
+    bankName?: string | null
+    balance?: Decimal | DecimalJsLike | number | string
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutBankAccountsInput
+    currency: CurrencyCreateNestedOneWithoutBankAccountsInput
+    journalLines?: JournalLineCreateNestedManyWithoutBankAccountInput
+  }
+
+  export type BankAccountUncheckedCreateWithoutOpeningBalanceSessionLinesInput = {
+    id?: string
+    tenantId: string
+    code: string
+    name: JsonNullValueInput | InputJsonValue
+    currencyId: string
+    accountNumber?: string | null
+    bankName?: string | null
+    balance?: Decimal | DecimalJsLike | number | string
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    journalLines?: JournalLineUncheckedCreateNestedManyWithoutBankAccountInput
+  }
+
+  export type BankAccountCreateOrConnectWithoutOpeningBalanceSessionLinesInput = {
+    where: BankAccountWhereUniqueInput
+    create: XOR<BankAccountCreateWithoutOpeningBalanceSessionLinesInput, BankAccountUncheckedCreateWithoutOpeningBalanceSessionLinesInput>
+  }
+
+  export type ChartOfAccountCreateWithoutOpeningBalanceSessionLinesInput = {
+    id?: string
+    code: string
+    name: JsonNullValueInput | InputJsonValue
+    type: $Enums.AccountType
+    isActive?: boolean
+    isPostable?: boolean
+    isContra?: boolean
+    deletedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutChartOfAccountsInput
+    parent?: ChartOfAccountCreateNestedOneWithoutChildrenInput
+    children?: ChartOfAccountCreateNestedManyWithoutParentInput
+    journalLines?: JournalLineCreateNestedManyWithoutAccountInput
+    expenseItems?: ExpenseItemCreateNestedManyWithoutAccountInput
+    defaultSalesFor?: FinancialSettingCreateNestedManyWithoutDefaultSalesAccountInput
+    defaultPurchaseFor?: FinancialSettingCreateNestedManyWithoutDefaultPurchaseAccountInput
+    defaultTaxFor?: FinancialSettingCreateNestedManyWithoutDefaultTaxAccountInput
+    defaultReceivableFor?: FinancialSettingCreateNestedManyWithoutDefaultReceivableAccountInput
+    defaultPayableFor?: FinancialSettingCreateNestedManyWithoutDefaultPayableAccountInput
+    defaultInventoryFor?: FinancialSettingCreateNestedManyWithoutDefaultInventoryAccountInput
+    defaultCogsFor?: FinancialSettingCreateNestedManyWithoutDefaultCogsAccountInput
+    defaultInventoryAdjustmentFor?: FinancialSettingCreateNestedManyWithoutDefaultInventoryAdjustmentAccountInput
+    defaultOpeningEquityFor?: FinancialSettingCreateNestedManyWithoutDefaultOpeningEquityAccountInput
+    defaultCashFor?: FinancialSettingCreateNestedManyWithoutDefaultCashAccountInput
+    defaultBankFor?: FinancialSettingCreateNestedManyWithoutDefaultBankAccountInput
+    partyReceivables?: PartyCreateNestedManyWithoutReceivableAccountInput
+    partyPayables?: PartyCreateNestedManyWithoutPayableAccountInput
+  }
+
+  export type ChartOfAccountUncheckedCreateWithoutOpeningBalanceSessionLinesInput = {
+    id?: string
+    tenantId: string
+    code: string
+    name: JsonNullValueInput | InputJsonValue
+    type: $Enums.AccountType
+    parentId?: string | null
+    isActive?: boolean
+    isPostable?: boolean
+    isContra?: boolean
+    deletedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    children?: ChartOfAccountUncheckedCreateNestedManyWithoutParentInput
+    journalLines?: JournalLineUncheckedCreateNestedManyWithoutAccountInput
+    expenseItems?: ExpenseItemUncheckedCreateNestedManyWithoutAccountInput
+    defaultSalesFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultSalesAccountInput
+    defaultPurchaseFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultPurchaseAccountInput
+    defaultTaxFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultTaxAccountInput
+    defaultReceivableFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultReceivableAccountInput
+    defaultPayableFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultPayableAccountInput
+    defaultInventoryFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultInventoryAccountInput
+    defaultCogsFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultCogsAccountInput
+    defaultInventoryAdjustmentFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultInventoryAdjustmentAccountInput
+    defaultOpeningEquityFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultOpeningEquityAccountInput
+    defaultCashFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultCashAccountInput
+    defaultBankFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultBankAccountInput
+    partyReceivables?: PartyUncheckedCreateNestedManyWithoutReceivableAccountInput
+    partyPayables?: PartyUncheckedCreateNestedManyWithoutPayableAccountInput
+  }
+
+  export type ChartOfAccountCreateOrConnectWithoutOpeningBalanceSessionLinesInput = {
+    where: ChartOfAccountWhereUniqueInput
+    create: XOR<ChartOfAccountCreateWithoutOpeningBalanceSessionLinesInput, ChartOfAccountUncheckedCreateWithoutOpeningBalanceSessionLinesInput>
+  }
+
+  export type CurrencyCreateWithoutOpeningBalanceSessionLinesInput = {
+    id?: string
+    code: string
+    name: JsonNullValueInput | InputJsonValue
+    symbol?: NullableJsonNullValueInput | InputJsonValue
+    isBase?: boolean
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutCurrenciesInput
+    cashboxes?: CashboxCreateNestedManyWithoutCurrencyInput
+    bankAccounts?: BankAccountCreateNestedManyWithoutCurrencyInput
+    journalLines?: JournalLineCreateNestedManyWithoutCurrencyInput
+    invoices?: InvoiceCreateNestedManyWithoutCurrencyInput
+    payments?: PaymentCreateNestedManyWithoutCurrencyInput
+    baseForTenants?: TenantCreateNestedManyWithoutBaseCurrencyInput
+    expenses?: ExpenseCreateNestedManyWithoutCurrencyInput
+  }
+
+  export type CurrencyUncheckedCreateWithoutOpeningBalanceSessionLinesInput = {
+    id?: string
+    tenantId: string
+    code: string
+    name: JsonNullValueInput | InputJsonValue
+    symbol?: NullableJsonNullValueInput | InputJsonValue
+    isBase?: boolean
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    cashboxes?: CashboxUncheckedCreateNestedManyWithoutCurrencyInput
+    bankAccounts?: BankAccountUncheckedCreateNestedManyWithoutCurrencyInput
+    journalLines?: JournalLineUncheckedCreateNestedManyWithoutCurrencyInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutCurrencyInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutCurrencyInput
+    baseForTenants?: TenantUncheckedCreateNestedManyWithoutBaseCurrencyInput
+    expenses?: ExpenseUncheckedCreateNestedManyWithoutCurrencyInput
+  }
+
+  export type CurrencyCreateOrConnectWithoutOpeningBalanceSessionLinesInput = {
+    where: CurrencyWhereUniqueInput
+    create: XOR<CurrencyCreateWithoutOpeningBalanceSessionLinesInput, CurrencyUncheckedCreateWithoutOpeningBalanceSessionLinesInput>
+  }
+
+  export type OpeningBalanceSessionUpsertWithoutLinesInput = {
+    update: XOR<OpeningBalanceSessionUpdateWithoutLinesInput, OpeningBalanceSessionUncheckedUpdateWithoutLinesInput>
+    create: XOR<OpeningBalanceSessionCreateWithoutLinesInput, OpeningBalanceSessionUncheckedCreateWithoutLinesInput>
+    where?: OpeningBalanceSessionWhereInput
+  }
+
+  export type OpeningBalanceSessionUpdateToOneWithWhereWithoutLinesInput = {
+    where?: OpeningBalanceSessionWhereInput
+    data: XOR<OpeningBalanceSessionUpdateWithoutLinesInput, OpeningBalanceSessionUncheckedUpdateWithoutLinesInput>
+  }
+
+  export type OpeningBalanceSessionUpdateWithoutLinesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    status?: EnumOpeningBalanceSessionStatusFieldUpdateOperationsInput | $Enums.OpeningBalanceSessionStatus
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    postedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    lockedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lockedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutOpeningBalanceSessionsNestedInput
+    fiscalPeriod?: FiscalPeriodUpdateOneRequiredWithoutOpeningBalanceSessionsNestedInput
+  }
+
+  export type OpeningBalanceSessionUncheckedUpdateWithoutLinesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    fiscalPeriodId?: StringFieldUpdateOperationsInput | string
+    status?: EnumOpeningBalanceSessionStatusFieldUpdateOperationsInput | $Enums.OpeningBalanceSessionStatus
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    postedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    lockedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lockedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TenantUpsertWithoutOpeningBalanceSessionLinesInput = {
+    update: XOR<TenantUpdateWithoutOpeningBalanceSessionLinesInput, TenantUncheckedUpdateWithoutOpeningBalanceSessionLinesInput>
+    create: XOR<TenantCreateWithoutOpeningBalanceSessionLinesInput, TenantUncheckedCreateWithoutOpeningBalanceSessionLinesInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutOpeningBalanceSessionLinesInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutOpeningBalanceSessionLinesInput, TenantUncheckedUpdateWithoutOpeningBalanceSessionLinesInput>
+  }
+
+  export type TenantUpdateWithoutOpeningBalanceSessionLinesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: AppUserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    currencies?: CurrencyUpdateManyWithoutTenantNestedInput
+    fiscalPeriods?: FiscalPeriodUpdateManyWithoutTenantNestedInput
+    documentSequences?: DocumentSequenceUpdateManyWithoutTenantNestedInput
+    itemCategories?: ItemCategoryUpdateManyWithoutTenantNestedInput
+    units?: UnitUpdateManyWithoutTenantNestedInput
+    items?: ItemUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    cashboxes?: CashboxUpdateManyWithoutTenantNestedInput
+    bankAccounts?: BankAccountUpdateManyWithoutTenantNestedInput
+    invoiceTypes?: InvoiceTypeUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    chartOfAccounts?: ChartOfAccountUpdateManyWithoutTenantNestedInput
+    journalEntries?: JournalEntryUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutTenantNestedInput
+    aiChatSessions?: AiChatSessionUpdateManyWithoutTenantNestedInput
+    baseCurrency?: CurrencyUpdateOneWithoutBaseForTenantsNestedInput
+    defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
+    settings?: TenantSettingUpdateManyWithoutTenantNestedInput
+    financialSetting?: FinancialSettingUpdateOneWithoutTenantNestedInput
+    expenses?: ExpenseUpdateManyWithoutTenantNestedInput
+    tags?: TagUpdateManyWithoutTenantNestedInput
+    itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
+    catalogEntities?: CatalogEntityUpdateManyWithoutTenantNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutTenantNestedInput
+    brands?: BrandUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutOpeningBalanceSessionLinesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    baseCurrencyId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultSalesSequenceId?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    currencies?: CurrencyUncheckedUpdateManyWithoutTenantNestedInput
+    fiscalPeriods?: FiscalPeriodUncheckedUpdateManyWithoutTenantNestedInput
+    documentSequences?: DocumentSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    itemCategories?: ItemCategoryUncheckedUpdateManyWithoutTenantNestedInput
+    units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
+    items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    cashboxes?: CashboxUncheckedUpdateManyWithoutTenantNestedInput
+    bankAccounts?: BankAccountUncheckedUpdateManyWithoutTenantNestedInput
+    invoiceTypes?: InvoiceTypeUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    chartOfAccounts?: ChartOfAccountUncheckedUpdateManyWithoutTenantNestedInput
+    journalEntries?: JournalEntryUncheckedUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutTenantNestedInput
+    aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
+    settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
+    financialSetting?: FinancialSettingUncheckedUpdateOneWithoutTenantNestedInput
+    expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
+    tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
+    itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
+    catalogEntities?: CatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
+    brands?: BrandUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type PartyUpsertWithoutOpeningBalanceSessionLinesInput = {
+    update: XOR<PartyUpdateWithoutOpeningBalanceSessionLinesInput, PartyUncheckedUpdateWithoutOpeningBalanceSessionLinesInput>
+    create: XOR<PartyCreateWithoutOpeningBalanceSessionLinesInput, PartyUncheckedCreateWithoutOpeningBalanceSessionLinesInput>
+    where?: PartyWhereInput
+  }
+
+  export type PartyUpdateToOneWithWhereWithoutOpeningBalanceSessionLinesInput = {
+    where?: PartyWhereInput
+    data: XOR<PartyUpdateWithoutOpeningBalanceSessionLinesInput, PartyUncheckedUpdateWithoutOpeningBalanceSessionLinesInput>
+  }
+
+  export type PartyUpdateWithoutOpeningBalanceSessionLinesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    type?: EnumPartyTypeFieldUpdateOperationsInput | $Enums.PartyType
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    openingBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutPartiesNestedInput
+    invoices?: InvoiceUpdateManyWithoutPartyNestedInput
+    payments?: PaymentUpdateManyWithoutPartyNestedInput
+    journalLines?: JournalLineUpdateManyWithoutPartyNestedInput
+    receivableAccount?: ChartOfAccountUpdateOneWithoutPartyReceivablesNestedInput
+    payableAccount?: ChartOfAccountUpdateOneWithoutPartyPayablesNestedInput
+  }
+
+  export type PartyUncheckedUpdateWithoutOpeningBalanceSessionLinesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    code?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    type?: EnumPartyTypeFieldUpdateOperationsInput | $Enums.PartyType
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    openingBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    receivableAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    payableAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    invoices?: InvoiceUncheckedUpdateManyWithoutPartyNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutPartyNestedInput
+    journalLines?: JournalLineUncheckedUpdateManyWithoutPartyNestedInput
+  }
+
+  export type CashboxUpsertWithoutOpeningBalanceSessionLinesInput = {
+    update: XOR<CashboxUpdateWithoutOpeningBalanceSessionLinesInput, CashboxUncheckedUpdateWithoutOpeningBalanceSessionLinesInput>
+    create: XOR<CashboxCreateWithoutOpeningBalanceSessionLinesInput, CashboxUncheckedCreateWithoutOpeningBalanceSessionLinesInput>
+    where?: CashboxWhereInput
+  }
+
+  export type CashboxUpdateToOneWithWhereWithoutOpeningBalanceSessionLinesInput = {
+    where?: CashboxWhereInput
+    data: XOR<CashboxUpdateWithoutOpeningBalanceSessionLinesInput, CashboxUncheckedUpdateWithoutOpeningBalanceSessionLinesInput>
+  }
+
+  export type CashboxUpdateWithoutOpeningBalanceSessionLinesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
+    balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutCashboxesNestedInput
+    currency?: CurrencyUpdateOneRequiredWithoutCashboxesNestedInput
+    expenses?: ExpenseUpdateManyWithoutCashboxNestedInput
+    payments?: PaymentUpdateManyWithoutCashboxNestedInput
+    journalLines?: JournalLineUpdateManyWithoutCashboxNestedInput
+  }
+
+  export type CashboxUncheckedUpdateWithoutOpeningBalanceSessionLinesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
+    currencyId?: StringFieldUpdateOperationsInput | string
+    balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expenses?: ExpenseUncheckedUpdateManyWithoutCashboxNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutCashboxNestedInput
+    journalLines?: JournalLineUncheckedUpdateManyWithoutCashboxNestedInput
+  }
+
+  export type BankAccountUpsertWithoutOpeningBalanceSessionLinesInput = {
+    update: XOR<BankAccountUpdateWithoutOpeningBalanceSessionLinesInput, BankAccountUncheckedUpdateWithoutOpeningBalanceSessionLinesInput>
+    create: XOR<BankAccountCreateWithoutOpeningBalanceSessionLinesInput, BankAccountUncheckedCreateWithoutOpeningBalanceSessionLinesInput>
+    where?: BankAccountWhereInput
+  }
+
+  export type BankAccountUpdateToOneWithWhereWithoutOpeningBalanceSessionLinesInput = {
+    where?: BankAccountWhereInput
+    data: XOR<BankAccountUpdateWithoutOpeningBalanceSessionLinesInput, BankAccountUncheckedUpdateWithoutOpeningBalanceSessionLinesInput>
+  }
+
+  export type BankAccountUpdateWithoutOpeningBalanceSessionLinesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
+    accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutBankAccountsNestedInput
+    currency?: CurrencyUpdateOneRequiredWithoutBankAccountsNestedInput
+    journalLines?: JournalLineUpdateManyWithoutBankAccountNestedInput
+  }
+
+  export type BankAccountUncheckedUpdateWithoutOpeningBalanceSessionLinesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
+    currencyId?: StringFieldUpdateOperationsInput | string
+    accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    journalLines?: JournalLineUncheckedUpdateManyWithoutBankAccountNestedInput
+  }
+
+  export type ChartOfAccountUpsertWithoutOpeningBalanceSessionLinesInput = {
+    update: XOR<ChartOfAccountUpdateWithoutOpeningBalanceSessionLinesInput, ChartOfAccountUncheckedUpdateWithoutOpeningBalanceSessionLinesInput>
+    create: XOR<ChartOfAccountCreateWithoutOpeningBalanceSessionLinesInput, ChartOfAccountUncheckedCreateWithoutOpeningBalanceSessionLinesInput>
+    where?: ChartOfAccountWhereInput
+  }
+
+  export type ChartOfAccountUpdateToOneWithWhereWithoutOpeningBalanceSessionLinesInput = {
+    where?: ChartOfAccountWhereInput
+    data: XOR<ChartOfAccountUpdateWithoutOpeningBalanceSessionLinesInput, ChartOfAccountUncheckedUpdateWithoutOpeningBalanceSessionLinesInput>
+  }
+
+  export type ChartOfAccountUpdateWithoutOpeningBalanceSessionLinesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
+    type?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    isPostable?: BoolFieldUpdateOperationsInput | boolean
+    isContra?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutChartOfAccountsNestedInput
+    parent?: ChartOfAccountUpdateOneWithoutChildrenNestedInput
+    children?: ChartOfAccountUpdateManyWithoutParentNestedInput
+    journalLines?: JournalLineUpdateManyWithoutAccountNestedInput
+    expenseItems?: ExpenseItemUpdateManyWithoutAccountNestedInput
+    defaultSalesFor?: FinancialSettingUpdateManyWithoutDefaultSalesAccountNestedInput
+    defaultPurchaseFor?: FinancialSettingUpdateManyWithoutDefaultPurchaseAccountNestedInput
+    defaultTaxFor?: FinancialSettingUpdateManyWithoutDefaultTaxAccountNestedInput
+    defaultReceivableFor?: FinancialSettingUpdateManyWithoutDefaultReceivableAccountNestedInput
+    defaultPayableFor?: FinancialSettingUpdateManyWithoutDefaultPayableAccountNestedInput
+    defaultInventoryFor?: FinancialSettingUpdateManyWithoutDefaultInventoryAccountNestedInput
+    defaultCogsFor?: FinancialSettingUpdateManyWithoutDefaultCogsAccountNestedInput
+    defaultInventoryAdjustmentFor?: FinancialSettingUpdateManyWithoutDefaultInventoryAdjustmentAccountNestedInput
+    defaultOpeningEquityFor?: FinancialSettingUpdateManyWithoutDefaultOpeningEquityAccountNestedInput
+    defaultCashFor?: FinancialSettingUpdateManyWithoutDefaultCashAccountNestedInput
+    defaultBankFor?: FinancialSettingUpdateManyWithoutDefaultBankAccountNestedInput
+    partyReceivables?: PartyUpdateManyWithoutReceivableAccountNestedInput
+    partyPayables?: PartyUpdateManyWithoutPayableAccountNestedInput
+  }
+
+  export type ChartOfAccountUncheckedUpdateWithoutOpeningBalanceSessionLinesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
+    type?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
+    parentId?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    isPostable?: BoolFieldUpdateOperationsInput | boolean
+    isContra?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    children?: ChartOfAccountUncheckedUpdateManyWithoutParentNestedInput
+    journalLines?: JournalLineUncheckedUpdateManyWithoutAccountNestedInput
+    expenseItems?: ExpenseItemUncheckedUpdateManyWithoutAccountNestedInput
+    defaultSalesFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultSalesAccountNestedInput
+    defaultPurchaseFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultPurchaseAccountNestedInput
+    defaultTaxFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultTaxAccountNestedInput
+    defaultReceivableFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultReceivableAccountNestedInput
+    defaultPayableFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultPayableAccountNestedInput
+    defaultInventoryFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultInventoryAccountNestedInput
+    defaultCogsFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultCogsAccountNestedInput
+    defaultInventoryAdjustmentFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultInventoryAdjustmentAccountNestedInput
+    defaultOpeningEquityFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultOpeningEquityAccountNestedInput
+    defaultCashFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultCashAccountNestedInput
+    defaultBankFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultBankAccountNestedInput
+    partyReceivables?: PartyUncheckedUpdateManyWithoutReceivableAccountNestedInput
+    partyPayables?: PartyUncheckedUpdateManyWithoutPayableAccountNestedInput
+  }
+
+  export type CurrencyUpsertWithoutOpeningBalanceSessionLinesInput = {
+    update: XOR<CurrencyUpdateWithoutOpeningBalanceSessionLinesInput, CurrencyUncheckedUpdateWithoutOpeningBalanceSessionLinesInput>
+    create: XOR<CurrencyCreateWithoutOpeningBalanceSessionLinesInput, CurrencyUncheckedCreateWithoutOpeningBalanceSessionLinesInput>
+    where?: CurrencyWhereInput
+  }
+
+  export type CurrencyUpdateToOneWithWhereWithoutOpeningBalanceSessionLinesInput = {
+    where?: CurrencyWhereInput
+    data: XOR<CurrencyUpdateWithoutOpeningBalanceSessionLinesInput, CurrencyUncheckedUpdateWithoutOpeningBalanceSessionLinesInput>
+  }
+
+  export type CurrencyUpdateWithoutOpeningBalanceSessionLinesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
+    symbol?: NullableJsonNullValueInput | InputJsonValue
+    isBase?: BoolFieldUpdateOperationsInput | boolean
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutCurrenciesNestedInput
+    cashboxes?: CashboxUpdateManyWithoutCurrencyNestedInput
+    bankAccounts?: BankAccountUpdateManyWithoutCurrencyNestedInput
+    journalLines?: JournalLineUpdateManyWithoutCurrencyNestedInput
+    invoices?: InvoiceUpdateManyWithoutCurrencyNestedInput
+    payments?: PaymentUpdateManyWithoutCurrencyNestedInput
+    baseForTenants?: TenantUpdateManyWithoutBaseCurrencyNestedInput
+    expenses?: ExpenseUpdateManyWithoutCurrencyNestedInput
+  }
+
+  export type CurrencyUncheckedUpdateWithoutOpeningBalanceSessionLinesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
+    symbol?: NullableJsonNullValueInput | InputJsonValue
+    isBase?: BoolFieldUpdateOperationsInput | boolean
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    cashboxes?: CashboxUncheckedUpdateManyWithoutCurrencyNestedInput
+    bankAccounts?: BankAccountUncheckedUpdateManyWithoutCurrencyNestedInput
+    journalLines?: JournalLineUncheckedUpdateManyWithoutCurrencyNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutCurrencyNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutCurrencyNestedInput
+    baseForTenants?: TenantUncheckedUpdateManyWithoutBaseCurrencyNestedInput
+    expenses?: ExpenseUncheckedUpdateManyWithoutCurrencyNestedInput
+  }
+
   export type TenantCreateWithoutPartiesInput = {
     id?: string
     name: string
@@ -91582,6 +97816,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityCreateNestedManyWithoutTenantInput
     itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutTenantInput
     brands?: BrandCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPartiesInput = {
@@ -91629,6 +97865,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUncheckedCreateNestedManyWithoutTenantInput
     itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutTenantInput
     brands?: BrandUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPartiesInput = {
@@ -91804,6 +98042,48 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type OpeningBalanceSessionLineCreateWithoutPartyInput = {
+    id?: string
+    dimension: $Enums.OpeningBalanceDimension
+    partySide?: $Enums.OpeningBalancePartySide | null
+    amount: Decimal | DecimalJsLike | number | string
+    exchangeRate?: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    session: OpeningBalanceSessionCreateNestedOneWithoutLinesInput
+    tenant: TenantCreateNestedOneWithoutOpeningBalanceSessionLinesInput
+    cashbox?: CashboxCreateNestedOneWithoutOpeningBalanceSessionLinesInput
+    bankAccount?: BankAccountCreateNestedOneWithoutOpeningBalanceSessionLinesInput
+    account?: ChartOfAccountCreateNestedOneWithoutOpeningBalanceSessionLinesInput
+    currency?: CurrencyCreateNestedOneWithoutOpeningBalanceSessionLinesInput
+  }
+
+  export type OpeningBalanceSessionLineUncheckedCreateWithoutPartyInput = {
+    id?: string
+    tenantId: string
+    sessionId: string
+    dimension: $Enums.OpeningBalanceDimension
+    accountId?: string | null
+    cashboxId?: string | null
+    bankAccountId?: string | null
+    currencyId?: string | null
+    partySide?: $Enums.OpeningBalancePartySide | null
+    amount: Decimal | DecimalJsLike | number | string
+    exchangeRate?: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type OpeningBalanceSessionLineCreateOrConnectWithoutPartyInput = {
+    where: OpeningBalanceSessionLineWhereUniqueInput
+    create: XOR<OpeningBalanceSessionLineCreateWithoutPartyInput, OpeningBalanceSessionLineUncheckedCreateWithoutPartyInput>
+  }
+
+  export type OpeningBalanceSessionLineCreateManyPartyInputEnvelope = {
+    data: OpeningBalanceSessionLineCreateManyPartyInput | OpeningBalanceSessionLineCreateManyPartyInput[]
+    skipDuplicates?: boolean
+  }
+
   export type ChartOfAccountCreateWithoutPartyReceivablesInput = {
     id?: string
     code: string
@@ -91832,6 +98112,7 @@ export namespace Prisma {
     defaultCashFor?: FinancialSettingCreateNestedManyWithoutDefaultCashAccountInput
     defaultBankFor?: FinancialSettingCreateNestedManyWithoutDefaultBankAccountInput
     partyPayables?: PartyCreateNestedManyWithoutPayableAccountInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutAccountInput
   }
 
   export type ChartOfAccountUncheckedCreateWithoutPartyReceivablesInput = {
@@ -91862,6 +98143,7 @@ export namespace Prisma {
     defaultCashFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultCashAccountInput
     defaultBankFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultBankAccountInput
     partyPayables?: PartyUncheckedCreateNestedManyWithoutPayableAccountInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutAccountInput
   }
 
   export type ChartOfAccountCreateOrConnectWithoutPartyReceivablesInput = {
@@ -91897,6 +98179,7 @@ export namespace Prisma {
     defaultCashFor?: FinancialSettingCreateNestedManyWithoutDefaultCashAccountInput
     defaultBankFor?: FinancialSettingCreateNestedManyWithoutDefaultBankAccountInput
     partyReceivables?: PartyCreateNestedManyWithoutReceivableAccountInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutAccountInput
   }
 
   export type ChartOfAccountUncheckedCreateWithoutPartyPayablesInput = {
@@ -91927,6 +98210,7 @@ export namespace Prisma {
     defaultCashFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultCashAccountInput
     defaultBankFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultBankAccountInput
     partyReceivables?: PartyUncheckedCreateNestedManyWithoutReceivableAccountInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutAccountInput
   }
 
   export type ChartOfAccountCreateOrConnectWithoutPartyPayablesInput = {
@@ -91990,6 +98274,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUpdateManyWithoutTenantNestedInput
     itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutTenantNestedInput
     brands?: BrandUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPartiesInput = {
@@ -92037,6 +98323,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
     itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
     brands?: BrandUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type InvoiceUpsertWithWhereUniqueWithoutPartyInput = {
@@ -92087,6 +98375,22 @@ export namespace Prisma {
     data: XOR<JournalLineUpdateManyMutationInput, JournalLineUncheckedUpdateManyWithoutPartyInput>
   }
 
+  export type OpeningBalanceSessionLineUpsertWithWhereUniqueWithoutPartyInput = {
+    where: OpeningBalanceSessionLineWhereUniqueInput
+    update: XOR<OpeningBalanceSessionLineUpdateWithoutPartyInput, OpeningBalanceSessionLineUncheckedUpdateWithoutPartyInput>
+    create: XOR<OpeningBalanceSessionLineCreateWithoutPartyInput, OpeningBalanceSessionLineUncheckedCreateWithoutPartyInput>
+  }
+
+  export type OpeningBalanceSessionLineUpdateWithWhereUniqueWithoutPartyInput = {
+    where: OpeningBalanceSessionLineWhereUniqueInput
+    data: XOR<OpeningBalanceSessionLineUpdateWithoutPartyInput, OpeningBalanceSessionLineUncheckedUpdateWithoutPartyInput>
+  }
+
+  export type OpeningBalanceSessionLineUpdateManyWithWhereWithoutPartyInput = {
+    where: OpeningBalanceSessionLineScalarWhereInput
+    data: XOR<OpeningBalanceSessionLineUpdateManyMutationInput, OpeningBalanceSessionLineUncheckedUpdateManyWithoutPartyInput>
+  }
+
   export type ChartOfAccountUpsertWithoutPartyReceivablesInput = {
     update: XOR<ChartOfAccountUpdateWithoutPartyReceivablesInput, ChartOfAccountUncheckedUpdateWithoutPartyReceivablesInput>
     create: XOR<ChartOfAccountCreateWithoutPartyReceivablesInput, ChartOfAccountUncheckedCreateWithoutPartyReceivablesInput>
@@ -92126,6 +98430,7 @@ export namespace Prisma {
     defaultCashFor?: FinancialSettingUpdateManyWithoutDefaultCashAccountNestedInput
     defaultBankFor?: FinancialSettingUpdateManyWithoutDefaultBankAccountNestedInput
     partyPayables?: PartyUpdateManyWithoutPayableAccountNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutAccountNestedInput
   }
 
   export type ChartOfAccountUncheckedUpdateWithoutPartyReceivablesInput = {
@@ -92156,6 +98461,7 @@ export namespace Prisma {
     defaultCashFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultCashAccountNestedInput
     defaultBankFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultBankAccountNestedInput
     partyPayables?: PartyUncheckedUpdateManyWithoutPayableAccountNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutAccountNestedInput
   }
 
   export type ChartOfAccountUpsertWithoutPartyPayablesInput = {
@@ -92197,6 +98503,7 @@ export namespace Prisma {
     defaultCashFor?: FinancialSettingUpdateManyWithoutDefaultCashAccountNestedInput
     defaultBankFor?: FinancialSettingUpdateManyWithoutDefaultBankAccountNestedInput
     partyReceivables?: PartyUpdateManyWithoutReceivableAccountNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutAccountNestedInput
   }
 
   export type ChartOfAccountUncheckedUpdateWithoutPartyPayablesInput = {
@@ -92227,6 +98534,7 @@ export namespace Prisma {
     defaultCashFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultCashAccountNestedInput
     defaultBankFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultBankAccountNestedInput
     partyReceivables?: PartyUncheckedUpdateManyWithoutReceivableAccountNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutAccountNestedInput
   }
 
   export type TenantCreateWithoutStockCountsInput = {
@@ -92274,6 +98582,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityCreateNestedManyWithoutTenantInput
     itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutTenantInput
     brands?: BrandCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockCountsInput = {
@@ -92321,6 +98631,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUncheckedCreateNestedManyWithoutTenantInput
     itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutTenantInput
     brands?: BrandUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockCountsInput = {
@@ -92377,6 +98689,7 @@ export namespace Prisma {
     payments?: PaymentCreateNestedManyWithoutFiscalPeriodInput
     journalEntries?: JournalEntryCreateNestedManyWithoutFiscalPeriodInput
     expenses?: ExpenseCreateNestedManyWithoutFiscalPeriodInput
+    openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutFiscalPeriodInput
   }
 
   export type FiscalPeriodUncheckedCreateWithoutStockCountsInput = {
@@ -92393,6 +98706,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedCreateNestedManyWithoutFiscalPeriodInput
     journalEntries?: JournalEntryUncheckedCreateNestedManyWithoutFiscalPeriodInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutFiscalPeriodInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutFiscalPeriodInput
   }
 
   export type FiscalPeriodCreateOrConnectWithoutStockCountsInput = {
@@ -92486,6 +98800,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUpdateManyWithoutTenantNestedInput
     itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutTenantNestedInput
     brands?: BrandUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockCountsInput = {
@@ -92533,6 +98849,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
     itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
     brands?: BrandUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WarehouseUpsertWithoutStockCountsInput = {
@@ -92601,6 +98919,7 @@ export namespace Prisma {
     payments?: PaymentUpdateManyWithoutFiscalPeriodNestedInput
     journalEntries?: JournalEntryUpdateManyWithoutFiscalPeriodNestedInput
     expenses?: ExpenseUpdateManyWithoutFiscalPeriodNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutFiscalPeriodNestedInput
   }
 
   export type FiscalPeriodUncheckedUpdateWithoutStockCountsInput = {
@@ -92617,6 +98936,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedUpdateManyWithoutFiscalPeriodNestedInput
     journalEntries?: JournalEntryUncheckedUpdateManyWithoutFiscalPeriodNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutFiscalPeriodNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutFiscalPeriodNestedInput
   }
 
   export type StockCountLineUpsertWithWhereUniqueWithoutStockCountInput = {
@@ -93157,6 +99477,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryCreateNestedManyWithoutFiscalPeriodInput
     stockCounts?: StockCountCreateNestedManyWithoutFiscalPeriodInput
     expenses?: ExpenseCreateNestedManyWithoutFiscalPeriodInput
+    openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutFiscalPeriodInput
   }
 
   export type FiscalPeriodUncheckedCreateWithoutStockMovementsInput = {
@@ -93173,6 +99494,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedCreateNestedManyWithoutFiscalPeriodInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutFiscalPeriodInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutFiscalPeriodInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutFiscalPeriodInput
   }
 
   export type FiscalPeriodCreateOrConnectWithoutStockMovementsInput = {
@@ -93313,6 +99635,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUpdateManyWithoutFiscalPeriodNestedInput
     stockCounts?: StockCountUpdateManyWithoutFiscalPeriodNestedInput
     expenses?: ExpenseUpdateManyWithoutFiscalPeriodNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutFiscalPeriodNestedInput
   }
 
   export type FiscalPeriodUncheckedUpdateWithoutStockMovementsInput = {
@@ -93329,6 +99652,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedUpdateManyWithoutFiscalPeriodNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutFiscalPeriodNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutFiscalPeriodNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutFiscalPeriodNestedInput
   }
 
   export type TagCreateWithoutAssignmentsInput = {
@@ -93432,6 +99756,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityCreateNestedManyWithoutTenantInput
     itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutTenantInput
     brands?: BrandCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTagsInput = {
@@ -93479,6 +99805,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUncheckedCreateNestedManyWithoutTenantInput
     itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutTenantInput
     brands?: BrandUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTagsInput = {
@@ -93568,6 +99896,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUpdateManyWithoutTenantNestedInput
     itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutTenantNestedInput
     brands?: BrandUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTagsInput = {
@@ -93615,6 +99945,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
     itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
     brands?: BrandUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TagAssignmentUpsertWithWhereUniqueWithoutTagInput = {
@@ -93690,6 +100022,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityCreateNestedManyWithoutTenantInput
     itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutTenantInput
     brands?: BrandCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSettingsInput = {
@@ -93737,6 +100071,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUncheckedCreateNestedManyWithoutTenantInput
     itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutTenantInput
     brands?: BrandUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSettingsInput = {
@@ -93800,6 +100136,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUpdateManyWithoutTenantNestedInput
     itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutTenantNestedInput
     brands?: BrandUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSettingsInput = {
@@ -93847,6 +100185,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
     itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
     brands?: BrandUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type AppUserCreateWithoutTenantInput = {
@@ -93931,6 +100271,7 @@ export namespace Prisma {
     payments?: PaymentCreateNestedManyWithoutCurrencyInput
     baseForTenants?: TenantCreateNestedManyWithoutBaseCurrencyInput
     expenses?: ExpenseCreateNestedManyWithoutCurrencyInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutCurrencyInput
   }
 
   export type CurrencyUncheckedCreateWithoutTenantInput = {
@@ -93949,6 +100290,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedCreateNestedManyWithoutCurrencyInput
     baseForTenants?: TenantUncheckedCreateNestedManyWithoutBaseCurrencyInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutCurrencyInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutCurrencyInput
   }
 
   export type CurrencyCreateOrConnectWithoutTenantInput = {
@@ -93975,6 +100317,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryCreateNestedManyWithoutFiscalPeriodInput
     stockCounts?: StockCountCreateNestedManyWithoutFiscalPeriodInput
     expenses?: ExpenseCreateNestedManyWithoutFiscalPeriodInput
+    openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutFiscalPeriodInput
   }
 
   export type FiscalPeriodUncheckedCreateWithoutTenantInput = {
@@ -93991,6 +100334,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedCreateNestedManyWithoutFiscalPeriodInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutFiscalPeriodInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutFiscalPeriodInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutFiscalPeriodInput
   }
 
   export type FiscalPeriodCreateOrConnectWithoutTenantInput = {
@@ -94184,6 +100528,7 @@ export namespace Prisma {
     invoices?: InvoiceCreateNestedManyWithoutPartyInput
     payments?: PaymentCreateNestedManyWithoutPartyInput
     journalLines?: JournalLineCreateNestedManyWithoutPartyInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutPartyInput
     receivableAccount?: ChartOfAccountCreateNestedOneWithoutPartyReceivablesInput
     payableAccount?: ChartOfAccountCreateNestedOneWithoutPartyPayablesInput
   }
@@ -94205,6 +100550,7 @@ export namespace Prisma {
     invoices?: InvoiceUncheckedCreateNestedManyWithoutPartyInput
     payments?: PaymentUncheckedCreateNestedManyWithoutPartyInput
     journalLines?: JournalLineUncheckedCreateNestedManyWithoutPartyInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutPartyInput
   }
 
   export type PartyCreateOrConnectWithoutTenantInput = {
@@ -94269,6 +100615,7 @@ export namespace Prisma {
     expenses?: ExpenseCreateNestedManyWithoutCashboxInput
     payments?: PaymentCreateNestedManyWithoutCashboxInput
     journalLines?: JournalLineCreateNestedManyWithoutCashboxInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutCashboxInput
   }
 
   export type CashboxUncheckedCreateWithoutTenantInput = {
@@ -94283,6 +100630,7 @@ export namespace Prisma {
     expenses?: ExpenseUncheckedCreateNestedManyWithoutCashboxInput
     payments?: PaymentUncheckedCreateNestedManyWithoutCashboxInput
     journalLines?: JournalLineUncheckedCreateNestedManyWithoutCashboxInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutCashboxInput
   }
 
   export type CashboxCreateOrConnectWithoutTenantInput = {
@@ -94307,6 +100655,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     currency: CurrencyCreateNestedOneWithoutBankAccountsInput
     journalLines?: JournalLineCreateNestedManyWithoutBankAccountInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutBankAccountInput
   }
 
   export type BankAccountUncheckedCreateWithoutTenantInput = {
@@ -94321,6 +100670,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     journalLines?: JournalLineUncheckedCreateNestedManyWithoutBankAccountInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutBankAccountInput
   }
 
   export type BankAccountCreateOrConnectWithoutTenantInput = {
@@ -94521,6 +100871,7 @@ export namespace Prisma {
     defaultBankFor?: FinancialSettingCreateNestedManyWithoutDefaultBankAccountInput
     partyReceivables?: PartyCreateNestedManyWithoutReceivableAccountInput
     partyPayables?: PartyCreateNestedManyWithoutPayableAccountInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutAccountInput
   }
 
   export type ChartOfAccountUncheckedCreateWithoutTenantInput = {
@@ -94551,6 +100902,7 @@ export namespace Prisma {
     defaultBankFor?: FinancialSettingUncheckedCreateNestedManyWithoutDefaultBankAccountInput
     partyReceivables?: PartyUncheckedCreateNestedManyWithoutReceivableAccountInput
     partyPayables?: PartyUncheckedCreateNestedManyWithoutPayableAccountInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutAccountInput
   }
 
   export type ChartOfAccountCreateOrConnectWithoutTenantInput = {
@@ -94733,6 +101085,7 @@ export namespace Prisma {
     invoices?: InvoiceCreateNestedManyWithoutCurrencyInput
     payments?: PaymentCreateNestedManyWithoutCurrencyInput
     expenses?: ExpenseCreateNestedManyWithoutCurrencyInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutCurrencyInput
   }
 
   export type CurrencyUncheckedCreateWithoutBaseForTenantsInput = {
@@ -94751,6 +101104,7 @@ export namespace Prisma {
     invoices?: InvoiceUncheckedCreateNestedManyWithoutCurrencyInput
     payments?: PaymentUncheckedCreateNestedManyWithoutCurrencyInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutCurrencyInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutCurrencyInput
   }
 
   export type CurrencyCreateOrConnectWithoutBaseForTenantsInput = {
@@ -95053,6 +101407,90 @@ export namespace Prisma {
 
   export type BrandCreateManyTenantInputEnvelope = {
     data: BrandCreateManyTenantInput | BrandCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type OpeningBalanceSessionCreateWithoutTenantInput = {
+    id?: string
+    number: string
+    status?: $Enums.OpeningBalanceSessionStatus
+    description?: string | null
+    postedAt?: Date | string | null
+    postedBy?: string | null
+    lockedAt?: Date | string | null
+    lockedBy?: string | null
+    createdBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    fiscalPeriod: FiscalPeriodCreateNestedOneWithoutOpeningBalanceSessionsInput
+    lines?: OpeningBalanceSessionLineCreateNestedManyWithoutSessionInput
+  }
+
+  export type OpeningBalanceSessionUncheckedCreateWithoutTenantInput = {
+    id?: string
+    number: string
+    fiscalPeriodId: string
+    status?: $Enums.OpeningBalanceSessionStatus
+    description?: string | null
+    postedAt?: Date | string | null
+    postedBy?: string | null
+    lockedAt?: Date | string | null
+    lockedBy?: string | null
+    createdBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutSessionInput
+  }
+
+  export type OpeningBalanceSessionCreateOrConnectWithoutTenantInput = {
+    where: OpeningBalanceSessionWhereUniqueInput
+    create: XOR<OpeningBalanceSessionCreateWithoutTenantInput, OpeningBalanceSessionUncheckedCreateWithoutTenantInput>
+  }
+
+  export type OpeningBalanceSessionCreateManyTenantInputEnvelope = {
+    data: OpeningBalanceSessionCreateManyTenantInput | OpeningBalanceSessionCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type OpeningBalanceSessionLineCreateWithoutTenantInput = {
+    id?: string
+    dimension: $Enums.OpeningBalanceDimension
+    partySide?: $Enums.OpeningBalancePartySide | null
+    amount: Decimal | DecimalJsLike | number | string
+    exchangeRate?: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    session: OpeningBalanceSessionCreateNestedOneWithoutLinesInput
+    party?: PartyCreateNestedOneWithoutOpeningBalanceSessionLinesInput
+    cashbox?: CashboxCreateNestedOneWithoutOpeningBalanceSessionLinesInput
+    bankAccount?: BankAccountCreateNestedOneWithoutOpeningBalanceSessionLinesInput
+    account?: ChartOfAccountCreateNestedOneWithoutOpeningBalanceSessionLinesInput
+    currency?: CurrencyCreateNestedOneWithoutOpeningBalanceSessionLinesInput
+  }
+
+  export type OpeningBalanceSessionLineUncheckedCreateWithoutTenantInput = {
+    id?: string
+    sessionId: string
+    dimension: $Enums.OpeningBalanceDimension
+    accountId?: string | null
+    partyId?: string | null
+    cashboxId?: string | null
+    bankAccountId?: string | null
+    currencyId?: string | null
+    partySide?: $Enums.OpeningBalancePartySide | null
+    amount: Decimal | DecimalJsLike | number | string
+    exchangeRate?: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type OpeningBalanceSessionLineCreateOrConnectWithoutTenantInput = {
+    where: OpeningBalanceSessionLineWhereUniqueInput
+    create: XOR<OpeningBalanceSessionLineCreateWithoutTenantInput, OpeningBalanceSessionLineUncheckedCreateWithoutTenantInput>
+  }
+
+  export type OpeningBalanceSessionLineCreateManyTenantInputEnvelope = {
+    data: OpeningBalanceSessionLineCreateManyTenantInput | OpeningBalanceSessionLineCreateManyTenantInput[]
     skipDuplicates?: boolean
   }
 
@@ -95545,6 +101983,7 @@ export namespace Prisma {
     invoices?: InvoiceUpdateManyWithoutCurrencyNestedInput
     payments?: PaymentUpdateManyWithoutCurrencyNestedInput
     expenses?: ExpenseUpdateManyWithoutCurrencyNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutCurrencyNestedInput
   }
 
   export type CurrencyUncheckedUpdateWithoutBaseForTenantsInput = {
@@ -95563,6 +102002,7 @@ export namespace Prisma {
     invoices?: InvoiceUncheckedUpdateManyWithoutCurrencyNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutCurrencyNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutCurrencyNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutCurrencyNestedInput
   }
 
   export type DocumentSequenceUpsertWithoutDefaultSalesForTenantsInput = {
@@ -95794,6 +102234,38 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Brand"> | Date | string
   }
 
+  export type OpeningBalanceSessionUpsertWithWhereUniqueWithoutTenantInput = {
+    where: OpeningBalanceSessionWhereUniqueInput
+    update: XOR<OpeningBalanceSessionUpdateWithoutTenantInput, OpeningBalanceSessionUncheckedUpdateWithoutTenantInput>
+    create: XOR<OpeningBalanceSessionCreateWithoutTenantInput, OpeningBalanceSessionUncheckedCreateWithoutTenantInput>
+  }
+
+  export type OpeningBalanceSessionUpdateWithWhereUniqueWithoutTenantInput = {
+    where: OpeningBalanceSessionWhereUniqueInput
+    data: XOR<OpeningBalanceSessionUpdateWithoutTenantInput, OpeningBalanceSessionUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type OpeningBalanceSessionUpdateManyWithWhereWithoutTenantInput = {
+    where: OpeningBalanceSessionScalarWhereInput
+    data: XOR<OpeningBalanceSessionUpdateManyMutationInput, OpeningBalanceSessionUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type OpeningBalanceSessionLineUpsertWithWhereUniqueWithoutTenantInput = {
+    where: OpeningBalanceSessionLineWhereUniqueInput
+    update: XOR<OpeningBalanceSessionLineUpdateWithoutTenantInput, OpeningBalanceSessionLineUncheckedUpdateWithoutTenantInput>
+    create: XOR<OpeningBalanceSessionLineCreateWithoutTenantInput, OpeningBalanceSessionLineUncheckedCreateWithoutTenantInput>
+  }
+
+  export type OpeningBalanceSessionLineUpdateWithWhereUniqueWithoutTenantInput = {
+    where: OpeningBalanceSessionLineWhereUniqueInput
+    data: XOR<OpeningBalanceSessionLineUpdateWithoutTenantInput, OpeningBalanceSessionLineUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type OpeningBalanceSessionLineUpdateManyWithWhereWithoutTenantInput = {
+    where: OpeningBalanceSessionLineScalarWhereInput
+    data: XOR<OpeningBalanceSessionLineUpdateManyMutationInput, OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantInput>
+  }
+
   export type TenantCreateWithoutUnitsInput = {
     id?: string
     name: string
@@ -95839,6 +102311,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityCreateNestedManyWithoutTenantInput
     itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutTenantInput
     brands?: BrandCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutUnitsInput = {
@@ -95886,6 +102360,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUncheckedCreateNestedManyWithoutTenantInput
     itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutTenantInput
     brands?: BrandUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutUnitsInput = {
@@ -96057,6 +102533,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUpdateManyWithoutTenantNestedInput
     itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutTenantNestedInput
     brands?: BrandUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutUnitsInput = {
@@ -96104,6 +102582,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
     itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
     brands?: BrandUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ItemUpsertWithWhereUniqueWithoutBaseUnitInput = {
@@ -96183,6 +102663,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityCreateNestedManyWithoutTenantInput
     itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutTenantInput
     brands?: BrandCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutUsersInput = {
@@ -96230,6 +102712,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUncheckedCreateNestedManyWithoutTenantInput
     itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutTenantInput
     brands?: BrandUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutUsersInput = {
@@ -96315,6 +102799,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUpdateManyWithoutTenantNestedInput
     itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutTenantNestedInput
     brands?: BrandUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutUsersInput = {
@@ -96362,6 +102848,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
     itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
     brands?: BrandUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserRoleUpsertWithWhereUniqueWithoutUserInput = {
@@ -96435,6 +102923,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityCreateNestedManyWithoutTenantInput
     itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutTenantInput
     brands?: BrandCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRolesInput = {
@@ -96482,6 +102972,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUncheckedCreateNestedManyWithoutTenantInput
     itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutTenantInput
     brands?: BrandUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRolesInput = {
@@ -96567,6 +103059,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUpdateManyWithoutTenantNestedInput
     itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutTenantNestedInput
     brands?: BrandUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRolesInput = {
@@ -96614,6 +103108,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
     itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
     brands?: BrandUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserRoleUpsertWithWhereUniqueWithoutRoleInput = {
@@ -96801,6 +103297,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityCreateNestedManyWithoutTenantInput
     itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutTenantInput
     brands?: BrandCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWarehousesInput = {
@@ -96848,6 +103346,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUncheckedCreateNestedManyWithoutTenantInput
     itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutTenantInput
     brands?: BrandUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWarehousesInput = {
@@ -97117,6 +103617,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUpdateManyWithoutTenantNestedInput
     itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutTenantNestedInput
     brands?: BrandUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWarehousesInput = {
@@ -97164,6 +103666,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
     itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
     brands?: BrandUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WarehouseItemUpsertWithWhereUniqueWithoutWarehouseInput = {
@@ -97709,6 +104213,22 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type OpeningBalanceSessionLineCreateManyAccountInput = {
+    id?: string
+    tenantId: string
+    sessionId: string
+    dimension: $Enums.OpeningBalanceDimension
+    partyId?: string | null
+    cashboxId?: string | null
+    bankAccountId?: string | null
+    currencyId?: string | null
+    partySide?: $Enums.OpeningBalancePartySide | null
+    amount: Decimal | DecimalJsLike | number | string
+    exchangeRate?: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type ChartOfAccountUpdateWithoutParentInput = {
     id?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
@@ -97737,6 +104257,7 @@ export namespace Prisma {
     defaultBankFor?: FinancialSettingUpdateManyWithoutDefaultBankAccountNestedInput
     partyReceivables?: PartyUpdateManyWithoutReceivableAccountNestedInput
     partyPayables?: PartyUpdateManyWithoutPayableAccountNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutAccountNestedInput
   }
 
   export type ChartOfAccountUncheckedUpdateWithoutParentInput = {
@@ -97767,6 +104288,7 @@ export namespace Prisma {
     defaultBankFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultBankAccountNestedInput
     partyReceivables?: PartyUncheckedUpdateManyWithoutReceivableAccountNestedInput
     partyPayables?: PartyUncheckedUpdateManyWithoutPayableAccountNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutAccountNestedInput
   }
 
   export type ChartOfAccountUncheckedUpdateManyWithoutParentInput = {
@@ -98438,6 +104960,7 @@ export namespace Prisma {
     invoices?: InvoiceUpdateManyWithoutPartyNestedInput
     payments?: PaymentUpdateManyWithoutPartyNestedInput
     journalLines?: JournalLineUpdateManyWithoutPartyNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutPartyNestedInput
     payableAccount?: ChartOfAccountUpdateOneWithoutPartyPayablesNestedInput
   }
 
@@ -98458,6 +104981,7 @@ export namespace Prisma {
     invoices?: InvoiceUncheckedUpdateManyWithoutPartyNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutPartyNestedInput
     journalLines?: JournalLineUncheckedUpdateManyWithoutPartyNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutPartyNestedInput
   }
 
   export type PartyUncheckedUpdateManyWithoutReceivableAccountInput = {
@@ -98492,6 +105016,7 @@ export namespace Prisma {
     invoices?: InvoiceUpdateManyWithoutPartyNestedInput
     payments?: PaymentUpdateManyWithoutPartyNestedInput
     journalLines?: JournalLineUpdateManyWithoutPartyNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutPartyNestedInput
     receivableAccount?: ChartOfAccountUpdateOneWithoutPartyReceivablesNestedInput
   }
 
@@ -98512,6 +105037,7 @@ export namespace Prisma {
     invoices?: InvoiceUncheckedUpdateManyWithoutPartyNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutPartyNestedInput
     journalLines?: JournalLineUncheckedUpdateManyWithoutPartyNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutPartyNestedInput
   }
 
   export type PartyUncheckedUpdateManyWithoutPayableAccountInput = {
@@ -98526,6 +105052,54 @@ export namespace Prisma {
     openingBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     receivableAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OpeningBalanceSessionLineUpdateWithoutAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    dimension?: EnumOpeningBalanceDimensionFieldUpdateOperationsInput | $Enums.OpeningBalanceDimension
+    partySide?: NullableEnumOpeningBalancePartySideFieldUpdateOperationsInput | $Enums.OpeningBalancePartySide | null
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    exchangeRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    session?: OpeningBalanceSessionUpdateOneRequiredWithoutLinesNestedInput
+    tenant?: TenantUpdateOneRequiredWithoutOpeningBalanceSessionLinesNestedInput
+    party?: PartyUpdateOneWithoutOpeningBalanceSessionLinesNestedInput
+    cashbox?: CashboxUpdateOneWithoutOpeningBalanceSessionLinesNestedInput
+    bankAccount?: BankAccountUpdateOneWithoutOpeningBalanceSessionLinesNestedInput
+    currency?: CurrencyUpdateOneWithoutOpeningBalanceSessionLinesNestedInput
+  }
+
+  export type OpeningBalanceSessionLineUncheckedUpdateWithoutAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    sessionId?: StringFieldUpdateOperationsInput | string
+    dimension?: EnumOpeningBalanceDimensionFieldUpdateOperationsInput | $Enums.OpeningBalanceDimension
+    partyId?: NullableStringFieldUpdateOperationsInput | string | null
+    cashboxId?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    currencyId?: NullableStringFieldUpdateOperationsInput | string | null
+    partySide?: NullableEnumOpeningBalancePartySideFieldUpdateOperationsInput | $Enums.OpeningBalancePartySide | null
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    exchangeRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OpeningBalanceSessionLineUncheckedUpdateManyWithoutAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    sessionId?: StringFieldUpdateOperationsInput | string
+    dimension?: EnumOpeningBalanceDimensionFieldUpdateOperationsInput | $Enums.OpeningBalanceDimension
+    partyId?: NullableStringFieldUpdateOperationsInput | string | null
+    cashboxId?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    currencyId?: NullableStringFieldUpdateOperationsInput | string | null
+    partySide?: NullableEnumOpeningBalancePartySideFieldUpdateOperationsInput | $Enums.OpeningBalancePartySide | null
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    exchangeRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -98718,6 +105292,22 @@ export namespace Prisma {
     sortOrder?: number
   }
 
+  export type OpeningBalanceSessionLineCreateManyBankAccountInput = {
+    id?: string
+    tenantId: string
+    sessionId: string
+    dimension: $Enums.OpeningBalanceDimension
+    accountId?: string | null
+    partyId?: string | null
+    cashboxId?: string | null
+    currencyId?: string | null
+    partySide?: $Enums.OpeningBalancePartySide | null
+    amount: Decimal | DecimalJsLike | number | string
+    exchangeRate?: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type JournalLineUpdateWithoutBankAccountInput = {
     id?: StringFieldUpdateOperationsInput | string
     tenantId?: StringFieldUpdateOperationsInput | string
@@ -98764,6 +105354,54 @@ export namespace Prisma {
     credit?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     sortOrder?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type OpeningBalanceSessionLineUpdateWithoutBankAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    dimension?: EnumOpeningBalanceDimensionFieldUpdateOperationsInput | $Enums.OpeningBalanceDimension
+    partySide?: NullableEnumOpeningBalancePartySideFieldUpdateOperationsInput | $Enums.OpeningBalancePartySide | null
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    exchangeRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    session?: OpeningBalanceSessionUpdateOneRequiredWithoutLinesNestedInput
+    tenant?: TenantUpdateOneRequiredWithoutOpeningBalanceSessionLinesNestedInput
+    party?: PartyUpdateOneWithoutOpeningBalanceSessionLinesNestedInput
+    cashbox?: CashboxUpdateOneWithoutOpeningBalanceSessionLinesNestedInput
+    account?: ChartOfAccountUpdateOneWithoutOpeningBalanceSessionLinesNestedInput
+    currency?: CurrencyUpdateOneWithoutOpeningBalanceSessionLinesNestedInput
+  }
+
+  export type OpeningBalanceSessionLineUncheckedUpdateWithoutBankAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    sessionId?: StringFieldUpdateOperationsInput | string
+    dimension?: EnumOpeningBalanceDimensionFieldUpdateOperationsInput | $Enums.OpeningBalanceDimension
+    accountId?: NullableStringFieldUpdateOperationsInput | string | null
+    partyId?: NullableStringFieldUpdateOperationsInput | string | null
+    cashboxId?: NullableStringFieldUpdateOperationsInput | string | null
+    currencyId?: NullableStringFieldUpdateOperationsInput | string | null
+    partySide?: NullableEnumOpeningBalancePartySideFieldUpdateOperationsInput | $Enums.OpeningBalancePartySide | null
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    exchangeRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OpeningBalanceSessionLineUncheckedUpdateManyWithoutBankAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    sessionId?: StringFieldUpdateOperationsInput | string
+    dimension?: EnumOpeningBalanceDimensionFieldUpdateOperationsInput | $Enums.OpeningBalanceDimension
+    accountId?: NullableStringFieldUpdateOperationsInput | string | null
+    partyId?: NullableStringFieldUpdateOperationsInput | string | null
+    cashboxId?: NullableStringFieldUpdateOperationsInput | string | null
+    currencyId?: NullableStringFieldUpdateOperationsInput | string | null
+    partySide?: NullableEnumOpeningBalancePartySideFieldUpdateOperationsInput | $Enums.OpeningBalancePartySide | null
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    exchangeRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ItemCreateManyBrandInput = {
@@ -98921,6 +105559,22 @@ export namespace Prisma {
     credit?: Decimal | DecimalJsLike | number | string
     description?: string | null
     sortOrder?: number
+  }
+
+  export type OpeningBalanceSessionLineCreateManyCashboxInput = {
+    id?: string
+    tenantId: string
+    sessionId: string
+    dimension: $Enums.OpeningBalanceDimension
+    accountId?: string | null
+    partyId?: string | null
+    bankAccountId?: string | null
+    currencyId?: string | null
+    partySide?: $Enums.OpeningBalancePartySide | null
+    amount: Decimal | DecimalJsLike | number | string
+    exchangeRate?: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type ExpenseUpdateWithoutCashboxInput = {
@@ -99108,6 +105762,54 @@ export namespace Prisma {
     credit?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     sortOrder?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type OpeningBalanceSessionLineUpdateWithoutCashboxInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    dimension?: EnumOpeningBalanceDimensionFieldUpdateOperationsInput | $Enums.OpeningBalanceDimension
+    partySide?: NullableEnumOpeningBalancePartySideFieldUpdateOperationsInput | $Enums.OpeningBalancePartySide | null
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    exchangeRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    session?: OpeningBalanceSessionUpdateOneRequiredWithoutLinesNestedInput
+    tenant?: TenantUpdateOneRequiredWithoutOpeningBalanceSessionLinesNestedInput
+    party?: PartyUpdateOneWithoutOpeningBalanceSessionLinesNestedInput
+    bankAccount?: BankAccountUpdateOneWithoutOpeningBalanceSessionLinesNestedInput
+    account?: ChartOfAccountUpdateOneWithoutOpeningBalanceSessionLinesNestedInput
+    currency?: CurrencyUpdateOneWithoutOpeningBalanceSessionLinesNestedInput
+  }
+
+  export type OpeningBalanceSessionLineUncheckedUpdateWithoutCashboxInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    sessionId?: StringFieldUpdateOperationsInput | string
+    dimension?: EnumOpeningBalanceDimensionFieldUpdateOperationsInput | $Enums.OpeningBalanceDimension
+    accountId?: NullableStringFieldUpdateOperationsInput | string | null
+    partyId?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    currencyId?: NullableStringFieldUpdateOperationsInput | string | null
+    partySide?: NullableEnumOpeningBalancePartySideFieldUpdateOperationsInput | $Enums.OpeningBalancePartySide | null
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    exchangeRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OpeningBalanceSessionLineUncheckedUpdateManyWithoutCashboxInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    sessionId?: StringFieldUpdateOperationsInput | string
+    dimension?: EnumOpeningBalanceDimensionFieldUpdateOperationsInput | $Enums.OpeningBalanceDimension
+    accountId?: NullableStringFieldUpdateOperationsInput | string | null
+    partyId?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    currencyId?: NullableStringFieldUpdateOperationsInput | string | null
+    partySide?: NullableEnumOpeningBalancePartySideFieldUpdateOperationsInput | $Enums.OpeningBalancePartySide | null
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    exchangeRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type PaymentAllocationCreateManyPaymentInput = {
@@ -99348,6 +106050,22 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type OpeningBalanceSessionLineCreateManyCurrencyInput = {
+    id?: string
+    tenantId: string
+    sessionId: string
+    dimension: $Enums.OpeningBalanceDimension
+    accountId?: string | null
+    partyId?: string | null
+    cashboxId?: string | null
+    bankAccountId?: string | null
+    partySide?: $Enums.OpeningBalancePartySide | null
+    amount: Decimal | DecimalJsLike | number | string
+    exchangeRate?: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type CashboxUpdateWithoutCurrencyInput = {
     id?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
@@ -99360,6 +106078,7 @@ export namespace Prisma {
     expenses?: ExpenseUpdateManyWithoutCashboxNestedInput
     payments?: PaymentUpdateManyWithoutCashboxNestedInput
     journalLines?: JournalLineUpdateManyWithoutCashboxNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutCashboxNestedInput
   }
 
   export type CashboxUncheckedUpdateWithoutCurrencyInput = {
@@ -99374,6 +106093,7 @@ export namespace Prisma {
     expenses?: ExpenseUncheckedUpdateManyWithoutCashboxNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutCashboxNestedInput
     journalLines?: JournalLineUncheckedUpdateManyWithoutCashboxNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutCashboxNestedInput
   }
 
   export type CashboxUncheckedUpdateManyWithoutCurrencyInput = {
@@ -99399,6 +106119,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: TenantUpdateOneRequiredWithoutBankAccountsNestedInput
     journalLines?: JournalLineUpdateManyWithoutBankAccountNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutBankAccountNestedInput
   }
 
   export type BankAccountUncheckedUpdateWithoutCurrencyInput = {
@@ -99413,6 +106134,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     journalLines?: JournalLineUncheckedUpdateManyWithoutBankAccountNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutBankAccountNestedInput
   }
 
   export type BankAccountUncheckedUpdateManyWithoutCurrencyInput = {
@@ -99677,6 +106399,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUpdateManyWithoutTenantNestedInput
     itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutTenantNestedInput
     brands?: BrandUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBaseCurrencyInput = {
@@ -99724,6 +106448,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
     itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
     brands?: BrandUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateManyWithoutBaseCurrencyInput = {
@@ -99806,6 +106532,54 @@ export namespace Prisma {
     cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cancelledBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OpeningBalanceSessionLineUpdateWithoutCurrencyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    dimension?: EnumOpeningBalanceDimensionFieldUpdateOperationsInput | $Enums.OpeningBalanceDimension
+    partySide?: NullableEnumOpeningBalancePartySideFieldUpdateOperationsInput | $Enums.OpeningBalancePartySide | null
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    exchangeRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    session?: OpeningBalanceSessionUpdateOneRequiredWithoutLinesNestedInput
+    tenant?: TenantUpdateOneRequiredWithoutOpeningBalanceSessionLinesNestedInput
+    party?: PartyUpdateOneWithoutOpeningBalanceSessionLinesNestedInput
+    cashbox?: CashboxUpdateOneWithoutOpeningBalanceSessionLinesNestedInput
+    bankAccount?: BankAccountUpdateOneWithoutOpeningBalanceSessionLinesNestedInput
+    account?: ChartOfAccountUpdateOneWithoutOpeningBalanceSessionLinesNestedInput
+  }
+
+  export type OpeningBalanceSessionLineUncheckedUpdateWithoutCurrencyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    sessionId?: StringFieldUpdateOperationsInput | string
+    dimension?: EnumOpeningBalanceDimensionFieldUpdateOperationsInput | $Enums.OpeningBalanceDimension
+    accountId?: NullableStringFieldUpdateOperationsInput | string | null
+    partyId?: NullableStringFieldUpdateOperationsInput | string | null
+    cashboxId?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    partySide?: NullableEnumOpeningBalancePartySideFieldUpdateOperationsInput | $Enums.OpeningBalancePartySide | null
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    exchangeRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OpeningBalanceSessionLineUncheckedUpdateManyWithoutCurrencyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    sessionId?: StringFieldUpdateOperationsInput | string
+    dimension?: EnumOpeningBalanceDimensionFieldUpdateOperationsInput | $Enums.OpeningBalanceDimension
+    accountId?: NullableStringFieldUpdateOperationsInput | string | null
+    partyId?: NullableStringFieldUpdateOperationsInput | string | null
+    cashboxId?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    partySide?: NullableEnumOpeningBalancePartySideFieldUpdateOperationsInput | $Enums.OpeningBalancePartySide | null
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    exchangeRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -99906,6 +106680,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUpdateManyWithoutTenantNestedInput
     itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutTenantNestedInput
     brands?: BrandUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDefaultSalesSequenceInput = {
@@ -99953,6 +106729,8 @@ export namespace Prisma {
     catalogEntities?: CatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
     itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
     brands?: BrandUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateManyWithoutDefaultSalesSequenceInput = {
@@ -100128,6 +106906,21 @@ export namespace Prisma {
     postedBy?: string | null
     cancelledAt?: Date | string | null
     cancelledBy?: string | null
+    createdBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type OpeningBalanceSessionCreateManyFiscalPeriodInput = {
+    id?: string
+    tenantId: string
+    number: string
+    status?: $Enums.OpeningBalanceSessionStatus
+    description?: string | null
+    postedAt?: Date | string | null
+    postedBy?: string | null
+    lockedAt?: Date | string | null
+    lockedBy?: string | null
     createdBy: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -100499,6 +107292,53 @@ export namespace Prisma {
     postedBy?: NullableStringFieldUpdateOperationsInput | string | null
     cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cancelledBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OpeningBalanceSessionUpdateWithoutFiscalPeriodInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    status?: EnumOpeningBalanceSessionStatusFieldUpdateOperationsInput | $Enums.OpeningBalanceSessionStatus
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    postedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    lockedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lockedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutOpeningBalanceSessionsNestedInput
+    lines?: OpeningBalanceSessionLineUpdateManyWithoutSessionNestedInput
+  }
+
+  export type OpeningBalanceSessionUncheckedUpdateWithoutFiscalPeriodInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    status?: EnumOpeningBalanceSessionStatusFieldUpdateOperationsInput | $Enums.OpeningBalanceSessionStatus
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    postedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    lockedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lockedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutSessionNestedInput
+  }
+
+  export type OpeningBalanceSessionUncheckedUpdateManyWithoutFiscalPeriodInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    status?: EnumOpeningBalanceSessionStatusFieldUpdateOperationsInput | $Enums.OpeningBalanceSessionStatus
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    postedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    lockedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lockedBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -101200,6 +108040,70 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type OpeningBalanceSessionLineCreateManySessionInput = {
+    id?: string
+    tenantId: string
+    dimension: $Enums.OpeningBalanceDimension
+    accountId?: string | null
+    partyId?: string | null
+    cashboxId?: string | null
+    bankAccountId?: string | null
+    currencyId?: string | null
+    partySide?: $Enums.OpeningBalancePartySide | null
+    amount: Decimal | DecimalJsLike | number | string
+    exchangeRate?: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type OpeningBalanceSessionLineUpdateWithoutSessionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    dimension?: EnumOpeningBalanceDimensionFieldUpdateOperationsInput | $Enums.OpeningBalanceDimension
+    partySide?: NullableEnumOpeningBalancePartySideFieldUpdateOperationsInput | $Enums.OpeningBalancePartySide | null
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    exchangeRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutOpeningBalanceSessionLinesNestedInput
+    party?: PartyUpdateOneWithoutOpeningBalanceSessionLinesNestedInput
+    cashbox?: CashboxUpdateOneWithoutOpeningBalanceSessionLinesNestedInput
+    bankAccount?: BankAccountUpdateOneWithoutOpeningBalanceSessionLinesNestedInput
+    account?: ChartOfAccountUpdateOneWithoutOpeningBalanceSessionLinesNestedInput
+    currency?: CurrencyUpdateOneWithoutOpeningBalanceSessionLinesNestedInput
+  }
+
+  export type OpeningBalanceSessionLineUncheckedUpdateWithoutSessionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    dimension?: EnumOpeningBalanceDimensionFieldUpdateOperationsInput | $Enums.OpeningBalanceDimension
+    accountId?: NullableStringFieldUpdateOperationsInput | string | null
+    partyId?: NullableStringFieldUpdateOperationsInput | string | null
+    cashboxId?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    currencyId?: NullableStringFieldUpdateOperationsInput | string | null
+    partySide?: NullableEnumOpeningBalancePartySideFieldUpdateOperationsInput | $Enums.OpeningBalancePartySide | null
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    exchangeRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OpeningBalanceSessionLineUncheckedUpdateManyWithoutSessionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    dimension?: EnumOpeningBalanceDimensionFieldUpdateOperationsInput | $Enums.OpeningBalanceDimension
+    accountId?: NullableStringFieldUpdateOperationsInput | string | null
+    partyId?: NullableStringFieldUpdateOperationsInput | string | null
+    cashboxId?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    currencyId?: NullableStringFieldUpdateOperationsInput | string | null
+    partySide?: NullableEnumOpeningBalancePartySideFieldUpdateOperationsInput | $Enums.OpeningBalancePartySide | null
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    exchangeRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type InvoiceCreateManyPartyInput = {
     id?: string
     tenantId: string
@@ -101264,6 +108168,22 @@ export namespace Prisma {
     credit?: Decimal | DecimalJsLike | number | string
     description?: string | null
     sortOrder?: number
+  }
+
+  export type OpeningBalanceSessionLineCreateManyPartyInput = {
+    id?: string
+    tenantId: string
+    sessionId: string
+    dimension: $Enums.OpeningBalanceDimension
+    accountId?: string | null
+    cashboxId?: string | null
+    bankAccountId?: string | null
+    currencyId?: string | null
+    partySide?: $Enums.OpeningBalancePartySide | null
+    amount: Decimal | DecimalJsLike | number | string
+    exchangeRate?: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type InvoiceUpdateWithoutPartyInput = {
@@ -101468,6 +108388,54 @@ export namespace Prisma {
     credit?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     sortOrder?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type OpeningBalanceSessionLineUpdateWithoutPartyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    dimension?: EnumOpeningBalanceDimensionFieldUpdateOperationsInput | $Enums.OpeningBalanceDimension
+    partySide?: NullableEnumOpeningBalancePartySideFieldUpdateOperationsInput | $Enums.OpeningBalancePartySide | null
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    exchangeRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    session?: OpeningBalanceSessionUpdateOneRequiredWithoutLinesNestedInput
+    tenant?: TenantUpdateOneRequiredWithoutOpeningBalanceSessionLinesNestedInput
+    cashbox?: CashboxUpdateOneWithoutOpeningBalanceSessionLinesNestedInput
+    bankAccount?: BankAccountUpdateOneWithoutOpeningBalanceSessionLinesNestedInput
+    account?: ChartOfAccountUpdateOneWithoutOpeningBalanceSessionLinesNestedInput
+    currency?: CurrencyUpdateOneWithoutOpeningBalanceSessionLinesNestedInput
+  }
+
+  export type OpeningBalanceSessionLineUncheckedUpdateWithoutPartyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    sessionId?: StringFieldUpdateOperationsInput | string
+    dimension?: EnumOpeningBalanceDimensionFieldUpdateOperationsInput | $Enums.OpeningBalanceDimension
+    accountId?: NullableStringFieldUpdateOperationsInput | string | null
+    cashboxId?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    currencyId?: NullableStringFieldUpdateOperationsInput | string | null
+    partySide?: NullableEnumOpeningBalancePartySideFieldUpdateOperationsInput | $Enums.OpeningBalancePartySide | null
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    exchangeRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OpeningBalanceSessionLineUncheckedUpdateManyWithoutPartyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    sessionId?: StringFieldUpdateOperationsInput | string
+    dimension?: EnumOpeningBalanceDimensionFieldUpdateOperationsInput | $Enums.OpeningBalanceDimension
+    accountId?: NullableStringFieldUpdateOperationsInput | string | null
+    cashboxId?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    currencyId?: NullableStringFieldUpdateOperationsInput | string | null
+    partySide?: NullableEnumOpeningBalancePartySideFieldUpdateOperationsInput | $Enums.OpeningBalancePartySide | null
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    exchangeRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type StockCountLineCreateManyStockCountInput = {
@@ -101888,6 +108856,37 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type OpeningBalanceSessionCreateManyTenantInput = {
+    id?: string
+    number: string
+    fiscalPeriodId: string
+    status?: $Enums.OpeningBalanceSessionStatus
+    description?: string | null
+    postedAt?: Date | string | null
+    postedBy?: string | null
+    lockedAt?: Date | string | null
+    lockedBy?: string | null
+    createdBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type OpeningBalanceSessionLineCreateManyTenantInput = {
+    id?: string
+    sessionId: string
+    dimension: $Enums.OpeningBalanceDimension
+    accountId?: string | null
+    partyId?: string | null
+    cashboxId?: string | null
+    bankAccountId?: string | null
+    currencyId?: string | null
+    partySide?: $Enums.OpeningBalancePartySide | null
+    amount: Decimal | DecimalJsLike | number | string
+    exchangeRate?: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type AppUserUpdateWithoutTenantInput = {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
@@ -101971,6 +108970,7 @@ export namespace Prisma {
     payments?: PaymentUpdateManyWithoutCurrencyNestedInput
     baseForTenants?: TenantUpdateManyWithoutBaseCurrencyNestedInput
     expenses?: ExpenseUpdateManyWithoutCurrencyNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutCurrencyNestedInput
   }
 
   export type CurrencyUncheckedUpdateWithoutTenantInput = {
@@ -101989,6 +108989,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedUpdateManyWithoutCurrencyNestedInput
     baseForTenants?: TenantUncheckedUpdateManyWithoutBaseCurrencyNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutCurrencyNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutCurrencyNestedInput
   }
 
   export type CurrencyUncheckedUpdateManyWithoutTenantInput = {
@@ -102016,6 +109017,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUpdateManyWithoutFiscalPeriodNestedInput
     stockCounts?: StockCountUpdateManyWithoutFiscalPeriodNestedInput
     expenses?: ExpenseUpdateManyWithoutFiscalPeriodNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutFiscalPeriodNestedInput
   }
 
   export type FiscalPeriodUncheckedUpdateWithoutTenantInput = {
@@ -102032,6 +109034,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedUpdateManyWithoutFiscalPeriodNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutFiscalPeriodNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutFiscalPeriodNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutFiscalPeriodNestedInput
   }
 
   export type FiscalPeriodUncheckedUpdateManyWithoutTenantInput = {
@@ -102235,6 +109238,7 @@ export namespace Prisma {
     invoices?: InvoiceUpdateManyWithoutPartyNestedInput
     payments?: PaymentUpdateManyWithoutPartyNestedInput
     journalLines?: JournalLineUpdateManyWithoutPartyNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutPartyNestedInput
     receivableAccount?: ChartOfAccountUpdateOneWithoutPartyReceivablesNestedInput
     payableAccount?: ChartOfAccountUpdateOneWithoutPartyPayablesNestedInput
   }
@@ -102256,6 +109260,7 @@ export namespace Prisma {
     invoices?: InvoiceUncheckedUpdateManyWithoutPartyNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutPartyNestedInput
     journalLines?: JournalLineUncheckedUpdateManyWithoutPartyNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutPartyNestedInput
   }
 
   export type PartyUncheckedUpdateManyWithoutTenantInput = {
@@ -102326,6 +109331,7 @@ export namespace Prisma {
     expenses?: ExpenseUpdateManyWithoutCashboxNestedInput
     payments?: PaymentUpdateManyWithoutCashboxNestedInput
     journalLines?: JournalLineUpdateManyWithoutCashboxNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutCashboxNestedInput
   }
 
   export type CashboxUncheckedUpdateWithoutTenantInput = {
@@ -102340,6 +109346,7 @@ export namespace Prisma {
     expenses?: ExpenseUncheckedUpdateManyWithoutCashboxNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutCashboxNestedInput
     journalLines?: JournalLineUncheckedUpdateManyWithoutCashboxNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutCashboxNestedInput
   }
 
   export type CashboxUncheckedUpdateManyWithoutTenantInput = {
@@ -102365,6 +109372,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     currency?: CurrencyUpdateOneRequiredWithoutBankAccountsNestedInput
     journalLines?: JournalLineUpdateManyWithoutBankAccountNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutBankAccountNestedInput
   }
 
   export type BankAccountUncheckedUpdateWithoutTenantInput = {
@@ -102379,6 +109387,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     journalLines?: JournalLineUncheckedUpdateManyWithoutBankAccountNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutBankAccountNestedInput
   }
 
   export type BankAccountUncheckedUpdateManyWithoutTenantInput = {
@@ -102613,6 +109622,7 @@ export namespace Prisma {
     defaultBankFor?: FinancialSettingUpdateManyWithoutDefaultBankAccountNestedInput
     partyReceivables?: PartyUpdateManyWithoutReceivableAccountNestedInput
     partyPayables?: PartyUpdateManyWithoutPayableAccountNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutAccountNestedInput
   }
 
   export type ChartOfAccountUncheckedUpdateWithoutTenantInput = {
@@ -102643,6 +109653,7 @@ export namespace Prisma {
     defaultBankFor?: FinancialSettingUncheckedUpdateManyWithoutDefaultBankAccountNestedInput
     partyReceivables?: PartyUncheckedUpdateManyWithoutReceivableAccountNestedInput
     partyPayables?: PartyUncheckedUpdateManyWithoutPayableAccountNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutAccountNestedInput
   }
 
   export type ChartOfAccountUncheckedUpdateManyWithoutTenantInput = {
@@ -103060,6 +110071,101 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OpeningBalanceSessionUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    status?: EnumOpeningBalanceSessionStatusFieldUpdateOperationsInput | $Enums.OpeningBalanceSessionStatus
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    postedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    lockedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lockedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    fiscalPeriod?: FiscalPeriodUpdateOneRequiredWithoutOpeningBalanceSessionsNestedInput
+    lines?: OpeningBalanceSessionLineUpdateManyWithoutSessionNestedInput
+  }
+
+  export type OpeningBalanceSessionUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    fiscalPeriodId?: StringFieldUpdateOperationsInput | string
+    status?: EnumOpeningBalanceSessionStatusFieldUpdateOperationsInput | $Enums.OpeningBalanceSessionStatus
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    postedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    lockedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lockedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutSessionNestedInput
+  }
+
+  export type OpeningBalanceSessionUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    fiscalPeriodId?: StringFieldUpdateOperationsInput | string
+    status?: EnumOpeningBalanceSessionStatusFieldUpdateOperationsInput | $Enums.OpeningBalanceSessionStatus
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    postedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    lockedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lockedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OpeningBalanceSessionLineUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    dimension?: EnumOpeningBalanceDimensionFieldUpdateOperationsInput | $Enums.OpeningBalanceDimension
+    partySide?: NullableEnumOpeningBalancePartySideFieldUpdateOperationsInput | $Enums.OpeningBalancePartySide | null
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    exchangeRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    session?: OpeningBalanceSessionUpdateOneRequiredWithoutLinesNestedInput
+    party?: PartyUpdateOneWithoutOpeningBalanceSessionLinesNestedInput
+    cashbox?: CashboxUpdateOneWithoutOpeningBalanceSessionLinesNestedInput
+    bankAccount?: BankAccountUpdateOneWithoutOpeningBalanceSessionLinesNestedInput
+    account?: ChartOfAccountUpdateOneWithoutOpeningBalanceSessionLinesNestedInput
+    currency?: CurrencyUpdateOneWithoutOpeningBalanceSessionLinesNestedInput
+  }
+
+  export type OpeningBalanceSessionLineUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sessionId?: StringFieldUpdateOperationsInput | string
+    dimension?: EnumOpeningBalanceDimensionFieldUpdateOperationsInput | $Enums.OpeningBalanceDimension
+    accountId?: NullableStringFieldUpdateOperationsInput | string | null
+    partyId?: NullableStringFieldUpdateOperationsInput | string | null
+    cashboxId?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    currencyId?: NullableStringFieldUpdateOperationsInput | string | null
+    partySide?: NullableEnumOpeningBalancePartySideFieldUpdateOperationsInput | $Enums.OpeningBalancePartySide | null
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    exchangeRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sessionId?: StringFieldUpdateOperationsInput | string
+    dimension?: EnumOpeningBalanceDimensionFieldUpdateOperationsInput | $Enums.OpeningBalanceDimension
+    accountId?: NullableStringFieldUpdateOperationsInput | string | null
+    partyId?: NullableStringFieldUpdateOperationsInput | string | null
+    cashboxId?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    currencyId?: NullableStringFieldUpdateOperationsInput | string | null
+    partySide?: NullableEnumOpeningBalancePartySideFieldUpdateOperationsInput | $Enums.OpeningBalancePartySide | null
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    exchangeRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

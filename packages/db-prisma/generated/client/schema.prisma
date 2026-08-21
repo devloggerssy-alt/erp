@@ -42,26 +42,27 @@ model ChartOfAccount {
   createdAt  DateTime    @default(now()) @map("created_at")
   updatedAt  DateTime    @updatedAt @map("updated_at")
 
-  tenant                        Tenant             @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-  parent                        ChartOfAccount?    @relation("AccountHierarchy", fields: [parentId], references: [id])
-  children                      ChartOfAccount[]   @relation("AccountHierarchy")
+  tenant                        Tenant                      @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  parent                        ChartOfAccount?             @relation("AccountHierarchy", fields: [parentId], references: [id])
+  children                      ChartOfAccount[]            @relation("AccountHierarchy")
   journalLines                  JournalLine[]
-  expenseItems                  ExpenseItem[]      @relation("ExpenseItemAccount")
+  expenseItems                  ExpenseItem[]               @relation("ExpenseItemAccount")
   // FinancialSetting back-relations (GL mapping)
-  defaultSalesFor               FinancialSetting[] @relation("DefaultSalesAccount")
-  defaultPurchaseFor            FinancialSetting[] @relation("DefaultPurchaseAccount")
-  defaultTaxFor                 FinancialSetting[] @relation("DefaultTaxAccount")
-  defaultReceivableFor          FinancialSetting[] @relation("DefaultReceivableAccount")
-  defaultPayableFor             FinancialSetting[] @relation("DefaultPayableAccount")
-  defaultInventoryFor           FinancialSetting[] @relation("DefaultInventoryAccount")
-  defaultCogsFor                FinancialSetting[] @relation("DefaultCogsAccount")
-  defaultInventoryAdjustmentFor FinancialSetting[] @relation("DefaultInventoryAdjustmentAccount")
-  defaultOpeningEquityFor       FinancialSetting[] @relation("DefaultOpeningEquityAccount")
-  defaultCashFor                FinancialSetting[] @relation("DefaultCashAccount")
-  defaultBankFor                FinancialSetting[] @relation("DefaultBankAccount")
+  defaultSalesFor               FinancialSetting[]          @relation("DefaultSalesAccount")
+  defaultPurchaseFor            FinancialSetting[]          @relation("DefaultPurchaseAccount")
+  defaultTaxFor                 FinancialSetting[]          @relation("DefaultTaxAccount")
+  defaultReceivableFor          FinancialSetting[]          @relation("DefaultReceivableAccount")
+  defaultPayableFor             FinancialSetting[]          @relation("DefaultPayableAccount")
+  defaultInventoryFor           FinancialSetting[]          @relation("DefaultInventoryAccount")
+  defaultCogsFor                FinancialSetting[]          @relation("DefaultCogsAccount")
+  defaultInventoryAdjustmentFor FinancialSetting[]          @relation("DefaultInventoryAdjustmentAccount")
+  defaultOpeningEquityFor       FinancialSetting[]          @relation("DefaultOpeningEquityAccount")
+  defaultCashFor                FinancialSetting[]          @relation("DefaultCashAccount")
+  defaultBankFor                FinancialSetting[]          @relation("DefaultBankAccount")
   // Party-level override back-relations
-  partyReceivables              Party[]            @relation("PartyReceivableAccount")
-  partyPayables                 Party[]            @relation("PartyPayableAccount")
+  partyReceivables              Party[]                     @relation("PartyReceivableAccount")
+  partyPayables                 Party[]                     @relation("PartyPayableAccount")
+  openingBalanceSessionLines    OpeningBalanceSessionLine[]
   // REMOVED: currentBalance Decimal (source of truth is JournalLine; balances computed on read)
 
   @@unique([tenantId, code])
@@ -218,9 +219,10 @@ model BankAccount {
   createdAt     DateTime @default(now()) @map("created_at")
   updatedAt     DateTime @updatedAt @map("updated_at")
 
-  tenant       Tenant        @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-  currency     Currency      @relation(fields: [currencyId], references: [id])
-  journalLines JournalLine[]
+  tenant                     Tenant                      @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  currency                   Currency                    @relation(fields: [currencyId], references: [id])
+  journalLines               JournalLine[]
+  openingBalanceSessionLines OpeningBalanceSessionLine[]
 
   @@unique([tenantId, code])
   @@index([tenantId])
@@ -272,11 +274,12 @@ model Cashbox {
   createdAt  DateTime @default(now()) @map("created_at")
   updatedAt  DateTime @updatedAt @map("updated_at")
 
-  tenant       Tenant        @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-  currency     Currency      @relation(fields: [currencyId], references: [id])
-  expenses     Expense[]
-  payments     Payment[]
-  journalLines JournalLine[]
+  tenant                     Tenant                      @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  currency                   Currency                    @relation(fields: [currencyId], references: [id])
+  expenses                   Expense[]
+  payments                   Payment[]
+  journalLines               JournalLine[]
+  openingBalanceSessionLines OpeningBalanceSessionLine[]
 
   @@unique([tenantId, code])
   @@index([tenantId])
@@ -374,14 +377,15 @@ model Currency {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  tenant         Tenant        @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-  cashboxes      Cashbox[]
-  bankAccounts   BankAccount[]
-  journalLines   JournalLine[]
-  invoices       Invoice[]
-  payments       Payment[]
-  baseForTenants Tenant[]      @relation("TenantBaseCurrency")
-  expenses       Expense[]
+  tenant                     Tenant                      @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  cashboxes                  Cashbox[]
+  bankAccounts               BankAccount[]
+  journalLines               JournalLine[]
+  invoices                   Invoice[]
+  payments                   Payment[]
+  baseForTenants             Tenant[]                    @relation("TenantBaseCurrency")
+  expenses                   Expense[]
+  openingBalanceSessionLines OpeningBalanceSessionLine[]
 
   @@unique([tenantId, code])
   @@index([tenantId])
@@ -586,13 +590,14 @@ model FiscalPeriod {
   createdAt DateTime           @default(now()) @map("created_at")
   updatedAt DateTime           @updatedAt @map("updated_at")
 
-  tenant         Tenant          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-  stockMovements StockMovement[]
-  invoices       Invoice[]
-  payments       Payment[]
-  journalEntries JournalEntry[]
-  stockCounts    StockCount[]
-  expenses       Expense[]
+  tenant                 Tenant                  @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  stockMovements         StockMovement[]
+  invoices               Invoice[]
+  payments               Payment[]
+  journalEntries         JournalEntry[]
+  stockCounts            StockCount[]
+  expenses               Expense[]
+  openingBalanceSessions OpeningBalanceSession[]
 
   @@index([tenantId])
   @@map("fiscal_periods")
@@ -821,6 +826,87 @@ model Item {
   @@map("items")
 }
 
+// ─── Opening Balance Session ──────────────────────────────────────────────────
+// ADR-3 / ADR-4 / ADR-5 — unified draft → validate → review → post → lock lifecycle.
+// Operational dimensions (partyId / cashboxId / bankAccountId / currencyId) live on
+// session lines; the GL control accounts are resolved at post time by
+// OpeningSessionPostedPolicy from FinancialSettings + party overrides — never stored here.
+enum OpeningBalanceSessionStatus {
+  DRAFT
+  VALIDATED
+  REVIEWED
+  POSTED
+  LOCKED
+}
+
+enum OpeningBalanceDimension {
+  CASHBOX
+  BANK_ACCOUNT
+  PARTY
+  ACCOUNT
+}
+
+enum OpeningBalancePartySide {
+  AR
+  AP
+}
+
+model OpeningBalanceSession {
+  id             String                      @id @default(uuid())
+  tenantId       String                      @map("tenant_id")
+  number         String
+  fiscalPeriodId String                      @map("fiscal_period_id")
+  status         OpeningBalanceSessionStatus @default(DRAFT)
+  description    String?
+  postedAt       DateTime?                   @map("posted_at")
+  postedBy       String?                     @map("posted_by")
+  lockedAt       DateTime?                   @map("locked_at")
+  lockedBy       String?                     @map("locked_by")
+  createdBy      String                      @map("created_by")
+  createdAt      DateTime                    @default(now()) @map("created_at")
+  updatedAt      DateTime                    @updatedAt @map("updated_at")
+
+  tenant       Tenant                      @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  fiscalPeriod FiscalPeriod                @relation(fields: [fiscalPeriodId], references: [id])
+  lines        OpeningBalanceSessionLine[]
+
+  @@unique([tenantId, number])
+  @@index([tenantId])
+  @@index([tenantId, status])
+  @@map("opening_balance_sessions")
+}
+
+model OpeningBalanceSessionLine {
+  id            String                   @id @default(uuid())
+  tenantId      String                   @map("tenant_id")
+  sessionId     String                   @map("session_id")
+  dimension     OpeningBalanceDimension
+  accountId     String?                  @map("account_id")
+  partyId       String?                  @map("party_id")
+  cashboxId     String?                  @map("cashbox_id")
+  bankAccountId String?                  @map("bank_account_id")
+  currencyId    String?                  @map("currency_id")
+  /// AR = debit the receivable control account (money owed to us); AP = credit the payable control account (money we owe).
+  partySide     OpeningBalancePartySide? @map("party_side")
+  /// Signed transaction-currency amount: positive increases the target balance (asset → debit, liability/equity → credit).
+  amount        Decimal                  @db.Decimal(18, 4)
+  /// Locked exchange rate to tenant base currency (ADR-5).
+  exchangeRate  Decimal                  @default(1) @map("exchange_rate") @db.Decimal(18, 6)
+  createdAt     DateTime                 @default(now()) @map("created_at")
+  updatedAt     DateTime                 @updatedAt @map("updated_at")
+
+  session     OpeningBalanceSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  tenant      Tenant                @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  party       Party?                @relation(fields: [partyId], references: [id])
+  cashbox     Cashbox?              @relation(fields: [cashboxId], references: [id])
+  bankAccount BankAccount?          @relation(fields: [bankAccountId], references: [id])
+  account     ChartOfAccount?       @relation(fields: [accountId], references: [id])
+  currency    Currency?             @relation(fields: [currencyId], references: [id])
+
+  @@index([tenantId, sessionId])
+  @@map("opening_balance_session_lines")
+}
+
 // ─── Party ─────────────────────────────────────────────────────────────────────
 enum PartyType {
   CUSTOMER
@@ -844,12 +930,13 @@ model Party {
   createdAt           DateTime  @default(now()) @map("created_at")
   updatedAt           DateTime  @updatedAt @map("updated_at")
 
-  tenant            Tenant          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-  invoices          Invoice[]
-  payments          Payment[]
-  journalLines      JournalLine[]   @relation("JournalLineParty")
-  receivableAccount ChartOfAccount? @relation("PartyReceivableAccount", fields: [receivableAccountId], references: [id])
-  payableAccount    ChartOfAccount? @relation("PartyPayableAccount", fields: [payableAccountId], references: [id])
+  tenant                     Tenant                      @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  invoices                   Invoice[]
+  payments                   Payment[]
+  journalLines               JournalLine[]               @relation("JournalLineParty")
+  openingBalanceSessionLines OpeningBalanceSessionLine[]
+  receivableAccount          ChartOfAccount?             @relation("PartyReceivableAccount", fields: [receivableAccountId], references: [id])
+  payableAccount             ChartOfAccount?             @relation("PartyPayableAccount", fields: [payableAccountId], references: [id])
 
   @@unique([tenantId, code])
   @@index([tenantId])
@@ -1052,36 +1139,38 @@ model Tenant {
   createdAt             DateTime  @default(now()) @map("created_at")
   updatedAt             DateTime  @updatedAt @map("updated_at")
 
-  users                AppUser[]
-  roles                Role[]
-  currencies           Currency[]
-  fiscalPeriods        FiscalPeriod[]
-  documentSequences    DocumentSequence[]
-  itemCategories       ItemCategory[]
-  units                Unit[]
-  items                Item[]
-  parties              Party[]
-  warehouses           Warehouse[]
-  cashboxes            Cashbox[]
-  bankAccounts         BankAccount[]
-  invoiceTypes         InvoiceType[]
-  invoices             Invoice[]
-  payments             Payment[]
-  chartOfAccounts      ChartOfAccount[]
-  journalEntries       JournalEntry[]
-  stockCounts          StockCount[]
-  auditLogs            AuditLog[]
-  aiChatSessions       AiChatSession[]
-  baseCurrency         Currency?           @relation("TenantBaseCurrency", fields: [baseCurrencyId], references: [id])
-  defaultSalesSequence DocumentSequence?   @relation("TenantDefaultSalesSequence", fields: [defaultSalesSequenceId], references: [id])
-  settings             TenantSetting[]
-  financialSetting     FinancialSetting?
-  expenses             Expense[]
-  tags                 Tag[]
-  itemRelations        ItemRelation[]
-  catalogEntities      CatalogEntity[]
-  itemCatalogEntities  ItemCatalogEntity[]
-  brands               Brand[]
+  users                      AppUser[]
+  roles                      Role[]
+  currencies                 Currency[]
+  fiscalPeriods              FiscalPeriod[]
+  documentSequences          DocumentSequence[]
+  itemCategories             ItemCategory[]
+  units                      Unit[]
+  items                      Item[]
+  parties                    Party[]
+  warehouses                 Warehouse[]
+  cashboxes                  Cashbox[]
+  bankAccounts               BankAccount[]
+  invoiceTypes               InvoiceType[]
+  invoices                   Invoice[]
+  payments                   Payment[]
+  chartOfAccounts            ChartOfAccount[]
+  journalEntries             JournalEntry[]
+  stockCounts                StockCount[]
+  auditLogs                  AuditLog[]
+  aiChatSessions             AiChatSession[]
+  baseCurrency               Currency?                   @relation("TenantBaseCurrency", fields: [baseCurrencyId], references: [id])
+  defaultSalesSequence       DocumentSequence?           @relation("TenantDefaultSalesSequence", fields: [defaultSalesSequenceId], references: [id])
+  settings                   TenantSetting[]
+  financialSetting           FinancialSetting?
+  expenses                   Expense[]
+  tags                       Tag[]
+  itemRelations              ItemRelation[]
+  catalogEntities            CatalogEntity[]
+  itemCatalogEntities        ItemCatalogEntity[]
+  brands                     Brand[]
+  openingBalanceSessions     OpeningBalanceSession[]
+  openingBalanceSessionLines OpeningBalanceSessionLine[]
 
   @@map("tenants")
 }

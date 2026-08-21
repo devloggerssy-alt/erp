@@ -1,0 +1,80 @@
+// ─── Opening Balance Session ──────────────────────────────────────────────────
+// ADR-3 / ADR-4 / ADR-5 — unified draft → validate → review → post → lock lifecycle.
+// Operational dimensions (partyId / cashboxId / bankAccountId / currencyId) live on
+// session lines; the GL control accounts are resolved at post time by
+// OpeningSessionPostedPolicy from FinancialSettings + party overrides — never stored here.
+enum OpeningBalanceSessionStatus {
+    DRAFT
+    VALIDATED
+    REVIEWED
+    POSTED
+    LOCKED
+}
+
+enum OpeningBalanceDimension {
+    CASHBOX
+    BANK_ACCOUNT
+    PARTY
+    ACCOUNT
+}
+
+enum OpeningBalancePartySide {
+    AR
+    AP
+}
+
+model OpeningBalanceSession {
+    id             String                      @id @default(uuid())
+    tenantId       String                      @map("tenant_id")
+    number         String
+    fiscalPeriodId String                      @map("fiscal_period_id")
+    status         OpeningBalanceSessionStatus @default(DRAFT)
+    description    String?
+    postedAt       DateTime?                   @map("posted_at")
+    postedBy       String?                     @map("posted_by")
+    lockedAt       DateTime?                   @map("locked_at")
+    lockedBy       String?                     @map("locked_by")
+    createdBy      String                      @map("created_by")
+    createdAt      DateTime                    @default(now()) @map("created_at")
+    updatedAt      DateTime                    @updatedAt @map("updated_at")
+
+    tenant       Tenant       @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+    fiscalPeriod FiscalPeriod @relation(fields: [fiscalPeriodId], references: [id])
+    lines        OpeningBalanceSessionLine[]
+
+    @@unique([tenantId, number])
+    @@index([tenantId])
+    @@index([tenantId, status])
+    @@map("opening_balance_sessions")
+}
+
+model OpeningBalanceSessionLine {
+    id            String                   @id @default(uuid())
+    tenantId      String                   @map("tenant_id")
+    sessionId     String                   @map("session_id")
+    dimension     OpeningBalanceDimension
+    accountId     String?                  @map("account_id")
+    partyId       String?                  @map("party_id")
+    cashboxId     String?                  @map("cashbox_id")
+    bankAccountId String?                  @map("bank_account_id")
+    currencyId    String?                  @map("currency_id")
+    /// AR = debit the receivable control account (money owed to us); AP = credit the payable control account (money we owe).
+    partySide     OpeningBalancePartySide? @map("party_side")
+    /// Signed transaction-currency amount: positive increases the target balance (asset → debit, liability/equity → credit).
+    amount        Decimal                  @db.Decimal(18, 4)
+    /// Locked exchange rate to tenant base currency (ADR-5).
+    exchangeRate  Decimal                  @default(1) @map("exchange_rate") @db.Decimal(18, 6)
+    createdAt     DateTime                 @default(now()) @map("created_at")
+    updatedAt     DateTime                 @updatedAt @map("updated_at")
+
+    session     OpeningBalanceSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+    tenant      Tenant                @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+    party       Party?                @relation(fields: [partyId], references: [id])
+    cashbox     Cashbox?              @relation(fields: [cashboxId], references: [id])
+    bankAccount BankAccount?          @relation(fields: [bankAccountId], references: [id])
+    account     ChartOfAccount?       @relation(fields: [accountId], references: [id])
+    currency    Currency?             @relation(fields: [currencyId], references: [id])
+
+    @@index([tenantId, sessionId])
+    @@map("opening_balance_session_lines")
+}

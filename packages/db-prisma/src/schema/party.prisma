@@ -25,6 +25,7 @@ model Party {
     invoices          Invoice[]
     payments          Payment[]
     journalLines      JournalLine[]   @relation("JournalLineParty")
+    openingBalanceSessionLines OpeningBalanceSessionLine[]
     receivableAccount ChartOfAccount? @relation("PartyReceivableAccount", fields: [receivableAccountId], references: [id])
     payableAccount    ChartOfAccount? @relation("PartyPayableAccount", fields: [payableAccountId], references: [id])
 

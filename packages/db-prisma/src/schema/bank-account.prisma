@@ -17,6 +17,7 @@ model BankAccount {
     tenant       Tenant        @relation(fields: [tenantId], references: [id], onDelete: Cascade)
     currency     Currency      @relation(fields: [currencyId], references: [id])
     journalLines JournalLine[]
+    openingBalanceSessionLines OpeningBalanceSessionLine[]
 
     @@unique([tenantId, code])
     @@index([tenantId])

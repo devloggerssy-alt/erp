@@ -50,6 +50,8 @@ model Tenant {
     catalogEntities      CatalogEntity[]
     itemCatalogEntities  ItemCatalogEntity[]
     brands               Brand[]
+    openingBalanceSessions     OpeningBalanceSession[]
+    openingBalanceSessionLines OpeningBalanceSessionLine[]
 
     @@map("tenants")
 }

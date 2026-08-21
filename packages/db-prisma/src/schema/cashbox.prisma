@@ -29,6 +29,7 @@ model Cashbox {
     expenses        Expense[]
     payments Payment[]
     journalLines JournalLine[]
+    openingBalanceSessionLines OpeningBalanceSessionLine[]
 
     @@unique([tenantId, code])
     @@index([tenantId])

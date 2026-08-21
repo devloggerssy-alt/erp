@@ -16,6 +16,7 @@ model FiscalPeriod {
     journalEntries JournalEntry[]
     stockCounts    StockCount[]
     expenses Expense[]
+    openingBalanceSessions OpeningBalanceSession[]
 
     @@index([tenantId])
     @@map("fiscal_periods")

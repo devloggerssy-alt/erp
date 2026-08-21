@@ -516,6 +516,39 @@ exports.Prisma.ItemScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.OpeningBalanceSessionScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  number: 'number',
+  fiscalPeriodId: 'fiscalPeriodId',
+  status: 'status',
+  description: 'description',
+  postedAt: 'postedAt',
+  postedBy: 'postedBy',
+  lockedAt: 'lockedAt',
+  lockedBy: 'lockedBy',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.OpeningBalanceSessionLineScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  sessionId: 'sessionId',
+  dimension: 'dimension',
+  accountId: 'accountId',
+  partyId: 'partyId',
+  cashboxId: 'cashboxId',
+  bankAccountId: 'bankAccountId',
+  currencyId: 'currencyId',
+  partySide: 'partySide',
+  amount: 'amount',
+  exchangeRate: 'exchangeRate',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.PartyScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
@@ -813,6 +846,26 @@ exports.ItemType = exports.$Enums.ItemType = {
   service: 'service'
 };
 
+exports.OpeningBalanceSessionStatus = exports.$Enums.OpeningBalanceSessionStatus = {
+  DRAFT: 'DRAFT',
+  VALIDATED: 'VALIDATED',
+  REVIEWED: 'REVIEWED',
+  POSTED: 'POSTED',
+  LOCKED: 'LOCKED'
+};
+
+exports.OpeningBalanceDimension = exports.$Enums.OpeningBalanceDimension = {
+  CASHBOX: 'CASHBOX',
+  BANK_ACCOUNT: 'BANK_ACCOUNT',
+  PARTY: 'PARTY',
+  ACCOUNT: 'ACCOUNT'
+};
+
+exports.OpeningBalancePartySide = exports.$Enums.OpeningBalancePartySide = {
+  AR: 'AR',
+  AP: 'AP'
+};
+
 exports.PartyType = exports.$Enums.PartyType = {
   CUSTOMER: 'CUSTOMER',
   SUPPLIER: 'SUPPLIER',
@@ -864,6 +917,8 @@ exports.Prisma.ModelName = {
   ItemCategory: 'ItemCategory',
   ItemRelation: 'ItemRelation',
   Item: 'Item',
+  OpeningBalanceSession: 'OpeningBalanceSession',
+  OpeningBalanceSessionLine: 'OpeningBalanceSessionLine',
   Party: 'Party',
   StockCount: 'StockCount',
   StockCountLine: 'StockCountLine',
