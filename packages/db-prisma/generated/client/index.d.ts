@@ -44194,18 +44194,8 @@ export namespace Prisma {
 
   export type AggregateParty = {
     _count: PartyCountAggregateOutputType | null
-    _avg: PartyAvgAggregateOutputType | null
-    _sum: PartySumAggregateOutputType | null
     _min: PartyMinAggregateOutputType | null
     _max: PartyMaxAggregateOutputType | null
-  }
-
-  export type PartyAvgAggregateOutputType = {
-    openingBalance: Decimal | null
-  }
-
-  export type PartySumAggregateOutputType = {
-    openingBalance: Decimal | null
   }
 
   export type PartyMinAggregateOutputType = {
@@ -44217,7 +44207,6 @@ export namespace Prisma {
     phone: string | null
     email: string | null
     address: string | null
-    openingBalance: Decimal | null
     isActive: boolean | null
     receivableAccountId: string | null
     payableAccountId: string | null
@@ -44234,7 +44223,6 @@ export namespace Prisma {
     phone: string | null
     email: string | null
     address: string | null
-    openingBalance: Decimal | null
     isActive: boolean | null
     receivableAccountId: string | null
     payableAccountId: string | null
@@ -44251,7 +44239,6 @@ export namespace Prisma {
     phone: number
     email: number
     address: number
-    openingBalance: number
     isActive: number
     receivableAccountId: number
     payableAccountId: number
@@ -44260,14 +44247,6 @@ export namespace Prisma {
     _all: number
   }
 
-
-  export type PartyAvgAggregateInputType = {
-    openingBalance?: true
-  }
-
-  export type PartySumAggregateInputType = {
-    openingBalance?: true
-  }
 
   export type PartyMinAggregateInputType = {
     id?: true
@@ -44278,7 +44257,6 @@ export namespace Prisma {
     phone?: true
     email?: true
     address?: true
-    openingBalance?: true
     isActive?: true
     receivableAccountId?: true
     payableAccountId?: true
@@ -44295,7 +44273,6 @@ export namespace Prisma {
     phone?: true
     email?: true
     address?: true
-    openingBalance?: true
     isActive?: true
     receivableAccountId?: true
     payableAccountId?: true
@@ -44312,7 +44289,6 @@ export namespace Prisma {
     phone?: true
     email?: true
     address?: true
-    openingBalance?: true
     isActive?: true
     receivableAccountId?: true
     payableAccountId?: true
@@ -44359,18 +44335,6 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Select which fields to average
-    **/
-    _avg?: PartyAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: PartySumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
      * Select which fields to find the minimum value
     **/
     _min?: PartyMinAggregateInputType
@@ -44401,8 +44365,6 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: PartyCountAggregateInputType | true
-    _avg?: PartyAvgAggregateInputType
-    _sum?: PartySumAggregateInputType
     _min?: PartyMinAggregateInputType
     _max?: PartyMaxAggregateInputType
   }
@@ -44416,15 +44378,12 @@ export namespace Prisma {
     phone: string | null
     email: string | null
     address: string | null
-    openingBalance: Decimal
     isActive: boolean
     receivableAccountId: string | null
     payableAccountId: string | null
     createdAt: Date
     updatedAt: Date
     _count: PartyCountAggregateOutputType | null
-    _avg: PartyAvgAggregateOutputType | null
-    _sum: PartySumAggregateOutputType | null
     _min: PartyMinAggregateOutputType | null
     _max: PartyMaxAggregateOutputType | null
   }
@@ -44452,7 +44411,6 @@ export namespace Prisma {
     phone?: boolean
     email?: boolean
     address?: boolean
-    openingBalance?: boolean
     isActive?: boolean
     receivableAccountId?: boolean
     payableAccountId?: boolean
@@ -44477,7 +44435,6 @@ export namespace Prisma {
     phone?: boolean
     email?: boolean
     address?: boolean
-    openingBalance?: boolean
     isActive?: boolean
     receivableAccountId?: boolean
     payableAccountId?: boolean
@@ -44497,7 +44454,6 @@ export namespace Prisma {
     phone?: boolean
     email?: boolean
     address?: boolean
-    openingBalance?: boolean
     isActive?: boolean
     receivableAccountId?: boolean
     payableAccountId?: boolean
@@ -44517,7 +44473,6 @@ export namespace Prisma {
     phone?: boolean
     email?: boolean
     address?: boolean
-    openingBalance?: boolean
     isActive?: boolean
     receivableAccountId?: boolean
     payableAccountId?: boolean
@@ -44525,7 +44480,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type PartyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "code" | "name" | "type" | "phone" | "email" | "address" | "openingBalance" | "isActive" | "receivableAccountId" | "payableAccountId" | "createdAt" | "updatedAt", ExtArgs["result"]["party"]>
+  export type PartyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "code" | "name" | "type" | "phone" | "email" | "address" | "isActive" | "receivableAccountId" | "payableAccountId" | "createdAt" | "updatedAt", ExtArgs["result"]["party"]>
   export type PartyInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     invoices?: boolean | Party$invoicesArgs<ExtArgs>
@@ -44567,7 +44522,6 @@ export namespace Prisma {
       phone: string | null
       email: string | null
       address: string | null
-      openingBalance: Prisma.Decimal
       isActive: boolean
       receivableAccountId: string | null
       payableAccountId: string | null
@@ -45011,7 +44965,6 @@ export namespace Prisma {
     readonly phone: FieldRef<"Party", 'String'>
     readonly email: FieldRef<"Party", 'String'>
     readonly address: FieldRef<"Party", 'String'>
-    readonly openingBalance: FieldRef<"Party", 'Decimal'>
     readonly isActive: FieldRef<"Party", 'Boolean'>
     readonly receivableAccountId: FieldRef<"Party", 'String'>
     readonly payableAccountId: FieldRef<"Party", 'String'>
@@ -63107,7 +63060,6 @@ export namespace Prisma {
     phone: 'phone',
     email: 'email',
     address: 'address',
-    openingBalance: 'openingBalance',
     isActive: 'isActive',
     receivableAccountId: 'receivableAccountId',
     payableAccountId: 'payableAccountId',
@@ -66728,7 +66680,6 @@ export namespace Prisma {
     phone?: StringNullableFilter<"Party"> | string | null
     email?: StringNullableFilter<"Party"> | string | null
     address?: StringNullableFilter<"Party"> | string | null
-    openingBalance?: DecimalFilter<"Party"> | Decimal | DecimalJsLike | number | string
     isActive?: BoolFilter<"Party"> | boolean
     receivableAccountId?: StringNullableFilter<"Party"> | string | null
     payableAccountId?: StringNullableFilter<"Party"> | string | null
@@ -66752,7 +66703,6 @@ export namespace Prisma {
     phone?: SortOrderInput | SortOrder
     email?: SortOrderInput | SortOrder
     address?: SortOrderInput | SortOrder
-    openingBalance?: SortOrder
     isActive?: SortOrder
     receivableAccountId?: SortOrderInput | SortOrder
     payableAccountId?: SortOrderInput | SortOrder
@@ -66780,7 +66730,6 @@ export namespace Prisma {
     phone?: StringNullableFilter<"Party"> | string | null
     email?: StringNullableFilter<"Party"> | string | null
     address?: StringNullableFilter<"Party"> | string | null
-    openingBalance?: DecimalFilter<"Party"> | Decimal | DecimalJsLike | number | string
     isActive?: BoolFilter<"Party"> | boolean
     receivableAccountId?: StringNullableFilter<"Party"> | string | null
     payableAccountId?: StringNullableFilter<"Party"> | string | null
@@ -66804,17 +66753,14 @@ export namespace Prisma {
     phone?: SortOrderInput | SortOrder
     email?: SortOrderInput | SortOrder
     address?: SortOrderInput | SortOrder
-    openingBalance?: SortOrder
     isActive?: SortOrder
     receivableAccountId?: SortOrderInput | SortOrder
     payableAccountId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: PartyCountOrderByAggregateInput
-    _avg?: PartyAvgOrderByAggregateInput
     _max?: PartyMaxOrderByAggregateInput
     _min?: PartyMinOrderByAggregateInput
-    _sum?: PartySumOrderByAggregateInput
   }
 
   export type PartyScalarWhereWithAggregatesInput = {
@@ -66829,7 +66775,6 @@ export namespace Prisma {
     phone?: StringNullableWithAggregatesFilter<"Party"> | string | null
     email?: StringNullableWithAggregatesFilter<"Party"> | string | null
     address?: StringNullableWithAggregatesFilter<"Party"> | string | null
-    openingBalance?: DecimalWithAggregatesFilter<"Party"> | Decimal | DecimalJsLike | number | string
     isActive?: BoolWithAggregatesFilter<"Party"> | boolean
     receivableAccountId?: StringNullableWithAggregatesFilter<"Party"> | string | null
     payableAccountId?: StringNullableWithAggregatesFilter<"Party"> | string | null
@@ -71214,7 +71159,6 @@ export namespace Prisma {
     phone?: string | null
     email?: string | null
     address?: string | null
-    openingBalance?: Decimal | DecimalJsLike | number | string
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -71236,7 +71180,6 @@ export namespace Prisma {
     phone?: string | null
     email?: string | null
     address?: string | null
-    openingBalance?: Decimal | DecimalJsLike | number | string
     isActive?: boolean
     receivableAccountId?: string | null
     payableAccountId?: string | null
@@ -71256,7 +71199,6 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
-    openingBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -71278,7 +71220,6 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
-    openingBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     receivableAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     payableAccountId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -71299,7 +71240,6 @@ export namespace Prisma {
     phone?: string | null
     email?: string | null
     address?: string | null
-    openingBalance?: Decimal | DecimalJsLike | number | string
     isActive?: boolean
     receivableAccountId?: string | null
     payableAccountId?: string | null
@@ -71315,7 +71255,6 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
-    openingBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -71330,7 +71269,6 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
-    openingBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     receivableAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     payableAccountId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -75167,16 +75105,11 @@ export namespace Prisma {
     phone?: SortOrder
     email?: SortOrder
     address?: SortOrder
-    openingBalance?: SortOrder
     isActive?: SortOrder
     receivableAccountId?: SortOrder
     payableAccountId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-  }
-
-  export type PartyAvgOrderByAggregateInput = {
-    openingBalance?: SortOrder
   }
 
   export type PartyMaxOrderByAggregateInput = {
@@ -75188,7 +75121,6 @@ export namespace Prisma {
     phone?: SortOrder
     email?: SortOrder
     address?: SortOrder
-    openingBalance?: SortOrder
     isActive?: SortOrder
     receivableAccountId?: SortOrder
     payableAccountId?: SortOrder
@@ -75205,16 +75137,11 @@ export namespace Prisma {
     phone?: SortOrder
     email?: SortOrder
     address?: SortOrder
-    openingBalance?: SortOrder
     isActive?: SortOrder
     receivableAccountId?: SortOrder
     payableAccountId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-  }
-
-  export type PartySumOrderByAggregateInput = {
-    openingBalance?: SortOrder
   }
 
   export type EnumPartyTypeWithAggregatesFilter<$PrismaModel = never> = {
@@ -83611,7 +83538,6 @@ export namespace Prisma {
     phone?: string | null
     email?: string | null
     address?: string | null
-    openingBalance?: Decimal | DecimalJsLike | number | string
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -83632,7 +83558,6 @@ export namespace Prisma {
     phone?: string | null
     email?: string | null
     address?: string | null
-    openingBalance?: Decimal | DecimalJsLike | number | string
     isActive?: boolean
     payableAccountId?: string | null
     createdAt?: Date | string
@@ -83661,7 +83586,6 @@ export namespace Prisma {
     phone?: string | null
     email?: string | null
     address?: string | null
-    openingBalance?: Decimal | DecimalJsLike | number | string
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -83682,7 +83606,6 @@ export namespace Prisma {
     phone?: string | null
     email?: string | null
     address?: string | null
-    openingBalance?: Decimal | DecimalJsLike | number | string
     isActive?: boolean
     receivableAccountId?: string | null
     createdAt?: Date | string
@@ -84252,7 +84175,6 @@ export namespace Prisma {
     phone?: StringNullableFilter<"Party"> | string | null
     email?: StringNullableFilter<"Party"> | string | null
     address?: StringNullableFilter<"Party"> | string | null
-    openingBalance?: DecimalFilter<"Party"> | Decimal | DecimalJsLike | number | string
     isActive?: BoolFilter<"Party"> | boolean
     receivableAccountId?: StringNullableFilter<"Party"> | string | null
     payableAccountId?: StringNullableFilter<"Party"> | string | null
@@ -84970,7 +84892,6 @@ export namespace Prisma {
     phone?: string | null
     email?: string | null
     address?: string | null
-    openingBalance?: Decimal | DecimalJsLike | number | string
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -84991,7 +84912,6 @@ export namespace Prisma {
     phone?: string | null
     email?: string | null
     address?: string | null
-    openingBalance?: Decimal | DecimalJsLike | number | string
     isActive?: boolean
     receivableAccountId?: string | null
     payableAccountId?: string | null
@@ -85263,7 +85183,6 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
-    openingBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -85284,7 +85203,6 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
-    openingBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     receivableAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     payableAccountId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -87459,7 +87377,6 @@ export namespace Prisma {
     phone?: string | null
     email?: string | null
     address?: string | null
-    openingBalance?: Decimal | DecimalJsLike | number | string
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -87480,7 +87397,6 @@ export namespace Prisma {
     phone?: string | null
     email?: string | null
     address?: string | null
-    openingBalance?: Decimal | DecimalJsLike | number | string
     isActive?: boolean
     receivableAccountId?: string | null
     payableAccountId?: string | null
@@ -87773,7 +87689,6 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
-    openingBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -87794,7 +87709,6 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
-    openingBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     receivableAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     payableAccountId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -93587,7 +93501,6 @@ export namespace Prisma {
     phone?: string | null
     email?: string | null
     address?: string | null
-    openingBalance?: Decimal | DecimalJsLike | number | string
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -93608,7 +93521,6 @@ export namespace Prisma {
     phone?: string | null
     email?: string | null
     address?: string | null
-    openingBalance?: Decimal | DecimalJsLike | number | string
     isActive?: boolean
     receivableAccountId?: string | null
     payableAccountId?: string | null
@@ -93972,7 +93884,6 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
-    openingBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -93993,7 +93904,6 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
-    openingBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     receivableAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     payableAccountId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -97147,7 +97057,6 @@ export namespace Prisma {
     phone?: string | null
     email?: string | null
     address?: string | null
-    openingBalance?: Decimal | DecimalJsLike | number | string
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -97168,7 +97077,6 @@ export namespace Prisma {
     phone?: string | null
     email?: string | null
     address?: string | null
-    openingBalance?: Decimal | DecimalJsLike | number | string
     isActive?: boolean
     receivableAccountId?: string | null
     payableAccountId?: string | null
@@ -97535,7 +97443,6 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
-    openingBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -97556,7 +97463,6 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
-    openingBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     receivableAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     payableAccountId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -100521,7 +100427,6 @@ export namespace Prisma {
     phone?: string | null
     email?: string | null
     address?: string | null
-    openingBalance?: Decimal | DecimalJsLike | number | string
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -100541,7 +100446,6 @@ export namespace Prisma {
     phone?: string | null
     email?: string | null
     address?: string | null
-    openingBalance?: Decimal | DecimalJsLike | number | string
     isActive?: boolean
     receivableAccountId?: string | null
     payableAccountId?: string | null
@@ -104190,7 +104094,6 @@ export namespace Prisma {
     phone?: string | null
     email?: string | null
     address?: string | null
-    openingBalance?: Decimal | DecimalJsLike | number | string
     isActive?: boolean
     payableAccountId?: string | null
     createdAt?: Date | string
@@ -104206,7 +104109,6 @@ export namespace Prisma {
     phone?: string | null
     email?: string | null
     address?: string | null
-    openingBalance?: Decimal | DecimalJsLike | number | string
     isActive?: boolean
     receivableAccountId?: string | null
     createdAt?: Date | string
@@ -104952,7 +104854,6 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
-    openingBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -104973,7 +104874,6 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
-    openingBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     payableAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -104993,7 +104893,6 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
-    openingBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     payableAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -105008,7 +104907,6 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
-    openingBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -105029,7 +104927,6 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
-    openingBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     receivableAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -105049,7 +104946,6 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
-    openingBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     receivableAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -108610,7 +108506,6 @@ export namespace Prisma {
     phone?: string | null
     email?: string | null
     address?: string | null
-    openingBalance?: Decimal | DecimalJsLike | number | string
     isActive?: boolean
     receivableAccountId?: string | null
     payableAccountId?: string | null
@@ -109231,7 +109126,6 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
-    openingBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -109251,7 +109145,6 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
-    openingBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     receivableAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     payableAccountId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -109271,7 +109164,6 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
-    openingBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     receivableAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     payableAccountId?: NullableStringFieldUpdateOperationsInput | string | null

@@ -558,7 +558,6 @@ exports.Prisma.PartyScalarFieldEnum = {
   phone: 'phone',
   email: 'email',
   address: 'address',
-  openingBalance: 'openingBalance',
   isActive: 'isActive',
   receivableAccountId: 'receivableAccountId',
   payableAccountId: 'payableAccountId',

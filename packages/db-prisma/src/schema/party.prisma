@@ -14,7 +14,6 @@ model Party {
     phone          String?
     email          String?
     address        String?
-    openingBalance      Decimal  @default(0) @map("opening_balance") @db.Decimal(18, 4)
     isActive            Boolean  @default(true) @map("is_active")
     receivableAccountId String?  @map("receivable_account_id")
     payableAccountId    String?  @map("payable_account_id")
