@@ -4878,6 +4878,101 @@ export interface components {
              */
             difference: number;
         };
+        CashSubledgerDriftDto: {
+            /**
+             * @description null = base-currency lines without an explicit currency
+             * @default null
+             * @example SYP
+             */
+            currencyId: string | null;
+            /**
+             * @description Σ(debit−credit) on the Cash control account for this currency
+             * @default 0
+             * @example 12000
+             */
+            glBalance: number;
+            /**
+             * @description Σ(debit−credit) of all lines carrying a cashboxId for this currency
+             * @default 0
+             * @example 12000
+             */
+            subledgerBalance: number;
+            /**
+             * @default 0
+             * @example 0
+             */
+            difference: number;
+        };
+        PartySubledgerDriftDto: {
+            /**
+             * @description AR or AP control account id
+             * @default
+             * @example 00000000-0000-4000-a602-000000001120
+             */
+            controlAccountId: string;
+            /**
+             * @description null = base-currency lines
+             * @default null
+             * @example USD
+             */
+            currencyId: string | null;
+            /**
+             * @default 0
+             * @example 500
+             */
+            glBalance: number;
+            /**
+             * @description Σ(debit−credit) of party-attributed lines on the control account
+             * @default 0
+             * @example 500
+             */
+            subledgerBalance: number;
+            /**
+             * @default 0
+             * @example 0
+             */
+            difference: number;
+        };
+        BankSubledgerDriftDto: {
+            /**
+             * @default null
+             * @example USD
+             */
+            currencyId: string | null;
+            /**
+             * @default 0
+             * @example 0
+             */
+            glBalance: number;
+            /**
+             * @default 0
+             * @example 0
+             */
+            subledgerBalance: number;
+            /**
+             * @default 0
+             * @example 0
+             */
+            difference: number;
+        };
+        BankAccountDriftDto: {
+            /** @default  */
+            bankAccountId: string;
+            /** @default  */
+            code: string;
+            /**
+             * @description Denormalized BankAccount.balance
+             * @default 0
+             */
+            cachedBalance: number;
+            /**
+             * @description Σ(debit−credit) of posted journal lines for this bank account
+             * @default 0
+             */
+            derivedBalance: number;
+            /** @default 0 */
+            difference: number;
+        };
         BalanceDriftReportDto: {
             /**
              * @default
@@ -4899,6 +4994,14 @@ export interface components {
              * @default []
              */
             unbalancedEntries: components["schemas"]["UnbalancedJournalEntryDto"][];
+            /** @default [] */
+            cashSubledgers: components["schemas"]["CashSubledgerDriftDto"][];
+            /** @default [] */
+            partySubledgers: components["schemas"]["PartySubledgerDriftDto"][];
+            /** @default [] */
+            bankSubledgers: components["schemas"]["BankSubledgerDriftDto"][];
+            /** @default [] */
+            bankAccounts: components["schemas"]["BankAccountDriftDto"][];
             /**
              * @description Checks deliberately not performed, so an empty report is not over-read
              * @default []

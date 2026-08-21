@@ -13,6 +13,13 @@ interface PrismaStub {
     stockMovements?: Array<{ warehouseId: string; itemId: string; _sum: { quantity: number } }>;
     journalLines?: Array<{ journalEntryId: string; _sum: { debit: number; credit: number } }>;
     journalEntries?: Array<{ id: string; number: string }>;
+    financialSetting?: {
+        defaultCashAccountId?: string | null;
+        defaultBankAccountId?: string | null;
+        defaultReceivableAccountId?: string | null;
+        defaultPayableAccountId?: string | null;
+    };
+    bankAccounts?: Array<{ id: string; code: string; balance: number }>;
 }
 
 function makeService(stub: PrismaStub = {}): BalanceDriftService {
@@ -24,6 +31,8 @@ function makeService(stub: PrismaStub = {}): BalanceDriftService {
         stockMovement: { groupBy: async () => stub.stockMovements ?? [] },
         journalLine: { groupBy: async () => stub.journalLines ?? [] },
         journalEntry: { findMany: async () => stub.journalEntries ?? [] },
+        financialSetting: { findFirst: async () => stub.financialSetting ?? null },
+        bankAccount: { findMany: async () => stub.bankAccounts ?? [] },
     };
     return new BalanceDriftService(prisma as never);
 }

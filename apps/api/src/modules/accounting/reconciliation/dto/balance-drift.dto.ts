@@ -62,6 +62,68 @@ export class UnbalancedJournalEntryDto {
     difference: number = 0;
 }
 
+export class CashSubledgerDriftDto {
+    @ApiProperty({ type: 'string', nullable: true, example: 'SYP', description: 'null = base-currency lines without an explicit currency' })
+    currencyId: string | null = null;
+
+    @ApiProperty({ type: 'number', example: 12000, description: 'Σ(debit−credit) on the Cash control account for this currency' })
+    glBalance: number = 0;
+
+    @ApiProperty({ type: 'number', example: 12000, description: 'Σ(debit−credit) of all lines carrying a cashboxId for this currency' })
+    subledgerBalance: number = 0;
+
+    @ApiProperty({ type: 'number', example: 0 })
+    difference: number = 0;
+}
+
+export class PartySubledgerDriftDto {
+    @ApiProperty({ type: 'string', example: '00000000-0000-4000-a602-000000001120', description: 'AR or AP control account id' })
+    controlAccountId: string = '';
+
+    @ApiProperty({ type: 'string', nullable: true, example: 'USD', description: 'null = base-currency lines' })
+    currencyId: string | null = null;
+
+    @ApiProperty({ type: 'number', example: 500 })
+    glBalance: number = 0;
+
+    @ApiProperty({ type: 'number', example: 500, description: 'Σ(debit−credit) of party-attributed lines on the control account' })
+    subledgerBalance: number = 0;
+
+    @ApiProperty({ type: 'number', example: 0 })
+    difference: number = 0;
+}
+
+export class BankSubledgerDriftDto {
+    @ApiProperty({ type: 'string', nullable: true, example: 'USD' })
+    currencyId: string | null = null;
+
+    @ApiProperty({ type: 'number', example: 0 })
+    glBalance: number = 0;
+
+    @ApiProperty({ type: 'number', example: 0 })
+    subledgerBalance: number = 0;
+
+    @ApiProperty({ type: 'number', example: 0 })
+    difference: number = 0;
+}
+
+export class BankAccountDriftDto {
+    @ApiProperty({ type: 'string' })
+    bankAccountId: string = '';
+
+    @ApiProperty({ type: 'string' })
+    code: string = '';
+
+    @ApiProperty({ type: 'number', description: 'Denormalized BankAccount.balance' })
+    cachedBalance: number = 0;
+
+    @ApiProperty({ type: 'number', description: 'Σ(debit−credit) of posted journal lines for this bank account' })
+    derivedBalance: number = 0;
+
+    @ApiProperty({ type: 'number' })
+    difference: number = 0;
+}
+
 export class BalanceDriftReportDto {
     @ApiProperty({ type: 'string', example: '2026-07-26T10:00:00.000Z' })
     generatedAt: string = '';
@@ -81,6 +143,18 @@ export class BalanceDriftReportDto {
         description: 'Posted entries where debits ≠ credits — should always be empty',
     })
     unbalancedEntries: UnbalancedJournalEntryDto[] = [];
+
+    @ApiProperty({ type: () => CashSubledgerDriftDto, isArray: true })
+    cashSubledgers: CashSubledgerDriftDto[] = [];
+
+    @ApiProperty({ type: () => PartySubledgerDriftDto, isArray: true })
+    partySubledgers: PartySubledgerDriftDto[] = [];
+
+    @ApiProperty({ type: () => BankSubledgerDriftDto, isArray: true })
+    bankSubledgers: BankSubledgerDriftDto[] = [];
+
+    @ApiProperty({ type: () => BankAccountDriftDto, isArray: true })
+    bankAccounts: BankAccountDriftDto[] = [];
 
     @ApiProperty({
         type: 'string',

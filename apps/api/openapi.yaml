@@ -23087,6 +23087,118 @@ components:
         - totalDebit
         - totalCredit
         - difference
+    CashSubledgerDriftDto:
+      type: object
+      properties:
+        currencyId:
+          type: string
+          nullable: true
+          default: null
+          example: SYP
+          description: null = base-currency lines without an explicit currency
+        glBalance:
+          type: number
+          default: 0
+          example: 12000
+          description: Σ(debit−credit) on the Cash control account for this currency
+        subledgerBalance:
+          type: number
+          default: 0
+          example: 12000
+          description: Σ(debit−credit) of all lines carrying a cashboxId for this currency
+        difference:
+          type: number
+          default: 0
+          example: 0
+      required:
+        - currencyId
+        - glBalance
+        - subledgerBalance
+        - difference
+    PartySubledgerDriftDto:
+      type: object
+      properties:
+        controlAccountId:
+          type: string
+          default: ''
+          example: 00000000-0000-4000-a602-000000001120
+          description: AR or AP control account id
+        currencyId:
+          type: string
+          nullable: true
+          default: null
+          example: USD
+          description: null = base-currency lines
+        glBalance:
+          type: number
+          default: 0
+          example: 500
+        subledgerBalance:
+          type: number
+          default: 0
+          example: 500
+          description: Σ(debit−credit) of party-attributed lines on the control account
+        difference:
+          type: number
+          default: 0
+          example: 0
+      required:
+        - controlAccountId
+        - currencyId
+        - glBalance
+        - subledgerBalance
+        - difference
+    BankSubledgerDriftDto:
+      type: object
+      properties:
+        currencyId:
+          type: string
+          nullable: true
+          default: null
+          example: USD
+        glBalance:
+          type: number
+          default: 0
+          example: 0
+        subledgerBalance:
+          type: number
+          default: 0
+          example: 0
+        difference:
+          type: number
+          default: 0
+          example: 0
+      required:
+        - currencyId
+        - glBalance
+        - subledgerBalance
+        - difference
+    BankAccountDriftDto:
+      type: object
+      properties:
+        bankAccountId:
+          type: string
+          default: ''
+        code:
+          type: string
+          default: ''
+        cachedBalance:
+          type: number
+          default: 0
+          description: Denormalized BankAccount.balance
+        derivedBalance:
+          type: number
+          default: 0
+          description: Σ(debit−credit) of posted journal lines for this bank account
+        difference:
+          type: number
+          default: 0
+      required:
+        - bankAccountId
+        - code
+        - cachedBalance
+        - derivedBalance
+        - difference
     BalanceDriftReportDto:
       type: object
       properties:
@@ -23115,6 +23227,26 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/UnbalancedJournalEntryDto'
+        cashSubledgers:
+          default: []
+          type: array
+          items:
+            $ref: '#/components/schemas/CashSubledgerDriftDto'
+        partySubledgers:
+          default: []
+          type: array
+          items:
+            $ref: '#/components/schemas/PartySubledgerDriftDto'
+        bankSubledgers:
+          default: []
+          type: array
+          items:
+            $ref: '#/components/schemas/BankSubledgerDriftDto'
+        bankAccounts:
+          default: []
+          type: array
+          items:
+            $ref: '#/components/schemas/BankAccountDriftDto'
         notChecked:
           default: []
           example:
@@ -23131,6 +23263,10 @@ components:
         - cashboxes
         - stockBalances
         - unbalancedEntries
+        - cashSubledgers
+        - partySubledgers
+        - bankSubledgers
+        - bankAccounts
         - notChecked
     OpeningBalanceSessionStatus:
       type: string

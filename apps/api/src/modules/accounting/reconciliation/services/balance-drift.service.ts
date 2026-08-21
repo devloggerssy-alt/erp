@@ -1,10 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@devloggers/db-prisma/nest';
+import { ReferenceType } from '@devloggers/db-prisma';
 import {
     BalanceDriftReportDto,
     CashboxDriftDto,
     StockBalanceDriftDto,
     UnbalancedJournalEntryDto,
+    CashSubledgerDriftDto,
+    PartySubledgerDriftDto,
+    BankSubledgerDriftDto,
+    BankAccountDriftDto,
 } from '../dto/balance-drift.dto';
 
 /**
@@ -33,21 +38,34 @@ export class BalanceDriftService {
     constructor(private readonly prisma: PrismaService) {}
 
     async getReport(tenantId: string): Promise<BalanceDriftReportDto> {
-        const [cashboxes, stockBalances, unbalancedEntries] = await Promise.all([
-            this.checkCashboxes(tenantId),
-            this.checkStockBalances(tenantId),
-            this.checkJournalEntryBalance(tenantId),
-        ]);
+        const [cashboxes, stockBalances, unbalancedEntries, cashSubledgers, partySubledgers, bankSubledgers, bankAccounts] =
+            await Promise.all([
+                this.checkCashboxes(tenantId),
+                this.checkStockBalances(tenantId),
+                this.checkJournalEntryBalance(tenantId),
+                this.checkCashSubledgers(tenantId),
+                this.checkPartySubledgers(tenantId),
+                this.checkBankSubledgers(tenantId),
+                this.checkBankAccounts(tenantId),
+            ]);
 
         return {
             generatedAt: new Date().toISOString(),
             clean:
                 cashboxes.length === 0 &&
                 stockBalances.length === 0 &&
-                unbalancedEntries.length === 0,
+                unbalancedEntries.length === 0 &&
+                cashSubledgers.length === 0 &&
+                partySubledgers.length === 0 &&
+                bankSubledgers.length === 0 &&
+                bankAccounts.length === 0,
             cashboxes,
             stockBalances,
             unbalancedEntries,
+            cashSubledgers,
+            partySubledgers,
+            bankSubledgers,
+            bankAccounts,
             notChecked: NOT_CHECKED,
         };
     }
@@ -62,7 +80,7 @@ export class BalanceDriftService {
      * post/cancel pair does to the cache.
      */
     private async checkCashboxes(tenantId: string): Promise<CashboxDriftDto[]> {
-        const [boxes, payments, expenses] = await Promise.all([
+        const [boxes, payments, expenses, openings] = await Promise.all([
             this.prisma.cashbox.findMany({
                 where: { tenantId },
                 select: { id: true, code: true, balance: true },
@@ -77,6 +95,11 @@ export class BalanceDriftService {
                 where: { tenantId, status: 'POSTED' },
                 _sum: { totalAmount: true },
             }),
+            this.prisma.journalLine.groupBy({
+                by: ['cashboxId'],
+                where: { tenantId, journalEntry: { status: 'POSTED', referenceType: ReferenceType.OPENING_BALANCE } },
+                _sum: { debit: true, credit: true },
+            }),
         ]);
 
         const derived = new Map<string, number>();
@@ -86,6 +109,13 @@ export class BalanceDriftService {
         }
         for (const row of expenses) {
             derived.set(row.cashboxId, (derived.get(row.cashboxId) ?? 0) - num(row._sum.totalAmount));
+        }
+        // Opening cash JE lines carry cashboxId and debit the Cash control account —
+        // money in, so they increase the derived balance (ADR-4 projection).
+        for (const row of openings) {
+            if (!row.cashboxId) continue;
+            const signed = num(row._sum.debit) - num(row._sum.credit);
+            derived.set(row.cashboxId, (derived.get(row.cashboxId) ?? 0) + signed);
         }
 
         const results: CashboxDriftDto[] = [];
@@ -194,5 +224,169 @@ export class BalanceDriftService {
                 difference: Number((totalDebit - totalCredit).toFixed(4)),
             };
         });
+    }
+
+    /**
+     * Cash control GL (FinancialSetting.defaultCashAccountId) per currency vs the
+     * aggregated cashbox subledger (every posted line carrying a cashboxId) per
+     * currency — reconciliation stack check #1. Both sides must be identical; a
+     * difference means a cash-tagged line never reached the Cash GL or vice versa.
+     */
+    private async checkCashSubledgers(tenantId: string): Promise<CashSubledgerDriftDto[]> {
+        const settings = await this.prisma.financialSetting.findFirst({ where: { tenantId } });
+        if (!settings?.defaultCashAccountId) return [];
+
+        const [gl, sub] = await Promise.all([
+            this.prisma.journalLine.groupBy({
+                by: ['currencyId'],
+                where: { tenantId, accountId: settings.defaultCashAccountId, journalEntry: { status: 'POSTED' } },
+                _sum: { debit: true, credit: true },
+            }),
+            this.prisma.journalLine.groupBy({
+                by: ['currencyId'],
+                where: { tenantId, cashboxId: { not: null }, journalEntry: { status: 'POSTED' } },
+                _sum: { debit: true, credit: true },
+            }),
+        ]);
+
+        return this.diffPerCurrency(gl, sub).map(({ currencyId, glBalance, subledgerBalance }) => ({
+            currencyId,
+            glBalance,
+            subledgerBalance,
+            difference: Number((glBalance - subledgerBalance).toFixed(4)),
+        }));
+    }
+
+    /**
+     * AR / AP control accounts vs their party-attributed lines, per currency
+     * (reconciliation stack checks #4/#5). A difference means a control-account
+     * line lacks a partyId.
+     */
+    private async checkPartySubledgers(tenantId: string): Promise<PartySubledgerDriftDto[]> {
+        const settings = await this.prisma.financialSetting.findFirst({ where: { tenantId } });
+        const controls = [settings?.defaultReceivableAccountId, settings?.defaultPayableAccountId].filter(
+            (v): v is string => !!v,
+        );
+        const results: PartySubledgerDriftDto[] = [];
+
+        for (const accountId of controls) {
+            const [gl, sub] = await Promise.all([
+                this.prisma.journalLine.groupBy({
+                    by: ['currencyId'],
+                    where: { tenantId, accountId, journalEntry: { status: 'POSTED' } },
+                    _sum: { debit: true, credit: true },
+                }),
+                this.prisma.journalLine.groupBy({
+                    by: ['currencyId'],
+                    where: { tenantId, accountId, partyId: { not: null }, journalEntry: { status: 'POSTED' } },
+                    _sum: { debit: true, credit: true },
+                }),
+            ]);
+            for (const { currencyId, glBalance, subledgerBalance } of this.diffPerCurrency(gl, sub)) {
+                results.push({
+                    controlAccountId: accountId,
+                    currencyId,
+                    glBalance,
+                    subledgerBalance,
+                    difference: Number((glBalance - subledgerBalance).toFixed(4)),
+                });
+            }
+        }
+
+        return results;
+    }
+
+    /**
+     * Bank control GL (defaultBankAccountId) per currency vs the bankAccountId
+     * subledger per currency (reconciliation stack check #3). Stub-level today —
+     * Phase 7 deepens this; no bank postings exist yet so both sides are 0.
+     */
+    private async checkBankSubledgers(tenantId: string): Promise<BankSubledgerDriftDto[]> {
+        const settings = await this.prisma.financialSetting.findFirst({ where: { tenantId } });
+        if (!settings?.defaultBankAccountId) return [];
+
+        const [gl, sub] = await Promise.all([
+            this.prisma.journalLine.groupBy({
+                by: ['currencyId'],
+                where: { tenantId, accountId: settings.defaultBankAccountId, journalEntry: { status: 'POSTED' } },
+                _sum: { debit: true, credit: true },
+            }),
+            this.prisma.journalLine.groupBy({
+                by: ['currencyId'],
+                where: { tenantId, bankAccountId: { not: null }, journalEntry: { status: 'POSTED' } },
+                _sum: { debit: true, credit: true },
+            }),
+        ]);
+
+        return this.diffPerCurrency(gl, sub).map(({ currencyId, glBalance, subledgerBalance }) => ({
+            currencyId,
+            glBalance,
+            subledgerBalance,
+            difference: Number((glBalance - subledgerBalance).toFixed(4)),
+        }));
+    }
+
+    /**
+     * BankAccount.balance projection vs its posted journal lines — the bank
+     * analogue of checkCashboxes. Operational projection, reconciled to the ledger.
+     */
+    private async checkBankAccounts(tenantId: string): Promise<BankAccountDriftDto[]> {
+        const [accounts, lines] = await Promise.all([
+            this.prisma.bankAccount.findMany({
+                where: { tenantId },
+                select: { id: true, code: true, balance: true },
+            }),
+            this.prisma.journalLine.groupBy({
+                by: ['bankAccountId'],
+                where: { tenantId, journalEntry: { status: 'POSTED' } },
+                _sum: { debit: true, credit: true },
+            }),
+        ]);
+
+        const derived = new Map(
+            lines
+                .filter((l) => l.bankAccountId)
+                .map((l) => [l.bankAccountId as string, num(l._sum.debit) - num(l._sum.credit)]),
+        );
+
+        const results: BankAccountDriftDto[] = [];
+        for (const account of accounts) {
+            const cached = num(account.balance);
+            const derivedBalance = derived.get(account.id) ?? 0;
+            if (drifted(cached, derivedBalance)) {
+                results.push({
+                    bankAccountId: account.id,
+                    code: account.code,
+                    cachedBalance: cached,
+                    derivedBalance,
+                    difference: Number((cached - derivedBalance).toFixed(4)),
+                });
+            }
+        }
+        return results;
+    }
+
+    /** Compares Σ(debit−credit) per currency between two groupBy result sets. */
+    private diffPerCurrency(
+        gl: Array<{ currencyId: string | null; _sum: { debit: unknown; credit: unknown } | null }>,
+        sub: Array<{ currencyId: string | null; _sum: { debit: unknown; credit: unknown } | null }>,
+    ): Array<{ currencyId: string | null; glBalance: number; subledgerBalance: number }> {
+        const key = (currencyId: string | null) => currencyId ?? '__base__';
+        const balance = (rows: typeof gl) =>
+            new Map(rows.map((r) => [key(r.currencyId), num(r._sum?.debit) - num(r._sum?.credit)]));
+
+        const glMap = balance(gl);
+        const subMap = balance(sub);
+        const currencyKeys = new Set([...glMap.keys(), ...subMap.keys()]);
+
+        const results: Array<{ currencyId: string | null; glBalance: number; subledgerBalance: number }> = [];
+        for (const k of currencyKeys) {
+            const glBalance = glMap.get(k) ?? 0;
+            const subledgerBalance = subMap.get(k) ?? 0;
+            if (drifted(glBalance, subledgerBalance)) {
+                results.push({ currencyId: k === '__base__' ? null : k, glBalance, subledgerBalance });
+            }
+        }
+        return results;
     }
 }
