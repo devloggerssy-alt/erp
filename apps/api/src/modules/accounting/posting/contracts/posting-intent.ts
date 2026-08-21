@@ -90,13 +90,41 @@ export interface OpeningStockPostedIntent extends PostingIntentBase {
     totalValue: number;
 }
 
+/**
+ * A single opening line inside an opening session. Describes *what* opens and by
+ * how much — never which GL account (control accounts are resolved by
+ * OpeningSessionPostedPolicy from FinancialSettings + party overrides).
+ */
+export interface OpeningSessionLineDraft {
+    dimension: 'CASHBOX' | 'BANK_ACCOUNT' | 'PARTY' | 'ACCOUNT';
+    /** ACCOUNT dimension only — direct GL account input, like OpeningBalancePostedIntent.entries[].accountId. */
+    accountId?: string | null;
+    partyId?: string | null;
+    cashboxId?: string | null;
+    bankAccountId?: string | null;
+    /** Transaction currency. Required for CASHBOX / BANK_ACCOUNT / PARTY. */
+    currencyId?: string | null;
+    /** PARTY only: AR debits the receivable control, AP credits the payable control. */
+    partySide?: 'AR' | 'AP' | null;
+    /** Signed transaction-currency amount; positive increases the target balance. */
+    amount: number;
+    /** Locked rate to base currency; falls back to intent.exchangeRate ?? 1. */
+    exchangeRate?: number;
+}
+
+export interface OpeningSessionPostedIntent extends PostingIntentBase {
+    kind: 'OPENING_SESSION_POSTED';
+    lines: OpeningSessionLineDraft[];
+}
+
 export type PostingRecordIntent =
     | InvoicePostedIntent
     | PaymentRecordedIntent
     | ExpenseRecordedIntent
     | StockCountAdjustedIntent
     | OpeningBalancePostedIntent
-    | OpeningStockPostedIntent;
+    | OpeningStockPostedIntent
+    | OpeningSessionPostedIntent;
 
 export type PostingCancellationIntent =
     | InvoiceCancelledIntent

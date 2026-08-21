@@ -9,6 +9,7 @@ import { ExpenseRecordedPolicy, ExpenseCancelledPolicy } from './policies/expens
 import { StockCountAdjustedPolicy } from './policies/stock-count-adjusted.policy';
 import { OpeningBalancePolicy } from './policies/opening-balance.policy';
 import { OpeningStockPolicy } from './policies/opening-stock.policy';
+import { OpeningSessionPostedPolicy } from './policies/opening-session.policy';
 import { PostingPolicyRegistry } from './posting-policy.registry';
 import { AccountingPostingFacade } from './accounting-posting.facade';
 
@@ -33,6 +34,7 @@ import { AccountingPostingFacade } from './accounting-posting.facade';
         StockCountAdjustedPolicy,
         OpeningBalancePolicy,
         OpeningStockPolicy,
+        OpeningSessionPostedPolicy,
         PostingPolicyRegistry,
         AccountingPostingFacade,
     ],

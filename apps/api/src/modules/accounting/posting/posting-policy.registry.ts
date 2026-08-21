@@ -10,6 +10,7 @@ import { ExpenseRecordedPolicy, ExpenseCancelledPolicy } from './policies/expens
 import { StockCountAdjustedPolicy } from './policies/stock-count-adjusted.policy';
 import { OpeningBalancePolicy } from './policies/opening-balance.policy';
 import { OpeningStockPolicy } from './policies/opening-stock.policy';
+import { OpeningSessionPostedPolicy } from './policies/opening-session.policy';
 
 function assertNever(value: never): never {
     throw new Error(`Unhandled posting intent kind: ${JSON.stringify(value)}`);
@@ -29,6 +30,7 @@ export class PostingPolicyRegistry {
         private readonly stockCountAdjusted: StockCountAdjustedPolicy,
         private readonly openingBalance: OpeningBalancePolicy,
         private readonly openingStock: OpeningStockPolicy,
+        private readonly openingSession: OpeningSessionPostedPolicy,
         private readonly invoiceCancelled: InvoiceCancelledPolicy,
         private readonly paymentCancelled: PaymentCancelledPolicy,
         private readonly expenseCancelled: ExpenseCancelledPolicy,
@@ -51,6 +53,8 @@ export class PostingPolicyRegistry {
                 return { referenceType: ReferenceType.OPENING_BALANCE, buildLines: (tx) => this.openingBalance.buildLines(tx, intent) };
             case 'OPENING_STOCK_POSTED':
                 return { referenceType: ReferenceType.OPENING_BALANCE, buildLines: () => this.openingStock.buildLines(intent) };
+            case 'OPENING_SESSION_POSTED':
+                return { referenceType: ReferenceType.OPENING_BALANCE, buildLines: (tx) => this.openingSession.buildLines(tx, intent) };
             default:
                 return assertNever(intent);
         }

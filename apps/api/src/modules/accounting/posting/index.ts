@@ -13,5 +13,7 @@ export type {
     StockCountAdjustedIntent,
     OpeningBalancePostedIntent,
     OpeningStockPostedIntent,
+    OpeningSessionLineDraft,
+    OpeningSessionPostedIntent,
 } from './contracts/posting-intent';
 export type { PrismaTransactionClient } from './contracts/prisma-tx';
