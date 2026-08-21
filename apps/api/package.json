@@ -9,6 +9,7 @@
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "generate:spec": "ts-node -r tsconfig-paths/register --project tsconfig.json scripts/generate-spec.ts",
+    "backfill:party-openings": "ts-node -r tsconfig-paths/register scripts/backfill-party-opening-balances.ts",
     "start": "nest start",
     "dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
