@@ -78,5 +78,10 @@ export const stockCountsFormConfig: ResourceFormConfig<StockCountFormValues, Cre
             notes: line.notes || undefined,
         })),
     }),
-    toUpdate: (_values) => ({}) as never,
+    // Stock counts have no update flow — only create/post/cancel. `ResourceFormConfig.toUpdate`
+    // is required (18 other resources rely on it), so this throws instead of silently
+    // pretending to satisfy `TUpdate = never` — a loud failure if an edit path is ever wired up.
+    toUpdate: (_values) => {
+        throw new Error("Stock counts do not support update")
+    },
 }

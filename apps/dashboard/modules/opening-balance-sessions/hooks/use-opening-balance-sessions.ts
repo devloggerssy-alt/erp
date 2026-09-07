@@ -94,7 +94,7 @@ export function useOpeningBalanceSessions() {
   }, [queryClient])
 
   const createSession = useMutation({
-    mutationFn: (body: CreateSessionBody) => api[openingBalanceSessionResource.key].create(body as never),
+    mutationFn: (body: CreateSessionBody) => api[openingBalanceSessionResource.key].create(body),
     onSuccess: () => {
       invalidate()
       setCreateOpen(false)

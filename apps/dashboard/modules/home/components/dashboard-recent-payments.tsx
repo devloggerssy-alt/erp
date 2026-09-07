@@ -38,7 +38,7 @@ export function DashboardRecentPayments() {
     const locale = useLocale()
     const { data, isLoading } = useDashboardMovements()
 
-    const payments = (data as any)?.data ?? []
+    const payments = data?.data ?? []
 
     return (
         <Card>
