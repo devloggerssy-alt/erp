@@ -87,7 +87,7 @@ export class PartyResponseDto {
     @ApiProperty({ example: '00000000-0000-4000-e100-000000000001' })
     id: string = '';
 
-    @ApiProperty({ example: 'SUPP-001', nullable: true })
+    @ApiProperty({ type: 'string', example: 'SUPP-001', nullable: true })
     code: string | null = null;
 
     @ApiProperty({ example: 'Damascus Import Co.' })
@@ -96,13 +96,13 @@ export class PartyResponseDto {
     @ApiProperty({ enum: PartyTypeEnum, example: 'SUPPLIER' })
     type: string = '';
 
-    @ApiProperty({ example: '+963-11-9876543', nullable: true })
+    @ApiProperty({ type: 'string', example: '+963-11-9876543', nullable: true })
     phone: string | null = null;
 
-    @ApiProperty({ example: 'info@damsimport.sy', nullable: true })
+    @ApiProperty({ type: 'string', example: 'info@damsimport.sy', nullable: true })
     email: string | null = null;
 
-    @ApiProperty({ example: 'Damascus, Industrial Zone', nullable: true })
+    @ApiProperty({ type: 'string', example: 'Damascus, Industrial Zone', nullable: true })
     address: string | null = null;
 
     @ApiProperty({ example: true })

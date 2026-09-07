@@ -13,7 +13,7 @@ export type AccountListItem = {
     /** Raw localized name (runtime-only; absent in generated types). */
     nameI18n?: LocalizedString | null
     type: AccountType
-    parentId: string | null
+    parentId?: string | null
     parentCode?: string | null
     parentName?: string | null
     isActive: boolean
@@ -41,9 +41,9 @@ export type AccountLedgerLine = {
     id: string
     date: string
     entryNumber: string
-    description: string | null
-    referenceType: string | null
-    referenceId: string | null
+    description?: string | null
+    referenceType?: string | null
+    referenceId?: string | null
     debit: number
     credit: number
 }

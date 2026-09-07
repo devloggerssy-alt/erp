@@ -40,7 +40,7 @@ export class RoleResponseDto {
     @ApiProperty({ type: LocalizedStringDto })
     nameI18n: LocalizedStringDto = new LocalizedStringDto();
 
-    @ApiProperty({ example: 'صلاحيات المحاسبة والمالية', nullable: true })
+    @ApiProperty({ type: 'string', example: 'صلاحيات المحاسبة والمالية', nullable: true })
     description: string | null = null;
 
     @ApiPropertyOptional({ type: LocalizedStringDto, nullable: true })

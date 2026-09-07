@@ -67,7 +67,7 @@ export class ItemRelationResponseDto {
   @ApiProperty({ example: 'compatible_with', enum: ['compatible_with', 'replaces', 'requires'] })
   relationType: RelationType = 'compatible_with';
 
-  @ApiProperty({ nullable: true })
+  @ApiProperty({ type: 'string', nullable: true })
   notes: string | null = null;
 
   @ApiProperty({ type: RelatedItemSummaryDto })

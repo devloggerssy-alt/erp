@@ -2493,7 +2493,7 @@ export interface components {
             /** @example 0 */
             onboardingStep: number;
             /** @example null */
-            onboardingCompletedAt: Record<string, never> | null;
+            onboardingCompletedAt: string | null;
         };
         AuthUserDto: {
             /** @example 00000000-0000-4000-a200-000000000001 */
@@ -2561,7 +2561,7 @@ export interface components {
             roles: string[];
             tenant: components["schemas"]["AuthTenantDto"];
             /** @example null */
-            phone: Record<string, never> | null;
+            phone: string | null;
         };
         LocalizedStringDto: {
             /** @example الليرة السورية */
@@ -2576,7 +2576,7 @@ export interface components {
             name: string;
             nameI18n: components["schemas"]["LocalizedStringDto"];
             /** @example صلاحيات المحاسبة والمالية */
-            description: Record<string, never> | null;
+            description: string | null;
             descriptionI18n?: components["schemas"]["LocalizedStringDto"] | null;
             /** @example false */
             isSystem: boolean;
@@ -2900,10 +2900,10 @@ export interface components {
             /** @example Sara Al-Amin */
             fullName: string;
             /** @example +963-933-111222 */
-            phone?: Record<string, never> | null;
+            phone?: string | null;
             /** @example true */
             isActive: boolean;
-            lastLoginAt?: Record<string, never> | null;
+            lastLoginAt?: string | null;
             roles: components["schemas"]["UserRoleDto"][];
             /** @example 2025-01-01T00:00:00.000Z */
             createdAt: string;
@@ -3124,11 +3124,11 @@ export interface components {
              */
             type: "ASSET" | "LIABILITY" | "EQUITY" | "REVENUE" | "EXPENSE";
             /** @example 00000000-0000-4000-a601-000000000001 */
-            parentId?: Record<string, never> | null;
+            parentId?: string | null;
             /** @example 1000 */
-            parentCode?: Record<string, never> | null;
+            parentCode?: string | null;
             /** @example الأصول المتداولة */
-            parentName?: Record<string, never> | null;
+            parentName?: string | null;
             /** @example true */
             isActive: boolean;
             /** @example 2025-01-01T00:00:00.000Z */
@@ -3512,7 +3512,7 @@ export interface components {
             label: components["schemas"]["LocalizedStringDto"];
             /** @enum {string} */
             type: "TEXT" | "DATE" | "NUMBER" | "SELECT" | "BOOLEAN" | "MULTI_SELECT" | "FILE";
-            defaultValue: Record<string, never> | null;
+            defaultValue: string | null;
             placeholder: components["schemas"]["LocalizedStringDto"] | null;
             options: string[];
             isRequired: boolean;
@@ -3606,7 +3606,7 @@ export interface components {
             name: string;
             nameI18n: components["schemas"]["LocalizedStringDto"];
             /** @example Damascus Industrial Zone */
-            address: Record<string, never> | null;
+            address: string | null;
             /** @example true */
             isActive: boolean;
             /** @example 2025-01-01T00:00:00.000Z */
@@ -3640,7 +3640,7 @@ export interface components {
             /** @example Fragile */
             name: string;
             /** @example #FF5733 */
-            color: Record<string, never> | null;
+            color: string | null;
             /**
              * @example items
              * @enum {string}
@@ -3721,7 +3721,7 @@ export interface components {
              * @enum {string}
              */
             relationType: "compatible_with" | "replaces" | "requires";
-            notes: Record<string, never> | null;
+            notes: string | null;
             relatedItem: components["schemas"]["RelatedItemSummaryDto"];
             createdAt: string;
             updatedAt: string;
@@ -3757,7 +3757,7 @@ export interface components {
             id: string;
             name: string;
             kind: string;
-            parentId: Record<string, never> | null;
+            parentId: string | null;
             parent: components["schemas"]["CatalogEntityParentSummaryDto"] | null;
             attributes: {
                 [key: string]: unknown;
@@ -3775,7 +3775,7 @@ export interface components {
              */
             kind: string;
             /** @example null */
-            parentId?: Record<string, never> | null;
+            parentId?: string | null;
             attributes?: {
                 [key: string]: unknown;
             } | null;
@@ -3785,7 +3785,7 @@ export interface components {
             name?: string;
             /** @example brand */
             kind?: string;
-            parentId?: Record<string, never> | null;
+            parentId?: string | null;
             attributes?: {
                 [key: string]: unknown;
             } | null;
@@ -3858,7 +3858,7 @@ export interface components {
             name: string;
             nameI18n: components["schemas"]["LocalizedStringDto"];
             /** @example £ */
-            symbol: Record<string, never> | null;
+            symbol: string | null;
             symbolI18n?: components["schemas"]["LocalizedStringDto"] | null;
             /** @example true */
             isBase: boolean;
@@ -3900,14 +3900,14 @@ export interface components {
             /** @description Locale-resolved display name */
             name: string;
             /** @description Raw localized name object */
-            nameI18n: Record<string, never>;
+            nameI18n: components["schemas"]["LocalizedStringDto"];
             /**
              * @description Account type
              * @enum {string}
              */
             type: "ASSET" | "LIABILITY" | "EQUITY" | "REVENUE" | "EXPENSE";
             /** @description Parent account UUID or null */
-            parentId: Record<string, never> | null;
+            parentId: string | null;
             /** @description Whether account is active */
             isActive: boolean;
         };
@@ -3938,7 +3938,7 @@ export interface components {
              * @description Updated parent account UUID — set to null to make it a root account
              * @example 00000000-0000-4000-a601-000000000001
              */
-            parentId?: Record<string, never> | null;
+            parentId?: string | null;
             /**
              * @description Deactivate to hide from document selection
              * @example true
@@ -4674,7 +4674,7 @@ export interface components {
             cashboxId: string;
             cashboxName?: string;
             cashboxCode?: string;
-            partyId?: Record<string, never> | null;
+            partyId?: string | null;
             partyName?: string;
             currencyId: string;
             currencyCode?: string;
@@ -4684,9 +4684,9 @@ export interface components {
             exchangeRate: number;
             unallocatedAmount: number;
             allocatedAmount: number;
-            notes?: Record<string, never> | null;
-            postedAt?: Record<string, never> | null;
-            cancelledAt?: Record<string, never> | null;
+            notes?: string | null;
+            postedAt?: string | null;
+            cancelledAt?: string | null;
             createdAt: string;
             updatedAt: string;
             allocations?: components["schemas"]["PaymentAllocationResponseDto"][];
@@ -4846,7 +4846,7 @@ export interface components {
             /** @example 00000000-0000-4000-e100-000000000001 */
             id: string;
             /** @example SUPP-001 */
-            code: Record<string, never> | null;
+            code: string | null;
             /** @example Damascus Import Co. */
             name: string;
             /**
@@ -4855,11 +4855,11 @@ export interface components {
              */
             type: "CUSTOMER" | "SUPPLIER" | "CUSTOMER_SUPPLIER";
             /** @example +963-11-9876543 */
-            phone: Record<string, never> | null;
+            phone: string | null;
             /** @example info@damsimport.sy */
-            email: Record<string, never> | null;
+            email: string | null;
             /** @example Damascus, Industrial Zone */
-            address: Record<string, never> | null;
+            address: string | null;
             /** @example true */
             isActive: boolean;
             /** @example 2025-01-01T00:00:00.000Z */

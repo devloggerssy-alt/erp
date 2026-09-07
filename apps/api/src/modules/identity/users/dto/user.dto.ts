@@ -78,13 +78,13 @@ export class UserResponseDto {
     @ApiProperty({ example: 'Sara Al-Amin' })
     fullName: string = '';
 
-    @ApiPropertyOptional({ example: '+963-933-111222', nullable: true })
+    @ApiPropertyOptional({ type: 'string', example: '+963-933-111222', nullable: true })
     phone: string | null = null;
 
     @ApiProperty({ example: true })
     isActive: boolean = true;
 
-    @ApiPropertyOptional({ nullable: true })
+    @ApiPropertyOptional({ type: 'string', nullable: true })
     lastLoginAt: string | null = null;
 
     @ApiProperty({ type: [UserRoleDto] })

@@ -20085,7 +20085,7 @@ components:
           type: number
           example: 0
         onboardingCompletedAt:
-          type: object
+          type: string
           nullable: true
           example: null
       required:
@@ -20197,7 +20197,7 @@ components:
         tenant:
           $ref: '#/components/schemas/AuthTenantDto'
         phone:
-          type: object
+          type: string
           nullable: true
           example: null
       required:
@@ -20231,7 +20231,7 @@ components:
         nameI18n:
           $ref: '#/components/schemas/LocalizedStringDto'
         description:
-          type: object
+          type: string
           example: صلاحيات المحاسبة والمالية
           nullable: true
         descriptionI18n:
@@ -20716,14 +20716,14 @@ components:
           type: string
           example: Sara Al-Amin
         phone:
-          type: object
+          type: string
           example: +963-933-111222
           nullable: true
         isActive:
           type: boolean
           example: true
         lastLoginAt:
-          type: object
+          type: string
           nullable: true
         roles:
           type: array
@@ -21072,15 +21072,15 @@ components:
             - EXPENSE
           example: ASSET
         parentId:
-          type: object
+          type: string
           example: 00000000-0000-4000-a601-000000000001
           nullable: true
         parentCode:
-          type: object
+          type: string
           example: '1000'
           nullable: true
         parentName:
-          type: object
+          type: string
           example: الأصول المتداولة
           nullable: true
         isActive:
@@ -21667,7 +21667,7 @@ components:
             - MULTI_SELECT
             - FILE
         defaultValue:
-          type: object
+          type: string
           nullable: true
         placeholder:
           nullable: true
@@ -21828,7 +21828,7 @@ components:
         nameI18n:
           $ref: '#/components/schemas/LocalizedStringDto'
         address:
-          type: object
+          type: string
           example: Damascus Industrial Zone
           nullable: true
         isActive:
@@ -21890,7 +21890,7 @@ components:
           type: string
           example: Fragile
         color:
-          type: object
+          type: string
           example: '#FF5733'
           nullable: true
         module:
@@ -22034,7 +22034,7 @@ components:
             - replaces
             - requires
         notes:
-          type: object
+          type: string
           nullable: true
         relatedItem:
           $ref: '#/components/schemas/RelatedItemSummaryDto'
@@ -22110,7 +22110,7 @@ components:
         kind:
           type: string
         parentId:
-          type: object
+          type: string
           nullable: true
         parent:
           nullable: true
@@ -22147,7 +22147,7 @@ components:
           example: brand
           description: Entity kind (brand | model | generation | variant | year)
         parentId:
-          type: object
+          type: string
           example: null
           nullable: true
         attributes:
@@ -22167,7 +22167,7 @@ components:
           type: string
           example: brand
         parentId:
-          type: object
+          type: string
           nullable: true
         attributes:
           type: object
@@ -22281,7 +22281,7 @@ components:
         nameI18n:
           $ref: '#/components/schemas/LocalizedStringDto'
         symbol:
-          type: object
+          type: string
           example: £
           nullable: true
         symbolI18n:
@@ -22356,8 +22356,9 @@ components:
           type: string
           description: Locale-resolved display name
         nameI18n:
-          type: object
           description: Raw localized name object
+          allOf:
+            - $ref: '#/components/schemas/LocalizedStringDto'
         type:
           type: string
           enum:
@@ -22368,7 +22369,7 @@ components:
             - EXPENSE
           description: Account type
         parentId:
-          type: object
+          type: string
           nullable: true
           description: Parent account UUID or null
         isActive:
@@ -22419,7 +22420,7 @@ components:
           allOf:
             - $ref: '#/components/schemas/LocalizedStringDto'
         parentId:
-          type: object
+          type: string
           example: 00000000-0000-4000-a601-000000000001
           nullable: true
           description: Updated parent account UUID — set to null to make it a root account
@@ -23638,7 +23639,7 @@ components:
         cashboxCode:
           type: string
         partyId:
-          type: object
+          type: string
           nullable: true
         partyName:
           type: string
@@ -23659,13 +23660,13 @@ components:
         allocatedAmount:
           type: number
         notes:
-          type: object
+          type: string
           nullable: true
         postedAt:
-          type: object
+          type: string
           nullable: true
         cancelledAt:
-          type: object
+          type: string
           nullable: true
         createdAt:
           type: string
@@ -23872,7 +23873,7 @@ components:
           type: string
           example: 00000000-0000-4000-e100-000000000001
         code:
-          type: object
+          type: string
           example: SUPP-001
           nullable: true
         name:
@@ -23886,15 +23887,15 @@ components:
             - CUSTOMER_SUPPLIER
           example: SUPPLIER
         phone:
-          type: object
+          type: string
           example: +963-11-9876543
           nullable: true
         email:
-          type: object
+          type: string
           example: info@damsimport.sy
           nullable: true
         address:
-          type: object
+          type: string
           example: Damascus, Industrial Zone
           nullable: true
         isActive:

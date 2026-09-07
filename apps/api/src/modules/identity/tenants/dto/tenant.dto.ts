@@ -106,15 +106,15 @@ export class TenantResponseDto {
     @ApiProperty({ example: 'demo-shop' })
     slug: string = '';
 
-    @ApiPropertyOptional({ nullable: true }) address: string | null = null;
-    @ApiPropertyOptional({ nullable: true }) phone: string | null = null;
-    @ApiPropertyOptional({ nullable: true }) email: string | null = null;
-    @ApiPropertyOptional({ nullable: true }) logo: string | null = null;
-    @ApiPropertyOptional({ nullable: true }) legalName: string | null = null;
-    @ApiPropertyOptional({ nullable: true }) taxNumber: string | null = null;
-    @ApiPropertyOptional({ nullable: true }) website: string | null = null;
-    @ApiPropertyOptional({ nullable: true }) baseCurrencyId: string | null = null;
-    @ApiPropertyOptional({ nullable: true }) defaultSalesSequenceId: string | null = null;
+    @ApiPropertyOptional({ type: 'string', nullable: true }) address: string | null = null;
+    @ApiPropertyOptional({ type: 'string', nullable: true }) phone: string | null = null;
+    @ApiPropertyOptional({ type: 'string', nullable: true }) email: string | null = null;
+    @ApiPropertyOptional({ type: 'string', nullable: true }) logo: string | null = null;
+    @ApiPropertyOptional({ type: 'string', nullable: true }) legalName: string | null = null;
+    @ApiPropertyOptional({ type: 'string', nullable: true }) taxNumber: string | null = null;
+    @ApiPropertyOptional({ type: 'string', nullable: true }) website: string | null = null;
+    @ApiPropertyOptional({ type: 'string', nullable: true }) baseCurrencyId: string | null = null;
+    @ApiPropertyOptional({ type: 'string', nullable: true }) defaultSalesSequenceId: string | null = null;
 
     @ApiProperty({ example: '2025-01-01T00:00:00.000Z' })
     createdAt: string = '';

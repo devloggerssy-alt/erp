@@ -58,7 +58,9 @@ export function InvoiceLineRow({
 
         const currentUnit = getValues(`lines.${index}._unit` as `lines.${number}._unit`) as { id: string } | null
         if (!currentUnit?.id && itemOption.baseUnitId) {
-            setValue(`lines.${index}._unit` as `lines.${number}._unit`, itemOption.baseUnit)
+            // baseUnitId is the only reliably-typed field here; the combobox
+            // resolves the display label from its own loaded options.
+            setValue(`lines.${index}._unit` as `lines.${number}._unit`, { id: itemOption.baseUnitId })
         }
 
         const currentPrice = getValues(`lines.${index}.unitPrice` as `lines.${number}.unitPrice`)

@@ -47,7 +47,7 @@ export class StockCountLineResponseDto {
     @ApiProperty() systemQuantity: number = 0;
     @ApiProperty() countedQuantity: number = 0;
     @ApiProperty() difference: number = 0;
-    @ApiPropertyOptional({ nullable: true }) notes: string | null = null;
+    @ApiPropertyOptional({ type: 'string', nullable: true }) notes: string | null = null;
 }
 
 export class StockCountResponseDto {
@@ -71,8 +71,8 @@ export class StockCountResponseDto {
     @ApiProperty({ example: 'DRAFT', description: 'DRAFT | POSTED | CANCELLED' })
     status: string = 'DRAFT';
 
-    @ApiPropertyOptional({ nullable: true }) notes: string | null = null;
-    @ApiPropertyOptional({ nullable: true }) postedAt: string | null = null;
+    @ApiPropertyOptional({ type: 'string', nullable: true }) notes: string | null = null;
+    @ApiPropertyOptional({ type: 'string', nullable: true }) postedAt: string | null = null;
     @ApiProperty() createdAt: string = '';
     @ApiProperty() updatedAt: string = '';
 

@@ -17,7 +17,7 @@ export class PaymentResponseDto {
   @ApiProperty() cashboxId: string = '';
   @ApiPropertyOptional() cashboxName?: string;
   @ApiPropertyOptional() cashboxCode?: string;
-  @ApiPropertyOptional({ nullable: true }) partyId: string | null = null;
+  @ApiPropertyOptional({ type: 'string', nullable: true }) partyId: string | null = null;
   @ApiPropertyOptional() partyName?: string;
   @ApiProperty() currencyId: string = '';
   @ApiPropertyOptional() currencyCode?: string;
@@ -27,9 +27,9 @@ export class PaymentResponseDto {
   @ApiProperty() exchangeRate: number = 1;
   @ApiProperty() unallocatedAmount: number = 0;
   @ApiProperty() allocatedAmount: number = 0;
-  @ApiPropertyOptional({ nullable: true }) notes: string | null = null;
-  @ApiPropertyOptional({ nullable: true }) postedAt: string | null = null;
-  @ApiPropertyOptional({ nullable: true }) cancelledAt: string | null = null;
+  @ApiPropertyOptional({ type: 'string', nullable: true }) notes: string | null = null;
+  @ApiPropertyOptional({ type: 'string', nullable: true }) postedAt: string | null = null;
+  @ApiPropertyOptional({ type: 'string', nullable: true }) cancelledAt: string | null = null;
   @ApiProperty() createdAt: string = '';
   @ApiProperty() updatedAt: string = '';
   @ApiPropertyOptional({ type: [PaymentAllocationResponseDto] })

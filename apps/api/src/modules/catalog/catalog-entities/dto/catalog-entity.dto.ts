@@ -31,7 +31,7 @@ export class CreateCatalogEntityDto {
   @IsNotEmpty()
   kind: string = '';
 
-  @ApiPropertyOptional({ example: null, nullable: true })
+  @ApiPropertyOptional({ type: 'string', example: null, nullable: true })
   @IsOptional()
   @IsString()
   parentId?: string | null;
@@ -57,7 +57,7 @@ export class UpdateCatalogEntityDto {
   @IsNotEmpty()
   kind?: string;
 
-  @ApiPropertyOptional({ nullable: true })
+  @ApiPropertyOptional({ type: 'string', nullable: true })
   @IsOptional()
   @IsString()
   parentId?: string | null;
@@ -85,7 +85,7 @@ export class CatalogEntityResponseDto {
   @ApiProperty()
   kind: string = '';
 
-  @ApiProperty({ nullable: true })
+  @ApiProperty({ type: 'string', nullable: true })
   parentId: string | null = null;
 
   @ApiProperty({ nullable: true, type: () => CatalogEntityParentSummaryDto })
