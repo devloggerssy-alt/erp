@@ -37,12 +37,14 @@ export function ItemTagsSection({ itemId, disabled }: ItemTagsSectionProps) {
 
     const { data: tagsResponse } = useQuery({
         queryKey: ["tags", "module-items"],
+        // limit is an ad-hoc filter param not declared on the /tags list query
+        // schema (query?: never) — see Phase 4 plan Task 9 for why this one cast stays.
         queryFn: () => api.tags.list({ limit: 100 } as never),
         staleTime: 5 * 60 * 1000,
     })
-    const allTags: any[] = (tagsResponse as any)?.data ?? []
+    const allTags = tagsResponse?.data ?? []
     const itemTags = allTags.filter((tag) => tag.module === "items")
-    const assignedIds = new Set((assignments as any[]).map((a) => a.tagId))
+    const assignedIds = new Set(assignments.map((a) => a.tagId))
     const available = itemTags.filter((tag) => !assignedIds.has(tag.id))
 
     const addMutation = useMutation({
@@ -66,10 +68,10 @@ export function ItemTagsSection({ itemId, disabled }: ItemTagsSectionProps) {
             </CardHeader>
             <CardContent className="space-y-3">
                 <div className="flex flex-wrap gap-2 min-h-8">
-                    {(assignments as any[]).length === 0 ? (
+                    {assignments.length === 0 ? (
                         <span className="text-sm text-muted-foreground">{t("noTags")}</span>
                     ) : (
-                        (assignments as any[]).map((assignment) => (
+                        assignments.map((assignment) => (
                             <Badge
                                 key={assignment.id}
                                 variant="outline"

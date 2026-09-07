@@ -122,7 +122,7 @@ export function ItemRelationsSection({ itemId, disabled }: ItemRelationsSectionP
                         <Label className="text-sm">{t("relatedItem")}</Label>
                         <ResourceSelectField<ItemsClient>
                             client={(a) => a.items}
-                            getLabel={(item) => `${(item ).name} (${(item ).code})`}
+                            getLabel={(item) => `${item.name} (${item.code})`}
                             value={relatedItemId}
                             onChange={(val) => setRelatedItemId(val as string | null)}
                             placeholder={t("relatedItemPlaceholder")}

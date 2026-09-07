@@ -28,17 +28,18 @@ export function ItemCatalogEntitiesSection({ itemId, disabled }: ItemCatalogEnti
 
     const { data: linksResponse } = useQuery({
         queryKey: linksKey,
+        // itemId filter is an ad-hoc bracket-notation param not on the list query schema.
         queryFn: () => api["item-catalog-entities"].list({ [`filters[itemId][$eq]`]: itemId } as never),
         enabled: !!itemId,
     })
-    const links = (linksResponse as { data?: unknown[] } | undefined)?.data ?? []
+    const links = linksResponse?.data ?? []
 
     const addMutation = useMutation({
         mutationFn: () =>
             api["item-catalog-entities"].create({
                 itemId,
                 catalogEntityId: selectedEntityId!,
-            } as never),
+            }),
         onSuccess: () => {
             void qc.invalidateQueries({ queryKey: linksKey })
             setSelectedEntityId(null)
@@ -60,7 +61,7 @@ export function ItemCatalogEntitiesSection({ itemId, disabled }: ItemCatalogEnti
                     <p className="text-sm text-muted-foreground">{t("noCatalogEntities")}</p>
                 ) : (
                     <div className="divide-y rounded-md border">
-                        {(links as Array<{ id: string; catalogEntity?: { name?: string; kind?: string } }>).map((link) => (
+                        {links.map((link) => (
                             <div key={link.id} className="flex items-center justify-between px-3 py-2 text-sm">
                                 <div className="flex items-center gap-2 min-w-0">
                                     <span className="font-medium truncate">
@@ -94,6 +95,8 @@ export function ItemCatalogEntitiesSection({ itemId, disabled }: ItemCatalogEnti
                         <ResourceSelectField<ICrudClient>
                             client={(a) => a["catalog-entities"] as ICrudClient}
                             getLabel={(item) => {
+                                // ICrudClient is the generic fallback interface and doesn't know
+                                // catalog-entities' concrete field shape — see Phase 4 plan Task 9.
                                 const e = item as unknown as { name: string; kind: string }
                                 return `${e.name} · ${e.kind}`
                             }}
