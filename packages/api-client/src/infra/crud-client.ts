@@ -3,6 +3,7 @@ import type {
   ApiPathByMethod,
   ApiResponse,
   ApiPath,
+  ApiRequestBody,
   ImportResultDto,
   BulkResult,
   BulkUpdateItem,
@@ -65,22 +66,28 @@ export class CrudClient<R extends CrudResource> implements ICrudClient {
   }
 
   /**
-   * Bulk delete by ids. Hits `DELETE /resource` with `{ ids: string[] }`.
-   * Returns `{ total, succeeded, failed, errors }`.
+   * Bulk delete by ids. Hits `DELETE` on the resource's `bulkDelete` route if
+   * declared, otherwise the same path as `list`. Returns `{ total, succeeded, failed, errors }`.
    */
   async bulkDelete(ids: string[]): Promise<BulkResult> {
-    const route = this.resource.routes.list as unknown as ApiPathByMethod<"delete">
+    const route = (this.resource.routes.bulkDelete ??
+      (this.resource.routes.list as unknown as ApiPathByMethod<"delete">)) as ApiPathByMethod<"delete">
     const response = await this.apiClient.delete(route, { body: { ids } } as never)
     return unwrapApiData<BulkResult>(response as unknown)
   }
 
   /**
-   * Bulk partial update. Hits `PATCH /resource` with `{ items: BulkUpdateItem[] }`.
-   * Each item is `{ id } & Partial<update DTO>` — every field except `id` is optional.
+   * Bulk partial update. Hits `PATCH` on the resource's `bulkUpdate` route if
+   * declared, otherwise the same path as `list`. Each item is `{ id } & Partial<update DTO>`,
+   * with the update DTO type derived from the resource's own `update` route —
+   * no caller-supplied type argument needed or accepted.
    * Returns `{ total, succeeded, failed, errors }`.
    */
-  async bulkUpdate<TUpdateDto>(items: BulkUpdateItem<TUpdateDto>[]): Promise<BulkResult> {
-    const route = this.resource.routes.list as unknown as ApiPathByMethod<"patch">
+  async bulkUpdate(
+    items: BulkUpdateItem<ApiRequestBody<NonNullable<R["routes"]["update"]>, "patch">>[],
+  ): Promise<BulkResult> {
+    const route = (this.resource.routes.bulkUpdate ??
+      (this.resource.routes.list as unknown as ApiPathByMethod<"patch">)) as ApiPathByMethod<"patch">
     const response = await this.apiClient.patch(route, { items } as never)
     return unwrapApiData<BulkResult>(response as unknown)
   }

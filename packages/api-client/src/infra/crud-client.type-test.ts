@@ -1,6 +1,7 @@
 import { describe, expectTypeOf, it } from "vitest"
 import { unitResource } from "@devloggers/api-contracts"
 import type { ApiResponse } from "@devloggers/api-contracts"
+import type { UpdateUnitDto } from "@devloggers/api-contracts"
 import { UnitsClient } from "../clients/units.client"
 import { ApiClient } from "./client"
 import type { CrudListDataItem } from "./crud-client"
@@ -45,5 +46,14 @@ describe("AccountsClient — balances/tree/ledger must not leak unknown/any", ()
         type Ledger = Awaited<ReturnType<typeof client.ledger>>
         expectTypeOf<Ledger>().not.toBeAny()
         expectTypeOf<Ledger>().not.toBeUnknown()
+    })
+})
+
+describe("CrudClient.bulkUpdate — item type must derive from the resource, not a caller-supplied generic", () => {
+    const client = new UnitsClient(new ApiClient("http://localhost"))
+
+    it("infers the Unit update DTO's own fields on the bulk item, without a type argument", () => {
+        expectTypeOf(client.bulkUpdate).parameter(0).items.toHaveProperty("abbreviation")
+        expectTypeOf(client.bulkUpdate).parameter(0).items.not.toEqualTypeOf<{ id: string }>()
     })
 })

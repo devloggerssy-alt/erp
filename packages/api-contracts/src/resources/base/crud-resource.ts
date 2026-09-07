@@ -11,6 +11,10 @@ export type CrudRoutes = {
   create?: ApiPathByMethod<"post">
   update?: ApiPathByMethod<"patch">
   delete?: ApiPathByMethod<"delete">
+  /** Bulk delete route. Defaults to `list`'s path (`DELETE` on the same URL as the list `GET`) when omitted. */
+  bulkDelete?: ApiPathByMethod<"delete">
+  /** Bulk update route. Defaults to `list`'s path (`PATCH` on the same URL as the list `GET`) when omitted. */
+  bulkUpdate?: ApiPathByMethod<"patch">
 }
 
 /**
