@@ -46,7 +46,7 @@ export function CashboxesForm({ resourceId, initialData, onSuccess, paramKey }: 
                 name="currency"
                 label={t("currency")}
                 client={(api) => api.currencies}
-                getLabel={(it) => `${(it as any).code} — ${(it as any).name}`}
+                getLabel={(it) => `${it.code} — ${it.name}`}
                 getValue={(it) => it}
                 required
                 disabled={ctrl.isBusy || ctrl.isEditing}

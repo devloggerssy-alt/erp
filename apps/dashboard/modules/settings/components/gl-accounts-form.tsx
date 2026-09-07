@@ -94,7 +94,7 @@ export function GlAccountsForm() {
             name={name}
             label={label}
             client={(a) => a["chart-of-accounts"]}
-            getLabel={(it) => `${(it as any).code} — ${(it as any).name}`}
+            getLabel={(it) => `${it.code} — ${it.name}`}
             getValue={(it) => it}
             disabled={ctrl.isBusy}
         />

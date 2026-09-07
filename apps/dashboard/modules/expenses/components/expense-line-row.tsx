@@ -45,7 +45,7 @@ export function ExpenseLineRow({
                 >
                     name={`items.${index}._account` as `items.${number}._account`}
                     client={(api) => api['chart-of-accounts']}
-                    getLabel={(it) => `${(it as any).code ?? ""} — ${(it as any).name ?? ""}`.trim()}
+                    getLabel={(it) => `${it.code ?? ""} — ${it.name ?? ""}`.trim()}
                     getValue={(it) => it}
                     getId={(it) => it.id}
                     searchIn={["code", "name"]}

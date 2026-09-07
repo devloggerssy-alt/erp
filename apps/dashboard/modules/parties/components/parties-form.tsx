@@ -93,7 +93,7 @@ export function PartiesForm({ resourceId, initialData, onSuccess, paramKey, mode
                 name="receivableAccount"
                 label={t("receivableAccount")}
                 client={(api) => api["chart-of-accounts"]}
-                getLabel={(it) => `${(it as any).code} — ${(it as any).name}`}
+                getLabel={(it) => `${it.code} — ${it.name}`}
                 getValue={(it) => it}
                 disabled={ctrl.isBusy}
             />
@@ -101,7 +101,7 @@ export function PartiesForm({ resourceId, initialData, onSuccess, paramKey, mode
                 name="payableAccount"
                 label={t("payableAccount")}
                 client={(api) => api["chart-of-accounts"]}
-                getLabel={(it) => `${(it as any).code} — ${(it as any).name}`}
+                getLabel={(it) => `${it.code} — ${it.name}`}
                 getValue={(it) => it}
                 disabled={ctrl.isBusy}
             />

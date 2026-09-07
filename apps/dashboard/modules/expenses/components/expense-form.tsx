@@ -32,7 +32,7 @@ function ExpenseHeaderFields({ ctrl }: { ctrl: ExpenseFormController }) {
                 name="cashbox"
                 label={t("cashbox")}
                 client={(api) => api.cashboxes}
-                getLabel={(it) => `${(it as any).code} — ${(it as any).name}`}
+                getLabel={(it) => `${it.code} — ${it.name}`}
                 getValue={(it) => it}
                 required
                 disabled={disabled}
@@ -42,7 +42,7 @@ function ExpenseHeaderFields({ ctrl }: { ctrl: ExpenseFormController }) {
                     name="currency"
                     label={t("currency")}
                     client={(api) => api.currencies}
-                    getLabel={(it) => `${(it as any).code} — ${(it as any).name}`}
+                    getLabel={(it) => `${it.code} — ${it.name}`}
                     getValue={(it) => it}
                     required
                     disabled={disabled}
@@ -51,7 +51,7 @@ function ExpenseHeaderFields({ ctrl }: { ctrl: ExpenseFormController }) {
                     name="fiscalPeriod"
                     label={t("fiscalPeriod")}
                     client={(api) => api["fiscal-periods"]}
-                    getLabel={(it) => (it as any).name}
+                    getLabel={(it) => it.name}
                     getValue={(it) => it}
                     required
                     disabled={disabled}
