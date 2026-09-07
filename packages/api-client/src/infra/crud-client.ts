@@ -41,28 +41,45 @@ export class CrudClient<R extends CrudResource> implements ICrudClient {
   key: string;
 
   list(query?: Record<string, unknown>): Promise<ApiResponse<R["routes"]["list"], "get">> {
-    const route = this.resource.routes.list as ApiPathByMethod<"get">
-    return this.apiClient.get(route, query ? { query } as never : undefined) as any
+    const route = this.resource.routes.list
+    // The options cast and the return-value cast are both structurally required —
+    // see Phase 4 plan Task 0 "verified claim 2b" for the direct compiler probe.
+    // ApiResponse<Path, Method> can't resolve while Path is still the abstract
+    // R["routes"]["list"] rather than a literal, so this.apiClient.get(...)'s own
+    // inferred type collapses to Promise<unknown> here — asserting the exact
+    // declared return type (not `any`) keeps this from silently drifting out of
+    // sync with the signature above.
+    return this.apiClient.get(route, query ? ({ query } as never) : undefined) as Promise<
+      ApiResponse<R["routes"]["list"], "get">
+    >
   }
 
   show(id: string): Promise<ApiResponse<R["routes"]["show"], "get">> {
-    const route = this.resource.routes.show as ApiPathByMethod<"get">
-    return this.apiClient.get(route, { params: { id } } as never) as any
+    const route = this.resource.routes.show
+    return this.apiClient.get(route, { params: { id } } as never) as Promise<
+      ApiResponse<R["routes"]["show"], "get">
+    >
   }
 
   create(body: unknown): Promise<ApiResponse<NonNullable<R["routes"]["create"]>, "post">> {
-    const route = this.resource.routes.create as ApiPathByMethod<"post">
-    return this.apiClient.post(route, body as never) as any
+    const route = this.resource.routes.create as NonNullable<R["routes"]["create"]>
+    return this.apiClient.post(route, body as never) as Promise<
+      ApiResponse<NonNullable<R["routes"]["create"]>, "post">
+    >
   }
 
   update(id: string, body: unknown): Promise<ApiResponse<NonNullable<R["routes"]["update"]>, "patch">> {
-    const route = this.resource.routes.update as ApiPathByMethod<"patch">
-    return this.apiClient.patch(route, body as never, { params: { id } } as never) as any
+    const route = this.resource.routes.update as NonNullable<R["routes"]["update"]>
+    return this.apiClient.patch(route, body as never, { params: { id } } as never) as Promise<
+      ApiResponse<NonNullable<R["routes"]["update"]>, "patch">
+    >
   }
 
   destroy(id: string): Promise<ApiResponse<NonNullable<R["routes"]["delete"]>, "delete">> {
-    const route = this.resource.routes.delete as ApiPathByMethod<"delete">
-    return this.apiClient.delete(route, { params: { id } } as never) as any
+    const route = this.resource.routes.delete as NonNullable<R["routes"]["delete"]>
+    return this.apiClient.delete(route, { params: { id } } as never) as Promise<
+      ApiResponse<NonNullable<R["routes"]["delete"]>, "delete">
+    >
   }
 
   /**
