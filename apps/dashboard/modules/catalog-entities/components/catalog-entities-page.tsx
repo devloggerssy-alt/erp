@@ -13,7 +13,7 @@ export function CatalogEntitiesPage() {
                 title={t("title")}
                 actions={
                     <CatalogEntitiesResource.FormDialog
-                        title={(it) => (it?.id ? (it as unknown as { name: string }).name : t("addAction"))}
+                        title={(it) => (it?.id ? it.name : t("addAction"))}
                         form={CatalogEntitiesForm}
                     />
                 }
