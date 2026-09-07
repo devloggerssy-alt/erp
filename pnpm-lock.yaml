@@ -409,6 +409,9 @@ importers:
       react-dom:
         specifier: ^19.2.0
         version: 19.2.4(react@19.2.4)
+      vitest:
+        specifier: ^4.1.8
+        version: 4.1.8(@types/node@22.19.15)(msw@2.12.14(@types/node@22.19.15)(typescript@5.9.3))(vite@8.0.16(@types/node@22.19.15)(jiti@2.6.1)(terser@5.46.1)(yaml@1.10.3))
 
   packages/api-contracts:
     dependencies:
