@@ -14,7 +14,7 @@ import { ScrollArea } from "@/shared/components/ui/scroll-area"
 import { Popover, PopoverContent, PopoverTrigger } from "@/shared/components/ui/popover"
 import { FieldShell } from "@/shared/components/form/field-shell"
 import { AccountsTree } from "./accounts-tree"
-import type { AccountListItem, AccountTreeNode } from "../accounts.types"
+import type { AccountTreeNode } from "../accounts.types"
 
 export type AccountPickerValue = { id: string; code: string; name: string }
 
@@ -51,7 +51,7 @@ export function AccountPicker({
     })
 
     const items = useMemo(() => {
-        const raw = ((data?.data ?? []) as unknown) as AccountListItem[]
+        const raw = data?.data ?? []
         return excludeIds ? raw.filter((i) => !excludeIds.has(i.id)) : raw
     }, [data, excludeIds])
 

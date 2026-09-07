@@ -17,13 +17,9 @@ export function useAccountLedger(accountId: string | null, page: number, limit =
         enabled: !!accountId,
         queryFn: () => api[accountResource.key].ledger(accountId as string, { page, limit }),
         select: (res): AccountLedgerPage => {
-            const anyRes = res as unknown as {
-                data?: AccountLedgerLine[]
-                meta?: { pagination?: { total?: number; page?: number; limit?: number } }
-            }
-            const pagination = anyRes.meta?.pagination
+            const pagination = res.meta?.pagination
             return {
-                data: (anyRes.data ?? []) as AccountLedgerLine[],
+                data: res.data ?? [],
                 total: pagination?.total ?? 0,
                 page: pagination?.page ?? page,
                 limit: pagination?.limit ?? limit,

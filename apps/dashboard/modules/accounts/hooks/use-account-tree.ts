@@ -5,6 +5,17 @@ import type { AccountListItem } from "../accounts.types"
 
 export const ACCOUNT_TREE_KEY = ["account-tree"] as const
 
+// NOTE: `tree()`'s generated element type reports `nameI18n: Record<string, never>`
+// instead of `LocalizedStringDto`, because the backend's `ChartOfAccountTreeDto.nameI18n`
+// (apps/api/src/modules/accounting/accounts/dto/account.dto.ts) declares
+// `@ApiProperty({ description: '...' })` without a `type` option — the exact anti-pattern
+// documented in .ai/rules/api.md ("No type option — generates Record<string, never>").
+// The runtime value IS a real LocalizedString (see AccountPresenter.toResponse), so this
+// is a generated-type bug, not an actual data-shape difference. Escalated in
+// .superpowers/sdd/task-7-report.md rather than patched here with a cast, since a
+// type-honest fix would have to null out nameI18n and silently break locale-resolved
+// labels in the account tree view. Fix the source DTO + `pnpm generate` + rebuild
+// api-contracts, then this hook can drop the manual mapping like balances/ledger did.
 type RawTreeItem = {
     id: string
     code: string
