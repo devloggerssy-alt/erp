@@ -52,6 +52,18 @@ jobs:
       - name: Generate Prisma client
         run: pnpm --filter @devloggers/db-prisma db:generate
 
+      # ── OpenAPI artifact hygiene ───────────────────────────────────────────
+      # apps/api/openapi.yaml and packages/api-contracts/types/index.ts are
+      # committed as the API contract (.ai/rules/packages.md). Fail fast if
+      # they've drifted from what a fresh `pnpm generate` produces, and ratchet
+      # down the count of untyped OpenAPI 2xx responses instead of letting it
+      # creep back up.
+      - name: Check OpenAPI contract is up to date
+        run: |
+          pnpm generate
+          git diff --exit-code apps/api/openapi.yaml packages/api-contracts/types/index.ts
+          node scripts/audit-openapi-response-types.mjs
+
       # ── F4 guardrail: the API must type-check under the strict base ──────────
       # This is the check the whole roadmap's verification depends on. Without
       # it, `turbo run build` exits 0 on refactors that dropped a parameter type.
