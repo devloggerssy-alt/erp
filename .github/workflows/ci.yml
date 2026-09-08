@@ -143,10 +143,10 @@ jobs:
       # (Client & Dashboard Type Safety) — promoted to the blocking
       # guardrails job above. No known-debt entry for it anymore.
 
-      # 65 errors — no-explicit-any in shared form field wrappers +
+      # 61 errors — no-explicit-any in shared form field wrappers +
       # react-hooks/set-state-in-effect. Pre-existing React/typing issues,
       # unrelated to the refactor. Owner: unassigned.
-      - name: Lint — dashboard (65 errors, pre-existing)
+      - name: Lint — dashboard (61 errors, pre-existing)
         continue-on-error: true
         run: pnpm --filter @devloggers/dashboard lint
 

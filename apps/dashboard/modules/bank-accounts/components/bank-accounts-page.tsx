@@ -14,7 +14,7 @@ export function BankAccountsPage() {
                 title={t("title")}
                 actions={
                     <BankAccountsResource.FormDialog
-                        title={(it) => (it?.id ? (it as any).name ?? t("entity") : t("addAction"))}
+                        title={(it) => (it?.id ? it.name ?? t("entity") : t("addAction"))}
                         form={BankAccountsForm}
                     />
                 }

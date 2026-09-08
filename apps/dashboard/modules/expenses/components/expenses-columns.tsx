@@ -33,6 +33,14 @@ function ExpenseActionsCell({
     t: ColumnTranslator
     actions: ExpenseColumnActions
 }) {
+    // ExpenseItem = ResourceItem<ExpensesClient> resolves to BaseCrudItem ({ id: string })
+    // rather than the real Expense shape, because ExpensesClient.list()/show() are hand-written
+    // to return BaseCrudItem — the expenses controller declares no response DTO
+    // (apps/api/src/modules/invoicing/expenses/expenses.controller.ts), the same gap tracked
+    // for Invoices/Payments in .github/workflows/ci.yml's known-debt notes. `status` genuinely
+    // doesn't resolve on ExpenseItem until a real ExpenseResponseDto exists. Not a stale cast —
+    // verified via a scratch tsc probe (ResourceItem<ExpensesClient> === BaseCrudItem).
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- see comment above
     const status = (row as any).status as string
     const id = String(row.id)
 
@@ -108,6 +116,9 @@ export function createExpensesColumns(
             id: "cashboxCode",
             header: ({ column }) => <ColumnHeader column={column} title={t("cashbox")} />,
             cell: ({ row }) => {
+                // See the comment on ExpenseActionsCell above — ExpenseItem is BaseCrudItem
+                // ({ id: string }) until the expenses controller gets a real response DTO.
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any -- see comment above
                 const cashbox = (row.original as any).cashbox
                 return cashbox?.code
                     ? <span className="font-mono text-sm">{cashbox.code}</span>
