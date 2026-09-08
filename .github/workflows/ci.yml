@@ -73,6 +73,7 @@ jobs:
       - name: Typecheck — packages
         run: |
           pnpm --filter @devloggers/api-contracts typecheck
+          pnpm --filter @devloggers/api-client typecheck
           pnpm --filter @devloggers/ui check-types
 
       - name: Lint — apps/api
@@ -93,8 +94,14 @@ jobs:
       - name: Test — api-contracts
         run: pnpm --filter @devloggers/api-contracts test
 
+      - name: Test — api-client
+        run: pnpm --filter @devloggers/api-client test
+
       - name: Build — apps/api
         run: pnpm turbo run build --filter=@devloggers/api
+
+      - name: Build — api-client
+        run: pnpm --filter @devloggers/api-client build
 
       # ── 0.1 — golden masters ────────────────────────────────────────────────
       # The API test step above already runs them once the suite exists; this
@@ -132,22 +139,21 @@ jobs:
       - name: Generate Prisma client
         run: pnpm --filter @devloggers/db-prisma db:generate
 
-      # Fails with 5 errors: Invoices.* / Payments.* responses generate as
-      # `undefined` / `never` because those controllers declare no response DTO.
-      # This is F9 surfacing as a build failure. Owner: Phase 1.5.
-      - name: Build — api-client (F9, expected red until Phase 1.5)
-        continue-on-error: true
-        run: pnpm --filter @devloggers/api-client build
+      # api-client's build/typecheck/test all pass clean as of Phase 4
+      # (Client & Dashboard Type Safety) — promoted to the blocking
+      # guardrails job above. No known-debt entry for it anymore.
 
-      # 89 errors — setState-in-effect, components-created-during-render.
-      # Pre-existing React issues, unrelated to the refactor. Owner: unassigned.
-      - name: Lint — dashboard (89 errors, pre-existing)
+      # 65 errors — no-explicit-any in shared form field wrappers +
+      # react-hooks/set-state-in-effect. Pre-existing React/typing issues,
+      # unrelated to the refactor. Owner: unassigned.
+      - name: Lint — dashboard (65 errors, pre-existing)
         continue-on-error: true
         run: pnpm --filter @devloggers/dashboard lint
 
-      # 21 errors, largely downstream of the same untyped responses as above.
-      # Owner: Phase 2.
-      - name: Typecheck — dashboard (21 errors, mostly F9 fallout)
+      # 0 errors as of Phase 4 (Client & Dashboard Type Safety) — kept here
+      # as advisory rather than promoted to guardrails since this job's
+      # scope wasn't otherwise revisited. Owner: unassigned.
+      - name: Typecheck — dashboard (0 errors as of Phase 4)
         continue-on-error: true
         run: pnpm --filter @devloggers/dashboard typecheck
 
