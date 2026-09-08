@@ -22246,7 +22246,7 @@ components:
           example: Toyota
           description: Brand display name
         imageUrl:
-          type: object
+          type: string
           example: https://cdn.example.com/toyota.png
           description: Brand logo URL
       required:
@@ -22259,7 +22259,7 @@ components:
           example: Toyota (Updated)
           description: Updated display name
         imageUrl:
-          type: object
+          type: string
           example: https://cdn.example.com/toyota-new.png
           description: Updated logo URL
         isActive:

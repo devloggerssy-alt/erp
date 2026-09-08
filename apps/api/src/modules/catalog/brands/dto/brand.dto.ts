@@ -7,7 +7,7 @@ export class CreateBrandDto {
   @IsNotEmpty()
   name: string = '';
 
-  @ApiPropertyOptional({ example: 'https://cdn.example.com/toyota.png', description: 'Brand logo URL' })
+  @ApiPropertyOptional({ type: 'string', example: 'https://cdn.example.com/toyota.png', description: 'Brand logo URL' })
   @IsOptional()
   @IsUrl({ require_host: false })
   imageUrl?: string | null;
@@ -20,7 +20,7 @@ export class UpdateBrandDto {
   @IsNotEmpty()
   name?: string;
 
-  @ApiPropertyOptional({ example: 'https://cdn.example.com/toyota-new.png', description: 'Updated logo URL' })
+  @ApiPropertyOptional({ type: 'string', example: 'https://cdn.example.com/toyota-new.png', description: 'Updated logo URL' })
   @IsOptional()
   @IsUrl({ require_host: false })
   imageUrl?: string | null;

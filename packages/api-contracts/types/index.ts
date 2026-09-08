@@ -3830,7 +3830,7 @@ export interface components {
              * @description Brand logo URL
              * @example https://cdn.example.com/toyota.png
              */
-            imageUrl?: Record<string, never>;
+            imageUrl?: string;
         };
         UpdateBrandDto: {
             /**
@@ -3842,7 +3842,7 @@ export interface components {
              * @description Updated logo URL
              * @example https://cdn.example.com/toyota-new.png
              */
-            imageUrl?: Record<string, never>;
+            imageUrl?: string;
             /**
              * @description Whether the brand is active
              * @example true
