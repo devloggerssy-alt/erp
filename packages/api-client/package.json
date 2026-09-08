@@ -13,7 +13,7 @@
   },
   "scripts": {
     "dev": "tsc --watch",
-    "build": "tsc",
+    "build": "tsc -p tsconfig.build.json",
     "lint": "echo \"No lint configured for @devloggers/api\"",
     "check-types": "echo \"No typecheck configured for @devloggers/api\"",
     "test": "vitest run",
