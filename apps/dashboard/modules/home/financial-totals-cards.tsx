@@ -10,12 +10,10 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/components/ui/card"
 import type { DashboardData } from "./use-dashboard-data"
 
-
 type Props = { data: DashboardData }
 
 export function FinancialTotalsCards({ data }: Props) {
-    const d = data as Record<string, unknown>
-    const totals = d.totals as Record<string, unknown>
+    const totals = data.totals
 
     return (
         <div className="grid gap-4 md:grid-cols-2">
@@ -30,7 +28,7 @@ export function FinancialTotalsCards({ data }: Props) {
                 </CardHeader>
                 <CardContent>
                     <div className="text-2xl font-bold text-emerald-600">
-                        {String(totals?.total_income_text ?? `${String(totals?.currency ?? "")} 0.00`)}
+                        {totals?.total_income_text ?? `${totals?.currency ?? ""} 0.00`}
                     </div>
                     <div className="mt-1 flex items-center gap-1 text-xs text-muted-foreground">
                         <ArrowUpRight className="h-3 w-3 text-emerald-500" />

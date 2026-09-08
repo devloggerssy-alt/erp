@@ -6,7 +6,6 @@ import { Badge } from "@/shared/components/ui/badge"
 import { Progress } from "@/shared/components/ui/progress"
 import type { DashboardData } from "./use-dashboard-data"
 
-
 type Props = { data: DashboardData }
 
 const statusColors: Record<string, string> = {
@@ -19,11 +18,10 @@ const statusColors: Record<string, string> = {
 }
 
 export function WorkOrdersStatusCard({ data }: Props) {
-    const d = data as Record<string, unknown>
-    const workOrders = d.work_orders_status as Record<string, unknown> | undefined
-    const cards = (workOrders?.cards as unknown[]) ?? []
-    const totals = workOrders?.totals as Record<string, unknown> | undefined
-    const totalOrders = (totals?.orders as number) ?? 0
+    const workOrders = data.work_orders_status
+    const cards = workOrders?.cards ?? []
+    const totals = workOrders?.totals
+    const totalOrders = totals?.orders ?? 0
 
     return (
         <Card>
@@ -33,29 +31,28 @@ export function WorkOrdersStatusCard({ data }: Props) {
                     <CardTitle>Work Orders</CardTitle>
                 </div>
                 <div className="text-right">
-                    <p className="text-2xl font-bold">{String(totals?.orders_text ?? "0 Orders")}</p>
-                    <p className="text-xs text-muted-foreground">{String(totals?.amount_text ?? "")}</p>
+                    <p className="text-2xl font-bold">{totals?.orders_text ?? "0 Orders"}</p>
+                    <p className="text-xs text-muted-foreground">{totals?.amount_text ?? ""}</p>
                 </div>
             </CardHeader>
             <CardContent className="space-y-3">
-                {cards.map((card: unknown) => {
-                    const c = card as Record<string, unknown>
-                    const percentage = totalOrders > 0 ? ((c.count as number) ?? 0) / totalOrders * 100 : 0
+                {cards.map((card: { count?: number; status?: string; label?: string; orders_text?: string; amount_text?: string }) => {
+                    const percentage = totalOrders > 0 ? ((card.count ?? 0) / totalOrders) * 100 : 0
                     return (
-                        <div key={String(c.status)} className="space-y-1.5">
+                        <div key={card.status} className="space-y-1.5">
                             <div className="flex items-center justify-between">
                                 <div className="flex items-center gap-2">
                                     <Badge
                                         variant="secondary"
-                                        className={statusColors[String(c.status ?? "")] ?? ""}
+                                        className={statusColors[card.status ?? ""] ?? ""}
                                     >
-                                        {String(c.label ?? "")}
+                                        {card.label}
                                     </Badge>
                                     <span className="text-sm text-muted-foreground">
-                                        {String(c.orders_text ?? "")}
+                                        {card.orders_text}
                                     </span>
                                 </div>
-                                <span className="text-sm font-medium">{String(c.amount_text ?? "")}</span>
+                                <span className="text-sm font-medium">{card.amount_text}</span>
                             </div>
                             <Progress value={percentage} className="h-1.5" />
                         </div>

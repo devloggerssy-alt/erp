@@ -20,11 +20,10 @@ const chartConfig = {
 type Props = { data: DashboardData }
 
 export function FinancialSummaryChart({ data }: Props) {
-    const d = data as Record<string, unknown>
-    const summary = d.financial_summary as Record<string, unknown>
-    const currency = String(summary?.currency ?? "")
+    const summary = data.financial_summary
+    const currency = summary?.currency ?? ""
 
-    const chartData = ((summary?.chart as unknown[]) ?? []).map((item: { label?: string; amount?: number; count?: number }) => ({
+    const chartData = (summary?.chart ?? []).map((item: { label?: string; amount?: number; count?: number }) => ({
         label: item.label ?? "",
         amount: item.amount ?? 0,
         count: item.count ?? 0,

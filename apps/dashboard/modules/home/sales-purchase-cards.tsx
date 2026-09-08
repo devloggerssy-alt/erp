@@ -4,13 +4,11 @@ import { FileText, FileSearch, Receipt, ShoppingCart } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/components/ui/card"
 import type { DashboardData } from "./use-dashboard-data"
 
-
 type Props = { data: DashboardData }
 
 export function SalesPurchaseCards({ data }: Props) {
-    const d = data as Record<string, unknown>
-    const sales = d.sales_totals as Record<string, unknown>
-    const purchase = d.purchase_totals as Record<string, unknown>
+    const sales = data.sales_totals
+    const purchase = data.purchase_totals
 
     const salesStats = [
         { label: "Inspections", value: sales?.inspections ?? 0, icon: FileSearch },

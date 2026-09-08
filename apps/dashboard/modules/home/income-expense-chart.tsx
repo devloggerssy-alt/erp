@@ -16,7 +16,6 @@ import {
 } from "@/shared/components/ui/chart"
 import type { DashboardData } from "./use-dashboard-data"
 
-
 const chartConfig = {
     income: {
         label: "Income",
@@ -31,10 +30,8 @@ const chartConfig = {
 type Props = { data: DashboardData }
 
 export function IncomeExpenseChart({ data }: Props) {
-    const d = data as Record<string, unknown>
-    const chart = d.chart as Record<string, unknown>
-    const series = (chart?.series as unknown[]) ?? []
-    const currency = String(chart?.currency ?? "")
+    const series = data.chart?.series ?? []
+    const currency = data.chart?.currency ?? ""
 
     const chartData = series.map((item: { date?: string; income?: number; expense?: number }) => ({
         date: item.date ?? "",

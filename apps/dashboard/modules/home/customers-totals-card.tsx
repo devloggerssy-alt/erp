@@ -7,8 +7,7 @@ import type { DashboardData } from "./use-dashboard-data"
 type Props = { data: DashboardData }
 
 export function CustomersTotalsCard({ data }: Props) {
-    const d = data as Record<string, unknown>
-    const customers = d.customers_totals as Record<string, unknown>
+    const customers = data.customers_totals
 
     const stats = [
         { label: "Individuals", value: customers?.individuals ?? 0, icon: Users, color: "text-sky-600", bg: "bg-sky-500/10" },
@@ -21,7 +20,7 @@ export function CustomersTotalsCard({ data }: Props) {
         <Card>
             <CardHeader className="flex flex-row items-center justify-between">
                 <CardTitle className="text-sm font-medium">Customers</CardTitle>
-                <span className="text-2xl font-bold">{String(customers?.total_customers ?? 0)}</span>
+                <span className="text-2xl font-bold">{customers?.total_customers ?? 0}</span>
             </CardHeader>
             <CardContent className="space-y-3">
                 {stats.map((stat) => (
