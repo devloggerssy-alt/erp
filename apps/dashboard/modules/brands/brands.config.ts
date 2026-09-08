@@ -3,9 +3,14 @@ import type { CreateBrandDto, UpdateBrandDto } from "@devloggers/api-contracts"
 import type { ResourceFormConfig } from "@/shared/hooks/use-resource-form-controller"
 import { unwrapApiData } from "@/shared/hooks/unwrap-api-data"
 
+const imagePath = z.string().trim().min(1, "Invalid image URL")
+
 export const brandFormSchema = z.object({
     name: z.string().trim().min(1, "Name is required"),
-    imageUrl: z.string().trim().url("Must be a valid URL").nullable().optional(),
+    imageUrl: z.preprocess(
+        (value) => (value === "" || value === null || value === undefined ? null : value),
+        imagePath.nullable().optional(),
+    ),
     isActive: z.boolean().optional(),
 })
 
