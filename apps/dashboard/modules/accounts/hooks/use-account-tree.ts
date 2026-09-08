@@ -33,6 +33,10 @@ export function useAccountTree() {
         queryFn: () => api[accountResource.key].tree(),
         staleTime: 60_000,
         select: (res): AccountListItem[] => {
+            // tree()'s generated element type is wrong (see RawTreeItem comment above: backend DTO's
+            // nameI18n lacks a `type` option, so the generated OpenAPI type doesn't match the real
+            // runtime shape); this double-cast re-types the response into the accurate RawTreeItem shape.
+            // eslint-disable-next-line no-restricted-syntax -- see comment above: generated type is wrong, re-typing to the accurate shape
             const rows = (((res as { data?: unknown })?.data ?? []) as unknown) as RawTreeItem[]
             return rows.map((r) => ({
                 id: r.id,

@@ -39,6 +39,7 @@ export function ItemTagsSection({ itemId, disabled }: ItemTagsSectionProps) {
         queryKey: ["tags", "module-items"],
         // limit is an ad-hoc filter param not declared on the /tags list query
         // schema (query?: never) — see Phase 4 plan Task 9 for why this one cast stays.
+        // eslint-disable-next-line no-restricted-syntax -- see comment above: /tags list query schema is `never`
         queryFn: () => api.tags.list({ limit: 100 } as never),
         staleTime: 5 * 60 * 1000,
     })

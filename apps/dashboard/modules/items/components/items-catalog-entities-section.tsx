@@ -10,7 +10,8 @@ import { Button } from "@/shared/components/ui/button"
 import { Badge } from "@/shared/components/ui/badge"
 import { Label } from "@/shared/components/ui/label"
 import { ResourceSelectField } from "@/shared/components/form"
-import type { ICrudClient } from "@devloggers/api-client"
+import type { CatalogEntitiesClient } from "@devloggers/api-client"
+import { catalogEntityResource } from "@devloggers/api-contracts"
 
 interface ItemCatalogEntitiesSectionProps {
     itemId: string
@@ -28,8 +29,12 @@ export function ItemCatalogEntitiesSection({ itemId, disabled }: ItemCatalogEnti
 
     const { data: linksResponse } = useQuery({
         queryKey: linksKey,
-        // itemId filter is an ad-hoc bracket-notation param not on the list query schema.
-        queryFn: () => api["item-catalog-entities"].list({ [`filters[itemId][$eq]`]: itemId } as never),
+        // itemId filter is an ad-hoc bracket-notation param not declared on
+        // itemCatalogEntityResource's list route; that route is hand-typed (not yet
+        // registered in the API's OpenAPI paths), so ApiQueryParams resolves to `never`.
+        queryFn: () =>
+            // eslint-disable-next-line no-restricted-syntax -- see comment above: hand-typed route, ApiQueryParams is `never`
+            api["item-catalog-entities"].list({ [`filters[itemId][$eq]`]: itemId } as never),
         enabled: !!itemId,
     })
     const links = linksResponse?.data ?? []
@@ -92,14 +97,9 @@ export function ItemCatalogEntitiesSection({ itemId, disabled }: ItemCatalogEnti
                     <p className="text-sm font-medium text-muted-foreground">{t("addCatalogEntity")}</p>
                     <div className="space-y-2">
                         <Label className="text-sm">{t("sectionCatalogEntities")}</Label>
-                        <ResourceSelectField<ICrudClient>
-                            client={(a) => a["catalog-entities"] as ICrudClient}
-                            getLabel={(item) => {
-                                // ICrudClient is the generic fallback interface and doesn't know
-                                // catalog-entities' concrete field shape — see Phase 4 plan Task 9.
-                                const e = item as unknown as { name: string; kind: string }
-                                return `${e.name} · ${e.kind}`
-                            }}
+                        <ResourceSelectField<CatalogEntitiesClient>
+                            client={(a) => a[catalogEntityResource.key]}
+                            getLabel={(item) => `${item.name} · ${item.kind}`}
                             value={selectedEntityId}
                             onChange={(val) => setSelectedEntityId(val as string | null)}
                             placeholder={t("catalogEntityPlaceholder")}

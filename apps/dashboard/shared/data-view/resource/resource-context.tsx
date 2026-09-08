@@ -11,6 +11,9 @@ import type { ResourceContext, ResourceItem, UseResourceOptions } from "./types"
 import { useResourceQuery } from "./use-resource-query"
 import { useResourceMutations } from "./use-resource-mutations"
 
+// Generic React Context needs an erased initial value; narrowed back to
+// ResourceContext<TClient> by useResourceContext() below.
+// eslint-disable-next-line no-restricted-syntax -- see comment above: erased initial value for a generic context
 const resourceContext = createContext(null as unknown)
 
 export function useResourceContext<TClient extends ICrudClient>(): ResourceContext<TClient> {
@@ -18,6 +21,9 @@ export function useResourceContext<TClient extends ICrudClient>(): ResourceConte
     if (!ctx) {
         throw new Error("useResourceContext must be used within a <ResourceProvider>")
     }
+    // Narrows the erased context value back to the caller's concrete TClient; the
+    // provider below is the only place that ever sets this context value.
+    // eslint-disable-next-line no-restricted-syntax -- see comment above: narrows erased context value to TClient
     return ctx as unknown as ResourceContext<TClient>
 }
 
@@ -103,6 +109,9 @@ export function ResourceProvider<TClient extends ICrudClient>({
     }
 
     return (
+        // Erases the concrete ResourceContext<TClient> back to the context's declared
+        // ResourceContext<ICrudClient> shape; useResourceContext<TClient>() re-narrows it for each consumer.
+        // eslint-disable-next-line no-restricted-syntax -- see comment above: erases TClient to the context's declared shape
         <resourceContext.Provider value={value as unknown as ResourceContext<ICrudClient>}>
             {children}
         </resourceContext.Provider>

@@ -94,6 +94,10 @@ export function AsyncSelectField<TOption = AsyncOption, TValue = string>({
   // the options list streams in or is filtered.
   const selectedId = useMemo(() => {
     if (value === null || value === undefined) return null
+    // Generic bridge: TValue and TOption are independent, unconstrained generics; the stored form
+    // value is sometimes the full option object, so it must be re-typed as TOption to call getKey().
+    // Callers guarantee this shape via getOptionKey/getOptionValue.
+    // eslint-disable-next-line no-restricted-syntax -- see comment above: generic bridge between TValue and TOption
     if (typeof value === "object") return getKey(value as unknown as TOption)
     return String(value)
   }, [value, getKey])
@@ -105,6 +109,9 @@ export function AsyncSelectField<TOption = AsyncOption, TValue = string>({
     const match = normalized.find((o) => o.id === selectedId)
     if (match) return match.label
     if (value !== null && value !== undefined && typeof value === "object") {
+      // Same generic bridge as selectedId above: the stored form value is sometimes the
+      // full option object, re-typed as TOption for getLabel().
+      // eslint-disable-next-line no-restricted-syntax -- see comment above: generic bridge between TValue and TOption
       return getLabel(value as unknown as TOption)
     }
     return ""
@@ -220,7 +227,10 @@ export function AsyncMultiSelectField<TOption = AsyncOption, TValue = string>({
   const valueBySelectedId = useMemo(() => {
     const map = new Map<string, TValue>()
     ;(value ?? []).forEach((v) => {
+      // Same generic bridge as the single-select above: stored form values are
+      // sometimes full option objects, re-typed as TOption for getKey().
       const id =
+        // eslint-disable-next-line no-restricted-syntax -- see comment above: generic bridge between TValue and TOption
         v !== null && typeof v === "object" ? getKey(v as unknown as TOption) : String(v)
       map.set(id, v)
     })
@@ -231,6 +241,7 @@ export function AsyncMultiSelectField<TOption = AsyncOption, TValue = string>({
     () =>
       (value ?? [])
         .map((v) =>
+          // eslint-disable-next-line no-restricted-syntax -- same generic bridge as valueBySelectedId above
           v !== null && typeof v === "object" ? getKey(v as unknown as TOption) : String(v),
         )
         .filter((id): id is string => id !== ""),

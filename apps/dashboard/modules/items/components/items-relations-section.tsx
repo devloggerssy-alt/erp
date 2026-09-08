@@ -41,6 +41,10 @@ export function ItemRelationsSection({ itemId, disabled }: ItemRelationsSectionP
 
     const { data: relationsResponse } = useQuery({
         queryKey: relationsKey,
+        // itemId filter is an ad-hoc bracket-notation param not declared on itemRelationResource's
+        // list route; that route is hand-typed (not yet registered in the API's OpenAPI paths),
+        // so ApiQueryParams resolves to `never`.
+        // eslint-disable-next-line no-restricted-syntax -- see comment above: hand-typed route, ApiQueryParams is `never`
         queryFn: () => api["item-relations"].list({ [`filters[itemId][$eq]`]: itemId } as never),
         enabled: !!itemId,
     })
@@ -48,6 +52,9 @@ export function ItemRelationsSection({ itemId, disabled }: ItemRelationsSectionP
 
     const addMutation = useMutation({
         mutationFn: () =>
+            // itemRelationResource's routes are hand-typed (not yet registered in the API's
+            // OpenAPI paths — see item-relation.resource.ts), so ApiRequestBody resolves to `never`.
+            // eslint-disable-next-line no-restricted-syntax -- see comment above: hand-typed route, ApiRequestBody is `never`
             api["item-relations"].create({
                 itemId,
                 relatedItemId: relatedItemId!,

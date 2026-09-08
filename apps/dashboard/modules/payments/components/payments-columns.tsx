@@ -48,6 +48,10 @@ type PaymentRow = {
 }
 
 function asRow(item: PaymentItem): PaymentRow {
+    // See NOTE above: PaymentsClient hand-implements ICrudClient instead of extending
+    // CrudClient<typeof paymentResource>, so ResourceItem<PaymentsClient> erases to
+    // BaseCrudItem ({ id: string }) rather than the real PaymentResponseDto shape.
+    // eslint-disable-next-line no-restricted-syntax -- see comment above: ResourceItem<PaymentsClient> erases to BaseCrudItem
     return item as unknown as PaymentRow
 }
 
