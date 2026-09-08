@@ -20,10 +20,10 @@ This folder contains **only unresolved work**. Prerequisites already in the code
 
 | Phase | Spec | Priority | Depends on | Status |
 |-------|------|----------|------------|--------|
-| **2** | [Subledger Accounting Foundation](phase-02-subledger-accounting-foundation.md) | 🔴 P0 | — | ⬜ **Next** |
-| **3** | [Opening Balances & Subledger Services](phase-03-opening-balances-subledger-services.md) | 🔴 P0 | 2 | ⬜ |
-| **4** | [Client & Dashboard Types](phase-04-client-dashboard-types.md) | 🟠 P1 | — | ⬜ |
-| **5** | [Domain Coupling](phase-05-domain-coupling.md) | 🟡 P2 | 2 | ⬜ |
+| **2** | [Subledger Accounting Foundation](phase-02-subledger-accounting-foundation.md) | 🔴 P0 | — | ✅ Complete |
+| **3** | [Opening Balances & Subledger Services](phase-03-opening-balances-subledger-services.md) | 🔴 P0 | 2 | ✅ Complete |
+| **4** | [Client & Dashboard Types](phase-04-client-dashboard-types.md) | 🟠 P1 | — | ✅ Complete |
+| **5** | [Domain Coupling](phase-05-domain-coupling.md) | 🟡 P2 | 2 | ⬜ **Next** |
 | **6** | [Business Setup Orchestration](phase-06-business-setup-orchestration.md) | 🟠 P1 | 2, 3 | ⬜ |
 | **7** | [Audit, Reconciliation & Observability](phase-07-audit-reconciliation-observability.md) | 🟡 P2 | 2, 3 | ⬜ |
 | **8** | [Modularity](phase-08-modularity.md) | 🟢 P3 | 5 | ⬜ |
