@@ -1,7 +1,6 @@
 import { describe, expectTypeOf, it } from "vitest"
 import { unitResource } from "@devloggers/api-contracts"
 import type { ApiResponse } from "@devloggers/api-contracts"
-import type { UpdateUnitDto } from "@devloggers/api-contracts"
 import { UnitsClient } from "../clients/units.client"
 import { ApiClient } from "./client"
 import type { CrudListDataItem } from "./crud-client"
