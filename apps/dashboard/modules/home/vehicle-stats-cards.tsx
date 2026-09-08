@@ -11,6 +11,7 @@ import {
 } from "@/shared/components/ui/chart"
 import type { DashboardData } from "./use-dashboard-data"
 
+
 const chartConfig = {
     vehicles_count: {
         label: "Vehicles",
@@ -23,8 +24,9 @@ const COLORS = ["#3b82f6", "#8b5cf6", "#06b6d4", "#f59e0b", "#ef4444", "#10b981"
 type Props = { data: DashboardData }
 
 export function VehicleStatsCards({ data }: Props) {
-    const bodyTypes = data.body_types_vehicle_totals ?? []
-    const makes = data.make_model_vehicle_totals?.makes ?? []
+    const d = data as Record<string, unknown>
+    const bodyTypes = (d.body_types_vehicle_totals as unknown[]) ?? []
+    const makes = ((d.make_model_vehicle_totals as Record<string, unknown>)?.makes as unknown[]) ?? []
 
     const bodyData = bodyTypes.map((bt: { body_type?: string; vehicles_count?: number }) => ({
         name: bt.body_type ?? "Unknown",

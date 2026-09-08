@@ -7,12 +7,13 @@ import type { DashboardData } from "./use-dashboard-data"
 type Props = { data: DashboardData }
 
 export function AppointmentsSummaryCard({ data }: Props) {
-    const totals = data.appointments_summary?.totals
+    const appt = data as Record<string, unknown>
+    const totals = (appt.appointments_summary as Record<string, unknown>)?.totals
 
     const stats = [
         {
             label: "Completed",
-            value: totals?.completed?.text ?? "0 Appt.",
+            value: String((totals as Record<string, unknown>)?.completed?.text ?? "0 Appt."),
             icon: CalendarCheck,
             color: "text-emerald-600",
             bg: "bg-emerald-500/10",

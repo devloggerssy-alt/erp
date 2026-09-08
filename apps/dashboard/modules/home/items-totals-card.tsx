@@ -4,10 +4,12 @@ import { Package, Wrench, Layers } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/components/ui/card"
 import type { DashboardData } from "./use-dashboard-data"
 
+
 type Props = { data: DashboardData }
 
 export function ItemsTotalsCard({ data }: Props) {
-    const items = data.items_totals
+    const d = data as Record<string, unknown>
+    const items = d.items_totals as Record<string, unknown>
 
     const stats = [
         { label: "Parts", value: items?.parts ?? 0, icon: Package, color: "text-blue-600", bg: "bg-blue-500/10" },
@@ -19,7 +21,7 @@ export function ItemsTotalsCard({ data }: Props) {
         <Card>
             <CardHeader className="flex flex-row items-center justify-between">
                 <CardTitle className="text-sm font-medium">Items</CardTitle>
-                <span className="text-2xl font-bold">{items?.total_items ?? 0}</span>
+                <span className="text-2xl font-bold">{String(items?.total_items ?? 0)}</span>
             </CardHeader>
             <CardContent className="space-y-3">
                 {stats.map((stat) => (

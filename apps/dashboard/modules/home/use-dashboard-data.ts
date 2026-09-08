@@ -2,8 +2,9 @@
 
 import { useQuery } from "@tanstack/react-query"
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type DashboardData = Record<string, any>
+export type DashboardData = Record<string, unknown> & {
+    [K: string]: unknown
+}
 
 export function useDashboardData() {
     return useQuery<DashboardData>({

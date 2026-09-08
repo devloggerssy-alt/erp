@@ -6,6 +6,7 @@ import { Badge } from "@/shared/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/shared/components/ui/tabs"
 import type { DashboardData } from "./use-dashboard-data"
 
+
 type Props = { data: DashboardData }
 
 const statusBadge: Record<string, string> = {
@@ -14,7 +15,7 @@ const statusBadge: Record<string, string> = {
     cancelled: "bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300",
 }
 
-type AppointmentDetail = NonNullable<NonNullable<NonNullable<DashboardData["upcoming_appointments"]>["today"]>["details"]>[number]
+type AppointmentDetail = Record<string, unknown>
 
 function AppointmentRow({ appt }: { appt: AppointmentDetail }) {
     return (
@@ -53,13 +54,14 @@ function EmptyState() {
 }
 
 export function UpcomingAppointmentsCard({ data }: Props) {
-    const upcoming = data.upcoming_appointments
+    const d = data as Record<string, unknown>
+    const upcoming = d.upcoming_appointments as Record<string, unknown> | undefined
 
     const tabs = [
-        { key: "today", label: "Today", data: upcoming?.today },
-        { key: "tomorrow", label: "Tomorrow", data: upcoming?.tomorrow },
-        { key: "this_week", label: "This Week", data: upcoming?.this_week },
-        { key: "next_week", label: "Next Week", data: upcoming?.next_week },
+        { key: "today", label: "Today", data: upcoming?.today as Record<string, unknown> | undefined },
+        { key: "tomorrow", label: "Tomorrow", data: upcoming?.tomorrow as Record<string, unknown> | undefined },
+        { key: "this_week", label: "This Week", data: upcoming?.this_week as Record<string, unknown> | undefined },
+        { key: "next_week", label: "Next Week", data: upcoming?.next_week as Record<string, unknown> | undefined },
     ]
 
     return (
