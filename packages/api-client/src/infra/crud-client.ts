@@ -87,6 +87,11 @@ export class CrudClient<R extends CrudResource> implements ICrudClient {
    * declared, otherwise the same path as `list`. Returns `{ total, succeeded, failed, errors }`.
    */
   async bulkDelete(ids: string[]): Promise<BulkResult> {
+    // Falling back to `list`'s path (reinterpreted as DELETE) is a compile-time-only
+    // guarantee — it does not verify the resource's API actually implements bulk delete
+    // on that route. Calling this on a resource without real bulk-delete support will
+    // silently issue a DELETE to the list URL and most likely surface as a runtime
+    // 404/405 rather than a type error. See Phase 4 final-review Fix 8.
     const route = (this.resource.routes.bulkDelete ??
       (this.resource.routes.list as unknown as ApiPathByMethod<"delete">)) as ApiPathByMethod<"delete">
     const response = await this.apiClient.delete(route, { body: { ids } } as never)
@@ -103,6 +108,10 @@ export class CrudClient<R extends CrudResource> implements ICrudClient {
   async bulkUpdate(
     items: BulkUpdateItem<ApiRequestBody<NonNullable<R["routes"]["update"]>, "patch">>[],
   ): Promise<BulkResult> {
+    // Same tradeoff as bulkDelete above: falling back to `list`'s path (reinterpreted
+    // as PATCH) only satisfies the compiler, not the server — a resource without real
+    // bulk-update support will silently PATCH the list URL and likely fail at runtime
+    // (404/405) rather than at compile time. See Phase 4 final-review Fix 8.
     const route = (this.resource.routes.bulkUpdate ??
       (this.resource.routes.list as unknown as ApiPathByMethod<"patch">)) as ApiPathByMethod<"patch">
     const response = await this.apiClient.patch(route, { items } as never)
