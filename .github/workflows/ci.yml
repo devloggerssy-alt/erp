@@ -95,6 +95,9 @@ jobs:
       - name: Test — apps/api
         run: pnpm --filter @devloggers/api test
 
+      - name: Test — backend-core
+        run: pnpm --filter @devloggers/backend-core test
+
       - name: Test — api-contracts
         run: pnpm --filter @devloggers/api-contracts test
 

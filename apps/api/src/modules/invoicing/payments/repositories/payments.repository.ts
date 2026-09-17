@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@devloggers/db-prisma/nest';
-import { CrudRepository } from '@devloggers/backend-core';
+import { StatusGuardedCrudRepository } from '@devloggers/backend-core';
 import type { Payment } from '@devloggers/db-prisma';
 
 @Injectable()
-export class PaymentsRepository extends CrudRepository<Payment> {
+export class PaymentsRepository extends StatusGuardedCrudRepository<Payment> {
   constructor(private readonly prisma: PrismaService) {
     super(prisma.payment);
   }

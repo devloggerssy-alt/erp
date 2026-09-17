@@ -136,15 +136,22 @@ export abstract class CrudRepository<T extends TenantEntity> {
   }
 
   /**
-   * Hard-delete a record by id.
+   * Hard-delete a record by id. Runs {@link beforeHardDelete} first.
    */
   async delete(id: string): Promise<T> {
+    await this.beforeHardDelete(id);
     try {
       return await this.model.delete({ where: { id } });
     } catch (error) {
       mapPrismaError(error);
     }
   }
+
+  /**
+   * Last-line refusal hook for hard deletes, independent of any service guard.
+   * No-op by default; see StatusGuardedCrudRepository.
+   */
+  protected async beforeHardDelete(_id: string): Promise<void> {}
 
   /**
    * Check whether a record matching `where` (scoped to tenant) exists.
