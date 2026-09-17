@@ -970,7 +970,8 @@
       "saving": "Saving…",
       "confirm": "Confirm & Continue",
       "complete": "Complete Setup",
-      "remove": "Remove"
+      "remove": "Remove",
+      "finish": "Finish setup"
     },
     "company": {
       "title": "Company Profile",
@@ -1019,6 +1020,16 @@
     "documentSequences": {
       "title": "Document Sequences",
       "description": "Customize the prefix and starting number for each document type."
+    },
+    "businessProfile": {
+      "title": "Business profile",
+      "description": "Tell us which parts of the business you'll be using — this decides which setup tasks are required.",
+      "modules": {
+        "inventory": "Inventory & warehouses",
+        "sales": "Sales & customers",
+        "purchasing": "Purchasing & suppliers",
+        "accounting": "Accounting & GL"
+      }
     }
   },
   "dashboard": {

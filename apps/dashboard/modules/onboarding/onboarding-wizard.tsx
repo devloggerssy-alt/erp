@@ -10,6 +10,7 @@ import { ChartOfAccountsStep } from "./components/chart-of-accounts-step"
 import { CurrenciesStep } from "./components/currencies-step"
 import { GlDefaultsStep } from "./components/gl-defaults-step"
 import { DocumentSequencesStep } from "./components/document-sequences-step"
+import { BusinessProfileStep } from "./components/business-profile-step"
 import { useApi } from "@/shared/useApi"
 import { refreshUserCookie } from "@/modules/auth/auth.actions"
 
@@ -41,6 +42,7 @@ const STEP_TITLE_KEYS = [
     "onboarding.currencies.title",
     "onboarding.glDefaults.title",
     "onboarding.documentSequences.title",
+    "onboarding.businessProfile.title",
 ]
 
 type Props = { initialStep?: number; initialName?: string }
@@ -52,7 +54,7 @@ export function OnboardingWizard({ initialStep = 1, initialName }: Props) {
     const t = useTranslations("business")
 
     const [state, dispatch] = useReducer(wizardReducer, {
-        currentStep: Math.max(1, Math.min(initialStep, 6)),
+        currentStep: Math.max(1, Math.min(initialStep, 7)),
         codeToId: {},
     })
 
@@ -128,6 +130,12 @@ export function OnboardingWizard({ initialStep = 1, initialName }: Props) {
 
                     {state.currentStep === 6 && (
                         <DocumentSequencesStep
+                            onSuccess={() => dispatch({ type: "NEXT" })}
+                        />
+                    )}
+
+                    {state.currentStep === 7 && (
+                        <BusinessProfileStep
                             onSuccess={() => complete()}
                         />
                     )}
