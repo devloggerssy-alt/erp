@@ -9,8 +9,7 @@ import {
 import type { CustomFieldValuesMap } from '@devloggers/api-contracts';
 import type { CustomField } from '@devloggers/db-prisma';
 import { PrismaService } from '@devloggers/db-prisma/nest';
-import { CustomFieldsRepository } from '@/modules/custom-fields/repositories/custom-fields.repository';
-import { CustomFieldValuesService } from '@/modules/custom-fields/services/custom-field-values.service';
+import { CustomFieldsRepository, CustomFieldValuesService } from '@/modules/custom-fields';
 import {
     CrudExportServiceBase,
     type ExportRow,

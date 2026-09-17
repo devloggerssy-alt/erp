@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@devloggers/db-prisma/nest';
-import { computeInvoicePaidState } from '../invoicing/invoices/presenters/invoice.presenter';
+import { computeInvoicePaidState } from '../invoicing';
 
 @Injectable()
 export class ReportsService {

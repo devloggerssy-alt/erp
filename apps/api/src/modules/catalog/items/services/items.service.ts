@@ -4,7 +4,7 @@ import { CrudService, FindManyOptions } from '@devloggers/backend-core';
 import { customFieldModules, resources } from '@devloggers/api-contracts';
 import type { Item } from '@devloggers/db-prisma';
 import { PrismaService } from '@devloggers/db-prisma/nest';
-import { CustomFieldValuesService } from '@/modules/custom-fields/services/custom-field-values.service';
+import { CustomFieldValuesService } from '@/modules/custom-fields';
 import { InventoryService } from '@/modules/inventory';
 import { ItemsRepository } from '../repositories/items.repository';
 import { ItemPresenter } from '../presenters/item.presenter';

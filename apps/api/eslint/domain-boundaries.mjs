@@ -27,9 +27,24 @@ const TEST_IGNORES = ['**/*.spec.ts', '**/*.spec-fixtures.ts', '**/__tests__/**'
 
 /** @type {string[]} */
 export const DOMAINS = readdirSync(MODULES_DIR, { withFileTypes: true })
-    .filter((entry) => entry.isDirectory())
+    .filter((entry) => entry.isDirectory() && !entry.name.startsWith('.'))
     .map((entry) => entry.name)
     .sort();
+
+/**
+ * The default shape: other domains may import only the domain's barrel
+ * (`modules/<domain>`, i.e. its index.ts). Any deeper path is an error.
+ * @param {string} domain
+ * @param {string} publicApi human description of what the barrel exposes
+ */
+function barrelOnly(domain, publicApi) {
+    return {
+        group: [`**/${domain}/*`, `**/${domain}/*/**`],
+        message:
+            `'${domain}' is a separate domain — import it only via its barrel 'modules/${domain}' ` +
+            `(${publicApi}). See .ai/rules/api.md § Domain boundaries.`,
+    };
+}
 
 /** @type {Record<string, { group: string[]; message: string }>} */
 export const DOMAIN_RESTRICTIONS = {
@@ -77,6 +92,34 @@ export const DOMAIN_RESTRICTIONS = {
             'accounting/accounts/services (JournalPostingService, OpeningBalancesService, ' +
             'AccountsService, ...) is GL-internal as of Phase 1.',
     },
+    // Shared kernel: every controller needs JwtAuthGuard and @CurrentUser.
+    // Everything else in identity (users, tenants, settings, onboarding) is internal.
+    identity: {
+        group: [
+            '**/identity/*',
+            '**/identity/*/**',
+            '!**/identity/auth',
+            '!**/identity/auth/**',
+            '**/identity/auth/*',
+            '**/identity/auth/*/**',
+            '!**/identity/auth/guards',
+            '!**/identity/auth/guards/**',
+            '!**/identity/auth/decorators',
+            '!**/identity/auth/decorators/**',
+        ],
+        message:
+            "Outside identity, import only 'identity/auth/guards' and 'identity/auth/decorators'. " +
+            'Users, tenants, settings and onboarding are identity internals. See .ai/rules/api.md § Domain boundaries.',
+    },
+    inventory: barrelOnly('inventory', 'InventoryModule, InventoryService, InventoryMovementFacade + MovementIntent types'),
+    invoicing: barrelOnly('invoicing', 'computeInvoicePaidState'),
+    'custom-fields': barrelOnly('custom-fields', 'CustomFieldsModule, CustomFieldValuesService, CustomFieldsRepository'),
+    catalog: barrelOnly('catalog', 'nothing yet — add an index.ts before depending on catalog'),
+    parties: barrelOnly('parties', 'nothing yet — add an index.ts before depending on parties'),
+    reports: barrelOnly('reports', 'nothing yet — reports is a leaf'),
+    files: barrelOnly('files', 'nothing yet — add an index.ts before depending on files'),
+    audit: barrelOnly('audit', 'nothing yet — add an index.ts before depending on audit'),
+    'ai-chat': barrelOnly('ai-chat', 'nothing yet — ai-chat is a leaf'),
 };
 
 /** One flat-config block per importing domain, restricting every other domain. */

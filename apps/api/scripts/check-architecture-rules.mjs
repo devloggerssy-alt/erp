@@ -13,6 +13,7 @@
 import { ESLint } from 'eslint';
 import { existsSync } from 'node:fs';
 import { join, resolve } from 'node:path';
+import { DOMAINS, DOMAIN_RESTRICTIONS } from '../eslint/domain-boundaries.mjs';
 
 const API_DIR = resolve(import.meta.dirname, '..');
 
@@ -39,6 +40,10 @@ function importCase(file, specifier, expect) {
 const INVOICE_POSTING = 'src/modules/invoicing/invoices/invoice-posting.service.ts';
 const ONBOARDING = 'src/modules/identity/onboarding/services/onboarding.service.ts';
 const POSTING_FACADE = 'src/modules/accounting/posting/accounting-posting.facade.ts';
+const ITEMS_SERVICE = 'src/modules/catalog/items/services/items.service.ts';
+const REPORTS_SERVICE = 'src/modules/reports/reports.service.ts';
+const PARTIES_CONTROLLER = 'src/modules/parties/parties.controller.ts';
+const STOCK_COUNTS_SERVICE = 'src/modules/inventory/stock-counts/stock-counts.service.ts';
 
 /** @type {Case[]} */
 const CASES = [
@@ -53,11 +58,36 @@ const CASES = [
     importCase(ONBOARDING, '@/modules/accounting/accounts/services/journal-posting.service', 'error'),
     // A domain may deep-import itself.
     importCase(POSTING_FACADE, '../accounts/services/journal-posting.service', 'clean'),
+    // ── Phase 5.2: every domain is reachable only through its public entry point ──
+    importCase(INVOICE_POSTING, '../../inventory', 'clean'),
+    importCase(INVOICE_POSTING, '../../inventory/inventory.service', 'error'),
+    importCase(INVOICE_POSTING, '../../inventory/movements', 'error'),
+    importCase(ITEMS_SERVICE, '@/modules/inventory', 'clean'),
+    importCase(ITEMS_SERVICE, '@/modules/inventory/movements/stock-movement.writer', 'error'),
+    importCase(ITEMS_SERVICE, '@/modules/custom-fields', 'clean'),
+    importCase(ITEMS_SERVICE, '@/modules/custom-fields/services/custom-field-values.service', 'error'),
+    importCase(REPORTS_SERVICE, '../invoicing', 'clean'),
+    importCase(REPORTS_SERVICE, '../invoicing/invoices/presenters/invoice.presenter', 'error'),
+    importCase(STOCK_COUNTS_SERVICE, '../../catalog/items/services/items.service', 'error'),
+    importCase(STOCK_COUNTS_SERVICE, '../../parties/repositories/parties.repository', 'error'),
+    // identity publishes only its auth kernel
+    importCase(PARTIES_CONTROLLER, '../identity/auth/guards', 'clean'),
+    importCase(PARTIES_CONTROLLER, '../identity/auth/decorators', 'clean'),
+    importCase(PARTIES_CONTROLLER, '../identity/auth/auth.module', 'error'),
+    importCase(PARTIES_CONTROLLER, '../identity/users/users.service', 'error'),
+    // a domain may still deep-import itself
+    importCase(STOCK_COUNTS_SERVICE, '../movements/stock-movement.writer', 'clean'),
 ];
 
 async function main() {
     const eslint = new ESLint({ cwd: API_DIR });
     let failures = 0;
+
+    const unrestricted = DOMAINS.filter((domain) => !(domain in DOMAIN_RESTRICTIONS));
+    if (unrestricted.length > 0) {
+        console.error(`✗ domains with no entry in eslint/domain-boundaries.mjs DOMAIN_RESTRICTIONS: ${unrestricted.join(', ')}`);
+        failures++;
+    }
 
     for (const c of CASES) {
         const filePath = join(API_DIR, c.file);

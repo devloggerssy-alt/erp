@@ -9,7 +9,7 @@ import {
 } from '@devloggers/api-contracts';
 import type { CustomField, Item } from '@devloggers/db-prisma';
 import { PrismaService } from '@devloggers/db-prisma/nest';
-import { CustomFieldsRepository } from '@/modules/custom-fields/repositories/custom-fields.repository';
+import { CustomFieldsRepository } from '@/modules/custom-fields';
 import {
     CrudImportServiceBase,
     normalizeLookupKey,

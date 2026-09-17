@@ -113,5 +113,32 @@ A backend task is **not complete** until:
 around a type mismatch that stems from stale or incorrect generated types. Fix the decorator,
 regenerate, rebuild.
 
+## Domain boundaries (lint-enforced)
+
+Each directory under `apps/api/src/modules/` is a domain. **Outside a domain, import only its public entry point.** Deep imports are `no-restricted-imports` errors, configured in `apps/api/eslint/domain-boundaries.mjs` and proven by `pnpm --filter @devloggers/api lint:architecture` (CI). Inside a domain, use relative imports and never import your own barrel (that creates module cycles).
+
+| Domain | Public entry point(s) | Exposes |
+|---|---|---|
+| `accounting` | `accounting/posting`, `accounting/document-sequences`, `accounting/financial-settings`, `accounting/fiscal-periods`, `accounting/accounts/utils` | `AccountingPostingFacade` + `PostingIntent` types; numbering; tenant setup config; period/slot guards |
+| `identity` | `identity/auth/guards`, `identity/auth/decorators` | `JwtAuthGuard`, `@CurrentUser` (shared kernel) |
+| `inventory` | `inventory` | `InventoryModule`, `InventoryService`, `InventoryMovementFacade` + `MovementIntent` types |
+| `invoicing` | `invoicing` | `computeInvoicePaidState` |
+| `custom-fields` | `custom-fields` | `CustomFieldsModule`, `CustomFieldValuesService`, `CustomFieldsRepository` |
+| `catalog`, `parties`, `reports`, `files`, `audit`, `ai-chat` | — (no consumers yet) | add an `index.ts` before another domain depends on it |
+
+Allowed dependency graph (besides every domain → `identity` auth kernel):
+
+```
+invoicing ─┬─► accounting (posting, document-sequences, accounts/utils)
+           └─► inventory
+inventory ───► accounting (posting, document-sequences, accounts/utils)
+catalog   ─┬─► inventory
+           └─► custom-fields
+identity  ───► accounting (document-sequences, financial-settings, fiscal-periods)   # onboarding
+reports   ───► invoicing
+```
+
+`src/app.module.ts` is the composition root and is exempt. **Adding an edge** means: export the symbol from the target's `index.ts`, add it to the table above, and add a probe case to `apps/api/scripts/check-architecture-rules.mjs`. **Adding a domain** folder fails `lint:architecture` until it has a `DOMAIN_RESTRICTIONS` entry.
+
 ## Reference
 `apps/api/src/modules/catalog/units/`
