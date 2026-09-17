@@ -1,25 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@devloggers/db-prisma/nest';
-import { StockMovementType } from '@devloggers/db-prisma';
 import { PostOpeningBalanceDto } from './dto/inventory.dto';
 import { InventoryRepository } from './repositories/inventory.repository';
 import { InventoryPresenter } from './presenters/inventory.presenter';
+import { InventoryMovementFacade } from './movements';
 import { AccountingPostingFacade, type OpeningStockPostedIntent, type PrismaTransactionClient } from '../accounting/posting';
 import { assertFiscalPeriodOpen } from '../accounting/accounts/utils/assert-period-open';
-
-export interface MovementParams {
-    tenantId: string;
-    warehouseId: string;
-    itemId: string;
-    fiscalPeriodId: string;
-    movementType: StockMovementType;
-    quantity: number; // can be negative for outflows
-    unitCost: number;
-    referenceType?: string;
-    referenceId?: string;
-    notes?: string;
-    userId: string;
-}
 
 @Injectable()
 export class InventoryService {
@@ -28,69 +14,8 @@ export class InventoryService {
         private readonly inventoryRepository: InventoryRepository,
         private readonly inventoryPresenter: InventoryPresenter,
         private readonly postingFacade: AccountingPostingFacade,
+        private readonly movements: InventoryMovementFacade,
     ) {}
-
-    /**
-     * Transaction-aware core posting engine. Runs inside the caller's $transaction
-     * so stock + GL + entity-status changes commit atomically.
-     */
-    async postMovementTx(tx: PrismaTransactionClient, params: MovementParams): Promise<{ id: string }> {
-        const movement = await tx.stockMovement.create({
-            data: {
-                tenantId: params.tenantId,
-                warehouseId: params.warehouseId,
-                itemId: params.itemId,
-                fiscalPeriodId: params.fiscalPeriodId,
-                movementType: params.movementType,
-                quantity: params.quantity,
-                unitCost: params.unitCost,
-                referenceType: params.referenceType,
-                referenceId: params.referenceId,
-                notes: params.notes,
-                createdBy: params.userId,
-            },
-        });
-
-        const balance = await tx.stockBalance.findUnique({
-            where: {
-                tenantId_warehouseId_itemId: {
-                    tenantId: params.tenantId,
-                    warehouseId: params.warehouseId,
-                    itemId: params.itemId,
-                },
-            },
-        });
-
-        if (!balance) {
-            await tx.stockBalance.create({
-                data: {
-                    tenantId: params.tenantId,
-                    warehouseId: params.warehouseId,
-                    itemId: params.itemId,
-                    quantity: params.quantity,
-                    averageCost: params.unitCost,
-                },
-            });
-        } else {
-            const newQuantity = Number(balance.quantity) + params.quantity;
-            let newAverageCost = Number(balance.averageCost);
-            if (params.quantity > 0) {
-                const totalValue = (Number(balance.quantity) * Number(balance.averageCost)) + (params.quantity * params.unitCost);
-                newAverageCost = totalValue / newQuantity;
-            }
-            await tx.stockBalance.update({
-                where: { id: balance.id },
-                data: { quantity: newQuantity, averageCost: newAverageCost },
-            });
-        }
-
-        return movement;
-    }
-
-    /** Standalone entry point — wraps postMovementTx in its own transaction. */
-    async postMovement(params: MovementParams) {
-        return this.prisma.$transaction((tx) => this.postMovementTx(tx, params));
-    }
 
     async registerOpeningStockTx(
         tx: PrismaTransactionClient,
@@ -105,19 +30,14 @@ export class InventoryService {
     ): Promise<{ count: number; journalEntryId: string | null }> {
         const totalValue = params.items.reduce((s, it) => s + it.quantity * it.unitCost, 0);
 
-        for (const item of params.items) {
-            await this.postMovementTx(tx, {
-                tenantId: params.tenantId,
-                userId: params.userId,
-                warehouseId: params.warehouseId,
-                itemId: item.itemId,
-                fiscalPeriodId: params.fiscalPeriodId,
-                movementType: StockMovementType.OPENING,
-                quantity: item.quantity,
-                unitCost: item.unitCost,
-                notes: 'Opening Balance Registration',
-            });
-        }
+        await this.movements.apply(tx, {
+            kind: 'OPENING_STOCK',
+            tenantId: params.tenantId,
+            userId: params.userId,
+            fiscalPeriodId: params.fiscalPeriodId,
+            warehouseId: params.warehouseId,
+            lines: params.items,
+        });
 
         let journalEntryId: string | null = null;
         if (totalValue !== 0) {

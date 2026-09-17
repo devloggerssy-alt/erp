@@ -20,7 +20,7 @@ function postingFacadeMock() {
 }
 
 function buildInventoryService(postingFacade: ReturnType<typeof postingFacadeMock>) {
-    return new InventoryService({} as any, {} as any, {} as any, postingFacade as any);
+    return new InventoryService({} as any, {} as any, {} as any, postingFacade as any, buildMovementFacade());
 }
 
 function buildInvoicePosting(fake: FakeTx, invoice: Record<string, unknown>) {
@@ -44,7 +44,7 @@ function buildStockCounts(fake: FakeTx, stockCount: Record<string, unknown>, ite
     const presenter = { toDetailResponse: jest.fn((x: unknown) => x) };
     const emitter = { emit: jest.fn() };
     const svc = new StockCountsService(
-        prisma as any, buildInventoryService(postingFacade), {} as any, repo as any, presenter as any, emitter as any, postingFacade as any,
+        prisma as any, buildMovementFacade(), {} as any, repo as any, presenter as any, emitter as any, postingFacade as any,
     );
     return { svc, postingFacade };
 }

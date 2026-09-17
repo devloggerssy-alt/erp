@@ -5,7 +5,7 @@ import { customFieldModules, resources } from '@devloggers/api-contracts';
 import type { Item } from '@devloggers/db-prisma';
 import { PrismaService } from '@devloggers/db-prisma/nest';
 import { CustomFieldValuesService } from '@/modules/custom-fields/services/custom-field-values.service';
-import { InventoryService } from '@/modules/inventory/inventory.service';
+import { InventoryService } from '@/modules/inventory';
 import { ItemsRepository } from '../repositories/items.repository';
 import { ItemPresenter } from '../presenters/item.presenter';
 import { CreateItemDto, UpdateItemDto, ItemResponseDto } from '../dto';
