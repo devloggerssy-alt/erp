@@ -32,7 +32,8 @@
         "db:reset": "prisma migrate reset --schema=src/schema",
         "db:push": "prisma db push --schema=src/schema",
         "db:seed": "ts-node src/seed/index.ts",
-        "db:seed:clear": "ts-node scripts/clear-seed.ts"
+        "db:seed:clear": "ts-node scripts/clear-seed.ts",
+        "backfill:business-setup": "ts-node src/seed/backfill-business-setup-tasks.ts"
     },
     "dependencies": {
         "@prisma/adapter-pg": "^7.0.0",
