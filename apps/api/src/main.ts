@@ -9,6 +9,7 @@ import { join, resolve } from 'path';
 import { writeFileSync } from 'fs';
 import { execSync } from 'child_process';
 import * as yaml from 'js-yaml';
+import { correlationIdMiddleware } from './common/request-context/correlation-id.middleware';
 
 // Paths are relative to apps/api/ (process.cwd() when running via nest start)
 const SPEC_PATH = resolve(process.cwd(), 'openapi.yaml');
@@ -51,6 +52,7 @@ async function bootstrap() {
   }
 
   app.useStaticAssets(join(process.cwd(), 'uploads'), { prefix: '/uploads' });
+  app.use(correlationIdMiddleware);
   app.use(cookieParser.default());
   app.enableCors({ origin: true, credentials: true });
   app.set('query parser', 'extended');
