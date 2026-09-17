@@ -12318,11 +12318,12 @@ paths:
   /accounting/reconciliation/balance-drift:
     get:
       description: >-
-        Compares denormalized balance caches (Cashbox.balance,
-        StockBalance.quantity) against their ledger source of truth, and
-        verifies every posted journal entry balances. Read-only and safe to run
-        at any time. Record a baseline before the Phase 1 posting refactor:
-        pre-existing drift is not a regression, only an increase is.
+        Runs the reconciliation stack (00-accounting-principles.md):
+        cash/bank/AR/AP control accounts vs their subledgers, cashbox and bank
+        projections vs subledger, inventory GL vs stock valuation, journal-entry
+        balance, txn amount × rate = base, and stock quantity projection.
+        Read-only. Pre-existing drift is not a regression; only an increase is
+        (see ReconciliationRun).
       operationId: BalanceDrift.getBalanceDrift
       parameters: []
       responses:
@@ -22566,7 +22567,9 @@ components:
         derivedBalance:
           type: number
           example: 14750
-          description: Recomputed from posted receipts − posted payments − posted expenses
+          description: >-
+            Cashbox subledger in cashbox currency: Σ ±|amount| over posted
+            journal lines carrying this cashboxId
         difference:
           type: number
           example: 250
@@ -22651,6 +22654,12 @@ components:
         - glBalance
         - subledgerBalance
         - difference
+    PartySubledgerSide:
+      type: string
+      enum:
+        - AR
+        - AP
+      description: AR = check 4 (customers), AP = check 5 (suppliers)
     PartySubledgerDriftDto:
       type: object
       properties:
@@ -22658,6 +22667,10 @@ components:
           type: string
           example: 00000000-0000-4000-a602-000000001120
           description: AR or AP control account id
+        side:
+          description: AR = check 4 (customers), AP = check 5 (suppliers)
+          allOf:
+            - $ref: '#/components/schemas/PartySubledgerSide'
         currencyId:
           type: string
           nullable: true
@@ -22675,6 +22688,7 @@ components:
           example: 0
       required:
         - controlAccountId
+        - side
         - currencyId
         - glBalance
         - subledgerBalance
@@ -22712,7 +22726,9 @@ components:
           description: Denormalized BankAccount.balance
         derivedBalance:
           type: number
-          description: Σ(debit−credit) of posted journal lines for this bank account
+          description: >-
+            Bank subledger in account currency: Σ ±|amount| over posted journal
+            lines carrying this bankAccountId
         difference:
           type: number
       required:
@@ -22721,6 +22737,72 @@ components:
         - cachedBalance
         - derivedBalance
         - difference
+    InventoryValuationDriftDto:
+      type: object
+      properties:
+        inventoryAccountId:
+          type: string
+          description: FinancialSetting.defaultInventoryAccountId
+        glBalance:
+          type: number
+          example: 1000
+          description: Σ(debit−credit) on the Inventory control account (base currency)
+        stockValuation:
+          type: number
+          example: 750.5
+          description: Σ(quantity × unitCost) over all stock movements (base currency)
+        difference:
+          type: number
+          example: 249.5
+          description: gl − stock; flagged beyond 0.01
+      required:
+        - inventoryAccountId
+        - glBalance
+        - stockValuation
+        - difference
+    MultiCurrencyDriftReason:
+      type: string
+      enum:
+        - RATE_MISMATCH
+        - MISSING_AMOUNT
+    MultiCurrencyLineDriftDto:
+      type: object
+      properties:
+        journalLineId:
+          type: string
+        journalEntryNumber:
+          type: string
+          example: JE-000007
+        amount:
+          type: number
+          example: 100
+          description: Transaction-currency amount stored on the line
+        exchangeRate:
+          type: number
+          example: 1.1
+        baseAmount:
+          type: number
+          example: 100
+          description: debit + credit (base currency)
+        expectedBaseAmount:
+          type: number
+          example: 110
+          description: '|amount| × exchangeRate rounded to 4 dp'
+        difference:
+          type: number
+          example: -10
+        reason:
+          allOf:
+            - $ref: '#/components/schemas/MultiCurrencyDriftReason'
+      required:
+        - journalLineId
+        - journalEntryNumber
+        - amount
+        - exchangeRate
+        - baseAmount
+        - expectedBaseAmount
+        - difference
+        - reason
     BalanceDriftReportDto:
       type: object
       properties:
@@ -22760,6 +22842,16 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/BankAccountDriftDto'
+        inventoryValuation:
+          description: Check 6
+          type: array
+          items:
+            $ref: '#/components/schemas/InventoryValuationDriftDto'
+        multiCurrencyLines:
+          description: Check 8 — capped at 200 lines
+          type: array
+          items:
+            $ref: '#/components/schemas/MultiCurrencyLineDriftDto'
         notChecked:
           example:
             - StockBalance.averageCost is not recomputed — see Phase 5
@@ -22779,6 +22871,8 @@ components:
         - partySubledgers
         - bankSubledgers
         - bankAccounts
+        - inventoryValuation
+        - multiCurrencyLines
         - notChecked
     OpeningBalanceSessionStatus:
       type: string

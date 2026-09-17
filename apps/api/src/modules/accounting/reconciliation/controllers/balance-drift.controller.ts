@@ -21,11 +21,11 @@ export class BalanceDriftController {
     @ApiOperation({
         summary: 'Balance drift report',
         description:
-            'Compares denormalized balance caches (Cashbox.balance, StockBalance.quantity) ' +
-            'against their ledger source of truth, and verifies every posted journal entry ' +
-            'balances. Read-only and safe to run at any time. ' +
-            'Record a baseline before the Phase 1 posting refactor: pre-existing drift is not ' +
-            'a regression, only an increase is.',
+            'Runs the reconciliation stack (00-accounting-principles.md): cash/bank/AR/AP control ' +
+            'accounts vs their subledgers, cashbox and bank projections vs subledger, inventory GL vs ' +
+            'stock valuation, journal-entry balance, txn amount × rate = base, and stock quantity ' +
+            'projection. Read-only. Pre-existing drift is not a regression; only an increase is ' +
+            '(see ReconciliationRun).',
     })
     @ApiOkResponseStandard(BalanceDriftReportDto, { description: 'Drift report for the tenant' })
     @ApiStandardErrors()

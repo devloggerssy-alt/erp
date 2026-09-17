@@ -9,6 +9,9 @@ import {
     PartySubledgerDriftDto,
     BankSubledgerDriftDto,
     BankAccountDriftDto,
+    InventoryValuationDriftDto,
+    MultiCurrencyLineDriftDto,
+    MultiCurrencyDriftReason,
 } from '../dto/balance-drift.dto';
 
 /**
@@ -20,9 +23,15 @@ import {
 const TOLERANCE = 0.0001;
 
 const NOT_CHECKED = [
-    'StockBalance.averageCost — a running weighted average whose recomputation requires replaying every movement in order. Deferred to Phase 7.',
+    'StockBalance.averageCost — a running weighted average whose recomputation requires replaying every movement in order. Reconciliation validates total valuation against the GL instead.',
     'ChartOfAccount.currentBalance — no longer exists. Removed in the CoA refactor; account balances are computed from JournalLine on read, so the cache cannot drift.',
 ];
+
+/** Check 6: GL rounds per document, the movement sum per line. */
+const INVENTORY_TOLERANCE = 0.01;
+/** Check 8: bound the report if a posting path is systemically wrong. */
+const MAX_FX_FINDINGS = 200;
+const CHECK_6_SKIPPED = 'Check 6 (Inventory GL vs stock valuation) — no default Inventory account in Financial Settings.';
 
 function num(value: unknown): number {
     return Number(value ?? 0);
@@ -67,27 +76,7 @@ export class BalanceDriftService {
     constructor(private readonly prisma: PrismaService) {}
 
     async getReport(tenantId: string): Promise<BalanceDriftReportDto> {
-        const [cashboxes, stockBalances, unbalancedEntries, cashSubledgers, partySubledgers, bankSubledgers, bankAccounts] =
-            await Promise.all([
-                this.checkCashboxes(tenantId),
-                this.checkStockBalances(tenantId),
-                this.checkJournalEntryBalance(tenantId),
-                this.checkCashSubledgers(tenantId),
-                this.checkPartySubledgers(tenantId),
-                this.checkBankSubledgers(tenantId),
-                this.checkBankAccounts(tenantId),
-            ]);
-
-        return {
-            generatedAt: new Date().toISOString(),
-            clean:
-                cashboxes.length === 0 &&
-                stockBalances.length === 0 &&
-                unbalancedEntries.length === 0 &&
-                cashSubledgers.length === 0 &&
-                partySubledgers.length === 0 &&
-                bankSubledgers.length === 0 &&
-                bankAccounts.length === 0,
+        const [
             cashboxes,
             stockBalances,
             unbalancedEntries,
@@ -95,7 +84,45 @@ export class BalanceDriftService {
             partySubledgers,
             bankSubledgers,
             bankAccounts,
-            notChecked: NOT_CHECKED,
+            inventory,
+            multiCurrencyLines,
+        ] = await Promise.all([
+            this.checkCashboxes(tenantId),
+            this.checkStockBalances(tenantId),
+            this.checkJournalEntryBalance(tenantId),
+            this.checkCashSubledgers(tenantId),
+            this.checkPartySubledgers(tenantId),
+            this.checkBankSubledgers(tenantId),
+            this.checkBankAccounts(tenantId),
+            this.checkInventoryValuation(tenantId),
+            this.checkMultiCurrencyLines(tenantId),
+        ]);
+
+        const sections = [
+            cashboxes,
+            stockBalances,
+            unbalancedEntries,
+            cashSubledgers,
+            partySubledgers,
+            bankSubledgers,
+            bankAccounts,
+            inventory.findings,
+            multiCurrencyLines,
+        ];
+
+        return {
+            generatedAt: new Date().toISOString(),
+            clean: sections.every((section) => section.length === 0),
+            cashboxes,
+            stockBalances,
+            unbalancedEntries,
+            cashSubledgers,
+            partySubledgers,
+            bankSubledgers,
+            bankAccounts,
+            inventoryValuation: inventory.findings,
+            multiCurrencyLines,
+            notChecked: inventory.skipped ? [...NOT_CHECKED, CHECK_6_SKIPPED] : NOT_CHECKED,
         };
     }
 
@@ -260,12 +287,12 @@ export class BalanceDriftService {
      */
     private async checkPartySubledgers(tenantId: string): Promise<PartySubledgerDriftDto[]> {
         const settings = await this.prisma.financialSetting.findFirst({ where: { tenantId } });
-        const controls = [settings?.defaultReceivableAccountId, settings?.defaultPayableAccountId].filter(
-            (v): v is string => !!v,
-        );
+        const controls: Array<{ accountId: string; side: 'AR' | 'AP' }> = [];
+        if (settings?.defaultReceivableAccountId) controls.push({ accountId: settings.defaultReceivableAccountId, side: 'AR' });
+        if (settings?.defaultPayableAccountId) controls.push({ accountId: settings.defaultPayableAccountId, side: 'AP' });
         const results: PartySubledgerDriftDto[] = [];
 
-        for (const accountId of controls) {
+        for (const { accountId, side } of controls) {
             const [gl, sub] = await Promise.all([
                 this.prisma.journalLine.groupBy({
                     by: ['currencyId'],
@@ -281,6 +308,7 @@ export class BalanceDriftService {
             for (const { currencyId, glBalance, subledgerBalance } of this.diffPerCurrency(gl, sub)) {
                 results.push({
                     controlAccountId: accountId,
+                    side,
                     currencyId,
                     glBalance,
                     subledgerBalance,
@@ -350,6 +378,87 @@ export class BalanceDriftService {
             derivedBalance: d.derived,
             difference: d.difference,
         }));
+    }
+
+    /**
+     * Check #6 — Inventory control GL (base) vs Σ(quantity × unitCost) over every
+     * stock movement (base: purchases convert at the invoice rate; sales, counts and
+     * transfers use average cost). Skipped, and listed in notChecked, when the tenant
+     * has no Inventory account — perpetual inventory is not configured.
+     */
+    private async checkInventoryValuation(
+        tenantId: string,
+    ): Promise<{ findings: InventoryValuationDriftDto[]; skipped: boolean }> {
+        const settings = await this.prisma.financialSetting.findFirst({ where: { tenantId } });
+        const inventoryAccountId = settings?.defaultInventoryAccountId;
+        if (!inventoryAccountId) return { findings: [], skipped: true };
+
+        const [gl, valuation] = await Promise.all([
+            this.prisma.journalLine.aggregate({
+                where: { tenantId, accountId: inventoryAccountId, journalEntry: { status: 'POSTED' } },
+                _sum: { debit: true, credit: true },
+            }),
+            this.prisma.$queryRaw<Array<{ value: string | null }>>`
+                SELECT SUM(sm.quantity * sm.unit_cost)::text AS "value"
+                FROM stock_movements sm
+                WHERE sm.tenant_id = ${tenantId}`,
+        ]);
+
+        const glBalance = Number((num(gl._sum.debit) - num(gl._sum.credit)).toFixed(4));
+        const stockValuation = Number(num(valuation[0]?.value).toFixed(4));
+        if (Math.abs(glBalance - stockValuation) <= INVENTORY_TOLERANCE) return { findings: [], skipped: false };
+
+        return {
+            findings: [
+                {
+                    inventoryAccountId,
+                    glBalance,
+                    stockValuation,
+                    difference: Number((glBalance - stockValuation).toFixed(4)),
+                },
+            ],
+            skipped: false,
+        };
+    }
+
+    /**
+     * Check #8 — every posted line satisfies (debit + credit) = ROUND(|amount| × rate, 4).
+     * A line with amount 0 and a non-zero base was written by a path that never recorded
+     * its transaction amount (MISSING_AMOUNT); anything else is RATE_MISMATCH.
+     */
+    private async checkMultiCurrencyLines(tenantId: string): Promise<MultiCurrencyLineDriftDto[]> {
+        const rows = await this.prisma.$queryRaw<
+            Array<{ journalLineId: string; journalEntryNumber: string; amount: string; exchangeRate: string; baseAmount: string }>
+        >`
+            SELECT jl.id AS "journalLineId",
+                   je.number AS "journalEntryNumber",
+                   jl.amount::text AS "amount",
+                   jl.exchange_rate::text AS "exchangeRate",
+                   (jl.debit + jl.credit)::text AS "baseAmount"
+            FROM journal_lines jl
+            JOIN journal_entries je ON je.id = jl.journal_entry_id
+            WHERE jl.tenant_id = ${tenantId}
+              AND je.status = 'POSTED'
+              AND ABS((jl.debit + jl.credit) - ROUND(ABS(jl.amount) * jl.exchange_rate, 4)) > 0.0001
+            ORDER BY je.number, jl.sort_order
+            LIMIT ${MAX_FX_FINDINGS}`;
+
+        return rows.map((row) => {
+            const amount = num(row.amount);
+            const exchangeRate = num(row.exchangeRate);
+            const baseAmount = num(row.baseAmount);
+            const expectedBaseAmount = Number((Math.abs(amount) * exchangeRate).toFixed(4));
+            return {
+                journalLineId: row.journalLineId,
+                journalEntryNumber: row.journalEntryNumber,
+                amount,
+                exchangeRate,
+                baseAmount,
+                expectedBaseAmount,
+                difference: Number((baseAmount - expectedBaseAmount).toFixed(4)),
+                reason: amount === 0 ? MultiCurrencyDriftReason.MISSING_AMOUNT : MultiCurrencyDriftReason.RATE_MISMATCH,
+            };
+        });
     }
 
     /** Compares Σ(debit−credit) per currency between two groupBy result sets. */

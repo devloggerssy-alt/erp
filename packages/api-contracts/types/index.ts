@@ -1452,7 +1452,7 @@ export interface paths {
         };
         /**
          * Balance drift report
-         * @description Compares denormalized balance caches (Cashbox.balance, StockBalance.quantity) against their ledger source of truth, and verifies every posted journal entry balances. Read-only and safe to run at any time. Record a baseline before the Phase 1 posting refactor: pre-existing drift is not a regression, only an increase is.
+         * @description Runs the reconciliation stack (00-accounting-principles.md): cash/bank/AR/AP control accounts vs their subledgers, cashbox and bank projections vs subledger, inventory GL vs stock valuation, journal-entry balance, txn amount × rate = base, and stock quantity projection. Read-only. Pre-existing drift is not a regression; only an increase is (see ReconciliationRun).
          */
         get: operations["BalanceDrift.getBalanceDrift"];
         put?: never;
@@ -4019,7 +4019,7 @@ export interface components {
              */
             cachedBalance: number;
             /**
-             * @description Recomputed from posted receipts − posted payments − posted expenses
+             * @description Cashbox subledger in cashbox currency: Σ ±|amount| over posted journal lines carrying this cashboxId
              * @example 14750
              */
             derivedBalance: number;
@@ -4078,12 +4078,19 @@ export interface components {
             /** @example 0 */
             difference: number;
         };
+        /**
+         * @description AR = check 4 (customers), AP = check 5 (suppliers)
+         * @enum {string}
+         */
+        PartySubledgerSide: "AR" | "AP";
         PartySubledgerDriftDto: {
             /**
              * @description AR or AP control account id
              * @example 00000000-0000-4000-a602-000000001120
              */
             controlAccountId: string;
+            /** @description AR = check 4 (customers), AP = check 5 (suppliers) */
+            side: components["schemas"]["PartySubledgerSide"];
             /**
              * @description null = base-currency lines
              * @example USD
@@ -4114,9 +4121,55 @@ export interface components {
             code: string;
             /** @description Denormalized BankAccount.balance */
             cachedBalance: number;
-            /** @description Σ(debit−credit) of posted journal lines for this bank account */
+            /** @description Bank subledger in account currency: Σ ±|amount| over posted journal lines carrying this bankAccountId */
             derivedBalance: number;
             difference: number;
+        };
+        InventoryValuationDriftDto: {
+            /** @description FinancialSetting.defaultInventoryAccountId */
+            inventoryAccountId: string;
+            /**
+             * @description Σ(debit−credit) on the Inventory control account (base currency)
+             * @example 1000
+             */
+            glBalance: number;
+            /**
+             * @description Σ(quantity × unitCost) over all stock movements (base currency)
+             * @example 750.5
+             */
+            stockValuation: number;
+            /**
+             * @description gl − stock; flagged beyond 0.01
+             * @example 249.5
+             */
+            difference: number;
+        };
+        /** @enum {string} */
+        MultiCurrencyDriftReason: "RATE_MISMATCH" | "MISSING_AMOUNT";
+        MultiCurrencyLineDriftDto: {
+            journalLineId: string;
+            /** @example JE-000007 */
+            journalEntryNumber: string;
+            /**
+             * @description Transaction-currency amount stored on the line
+             * @example 100
+             */
+            amount: number;
+            /** @example 1.1 */
+            exchangeRate: number;
+            /**
+             * @description debit + credit (base currency)
+             * @example 100
+             */
+            baseAmount: number;
+            /**
+             * @description |amount| × exchangeRate rounded to 4 dp
+             * @example 110
+             */
+            expectedBaseAmount: number;
+            /** @example -10 */
+            difference: number;
+            reason: components["schemas"]["MultiCurrencyDriftReason"];
         };
         BalanceDriftReportDto: {
             /** @example 2026-07-26T10:00:00.000Z */
@@ -4134,6 +4187,10 @@ export interface components {
             partySubledgers: components["schemas"]["PartySubledgerDriftDto"][];
             bankSubledgers: components["schemas"]["BankSubledgerDriftDto"][];
             bankAccounts: components["schemas"]["BankAccountDriftDto"][];
+            /** @description Check 6 */
+            inventoryValuation: components["schemas"]["InventoryValuationDriftDto"][];
+            /** @description Check 8 — capped at 200 lines */
+            multiCurrencyLines: components["schemas"]["MultiCurrencyLineDriftDto"][];
             /**
              * @description Checks deliberately not performed, so an empty report is not over-read
              * @example [

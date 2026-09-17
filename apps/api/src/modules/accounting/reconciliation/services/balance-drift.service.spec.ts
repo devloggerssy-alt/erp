@@ -19,8 +19,14 @@ interface PrismaStub {
         defaultBankAccountId?: string | null;
         defaultReceivableAccountId?: string | null;
         defaultPayableAccountId?: string | null;
+        defaultInventoryAccountId?: string | null;
     };
     bankAccounts?: Array<{ id: string; code: string; balance: number }>;
+    inventoryGl?: { debit: number; credit: number };
+    stockValuation?: string | null;
+    fxLines?: Array<{ journalLineId: string; journalEntryNumber: string; amount: string; exchangeRate: string; baseAmount: string }>;
+    /** When set, the party-subledger groupBy returns nothing, so GL and subledger differ. */
+    partyGlOnly?: boolean;
 }
 
 function makeService(stub: PrismaStub = {}): BalanceDriftService {
@@ -28,7 +34,11 @@ function makeService(stub: PrismaStub = {}): BalanceDriftService {
         cashbox: { findMany: async () => stub.cashboxes ?? [] },
         stockBalance: { findMany: async () => stub.stockBalances ?? [] },
         stockMovement: { groupBy: async () => stub.stockMovements ?? [] },
-        journalLine: { groupBy: async () => stub.journalLines ?? [] },
+        journalLine: {
+            groupBy: async (args: { where?: { partyId?: unknown } }) =>
+                stub.partyGlOnly === true && args.where?.partyId !== undefined ? [] : stub.journalLines ?? [],
+            aggregate: async () => ({ _sum: stub.inventoryGl ?? { debit: 0, credit: 0 } }),
+        },
         journalEntry: { findMany: async () => stub.journalEntries ?? [] },
         financialSetting: { findFirst: async () => stub.financialSetting ?? null },
         bankAccount: { findMany: async () => stub.bankAccounts ?? [] },
@@ -36,6 +46,8 @@ function makeService(stub: PrismaStub = {}): BalanceDriftService {
             const sql = strings.join('?');
             if (sql.includes('jl.cashbox_id IS NOT NULL')) return stub.cashboxSubledger ?? [];
             if (sql.includes('jl.bank_account_id IS NOT NULL')) return stub.bankAccountSubledger ?? [];
+            if (sql.includes('FROM stock_movements')) return [{ value: stub.stockValuation ?? null }];
+            if (sql.includes('ROUND(ABS(jl.amount)')) return stub.fxLines ?? [];
             return [];
         },
     };
@@ -179,5 +191,94 @@ describe('BalanceDriftService — report envelope', () => {
         }).getReport('t1');
 
         expect(report.clean).toBe(false);
+    });
+});
+
+describe('BalanceDriftService — check 6: inventory GL vs stock valuation', () => {
+    it('is skipped (and says so) when no Inventory account is configured', async () => {
+        const report = await makeService({ stockValuation: '500' }).getReport('t1');
+        expect(report.inventoryValuation).toEqual([]);
+        expect(report.notChecked.join(' ')).toContain('Check 6');
+    });
+
+    it('is quiet within the per-document rounding tolerance', async () => {
+        const report = await makeService({
+            financialSetting: { defaultInventoryAccountId: 'inv' },
+            inventoryGl: { debit: 1000, credit: 400 },
+            stockValuation: '599.996',
+        }).getReport('t1');
+        expect(report.inventoryValuation).toEqual([]);
+        expect(report.notChecked.join(' ')).not.toContain('Check 6');
+    });
+
+    it('reports a GL/stock divergence', async () => {
+        const report = await makeService({
+            financialSetting: { defaultInventoryAccountId: 'inv' },
+            inventoryGl: { debit: 1000, credit: 0 },
+            stockValuation: '750.5',
+        }).getReport('t1');
+        expect(report.inventoryValuation).toEqual([
+            { inventoryAccountId: 'inv', glBalance: 1000, stockValuation: 750.5, difference: 249.5 },
+        ]);
+        expect(report.clean).toBe(false);
+    });
+
+    it('treats no movements as zero valuation', async () => {
+        const report = await makeService({
+            financialSetting: { defaultInventoryAccountId: 'inv' },
+            inventoryGl: { debit: 0, credit: 0 },
+            stockValuation: null,
+        }).getReport('t1');
+        expect(report.inventoryValuation).toEqual([]);
+    });
+});
+
+describe('BalanceDriftService — check 8: txn amount × rate = base', () => {
+    it('is quiet when the query finds no offending line', async () => {
+        const report = await makeService().getReport('t1');
+        expect(report.multiCurrencyLines).toEqual([]);
+    });
+
+    it('classifies a wrong base as RATE_MISMATCH', async () => {
+        const report = await makeService({
+            fxLines: [{ journalLineId: 'jl1', journalEntryNumber: 'JE-000007', amount: '100.0000', exchangeRate: '1.100000', baseAmount: '100.0000' }],
+        }).getReport('t1');
+        expect(report.multiCurrencyLines).toEqual([
+            {
+                journalLineId: 'jl1',
+                journalEntryNumber: 'JE-000007',
+                amount: 100,
+                exchangeRate: 1.1,
+                baseAmount: 100,
+                expectedBaseAmount: 110,
+                difference: -10,
+                reason: 'RATE_MISMATCH',
+            },
+        ]);
+        expect(report.clean).toBe(false);
+    });
+
+    it('classifies a legacy line with no transaction amount as MISSING_AMOUNT', async () => {
+        const report = await makeService({
+            fxLines: [{ journalLineId: 'jl2', journalEntryNumber: 'JE-000001', amount: '0.0000', exchangeRate: '1.000000', baseAmount: '250.0000' }],
+        }).getReport('t1');
+        expect(report.multiCurrencyLines[0]).toMatchObject({ reason: 'MISSING_AMOUNT', expectedBaseAmount: 0, difference: 250 });
+    });
+});
+
+describe('BalanceDriftService — checks 4/5: party subledger side', () => {
+    it('labels each finding AR or AP by its control account', async () => {
+        // GL side has a USD balance, party-subledger side is empty → one finding per control account.
+        const report = await makeService({
+            financialSetting: { defaultReceivableAccountId: 'ar', defaultPayableAccountId: 'ap' },
+            partyGlOnly: true,
+            journalLines: [{ currencyId: 'USD', _sum: { debit: 10, credit: 0 } } as never],
+        }).getReport('t1');
+        expect(report.partySubledgers.map((p) => [p.controlAccountId, p.side])).toEqual(
+            expect.arrayContaining([
+                ['ar', 'AR'],
+                ['ap', 'AP'],
+            ]),
+        );
     });
 });

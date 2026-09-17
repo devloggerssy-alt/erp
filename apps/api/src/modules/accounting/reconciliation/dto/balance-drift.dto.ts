@@ -80,6 +80,9 @@ export class PartySubledgerDriftDto {
     @ApiProperty({ type: 'string', example: '00000000-0000-4000-a602-000000001120', description: 'AR or AP control account id' })
     controlAccountId: string = '';
 
+    @ApiProperty({ enum: ['AR', 'AP'], enumName: 'PartySubledgerSide', description: 'AR = check 4 (customers), AP = check 5 (suppliers)' })
+    side: 'AR' | 'AP' = 'AR';
+
     @ApiProperty({ type: 'string', nullable: true, example: 'USD', description: 'null = base-currency lines' })
     currencyId: string | null = null;
 
@@ -124,6 +127,51 @@ export class BankAccountDriftDto {
     difference: number = 0;
 }
 
+export class InventoryValuationDriftDto {
+    @ApiProperty({ type: 'string', description: 'FinancialSetting.defaultInventoryAccountId' })
+    inventoryAccountId: string = '';
+
+    @ApiProperty({ type: 'number', example: 1000, description: 'Σ(debit−credit) on the Inventory control account (base currency)' })
+    glBalance: number = 0;
+
+    @ApiProperty({ type: 'number', example: 750.5, description: 'Σ(quantity × unitCost) over all stock movements (base currency)' })
+    stockValuation: number = 0;
+
+    @ApiProperty({ type: 'number', example: 249.5, description: 'gl − stock; flagged beyond 0.01' })
+    difference: number = 0;
+}
+
+export enum MultiCurrencyDriftReason {
+    RATE_MISMATCH = 'RATE_MISMATCH',
+    MISSING_AMOUNT = 'MISSING_AMOUNT',
+}
+
+export class MultiCurrencyLineDriftDto {
+    @ApiProperty({ type: 'string' })
+    journalLineId: string = '';
+
+    @ApiProperty({ type: 'string', example: 'JE-000007' })
+    journalEntryNumber: string = '';
+
+    @ApiProperty({ type: 'number', example: 100, description: 'Transaction-currency amount stored on the line' })
+    amount: number = 0;
+
+    @ApiProperty({ type: 'number', example: 1.1 })
+    exchangeRate: number = 1;
+
+    @ApiProperty({ type: 'number', example: 100, description: 'debit + credit (base currency)' })
+    baseAmount: number = 0;
+
+    @ApiProperty({ type: 'number', example: 110, description: '|amount| × exchangeRate rounded to 4 dp' })
+    expectedBaseAmount: number = 0;
+
+    @ApiProperty({ type: 'number', example: -10 })
+    difference: number = 0;
+
+    @ApiProperty({ enum: MultiCurrencyDriftReason, enumName: 'MultiCurrencyDriftReason' })
+    reason: MultiCurrencyDriftReason = MultiCurrencyDriftReason.RATE_MISMATCH;
+}
+
 export class BalanceDriftReportDto {
     @ApiProperty({ type: 'string', example: '2026-07-26T10:00:00.000Z' })
     generatedAt: string = '';
@@ -155,6 +203,12 @@ export class BalanceDriftReportDto {
 
     @ApiProperty({ type: () => BankAccountDriftDto, isArray: true })
     bankAccounts: BankAccountDriftDto[] = [];
+
+    @ApiProperty({ type: () => InventoryValuationDriftDto, isArray: true, description: 'Check 6' })
+    inventoryValuation: InventoryValuationDriftDto[] = [];
+
+    @ApiProperty({ type: () => MultiCurrencyLineDriftDto, isArray: true, description: 'Check 8 — capped at 200 lines' })
+    multiCurrencyLines: MultiCurrencyLineDriftDto[] = [];
 
     @ApiProperty({
         type: 'string',
