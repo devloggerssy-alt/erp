@@ -57,3 +57,18 @@ describe('ChartOfAccountsBootstrapService', () => {
         expect(created).toHaveLength(CHART_OF_ACCOUNTS_TEMPLATE.length - 1);
     });
 });
+
+describe('resolveIdsByCode', () => {
+    it('resolves a subset of codes to their ids without creating anything', async () => {
+        const { service, accountsService } = build();
+        accountsService.list.mockResolvedValue({
+            data: [{ id: 'id-1130', code: '1130' }, { id: 'id-5100', code: '5100' }],
+            total: 2,
+        });
+
+        const result = await service.resolveIdsByCode('tenant-1', ['1130', '5100']);
+
+        expect(result).toEqual({ '1130': 'id-1130', '5100': 'id-5100' });
+        expect(accountsService.create).not.toHaveBeenCalled();
+    });
+});
