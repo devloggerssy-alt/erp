@@ -23,10 +23,4 @@ export class AuditService {
         ]);
         return { data, total, page, limit };
     }
-
-    async log(tenantId: string, userId: string, action: string, entityType: string, entityId: string, oldValues?: any, newValues?: any) {
-        return this.prisma.auditLog.create({
-            data: { tenantId, userId, action, entityType, entityId, oldValues, newValues },
-        });
-    }
 }
