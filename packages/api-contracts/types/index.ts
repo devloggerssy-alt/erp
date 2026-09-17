@@ -1463,6 +1463,50 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/accounting/reconciliation/checks": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Reconciliation checks (live)
+         * @description Evaluates the 8-check reconciliation stack now. Read-only; nothing is stored.
+         */
+        get: operations["Reconciliation.getChecks"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/accounting/reconciliation/runs": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Recent reconciliation runs
+         * @description The 30 most recent stored runs, newest first.
+         */
+        get: operations["Reconciliation.listRuns"];
+        put?: never;
+        /**
+         * Run reconciliation now
+         * @description Evaluates and stores a MANUAL run. newFindings lists drift that is new or grown since the previous run.
+         */
+        post: operations["Reconciliation.run"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/accounting/journal-entries": {
         parameters: {
             query?: never;
@@ -4198,6 +4242,45 @@ export interface components {
              *     ]
              */
             notChecked: string[];
+        };
+        /** @enum {string} */
+        ReconciliationCheckCode: "CASH_GL_VS_CASHBOX_SUBLEDGER" | "CASHBOX_SUBLEDGER_VS_PROJECTION" | "BANK_GL_VS_BANK_SUBLEDGER" | "AR_CONTROL_VS_CUSTOMER_SUBLEDGER" | "AP_CONTROL_VS_SUPPLIER_SUBLEDGER" | "INVENTORY_GL_VS_STOCK_VALUATION" | "JOURNAL_ENTRIES_BALANCED" | "MULTI_CURRENCY_BASE_CONSISTENT" | "STOCK_QUANTITY_PROJECTION";
+        ReconciliationCheckResultDto: {
+            /**
+             * @description Position in the 8-check stack; null = supplementary check
+             * @example 1
+             */
+            number: number | null;
+            code: components["schemas"]["ReconciliationCheckCode"];
+            /** @example true */
+            passed: boolean;
+            /** @example 0 */
+            findingCount: number;
+        };
+        ReconciliationResultDto: {
+            /** @example 2026-09-17T03:00:00.000Z */
+            generatedAt: string;
+            /**
+             * @description True when every check passed
+             * @example true
+             */
+            passed: boolean;
+            checks: components["schemas"]["ReconciliationCheckResultDto"][];
+            /** @description Full findings behind the check summary */
+            report: components["schemas"]["BalanceDriftReportDto"];
+        };
+        /** @enum {string} */
+        ReconciliationTrigger: "SCHEDULED" | "MANUAL" | "BUSINESS_SETUP";
+        ReconciliationRunResponseDto: {
+            id: string;
+            trigger: components["schemas"]["ReconciliationTrigger"];
+            passed: boolean;
+            findingCount: number;
+            /** @description Finding fingerprints new or grown since the previous run */
+            newFindings: string[];
+            correlationId: string | null;
+            /** @example 2026-09-17T03:00:01.000Z */
+            createdAt: string;
         };
         /** @enum {string} */
         OpeningBalanceSessionStatus: "DRAFT" | "VALIDATED" | "REVIEWED" | "POSTED" | "LOCKED";
@@ -14542,6 +14625,207 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
                         data?: components["schemas"]["BalanceDriftReportDto"];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "Reconciliation.getChecks": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Per-check pass/fail with full findings */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["ReconciliationResultDto"];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "Reconciliation.listRuns": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Run history */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["ReconciliationRunResponseDto"][];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    "Reconciliation.run": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Stored run */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["ReconciliationRunResponseDto"];
                     };
                 };
             };

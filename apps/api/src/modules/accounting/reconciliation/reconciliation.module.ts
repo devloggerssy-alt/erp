@@ -5,9 +5,10 @@ import { ReconciliationMonitorService } from './services/reconciliation-monitor.
 import { ReconciliationRunsRepository } from './repositories/reconciliation-runs.repository';
 import { ReconciliationScheduler } from './services/reconciliation.scheduler';
 import { BalanceDriftController } from './controllers/balance-drift.controller';
+import { ReconciliationController } from './controllers/reconciliation.controller';
 
 @Module({
-    controllers: [BalanceDriftController],
+    controllers: [BalanceDriftController, ReconciliationController],
     providers: [
         BalanceDriftService,
         BusinessSetupReconciliationService,
