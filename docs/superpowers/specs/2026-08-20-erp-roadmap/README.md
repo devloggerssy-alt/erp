@@ -25,7 +25,7 @@ This folder contains **only unresolved work**. Prerequisites already in the code
 | **4** | [Client & Dashboard Types](phase-04-client-dashboard-types.md) | 🟠 P1 | — | ✅ Complete |
 | **5** | [Domain Coupling](phase-05-domain-coupling.md) | 🟡 P2 | 2 | ⬜ **Next** |
 | **6** | [Business Setup Orchestration](phase-06-business-setup-orchestration.md) | 🟠 P1 | 2, 3 | ⬜ |
-| **7** | [Audit, Reconciliation & Observability](phase-07-audit-reconciliation-observability.md) | 🟡 P2 | 2, 3 | ⬜ |
+| **7** | [Audit, Reconciliation & Observability](phase-07-audit-reconciliation-observability.md) | 🟡 P2 | 2, 3 | ✅ Complete (7.1.4 / 7.5.3 hook into Phase 6) |
 | **8** | [Modularity](phase-08-modularity.md) | 🟢 P3 | 5 | ⬜ |
 | **9** | [AuthZ](phase-09-authz.md) | 🔴 P0 prod gate | — | ⬜ |
 | **10** | [Business Setup UI, Import & Readiness](phase-10-business-setup-ui-import-readiness.md) | 🟠 P1 | 6, 7 | ⬜ |
@@ -71,7 +71,7 @@ Do not use snapshot-style “characterization” tests as the correctness gate �
 | # | Question | Owner |
 |---|----------|-------|
 | Q3 | Permission global vs tenant-scoped? | Phase 9 — recommend global catalog + tenant `RolePermission` |
-| Q4 | AuditLog retention? | Phase 7 — decide before shipping |
+| Q4 | AuditLog retention? | ✅ Decided (Phase 7) — retain indefinitely; no purge job. Any future purge must issue an explicit `DELETE` and never touch `source = 'GL'` rows |
 | Q9 | Multi-currency `JournalLine` column layout | Phase 2 task 2.1 — gate before coding |
 | Q10 | Hard vs soft `/setup` redirect | Phase 10 |
 

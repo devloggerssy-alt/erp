@@ -4,6 +4,10 @@
 
 Issues still unresolved in the codebase. Each maps to a roadmap phase.
 
+## Decisions
+
+- **Q4 — AuditLog retention (Phase 7, decided 2026-09-17):** retain indefinitely; no purge job in Phase 7. A future purge must never delete `source = 'GL'` rows and must issue an explicit `DELETE` (the Phase 7 trigger blocks only `UPDATE`). See the Phase 7 plan.
+
 ---
 
 ## Accounting & subledger (P0)
@@ -60,9 +64,9 @@ Issues still unresolved in the codebase. Each maps to a roadmap phase.
 
 | Issue | Evidence | Phase |
 |-------|----------|-------|
-| `AuditLog` never written on mutations | F5 | **7** |
-| Reconciliation incomplete (no AR/AP/cash GL subledger checks) | `BalanceDriftService` | **7** |
-| No scheduled drift job | Manual endpoint only | **7** |
+| ~~`AuditLog` never written on mutations~~ — resolved Phase 7 (interceptor + GL hooks) | F5 | ✅ **7** |
+| ~~Reconciliation incomplete (no AR/AP/cash GL subledger checks)~~ — resolved Phase 7 (9-check stack) | `BalanceDriftService` | ✅ **7** |
+| ~~No scheduled drift job~~ — resolved Phase 7 (daily `ReconciliationScheduler`) | Manual endpoint only | ✅ **7** |
 | `console.log` in API/client | F8 | **4** |
 
 ---

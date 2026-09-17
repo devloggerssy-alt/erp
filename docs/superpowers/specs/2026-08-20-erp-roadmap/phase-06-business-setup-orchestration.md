@@ -29,6 +29,12 @@ Replace linear onboarding bootstrap with `SetupTask` dependency engine. Slim onb
 
 ## Tasks
 
+> **Phase 7 hooks (wire here):** wrap each handler in
+> `RequestContext.run({ source: 'BUSINESS_SETUP', metadata: { taskType } }, …)` so audit
+> rows carry `source = 'BUSINESS_SETUP'` and the task type; the `RECONCILIATION` task calls
+> `ReconciliationMonitorService.runForTenant(tenantId, 'BUSINESS_SETUP')` and gates on
+> `passed`. Add the audit assertion for handler commit (moved from the Phase 7 done-when).
+
 ### 6.1 — Persistence
 
 - [ ] 6.1.1 `setup_tasks` model: type, status, required, dependencies, progress, metadata

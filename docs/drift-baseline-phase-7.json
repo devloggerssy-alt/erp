@@ -1,0 +1,207 @@
+{
+  "capturedAt": "2026-09-17T13:43:36.729Z",
+  "note": "Captured from BusinessSetupReconciliationService against the dev DB (no seeded HTTP token in this environment). Pre-existing legacy drift is accepted — see drift-baselines.md.",
+  "demo-shop": {
+    "generatedAt": "2026-09-17T13:43:38.497Z",
+    "passed": false,
+    "checks": [
+      {
+        "number": 1,
+        "code": "CASH_GL_VS_CASHBOX_SUBLEDGER",
+        "passed": true,
+        "findingCount": 0
+      },
+      {
+        "number": 2,
+        "code": "CASHBOX_SUBLEDGER_VS_PROJECTION",
+        "passed": true,
+        "findingCount": 0
+      },
+      {
+        "number": 3,
+        "code": "BANK_GL_VS_BANK_SUBLEDGER",
+        "passed": true,
+        "findingCount": 0
+      },
+      {
+        "number": 4,
+        "code": "AR_CONTROL_VS_CUSTOMER_SUBLEDGER",
+        "passed": true,
+        "findingCount": 0
+      },
+      {
+        "number": 5,
+        "code": "AP_CONTROL_VS_SUPPLIER_SUBLEDGER",
+        "passed": true,
+        "findingCount": 0
+      },
+      {
+        "number": 6,
+        "code": "INVENTORY_GL_VS_STOCK_VALUATION",
+        "passed": false,
+        "findingCount": 1
+      },
+      {
+        "number": 7,
+        "code": "JOURNAL_ENTRIES_BALANCED",
+        "passed": true,
+        "findingCount": 0
+      },
+      {
+        "number": 8,
+        "code": "MULTI_CURRENCY_BASE_CONSISTENT",
+        "passed": false,
+        "findingCount": 2
+      },
+      {
+        "number": null,
+        "code": "STOCK_QUANTITY_PROJECTION",
+        "passed": true,
+        "findingCount": 0
+      }
+    ],
+    "report": {
+      "generatedAt": "2026-09-17T13:43:38.497Z",
+      "clean": false,
+      "cashboxes": [],
+      "stockBalances": [],
+      "unbalancedEntries": [],
+      "cashSubledgers": [],
+      "partySubledgers": [],
+      "bankSubledgers": [],
+      "bankAccounts": [],
+      "inventoryValuation": [
+        {
+          "inventoryAccountId": "00000000-0000-4000-a602-000000000003",
+          "glBalance": 10000000,
+          "stockValuation": 0,
+          "difference": 10000000
+        }
+      ],
+      "multiCurrencyLines": [
+        {
+          "journalLineId": "b410609c-819d-46cd-a6ab-80cb245050a7",
+          "journalEntryNumber": "JE-00001",
+          "amount": 0,
+          "exchangeRate": 1,
+          "baseAmount": 10000000,
+          "expectedBaseAmount": 0,
+          "difference": 10000000,
+          "reason": "MISSING_AMOUNT"
+        },
+        {
+          "journalLineId": "2ceee4cf-240e-4319-b4b3-a7027e0f6065",
+          "journalEntryNumber": "JE-00001",
+          "amount": 0,
+          "exchangeRate": 1,
+          "baseAmount": 15000000,
+          "expectedBaseAmount": 0,
+          "difference": 15000000,
+          "reason": "MISSING_AMOUNT"
+        }
+      ],
+      "notChecked": [
+        "StockBalance.averageCost — a running weighted average whose recomputation requires replaying every movement in order. Reconciliation validates total valuation against the GL instead.",
+        "ChartOfAccount.currentBalance — no longer exists. Removed in the CoA refactor; account balances are computed from JournalLine on read, so the cache cannot drift."
+      ]
+    }
+  },
+  "khyath-qtan": {
+    "generatedAt": "2026-09-17T13:43:38.999Z",
+    "passed": false,
+    "checks": [
+      {
+        "number": 1,
+        "code": "CASH_GL_VS_CASHBOX_SUBLEDGER",
+        "passed": true,
+        "findingCount": 0
+      },
+      {
+        "number": 2,
+        "code": "CASHBOX_SUBLEDGER_VS_PROJECTION",
+        "passed": true,
+        "findingCount": 0
+      },
+      {
+        "number": 3,
+        "code": "BANK_GL_VS_BANK_SUBLEDGER",
+        "passed": true,
+        "findingCount": 0
+      },
+      {
+        "number": 4,
+        "code": "AR_CONTROL_VS_CUSTOMER_SUBLEDGER",
+        "passed": true,
+        "findingCount": 0
+      },
+      {
+        "number": 5,
+        "code": "AP_CONTROL_VS_SUPPLIER_SUBLEDGER",
+        "passed": true,
+        "findingCount": 0
+      },
+      {
+        "number": 6,
+        "code": "INVENTORY_GL_VS_STOCK_VALUATION",
+        "passed": true,
+        "findingCount": 0
+      },
+      {
+        "number": 7,
+        "code": "JOURNAL_ENTRIES_BALANCED",
+        "passed": true,
+        "findingCount": 0
+      },
+      {
+        "number": 8,
+        "code": "MULTI_CURRENCY_BASE_CONSISTENT",
+        "passed": false,
+        "findingCount": 2
+      },
+      {
+        "number": null,
+        "code": "STOCK_QUANTITY_PROJECTION",
+        "passed": true,
+        "findingCount": 0
+      }
+    ],
+    "report": {
+      "generatedAt": "2026-09-17T13:43:38.999Z",
+      "clean": false,
+      "cashboxes": [],
+      "stockBalances": [],
+      "unbalancedEntries": [],
+      "cashSubledgers": [],
+      "partySubledgers": [],
+      "bankSubledgers": [],
+      "bankAccounts": [],
+      "inventoryValuation": [],
+      "multiCurrencyLines": [
+        {
+          "journalLineId": "60c0738f-e690-43c9-9565-8457d8c5b1ae",
+          "journalEntryNumber": "JE--00001",
+          "amount": 0,
+          "exchangeRate": 1,
+          "baseAmount": 20000,
+          "expectedBaseAmount": 0,
+          "difference": 20000,
+          "reason": "MISSING_AMOUNT"
+        },
+        {
+          "journalLineId": "413b3bbf-1ccb-495f-9e05-ec4080661fb8",
+          "journalEntryNumber": "JE--00001",
+          "amount": 0,
+          "exchangeRate": 1,
+          "baseAmount": 20000,
+          "expectedBaseAmount": 0,
+          "difference": 20000,
+          "reason": "MISSING_AMOUNT"
+        }
+      ],
+      "notChecked": [
+        "StockBalance.averageCost — a running weighted average whose recomputation requires replaying every movement in order. Reconciliation validates total valuation against the GL instead.",
+        "ChartOfAccount.currentBalance — no longer exists. Removed in the CoA refactor; account balances are computed from JournalLine on read, so the cache cannot drift."
+      ]
+    }
+  }
+}
