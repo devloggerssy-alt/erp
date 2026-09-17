@@ -21,7 +21,7 @@ export function BusinessProfileStep({ onSuccess }: Props) {
     })
 
     const { mutate, isPending, error } = useMutation({
-        mutationFn: () => api.businessSetup.setProfile({ modules }),
+        mutationFn: () => api["business-setup"].setProfile({ modules }),
         onSuccess,
     })
 

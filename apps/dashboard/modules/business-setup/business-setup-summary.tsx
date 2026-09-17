@@ -18,7 +18,7 @@ export function BusinessSetupSummary() {
 
     const { data, isLoading } = useQuery({
         queryKey: ["business-setup", "state"],
-        queryFn: () => api.businessSetup.getState(),
+        queryFn: () => api["business-setup"].getState(),
     })
 
     const tasks = data?.tasks ?? []
