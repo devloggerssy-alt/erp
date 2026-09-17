@@ -79,6 +79,10 @@ jobs:
       - name: Lint — apps/api
         run: pnpm --filter @devloggers/api lint:ci
 
+      # ── 5.2.3 — prove the boundary / deletion lint rules still fire ─────────
+      - name: Architecture lint rules fire
+        run: pnpm --filter @devloggers/api lint:architecture
+
       - name: Lint — packages
         run: |
           pnpm --filter @devloggers/api-client lint
