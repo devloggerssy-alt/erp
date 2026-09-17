@@ -24,9 +24,10 @@ export class OpeningStockPolicy {
             );
         }
         const amt = round(intent.totalValue);
+        // Inventory is valued in base currency — amount = base, rate 1 (reconciliation check 8).
         return [
-            { accountId: settings.defaultInventoryAccountId, debit: amt, credit: 0, description: null, sortOrder: 0 },
-            { accountId: settings.defaultOpeningEquityAccountId, debit: 0, credit: amt, description: null, sortOrder: 1 },
+            { accountId: settings.defaultInventoryAccountId, debit: amt, credit: 0, description: null, sortOrder: 0, amount: amt, exchangeRate: 1 },
+            { accountId: settings.defaultOpeningEquityAccountId, debit: 0, credit: amt, description: null, sortOrder: 1, amount: amt, exchangeRate: 1 },
         ];
     }
 }

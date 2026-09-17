@@ -24,16 +24,16 @@ describe('StockCountAdjustedPolicy.buildLines', () => {
     it('surplus debits Inventory, credits the adjustment account', async () => {
         const lines = await build().buildLines(baseIntent);
         expect(lines).toEqual([
-            { accountId: 'inv', debit: 250, credit: 0, description: null, sortOrder: 0 },
-            { accountId: 'adj', debit: 0, credit: 250, description: null, sortOrder: 1 },
+            { accountId: 'inv', debit: 250, credit: 0, description: null, sortOrder: 0, amount: 250, exchangeRate: 1 },
+            { accountId: 'adj', debit: 0, credit: 250, description: null, sortOrder: 1, amount: 250, exchangeRate: 1 },
         ]);
     });
 
     it('shortage reverses the sides and uses the absolute amount', async () => {
         const lines = await build().buildLines({ ...baseIntent, netVariance: -250 });
         expect(lines).toEqual([
-            { accountId: 'inv', debit: 0, credit: 250, description: null, sortOrder: 0 },
-            { accountId: 'adj', debit: 250, credit: 0, description: null, sortOrder: 1 },
+            { accountId: 'inv', debit: 0, credit: 250, description: null, sortOrder: 0, amount: 250, exchangeRate: 1 },
+            { accountId: 'adj', debit: 250, credit: 0, description: null, sortOrder: 1, amount: 250, exchangeRate: 1 },
         ]);
     });
 

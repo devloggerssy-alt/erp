@@ -21,9 +21,10 @@ export class StockCountAdjustedPolicy {
         }
         const amt = round(Math.abs(intent.netVariance));
         const surplus = intent.netVariance > 0;
+        // Variance is valued at base-currency average cost — amount = base, rate 1 (reconciliation check 8).
         return [
-            { accountId: settings.defaultInventoryAccountId, debit: surplus ? amt : 0, credit: surplus ? 0 : amt, description: null, sortOrder: 0 },
-            { accountId: settings.defaultInventoryAdjustmentAccountId, debit: surplus ? 0 : amt, credit: surplus ? amt : 0, description: null, sortOrder: 1 },
+            { accountId: settings.defaultInventoryAccountId, debit: surplus ? amt : 0, credit: surplus ? 0 : amt, description: null, sortOrder: 0, amount: amt, exchangeRate: 1 },
+            { accountId: settings.defaultInventoryAdjustmentAccountId, debit: surplus ? 0 : amt, credit: surplus ? amt : 0, description: null, sortOrder: 1, amount: amt, exchangeRate: 1 },
         ];
     }
 }

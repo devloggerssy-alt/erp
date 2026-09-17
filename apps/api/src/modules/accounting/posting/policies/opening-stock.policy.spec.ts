@@ -24,14 +24,22 @@ describe('OpeningStockPolicy.buildLines', () => {
     it('debits Inventory and credits Opening Balance Equity', async () => {
         const lines = await build().buildLines(baseIntent);
         expect(lines).toEqual([
-            { accountId: 'inv', debit: 5000, credit: 0, description: null, sortOrder: 0 },
-            { accountId: 'oe', debit: 0, credit: 5000, description: null, sortOrder: 1 },
+            { accountId: 'inv', debit: 5000, credit: 0, description: null, sortOrder: 0, amount: 5000, exchangeRate: 1 },
+            { accountId: 'oe', debit: 0, credit: 5000, description: null, sortOrder: 1, amount: 5000, exchangeRate: 1 },
         ]);
     });
 
     it('rounds to 4 decimal places, matching @db.Decimal(18,4)', async () => {
         const [inventoryLine] = await build().buildLines({ ...baseIntent, totalValue: 123.456789 });
         expect(inventoryLine!.debit).toBe(123.4568);
+    });
+
+    it('records the base amount as the transaction amount at rate 1 (check 8)', async () => {
+        const lines = await build().buildLines({ ...baseIntent, totalValue: 123.456789 });
+        for (const line of lines) {
+            expect(line.amount).toBe(123.4568);
+            expect(line.exchangeRate).toBe(1);
+        }
     });
 
     it('rejects when Inventory / Opening-Equity accounts are not configured', async () => {
