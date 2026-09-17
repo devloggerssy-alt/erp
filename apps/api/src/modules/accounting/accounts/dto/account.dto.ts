@@ -35,6 +35,16 @@ export class CreateChartOfAccountDto {
     @IsOptional()
     @IsString()
     parentId?: string;
+
+    @ApiPropertyOptional({ example: false, description: 'Set false for group/summary accounts that only aggregate children; defaults to true (postable leaf account)' })
+    @IsOptional()
+    @IsBoolean()
+    isPostable?: boolean;
+
+    @ApiPropertyOptional({ example: false, description: 'True for contra accounts (e.g. accumulated depreciation) that reduce their parent balance' })
+    @IsOptional()
+    @IsBoolean()
+    isContra?: boolean;
 }
 
 // ── Update DTO ────────────────────────────────────────────────────────────────
