@@ -1,11 +1,12 @@
 import { Injectable, Logger, NotFoundException, BadRequestException } from '@nestjs/common';
 import { PrismaService } from '@devloggers/db-prisma/nest';
-import { CreateInvoiceDto, UpdateInvoiceDto, InvoiceLineDto, AddInvoicePaymentDto } from './dto';
+import { CreateInvoiceDto, UpdateInvoiceDto, AddInvoicePaymentDto } from './dto';
 import { DocumentSequencesService } from '../../accounting/document-sequences/services/document-sequences.service';
 import { InvoicePostingService } from './invoice-posting.service';
 import { PaymentsService } from '../payments/payments.service';
 import { CreatePaymentDto, PaymentTypeEnum } from '../payments/dto';
 import { computeInvoicePaidState } from './presenters/invoice.presenter';
+import { computeInvoiceTotals } from './invoice-totals';
 
 @Injectable()
 export class InvoicesService {
@@ -17,21 +18,6 @@ export class InvoicesService {
         private readonly postingService: InvoicePostingService,
         private readonly paymentsService: PaymentsService,
     ) {}
-
-    /**
-     * Compute line-level totals server-side to ensure accuracy.
-     */
-    private computeLineTotals(line: InvoiceLineDto) {
-        const lineSubtotal = line.quantity * line.unitPrice;
-        const discountPercent = line.discountPercent || 0;
-        const discountAmount = lineSubtotal * (discountPercent / 100);
-        const afterDiscount = lineSubtotal - discountAmount;
-        const taxPercent = line.taxPercent || 0;
-        const taxAmount = afterDiscount * (taxPercent / 100);
-        const total = afterDiscount + taxAmount;
-
-        return { discountAmount, taxAmount, total };
-    }
 
     async findAll(tenantId: string, filters: {
         direction?: string;
@@ -155,36 +141,7 @@ export class InvoicesService {
         // Get next number from sequence
         const number = await this.documentSequencesService.getNextNumber(tenantId, documentType);
 
-        // Compute totals
-        let subtotal = 0;
-        let totalDiscount = 0;
-        let totalTax = 0;
-
-        const processedLines = dto.lines.map((line, index) => {
-            const lineSubtotal = line.quantity * line.unitPrice;
-            const computed = this.computeLineTotals(line);
-
-            subtotal += lineSubtotal;
-            totalDiscount += computed.discountAmount;
-            totalTax += computed.taxAmount;
-
-            return {
-                tenantId,
-                itemId: line.itemId,
-                unitId: line.unitId,
-                quantity: line.quantity,
-                unitPrice: line.unitPrice,
-                discountPercent: line.discountPercent || 0,
-                discountAmount: computed.discountAmount,
-                taxPercent: line.taxPercent || 0,
-                taxAmount: computed.taxAmount,
-                total: computed.total,
-                notes: line.notes,
-                sortOrder: line.sortOrder ?? index,
-            };
-        });
-
-        const grandTotal = subtotal - totalDiscount + totalTax;
+        const totals = computeInvoiceTotals(tenantId, dto.lines);
 
         const created = await this.prisma.invoice.create({
             data: {
@@ -198,14 +155,14 @@ export class InvoicesService {
                 fiscalPeriodId: dto.fiscalPeriodId,
                 currencyId: dto.currencyId,
                 exchangeRate: dto.exchangeRate ?? 1,
-                subtotal,
-                discountAmount: totalDiscount,
-                taxAmount: totalTax,
-                total: grandTotal,
+                subtotal: totals.subtotal,
+                discountAmount: totals.discountAmount,
+                taxAmount: totals.taxAmount,
+                total: totals.total,
                 notes: dto.notes,
                 createdBy: userId,
                 lines: {
-                    create: processedLines,
+                    create: totals.lines,
                 },
             },
             include: {
@@ -294,41 +251,13 @@ export class InvoicesService {
             // Delete existing lines and recreate
             await this.prisma.invoiceLine.deleteMany({ where: { invoiceId: id } });
 
-            let subtotal = 0;
-            let totalDiscount = 0;
-            let totalTax = 0;
+            const totals = computeInvoiceTotals(tenantId, dto.lines);
 
-            const processedLines = dto.lines.map((line, index) => {
-                const lineSubtotal = line.quantity * line.unitPrice;
-                const computed = this.computeLineTotals(line);
-
-                subtotal += lineSubtotal;
-                totalDiscount += computed.discountAmount;
-                totalTax += computed.taxAmount;
-
-                return {
-                    tenantId,
-                    itemId: line.itemId,
-                    unitId: line.unitId,
-                    quantity: line.quantity,
-                    unitPrice: line.unitPrice,
-                    discountPercent: line.discountPercent || 0,
-                    discountAmount: computed.discountAmount,
-                    taxPercent: line.taxPercent || 0,
-                    taxAmount: computed.taxAmount,
-                    total: computed.total,
-                    notes: line.notes,
-                    sortOrder: line.sortOrder ?? index,
-                };
-            });
-
-            const grandTotal = subtotal - totalDiscount + totalTax;
-
-            updateData.subtotal = subtotal;
-            updateData.discountAmount = totalDiscount;
-            updateData.taxAmount = totalTax;
-            updateData.total = grandTotal;
-            updateData.lines = { create: processedLines };
+            updateData.subtotal = totals.subtotal;
+            updateData.discountAmount = totals.discountAmount;
+            updateData.taxAmount = totals.taxAmount;
+            updateData.total = totals.total;
+            updateData.lines = { create: totals.lines };
         }
 
         return this.prisma.invoice.update({
