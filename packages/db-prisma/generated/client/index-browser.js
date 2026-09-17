@@ -199,6 +199,9 @@ exports.Prisma.AuditLogScalarFieldEnum = {
   oldValues: 'oldValues',
   newValues: 'newValues',
   ipAddress: 'ipAddress',
+  source: 'source',
+  correlationId: 'correlationId',
+  metadata: 'metadata',
   createdAt: 'createdAt'
 };
 

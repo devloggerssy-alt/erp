@@ -185,21 +185,30 @@ model AiChatMessage {
 /// when any entity (Invoice, Payment, Expense, etc.) is hard-deleted, the
 /// corresponding AuditLog rows must be deleted in the same transaction.
 model AuditLog {
-  id         String   @id @default(uuid())
-  tenantId   String   @map("tenant_id")
-  userId     String   @map("user_id")
-  action     String // e.g. CREATE, UPDATE, DELETE, POST, CANCEL
-  entityType String   @map("entity_type") // e.g. "invoice", "payment"
-  entityId   String   @map("entity_id")
-  oldValues  Json?    @map("old_values")
-  newValues  Json?    @map("new_values")
-  ipAddress  String?  @map("ip_address")
-  createdAt  DateTime @default(now()) @map("created_at")
+  id            String   @id @default(uuid())
+  tenantId      String   @map("tenant_id")
+  userId        String   @map("user_id") // "system" for scheduler / non-user work
+  action        String // e.g. CREATE, UPDATE, DELETE, JOURNAL_POST, OPENING_SESSION_LOCK
+  entityType    String   @map("entity_type") // e.g. "payments", "journal_entry"
+  entityId      String   @map("entity_id")
+  oldValues     Json?    @map("old_values")
+  newValues     Json?    @map("new_values")
+  ipAddress     String?  @map("ip_address")
+  /// HTTP | GL | SCHEDULER | BUSINESS_SETUP | SYSTEM — see RequestContext.AuditSource
+  source        String   @default("HTTP")
+  /// Joins this row to its request's log lines and sibling audit rows.
+  correlationId String?  @map("correlation_id")
+  /// Free-form context, e.g. { method, route, handler } or { taskType }.
+  metadata      Json?
+  /// Append-only: a DB trigger rejects UPDATE (migration audit_log_observability).
+  createdAt     DateTime @default(now()) @map("created_at")
 
   tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
 
   @@index([tenantId])
   @@index([tenantId, entityType, entityId])
+  @@index([tenantId, createdAt])
+  @@index([correlationId])
   @@map("audit_logs")
 }
 

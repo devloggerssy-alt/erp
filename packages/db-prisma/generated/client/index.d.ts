@@ -13217,6 +13217,8 @@ export namespace Prisma {
     entityType: string | null
     entityId: string | null
     ipAddress: string | null
+    source: string | null
+    correlationId: string | null
     createdAt: Date | null
   }
 
@@ -13228,6 +13230,8 @@ export namespace Prisma {
     entityType: string | null
     entityId: string | null
     ipAddress: string | null
+    source: string | null
+    correlationId: string | null
     createdAt: Date | null
   }
 
@@ -13241,6 +13245,9 @@ export namespace Prisma {
     oldValues: number
     newValues: number
     ipAddress: number
+    source: number
+    correlationId: number
+    metadata: number
     createdAt: number
     _all: number
   }
@@ -13254,6 +13261,8 @@ export namespace Prisma {
     entityType?: true
     entityId?: true
     ipAddress?: true
+    source?: true
+    correlationId?: true
     createdAt?: true
   }
 
@@ -13265,6 +13274,8 @@ export namespace Prisma {
     entityType?: true
     entityId?: true
     ipAddress?: true
+    source?: true
+    correlationId?: true
     createdAt?: true
   }
 
@@ -13278,6 +13289,9 @@ export namespace Prisma {
     oldValues?: true
     newValues?: true
     ipAddress?: true
+    source?: true
+    correlationId?: true
+    metadata?: true
     createdAt?: true
     _all?: true
   }
@@ -13364,6 +13378,9 @@ export namespace Prisma {
     oldValues: JsonValue | null
     newValues: JsonValue | null
     ipAddress: string | null
+    source: string
+    correlationId: string | null
+    metadata: JsonValue | null
     createdAt: Date
     _count: AuditLogCountAggregateOutputType | null
     _min: AuditLogMinAggregateOutputType | null
@@ -13394,6 +13411,9 @@ export namespace Prisma {
     oldValues?: boolean
     newValues?: boolean
     ipAddress?: boolean
+    source?: boolean
+    correlationId?: boolean
+    metadata?: boolean
     createdAt?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["auditLog"]>
@@ -13408,6 +13428,9 @@ export namespace Prisma {
     oldValues?: boolean
     newValues?: boolean
     ipAddress?: boolean
+    source?: boolean
+    correlationId?: boolean
+    metadata?: boolean
     createdAt?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["auditLog"]>
@@ -13422,6 +13445,9 @@ export namespace Prisma {
     oldValues?: boolean
     newValues?: boolean
     ipAddress?: boolean
+    source?: boolean
+    correlationId?: boolean
+    metadata?: boolean
     createdAt?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["auditLog"]>
@@ -13436,10 +13462,13 @@ export namespace Prisma {
     oldValues?: boolean
     newValues?: boolean
     ipAddress?: boolean
+    source?: boolean
+    correlationId?: boolean
+    metadata?: boolean
     createdAt?: boolean
   }
 
-  export type AuditLogOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "userId" | "action" | "entityType" | "entityId" | "oldValues" | "newValues" | "ipAddress" | "createdAt", ExtArgs["result"]["auditLog"]>
+  export type AuditLogOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "userId" | "action" | "entityType" | "entityId" | "oldValues" | "newValues" | "ipAddress" | "source" | "correlationId" | "metadata" | "createdAt", ExtArgs["result"]["auditLog"]>
   export type AuditLogInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
   }
@@ -13465,6 +13494,21 @@ export namespace Prisma {
       oldValues: Prisma.JsonValue | null
       newValues: Prisma.JsonValue | null
       ipAddress: string | null
+      /**
+       * HTTP | GL | SCHEDULER | BUSINESS_SETUP | SYSTEM — see RequestContext.AuditSource
+       */
+      source: string
+      /**
+       * Joins this row to its request's log lines and sibling audit rows.
+       */
+      correlationId: string | null
+      /**
+       * Free-form context, e.g. { method, route, handler } or { taskType }.
+       */
+      metadata: Prisma.JsonValue | null
+      /**
+       * Append-only: a DB trigger rejects UPDATE (migration audit_log_observability).
+       */
       createdAt: Date
     }, ExtArgs["result"]["auditLog"]>
     composites: {}
@@ -13899,6 +13943,9 @@ export namespace Prisma {
     readonly oldValues: FieldRef<"AuditLog", 'Json'>
     readonly newValues: FieldRef<"AuditLog", 'Json'>
     readonly ipAddress: FieldRef<"AuditLog", 'String'>
+    readonly source: FieldRef<"AuditLog", 'String'>
+    readonly correlationId: FieldRef<"AuditLog", 'String'>
+    readonly metadata: FieldRef<"AuditLog", 'Json'>
     readonly createdAt: FieldRef<"AuditLog", 'DateTime'>
   }
     
@@ -62626,6 +62673,9 @@ export namespace Prisma {
     oldValues: 'oldValues',
     newValues: 'newValues',
     ipAddress: 'ipAddress',
+    source: 'source',
+    correlationId: 'correlationId',
+    metadata: 'metadata',
     createdAt: 'createdAt'
   };
 
@@ -64212,6 +64262,9 @@ export namespace Prisma {
     oldValues?: JsonNullableFilter<"AuditLog">
     newValues?: JsonNullableFilter<"AuditLog">
     ipAddress?: StringNullableFilter<"AuditLog"> | string | null
+    source?: StringFilter<"AuditLog"> | string
+    correlationId?: StringNullableFilter<"AuditLog"> | string | null
+    metadata?: JsonNullableFilter<"AuditLog">
     createdAt?: DateTimeFilter<"AuditLog"> | Date | string
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
   }
@@ -64226,6 +64279,9 @@ export namespace Prisma {
     oldValues?: SortOrderInput | SortOrder
     newValues?: SortOrderInput | SortOrder
     ipAddress?: SortOrderInput | SortOrder
+    source?: SortOrder
+    correlationId?: SortOrderInput | SortOrder
+    metadata?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     tenant?: TenantOrderByWithRelationInput
   }
@@ -64243,6 +64299,9 @@ export namespace Prisma {
     oldValues?: JsonNullableFilter<"AuditLog">
     newValues?: JsonNullableFilter<"AuditLog">
     ipAddress?: StringNullableFilter<"AuditLog"> | string | null
+    source?: StringFilter<"AuditLog"> | string
+    correlationId?: StringNullableFilter<"AuditLog"> | string | null
+    metadata?: JsonNullableFilter<"AuditLog">
     createdAt?: DateTimeFilter<"AuditLog"> | Date | string
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
   }, "id">
@@ -64257,6 +64316,9 @@ export namespace Prisma {
     oldValues?: SortOrderInput | SortOrder
     newValues?: SortOrderInput | SortOrder
     ipAddress?: SortOrderInput | SortOrder
+    source?: SortOrder
+    correlationId?: SortOrderInput | SortOrder
+    metadata?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     _count?: AuditLogCountOrderByAggregateInput
     _max?: AuditLogMaxOrderByAggregateInput
@@ -64276,6 +64338,9 @@ export namespace Prisma {
     oldValues?: JsonNullableWithAggregatesFilter<"AuditLog">
     newValues?: JsonNullableWithAggregatesFilter<"AuditLog">
     ipAddress?: StringNullableWithAggregatesFilter<"AuditLog"> | string | null
+    source?: StringWithAggregatesFilter<"AuditLog"> | string
+    correlationId?: StringNullableWithAggregatesFilter<"AuditLog"> | string | null
+    metadata?: JsonNullableWithAggregatesFilter<"AuditLog">
     createdAt?: DateTimeWithAggregatesFilter<"AuditLog"> | Date | string
   }
 
@@ -68540,6 +68605,9 @@ export namespace Prisma {
     oldValues?: NullableJsonNullValueInput | InputJsonValue
     newValues?: NullableJsonNullValueInput | InputJsonValue
     ipAddress?: string | null
+    source?: string
+    correlationId?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     tenant: TenantCreateNestedOneWithoutAuditLogsInput
   }
@@ -68554,6 +68622,9 @@ export namespace Prisma {
     oldValues?: NullableJsonNullValueInput | InputJsonValue
     newValues?: NullableJsonNullValueInput | InputJsonValue
     ipAddress?: string | null
+    source?: string
+    correlationId?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
   }
 
@@ -68566,6 +68637,9 @@ export namespace Prisma {
     oldValues?: NullableJsonNullValueInput | InputJsonValue
     newValues?: NullableJsonNullValueInput | InputJsonValue
     ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: StringFieldUpdateOperationsInput | string
+    correlationId?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: TenantUpdateOneRequiredWithoutAuditLogsNestedInput
   }
@@ -68580,6 +68654,9 @@ export namespace Prisma {
     oldValues?: NullableJsonNullValueInput | InputJsonValue
     newValues?: NullableJsonNullValueInput | InputJsonValue
     ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: StringFieldUpdateOperationsInput | string
+    correlationId?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -68593,6 +68670,9 @@ export namespace Prisma {
     oldValues?: NullableJsonNullValueInput | InputJsonValue
     newValues?: NullableJsonNullValueInput | InputJsonValue
     ipAddress?: string | null
+    source?: string
+    correlationId?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
   }
 
@@ -68605,6 +68685,9 @@ export namespace Prisma {
     oldValues?: NullableJsonNullValueInput | InputJsonValue
     newValues?: NullableJsonNullValueInput | InputJsonValue
     ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: StringFieldUpdateOperationsInput | string
+    correlationId?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -68618,6 +68701,9 @@ export namespace Prisma {
     oldValues?: NullableJsonNullValueInput | InputJsonValue
     newValues?: NullableJsonNullValueInput | InputJsonValue
     ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: StringFieldUpdateOperationsInput | string
+    correlationId?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -73277,6 +73363,9 @@ export namespace Prisma {
     oldValues?: SortOrder
     newValues?: SortOrder
     ipAddress?: SortOrder
+    source?: SortOrder
+    correlationId?: SortOrder
+    metadata?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -73288,6 +73377,8 @@ export namespace Prisma {
     entityType?: SortOrder
     entityId?: SortOrder
     ipAddress?: SortOrder
+    source?: SortOrder
+    correlationId?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -73299,6 +73390,8 @@ export namespace Prisma {
     entityType?: SortOrder
     entityId?: SortOrder
     ipAddress?: SortOrder
+    source?: SortOrder
+    correlationId?: SortOrder
     createdAt?: SortOrder
   }
   export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
@@ -100920,6 +101013,9 @@ export namespace Prisma {
     oldValues?: NullableJsonNullValueInput | InputJsonValue
     newValues?: NullableJsonNullValueInput | InputJsonValue
     ipAddress?: string | null
+    source?: string
+    correlationId?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
   }
 
@@ -100932,6 +101028,9 @@ export namespace Prisma {
     oldValues?: NullableJsonNullValueInput | InputJsonValue
     newValues?: NullableJsonNullValueInput | InputJsonValue
     ipAddress?: string | null
+    source?: string
+    correlationId?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
   }
 
@@ -101829,6 +101928,9 @@ export namespace Prisma {
     oldValues?: JsonNullableFilter<"AuditLog">
     newValues?: JsonNullableFilter<"AuditLog">
     ipAddress?: StringNullableFilter<"AuditLog"> | string | null
+    source?: StringFilter<"AuditLog"> | string
+    correlationId?: StringNullableFilter<"AuditLog"> | string | null
+    metadata?: JsonNullableFilter<"AuditLog">
     createdAt?: DateTimeFilter<"AuditLog"> | Date | string
   }
 
@@ -108664,6 +108766,9 @@ export namespace Prisma {
     oldValues?: NullableJsonNullValueInput | InputJsonValue
     newValues?: NullableJsonNullValueInput | InputJsonValue
     ipAddress?: string | null
+    source?: string
+    correlationId?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
   }
 
@@ -109676,6 +109781,9 @@ export namespace Prisma {
     oldValues?: NullableJsonNullValueInput | InputJsonValue
     newValues?: NullableJsonNullValueInput | InputJsonValue
     ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: StringFieldUpdateOperationsInput | string
+    correlationId?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -109688,6 +109796,9 @@ export namespace Prisma {
     oldValues?: NullableJsonNullValueInput | InputJsonValue
     newValues?: NullableJsonNullValueInput | InputJsonValue
     ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: StringFieldUpdateOperationsInput | string
+    correlationId?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -109700,6 +109811,9 @@ export namespace Prisma {
     oldValues?: NullableJsonNullValueInput | InputJsonValue
     newValues?: NullableJsonNullValueInput | InputJsonValue
     ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: StringFieldUpdateOperationsInput | string
+    correlationId?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
