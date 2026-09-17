@@ -568,6 +568,20 @@ exports.Prisma.PartyScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.ReconciliationRunScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  trigger: 'trigger',
+  passed: 'passed',
+  findingCount: 'findingCount',
+  findings: 'findings',
+  newFindings: 'newFindings',
+  report: 'report',
+  correlationId: 'correlationId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.StockCountScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
@@ -922,6 +936,7 @@ exports.Prisma.ModelName = {
   OpeningBalanceSession: 'OpeningBalanceSession',
   OpeningBalanceSessionLine: 'OpeningBalanceSessionLine',
   Party: 'Party',
+  ReconciliationRun: 'ReconciliationRun',
   StockCount: 'StockCount',
   StockCountLine: 'StockCountLine',
   StockBalance: 'StockBalance',

@@ -177,6 +177,13 @@ export type OpeningBalanceSessionLine = $Result.DefaultSelection<Prisma.$Opening
  */
 export type Party = $Result.DefaultSelection<Prisma.$PartyPayload>
 /**
+ * Model ReconciliationRun
+ * Phase 7.5 — history of reconciliation runs. Each run stores its finding
+ * fingerprints so the next run can detect NEW or GROWN drift (drift-baselines.md).
+ * Append-only by convention: written once by ReconciliationMonitorService.
+ */
+export type ReconciliationRun = $Result.DefaultSelection<Prisma.$ReconciliationRunPayload>
+/**
  * Model StockCount
  * 
  */
@@ -950,6 +957,16 @@ export class PrismaClient<
   get party(): Prisma.PartyDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.reconciliationRun`: Exposes CRUD operations for the **ReconciliationRun** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ReconciliationRuns
+    * const reconciliationRuns = await prisma.reconciliationRun.findMany()
+    * ```
+    */
+  get reconciliationRun(): Prisma.ReconciliationRunDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.stockCount`: Exposes CRUD operations for the **StockCount** model.
     * Example usage:
     * ```ts
@@ -1553,6 +1570,7 @@ export namespace Prisma {
     OpeningBalanceSession: 'OpeningBalanceSession',
     OpeningBalanceSessionLine: 'OpeningBalanceSessionLine',
     Party: 'Party',
+    ReconciliationRun: 'ReconciliationRun',
     StockCount: 'StockCount',
     StockCountLine: 'StockCountLine',
     StockBalance: 'StockBalance',
@@ -1582,7 +1600,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "chartOfAccount" | "journalEntry" | "journalLine" | "aiChatSession" | "aiChatMessage" | "auditLog" | "bankAccount" | "brand" | "cashbox" | "payment" | "paymentAllocation" | "catalogEntity" | "currency" | "customField" | "customFieldValue" | "documentSequence" | "expense" | "expenseItem" | "file" | "financialSetting" | "fiscalPeriod" | "invoiceType" | "invoice" | "invoiceLine" | "itemCatalogEntity" | "itemCategory" | "itemRelation" | "item" | "openingBalanceSession" | "openingBalanceSessionLine" | "party" | "stockCount" | "stockCountLine" | "stockBalance" | "stockMovement" | "tagAssignment" | "tag" | "tenantSetting" | "tenant" | "unit" | "appUser" | "role" | "userRole" | "warehouse" | "warehouseItem"
+      modelProps: "chartOfAccount" | "journalEntry" | "journalLine" | "aiChatSession" | "aiChatMessage" | "auditLog" | "bankAccount" | "brand" | "cashbox" | "payment" | "paymentAllocation" | "catalogEntity" | "currency" | "customField" | "customFieldValue" | "documentSequence" | "expense" | "expenseItem" | "file" | "financialSetting" | "fiscalPeriod" | "invoiceType" | "invoice" | "invoiceLine" | "itemCatalogEntity" | "itemCategory" | "itemRelation" | "item" | "openingBalanceSession" | "openingBalanceSessionLine" | "party" | "reconciliationRun" | "stockCount" | "stockCountLine" | "stockBalance" | "stockMovement" | "tagAssignment" | "tag" | "tenantSetting" | "tenant" | "unit" | "appUser" | "role" | "userRole" | "warehouse" | "warehouseItem"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -3880,6 +3898,80 @@ export namespace Prisma {
           }
         }
       }
+      ReconciliationRun: {
+        payload: Prisma.$ReconciliationRunPayload<ExtArgs>
+        fields: Prisma.ReconciliationRunFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ReconciliationRunFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReconciliationRunPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ReconciliationRunFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReconciliationRunPayload>
+          }
+          findFirst: {
+            args: Prisma.ReconciliationRunFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReconciliationRunPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ReconciliationRunFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReconciliationRunPayload>
+          }
+          findMany: {
+            args: Prisma.ReconciliationRunFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReconciliationRunPayload>[]
+          }
+          create: {
+            args: Prisma.ReconciliationRunCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReconciliationRunPayload>
+          }
+          createMany: {
+            args: Prisma.ReconciliationRunCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ReconciliationRunCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReconciliationRunPayload>[]
+          }
+          delete: {
+            args: Prisma.ReconciliationRunDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReconciliationRunPayload>
+          }
+          update: {
+            args: Prisma.ReconciliationRunUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReconciliationRunPayload>
+          }
+          deleteMany: {
+            args: Prisma.ReconciliationRunDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ReconciliationRunUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ReconciliationRunUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReconciliationRunPayload>[]
+          }
+          upsert: {
+            args: Prisma.ReconciliationRunUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReconciliationRunPayload>
+          }
+          aggregate: {
+            args: Prisma.ReconciliationRunAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateReconciliationRun>
+          }
+          groupBy: {
+            args: Prisma.ReconciliationRunGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ReconciliationRunGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ReconciliationRunCountArgs<ExtArgs>
+            result: $Utils.Optional<ReconciliationRunCountAggregateOutputType> | number
+          }
+        }
+      }
       StockCount: {
         payload: Prisma.$StockCountPayload<ExtArgs>
         fields: Prisma.StockCountFieldRefs
@@ -5055,6 +5147,7 @@ export namespace Prisma {
     openingBalanceSession?: OpeningBalanceSessionOmit
     openingBalanceSessionLine?: OpeningBalanceSessionLineOmit
     party?: PartyOmit
+    reconciliationRun?: ReconciliationRunOmit
     stockCount?: StockCountOmit
     stockCountLine?: StockCountLineOmit
     stockBalance?: StockBalanceOmit
@@ -6242,6 +6335,7 @@ export namespace Prisma {
     journalEntries: number
     stockCounts: number
     auditLogs: number
+    reconciliationRuns: number
     aiChatSessions: number
     settings: number
     expenses: number
@@ -6274,6 +6368,7 @@ export namespace Prisma {
     journalEntries?: boolean | TenantCountOutputTypeCountJournalEntriesArgs
     stockCounts?: boolean | TenantCountOutputTypeCountStockCountsArgs
     auditLogs?: boolean | TenantCountOutputTypeCountAuditLogsArgs
+    reconciliationRuns?: boolean | TenantCountOutputTypeCountReconciliationRunsArgs
     aiChatSessions?: boolean | TenantCountOutputTypeCountAiChatSessionsArgs
     settings?: boolean | TenantCountOutputTypeCountSettingsArgs
     expenses?: boolean | TenantCountOutputTypeCountExpensesArgs
@@ -6428,6 +6523,13 @@ export namespace Prisma {
    */
   export type TenantCountOutputTypeCountAuditLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: AuditLogWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountReconciliationRunsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ReconciliationRunWhereInput
   }
 
   /**
@@ -45571,6 +45673,1181 @@ export namespace Prisma {
 
 
   /**
+   * Model ReconciliationRun
+   */
+
+  export type AggregateReconciliationRun = {
+    _count: ReconciliationRunCountAggregateOutputType | null
+    _avg: ReconciliationRunAvgAggregateOutputType | null
+    _sum: ReconciliationRunSumAggregateOutputType | null
+    _min: ReconciliationRunMinAggregateOutputType | null
+    _max: ReconciliationRunMaxAggregateOutputType | null
+  }
+
+  export type ReconciliationRunAvgAggregateOutputType = {
+    findingCount: number | null
+  }
+
+  export type ReconciliationRunSumAggregateOutputType = {
+    findingCount: number | null
+  }
+
+  export type ReconciliationRunMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    trigger: string | null
+    passed: boolean | null
+    findingCount: number | null
+    correlationId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ReconciliationRunMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    trigger: string | null
+    passed: boolean | null
+    findingCount: number | null
+    correlationId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ReconciliationRunCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    trigger: number
+    passed: number
+    findingCount: number
+    findings: number
+    newFindings: number
+    report: number
+    correlationId: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type ReconciliationRunAvgAggregateInputType = {
+    findingCount?: true
+  }
+
+  export type ReconciliationRunSumAggregateInputType = {
+    findingCount?: true
+  }
+
+  export type ReconciliationRunMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    trigger?: true
+    passed?: true
+    findingCount?: true
+    correlationId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ReconciliationRunMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    trigger?: true
+    passed?: true
+    findingCount?: true
+    correlationId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ReconciliationRunCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    trigger?: true
+    passed?: true
+    findingCount?: true
+    findings?: true
+    newFindings?: true
+    report?: true
+    correlationId?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type ReconciliationRunAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ReconciliationRun to aggregate.
+     */
+    where?: ReconciliationRunWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ReconciliationRuns to fetch.
+     */
+    orderBy?: ReconciliationRunOrderByWithRelationInput | ReconciliationRunOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ReconciliationRunWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ReconciliationRuns from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ReconciliationRuns.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ReconciliationRuns
+    **/
+    _count?: true | ReconciliationRunCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ReconciliationRunAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ReconciliationRunSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ReconciliationRunMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ReconciliationRunMaxAggregateInputType
+  }
+
+  export type GetReconciliationRunAggregateType<T extends ReconciliationRunAggregateArgs> = {
+        [P in keyof T & keyof AggregateReconciliationRun]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateReconciliationRun[P]>
+      : GetScalarType<T[P], AggregateReconciliationRun[P]>
+  }
+
+
+
+
+  export type ReconciliationRunGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ReconciliationRunWhereInput
+    orderBy?: ReconciliationRunOrderByWithAggregationInput | ReconciliationRunOrderByWithAggregationInput[]
+    by: ReconciliationRunScalarFieldEnum[] | ReconciliationRunScalarFieldEnum
+    having?: ReconciliationRunScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ReconciliationRunCountAggregateInputType | true
+    _avg?: ReconciliationRunAvgAggregateInputType
+    _sum?: ReconciliationRunSumAggregateInputType
+    _min?: ReconciliationRunMinAggregateInputType
+    _max?: ReconciliationRunMaxAggregateInputType
+  }
+
+  export type ReconciliationRunGroupByOutputType = {
+    id: string
+    tenantId: string
+    trigger: string
+    passed: boolean
+    findingCount: number
+    findings: JsonValue
+    newFindings: JsonValue
+    report: JsonValue
+    correlationId: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: ReconciliationRunCountAggregateOutputType | null
+    _avg: ReconciliationRunAvgAggregateOutputType | null
+    _sum: ReconciliationRunSumAggregateOutputType | null
+    _min: ReconciliationRunMinAggregateOutputType | null
+    _max: ReconciliationRunMaxAggregateOutputType | null
+  }
+
+  type GetReconciliationRunGroupByPayload<T extends ReconciliationRunGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ReconciliationRunGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ReconciliationRunGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ReconciliationRunGroupByOutputType[P]>
+            : GetScalarType<T[P], ReconciliationRunGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ReconciliationRunSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    trigger?: boolean
+    passed?: boolean
+    findingCount?: boolean
+    findings?: boolean
+    newFindings?: boolean
+    report?: boolean
+    correlationId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["reconciliationRun"]>
+
+  export type ReconciliationRunSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    trigger?: boolean
+    passed?: boolean
+    findingCount?: boolean
+    findings?: boolean
+    newFindings?: boolean
+    report?: boolean
+    correlationId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["reconciliationRun"]>
+
+  export type ReconciliationRunSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    trigger?: boolean
+    passed?: boolean
+    findingCount?: boolean
+    findings?: boolean
+    newFindings?: boolean
+    report?: boolean
+    correlationId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["reconciliationRun"]>
+
+  export type ReconciliationRunSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    trigger?: boolean
+    passed?: boolean
+    findingCount?: boolean
+    findings?: boolean
+    newFindings?: boolean
+    report?: boolean
+    correlationId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type ReconciliationRunOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "trigger" | "passed" | "findingCount" | "findings" | "newFindings" | "report" | "correlationId" | "createdAt" | "updatedAt", ExtArgs["result"]["reconciliationRun"]>
+  export type ReconciliationRunInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type ReconciliationRunIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type ReconciliationRunIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+
+  export type $ReconciliationRunPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ReconciliationRun"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      /**
+       * SCHEDULED | MANUAL | BUSINESS_SETUP
+       */
+      trigger: string
+      passed: boolean
+      findingCount: number
+      /**
+       * Record<fingerprint, |difference|> — see reconciliation-checks.ts
+       */
+      findings: Prisma.JsonValue
+      /**
+       * string[] — fingerprints new or grown vs the previous run
+       */
+      newFindings: Prisma.JsonValue
+      /**
+       * Full ReconciliationResultDto at run time
+       */
+      report: Prisma.JsonValue
+      correlationId: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["reconciliationRun"]>
+    composites: {}
+  }
+
+  type ReconciliationRunGetPayload<S extends boolean | null | undefined | ReconciliationRunDefaultArgs> = $Result.GetResult<Prisma.$ReconciliationRunPayload, S>
+
+  type ReconciliationRunCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ReconciliationRunFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ReconciliationRunCountAggregateInputType | true
+    }
+
+  export interface ReconciliationRunDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ReconciliationRun'], meta: { name: 'ReconciliationRun' } }
+    /**
+     * Find zero or one ReconciliationRun that matches the filter.
+     * @param {ReconciliationRunFindUniqueArgs} args - Arguments to find a ReconciliationRun
+     * @example
+     * // Get one ReconciliationRun
+     * const reconciliationRun = await prisma.reconciliationRun.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ReconciliationRunFindUniqueArgs>(args: SelectSubset<T, ReconciliationRunFindUniqueArgs<ExtArgs>>): Prisma__ReconciliationRunClient<$Result.GetResult<Prisma.$ReconciliationRunPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ReconciliationRun that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ReconciliationRunFindUniqueOrThrowArgs} args - Arguments to find a ReconciliationRun
+     * @example
+     * // Get one ReconciliationRun
+     * const reconciliationRun = await prisma.reconciliationRun.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ReconciliationRunFindUniqueOrThrowArgs>(args: SelectSubset<T, ReconciliationRunFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ReconciliationRunClient<$Result.GetResult<Prisma.$ReconciliationRunPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ReconciliationRun that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReconciliationRunFindFirstArgs} args - Arguments to find a ReconciliationRun
+     * @example
+     * // Get one ReconciliationRun
+     * const reconciliationRun = await prisma.reconciliationRun.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ReconciliationRunFindFirstArgs>(args?: SelectSubset<T, ReconciliationRunFindFirstArgs<ExtArgs>>): Prisma__ReconciliationRunClient<$Result.GetResult<Prisma.$ReconciliationRunPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ReconciliationRun that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReconciliationRunFindFirstOrThrowArgs} args - Arguments to find a ReconciliationRun
+     * @example
+     * // Get one ReconciliationRun
+     * const reconciliationRun = await prisma.reconciliationRun.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ReconciliationRunFindFirstOrThrowArgs>(args?: SelectSubset<T, ReconciliationRunFindFirstOrThrowArgs<ExtArgs>>): Prisma__ReconciliationRunClient<$Result.GetResult<Prisma.$ReconciliationRunPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ReconciliationRuns that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReconciliationRunFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ReconciliationRuns
+     * const reconciliationRuns = await prisma.reconciliationRun.findMany()
+     * 
+     * // Get first 10 ReconciliationRuns
+     * const reconciliationRuns = await prisma.reconciliationRun.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const reconciliationRunWithIdOnly = await prisma.reconciliationRun.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ReconciliationRunFindManyArgs>(args?: SelectSubset<T, ReconciliationRunFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReconciliationRunPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ReconciliationRun.
+     * @param {ReconciliationRunCreateArgs} args - Arguments to create a ReconciliationRun.
+     * @example
+     * // Create one ReconciliationRun
+     * const ReconciliationRun = await prisma.reconciliationRun.create({
+     *   data: {
+     *     // ... data to create a ReconciliationRun
+     *   }
+     * })
+     * 
+     */
+    create<T extends ReconciliationRunCreateArgs>(args: SelectSubset<T, ReconciliationRunCreateArgs<ExtArgs>>): Prisma__ReconciliationRunClient<$Result.GetResult<Prisma.$ReconciliationRunPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ReconciliationRuns.
+     * @param {ReconciliationRunCreateManyArgs} args - Arguments to create many ReconciliationRuns.
+     * @example
+     * // Create many ReconciliationRuns
+     * const reconciliationRun = await prisma.reconciliationRun.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ReconciliationRunCreateManyArgs>(args?: SelectSubset<T, ReconciliationRunCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ReconciliationRuns and returns the data saved in the database.
+     * @param {ReconciliationRunCreateManyAndReturnArgs} args - Arguments to create many ReconciliationRuns.
+     * @example
+     * // Create many ReconciliationRuns
+     * const reconciliationRun = await prisma.reconciliationRun.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ReconciliationRuns and only return the `id`
+     * const reconciliationRunWithIdOnly = await prisma.reconciliationRun.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ReconciliationRunCreateManyAndReturnArgs>(args?: SelectSubset<T, ReconciliationRunCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReconciliationRunPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ReconciliationRun.
+     * @param {ReconciliationRunDeleteArgs} args - Arguments to delete one ReconciliationRun.
+     * @example
+     * // Delete one ReconciliationRun
+     * const ReconciliationRun = await prisma.reconciliationRun.delete({
+     *   where: {
+     *     // ... filter to delete one ReconciliationRun
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ReconciliationRunDeleteArgs>(args: SelectSubset<T, ReconciliationRunDeleteArgs<ExtArgs>>): Prisma__ReconciliationRunClient<$Result.GetResult<Prisma.$ReconciliationRunPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ReconciliationRun.
+     * @param {ReconciliationRunUpdateArgs} args - Arguments to update one ReconciliationRun.
+     * @example
+     * // Update one ReconciliationRun
+     * const reconciliationRun = await prisma.reconciliationRun.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ReconciliationRunUpdateArgs>(args: SelectSubset<T, ReconciliationRunUpdateArgs<ExtArgs>>): Prisma__ReconciliationRunClient<$Result.GetResult<Prisma.$ReconciliationRunPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ReconciliationRuns.
+     * @param {ReconciliationRunDeleteManyArgs} args - Arguments to filter ReconciliationRuns to delete.
+     * @example
+     * // Delete a few ReconciliationRuns
+     * const { count } = await prisma.reconciliationRun.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ReconciliationRunDeleteManyArgs>(args?: SelectSubset<T, ReconciliationRunDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ReconciliationRuns.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReconciliationRunUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ReconciliationRuns
+     * const reconciliationRun = await prisma.reconciliationRun.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ReconciliationRunUpdateManyArgs>(args: SelectSubset<T, ReconciliationRunUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ReconciliationRuns and returns the data updated in the database.
+     * @param {ReconciliationRunUpdateManyAndReturnArgs} args - Arguments to update many ReconciliationRuns.
+     * @example
+     * // Update many ReconciliationRuns
+     * const reconciliationRun = await prisma.reconciliationRun.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ReconciliationRuns and only return the `id`
+     * const reconciliationRunWithIdOnly = await prisma.reconciliationRun.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ReconciliationRunUpdateManyAndReturnArgs>(args: SelectSubset<T, ReconciliationRunUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReconciliationRunPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ReconciliationRun.
+     * @param {ReconciliationRunUpsertArgs} args - Arguments to update or create a ReconciliationRun.
+     * @example
+     * // Update or create a ReconciliationRun
+     * const reconciliationRun = await prisma.reconciliationRun.upsert({
+     *   create: {
+     *     // ... data to create a ReconciliationRun
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ReconciliationRun we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ReconciliationRunUpsertArgs>(args: SelectSubset<T, ReconciliationRunUpsertArgs<ExtArgs>>): Prisma__ReconciliationRunClient<$Result.GetResult<Prisma.$ReconciliationRunPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ReconciliationRuns.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReconciliationRunCountArgs} args - Arguments to filter ReconciliationRuns to count.
+     * @example
+     * // Count the number of ReconciliationRuns
+     * const count = await prisma.reconciliationRun.count({
+     *   where: {
+     *     // ... the filter for the ReconciliationRuns we want to count
+     *   }
+     * })
+    **/
+    count<T extends ReconciliationRunCountArgs>(
+      args?: Subset<T, ReconciliationRunCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ReconciliationRunCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ReconciliationRun.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReconciliationRunAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ReconciliationRunAggregateArgs>(args: Subset<T, ReconciliationRunAggregateArgs>): Prisma.PrismaPromise<GetReconciliationRunAggregateType<T>>
+
+    /**
+     * Group by ReconciliationRun.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReconciliationRunGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ReconciliationRunGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ReconciliationRunGroupByArgs['orderBy'] }
+        : { orderBy?: ReconciliationRunGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ReconciliationRunGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetReconciliationRunGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ReconciliationRun model
+   */
+  readonly fields: ReconciliationRunFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ReconciliationRun.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ReconciliationRunClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ReconciliationRun model
+   */
+  interface ReconciliationRunFieldRefs {
+    readonly id: FieldRef<"ReconciliationRun", 'String'>
+    readonly tenantId: FieldRef<"ReconciliationRun", 'String'>
+    readonly trigger: FieldRef<"ReconciliationRun", 'String'>
+    readonly passed: FieldRef<"ReconciliationRun", 'Boolean'>
+    readonly findingCount: FieldRef<"ReconciliationRun", 'Int'>
+    readonly findings: FieldRef<"ReconciliationRun", 'Json'>
+    readonly newFindings: FieldRef<"ReconciliationRun", 'Json'>
+    readonly report: FieldRef<"ReconciliationRun", 'Json'>
+    readonly correlationId: FieldRef<"ReconciliationRun", 'String'>
+    readonly createdAt: FieldRef<"ReconciliationRun", 'DateTime'>
+    readonly updatedAt: FieldRef<"ReconciliationRun", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ReconciliationRun findUnique
+   */
+  export type ReconciliationRunFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReconciliationRun
+     */
+    select?: ReconciliationRunSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReconciliationRun
+     */
+    omit?: ReconciliationRunOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReconciliationRunInclude<ExtArgs> | null
+    /**
+     * Filter, which ReconciliationRun to fetch.
+     */
+    where: ReconciliationRunWhereUniqueInput
+  }
+
+  /**
+   * ReconciliationRun findUniqueOrThrow
+   */
+  export type ReconciliationRunFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReconciliationRun
+     */
+    select?: ReconciliationRunSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReconciliationRun
+     */
+    omit?: ReconciliationRunOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReconciliationRunInclude<ExtArgs> | null
+    /**
+     * Filter, which ReconciliationRun to fetch.
+     */
+    where: ReconciliationRunWhereUniqueInput
+  }
+
+  /**
+   * ReconciliationRun findFirst
+   */
+  export type ReconciliationRunFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReconciliationRun
+     */
+    select?: ReconciliationRunSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReconciliationRun
+     */
+    omit?: ReconciliationRunOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReconciliationRunInclude<ExtArgs> | null
+    /**
+     * Filter, which ReconciliationRun to fetch.
+     */
+    where?: ReconciliationRunWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ReconciliationRuns to fetch.
+     */
+    orderBy?: ReconciliationRunOrderByWithRelationInput | ReconciliationRunOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ReconciliationRuns.
+     */
+    cursor?: ReconciliationRunWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ReconciliationRuns from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ReconciliationRuns.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ReconciliationRuns.
+     */
+    distinct?: ReconciliationRunScalarFieldEnum | ReconciliationRunScalarFieldEnum[]
+  }
+
+  /**
+   * ReconciliationRun findFirstOrThrow
+   */
+  export type ReconciliationRunFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReconciliationRun
+     */
+    select?: ReconciliationRunSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReconciliationRun
+     */
+    omit?: ReconciliationRunOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReconciliationRunInclude<ExtArgs> | null
+    /**
+     * Filter, which ReconciliationRun to fetch.
+     */
+    where?: ReconciliationRunWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ReconciliationRuns to fetch.
+     */
+    orderBy?: ReconciliationRunOrderByWithRelationInput | ReconciliationRunOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ReconciliationRuns.
+     */
+    cursor?: ReconciliationRunWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ReconciliationRuns from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ReconciliationRuns.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ReconciliationRuns.
+     */
+    distinct?: ReconciliationRunScalarFieldEnum | ReconciliationRunScalarFieldEnum[]
+  }
+
+  /**
+   * ReconciliationRun findMany
+   */
+  export type ReconciliationRunFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReconciliationRun
+     */
+    select?: ReconciliationRunSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReconciliationRun
+     */
+    omit?: ReconciliationRunOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReconciliationRunInclude<ExtArgs> | null
+    /**
+     * Filter, which ReconciliationRuns to fetch.
+     */
+    where?: ReconciliationRunWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ReconciliationRuns to fetch.
+     */
+    orderBy?: ReconciliationRunOrderByWithRelationInput | ReconciliationRunOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ReconciliationRuns.
+     */
+    cursor?: ReconciliationRunWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ReconciliationRuns from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ReconciliationRuns.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ReconciliationRuns.
+     */
+    distinct?: ReconciliationRunScalarFieldEnum | ReconciliationRunScalarFieldEnum[]
+  }
+
+  /**
+   * ReconciliationRun create
+   */
+  export type ReconciliationRunCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReconciliationRun
+     */
+    select?: ReconciliationRunSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReconciliationRun
+     */
+    omit?: ReconciliationRunOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReconciliationRunInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ReconciliationRun.
+     */
+    data: XOR<ReconciliationRunCreateInput, ReconciliationRunUncheckedCreateInput>
+  }
+
+  /**
+   * ReconciliationRun createMany
+   */
+  export type ReconciliationRunCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ReconciliationRuns.
+     */
+    data: ReconciliationRunCreateManyInput | ReconciliationRunCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ReconciliationRun createManyAndReturn
+   */
+  export type ReconciliationRunCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReconciliationRun
+     */
+    select?: ReconciliationRunSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReconciliationRun
+     */
+    omit?: ReconciliationRunOmit<ExtArgs> | null
+    /**
+     * The data used to create many ReconciliationRuns.
+     */
+    data: ReconciliationRunCreateManyInput | ReconciliationRunCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReconciliationRunIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ReconciliationRun update
+   */
+  export type ReconciliationRunUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReconciliationRun
+     */
+    select?: ReconciliationRunSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReconciliationRun
+     */
+    omit?: ReconciliationRunOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReconciliationRunInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ReconciliationRun.
+     */
+    data: XOR<ReconciliationRunUpdateInput, ReconciliationRunUncheckedUpdateInput>
+    /**
+     * Choose, which ReconciliationRun to update.
+     */
+    where: ReconciliationRunWhereUniqueInput
+  }
+
+  /**
+   * ReconciliationRun updateMany
+   */
+  export type ReconciliationRunUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ReconciliationRuns.
+     */
+    data: XOR<ReconciliationRunUpdateManyMutationInput, ReconciliationRunUncheckedUpdateManyInput>
+    /**
+     * Filter which ReconciliationRuns to update
+     */
+    where?: ReconciliationRunWhereInput
+    /**
+     * Limit how many ReconciliationRuns to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ReconciliationRun updateManyAndReturn
+   */
+  export type ReconciliationRunUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReconciliationRun
+     */
+    select?: ReconciliationRunSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReconciliationRun
+     */
+    omit?: ReconciliationRunOmit<ExtArgs> | null
+    /**
+     * The data used to update ReconciliationRuns.
+     */
+    data: XOR<ReconciliationRunUpdateManyMutationInput, ReconciliationRunUncheckedUpdateManyInput>
+    /**
+     * Filter which ReconciliationRuns to update
+     */
+    where?: ReconciliationRunWhereInput
+    /**
+     * Limit how many ReconciliationRuns to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReconciliationRunIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ReconciliationRun upsert
+   */
+  export type ReconciliationRunUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReconciliationRun
+     */
+    select?: ReconciliationRunSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReconciliationRun
+     */
+    omit?: ReconciliationRunOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReconciliationRunInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ReconciliationRun to update in case it exists.
+     */
+    where: ReconciliationRunWhereUniqueInput
+    /**
+     * In case the ReconciliationRun found by the `where` argument doesn't exist, create a new ReconciliationRun with this data.
+     */
+    create: XOR<ReconciliationRunCreateInput, ReconciliationRunUncheckedCreateInput>
+    /**
+     * In case the ReconciliationRun was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ReconciliationRunUpdateInput, ReconciliationRunUncheckedUpdateInput>
+  }
+
+  /**
+   * ReconciliationRun delete
+   */
+  export type ReconciliationRunDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReconciliationRun
+     */
+    select?: ReconciliationRunSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReconciliationRun
+     */
+    omit?: ReconciliationRunOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReconciliationRunInclude<ExtArgs> | null
+    /**
+     * Filter which ReconciliationRun to delete.
+     */
+    where: ReconciliationRunWhereUniqueInput
+  }
+
+  /**
+   * ReconciliationRun deleteMany
+   */
+  export type ReconciliationRunDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ReconciliationRuns to delete
+     */
+    where?: ReconciliationRunWhereInput
+    /**
+     * Limit how many ReconciliationRuns to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ReconciliationRun without action
+   */
+  export type ReconciliationRunDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReconciliationRun
+     */
+    select?: ReconciliationRunSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReconciliationRun
+     */
+    omit?: ReconciliationRunOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReconciliationRunInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model StockCount
    */
 
@@ -53884,6 +55161,7 @@ export namespace Prisma {
     journalEntries?: boolean | Tenant$journalEntriesArgs<ExtArgs>
     stockCounts?: boolean | Tenant$stockCountsArgs<ExtArgs>
     auditLogs?: boolean | Tenant$auditLogsArgs<ExtArgs>
+    reconciliationRuns?: boolean | Tenant$reconciliationRunsArgs<ExtArgs>
     aiChatSessions?: boolean | Tenant$aiChatSessionsArgs<ExtArgs>
     baseCurrency?: boolean | Tenant$baseCurrencyArgs<ExtArgs>
     defaultSalesSequence?: boolean | Tenant$defaultSalesSequenceArgs<ExtArgs>
@@ -53985,6 +55263,7 @@ export namespace Prisma {
     journalEntries?: boolean | Tenant$journalEntriesArgs<ExtArgs>
     stockCounts?: boolean | Tenant$stockCountsArgs<ExtArgs>
     auditLogs?: boolean | Tenant$auditLogsArgs<ExtArgs>
+    reconciliationRuns?: boolean | Tenant$reconciliationRunsArgs<ExtArgs>
     aiChatSessions?: boolean | Tenant$aiChatSessionsArgs<ExtArgs>
     baseCurrency?: boolean | Tenant$baseCurrencyArgs<ExtArgs>
     defaultSalesSequence?: boolean | Tenant$defaultSalesSequenceArgs<ExtArgs>
@@ -54031,6 +55310,7 @@ export namespace Prisma {
       journalEntries: Prisma.$JournalEntryPayload<ExtArgs>[]
       stockCounts: Prisma.$StockCountPayload<ExtArgs>[]
       auditLogs: Prisma.$AuditLogPayload<ExtArgs>[]
+      reconciliationRuns: Prisma.$ReconciliationRunPayload<ExtArgs>[]
       aiChatSessions: Prisma.$AiChatSessionPayload<ExtArgs>[]
       baseCurrency: Prisma.$CurrencyPayload<ExtArgs> | null
       defaultSalesSequence: Prisma.$DocumentSequencePayload<ExtArgs> | null
@@ -54476,6 +55756,7 @@ export namespace Prisma {
     journalEntries<T extends Tenant$journalEntriesArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$journalEntriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$JournalEntryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     stockCounts<T extends Tenant$stockCountsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$stockCountsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StockCountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     auditLogs<T extends Tenant$auditLogsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$auditLogsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AuditLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    reconciliationRuns<T extends Tenant$reconciliationRunsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$reconciliationRunsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReconciliationRunPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     aiChatSessions<T extends Tenant$aiChatSessionsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$aiChatSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AiChatSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     baseCurrency<T extends Tenant$baseCurrencyArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$baseCurrencyArgs<ExtArgs>>): Prisma__CurrencyClient<$Result.GetResult<Prisma.$CurrencyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     defaultSalesSequence<T extends Tenant$defaultSalesSequenceArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$defaultSalesSequenceArgs<ExtArgs>>): Prisma__DocumentSequenceClient<$Result.GetResult<Prisma.$DocumentSequencePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
@@ -55389,6 +56670,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: AuditLogScalarFieldEnum | AuditLogScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.reconciliationRuns
+   */
+  export type Tenant$reconciliationRunsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReconciliationRun
+     */
+    select?: ReconciliationRunSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReconciliationRun
+     */
+    omit?: ReconciliationRunOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReconciliationRunInclude<ExtArgs> | null
+    where?: ReconciliationRunWhereInput
+    orderBy?: ReconciliationRunOrderByWithRelationInput | ReconciliationRunOrderByWithRelationInput[]
+    cursor?: ReconciliationRunWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ReconciliationRunScalarFieldEnum | ReconciliationRunScalarFieldEnum[]
   }
 
   /**
@@ -63120,6 +64425,23 @@ export namespace Prisma {
   export type PartyScalarFieldEnum = (typeof PartyScalarFieldEnum)[keyof typeof PartyScalarFieldEnum]
 
 
+  export const ReconciliationRunScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    trigger: 'trigger',
+    passed: 'passed',
+    findingCount: 'findingCount',
+    findings: 'findings',
+    newFindings: 'newFindings',
+    report: 'report',
+    correlationId: 'correlationId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type ReconciliationRunScalarFieldEnum = (typeof ReconciliationRunScalarFieldEnum)[keyof typeof ReconciliationRunScalarFieldEnum]
+
+
   export const StockCountScalarFieldEnum: {
     id: 'id',
     tenantId: 'tenantId',
@@ -66847,6 +68169,93 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"Party"> | Date | string
   }
 
+  export type ReconciliationRunWhereInput = {
+    AND?: ReconciliationRunWhereInput | ReconciliationRunWhereInput[]
+    OR?: ReconciliationRunWhereInput[]
+    NOT?: ReconciliationRunWhereInput | ReconciliationRunWhereInput[]
+    id?: StringFilter<"ReconciliationRun"> | string
+    tenantId?: StringFilter<"ReconciliationRun"> | string
+    trigger?: StringFilter<"ReconciliationRun"> | string
+    passed?: BoolFilter<"ReconciliationRun"> | boolean
+    findingCount?: IntFilter<"ReconciliationRun"> | number
+    findings?: JsonFilter<"ReconciliationRun">
+    newFindings?: JsonFilter<"ReconciliationRun">
+    report?: JsonFilter<"ReconciliationRun">
+    correlationId?: StringNullableFilter<"ReconciliationRun"> | string | null
+    createdAt?: DateTimeFilter<"ReconciliationRun"> | Date | string
+    updatedAt?: DateTimeFilter<"ReconciliationRun"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+  }
+
+  export type ReconciliationRunOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    trigger?: SortOrder
+    passed?: SortOrder
+    findingCount?: SortOrder
+    findings?: SortOrder
+    newFindings?: SortOrder
+    report?: SortOrder
+    correlationId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+  }
+
+  export type ReconciliationRunWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ReconciliationRunWhereInput | ReconciliationRunWhereInput[]
+    OR?: ReconciliationRunWhereInput[]
+    NOT?: ReconciliationRunWhereInput | ReconciliationRunWhereInput[]
+    tenantId?: StringFilter<"ReconciliationRun"> | string
+    trigger?: StringFilter<"ReconciliationRun"> | string
+    passed?: BoolFilter<"ReconciliationRun"> | boolean
+    findingCount?: IntFilter<"ReconciliationRun"> | number
+    findings?: JsonFilter<"ReconciliationRun">
+    newFindings?: JsonFilter<"ReconciliationRun">
+    report?: JsonFilter<"ReconciliationRun">
+    correlationId?: StringNullableFilter<"ReconciliationRun"> | string | null
+    createdAt?: DateTimeFilter<"ReconciliationRun"> | Date | string
+    updatedAt?: DateTimeFilter<"ReconciliationRun"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+  }, "id">
+
+  export type ReconciliationRunOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    trigger?: SortOrder
+    passed?: SortOrder
+    findingCount?: SortOrder
+    findings?: SortOrder
+    newFindings?: SortOrder
+    report?: SortOrder
+    correlationId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: ReconciliationRunCountOrderByAggregateInput
+    _avg?: ReconciliationRunAvgOrderByAggregateInput
+    _max?: ReconciliationRunMaxOrderByAggregateInput
+    _min?: ReconciliationRunMinOrderByAggregateInput
+    _sum?: ReconciliationRunSumOrderByAggregateInput
+  }
+
+  export type ReconciliationRunScalarWhereWithAggregatesInput = {
+    AND?: ReconciliationRunScalarWhereWithAggregatesInput | ReconciliationRunScalarWhereWithAggregatesInput[]
+    OR?: ReconciliationRunScalarWhereWithAggregatesInput[]
+    NOT?: ReconciliationRunScalarWhereWithAggregatesInput | ReconciliationRunScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ReconciliationRun"> | string
+    tenantId?: StringWithAggregatesFilter<"ReconciliationRun"> | string
+    trigger?: StringWithAggregatesFilter<"ReconciliationRun"> | string
+    passed?: BoolWithAggregatesFilter<"ReconciliationRun"> | boolean
+    findingCount?: IntWithAggregatesFilter<"ReconciliationRun"> | number
+    findings?: JsonWithAggregatesFilter<"ReconciliationRun">
+    newFindings?: JsonWithAggregatesFilter<"ReconciliationRun">
+    report?: JsonWithAggregatesFilter<"ReconciliationRun">
+    correlationId?: StringNullableWithAggregatesFilter<"ReconciliationRun"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"ReconciliationRun"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"ReconciliationRun"> | Date | string
+  }
+
   export type StockCountWhereInput = {
     AND?: StockCountWhereInput | StockCountWhereInput[]
     OR?: StockCountWhereInput[]
@@ -67437,6 +68846,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryListRelationFilter
     stockCounts?: StockCountListRelationFilter
     auditLogs?: AuditLogListRelationFilter
+    reconciliationRuns?: ReconciliationRunListRelationFilter
     aiChatSessions?: AiChatSessionListRelationFilter
     baseCurrency?: XOR<CurrencyNullableScalarRelationFilter, CurrencyWhereInput> | null
     defaultSalesSequence?: XOR<DocumentSequenceNullableScalarRelationFilter, DocumentSequenceWhereInput> | null
@@ -67489,6 +68899,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryOrderByRelationAggregateInput
     stockCounts?: StockCountOrderByRelationAggregateInput
     auditLogs?: AuditLogOrderByRelationAggregateInput
+    reconciliationRuns?: ReconciliationRunOrderByRelationAggregateInput
     aiChatSessions?: AiChatSessionOrderByRelationAggregateInput
     baseCurrency?: CurrencyOrderByWithRelationInput
     defaultSalesSequence?: DocumentSequenceOrderByWithRelationInput
@@ -67544,6 +68955,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryListRelationFilter
     stockCounts?: StockCountListRelationFilter
     auditLogs?: AuditLogListRelationFilter
+    reconciliationRuns?: ReconciliationRunListRelationFilter
     aiChatSessions?: AiChatSessionListRelationFilter
     baseCurrency?: XOR<CurrencyNullableScalarRelationFilter, CurrencyWhereInput> | null
     defaultSalesSequence?: XOR<DocumentSequenceNullableScalarRelationFilter, DocumentSequenceWhereInput> | null
@@ -71362,6 +72774,103 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ReconciliationRunCreateInput = {
+    id?: string
+    trigger: string
+    passed: boolean
+    findingCount: number
+    findings: JsonNullValueInput | InputJsonValue
+    newFindings: JsonNullValueInput | InputJsonValue
+    report: JsonNullValueInput | InputJsonValue
+    correlationId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutReconciliationRunsInput
+  }
+
+  export type ReconciliationRunUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    trigger: string
+    passed: boolean
+    findingCount: number
+    findings: JsonNullValueInput | InputJsonValue
+    newFindings: JsonNullValueInput | InputJsonValue
+    report: JsonNullValueInput | InputJsonValue
+    correlationId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ReconciliationRunUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    trigger?: StringFieldUpdateOperationsInput | string
+    passed?: BoolFieldUpdateOperationsInput | boolean
+    findingCount?: IntFieldUpdateOperationsInput | number
+    findings?: JsonNullValueInput | InputJsonValue
+    newFindings?: JsonNullValueInput | InputJsonValue
+    report?: JsonNullValueInput | InputJsonValue
+    correlationId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutReconciliationRunsNestedInput
+  }
+
+  export type ReconciliationRunUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    trigger?: StringFieldUpdateOperationsInput | string
+    passed?: BoolFieldUpdateOperationsInput | boolean
+    findingCount?: IntFieldUpdateOperationsInput | number
+    findings?: JsonNullValueInput | InputJsonValue
+    newFindings?: JsonNullValueInput | InputJsonValue
+    report?: JsonNullValueInput | InputJsonValue
+    correlationId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ReconciliationRunCreateManyInput = {
+    id?: string
+    tenantId: string
+    trigger: string
+    passed: boolean
+    findingCount: number
+    findings: JsonNullValueInput | InputJsonValue
+    newFindings: JsonNullValueInput | InputJsonValue
+    report: JsonNullValueInput | InputJsonValue
+    correlationId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ReconciliationRunUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    trigger?: StringFieldUpdateOperationsInput | string
+    passed?: BoolFieldUpdateOperationsInput | boolean
+    findingCount?: IntFieldUpdateOperationsInput | number
+    findings?: JsonNullValueInput | InputJsonValue
+    newFindings?: JsonNullValueInput | InputJsonValue
+    report?: JsonNullValueInput | InputJsonValue
+    correlationId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ReconciliationRunUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    trigger?: StringFieldUpdateOperationsInput | string
+    passed?: BoolFieldUpdateOperationsInput | boolean
+    findingCount?: IntFieldUpdateOperationsInput | number
+    findings?: JsonNullValueInput | InputJsonValue
+    newFindings?: JsonNullValueInput | InputJsonValue
+    report?: JsonNullValueInput | InputJsonValue
+    correlationId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StockCountCreateInput = {
     id?: string
     number: string
@@ -71966,6 +73475,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionCreateNestedManyWithoutTenantInput
     baseCurrency?: CurrencyCreateNestedOneWithoutBaseForTenantsInput
     defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
@@ -72018,6 +73528,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunUncheckedCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     financialSetting?: FinancialSettingUncheckedCreateNestedOneWithoutTenantInput
@@ -72066,6 +73577,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUpdateManyWithoutTenantNestedInput
     baseCurrency?: CurrencyUpdateOneWithoutBaseForTenantsNestedInput
     defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
@@ -72118,6 +73630,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUncheckedUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     financialSetting?: FinancialSettingUncheckedUpdateOneWithoutTenantNestedInput
@@ -75247,6 +76760,50 @@ export namespace Prisma {
     _max?: NestedEnumPartyTypeFilter<$PrismaModel>
   }
 
+  export type ReconciliationRunCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    trigger?: SortOrder
+    passed?: SortOrder
+    findingCount?: SortOrder
+    findings?: SortOrder
+    newFindings?: SortOrder
+    report?: SortOrder
+    correlationId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ReconciliationRunAvgOrderByAggregateInput = {
+    findingCount?: SortOrder
+  }
+
+  export type ReconciliationRunMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    trigger?: SortOrder
+    passed?: SortOrder
+    findingCount?: SortOrder
+    correlationId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ReconciliationRunMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    trigger?: SortOrder
+    passed?: SortOrder
+    findingCount?: SortOrder
+    correlationId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ReconciliationRunSumOrderByAggregateInput = {
+    findingCount?: SortOrder
+  }
+
   export type EnumStockCountStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.StockCountStatus | EnumStockCountStatusFieldRefInput<$PrismaModel>
     in?: $Enums.StockCountStatus[] | ListEnumStockCountStatusFieldRefInput<$PrismaModel>
@@ -75664,6 +77221,12 @@ export namespace Prisma {
     none?: AuditLogWhereInput
   }
 
+  export type ReconciliationRunListRelationFilter = {
+    every?: ReconciliationRunWhereInput
+    some?: ReconciliationRunWhereInput
+    none?: ReconciliationRunWhereInput
+  }
+
   export type AiChatSessionListRelationFilter = {
     every?: AiChatSessionWhereInput
     some?: AiChatSessionWhereInput
@@ -75731,6 +77294,10 @@ export namespace Prisma {
   }
 
   export type AuditLogOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ReconciliationRunOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -80182,6 +81749,20 @@ export namespace Prisma {
     deleteMany?: OpeningBalanceSessionLineScalarWhereInput | OpeningBalanceSessionLineScalarWhereInput[]
   }
 
+  export type TenantCreateNestedOneWithoutReconciliationRunsInput = {
+    create?: XOR<TenantCreateWithoutReconciliationRunsInput, TenantUncheckedCreateWithoutReconciliationRunsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutReconciliationRunsInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type TenantUpdateOneRequiredWithoutReconciliationRunsNestedInput = {
+    create?: XOR<TenantCreateWithoutReconciliationRunsInput, TenantUncheckedCreateWithoutReconciliationRunsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutReconciliationRunsInput
+    upsert?: TenantUpsertWithoutReconciliationRunsInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutReconciliationRunsInput, TenantUpdateWithoutReconciliationRunsInput>, TenantUncheckedUpdateWithoutReconciliationRunsInput>
+  }
+
   export type TenantCreateNestedOneWithoutStockCountsInput = {
     create?: XOR<TenantCreateWithoutStockCountsInput, TenantUncheckedCreateWithoutStockCountsInput>
     connectOrCreate?: TenantCreateOrConnectWithoutStockCountsInput
@@ -80589,6 +82170,13 @@ export namespace Prisma {
     connect?: AuditLogWhereUniqueInput | AuditLogWhereUniqueInput[]
   }
 
+  export type ReconciliationRunCreateNestedManyWithoutTenantInput = {
+    create?: XOR<ReconciliationRunCreateWithoutTenantInput, ReconciliationRunUncheckedCreateWithoutTenantInput> | ReconciliationRunCreateWithoutTenantInput[] | ReconciliationRunUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: ReconciliationRunCreateOrConnectWithoutTenantInput | ReconciliationRunCreateOrConnectWithoutTenantInput[]
+    createMany?: ReconciliationRunCreateManyTenantInputEnvelope
+    connect?: ReconciliationRunWhereUniqueInput | ReconciliationRunWhereUniqueInput[]
+  }
+
   export type AiChatSessionCreateNestedManyWithoutTenantInput = {
     create?: XOR<AiChatSessionCreateWithoutTenantInput, AiChatSessionUncheckedCreateWithoutTenantInput> | AiChatSessionCreateWithoutTenantInput[] | AiChatSessionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: AiChatSessionCreateOrConnectWithoutTenantInput | AiChatSessionCreateOrConnectWithoutTenantInput[]
@@ -80808,6 +82396,13 @@ export namespace Prisma {
     connectOrCreate?: AuditLogCreateOrConnectWithoutTenantInput | AuditLogCreateOrConnectWithoutTenantInput[]
     createMany?: AuditLogCreateManyTenantInputEnvelope
     connect?: AuditLogWhereUniqueInput | AuditLogWhereUniqueInput[]
+  }
+
+  export type ReconciliationRunUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<ReconciliationRunCreateWithoutTenantInput, ReconciliationRunUncheckedCreateWithoutTenantInput> | ReconciliationRunCreateWithoutTenantInput[] | ReconciliationRunUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: ReconciliationRunCreateOrConnectWithoutTenantInput | ReconciliationRunCreateOrConnectWithoutTenantInput[]
+    createMany?: ReconciliationRunCreateManyTenantInputEnvelope
+    connect?: ReconciliationRunWhereUniqueInput | ReconciliationRunWhereUniqueInput[]
   }
 
   export type AiChatSessionUncheckedCreateNestedManyWithoutTenantInput = {
@@ -81150,6 +82745,20 @@ export namespace Prisma {
     update?: AuditLogUpdateWithWhereUniqueWithoutTenantInput | AuditLogUpdateWithWhereUniqueWithoutTenantInput[]
     updateMany?: AuditLogUpdateManyWithWhereWithoutTenantInput | AuditLogUpdateManyWithWhereWithoutTenantInput[]
     deleteMany?: AuditLogScalarWhereInput | AuditLogScalarWhereInput[]
+  }
+
+  export type ReconciliationRunUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<ReconciliationRunCreateWithoutTenantInput, ReconciliationRunUncheckedCreateWithoutTenantInput> | ReconciliationRunCreateWithoutTenantInput[] | ReconciliationRunUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: ReconciliationRunCreateOrConnectWithoutTenantInput | ReconciliationRunCreateOrConnectWithoutTenantInput[]
+    upsert?: ReconciliationRunUpsertWithWhereUniqueWithoutTenantInput | ReconciliationRunUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: ReconciliationRunCreateManyTenantInputEnvelope
+    set?: ReconciliationRunWhereUniqueInput | ReconciliationRunWhereUniqueInput[]
+    disconnect?: ReconciliationRunWhereUniqueInput | ReconciliationRunWhereUniqueInput[]
+    delete?: ReconciliationRunWhereUniqueInput | ReconciliationRunWhereUniqueInput[]
+    connect?: ReconciliationRunWhereUniqueInput | ReconciliationRunWhereUniqueInput[]
+    update?: ReconciliationRunUpdateWithWhereUniqueWithoutTenantInput | ReconciliationRunUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: ReconciliationRunUpdateManyWithWhereWithoutTenantInput | ReconciliationRunUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: ReconciliationRunScalarWhereInput | ReconciliationRunScalarWhereInput[]
   }
 
   export type AiChatSessionUpdateManyWithoutTenantNestedInput = {
@@ -81586,6 +83195,20 @@ export namespace Prisma {
     update?: AuditLogUpdateWithWhereUniqueWithoutTenantInput | AuditLogUpdateWithWhereUniqueWithoutTenantInput[]
     updateMany?: AuditLogUpdateManyWithWhereWithoutTenantInput | AuditLogUpdateManyWithWhereWithoutTenantInput[]
     deleteMany?: AuditLogScalarWhereInput | AuditLogScalarWhereInput[]
+  }
+
+  export type ReconciliationRunUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<ReconciliationRunCreateWithoutTenantInput, ReconciliationRunUncheckedCreateWithoutTenantInput> | ReconciliationRunCreateWithoutTenantInput[] | ReconciliationRunUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: ReconciliationRunCreateOrConnectWithoutTenantInput | ReconciliationRunCreateOrConnectWithoutTenantInput[]
+    upsert?: ReconciliationRunUpsertWithWhereUniqueWithoutTenantInput | ReconciliationRunUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: ReconciliationRunCreateManyTenantInputEnvelope
+    set?: ReconciliationRunWhereUniqueInput | ReconciliationRunWhereUniqueInput[]
+    disconnect?: ReconciliationRunWhereUniqueInput | ReconciliationRunWhereUniqueInput[]
+    delete?: ReconciliationRunWhereUniqueInput | ReconciliationRunWhereUniqueInput[]
+    connect?: ReconciliationRunWhereUniqueInput | ReconciliationRunWhereUniqueInput[]
+    update?: ReconciliationRunUpdateWithWhereUniqueWithoutTenantInput | ReconciliationRunUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: ReconciliationRunUpdateManyWithWhereWithoutTenantInput | ReconciliationRunUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: ReconciliationRunScalarWhereInput | ReconciliationRunScalarWhereInput[]
   }
 
   export type AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput = {
@@ -82859,6 +84482,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionCreateNestedManyWithoutTenantInput
     baseCurrency?: CurrencyCreateNestedOneWithoutBaseForTenantsInput
     defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
@@ -82910,6 +84534,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunUncheckedCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     financialSetting?: FinancialSettingUncheckedCreateNestedOneWithoutTenantInput
@@ -83806,6 +85431,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUpdateManyWithoutTenantNestedInput
     baseCurrency?: CurrencyUpdateOneWithoutBaseForTenantsNestedInput
     defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
@@ -83857,6 +85483,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUncheckedUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     financialSetting?: FinancialSettingUncheckedUpdateOneWithoutTenantNestedInput
@@ -84361,6 +85988,7 @@ export namespace Prisma {
     chartOfAccounts?: ChartOfAccountCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionCreateNestedManyWithoutTenantInput
     baseCurrency?: CurrencyCreateNestedOneWithoutBaseForTenantsInput
     defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
@@ -84412,6 +86040,7 @@ export namespace Prisma {
     chartOfAccounts?: ChartOfAccountUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunUncheckedCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     financialSetting?: FinancialSettingUncheckedCreateNestedOneWithoutTenantInput
@@ -84651,6 +86280,7 @@ export namespace Prisma {
     chartOfAccounts?: ChartOfAccountUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUpdateManyWithoutTenantNestedInput
     baseCurrency?: CurrencyUpdateOneWithoutBaseForTenantsNestedInput
     defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
@@ -84702,6 +86332,7 @@ export namespace Prisma {
     chartOfAccounts?: ChartOfAccountUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUncheckedUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     financialSetting?: FinancialSettingUncheckedUpdateOneWithoutTenantNestedInput
@@ -85472,6 +87103,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunCreateNestedManyWithoutTenantInput
     baseCurrency?: CurrencyCreateNestedOneWithoutBaseForTenantsInput
     defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
     settings?: TenantSettingCreateNestedManyWithoutTenantInput
@@ -85523,6 +87155,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunUncheckedCreateNestedManyWithoutTenantInput
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     financialSetting?: FinancialSettingUncheckedCreateNestedOneWithoutTenantInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
@@ -85612,6 +87245,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUpdateManyWithoutTenantNestedInput
     baseCurrency?: CurrencyUpdateOneWithoutBaseForTenantsNestedInput
     defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
     settings?: TenantSettingUpdateManyWithoutTenantNestedInput
@@ -85663,6 +87297,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUncheckedUpdateManyWithoutTenantNestedInput
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     financialSetting?: FinancialSettingUncheckedUpdateOneWithoutTenantNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
@@ -85789,6 +87424,7 @@ export namespace Prisma {
     chartOfAccounts?: ChartOfAccountCreateNestedManyWithoutTenantInput
     journalEntries?: JournalEntryCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionCreateNestedManyWithoutTenantInput
     baseCurrency?: CurrencyCreateNestedOneWithoutBaseForTenantsInput
     defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
@@ -85840,6 +87476,7 @@ export namespace Prisma {
     chartOfAccounts?: ChartOfAccountUncheckedCreateNestedManyWithoutTenantInput
     journalEntries?: JournalEntryUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunUncheckedCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     financialSetting?: FinancialSettingUncheckedCreateNestedOneWithoutTenantInput
@@ -85903,6 +87540,7 @@ export namespace Prisma {
     chartOfAccounts?: ChartOfAccountUpdateManyWithoutTenantNestedInput
     journalEntries?: JournalEntryUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUpdateManyWithoutTenantNestedInput
     baseCurrency?: CurrencyUpdateOneWithoutBaseForTenantsNestedInput
     defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
@@ -85954,6 +87592,7 @@ export namespace Prisma {
     chartOfAccounts?: ChartOfAccountUncheckedUpdateManyWithoutTenantNestedInput
     journalEntries?: JournalEntryUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUncheckedUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     financialSetting?: FinancialSettingUncheckedUpdateOneWithoutTenantNestedInput
@@ -86001,6 +87640,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionCreateNestedManyWithoutTenantInput
     baseCurrency?: CurrencyCreateNestedOneWithoutBaseForTenantsInput
     defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
@@ -86052,6 +87692,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunUncheckedCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     financialSetting?: FinancialSettingUncheckedCreateNestedOneWithoutTenantInput
@@ -86242,6 +87883,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUpdateManyWithoutTenantNestedInput
     baseCurrency?: CurrencyUpdateOneWithoutBaseForTenantsNestedInput
     defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
@@ -86293,6 +87935,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUncheckedUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     financialSetting?: FinancialSettingUncheckedUpdateOneWithoutTenantNestedInput
@@ -86422,6 +88065,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionCreateNestedManyWithoutTenantInput
     baseCurrency?: CurrencyCreateNestedOneWithoutBaseForTenantsInput
     defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
@@ -86473,6 +88117,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunUncheckedCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     financialSetting?: FinancialSettingUncheckedCreateNestedOneWithoutTenantInput
@@ -86602,6 +88247,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUpdateManyWithoutTenantNestedInput
     baseCurrency?: CurrencyUpdateOneWithoutBaseForTenantsNestedInput
     defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
@@ -86653,6 +88299,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUncheckedUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     financialSetting?: FinancialSettingUncheckedUpdateOneWithoutTenantNestedInput
@@ -86739,6 +88386,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionCreateNestedManyWithoutTenantInput
     baseCurrency?: CurrencyCreateNestedOneWithoutBaseForTenantsInput
     defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
@@ -86790,6 +88438,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunUncheckedCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     financialSetting?: FinancialSettingUncheckedCreateNestedOneWithoutTenantInput
@@ -87094,6 +88743,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUpdateManyWithoutTenantNestedInput
     baseCurrency?: CurrencyUpdateOneWithoutBaseForTenantsNestedInput
     defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
@@ -87145,6 +88795,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUncheckedUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     financialSetting?: FinancialSettingUncheckedUpdateOneWithoutTenantNestedInput
@@ -87358,6 +89009,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionCreateNestedManyWithoutTenantInput
     baseCurrency?: CurrencyCreateNestedOneWithoutBaseForTenantsInput
     defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
@@ -87409,6 +89061,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunUncheckedCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     financialSetting?: FinancialSettingUncheckedCreateNestedOneWithoutTenantInput
@@ -87658,6 +89311,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUpdateManyWithoutTenantNestedInput
     baseCurrency?: CurrencyUpdateOneWithoutBaseForTenantsNestedInput
     defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
@@ -87709,6 +89363,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUncheckedUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     financialSetting?: FinancialSettingUncheckedUpdateOneWithoutTenantNestedInput
@@ -88213,6 +89868,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionCreateNestedManyWithoutTenantInput
     baseCurrency?: CurrencyCreateNestedOneWithoutBaseForTenantsInput
     defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
@@ -88264,6 +89920,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunUncheckedCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     financialSetting?: FinancialSettingUncheckedCreateNestedOneWithoutTenantInput
@@ -88418,6 +90075,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUpdateManyWithoutTenantNestedInput
     baseCurrency?: CurrencyUpdateOneWithoutBaseForTenantsNestedInput
     defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
@@ -88469,6 +90127,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUncheckedUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     financialSetting?: FinancialSettingUncheckedUpdateOneWithoutTenantNestedInput
@@ -88610,6 +90269,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionCreateNestedManyWithoutTenantInput
     baseCurrency?: CurrencyCreateNestedOneWithoutBaseForTenantsInput
     defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
@@ -88661,6 +90321,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunUncheckedCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     financialSetting?: FinancialSettingUncheckedCreateNestedOneWithoutTenantInput
@@ -88962,6 +90623,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionCreateNestedManyWithoutTenantInput
     defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
     settings?: TenantSettingCreateNestedManyWithoutTenantInput
@@ -89012,6 +90674,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunUncheckedCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     financialSetting?: FinancialSettingUncheckedCreateNestedOneWithoutTenantInput
@@ -89176,6 +90839,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUpdateManyWithoutTenantNestedInput
     baseCurrency?: CurrencyUpdateOneWithoutBaseForTenantsNestedInput
     defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
@@ -89227,6 +90891,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUncheckedUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     financialSetting?: FinancialSettingUncheckedUpdateOneWithoutTenantNestedInput
@@ -89617,6 +91282,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionCreateNestedManyWithoutTenantInput
     baseCurrency?: CurrencyCreateNestedOneWithoutBaseForTenantsInput
     defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
@@ -89668,6 +91334,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunUncheckedCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     financialSetting?: FinancialSettingUncheckedCreateNestedOneWithoutTenantInput
@@ -89721,6 +91388,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionCreateNestedManyWithoutTenantInput
     baseCurrency?: CurrencyCreateNestedOneWithoutBaseForTenantsInput
     settings?: TenantSettingCreateNestedManyWithoutTenantInput
@@ -89771,6 +91439,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunUncheckedCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     financialSetting?: FinancialSettingUncheckedCreateNestedOneWithoutTenantInput
@@ -89839,6 +91508,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUpdateManyWithoutTenantNestedInput
     baseCurrency?: CurrencyUpdateOneWithoutBaseForTenantsNestedInput
     defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
@@ -89890,6 +91560,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUncheckedUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     financialSetting?: FinancialSettingUncheckedUpdateOneWithoutTenantNestedInput
@@ -89954,6 +91625,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionCreateNestedManyWithoutTenantInput
     baseCurrency?: CurrencyCreateNestedOneWithoutBaseForTenantsInput
     defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
@@ -90005,6 +91677,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunUncheckedCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     financialSetting?: FinancialSettingUncheckedCreateNestedOneWithoutTenantInput
@@ -90215,6 +91888,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUpdateManyWithoutTenantNestedInput
     baseCurrency?: CurrencyUpdateOneWithoutBaseForTenantsNestedInput
     defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
@@ -90266,6 +91940,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUncheckedUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     financialSetting?: FinancialSettingUncheckedUpdateOneWithoutTenantNestedInput
@@ -90708,6 +92383,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionCreateNestedManyWithoutTenantInput
     baseCurrency?: CurrencyCreateNestedOneWithoutBaseForTenantsInput
     defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
@@ -90759,6 +92435,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunUncheckedCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
@@ -91559,6 +93236,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUpdateManyWithoutTenantNestedInput
     baseCurrency?: CurrencyUpdateOneWithoutBaseForTenantsNestedInput
     defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
@@ -91610,6 +93288,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUncheckedUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
@@ -92459,6 +94138,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionCreateNestedManyWithoutTenantInput
     baseCurrency?: CurrencyCreateNestedOneWithoutBaseForTenantsInput
     defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
@@ -92510,6 +94190,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunUncheckedCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     financialSetting?: FinancialSettingUncheckedCreateNestedOneWithoutTenantInput
@@ -92927,6 +94608,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUpdateManyWithoutTenantNestedInput
     baseCurrency?: CurrencyUpdateOneWithoutBaseForTenantsNestedInput
     defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
@@ -92978,6 +94660,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUncheckedUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     financialSetting?: FinancialSettingUncheckedUpdateOneWithoutTenantNestedInput
@@ -93194,6 +94877,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionCreateNestedManyWithoutTenantInput
     baseCurrency?: CurrencyCreateNestedOneWithoutBaseForTenantsInput
     defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
@@ -93245,6 +94929,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunUncheckedCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     financialSetting?: FinancialSettingUncheckedCreateNestedOneWithoutTenantInput
@@ -93374,6 +95059,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUpdateManyWithoutTenantNestedInput
     baseCurrency?: CurrencyUpdateOneWithoutBaseForTenantsNestedInput
     defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
@@ -93425,6 +95111,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUncheckedUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     financialSetting?: FinancialSettingUncheckedUpdateOneWithoutTenantNestedInput
@@ -93488,6 +95175,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionCreateNestedManyWithoutTenantInput
     baseCurrency?: CurrencyCreateNestedOneWithoutBaseForTenantsInput
     defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
@@ -93539,6 +95227,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunUncheckedCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     financialSetting?: FinancialSettingUncheckedCreateNestedOneWithoutTenantInput
@@ -93859,6 +95548,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUpdateManyWithoutTenantNestedInput
     baseCurrency?: CurrencyUpdateOneWithoutBaseForTenantsNestedInput
     defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
@@ -93910,6 +95600,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUncheckedUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     financialSetting?: FinancialSettingUncheckedUpdateOneWithoutTenantNestedInput
@@ -94545,6 +96236,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionCreateNestedManyWithoutTenantInput
     baseCurrency?: CurrencyCreateNestedOneWithoutBaseForTenantsInput
     defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
@@ -94596,6 +96288,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunUncheckedCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     financialSetting?: FinancialSettingUncheckedCreateNestedOneWithoutTenantInput
@@ -94751,6 +96444,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUpdateManyWithoutTenantNestedInput
     baseCurrency?: CurrencyUpdateOneWithoutBaseForTenantsNestedInput
     defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
@@ -94802,6 +96496,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUncheckedUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     financialSetting?: FinancialSettingUncheckedUpdateOneWithoutTenantNestedInput
@@ -94952,6 +96647,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionCreateNestedManyWithoutTenantInput
     baseCurrency?: CurrencyCreateNestedOneWithoutBaseForTenantsInput
     defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
@@ -95003,6 +96699,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunUncheckedCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     financialSetting?: FinancialSettingUncheckedCreateNestedOneWithoutTenantInput
@@ -95199,6 +96896,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUpdateManyWithoutTenantNestedInput
     baseCurrency?: CurrencyUpdateOneWithoutBaseForTenantsNestedInput
     defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
@@ -95250,6 +96948,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUncheckedUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     financialSetting?: FinancialSettingUncheckedUpdateOneWithoutTenantNestedInput
@@ -95382,6 +97081,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionCreateNestedManyWithoutTenantInput
     baseCurrency?: CurrencyCreateNestedOneWithoutBaseForTenantsInput
     defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
@@ -95433,6 +97133,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunUncheckedCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     financialSetting?: FinancialSettingUncheckedCreateNestedOneWithoutTenantInput
@@ -95618,6 +97319,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUpdateManyWithoutTenantNestedInput
     baseCurrency?: CurrencyUpdateOneWithoutBaseForTenantsNestedInput
     defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
@@ -95669,6 +97371,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUncheckedUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     financialSetting?: FinancialSettingUncheckedUpdateOneWithoutTenantNestedInput
@@ -95849,6 +97552,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionCreateNestedManyWithoutTenantInput
     baseCurrency?: CurrencyCreateNestedOneWithoutBaseForTenantsInput
     defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
@@ -95900,6 +97604,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunUncheckedCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     financialSetting?: FinancialSettingUncheckedCreateNestedOneWithoutTenantInput
@@ -96300,6 +98005,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUpdateManyWithoutTenantNestedInput
     baseCurrency?: CurrencyUpdateOneWithoutBaseForTenantsNestedInput
     defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
@@ -96351,6 +98057,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUncheckedUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     financialSetting?: FinancialSettingUncheckedUpdateOneWithoutTenantNestedInput
@@ -96683,6 +98390,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionCreateNestedManyWithoutTenantInput
     baseCurrency?: CurrencyCreateNestedOneWithoutBaseForTenantsInput
     defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
@@ -96734,6 +98442,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunUncheckedCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     financialSetting?: FinancialSettingUncheckedCreateNestedOneWithoutTenantInput
@@ -96878,6 +98587,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUpdateManyWithoutTenantNestedInput
     baseCurrency?: CurrencyUpdateOneWithoutBaseForTenantsNestedInput
     defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
@@ -96929,6 +98639,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUncheckedUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     financialSetting?: FinancialSettingUncheckedUpdateOneWithoutTenantNestedInput
@@ -97074,6 +98785,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionCreateNestedManyWithoutTenantInput
     baseCurrency?: CurrencyCreateNestedOneWithoutBaseForTenantsInput
     defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
@@ -97125,6 +98837,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunUncheckedCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     financialSetting?: FinancialSettingUncheckedCreateNestedOneWithoutTenantInput
@@ -97454,6 +99167,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUpdateManyWithoutTenantNestedInput
     baseCurrency?: CurrencyUpdateOneWithoutBaseForTenantsNestedInput
     defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
@@ -97505,6 +99219,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUncheckedUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     financialSetting?: FinancialSettingUncheckedUpdateOneWithoutTenantNestedInput
@@ -97804,6 +99519,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionCreateNestedManyWithoutTenantInput
     baseCurrency?: CurrencyCreateNestedOneWithoutBaseForTenantsInput
     defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
@@ -97855,6 +99571,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunUncheckedCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     financialSetting?: FinancialSettingUncheckedCreateNestedOneWithoutTenantInput
@@ -98262,6 +99979,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUpdateManyWithoutTenantNestedInput
     baseCurrency?: CurrencyUpdateOneWithoutBaseForTenantsNestedInput
     defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
@@ -98313,6 +100031,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUncheckedUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     financialSetting?: FinancialSettingUncheckedUpdateOneWithoutTenantNestedInput
@@ -98536,6 +100255,222 @@ export namespace Prisma {
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutAccountNestedInput
   }
 
+  export type TenantCreateWithoutReconciliationRunsInput = {
+    id?: string
+    name: string
+    slug: string
+    address?: string | null
+    phone?: string | null
+    email?: string | null
+    logo?: string | null
+    legalName?: string | null
+    taxNumber?: string | null
+    website?: string | null
+    isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: AppUserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    currencies?: CurrencyCreateNestedManyWithoutTenantInput
+    fiscalPeriods?: FiscalPeriodCreateNestedManyWithoutTenantInput
+    documentSequences?: DocumentSequenceCreateNestedManyWithoutTenantInput
+    itemCategories?: ItemCategoryCreateNestedManyWithoutTenantInput
+    units?: UnitCreateNestedManyWithoutTenantInput
+    items?: ItemCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    cashboxes?: CashboxCreateNestedManyWithoutTenantInput
+    bankAccounts?: BankAccountCreateNestedManyWithoutTenantInput
+    invoiceTypes?: InvoiceTypeCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    chartOfAccounts?: ChartOfAccountCreateNestedManyWithoutTenantInput
+    journalEntries?: JournalEntryCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountCreateNestedManyWithoutTenantInput
+    auditLogs?: AuditLogCreateNestedManyWithoutTenantInput
+    aiChatSessions?: AiChatSessionCreateNestedManyWithoutTenantInput
+    baseCurrency?: CurrencyCreateNestedOneWithoutBaseForTenantsInput
+    defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
+    settings?: TenantSettingCreateNestedManyWithoutTenantInput
+    financialSetting?: FinancialSettingCreateNestedOneWithoutTenantInput
+    expenses?: ExpenseCreateNestedManyWithoutTenantInput
+    tags?: TagCreateNestedManyWithoutTenantInput
+    itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
+    catalogEntities?: CatalogEntityCreateNestedManyWithoutTenantInput
+    itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutTenantInput
+    brands?: BrandCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutReconciliationRunsInput = {
+    id?: string
+    name: string
+    slug: string
+    address?: string | null
+    phone?: string | null
+    email?: string | null
+    logo?: string | null
+    legalName?: string | null
+    taxNumber?: string | null
+    website?: string | null
+    baseCurrencyId?: string | null
+    defaultSalesSequenceId?: string | null
+    isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    currencies?: CurrencyUncheckedCreateNestedManyWithoutTenantInput
+    fiscalPeriods?: FiscalPeriodUncheckedCreateNestedManyWithoutTenantInput
+    documentSequences?: DocumentSequenceUncheckedCreateNestedManyWithoutTenantInput
+    itemCategories?: ItemCategoryUncheckedCreateNestedManyWithoutTenantInput
+    units?: UnitUncheckedCreateNestedManyWithoutTenantInput
+    items?: ItemUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    cashboxes?: CashboxUncheckedCreateNestedManyWithoutTenantInput
+    bankAccounts?: BankAccountUncheckedCreateNestedManyWithoutTenantInput
+    invoiceTypes?: InvoiceTypeUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    chartOfAccounts?: ChartOfAccountUncheckedCreateNestedManyWithoutTenantInput
+    journalEntries?: JournalEntryUncheckedCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTenantInput
+    aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
+    settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
+    financialSetting?: FinancialSettingUncheckedCreateNestedOneWithoutTenantInput
+    expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
+    tags?: TagUncheckedCreateNestedManyWithoutTenantInput
+    itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
+    catalogEntities?: CatalogEntityUncheckedCreateNestedManyWithoutTenantInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutTenantInput
+    brands?: BrandUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutReconciliationRunsInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutReconciliationRunsInput, TenantUncheckedCreateWithoutReconciliationRunsInput>
+  }
+
+  export type TenantUpsertWithoutReconciliationRunsInput = {
+    update: XOR<TenantUpdateWithoutReconciliationRunsInput, TenantUncheckedUpdateWithoutReconciliationRunsInput>
+    create: XOR<TenantCreateWithoutReconciliationRunsInput, TenantUncheckedCreateWithoutReconciliationRunsInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutReconciliationRunsInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutReconciliationRunsInput, TenantUncheckedUpdateWithoutReconciliationRunsInput>
+  }
+
+  export type TenantUpdateWithoutReconciliationRunsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: AppUserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    currencies?: CurrencyUpdateManyWithoutTenantNestedInput
+    fiscalPeriods?: FiscalPeriodUpdateManyWithoutTenantNestedInput
+    documentSequences?: DocumentSequenceUpdateManyWithoutTenantNestedInput
+    itemCategories?: ItemCategoryUpdateManyWithoutTenantNestedInput
+    units?: UnitUpdateManyWithoutTenantNestedInput
+    items?: ItemUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    cashboxes?: CashboxUpdateManyWithoutTenantNestedInput
+    bankAccounts?: BankAccountUpdateManyWithoutTenantNestedInput
+    invoiceTypes?: InvoiceTypeUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    chartOfAccounts?: ChartOfAccountUpdateManyWithoutTenantNestedInput
+    journalEntries?: JournalEntryUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutTenantNestedInput
+    aiChatSessions?: AiChatSessionUpdateManyWithoutTenantNestedInput
+    baseCurrency?: CurrencyUpdateOneWithoutBaseForTenantsNestedInput
+    defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
+    settings?: TenantSettingUpdateManyWithoutTenantNestedInput
+    financialSetting?: FinancialSettingUpdateOneWithoutTenantNestedInput
+    expenses?: ExpenseUpdateManyWithoutTenantNestedInput
+    tags?: TagUpdateManyWithoutTenantNestedInput
+    itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
+    catalogEntities?: CatalogEntityUpdateManyWithoutTenantNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutTenantNestedInput
+    brands?: BrandUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutReconciliationRunsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    baseCurrencyId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultSalesSequenceId?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    currencies?: CurrencyUncheckedUpdateManyWithoutTenantNestedInput
+    fiscalPeriods?: FiscalPeriodUncheckedUpdateManyWithoutTenantNestedInput
+    documentSequences?: DocumentSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    itemCategories?: ItemCategoryUncheckedUpdateManyWithoutTenantNestedInput
+    units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
+    items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    cashboxes?: CashboxUncheckedUpdateManyWithoutTenantNestedInput
+    bankAccounts?: BankAccountUncheckedUpdateManyWithoutTenantNestedInput
+    invoiceTypes?: InvoiceTypeUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    chartOfAccounts?: ChartOfAccountUncheckedUpdateManyWithoutTenantNestedInput
+    journalEntries?: JournalEntryUncheckedUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutTenantNestedInput
+    aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
+    settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
+    financialSetting?: FinancialSettingUncheckedUpdateOneWithoutTenantNestedInput
+    expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
+    tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
+    itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
+    catalogEntities?: CatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
+    brands?: BrandUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
   export type TenantCreateWithoutStockCountsInput = {
     id?: string
     name: string
@@ -98570,6 +100505,7 @@ export namespace Prisma {
     chartOfAccounts?: ChartOfAccountCreateNestedManyWithoutTenantInput
     journalEntries?: JournalEntryCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionCreateNestedManyWithoutTenantInput
     baseCurrency?: CurrencyCreateNestedOneWithoutBaseForTenantsInput
     defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
@@ -98621,6 +100557,7 @@ export namespace Prisma {
     chartOfAccounts?: ChartOfAccountUncheckedCreateNestedManyWithoutTenantInput
     journalEntries?: JournalEntryUncheckedCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunUncheckedCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     financialSetting?: FinancialSettingUncheckedCreateNestedOneWithoutTenantInput
@@ -98788,6 +100725,7 @@ export namespace Prisma {
     chartOfAccounts?: ChartOfAccountUpdateManyWithoutTenantNestedInput
     journalEntries?: JournalEntryUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUpdateManyWithoutTenantNestedInput
     baseCurrency?: CurrencyUpdateOneWithoutBaseForTenantsNestedInput
     defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
@@ -98839,6 +100777,7 @@ export namespace Prisma {
     chartOfAccounts?: ChartOfAccountUncheckedUpdateManyWithoutTenantNestedInput
     journalEntries?: JournalEntryUncheckedUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUncheckedUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     financialSetting?: FinancialSettingUncheckedUpdateOneWithoutTenantNestedInput
@@ -99745,6 +101684,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionCreateNestedManyWithoutTenantInput
     baseCurrency?: CurrencyCreateNestedOneWithoutBaseForTenantsInput
     defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
@@ -99796,6 +101736,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunUncheckedCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     financialSetting?: FinancialSettingUncheckedCreateNestedOneWithoutTenantInput
@@ -99885,6 +101826,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUpdateManyWithoutTenantNestedInput
     baseCurrency?: CurrencyUpdateOneWithoutBaseForTenantsNestedInput
     defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
@@ -99936,6 +101878,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUncheckedUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     financialSetting?: FinancialSettingUncheckedUpdateOneWithoutTenantNestedInput
@@ -100011,6 +101954,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionCreateNestedManyWithoutTenantInput
     baseCurrency?: CurrencyCreateNestedOneWithoutBaseForTenantsInput
     defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
@@ -100062,6 +102006,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunUncheckedCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
     financialSetting?: FinancialSettingUncheckedCreateNestedOneWithoutTenantInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
@@ -100125,6 +102070,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUpdateManyWithoutTenantNestedInput
     baseCurrency?: CurrencyUpdateOneWithoutBaseForTenantsNestedInput
     defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
@@ -100176,6 +102122,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUncheckedUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
     financialSetting?: FinancialSettingUncheckedUpdateOneWithoutTenantNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
@@ -101041,6 +102988,42 @@ export namespace Prisma {
 
   export type AuditLogCreateManyTenantInputEnvelope = {
     data: AuditLogCreateManyTenantInput | AuditLogCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ReconciliationRunCreateWithoutTenantInput = {
+    id?: string
+    trigger: string
+    passed: boolean
+    findingCount: number
+    findings: JsonNullValueInput | InputJsonValue
+    newFindings: JsonNullValueInput | InputJsonValue
+    report: JsonNullValueInput | InputJsonValue
+    correlationId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ReconciliationRunUncheckedCreateWithoutTenantInput = {
+    id?: string
+    trigger: string
+    passed: boolean
+    findingCount: number
+    findings: JsonNullValueInput | InputJsonValue
+    newFindings: JsonNullValueInput | InputJsonValue
+    report: JsonNullValueInput | InputJsonValue
+    correlationId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ReconciliationRunCreateOrConnectWithoutTenantInput = {
+    where: ReconciliationRunWhereUniqueInput
+    create: XOR<ReconciliationRunCreateWithoutTenantInput, ReconciliationRunUncheckedCreateWithoutTenantInput>
+  }
+
+  export type ReconciliationRunCreateManyTenantInputEnvelope = {
+    data: ReconciliationRunCreateManyTenantInput | ReconciliationRunCreateManyTenantInput[]
     skipDuplicates?: boolean
   }
 
@@ -101934,6 +103917,39 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"AuditLog"> | Date | string
   }
 
+  export type ReconciliationRunUpsertWithWhereUniqueWithoutTenantInput = {
+    where: ReconciliationRunWhereUniqueInput
+    update: XOR<ReconciliationRunUpdateWithoutTenantInput, ReconciliationRunUncheckedUpdateWithoutTenantInput>
+    create: XOR<ReconciliationRunCreateWithoutTenantInput, ReconciliationRunUncheckedCreateWithoutTenantInput>
+  }
+
+  export type ReconciliationRunUpdateWithWhereUniqueWithoutTenantInput = {
+    where: ReconciliationRunWhereUniqueInput
+    data: XOR<ReconciliationRunUpdateWithoutTenantInput, ReconciliationRunUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type ReconciliationRunUpdateManyWithWhereWithoutTenantInput = {
+    where: ReconciliationRunScalarWhereInput
+    data: XOR<ReconciliationRunUpdateManyMutationInput, ReconciliationRunUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type ReconciliationRunScalarWhereInput = {
+    AND?: ReconciliationRunScalarWhereInput | ReconciliationRunScalarWhereInput[]
+    OR?: ReconciliationRunScalarWhereInput[]
+    NOT?: ReconciliationRunScalarWhereInput | ReconciliationRunScalarWhereInput[]
+    id?: StringFilter<"ReconciliationRun"> | string
+    tenantId?: StringFilter<"ReconciliationRun"> | string
+    trigger?: StringFilter<"ReconciliationRun"> | string
+    passed?: BoolFilter<"ReconciliationRun"> | boolean
+    findingCount?: IntFilter<"ReconciliationRun"> | number
+    findings?: JsonFilter<"ReconciliationRun">
+    newFindings?: JsonFilter<"ReconciliationRun">
+    report?: JsonFilter<"ReconciliationRun">
+    correlationId?: StringNullableFilter<"ReconciliationRun"> | string | null
+    createdAt?: DateTimeFilter<"ReconciliationRun"> | Date | string
+    updatedAt?: DateTimeFilter<"ReconciliationRun"> | Date | string
+  }
+
   export type AiChatSessionUpsertWithWhereUniqueWithoutTenantInput = {
     where: AiChatSessionWhereUniqueInput
     update: XOR<AiChatSessionUpdateWithoutTenantInput, AiChatSessionUncheckedUpdateWithoutTenantInput>
@@ -102306,6 +104322,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionCreateNestedManyWithoutTenantInput
     baseCurrency?: CurrencyCreateNestedOneWithoutBaseForTenantsInput
     defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
@@ -102357,6 +104374,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunUncheckedCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     financialSetting?: FinancialSettingUncheckedCreateNestedOneWithoutTenantInput
@@ -102528,6 +104546,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUpdateManyWithoutTenantNestedInput
     baseCurrency?: CurrencyUpdateOneWithoutBaseForTenantsNestedInput
     defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
@@ -102579,6 +104598,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUncheckedUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     financialSetting?: FinancialSettingUncheckedUpdateOneWithoutTenantNestedInput
@@ -102658,6 +104678,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionCreateNestedManyWithoutTenantInput
     baseCurrency?: CurrencyCreateNestedOneWithoutBaseForTenantsInput
     defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
@@ -102709,6 +104730,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunUncheckedCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     financialSetting?: FinancialSettingUncheckedCreateNestedOneWithoutTenantInput
@@ -102794,6 +104816,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUpdateManyWithoutTenantNestedInput
     baseCurrency?: CurrencyUpdateOneWithoutBaseForTenantsNestedInput
     defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
@@ -102845,6 +104868,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUncheckedUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     financialSetting?: FinancialSettingUncheckedUpdateOneWithoutTenantNestedInput
@@ -102918,6 +104942,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionCreateNestedManyWithoutTenantInput
     baseCurrency?: CurrencyCreateNestedOneWithoutBaseForTenantsInput
     defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
@@ -102969,6 +104994,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunUncheckedCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     financialSetting?: FinancialSettingUncheckedCreateNestedOneWithoutTenantInput
@@ -103054,6 +105080,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUpdateManyWithoutTenantNestedInput
     baseCurrency?: CurrencyUpdateOneWithoutBaseForTenantsNestedInput
     defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
@@ -103105,6 +105132,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUncheckedUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     financialSetting?: FinancialSettingUncheckedUpdateOneWithoutTenantNestedInput
@@ -103292,6 +105320,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionCreateNestedManyWithoutTenantInput
     baseCurrency?: CurrencyCreateNestedOneWithoutBaseForTenantsInput
     defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
@@ -103343,6 +105372,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunUncheckedCreateNestedManyWithoutTenantInput
     aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
     settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
     financialSetting?: FinancialSettingUncheckedCreateNestedOneWithoutTenantInput
@@ -103612,6 +105642,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUpdateManyWithoutTenantNestedInput
     baseCurrency?: CurrencyUpdateOneWithoutBaseForTenantsNestedInput
     defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
@@ -103663,6 +105694,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUncheckedUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     financialSetting?: FinancialSettingUncheckedUpdateOneWithoutTenantNestedInput
@@ -106387,6 +108419,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUpdateManyWithoutTenantNestedInput
     defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
     settings?: TenantSettingUpdateManyWithoutTenantNestedInput
@@ -106437,6 +108470,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUncheckedUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     financialSetting?: FinancialSettingUncheckedUpdateOneWithoutTenantNestedInput
@@ -106668,6 +108702,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUpdateManyWithoutTenantNestedInput
     baseCurrency?: CurrencyUpdateOneWithoutBaseForTenantsNestedInput
     settings?: TenantSettingUpdateManyWithoutTenantNestedInput
@@ -106718,6 +108753,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUncheckedUpdateManyWithoutTenantNestedInput
     aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
     settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
     financialSetting?: FinancialSettingUncheckedUpdateOneWithoutTenantNestedInput
@@ -108772,6 +110808,19 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
+  export type ReconciliationRunCreateManyTenantInput = {
+    id?: string
+    trigger: string
+    passed: boolean
+    findingCount: number
+    findings: JsonNullValueInput | InputJsonValue
+    newFindings: JsonNullValueInput | InputJsonValue
+    report: JsonNullValueInput | InputJsonValue
+    correlationId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type AiChatSessionCreateManyTenantInput = {
     id?: string
     userId: string
@@ -109815,6 +111864,45 @@ export namespace Prisma {
     correlationId?: NullableStringFieldUpdateOperationsInput | string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ReconciliationRunUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    trigger?: StringFieldUpdateOperationsInput | string
+    passed?: BoolFieldUpdateOperationsInput | boolean
+    findingCount?: IntFieldUpdateOperationsInput | number
+    findings?: JsonNullValueInput | InputJsonValue
+    newFindings?: JsonNullValueInput | InputJsonValue
+    report?: JsonNullValueInput | InputJsonValue
+    correlationId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ReconciliationRunUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    trigger?: StringFieldUpdateOperationsInput | string
+    passed?: BoolFieldUpdateOperationsInput | boolean
+    findingCount?: IntFieldUpdateOperationsInput | number
+    findings?: JsonNullValueInput | InputJsonValue
+    newFindings?: JsonNullValueInput | InputJsonValue
+    report?: JsonNullValueInput | InputJsonValue
+    correlationId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ReconciliationRunUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    trigger?: StringFieldUpdateOperationsInput | string
+    passed?: BoolFieldUpdateOperationsInput | boolean
+    findingCount?: IntFieldUpdateOperationsInput | number
+    findings?: JsonNullValueInput | InputJsonValue
+    newFindings?: JsonNullValueInput | InputJsonValue
+    report?: JsonNullValueInput | InputJsonValue
+    correlationId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type AiChatSessionUpdateWithoutTenantInput = {

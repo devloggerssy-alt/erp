@@ -952,6 +952,33 @@ model Party {
   @@map("parties")
 }
 
+// ─── Reconciliation Run ───────────────────────────────────────────────────────
+/// Phase 7.5 — history of reconciliation runs. Each run stores its finding
+/// fingerprints so the next run can detect NEW or GROWN drift (drift-baselines.md).
+/// Append-only by convention: written once by ReconciliationMonitorService.
+model ReconciliationRun {
+  id            String   @id @default(uuid())
+  tenantId      String   @map("tenant_id")
+  /// SCHEDULED | MANUAL | BUSINESS_SETUP
+  trigger       String
+  passed        Boolean
+  findingCount  Int      @map("finding_count")
+  /// Record<fingerprint, |difference|> — see reconciliation-checks.ts
+  findings      Json
+  /// string[] — fingerprints new or grown vs the previous run
+  newFindings   Json     @map("new_findings")
+  /// Full ReconciliationResultDto at run time
+  report        Json
+  correlationId String?  @map("correlation_id")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId, createdAt])
+  @@map("reconciliation_runs")
+}
+
 datasource db {
   provider = "postgresql"
 }
@@ -1166,6 +1193,7 @@ model Tenant {
   journalEntries             JournalEntry[]
   stockCounts                StockCount[]
   auditLogs                  AuditLog[]
+  reconciliationRuns         ReconciliationRun[]
   aiChatSessions             AiChatSession[]
   baseCurrency               Currency?                   @relation("TenantBaseCurrency", fields: [baseCurrencyId], references: [id])
   defaultSalesSequence       DocumentSequence?           @relation("TenantDefaultSalesSequence", fields: [defaultSalesSequenceId], references: [id])
