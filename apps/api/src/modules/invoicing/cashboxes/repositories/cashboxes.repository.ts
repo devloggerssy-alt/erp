@@ -19,4 +19,9 @@ export class CashboxesRepository extends CrudRepository<Cashbox> {
         });
         return count > 0;
     }
+
+    /** journal_lines.cashbox_id is ON DELETE SET NULL: deleting the cashbox would silently detach them. */
+    async countLedgerReferences(tenantId: string, id: string): Promise<number> {
+        return this.prisma.journalLine.count({ where: { tenantId, cashboxId: id } });
+    }
 }

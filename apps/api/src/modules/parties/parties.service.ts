@@ -43,6 +43,14 @@ export class PartiesService extends CrudService<Party, PartyResponseDto, CreateP
         }
     }
 
+    protected override async beforeDelete(tenantId: string, id: string): Promise<void> {
+        if ((await this.partiesRepository.countLedgerReferences(tenantId, id)) > 0) {
+            throw new ConflictException(
+                'Cannot delete a party that has payments or journal entries. Deactivate it instead.',
+            );
+        }
+    }
+
     protected override async onDeleted(tenantId: string, entity: Party): Promise<void> {
         await Promise.all([
             this.prisma.tagAssignment.deleteMany({ where: { tenantId, entityType: 'parties', entityId: entity.id } }),

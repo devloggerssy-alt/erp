@@ -140,5 +140,26 @@ reports   ───► invoicing
 
 `src/app.module.ts` is the composition root and is exempt. **Adding an edge** means: export the symbol from the target's `index.ts`, add it to the table above, and add a probe case to `apps/api/scripts/check-architecture-rules.mjs`. **Adding a domain** folder fails `lint:architecture` until it has a `DOMAIN_RESTRICTIONS` entry.
 
+## Deletion semantics (per model)
+
+Rule: **financial documents and ledger rows are cancelled or reversed, never hard-deleted** (`.ai/rules/domain.md`). Enforced by service status guards (400), `StatusGuardedCrudRepository` (409 backstop), a `no-restricted-syntax` lint rule on raw Prisma deletes (reviewed allowlist in `apps/api/eslint.config.mjs`), and pinned by `*.delete-guard.spec.ts` / `payments.delete-http.spec.ts`.
+
+| Model | Policy | How |
+|---|---|---|
+| `Invoice` | cancel-only once POSTED; DRAFT deletable in service, **no HTTP route** | `POST /invoices/:id/cancel` reverses JE + stock |
+| `Payment` | cancel-only once POSTED; DRAFT hard delete (`DELETE /payments/:id`, bulk) | `POST /payments/:id/cancel`; `StatusGuardedCrudService` + `StatusGuardedCrudRepository` |
+| `Expense` | cancel-only once POSTED; DRAFT hard delete (`DELETE /expenses/:id`) | `POST /expenses/:id/cancel` reverses JE |
+| `JournalEntry`, `JournalLine` | never deleted | reversal entry via `AccountingPostingFacade.reverse` |
+| `StockMovement` | never deleted | compensating movement via `InventoryMovementFacade` |
+| `StockCount` | never deleted (no route); DRAFT stays draft | — |
+| `OpeningBalanceSession` | DRAFT hard delete; later statuses immutable | `assertMutable` |
+| `PaymentAllocation` | hard delete (link row, no GL effect) | `POST /payments/:id/allocations/:allocationId/remove` |
+| `ChartOfAccount` | **soft delete** (archive via `deletedAt`), refused if journal lines exist | `AccountsService.delete` |
+| `Party`, `Cashbox`, `BankAccount`, `Currency` | hard delete **only if no ledger rows reference it**, else 409 → set `isActive = false` | `beforeDelete` + `countLedgerReferences` — their ledger FKs are `ON DELETE SET NULL` |
+| Other master data (units, brands, items, warehouses, categories, tags, invoice types, …) | hard delete; FK `RESTRICT` violations map to 409 | `CrudRepository` + `mapPrismaError` — not audited row-by-row in Phase 5 |
+| Whole tenant | danger-zone reset of all transactional data | `DataResetService`, phrase-confirmed |
+
+Adding a deletable financial model: extend `StatusGuardedCrudRepository`, or add the delete site to the lint allowlist **with** a pinning test. Known debt: flip the `SET NULL` ledger FKs to `RESTRICT` in a migration.
+
 ## Reference
 `apps/api/src/modules/catalog/units/`

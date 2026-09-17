@@ -19,4 +19,9 @@ export class BankAccountsRepository extends CrudRepository<BankAccount> {
         });
         return count > 0;
     }
+
+    /** journal_lines.bank_account_id is ON DELETE SET NULL: deleting the bank account would silently detach them. */
+    async countLedgerReferences(tenantId: string, id: string): Promise<number> {
+        return this.prisma.journalLine.count({ where: { tenantId, bankAccountId: id } });
+    }
 }
