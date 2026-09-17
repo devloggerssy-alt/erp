@@ -9,6 +9,7 @@ import {
 } from '../../posting';
 import { OpeningCashService } from '../services/opening-cash.service';
 import { OpeningBankService } from '../services/opening-bank.service';
+import { AuditWriter } from '../../../audit/audit-writer.service';
 import { OpeningBalanceSessionsRepository } from './opening-balance-sessions.repository';
 import { OpeningBalanceSessionsPresenter } from './opening-balance-sessions.presenter';
 import {
@@ -36,6 +37,7 @@ export class OpeningBalanceSessionsService {
         private readonly postingFacade: AccountingPostingFacade,
         private readonly openingCash: OpeningCashService,
         private readonly openingBank: OpeningBankService,
+        private readonly audit: AuditWriter,
     ) {}
 
     async list(tenantId: string, options: { skip?: number; take?: number }): Promise<{
@@ -161,6 +163,16 @@ export class OpeningBalanceSessionsService {
                 where: { id },
                 data: { status: 'POSTED', postedAt: new Date(), postedBy: userId },
             });
+            await this.audit.recordInTx(tx, {
+                tenantId,
+                userId,
+                action: 'OPENING_SESSION_POST',
+                entityType: 'opening_balance_session',
+                entityId: id,
+                source: 'GL',
+                oldValues: { status: 'REVIEWED' },
+                newValues: { status: 'POSTED', number: session.number, lineCount: session.lines.length },
+            });
         });
 
         return this.findById(tenantId, id);
@@ -168,9 +180,21 @@ export class OpeningBalanceSessionsService {
 
     async lock(tenantId: string, id: string, userId: string): Promise<OpeningBalanceSessionResponseDto> {
         await this.getForTransition(tenantId, id, 'POSTED', 'lock');
-        await this.prisma.openingBalanceSession.update({
-            where: { id },
-            data: { status: 'LOCKED', lockedAt: new Date(), lockedBy: userId },
+        await this.prisma.$transaction(async (tx) => {
+            await tx.openingBalanceSession.update({
+                where: { id },
+                data: { status: 'LOCKED', lockedAt: new Date(), lockedBy: userId },
+            });
+            await this.audit.recordInTx(tx, {
+                tenantId,
+                userId,
+                action: 'OPENING_SESSION_LOCK',
+                entityType: 'opening_balance_session',
+                entityId: id,
+                source: 'GL',
+                oldValues: { status: 'POSTED' },
+                newValues: { status: 'LOCKED' },
+            });
         });
         return this.findById(tenantId, id);
     }
