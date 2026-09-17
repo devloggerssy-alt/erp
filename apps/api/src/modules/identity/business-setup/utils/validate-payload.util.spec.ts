@@ -29,7 +29,7 @@ describe('validateArrayAs', () => {
         const result = await validateArrayAs(FixtureDto, [{ code: 'A' }, { code: 'B' }]);
         expect(result).toHaveLength(2);
         expect(result[0]).toBeInstanceOf(FixtureDto);
-        expect(result[1].code).toBe('B');
+        expect(result[1]?.code).toBe('B');
     });
 
     it('rejects a non-array payload', async () => {
