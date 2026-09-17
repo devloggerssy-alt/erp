@@ -10,6 +10,7 @@ import { TenantsModule } from './modules/identity/tenants/tenants.module';
 import { SettingsModule } from './modules/identity/settings/settings.module';
 import { UsersModule } from './modules/identity/users/users.module';
 import { OnboardingModule } from './modules/identity/onboarding/onboarding.module';
+import { BusinessSetupModule } from './modules/identity/business-setup/business-setup.module';
 import { CatalogModule } from './modules/catalog/catalog.module';
 import { AccountingModule } from './modules/accounting/accounting.module';
 import { InventoryModule } from './modules/inventory/inventory.module';
@@ -44,6 +45,7 @@ import { envValidationSchema } from './config/envValidator';
     SettingsModule,
     UsersModule,
     OnboardingModule,
+    BusinessSetupModule,
     CatalogModule,
     CustomFieldsModule,
     AccountingModule,
