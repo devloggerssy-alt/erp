@@ -119,10 +119,10 @@ Each directory under `apps/api/src/modules/` is a domain. **Outside a domain, im
 
 | Domain | Public entry point(s) | Exposes |
 |---|---|---|
-| `accounting` | `accounting/posting`, `accounting/document-sequences`, `accounting/financial-settings`, `accounting/fiscal-periods`, `accounting/accounts/utils` | `AccountingPostingFacade` + `PostingIntent` types; numbering; tenant setup config; period/slot guards |
+| `accounting` | `accounting/posting`, `accounting/document-sequences`, `accounting/financial-settings`, `accounting/fiscal-periods`, `accounting/currencies`, `accounting/opening-balances`, `accounting/reconciliation`, `accounting/accounts/utils`, `accounting/accounts/bootstrap` | `AccountingPostingFacade` + `PostingIntent` types; numbering; tenant setup config; currencies; opening-balance subledger services; reconciliation monitor; period/slot guards; CoA bootstrap |
 | `identity` | `identity/auth/guards`, `identity/auth/decorators` | `JwtAuthGuard`, `@CurrentUser` (shared kernel) |
 | `inventory` | `inventory` | `InventoryModule`, `InventoryService`, `InventoryMovementFacade` + `MovementIntent` types |
-| `invoicing` | `invoicing` | `computeInvoicePaidState` |
+| `invoicing` | `invoicing` | `computeInvoicePaidState`, `CashboxesModule`/`CashboxesService`/`CreateCashboxDto`, `BankAccountsModule`/`BankAccountsService`/`CreateBankAccountDto` |
 | `custom-fields` | `custom-fields` | `CustomFieldsModule`, `CustomFieldValuesService`, `CustomFieldsRepository` |
 | `catalog`, `parties`, `reports`, `files`, `audit`, `ai-chat` | — (no consumers yet) | add an `index.ts` before another domain depends on it |
 
@@ -135,6 +135,8 @@ inventory ───► accounting (posting, document-sequences, accounts/utils)
 catalog   ─┬─► inventory
            └─► custom-fields
 identity  ───► accounting (document-sequences, financial-settings, fiscal-periods)   # onboarding
+identity  ───► accounting (currencies, opening-balances, reconciliation, accounts/bootstrap)
+identity  ───► invoicing (CashboxesModule/Service, BankAccountsModule/Service)   # business-setup
 reports   ───► invoicing
 ```
 

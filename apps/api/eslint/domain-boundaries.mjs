@@ -70,6 +70,12 @@ export const DOMAIN_RESTRICTIONS = {
             '!**/accounting/financial-settings/**',
             '!**/accounting/fiscal-periods',
             '!**/accounting/fiscal-periods/**',
+            '!**/accounting/currencies',
+            '!**/accounting/currencies/**',
+            '!**/accounting/opening-balances',
+            '!**/accounting/opening-balances/**',
+            '!**/accounting/reconciliation',
+            '!**/accounting/reconciliation/**',
             '!**/accounting/accounts',
             '!**/accounting/accounts/**',
             '**/accounting/accounts/accounts.module',
@@ -88,9 +94,11 @@ export const DOMAIN_RESTRICTIONS = {
         ],
         message:
             'Import GL account-resolution / journal-posting internals only via the ' +
-            'accounting/posting barrel (AccountingPostingFacade + PostingIntent types). ' +
-            'accounting/accounts/services (JournalPostingService, OpeningBalancesService, ' +
-            'AccountsService, ...) is GL-internal as of Phase 1.',
+            'accounting/posting barrel (AccountingPostingFacade + PostingIntent types), or ' +
+            'accounting/accounts/utils / accounting/accounts/bootstrap for narrow non-GL helpers. ' +
+            'accounting/accounts/services (JournalPostingService, AccountsService, ...) is GL-internal as of Phase 1. ' +
+            'currencies, opening-balances, reconciliation, document-sequences, financial-settings and ' +
+            'fiscal-periods are plain feature modules, not GL-policy internals, and are fully open (Phase 6).',
     },
     // Shared kernel: every controller needs JwtAuthGuard and @CurrentUser.
     // Everything else in identity (users, tenants, settings, onboarding) is internal.
@@ -112,7 +120,7 @@ export const DOMAIN_RESTRICTIONS = {
             'Users, tenants, settings and onboarding are identity internals. See .ai/rules/api.md § Domain boundaries.',
     },
     inventory: barrelOnly('inventory', 'InventoryModule, InventoryService, InventoryMovementFacade + MovementIntent types'),
-    invoicing: barrelOnly('invoicing', 'computeInvoicePaidState'),
+    invoicing: barrelOnly('invoicing', 'computeInvoicePaidState, CashboxesModule/Service, BankAccountsModule/Service, CreateCashboxDto, CreateBankAccountDto'),
     'custom-fields': barrelOnly('custom-fields', 'CustomFieldsModule, CustomFieldValuesService, CustomFieldsRepository'),
     catalog: barrelOnly('catalog', 'nothing yet — add an index.ts before depending on catalog'),
     parties: barrelOnly('parties', 'nothing yet — add an index.ts before depending on parties'),

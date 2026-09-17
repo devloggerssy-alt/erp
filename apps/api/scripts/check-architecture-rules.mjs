@@ -55,6 +55,7 @@ function deleteCase(file, call, expect) {
 
 const INVOICE_POSTING = 'src/modules/invoicing/invoices/invoice-posting.service.ts';
 const ONBOARDING = 'src/modules/identity/onboarding/services/onboarding.service.ts';
+const BUSINESS_SETUP_ORCHESTRATOR = 'src/modules/identity/business-setup/services/business-setup-orchestrator.service.ts';
 const POSTING_FACADE = 'src/modules/accounting/posting/accounting-posting.facade.ts';
 const ITEMS_SERVICE = 'src/modules/catalog/items/services/items.service.ts';
 const REPORTS_SERVICE = 'src/modules/reports/reports.service.ts';
@@ -75,6 +76,12 @@ const CASES = [
     importCase(ONBOARDING, '../../../accounting/fiscal-periods/services/fiscal-periods.service', 'clean'),
     importCase(ONBOARDING, '../../../accounting/financial-settings/financial-settings.module', 'clean'),
     importCase(ONBOARDING, '@/modules/accounting/accounts/services/journal-posting.service', 'error'),
+    importCase(BUSINESS_SETUP_ORCHESTRATOR, '../../../accounting/currencies', 'clean'),
+    importCase(BUSINESS_SETUP_ORCHESTRATOR, '../../../accounting/opening-balances', 'clean'),
+    importCase(BUSINESS_SETUP_ORCHESTRATOR, '../../../accounting/reconciliation', 'clean'),
+    importCase(BUSINESS_SETUP_ORCHESTRATOR, '../../../invoicing', 'clean'),
+    importCase(BUSINESS_SETUP_ORCHESTRATOR, '../../../invoicing/cashboxes/services/cashboxes.service', 'error'),
+    importCase(BUSINESS_SETUP_ORCHESTRATOR, '@/modules/accounting/accounts/services/accounts.service', 'error'),
     // A domain may deep-import itself.
     importCase(POSTING_FACADE, '../accounts/services/journal-posting.service', 'clean'),
     // ── Phase 5.2: every domain is reachable only through its public entry point ──
