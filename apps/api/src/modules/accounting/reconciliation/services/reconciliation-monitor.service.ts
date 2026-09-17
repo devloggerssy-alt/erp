@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import type { Prisma } from '@devloggers/db-prisma';
-import { AuditWriter, SYSTEM_USER_ID } from '../../../audit/audit-writer.service';
+import { AuditWriter, SYSTEM_USER_ID } from '../../../audit';
 import { RequestContext } from '../../../../common/request-context/request-context';
 import { ReconciliationRunsRepository } from '../repositories/reconciliation-runs.repository';
 import { BusinessSetupReconciliationService } from './business-setup-reconciliation.service';

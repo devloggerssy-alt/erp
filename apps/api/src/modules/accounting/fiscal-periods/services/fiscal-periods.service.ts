@@ -6,7 +6,7 @@ import type { FiscalPeriod } from '@devloggers/db-prisma';
 import { FiscalPeriodsRepository } from '../repositories/fiscal-periods.repository';
 import { FiscalPeriodPresenter } from '../presenters/fiscal-period.presenter';
 import { CreateFiscalPeriodDto, UpdateFiscalPeriodDto, FiscalPeriodResponseDto } from '../dto';
-import { AuditWriter, SYSTEM_USER_ID } from '../../../audit/audit-writer.service';
+import { AuditWriter, SYSTEM_USER_ID } from '../../../audit';
 import { RequestContext } from '../../../../common/request-context/request-context';
 
 @Injectable()

@@ -9,7 +9,7 @@ import {
 } from '../../posting';
 import { OpeningCashService } from '../services/opening-cash.service';
 import { OpeningBankService } from '../services/opening-bank.service';
-import { AuditWriter } from '../../../audit/audit-writer.service';
+import { AuditWriter } from '../../../audit';
 import { OpeningBalanceSessionsRepository } from './opening-balance-sessions.repository';
 import { OpeningBalanceSessionsPresenter } from './opening-balance-sessions.presenter';
 import {

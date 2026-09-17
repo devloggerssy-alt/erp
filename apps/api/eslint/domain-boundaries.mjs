@@ -118,7 +118,7 @@ export const DOMAIN_RESTRICTIONS = {
     parties: barrelOnly('parties', 'nothing yet — add an index.ts before depending on parties'),
     reports: barrelOnly('reports', 'nothing yet — reports is a leaf'),
     files: barrelOnly('files', 'nothing yet — add an index.ts before depending on files'),
-    audit: barrelOnly('audit', 'nothing yet — add an index.ts before depending on audit'),
+    audit: barrelOnly('audit', 'AuditWriter (record/recordInTx) + SYSTEM_USER_ID'),
     'ai-chat': barrelOnly('ai-chat', 'nothing yet — ai-chat is a leaf'),
 };
 

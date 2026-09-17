@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { JournalPostingService } from '../accounts/services/journal-posting.service';
 import { DocumentSequencesService } from '../document-sequences/services/document-sequences.service';
 import { assertFiscalPeriodOpen } from '../accounts/utils/assert-period-open';
-import { AuditWriter } from '../../audit/audit-writer.service';
+import { AuditWriter } from '../../audit';
 import { PostingPolicyRegistry } from './posting-policy.registry';
 import type { PostingRecordIntent, PostingCancellationIntent } from './contracts/posting-intent';
 import type { PrismaTransactionClient } from './contracts/prisma-tx';

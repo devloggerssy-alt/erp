@@ -3,7 +3,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Cron } from '@nestjs/schedule';
 import { RequestContext } from '../../../../common/request-context/request-context';
-import { SYSTEM_USER_ID } from '../../../audit/audit-writer.service';
+import { SYSTEM_USER_ID } from '../../../audit';
 import { ReconciliationRunsRepository } from '../repositories/reconciliation-runs.repository';
 import { ReconciliationMonitorService } from './reconciliation-monitor.service';
 
