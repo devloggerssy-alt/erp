@@ -544,74 +544,6 @@ export interface paths {
         patch: operations["FinancialSettings.upsert"];
         trace?: never;
     };
-    "/business-setup/state": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Current persisted setup-task state, with discovery-only tasks re-derived from existing data */
-        get: operations["BusinessSetup.getState"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/business-setup/plan": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Preview the task graph for the tenant's saved (or default) profile — does not persist */
-        get: operations["BusinessSetup.getPlan"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/business-setup/profile": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Declare which modules this tenant uses and (re)generate the persisted setup-task plan */
-        post: operations["BusinessSetup.setProfile"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/business-setup/tasks/{type}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        /** Execute a READY setup task — body shape depends on the task type; see the spec's 6.3 handler table */
-        patch: operations["BusinessSetup.executeTask"];
-        trace?: never;
-    };
     "/currencies": {
         parameters: {
             query?: never;
@@ -826,6 +758,74 @@ export interface paths {
         options?: never;
         head?: never;
         patch?: never;
+        trace?: never;
+    };
+    "/business-setup/state": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Current persisted setup-task state, with discovery-only tasks re-derived from existing data */
+        get: operations["BusinessSetup.getState"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/business-setup/plan": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Preview the task graph for the tenant's saved (or default) profile — does not persist */
+        get: operations["BusinessSetup.getPlan"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/business-setup/profile": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Declare which modules this tenant uses and (re)generate the persisted setup-task plan */
+        post: operations["BusinessSetup.setProfile"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/business-setup/tasks/{type}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Execute a READY setup task — body shape depends on the task type; see the spec's 6.3 handler table */
+        patch: operations["BusinessSetup.executeTask"];
         trace?: never;
     };
     "/accounting/opening-balance-sessions": {
@@ -2580,7 +2580,7 @@ export interface components {
              *     ]
              */
             enumValues?: string[];
-            /** @example auth|tenants|users|roles|currencies|fiscal-periods|document-sequences|units|item-categories|items|custom-fields|parties|warehouses|inventory|stock-ledger|invoice-types|invoices|cashboxes|payments|expenses|accounting|chart-of-accounts|stock-counts|reports|dashboard|ai|audit-logs|tags|tag-assignments|item-relations|catalog-entities|item-catalog-entities|brands|bank-accounts|financial-settings|account-opening-balances|opening-balance-sessions */
+            /** @example auth|tenants|users|roles|currencies|fiscal-periods|document-sequences|units|item-categories|items|custom-fields|parties|warehouses|inventory|stock-ledger|invoice-types|invoices|cashboxes|payments|expenses|accounting|chart-of-accounts|stock-counts|reports|dashboard|ai|audit-logs|tags|tag-assignments|item-relations|catalog-entities|item-catalog-entities|brands|bank-accounts|financial-settings|account-opening-balances|opening-balance-sessions|business-setup */
             foreignResourceKey?: string;
         };
         ApiMetaDto: {
@@ -3373,12 +3373,33 @@ export interface components {
              */
             defaultPayableAccountId: string;
         };
+        CreateCurrencyDto: {
+            /**
+             * @description ISO 4217 currency code
+             * @default
+             * @example SYP
+             */
+            code: string;
+            /**
+             * @default {
+             *       "ar": ""
+             *     }
+             */
+            name: components["schemas"]["LocalizedStringDto"];
+            /** @description Currency symbol for display */
+            symbol?: components["schemas"]["LocalizedStringDto"];
+            /**
+             * @description Whether this is the base (local) currency
+             * @example true
+             */
+            isBase?: boolean;
+        };
         OnboardingCurrenciesStepDto: {
             /**
-             * @description Code-to-ID map from chart of accounts bootstrap
-             * @default {}
+             * @description ADR-6: caller-supplied currency list — no hardcoded codes
+             * @default []
              */
-            codeToId: Record<string, never>;
+            currencies: components["schemas"]["CreateCurrencyDto"][];
         };
         OnboardingSequenceItemDto: {
             /**
@@ -3718,92 +3739,6 @@ export interface components {
              */
             defaultBankAccountId?: string | null;
         };
-        /** @enum {string} */
-        SetupTaskType: "CURRENCIES" | "FISCAL_PERIOD" | "CHART_OF_ACCOUNTS" | "FINANCIAL_MAPPINGS" | "DOCUMENT_SEQUENCES" | "CASHBOXES" | "BANK_ACCOUNTS" | "WAREHOUSES" | "PRODUCTS" | "CUSTOMERS" | "SUPPLIERS" | "OPENING_CASH_BALANCES" | "OPENING_BANK_BALANCES" | "OPENING_RECEIVABLES" | "OPENING_PAYABLES" | "OPENING_INVENTORY" | "RECONCILIATION";
-        /** @enum {string} */
-        SetupTaskStatus: "BLOCKED" | "READY" | "COMPLETED" | "SKIPPED";
-        SetupTaskResponseDto: {
-            /**
-             * @default
-             * @example 00000000-0000-4000-e100-000000000001
-             */
-            id: string;
-            /** @default CURRENCIES */
-            type: components["schemas"]["SetupTaskType"];
-            /** @default BLOCKED */
-            status: components["schemas"]["SetupTaskStatus"];
-            /**
-             * @default true
-             * @example true
-             */
-            required: boolean;
-            /** @default [] */
-            dependencies: components["schemas"]["SetupTaskType"][];
-            /** @default null */
-            metadata: {
-                [key: string]: unknown;
-            } | null;
-            /** @default null */
-            progress: {
-                [key: string]: unknown;
-            } | null;
-            /**
-             * @default null
-             * @example 2026-01-01T00:00:00.000Z
-             */
-            completedAt: string | null;
-            /**
-             * @default
-             * @example 2026-01-01T00:00:00.000Z
-             */
-            createdAt: string;
-            /**
-             * @default
-             * @example 2026-01-01T00:00:00.000Z
-             */
-            updatedAt: string;
-        };
-        BusinessSetupStateResponseDto: {
-            /** @default [] */
-            tasks: components["schemas"]["SetupTaskResponseDto"][];
-            /** @default null */
-            profile: {
-                [key: string]: unknown;
-            } | null;
-            /**
-             * @default null
-             * @example 2026-01-01T00:00:00.000Z
-             */
-            businessSetupCompletedAt: string | null;
-        };
-        SetupTaskPlanItemResponseDto: {
-            /** @default CURRENCIES */
-            type: components["schemas"]["SetupTaskType"];
-            /**
-             * @default true
-             * @example true
-             */
-            required: boolean;
-            /** @default [] */
-            dependencies: components["schemas"]["SetupTaskType"][];
-        };
-        BusinessSetupPlanResponseDto: {
-            /** @default [] */
-            tasks: components["schemas"]["SetupTaskPlanItemResponseDto"][];
-        };
-        BusinessSetupModulesDto: {
-            /** @example true */
-            inventory: boolean;
-            /** @example true */
-            sales: boolean;
-            /** @example true */
-            purchasing: boolean;
-            /** @example true */
-            accounting: boolean;
-        };
-        SetBusinessSetupProfileDto: {
-            modules: components["schemas"]["BusinessSetupModulesDto"];
-        };
         CurrencyResponseDto: {
             /**
              * @default
@@ -3853,27 +3788,6 @@ export interface components {
              * @example 2025-01-01T00:00:00.000Z
              */
             updatedAt: string;
-        };
-        CreateCurrencyDto: {
-            /**
-             * @description ISO 4217 currency code
-             * @default
-             * @example SYP
-             */
-            code: string;
-            /**
-             * @default {
-             *       "ar": ""
-             *     }
-             */
-            name: components["schemas"]["LocalizedStringDto"];
-            /** @description Currency symbol for display */
-            symbol?: components["schemas"]["LocalizedStringDto"];
-            /**
-             * @description Whether this is the base (local) currency
-             * @example true
-             */
-            isBase?: boolean;
         };
         UpdateCurrencyDto: {
             name?: components["schemas"]["LocalizedStringDto"];
@@ -4095,6 +4009,92 @@ export interface components {
             fiscalPeriodId: string;
             /** @default [] */
             entries: components["schemas"]["AccountOpeningBalanceEntryDto"][];
+        };
+        /** @enum {string} */
+        SetupTaskType: "CURRENCIES" | "FISCAL_PERIOD" | "CHART_OF_ACCOUNTS" | "FINANCIAL_MAPPINGS" | "DOCUMENT_SEQUENCES" | "CASHBOXES" | "BANK_ACCOUNTS" | "WAREHOUSES" | "PRODUCTS" | "CUSTOMERS" | "SUPPLIERS" | "OPENING_CASH_BALANCES" | "OPENING_BANK_BALANCES" | "OPENING_RECEIVABLES" | "OPENING_PAYABLES" | "OPENING_INVENTORY" | "RECONCILIATION";
+        /** @enum {string} */
+        SetupTaskStatus: "BLOCKED" | "READY" | "COMPLETED" | "SKIPPED";
+        SetupTaskResponseDto: {
+            /**
+             * @default
+             * @example 00000000-0000-4000-e100-000000000001
+             */
+            id: string;
+            /** @default CURRENCIES */
+            type: components["schemas"]["SetupTaskType"];
+            /** @default BLOCKED */
+            status: components["schemas"]["SetupTaskStatus"];
+            /**
+             * @default true
+             * @example true
+             */
+            required: boolean;
+            /** @default [] */
+            dependencies: components["schemas"]["SetupTaskType"][];
+            /** @default null */
+            metadata: {
+                [key: string]: unknown;
+            } | null;
+            /** @default null */
+            progress: {
+                [key: string]: unknown;
+            } | null;
+            /**
+             * @default null
+             * @example 2026-01-01T00:00:00.000Z
+             */
+            completedAt: string | null;
+            /**
+             * @default
+             * @example 2026-01-01T00:00:00.000Z
+             */
+            createdAt: string;
+            /**
+             * @default
+             * @example 2026-01-01T00:00:00.000Z
+             */
+            updatedAt: string;
+        };
+        BusinessSetupStateResponseDto: {
+            /** @default [] */
+            tasks: components["schemas"]["SetupTaskResponseDto"][];
+            /** @default null */
+            profile: {
+                [key: string]: unknown;
+            } | null;
+            /**
+             * @default null
+             * @example 2026-01-01T00:00:00.000Z
+             */
+            businessSetupCompletedAt: string | null;
+        };
+        SetupTaskPlanItemResponseDto: {
+            /** @default CURRENCIES */
+            type: components["schemas"]["SetupTaskType"];
+            /**
+             * @default true
+             * @example true
+             */
+            required: boolean;
+            /** @default [] */
+            dependencies: components["schemas"]["SetupTaskType"][];
+        };
+        BusinessSetupPlanResponseDto: {
+            /** @default [] */
+            tasks: components["schemas"]["SetupTaskPlanItemResponseDto"][];
+        };
+        BusinessSetupModulesDto: {
+            /** @example true */
+            inventory: boolean;
+            /** @example true */
+            sales: boolean;
+            /** @example true */
+            purchasing: boolean;
+            /** @example true */
+            accounting: boolean;
+        };
+        SetBusinessSetupProfileDto: {
+            modules: components["schemas"]["BusinessSetupModulesDto"];
         };
         /** @enum {string} */
         OpeningBalanceSessionStatus: "DRAFT" | "VALIDATED" | "REVIEWED" | "POSTED" | "LOCKED";
@@ -9180,94 +9180,6 @@ export interface operations {
             };
         };
     };
-    "BusinessSetup.getState": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["BusinessSetupStateResponseDto"];
-                };
-            };
-        };
-    };
-    "BusinessSetup.getPlan": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["BusinessSetupPlanResponseDto"];
-                };
-            };
-        };
-    };
-    "BusinessSetup.setProfile": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["SetBusinessSetupProfileDto"];
-            };
-        };
-        responses: {
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["BusinessSetupStateResponseDto"];
-                };
-            };
-        };
-    };
-    "BusinessSetup.executeTask": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description Setup task type to execute */
-                type: components["schemas"]["SetupTaskType"];
-            };
-            cookie?: never;
-        };
-        /** @description Task-type-specific payload: an array for batch-create tasks, a single object for FISCAL_PERIOD/FINANCIAL_MAPPINGS, absent for CHART_OF_ACCOUNTS/RECONCILIATION */
-        requestBody: {
-            content: {
-                "application/json": unknown[] | Record<string, never>;
-            };
-        };
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["SetupTaskResponseDto"];
-                };
-            };
-        };
-    };
     "Currencies.list": {
         parameters: {
             query?: {
@@ -10492,6 +10404,94 @@ export interface operations {
                 };
                 content: {
                     "application/json": unknown;
+                };
+            };
+        };
+    };
+    "BusinessSetup.getState": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BusinessSetupStateResponseDto"];
+                };
+            };
+        };
+    };
+    "BusinessSetup.getPlan": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BusinessSetupPlanResponseDto"];
+                };
+            };
+        };
+    };
+    "BusinessSetup.setProfile": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SetBusinessSetupProfileDto"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BusinessSetupStateResponseDto"];
+                };
+            };
+        };
+    };
+    "BusinessSetup.executeTask": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Setup task type to execute */
+                type: components["schemas"]["SetupTaskType"];
+            };
+            cookie?: never;
+        };
+        /** @description Task-type-specific payload: an array for batch-create tasks, a single object for FISCAL_PERIOD/FINANCIAL_MAPPINGS, absent for CHART_OF_ACCOUNTS/RECONCILIATION */
+        requestBody: {
+            content: {
+                "application/json": unknown[] | Record<string, never>;
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SetupTaskResponseDto"];
                 };
             };
         };

@@ -3373,102 +3373,6 @@ paths:
       summary: Save (upsert) financial GL account settings
       tags:
         - Settings / Financial
-  /business-setup/state:
-    get:
-      operationId: BusinessSetup.getState
-      parameters: []
-      responses:
-        '200':
-          description: ''
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BusinessSetupStateResponseDto'
-      security:
-        - JWT-auth: []
-      summary: >-
-        Current persisted setup-task state, with discovery-only tasks re-derived
-        from existing data
-      tags:
-        - Identity / Business Setup
-  /business-setup/plan:
-    get:
-      operationId: BusinessSetup.getPlan
-      parameters: []
-      responses:
-        '200':
-          description: ''
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BusinessSetupPlanResponseDto'
-      security:
-        - JWT-auth: []
-      summary: >-
-        Preview the task graph for the tenant's saved (or default) profile —
-        does not persist
-      tags:
-        - Identity / Business Setup
-  /business-setup/profile:
-    post:
-      operationId: BusinessSetup.setProfile
-      parameters: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/SetBusinessSetupProfileDto'
-      responses:
-        '201':
-          description: ''
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BusinessSetupStateResponseDto'
-      security:
-        - JWT-auth: []
-      summary: >-
-        Declare which modules this tenant uses and (re)generate the persisted
-        setup-task plan
-      tags:
-        - Identity / Business Setup
-  /business-setup/tasks/{type}:
-    patch:
-      operationId: BusinessSetup.executeTask
-      parameters:
-        - name: type
-          required: true
-          in: path
-          description: Setup task type to execute
-          schema:
-            $ref: '#/components/schemas/SetupTaskType'
-      requestBody:
-        required: true
-        description: >-
-          Task-type-specific payload: an array for batch-create tasks, a single
-          object for FISCAL_PERIOD/FINANCIAL_MAPPINGS, absent for
-          CHART_OF_ACCOUNTS/RECONCILIATION
-        content:
-          application/json:
-            schema:
-              oneOf:
-                - type: array
-                - type: object
-      responses:
-        '200':
-          description: ''
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SetupTaskResponseDto'
-      security:
-        - JWT-auth: []
-      summary: >-
-        Execute a READY setup task — body shape depends on the task type; see
-        the spec's 6.3 handler table
-      tags:
-        - Identity / Business Setup
   /currencies:
     get:
       operationId: Currencies.list
@@ -5085,6 +4989,102 @@ paths:
       summary: Post opening balances for chart of accounts
       tags:
         - Accounting / Opening Balances
+  /business-setup/state:
+    get:
+      operationId: BusinessSetup.getState
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BusinessSetupStateResponseDto'
+      security:
+        - JWT-auth: []
+      summary: >-
+        Current persisted setup-task state, with discovery-only tasks re-derived
+        from existing data
+      tags:
+        - Identity / Business Setup
+  /business-setup/plan:
+    get:
+      operationId: BusinessSetup.getPlan
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BusinessSetupPlanResponseDto'
+      security:
+        - JWT-auth: []
+      summary: >-
+        Preview the task graph for the tenant's saved (or default) profile —
+        does not persist
+      tags:
+        - Identity / Business Setup
+  /business-setup/profile:
+    post:
+      operationId: BusinessSetup.setProfile
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetBusinessSetupProfileDto'
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BusinessSetupStateResponseDto'
+      security:
+        - JWT-auth: []
+      summary: >-
+        Declare which modules this tenant uses and (re)generate the persisted
+        setup-task plan
+      tags:
+        - Identity / Business Setup
+  /business-setup/tasks/{type}:
+    patch:
+      operationId: BusinessSetup.executeTask
+      parameters:
+        - name: type
+          required: true
+          in: path
+          description: Setup task type to execute
+          schema:
+            $ref: '#/components/schemas/SetupTaskType'
+      requestBody:
+        required: true
+        description: >-
+          Task-type-specific payload: an array for batch-create tasks, a single
+          object for FISCAL_PERIOD/FINANCIAL_MAPPINGS, absent for
+          CHART_OF_ACCOUNTS/RECONCILIATION
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - type: array
+                - type: object
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SetupTaskResponseDto'
+      security:
+        - JWT-auth: []
+      summary: >-
+        Execute a READY setup task — body shape depends on the task type; see
+        the spec's 6.3 handler table
+      tags:
+        - Identity / Business Setup
   /accounting/opening-balance-sessions:
     post:
       operationId: OpeningBalanceSessions.create
@@ -20440,7 +20440,7 @@ components:
         foreignResourceKey:
           type: string
           example: >-
-            auth|tenants|users|roles|currencies|fiscal-periods|document-sequences|units|item-categories|items|custom-fields|parties|warehouses|inventory|stock-ledger|invoice-types|invoices|cashboxes|payments|expenses|accounting|chart-of-accounts|stock-counts|reports|dashboard|ai|audit-logs|tags|tag-assignments|item-relations|catalog-entities|item-catalog-entities|brands|bank-accounts|financial-settings|account-opening-balances|opening-balance-sessions
+            auth|tenants|users|roles|currencies|fiscal-periods|document-sequences|units|item-categories|items|custom-fields|parties|warehouses|inventory|stock-ledger|invoice-types|invoices|cashboxes|payments|expenses|accounting|chart-of-accounts|stock-counts|reports|dashboard|ai|audit-logs|tags|tag-assignments|item-relations|catalog-entities|item-catalog-entities|brands|bank-accounts|financial-settings|account-opening-balances|opening-balance-sessions|business-setup
       required:
         - field
         - type
@@ -21415,15 +21415,41 @@ components:
         - defaultTaxAccountId
         - defaultReceivableAccountId
         - defaultPayableAccountId
+    CreateCurrencyDto:
+      type: object
+      properties:
+        code:
+          type: string
+          default: ''
+          example: SYP
+          description: ISO 4217 currency code
+        name:
+          default:
+            ar: ''
+          allOf:
+            - $ref: '#/components/schemas/LocalizedStringDto'
+        symbol:
+          description: Currency symbol for display
+          allOf:
+            - $ref: '#/components/schemas/LocalizedStringDto'
+        isBase:
+          type: boolean
+          example: true
+          description: Whether this is the base (local) currency
+      required:
+        - code
+        - name
     OnboardingCurrenciesStepDto:
       type: object
       properties:
-        codeToId:
-          type: object
-          default: {}
-          description: Code-to-ID map from chart of accounts bootstrap
+        currencies:
+          default: []
+          description: 'ADR-6: caller-supplied currency list — no hardcoded codes'
+          type: array
+          items:
+            $ref: '#/components/schemas/CreateCurrencyDto'
       required:
-        - codeToId
+        - currencies
     OnboardingSequenceItemDto:
       type: object
       properties:
@@ -21815,165 +21841,6 @@ components:
           nullable: true
           example: 00000000-0000-4000-a602-000000000024
           description: Default Bank control account (shared; subledger via bankAccountId)
-    SetupTaskType:
-      type: string
-      enum:
-        - CURRENCIES
-        - FISCAL_PERIOD
-        - CHART_OF_ACCOUNTS
-        - FINANCIAL_MAPPINGS
-        - DOCUMENT_SEQUENCES
-        - CASHBOXES
-        - BANK_ACCOUNTS
-        - WAREHOUSES
-        - PRODUCTS
-        - CUSTOMERS
-        - SUPPLIERS
-        - OPENING_CASH_BALANCES
-        - OPENING_BANK_BALANCES
-        - OPENING_RECEIVABLES
-        - OPENING_PAYABLES
-        - OPENING_INVENTORY
-        - RECONCILIATION
-    SetupTaskStatus:
-      type: string
-      enum:
-        - BLOCKED
-        - READY
-        - COMPLETED
-        - SKIPPED
-    SetupTaskResponseDto:
-      type: object
-      properties:
-        id:
-          type: string
-          default: ''
-          example: 00000000-0000-4000-e100-000000000001
-        type:
-          default: CURRENCIES
-          allOf:
-            - $ref: '#/components/schemas/SetupTaskType'
-        status:
-          default: BLOCKED
-          allOf:
-            - $ref: '#/components/schemas/SetupTaskStatus'
-        required:
-          type: boolean
-          default: true
-          example: true
-        dependencies:
-          type: array
-          default: []
-          items:
-            $ref: '#/components/schemas/SetupTaskType'
-        metadata:
-          type: object
-          nullable: true
-          default: null
-          additionalProperties: true
-        progress:
-          type: object
-          nullable: true
-          default: null
-          additionalProperties: true
-        completedAt:
-          type: string
-          nullable: true
-          default: null
-          example: '2026-01-01T00:00:00.000Z'
-        createdAt:
-          type: string
-          default: ''
-          example: '2026-01-01T00:00:00.000Z'
-        updatedAt:
-          type: string
-          default: ''
-          example: '2026-01-01T00:00:00.000Z'
-      required:
-        - id
-        - type
-        - status
-        - required
-        - dependencies
-        - createdAt
-        - updatedAt
-    BusinessSetupStateResponseDto:
-      type: object
-      properties:
-        tasks:
-          default: []
-          type: array
-          items:
-            $ref: '#/components/schemas/SetupTaskResponseDto'
-        profile:
-          type: object
-          nullable: true
-          default: null
-          additionalProperties: true
-        businessSetupCompletedAt:
-          type: string
-          nullable: true
-          default: null
-          example: '2026-01-01T00:00:00.000Z'
-      required:
-        - tasks
-    SetupTaskPlanItemResponseDto:
-      type: object
-      properties:
-        type:
-          default: CURRENCIES
-          allOf:
-            - $ref: '#/components/schemas/SetupTaskType'
-        required:
-          type: boolean
-          default: true
-          example: true
-        dependencies:
-          type: array
-          default: []
-          items:
-            $ref: '#/components/schemas/SetupTaskType'
-      required:
-        - type
-        - required
-        - dependencies
-    BusinessSetupPlanResponseDto:
-      type: object
-      properties:
-        tasks:
-          default: []
-          type: array
-          items:
-            $ref: '#/components/schemas/SetupTaskPlanItemResponseDto'
-      required:
-        - tasks
-    BusinessSetupModulesDto:
-      type: object
-      properties:
-        inventory:
-          type: boolean
-          example: true
-        sales:
-          type: boolean
-          example: true
-        purchasing:
-          type: boolean
-          example: true
-        accounting:
-          type: boolean
-          example: true
-      required:
-        - inventory
-        - sales
-        - purchasing
-        - accounting
-    SetBusinessSetupProfileDto:
-      type: object
-      properties:
-        modules:
-          $ref: '#/components/schemas/BusinessSetupModulesDto'
-      required:
-        - modules
     CurrencyResponseDto:
       type: object
       properties:
@@ -22030,30 +21897,6 @@ components:
         - isActive
         - createdAt
         - updatedAt
-    CreateCurrencyDto:
-      type: object
-      properties:
-        code:
-          type: string
-          default: ''
-          example: SYP
-          description: ISO 4217 currency code
-        name:
-          default:
-            ar: ''
-          allOf:
-            - $ref: '#/components/schemas/LocalizedStringDto'
-        symbol:
-          description: Currency symbol for display
-          allOf:
-            - $ref: '#/components/schemas/LocalizedStringDto'
-        isBase:
-          type: boolean
-          example: true
-          description: Whether this is the base (local) currency
-      required:
-        - code
-        - name
     UpdateCurrencyDto:
       type: object
       properties:
@@ -22323,6 +22166,165 @@ components:
       required:
         - fiscalPeriodId
         - entries
+    SetupTaskType:
+      type: string
+      enum:
+        - CURRENCIES
+        - FISCAL_PERIOD
+        - CHART_OF_ACCOUNTS
+        - FINANCIAL_MAPPINGS
+        - DOCUMENT_SEQUENCES
+        - CASHBOXES
+        - BANK_ACCOUNTS
+        - WAREHOUSES
+        - PRODUCTS
+        - CUSTOMERS
+        - SUPPLIERS
+        - OPENING_CASH_BALANCES
+        - OPENING_BANK_BALANCES
+        - OPENING_RECEIVABLES
+        - OPENING_PAYABLES
+        - OPENING_INVENTORY
+        - RECONCILIATION
+    SetupTaskStatus:
+      type: string
+      enum:
+        - BLOCKED
+        - READY
+        - COMPLETED
+        - SKIPPED
+    SetupTaskResponseDto:
+      type: object
+      properties:
+        id:
+          type: string
+          default: ''
+          example: 00000000-0000-4000-e100-000000000001
+        type:
+          default: CURRENCIES
+          allOf:
+            - $ref: '#/components/schemas/SetupTaskType'
+        status:
+          default: BLOCKED
+          allOf:
+            - $ref: '#/components/schemas/SetupTaskStatus'
+        required:
+          type: boolean
+          default: true
+          example: true
+        dependencies:
+          type: array
+          default: []
+          items:
+            $ref: '#/components/schemas/SetupTaskType'
+        metadata:
+          type: object
+          nullable: true
+          default: null
+          additionalProperties: true
+        progress:
+          type: object
+          nullable: true
+          default: null
+          additionalProperties: true
+        completedAt:
+          type: string
+          nullable: true
+          default: null
+          example: '2026-01-01T00:00:00.000Z'
+        createdAt:
+          type: string
+          default: ''
+          example: '2026-01-01T00:00:00.000Z'
+        updatedAt:
+          type: string
+          default: ''
+          example: '2026-01-01T00:00:00.000Z'
+      required:
+        - id
+        - type
+        - status
+        - required
+        - dependencies
+        - createdAt
+        - updatedAt
+    BusinessSetupStateResponseDto:
+      type: object
+      properties:
+        tasks:
+          default: []
+          type: array
+          items:
+            $ref: '#/components/schemas/SetupTaskResponseDto'
+        profile:
+          type: object
+          nullable: true
+          default: null
+          additionalProperties: true
+        businessSetupCompletedAt:
+          type: string
+          nullable: true
+          default: null
+          example: '2026-01-01T00:00:00.000Z'
+      required:
+        - tasks
+    SetupTaskPlanItemResponseDto:
+      type: object
+      properties:
+        type:
+          default: CURRENCIES
+          allOf:
+            - $ref: '#/components/schemas/SetupTaskType'
+        required:
+          type: boolean
+          default: true
+          example: true
+        dependencies:
+          type: array
+          default: []
+          items:
+            $ref: '#/components/schemas/SetupTaskType'
+      required:
+        - type
+        - required
+        - dependencies
+    BusinessSetupPlanResponseDto:
+      type: object
+      properties:
+        tasks:
+          default: []
+          type: array
+          items:
+            $ref: '#/components/schemas/SetupTaskPlanItemResponseDto'
+      required:
+        - tasks
+    BusinessSetupModulesDto:
+      type: object
+      properties:
+        inventory:
+          type: boolean
+          example: true
+        sales:
+          type: boolean
+          example: true
+        purchasing:
+          type: boolean
+          example: true
+        accounting:
+          type: boolean
+          example: true
+      required:
+        - inventory
+        - sales
+        - purchasing
+        - accounting
+    SetBusinessSetupProfileDto:
+      type: object
+      properties:
+        modules:
+          $ref: '#/components/schemas/BusinessSetupModulesDto'
+      required:
+        - modules
     OpeningBalanceSessionStatus:
       type: string
       enum:
