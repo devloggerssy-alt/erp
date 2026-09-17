@@ -1,6 +1,6 @@
 "use client"
 
-import { useReducer } from "react"
+import { useEffect, useReducer } from "react"
 import { useRouter } from "next/navigation"
 import { useLocale, useTranslations } from "next-intl"
 import { useMutation } from "@tanstack/react-query"
@@ -21,6 +21,7 @@ type WizardState = {
 type WizardAction =
     | { type: "NEXT" }
     | { type: "SET_CODE_TO_ID"; payload: Record<string, string> }
+    | { type: "HYDRATE_CODE_TO_ID"; payload: Record<string, string> }
 
 function wizardReducer(state: WizardState, action: WizardAction): WizardState {
     switch (action.type) {
@@ -28,6 +29,8 @@ function wizardReducer(state: WizardState, action: WizardAction): WizardState {
             return { ...state, currentStep: state.currentStep + 1 }
         case "SET_CODE_TO_ID":
             return { ...state, codeToId: action.payload, currentStep: state.currentStep + 1 }
+        case "HYDRATE_CODE_TO_ID":
+            return { ...state, codeToId: action.payload }
     }
 }
 
@@ -53,12 +56,21 @@ export function OnboardingWizard({ initialStep = 1, initialName }: Props) {
         codeToId: {},
     })
 
+    useEffect(() => {
+        if (initialStep > 3) {
+            api.onboarding.stepChartOfAccounts().then(({ codeToId }) => {
+                dispatch({ type: "HYDRATE_CODE_TO_ID", payload: codeToId })
+            })
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+
     const { mutate: complete } = useMutation({
         mutationFn: async () => {
             await api.onboarding.complete()
             await refreshUserCookie()
         },
-        onSuccess: () => router.push(`/${locale}`),
+        onSuccess: () => router.push(`/${locale}/setup`),
     })
 
     return (
@@ -103,7 +115,6 @@ export function OnboardingWizard({ initialStep = 1, initialName }: Props) {
 
                     {state.currentStep === 4 && (
                         <CurrenciesStep
-                            codeToId={state.codeToId}
                             onSuccess={() => dispatch({ type: "NEXT" })}
                         />
                     )}

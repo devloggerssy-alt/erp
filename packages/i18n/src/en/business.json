@@ -969,7 +969,8 @@
       "continue": "Continue",
       "saving": "Saving…",
       "confirm": "Confirm & Continue",
-      "complete": "Complete Setup"
+      "complete": "Complete Setup",
+      "remove": "Remove"
     },
     "company": {
       "title": "Company Profile",
@@ -996,11 +997,15 @@
     },
     "currencies": {
       "title": "Currencies & Cashboxes",
-      "description": "Your system's currencies: Syrian Lira and US Dollar. The base currency is US Dollar. A cashbox will be created for each currency automatically.",
+      "description": "Choose the currencies your business uses and mark one as the base currency. You can add more later.",
       "baseIndicator": "Base",
       "sypName": "Syrian Lira",
       "usdName": "US Dollar",
-      "cashbox": "Cashbox"
+      "cashbox": "Cashbox",
+      "codePlaceholder": "Code (e.g. USD)",
+      "nameEnPlaceholder": "Name (English)",
+      "nameArPlaceholder": "Name (Arabic)",
+      "addCurrency": "Add currency"
     },
     "glDefaults": {
       "title": "GL Defaults",
