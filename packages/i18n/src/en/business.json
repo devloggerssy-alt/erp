@@ -1097,5 +1097,35 @@
       "saving": "Saving…",
       "noAccounts": "No balance-sheet accounts found."
     }
+  },
+  "businessSetup": {
+    "title": "Business setup",
+    "description": "Track the setup tasks for your business.",
+    "loading": "Loading…",
+    "status": {
+      "BLOCKED": "Blocked",
+      "READY": "Ready",
+      "COMPLETED": "Completed",
+      "SKIPPED": "Skipped"
+    },
+    "tasks": {
+      "CURRENCIES": "Currencies",
+      "FISCAL_PERIOD": "Fiscal period",
+      "CHART_OF_ACCOUNTS": "Chart of accounts",
+      "FINANCIAL_MAPPINGS": "Financial mappings",
+      "DOCUMENT_SEQUENCES": "Document numbering",
+      "CASHBOXES": "Cashboxes",
+      "BANK_ACCOUNTS": "Bank accounts",
+      "WAREHOUSES": "Warehouses",
+      "PRODUCTS": "Products",
+      "CUSTOMERS": "Customers",
+      "SUPPLIERS": "Suppliers",
+      "OPENING_CASH_BALANCES": "Opening cash balances",
+      "OPENING_BANK_BALANCES": "Opening bank balances",
+      "OPENING_RECEIVABLES": "Opening receivables",
+      "OPENING_PAYABLES": "Opening payables",
+      "OPENING_INVENTORY": "Opening inventory",
+      "RECONCILIATION": "Reconciliation"
+    }
   }
 }

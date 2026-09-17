@@ -1208,5 +1208,35 @@
       "saving": "جارٍ الحفظ…",
       "noAccounts": "لا توجد حسابات ميزانية عمومية."
     }
+  },
+  "businessSetup": {
+    "title": "إعداد النشاط التجاري",
+    "description": "تابع مهام إعداد نشاطك التجاري.",
+    "loading": "جارٍ التحميل…",
+    "status": {
+      "BLOCKED": "محظور",
+      "READY": "جاهز",
+      "COMPLETED": "مكتمل",
+      "SKIPPED": "متجاوز"
+    },
+    "tasks": {
+      "CURRENCIES": "العملات",
+      "FISCAL_PERIOD": "الفترة المالية",
+      "CHART_OF_ACCOUNTS": "دليل الحسابات",
+      "FINANCIAL_MAPPINGS": "الربط المالي",
+      "DOCUMENT_SEQUENCES": "ترقيم المستندات",
+      "CASHBOXES": "الخزائن",
+      "BANK_ACCOUNTS": "الحسابات البنكية",
+      "WAREHOUSES": "المستودعات",
+      "PRODUCTS": "المنتجات",
+      "CUSTOMERS": "العملاء",
+      "SUPPLIERS": "الموردون",
+      "OPENING_CASH_BALANCES": "الأرصدة النقدية الافتتاحية",
+      "OPENING_BANK_BALANCES": "الأرصدة البنكية الافتتاحية",
+      "OPENING_RECEIVABLES": "الذمم المدينة الافتتاحية",
+      "OPENING_PAYABLES": "الذمم الدائنة الافتتاحية",
+      "OPENING_INVENTORY": "المخزون الافتتاحي",
+      "RECONCILIATION": "التسوية"
+    }
   }
 }

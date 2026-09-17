@@ -1023,5 +1023,35 @@
       "saving": "Kaydediliyor…",
       "noAccounts": "Bilanço hesabı bulunamadı."
     }
+  },
+  "businessSetup": {
+    "title": "İşletme kurulumu",
+    "description": "İşletmeniz için kurulum görevlerini takip edin.",
+    "loading": "Yükleniyor…",
+    "status": {
+      "BLOCKED": "Engellendi",
+      "READY": "Hazır",
+      "COMPLETED": "Tamamlandı",
+      "SKIPPED": "Atlandı"
+    },
+    "tasks": {
+      "CURRENCIES": "Para birimleri",
+      "FISCAL_PERIOD": "Mali dönem",
+      "CHART_OF_ACCOUNTS": "Hesap planı",
+      "FINANCIAL_MAPPINGS": "Finansal eşlemeler",
+      "DOCUMENT_SEQUENCES": "Belge numaralandırma",
+      "CASHBOXES": "Kasalar",
+      "BANK_ACCOUNTS": "Banka hesapları",
+      "WAREHOUSES": "Depolar",
+      "PRODUCTS": "Ürünler",
+      "CUSTOMERS": "Müşteriler",
+      "SUPPLIERS": "Tedarikçiler",
+      "OPENING_CASH_BALANCES": "Açılış nakit bakiyeleri",
+      "OPENING_BANK_BALANCES": "Açılış banka bakiyeleri",
+      "OPENING_RECEIVABLES": "Açılış alacakları",
+      "OPENING_PAYABLES": "Açılış borçları",
+      "OPENING_INVENTORY": "Açılış stokları",
+      "RECONCILIATION": "Mutabakat"
+    }
   }
 }
