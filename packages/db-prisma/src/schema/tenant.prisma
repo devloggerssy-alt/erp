@@ -39,6 +39,7 @@ model Tenant {
     journalEntries    JournalEntry[]
     stockCounts       StockCount[]
     auditLogs         AuditLog[]
+    reconciliationRuns ReconciliationRun[]
     aiChatSessions    AiChatSession[]
     baseCurrency         Currency?         @relation("TenantBaseCurrency", fields: [baseCurrencyId], references: [id])
     defaultSalesSequence DocumentSequence? @relation("TenantDefaultSalesSequence", fields: [defaultSalesSequenceId], references: [id])
