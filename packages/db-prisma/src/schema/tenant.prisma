@@ -17,6 +17,9 @@ model Tenant {
     isActive              Boolean   @default(true) @map("is_active")
     onboardingStep        Int       @default(0) @map("onboarding_step")
     onboardingCompletedAt DateTime? @map("onboarding_completed_at")
+    businessSetupProfile      Json?     @db.JsonB @map("business_setup_profile")
+    businessSetupCompletedAt  DateTime? @map("business_setup_completed_at")
+    operationalReadiness      Json?     @db.JsonB @map("operational_readiness")
     createdAt             DateTime  @default(now()) @map("created_at")
     updatedAt             DateTime  @updatedAt @map("updated_at")
 
@@ -53,6 +56,7 @@ model Tenant {
     brands               Brand[]
     openingBalanceSessions     OpeningBalanceSession[]
     openingBalanceSessionLines OpeningBalanceSessionLine[]
+    setupTasks                 SetupTask[]
 
     @@map("tenants")
 }
