@@ -1,7 +1,12 @@
 import { Injectable, BadRequestException, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '@devloggers/db-prisma/nest';
-import { ReferenceType, StockMovementType } from '@devloggers/db-prisma';
-import { InventoryService } from '../../inventory/inventory.service';
+import { ReferenceType } from '@devloggers/db-prisma';
+import {
+    InventoryMovementFacade,
+    type PurchaseReceiptIntent,
+    type SaleIssueIntent,
+    type InvoiceReversalIntent,
+} from '../../inventory';
 import { AccountingPostingFacade, type InvoicePostedIntent, type InvoiceCancelledIntent } from '../../accounting/posting';
 import { assertFiscalPeriodOpen } from '../../accounting/accounts/utils/assert-period-open';
 
@@ -9,7 +14,7 @@ import { assertFiscalPeriodOpen } from '../../accounting/accounts/utils/assert-p
 export class InvoicePostingService {
     constructor(
         private readonly prisma: PrismaService,
-        private readonly inventoryService: InventoryService,
+        private readonly movements: InventoryMovementFacade,
         private readonly postingFacade: AccountingPostingFacade,
     ) {}
 
@@ -27,7 +32,8 @@ export class InvoicePostingService {
         if (invoice.status !== 'DRAFT') throw new BadRequestException('Only draft invoices can be posted');
         assertFiscalPeriodOpen(invoice.fiscalPeriod?.status);
         if (invoice.invoiceType.direction !== 'PURCHASE') throw new BadRequestException('This is not a purchase invoice');
-        if (!invoice.warehouseId) throw new BadRequestException('Purchase invoice must have a warehouse assigned');
+        const warehouseId = invoice.warehouseId;
+        if (!warehouseId) throw new BadRequestException('Purchase invoice must have a warehouse assigned');
         if (invoice.lines.length === 0) throw new BadRequestException('Invoice must have at least one line');
 
         const exchangeRate = Number(invoice.exchangeRate);
@@ -61,23 +67,25 @@ export class InvoicePostingService {
             inventoryAmount,
         };
 
+        const receipt: PurchaseReceiptIntent = {
+            kind: 'PURCHASE_RECEIPT',
+            tenantId,
+            userId,
+            fiscalPeriodId: invoice.fiscalPeriodId,
+            warehouseId,
+            invoiceId: invoice.id,
+            // Base-currency net unit cost: tax-exclusive line total / qty × locked rate.
+            lines: stockLines.map((line) => ({
+                itemId: line.itemId,
+                quantity: Number(line.quantity),
+                unitCost: (Number(line.total) - Number(line.taxAmount)) / Number(line.quantity) * exchangeRate,
+            })),
+        };
+
         return this.prisma.$transaction(async (tx) => {
-            if (invoice.invoiceType.affectsStock) {
-                for (const line of stockLines) {
-                    await this.inventoryService.postMovementTx(tx, {
-                        tenantId,
-                        warehouseId: invoice.warehouseId!,
-                        itemId: line.itemId,
-                        fiscalPeriodId: invoice.fiscalPeriodId,
-                        movementType: StockMovementType.PURCHASE,
-                        quantity: Number(line.quantity),
-                        unitCost: (Number(line.total) - Number(line.taxAmount)) / Number(line.quantity) * exchangeRate,
-                        referenceType: 'invoice',
-                        referenceId: invoice.id,
-                        userId,
-                    });
-                    await tx.item.update({ where: { id: line.itemId }, data: { latestPurchasePrice: line.unitPrice } });
-                }
+            await this.movements.apply(tx, receipt);
+            for (const line of stockLines) {
+                await tx.item.update({ where: { id: line.itemId }, data: { latestPurchasePrice: line.unitPrice } });
             }
 
             await this.postingFacade.record(tx, intent);
@@ -104,7 +112,8 @@ export class InvoicePostingService {
         if (invoice.status !== 'DRAFT') throw new BadRequestException('Only draft invoices can be posted');
         assertFiscalPeriodOpen(invoice.fiscalPeriod?.status);
         if (invoice.invoiceType.direction !== 'SALE') throw new BadRequestException('This is not a sales invoice');
-        if (!invoice.warehouseId) throw new BadRequestException('Sales invoice must have a warehouse assigned');
+        const warehouseId = invoice.warehouseId;
+        if (!warehouseId) throw new BadRequestException('Sales invoice must have a warehouse assigned');
         if (invoice.lines.length === 0) throw new BadRequestException('Invoice must have at least one line');
 
         const exchangeRate = Number(invoice.exchangeRate);
@@ -115,34 +124,24 @@ export class InvoicePostingService {
             ? invoice.lines.filter((l) => l.item.itemType !== 'service')
             : [];
 
+        const issue: SaleIssueIntent = {
+            kind: 'SALE_ISSUE',
+            tenantId,
+            userId,
+            fiscalPeriodId: invoice.fiscalPeriodId,
+            warehouseId,
+            invoiceId: invoice.id,
+            lines: stockLines.map((line) => ({
+                itemId: line.itemId,
+                quantity: Number(line.quantity),
+                fallbackUnitCost: Number(line.unitPrice),
+            })),
+        };
+
         return this.prisma.$transaction(async (tx) => {
-            let cogsTotal = 0;
-            for (const line of stockLines) {
-                const balance = await tx.stockBalance.findUnique({
-                    where: { tenantId_warehouseId_itemId: { tenantId, warehouseId: invoice.warehouseId!, itemId: line.itemId } },
-                });
-                const currentQty = balance ? Number(balance.quantity) : 0;
-                const requestedQty = Number(line.quantity);
-                if (currentQty < requestedQty) {
-                    throw new BadRequestException(
-                        `Insufficient stock for item "${line.itemId}". Available: ${currentQty}, Requested: ${requestedQty}`,
-                    );
-                }
-                const unitCost = balance ? Number(balance.averageCost) : Number(line.unitPrice);
-                cogsTotal += requestedQty * unitCost;
-                await this.inventoryService.postMovementTx(tx, {
-                    tenantId,
-                    warehouseId: invoice.warehouseId!,
-                    itemId: line.itemId,
-                    fiscalPeriodId: invoice.fiscalPeriodId,
-                    movementType: StockMovementType.SALE,
-                    quantity: -requestedQty,
-                    unitCost,
-                    referenceType: 'invoice',
-                    referenceId: invoice.id,
-                    userId,
-                });
-            }
+            const { valueDelta } = await this.movements.apply(tx, issue);
+            // An issue's valueDelta is Σ(−qty × averageCost) ≤ 0; COGS is its magnitude.
+            const cogsTotal = Math.abs(valueDelta);
 
             const intent: InvoicePostedIntent = {
                 kind: 'INVOICE_POSTED',
@@ -213,26 +212,17 @@ export class InvoicePostingService {
             originalEntryId: original.id,
         };
 
+        const reversal: InvoiceReversalIntent = {
+            kind: 'INVOICE_REVERSAL',
+            tenantId,
+            userId,
+            fiscalPeriodId: invoice.fiscalPeriodId,
+            invoiceId: invoice.id,
+            invoiceNumber: invoice.number,
+        };
+
         return this.prisma.$transaction(async (tx) => {
-            // Reverse the original stock movements at their recorded cost (keeps averageCost exact).
-            const originalMovements = await tx.stockMovement.findMany({
-                where: { tenantId, referenceType: 'invoice', referenceId: invoice.id },
-            });
-            for (const mv of originalMovements) {
-                await this.inventoryService.postMovementTx(tx, {
-                    tenantId,
-                    warehouseId: mv.warehouseId,
-                    itemId: mv.itemId,
-                    fiscalPeriodId: invoice.fiscalPeriodId,
-                    movementType: StockMovementType.ADJUSTMENT,
-                    quantity: -Number(mv.quantity),
-                    unitCost: Number(mv.unitCost),
-                    referenceType: 'invoice_cancellation',
-                    referenceId: invoice.id,
-                    notes: `Cancellation of invoice ${invoice.number}`,
-                    userId,
-                });
-            }
+            await this.movements.apply(tx, reversal);
 
             await this.postingFacade.reverse(tx, intent);
 

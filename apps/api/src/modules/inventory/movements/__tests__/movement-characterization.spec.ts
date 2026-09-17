@@ -2,6 +2,7 @@ import { InvoicePostingService } from '../../../invoicing/invoices/invoice-posti
 import { StockCountsService } from '../../stock-counts/stock-counts.service';
 import { InventoryService } from '../../inventory.service';
 import { createFakeInventoryTx, movementRows, balanceRows } from './fake-inventory-tx';
+import { buildMovementFacade } from './build-movement-facade';
 
 /**
  * Phase 5 golden master for stock output. Pins the movement rows, balances and
@@ -29,7 +30,7 @@ function buildInvoicePosting(fake: FakeTx, invoice: Record<string, unknown>) {
         journalEntry: { findFirst: jest.fn().mockResolvedValue({ id: 'je-1' }) },
         $transaction: jest.fn((cb: (tx: unknown) => unknown) => cb(fake.client)),
     };
-    const svc = new InvoicePostingService(prisma as any, buildInventoryService(postingFacade), postingFacade as any);
+    const svc = new InvoicePostingService(prisma as any, buildMovementFacade(), postingFacade as any);
     return { svc, postingFacade };
 }
 

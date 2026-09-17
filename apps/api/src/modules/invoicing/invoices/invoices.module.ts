@@ -5,7 +5,7 @@ import { InvoicesService } from './invoices.service';
 import { InvoicePostingService } from './invoice-posting.service';
 import { InvoicePresenter } from './presenters/invoice.presenter';
 import { DocumentSequencesModule } from '../../accounting/document-sequences/document-sequences.module';
-import { InventoryModule } from '../../inventory/inventory.module';
+import { InventoryModule } from '../../inventory';
 import { PostingModule } from '../../accounting/posting';
 import { PaymentsModule } from '../payments/payments.module';
 
