@@ -32,7 +32,8 @@ import { ReportsClient } from "./clients/reports.client"
 import { AccountOpeningBalancesClient } from "./clients/account-opening-balances.client"
 import { InventoryOpeningBalancesClient } from "./clients/inventory-opening-balances.client"
 import { OpeningBalanceSessionsClient } from "./clients/opening-balance-sessions.client"
-import { authResource, itemCategoryResource, itemResource, unitResource, warehouseResource, partyResource, accountResource, currencyResource, fiscalPeriodResource, documentSequenceResource, roleResource, userResource, tenantResource, invoiceTypeResource, invoiceResource, customFieldResource, expenseResource, paymentResource, tagResource, tagAssignmentResource, itemRelationResource, catalogEntityResource, itemCatalogEntityResource, brandResource, inventoryResource, stockLedgerResource, stockCountResource, cashboxResource, bankAccountResource, financialSettingResource, reportResource, accountOpeningBalanceResource, openingBalanceSessionResource } from "@devloggers/api-contracts"
+import { BusinessSetupClient } from "./clients/business-setup.client"
+import { authResource, itemCategoryResource, itemResource, unitResource, warehouseResource, partyResource, accountResource, currencyResource, fiscalPeriodResource, documentSequenceResource, roleResource, userResource, tenantResource, invoiceTypeResource, invoiceResource, customFieldResource, expenseResource, paymentResource, tagResource, tagAssignmentResource, itemRelationResource, catalogEntityResource, itemCatalogEntityResource, brandResource, inventoryResource, stockLedgerResource, stockCountResource, cashboxResource, bankAccountResource, financialSettingResource, reportResource, accountOpeningBalanceResource, openingBalanceSessionResource, businessSetupResource } from "@devloggers/api-contracts"
 import { CustomFieldsClient } from "./clients/custom-fields.client"
 import { DashboardClient } from "./clients/dashboard.client"
 import { OnboardingClient } from "./clients/onboarding.client"
@@ -74,6 +75,7 @@ export function createApi(options?: ApiClientOptions, baseUrl = 'http://localhos
         [reportResource.key]: new ReportsClient(client),
         [accountOpeningBalanceResource.key]: new AccountOpeningBalancesClient(client),
         [openingBalanceSessionResource.key]: new OpeningBalanceSessionsClient(client),
+        [businessSetupResource.key]: new BusinessSetupClient(client),
         inventoryOpening: new InventoryOpeningBalancesClient(client),
         dashboard: new DashboardClient(client),
         onboarding: new OnboardingClient(client),
