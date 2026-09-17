@@ -20,7 +20,7 @@ export class CashboxDriftDto {
     @ApiProperty({
         type: 'number',
         example: 14750,
-        description: 'Recomputed from posted receipts − posted payments − posted expenses',
+        description: 'Cashbox subledger in cashbox currency: Σ ±|amount| over posted journal lines carrying this cashboxId',
     })
     derivedBalance: number = 0;
 
@@ -117,7 +117,7 @@ export class BankAccountDriftDto {
     @ApiProperty({ type: 'number', description: 'Denormalized BankAccount.balance' })
     cachedBalance: number = 0;
 
-    @ApiProperty({ type: 'number', description: 'Σ(debit−credit) of posted journal lines for this bank account' })
+    @ApiProperty({ type: 'number', description: 'Bank subledger in account currency: Σ ±|amount| over posted journal lines carrying this bankAccountId' })
     derivedBalance: number = 0;
 
     @ApiProperty({ type: 'number' })

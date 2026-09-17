@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@devloggers/db-prisma/nest';
-import { ReferenceType } from '@devloggers/db-prisma';
 import {
     BalanceDriftReportDto,
     CashboxDriftDto,
@@ -31,6 +30,36 @@ function num(value: unknown): number {
 
 function drifted(a: number, b: number): boolean {
     return Math.abs(a - b) > TOLERANCE;
+}
+
+interface SubledgerRow {
+    dimensionId: string;
+    balance: string | null;
+}
+
+interface ProjectionDrift {
+    id: string;
+    code: string;
+    cached: number;
+    derived: number;
+    difference: number;
+}
+
+/** Projection column vs subledger, keyed by dimension id. Missing subledger = 0. */
+function diffProjection(
+    rows: Array<{ id: string; code: string; balance: unknown }>,
+    subledger: SubledgerRow[],
+): ProjectionDrift[] {
+    const derivedById = new Map(subledger.map((s) => [s.dimensionId, num(s.balance)]));
+    const results: ProjectionDrift[] = [];
+    for (const row of rows) {
+        const cached = num(row.balance);
+        const derived = derivedById.get(row.id) ?? 0;
+        if (drifted(cached, derived)) {
+            results.push({ id: row.id, code: row.code, cached, derived, difference: Number((cached - derived).toFixed(4)) });
+        }
+    }
+    return results;
 }
 
 @Injectable()
@@ -71,68 +100,35 @@ export class BalanceDriftService {
     }
 
     /**
-     * `Cashbox.balance` is incremented/decremented by payments and expenses as
-     * they post and cancel. Rebuild it from those documents:
-     *
-     *   balance = Σ posted RECEIPT − Σ posted PAYMENT/ADJUSTMENT − Σ posted expenses
-     *
-     * Cancelled documents are excluded on both sides, which mirrors what the
-     * post/cancel pair does to the cache.
+     * Check #2 — `Cashbox.balance` (the cashbox's own currency) vs the cashbox
+     * subledger: Σ over posted journal lines carrying this cashboxId of +|amount|
+     * on the debit side (money in) and −|amount| on the credit side. ADR-1: the
+     * ledger is the truth, the column is an operational projection.
      */
     private async checkCashboxes(tenantId: string): Promise<CashboxDriftDto[]> {
-        const [boxes, payments, expenses, openings] = await Promise.all([
+        const [boxes, subledger] = await Promise.all([
             this.prisma.cashbox.findMany({
                 where: { tenantId },
                 select: { id: true, code: true, balance: true },
             }),
-            this.prisma.payment.groupBy({
-                by: ['cashboxId', 'type'],
-                where: { tenantId, status: 'POSTED' },
-                _sum: { amount: true },
-            }),
-            this.prisma.expense.groupBy({
-                by: ['cashboxId'],
-                where: { tenantId, status: 'POSTED' },
-                _sum: { totalAmount: true },
-            }),
-            this.prisma.journalLine.groupBy({
-                by: ['cashboxId'],
-                where: { tenantId, journalEntry: { status: 'POSTED', referenceType: ReferenceType.OPENING_BALANCE } },
-                _sum: { debit: true, credit: true },
-            }),
+            this.prisma.$queryRaw<SubledgerRow[]>`
+                SELECT jl.cashbox_id AS "dimensionId",
+                       SUM(CASE WHEN jl.debit > 0 THEN ABS(jl.amount) ELSE -ABS(jl.amount) END)::text AS "balance"
+                FROM journal_lines jl
+                JOIN journal_entries je ON je.id = jl.journal_entry_id
+                WHERE jl.tenant_id = ${tenantId}
+                  AND je.status = 'POSTED'
+                  AND jl.cashbox_id IS NOT NULL
+                GROUP BY jl.cashbox_id`,
         ]);
 
-        const derived = new Map<string, number>();
-        for (const row of payments) {
-            const signed = row.type === 'RECEIPT' ? num(row._sum.amount) : -num(row._sum.amount);
-            derived.set(row.cashboxId, (derived.get(row.cashboxId) ?? 0) + signed);
-        }
-        for (const row of expenses) {
-            derived.set(row.cashboxId, (derived.get(row.cashboxId) ?? 0) - num(row._sum.totalAmount));
-        }
-        // Opening cash JE lines carry cashboxId and debit the Cash control account —
-        // money in, so they increase the derived balance (ADR-4 projection).
-        for (const row of openings) {
-            if (!row.cashboxId) continue;
-            const signed = num(row._sum.debit) - num(row._sum.credit);
-            derived.set(row.cashboxId, (derived.get(row.cashboxId) ?? 0) + signed);
-        }
-
-        const results: CashboxDriftDto[] = [];
-        for (const box of boxes) {
-            const cached = num(box.balance);
-            const derivedBalance = derived.get(box.id) ?? 0;
-            if (drifted(cached, derivedBalance)) {
-                results.push({
-                    cashboxId: box.id,
-                    code: box.code,
-                    cachedBalance: cached,
-                    derivedBalance,
-                    difference: Number((cached - derivedBalance).toFixed(4)),
-                });
-            }
-        }
-        return results;
+        return diffProjection(boxes, subledger).map((d) => ({
+            cashboxId: d.id,
+            code: d.code,
+            cachedBalance: d.cached,
+            derivedBalance: d.derived,
+            difference: d.difference,
+        }));
     }
 
     /**
@@ -327,43 +323,33 @@ export class BalanceDriftService {
     }
 
     /**
-     * BankAccount.balance projection vs its posted journal lines — the bank
-     * analogue of checkCashboxes. Operational projection, reconciled to the ledger.
+     * Check #3 (projection half) — `BankAccount.balance` (account currency) vs the
+     * bankAccountId subledger in transaction currency. Same sign rule as check #2.
      */
     private async checkBankAccounts(tenantId: string): Promise<BankAccountDriftDto[]> {
-        const [accounts, lines] = await Promise.all([
+        const [accounts, subledger] = await Promise.all([
             this.prisma.bankAccount.findMany({
                 where: { tenantId },
                 select: { id: true, code: true, balance: true },
             }),
-            this.prisma.journalLine.groupBy({
-                by: ['bankAccountId'],
-                where: { tenantId, journalEntry: { status: 'POSTED' } },
-                _sum: { debit: true, credit: true },
-            }),
+            this.prisma.$queryRaw<SubledgerRow[]>`
+                SELECT jl.bank_account_id AS "dimensionId",
+                       SUM(CASE WHEN jl.debit > 0 THEN ABS(jl.amount) ELSE -ABS(jl.amount) END)::text AS "balance"
+                FROM journal_lines jl
+                JOIN journal_entries je ON je.id = jl.journal_entry_id
+                WHERE jl.tenant_id = ${tenantId}
+                  AND je.status = 'POSTED'
+                  AND jl.bank_account_id IS NOT NULL
+                GROUP BY jl.bank_account_id`,
         ]);
 
-        const derived = new Map(
-            lines
-                .filter((l) => l.bankAccountId)
-                .map((l) => [l.bankAccountId as string, num(l._sum.debit) - num(l._sum.credit)]),
-        );
-
-        const results: BankAccountDriftDto[] = [];
-        for (const account of accounts) {
-            const cached = num(account.balance);
-            const derivedBalance = derived.get(account.id) ?? 0;
-            if (drifted(cached, derivedBalance)) {
-                results.push({
-                    bankAccountId: account.id,
-                    code: account.code,
-                    cachedBalance: cached,
-                    derivedBalance,
-                    difference: Number((cached - derivedBalance).toFixed(4)),
-                });
-            }
-        }
-        return results;
+        return diffProjection(accounts, subledger).map((d) => ({
+            bankAccountId: d.id,
+            code: d.code,
+            cachedBalance: d.cached,
+            derivedBalance: d.derived,
+            difference: d.difference,
+        }));
     }
 
     /** Compares Σ(debit−credit) per currency between two groupBy result sets. */

@@ -7,8 +7,9 @@ import { BalanceDriftService } from './balance-drift.service';
 
 interface PrismaStub {
     cashboxes?: Array<{ id: string; code: string; balance: number }>;
-    payments?: Array<{ cashboxId: string; type: string; _sum: { amount: number } }>;
-    expenses?: Array<{ cashboxId: string; _sum: { totalAmount: number } }>;
+    /** Rows returned by the cashbox / bank-account subledger $queryRaw. */
+    cashboxSubledger?: Array<{ dimensionId: string; balance: string }>;
+    bankAccountSubledger?: Array<{ dimensionId: string; balance: string }>;
     stockBalances?: Array<{ warehouseId: string; itemId: string; quantity: number }>;
     stockMovements?: Array<{ warehouseId: string; itemId: string; _sum: { quantity: number } }>;
     journalLines?: Array<{ journalEntryId: string; _sum: { debit: number; credit: number } }>;
@@ -25,38 +26,37 @@ interface PrismaStub {
 function makeService(stub: PrismaStub = {}): BalanceDriftService {
     const prisma = {
         cashbox: { findMany: async () => stub.cashboxes ?? [] },
-        payment: { groupBy: async () => stub.payments ?? [] },
-        expense: { groupBy: async () => stub.expenses ?? [] },
         stockBalance: { findMany: async () => stub.stockBalances ?? [] },
         stockMovement: { groupBy: async () => stub.stockMovements ?? [] },
         journalLine: { groupBy: async () => stub.journalLines ?? [] },
         journalEntry: { findMany: async () => stub.journalEntries ?? [] },
         financialSetting: { findFirst: async () => stub.financialSetting ?? null },
         bankAccount: { findMany: async () => stub.bankAccounts ?? [] },
+        $queryRaw: async (strings: TemplateStringsArray) => {
+            const sql = strings.join('?');
+            if (sql.includes('jl.cashbox_id IS NOT NULL')) return stub.cashboxSubledger ?? [];
+            if (sql.includes('jl.bank_account_id IS NOT NULL')) return stub.bankAccountSubledger ?? [];
+            return [];
+        },
     };
     return new BalanceDriftService(prisma as never);
 }
 
-describe('BalanceDriftService — cashbox balance', () => {
-    it('is quiet when the cache matches receipts − payments − expenses', async () => {
+describe('BalanceDriftService — check 2: cashbox subledger vs Cashbox.balance', () => {
+    it('is quiet when the projection equals the signed transaction-currency subledger', async () => {
         const report = await makeService({
             cashboxes: [{ id: 'cb1', code: 'CASH-USD', balance: 700 }],
-            payments: [
-                { cashboxId: 'cb1', type: 'RECEIPT', _sum: { amount: 1000 } },
-                { cashboxId: 'cb1', type: 'PAYMENT', _sum: { amount: 200 } },
-            ],
-            expenses: [{ cashboxId: 'cb1', _sum: { totalAmount: 100 } }],
+            cashboxSubledger: [{ dimensionId: 'cb1', balance: '700.0000' }],
         }).getReport('t1');
 
         expect(report.cashboxes).toEqual([]);
         expect(report.clean).toBe(true);
     });
 
-    it('reports the signed difference when the cache is stale', async () => {
+    it('reports the signed difference when the projection is stale', async () => {
         const report = await makeService({
             cashboxes: [{ id: 'cb1', code: 'CASH-USD', balance: 950 }],
-            payments: [{ cashboxId: 'cb1', type: 'RECEIPT', _sum: { amount: 1000 } }],
-            expenses: [{ cashboxId: 'cb1', _sum: { totalAmount: 100 } }],
+            cashboxSubledger: [{ dimensionId: 'cb1', balance: '900' }],
         }).getReport('t1');
 
         expect(report.cashboxes).toEqual([
@@ -65,13 +65,37 @@ describe('BalanceDriftService — cashbox balance', () => {
         expect(report.clean).toBe(false);
     });
 
-    it('treats ADJUSTMENT as an outflow, like PAYMENT', async () => {
+    it('treats a cashbox with no posted lines as a zero subledger', async () => {
         const report = await makeService({
-            cashboxes: [{ id: 'cb1', code: 'CASH-USD', balance: -50 }],
-            payments: [{ cashboxId: 'cb1', type: 'ADJUSTMENT', _sum: { amount: 50 } }],
+            cashboxes: [{ id: 'cb1', code: 'CASH-USD', balance: 10 }],
         }).getReport('t1');
 
-        expect(report.cashboxes).toEqual([]);
+        expect(report.cashboxes).toEqual([
+            { cashboxId: 'cb1', code: 'CASH-USD', cachedBalance: 10, derivedBalance: 0, difference: 10 },
+        ]);
+    });
+});
+
+describe('BalanceDriftService — check 3: bank subledger vs BankAccount.balance', () => {
+    it('compares in transaction currency, so a foreign-currency account is not flagged for its base value', async () => {
+        const report = await makeService({
+            bankAccounts: [{ id: 'ba1', code: 'BANK-EUR', balance: 100 }],
+            bankAccountSubledger: [{ dimensionId: 'ba1', balance: '100' }],
+            journalLines: [{ journalEntryId: 'je1', _sum: { debit: 110, credit: 0 } } as never],
+        }).getReport('t1');
+
+        expect(report.bankAccounts).toEqual([]);
+    });
+
+    it('reports a stale bank projection', async () => {
+        const report = await makeService({
+            bankAccounts: [{ id: 'ba1', code: 'BANK-EUR', balance: 120 }],
+            bankAccountSubledger: [{ dimensionId: 'ba1', balance: '100' }],
+        }).getReport('t1');
+
+        expect(report.bankAccounts).toEqual([
+            { bankAccountId: 'ba1', code: 'BANK-EUR', cachedBalance: 120, derivedBalance: 100, difference: 20 },
+        ]);
     });
 });
 
