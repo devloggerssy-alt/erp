@@ -37,6 +37,22 @@ function importCase(file, specifier, expect) {
     };
 }
 
+/**
+ * @param {string} file
+ * @param {string} call e.g. 'tx.payment.delete'
+ * @param {'error' | 'clean'} expect
+ * @returns {Case}
+ */
+function deleteCase(file, call, expect) {
+    return {
+        name: `${file} calls ${call}(...)`,
+        file,
+        code: `export async function probe(tx: any): Promise<void> {\n    await ${call}({ where: { id: 'x' } });\n}\n`,
+        rule: 'no-restricted-syntax',
+        expect,
+    };
+}
+
 const INVOICE_POSTING = 'src/modules/invoicing/invoices/invoice-posting.service.ts';
 const ONBOARDING = 'src/modules/identity/onboarding/services/onboarding.service.ts';
 const POSTING_FACADE = 'src/modules/accounting/posting/accounting-posting.facade.ts';
@@ -44,6 +60,9 @@ const ITEMS_SERVICE = 'src/modules/catalog/items/services/items.service.ts';
 const REPORTS_SERVICE = 'src/modules/reports/reports.service.ts';
 const PARTIES_CONTROLLER = 'src/modules/parties/parties.controller.ts';
 const STOCK_COUNTS_SERVICE = 'src/modules/inventory/stock-counts/stock-counts.service.ts';
+const PAYMENTS_SERVICE = 'src/modules/invoicing/payments/payments.service.ts';
+const EXPENSES_SERVICE = 'src/modules/invoicing/expenses/expenses.service.ts';
+const DATA_RESET_SERVICE = 'src/modules/identity/settings/services/data-reset.service.ts';
 
 /** @type {Case[]} */
 const CASES = [
@@ -77,6 +96,16 @@ const CASES = [
     importCase(PARTIES_CONTROLLER, '../identity/users/users.service', 'error'),
     // a domain may still deep-import itself
     importCase(STOCK_COUNTS_SERVICE, '../movements/stock-movement.writer', 'clean'),
+    // ── Phase 5.3.4: financial documents are never hard-deleted outside the allowlist ──
+    deleteCase(PAYMENTS_SERVICE, 'tx.payment.delete', 'error'),
+    deleteCase(PAYMENTS_SERVICE, 'this.prisma.journalEntry.deleteMany', 'error'),
+    deleteCase(STOCK_COUNTS_SERVICE, 'tx.stockMovement.deleteMany', 'error'),
+    deleteCase(ITEMS_SERVICE, 'tx.invoice.delete', 'error'),
+    deleteCase(PAYMENTS_SERVICE, 'tx.invoiceLine.deleteMany', 'clean'),
+    deleteCase(PAYMENTS_SERVICE, 'tx.paymentAllocation.delete', 'clean'),
+    // allowlisted: DRAFT-guarded deletes and the phrase-confirmed tenant reset
+    deleteCase(EXPENSES_SERVICE, 'this.prisma.expense.delete', 'clean'),
+    deleteCase(DATA_RESET_SERVICE, 'tx.journalEntry.deleteMany', 'clean'),
 ];
 
 async function main() {
