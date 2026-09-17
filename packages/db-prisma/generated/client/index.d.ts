@@ -184,6 +184,11 @@ export type Party = $Result.DefaultSelection<Prisma.$PartyPayload>
  */
 export type ReconciliationRun = $Result.DefaultSelection<Prisma.$ReconciliationRunPayload>
 /**
+ * Model SetupTask
+ * 
+ */
+export type SetupTask = $Result.DefaultSelection<Prisma.$SetupTaskPayload>
+/**
  * Model StockCount
  * 
  */
@@ -426,6 +431,39 @@ export const PartyType: {
 export type PartyType = (typeof PartyType)[keyof typeof PartyType]
 
 
+export const SetupTaskType: {
+  CURRENCIES: 'CURRENCIES',
+  FISCAL_PERIOD: 'FISCAL_PERIOD',
+  CHART_OF_ACCOUNTS: 'CHART_OF_ACCOUNTS',
+  FINANCIAL_MAPPINGS: 'FINANCIAL_MAPPINGS',
+  DOCUMENT_SEQUENCES: 'DOCUMENT_SEQUENCES',
+  CASHBOXES: 'CASHBOXES',
+  BANK_ACCOUNTS: 'BANK_ACCOUNTS',
+  WAREHOUSES: 'WAREHOUSES',
+  PRODUCTS: 'PRODUCTS',
+  CUSTOMERS: 'CUSTOMERS',
+  SUPPLIERS: 'SUPPLIERS',
+  OPENING_CASH_BALANCES: 'OPENING_CASH_BALANCES',
+  OPENING_BANK_BALANCES: 'OPENING_BANK_BALANCES',
+  OPENING_RECEIVABLES: 'OPENING_RECEIVABLES',
+  OPENING_PAYABLES: 'OPENING_PAYABLES',
+  OPENING_INVENTORY: 'OPENING_INVENTORY',
+  RECONCILIATION: 'RECONCILIATION'
+};
+
+export type SetupTaskType = (typeof SetupTaskType)[keyof typeof SetupTaskType]
+
+
+export const SetupTaskStatus: {
+  BLOCKED: 'BLOCKED',
+  READY: 'READY',
+  COMPLETED: 'COMPLETED',
+  SKIPPED: 'SKIPPED'
+};
+
+export type SetupTaskStatus = (typeof SetupTaskStatus)[keyof typeof SetupTaskStatus]
+
+
 export const StockCountStatus: {
   DRAFT: 'DRAFT',
   POSTED: 'POSTED',
@@ -516,6 +554,14 @@ export const OpeningBalancePartySide: typeof $Enums.OpeningBalancePartySide
 export type PartyType = $Enums.PartyType
 
 export const PartyType: typeof $Enums.PartyType
+
+export type SetupTaskType = $Enums.SetupTaskType
+
+export const SetupTaskType: typeof $Enums.SetupTaskType
+
+export type SetupTaskStatus = $Enums.SetupTaskStatus
+
+export const SetupTaskStatus: typeof $Enums.SetupTaskStatus
 
 export type StockCountStatus = $Enums.StockCountStatus
 
@@ -965,6 +1011,16 @@ export class PrismaClient<
     * ```
     */
   get reconciliationRun(): Prisma.ReconciliationRunDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.setupTask`: Exposes CRUD operations for the **SetupTask** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more SetupTasks
+    * const setupTasks = await prisma.setupTask.findMany()
+    * ```
+    */
+  get setupTask(): Prisma.SetupTaskDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.stockCount`: Exposes CRUD operations for the **StockCount** model.
@@ -1571,6 +1627,7 @@ export namespace Prisma {
     OpeningBalanceSessionLine: 'OpeningBalanceSessionLine',
     Party: 'Party',
     ReconciliationRun: 'ReconciliationRun',
+    SetupTask: 'SetupTask',
     StockCount: 'StockCount',
     StockCountLine: 'StockCountLine',
     StockBalance: 'StockBalance',
@@ -1600,7 +1657,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "chartOfAccount" | "journalEntry" | "journalLine" | "aiChatSession" | "aiChatMessage" | "auditLog" | "bankAccount" | "brand" | "cashbox" | "payment" | "paymentAllocation" | "catalogEntity" | "currency" | "customField" | "customFieldValue" | "documentSequence" | "expense" | "expenseItem" | "file" | "financialSetting" | "fiscalPeriod" | "invoiceType" | "invoice" | "invoiceLine" | "itemCatalogEntity" | "itemCategory" | "itemRelation" | "item" | "openingBalanceSession" | "openingBalanceSessionLine" | "party" | "reconciliationRun" | "stockCount" | "stockCountLine" | "stockBalance" | "stockMovement" | "tagAssignment" | "tag" | "tenantSetting" | "tenant" | "unit" | "appUser" | "role" | "userRole" | "warehouse" | "warehouseItem"
+      modelProps: "chartOfAccount" | "journalEntry" | "journalLine" | "aiChatSession" | "aiChatMessage" | "auditLog" | "bankAccount" | "brand" | "cashbox" | "payment" | "paymentAllocation" | "catalogEntity" | "currency" | "customField" | "customFieldValue" | "documentSequence" | "expense" | "expenseItem" | "file" | "financialSetting" | "fiscalPeriod" | "invoiceType" | "invoice" | "invoiceLine" | "itemCatalogEntity" | "itemCategory" | "itemRelation" | "item" | "openingBalanceSession" | "openingBalanceSessionLine" | "party" | "reconciliationRun" | "setupTask" | "stockCount" | "stockCountLine" | "stockBalance" | "stockMovement" | "tagAssignment" | "tag" | "tenantSetting" | "tenant" | "unit" | "appUser" | "role" | "userRole" | "warehouse" | "warehouseItem"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -3972,6 +4029,80 @@ export namespace Prisma {
           }
         }
       }
+      SetupTask: {
+        payload: Prisma.$SetupTaskPayload<ExtArgs>
+        fields: Prisma.SetupTaskFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SetupTaskFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SetupTaskPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SetupTaskFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SetupTaskPayload>
+          }
+          findFirst: {
+            args: Prisma.SetupTaskFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SetupTaskPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SetupTaskFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SetupTaskPayload>
+          }
+          findMany: {
+            args: Prisma.SetupTaskFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SetupTaskPayload>[]
+          }
+          create: {
+            args: Prisma.SetupTaskCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SetupTaskPayload>
+          }
+          createMany: {
+            args: Prisma.SetupTaskCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.SetupTaskCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SetupTaskPayload>[]
+          }
+          delete: {
+            args: Prisma.SetupTaskDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SetupTaskPayload>
+          }
+          update: {
+            args: Prisma.SetupTaskUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SetupTaskPayload>
+          }
+          deleteMany: {
+            args: Prisma.SetupTaskDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SetupTaskUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.SetupTaskUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SetupTaskPayload>[]
+          }
+          upsert: {
+            args: Prisma.SetupTaskUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SetupTaskPayload>
+          }
+          aggregate: {
+            args: Prisma.SetupTaskAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSetupTask>
+          }
+          groupBy: {
+            args: Prisma.SetupTaskGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SetupTaskGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SetupTaskCountArgs<ExtArgs>
+            result: $Utils.Optional<SetupTaskCountAggregateOutputType> | number
+          }
+        }
+      }
       StockCount: {
         payload: Prisma.$StockCountPayload<ExtArgs>
         fields: Prisma.StockCountFieldRefs
@@ -5148,6 +5279,7 @@ export namespace Prisma {
     openingBalanceSessionLine?: OpeningBalanceSessionLineOmit
     party?: PartyOmit
     reconciliationRun?: ReconciliationRunOmit
+    setupTask?: SetupTaskOmit
     stockCount?: StockCountOmit
     stockCountLine?: StockCountLineOmit
     stockBalance?: StockBalanceOmit
@@ -6346,6 +6478,7 @@ export namespace Prisma {
     brands: number
     openingBalanceSessions: number
     openingBalanceSessionLines: number
+    setupTasks: number
   }
 
   export type TenantCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6379,6 +6512,7 @@ export namespace Prisma {
     brands?: boolean | TenantCountOutputTypeCountBrandsArgs
     openingBalanceSessions?: boolean | TenantCountOutputTypeCountOpeningBalanceSessionsArgs
     openingBalanceSessionLines?: boolean | TenantCountOutputTypeCountOpeningBalanceSessionLinesArgs
+    setupTasks?: boolean | TenantCountOutputTypeCountSetupTasksArgs
   }
 
   // Custom InputTypes
@@ -6600,6 +6734,13 @@ export namespace Prisma {
    */
   export type TenantCountOutputTypeCountOpeningBalanceSessionLinesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: OpeningBalanceSessionLineWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountSetupTasksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SetupTaskWhereInput
   }
 
 
@@ -46848,6 +46989,1135 @@ export namespace Prisma {
 
 
   /**
+   * Model SetupTask
+   */
+
+  export type AggregateSetupTask = {
+    _count: SetupTaskCountAggregateOutputType | null
+    _min: SetupTaskMinAggregateOutputType | null
+    _max: SetupTaskMaxAggregateOutputType | null
+  }
+
+  export type SetupTaskMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    type: $Enums.SetupTaskType | null
+    status: $Enums.SetupTaskStatus | null
+    required: boolean | null
+    completedAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type SetupTaskMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    type: $Enums.SetupTaskType | null
+    status: $Enums.SetupTaskStatus | null
+    required: boolean | null
+    completedAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type SetupTaskCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    type: number
+    status: number
+    required: number
+    dependencies: number
+    progress: number
+    metadata: number
+    completedAt: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type SetupTaskMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    type?: true
+    status?: true
+    required?: true
+    completedAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type SetupTaskMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    type?: true
+    status?: true
+    required?: true
+    completedAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type SetupTaskCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    type?: true
+    status?: true
+    required?: true
+    dependencies?: true
+    progress?: true
+    metadata?: true
+    completedAt?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type SetupTaskAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SetupTask to aggregate.
+     */
+    where?: SetupTaskWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SetupTasks to fetch.
+     */
+    orderBy?: SetupTaskOrderByWithRelationInput | SetupTaskOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SetupTaskWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SetupTasks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SetupTasks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned SetupTasks
+    **/
+    _count?: true | SetupTaskCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SetupTaskMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SetupTaskMaxAggregateInputType
+  }
+
+  export type GetSetupTaskAggregateType<T extends SetupTaskAggregateArgs> = {
+        [P in keyof T & keyof AggregateSetupTask]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSetupTask[P]>
+      : GetScalarType<T[P], AggregateSetupTask[P]>
+  }
+
+
+
+
+  export type SetupTaskGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SetupTaskWhereInput
+    orderBy?: SetupTaskOrderByWithAggregationInput | SetupTaskOrderByWithAggregationInput[]
+    by: SetupTaskScalarFieldEnum[] | SetupTaskScalarFieldEnum
+    having?: SetupTaskScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SetupTaskCountAggregateInputType | true
+    _min?: SetupTaskMinAggregateInputType
+    _max?: SetupTaskMaxAggregateInputType
+  }
+
+  export type SetupTaskGroupByOutputType = {
+    id: string
+    tenantId: string
+    type: $Enums.SetupTaskType
+    status: $Enums.SetupTaskStatus
+    required: boolean
+    dependencies: $Enums.SetupTaskType[]
+    progress: JsonValue | null
+    metadata: JsonValue | null
+    completedAt: Date | null
+    createdAt: Date
+    updatedAt: Date
+    _count: SetupTaskCountAggregateOutputType | null
+    _min: SetupTaskMinAggregateOutputType | null
+    _max: SetupTaskMaxAggregateOutputType | null
+  }
+
+  type GetSetupTaskGroupByPayload<T extends SetupTaskGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SetupTaskGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SetupTaskGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SetupTaskGroupByOutputType[P]>
+            : GetScalarType<T[P], SetupTaskGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SetupTaskSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    type?: boolean
+    status?: boolean
+    required?: boolean
+    dependencies?: boolean
+    progress?: boolean
+    metadata?: boolean
+    completedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["setupTask"]>
+
+  export type SetupTaskSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    type?: boolean
+    status?: boolean
+    required?: boolean
+    dependencies?: boolean
+    progress?: boolean
+    metadata?: boolean
+    completedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["setupTask"]>
+
+  export type SetupTaskSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    type?: boolean
+    status?: boolean
+    required?: boolean
+    dependencies?: boolean
+    progress?: boolean
+    metadata?: boolean
+    completedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["setupTask"]>
+
+  export type SetupTaskSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    type?: boolean
+    status?: boolean
+    required?: boolean
+    dependencies?: boolean
+    progress?: boolean
+    metadata?: boolean
+    completedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type SetupTaskOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "type" | "status" | "required" | "dependencies" | "progress" | "metadata" | "completedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["setupTask"]>
+  export type SetupTaskInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type SetupTaskIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type SetupTaskIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+
+  export type $SetupTaskPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "SetupTask"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      type: $Enums.SetupTaskType
+      status: $Enums.SetupTaskStatus
+      required: boolean
+      dependencies: $Enums.SetupTaskType[]
+      progress: Prisma.JsonValue | null
+      metadata: Prisma.JsonValue | null
+      completedAt: Date | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["setupTask"]>
+    composites: {}
+  }
+
+  type SetupTaskGetPayload<S extends boolean | null | undefined | SetupTaskDefaultArgs> = $Result.GetResult<Prisma.$SetupTaskPayload, S>
+
+  type SetupTaskCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<SetupTaskFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: SetupTaskCountAggregateInputType | true
+    }
+
+  export interface SetupTaskDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['SetupTask'], meta: { name: 'SetupTask' } }
+    /**
+     * Find zero or one SetupTask that matches the filter.
+     * @param {SetupTaskFindUniqueArgs} args - Arguments to find a SetupTask
+     * @example
+     * // Get one SetupTask
+     * const setupTask = await prisma.setupTask.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SetupTaskFindUniqueArgs>(args: SelectSubset<T, SetupTaskFindUniqueArgs<ExtArgs>>): Prisma__SetupTaskClient<$Result.GetResult<Prisma.$SetupTaskPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one SetupTask that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {SetupTaskFindUniqueOrThrowArgs} args - Arguments to find a SetupTask
+     * @example
+     * // Get one SetupTask
+     * const setupTask = await prisma.setupTask.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SetupTaskFindUniqueOrThrowArgs>(args: SelectSubset<T, SetupTaskFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SetupTaskClient<$Result.GetResult<Prisma.$SetupTaskPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SetupTask that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SetupTaskFindFirstArgs} args - Arguments to find a SetupTask
+     * @example
+     * // Get one SetupTask
+     * const setupTask = await prisma.setupTask.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SetupTaskFindFirstArgs>(args?: SelectSubset<T, SetupTaskFindFirstArgs<ExtArgs>>): Prisma__SetupTaskClient<$Result.GetResult<Prisma.$SetupTaskPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SetupTask that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SetupTaskFindFirstOrThrowArgs} args - Arguments to find a SetupTask
+     * @example
+     * // Get one SetupTask
+     * const setupTask = await prisma.setupTask.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SetupTaskFindFirstOrThrowArgs>(args?: SelectSubset<T, SetupTaskFindFirstOrThrowArgs<ExtArgs>>): Prisma__SetupTaskClient<$Result.GetResult<Prisma.$SetupTaskPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more SetupTasks that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SetupTaskFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all SetupTasks
+     * const setupTasks = await prisma.setupTask.findMany()
+     * 
+     * // Get first 10 SetupTasks
+     * const setupTasks = await prisma.setupTask.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const setupTaskWithIdOnly = await prisma.setupTask.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends SetupTaskFindManyArgs>(args?: SelectSubset<T, SetupTaskFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SetupTaskPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a SetupTask.
+     * @param {SetupTaskCreateArgs} args - Arguments to create a SetupTask.
+     * @example
+     * // Create one SetupTask
+     * const SetupTask = await prisma.setupTask.create({
+     *   data: {
+     *     // ... data to create a SetupTask
+     *   }
+     * })
+     * 
+     */
+    create<T extends SetupTaskCreateArgs>(args: SelectSubset<T, SetupTaskCreateArgs<ExtArgs>>): Prisma__SetupTaskClient<$Result.GetResult<Prisma.$SetupTaskPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many SetupTasks.
+     * @param {SetupTaskCreateManyArgs} args - Arguments to create many SetupTasks.
+     * @example
+     * // Create many SetupTasks
+     * const setupTask = await prisma.setupTask.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SetupTaskCreateManyArgs>(args?: SelectSubset<T, SetupTaskCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many SetupTasks and returns the data saved in the database.
+     * @param {SetupTaskCreateManyAndReturnArgs} args - Arguments to create many SetupTasks.
+     * @example
+     * // Create many SetupTasks
+     * const setupTask = await prisma.setupTask.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many SetupTasks and only return the `id`
+     * const setupTaskWithIdOnly = await prisma.setupTask.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends SetupTaskCreateManyAndReturnArgs>(args?: SelectSubset<T, SetupTaskCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SetupTaskPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a SetupTask.
+     * @param {SetupTaskDeleteArgs} args - Arguments to delete one SetupTask.
+     * @example
+     * // Delete one SetupTask
+     * const SetupTask = await prisma.setupTask.delete({
+     *   where: {
+     *     // ... filter to delete one SetupTask
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SetupTaskDeleteArgs>(args: SelectSubset<T, SetupTaskDeleteArgs<ExtArgs>>): Prisma__SetupTaskClient<$Result.GetResult<Prisma.$SetupTaskPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one SetupTask.
+     * @param {SetupTaskUpdateArgs} args - Arguments to update one SetupTask.
+     * @example
+     * // Update one SetupTask
+     * const setupTask = await prisma.setupTask.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SetupTaskUpdateArgs>(args: SelectSubset<T, SetupTaskUpdateArgs<ExtArgs>>): Prisma__SetupTaskClient<$Result.GetResult<Prisma.$SetupTaskPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more SetupTasks.
+     * @param {SetupTaskDeleteManyArgs} args - Arguments to filter SetupTasks to delete.
+     * @example
+     * // Delete a few SetupTasks
+     * const { count } = await prisma.setupTask.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SetupTaskDeleteManyArgs>(args?: SelectSubset<T, SetupTaskDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SetupTasks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SetupTaskUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many SetupTasks
+     * const setupTask = await prisma.setupTask.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SetupTaskUpdateManyArgs>(args: SelectSubset<T, SetupTaskUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SetupTasks and returns the data updated in the database.
+     * @param {SetupTaskUpdateManyAndReturnArgs} args - Arguments to update many SetupTasks.
+     * @example
+     * // Update many SetupTasks
+     * const setupTask = await prisma.setupTask.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more SetupTasks and only return the `id`
+     * const setupTaskWithIdOnly = await prisma.setupTask.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends SetupTaskUpdateManyAndReturnArgs>(args: SelectSubset<T, SetupTaskUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SetupTaskPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one SetupTask.
+     * @param {SetupTaskUpsertArgs} args - Arguments to update or create a SetupTask.
+     * @example
+     * // Update or create a SetupTask
+     * const setupTask = await prisma.setupTask.upsert({
+     *   create: {
+     *     // ... data to create a SetupTask
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the SetupTask we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SetupTaskUpsertArgs>(args: SelectSubset<T, SetupTaskUpsertArgs<ExtArgs>>): Prisma__SetupTaskClient<$Result.GetResult<Prisma.$SetupTaskPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of SetupTasks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SetupTaskCountArgs} args - Arguments to filter SetupTasks to count.
+     * @example
+     * // Count the number of SetupTasks
+     * const count = await prisma.setupTask.count({
+     *   where: {
+     *     // ... the filter for the SetupTasks we want to count
+     *   }
+     * })
+    **/
+    count<T extends SetupTaskCountArgs>(
+      args?: Subset<T, SetupTaskCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SetupTaskCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a SetupTask.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SetupTaskAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SetupTaskAggregateArgs>(args: Subset<T, SetupTaskAggregateArgs>): Prisma.PrismaPromise<GetSetupTaskAggregateType<T>>
+
+    /**
+     * Group by SetupTask.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SetupTaskGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SetupTaskGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SetupTaskGroupByArgs['orderBy'] }
+        : { orderBy?: SetupTaskGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SetupTaskGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSetupTaskGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the SetupTask model
+   */
+  readonly fields: SetupTaskFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for SetupTask.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SetupTaskClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the SetupTask model
+   */
+  interface SetupTaskFieldRefs {
+    readonly id: FieldRef<"SetupTask", 'String'>
+    readonly tenantId: FieldRef<"SetupTask", 'String'>
+    readonly type: FieldRef<"SetupTask", 'SetupTaskType'>
+    readonly status: FieldRef<"SetupTask", 'SetupTaskStatus'>
+    readonly required: FieldRef<"SetupTask", 'Boolean'>
+    readonly dependencies: FieldRef<"SetupTask", 'SetupTaskType[]'>
+    readonly progress: FieldRef<"SetupTask", 'Json'>
+    readonly metadata: FieldRef<"SetupTask", 'Json'>
+    readonly completedAt: FieldRef<"SetupTask", 'DateTime'>
+    readonly createdAt: FieldRef<"SetupTask", 'DateTime'>
+    readonly updatedAt: FieldRef<"SetupTask", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * SetupTask findUnique
+   */
+  export type SetupTaskFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SetupTask
+     */
+    select?: SetupTaskSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SetupTask
+     */
+    omit?: SetupTaskOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetupTaskInclude<ExtArgs> | null
+    /**
+     * Filter, which SetupTask to fetch.
+     */
+    where: SetupTaskWhereUniqueInput
+  }
+
+  /**
+   * SetupTask findUniqueOrThrow
+   */
+  export type SetupTaskFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SetupTask
+     */
+    select?: SetupTaskSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SetupTask
+     */
+    omit?: SetupTaskOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetupTaskInclude<ExtArgs> | null
+    /**
+     * Filter, which SetupTask to fetch.
+     */
+    where: SetupTaskWhereUniqueInput
+  }
+
+  /**
+   * SetupTask findFirst
+   */
+  export type SetupTaskFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SetupTask
+     */
+    select?: SetupTaskSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SetupTask
+     */
+    omit?: SetupTaskOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetupTaskInclude<ExtArgs> | null
+    /**
+     * Filter, which SetupTask to fetch.
+     */
+    where?: SetupTaskWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SetupTasks to fetch.
+     */
+    orderBy?: SetupTaskOrderByWithRelationInput | SetupTaskOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SetupTasks.
+     */
+    cursor?: SetupTaskWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SetupTasks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SetupTasks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SetupTasks.
+     */
+    distinct?: SetupTaskScalarFieldEnum | SetupTaskScalarFieldEnum[]
+  }
+
+  /**
+   * SetupTask findFirstOrThrow
+   */
+  export type SetupTaskFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SetupTask
+     */
+    select?: SetupTaskSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SetupTask
+     */
+    omit?: SetupTaskOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetupTaskInclude<ExtArgs> | null
+    /**
+     * Filter, which SetupTask to fetch.
+     */
+    where?: SetupTaskWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SetupTasks to fetch.
+     */
+    orderBy?: SetupTaskOrderByWithRelationInput | SetupTaskOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SetupTasks.
+     */
+    cursor?: SetupTaskWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SetupTasks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SetupTasks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SetupTasks.
+     */
+    distinct?: SetupTaskScalarFieldEnum | SetupTaskScalarFieldEnum[]
+  }
+
+  /**
+   * SetupTask findMany
+   */
+  export type SetupTaskFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SetupTask
+     */
+    select?: SetupTaskSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SetupTask
+     */
+    omit?: SetupTaskOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetupTaskInclude<ExtArgs> | null
+    /**
+     * Filter, which SetupTasks to fetch.
+     */
+    where?: SetupTaskWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SetupTasks to fetch.
+     */
+    orderBy?: SetupTaskOrderByWithRelationInput | SetupTaskOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing SetupTasks.
+     */
+    cursor?: SetupTaskWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SetupTasks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SetupTasks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SetupTasks.
+     */
+    distinct?: SetupTaskScalarFieldEnum | SetupTaskScalarFieldEnum[]
+  }
+
+  /**
+   * SetupTask create
+   */
+  export type SetupTaskCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SetupTask
+     */
+    select?: SetupTaskSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SetupTask
+     */
+    omit?: SetupTaskOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetupTaskInclude<ExtArgs> | null
+    /**
+     * The data needed to create a SetupTask.
+     */
+    data: XOR<SetupTaskCreateInput, SetupTaskUncheckedCreateInput>
+  }
+
+  /**
+   * SetupTask createMany
+   */
+  export type SetupTaskCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many SetupTasks.
+     */
+    data: SetupTaskCreateManyInput | SetupTaskCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * SetupTask createManyAndReturn
+   */
+  export type SetupTaskCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SetupTask
+     */
+    select?: SetupTaskSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SetupTask
+     */
+    omit?: SetupTaskOmit<ExtArgs> | null
+    /**
+     * The data used to create many SetupTasks.
+     */
+    data: SetupTaskCreateManyInput | SetupTaskCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetupTaskIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * SetupTask update
+   */
+  export type SetupTaskUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SetupTask
+     */
+    select?: SetupTaskSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SetupTask
+     */
+    omit?: SetupTaskOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetupTaskInclude<ExtArgs> | null
+    /**
+     * The data needed to update a SetupTask.
+     */
+    data: XOR<SetupTaskUpdateInput, SetupTaskUncheckedUpdateInput>
+    /**
+     * Choose, which SetupTask to update.
+     */
+    where: SetupTaskWhereUniqueInput
+  }
+
+  /**
+   * SetupTask updateMany
+   */
+  export type SetupTaskUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update SetupTasks.
+     */
+    data: XOR<SetupTaskUpdateManyMutationInput, SetupTaskUncheckedUpdateManyInput>
+    /**
+     * Filter which SetupTasks to update
+     */
+    where?: SetupTaskWhereInput
+    /**
+     * Limit how many SetupTasks to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * SetupTask updateManyAndReturn
+   */
+  export type SetupTaskUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SetupTask
+     */
+    select?: SetupTaskSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SetupTask
+     */
+    omit?: SetupTaskOmit<ExtArgs> | null
+    /**
+     * The data used to update SetupTasks.
+     */
+    data: XOR<SetupTaskUpdateManyMutationInput, SetupTaskUncheckedUpdateManyInput>
+    /**
+     * Filter which SetupTasks to update
+     */
+    where?: SetupTaskWhereInput
+    /**
+     * Limit how many SetupTasks to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetupTaskIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * SetupTask upsert
+   */
+  export type SetupTaskUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SetupTask
+     */
+    select?: SetupTaskSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SetupTask
+     */
+    omit?: SetupTaskOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetupTaskInclude<ExtArgs> | null
+    /**
+     * The filter to search for the SetupTask to update in case it exists.
+     */
+    where: SetupTaskWhereUniqueInput
+    /**
+     * In case the SetupTask found by the `where` argument doesn't exist, create a new SetupTask with this data.
+     */
+    create: XOR<SetupTaskCreateInput, SetupTaskUncheckedCreateInput>
+    /**
+     * In case the SetupTask was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SetupTaskUpdateInput, SetupTaskUncheckedUpdateInput>
+  }
+
+  /**
+   * SetupTask delete
+   */
+  export type SetupTaskDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SetupTask
+     */
+    select?: SetupTaskSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SetupTask
+     */
+    omit?: SetupTaskOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetupTaskInclude<ExtArgs> | null
+    /**
+     * Filter which SetupTask to delete.
+     */
+    where: SetupTaskWhereUniqueInput
+  }
+
+  /**
+   * SetupTask deleteMany
+   */
+  export type SetupTaskDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SetupTasks to delete
+     */
+    where?: SetupTaskWhereInput
+    /**
+     * Limit how many SetupTasks to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * SetupTask without action
+   */
+  export type SetupTaskDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SetupTask
+     */
+    select?: SetupTaskSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SetupTask
+     */
+    omit?: SetupTaskOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetupTaskInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model StockCount
    */
 
@@ -54884,6 +56154,7 @@ export namespace Prisma {
     isActive: boolean | null
     onboardingStep: number | null
     onboardingCompletedAt: Date | null
+    businessSetupCompletedAt: Date | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -54904,6 +56175,7 @@ export namespace Prisma {
     isActive: boolean | null
     onboardingStep: number | null
     onboardingCompletedAt: Date | null
+    businessSetupCompletedAt: Date | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -54924,6 +56196,9 @@ export namespace Prisma {
     isActive: number
     onboardingStep: number
     onboardingCompletedAt: number
+    businessSetupProfile: number
+    businessSetupCompletedAt: number
+    operationalReadiness: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -54954,6 +56229,7 @@ export namespace Prisma {
     isActive?: true
     onboardingStep?: true
     onboardingCompletedAt?: true
+    businessSetupCompletedAt?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -54974,6 +56250,7 @@ export namespace Prisma {
     isActive?: true
     onboardingStep?: true
     onboardingCompletedAt?: true
+    businessSetupCompletedAt?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -54994,6 +56271,9 @@ export namespace Prisma {
     isActive?: true
     onboardingStep?: true
     onboardingCompletedAt?: true
+    businessSetupProfile?: true
+    businessSetupCompletedAt?: true
+    operationalReadiness?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -55101,6 +56381,9 @@ export namespace Prisma {
     isActive: boolean
     onboardingStep: number
     onboardingCompletedAt: Date | null
+    businessSetupProfile: JsonValue | null
+    businessSetupCompletedAt: Date | null
+    operationalReadiness: JsonValue | null
     createdAt: Date
     updatedAt: Date
     _count: TenantCountAggregateOutputType | null
@@ -55140,6 +56423,9 @@ export namespace Prisma {
     isActive?: boolean
     onboardingStep?: boolean
     onboardingCompletedAt?: boolean
+    businessSetupProfile?: boolean
+    businessSetupCompletedAt?: boolean
+    operationalReadiness?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     users?: boolean | Tenant$usersArgs<ExtArgs>
@@ -55175,6 +56461,7 @@ export namespace Prisma {
     brands?: boolean | Tenant$brandsArgs<ExtArgs>
     openingBalanceSessions?: boolean | Tenant$openingBalanceSessionsArgs<ExtArgs>
     openingBalanceSessionLines?: boolean | Tenant$openingBalanceSessionLinesArgs<ExtArgs>
+    setupTasks?: boolean | Tenant$setupTasksArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["tenant"]>
 
@@ -55194,6 +56481,9 @@ export namespace Prisma {
     isActive?: boolean
     onboardingStep?: boolean
     onboardingCompletedAt?: boolean
+    businessSetupProfile?: boolean
+    businessSetupCompletedAt?: boolean
+    operationalReadiness?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     baseCurrency?: boolean | Tenant$baseCurrencyArgs<ExtArgs>
@@ -55216,6 +56506,9 @@ export namespace Prisma {
     isActive?: boolean
     onboardingStep?: boolean
     onboardingCompletedAt?: boolean
+    businessSetupProfile?: boolean
+    businessSetupCompletedAt?: boolean
+    operationalReadiness?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     baseCurrency?: boolean | Tenant$baseCurrencyArgs<ExtArgs>
@@ -55238,11 +56531,14 @@ export namespace Prisma {
     isActive?: boolean
     onboardingStep?: boolean
     onboardingCompletedAt?: boolean
+    businessSetupProfile?: boolean
+    businessSetupCompletedAt?: boolean
+    operationalReadiness?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type TenantOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "slug" | "address" | "phone" | "email" | "logo" | "legalName" | "taxNumber" | "website" | "baseCurrencyId" | "defaultSalesSequenceId" | "isActive" | "onboardingStep" | "onboardingCompletedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["tenant"]>
+  export type TenantOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "slug" | "address" | "phone" | "email" | "logo" | "legalName" | "taxNumber" | "website" | "baseCurrencyId" | "defaultSalesSequenceId" | "isActive" | "onboardingStep" | "onboardingCompletedAt" | "businessSetupProfile" | "businessSetupCompletedAt" | "operationalReadiness" | "createdAt" | "updatedAt", ExtArgs["result"]["tenant"]>
   export type TenantInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     users?: boolean | Tenant$usersArgs<ExtArgs>
     roles?: boolean | Tenant$rolesArgs<ExtArgs>
@@ -55277,6 +56573,7 @@ export namespace Prisma {
     brands?: boolean | Tenant$brandsArgs<ExtArgs>
     openingBalanceSessions?: boolean | Tenant$openingBalanceSessionsArgs<ExtArgs>
     openingBalanceSessionLines?: boolean | Tenant$openingBalanceSessionLinesArgs<ExtArgs>
+    setupTasks?: boolean | Tenant$setupTasksArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TenantIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -55324,6 +56621,7 @@ export namespace Prisma {
       brands: Prisma.$BrandPayload<ExtArgs>[]
       openingBalanceSessions: Prisma.$OpeningBalanceSessionPayload<ExtArgs>[]
       openingBalanceSessionLines: Prisma.$OpeningBalanceSessionLinePayload<ExtArgs>[]
+      setupTasks: Prisma.$SetupTaskPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -55341,6 +56639,9 @@ export namespace Prisma {
       isActive: boolean
       onboardingStep: number
       onboardingCompletedAt: Date | null
+      businessSetupProfile: Prisma.JsonValue | null
+      businessSetupCompletedAt: Date | null
+      operationalReadiness: Prisma.JsonValue | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["tenant"]>
@@ -55770,6 +57071,7 @@ export namespace Prisma {
     brands<T extends Tenant$brandsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$brandsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BrandPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     openingBalanceSessions<T extends Tenant$openingBalanceSessionsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$openingBalanceSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OpeningBalanceSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     openingBalanceSessionLines<T extends Tenant$openingBalanceSessionLinesArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$openingBalanceSessionLinesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OpeningBalanceSessionLinePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    setupTasks<T extends Tenant$setupTasksArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$setupTasksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SetupTaskPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -55814,6 +57116,9 @@ export namespace Prisma {
     readonly isActive: FieldRef<"Tenant", 'Boolean'>
     readonly onboardingStep: FieldRef<"Tenant", 'Int'>
     readonly onboardingCompletedAt: FieldRef<"Tenant", 'DateTime'>
+    readonly businessSetupProfile: FieldRef<"Tenant", 'Json'>
+    readonly businessSetupCompletedAt: FieldRef<"Tenant", 'DateTime'>
+    readonly operationalReadiness: FieldRef<"Tenant", 'Json'>
     readonly createdAt: FieldRef<"Tenant", 'DateTime'>
     readonly updatedAt: FieldRef<"Tenant", 'DateTime'>
   }
@@ -56991,6 +58296,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: OpeningBalanceSessionLineScalarFieldEnum | OpeningBalanceSessionLineScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.setupTasks
+   */
+  export type Tenant$setupTasksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SetupTask
+     */
+    select?: SetupTaskSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SetupTask
+     */
+    omit?: SetupTaskOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetupTaskInclude<ExtArgs> | null
+    where?: SetupTaskWhereInput
+    orderBy?: SetupTaskOrderByWithRelationInput | SetupTaskOrderByWithRelationInput[]
+    cursor?: SetupTaskWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SetupTaskScalarFieldEnum | SetupTaskScalarFieldEnum[]
   }
 
   /**
@@ -64442,6 +65771,23 @@ export namespace Prisma {
   export type ReconciliationRunScalarFieldEnum = (typeof ReconciliationRunScalarFieldEnum)[keyof typeof ReconciliationRunScalarFieldEnum]
 
 
+  export const SetupTaskScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    type: 'type',
+    status: 'status',
+    required: 'required',
+    dependencies: 'dependencies',
+    progress: 'progress',
+    metadata: 'metadata',
+    completedAt: 'completedAt',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type SetupTaskScalarFieldEnum = (typeof SetupTaskScalarFieldEnum)[keyof typeof SetupTaskScalarFieldEnum]
+
+
   export const StockCountScalarFieldEnum: {
     id: 'id',
     tenantId: 'tenantId',
@@ -64561,6 +65907,9 @@ export namespace Prisma {
     isActive: 'isActive',
     onboardingStep: 'onboardingStep',
     onboardingCompletedAt: 'onboardingCompletedAt',
+    businessSetupProfile: 'businessSetupProfile',
+    businessSetupCompletedAt: 'businessSetupCompletedAt',
+    operationalReadiness: 'operationalReadiness',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -65013,6 +66362,34 @@ export namespace Prisma {
    * Reference to a field of type 'PartyType[]'
    */
   export type ListEnumPartyTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PartyType[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'SetupTaskType'
+   */
+  export type EnumSetupTaskTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SetupTaskType'>
+    
+
+
+  /**
+   * Reference to a field of type 'SetupTaskType[]'
+   */
+  export type ListEnumSetupTaskTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SetupTaskType[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'SetupTaskStatus'
+   */
+  export type EnumSetupTaskStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SetupTaskStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'SetupTaskStatus[]'
+   */
+  export type ListEnumSetupTaskStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SetupTaskStatus[]'>
     
 
 
@@ -68256,6 +69633,92 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"ReconciliationRun"> | Date | string
   }
 
+  export type SetupTaskWhereInput = {
+    AND?: SetupTaskWhereInput | SetupTaskWhereInput[]
+    OR?: SetupTaskWhereInput[]
+    NOT?: SetupTaskWhereInput | SetupTaskWhereInput[]
+    id?: StringFilter<"SetupTask"> | string
+    tenantId?: StringFilter<"SetupTask"> | string
+    type?: EnumSetupTaskTypeFilter<"SetupTask"> | $Enums.SetupTaskType
+    status?: EnumSetupTaskStatusFilter<"SetupTask"> | $Enums.SetupTaskStatus
+    required?: BoolFilter<"SetupTask"> | boolean
+    dependencies?: EnumSetupTaskTypeNullableListFilter<"SetupTask">
+    progress?: JsonNullableFilter<"SetupTask">
+    metadata?: JsonNullableFilter<"SetupTask">
+    completedAt?: DateTimeNullableFilter<"SetupTask"> | Date | string | null
+    createdAt?: DateTimeFilter<"SetupTask"> | Date | string
+    updatedAt?: DateTimeFilter<"SetupTask"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+  }
+
+  export type SetupTaskOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    type?: SortOrder
+    status?: SortOrder
+    required?: SortOrder
+    dependencies?: SortOrder
+    progress?: SortOrderInput | SortOrder
+    metadata?: SortOrderInput | SortOrder
+    completedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+  }
+
+  export type SetupTaskWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tenantId_type?: SetupTaskTenantIdTypeCompoundUniqueInput
+    AND?: SetupTaskWhereInput | SetupTaskWhereInput[]
+    OR?: SetupTaskWhereInput[]
+    NOT?: SetupTaskWhereInput | SetupTaskWhereInput[]
+    tenantId?: StringFilter<"SetupTask"> | string
+    type?: EnumSetupTaskTypeFilter<"SetupTask"> | $Enums.SetupTaskType
+    status?: EnumSetupTaskStatusFilter<"SetupTask"> | $Enums.SetupTaskStatus
+    required?: BoolFilter<"SetupTask"> | boolean
+    dependencies?: EnumSetupTaskTypeNullableListFilter<"SetupTask">
+    progress?: JsonNullableFilter<"SetupTask">
+    metadata?: JsonNullableFilter<"SetupTask">
+    completedAt?: DateTimeNullableFilter<"SetupTask"> | Date | string | null
+    createdAt?: DateTimeFilter<"SetupTask"> | Date | string
+    updatedAt?: DateTimeFilter<"SetupTask"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+  }, "id" | "tenantId_type">
+
+  export type SetupTaskOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    type?: SortOrder
+    status?: SortOrder
+    required?: SortOrder
+    dependencies?: SortOrder
+    progress?: SortOrderInput | SortOrder
+    metadata?: SortOrderInput | SortOrder
+    completedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: SetupTaskCountOrderByAggregateInput
+    _max?: SetupTaskMaxOrderByAggregateInput
+    _min?: SetupTaskMinOrderByAggregateInput
+  }
+
+  export type SetupTaskScalarWhereWithAggregatesInput = {
+    AND?: SetupTaskScalarWhereWithAggregatesInput | SetupTaskScalarWhereWithAggregatesInput[]
+    OR?: SetupTaskScalarWhereWithAggregatesInput[]
+    NOT?: SetupTaskScalarWhereWithAggregatesInput | SetupTaskScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"SetupTask"> | string
+    tenantId?: StringWithAggregatesFilter<"SetupTask"> | string
+    type?: EnumSetupTaskTypeWithAggregatesFilter<"SetupTask"> | $Enums.SetupTaskType
+    status?: EnumSetupTaskStatusWithAggregatesFilter<"SetupTask"> | $Enums.SetupTaskStatus
+    required?: BoolWithAggregatesFilter<"SetupTask"> | boolean
+    dependencies?: EnumSetupTaskTypeNullableListFilter<"SetupTask">
+    progress?: JsonNullableWithAggregatesFilter<"SetupTask">
+    metadata?: JsonNullableWithAggregatesFilter<"SetupTask">
+    completedAt?: DateTimeNullableWithAggregatesFilter<"SetupTask"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"SetupTask"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"SetupTask"> | Date | string
+  }
+
   export type StockCountWhereInput = {
     AND?: StockCountWhereInput | StockCountWhereInput[]
     OR?: StockCountWhereInput[]
@@ -68825,6 +70288,9 @@ export namespace Prisma {
     isActive?: BoolFilter<"Tenant"> | boolean
     onboardingStep?: IntFilter<"Tenant"> | number
     onboardingCompletedAt?: DateTimeNullableFilter<"Tenant"> | Date | string | null
+    businessSetupProfile?: JsonNullableFilter<"Tenant">
+    businessSetupCompletedAt?: DateTimeNullableFilter<"Tenant"> | Date | string | null
+    operationalReadiness?: JsonNullableFilter<"Tenant">
     createdAt?: DateTimeFilter<"Tenant"> | Date | string
     updatedAt?: DateTimeFilter<"Tenant"> | Date | string
     users?: AppUserListRelationFilter
@@ -68860,6 +70326,7 @@ export namespace Prisma {
     brands?: BrandListRelationFilter
     openingBalanceSessions?: OpeningBalanceSessionListRelationFilter
     openingBalanceSessionLines?: OpeningBalanceSessionLineListRelationFilter
+    setupTasks?: SetupTaskListRelationFilter
   }
 
   export type TenantOrderByWithRelationInput = {
@@ -68878,6 +70345,9 @@ export namespace Prisma {
     isActive?: SortOrder
     onboardingStep?: SortOrder
     onboardingCompletedAt?: SortOrderInput | SortOrder
+    businessSetupProfile?: SortOrderInput | SortOrder
+    businessSetupCompletedAt?: SortOrderInput | SortOrder
+    operationalReadiness?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     users?: AppUserOrderByRelationAggregateInput
@@ -68913,6 +70383,7 @@ export namespace Prisma {
     brands?: BrandOrderByRelationAggregateInput
     openingBalanceSessions?: OpeningBalanceSessionOrderByRelationAggregateInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineOrderByRelationAggregateInput
+    setupTasks?: SetupTaskOrderByRelationAggregateInput
   }
 
   export type TenantWhereUniqueInput = Prisma.AtLeast<{
@@ -68934,6 +70405,9 @@ export namespace Prisma {
     isActive?: BoolFilter<"Tenant"> | boolean
     onboardingStep?: IntFilter<"Tenant"> | number
     onboardingCompletedAt?: DateTimeNullableFilter<"Tenant"> | Date | string | null
+    businessSetupProfile?: JsonNullableFilter<"Tenant">
+    businessSetupCompletedAt?: DateTimeNullableFilter<"Tenant"> | Date | string | null
+    operationalReadiness?: JsonNullableFilter<"Tenant">
     createdAt?: DateTimeFilter<"Tenant"> | Date | string
     updatedAt?: DateTimeFilter<"Tenant"> | Date | string
     users?: AppUserListRelationFilter
@@ -68969,6 +70443,7 @@ export namespace Prisma {
     brands?: BrandListRelationFilter
     openingBalanceSessions?: OpeningBalanceSessionListRelationFilter
     openingBalanceSessionLines?: OpeningBalanceSessionLineListRelationFilter
+    setupTasks?: SetupTaskListRelationFilter
   }, "id" | "slug">
 
   export type TenantOrderByWithAggregationInput = {
@@ -68987,6 +70462,9 @@ export namespace Prisma {
     isActive?: SortOrder
     onboardingStep?: SortOrder
     onboardingCompletedAt?: SortOrderInput | SortOrder
+    businessSetupProfile?: SortOrderInput | SortOrder
+    businessSetupCompletedAt?: SortOrderInput | SortOrder
+    operationalReadiness?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: TenantCountOrderByAggregateInput
@@ -69015,6 +70493,9 @@ export namespace Prisma {
     isActive?: BoolWithAggregatesFilter<"Tenant"> | boolean
     onboardingStep?: IntWithAggregatesFilter<"Tenant"> | number
     onboardingCompletedAt?: DateTimeNullableWithAggregatesFilter<"Tenant"> | Date | string | null
+    businessSetupProfile?: JsonNullableWithAggregatesFilter<"Tenant">
+    businessSetupCompletedAt?: DateTimeNullableWithAggregatesFilter<"Tenant"> | Date | string | null
+    operationalReadiness?: JsonNullableWithAggregatesFilter<"Tenant">
     createdAt?: DateTimeWithAggregatesFilter<"Tenant"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Tenant"> | Date | string
   }
@@ -72871,6 +74352,103 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type SetupTaskCreateInput = {
+    id?: string
+    type: $Enums.SetupTaskType
+    status?: $Enums.SetupTaskStatus
+    required?: boolean
+    dependencies?: SetupTaskCreatedependenciesInput | $Enums.SetupTaskType[]
+    progress?: NullableJsonNullValueInput | InputJsonValue
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    completedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutSetupTasksInput
+  }
+
+  export type SetupTaskUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    type: $Enums.SetupTaskType
+    status?: $Enums.SetupTaskStatus
+    required?: boolean
+    dependencies?: SetupTaskCreatedependenciesInput | $Enums.SetupTaskType[]
+    progress?: NullableJsonNullValueInput | InputJsonValue
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    completedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SetupTaskUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumSetupTaskTypeFieldUpdateOperationsInput | $Enums.SetupTaskType
+    status?: EnumSetupTaskStatusFieldUpdateOperationsInput | $Enums.SetupTaskStatus
+    required?: BoolFieldUpdateOperationsInput | boolean
+    dependencies?: SetupTaskUpdatedependenciesInput | $Enums.SetupTaskType[]
+    progress?: NullableJsonNullValueInput | InputJsonValue
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutSetupTasksNestedInput
+  }
+
+  export type SetupTaskUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    type?: EnumSetupTaskTypeFieldUpdateOperationsInput | $Enums.SetupTaskType
+    status?: EnumSetupTaskStatusFieldUpdateOperationsInput | $Enums.SetupTaskStatus
+    required?: BoolFieldUpdateOperationsInput | boolean
+    dependencies?: SetupTaskUpdatedependenciesInput | $Enums.SetupTaskType[]
+    progress?: NullableJsonNullValueInput | InputJsonValue
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SetupTaskCreateManyInput = {
+    id?: string
+    tenantId: string
+    type: $Enums.SetupTaskType
+    status?: $Enums.SetupTaskStatus
+    required?: boolean
+    dependencies?: SetupTaskCreatedependenciesInput | $Enums.SetupTaskType[]
+    progress?: NullableJsonNullValueInput | InputJsonValue
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    completedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SetupTaskUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumSetupTaskTypeFieldUpdateOperationsInput | $Enums.SetupTaskType
+    status?: EnumSetupTaskStatusFieldUpdateOperationsInput | $Enums.SetupTaskStatus
+    required?: BoolFieldUpdateOperationsInput | boolean
+    dependencies?: SetupTaskUpdatedependenciesInput | $Enums.SetupTaskType[]
+    progress?: NullableJsonNullValueInput | InputJsonValue
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SetupTaskUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    type?: EnumSetupTaskTypeFieldUpdateOperationsInput | $Enums.SetupTaskType
+    status?: EnumSetupTaskStatusFieldUpdateOperationsInput | $Enums.SetupTaskStatus
+    required?: BoolFieldUpdateOperationsInput | boolean
+    dependencies?: SetupTaskUpdatedependenciesInput | $Enums.SetupTaskType[]
+    progress?: NullableJsonNullValueInput | InputJsonValue
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StockCountCreateInput = {
     id?: string
     number: string
@@ -73454,6 +75032,9 @@ export namespace Prisma {
     isActive?: boolean
     onboardingStep?: number
     onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserCreateNestedManyWithoutTenantInput
@@ -73489,6 +75070,7 @@ export namespace Prisma {
     brands?: BrandCreateNestedManyWithoutTenantInput
     openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateInput = {
@@ -73507,6 +75089,9 @@ export namespace Prisma {
     isActive?: boolean
     onboardingStep?: number
     onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
@@ -73540,6 +75125,7 @@ export namespace Prisma {
     brands?: BrandUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUpdateInput = {
@@ -73556,6 +75142,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     onboardingStep?: IntFieldUpdateOperationsInput | number
     onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUpdateManyWithoutTenantNestedInput
@@ -73591,6 +75180,7 @@ export namespace Prisma {
     brands?: BrandUpdateManyWithoutTenantNestedInput
     openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateInput = {
@@ -73609,6 +75199,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     onboardingStep?: IntFieldUpdateOperationsInput | number
     onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
@@ -73642,6 +75235,7 @@ export namespace Prisma {
     brands?: BrandUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateManyInput = {
@@ -73660,6 +75254,9 @@ export namespace Prisma {
     isActive?: boolean
     onboardingStep?: number
     onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -73678,6 +75275,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     onboardingStep?: IntFieldUpdateOperationsInput | number
     onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -73698,6 +75298,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     onboardingStep?: IntFieldUpdateOperationsInput | number
     onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -76804,6 +78407,89 @@ export namespace Prisma {
     findingCount?: SortOrder
   }
 
+  export type EnumSetupTaskTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.SetupTaskType | EnumSetupTaskTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.SetupTaskType[] | ListEnumSetupTaskTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.SetupTaskType[] | ListEnumSetupTaskTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumSetupTaskTypeFilter<$PrismaModel> | $Enums.SetupTaskType
+  }
+
+  export type EnumSetupTaskStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.SetupTaskStatus | EnumSetupTaskStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.SetupTaskStatus[] | ListEnumSetupTaskStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.SetupTaskStatus[] | ListEnumSetupTaskStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumSetupTaskStatusFilter<$PrismaModel> | $Enums.SetupTaskStatus
+  }
+
+  export type EnumSetupTaskTypeNullableListFilter<$PrismaModel = never> = {
+    equals?: $Enums.SetupTaskType[] | ListEnumSetupTaskTypeFieldRefInput<$PrismaModel> | null
+    has?: $Enums.SetupTaskType | EnumSetupTaskTypeFieldRefInput<$PrismaModel> | null
+    hasEvery?: $Enums.SetupTaskType[] | ListEnumSetupTaskTypeFieldRefInput<$PrismaModel>
+    hasSome?: $Enums.SetupTaskType[] | ListEnumSetupTaskTypeFieldRefInput<$PrismaModel>
+    isEmpty?: boolean
+  }
+
+  export type SetupTaskTenantIdTypeCompoundUniqueInput = {
+    tenantId: string
+    type: $Enums.SetupTaskType
+  }
+
+  export type SetupTaskCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    type?: SortOrder
+    status?: SortOrder
+    required?: SortOrder
+    dependencies?: SortOrder
+    progress?: SortOrder
+    metadata?: SortOrder
+    completedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SetupTaskMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    type?: SortOrder
+    status?: SortOrder
+    required?: SortOrder
+    completedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SetupTaskMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    type?: SortOrder
+    status?: SortOrder
+    required?: SortOrder
+    completedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EnumSetupTaskTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.SetupTaskType | EnumSetupTaskTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.SetupTaskType[] | ListEnumSetupTaskTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.SetupTaskType[] | ListEnumSetupTaskTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumSetupTaskTypeWithAggregatesFilter<$PrismaModel> | $Enums.SetupTaskType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumSetupTaskTypeFilter<$PrismaModel>
+    _max?: NestedEnumSetupTaskTypeFilter<$PrismaModel>
+  }
+
+  export type EnumSetupTaskStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.SetupTaskStatus | EnumSetupTaskStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.SetupTaskStatus[] | ListEnumSetupTaskStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.SetupTaskStatus[] | ListEnumSetupTaskStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumSetupTaskStatusWithAggregatesFilter<$PrismaModel> | $Enums.SetupTaskStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumSetupTaskStatusFilter<$PrismaModel>
+    _max?: NestedEnumSetupTaskStatusFilter<$PrismaModel>
+  }
+
   export type EnumStockCountStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.StockCountStatus | EnumStockCountStatusFieldRefInput<$PrismaModel>
     in?: $Enums.StockCountStatus[] | ListEnumStockCountStatusFieldRefInput<$PrismaModel>
@@ -77261,6 +78947,12 @@ export namespace Prisma {
     none?: BrandWhereInput
   }
 
+  export type SetupTaskListRelationFilter = {
+    every?: SetupTaskWhereInput
+    some?: SetupTaskWhereInput
+    none?: SetupTaskWhereInput
+  }
+
   export type AppUserOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -77317,6 +79009,10 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
+  export type SetupTaskOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type TenantCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
@@ -77333,6 +79029,9 @@ export namespace Prisma {
     isActive?: SortOrder
     onboardingStep?: SortOrder
     onboardingCompletedAt?: SortOrder
+    businessSetupProfile?: SortOrder
+    businessSetupCompletedAt?: SortOrder
+    operationalReadiness?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -77357,6 +79056,7 @@ export namespace Prisma {
     isActive?: SortOrder
     onboardingStep?: SortOrder
     onboardingCompletedAt?: SortOrder
+    businessSetupCompletedAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -77377,6 +79077,7 @@ export namespace Prisma {
     isActive?: SortOrder
     onboardingStep?: SortOrder
     onboardingCompletedAt?: SortOrder
+    businessSetupCompletedAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -81763,6 +83464,37 @@ export namespace Prisma {
     update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutReconciliationRunsInput, TenantUpdateWithoutReconciliationRunsInput>, TenantUncheckedUpdateWithoutReconciliationRunsInput>
   }
 
+  export type SetupTaskCreatedependenciesInput = {
+    set: $Enums.SetupTaskType[]
+  }
+
+  export type TenantCreateNestedOneWithoutSetupTasksInput = {
+    create?: XOR<TenantCreateWithoutSetupTasksInput, TenantUncheckedCreateWithoutSetupTasksInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutSetupTasksInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type EnumSetupTaskTypeFieldUpdateOperationsInput = {
+    set?: $Enums.SetupTaskType
+  }
+
+  export type EnumSetupTaskStatusFieldUpdateOperationsInput = {
+    set?: $Enums.SetupTaskStatus
+  }
+
+  export type SetupTaskUpdatedependenciesInput = {
+    set?: $Enums.SetupTaskType[]
+    push?: $Enums.SetupTaskType | $Enums.SetupTaskType[]
+  }
+
+  export type TenantUpdateOneRequiredWithoutSetupTasksNestedInput = {
+    create?: XOR<TenantCreateWithoutSetupTasksInput, TenantUncheckedCreateWithoutSetupTasksInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutSetupTasksInput
+    upsert?: TenantUpsertWithoutSetupTasksInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutSetupTasksInput, TenantUpdateWithoutSetupTasksInput>, TenantUncheckedUpdateWithoutSetupTasksInput>
+  }
+
   export type TenantCreateNestedOneWithoutStockCountsInput = {
     create?: XOR<TenantCreateWithoutStockCountsInput, TenantUncheckedCreateWithoutStockCountsInput>
     connectOrCreate?: TenantCreateOrConnectWithoutStockCountsInput
@@ -82265,6 +83997,13 @@ export namespace Prisma {
     connect?: OpeningBalanceSessionLineWhereUniqueInput | OpeningBalanceSessionLineWhereUniqueInput[]
   }
 
+  export type SetupTaskCreateNestedManyWithoutTenantInput = {
+    create?: XOR<SetupTaskCreateWithoutTenantInput, SetupTaskUncheckedCreateWithoutTenantInput> | SetupTaskCreateWithoutTenantInput[] | SetupTaskUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: SetupTaskCreateOrConnectWithoutTenantInput | SetupTaskCreateOrConnectWithoutTenantInput[]
+    createMany?: SetupTaskCreateManyTenantInputEnvelope
+    connect?: SetupTaskWhereUniqueInput | SetupTaskWhereUniqueInput[]
+  }
+
   export type AppUserUncheckedCreateNestedManyWithoutTenantInput = {
     create?: XOR<AppUserCreateWithoutTenantInput, AppUserUncheckedCreateWithoutTenantInput> | AppUserCreateWithoutTenantInput[] | AppUserUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: AppUserCreateOrConnectWithoutTenantInput | AppUserCreateOrConnectWithoutTenantInput[]
@@ -82479,6 +84218,13 @@ export namespace Prisma {
     connectOrCreate?: OpeningBalanceSessionLineCreateOrConnectWithoutTenantInput | OpeningBalanceSessionLineCreateOrConnectWithoutTenantInput[]
     createMany?: OpeningBalanceSessionLineCreateManyTenantInputEnvelope
     connect?: OpeningBalanceSessionLineWhereUniqueInput | OpeningBalanceSessionLineWhereUniqueInput[]
+  }
+
+  export type SetupTaskUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<SetupTaskCreateWithoutTenantInput, SetupTaskUncheckedCreateWithoutTenantInput> | SetupTaskCreateWithoutTenantInput[] | SetupTaskUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: SetupTaskCreateOrConnectWithoutTenantInput | SetupTaskCreateOrConnectWithoutTenantInput[]
+    createMany?: SetupTaskCreateManyTenantInputEnvelope
+    connect?: SetupTaskWhereUniqueInput | SetupTaskWhereUniqueInput[]
   }
 
   export type AppUserUpdateManyWithoutTenantNestedInput = {
@@ -82931,6 +84677,20 @@ export namespace Prisma {
     deleteMany?: OpeningBalanceSessionLineScalarWhereInput | OpeningBalanceSessionLineScalarWhereInput[]
   }
 
+  export type SetupTaskUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<SetupTaskCreateWithoutTenantInput, SetupTaskUncheckedCreateWithoutTenantInput> | SetupTaskCreateWithoutTenantInput[] | SetupTaskUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: SetupTaskCreateOrConnectWithoutTenantInput | SetupTaskCreateOrConnectWithoutTenantInput[]
+    upsert?: SetupTaskUpsertWithWhereUniqueWithoutTenantInput | SetupTaskUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: SetupTaskCreateManyTenantInputEnvelope
+    set?: SetupTaskWhereUniqueInput | SetupTaskWhereUniqueInput[]
+    disconnect?: SetupTaskWhereUniqueInput | SetupTaskWhereUniqueInput[]
+    delete?: SetupTaskWhereUniqueInput | SetupTaskWhereUniqueInput[]
+    connect?: SetupTaskWhereUniqueInput | SetupTaskWhereUniqueInput[]
+    update?: SetupTaskUpdateWithWhereUniqueWithoutTenantInput | SetupTaskUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: SetupTaskUpdateManyWithWhereWithoutTenantInput | SetupTaskUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: SetupTaskScalarWhereInput | SetupTaskScalarWhereInput[]
+  }
+
   export type AppUserUncheckedUpdateManyWithoutTenantNestedInput = {
     create?: XOR<AppUserCreateWithoutTenantInput, AppUserUncheckedCreateWithoutTenantInput> | AppUserCreateWithoutTenantInput[] | AppUserUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: AppUserCreateOrConnectWithoutTenantInput | AppUserCreateOrConnectWithoutTenantInput[]
@@ -83359,6 +85119,20 @@ export namespace Prisma {
     update?: OpeningBalanceSessionLineUpdateWithWhereUniqueWithoutTenantInput | OpeningBalanceSessionLineUpdateWithWhereUniqueWithoutTenantInput[]
     updateMany?: OpeningBalanceSessionLineUpdateManyWithWhereWithoutTenantInput | OpeningBalanceSessionLineUpdateManyWithWhereWithoutTenantInput[]
     deleteMany?: OpeningBalanceSessionLineScalarWhereInput | OpeningBalanceSessionLineScalarWhereInput[]
+  }
+
+  export type SetupTaskUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<SetupTaskCreateWithoutTenantInput, SetupTaskUncheckedCreateWithoutTenantInput> | SetupTaskCreateWithoutTenantInput[] | SetupTaskUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: SetupTaskCreateOrConnectWithoutTenantInput | SetupTaskCreateOrConnectWithoutTenantInput[]
+    upsert?: SetupTaskUpsertWithWhereUniqueWithoutTenantInput | SetupTaskUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: SetupTaskCreateManyTenantInputEnvelope
+    set?: SetupTaskWhereUniqueInput | SetupTaskWhereUniqueInput[]
+    disconnect?: SetupTaskWhereUniqueInput | SetupTaskWhereUniqueInput[]
+    delete?: SetupTaskWhereUniqueInput | SetupTaskWhereUniqueInput[]
+    connect?: SetupTaskWhereUniqueInput | SetupTaskWhereUniqueInput[]
+    update?: SetupTaskUpdateWithWhereUniqueWithoutTenantInput | SetupTaskUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: SetupTaskUpdateManyWithWhereWithoutTenantInput | SetupTaskUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: SetupTaskScalarWhereInput | SetupTaskScalarWhereInput[]
   }
 
   export type TenantCreateNestedOneWithoutUnitsInput = {
@@ -84414,6 +86188,40 @@ export namespace Prisma {
     _max?: NestedEnumPartyTypeFilter<$PrismaModel>
   }
 
+  export type NestedEnumSetupTaskTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.SetupTaskType | EnumSetupTaskTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.SetupTaskType[] | ListEnumSetupTaskTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.SetupTaskType[] | ListEnumSetupTaskTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumSetupTaskTypeFilter<$PrismaModel> | $Enums.SetupTaskType
+  }
+
+  export type NestedEnumSetupTaskStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.SetupTaskStatus | EnumSetupTaskStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.SetupTaskStatus[] | ListEnumSetupTaskStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.SetupTaskStatus[] | ListEnumSetupTaskStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumSetupTaskStatusFilter<$PrismaModel> | $Enums.SetupTaskStatus
+  }
+
+  export type NestedEnumSetupTaskTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.SetupTaskType | EnumSetupTaskTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.SetupTaskType[] | ListEnumSetupTaskTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.SetupTaskType[] | ListEnumSetupTaskTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumSetupTaskTypeWithAggregatesFilter<$PrismaModel> | $Enums.SetupTaskType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumSetupTaskTypeFilter<$PrismaModel>
+    _max?: NestedEnumSetupTaskTypeFilter<$PrismaModel>
+  }
+
+  export type NestedEnumSetupTaskStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.SetupTaskStatus | EnumSetupTaskStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.SetupTaskStatus[] | ListEnumSetupTaskStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.SetupTaskStatus[] | ListEnumSetupTaskStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumSetupTaskStatusWithAggregatesFilter<$PrismaModel> | $Enums.SetupTaskStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumSetupTaskStatusFilter<$PrismaModel>
+    _max?: NestedEnumSetupTaskStatusFilter<$PrismaModel>
+  }
+
   export type NestedEnumStockCountStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.StockCountStatus | EnumStockCountStatusFieldRefInput<$PrismaModel>
     in?: $Enums.StockCountStatus[] | ListEnumStockCountStatusFieldRefInput<$PrismaModel>
@@ -84462,6 +86270,9 @@ export namespace Prisma {
     isActive?: boolean
     onboardingStep?: number
     onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserCreateNestedManyWithoutTenantInput
@@ -84496,6 +86307,7 @@ export namespace Prisma {
     brands?: BrandCreateNestedManyWithoutTenantInput
     openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutChartOfAccountsInput = {
@@ -84514,6 +86326,9 @@ export namespace Prisma {
     isActive?: boolean
     onboardingStep?: number
     onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
@@ -84546,6 +86361,7 @@ export namespace Prisma {
     brands?: BrandUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutChartOfAccountsInput = {
@@ -85411,6 +87227,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     onboardingStep?: IntFieldUpdateOperationsInput | number
     onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUpdateManyWithoutTenantNestedInput
@@ -85445,6 +87264,7 @@ export namespace Prisma {
     brands?: BrandUpdateManyWithoutTenantNestedInput
     openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutChartOfAccountsInput = {
@@ -85463,6 +87283,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     onboardingStep?: IntFieldUpdateOperationsInput | number
     onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
@@ -85495,6 +87318,7 @@ export namespace Prisma {
     brands?: BrandUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ChartOfAccountUpsertWithoutChildrenInput = {
@@ -85968,6 +87792,9 @@ export namespace Prisma {
     isActive?: boolean
     onboardingStep?: number
     onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserCreateNestedManyWithoutTenantInput
@@ -86002,6 +87829,7 @@ export namespace Prisma {
     brands?: BrandCreateNestedManyWithoutTenantInput
     openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutJournalEntriesInput = {
@@ -86020,6 +87848,9 @@ export namespace Prisma {
     isActive?: boolean
     onboardingStep?: number
     onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
@@ -86052,6 +87883,7 @@ export namespace Prisma {
     brands?: BrandUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutJournalEntriesInput = {
@@ -86260,6 +88092,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     onboardingStep?: IntFieldUpdateOperationsInput | number
     onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUpdateManyWithoutTenantNestedInput
@@ -86294,6 +88129,7 @@ export namespace Prisma {
     brands?: BrandUpdateManyWithoutTenantNestedInput
     openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutJournalEntriesInput = {
@@ -86312,6 +88148,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     onboardingStep?: IntFieldUpdateOperationsInput | number
     onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
@@ -86344,6 +88183,7 @@ export namespace Prisma {
     brands?: BrandUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type FiscalPeriodUpsertWithoutJournalEntriesInput = {
@@ -87082,6 +88922,9 @@ export namespace Prisma {
     isActive?: boolean
     onboardingStep?: number
     onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserCreateNestedManyWithoutTenantInput
@@ -87116,6 +88959,7 @@ export namespace Prisma {
     brands?: BrandCreateNestedManyWithoutTenantInput
     openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAiChatSessionsInput = {
@@ -87134,6 +88978,9 @@ export namespace Prisma {
     isActive?: boolean
     onboardingStep?: number
     onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
@@ -87166,6 +89013,7 @@ export namespace Prisma {
     brands?: BrandUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAiChatSessionsInput = {
@@ -87224,6 +89072,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     onboardingStep?: IntFieldUpdateOperationsInput | number
     onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUpdateManyWithoutTenantNestedInput
@@ -87258,6 +89109,7 @@ export namespace Prisma {
     brands?: BrandUpdateManyWithoutTenantNestedInput
     openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAiChatSessionsInput = {
@@ -87276,6 +89128,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     onboardingStep?: IntFieldUpdateOperationsInput | number
     onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
@@ -87308,6 +89163,7 @@ export namespace Prisma {
     brands?: BrandUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type AiChatMessageUpsertWithWhereUniqueWithoutSessionInput = {
@@ -87404,6 +89260,9 @@ export namespace Prisma {
     isActive?: boolean
     onboardingStep?: number
     onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserCreateNestedManyWithoutTenantInput
@@ -87438,6 +89297,7 @@ export namespace Prisma {
     brands?: BrandCreateNestedManyWithoutTenantInput
     openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAuditLogsInput = {
@@ -87456,6 +89316,9 @@ export namespace Prisma {
     isActive?: boolean
     onboardingStep?: number
     onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
@@ -87488,6 +89351,7 @@ export namespace Prisma {
     brands?: BrandUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAuditLogsInput = {
@@ -87520,6 +89384,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     onboardingStep?: IntFieldUpdateOperationsInput | number
     onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUpdateManyWithoutTenantNestedInput
@@ -87554,6 +89421,7 @@ export namespace Prisma {
     brands?: BrandUpdateManyWithoutTenantNestedInput
     openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAuditLogsInput = {
@@ -87572,6 +89440,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     onboardingStep?: IntFieldUpdateOperationsInput | number
     onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
@@ -87604,6 +89475,7 @@ export namespace Prisma {
     brands?: BrandUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutBankAccountsInput = {
@@ -87620,6 +89492,9 @@ export namespace Prisma {
     isActive?: boolean
     onboardingStep?: number
     onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserCreateNestedManyWithoutTenantInput
@@ -87654,6 +89529,7 @@ export namespace Prisma {
     brands?: BrandCreateNestedManyWithoutTenantInput
     openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBankAccountsInput = {
@@ -87672,6 +89548,9 @@ export namespace Prisma {
     isActive?: boolean
     onboardingStep?: number
     onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
@@ -87704,6 +89583,7 @@ export namespace Prisma {
     brands?: BrandUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBankAccountsInput = {
@@ -87863,6 +89743,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     onboardingStep?: IntFieldUpdateOperationsInput | number
     onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUpdateManyWithoutTenantNestedInput
@@ -87897,6 +89780,7 @@ export namespace Prisma {
     brands?: BrandUpdateManyWithoutTenantNestedInput
     openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBankAccountsInput = {
@@ -87915,6 +89799,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     onboardingStep?: IntFieldUpdateOperationsInput | number
     onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
@@ -87947,6 +89834,7 @@ export namespace Prisma {
     brands?: BrandUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type CurrencyUpsertWithoutBankAccountsInput = {
@@ -88044,6 +89932,9 @@ export namespace Prisma {
     isActive?: boolean
     onboardingStep?: number
     onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserCreateNestedManyWithoutTenantInput
@@ -88078,6 +89969,7 @@ export namespace Prisma {
     itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutTenantInput
     openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBrandsInput = {
@@ -88096,6 +89988,9 @@ export namespace Prisma {
     isActive?: boolean
     onboardingStep?: number
     onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
@@ -88128,6 +90023,7 @@ export namespace Prisma {
     itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBrandsInput = {
@@ -88226,6 +90122,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     onboardingStep?: IntFieldUpdateOperationsInput | number
     onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUpdateManyWithoutTenantNestedInput
@@ -88260,6 +90159,7 @@ export namespace Prisma {
     itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutTenantNestedInput
     openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBrandsInput = {
@@ -88278,6 +90178,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     onboardingStep?: IntFieldUpdateOperationsInput | number
     onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
@@ -88310,6 +90213,7 @@ export namespace Prisma {
     itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ItemUpsertWithWhereUniqueWithoutBrandInput = {
@@ -88366,6 +90270,9 @@ export namespace Prisma {
     isActive?: boolean
     onboardingStep?: number
     onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserCreateNestedManyWithoutTenantInput
@@ -88400,6 +90307,7 @@ export namespace Prisma {
     brands?: BrandCreateNestedManyWithoutTenantInput
     openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCashboxesInput = {
@@ -88418,6 +90326,9 @@ export namespace Prisma {
     isActive?: boolean
     onboardingStep?: number
     onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
@@ -88450,6 +90361,7 @@ export namespace Prisma {
     brands?: BrandUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCashboxesInput = {
@@ -88723,6 +90635,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     onboardingStep?: IntFieldUpdateOperationsInput | number
     onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUpdateManyWithoutTenantNestedInput
@@ -88757,6 +90672,7 @@ export namespace Prisma {
     brands?: BrandUpdateManyWithoutTenantNestedInput
     openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCashboxesInput = {
@@ -88775,6 +90691,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     onboardingStep?: IntFieldUpdateOperationsInput | number
     onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
@@ -88807,6 +90726,7 @@ export namespace Prisma {
     brands?: BrandUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type CurrencyUpsertWithoutCashboxesInput = {
@@ -88989,6 +90909,9 @@ export namespace Prisma {
     isActive?: boolean
     onboardingStep?: number
     onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserCreateNestedManyWithoutTenantInput
@@ -89023,6 +90946,7 @@ export namespace Prisma {
     brands?: BrandCreateNestedManyWithoutTenantInput
     openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPaymentsInput = {
@@ -89041,6 +90965,9 @@ export namespace Prisma {
     isActive?: boolean
     onboardingStep?: number
     onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
@@ -89073,6 +91000,7 @@ export namespace Prisma {
     brands?: BrandUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPaymentsInput = {
@@ -89291,6 +91219,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     onboardingStep?: IntFieldUpdateOperationsInput | number
     onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUpdateManyWithoutTenantNestedInput
@@ -89325,6 +91256,7 @@ export namespace Prisma {
     brands?: BrandUpdateManyWithoutTenantNestedInput
     openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPaymentsInput = {
@@ -89343,6 +91275,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     onboardingStep?: IntFieldUpdateOperationsInput | number
     onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
@@ -89375,6 +91310,7 @@ export namespace Prisma {
     brands?: BrandUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type CashboxUpsertWithoutPaymentsInput = {
@@ -89847,6 +91783,9 @@ export namespace Prisma {
     isActive?: boolean
     onboardingStep?: number
     onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserCreateNestedManyWithoutTenantInput
@@ -89881,6 +91820,7 @@ export namespace Prisma {
     brands?: BrandCreateNestedManyWithoutTenantInput
     openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCatalogEntitiesInput = {
@@ -89899,6 +91839,9 @@ export namespace Prisma {
     isActive?: boolean
     onboardingStep?: number
     onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
@@ -89931,6 +91874,7 @@ export namespace Prisma {
     brands?: BrandUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCatalogEntitiesInput = {
@@ -90054,6 +91998,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     onboardingStep?: IntFieldUpdateOperationsInput | number
     onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUpdateManyWithoutTenantNestedInput
@@ -90088,6 +92035,7 @@ export namespace Prisma {
     brands?: BrandUpdateManyWithoutTenantNestedInput
     openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCatalogEntitiesInput = {
@@ -90106,6 +92054,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     onboardingStep?: IntFieldUpdateOperationsInput | number
     onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
@@ -90138,6 +92089,7 @@ export namespace Prisma {
     brands?: BrandUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type CatalogEntityUpsertWithoutChildrenInput = {
@@ -90249,6 +92201,9 @@ export namespace Prisma {
     isActive?: boolean
     onboardingStep?: number
     onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserCreateNestedManyWithoutTenantInput
@@ -90283,6 +92238,7 @@ export namespace Prisma {
     brands?: BrandCreateNestedManyWithoutTenantInput
     openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCurrenciesInput = {
@@ -90301,6 +92257,9 @@ export namespace Prisma {
     isActive?: boolean
     onboardingStep?: number
     onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
@@ -90333,6 +92292,7 @@ export namespace Prisma {
     brands?: BrandUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCurrenciesInput = {
@@ -90602,6 +92562,9 @@ export namespace Prisma {
     isActive?: boolean
     onboardingStep?: number
     onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserCreateNestedManyWithoutTenantInput
@@ -90636,6 +92599,7 @@ export namespace Prisma {
     brands?: BrandCreateNestedManyWithoutTenantInput
     openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBaseCurrencyInput = {
@@ -90653,6 +92617,9 @@ export namespace Prisma {
     isActive?: boolean
     onboardingStep?: number
     onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
@@ -90686,6 +92653,7 @@ export namespace Prisma {
     brands?: BrandUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBaseCurrencyInput = {
@@ -90819,6 +92787,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     onboardingStep?: IntFieldUpdateOperationsInput | number
     onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUpdateManyWithoutTenantNestedInput
@@ -90853,6 +92824,7 @@ export namespace Prisma {
     brands?: BrandUpdateManyWithoutTenantNestedInput
     openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCurrenciesInput = {
@@ -90871,6 +92843,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     onboardingStep?: IntFieldUpdateOperationsInput | number
     onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
@@ -90903,6 +92878,7 @@ export namespace Prisma {
     brands?: BrandUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type CashboxUpsertWithWhereUniqueWithoutCurrencyInput = {
@@ -91082,6 +93058,9 @@ export namespace Prisma {
     isActive?: BoolFilter<"Tenant"> | boolean
     onboardingStep?: IntFilter<"Tenant"> | number
     onboardingCompletedAt?: DateTimeNullableFilter<"Tenant"> | Date | string | null
+    businessSetupProfile?: JsonNullableFilter<"Tenant">
+    businessSetupCompletedAt?: DateTimeNullableFilter<"Tenant"> | Date | string | null
+    operationalReadiness?: JsonNullableFilter<"Tenant">
     createdAt?: DateTimeFilter<"Tenant"> | Date | string
     updatedAt?: DateTimeFilter<"Tenant"> | Date | string
   }
@@ -91262,6 +93241,9 @@ export namespace Prisma {
     isActive?: boolean
     onboardingStep?: number
     onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserCreateNestedManyWithoutTenantInput
@@ -91296,6 +93278,7 @@ export namespace Prisma {
     brands?: BrandCreateNestedManyWithoutTenantInput
     openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDocumentSequencesInput = {
@@ -91314,6 +93297,9 @@ export namespace Prisma {
     isActive?: boolean
     onboardingStep?: number
     onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
@@ -91346,6 +93332,7 @@ export namespace Prisma {
     brands?: BrandUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDocumentSequencesInput = {
@@ -91367,6 +93354,9 @@ export namespace Prisma {
     isActive?: boolean
     onboardingStep?: number
     onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserCreateNestedManyWithoutTenantInput
@@ -91401,6 +93391,7 @@ export namespace Prisma {
     brands?: BrandCreateNestedManyWithoutTenantInput
     openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDefaultSalesSequenceInput = {
@@ -91418,6 +93409,9 @@ export namespace Prisma {
     isActive?: boolean
     onboardingStep?: number
     onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
@@ -91451,6 +93445,7 @@ export namespace Prisma {
     brands?: BrandUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDefaultSalesSequenceInput = {
@@ -91488,6 +93483,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     onboardingStep?: IntFieldUpdateOperationsInput | number
     onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUpdateManyWithoutTenantNestedInput
@@ -91522,6 +93520,7 @@ export namespace Prisma {
     brands?: BrandUpdateManyWithoutTenantNestedInput
     openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDocumentSequencesInput = {
@@ -91540,6 +93539,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     onboardingStep?: IntFieldUpdateOperationsInput | number
     onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
@@ -91572,6 +93574,7 @@ export namespace Prisma {
     brands?: BrandUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUpsertWithWhereUniqueWithoutDefaultSalesSequenceInput = {
@@ -91604,6 +93607,9 @@ export namespace Prisma {
     isActive?: boolean
     onboardingStep?: number
     onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserCreateNestedManyWithoutTenantInput
@@ -91638,6 +93644,7 @@ export namespace Prisma {
     brands?: BrandCreateNestedManyWithoutTenantInput
     openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutExpensesInput = {
@@ -91656,6 +93663,9 @@ export namespace Prisma {
     isActive?: boolean
     onboardingStep?: number
     onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
@@ -91688,6 +93698,7 @@ export namespace Prisma {
     brands?: BrandUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutExpensesInput = {
@@ -91867,6 +93878,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     onboardingStep?: IntFieldUpdateOperationsInput | number
     onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUpdateManyWithoutTenantNestedInput
@@ -91901,6 +93915,7 @@ export namespace Prisma {
     brands?: BrandUpdateManyWithoutTenantNestedInput
     openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutExpensesInput = {
@@ -91919,6 +93934,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     onboardingStep?: IntFieldUpdateOperationsInput | number
     onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
@@ -91951,6 +93969,7 @@ export namespace Prisma {
     brands?: BrandUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type CashboxUpsertWithoutExpensesInput = {
@@ -92362,6 +94381,9 @@ export namespace Prisma {
     isActive?: boolean
     onboardingStep?: number
     onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserCreateNestedManyWithoutTenantInput
@@ -92396,6 +94418,7 @@ export namespace Prisma {
     brands?: BrandCreateNestedManyWithoutTenantInput
     openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutFinancialSettingInput = {
@@ -92414,6 +94437,9 @@ export namespace Prisma {
     isActive?: boolean
     onboardingStep?: number
     onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
@@ -92446,6 +94472,7 @@ export namespace Prisma {
     brands?: BrandUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutFinancialSettingInput = {
@@ -93215,6 +95242,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     onboardingStep?: IntFieldUpdateOperationsInput | number
     onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUpdateManyWithoutTenantNestedInput
@@ -93249,6 +95279,7 @@ export namespace Prisma {
     brands?: BrandUpdateManyWithoutTenantNestedInput
     openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutFinancialSettingInput = {
@@ -93267,6 +95298,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     onboardingStep?: IntFieldUpdateOperationsInput | number
     onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
@@ -93299,6 +95333,7 @@ export namespace Prisma {
     brands?: BrandUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ChartOfAccountUpsertWithoutDefaultSalesForInput = {
@@ -94118,6 +96153,9 @@ export namespace Prisma {
     isActive?: boolean
     onboardingStep?: number
     onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserCreateNestedManyWithoutTenantInput
@@ -94152,6 +96190,7 @@ export namespace Prisma {
     brands?: BrandCreateNestedManyWithoutTenantInput
     openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutFiscalPeriodsInput = {
@@ -94170,6 +96209,9 @@ export namespace Prisma {
     isActive?: boolean
     onboardingStep?: number
     onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
@@ -94202,6 +96244,7 @@ export namespace Prisma {
     brands?: BrandUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutFiscalPeriodsInput = {
@@ -94588,6 +96631,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     onboardingStep?: IntFieldUpdateOperationsInput | number
     onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUpdateManyWithoutTenantNestedInput
@@ -94622,6 +96668,7 @@ export namespace Prisma {
     brands?: BrandUpdateManyWithoutTenantNestedInput
     openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutFiscalPeriodsInput = {
@@ -94640,6 +96687,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     onboardingStep?: IntFieldUpdateOperationsInput | number
     onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
@@ -94672,6 +96722,7 @@ export namespace Prisma {
     brands?: BrandUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type StockMovementUpsertWithWhereUniqueWithoutFiscalPeriodInput = {
@@ -94857,6 +96908,9 @@ export namespace Prisma {
     isActive?: boolean
     onboardingStep?: number
     onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserCreateNestedManyWithoutTenantInput
@@ -94891,6 +96945,7 @@ export namespace Prisma {
     brands?: BrandCreateNestedManyWithoutTenantInput
     openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutInvoiceTypesInput = {
@@ -94909,6 +96964,9 @@ export namespace Prisma {
     isActive?: boolean
     onboardingStep?: number
     onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
@@ -94941,6 +96999,7 @@ export namespace Prisma {
     brands?: BrandUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutInvoiceTypesInput = {
@@ -95039,6 +97098,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     onboardingStep?: IntFieldUpdateOperationsInput | number
     onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUpdateManyWithoutTenantNestedInput
@@ -95073,6 +97135,7 @@ export namespace Prisma {
     brands?: BrandUpdateManyWithoutTenantNestedInput
     openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutInvoiceTypesInput = {
@@ -95091,6 +97154,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     onboardingStep?: IntFieldUpdateOperationsInput | number
     onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
@@ -95123,6 +97189,7 @@ export namespace Prisma {
     brands?: BrandUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type InvoiceUpsertWithWhereUniqueWithoutInvoiceTypeInput = {
@@ -95155,6 +97222,9 @@ export namespace Prisma {
     isActive?: boolean
     onboardingStep?: number
     onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserCreateNestedManyWithoutTenantInput
@@ -95189,6 +97259,7 @@ export namespace Prisma {
     brands?: BrandCreateNestedManyWithoutTenantInput
     openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutInvoicesInput = {
@@ -95207,6 +97278,9 @@ export namespace Prisma {
     isActive?: boolean
     onboardingStep?: number
     onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
@@ -95239,6 +97313,7 @@ export namespace Prisma {
     brands?: BrandUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutInvoicesInput = {
@@ -95528,6 +97603,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     onboardingStep?: IntFieldUpdateOperationsInput | number
     onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUpdateManyWithoutTenantNestedInput
@@ -95562,6 +97640,7 @@ export namespace Prisma {
     brands?: BrandUpdateManyWithoutTenantNestedInput
     openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutInvoicesInput = {
@@ -95580,6 +97659,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     onboardingStep?: IntFieldUpdateOperationsInput | number
     onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
@@ -95612,6 +97694,7 @@ export namespace Prisma {
     brands?: BrandUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type InvoiceTypeUpsertWithoutInvoicesInput = {
@@ -96215,6 +98298,9 @@ export namespace Prisma {
     isActive?: boolean
     onboardingStep?: number
     onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserCreateNestedManyWithoutTenantInput
@@ -96249,6 +98335,7 @@ export namespace Prisma {
     brands?: BrandCreateNestedManyWithoutTenantInput
     openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutItemCatalogEntitiesInput = {
@@ -96267,6 +98354,9 @@ export namespace Prisma {
     isActive?: boolean
     onboardingStep?: number
     onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
@@ -96299,6 +98389,7 @@ export namespace Prisma {
     brands?: BrandUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutItemCatalogEntitiesInput = {
@@ -96423,6 +98514,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     onboardingStep?: IntFieldUpdateOperationsInput | number
     onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUpdateManyWithoutTenantNestedInput
@@ -96457,6 +98551,7 @@ export namespace Prisma {
     brands?: BrandUpdateManyWithoutTenantNestedInput
     openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutItemCatalogEntitiesInput = {
@@ -96475,6 +98570,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     onboardingStep?: IntFieldUpdateOperationsInput | number
     onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
@@ -96507,6 +98605,7 @@ export namespace Prisma {
     brands?: BrandUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ItemUpsertWithoutItemCatalogEntitiesInput = {
@@ -96627,6 +98726,9 @@ export namespace Prisma {
     isActive?: boolean
     onboardingStep?: number
     onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserCreateNestedManyWithoutTenantInput
@@ -96661,6 +98763,7 @@ export namespace Prisma {
     brands?: BrandCreateNestedManyWithoutTenantInput
     openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutItemCategoriesInput = {
@@ -96679,6 +98782,9 @@ export namespace Prisma {
     isActive?: boolean
     onboardingStep?: number
     onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
@@ -96711,6 +98817,7 @@ export namespace Prisma {
     brands?: BrandUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutItemCategoriesInput = {
@@ -96876,6 +98983,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     onboardingStep?: IntFieldUpdateOperationsInput | number
     onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUpdateManyWithoutTenantNestedInput
@@ -96910,6 +99020,7 @@ export namespace Prisma {
     brands?: BrandUpdateManyWithoutTenantNestedInput
     openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutItemCategoriesInput = {
@@ -96928,6 +99039,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     onboardingStep?: IntFieldUpdateOperationsInput | number
     onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
@@ -96960,6 +99074,7 @@ export namespace Prisma {
     brands?: BrandUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ItemCategoryUpsertWithoutChildrenInput = {
@@ -97060,6 +99175,9 @@ export namespace Prisma {
     isActive?: boolean
     onboardingStep?: number
     onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserCreateNestedManyWithoutTenantInput
@@ -97094,6 +99212,7 @@ export namespace Prisma {
     brands?: BrandCreateNestedManyWithoutTenantInput
     openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutItemRelationsInput = {
@@ -97112,6 +99231,9 @@ export namespace Prisma {
     isActive?: boolean
     onboardingStep?: number
     onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
@@ -97144,6 +99266,7 @@ export namespace Prisma {
     brands?: BrandUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutItemRelationsInput = {
@@ -97298,6 +99421,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     onboardingStep?: IntFieldUpdateOperationsInput | number
     onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUpdateManyWithoutTenantNestedInput
@@ -97332,6 +99458,7 @@ export namespace Prisma {
     brands?: BrandUpdateManyWithoutTenantNestedInput
     openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutItemRelationsInput = {
@@ -97350,6 +99477,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     onboardingStep?: IntFieldUpdateOperationsInput | number
     onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
@@ -97382,6 +99512,7 @@ export namespace Prisma {
     brands?: BrandUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ItemUpsertWithoutItemRelationsInput = {
@@ -97532,6 +99663,9 @@ export namespace Prisma {
     isActive?: boolean
     onboardingStep?: number
     onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserCreateNestedManyWithoutTenantInput
@@ -97566,6 +99700,7 @@ export namespace Prisma {
     brands?: BrandCreateNestedManyWithoutTenantInput
     openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutItemsInput = {
@@ -97584,6 +99719,9 @@ export namespace Prisma {
     isActive?: boolean
     onboardingStep?: number
     onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
@@ -97616,6 +99754,7 @@ export namespace Prisma {
     brands?: BrandUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutItemsInput = {
@@ -97985,6 +100124,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     onboardingStep?: IntFieldUpdateOperationsInput | number
     onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUpdateManyWithoutTenantNestedInput
@@ -98019,6 +100161,7 @@ export namespace Prisma {
     brands?: BrandUpdateManyWithoutTenantNestedInput
     openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutItemsInput = {
@@ -98037,6 +100180,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     onboardingStep?: IntFieldUpdateOperationsInput | number
     onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
@@ -98069,6 +100215,7 @@ export namespace Prisma {
     brands?: BrandUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ItemCategoryUpsertWithoutItemsInput = {
@@ -98369,6 +100516,9 @@ export namespace Prisma {
     isActive?: boolean
     onboardingStep?: number
     onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserCreateNestedManyWithoutTenantInput
@@ -98403,6 +100553,7 @@ export namespace Prisma {
     itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutTenantInput
     brands?: BrandCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOpeningBalanceSessionsInput = {
@@ -98421,6 +100572,9 @@ export namespace Prisma {
     isActive?: boolean
     onboardingStep?: number
     onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
@@ -98453,6 +100607,7 @@ export namespace Prisma {
     itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutTenantInput
     brands?: BrandUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOpeningBalanceSessionsInput = {
@@ -98566,6 +100721,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     onboardingStep?: IntFieldUpdateOperationsInput | number
     onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUpdateManyWithoutTenantNestedInput
@@ -98600,6 +100758,7 @@ export namespace Prisma {
     itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutTenantNestedInput
     brands?: BrandUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOpeningBalanceSessionsInput = {
@@ -98618,6 +100777,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     onboardingStep?: IntFieldUpdateOperationsInput | number
     onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
@@ -98650,6 +100812,7 @@ export namespace Prisma {
     itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
     brands?: BrandUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type FiscalPeriodUpsertWithoutOpeningBalanceSessionsInput = {
@@ -98764,6 +100927,9 @@ export namespace Prisma {
     isActive?: boolean
     onboardingStep?: number
     onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserCreateNestedManyWithoutTenantInput
@@ -98798,6 +100964,7 @@ export namespace Prisma {
     itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutTenantInput
     brands?: BrandCreateNestedManyWithoutTenantInput
     openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOpeningBalanceSessionLinesInput = {
@@ -98816,6 +100983,9 @@ export namespace Prisma {
     isActive?: boolean
     onboardingStep?: number
     onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
@@ -98848,6 +101018,7 @@ export namespace Prisma {
     itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutTenantInput
     brands?: BrandUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOpeningBalanceSessionLinesInput = {
@@ -99146,6 +101317,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     onboardingStep?: IntFieldUpdateOperationsInput | number
     onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUpdateManyWithoutTenantNestedInput
@@ -99180,6 +101354,7 @@ export namespace Prisma {
     itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutTenantNestedInput
     brands?: BrandUpdateManyWithoutTenantNestedInput
     openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOpeningBalanceSessionLinesInput = {
@@ -99198,6 +101373,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     onboardingStep?: IntFieldUpdateOperationsInput | number
     onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
@@ -99230,6 +101408,7 @@ export namespace Prisma {
     itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
     brands?: BrandUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PartyUpsertWithoutOpeningBalanceSessionLinesInput = {
@@ -99499,6 +101678,9 @@ export namespace Prisma {
     isActive?: boolean
     onboardingStep?: number
     onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserCreateNestedManyWithoutTenantInput
@@ -99533,6 +101715,7 @@ export namespace Prisma {
     brands?: BrandCreateNestedManyWithoutTenantInput
     openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPartiesInput = {
@@ -99551,6 +101734,9 @@ export namespace Prisma {
     isActive?: boolean
     onboardingStep?: number
     onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
@@ -99583,6 +101769,7 @@ export namespace Prisma {
     brands?: BrandUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPartiesInput = {
@@ -99959,6 +102146,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     onboardingStep?: IntFieldUpdateOperationsInput | number
     onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUpdateManyWithoutTenantNestedInput
@@ -99993,6 +102183,7 @@ export namespace Prisma {
     brands?: BrandUpdateManyWithoutTenantNestedInput
     openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPartiesInput = {
@@ -100011,6 +102202,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     onboardingStep?: IntFieldUpdateOperationsInput | number
     onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
@@ -100043,6 +102237,7 @@ export namespace Prisma {
     brands?: BrandUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type InvoiceUpsertWithWhereUniqueWithoutPartyInput = {
@@ -100269,6 +102464,9 @@ export namespace Prisma {
     isActive?: boolean
     onboardingStep?: number
     onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserCreateNestedManyWithoutTenantInput
@@ -100303,6 +102501,7 @@ export namespace Prisma {
     brands?: BrandCreateNestedManyWithoutTenantInput
     openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutReconciliationRunsInput = {
@@ -100321,6 +102520,9 @@ export namespace Prisma {
     isActive?: boolean
     onboardingStep?: number
     onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
@@ -100353,6 +102555,7 @@ export namespace Prisma {
     brands?: BrandUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutReconciliationRunsInput = {
@@ -100385,6 +102588,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     onboardingStep?: IntFieldUpdateOperationsInput | number
     onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUpdateManyWithoutTenantNestedInput
@@ -100419,6 +102625,7 @@ export namespace Prisma {
     brands?: BrandUpdateManyWithoutTenantNestedInput
     openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutReconciliationRunsInput = {
@@ -100437,6 +102644,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     onboardingStep?: IntFieldUpdateOperationsInput | number
     onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
@@ -100469,6 +102679,239 @@ export namespace Prisma {
     brands?: BrandUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantCreateWithoutSetupTasksInput = {
+    id?: string
+    name: string
+    slug: string
+    address?: string | null
+    phone?: string | null
+    email?: string | null
+    logo?: string | null
+    legalName?: string | null
+    taxNumber?: string | null
+    website?: string | null
+    isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: AppUserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    currencies?: CurrencyCreateNestedManyWithoutTenantInput
+    fiscalPeriods?: FiscalPeriodCreateNestedManyWithoutTenantInput
+    documentSequences?: DocumentSequenceCreateNestedManyWithoutTenantInput
+    itemCategories?: ItemCategoryCreateNestedManyWithoutTenantInput
+    units?: UnitCreateNestedManyWithoutTenantInput
+    items?: ItemCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    cashboxes?: CashboxCreateNestedManyWithoutTenantInput
+    bankAccounts?: BankAccountCreateNestedManyWithoutTenantInput
+    invoiceTypes?: InvoiceTypeCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    chartOfAccounts?: ChartOfAccountCreateNestedManyWithoutTenantInput
+    journalEntries?: JournalEntryCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountCreateNestedManyWithoutTenantInput
+    auditLogs?: AuditLogCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunCreateNestedManyWithoutTenantInput
+    aiChatSessions?: AiChatSessionCreateNestedManyWithoutTenantInput
+    baseCurrency?: CurrencyCreateNestedOneWithoutBaseForTenantsInput
+    defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
+    settings?: TenantSettingCreateNestedManyWithoutTenantInput
+    financialSetting?: FinancialSettingCreateNestedOneWithoutTenantInput
+    expenses?: ExpenseCreateNestedManyWithoutTenantInput
+    tags?: TagCreateNestedManyWithoutTenantInput
+    itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
+    catalogEntities?: CatalogEntityCreateNestedManyWithoutTenantInput
+    itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutTenantInput
+    brands?: BrandCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutSetupTasksInput = {
+    id?: string
+    name: string
+    slug: string
+    address?: string | null
+    phone?: string | null
+    email?: string | null
+    logo?: string | null
+    legalName?: string | null
+    taxNumber?: string | null
+    website?: string | null
+    baseCurrencyId?: string | null
+    defaultSalesSequenceId?: string | null
+    isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    currencies?: CurrencyUncheckedCreateNestedManyWithoutTenantInput
+    fiscalPeriods?: FiscalPeriodUncheckedCreateNestedManyWithoutTenantInput
+    documentSequences?: DocumentSequenceUncheckedCreateNestedManyWithoutTenantInput
+    itemCategories?: ItemCategoryUncheckedCreateNestedManyWithoutTenantInput
+    units?: UnitUncheckedCreateNestedManyWithoutTenantInput
+    items?: ItemUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    cashboxes?: CashboxUncheckedCreateNestedManyWithoutTenantInput
+    bankAccounts?: BankAccountUncheckedCreateNestedManyWithoutTenantInput
+    invoiceTypes?: InvoiceTypeUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    chartOfAccounts?: ChartOfAccountUncheckedCreateNestedManyWithoutTenantInput
+    journalEntries?: JournalEntryUncheckedCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunUncheckedCreateNestedManyWithoutTenantInput
+    aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
+    settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
+    financialSetting?: FinancialSettingUncheckedCreateNestedOneWithoutTenantInput
+    expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
+    tags?: TagUncheckedCreateNestedManyWithoutTenantInput
+    itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
+    catalogEntities?: CatalogEntityUncheckedCreateNestedManyWithoutTenantInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutTenantInput
+    brands?: BrandUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutSetupTasksInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutSetupTasksInput, TenantUncheckedCreateWithoutSetupTasksInput>
+  }
+
+  export type TenantUpsertWithoutSetupTasksInput = {
+    update: XOR<TenantUpdateWithoutSetupTasksInput, TenantUncheckedUpdateWithoutSetupTasksInput>
+    create: XOR<TenantCreateWithoutSetupTasksInput, TenantUncheckedCreateWithoutSetupTasksInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutSetupTasksInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutSetupTasksInput, TenantUncheckedUpdateWithoutSetupTasksInput>
+  }
+
+  export type TenantUpdateWithoutSetupTasksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: AppUserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    currencies?: CurrencyUpdateManyWithoutTenantNestedInput
+    fiscalPeriods?: FiscalPeriodUpdateManyWithoutTenantNestedInput
+    documentSequences?: DocumentSequenceUpdateManyWithoutTenantNestedInput
+    itemCategories?: ItemCategoryUpdateManyWithoutTenantNestedInput
+    units?: UnitUpdateManyWithoutTenantNestedInput
+    items?: ItemUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    cashboxes?: CashboxUpdateManyWithoutTenantNestedInput
+    bankAccounts?: BankAccountUpdateManyWithoutTenantNestedInput
+    invoiceTypes?: InvoiceTypeUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    chartOfAccounts?: ChartOfAccountUpdateManyWithoutTenantNestedInput
+    journalEntries?: JournalEntryUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUpdateManyWithoutTenantNestedInput
+    aiChatSessions?: AiChatSessionUpdateManyWithoutTenantNestedInput
+    baseCurrency?: CurrencyUpdateOneWithoutBaseForTenantsNestedInput
+    defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
+    settings?: TenantSettingUpdateManyWithoutTenantNestedInput
+    financialSetting?: FinancialSettingUpdateOneWithoutTenantNestedInput
+    expenses?: ExpenseUpdateManyWithoutTenantNestedInput
+    tags?: TagUpdateManyWithoutTenantNestedInput
+    itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
+    catalogEntities?: CatalogEntityUpdateManyWithoutTenantNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutTenantNestedInput
+    brands?: BrandUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutSetupTasksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    baseCurrencyId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultSalesSequenceId?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    currencies?: CurrencyUncheckedUpdateManyWithoutTenantNestedInput
+    fiscalPeriods?: FiscalPeriodUncheckedUpdateManyWithoutTenantNestedInput
+    documentSequences?: DocumentSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    itemCategories?: ItemCategoryUncheckedUpdateManyWithoutTenantNestedInput
+    units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
+    items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    cashboxes?: CashboxUncheckedUpdateManyWithoutTenantNestedInput
+    bankAccounts?: BankAccountUncheckedUpdateManyWithoutTenantNestedInput
+    invoiceTypes?: InvoiceTypeUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    chartOfAccounts?: ChartOfAccountUncheckedUpdateManyWithoutTenantNestedInput
+    journalEntries?: JournalEntryUncheckedUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUncheckedUpdateManyWithoutTenantNestedInput
+    aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
+    settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
+    financialSetting?: FinancialSettingUncheckedUpdateOneWithoutTenantNestedInput
+    expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
+    tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
+    itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
+    catalogEntities?: CatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
+    brands?: BrandUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutStockCountsInput = {
@@ -100485,6 +102928,9 @@ export namespace Prisma {
     isActive?: boolean
     onboardingStep?: number
     onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserCreateNestedManyWithoutTenantInput
@@ -100519,6 +102965,7 @@ export namespace Prisma {
     brands?: BrandCreateNestedManyWithoutTenantInput
     openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockCountsInput = {
@@ -100537,6 +102984,9 @@ export namespace Prisma {
     isActive?: boolean
     onboardingStep?: number
     onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
@@ -100569,6 +103019,7 @@ export namespace Prisma {
     brands?: BrandUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockCountsInput = {
@@ -100705,6 +103156,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     onboardingStep?: IntFieldUpdateOperationsInput | number
     onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUpdateManyWithoutTenantNestedInput
@@ -100739,6 +103193,7 @@ export namespace Prisma {
     brands?: BrandUpdateManyWithoutTenantNestedInput
     openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockCountsInput = {
@@ -100757,6 +103212,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     onboardingStep?: IntFieldUpdateOperationsInput | number
     onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
@@ -100789,6 +103247,7 @@ export namespace Prisma {
     brands?: BrandUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WarehouseUpsertWithoutStockCountsInput = {
@@ -101663,6 +104122,9 @@ export namespace Prisma {
     isActive?: boolean
     onboardingStep?: number
     onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserCreateNestedManyWithoutTenantInput
@@ -101697,6 +104159,7 @@ export namespace Prisma {
     brands?: BrandCreateNestedManyWithoutTenantInput
     openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTagsInput = {
@@ -101715,6 +104178,9 @@ export namespace Prisma {
     isActive?: boolean
     onboardingStep?: number
     onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
@@ -101747,6 +104213,7 @@ export namespace Prisma {
     brands?: BrandUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTagsInput = {
@@ -101805,6 +104272,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     onboardingStep?: IntFieldUpdateOperationsInput | number
     onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUpdateManyWithoutTenantNestedInput
@@ -101839,6 +104309,7 @@ export namespace Prisma {
     brands?: BrandUpdateManyWithoutTenantNestedInput
     openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTagsInput = {
@@ -101857,6 +104328,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     onboardingStep?: IntFieldUpdateOperationsInput | number
     onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
@@ -101889,6 +104363,7 @@ export namespace Prisma {
     brands?: BrandUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TagAssignmentUpsertWithWhereUniqueWithoutTagInput = {
@@ -101933,6 +104408,9 @@ export namespace Prisma {
     isActive?: boolean
     onboardingStep?: number
     onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserCreateNestedManyWithoutTenantInput
@@ -101967,6 +104445,7 @@ export namespace Prisma {
     brands?: BrandCreateNestedManyWithoutTenantInput
     openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSettingsInput = {
@@ -101985,6 +104464,9 @@ export namespace Prisma {
     isActive?: boolean
     onboardingStep?: number
     onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
@@ -102017,6 +104499,7 @@ export namespace Prisma {
     brands?: BrandUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSettingsInput = {
@@ -102049,6 +104532,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     onboardingStep?: IntFieldUpdateOperationsInput | number
     onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUpdateManyWithoutTenantNestedInput
@@ -102083,6 +104569,7 @@ export namespace Prisma {
     brands?: BrandUpdateManyWithoutTenantNestedInput
     openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSettingsInput = {
@@ -102101,6 +104588,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     onboardingStep?: IntFieldUpdateOperationsInput | number
     onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
@@ -102133,6 +104623,7 @@ export namespace Prisma {
     brands?: BrandUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type AppUserCreateWithoutTenantInput = {
@@ -103480,6 +105971,42 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type SetupTaskCreateWithoutTenantInput = {
+    id?: string
+    type: $Enums.SetupTaskType
+    status?: $Enums.SetupTaskStatus
+    required?: boolean
+    dependencies?: SetupTaskCreatedependenciesInput | $Enums.SetupTaskType[]
+    progress?: NullableJsonNullValueInput | InputJsonValue
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    completedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SetupTaskUncheckedCreateWithoutTenantInput = {
+    id?: string
+    type: $Enums.SetupTaskType
+    status?: $Enums.SetupTaskStatus
+    required?: boolean
+    dependencies?: SetupTaskCreatedependenciesInput | $Enums.SetupTaskType[]
+    progress?: NullableJsonNullValueInput | InputJsonValue
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    completedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SetupTaskCreateOrConnectWithoutTenantInput = {
+    where: SetupTaskWhereUniqueInput
+    create: XOR<SetupTaskCreateWithoutTenantInput, SetupTaskUncheckedCreateWithoutTenantInput>
+  }
+
+  export type SetupTaskCreateManyTenantInputEnvelope = {
+    data: SetupTaskCreateManyTenantInput | SetupTaskCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
   export type AppUserUpsertWithWhereUniqueWithoutTenantInput = {
     where: AppUserWhereUniqueInput
     update: XOR<AppUserUpdateWithoutTenantInput, AppUserUncheckedUpdateWithoutTenantInput>
@@ -104288,6 +106815,39 @@ export namespace Prisma {
     data: XOR<OpeningBalanceSessionLineUpdateManyMutationInput, OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantInput>
   }
 
+  export type SetupTaskUpsertWithWhereUniqueWithoutTenantInput = {
+    where: SetupTaskWhereUniqueInput
+    update: XOR<SetupTaskUpdateWithoutTenantInput, SetupTaskUncheckedUpdateWithoutTenantInput>
+    create: XOR<SetupTaskCreateWithoutTenantInput, SetupTaskUncheckedCreateWithoutTenantInput>
+  }
+
+  export type SetupTaskUpdateWithWhereUniqueWithoutTenantInput = {
+    where: SetupTaskWhereUniqueInput
+    data: XOR<SetupTaskUpdateWithoutTenantInput, SetupTaskUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type SetupTaskUpdateManyWithWhereWithoutTenantInput = {
+    where: SetupTaskScalarWhereInput
+    data: XOR<SetupTaskUpdateManyMutationInput, SetupTaskUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type SetupTaskScalarWhereInput = {
+    AND?: SetupTaskScalarWhereInput | SetupTaskScalarWhereInput[]
+    OR?: SetupTaskScalarWhereInput[]
+    NOT?: SetupTaskScalarWhereInput | SetupTaskScalarWhereInput[]
+    id?: StringFilter<"SetupTask"> | string
+    tenantId?: StringFilter<"SetupTask"> | string
+    type?: EnumSetupTaskTypeFilter<"SetupTask"> | $Enums.SetupTaskType
+    status?: EnumSetupTaskStatusFilter<"SetupTask"> | $Enums.SetupTaskStatus
+    required?: BoolFilter<"SetupTask"> | boolean
+    dependencies?: EnumSetupTaskTypeNullableListFilter<"SetupTask">
+    progress?: JsonNullableFilter<"SetupTask">
+    metadata?: JsonNullableFilter<"SetupTask">
+    completedAt?: DateTimeNullableFilter<"SetupTask"> | Date | string | null
+    createdAt?: DateTimeFilter<"SetupTask"> | Date | string
+    updatedAt?: DateTimeFilter<"SetupTask"> | Date | string
+  }
+
   export type TenantCreateWithoutUnitsInput = {
     id?: string
     name: string
@@ -104302,6 +106862,9 @@ export namespace Prisma {
     isActive?: boolean
     onboardingStep?: number
     onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserCreateNestedManyWithoutTenantInput
@@ -104336,6 +106899,7 @@ export namespace Prisma {
     brands?: BrandCreateNestedManyWithoutTenantInput
     openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutUnitsInput = {
@@ -104354,6 +106918,9 @@ export namespace Prisma {
     isActive?: boolean
     onboardingStep?: number
     onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
@@ -104386,6 +106953,7 @@ export namespace Prisma {
     brands?: BrandUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutUnitsInput = {
@@ -104526,6 +107094,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     onboardingStep?: IntFieldUpdateOperationsInput | number
     onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUpdateManyWithoutTenantNestedInput
@@ -104560,6 +107131,7 @@ export namespace Prisma {
     brands?: BrandUpdateManyWithoutTenantNestedInput
     openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutUnitsInput = {
@@ -104578,6 +107150,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     onboardingStep?: IntFieldUpdateOperationsInput | number
     onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
@@ -104610,6 +107185,7 @@ export namespace Prisma {
     brands?: BrandUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ItemUpsertWithWhereUniqueWithoutBaseUnitInput = {
@@ -104658,6 +107234,9 @@ export namespace Prisma {
     isActive?: boolean
     onboardingStep?: number
     onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     roles?: RoleCreateNestedManyWithoutTenantInput
@@ -104692,6 +107271,7 @@ export namespace Prisma {
     brands?: BrandCreateNestedManyWithoutTenantInput
     openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutUsersInput = {
@@ -104710,6 +107290,9 @@ export namespace Prisma {
     isActive?: boolean
     onboardingStep?: number
     onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
@@ -104742,6 +107325,7 @@ export namespace Prisma {
     brands?: BrandUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutUsersInput = {
@@ -104796,6 +107380,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     onboardingStep?: IntFieldUpdateOperationsInput | number
     onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     roles?: RoleUpdateManyWithoutTenantNestedInput
@@ -104830,6 +107417,7 @@ export namespace Prisma {
     brands?: BrandUpdateManyWithoutTenantNestedInput
     openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutUsersInput = {
@@ -104848,6 +107436,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     onboardingStep?: IntFieldUpdateOperationsInput | number
     onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
@@ -104880,6 +107471,7 @@ export namespace Prisma {
     brands?: BrandUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserRoleUpsertWithWhereUniqueWithoutUserInput = {
@@ -104922,6 +107514,9 @@ export namespace Prisma {
     isActive?: boolean
     onboardingStep?: number
     onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserCreateNestedManyWithoutTenantInput
@@ -104956,6 +107551,7 @@ export namespace Prisma {
     brands?: BrandCreateNestedManyWithoutTenantInput
     openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRolesInput = {
@@ -104974,6 +107570,9 @@ export namespace Prisma {
     isActive?: boolean
     onboardingStep?: number
     onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
@@ -105006,6 +107605,7 @@ export namespace Prisma {
     brands?: BrandUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRolesInput = {
@@ -105060,6 +107660,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     onboardingStep?: IntFieldUpdateOperationsInput | number
     onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUpdateManyWithoutTenantNestedInput
@@ -105094,6 +107697,7 @@ export namespace Prisma {
     brands?: BrandUpdateManyWithoutTenantNestedInput
     openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRolesInput = {
@@ -105112,6 +107716,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     onboardingStep?: IntFieldUpdateOperationsInput | number
     onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
@@ -105144,6 +107751,7 @@ export namespace Prisma {
     brands?: BrandUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserRoleUpsertWithWhereUniqueWithoutRoleInput = {
@@ -105300,6 +107908,9 @@ export namespace Prisma {
     isActive?: boolean
     onboardingStep?: number
     onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserCreateNestedManyWithoutTenantInput
@@ -105334,6 +107945,7 @@ export namespace Prisma {
     brands?: BrandCreateNestedManyWithoutTenantInput
     openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWarehousesInput = {
@@ -105352,6 +107964,9 @@ export namespace Prisma {
     isActive?: boolean
     onboardingStep?: number
     onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
@@ -105384,6 +107999,7 @@ export namespace Prisma {
     brands?: BrandUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWarehousesInput = {
@@ -105622,6 +108238,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     onboardingStep?: IntFieldUpdateOperationsInput | number
     onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUpdateManyWithoutTenantNestedInput
@@ -105656,6 +108275,7 @@ export namespace Prisma {
     brands?: BrandUpdateManyWithoutTenantNestedInput
     openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWarehousesInput = {
@@ -105674,6 +108294,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     onboardingStep?: IntFieldUpdateOperationsInput | number
     onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
@@ -105706,6 +108329,7 @@ export namespace Prisma {
     brands?: BrandUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WarehouseItemUpsertWithWhereUniqueWithoutWarehouseInput = {
@@ -108055,6 +110679,9 @@ export namespace Prisma {
     isActive?: boolean
     onboardingStep?: number
     onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -108398,6 +111025,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     onboardingStep?: IntFieldUpdateOperationsInput | number
     onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUpdateManyWithoutTenantNestedInput
@@ -108432,6 +111062,7 @@ export namespace Prisma {
     brands?: BrandUpdateManyWithoutTenantNestedInput
     openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBaseCurrencyInput = {
@@ -108449,6 +111080,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     onboardingStep?: IntFieldUpdateOperationsInput | number
     onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
@@ -108482,6 +111116,7 @@ export namespace Prisma {
     brands?: BrandUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateManyWithoutBaseCurrencyInput = {
@@ -108499,6 +111134,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     onboardingStep?: IntFieldUpdateOperationsInput | number
     onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -108663,6 +111301,9 @@ export namespace Prisma {
     isActive?: boolean
     onboardingStep?: number
     onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -108681,6 +111322,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     onboardingStep?: IntFieldUpdateOperationsInput | number
     onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUpdateManyWithoutTenantNestedInput
@@ -108715,6 +111359,7 @@ export namespace Prisma {
     brands?: BrandUpdateManyWithoutTenantNestedInput
     openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDefaultSalesSequenceInput = {
@@ -108732,6 +111377,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     onboardingStep?: IntFieldUpdateOperationsInput | number
     onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
@@ -108765,6 +111413,7 @@ export namespace Prisma {
     brands?: BrandUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateManyWithoutDefaultSalesSequenceInput = {
@@ -108782,6 +111431,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     onboardingStep?: IntFieldUpdateOperationsInput | number
     onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -110936,6 +113588,19 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type SetupTaskCreateManyTenantInput = {
+    id?: string
+    type: $Enums.SetupTaskType
+    status?: $Enums.SetupTaskStatus
+    required?: boolean
+    dependencies?: SetupTaskCreatedependenciesInput | $Enums.SetupTaskType[]
+    progress?: NullableJsonNullValueInput | InputJsonValue
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    completedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type AppUserUpdateWithoutTenantInput = {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
@@ -112260,6 +114925,45 @@ export namespace Prisma {
     partySide?: NullableEnumOpeningBalancePartySideFieldUpdateOperationsInput | $Enums.OpeningBalancePartySide | null
     amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     exchangeRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SetupTaskUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumSetupTaskTypeFieldUpdateOperationsInput | $Enums.SetupTaskType
+    status?: EnumSetupTaskStatusFieldUpdateOperationsInput | $Enums.SetupTaskStatus
+    required?: BoolFieldUpdateOperationsInput | boolean
+    dependencies?: SetupTaskUpdatedependenciesInput | $Enums.SetupTaskType[]
+    progress?: NullableJsonNullValueInput | InputJsonValue
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SetupTaskUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumSetupTaskTypeFieldUpdateOperationsInput | $Enums.SetupTaskType
+    status?: EnumSetupTaskStatusFieldUpdateOperationsInput | $Enums.SetupTaskStatus
+    required?: BoolFieldUpdateOperationsInput | boolean
+    dependencies?: SetupTaskUpdatedependenciesInput | $Enums.SetupTaskType[]
+    progress?: NullableJsonNullValueInput | InputJsonValue
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SetupTaskUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumSetupTaskTypeFieldUpdateOperationsInput | $Enums.SetupTaskType
+    status?: EnumSetupTaskStatusFieldUpdateOperationsInput | $Enums.SetupTaskStatus
+    required?: BoolFieldUpdateOperationsInput | boolean
+    dependencies?: SetupTaskUpdatedependenciesInput | $Enums.SetupTaskType[]
+    progress?: NullableJsonNullValueInput | InputJsonValue
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

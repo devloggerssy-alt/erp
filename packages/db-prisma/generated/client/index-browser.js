@@ -582,6 +582,20 @@ exports.Prisma.ReconciliationRunScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.SetupTaskScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  type: 'type',
+  status: 'status',
+  required: 'required',
+  dependencies: 'dependencies',
+  progress: 'progress',
+  metadata: 'metadata',
+  completedAt: 'completedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.StockCountScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
@@ -680,6 +694,9 @@ exports.Prisma.TenantScalarFieldEnum = {
   isActive: 'isActive',
   onboardingStep: 'onboardingStep',
   onboardingCompletedAt: 'onboardingCompletedAt',
+  businessSetupProfile: 'businessSetupProfile',
+  businessSetupCompletedAt: 'businessSetupCompletedAt',
+  operationalReadiness: 'operationalReadiness',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -888,6 +905,33 @@ exports.PartyType = exports.$Enums.PartyType = {
   CUSTOMER_SUPPLIER: 'CUSTOMER_SUPPLIER'
 };
 
+exports.SetupTaskType = exports.$Enums.SetupTaskType = {
+  CURRENCIES: 'CURRENCIES',
+  FISCAL_PERIOD: 'FISCAL_PERIOD',
+  CHART_OF_ACCOUNTS: 'CHART_OF_ACCOUNTS',
+  FINANCIAL_MAPPINGS: 'FINANCIAL_MAPPINGS',
+  DOCUMENT_SEQUENCES: 'DOCUMENT_SEQUENCES',
+  CASHBOXES: 'CASHBOXES',
+  BANK_ACCOUNTS: 'BANK_ACCOUNTS',
+  WAREHOUSES: 'WAREHOUSES',
+  PRODUCTS: 'PRODUCTS',
+  CUSTOMERS: 'CUSTOMERS',
+  SUPPLIERS: 'SUPPLIERS',
+  OPENING_CASH_BALANCES: 'OPENING_CASH_BALANCES',
+  OPENING_BANK_BALANCES: 'OPENING_BANK_BALANCES',
+  OPENING_RECEIVABLES: 'OPENING_RECEIVABLES',
+  OPENING_PAYABLES: 'OPENING_PAYABLES',
+  OPENING_INVENTORY: 'OPENING_INVENTORY',
+  RECONCILIATION: 'RECONCILIATION'
+};
+
+exports.SetupTaskStatus = exports.$Enums.SetupTaskStatus = {
+  BLOCKED: 'BLOCKED',
+  READY: 'READY',
+  COMPLETED: 'COMPLETED',
+  SKIPPED: 'SKIPPED'
+};
+
 exports.StockCountStatus = exports.$Enums.StockCountStatus = {
   DRAFT: 'DRAFT',
   POSTED: 'POSTED',
@@ -937,6 +981,7 @@ exports.Prisma.ModelName = {
   OpeningBalanceSessionLine: 'OpeningBalanceSessionLine',
   Party: 'Party',
   ReconciliationRun: 'ReconciliationRun',
+  SetupTask: 'SetupTask',
   StockCount: 'StockCount',
   StockCountLine: 'StockCountLine',
   StockBalance: 'StockBalance',

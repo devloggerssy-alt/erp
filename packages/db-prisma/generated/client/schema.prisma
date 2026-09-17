@@ -988,6 +988,55 @@ generator client {
   output   = "../../generated/client"
 }
 
+enum SetupTaskType {
+  CURRENCIES
+  FISCAL_PERIOD
+  CHART_OF_ACCOUNTS
+  FINANCIAL_MAPPINGS
+  DOCUMENT_SEQUENCES
+  CASHBOXES
+  BANK_ACCOUNTS
+  WAREHOUSES
+  PRODUCTS
+  CUSTOMERS
+  SUPPLIERS
+  OPENING_CASH_BALANCES
+  OPENING_BANK_BALANCES
+  OPENING_RECEIVABLES
+  OPENING_PAYABLES
+  OPENING_INVENTORY
+  RECONCILIATION
+}
+
+enum SetupTaskStatus {
+  BLOCKED
+  READY
+  COMPLETED
+  SKIPPED
+}
+
+// ─── SetupTask ──────────────────────────────────────────────────────────────
+// One row per (tenant, task type). Drives the Business Setup dependency engine
+// (docs/superpowers/specs/2026-08-20-erp-roadmap/phase-06-business-setup-orchestration.md).
+model SetupTask {
+  id           String          @id @default(uuid())
+  tenantId     String          @map("tenant_id")
+  tenant       Tenant          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  type         SetupTaskType
+  status       SetupTaskStatus @default(BLOCKED)
+  required     Boolean         @default(true)
+  dependencies SetupTaskType[]
+  progress     Json?           @db.JsonB
+  metadata     Json?           @db.JsonB
+  completedAt  DateTime?       @map("completed_at")
+  createdAt    DateTime        @default(now()) @map("created_at")
+  updatedAt    DateTime        @updatedAt @map("updated_at")
+
+  @@unique([tenantId, type])
+  @@index([tenantId, status])
+  @@map("setup_tasks")
+}
+
 // ─── Stock Count Status Enum ──────────────────────────────────────────────────
 enum StockCountStatus {
   DRAFT
@@ -1168,11 +1217,14 @@ model Tenant {
   baseCurrencyId         String? @map("base_currency_id")
   defaultSalesSequenceId String? @map("default_sales_sequence_id")
 
-  isActive              Boolean   @default(true) @map("is_active")
-  onboardingStep        Int       @default(0) @map("onboarding_step")
-  onboardingCompletedAt DateTime? @map("onboarding_completed_at")
-  createdAt             DateTime  @default(now()) @map("created_at")
-  updatedAt             DateTime  @updatedAt @map("updated_at")
+  isActive                 Boolean   @default(true) @map("is_active")
+  onboardingStep           Int       @default(0) @map("onboarding_step")
+  onboardingCompletedAt    DateTime? @map("onboarding_completed_at")
+  businessSetupProfile     Json?     @map("business_setup_profile") @db.JsonB
+  businessSetupCompletedAt DateTime? @map("business_setup_completed_at")
+  operationalReadiness     Json?     @map("operational_readiness") @db.JsonB
+  createdAt                DateTime  @default(now()) @map("created_at")
+  updatedAt                DateTime  @updatedAt @map("updated_at")
 
   users                      AppUser[]
   roles                      Role[]
@@ -1207,6 +1259,7 @@ model Tenant {
   brands                     Brand[]
   openingBalanceSessions     OpeningBalanceSession[]
   openingBalanceSessionLines OpeningBalanceSessionLine[]
+  setupTasks                 SetupTask[]
 
   @@map("tenants")
 }
