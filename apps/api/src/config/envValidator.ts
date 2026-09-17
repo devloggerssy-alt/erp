@@ -18,5 +18,7 @@ export const envValidationSchema = Joi.object({
     AWS_SECRET_ACCESS_KEY: Joi.string().optional(),
     AWS_CLOUDFRONT_DOMAIN: Joi.string().optional(),
     AWS_S3_PATH_STYLE: Joi.string().valid('true', 'false').default('false'),
+    // Reconciliation (Phase 7.5)
+    RECONCILIATION_CRON_ENABLED: Joi.string().valid('true', 'false').default('true'),
 });
 
