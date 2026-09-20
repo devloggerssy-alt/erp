@@ -5,31 +5,15 @@ import { APP_PIPE } from '@nestjs/core';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { ScheduleModule } from '@nestjs/schedule';
 import { PrismaModule } from '@devloggers/db-prisma/nest';
-import { AuthModule } from './modules/identity/auth/auth.module';
-import { TenantsModule } from './modules/identity/tenants/tenants.module';
-import { SettingsModule } from './modules/identity/settings/settings.module';
-import { UsersModule } from './modules/identity/users/users.module';
-import { OnboardingModule } from './modules/identity/onboarding/onboarding.module';
-import { BusinessSetupModule } from './modules/identity/business-setup/business-setup.module';
-import { CatalogModule } from './modules/catalog/catalog.module';
-import { AccountingModule } from './modules/accounting/accounting.module';
-import { InventoryModule } from './modules/inventory/inventory.module';
-import { InvoicingModule } from './modules/invoicing/invoicing.module';
-import { PartiesModule } from './modules/parties/parties.module';
-import { StockLedgerModule } from './modules/inventory/stock-ledger/stock-ledger.module';
-import { InvoicesModule } from './modules/invoicing/invoices/invoices.module';
-import { PaymentsModule } from './modules/invoicing/payments/payments.module';
-import { StockCountsModule } from './modules/inventory/stock-counts/stock-counts.module';
-import { ReportsModule } from './modules/reports/reports.module';
-import { AiChatModule } from './modules/ai-chat/ai-chat.module';
-import { AuditModule } from './modules/audit/audit.module';
-import { CustomFieldsModule } from './modules/custom-fields/custom-fields.module';
-import { FilesModule } from './modules/files/files.module';
+import { enabledModuleImports } from './domain/domain-modules';
 import configuration from './config/configuration';
 import { envValidationSchema } from './config/envValidator';
 
 @Module({
   imports: [
+    // MUST stay first: ConfigModule.forRoot loads .env.<NODE_ENV> and assigns
+    // the values to process.env synchronously, before the domain registry
+    // below reads DISABLED_DOMAINS.
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: `.env.${process.env.NODE_ENV || 'development'}`,
@@ -40,26 +24,9 @@ import { envValidationSchema } from './config/envValidator';
     ScheduleModule.forRoot(),
     I18nModule,
     PrismaModule,
-    AuthModule,
-    TenantsModule,
-    SettingsModule,
-    UsersModule,
-    OnboardingModule,
-    BusinessSetupModule,
-    CatalogModule,
-    CustomFieldsModule,
-    AccountingModule,
-    InventoryModule,
-    InvoicingModule,
-    PartiesModule,
-    StockLedgerModule,
-    InvoicesModule,
-    PaymentsModule,
-    StockCountsModule,
-    ReportsModule,
-    AiChatModule,
-    AuditModule,
-    FilesModule,
+    // Phase 8.2.1 — domain composition comes from the capability registry.
+    // DISABLED_DOMAINS is validated in src/domain/manifest.ts.
+    ...enabledModuleImports(process.env.DISABLED_DOMAINS),
   ],
   providers: [
     {
