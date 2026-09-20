@@ -552,6 +552,22 @@ exports.Prisma.OpeningBalanceSessionLineScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.OutboxEventScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  topic: 'topic',
+  payload: 'payload',
+  status: 'status',
+  attempts: 'attempts',
+  maxAttempts: 'maxAttempts',
+  lastError: 'lastError',
+  availableAt: 'availableAt',
+  lockedAt: 'lockedAt',
+  deliveredAt: 'deliveredAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.PartyScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
@@ -899,6 +915,13 @@ exports.OpeningBalancePartySide = exports.$Enums.OpeningBalancePartySide = {
   AP: 'AP'
 };
 
+exports.OutboxStatus = exports.$Enums.OutboxStatus = {
+  PENDING: 'PENDING',
+  PROCESSING: 'PROCESSING',
+  DELIVERED: 'DELIVERED',
+  DEAD: 'DEAD'
+};
+
 exports.PartyType = exports.$Enums.PartyType = {
   CUSTOMER: 'CUSTOMER',
   SUPPLIER: 'SUPPLIER',
@@ -979,6 +1002,7 @@ exports.Prisma.ModelName = {
   Item: 'Item',
   OpeningBalanceSession: 'OpeningBalanceSession',
   OpeningBalanceSessionLine: 'OpeningBalanceSessionLine',
+  OutboxEvent: 'OutboxEvent',
   Party: 'Party',
   ReconciliationRun: 'ReconciliationRun',
   SetupTask: 'SetupTask',
