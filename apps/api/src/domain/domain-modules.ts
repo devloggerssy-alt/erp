@@ -6,6 +6,7 @@ import { CatalogModule } from '../modules/catalog/catalog.module';
 import { CustomFieldsModule } from '../modules/custom-fields/custom-fields.module';
 import { FilesModule } from '../modules/files/files.module';
 import { AuthModule } from '../modules/identity/auth/auth.module';
+import { PermissionsModule } from '../modules/identity/auth/permissions/permissions.module';
 import { BusinessSetupModule } from '../modules/identity/business-setup/business-setup.module';
 import { OnboardingModule } from '../modules/identity/onboarding/onboarding.module';
 import { SettingsModule } from '../modules/identity/settings/settings.module';
@@ -30,7 +31,7 @@ export const DOMAIN_MODULES: Record<DomainKey, Type<unknown>[]> = {
     catalog: [CatalogModule],
     'custom-fields': [CustomFieldsModule],
     files: [FilesModule],
-    identity: [AuthModule, TenantsModule, SettingsModule, UsersModule, OnboardingModule, BusinessSetupModule],
+    identity: [AuthModule, TenantsModule, SettingsModule, UsersModule, OnboardingModule, BusinessSetupModule, PermissionsModule],
     inventory: [InventoryModule, StockLedgerModule, StockCountsModule],
     invoicing: [InvoicingModule],
     parties: [PartiesModule],
