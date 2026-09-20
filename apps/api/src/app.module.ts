@@ -8,6 +8,7 @@ import { PrismaModule } from '@devloggers/db-prisma/nest';
 import { enabledModuleImports } from './domain/domain-modules';
 import { DomainAvailabilityGuard } from './domain/domain-availability.guard';
 import { DisabledDomainFilter } from './domain/disabled-domain.filter';
+import { CrudEventsListener } from './common/events/crud-events.listener';
 import configuration from './config/configuration';
 import { envValidationSchema } from './config/envValidator';
 
@@ -22,7 +23,7 @@ import { envValidationSchema } from './config/envValidator';
       validationSchema: envValidationSchema,
       load: [configuration],
     }),
-    EventEmitterModule.forRoot({ wildcard: false, delimiter: '.', global: true }),
+    EventEmitterModule.forRoot({ wildcard: true, delimiter: '.', global: true }),
     ScheduleModule.forRoot(),
     I18nModule,
     PrismaModule,
@@ -42,6 +43,7 @@ import { envValidationSchema } from './config/envValidator';
     },
     { provide: APP_GUARD, useClass: DomainAvailabilityGuard },
     { provide: APP_FILTER, useClass: DisabledDomainFilter },
+    CrudEventsListener,
   ],
 })
 export class AppModule { }
