@@ -9,7 +9,9 @@ import { OpeningBalancesModule } from '../../accounting/opening-balances/opening
 import { ReconciliationModule } from '../../accounting/reconciliation/reconciliation.module';
 import { CashboxesModule, BankAccountsModule } from '../../invoicing';
 import { SetupTasksRepository } from './repositories/setup-tasks.repository';
+import { BusinessSetupTenantRepository } from './repositories/business-setup-tenant.repository';
 import { BusinessSetupDiscoveryService } from './services/business-setup-discovery.service';
+import { BusinessSetupReadinessService } from './services/business-setup-readiness.service';
 import { BusinessSetupPlanService } from './services/business-setup-plan.service';
 import { BusinessSetupTaskService } from './services/business-setup-task.service';
 import { BusinessSetupProfileService } from './services/business-setup-profile.service';
@@ -39,6 +41,8 @@ import {
     controllers: [BusinessSetupController],
     providers: [
         SetupTasksRepository,
+        BusinessSetupTenantRepository,
+        BusinessSetupReadinessService,
         BusinessSetupDiscoveryService,
         BusinessSetupPlanService,
         BusinessSetupTaskService,

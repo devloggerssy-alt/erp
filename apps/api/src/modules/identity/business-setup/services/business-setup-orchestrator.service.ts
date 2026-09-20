@@ -2,6 +2,8 @@ import { BadRequestException, ConflictException, Injectable } from '@nestjs/comm
 import type { SetupTask, SetupTaskType } from '@devloggers/db-prisma';
 import { RequestContext } from '../../../../common/request-context/request-context';
 import { BusinessSetupTaskService } from './business-setup-task.service';
+import { BusinessSetupReadinessService } from './business-setup-readiness.service';
+import { BusinessSetupTenantRepository } from '../repositories/business-setup-tenant.repository';
 import {
     CurrenciesTaskHandler,
     ChartOfAccountsTaskHandler,
@@ -24,6 +26,8 @@ export class BusinessSetupOrchestratorService {
 
     constructor(
         private readonly taskService: BusinessSetupTaskService,
+        private readonly readinessService: BusinessSetupReadinessService,
+        private readonly tenantRepository: BusinessSetupTenantRepository,
         currencies: CurrenciesTaskHandler,
         chartOfAccounts: ChartOfAccountsTaskHandler,
         financialMappings: FinancialMappingsTaskHandler,
@@ -70,6 +74,14 @@ export class BusinessSetupOrchestratorService {
         );
 
         await this.taskService.recordAttempt(tenantId, type, result.completed, result.details);
+
+        // Phase 10.4.3 — businessSetupCompletedAt is written in exactly one place:
+        // when the reconciliation task completes (i.e. the Phase 7 run passed).
+        if (type === 'RECONCILIATION' && result.completed) {
+            await this.tenantRepository.setCompletedAt(tenantId, new Date());
+        }
+
+        await this.readinessService.refresh(tenantId);
         return this.taskService.getTaskOrFail(tenantId, type);
     }
 }

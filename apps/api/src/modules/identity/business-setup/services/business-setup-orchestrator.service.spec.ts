@@ -19,6 +19,8 @@ function build(task: SetupTask | null) {
         }),
         recordAttempt: jest.fn().mockResolvedValue(undefined),
     };
+    const readinessService = { refresh: jest.fn().mockResolvedValue(undefined) };
+    const tenantRepository = { setCompletedAt: jest.fn().mockResolvedValue(undefined) };
     const currencies = { execute: jest.fn().mockResolvedValue({ completed: true, details: { created: 1 } }) };
     const chartOfAccounts = { execute: jest.fn() };
     const financialMappings = { execute: jest.fn() };
@@ -33,12 +35,13 @@ function build(task: SetupTask | null) {
     const reconciliation = { execute: jest.fn() };
 
     const orchestrator = new BusinessSetupOrchestratorService(
-        taskService as never, currencies as never, chartOfAccounts as never, financialMappings as never,
+        taskService as never, readinessService as never, tenantRepository as never,
+        currencies as never, chartOfAccounts as never, financialMappings as never,
         cashboxes as never, bankAccounts as never, fiscalPeriod as never, documentSequences as never,
         openingCashBalances as never, openingBankBalances as never, openingReceivables as never,
         openingPayables as never, reconciliation as never,
     );
-    return { orchestrator, taskService, currencies };
+    return { orchestrator, taskService, readinessService, tenantRepository, currencies, reconciliation };
 }
 
 describe('BusinessSetupOrchestratorService.execute', () => {
@@ -81,5 +84,35 @@ describe('BusinessSetupOrchestratorService.execute', () => {
 
         expect(observedSource).toBe('BUSINESS_SETUP');
         expect(observedTaskType).toBe('CURRENCIES');
+    });
+
+    it('refreshes operational readiness after every task execution', async () => {
+        const { orchestrator, readinessService } = build(makeTask({ type: 'CURRENCIES' as never, status: 'READY' }));
+        await orchestrator.execute('t1', 'u1', 'CURRENCIES' as never, []);
+        expect(readinessService.refresh).toHaveBeenCalledWith('t1');
+    });
+
+    it('sets businessSetupCompletedAt when RECONCILIATION completes', async () => {
+        const { orchestrator, tenantRepository, reconciliation } = build(makeTask({ type: 'RECONCILIATION' as never, status: 'READY' }));
+        reconciliation.execute.mockResolvedValue({ completed: true, details: { runId: 'run-1' } });
+
+        await orchestrator.execute('t1', 'u1', 'RECONCILIATION' as never, undefined);
+
+        expect(tenantRepository.setCompletedAt).toHaveBeenCalledWith('t1', expect.any(Date));
+    });
+
+    it('does not set businessSetupCompletedAt when RECONCILIATION fails', async () => {
+        const { orchestrator, tenantRepository, reconciliation } = build(makeTask({ type: 'RECONCILIATION' as never, status: 'READY' }));
+        reconciliation.execute.mockResolvedValue({ completed: false, details: { passed: false } });
+
+        await orchestrator.execute('t1', 'u1', 'RECONCILIATION' as never, undefined);
+
+        expect(tenantRepository.setCompletedAt).not.toHaveBeenCalled();
+    });
+
+    it('does not set businessSetupCompletedAt for non-reconciliation tasks', async () => {
+        const { orchestrator, tenantRepository } = build(makeTask({ type: 'CURRENCIES' as never, status: 'READY' }));
+        await orchestrator.execute('t1', 'u1', 'CURRENCIES' as never, []);
+        expect(tenantRepository.setCompletedAt).not.toHaveBeenCalled();
     });
 });
