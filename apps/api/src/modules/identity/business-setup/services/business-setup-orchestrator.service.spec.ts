@@ -72,7 +72,7 @@ describe('BusinessSetupOrchestratorService.execute', () => {
         const currenciesHandler = { execute: jest.fn().mockImplementation(() => {
             const ctx = RequestContext.get();
             observedSource = ctx?.source;
-            observedTaskType = (ctx?.metadata as Record<string, unknown> | undefined)?.taskType;
+            observedTaskType = ctx?.metadata?.taskType;
             return Promise.resolve({ completed: true, details: {} });
         }) };
         (orchestrator as unknown as { handlers: Map<string, unknown> })['handlers'].set('CURRENCIES', currenciesHandler);
