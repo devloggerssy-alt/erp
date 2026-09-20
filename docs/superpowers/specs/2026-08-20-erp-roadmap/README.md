@@ -23,10 +23,10 @@ This folder contains **only unresolved work**. Prerequisites already in the code
 | **2** | [Subledger Accounting Foundation](phase-02-subledger-accounting-foundation.md) | 🔴 P0 | — | ✅ Complete |
 | **3** | [Opening Balances & Subledger Services](phase-03-opening-balances-subledger-services.md) | 🔴 P0 | 2 | ✅ Complete |
 | **4** | [Client & Dashboard Types](phase-04-client-dashboard-types.md) | 🟠 P1 | — | ✅ Complete |
-| **5** | [Domain Coupling](phase-05-domain-coupling.md) | 🟡 P2 | 2 | ⬜ **Next** |
+| **5** | [Domain Coupling](phase-05-domain-coupling.md) | 🟡 P2 | 2 | ✅ Complete |
 | **6** | [Business Setup Orchestration](phase-06-business-setup-orchestration.md) | 🟠 P1 | 2, 3 | ⬜ |
 | **7** | [Audit, Reconciliation & Observability](phase-07-audit-reconciliation-observability.md) | 🟡 P2 | 2, 3 | ✅ Complete (7.1.4 / 7.5.3 hook into Phase 6) |
-| **8** | [Modularity](phase-08-modularity.md) | 🟢 P3 | 5 | ⬜ |
+| **8** | [Modularity](phase-08-modularity.md) | 🟢 P3 | 5 | ✅ Complete |
 | **9** | [AuthZ](phase-09-authz.md) | 🔴 P0 prod gate | — | ⬜ |
 | **10** | [Business Setup UI, Import & Readiness](phase-10-business-setup-ui-import-readiness.md) | 🟠 P1 | 6, 7 | ⬜ |
 | — | [Gap Register](gap-register.md) | reference | — | post-roadmap |

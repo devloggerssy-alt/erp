@@ -22,7 +22,9 @@ Each feature under `apps/api/src/modules/<domain>/<feature>/`:
 - Resource key: `resources.{name}.key` from `@devloggers/api-contracts` — never hardcode
 - Do not call Prisma from services — use repository
 - Do not return raw entities from controllers — always go through presenter
-- Do not re-emit CRUD events in `onCreated` / `onUpdated` / `onDeleted` — base `CrudService` already does
+- Do not re-emit CRUD events in `onCreated` / `onUpdated` / `onDeleted` — base `CrudService` already does.
+  Events are consumed by `CrudEventsListener` (`src/common/events/`) for structured debug logging
+  (Phase 8.4.5); register future consumers there. `EventEmitterModule` runs in wildcard mode.
 
 ---
 
@@ -142,6 +144,16 @@ reports   ───► invoicing
 
 `src/app.module.ts` is the composition root and is exempt. **Adding an edge** means: export the symbol from the target's `index.ts`, add it to the table above, and add a probe case to `apps/api/scripts/check-architecture-rules.mjs`. **Adding a domain** folder fails `lint:architecture` until it has a `DOMAIN_RESTRICTIONS` entry.
 
+The graph is machine-checked (Phase 8.1.2): `apps/api/src/domain/manifest.ts` declares each domain's
+`dependsOn` / `provides` / `routes`; `pnpm --filter @devloggers/api lint:architecture` fails when the
+manifest drifts from the production import graph, controller routes or barrel exports. `identity` is the
+shared auth kernel and is omitted from `dependsOn`.
+
+`DISABLED_DOMAINS` (comma-separated keys, process env or `.env.<NODE_ENV>`) removes optional domains at
+boot; requests to a disabled domain answer 404 with a clear message (guard + filter). Non-optional domains
+(`accounting`, `audit`, `identity`, `inventory`, `invoicing`) and domains an enabled domain depends on
+cannot be disabled — the registry throws a clear configuration error at startup.
+
 ## Deletion semantics (per model)
 
 Rule: **financial documents and ledger rows are cancelled or reversed, never hard-deleted** (`.ai/rules/domain.md`). Enforced by service status guards (400), `StatusGuardedCrudRepository` (409 backstop), a `no-restricted-syntax` lint rule on raw Prisma deletes (reviewed allowlist in `apps/api/eslint.config.mjs`), and pinned by `*.delete-guard.spec.ts` / `payments.delete-http.spec.ts`.
@@ -162,6 +174,14 @@ Rule: **financial documents and ledger rows are cancelled or reversed, never har
 | Whole tenant | danger-zone reset of all transactional data | `DataResetService`, phrase-confirmed |
 
 Adding a deletable financial model: extend `StatusGuardedCrudRepository`, or add the delete site to the lint allowlist **with** a pinning test. Known debt: flip the `SET NULL` ledger FKs to `RESTRICT` in a migration.
+
+## Outbox seam (Phase 8.4)
+
+`OUTBOX_ENABLED` (default `false`) turns on the dual-write outbox: `AccountingPostingFacade` keeps posting
+synchronously and additionally writes an `OutboxEvent` row in the same transaction. A poll worker
+(`src/outbox/outbox-worker.service.ts`) delivers rows through `OutboxHandlerRegistry` with retry
+(`OUTBOX_RETRY_DELAY_MS`) and dead-lettering. Enabling the flag does not change GL consistency, call sites
+or the facade return type; the async GL split (enqueue-only) requires a design review per `.ai/rules/domain.md` §4.
 
 ## Reference
 `apps/api/src/modules/catalog/units/`

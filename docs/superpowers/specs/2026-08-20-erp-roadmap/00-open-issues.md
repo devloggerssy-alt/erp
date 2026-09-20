@@ -84,9 +84,9 @@ Issues still unresolved in the codebase. Each maps to a roadmap phase.
 
 | Issue | Evidence | Phase |
 |-------|----------|-------|
-| `EventEmitter2` CRUD events have zero consumers | F3 | **8** |
-| No capability manifest or module isolation tests | — | **8** |
-| No outbox seam for future async GL | — | **8** |
+| ~~`EventEmitter2` CRUD events have zero consumers~~ — resolved Phase 8 (consumer: `CrudEventsListener`) | F3 | ✅ **8** |
+| ~~No capability manifest or module isolation tests~~ — resolved Phase 8 (`src/domain/manifest.ts`, `lint:manifest`, isolation harness) | — | ✅ **8** |
+| ~~No outbox seam for future async GL~~ — resolved Phase 8 (dual-write, `OUTBOX_ENABLED`, default off) | — | ✅ **8** |
 
 ---
 
