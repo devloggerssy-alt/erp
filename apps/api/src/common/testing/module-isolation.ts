@@ -5,6 +5,7 @@ import { Test, type TestingModule, type TestingModuleBuilder } from '@nestjs/tes
 import { I18nModule } from '@devloggers/i18n/nest';
 import { PrismaModule, PrismaService } from '@devloggers/db-prisma/nest';
 import { AuditModule } from '../../modules/audit/audit.module';
+import { PermissionsGuard } from '../../modules/identity/auth/guards';
 
 /**
  * Phase 8.3 — boots a domain module subtree without AppModule. Only global
@@ -37,7 +38,11 @@ export async function compileIsolated(
         ],
     })
         .overrideProvider(PrismaService)
-        .useValue(fakePrismaService);
+        .useValue(fakePrismaService)
+        // Authorization is enforced by PermissionsGuard in the full app; isolation
+        // tests pin module composition, so the guard is stubbed here.
+        .overrideGuard(PermissionsGuard)
+        .useValue({ canActivate: () => true });
 
     return (configure ? configure(builder) : builder).compile();
 }

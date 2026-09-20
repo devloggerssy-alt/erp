@@ -10,7 +10,7 @@ import {
   createCrudController,
   type CrudOpenApi,
 } from '@devloggers/backend-core';
-import { JwtAuthGuard } from '@/modules/identity/auth/guards';
+import { JwtAuthGuard, PermissionsGuard } from '@/modules/identity/auth/guards';
 
 const ITEM_CATALOG_ENTITIES_CRUD_OPENAPI = {
   list: {
@@ -60,6 +60,12 @@ const ItemCatalogEntitiesCrudBase = createCrudController({
     { field: 'itemId', type: 'string' },
     { field: 'catalogEntityId', type: 'string' },
   ],
+  permissions: {
+    view: 'itemCatalogEntities.view',
+    create: 'itemCatalogEntities.create',
+    update: 'itemCatalogEntities.update',
+    delete: 'itemCatalogEntities.delete',
+  },
   openApi: ITEM_CATALOG_ENTITIES_CRUD_OPENAPI,
 });
 
@@ -71,7 +77,7 @@ const ItemCatalogEntitiesCrudBase = createCrudController({
  */
 @ApiTags('Catalog / Item Catalog Entities')
 @Controller('item-catalog-entities')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, PermissionsGuard)
 @ApiBearerAuth('JWT-auth')
 export class ItemCatalogEntitiesController extends ItemCatalogEntitiesCrudBase {
   constructor(private readonly itemCatalogEntitiesService: ItemCatalogEntitiesService) {

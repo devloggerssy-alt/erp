@@ -5,7 +5,7 @@ import {
     type CrudImportExportOpenApi,
 } from '@devloggers/backend-core';
 import { itemCategoryResource } from '@devloggers/api-contracts';
-import { JwtAuthGuard } from '@/modules/identity/auth/guards';
+import { JwtAuthGuard, PermissionsGuard } from '@/modules/identity/auth/guards';
 import { ItemsExportService } from '../services/items-export.service';
 import { ItemsImportService } from '../services/items-import.service';
 
@@ -39,12 +39,16 @@ const ItemsImportExportBase = createCrudImportExportController({
         { field: 'isActive', type: 'boolean' },
         { field: 'createdAt', type: 'date' },
     ],
+    permissions: {
+      view: 'items.view',
+      create: 'items.create',
+    },
     openApi: ITEMS_IMPORT_EXPORT_OPENAPI,
 });
 
 @ApiTags('Catalog / Items')
 @Controller('items')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, PermissionsGuard)
 @ApiBearerAuth('JWT-auth')
 export class ItemsImportExportController extends ItemsImportExportBase {
     constructor(

@@ -3,7 +3,7 @@ import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { PartiesService } from './parties.service';
 import { CreatePartyDto, UpdatePartyDto, PartyResponseDto } from './dto';
 import { createCrudController, type CrudOpenApi } from '@devloggers/backend-core';
-import { JwtAuthGuard } from '../identity/auth/guards';
+import { JwtAuthGuard, PermissionsGuard } from '../identity/auth/guards';
 
 const PARTIES_CRUD_OPENAPI = {
     list: {
@@ -42,12 +42,18 @@ const PartiesCrudBase = createCrudController({
         { field: 'isActive', type: 'boolean' },
         { field: 'createdAt', type: 'date' },
     ],
+    permissions: {
+      view: 'parties.view',
+      create: 'parties.create',
+      update: 'parties.update',
+      delete: 'parties.delete',
+    },
     openApi: PARTIES_CRUD_OPENAPI,
 });
 
 @ApiTags('Parties')
 @Controller('parties')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, PermissionsGuard)
 @ApiBearerAuth('JWT-auth')
 export class PartiesController extends PartiesCrudBase {
     constructor(private readonly partiesService: PartiesService) {

@@ -3,7 +3,7 @@ import { Test } from '@nestjs/testing';
 import request from 'supertest';
 import { PaymentsController } from './payments.controller';
 import { PaymentsService } from './payments.service';
-import { JwtAuthGuard } from '../../identity/auth/guards';
+import { JwtAuthGuard, PermissionsGuard } from '../../identity/auth/guards';
 
 /**
  * Phase 5.3 — a posted payment is cancel-only. Exercises the real controller
@@ -30,6 +30,10 @@ describe('DELETE /payments — posted payments cannot be deleted', () => {
                     return true;
                 },
             })
+            // Permission enforcement is covered by permissions.guard.spec.ts; this
+            // suite only exercises the delete-status rules over HTTP.
+            .overrideGuard(PermissionsGuard)
+            .useValue({ canActivate: () => true })
             .compile();
 
         app = moduleRef.createNestApplication();

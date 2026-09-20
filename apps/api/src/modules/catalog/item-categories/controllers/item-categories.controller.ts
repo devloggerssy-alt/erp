@@ -3,7 +3,7 @@ import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { ItemCategoriesService } from '../services/item-categories.service';
 import { CreateItemCategoryDto, UpdateItemCategoryDto, ItemCategoryResponseDto } from '../dto';
 import { createCrudController, type CrudOpenApi } from '@devloggers/backend-core';
-import { JwtAuthGuard } from '@/modules/identity/auth/guards';
+import { JwtAuthGuard, PermissionsGuard } from '@/modules/identity/auth/guards';
 import { itemCategoryResource } from '@devloggers/api-contracts';
 
 const ITEM_CATEGORIES_OPENAPI = {
@@ -42,12 +42,18 @@ const ItemCategoriesCrudBase = createCrudController({
         { field: 'createdAt', type: 'date' },
         { field: 'parentId', type: 'id', foreignResourceKey: itemCategoryResource.key },
     ],
+    permissions: {
+      view: 'itemCategories.view',
+      create: 'itemCategories.create',
+      update: 'itemCategories.update',
+      delete: 'itemCategories.delete',
+    },
     openApi: ITEM_CATEGORIES_OPENAPI,
 });
 
 @ApiTags('Catalog / Item Categories')
 @Controller('item-categories')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, PermissionsGuard)
 @ApiBearerAuth('JWT-auth')
 export class ItemCategoriesController extends ItemCategoriesCrudBase {
     constructor(private readonly itemCategoriesService: ItemCategoriesService) {

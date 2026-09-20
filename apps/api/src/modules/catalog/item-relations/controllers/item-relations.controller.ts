@@ -3,7 +3,7 @@ import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { createCrudController, type CrudOpenApi } from '@devloggers/backend-core';
 import { ItemRelationsService } from '../services/item-relations.service';
 import { CreateItemRelationDto, UpdateItemRelationDto, ItemRelationResponseDto } from '../dto';
-import { JwtAuthGuard } from '@/modules/identity/auth/guards';
+import { JwtAuthGuard, PermissionsGuard } from '@/modules/identity/auth/guards';
 
 const ITEM_RELATIONS_CRUD_OPENAPI = {
   list: {
@@ -45,6 +45,12 @@ const ItemRelationsCrudBase = createCrudController({
   responseDto: ItemRelationResponseDto,
   createDto: CreateItemRelationDto,
   updateDto: UpdateItemRelationDto,
+  permissions: {
+    view: 'itemRelations.view',
+    create: 'itemRelations.create',
+    update: 'itemRelations.update',
+    delete: 'itemRelations.delete',
+  },
   openApi: ITEM_RELATIONS_CRUD_OPENAPI,
   filterSchema: [
     { field: 'itemId', type: 'string' },
@@ -61,7 +67,7 @@ const ItemRelationsCrudBase = createCrudController({
  */
 @ApiTags('Catalog / Item Relations')
 @Controller('item-relations')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, PermissionsGuard)
 @ApiBearerAuth('JWT-auth')
 export class ItemRelationsController extends ItemRelationsCrudBase {
   constructor(private readonly itemRelationsService: ItemRelationsService) {

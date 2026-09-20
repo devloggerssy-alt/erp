@@ -3,7 +3,7 @@ import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { createCrudController, type CrudOpenApi } from '@devloggers/backend-core';
 import { TagsService } from '../services/tags.service';
 import { CreateTagDto, UpdateTagDto, TagResponseDto } from '../dto';
-import { JwtAuthGuard } from '@/modules/identity/auth/guards';
+import { JwtAuthGuard, PermissionsGuard } from '@/modules/identity/auth/guards';
 
 const TAGS_CRUD_OPENAPI = {
   list: {
@@ -52,6 +52,12 @@ const TagsCrudBase = createCrudController({
     { field: 'module',    type: 'string' },
     { field: 'createdAt', type: 'date' },
   ],
+  permissions: {
+    view: 'tags.view',
+    create: 'tags.create',
+    update: 'tags.update',
+    delete: 'tags.delete',
+  },
   openApi: TAGS_CRUD_OPENAPI,
 });
 
@@ -63,7 +69,7 @@ const TagsCrudBase = createCrudController({
  */
 @ApiTags('Catalog / Tags')
 @Controller('tags')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, PermissionsGuard)
 @ApiBearerAuth('JWT-auth')
 export class TagsController extends TagsCrudBase {
   constructor(private readonly tagsService: TagsService) {

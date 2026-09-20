@@ -5,11 +5,12 @@ import {
   type CrudOpenApi,
   type RequestUser,
   createClassDtoBodyPipe,
+  RequirePermission,
 } from '@devloggers/backend-core';
 import { PaymentsService } from './payments.service';
 import { CreatePaymentDto, UpdatePaymentDto, AllocatePaymentDto } from './dto';
 import { PaymentResponseDto } from './dto/payment-response.dto';
-import { JwtAuthGuard } from '../../identity/auth/guards';
+import { JwtAuthGuard, PermissionsGuard } from '../../identity/auth/guards';
 import { CurrentUser } from '../../identity/auth/decorators';
 import { ApiResponseBuilder } from '../../../common/api/api-response-builder';
 import {
@@ -60,12 +61,18 @@ const PaymentsCrudBase = createCrudController({
   responseDto: PaymentResponseDto,
   createDto: CreatePaymentDto,
   updateDto: UpdatePaymentDto,
+  permissions: {
+    view: 'payments.view',
+    create: 'payments.create',
+    update: 'payments.update',
+    delete: 'payments.delete',
+  },
   openApi: PAYMENTS_CRUD_OPENAPI,
 });
 
 @ApiTags('Payments')
 @Controller('payments')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, PermissionsGuard)
 @ApiBearerAuth('JWT-auth')
 export class PaymentsController extends PaymentsCrudBase {
   constructor(private readonly paymentsService: PaymentsService) {
@@ -73,6 +80,7 @@ export class PaymentsController extends PaymentsCrudBase {
   }
 
   @Post()
+  @RequirePermission('payments.create')
   @CrudCreate(PaymentResponseDto, PAYMENTS_CRUD_OPENAPI.create)
   @ApiBody({ type: CreatePaymentDto, required: true })
   @UsePipes(createClassDtoBodyPipe(CreatePaymentDto))
@@ -82,6 +90,7 @@ export class PaymentsController extends PaymentsCrudBase {
   }
 
   @Post(':id/post')
+  @RequirePermission('payments.post')
   @ApiOkResponseStandard(PaymentResponseDto, { description: 'Payment posted' })
   @ApiStandardErrors()
   async post(@CurrentUser() user: RequestUser, @Param('id') id: string) {
@@ -92,6 +101,7 @@ export class PaymentsController extends PaymentsCrudBase {
   }
 
   @Post(':id/cancel')
+  @RequirePermission('payments.cancel')
   @ApiOkResponseStandard(PaymentResponseDto, { description: 'Payment cancelled' })
   @ApiStandardErrors()
   async cancel(@CurrentUser() user: RequestUser, @Param('id') id: string) {
@@ -102,6 +112,7 @@ export class PaymentsController extends PaymentsCrudBase {
   }
 
   @Post(':id/allocate')
+  @RequirePermission('payments.allocate')
   @ApiOkResponseStandard(PaymentResponseDto, { description: 'Payment allocated' })
   @ApiStandardErrors()
   async allocate(
@@ -117,6 +128,7 @@ export class PaymentsController extends PaymentsCrudBase {
   }
 
   @Post(':id/allocations/:allocationId/remove')
+  @RequirePermission('payments.allocate')
   @ApiOkResponseStandard(PaymentResponseDto, { description: 'Allocation removed' })
   @ApiStandardErrors()
   async removeAllocation(

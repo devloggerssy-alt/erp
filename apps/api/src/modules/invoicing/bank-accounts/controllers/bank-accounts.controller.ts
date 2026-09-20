@@ -3,7 +3,7 @@ import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { BankAccountsService } from '../services/bank-accounts.service';
 import { CreateBankAccountDto, UpdateBankAccountDto, BankAccountResponseDto } from '../dto';
 import { createCrudController, type CrudOpenApi } from '@devloggers/backend-core';
-import { JwtAuthGuard } from '@/modules/identity/auth/guards';
+import { JwtAuthGuard, PermissionsGuard } from '@/modules/identity/auth/guards';
 import { currencyResource } from '@devloggers/api-contracts';
 
 const BANK_ACCOUNTS_OPENAPI = {
@@ -39,12 +39,18 @@ const BankAccountsCrudBase = createCrudController({
     filterSchema: [
         { field: 'currencyId', type: 'id', foreignResourceKey: currencyResource.key },
     ],
+    permissions: {
+      view: 'bankAccounts.view',
+      create: 'bankAccounts.create',
+      update: 'bankAccounts.update',
+      delete: 'bankAccounts.delete',
+    },
     openApi: BANK_ACCOUNTS_OPENAPI,
 });
 
 @ApiTags('Invoicing / BankAccounts')
 @Controller('bank-accounts')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, PermissionsGuard)
 @ApiBearerAuth('JWT-auth')
 export class BankAccountsController extends BankAccountsCrudBase {
     constructor(private readonly bankAccountsService: BankAccountsService) {

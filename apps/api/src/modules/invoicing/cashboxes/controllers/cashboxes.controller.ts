@@ -3,7 +3,7 @@ import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { CashboxesService } from '../services/cashboxes.service';
 import { CreateCashboxDto, UpdateCashboxDto, CashboxResponseDto } from '../dto';
 import { createCrudController, type CrudOpenApi } from '@devloggers/backend-core';
-import { JwtAuthGuard } from '@/modules/identity/auth/guards';
+import { JwtAuthGuard, PermissionsGuard } from '@/modules/identity/auth/guards';
 import { currencyResource } from '@devloggers/api-contracts';
 
 const CASHBOXES_OPENAPI = {
@@ -39,12 +39,18 @@ const CashboxesCrudBase = createCrudController({
     filterSchema: [
         { field: 'currencyId', type: 'id', foreignResourceKey: currencyResource.key },
     ],
+    permissions: {
+      view: 'cashboxes.view',
+      create: 'cashboxes.create',
+      update: 'cashboxes.update',
+      delete: 'cashboxes.delete',
+    },
     openApi: CASHBOXES_OPENAPI,
 });
 
 @ApiTags('Invoicing / Cashboxes')
 @Controller('cashboxes')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, PermissionsGuard)
 @ApiBearerAuth('JWT-auth')
 export class CashboxesController extends CashboxesCrudBase {
     constructor(private readonly cashboxesService: CashboxesService) {

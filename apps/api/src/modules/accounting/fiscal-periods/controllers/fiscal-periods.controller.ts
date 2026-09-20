@@ -3,7 +3,7 @@ import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { FiscalPeriodsService } from '../services/fiscal-periods.service';
 import { CreateFiscalPeriodDto, UpdateFiscalPeriodDto, FiscalPeriodResponseDto } from '../dto';
 import { createCrudController, type CrudOpenApi } from '@devloggers/backend-core';
-import { JwtAuthGuard } from '@/modules/identity/auth/guards';
+import { JwtAuthGuard, PermissionsGuard } from '@/modules/identity/auth/guards';
 
 const FISCAL_PERIODS_OPENAPI = {
     list: {
@@ -35,12 +35,18 @@ const FiscalPeriodsCrudBase = createCrudController({
     responseDto: FiscalPeriodResponseDto,
     createDto: CreateFiscalPeriodDto,
     updateDto: UpdateFiscalPeriodDto,
+    permissions: {
+      view: 'fiscalPeriods.view',
+      create: 'fiscalPeriods.create',
+      update: 'fiscalPeriods.update',
+      delete: 'fiscalPeriods.delete',
+    },
     openApi: FISCAL_PERIODS_OPENAPI,
 });
 
 @ApiTags('Accounting / Fiscal Periods')
 @Controller('fiscal-periods')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, PermissionsGuard)
 @ApiBearerAuth('JWT-auth')
 export class FiscalPeriodsController extends FiscalPeriodsCrudBase {
     constructor(private readonly fiscalPeriodsService: FiscalPeriodsService) {
