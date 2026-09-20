@@ -584,6 +584,22 @@ exports.Prisma.PartyScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.PermissionScalarFieldEnum = {
+  id: 'id',
+  key: 'key',
+  resource: 'resource',
+  action: 'action',
+  group: 'group',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.RolePermissionScalarFieldEnum = {
+  id: 'id',
+  roleId: 'roleId',
+  permissionId: 'permissionId',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.ReconciliationRunScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
@@ -1004,6 +1020,8 @@ exports.Prisma.ModelName = {
   OpeningBalanceSessionLine: 'OpeningBalanceSessionLine',
   OutboxEvent: 'OutboxEvent',
   Party: 'Party',
+  Permission: 'Permission',
+  RolePermission: 'RolePermission',
   ReconciliationRun: 'ReconciliationRun',
   SetupTask: 'SetupTask',
   StockCount: 'StockCount',

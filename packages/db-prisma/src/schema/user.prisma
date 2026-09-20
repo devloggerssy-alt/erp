@@ -31,6 +31,7 @@ model Role {
 
     tenant    Tenant     @relation(fields: [tenantId], references: [id], onDelete: Cascade)
     userRoles UserRole[]
+    rolePermissions RolePermission[]
 
     // Note: unique on (tenantId, name->>'ar') enforced via expression index in migration SQL
     @@index([tenantId])
