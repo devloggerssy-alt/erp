@@ -1,11 +1,13 @@
 import { Module, ValidationPipe } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { I18nModule } from '@devloggers/i18n/nest';
-import { APP_PIPE } from '@nestjs/core';
+import { APP_FILTER, APP_GUARD, APP_PIPE } from '@nestjs/core';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { ScheduleModule } from '@nestjs/schedule';
 import { PrismaModule } from '@devloggers/db-prisma/nest';
 import { enabledModuleImports } from './domain/domain-modules';
+import { DomainAvailabilityGuard } from './domain/domain-availability.guard';
+import { DisabledDomainFilter } from './domain/disabled-domain.filter';
 import configuration from './config/configuration';
 import { envValidationSchema } from './config/envValidator';
 
@@ -38,6 +40,8 @@ import { envValidationSchema } from './config/envValidator';
         transformOptions: { enableImplicitConversion: true },
       }),
     },
+    { provide: APP_GUARD, useClass: DomainAvailabilityGuard },
+    { provide: APP_FILTER, useClass: DisabledDomainFilter },
   ],
 })
 export class AppModule { }
