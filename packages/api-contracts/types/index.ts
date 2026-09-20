@@ -1842,6 +1842,23 @@ export interface paths {
         patch: operations["BusinessSetup.executeTask"];
         trace?: never;
     };
+    "/business-setup/tasks/{type}/skip": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Mark a setup task as not applicable (SKIPPED) — only skippable task types */
+        post: operations["BusinessSetup.skipTask"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/cashboxes": {
         parameters: {
             query?: never;
@@ -5539,6 +5556,12 @@ export interface components {
              * @example true
              */
             required: boolean;
+            /**
+             * @description True when the user may mark this task as not applicable (skippable type, not completed/skipped)
+             * @default false
+             * @example true
+             */
+            skippable: boolean;
             /** @default [] */
             dependencies: components["schemas"]["SetupTaskType"][];
             /** @default null */
@@ -17683,6 +17706,28 @@ export interface operations {
         };
         responses: {
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SetupTaskResponseDto"];
+                };
+            };
+        };
+    };
+    "BusinessSetup.skipTask": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Setup task type to skip */
+                type: components["schemas"]["SetupTaskType"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            201: {
                 headers: {
                     [name: string]: unknown;
                 };

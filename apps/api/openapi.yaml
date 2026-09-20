@@ -14429,6 +14429,30 @@ paths:
         the spec's 6.3 handler table
       tags:
         - Identity / Business Setup
+  /business-setup/tasks/{type}/skip:
+    post:
+      operationId: BusinessSetup.skipTask
+      parameters:
+        - name: type
+          required: true
+          in: path
+          description: Setup task type to skip
+          schema:
+            $ref: '#/components/schemas/SetupTaskType'
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SetupTaskResponseDto'
+      security:
+        - JWT-auth: []
+      summary: >-
+        Mark a setup task as not applicable (SKIPPED) — only skippable task
+        types
+      tags:
+        - Identity / Business Setup
   /cashboxes:
     get:
       operationId: Cashboxes.list
@@ -24251,6 +24275,13 @@ components:
           type: boolean
           default: true
           example: true
+        skippable:
+          type: boolean
+          default: false
+          example: true
+          description: >-
+            True when the user may mark this task as not applicable (skippable
+            type, not completed/skipped)
         dependencies:
           type: array
           default: []
@@ -24284,6 +24315,7 @@ components:
         - type
         - status
         - required
+        - skippable
         - dependencies
         - createdAt
         - updatedAt

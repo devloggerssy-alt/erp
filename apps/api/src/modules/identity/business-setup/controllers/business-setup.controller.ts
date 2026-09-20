@@ -78,6 +78,18 @@ export class BusinessSetupController {
         return this.presenter.toResponse(task);
     }
 
+    @Post('tasks/:type/skip')
+    @RequirePermission('businessSetup.manage')
+    @ApiOperation({ summary: 'Mark a setup task as not applicable (SKIPPED) — only skippable task types' })
+    @ApiParam({ name: 'type', enum: SetupTaskType, enumName: 'SetupTaskType', description: 'Setup task type to skip' })
+    async skipTask(@CurrentUser() user: RequestUser, @Param('type') type: string): Promise<SetupTaskResponseDto> {
+        if (!SETUP_TASK_TYPES.includes(type as SetupTaskType)) {
+            throw new BadRequestException(`Unknown setup task type "${type}"`);
+        }
+        const task = await this.taskService.skip(user.tenantId, type as SetupTaskType);
+        return this.presenter.toResponse(task);
+    }
+
     private async autoCompleteDiscoveryOnlyTasks(tenantId: string): Promise<void> {
         const inspection = await this.discoveryService.inspect(tenantId);
         const inspectionKeyByType: Partial<Record<SetupTaskType, keyof typeof inspection>> = {

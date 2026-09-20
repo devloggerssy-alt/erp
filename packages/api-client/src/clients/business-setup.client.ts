@@ -1,4 +1,4 @@
-import type { ApiRequestBody, ApiResponse } from "@devloggers/api-contracts"
+import type { ApiPathByMethod, ApiRequestBody, ApiResponse } from "@devloggers/api-contracts"
 import { businessSetupResource } from "@devloggers/api-contracts"
 import { ApiClient } from "../infra/client"
 
@@ -28,5 +28,12 @@ export class BusinessSetupClient {
             body,
             { params: { type } } as never,
         )
+    }
+
+    skipTask = (
+        type: string,
+    ): Promise<ApiResponse<typeof businessSetupResource.routes.skipTask, "post">> => {
+        const route = businessSetupResource.routes.skipTask as ApiPathByMethod<"post">
+        return this.apiClient.post(route, undefined as never, { params: { type } } as never)
     }
 }
