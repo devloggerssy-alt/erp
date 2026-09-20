@@ -1,7 +1,8 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
-import { JwtAuthGuard } from '@/modules/identity/auth/guards';
+import { JwtAuthGuard, PermissionsGuard } from '@/modules/identity/auth/guards';
 import { CurrentUser, type RequestUser } from '@/modules/identity/auth/decorators';
+import { RequirePermission } from '@devloggers/backend-core';
 import { ApiResponseBuilder } from '@/common/api/api-response-builder';
 import { ApiStandardErrors, ApiOkResponseStandard } from '@/common/decorators/api-swagger.decorators';
 import { OpeningBalanceSessionsService } from './opening-balance-sessions.service';
@@ -13,12 +14,13 @@ import {
 
 @ApiTags('Accounting / Opening Balances')
 @Controller('accounting/opening-balance-sessions')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, PermissionsGuard)
 @ApiBearerAuth('JWT-auth')
 export class OpeningBalanceSessionsController {
     constructor(private readonly service: OpeningBalanceSessionsService) {}
 
     @Post()
+    @RequirePermission('openingBalances.manage')
     @ApiOperation({ summary: 'Create an opening balance session (DRAFT)' })
     @ApiOkResponseStandard(OpeningBalanceSessionResponseDto, { description: 'Session created' })
     @ApiStandardErrors()
@@ -28,6 +30,7 @@ export class OpeningBalanceSessionsController {
     }
 
     @Get()
+    @RequirePermission('openingBalanceSessions.view')
     @ApiOperation({ summary: 'List opening balance sessions' })
     @ApiQuery({ name: 'page', required: false })
     @ApiQuery({ name: 'limit', required: false })
@@ -50,6 +53,7 @@ export class OpeningBalanceSessionsController {
     }
 
     @Get(':id')
+    @RequirePermission('openingBalanceSessions.view')
     @ApiParam({ name: 'id', description: 'Session UUID' })
     @ApiOkResponseStandard(OpeningBalanceSessionResponseDto, { description: 'Session with lines' })
     @ApiStandardErrors()
@@ -59,6 +63,7 @@ export class OpeningBalanceSessionsController {
     }
 
     @Patch(':id')
+    @RequirePermission('openingBalances.manage')
     @ApiParam({ name: 'id', description: 'Session UUID' })
     @ApiOkResponseStandard(OpeningBalanceSessionResponseDto, { description: 'Session updated (DRAFT only)' })
     @ApiStandardErrors()
@@ -68,6 +73,7 @@ export class OpeningBalanceSessionsController {
     }
 
     @Delete(':id')
+    @RequirePermission('openingBalances.manage')
     @ApiParam({ name: 'id', description: 'Session UUID' })
     @ApiOkResponseStandard(OpeningBalanceSessionResponseDto, { description: 'Session deleted (DRAFT only)' })
     @ApiStandardErrors()
@@ -77,6 +83,7 @@ export class OpeningBalanceSessionsController {
     }
 
     @Post(':id/validate')
+    @RequirePermission('openingBalances.manage')
     @ApiParam({ name: 'id', description: 'Session UUID' })
     @ApiOkResponseStandard(OpeningBalanceSessionResponseDto, { description: 'DRAFT → VALIDATED' })
     @ApiStandardErrors()
@@ -86,6 +93,7 @@ export class OpeningBalanceSessionsController {
     }
 
     @Post(':id/review')
+    @RequirePermission('openingBalances.manage')
     @ApiParam({ name: 'id', description: 'Session UUID' })
     @ApiOkResponseStandard(OpeningBalanceSessionResponseDto, { description: 'VALIDATED → REVIEWED' })
     @ApiStandardErrors()
@@ -95,6 +103,7 @@ export class OpeningBalanceSessionsController {
     }
 
     @Post(':id/post')
+    @RequirePermission('openingBalances.manage')
     @ApiParam({ name: 'id', description: 'Session UUID' })
     @ApiOkResponseStandard(OpeningBalanceSessionResponseDto, { description: 'REVIEWED → POSTED; posts the balanced JE via AccountingPostingFacade and syncs cash/bank projections' })
     @ApiStandardErrors()
@@ -104,6 +113,7 @@ export class OpeningBalanceSessionsController {
     }
 
     @Post(':id/lock')
+    @RequirePermission('openingBalances.manage')
     @ApiParam({ name: 'id', description: 'Session UUID' })
     @ApiOkResponseStandard(OpeningBalanceSessionResponseDto, { description: 'POSTED → LOCKED; prevents silent edit' })
     @ApiStandardErrors()

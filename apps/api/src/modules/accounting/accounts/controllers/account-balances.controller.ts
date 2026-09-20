@@ -2,8 +2,9 @@ import { Controller, Get, Param, Query, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth, ApiOperation, ApiParam, ApiQuery } from '@nestjs/swagger';
 import { AccountBalancesService } from '../services/account-balances.service';
 import { AccountBalanceDto, AccountLedgerLineDto } from '../dto';
-import { JwtAuthGuard } from '@/modules/identity/auth/guards';
+import { JwtAuthGuard, PermissionsGuard } from '@/modules/identity/auth/guards';
 import { CurrentUser, type RequestUser } from '@/modules/identity/auth/decorators';
+import { RequirePermission } from '@devloggers/backend-core';
 import { ApiResponseBuilder } from '@/common/api/api-response-builder';
 import {
   ApiStandardErrors,
@@ -13,12 +14,13 @@ import {
 
 @ApiTags('Accounting / Account Balances')
 @Controller('accounting/account-balances')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, PermissionsGuard)
 @ApiBearerAuth('JWT-auth')
 export class AccountBalancesController {
   constructor(private readonly service: AccountBalancesService) {}
 
   @Get()
+  @RequirePermission('accounts.view')
   @ApiOperation({
     summary: 'List account balances',
     description:
@@ -32,6 +34,7 @@ export class AccountBalancesController {
   }
 
   @Get(':id/ledger')
+  @RequirePermission('accounts.view')
   @ApiOperation({
     summary: 'Get an account ledger',
     description: 'Paginated POSTED journal lines posted to a single account, newest entry first.',

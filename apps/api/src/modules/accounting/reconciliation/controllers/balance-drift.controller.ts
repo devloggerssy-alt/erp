@@ -2,8 +2,9 @@ import { Controller, Get, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { BalanceDriftService } from '../services/balance-drift.service';
 import { BalanceDriftReportDto } from '../dto/balance-drift.dto';
-import { JwtAuthGuard } from '../../../identity/auth/guards';
+import { JwtAuthGuard, PermissionsGuard } from '../../../identity/auth/guards';
 import { CurrentUser, RequestUser } from '../../../identity/auth/decorators';
+import { RequirePermission } from '@devloggers/backend-core';
 import { ApiResponseBuilder } from '../../../../common/api/api-response-builder';
 import {
     ApiOkResponseStandard,
@@ -12,12 +13,13 @@ import {
 
 @ApiTags('Accounting / Reconciliation')
 @Controller('accounting/reconciliation')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, PermissionsGuard)
 @ApiBearerAuth('JWT-auth')
 export class BalanceDriftController {
     constructor(private readonly balanceDriftService: BalanceDriftService) {}
 
     @Get('balance-drift')
+    @RequirePermission('reconciliation.view')
     @ApiOperation({
         summary: 'Balance drift report',
         description:

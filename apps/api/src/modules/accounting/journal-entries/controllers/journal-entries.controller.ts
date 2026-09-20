@@ -1,19 +1,21 @@
 import { Controller, Get, Param, Query, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth, ApiOperation, ApiOkResponse } from '@nestjs/swagger';
 import { JournalEntriesService } from '../services/journal-entries.service';
-import { JwtAuthGuard } from '../../../identity/auth/guards';
+import { JwtAuthGuard, PermissionsGuard } from '../../../identity/auth/guards';
 import { CurrentUser, RequestUser } from '../../../identity/auth/decorators';
+import { RequirePermission } from '@devloggers/backend-core';
 import { ApiResponseBuilder } from '../../../../common/api/api-response-builder';
 import { ApiStandardErrors } from '../../../../common/decorators/api-swagger.decorators';
 
 @ApiTags('Accounting / Journal Entries')
 @Controller('accounting/journal-entries')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, PermissionsGuard)
 @ApiBearerAuth('JWT-auth')
 export class JournalEntriesController {
     constructor(private readonly journalEntriesService: JournalEntriesService) {}
 
     @Get()
+    @RequirePermission('journals.view')
     @ApiOperation({ summary: 'List all journal entries', description: 'Returns a paginated list of journal entries. Journal entries are automatically created when invoices or payments are posted/cancelled.' })
     @ApiOkResponse({
         description: 'Paginated list of journal entries',
@@ -34,6 +36,7 @@ export class JournalEntriesController {
     }
 
     @Get(':id')
+    @RequirePermission('journals.view')
     @ApiOperation({ summary: 'Get journal entry by ID' })
     @ApiOkResponse({
         description: 'Journal entry details with lines',

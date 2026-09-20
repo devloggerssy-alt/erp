@@ -1,7 +1,8 @@
 import { Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { JwtAuthGuard } from '../../../identity/auth/guards';
+import { JwtAuthGuard, PermissionsGuard } from '../../../identity/auth/guards';
 import { CurrentUser, RequestUser } from '../../../identity/auth/decorators';
+import { RequirePermission } from '@devloggers/backend-core';
 import { ApiResponseBuilder } from '../../../../common/api/api-response-builder';
 import {
     ApiCreatedResponseStandard,
@@ -18,7 +19,7 @@ const RECENT_RUNS = 30;
 
 @ApiTags('Accounting / Reconciliation')
 @Controller('accounting/reconciliation')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, PermissionsGuard)
 @ApiBearerAuth('JWT-auth')
 export class ReconciliationController {
     constructor(
@@ -28,6 +29,7 @@ export class ReconciliationController {
     ) {}
 
     @Get('checks')
+    @RequirePermission('reconciliation.view')
     @ApiOperation({
         summary: 'Reconciliation checks (live)',
         description: 'Evaluates the 8-check reconciliation stack now. Read-only; nothing is stored.',
@@ -40,6 +42,7 @@ export class ReconciliationController {
     }
 
     @Get('runs')
+    @RequirePermission('reconciliation.view')
     @ApiOperation({ summary: 'Recent reconciliation runs', description: `The ${RECENT_RUNS} most recent stored runs, newest first.` })
     @ApiOkResponseStandard(ReconciliationRunResponseDto, { isArray: true, description: 'Run history' })
     @ApiStandardErrors()
@@ -49,6 +52,7 @@ export class ReconciliationController {
     }
 
     @Post('runs')
+    @RequirePermission('reconciliation.run')
     @ApiOperation({
         summary: 'Run reconciliation now',
         description: 'Evaluates and stores a MANUAL run. newFindings lists drift that is new or grown since the previous run.',

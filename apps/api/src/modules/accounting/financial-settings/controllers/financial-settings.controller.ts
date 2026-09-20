@@ -1,8 +1,9 @@
 import { Controller, Get, Patch, Body, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth, ApiOkResponse, ApiOperation } from '@nestjs/swagger';
 
-import { JwtAuthGuard } from '@/modules/identity/auth/guards';
+import { JwtAuthGuard, PermissionsGuard } from '@/modules/identity/auth/guards';
 import { CurrentUser, RequestUser } from '@/modules/identity/auth/decorators';
+import { RequirePermission } from '@devloggers/backend-core';
 import { FinancialSettingsService } from '../services/financial-settings.service';
 import { FinancialSettingResponseDto, UpsertFinancialSettingBodyDto } from '../dto';
 
@@ -10,12 +11,13 @@ import { FinancialSettingResponseDto, UpsertFinancialSettingBodyDto } from '../d
 
 @ApiTags('Settings / Financial')
 @Controller('settings/financial')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, PermissionsGuard)
 @ApiBearerAuth('JWT-auth')
 export class FinancialSettingsController {
     constructor(private readonly service: FinancialSettingsService) { }
 
     @Get()
+    @RequirePermission('financialSettings.manage')
     @ApiOperation({ summary: 'Get financial GL account settings' })
     @ApiOkResponse({ description: 'Financial settings or null', type: FinancialSettingResponseDto })
     async get(@CurrentUser() user: RequestUser) {
@@ -23,6 +25,7 @@ export class FinancialSettingsController {
     }
 
     @Patch()
+    @RequirePermission('financialSettings.manage')
     @ApiOperation({ summary: 'Save (upsert) financial GL account settings' })
     @ApiOkResponse({ description: 'Updated financial settings', type: FinancialSettingResponseDto })
     async upsert(
