@@ -14,6 +14,9 @@ export class SetupTaskResponseDto {
     @ApiProperty({ example: true })
     required: boolean = true;
 
+    @ApiProperty({ example: true, description: 'True when the user may mark this task as not applicable (skippable type, not completed/skipped)' })
+    skippable: boolean = false;
+
     @ApiProperty({ enum: SetupTaskType, enumName: 'SetupTaskType', isArray: true })
     dependencies: SetupTaskType[] = [];
 

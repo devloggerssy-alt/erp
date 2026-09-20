@@ -1,7 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import type { SetupTask, SetupTaskType, SetupTaskStatus, Prisma } from '@devloggers/db-prisma';
 import { SetupTasksRepository } from '../repositories/setup-tasks.repository';
 import { SETUP_TASK_DEPENDENCIES } from '../constants/setup-task-graph';
+import { isSkippableTask } from '../constants/skippable-tasks';
 import type { SetupTaskPlanItem } from './business-setup-plan.service';
 
 @Injectable()
@@ -66,6 +67,24 @@ export class BusinessSetupTaskService {
         if (completed) {
             await this.resolveStatuses(tenantId);
         }
+    }
+
+    async skip(tenantId: string, type: SetupTaskType): Promise<SetupTask> {
+        if (!isSkippableTask(type)) {
+            throw new BadRequestException(`Setup task "${type}" cannot be skipped`);
+        }
+        const task = await this.getTaskOrFail(tenantId, type);
+        if (task.status === 'COMPLETED') {
+            throw new ConflictException(`Setup task "${type}" is already completed`);
+        }
+        if (task.status !== 'SKIPPED') {
+            await this.repository.upsertByType(tenantId, type, {
+                status: 'SKIPPED',
+                progress: { skippedByUser: true } as Prisma.InputJsonValue,
+            });
+            await this.resolveStatuses(tenantId);
+        }
+        return this.getTaskOrFail(tenantId, type);
     }
 
     async listForTenant(tenantId: string): Promise<SetupTask[]> {

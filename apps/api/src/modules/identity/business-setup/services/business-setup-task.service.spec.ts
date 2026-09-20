@@ -97,6 +97,42 @@ describe('BusinessSetupTaskService', () => {
         });
     });
 
+    describe('skip', () => {
+        it('marks a skippable task SKIPPED and unblocks its dependents', async () => {
+            // resolveStatuses reads the STATIC SETUP_TASK_DEPENDENCIES graph, so every
+            // dependency of OPENING_BANK_BALANCES must have a row here
+            // (BANK_ACCOUNTS, FINANCIAL_MAPPINGS, FISCAL_PERIOD).
+            const { service, store } = build([
+                makeTask({ type: 'BANK_ACCOUNTS' as never, status: 'READY', dependencies: [] }),
+                makeTask({ type: 'FINANCIAL_MAPPINGS' as never, status: 'COMPLETED', completedAt: new Date() }),
+                makeTask({ type: 'FISCAL_PERIOD' as never, status: 'COMPLETED', completedAt: new Date() }),
+                makeTask({ type: 'OPENING_BANK_BALANCES' as never, status: 'BLOCKED', dependencies: ['BANK_ACCOUNTS', 'FINANCIAL_MAPPINGS', 'FISCAL_PERIOD'] as never }),
+            ]);
+
+            const skipped = await service.skip('t1', 'BANK_ACCOUNTS' as never);
+
+            expect(skipped.status).toBe('SKIPPED');
+            expect(store.get('OPENING_BANK_BALANCES' as never)?.status).toBe('READY');
+        });
+
+        it('refuses to skip a core accounting task', async () => {
+            const { service } = build([makeTask({ type: 'CURRENCIES' as never, status: 'READY' })]);
+            await expect(service.skip('t1', 'CURRENCIES' as never)).rejects.toThrow('cannot be skipped');
+        });
+
+        it('refuses to skip a completed task', async () => {
+            const { service } = build([makeTask({ type: 'CASHBOXES' as never, status: 'COMPLETED', completedAt: new Date() })]);
+            await expect(service.skip('t1', 'CASHBOXES' as never)).rejects.toThrow('already completed');
+        });
+
+        it('is idempotent — skipping an already SKIPPED task returns it unchanged', async () => {
+            const { service, repository } = build([makeTask({ type: 'CASHBOXES' as never, status: 'SKIPPED' })]);
+            const result = await service.skip('t1', 'CASHBOXES' as never);
+            expect(result.status).toBe('SKIPPED');
+            expect(repository.upsertByType).not.toHaveBeenCalled();
+        });
+    });
+
     describe('getTaskOrFail', () => {
         it('throws NotFoundException when the task row does not exist', async () => {
             const { service } = build([]);
