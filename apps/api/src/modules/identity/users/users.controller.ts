@@ -14,8 +14,9 @@ import {
 import { ApiTags, ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
 import { UsersService } from './users.service';
 import { CreateUserDto, UpdateUserDto, UpdateUserStatusDto, UserResponseDto } from './dto';
-import { JwtAuthGuard } from '../auth/guards';
+import { JwtAuthGuard, PermissionsGuard } from '../auth/guards';
 import { CurrentUser, RequestUser } from '../auth/decorators';
+import { RequirePermission } from '@devloggers/backend-core';
 import { ApiResponseBuilder } from '../../../common/api/api-response-builder';
 import {
     ApiStandardErrors,
@@ -26,12 +27,13 @@ import {
 
 @ApiTags('Users')
 @Controller('users')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, PermissionsGuard)
 @ApiBearerAuth('JWT-auth')
 export class UsersController {
     constructor(private readonly usersService: UsersService) {}
 
     @Get()
+    @RequirePermission('users.view')
     @ApiOperation({ summary: 'List all users' })
     @ApiOkResponsePaginated(UserResponseDto, { description: 'Paginated list of users' })
     @ApiStandardErrors()
@@ -52,6 +54,7 @@ export class UsersController {
     }
 
     @Post()
+    @RequirePermission('users.create')
     @ApiOperation({ summary: 'Create a new user' })
     @ApiCreatedResponseStandard(UserResponseDto, { description: 'User created successfully' })
     @ApiStandardErrors()
@@ -61,6 +64,7 @@ export class UsersController {
     }
 
     @Patch(':id')
+    @RequirePermission('users.update')
     @ApiOperation({ summary: 'Update a user' })
     @ApiOkResponseStandard(UserResponseDto, { description: 'User updated successfully' })
     @ApiStandardErrors()
@@ -74,6 +78,7 @@ export class UsersController {
     }
 
     @Patch(':id/status')
+    @RequirePermission('users.update')
     @ApiOperation({ summary: 'Toggle user active status', description: 'Activates or deactivates a user account. Deactivated users cannot log in.' })
     @ApiOkResponseStandard(UserResponseDto, { description: 'User status updated' })
     @ApiStandardErrors()
@@ -87,6 +92,7 @@ export class UsersController {
     }
 
     @Get(':id')
+    @RequirePermission('users.view')
     @ApiOperation({ summary: 'Get a user by ID' })
     @ApiOkResponseStandard(UserResponseDto, { description: 'User details' })
     @ApiStandardErrors()
@@ -96,6 +102,7 @@ export class UsersController {
     }
 
     @Delete(':id')
+    @RequirePermission('users.delete')
     @HttpCode(HttpStatus.NO_CONTENT)
     @ApiOperation({ summary: 'Delete a user', description: 'Hard-deletes the user and all role assignments.' })
     @ApiStandardErrors()

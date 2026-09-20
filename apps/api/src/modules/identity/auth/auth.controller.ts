@@ -89,6 +89,8 @@ export class AuthController {
         return ApiResponseBuilder.success(null, 'Logged out');
     }
 
+    // Authenticated-only: every signed-in user must be able to read their own
+    // profile (which also returns their effective permissions).
     @Get('me')
     @UseGuards(JwtAuthGuard)
     @ApiBearerAuth('JWT-auth')

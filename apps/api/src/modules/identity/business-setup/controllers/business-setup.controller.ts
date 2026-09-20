@@ -1,8 +1,9 @@
 import { BadRequestException, Body, Controller, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
 import { SetupTaskType } from '@devloggers/db-prisma';
-import { JwtAuthGuard } from '../../auth/guards';
+import { JwtAuthGuard, PermissionsGuard } from '../../auth/guards';
 import { CurrentUser, RequestUser } from '../../auth/decorators';
+import { RequirePermission } from '@devloggers/backend-core';
 import { SETUP_TASK_TYPES, DISCOVERY_ONLY_TASK_TYPES } from '../constants/setup-task-graph';
 import { BusinessSetupDiscoveryService } from '../services/business-setup-discovery.service';
 import { BusinessSetupPlanService } from '../services/business-setup-plan.service';
@@ -19,7 +20,7 @@ import {
 
 @ApiTags('Identity / Business Setup')
 @Controller('business-setup')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, PermissionsGuard)
 @ApiBearerAuth('JWT-auth')
 export class BusinessSetupController {
     constructor(
@@ -32,6 +33,7 @@ export class BusinessSetupController {
     ) {}
 
     @Get('state')
+    @RequirePermission('businessSetup.manage')
     @ApiOperation({ summary: 'Current persisted setup-task state, with discovery-only tasks re-derived from existing data' })
     async getState(@CurrentUser() user: RequestUser): Promise<BusinessSetupStateResponseDto> {
         await this.autoCompleteDiscoveryOnlyTasks(user.tenantId);
@@ -39,6 +41,7 @@ export class BusinessSetupController {
     }
 
     @Get('plan')
+    @RequirePermission('businessSetup.manage')
     @ApiOperation({ summary: 'Preview the task graph for the tenant\'s saved (or default) profile — does not persist' })
     async getPlan(@CurrentUser() user: RequestUser): Promise<BusinessSetupPlanResponseDto> {
         const profile = await this.profileService.getProfile(user.tenantId);
@@ -48,6 +51,7 @@ export class BusinessSetupController {
     }
 
     @Post('profile')
+    @RequirePermission('businessSetup.manage')
     @ApiOperation({ summary: 'Declare which modules this tenant uses and (re)generate the persisted setup-task plan' })
     async setProfile(@CurrentUser() user: RequestUser, @Body() dto: SetBusinessSetupProfileDto): Promise<BusinessSetupStateResponseDto> {
         await this.profileService.setProfile(user.tenantId, dto.modules);
@@ -58,6 +62,7 @@ export class BusinessSetupController {
     }
 
     @Patch('tasks/:type')
+    @RequirePermission('businessSetup.manage')
     @ApiOperation({ summary: 'Execute a READY setup task — body shape depends on the task type; see the spec\'s 6.3 handler table' })
     @ApiParam({ name: 'type', enum: SetupTaskType, enumName: 'SetupTaskType', description: 'Setup task type to execute' })
     @ApiBody({ description: 'Task-type-specific payload: an array for batch-create tasks, a single object for FISCAL_PERIOD/FINANCIAL_MAPPINGS, absent for CHART_OF_ACCOUNTS/RECONCILIATION', schema: { oneOf: [{ type: 'array' }, { type: 'object' }] } })
