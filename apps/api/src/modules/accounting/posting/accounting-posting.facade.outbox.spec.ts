@@ -33,13 +33,15 @@ const cancelIntent: PaymentCancelledIntent = {
     originalEntryId: 'je-1',
 };
 
-function build() {
+function build(outboxEnabled: boolean) {
     const lines = [
         { accountId: 'cash', debit: 100, credit: 0, description: null, sortOrder: 0 },
         { accountId: 'ar', debit: 0, credit: 100, description: null, sortOrder: 1 },
     ];
     const registry = {
-        resolvePosting: jest.fn().mockReturnValue({ referenceType: 'PAYMENT', buildLines: jest.fn().mockResolvedValue(lines) }),
+        resolvePosting: jest
+            .fn()
+            .mockReturnValue({ referenceType: 'PAYMENT', buildLines: jest.fn().mockResolvedValue(lines) }),
         resolveReversal: jest.fn().mockReturnValue({ referenceType: 'PAYMENT_CANCELLATION' }),
     };
     const journalPosting = {
@@ -49,7 +51,7 @@ function build() {
     const docSeq = { getNextNumber: jest.fn().mockResolvedValue('JE-000001') };
     const audit = { recordInTx: jest.fn().mockResolvedValue(undefined) };
     const outbox = { enqueue: jest.fn().mockResolvedValue({ id: 'ob-1' }) };
-    const config = { get: jest.fn().mockReturnValue('false') };
+    const config = { get: jest.fn().mockReturnValue(outboxEnabled ? 'true' : 'false') };
     const facade = new AccountingPostingFacade(
         registry as never,
         journalPosting as never,
@@ -58,56 +60,52 @@ function build() {
         outbox as never,
         config as never,
     );
-    return { facade, journalPosting, audit };
+    return { facade, outbox };
 }
 
-describe('AccountingPostingFacade — GL audit (7.2.1)', () => {
-    it('audits a payment post inside the posting transaction', async () => {
-        const { facade, audit } = build();
+describe('AccountingPostingFacade — dual-write outbox (Phase 8.4.2)', () => {
+    it('does not write an outbox row when the flag is off (default)', async () => {
+        const { facade, outbox } = build(false);
+        await expect(facade.record(tx, paymentIntent)).resolves.toEqual({ journalEntryId: 'je-1' });
+        expect(outbox.enqueue).not.toHaveBeenCalled();
+    });
+
+    it('writes a JSON-safe posting event in the same transaction when enabled', async () => {
+        const { facade, outbox } = build(true);
         await facade.record(tx, paymentIntent);
-        expect(audit.recordInTx).toHaveBeenCalledWith(tx, {
+
+        expect(outbox.enqueue).toHaveBeenCalledWith(tx, {
             tenantId: 't1',
-            userId: 'u1',
-            action: 'JOURNAL_POST',
-            entityType: 'journal_entry',
-            entityId: 'je-1',
-            source: 'GL',
-            newValues: {
+            topic: 'accounting.journal-posted',
+            payload: {
+                journalEntryId: 'je-1',
                 number: 'JE-000001',
-                referenceType: 'PAYMENT',
-                referenceId: 'pay-1',
-                date: paymentIntent.date,
-                fiscalPeriodId: 'fp1',
-                lineCount: 2,
-                totalDebit: 100,
+                intentKind: 'PAYMENT_RECORDED',
+                intent: { ...paymentIntent, date: '2026-03-01T00:00:00.000Z' },
             },
-            metadata: { intentKind: 'PAYMENT_RECORDED' },
         });
     });
 
-    it('audits a reversal with a link to the original entry', async () => {
-        const { facade, audit } = build();
+    it('writes a reversal event when enabled', async () => {
+        const { facade, outbox } = build(true);
         await facade.reverse(tx, cancelIntent);
-        expect(audit.recordInTx).toHaveBeenCalledWith(
-            tx,
-            expect.objectContaining({
-                action: 'JOURNAL_REVERSE',
-                entityId: 'je-2',
-                newValues: expect.objectContaining({ reversalOfId: 'je-1', referenceType: 'PAYMENT_CANCELLATION' }),
-            }),
-        );
+
+        expect(outbox.enqueue).toHaveBeenCalledWith(tx, {
+            tenantId: 't1',
+            topic: 'accounting.journal-reversed',
+            payload: {
+                journalEntryId: 'je-2',
+                number: 'JE-000001',
+                intentKind: 'PAYMENT_CANCELLED',
+                reversalOfId: 'je-1',
+                intent: { ...cancelIntent, date: '2026-03-02T00:00:00.000Z' },
+            },
+        });
     });
 
-    it('fails the posting when the audit insert fails (atomic by design)', async () => {
-        const { facade, audit } = build();
-        audit.recordInTx.mockRejectedValue(new Error('audit insert failed'));
-        await expect(facade.record(tx, paymentIntent)).rejects.toThrow('audit insert failed');
-    });
-
-    it('writes no audit row when posting itself is rejected', async () => {
-        const { facade, journalPosting, audit } = build();
-        journalPosting.post.mockRejectedValue(new Error('not balanced'));
-        await expect(facade.record(tx, paymentIntent)).rejects.toThrow('not balanced');
-        expect(audit.recordInTx).not.toHaveBeenCalled();
+    it('propagates an outbox failure so the caller transaction rolls back', async () => {
+        const { facade, outbox } = build(true);
+        outbox.enqueue.mockRejectedValue(new Error('outbox down'));
+        await expect(facade.record(tx, paymentIntent)).rejects.toThrow('outbox down');
     });
 });

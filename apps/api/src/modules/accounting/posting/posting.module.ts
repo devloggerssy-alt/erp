@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { FinancialSettingsModule } from '../financial-settings/financial-settings.module';
 import { DocumentSequencesModule } from '../document-sequences/document-sequences.module';
+import { OutboxModule } from '../../../outbox/outbox.module';
 import { JournalPostingService } from '../accounts/services/journal-posting.service';
 import { InvoicePostedPolicy } from './policies/invoice-posted.policy';
 import { InvoiceCancelledPolicy } from './policies/invoice-cancelled.policy';
@@ -22,7 +23,7 @@ import { AccountingPostingFacade } from './accounting-posting.facade';
  * See Task 16 for the other half of this.
  */
 @Module({
-    imports: [FinancialSettingsModule, DocumentSequencesModule],
+    imports: [FinancialSettingsModule, DocumentSequencesModule, OutboxModule],
     providers: [
         JournalPostingService,
         InvoicePostedPolicy,
