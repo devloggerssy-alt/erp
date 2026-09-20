@@ -13,8 +13,9 @@ import { InvoicesService } from './invoices.service';
 import { InvoicePostingService } from './invoice-posting.service';
 import { InvoicePresenter } from './presenters/invoice.presenter';
 import { CreateInvoiceDto, UpdateInvoiceDto, AddInvoicePaymentDto, InvoiceResponseDto } from './dto';
-import { JwtAuthGuard } from '../../identity/auth/guards';
+import { JwtAuthGuard, PermissionsGuard } from '../../identity/auth/guards';
 import { CurrentUser, RequestUser } from '../../identity/auth/decorators';
+import { RequirePermission } from '@devloggers/backend-core';
 import { ApiResponseBuilder } from '../../../common/api/api-response-builder';
 import {
     ApiStandardErrors,
@@ -25,7 +26,7 @@ import {
 
 @ApiTags('Invoices')
 @Controller('invoices')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, PermissionsGuard)
 @ApiBearerAuth('JWT-auth')
 export class InvoicesController {
     constructor(
@@ -35,6 +36,7 @@ export class InvoicesController {
     ) {}
 
     @Get()
+    @RequirePermission('invoices.view')
     @ApiOperation({ summary: 'List all invoices' })
     @ApiQuery({ name: 'direction', required: false, enum: ['PURCHASE', 'SALE'] })
     @ApiQuery({ name: 'status', required: false, enum: ['DRAFT', 'POSTED', 'CANCELLED'] })
@@ -72,6 +74,7 @@ export class InvoicesController {
     }
 
     @Get(':id')
+    @RequirePermission('invoices.view')
     @ApiOperation({ summary: 'Get invoice by ID' })
     @ApiOkResponseStandard(InvoiceResponseDto, { description: 'Invoice details with lines' })
     @ApiStandardErrors()
@@ -81,6 +84,7 @@ export class InvoicesController {
     }
 
     @Post()
+    @RequirePermission('invoices.create')
     @ApiOperation({ summary: 'Create a new invoice' })
     @ApiCreatedResponseStandard(InvoiceResponseDto, { description: 'Invoice created in DRAFT status' })
     @ApiStandardErrors()
@@ -90,6 +94,7 @@ export class InvoicesController {
     }
 
     @Patch(':id')
+    @RequirePermission('invoices.update')
     @ApiOperation({ summary: 'Update a draft invoice' })
     @ApiOkResponseStandard(InvoiceResponseDto, { description: 'Invoice updated' })
     @ApiStandardErrors()
@@ -103,6 +108,7 @@ export class InvoicesController {
     }
 
     @Post(':id/payments')
+    @RequirePermission('payments.create')
     @ApiOperation({
         summary: 'Add a payment to a posted invoice',
         description: 'Creates, posts, and allocates a new payment against an already-posted invoice — the way to bring a partially-paid invoice toward fully paid. Rejects amounts exceeding the invoice\'s remaining balance.',
@@ -119,6 +125,7 @@ export class InvoicesController {
     }
 
     @Post(':id/post')
+    @RequirePermission('invoices.post')
     @ApiOperation({
         summary: 'Post (confirm) an invoice',
         description: 'Transitions a DRAFT invoice to POSTED status. For purchase invoices this increases warehouse stock and creates accounting journal entries. For sales invoices this decreases stock and records revenue. This action is irreversible — use cancel instead.',
@@ -140,6 +147,7 @@ export class InvoicesController {
     }
 
     @Post(':id/cancel')
+    @RequirePermission('invoices.cancel')
     @ApiOperation({
         summary: 'Cancel a posted invoice',
         description: 'Reverses a POSTED invoice by creating counter journal entries and restoring stock quantities. The invoice status changes to CANCELLED. Only posted invoices can be cancelled.',

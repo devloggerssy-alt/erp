@@ -2,19 +2,21 @@ import { Controller, Get, Post, Body, Param, Query, UseGuards } from '@nestjs/co
 import { ApiTags, ApiBearerAuth, ApiOperation, ApiOkResponse, ApiCreatedResponse } from '@nestjs/swagger';
 import { StockCountsService } from './stock-counts.service';
 import { CreateStockCountDto } from './dto/stock-count.dto';
-import { JwtAuthGuard } from '../../identity/auth/guards';
+import { JwtAuthGuard, PermissionsGuard } from '../../identity/auth/guards';
 import { CurrentUser, RequestUser } from '../../identity/auth/decorators';
+import { RequirePermission } from '@devloggers/backend-core';
 import { ApiResponseBuilder } from '../../../common/api/api-response-builder';
 import { ApiStandardErrors } from '../../../common/decorators/api-swagger.decorators';
 
 @ApiTags('Stock Counts')
 @Controller('stock-counts')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, PermissionsGuard)
 @ApiBearerAuth('JWT-auth')
 export class StockCountsController {
     constructor(private readonly stockCountsService: StockCountsService) {}
 
     @Get()
+    @RequirePermission('stockCounts.view')
     @ApiOperation({ summary: 'List all stock counts' })
     @ApiOkResponse({
         description: 'Paginated list of stock counts',
@@ -35,6 +37,7 @@ export class StockCountsController {
     }
 
     @Get(':id')
+    @RequirePermission('stockCounts.view')
     @ApiOperation({ summary: 'Get stock count by ID' })
     @ApiOkResponse({
         description: 'Stock count details with lines',
@@ -54,6 +57,7 @@ export class StockCountsController {
     }
 
     @Post()
+    @RequirePermission('stockCounts.create')
     @ApiOperation({ summary: 'Create a new stock count' })
     @ApiCreatedResponse({
         description: 'Stock count created in DRAFT status',
@@ -70,6 +74,7 @@ export class StockCountsController {
     }
 
     @Post(':id/post')
+    @RequirePermission('stockCounts.post')
     @ApiOperation({
         summary: 'Post (confirm) a stock count',
         description: 'Finalizes a DRAFT stock count. Compares counted quantities with current balances and creates ADJUSTMENT stock movements for any discrepancies. This adjusts actual inventory to match the physical count.',

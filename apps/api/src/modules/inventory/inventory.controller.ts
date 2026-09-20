@@ -9,19 +9,21 @@ import {
 import { ApiTags, ApiBearerAuth, ApiOperation, ApiOkResponse, ApiCreatedResponse } from '@nestjs/swagger';
 import { InventoryService } from './inventory.service';
 import { PostOpeningBalanceDto } from './dto/inventory.dto';
-import { JwtAuthGuard } from '../identity/auth/guards';
+import { JwtAuthGuard, PermissionsGuard } from '../identity/auth/guards';
 import { CurrentUser, RequestUser } from '../identity/auth/decorators';
+import { RequirePermission } from '@devloggers/backend-core';
 import { ApiResponseBuilder } from '../../common/api/api-response-builder';
 import { ApiStandardErrors } from '../../common/decorators/api-swagger.decorators';
 
 @ApiTags('Inventory')
 @Controller('inventory')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, PermissionsGuard)
 @ApiBearerAuth('JWT-auth')
 export class InventoryController {
     constructor(private readonly inventoryService: InventoryService) {}
 
     @Get('balances')
+    @RequirePermission('inventory.view')
     @ApiOperation({ summary: 'Get current stock balances', description: 'Returns the current quantity-on-hand for each item per warehouse. Optionally filter by a specific warehouse or item.' })
     @ApiOkResponse({
         description: 'Stock balances retrieved',
@@ -49,6 +51,7 @@ export class InventoryController {
     }
 
     @Post('opening-balances')
+    @RequirePermission('openingBalances.manage')
     @ApiOperation({
         summary: 'Register opening stock balances',
         description: 'Records initial stock quantities for items in a warehouse. Used during system setup to enter existing inventory. Creates stock ledger movement entries of type OPENING_BALANCE.',

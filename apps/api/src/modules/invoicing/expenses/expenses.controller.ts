@@ -2,19 +2,21 @@ import { Controller, Get, Post, Patch, Delete, Body, Param, Query, UseGuards } f
 import { ApiTags, ApiBearerAuth, ApiQuery, ApiOperation, ApiOkResponse, ApiCreatedResponse } from '@nestjs/swagger';
 import { ExpensesService } from './expenses.service';
 import { CreateExpenseDto, UpdateExpenseDto } from './dto';
-import { JwtAuthGuard } from '../../identity/auth/guards';
+import { JwtAuthGuard, PermissionsGuard } from '../../identity/auth/guards';
 import { CurrentUser, RequestUser } from '../../identity/auth/decorators';
+import { RequirePermission } from '@devloggers/backend-core';
 import { ApiResponseBuilder } from '../../../common/api/api-response-builder';
 import { ApiStandardErrors } from '../../../common/decorators/api-swagger.decorators';
 
 @ApiTags('Expenses')
 @Controller('expenses')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, PermissionsGuard)
 @ApiBearerAuth('JWT-auth')
 export class ExpensesController {
     constructor(private readonly expensesService: ExpensesService) {}
 
     @Get()
+    @RequirePermission('expenses.view')
     @ApiOperation({ summary: 'List all expenses' })
     @ApiQuery({ name: 'status', required: false, enum: ['DRAFT', 'POSTED', 'CANCELLED'] })
     @ApiQuery({ name: 'page', required: false })
@@ -27,6 +29,7 @@ export class ExpensesController {
     }
 
     @Get(':id')
+    @RequirePermission('expenses.view')
     @ApiOperation({ summary: 'Get expense by ID' })
     @ApiOkResponse({ description: 'Expense details' })
     @ApiStandardErrors()
@@ -35,6 +38,7 @@ export class ExpensesController {
     }
 
     @Post()
+    @RequirePermission('expenses.create')
     @ApiOperation({ summary: 'Create a new expense' })
     @ApiCreatedResponse({ description: 'Expense created in DRAFT status' })
     @ApiStandardErrors()
@@ -43,6 +47,7 @@ export class ExpensesController {
     }
 
     @Patch(':id')
+    @RequirePermission('expenses.update')
     @ApiOperation({ summary: 'Update a draft expense' })
     @ApiOkResponse({ description: 'Expense updated' })
     @ApiStandardErrors()
@@ -51,6 +56,7 @@ export class ExpensesController {
     }
 
     @Delete(':id')
+    @RequirePermission('expenses.delete')
     @ApiOperation({ summary: 'Delete a draft expense' })
     @ApiOkResponse({ description: 'Expense deleted' })
     @ApiStandardErrors()
@@ -60,6 +66,7 @@ export class ExpensesController {
     }
 
     @Post(':id/post')
+    @RequirePermission('expenses.post')
     @ApiOperation({ summary: 'Post (confirm) an expense', description: 'Transitions a DRAFT expense to POSTED: creates a balanced journal entry (debit per item, credit cashbox linked account) and decrements the cashbox balance.' })
     @ApiOkResponse({ description: 'Expense posted — journal entry created, cashbox decremented' })
     @ApiStandardErrors()
@@ -68,6 +75,7 @@ export class ExpensesController {
     }
 
     @Post(':id/cancel')
+    @RequirePermission('expenses.cancel')
     @ApiOperation({ summary: 'Cancel a posted expense', description: 'Posts a reversing journal entry and restores the cashbox balance. Only posted expenses can be cancelled.' })
     @ApiOkResponse({ description: 'Expense cancelled — reversing entry created' })
     @ApiStandardErrors()

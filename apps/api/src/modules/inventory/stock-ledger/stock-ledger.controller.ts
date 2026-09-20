@@ -6,19 +6,21 @@ import {
 } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth, ApiQuery, ApiOperation, ApiOkResponse } from '@nestjs/swagger';
 import { StockLedgerService } from './stock-ledger.service';
-import { JwtAuthGuard } from '../../identity/auth/guards';
+import { JwtAuthGuard, PermissionsGuard } from '../../identity/auth/guards';
 import { CurrentUser, RequestUser } from '../../identity/auth/decorators';
+import { RequirePermission } from '@devloggers/backend-core';
 import { ApiResponseBuilder } from '../../../common/api/api-response-builder';
 import { ApiStandardErrors } from '../../../common/decorators/api-swagger.decorators';
 
 @ApiTags('Stock Ledger')
 @Controller('stock-ledger')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, PermissionsGuard)
 @ApiBearerAuth('JWT-auth')
 export class StockLedgerController {
     constructor(private readonly ledgerService: StockLedgerService) {}
 
     @Get('movements')
+    @RequirePermission('stockLedger.view')
     @ApiOperation({ summary: 'List stock movements', description: 'Returns a paginated history of stock movements (purchases, sales, adjustments, opening balances). Filter by warehouse, item, or movement type.' })
     @ApiQuery({ name: 'warehouseId', required: false })
     @ApiQuery({ name: 'itemId', required: false })
