@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import type { SetupTaskType } from '@devloggers/db-prisma';
 import { SETUP_TASK_TYPES, SETUP_TASK_DEPENDENCIES, isTaskRequiredForProfile, type BusinessSetupProfileModules } from '../constants/setup-task-graph';
+import { INSPECTION_KEY_BY_TASK_TYPE } from '../constants/discovery-completion';
 import type { BusinessSetupInspection } from './business-setup-discovery.service';
 
 export interface SetupTaskPlanItem {
@@ -9,25 +10,6 @@ export interface SetupTaskPlanItem {
     dependencies: SetupTaskType[];
     metadata?: Record<string, unknown>;
 }
-
-const INSPECTION_KEY_BY_TASK_TYPE: Partial<Record<SetupTaskType, keyof BusinessSetupInspection>> = {
-    CURRENCIES: 'currencies',
-    CHART_OF_ACCOUNTS: 'chartOfAccounts',
-    FINANCIAL_MAPPINGS: 'financialMappings',
-    CASHBOXES: 'cashboxes',
-    BANK_ACCOUNTS: 'bankAccounts',
-    FISCAL_PERIOD: 'fiscalPeriods',
-    DOCUMENT_SEQUENCES: 'documentSequences',
-    WAREHOUSES: 'warehouses',
-    PRODUCTS: 'products',
-    CUSTOMERS: 'customers',
-    SUPPLIERS: 'suppliers',
-    OPENING_CASH_BALANCES: 'openingCashBalances',
-    OPENING_BANK_BALANCES: 'openingBankBalances',
-    OPENING_RECEIVABLES: 'openingReceivables',
-    OPENING_PAYABLES: 'openingPayables',
-    OPENING_INVENTORY: 'openingInventory',
-};
 
 @Injectable()
 export class BusinessSetupPlanService {

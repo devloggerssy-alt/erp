@@ -4,7 +4,8 @@ import { SetupTaskType } from '@devloggers/db-prisma';
 import { JwtAuthGuard, PermissionsGuard } from '../../auth/guards';
 import { CurrentUser, RequestUser } from '../../auth/decorators';
 import { RequirePermission } from '@devloggers/backend-core';
-import { SETUP_TASK_TYPES, DISCOVERY_ONLY_TASK_TYPES } from '../constants/setup-task-graph';
+import { SETUP_TASK_TYPES } from '../constants/setup-task-graph';
+import { inspectionAreaFor, isDiscoverablyComplete } from '../constants/discovery-completion';
 import { BusinessSetupDiscoveryService } from '../services/business-setup-discovery.service';
 import { BusinessSetupPlanService } from '../services/business-setup-plan.service';
 import { BusinessSetupTaskService } from '../services/business-setup-task.service';
@@ -36,7 +37,7 @@ export class BusinessSetupController {
     @RequirePermission('businessSetup.manage')
     @ApiOperation({ summary: 'Current persisted setup-task state, with discovery-only tasks re-derived from existing data' })
     async getState(@CurrentUser() user: RequestUser): Promise<BusinessSetupStateResponseDto> {
-        await this.autoCompleteDiscoveryOnlyTasks(user.tenantId);
+        await this.syncTasksFromDiscovery(user.tenantId);
         return this.buildState(user.tenantId);
     }
 
@@ -90,19 +91,17 @@ export class BusinessSetupController {
         return this.presenter.toResponse(task);
     }
 
-    private async autoCompleteDiscoveryOnlyTasks(tenantId: string): Promise<void> {
-        const inspection = await this.discoveryService.inspect(tenantId);
-        const inspectionKeyByType: Partial<Record<SetupTaskType, keyof typeof inspection>> = {
-            WAREHOUSES: 'warehouses', PRODUCTS: 'products', CUSTOMERS: 'customers',
-            SUPPLIERS: 'suppliers', OPENING_INVENTORY: 'openingInventory',
-        };
-        for (const type of DISCOVERY_ONLY_TASK_TYPES) {
-            const task = await this.taskService.listForTenant(tenantId).then((tasks) => tasks.find((t) => t.type === type));
-            if (!task || task.status === 'COMPLETED' || task.status === 'SKIPPED') continue;
-            const key = inspectionKeyByType[type];
-            if (key && inspection[key].classification === 'EXISTING') {
-                await this.taskService.recordAttempt(tenantId, type, true, { discovery: inspection[key] });
-            }
+    private async syncTasksFromDiscovery(tenantId: string): Promise<void> {
+        const [inspection, tasks] = await Promise.all([
+            this.discoveryService.inspect(tenantId),
+            this.taskService.listForTenant(tenantId),
+        ]);
+        for (const task of tasks) {
+            if (task.status === 'COMPLETED' || task.status === 'SKIPPED') continue;
+            if (!isDiscoverablyComplete(task.type, inspection)) continue;
+            await this.taskService.recordAttempt(tenantId, task.type, true, {
+                discovery: inspectionAreaFor(task.type, inspection),
+            });
         }
     }
 
