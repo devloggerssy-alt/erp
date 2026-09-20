@@ -76,6 +76,27 @@ describe('BusinessSetupDiscoveryService.inspect', () => {
         expect(result.openingPayables).toEqual({ count: 2, classification: 'EXISTING' });
     });
 
+    it('resolves party opening lines against the party override or the default AR/AP control account', async () => {
+        const { service } = build({
+            financialSetting: {
+                findUnique: jest.fn().mockResolvedValue({ defaultReceivableAccountId: 'default-ar', defaultPayableAccountId: 'default-ap' }),
+            },
+            journalLine: {
+                count: jest.fn().mockResolvedValue(0),
+                findMany: jest.fn().mockResolvedValue([
+                    { accountId: 'default-ar', party: { receivableAccountId: null, payableAccountId: null } },
+                    { accountId: 'override-ar', party: { receivableAccountId: 'override-ar', payableAccountId: null } },
+                    { accountId: 'default-ap', party: { receivableAccountId: null, payableAccountId: null } },
+                    { accountId: 'other', party: { receivableAccountId: null, payableAccountId: null } },
+                ]),
+            },
+        });
+
+        const result = await service.inspect('tenant-1');
+        expect(result.openingReceivables).toEqual({ count: 2, classification: 'EXISTING' });
+        expect(result.openingPayables).toEqual({ count: 1, classification: 'EXISTING' });
+    });
+
     it('counts opening inventory via StockMovement.movementType OPENING', async () => {
         const stockMovementCount = jest.fn().mockResolvedValue(5);
         const { service } = build({ stockMovement: { count: stockMovementCount } });

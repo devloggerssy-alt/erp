@@ -79,8 +79,14 @@ export class BusinessSetupDiscoveryService {
         const financialMappingsClassification: SetupAreaClassification =
             configuredSlots === 0 ? 'EMPTY' : configuredSlots === FINANCIAL_SETTING_SLOTS.length ? 'EXISTING' : 'PARTIAL';
 
-        const openingReceivablesCount = openingPartyLines.filter((line) => line.party?.receivableAccountId === line.accountId).length;
-        const openingPayablesCount = openingPartyLines.filter((line) => line.party?.payableAccountId === line.accountId).length;
+        const openingReceivablesCount = openingPartyLines.filter((line) => {
+            const resolvedAccountId = line.party?.receivableAccountId ?? financialSetting?.defaultReceivableAccountId ?? null;
+            return resolvedAccountId !== null && line.accountId === resolvedAccountId;
+        }).length;
+        const openingPayablesCount = openingPartyLines.filter((line) => {
+            const resolvedAccountId = line.party?.payableAccountId ?? financialSetting?.defaultPayableAccountId ?? null;
+            return resolvedAccountId !== null && line.accountId === resolvedAccountId;
+        }).length;
 
         return {
             currencies: toArea(currencyCount),
