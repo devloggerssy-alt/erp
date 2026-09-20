@@ -1,4 +1,77 @@
 {
+  "permissions": {
+    "title": "Permissions",
+    "description": "Select the permissions granted to this role. Users get the union of all their roles' permissions.",
+    "groups": {
+      "identity": "Identity & access",
+      "catalog": "Catalog",
+      "inventory": "Inventory",
+      "commercial": "Commercial",
+      "accounting": "Accounting",
+      "reports": "Reports",
+      "system": "System"
+    },
+    "actions": {
+      "view": "View",
+      "create": "Create",
+      "update": "Update",
+      "delete": "Delete",
+      "post": "Post",
+      "cancel": "Cancel",
+      "allocate": "Allocate",
+      "manage": "Manage",
+      "reverse": "Reverse",
+      "close": "Close",
+      "reset": "Reset",
+      "run": "Run",
+      "use": "Use"
+    },
+    "resources": {
+      "users": "Users",
+      "roles": "Roles",
+      "tenants": "Company settings",
+      "units": "Units",
+      "itemCategories": "Item categories",
+      "items": "Items",
+      "customFields": "Custom fields",
+      "tags": "Tags",
+      "tagAssignments": "Tag assignments",
+      "itemRelations": "Item relations",
+      "catalogEntities": "Catalog entities",
+      "itemCatalogEntities": "Item catalog entities",
+      "brands": "Brands",
+      "warehouses": "Warehouses",
+      "inventory": "Stock balances",
+      "stockLedger": "Stock movements",
+      "stockCounts": "Stock counts",
+      "parties": "Customers & suppliers",
+      "invoiceTypes": "Invoice types",
+      "invoices": "Invoices",
+      "cashboxes": "Cashboxes",
+      "bankAccounts": "Bank accounts",
+      "payments": "Payments",
+      "expenses": "Expenses",
+      "accounts": "Chart of accounts",
+      "fiscalPeriods": "Fiscal periods",
+      "documentSequences": "Document sequences",
+      "currencies": "Currencies",
+      "financialSettings": "Financial settings",
+      "openingBalanceSessions": "Opening balances (GL)",
+      "journals": "Journal entries",
+      "periods": "Period closing",
+      "openingBalances": "Opening balances (posting)",
+      "reconciliation": "Reconciliation",
+      "reports": "Reports",
+      "dashboard": "Dashboard",
+      "auditLogs": "Audit log",
+      "files": "Files",
+      "ai": "AI assistant",
+      "onboarding": "Onboarding wizard",
+      "businessSetup": "Business setup",
+      "settings": "Settings",
+      "danger": "Danger zone"
+    }
+  },
   "navigation": {
     "groups": {
       "commercial": "Commercial Operations",
@@ -150,6 +223,7 @@
       "showLogoOnDocuments": "Show logo on documents"
     },
     "danger": {
+      "noAccess": "You do not have permission to reset data.",
       "navLabel": "Danger zone",
       "title": "Danger zone",
       "description": "Irreversible, destructive actions. Master data (accounts, items, parties, cashboxes) is preserved — only transactional records are removed.",
@@ -520,6 +594,7 @@
       "active": "Active"
     },
     "roles": {
+      "systemRoleNotice": "System roles cannot be edited.",
       "title": "Roles",
       "addAction": "Add Role",
       "entity": "Role",
@@ -1099,6 +1174,7 @@
     }
   },
   "businessSetup": {
+    "noAccess": "You do not have permission to view business setup.",
     "title": "Business setup",
     "description": "Track the setup tasks for your business.",
     "loading": "Loading…",

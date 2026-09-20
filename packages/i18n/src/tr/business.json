@@ -1,4 +1,77 @@
 {
+  "permissions": {
+    "title": "İzinler",
+    "description": "Bu role verilen izinleri seçin. Kullanıcı, rollerinin tüm izinlerinin birleşimine sahip olur.",
+    "groups": {
+      "identity": "Kimlik ve erişim",
+      "catalog": "Katalog",
+      "inventory": "Envanter",
+      "commercial": "Ticari",
+      "accounting": "Muhasebe",
+      "reports": "Raporlar",
+      "system": "Sistem"
+    },
+    "actions": {
+      "view": "Görüntüle",
+      "create": "Oluştur",
+      "update": "Güncelle",
+      "delete": "Sil",
+      "post": "Kaydet",
+      "cancel": "İptal",
+      "allocate": "Tahsis et",
+      "manage": "Yönet",
+      "reverse": "Ters kayıt",
+      "close": "Kapat",
+      "reset": "Sıfırla",
+      "run": "Çalıştır",
+      "use": "Kullan"
+    },
+    "resources": {
+      "users": "Kullanıcılar",
+      "roles": "Roller",
+      "tenants": "Şirket ayarları",
+      "units": "Birimler",
+      "itemCategories": "Ürün kategorileri",
+      "items": "Ürünler",
+      "customFields": "Özel alanlar",
+      "tags": "Etiketler",
+      "tagAssignments": "Etiket atamaları",
+      "itemRelations": "Ürün ilişkileri",
+      "catalogEntities": "Katalog varlıkları",
+      "itemCatalogEntities": "Ürün katalog varlıkları",
+      "brands": "Markalar",
+      "warehouses": "Depolar",
+      "inventory": "Stok bakiyeleri",
+      "stockLedger": "Stok hareketleri",
+      "stockCounts": "Stok sayımları",
+      "parties": "Müşteriler ve tedarikçiler",
+      "invoiceTypes": "Fatura türleri",
+      "invoices": "Faturalar",
+      "cashboxes": "Kasalar",
+      "bankAccounts": "Banka hesapları",
+      "payments": "Ödemeler",
+      "expenses": "Giderler",
+      "accounts": "Hesap planı",
+      "fiscalPeriods": "Mali dönemler",
+      "documentSequences": "Belge serileri",
+      "currencies": "Para birimleri",
+      "financialSettings": "Finansal ayarlar",
+      "openingBalanceSessions": "Açılış bakiyeleri (muhasebe)",
+      "journals": "Yevmiye kayıtları",
+      "periods": "Dönem kapanışı",
+      "openingBalances": "Açılış bakiyeleri (kayıt)",
+      "reconciliation": "Mutabakat",
+      "reports": "Raporlar",
+      "dashboard": "Gösterge paneli",
+      "auditLogs": "Denetim kaydı",
+      "files": "Dosyalar",
+      "ai": "AI asistanı",
+      "onboarding": "Kurulum sihirbazı",
+      "businessSetup": "İş kurulumu",
+      "settings": "Ayarlar",
+      "danger": "Tehlikeli bölge"
+    }
+  },
   "navigation": {
     "groups": {
       "commercial": "Ticari İşlemler",
@@ -150,6 +223,7 @@
       "showLogoOnDocuments": "Belgelerde logoyu göster"
     },
     "danger": {
+      "noAccess": "Verileri sıfırlama izniniz yok.",
       "navLabel": "Tehlike bölgesi",
       "title": "Tehlike bölgesi",
       "description": "Geri alınamaz, yıkıcı işlemler. Ana veriler (hesaplar, ürünler, taraflar, kasalar) korunur — yalnızca işlem kayıtları silinir.",
@@ -516,6 +590,7 @@
       "active": "Aktif"
     },
     "roles": {
+      "systemRoleNotice": "Sistem rolleri düzenlenemez.",
       "title": "Roller",
       "addAction": "Rol Ekle",
       "entity": "Rol",
@@ -1025,6 +1100,7 @@
     }
   },
   "businessSetup": {
+    "noAccess": "İş kurulumunu görüntüleme izniniz yok.",
     "title": "İşletme kurulumu",
     "description": "İşletmeniz için kurulum görevlerini takip edin.",
     "loading": "Yükleniyor…",

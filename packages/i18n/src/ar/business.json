@@ -1,4 +1,77 @@
 {
+  "permissions": {
+    "title": "الصلاحيات",
+    "description": "اختر الصلاحيات الممنوحة لهذا الدور. يحصل المستخدم على اتحاد صلاحيات جميع أدواره.",
+    "groups": {
+      "identity": "الهوية والوصول",
+      "catalog": "الكتالوج",
+      "inventory": "المخزون",
+      "commercial": "المبيعات والمشتريات",
+      "accounting": "المحاسبة",
+      "reports": "التقارير",
+      "system": "النظام"
+    },
+    "actions": {
+      "view": "عرض",
+      "create": "إنشاء",
+      "update": "تعديل",
+      "delete": "حذف",
+      "post": "ترحيل",
+      "cancel": "إلغاء",
+      "allocate": "تخصيص",
+      "manage": "إدارة",
+      "reverse": "عكس القيد",
+      "close": "إغلاق",
+      "reset": "إعادة تعيين",
+      "run": "تشغيل",
+      "use": "استخدام"
+    },
+    "resources": {
+      "users": "المستخدمون",
+      "roles": "الأدوار",
+      "tenants": "إعدادات الشركة",
+      "units": "الوحدات",
+      "itemCategories": "تصنيفات الأصناف",
+      "items": "الأصناف",
+      "customFields": "الحقول المخصصة",
+      "tags": "الوسوم",
+      "tagAssignments": "إسناد الوسوم",
+      "itemRelations": "علاقات الأصناف",
+      "catalogEntities": "كيانات الكتالوج",
+      "itemCatalogEntities": "كيانات كتالوج الأصناف",
+      "brands": "العلامات التجارية",
+      "warehouses": "المستودعات",
+      "inventory": "أرصدة المخزون",
+      "stockLedger": "حركات المخزون",
+      "stockCounts": "جرد المخزون",
+      "parties": "العملاء والموردون",
+      "invoiceTypes": "أنواع الفواتير",
+      "invoices": "الفواتير",
+      "cashboxes": "الصناديق",
+      "bankAccounts": "الحسابات البنكية",
+      "payments": "الدفعات",
+      "expenses": "المصروفات",
+      "accounts": "دليل الحسابات",
+      "fiscalPeriods": "الفترات المالية",
+      "documentSequences": "تسلسلات المستندات",
+      "currencies": "العملات",
+      "financialSettings": "الإعدادات المالية",
+      "openingBalanceSessions": "الأرصدة الافتتاحية (دفتر الأستاذ)",
+      "journals": "القيود اليومية",
+      "periods": "إغلاق الفترات",
+      "openingBalances": "الأرصدة الافتتاحية (الترحيل)",
+      "reconciliation": "التسويات",
+      "reports": "التقارير",
+      "dashboard": "لوحة التحكم",
+      "auditLogs": "سجل التدقيق",
+      "files": "الملفات",
+      "ai": "المساعد الذكي",
+      "onboarding": "معالج التهيئة",
+      "businessSetup": "إعداد النشاط",
+      "settings": "الإعدادات",
+      "danger": "منطقة الخطر"
+    }
+  },
   "navigation": {
     "groups": {
       "commercial": "العمليات التجارية",
@@ -147,6 +220,7 @@
       "showLogoOnDocuments": "إظهار الشعار على المستندات"
     },
     "danger": {
+      "noAccess": "ليس لديك صلاحية لإعادة تعيين البيانات.",
       "navLabel": "منطقة الخطر",
       "title": "منطقة الخطر",
       "description": "إجراءات تدميرية لا يمكن التراجع عنها. يتم الحفاظ على البيانات الأساسية (الحسابات، الأصناف، الأطراف، الصناديق) — تُحذف السجلات الحركية فقط.",
@@ -518,6 +592,7 @@
       "active": "نشط"
     },
     "roles": {
+      "systemRoleNotice": "لا يمكن تعديل أدوار النظام.",
       "title": "الأدوار",
       "addAction": "إضافة دور",
       "entity": "دور",
@@ -1210,6 +1285,7 @@
     }
   },
   "businessSetup": {
+    "noAccess": "ليس لديك صلاحية لعرض إعداد النشاط.",
     "title": "إعداد النشاط التجاري",
     "description": "تابع مهام إعداد نشاطك التجاري.",
     "loading": "جارٍ التحميل…",
