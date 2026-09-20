@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '@devloggers/db-prisma/nest';
 
 @Injectable()
@@ -28,6 +28,13 @@ export class TenantsRepository {
         adminFullName: string;
     }) {
         return this.prisma.$transaction(async (tx) => {
+            const catalog = await tx.permission.findMany({ select: { id: true } });
+            if (catalog.length === 0) {
+                throw new InternalServerErrorException(
+                    'Permission catalog is empty. Boot the API once to sync permissions before registering tenants.',
+                );
+            }
+
             const tenant = await tx.tenant.create({
                 data: {
                     name: data.name,
@@ -35,17 +42,24 @@ export class TenantsRepository {
                     address: data.address,
                     phone: data.phone,
                     email: data.email,
-                    
                 },
             });
 
-            const adminRole = await tx.role.create({
+            const ownerRole = await tx.role.create({
                 data: {
                     tenantId: tenant.id,
-                    name: { ar: 'مدير النظام', en: 'Admin' },
+                    name: { ar: 'المالك', en: 'Owner' },
                     description: { ar: 'صلاحية كاملة على النظام', en: 'Full system access' },
                     isSystem: true,
                 },
+            });
+
+            await tx.rolePermission.createMany({
+                data: catalog.map((permission) => ({
+                    roleId: ownerRole.id,
+                    permissionId: permission.id,
+                })),
+                skipDuplicates: true,
             });
 
             const adminUser = await tx.appUser.create({
@@ -55,7 +69,7 @@ export class TenantsRepository {
                     passwordHash: data.passwordHash,
                     fullName: data.adminFullName,
                     userRoles: {
-                        create: { roleId: adminRole.id },
+                        create: { roleId: ownerRole.id },
                     },
                 },
             });
