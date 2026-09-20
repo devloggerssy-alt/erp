@@ -37,6 +37,7 @@ export const navGroups: NavGroup[] = [
     items: [
       {
         titleKey: "business.navigation.items.dashboard",
+        permission: "dashboard.view",
         href: "/",
         icon: <LayoutDashboardIcon />,
       },
@@ -47,6 +48,7 @@ export const navGroups: NavGroup[] = [
       },
       {
         titleKey: "business.navigation.items.aiAssistant",
+        permission: "ai.view",
         href: "/ai/chat",
         icon: <MessageSquareIcon />,
       },
@@ -57,16 +59,19 @@ export const navGroups: NavGroup[] = [
     items: [
       {
         titleKey: "business.navigation.items.sales",
+        permission: "invoices.view",
         href: "/sales/invoices",
         icon: <ReceiptIcon />,
         items: [
           {
             titleKey: "business.navigation.items.salesInvoices",
+            permission: "invoices.view",
             href: "/sales/invoices",
             icon: <ReceiptIcon />,
           },
           {
             titleKey: "business.navigation.items.customers",
+            permission: "parties.view",
             href: "/parties/customers",
             icon: <UsersIcon />,
           },
@@ -74,16 +79,19 @@ export const navGroups: NavGroup[] = [
       },
       {
         titleKey: "business.navigation.items.purchases",
+        permission: "invoices.view",
         href: "/purchases/invoices",
         icon: <ShoppingCartIcon />,
         items: [
           {
             titleKey: "business.navigation.items.purchaseInvoices",
+            permission: "invoices.view",
             href: "/purchases/invoices",
             icon: <ShoppingCartIcon />,
           },
           {
             titleKey: "business.navigation.items.suppliers",
+            permission: "parties.view",
             href: "/parties/suppliers",
             icon: <StoreIcon />,
           },
@@ -96,41 +104,49 @@ export const navGroups: NavGroup[] = [
     items: [
       {
         titleKey: "business.navigation.items.catalog",
+        permission: "items.view",
         href: "/catalog/items",
         icon: <PackageIcon />,
         items: [
           {
             titleKey: "business.navigation.items.itemsList",
+            permission: "items.view",
             href: "/catalog/items",
             icon: <PackageIcon />,
           },
           {
             titleKey: "business.navigation.items.categories",
+            permission: "itemCategories.view",
             href: "/catalog/categories",
             icon: <LayersIcon />,
           },
           {
             titleKey: "business.navigation.items.units",
+            permission: "units.view",
             href: "/catalog/units",
             icon: <RulerIcon />,
           },
           {
             titleKey: "business.navigation.items.customFields",
+            permission: "customFields.view",
             href: "/catalog/custom-fields",
             icon: <HashIcon />,
           },
           {
             titleKey: "business.navigation.items.tags",
+            permission: "tags.view",
             href: "/catalog/tags",
             icon: <TagIcon />,
           },
           {
             titleKey: "business.navigation.items.catalogEntities",
+            permission: "catalogEntities.view",
             href: "/catalog/catalog-entities",
             icon: <ListTreeIcon />,
           },
           {
             titleKey: "business.navigation.items.brands",
+            permission: "brands.view",
             href: "/catalog/brands",
             icon: <AwardIcon />,
           },
@@ -138,31 +154,37 @@ export const navGroups: NavGroup[] = [
       },
       {
         titleKey: "business.navigation.items.warehouses",
+        permission: "warehouses.view",
         href: "/inventory/warehouses",
         icon: <WarehouseIcon />,
         items: [
           {
             titleKey: "business.navigation.items.warehouseList",
+            permission: "warehouses.view",
             href: "/inventory/warehouses",
             icon: <WarehouseIcon />,
           },
           {
             titleKey: "business.navigation.items.stockBalances",
+            permission: "inventory.view",
             href: "/inventory/stock-balances",
             icon: <BarChart3Icon />,
           },
           {
             titleKey: "business.navigation.items.stockMovements",
+            permission: "stockLedger.view",
             href: "/inventory/stock-movements",
             icon: <ArrowLeftRightIcon />,
           },
           {
             titleKey: "business.navigation.items.stockCounts",
+            permission: "stockCounts.view",
             href: "/inventory/stock-counts",
             icon: <ClipboardCheckIcon />,
           },
           {
             titleKey: "business.navigation.items.openingBalances",
+            permission: "inventory.view",
             href: "/inventory/opening-balances",
             icon: <ScaleIcon />,
           },
@@ -175,26 +197,31 @@ export const navGroups: NavGroup[] = [
     items: [
       {
         titleKey: "business.navigation.items.cashboxes",
+        permission: "cashboxes.view",
         href: "/finance/cashboxes",
         icon: <WalletIcon />,
         items: [
           {
             titleKey: "business.navigation.items.cashboxesList",
+            permission: "cashboxes.view",
             href: "/finance/cashboxes",
             icon: <WalletIcon />,
           },
           {
             titleKey: "business.navigation.items.bankAccounts",
+            permission: "bankAccounts.view",
             href: "/finance/bank-accounts",
             icon: <LandmarkIcon />,
           },
           {
             titleKey: "business.navigation.items.expenses",
+            permission: "expenses.view",
             href: "/finance/expenses",
             icon: <CreditCardIcon />,
           },
           {
             titleKey: "business.navigation.items.payments",
+            permission: "payments.view",
             href: "/finance/payments",
             icon: <HandCoinsIcon />,
           },
@@ -202,16 +229,19 @@ export const navGroups: NavGroup[] = [
       },
       {
         titleKey: "business.navigation.items.accounting",
+        permission: "accounts.view",
         href: "/finance/chart-of-accounts",
         icon: <BookIcon />,
         items: [
           {
             titleKey: "business.navigation.items.chartOfAccounts",
+            permission: "accounts.view",
             href: "/finance/chart-of-accounts",
             icon: <BookIcon />,
           },
           {
             titleKey: "business.navigation.items.openingBalancesGL",
+            permission: "openingBalanceSessions.view",
             href: "/finance/opening-balances",
             icon: <ScaleIcon />,
           },
@@ -224,26 +254,31 @@ export const navGroups: NavGroup[] = [
     items: [
       {
         titleKey: "business.navigation.items.generalReports",
+        permission: "reports.view",
         href: "/reports",
         icon: <LineChartIcon />,
         items: [
           {
             titleKey: "business.navigation.items.stockReports",
+            permission: "reports.view",
             href: "/reports/stock",
             icon: <BarChart3Icon />,
           },
           {
             titleKey: "business.navigation.items.salesReports",
+            permission: "reports.view",
             href: "/reports/sales",
             icon: <LineChartIcon />,
           },
           {
             titleKey: "business.navigation.items.purchaseReports",
+            permission: "reports.view",
             href: "/reports/purchases",
             icon: <LineChartIcon />,
           },
           {
             titleKey: "business.navigation.items.accountStatements",
+            permission: "reports.view",
             href: "/reports/customers",
             icon: <UsersIcon />,
           },
@@ -256,26 +291,31 @@ export const navGroups: NavGroup[] = [
     items: [
       {
         titleKey: "business.navigation.items.companySettings",
+        permission: "settings.manage",
         href: "/settings/company",
         icon: <Building2Icon />,
         items: [
           {
             titleKey: "business.navigation.items.companySettings",
+            permission: "settings.manage",
             href: "/settings/company",
             icon: <Building2Icon />,
           },
           {
             titleKey: "business.settings.localization.navLabel",
+            permission: "settings.manage",
             href: "/settings/localization",
             icon: <SettingsIcon />,
           },
           {
             titleKey: "business.settings.financial.navLabel",
+            permission: "financialSettings.manage",
             href: "/settings/financial",
             icon: <ScaleIcon />,
           },
           {
             titleKey: "business.settings.documents.navLabel",
+            permission: "settings.manage",
             href: "/settings/documents",
             icon: <ReceiptIcon />,
           },
@@ -283,16 +323,19 @@ export const navGroups: NavGroup[] = [
       },
       {
         titleKey: "business.navigation.items.usersAndPermissions",
+        permission: "users.view",
         href: "/settings/users",
         icon: <UserCogIcon />,
         items: [
           {
             titleKey: "business.navigation.items.users",
+            permission: "users.view",
             href: "/settings/users",
             icon: <UserCogIcon />,
           },
           {
             titleKey: "business.navigation.items.roles",
+            permission: "roles.view",
             href: "/settings/roles",
             icon: <ShieldCheckIcon />,
           },
@@ -300,21 +343,25 @@ export const navGroups: NavGroup[] = [
       },
       {
         titleKey: "business.navigation.items.systemSettings",
+        permission: "currencies.view",
         href: "/settings/currencies",
         icon: <SettingsIcon />,
         items: [
           {
             titleKey: "business.navigation.items.currencies",
+            permission: "currencies.view",
             href: "/settings/currencies",
             icon: <CoinsIcon />,
           },
           {
             titleKey: "business.navigation.items.fiscalPeriods",
+            permission: "fiscalPeriods.view",
             href: "/settings/fiscal-periods",
             icon: <CalendarIcon />,
           },
           {
             titleKey: "business.navigation.items.documentSequences",
+            permission: "documentSequences.view",
             href: "/settings/document-sequences",
             icon: <HashIcon />,
           },
