@@ -1,19 +1,21 @@
 import { Controller, Get, Query, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth, ApiOperation, ApiOkResponse, ApiQuery } from '@nestjs/swagger';
 import { ReportsService } from './reports.service';
-import { JwtAuthGuard } from '../identity/auth/guards';
+import { JwtAuthGuard, PermissionsGuard } from '../identity/auth/guards';
 import { CurrentUser, RequestUser } from '../identity/auth/decorators';
+import { RequirePermission } from '@devloggers/backend-core';
 import { ApiResponseBuilder } from '../../common/api/api-response-builder';
 import { ApiStandardErrors } from '../../common/decorators/api-swagger.decorators';
 
 @ApiTags('Dashboard')
 @Controller('dashboard')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, PermissionsGuard)
 @ApiBearerAuth('JWT-auth')
 export class DashboardController {
     constructor(private readonly reportsService: ReportsService) {}
 
     @Get('summary')
+    @RequirePermission('dashboard.view')
     @ApiOperation({ summary: 'Get dashboard summary', description: 'Key business metrics for the selected date range. Defaults to current calendar month.' })
     @ApiQuery({ name: 'from', required: false, description: 'Start date (ISO 8601)' })
     @ApiQuery({ name: 'to', required: false, description: 'End date (ISO 8601)' })
@@ -31,6 +33,7 @@ export class DashboardController {
     }
 
     @Get('chart-data')
+    @RequirePermission('dashboard.view')
     @ApiOperation({ summary: 'Get dashboard chart data', description: 'Day-by-day sales and purchases totals for the selected date range (max 90 days).' })
     @ApiQuery({ name: 'from', required: false, description: 'Start date (ISO 8601)' })
     @ApiQuery({ name: 'to', required: false, description: 'End date (ISO 8601)' })
