@@ -33,6 +33,9 @@ export class AuthUserDto {
     @ApiProperty({ type: [String], example: ['Admin'] })
     roles: string[] = [];
 
+    @ApiProperty({ type: [String], example: ['invoices.view', 'invoices.post'] })
+    permissions: string[] = [];
+
     @ApiProperty({ type: AuthTenantDto })
     tenant: AuthTenantDto = new AuthTenantDto();
 }

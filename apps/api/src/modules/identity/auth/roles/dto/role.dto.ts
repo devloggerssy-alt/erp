@@ -1,7 +1,8 @@
-import { IsOptional, ValidateNested } from 'class-validator';
+import { IsArray, IsIn, IsOptional, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { LocalizedStringDto } from '@devloggers/backend-core';
+import { ALL_PERMISSIONS, type PermissionKey } from '@devloggers/api-contracts';
 
 export class CreateRoleDto {
     @ApiProperty({ type: LocalizedStringDto, description: 'Role display name' })
@@ -14,6 +15,12 @@ export class CreateRoleDto {
     @ValidateNested()
     @Type(() => LocalizedStringDto)
     description?: LocalizedStringDto;
+
+    @ApiPropertyOptional({ type: [String], example: ['units.view', 'units.create'] })
+    @IsOptional()
+    @IsArray()
+    @IsIn([...ALL_PERMISSIONS], { each: true })
+    permissionKeys?: PermissionKey[];
 }
 
 export class UpdateRoleDto {
@@ -28,6 +35,12 @@ export class UpdateRoleDto {
     @ValidateNested()
     @Type(() => LocalizedStringDto)
     description?: LocalizedStringDto;
+
+    @ApiPropertyOptional({ type: [String], example: ['units.view', 'units.create'] })
+    @IsOptional()
+    @IsArray()
+    @IsIn([...ALL_PERMISSIONS], { each: true })
+    permissionKeys?: PermissionKey[];
 }
 
 export class RoleResponseDto {
@@ -48,6 +61,9 @@ export class RoleResponseDto {
 
     @ApiProperty({ example: false })
     isSystem: boolean = false;
+
+    @ApiProperty({ type: [String], example: ['units.view', 'units.create'] })
+    permissionKeys: PermissionKey[] = [];
 
     @ApiProperty({ example: '2025-01-01T00:00:00.000Z' })
     createdAt: string = '';

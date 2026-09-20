@@ -13,6 +13,8 @@ export class RolePresenter extends CrudPresenter<Role, RoleResponseDto> {
     toResponse(entity: Role): RoleResponseDto {
         const name = entity.name as unknown as LocalizedString;
         const description = entity.description as unknown as LocalizedString | null;
+        const rolePermissions =
+            (entity as Role & { rolePermissions?: Array<{ permission: { key: string } }> }).rolePermissions ?? [];
         return {
             id: entity.id,
             name: this.locale.resolve(name),
@@ -20,6 +22,7 @@ export class RolePresenter extends CrudPresenter<Role, RoleResponseDto> {
             description: description ? this.locale.resolve(description) : null,
             descriptionI18n: description,
             isSystem: entity.isSystem ?? false,
+            permissionKeys: rolePermissions.map((rolePermission) => rolePermission.permission.key) as RoleResponseDto['permissionKeys'],
             createdAt: entity.createdAt.toISOString(),
             updatedAt: entity.updatedAt.toISOString(),
         };
