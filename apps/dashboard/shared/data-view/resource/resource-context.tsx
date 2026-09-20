@@ -7,6 +7,8 @@ import { useTranslations } from "next-intl"
 import { createActionsColumn, type ActionsColumnOptions } from "@/shared/data-view/table-view"
 import { useFormDialog } from "@/shared/components/form-dialog"
 import { confirm } from "@/shared/components/confirm-dialog"
+import { usePermissions } from "@/shared/hooks/use-permissions"
+import { RESOURCE_PERMISSIONS } from "@/config/resource-permissions"
 import type { ResourceContext, ResourceItem, UseResourceOptions } from "./types"
 import { useResourceQuery } from "./use-resource-query"
 import { useResourceMutations } from "./use-resource-mutations"
@@ -43,6 +45,11 @@ export function ResourceProvider<TClient extends ICrudClient>({
     })
     const t = useTranslations("system.resource")
     const dialog = useFormDialog(config.paramKey)
+    const { can } = usePermissions()
+    const permissionSet = RESOURCE_PERMISSIONS[queryState.client.key] ?? {}
+    const canCreate = !permissionSet.create || can(permissionSet.create)
+    const canUpdate = !permissionSet.update || can(permissionSet.update)
+    const canDelete = !permissionSet.delete || can(permissionSet.delete)
     const [selectedItem, setSelectedItem] = useState<TItem | null>(null)
     const [selectedItems, setSelectedItems] = useState<TItem[]>([])
     const clearSelection = () => setSelectedItems([])
@@ -61,18 +68,20 @@ export function ResourceProvider<TClient extends ICrudClient>({
         options?: Partial<ActionsColumnOptions<TItem>>,
     ): ColumnDef<TItem, unknown> =>
         createActionsColumn<TItem>({
-            onEdit: openEdit,
-            onDelete: async (row) => {
-                const confirmed = await confirm({
-                    title: t("deleteTitle"),
-                    description: t("deleteDescription"),
-                    confirmLabel: t("deleteConfirm"),
-                    variant: "destructive",
-                })
-                if (confirmed) {
-                    await mutations.deleteItem(String(row.id))
+            onEdit: canUpdate ? openEdit : undefined,
+            onDelete: canDelete
+                ? async (row) => {
+                    const confirmed = await confirm({
+                        title: t("deleteTitle"),
+                        description: t("deleteDescription"),
+                        confirmLabel: t("deleteConfirm"),
+                        variant: "destructive",
+                    })
+                    if (confirmed) {
+                        await mutations.deleteItem(String(row.id))
+                    }
                 }
-            },
+                : undefined,
             ...options,
         })
 
@@ -86,6 +95,9 @@ export function ResourceProvider<TClient extends ICrudClient>({
         items: queryState.items,
         isLoading: queryState.isLoading,
         isFetching: queryState.isFetching,
+        canCreate,
+        canUpdate,
+        canDelete,
         pagination: queryState.pagination,
         sorting: queryState.sorting,
         params: queryState.params,

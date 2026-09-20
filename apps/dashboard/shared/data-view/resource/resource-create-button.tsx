@@ -19,6 +19,8 @@ export function ResourceCreateButton({
 }: ResourceCreateButtonProps) {
     const resource = useResourceContext<ICrudClient>()
 
+    if (!resource.canCreate) return null
+
     return (
         <Button size="lg" onClick={() => resource.openCreate()} className={className}>
             {icon}
