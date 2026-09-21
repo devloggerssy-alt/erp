@@ -80,7 +80,7 @@ New `OpeningBalanceSessionPreviewService` at `apps/api/src/modules/accounting/op
    })
    ```
    `currentBalance = Σ(debit - credit)` for the line's currency; `resultingBalance = round(currentBalance + openingNet)` where `openingNet = draft.debit - draft.credit`. Aggregate duplicate (party, side, currency) session lines into one row.
-8. Resolve display names in batch: `chartOfAccount` (code, name), `party` (name), `cashbox` (name), `bankAccount` (name), `currency` (code).
+8. Resolve display codes in batch: `chartOfAccount` (code), `currency` (code), `cashbox` (code), `bankAccount` (code); `party.name` is a plain string and is returned directly. Account/cashbox/bank/currency *labels* are localized JSON columns, so the dashboard maps ids to localized labels from its existing option queries instead of the API resolving locales.
 
 Wiring: `PostingModule` adds `OpeningSessionPostedPolicy` to `exports`; `OpeningBalancesModule` adds `OpeningBalanceSessionPreviewService` to `providers`. If `PrismaService` does not structurally satisfy `PrismaTransactionClient`, call the policy inside a read-only `this.prisma.$transaction(...)`.
 
@@ -100,7 +100,6 @@ export class OpeningBalancePreviewCurrencyTotalDto {
 export class OpeningBalancePreviewOffsetDto {
     accountId: string;           // defaultOpeningEquityAccountId
     accountCode: string;
-    accountName: string;
     amount: number;              // |base imbalance|, 4dp
 }
 
@@ -108,13 +107,10 @@ export class OpeningBalancePreviewLineDto {
     dimension: 'CASHBOX' | 'BANK_ACCOUNT' | 'PARTY' | 'ACCOUNT';
     accountId: string;
     accountCode: string;
-    accountName: string;
     partyId: string | null;
     partyName: string | null;
     cashboxId: string | null;
-    cashboxName: string | null;
     bankAccountId: string | null;
-    bankAccountName: string | null;
     currencyId: string | null;
     currencyCode: string | null;
     amount: number;              // signed transaction-currency amount from the zipped session line (policy drafts store |amount|)
