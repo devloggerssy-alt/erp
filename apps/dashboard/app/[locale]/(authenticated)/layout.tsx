@@ -2,6 +2,7 @@ import Image from "next/image"
  import { getLocale } from "next-intl/server"
 
 import { DashboardLayout } from "@/infrastructure/components/layout/dashboard"
+import { SetupProgressBanner } from "@/modules/business-setup"
 import { navGroups } from "@/config/navGroups"
 import { filterNavGroups } from "@/config/filter-nav-groups"
 import { getAuthCookies } from "@/modules/auth/auth.actions"
@@ -67,6 +68,7 @@ export default async function AuthenticatedLayout({
 
   return (
     <DashboardLayout navGroups={visibleNavGroups} logo={<Logo />} user={userInfo} breadcrumbs={breadcrumbs}>
+      <SetupProgressBanner />
       {children}
     </DashboardLayout>
   )
