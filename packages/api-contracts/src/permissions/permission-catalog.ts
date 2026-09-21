@@ -56,14 +56,13 @@ export type PermissionKey = {
  * Resources intentionally excluded from the catalog:
  * - `auth` — login/logout are public, `/auth/me` is authenticated-only.
  * - `accounting` — covered by `journals.*` and `reconciliation.*`.
- * - `accountOpeningBalances` — covered by `openingBalances.manage`.
  *
  * If a resource is added to the resources map and not catalogued above, this
  * type stops compiling — that is the intended tripwire.
  */
 export type UncataloguedResource = Exclude<
   keyof typeof resources,
-  CatalogResource | 'auth' | 'accounting' | 'accountOpeningBalances'
+  CatalogResource | 'auth' | 'accounting'
 >
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars -- compile-time assertion

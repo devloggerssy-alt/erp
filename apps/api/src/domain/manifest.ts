@@ -55,7 +55,6 @@ export const DOMAIN_MANIFESTS: readonly DomainManifest[] = Object.freeze([
         routes: [
             'accounting/chart-of-accounts',
             'accounting/account-balances',
-            'accounting/opening-balances',
             'accounting/opening-balance-sessions',
             'accounting/journal-entries',
             'accounting/reconciliation',

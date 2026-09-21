@@ -12,7 +12,6 @@ export type {
     ExpenseRecordedIntent,
     ExpenseCancelledIntent,
     StockCountAdjustedIntent,
-    OpeningBalancePostedIntent,
     OpeningStockPostedIntent,
     OpeningSessionLineDraft,
     OpeningSessionPostedIntent,

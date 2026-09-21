@@ -36,7 +36,6 @@ import { itemCatalogEntityResource } from './item-catalog-entity.resource'
 import { brandResource } from './brand.resource'
 import { bankAccountResource } from './bank-account.resource'
 import { financialSettingResource } from './financial-setting.resource'
-import { accountOpeningBalanceResource } from './account-opening-balance.resource'
 import { openingBalanceSessionResource } from './opening-balance-session.resource'
 import { businessSetupResource } from './business-setup.resource'
 
@@ -75,7 +74,6 @@ export * from './item-catalog-entity.resource'
 export * from './brand.resource'
 export * from './bank-account.resource'
 export * from './financial-setting.resource'
-export * from './account-opening-balance.resource'
 export * from './opening-balance-session.resource'
 export * from './business-setup.resource'
 export * from './accounting.types'
@@ -116,7 +114,6 @@ export const resources = {
   brands: brandResource,
   bankAccounts: bankAccountResource,
   financialSettings: financialSettingResource,
-  accountOpeningBalances: accountOpeningBalanceResource,
   openingBalanceSessions: openingBalanceSessionResource,
   businessSetup: businessSetupResource,
 } as const

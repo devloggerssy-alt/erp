@@ -3,12 +3,11 @@
  * report to `AccountingPostingFacade`. Fields describe *what happened*
  * (amounts, quantities, party, direction) — never which GL account it hits.
  *
- * Two exceptions carry an `accountId`, by deliberate design, not oversight:
- * `ExpenseRecordedIntent.items[].accountId` and
- * `OpeningBalancePostedIntent.entries[].accountId`. In both cases the account
- * is direct user input at the API boundary (the DTO already carries it) —
- * there is no fallback/override resolution logic to move into a policy, only
- * validation. See Task 6 and Task 8 for the full reasoning.
+ * One exception carries an `accountId`, by deliberate design, not oversight:
+ * `ExpenseRecordedIntent.items[].accountId`. The account is direct user input
+ * at the API boundary (the DTO already carries it) — there is no
+ * fallback/override resolution logic to move into a policy, only validation.
+ * See Task 6 and Task 8 for the full reasoning.
  */
 export interface PostingIntentBase {
     tenantId: string;
@@ -79,12 +78,6 @@ export interface StockCountAdjustedIntent extends PostingIntentBase {
     netVariance: number;
 }
 
-export interface OpeningBalancePostedIntent extends PostingIntentBase {
-    kind: 'OPENING_BALANCE_POSTED';
-    /** Direct user input — see contracts/posting-intent.ts header. Pre-filtered to non-zero amounts by the caller. */
-    entries: { accountId: string; amount: number; cashboxId?: string | null; bankAccountId?: string | null; currencyId?: string | null; exchangeRate?: number }[];
-}
-
 export interface OpeningStockPostedIntent extends PostingIntentBase {
     kind: 'OPENING_STOCK_POSTED';
     totalValue: number;
@@ -122,7 +115,6 @@ export type PostingRecordIntent =
     | PaymentRecordedIntent
     | ExpenseRecordedIntent
     | StockCountAdjustedIntent
-    | OpeningBalancePostedIntent
     | OpeningStockPostedIntent
     | OpeningSessionPostedIntent;
 

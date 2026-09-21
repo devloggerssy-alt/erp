@@ -23,7 +23,7 @@ const MUTABLE_STATUSES = ['DRAFT'] as const;
 
 /**
  * Opening-balance session workflow (ADR-3/4/5): draft → validate → review → post → lock.
- * Deliberately standalone (like OpeningBalancesService) — sessions are a workflow
+ * Deliberately standalone — sessions are a workflow
  * resource with a strict lifecycle, not a plain CRUD collection. Posting goes through
  * AccountingPostingFacade; cash/bank projections are synced inside the same transaction.
  */
