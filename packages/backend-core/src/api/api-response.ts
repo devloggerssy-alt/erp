@@ -1,17 +1,17 @@
-export interface ApiError {
-  code: string;
-  message: string;
-  details?: any;
-}
+/**
+ * The response envelope is declared once in `@devloggers/api-contracts`.
+ * backend-core re-exports the shared declarations instead of mirroring them.
+ */
+export type {
+  ApiError,
+  ApiErrorResponse,
+  ApiSuccessResponse,
+  ApiMeta,
+  Cursor,
+  Pagination as PaginationMeta,
+} from '@devloggers/api-contracts';
 
-import type { ApiMeta, Cursor, Pagination } from '@devloggers/api-contracts';
+import type { ApiSuccessResponse } from '@devloggers/api-contracts';
 
-export type { ApiMeta, Cursor, Pagination as PaginationMeta };
-
-export interface ApiResponse<T = unknown> {
-  status: 'success' | 'error';
-  message: string;
-  data: T;
-  error?: ApiError;
-  meta?: ApiMeta;
-}
+/** Convenience alias for a successful envelope. */
+export type ApiResponse<T = unknown> = ApiSuccessResponse<T>;

@@ -64,3 +64,46 @@ export class ApiSuccessResponseDto {
   @ApiPropertyOptional({ type: () => ApiMetaDto })
   meta?: ApiMetaDto;
 }
+
+/** A single field-level validation failure inside {@link ApiErrorDto}. */
+export class ApiFieldErrorDto {
+  @ApiProperty({ example: 'email' })
+  field: string = '';
+
+  @ApiProperty({ example: 'email must be a valid email address' })
+  message: string = '';
+
+  @ApiPropertyOptional({ example: 'isEmail' })
+  code?: string;
+}
+
+export class ApiErrorDto {
+  @ApiProperty({ example: 'VALIDATION_ERROR' })
+  code: string = '';
+
+  @ApiProperty({ example: 'Validation failed' })
+  message: string = '';
+
+  @ApiPropertyOptional({ type: () => ApiFieldErrorDto, isArray: true })
+  details?: ApiFieldErrorDto[];
+}
+
+export class ApiErrorResponseDto {
+  @ApiProperty({ example: 'error' })
+  status: 'error' = 'error';
+
+  @ApiProperty({ example: 'Validation failed' })
+  message: string = '';
+
+  @ApiProperty({
+    type: () => Object,
+    nullable: true,
+    default: null,
+    example: null,
+    description: 'Always null on error responses',
+  })
+  data: null = null;
+
+  @ApiProperty({ type: () => ApiErrorDto })
+  error: ApiErrorDto = new ApiErrorDto();
+}

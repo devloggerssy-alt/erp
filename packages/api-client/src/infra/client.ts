@@ -1,5 +1,6 @@
 import { paths } from "@devloggers/api-contracts"
 import type {
+    ApiErrorResponse,
     ApiPath,
     ApiPathByMethod,
     ApiPathParams,
@@ -24,15 +25,14 @@ type ApiRequestOptions<Path extends ApiPath, Method extends HttpMethod> =
         body?: ApiRequestBody<Path, Method> extends never ? never : ApiRequestBody<Path, Method>
     }
 
-type ValidationErrors = Record<string, string[]>
+/** Field name → messages, ready for a form's `setError`. */
+export type ValidationErrors = Record<string, string[]>
 
-type ErrorPayload = {
-    success?: boolean
-    message?: string
-    data?: unknown
-    errors?: ValidationErrors | string[] | Record<string, unknown> | null
-    pagination?: Record<string, unknown> | null
-}
+/**
+ * The shared error envelope the API sends, made partial to tolerate
+ * transport-level failures that carry only a message.
+ */
+type ErrorPayload = Partial<ApiErrorResponse>
 
 export class ApiError extends Error {
     public readonly name = "ApiError"
@@ -47,10 +47,24 @@ export class ApiError extends Error {
         super(payload?.message ?? `${method.toUpperCase()} ${endpoint} failed with ${status} ${statusText}`.trim())
     }
 
+    /** Machine-readable error code from the server, when present. */
+    get code(): string | undefined {
+        return this.payload?.error?.code
+    }
+
+    /**
+     * Field-level validation errors mapped from the envelope's
+     * `error.details`, grouped by field name.
+     */
     get validationErrors(): ValidationErrors | undefined {
-        return this.payload?.errors && !Array.isArray(this.payload.errors)
-            ? (this.payload.errors as ValidationErrors)
-            : undefined
+        const details = this.payload?.error?.details
+        if (!details?.length) return undefined
+
+        const grouped: ValidationErrors = {}
+        for (const detail of details) {
+            ;(grouped[detail.field] ??= []).push(detail.message)
+        }
+        return grouped
     }
 }
 
@@ -320,13 +334,12 @@ export class ApiClient {
             return undefined
         }
 
-        if ("message" in error || "errors" in error) {
+        if ("message" in error || "error" in error) {
             return error as ErrorPayload
         }
 
         return {
             message: "Request failed",
-            data: error,
         }
     }
 

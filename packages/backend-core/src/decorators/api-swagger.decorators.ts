@@ -10,78 +10,77 @@ import {
   getSchemaPath,
   ApiExtraModels,
 } from '@nestjs/swagger';
-import { ApiSuccessResponseDto } from '../api/api-responses.dto.js';
+import { ApiErrorResponseDto, ApiSuccessResponseDto } from '../api/api-responses.dto.js';
 import type { FilterSchema } from '../api/filter-schema.js';
 import { buildListFilterOptionsExample } from '../api/filter-swagger.js';
+
+/**
+ * Documents an error response against the shared `ApiErrorResponseDto` schema,
+ * with a concrete example for the given status.
+ */
+function apiErrorResponse(example: Record<string, unknown>) {
+  return {
+    schema: {
+      allOf: [{ $ref: getSchemaPath(ApiErrorResponseDto) }],
+      example,
+    },
+  };
+}
 
 /**
  * Applies standardized error-response decorators (401/403/404/422/500) to a controller method.
  */
 export function ApiStandardErrors(): MethodDecorator & ClassDecorator {
   return applyDecorators(
+    ApiExtraModels(ApiErrorResponseDto),
     ApiUnauthorizedResponse({
       description: 'JWT token is missing, expired, or invalid',
-      schema: {
-        example: {
-          status: 'error',
-          message: 'Unauthorized',
-          data: null,
-          error: { code: 'UNAUTHORIZED', message: 'JWT token is missing, expired, or invalid' },
-        },
-      },
+      ...apiErrorResponse({
+        status: 'error',
+        message: 'Unauthorized',
+        data: null,
+        error: { code: 'UNAUTHORIZED', message: 'JWT token is missing, expired, or invalid' },
+      }),
     }),
     ApiForbiddenResponse({
       description: 'Insufficient permissions to perform this action',
-      schema: {
-        example: {
-          status: 'error',
-          message: 'Forbidden',
-          data: null,
-          error: { code: 'FORBIDDEN', message: 'Insufficient permissions to perform this action' },
-        },
-      },
+      ...apiErrorResponse({
+        status: 'error',
+        message: 'Forbidden',
+        data: null,
+        error: { code: 'FORBIDDEN', message: 'Insufficient permissions to perform this action' },
+      }),
     }),
     ApiNotFoundResponse({
       description: 'The requested resource was not found',
-      schema: {
-        example: {
-          status: 'error',
-          message: 'Not found',
-          data: null,
-          error: { code: 'NOT_FOUND', message: 'The requested resource was not found' },
-        },
-      },
+      ...apiErrorResponse({
+        status: 'error',
+        message: 'Not found',
+        data: null,
+        error: { code: 'NOT_FOUND', message: 'The requested resource was not found' },
+      }),
     }),
     ApiUnprocessableEntityResponse({
       description: 'Request body validation failed',
-      schema: {
-        example: {
-          status: 'error',
+      ...apiErrorResponse({
+        status: 'error',
+        message: 'Validation failed',
+        data: null,
+        error: {
+          code: 'VALIDATION_ERROR',
           message: 'Validation failed',
-          data: null,
-          error: {
-            code: 'VALIDATION_ERROR',
-            message: 'Validation failed',
-            details: [
-              {
-                property: 'email',
-                constraints: { isEmail: 'email must be a valid email address' },
-              },
-            ],
-          },
+          details: [{ field: 'email', message: 'email must be a valid email address', code: 'isEmail' }],
         },
-      },
+      }),
     }),
     ApiInternalServerErrorResponse({
       description: 'An unexpected internal server error occurred',
-      schema: {
-        example: {
-          status: 'error',
-          message: 'Internal server error',
-          data: null,
-          error: { code: 'INTERNAL_ERROR', message: 'An unexpected internal server error occurred' },
-        },
-      },
+      ...apiErrorResponse({
+        status: 'error',
+        message: 'Internal server error',
+        data: null,
+        error: { code: 'INTERNAL_ERROR', message: 'Internal server error' },
+      }),
     }),
   );
 }

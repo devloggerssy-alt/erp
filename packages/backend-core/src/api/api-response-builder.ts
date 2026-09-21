@@ -1,20 +1,30 @@
-import type { ApiMeta, ListFilterField } from '@devloggers/api-contracts';
+import type {
+  ApiErrorResponse,
+  ApiMeta,
+  ApiSuccessResponse,
+  FieldError,
+  ListFilterField,
+} from '@devloggers/api-contracts';
+import { ApiErrorCode } from '@devloggers/api-contracts';
 import { ApiQueryOptionsDto } from './api-query-options.dto.js';
-import { ApiResponse } from './api-response.js';
 import { buildListFilterOptionsExample } from './filter-swagger.js';
 import type { FilterSchema } from './filter-schema.js';
 
 export class ApiResponseBuilder {
-  static success<T>(data: T, message = 'Success', meta?: ApiMeta): ApiResponse<T> {
+  static success<T>(data: T, message = 'Success', meta?: ApiMeta): ApiSuccessResponse<T> {
     return { status: 'success', message, data, meta };
   }
 
-  static error(message: string, code = 'INTERNAL_ERROR', details?: unknown): ApiResponse<null> {
+  static error(
+    message: string,
+    code: ApiErrorCode | string = ApiErrorCode.INTERNAL_ERROR,
+    details?: FieldError[],
+  ): ApiErrorResponse {
     return {
       status: 'error',
       message,
       data: null,
-      error: { code, message, details },
+      error: details ? { code, message, details } : { code, message },
     };
   }
 

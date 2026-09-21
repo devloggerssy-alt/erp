@@ -1,4 +1,7 @@
 export * from './api-response.js';
+export * from './api-error-response.js';
+export * from './api-exception.filter.js';
+export * from './validation-exception.factory.js';
 export * from './api-responses.dto.js';
 export * from './api-query-options.dto.js';
 export * from './filter-schema.js';

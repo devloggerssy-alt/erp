@@ -18,23 +18,32 @@ describe('DisabledDomainFilter', () => {
         else process.env.DISABLED_DOMAINS = original;
     });
 
-    it('rewrites router 404s for disabled domains', () => {
+    it('rewrites router 404s for disabled domains in the shared envelope', () => {
         process.env.DISABLED_DOMAINS = 'files';
         const { host, json, status } = hostFor('/files/1');
         new DisabledDomainFilter().catch(new NotFoundException('Cannot GET /files/1'), host);
 
         expect(status).toHaveBeenCalledWith(404);
         expect(json).toHaveBeenCalledWith({
-            statusCode: 404,
+            status: 'error',
             message: 'The "files" module is disabled in this deployment.',
-            error: 'Not Found',
+            data: null,
+            error: {
+                code: 'NOT_FOUND',
+                message: 'The "files" module is disabled in this deployment.',
+            },
         });
     });
 
-    it('keeps the default payload for all other 404s', () => {
+    it('keeps the default message for all other 404s, wrapped in the envelope', () => {
         delete process.env.DISABLED_DOMAINS;
         const { host, json } = hostFor('/units/missing');
         new DisabledDomainFilter().catch(new NotFoundException('Unit not found'), host);
-        expect(json).toHaveBeenCalledWith({ statusCode: 404, message: 'Unit not found', error: 'Not Found' });
+        expect(json).toHaveBeenCalledWith({
+            status: 'error',
+            message: 'Unit not found',
+            data: null,
+            error: { code: 'NOT_FOUND', message: 'Unit not found' },
+        });
     });
 });

@@ -2667,6 +2667,34 @@ export interface components {
              */
             updatedAt: string;
         };
+        ApiFieldErrorDto: {
+            /** @example email */
+            field: string;
+            /** @example email must be a valid email address */
+            message: string;
+            /** @example isEmail */
+            code?: string;
+        };
+        ApiErrorDto: {
+            /** @example VALIDATION_ERROR */
+            code: string;
+            /** @example Validation failed */
+            message: string;
+            details?: components["schemas"]["ApiFieldErrorDto"][];
+        };
+        ApiErrorResponseDto: {
+            /** @example error */
+            status: string;
+            /** @example Validation failed */
+            message: string;
+            /**
+             * @description Always null on error responses
+             * @default null
+             * @example null
+             */
+            data: Record<string, never> | null;
+            error: components["schemas"]["ApiErrorDto"];
+        };
         CreateCurrencyDto: {
             /**
              * @description ISO 4217 currency code
@@ -6954,7 +6982,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -6963,7 +6991,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -6972,7 +7000,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -6981,7 +7009,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -6990,7 +7018,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -7025,7 +7053,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -7034,7 +7062,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -7043,7 +7071,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -7052,7 +7080,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -7061,7 +7089,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -7143,7 +7171,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -7152,7 +7180,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -7161,7 +7189,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -7170,7 +7198,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -7179,7 +7207,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -7209,7 +7237,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -7218,7 +7246,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -7227,7 +7255,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -7236,7 +7264,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -7245,7 +7273,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -7283,7 +7311,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -7292,7 +7320,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -7301,7 +7329,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -7310,7 +7338,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -7319,7 +7347,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -7362,7 +7390,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -7371,7 +7399,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -7380,7 +7408,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -7389,7 +7417,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -7398,7 +7426,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -7433,7 +7461,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -7442,7 +7470,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -7451,7 +7479,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -7460,7 +7488,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -7469,7 +7497,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -7551,7 +7579,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -7560,7 +7588,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -7569,7 +7597,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -7578,7 +7606,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -7587,7 +7615,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -7617,7 +7645,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -7626,7 +7654,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -7635,7 +7663,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -7644,7 +7672,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -7653,7 +7681,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -7691,7 +7719,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -7700,7 +7728,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -7709,7 +7737,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -7718,7 +7746,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -7727,7 +7755,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -7770,7 +7798,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -7779,7 +7807,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -7788,7 +7816,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -7797,7 +7825,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -7806,7 +7834,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -7841,7 +7869,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -7850,7 +7878,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -7859,7 +7887,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -7868,7 +7896,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -7877,7 +7905,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -7959,7 +7987,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -7968,7 +7996,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -7977,7 +8005,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -7986,7 +8014,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -7995,7 +8023,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -8025,7 +8053,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -8034,7 +8062,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -8043,7 +8071,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -8052,7 +8080,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -8061,7 +8089,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -8099,7 +8127,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -8108,7 +8136,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -8117,7 +8145,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -8126,7 +8154,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -8135,7 +8163,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -8166,7 +8194,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -8175,7 +8203,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -8184,7 +8212,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -8193,7 +8221,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -8202,7 +8230,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -8230,7 +8258,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -8239,7 +8267,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -8248,7 +8276,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -8257,7 +8285,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -8266,7 +8294,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -8294,7 +8322,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -8303,7 +8331,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -8312,7 +8340,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -8321,7 +8349,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -8330,7 +8358,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -8457,7 +8485,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -8466,7 +8494,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -8475,7 +8503,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -8484,7 +8512,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -8493,7 +8521,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -8528,7 +8556,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -8537,7 +8565,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -8546,7 +8574,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -8555,7 +8583,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -8564,7 +8592,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -8646,7 +8674,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -8655,7 +8683,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -8664,7 +8692,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -8673,7 +8701,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -8682,7 +8710,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -8712,7 +8740,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -8721,7 +8749,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -8730,7 +8758,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -8739,7 +8767,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -8748,7 +8776,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -8786,7 +8814,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -8795,7 +8823,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -8804,7 +8832,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -8813,7 +8841,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -8822,7 +8850,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -8853,7 +8881,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -8862,7 +8890,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -8871,7 +8899,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -8880,7 +8908,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -8889,7 +8917,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -8926,7 +8954,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -8935,7 +8963,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -8944,7 +8972,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -8953,7 +8981,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -8962,7 +8990,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -9037,7 +9065,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -9046,7 +9074,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -9055,7 +9083,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -9064,7 +9092,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -9073,7 +9101,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -9104,7 +9132,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -9113,7 +9141,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -9122,7 +9150,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -9131,7 +9159,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -9140,7 +9168,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -9171,7 +9199,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -9180,7 +9208,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -9189,7 +9217,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -9198,7 +9226,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -9207,7 +9235,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -9238,7 +9266,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -9247,7 +9275,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -9256,7 +9284,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -9265,7 +9293,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -9274,7 +9302,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -9306,7 +9334,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -9315,7 +9343,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -9324,7 +9352,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -9333,7 +9361,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -9342,7 +9370,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -9373,7 +9401,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -9382,7 +9410,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -9391,7 +9419,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -9400,7 +9428,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -9409,7 +9437,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -9443,7 +9471,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -9452,7 +9480,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -9461,7 +9489,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -9470,7 +9498,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -9479,7 +9507,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -9520,7 +9548,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -9529,7 +9557,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -9538,7 +9566,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -9547,7 +9575,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -9556,7 +9584,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -9590,7 +9618,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -9599,7 +9627,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -9608,7 +9636,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -9617,7 +9645,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -9626,7 +9654,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -9660,7 +9688,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -9669,7 +9697,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -9678,7 +9706,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -9687,7 +9715,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -9696,7 +9724,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -9734,7 +9762,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -9743,7 +9771,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -9752,7 +9780,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -9761,7 +9789,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -9770,7 +9798,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -9804,7 +9832,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -9813,7 +9841,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -9822,7 +9850,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -9831,7 +9859,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -9840,7 +9868,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -9880,7 +9908,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -9889,7 +9917,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -9898,7 +9926,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -9907,7 +9935,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -9916,7 +9944,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -9956,7 +9984,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -9965,7 +9993,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -9974,7 +10002,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -9983,7 +10011,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -9992,7 +10020,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -10032,7 +10060,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -10041,7 +10069,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -10050,7 +10078,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -10059,7 +10087,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -10068,7 +10096,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -10108,7 +10136,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -10117,7 +10145,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -10126,7 +10154,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -10135,7 +10163,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -10144,7 +10172,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -10173,7 +10201,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -10182,7 +10210,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -10191,7 +10219,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -10200,7 +10228,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -10209,7 +10237,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -10238,7 +10266,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -10247,7 +10275,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -10256,7 +10284,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -10265,7 +10293,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -10274,7 +10302,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -10307,7 +10335,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -10316,7 +10344,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -10325,7 +10353,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -10334,7 +10362,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -10343,7 +10371,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -10374,7 +10402,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -10383,7 +10411,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -10392,7 +10420,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -10401,7 +10429,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -10410,7 +10438,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -10445,7 +10473,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -10454,7 +10482,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -10463,7 +10491,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -10472,7 +10500,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -10481,7 +10509,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -10517,7 +10545,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -10526,7 +10554,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -10535,7 +10563,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -10544,7 +10572,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -10553,7 +10581,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -10844,7 +10872,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -10853,7 +10881,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -10862,7 +10890,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -10871,7 +10899,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -10880,7 +10908,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -10915,7 +10943,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -10924,7 +10952,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -10933,7 +10961,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -10942,7 +10970,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -10951,7 +10979,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -11033,7 +11061,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -11042,7 +11070,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -11051,7 +11079,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -11060,7 +11088,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -11069,7 +11097,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -11099,7 +11127,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -11108,7 +11136,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -11117,7 +11145,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -11126,7 +11154,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -11135,7 +11163,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -11173,7 +11201,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -11182,7 +11210,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -11191,7 +11219,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -11200,7 +11228,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -11209,7 +11237,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -11367,7 +11395,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -11376,7 +11404,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -11385,7 +11413,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -11394,7 +11422,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -11403,7 +11431,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -11438,7 +11466,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -11447,7 +11475,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -11456,7 +11484,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -11465,7 +11493,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -11474,7 +11502,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -11556,7 +11584,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -11565,7 +11593,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -11574,7 +11602,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -11583,7 +11611,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -11592,7 +11620,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -11622,7 +11650,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -11631,7 +11659,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -11640,7 +11668,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -11649,7 +11677,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -11658,7 +11686,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -11696,7 +11724,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -11705,7 +11733,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -11714,7 +11742,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -11723,7 +11751,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -11732,7 +11760,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -12107,7 +12135,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -12116,7 +12144,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -12125,7 +12153,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -12134,7 +12162,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -12143,7 +12171,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -12178,7 +12206,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -12187,7 +12215,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -12196,7 +12224,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -12205,7 +12233,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -12214,7 +12242,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -12296,7 +12324,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -12305,7 +12333,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -12314,7 +12342,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -12323,7 +12351,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -12332,7 +12360,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -12362,7 +12390,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -12371,7 +12399,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -12380,7 +12408,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -12389,7 +12417,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -12398,7 +12426,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -12436,7 +12464,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -12445,7 +12473,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -12454,7 +12482,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -12463,7 +12491,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -12472,7 +12500,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -12670,7 +12698,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -12679,7 +12707,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -12688,7 +12716,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -12697,7 +12725,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -12706,7 +12734,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -12741,7 +12769,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -12750,7 +12778,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -12759,7 +12787,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -12768,7 +12796,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -12777,7 +12805,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -12859,7 +12887,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -12868,7 +12896,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -12877,7 +12905,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -12886,7 +12914,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -12895,7 +12923,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -12925,7 +12953,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -12934,7 +12962,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -12943,7 +12971,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -12952,7 +12980,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -12961,7 +12989,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -12999,7 +13027,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -13008,7 +13036,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -13017,7 +13045,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -13026,7 +13054,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -13035,7 +13063,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -13067,7 +13095,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -13076,7 +13104,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -13085,7 +13113,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -13094,7 +13122,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -13103,7 +13131,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -13136,7 +13164,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -13145,7 +13173,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -13154,7 +13182,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -13163,7 +13191,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -13172,7 +13200,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -13323,7 +13351,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -13332,7 +13360,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -13341,7 +13369,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -13350,7 +13378,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -13359,7 +13387,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -13394,7 +13422,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -13403,7 +13431,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -13412,7 +13440,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -13421,7 +13449,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -13430,7 +13458,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -13512,7 +13540,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -13521,7 +13549,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -13530,7 +13558,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -13539,7 +13567,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -13548,7 +13576,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -13578,7 +13606,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -13587,7 +13615,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -13596,7 +13624,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -13605,7 +13633,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -13614,7 +13642,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -13652,7 +13680,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -13661,7 +13689,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -13670,7 +13698,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -13679,7 +13707,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -13688,7 +13716,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -13827,7 +13855,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -13836,7 +13864,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -13845,7 +13873,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -13854,7 +13882,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -13863,7 +13891,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -13898,7 +13926,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -13907,7 +13935,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -13916,7 +13944,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -13925,7 +13953,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -13934,7 +13962,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -14016,7 +14044,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -14025,7 +14053,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -14034,7 +14062,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -14043,7 +14071,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -14052,7 +14080,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -14082,7 +14110,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -14091,7 +14119,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -14100,7 +14128,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -14109,7 +14137,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -14118,7 +14146,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -14156,7 +14184,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -14165,7 +14193,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -14174,7 +14202,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -14183,7 +14211,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -14192,7 +14220,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -14393,7 +14421,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -14402,7 +14430,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -14411,7 +14439,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -14420,7 +14448,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -14429,7 +14457,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -14464,7 +14492,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -14473,7 +14501,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -14482,7 +14510,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -14491,7 +14519,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -14500,7 +14528,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -14582,7 +14610,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -14591,7 +14619,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -14600,7 +14628,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -14609,7 +14637,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -14618,7 +14646,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -14648,7 +14676,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -14657,7 +14685,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -14666,7 +14694,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -14675,7 +14703,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -14684,7 +14712,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -14722,7 +14750,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -14731,7 +14759,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -14740,7 +14768,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -14749,7 +14777,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -14758,7 +14786,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -14941,7 +14969,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -14950,7 +14978,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -14959,7 +14987,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -14968,7 +14996,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -14977,7 +15005,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -15012,7 +15040,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -15021,7 +15049,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -15030,7 +15058,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -15039,7 +15067,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -15048,7 +15076,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -15130,7 +15158,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -15139,7 +15167,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -15148,7 +15176,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -15157,7 +15185,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -15166,7 +15194,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -15196,7 +15224,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -15205,7 +15233,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -15214,7 +15242,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -15223,7 +15251,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -15232,7 +15260,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -15270,7 +15298,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -15279,7 +15307,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -15288,7 +15316,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -15297,7 +15325,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -15306,7 +15334,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -15417,7 +15445,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -15426,7 +15454,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -15435,7 +15463,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -15444,7 +15472,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -15453,7 +15481,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -15488,7 +15516,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -15497,7 +15525,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -15506,7 +15534,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -15515,7 +15543,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -15524,7 +15552,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -15606,7 +15634,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -15615,7 +15643,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -15624,7 +15652,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -15633,7 +15661,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -15642,7 +15670,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -15672,7 +15700,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -15681,7 +15709,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -15690,7 +15718,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -15699,7 +15727,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -15708,7 +15736,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -15746,7 +15774,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -15755,7 +15783,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -15764,7 +15792,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -15773,7 +15801,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -15782,7 +15810,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -15917,7 +15945,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -15926,7 +15954,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -15935,7 +15963,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -15944,7 +15972,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -15953,7 +15981,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -15988,7 +16016,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -15997,7 +16025,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -16006,7 +16034,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -16015,7 +16043,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -16024,7 +16052,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -16106,7 +16134,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -16115,7 +16143,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -16124,7 +16152,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -16133,7 +16161,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -16142,7 +16170,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -16172,7 +16200,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -16181,7 +16209,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -16190,7 +16218,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -16199,7 +16227,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -16208,7 +16236,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -16246,7 +16274,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -16255,7 +16283,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -16264,7 +16292,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -16273,7 +16301,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -16282,7 +16310,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -16365,7 +16393,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -16374,7 +16402,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -16383,7 +16411,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -16392,7 +16420,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -16401,7 +16429,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -16436,7 +16464,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -16445,7 +16473,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -16454,7 +16482,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -16463,7 +16491,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -16472,7 +16500,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -16501,7 +16529,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -16510,7 +16538,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -16519,7 +16547,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -16528,7 +16556,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -16537,7 +16565,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -16568,7 +16596,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -16577,7 +16605,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -16586,7 +16614,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -16595,7 +16623,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -16604,7 +16632,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -16707,7 +16735,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -16716,7 +16744,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -16725,7 +16753,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -16734,7 +16762,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -16743,7 +16771,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -16778,7 +16806,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -16787,7 +16815,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -16796,7 +16824,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -16805,7 +16833,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -16814,7 +16842,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -16896,7 +16924,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -16905,7 +16933,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -16914,7 +16942,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -16923,7 +16951,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -16932,7 +16960,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -16962,7 +16990,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -16971,7 +16999,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -16980,7 +17008,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -16989,7 +17017,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -16998,7 +17026,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -17036,7 +17064,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -17045,7 +17073,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -17054,7 +17082,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -17063,7 +17091,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -17072,7 +17100,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -17105,7 +17133,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -17114,7 +17142,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -17123,7 +17151,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -17132,7 +17160,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -17141,7 +17169,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -17170,7 +17198,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -17179,7 +17207,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -17188,7 +17216,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -17197,7 +17225,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -17206,7 +17234,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -17239,7 +17267,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -17248,7 +17276,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -17257,7 +17285,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -17266,7 +17294,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -17275,7 +17303,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -17306,7 +17334,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -17315,7 +17343,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -17324,7 +17352,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -17333,7 +17361,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -17342,7 +17370,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -17371,7 +17399,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -17380,7 +17408,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -17389,7 +17417,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -17398,7 +17426,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -17407,7 +17435,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -17440,7 +17468,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -17449,7 +17477,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -17458,7 +17486,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -17467,7 +17495,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -17476,7 +17504,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -17511,7 +17539,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -17520,7 +17548,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -17529,7 +17557,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -17538,7 +17566,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -17547,7 +17575,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -17582,7 +17610,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -17591,7 +17619,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -17600,7 +17628,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -17609,7 +17637,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -17618,7 +17646,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -17652,7 +17680,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -17661,7 +17689,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -17670,7 +17698,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -17679,7 +17707,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -17688,7 +17716,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -17723,7 +17751,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -17732,7 +17760,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -17741,7 +17769,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -17750,7 +17778,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -17759,7 +17787,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -17792,7 +17820,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -17801,7 +17829,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -17810,7 +17838,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -17819,7 +17847,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -17828,7 +17856,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -17856,7 +17884,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -17865,7 +17893,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -17874,7 +17902,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -17883,7 +17911,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -17892,7 +17920,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -17929,7 +17957,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -17938,7 +17966,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -17947,7 +17975,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -17956,7 +17984,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -17965,7 +17993,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -18002,7 +18030,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -18011,7 +18039,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -18020,7 +18048,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -18029,7 +18057,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -18038,7 +18066,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -18220,7 +18248,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -18229,7 +18257,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -18238,7 +18266,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -18247,7 +18275,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -18256,7 +18284,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -18291,7 +18319,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -18300,7 +18328,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -18309,7 +18337,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -18318,7 +18346,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -18327,7 +18355,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -18409,7 +18437,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -18418,7 +18446,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -18427,7 +18455,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -18436,7 +18464,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -18445,7 +18473,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -18475,7 +18503,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -18484,7 +18512,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -18493,7 +18521,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -18502,7 +18530,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -18511,7 +18539,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -18549,7 +18577,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -18558,7 +18586,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -18567,7 +18595,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -18576,7 +18604,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -18585,7 +18613,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -18825,7 +18853,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -18834,7 +18862,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -18843,7 +18871,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -18852,7 +18880,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -18861,7 +18889,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -18896,7 +18924,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -18905,7 +18933,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -18914,7 +18942,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -18923,7 +18951,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -18932,7 +18960,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -19014,7 +19042,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -19023,7 +19051,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -19032,7 +19060,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -19041,7 +19069,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -19050,7 +19078,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -19080,7 +19108,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -19089,7 +19117,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -19098,7 +19126,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -19107,7 +19135,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -19116,7 +19144,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -19154,7 +19182,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -19163,7 +19191,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -19172,7 +19200,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -19181,7 +19209,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -19190,7 +19218,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -19320,7 +19348,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -19329,7 +19357,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -19338,7 +19366,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -19347,7 +19375,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -19356,7 +19384,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -19391,7 +19419,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -19400,7 +19428,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -19409,7 +19437,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -19418,7 +19446,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -19427,7 +19455,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -19509,7 +19537,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -19518,7 +19546,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -19527,7 +19555,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -19536,7 +19564,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -19545,7 +19573,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -19575,7 +19603,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -19584,7 +19612,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -19593,7 +19621,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -19602,7 +19630,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -19611,7 +19639,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -19649,7 +19677,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -19658,7 +19686,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -19667,7 +19695,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -19676,7 +19704,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -19685,7 +19713,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -19720,7 +19748,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -19729,7 +19757,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -19738,7 +19766,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -19747,7 +19775,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -19756,7 +19784,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -19788,7 +19816,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -19797,7 +19825,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -19806,7 +19834,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -19815,7 +19843,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -19824,7 +19852,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -19857,7 +19885,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -19866,7 +19894,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -19875,7 +19903,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -19884,7 +19912,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -19893,7 +19921,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -19924,7 +19952,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -19933,7 +19961,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -19942,7 +19970,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -19951,7 +19979,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -19960,7 +19988,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -19997,7 +20025,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -20006,7 +20034,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -20015,7 +20043,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -20024,7 +20052,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -20033,7 +20061,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -20070,7 +20098,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -20079,7 +20107,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -20088,7 +20116,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -20097,7 +20125,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -20106,7 +20134,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -20141,7 +20169,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -20150,7 +20178,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -20159,7 +20187,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -20168,7 +20196,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -20177,7 +20205,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -20210,7 +20238,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -20219,7 +20247,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -20228,7 +20256,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -20237,7 +20265,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -20246,7 +20274,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -20283,7 +20311,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -20292,7 +20320,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -20301,7 +20329,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -20310,7 +20338,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -20319,7 +20347,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -20362,7 +20390,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -20371,7 +20399,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -20380,7 +20408,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -20389,7 +20417,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -20398,7 +20426,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -20437,7 +20465,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -20446,7 +20474,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -20455,7 +20483,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -20464,7 +20492,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -20473,7 +20501,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -20512,7 +20540,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -20521,7 +20549,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -20530,7 +20558,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -20539,7 +20567,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -20548,7 +20576,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -20591,7 +20619,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -20600,7 +20628,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -20609,7 +20637,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -20618,7 +20646,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -20627,7 +20655,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -20662,7 +20690,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -20671,7 +20699,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -20680,7 +20708,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -20689,7 +20717,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -20698,7 +20726,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -20785,7 +20813,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -20794,7 +20822,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -20803,7 +20831,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -20812,7 +20840,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -20821,7 +20849,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -20860,7 +20888,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -20869,7 +20897,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -20878,7 +20906,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -20887,7 +20915,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -20896,7 +20924,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -20939,7 +20967,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -20948,7 +20976,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -20957,7 +20985,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -20966,7 +20994,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -20975,7 +21003,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -21015,7 +21043,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -21024,7 +21052,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -21033,7 +21061,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -21042,7 +21070,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -21051,7 +21079,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -21085,7 +21113,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -21094,7 +21122,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -21103,7 +21131,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -21112,7 +21140,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -21121,7 +21149,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -21151,7 +21179,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -21160,7 +21188,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -21169,7 +21197,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -21178,7 +21206,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -21187,7 +21215,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -21225,7 +21253,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -21234,7 +21262,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -21243,7 +21271,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -21252,7 +21280,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -21261,7 +21289,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -21292,7 +21320,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -21301,7 +21329,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -21310,7 +21338,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -21319,7 +21347,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -21328,7 +21356,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -21359,7 +21387,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -21368,7 +21396,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -21377,7 +21405,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -21386,7 +21414,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -21395,7 +21423,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -21424,7 +21452,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -21433,7 +21461,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -21442,7 +21470,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -21451,7 +21479,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -21460,7 +21488,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -21489,7 +21517,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -21498,7 +21526,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -21507,7 +21535,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -21516,7 +21544,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -21525,7 +21553,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -21558,7 +21586,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -21567,7 +21595,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -21576,7 +21604,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -21585,7 +21613,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -21594,7 +21622,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -21629,7 +21657,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -21638,7 +21666,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -21647,7 +21675,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -21656,7 +21684,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -21665,7 +21693,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -21700,7 +21728,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -21709,7 +21737,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -21718,7 +21746,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -21727,7 +21755,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -21736,7 +21764,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -21925,7 +21953,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -21934,7 +21962,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -21943,7 +21971,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -21952,7 +21980,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -21961,7 +21989,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -21996,7 +22024,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -22005,7 +22033,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -22014,7 +22042,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -22023,7 +22051,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -22032,7 +22060,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -22114,7 +22142,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -22123,7 +22151,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -22132,7 +22160,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -22141,7 +22169,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -22150,7 +22178,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -22180,7 +22208,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -22189,7 +22217,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -22198,7 +22226,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -22207,7 +22235,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -22216,7 +22244,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -22254,7 +22282,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -22263,7 +22291,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -22272,7 +22300,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -22281,7 +22309,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -22290,7 +22318,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -22322,7 +22350,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -22331,7 +22359,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -22340,7 +22368,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -22349,7 +22377,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -22358,7 +22386,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -22394,7 +22422,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -22403,7 +22431,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -22412,7 +22440,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -22421,7 +22449,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -22430,7 +22458,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -22466,7 +22494,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -22475,7 +22503,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -22484,7 +22512,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -22493,7 +22521,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -22502,7 +22530,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -22534,7 +22562,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -22543,7 +22571,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -22552,7 +22580,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -22561,7 +22589,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -22570,7 +22598,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -22602,7 +22630,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -22611,7 +22639,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -22620,7 +22648,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -22629,7 +22657,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -22638,7 +22666,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -22672,7 +22700,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -22681,7 +22709,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -22690,7 +22718,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -22699,7 +22727,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -22708,7 +22736,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -22740,7 +22768,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -22749,7 +22777,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -22758,7 +22786,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -22767,7 +22795,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -22776,7 +22804,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -22810,7 +22838,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Insufficient permissions to perform this action */
@@ -22819,7 +22847,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description The requested resource was not found */
@@ -22828,7 +22856,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description Request body validation failed */
@@ -22837,7 +22865,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
             /** @description An unexpected internal server error occurred */
@@ -22846,7 +22874,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };

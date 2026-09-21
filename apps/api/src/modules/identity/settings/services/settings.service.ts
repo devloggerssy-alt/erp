@@ -1,9 +1,11 @@
 import { Injectable, UnprocessableEntityException } from '@nestjs/common';
 import {
+    ApiErrorCode,
     settingsRegistry,
     mergeWithDefaults,
     groupByCategory,
     validateSettingsPatch,
+    type FieldError,
     type GroupedSettings,
     type SettingKey,
 } from '@devloggers/api-contracts';
@@ -74,7 +76,14 @@ export class SettingsService {
     async update(tenantId: string, patch: Record<string, unknown>): Promise<GroupedSettings> {
         const { values, errors } = validateSettingsPatch(patch);
         if (Object.keys(errors).length > 0) {
-            throw new UnprocessableEntityException({ message: 'Invalid settings', errors });
+            const details: FieldError[] = Object.entries(errors).flatMap(([field, messages]) =>
+                messages.map((message) => ({ field, message, code: 'settings' })),
+            );
+            throw new UnprocessableEntityException({
+                code: ApiErrorCode.VALIDATION_ERROR,
+                message: 'Invalid settings',
+                details,
+            });
         }
         const entries = Object.entries(values).map(([key, value]) => ({
             key,

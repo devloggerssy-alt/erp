@@ -1,6 +1,7 @@
 import { Module, ValidationPipe } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { I18nModule } from '@devloggers/i18n/nest';
+import { ApiExceptionFilter, validationExceptionFactory } from '@devloggers/backend-core';
 import { APP_FILTER, APP_GUARD, APP_PIPE } from '@nestjs/core';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { ScheduleModule } from '@nestjs/schedule';
@@ -39,9 +40,14 @@ import { envValidationSchema } from './config/envValidator';
         forbidNonWhitelisted: true,
         transform: true,
         transformOptions: { enableImplicitConversion: true },
+        exceptionFactory: validationExceptionFactory,
       }),
     },
     { provide: APP_GUARD, useClass: DomainAvailabilityGuard },
+    // Registered before DisabledDomainFilter: global filters are matched in
+    // reverse registration order, so the 404-specific filter wins for 404s and
+    // this catch-all envelopes everything else.
+    { provide: APP_FILTER, useClass: ApiExceptionFilter },
     { provide: APP_FILTER, useClass: DisabledDomainFilter },
     CrudEventsListener,
   ],
