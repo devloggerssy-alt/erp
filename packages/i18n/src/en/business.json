@@ -1227,7 +1227,8 @@
       "run": "Run now",
       "running": "Running…",
       "skip": "Not applicable",
-      "skipping": "Skipping…"
+      "skipping": "Skipping…",
+      "failed": "Could not update setup. Please try again."
     },
     "blockedBy": "Blocked by {tasks}",
     "readiness": {

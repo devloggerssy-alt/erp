@@ -1153,7 +1153,8 @@
       "run": "Şimdi çalıştır",
       "running": "Çalışıyor…",
       "skip": "Uygulanamaz",
-      "skipping": "Atlanıyor…"
+      "skipping": "Atlanıyor…",
+      "failed": "Kurulum güncellenemedi. Lütfen tekrar deneyin."
     },
     "blockedBy": "{tasks} tarafından engellendi",
     "readiness": {
