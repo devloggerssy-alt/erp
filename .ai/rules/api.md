@@ -126,7 +126,8 @@ Each directory under `apps/api/src/modules/` is a domain. **Outside a domain, im
 | `inventory` | `inventory` | `InventoryModule`, `InventoryService`, `InventoryMovementFacade` + `MovementIntent` types |
 | `invoicing` | `invoicing` | `computeInvoicePaidState`, `CashboxesModule`/`CashboxesService`/`CreateCashboxDto`, `BankAccountsModule`/`BankAccountsService`/`CreateBankAccountDto` |
 | `custom-fields` | `custom-fields` | `CustomFieldsModule`, `CustomFieldValuesService`, `CustomFieldsRepository` |
-| `catalog`, `parties`, `reports`, `files`, `audit`, `ai-chat` | — (no consumers yet) | add an `index.ts` before another domain depends on it |
+| `catalog` | `catalog` | `UnitsModule`, `UnitsService` |
+| `parties`, `reports`, `files`, `audit`, `ai-chat` | — (no consumers yet) | add an `index.ts` before another domain depends on it |
 
 Allowed dependency graph (besides every domain → `identity` auth kernel):
 
@@ -138,6 +139,7 @@ catalog   ─┬─► inventory
            └─► custom-fields
 identity  ───► accounting (document-sequences, financial-settings, fiscal-periods)   # onboarding
 identity  ───► accounting (currencies, opening-balances, reconciliation, accounts/bootstrap)
+identity  ───► catalog (UnitsModule/UnitsService)   # onboarding default units
 identity  ───► invoicing (CashboxesModule/Service, BankAccountsModule/Service)   # business-setup
 reports   ───► invoicing
 ```

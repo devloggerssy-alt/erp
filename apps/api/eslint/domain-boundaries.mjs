@@ -122,7 +122,7 @@ export const DOMAIN_RESTRICTIONS = {
     inventory: barrelOnly('inventory', 'InventoryModule, InventoryService, InventoryMovementFacade + MovementIntent types'),
     invoicing: barrelOnly('invoicing', 'computeInvoicePaidState, CashboxesModule/Service, BankAccountsModule/Service, CreateCashboxDto, CreateBankAccountDto'),
     'custom-fields': barrelOnly('custom-fields', 'CustomFieldsModule, CustomFieldValuesService, CustomFieldsRepository'),
-    catalog: barrelOnly('catalog', 'nothing yet — add an index.ts before depending on catalog'),
+    catalog: barrelOnly('catalog', 'UnitsModule, UnitsService'),
     parties: barrelOnly('parties', 'nothing yet — add an index.ts before depending on parties'),
     reports: barrelOnly('reports', 'nothing yet — reports is a leaf'),
     files: barrelOnly('files', 'nothing yet — add an index.ts before depending on files'),

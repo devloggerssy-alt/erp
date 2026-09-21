@@ -70,8 +70,8 @@ describe('resolveEnabledDomains', () => {
         expect(() => resolveEnabledDomains('custom-fields')).toThrow(/enabled domain\(s\) depend on it: catalog/);
     });
 
-    it('allows disabling a dependency together with its dependent', () => {
-        expect(resolveEnabledDomains('custom-fields,catalog').disabled).toEqual(['custom-fields', 'catalog']);
+    it('refuses to disable catalog — onboarding (identity) depends on it', () => {
+        expect(() => resolveEnabledDomains('catalog')).toThrow(/cannot be disabled/);
     });
 });
 

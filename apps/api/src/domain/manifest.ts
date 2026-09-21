@@ -88,7 +88,7 @@ export const DOMAIN_MANIFESTS: readonly DomainManifest[] = Object.freeze([
     {
         key: 'catalog',
         dependsOn: ['custom-fields', 'inventory'],
-        provides: [],
+        provides: ['UnitsModule', 'UnitsService'],
         routes: [
             'units',
             'brands',
@@ -100,7 +100,10 @@ export const DOMAIN_MANIFESTS: readonly DomainManifest[] = Object.freeze([
             'catalog-entities',
             'item-catalog-entities',
         ],
-        optional: true,
+        optional: false,
+        rationale:
+            'Onboarding (identity, non-optional) bootstraps the standard units of measure through ' +
+            'UnitsService — disabling catalog would break every new tenant registration.',
     },
     {
         key: 'custom-fields',
@@ -118,7 +121,7 @@ export const DOMAIN_MANIFESTS: readonly DomainManifest[] = Object.freeze([
     },
     {
         key: 'identity',
-        dependsOn: ['accounting', 'invoicing'],
+        dependsOn: ['accounting', 'catalog', 'invoicing'],
         provides: ['JwtAuthGuard', 'CurrentUser'],
         routes: ['auth', 'users', 'tenants', 'roles', 'onboarding', 'business-setup', 'settings', 'settings/danger'],
         optional: false,

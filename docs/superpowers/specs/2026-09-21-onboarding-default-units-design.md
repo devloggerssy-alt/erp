@@ -2,7 +2,7 @@
 
 **Date:** 2026-09-21
 **Author:** opencode agent
-**Status:** Draft (awaiting approval)
+**Status:** Implemented (Option A)
 **Scope:** `apps/api` — identity (onboarding) + catalog (units) domain boundary
 **Primary goal:** Every new tenant gets the 7 standard units of measure during onboarding, so items (`Item.baseUnitId`, required) can be created without a manual, unhinted Units setup step.
 

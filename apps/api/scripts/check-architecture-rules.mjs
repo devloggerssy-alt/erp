@@ -75,6 +75,8 @@ const CASES = [
     importCase(INVOICE_POSTING, '../../accounting/accounts/utils/assert-period-open', 'clean'),
     importCase(ONBOARDING, '../../../accounting/fiscal-periods/services/fiscal-periods.service', 'clean'),
     importCase(ONBOARDING, '../../../accounting/financial-settings/financial-settings.module', 'clean'),
+    importCase(ONBOARDING, '../../../catalog', 'clean'),
+    importCase(ONBOARDING, '../../../catalog/units/services/units.service', 'error'),
     importCase(ONBOARDING, '@/modules/accounting/accounts/services/journal-posting.service', 'error'),
     importCase(BUSINESS_SETUP_ORCHESTRATOR, '../../../accounting/currencies', 'clean'),
     importCase(BUSINESS_SETUP_ORCHESTRATOR, '../../../accounting/opening-balances', 'clean'),
