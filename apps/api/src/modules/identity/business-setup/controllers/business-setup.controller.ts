@@ -11,6 +11,9 @@ import { BusinessSetupPlanService } from '../services/business-setup-plan.servic
 import { BusinessSetupTaskService } from '../services/business-setup-task.service';
 import { BusinessSetupProfileService } from '../services/business-setup-profile.service';
 import { BusinessSetupOrchestratorService } from '../services/business-setup-orchestrator.service';
+import { BusinessSetupReadinessService } from '../services/business-setup-readiness.service';
+import { BusinessSetupTenantRepository } from '../repositories/business-setup-tenant.repository';
+import { selectNextAction } from '../utils/next-action.util';
 import { SetupTaskPresenter } from '../presenters/setup-task.presenter';
 import {
     BusinessSetupStateResponseDto,
@@ -30,6 +33,8 @@ export class BusinessSetupController {
         private readonly taskService: BusinessSetupTaskService,
         private readonly profileService: BusinessSetupProfileService,
         private readonly orchestrator: BusinessSetupOrchestratorService,
+        private readonly readinessService: BusinessSetupReadinessService,
+        private readonly tenantRepository: BusinessSetupTenantRepository,
         private readonly presenter: SetupTaskPresenter,
     ) {}
 
@@ -88,6 +93,7 @@ export class BusinessSetupController {
             throw new BadRequestException(`Unknown setup task type "${type}"`);
         }
         const task = await this.taskService.skip(user.tenantId, type as SetupTaskType);
+        await this.readinessService.refresh(user.tenantId);
         return this.presenter.toResponse(task);
     }
 
@@ -106,14 +112,19 @@ export class BusinessSetupController {
     }
 
     private async buildState(tenantId: string): Promise<BusinessSetupStateResponseDto> {
-        const [tasks, profile] = await Promise.all([
+        const [tasks, profile, tenant] = await Promise.all([
             this.taskService.listForTenant(tenantId),
             this.profileService.getProfile(tenantId),
+            this.tenantRepository.findSetupState(tenantId),
         ]);
+        const readiness = await this.readinessService.refresh(tenantId, tasks);
+
         return {
             tasks: this.presenter.toResponseList(tasks),
             profile: profile as unknown as Record<string, unknown>,
-            businessSetupCompletedAt: null,
+            businessSetupCompletedAt: tenant?.businessSetupCompletedAt?.toISOString() ?? null,
+            readiness,
+            nextAction: selectNextAction(tasks),
         };
     }
 }

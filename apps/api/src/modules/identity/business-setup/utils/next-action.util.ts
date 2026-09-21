@@ -33,6 +33,8 @@ export function selectNextAction(tasks: ActionableTask[]): NextSetupAction | nul
     if (ready) return { type: ready.type, reason: 'READY', blockedBy: [] };
 
     const first = open[0];
+    if (!first) return null;
+
     const blockedBy = first.dependencies.filter((dependency) => {
         const dependencyTask = byType.get(dependency);
         return !dependencyTask || (dependencyTask.status !== 'COMPLETED' && dependencyTask.status !== 'SKIPPED');

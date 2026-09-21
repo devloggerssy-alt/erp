@@ -5588,6 +5588,105 @@ export interface components {
              */
             updatedAt: string;
         };
+        ModuleReadinessDto: {
+            /**
+             * @default false
+             * @example true
+             */
+            ready: boolean;
+            /** @default [] */
+            blockers: components["schemas"]["SetupTaskType"][];
+        };
+        OperationalReadinessModulesDto: {
+            /**
+             * @default {
+             *       "ready": false,
+             *       "blockers": []
+             *     }
+             */
+            accounting: components["schemas"]["ModuleReadinessDto"];
+            /**
+             * @default {
+             *       "ready": false,
+             *       "blockers": []
+             *     }
+             */
+            cashOps: components["schemas"]["ModuleReadinessDto"];
+            /**
+             * @default {
+             *       "ready": false,
+             *       "blockers": []
+             *     }
+             */
+            bankOps: components["schemas"]["ModuleReadinessDto"];
+            /**
+             * @default {
+             *       "ready": false,
+             *       "blockers": []
+             *     }
+             */
+            inventory: components["schemas"]["ModuleReadinessDto"];
+            /**
+             * @default {
+             *       "ready": false,
+             *       "blockers": []
+             *     }
+             */
+            sales: components["schemas"]["ModuleReadinessDto"];
+            /**
+             * @default {
+             *       "ready": false,
+             *       "blockers": []
+             *     }
+             */
+            purchasing: components["schemas"]["ModuleReadinessDto"];
+        };
+        OperationalReadinessDto: {
+            /**
+             * @default
+             * @example 2026-09-21T00:00:00.000Z
+             */
+            computedAt: string;
+            /**
+             * @default {
+             *       "accounting": {
+             *         "ready": false,
+             *         "blockers": []
+             *       },
+             *       "cashOps": {
+             *         "ready": false,
+             *         "blockers": []
+             *       },
+             *       "bankOps": {
+             *         "ready": false,
+             *         "blockers": []
+             *       },
+             *       "inventory": {
+             *         "ready": false,
+             *         "blockers": []
+             *       },
+             *       "sales": {
+             *         "ready": false,
+             *         "blockers": []
+             *       },
+             *       "purchasing": {
+             *         "ready": false,
+             *         "blockers": []
+             *       }
+             *     }
+             */
+            modules: components["schemas"]["OperationalReadinessModulesDto"];
+        };
+        /** @enum {string} */
+        NextSetupActionReason: "READY" | "WAITING_FOR_DEPENDENCIES";
+        NextSetupActionDto: {
+            /** @default CURRENCIES */
+            type: components["schemas"]["SetupTaskType"];
+            /** @default READY */
+            reason: components["schemas"]["NextSetupActionReason"];
+            /** @default [] */
+            blockedBy: components["schemas"]["SetupTaskType"][];
+        };
         BusinessSetupStateResponseDto: {
             /** @default [] */
             tasks: components["schemas"]["SetupTaskResponseDto"][];
@@ -5600,6 +5699,10 @@ export interface components {
              * @example 2026-01-01T00:00:00.000Z
              */
             businessSetupCompletedAt: string | null;
+            /** @default null */
+            readiness: components["schemas"]["OperationalReadinessDto"] | null;
+            /** @default null */
+            nextAction: components["schemas"]["NextSetupActionDto"] | null;
         };
         SetupTaskPlanItemResponseDto: {
             /** @default CURRENCIES */

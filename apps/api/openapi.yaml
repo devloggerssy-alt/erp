@@ -24319,6 +24319,124 @@ components:
         - dependencies
         - createdAt
         - updatedAt
+    ModuleReadinessDto:
+      type: object
+      properties:
+        ready:
+          type: boolean
+          default: false
+          example: true
+        blockers:
+          type: array
+          default: []
+          items:
+            $ref: '#/components/schemas/SetupTaskType'
+      required:
+        - ready
+        - blockers
+    OperationalReadinessModulesDto:
+      type: object
+      properties:
+        accounting:
+          default:
+            ready: false
+            blockers: []
+          allOf:
+            - $ref: '#/components/schemas/ModuleReadinessDto'
+        cashOps:
+          default:
+            ready: false
+            blockers: []
+          allOf:
+            - $ref: '#/components/schemas/ModuleReadinessDto'
+        bankOps:
+          default:
+            ready: false
+            blockers: []
+          allOf:
+            - $ref: '#/components/schemas/ModuleReadinessDto'
+        inventory:
+          default:
+            ready: false
+            blockers: []
+          allOf:
+            - $ref: '#/components/schemas/ModuleReadinessDto'
+        sales:
+          default:
+            ready: false
+            blockers: []
+          allOf:
+            - $ref: '#/components/schemas/ModuleReadinessDto'
+        purchasing:
+          default:
+            ready: false
+            blockers: []
+          allOf:
+            - $ref: '#/components/schemas/ModuleReadinessDto'
+      required:
+        - accounting
+        - cashOps
+        - bankOps
+        - inventory
+        - sales
+        - purchasing
+    OperationalReadinessDto:
+      type: object
+      properties:
+        computedAt:
+          type: string
+          default: ''
+          example: '2026-09-21T00:00:00.000Z'
+        modules:
+          default:
+            accounting:
+              ready: false
+              blockers: []
+            cashOps:
+              ready: false
+              blockers: []
+            bankOps:
+              ready: false
+              blockers: []
+            inventory:
+              ready: false
+              blockers: []
+            sales:
+              ready: false
+              blockers: []
+            purchasing:
+              ready: false
+              blockers: []
+          allOf:
+            - $ref: '#/components/schemas/OperationalReadinessModulesDto'
+      required:
+        - computedAt
+        - modules
+    NextSetupActionReason:
+      type: string
+      enum:
+        - READY
+        - WAITING_FOR_DEPENDENCIES
+    NextSetupActionDto:
+      type: object
+      properties:
+        type:
+          default: CURRENCIES
+          allOf:
+            - $ref: '#/components/schemas/SetupTaskType'
+        reason:
+          default: READY
+          allOf:
+            - $ref: '#/components/schemas/NextSetupActionReason'
+        blockedBy:
+          type: array
+          default: []
+          items:
+            $ref: '#/components/schemas/SetupTaskType'
+      required:
+        - type
+        - reason
+        - blockedBy
     BusinessSetupStateResponseDto:
       type: object
       properties:
@@ -24337,6 +24455,16 @@ components:
           nullable: true
           default: null
           example: '2026-01-01T00:00:00.000Z'
+        readiness:
+          nullable: true
+          default: null
+          allOf:
+            - $ref: '#/components/schemas/OperationalReadinessDto'
+        nextAction:
+          nullable: true
+          default: null
+          allOf:
+            - $ref: '#/components/schemas/NextSetupActionDto'
       required:
         - tasks
     SetupTaskPlanItemResponseDto:
