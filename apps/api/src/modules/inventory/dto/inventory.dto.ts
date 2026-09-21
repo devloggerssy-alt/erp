@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, IsArray, IsNumber, ValidateNested, IsEnum } from 'class-validator';
+import { IsString, IsNotEmpty, IsArray, IsNumber, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
 
@@ -6,27 +6,27 @@ export class OpeningBalanceItemDto {
     @ApiProperty({ example: '00000000-0000-4000-a900-000000000001', description: 'Item ID (Laptop 15")' })
     @IsString()
     @IsNotEmpty()
-    itemId: string;
+    itemId!: string;
 
     @ApiProperty({ example: 10, description: 'Opening stock quantity' })
     @IsNumber()
-    quantity: number;
+    quantity!: number;
 
     @ApiProperty({ example: 600000, description: 'Cost per unit in SYP' })
     @IsNumber()
-    unitCost: number;
+    unitCost!: number;
 }
 
 export class PostOpeningBalanceDto {
     @ApiProperty({ example: '00000000-0000-4000-ab00-000000000001', description: 'Warehouse ID (Main Warehouse)' })
     @IsString()
     @IsNotEmpty()
-    warehouseId: string;
+    warehouseId!: string;
 
     @ApiProperty({ example: '00000000-0000-4000-a400-000000000001', description: 'Fiscal period ID (2026)' })
     @IsString()
     @IsNotEmpty()
-    fiscalPeriodId: string;
+    fiscalPeriodId!: string;
 
     @ApiProperty({
         type: [OpeningBalanceItemDto],
@@ -39,7 +39,7 @@ export class PostOpeningBalanceDto {
     @IsArray()
     @ValidateNested({ each: true })
     @Type(() => OpeningBalanceItemDto)
-    items: OpeningBalanceItemDto[];
+    items!: OpeningBalanceItemDto[];
 }
 
 export enum StockMovementTypeEnum {

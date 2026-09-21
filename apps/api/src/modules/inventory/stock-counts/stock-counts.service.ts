@@ -1,28 +1,24 @@
 import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { PrismaService } from '@devloggers/db-prisma/nest';
-import { ReferenceType, StockMovementType } from '@devloggers/db-prisma';
-import { InventoryService } from '../inventory.service';
+import { InventoryMovementFacade, type StockCountVarianceIntent } from '../movements';
 import { DocumentSequencesService } from '../../accounting/document-sequences/services/document-sequences.service';
-import { JournalPostingService } from '../../accounting/accounts/services/journal-posting.service';
+import { AccountingPostingFacade, type StockCountAdjustedIntent } from '../../accounting/posting';
 import { StockCountsRepository } from './repositories/stock-counts.repository';
 import { StockCountPresenter } from './presenters/stock-count.presenter';
 import { StockCountCreatedEvent, StockCountPostedEvent } from './events/stock-count.events';
-import { FinancialSettingsService } from '../../accounting/financial-settings/services/financial-settings.service';
-import { buildStockCountVarianceLines } from '../../accounting/accounts/utils/inventory-journal';
 import { assertFiscalPeriodOpen } from '../../accounting/accounts/utils/assert-period-open';
 
 @Injectable()
 export class StockCountsService {
     constructor(
         private readonly prisma: PrismaService,
-        private readonly inventoryService: InventoryService,
+        private readonly movements: InventoryMovementFacade,
         private readonly docSeqService: DocumentSequencesService,
         private readonly stockCountsRepository: StockCountsRepository,
         private readonly stockCountPresenter: StockCountPresenter,
         private readonly eventEmitter: EventEmitter2,
-        private readonly financialSettingsService: FinancialSettingsService,
-        private readonly journalPosting: JournalPostingService,
+        private readonly postingFacade: AccountingPostingFacade,
     ) {}
 
     async findAll(tenantId: string, page = 1, limit = 50) {
@@ -59,10 +55,8 @@ export class StockCountsService {
             });
 
             const systemQty = balance ? Number(balance.quantity) : 0;
-         
             const difference = line.countedQuantity - systemQty;
 
-            
             return {
                 tenantId,
                 itemId: line.itemId,
@@ -95,7 +89,7 @@ export class StockCountsService {
         const stockCount = await this.stockCountsRepository.findById(tenantId, id);
         if (!stockCount) throw new NotFoundException('Stock count not found');
         if (stockCount.status !== 'DRAFT') throw new BadRequestException('Only draft stock counts can be posted');
-        assertFiscalPeriodOpen((stockCount as any).fiscalPeriod?.status);
+        assertFiscalPeriodOpen(stockCount.fiscalPeriod?.status);
 
         const itemTypes = await this.prisma.item.findMany({
             where: { tenantId, id: { in: stockCount.lines.map((l) => l.itemId) } },
@@ -103,56 +97,37 @@ export class StockCountsService {
         });
         const itemTypeMap = new Map(itemTypes.map((i) => [i.id, i.itemType]));
 
-        const settings = await this.financialSettingsService.getOrThrow(tenantId);
-        if (!settings.defaultInventoryAccountId || !settings.defaultInventoryAdjustmentAccountId) {
-            throw new BadRequestException('No default Inventory / Inventory-Adjustment account configured in Financial Settings.');
-        }
-
-        const jeNumber = await this.docSeqService.getNextNumber(tenantId, 'JOURNAL_ENTRY');
+        const variance: StockCountVarianceIntent = {
+            kind: 'STOCK_COUNT_VARIANCE',
+            tenantId,
+            userId,
+            fiscalPeriodId: stockCount.fiscalPeriodId,
+            warehouseId: stockCount.warehouseId,
+            stockCountId: id,
+            stockCountNumber: stockCount.number,
+            lines: stockCount.lines
+                .map((line) => ({ itemId: line.itemId, difference: Number(line.difference) }))
+                .filter((line) => line.difference !== 0 && itemTypeMap.get(line.itemId) !== 'service'),
+        };
 
         return this.prisma.$transaction(async (tx) => {
-            let netVariance = 0;
-            for (const line of stockCount.lines) {
-                const diff = Number(line.difference);
-                if (diff === 0 || itemTypeMap.get(line.itemId) === 'service') continue;
-                const balance = await tx.stockBalance.findUnique({
-                    where: { tenantId_warehouseId_itemId: { tenantId, warehouseId: stockCount.warehouseId, itemId: line.itemId } },
-                });
-                const unitCost = balance ? Number(balance.averageCost) : 0;
-                netVariance += diff * unitCost;
-                await this.inventoryService.postMovementTx(tx as any, {
-                    tenantId,
-                    warehouseId: stockCount.warehouseId,
-                    itemId: line.itemId,
-                    fiscalPeriodId: stockCount.fiscalPeriodId,
-                    movementType: StockMovementType.STOCK_COUNT,
-                    quantity: diff,
-                    unitCost,
-                    referenceType: 'stock_count',
-                    referenceId: id,
-                    notes: `Stock count adjustment: ${stockCount.number}`,
-                    userId,
-                });
-            }
+            // For a variance, valueDelta is the signed net variance at averageCost.
+            const { valueDelta: netVariance } = await this.movements.apply(tx, variance);
 
             if (netVariance !== 0) {
-                await this.journalPosting.post(tx as any, {
+                const intent: StockCountAdjustedIntent = {
+                    kind: 'STOCK_COUNT_ADJUSTED',
                     tenantId,
-                    number: jeNumber,
+                    userId,
                     date: new Date(),
                     fiscalPeriodId: stockCount.fiscalPeriodId,
-                    fiscalPeriodStatus: (stockCount as any).fiscalPeriod?.status,
-                    referenceType: ReferenceType.STOCK_COUNT,
+                    fiscalPeriodStatus: stockCount.fiscalPeriod?.status,
+                    exchangeRate: 1,
                     referenceId: id,
                     description: `Stock count variance ${stockCount.number}`,
-                    exchangeRate: 1,
-                    userId,
-                    lines: buildStockCountVarianceLines({
-                        inventoryAccountId: settings.defaultInventoryAccountId!,
-                        adjustmentAccountId: settings.defaultInventoryAdjustmentAccountId!,
-                        netAmount: netVariance,
-                    }),
-                });
+                    netVariance,
+                };
+                await this.postingFacade.record(tx, intent);
             }
 
             const updated = await tx.stockCount.update({

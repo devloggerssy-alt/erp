@@ -3,7 +3,7 @@ import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { RolesService } from '../services/roles.service';
 import { CreateRoleDto, UpdateRoleDto, RoleResponseDto } from '../dto';
 import { createCrudController, type CrudOpenApi } from '@devloggers/backend-core';
-import { JwtAuthGuard } from '../../guards';
+import { JwtAuthGuard, PermissionsGuard } from '../../guards';
 
 const ROLES_CRUD_OPENAPI = {
     list: {
@@ -35,12 +35,22 @@ const RolesCrudBase = createCrudController({
     responseDto: RoleResponseDto,
     createDto: CreateRoleDto,
     updateDto: UpdateRoleDto,
+    filterSchema: [
+        { field: 'name', type: 'string', localized: true },
+        { field: 'isSystem', type: 'boolean' },
+    ],
+    permissions: {
+      view: 'roles.view',
+      create: 'roles.create',
+      update: 'roles.update',
+      delete: 'roles.delete',
+    },
     openApi: ROLES_CRUD_OPENAPI,
 });
 
 @ApiTags('Auth / Roles')
 @Controller('roles')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, PermissionsGuard)
 @ApiBearerAuth('JWT-auth')
 export class RolesController extends RolesCrudBase {
     constructor(private readonly rolesService: RolesService) {

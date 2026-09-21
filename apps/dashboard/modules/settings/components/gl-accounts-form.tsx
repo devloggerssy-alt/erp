@@ -20,6 +20,8 @@ export const glAccountsSchema = z.object({
     defaultTaxAccount: optionalAccount,
     defaultReceivableAccount: optionalAccount,
     defaultPayableAccount: optionalAccount,
+    defaultCashAccount: optionalAccount,
+    defaultBankAccount: optionalAccount,
 })
 
 export type GlAccountsFormValues = z.infer<typeof glAccountsSchema>
@@ -31,6 +33,8 @@ export const DEFAULT_GL_ACCOUNTS_VALUES: GlAccountsFormValues = {
     defaultTaxAccount: null,
     defaultReceivableAccount: null,
     defaultPayableAccount: null,
+    defaultCashAccount: null,
+    defaultBankAccount: null,
 }
 
 function mapToGlAccountsValues(data: unknown): GlAccountsFormValues {
@@ -40,6 +44,8 @@ function mapToGlAccountsValues(data: unknown): GlAccountsFormValues {
         defaultTaxAccountId?: string | null
         defaultReceivableAccountId?: string | null
         defaultPayableAccountId?: string | null
+        defaultCashAccountId?: string | null
+        defaultBankAccountId?: string | null
     }>(data)
     return {
         defaultSalesAccount: d?.defaultSalesAccountId ? { id: d.defaultSalesAccountId } : null,
@@ -47,6 +53,8 @@ function mapToGlAccountsValues(data: unknown): GlAccountsFormValues {
         defaultTaxAccount: d?.defaultTaxAccountId ? { id: d.defaultTaxAccountId } : null,
         defaultReceivableAccount: d?.defaultReceivableAccountId ? { id: d.defaultReceivableAccountId } : null,
         defaultPayableAccount: d?.defaultPayableAccountId ? { id: d.defaultPayableAccountId } : null,
+        defaultCashAccount: d?.defaultCashAccountId ? { id: d.defaultCashAccountId } : null,
+        defaultBankAccount: d?.defaultBankAccountId ? { id: d.defaultBankAccountId } : null,
     }
 }
 
@@ -71,6 +79,8 @@ export function GlAccountsForm() {
                 defaultTaxAccountId: values.defaultTaxAccount?.id ?? null,
                 defaultReceivableAccountId: values.defaultReceivableAccount?.id ?? null,
                 defaultPayableAccountId: values.defaultPayableAccount?.id ?? null,
+                defaultCashAccountId: values.defaultCashAccount?.id ?? null,
+                defaultBankAccountId: values.defaultBankAccount?.id ?? null,
             }),
         messages: {
             saving: t("saving"),
@@ -84,7 +94,7 @@ export function GlAccountsForm() {
             name={name}
             label={label}
             client={(a) => a["chart-of-accounts"]}
-            getLabel={(it) => `${(it as any).code} — ${(it as any).name}`}
+            getLabel={(it) => `${it.code} — ${it.name}`}
             getValue={(it) => it}
             disabled={ctrl.isBusy}
         />
@@ -97,6 +107,8 @@ export function GlAccountsForm() {
             {accountSelect("defaultTaxAccount", t("defaultTaxAccount"))}
             {accountSelect("defaultReceivableAccount", t("defaultReceivableAccount"))}
             {accountSelect("defaultPayableAccount", t("defaultPayableAccount"))}
+            {accountSelect("defaultCashAccount", t("defaultCashAccount"))}
+            {accountSelect("defaultBankAccount", t("defaultBankAccount"))}
         </SettingsSectionCard>
     )
 }

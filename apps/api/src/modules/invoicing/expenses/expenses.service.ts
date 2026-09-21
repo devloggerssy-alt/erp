@@ -3,16 +3,15 @@ import { PrismaService } from '@devloggers/db-prisma/nest';
 import { ReferenceType } from '@devloggers/db-prisma';
 import { CreateExpenseDto, UpdateExpenseDto, CreateExpenseItemDto } from './dto';
 import { DocumentSequencesService } from '../../accounting/document-sequences/services/document-sequences.service';
-import { JournalPostingService } from '../../accounting/accounts/services/journal-posting.service';
+import { AccountingPostingFacade, type ExpenseRecordedIntent, type ExpenseCancelledIntent } from '../../accounting/posting';
 import { assertAccountFitsSlot } from '../../accounting/accounts/utils/assert-account-fits-slot';
-import { buildExpenseJournalLines } from './expense-journal';
 
 @Injectable()
 export class ExpensesService {
     constructor(
         private readonly prisma: PrismaService,
         private readonly docSeqService: DocumentSequencesService,
-        private readonly journalPosting: JournalPostingService,
+        private readonly postingFacade: AccountingPostingFacade,
     ) {}
 
     async findAll(tenantId: string, filters: { status?: string; page?: number; limit?: number }) {
@@ -108,17 +107,14 @@ export class ExpensesService {
         const expense = await this.findById(tenantId, id);
         if (expense.status !== 'DRAFT') throw new BadRequestException('Only draft expenses can be posted');
         if (expense.items.length === 0) throw new BadRequestException('Expense must have at least one item');
-        if (!expense.cashbox.linkedAccountId) {
-            throw new BadRequestException('Cashbox has no linked account; cannot post the expense');
+        if (!expense.cashbox) {
+            throw new BadRequestException('Cashbox not found; cannot post the expense');
         }
 
         const exchangeRate = Number(expense.exchangeRate);
         const totalAmount = Number(expense.totalAmount);
 
-        const accountIds = Array.from(new Set([
-            ...expense.items.map((i) => i.accountId),
-            expense.cashbox.linkedAccountId,
-        ]));
+        const accountIds = Array.from(new Set(expense.items.map((i) => i.accountId)));
         const accounts = await this.prisma.chartOfAccount.findMany({
             where: { id: { in: accountIds }, tenantId },
             select: { id: true, code: true, type: true, isPostable: true, isContra: true, deletedAt: true, isActive: true },
@@ -127,35 +123,30 @@ export class ExpensesService {
         for (const item of expense.items) {
             assertAccountFitsSlot(byId.get(item.accountId) ?? null, 'EXPENSE' as any, 'defaultPurchase');
         }
-        assertAccountFitsSlot(byId.get(expense.cashbox.linkedAccountId) ?? null, 'ASSET' as any, 'defaultReceivable');
 
-        const lines = buildExpenseJournalLines({
-            totalAmount: totalAmount * exchangeRate,
-            cashboxAccountId: expense.cashbox.linkedAccountId,
+        const intent: ExpenseRecordedIntent = {
+            kind: 'EXPENSE_RECORDED',
+            tenantId,
+            userId,
+            date: expense.date,
+            fiscalPeriodId: expense.fiscalPeriodId,
+            fiscalPeriodStatus: expense.fiscalPeriod?.status,
+            exchangeRate,
+            referenceId: expense.id,
+            description: `Expense ${expense.number}`,
+            cashboxId: expense.cashboxId,
+            currencyId: expense.currencyId,
+            totalAmount,
             items: expense.items.map((it) => ({
                 accountId: it.accountId,
-                amount: Number(it.amount) * exchangeRate,
+                amount: Number(it.amount),
                 description: it.description,
                 sortOrder: it.sortOrder,
             })),
-        });
-
-        const jeNumber = await this.docSeqService.getNextNumber(tenantId, 'JOURNAL_ENTRY');
+        };
 
         await this.prisma.$transaction(async (tx) => {
-            const entry = await this.journalPosting.post(tx, {
-                tenantId,
-                number: jeNumber,
-                date: expense.date,
-                fiscalPeriodId: expense.fiscalPeriodId,
-                fiscalPeriodStatus: expense.fiscalPeriod?.status,
-                referenceType: ReferenceType.EXPENSE,
-                referenceId: expense.id,
-                description: `Expense ${expense.number}`,
-                exchangeRate,
-                userId,
-                lines,
-            });
+            const { journalEntryId } = await this.postingFacade.record(tx, intent);
 
             await tx.cashbox.update({
                 where: { id: expense.cashboxId },
@@ -164,7 +155,7 @@ export class ExpensesService {
 
             await tx.expense.update({
                 where: { id },
-                data: { status: 'POSTED', postedAt: new Date(), postedBy: userId, journalEntryId: entry.id },
+                data: { status: 'POSTED', postedAt: new Date(), postedBy: userId, journalEntryId },
             });
         });
 
@@ -174,8 +165,8 @@ export class ExpensesService {
     async cancel(tenantId: string, id: string, userId: string) {
         const expense = await this.findById(tenantId, id);
         if (expense.status !== 'POSTED') throw new BadRequestException('Only posted expenses can be cancelled');
-        if (!expense.cashbox.linkedAccountId) {
-            throw new BadRequestException('Cashbox has no linked account; cannot cancel the expense');
+        if (!expense.cashbox) {
+            throw new BadRequestException('Cashbox not found; cannot cancel the expense');
         }
 
         const original = await this.prisma.journalEntry.findFirst({
@@ -187,22 +178,22 @@ export class ExpensesService {
 
         const exchangeRate = Number(expense.exchangeRate);
         const totalAmount = Number(expense.totalAmount);
-        const jeNumber = await this.docSeqService.getNextNumber(tenantId, 'JOURNAL_ENTRY');
+
+        const intent: ExpenseCancelledIntent = {
+            kind: 'EXPENSE_CANCELLED',
+            tenantId,
+            userId,
+            date: expense.date,
+            fiscalPeriodId: expense.fiscalPeriodId,
+            fiscalPeriodStatus: expense.fiscalPeriod?.status,
+            exchangeRate,
+            referenceId: expense.id,
+            description: `Reversal of expense ${expense.number}`,
+            originalEntryId: original.id,
+        };
 
         await this.prisma.$transaction(async (tx) => {
-            await this.journalPosting.reverse(tx, {
-                tenantId,
-                number: jeNumber,
-                originalEntryId: original.id,
-                referenceType: ReferenceType.EXPENSE_CANCELLATION,
-                referenceId: expense.id,
-                description: `Reversal of expense ${expense.number}`,
-                exchangeRate,
-                userId,
-                reversalDate: expense.date,
-                fiscalPeriodId: expense.fiscalPeriodId,
-                fiscalPeriodStatus: expense.fiscalPeriod?.status,
-            });
+            await this.postingFacade.reverse(tx, intent);
 
             await tx.cashbox.update({
                 where: { id: expense.cashboxId },

@@ -4,7 +4,7 @@ import {
     createCrudImportExportController,
     type CrudImportExportOpenApi,
 } from '@devloggers/backend-core';
-import { JwtAuthGuard } from '@/modules/identity/auth/guards';
+import { JwtAuthGuard, PermissionsGuard } from '@/modules/identity/auth/guards';
 import { UnitsExportService } from '../services/units-export.service';
 import { UnitsImportService } from '../services/units-import.service';
 
@@ -31,17 +31,21 @@ const UNITS_IMPORT_EXPORT_OPENAPI = {
 
 const UnitsImportExportBase = createCrudImportExportController({
     filterSchema: [
-        { field: 'name', type: 'string' },
+        { field: 'name', type: 'string', localized: true },
         { field: 'abbreviation', type: 'string' },
         { field: 'isActive', type: 'boolean' },
         { field: 'createdAt', type: 'date' },
     ],
+    permissions: {
+      view: 'units.view',
+      create: 'units.create',
+    },
     openApi: UNITS_IMPORT_EXPORT_OPENAPI,
 });
 
 @ApiTags('Catalog / Units')
 @Controller('units')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, PermissionsGuard)
 @ApiBearerAuth('JWT-auth')
 export class UnitsImportExportController extends UnitsImportExportBase {
     constructor(

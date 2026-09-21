@@ -20,7 +20,13 @@ export class AuthService {
             where: { email, isActive: true },
             include: {
                 userRoles: {
-                    include: { role: true },
+                    include: {
+                        role: {
+                            include: {
+                                rolePermissions: { include: { permission: true } },
+                            },
+                        },
+                    },
                 },
                 tenant: {
                     select: {
@@ -55,12 +61,24 @@ export class AuthService {
         return localized.en ?? localized.ar;
     }
 
+    private buildPermissions(user: {
+        userRoles: Array<{ role: { rolePermissions: Array<{ permission: { key: string } }> } }>;
+    }): string[] {
+        const keys = new Set<string>();
+        for (const userRole of user.userRoles) {
+            for (const rolePermission of userRole.role.rolePermissions) {
+                keys.add(rolePermission.permission.key);
+            }
+        }
+        return [...keys].sort();
+    }
+
     private buildAuthUser(user: {
         id: string;
         tenantId: string;
         email: string;
         fullName: string;
-        userRoles: Array<{ role: { name: unknown } }>;
+        userRoles: Array<{ role: { name: unknown; rolePermissions: Array<{ permission: { key: string } }> } }>;
         tenant: {
             id: string;
             name: string;
@@ -75,6 +93,7 @@ export class AuthService {
             email: user.email,
             fullName: user.fullName,
             roles: user.userRoles.map((ur) => this.resolveRoleName(ur.role.name)),
+            permissions: this.buildPermissions(user),
             tenant: {
                 id: user.tenant.id,
                 name: user.tenant.name,
@@ -137,7 +156,13 @@ export class AuthService {
             where: { id: userId },
             include: {
                 userRoles: {
-                    include: { role: true },
+                    include: {
+                        role: {
+                            include: {
+                                rolePermissions: { include: { permission: true } },
+                            },
+                        },
+                    },
                 },
                 tenant: {
                     select: {
@@ -162,6 +187,7 @@ export class AuthService {
             fullName: user.fullName,
             phone: user.phone,
             roles: user.userRoles.map((ur) => this.resolveRoleName(ur.role.name)),
+            permissions: this.buildPermissions(user),
             tenant: {
                 id: user.tenant.id,
                 name: user.tenant.name,

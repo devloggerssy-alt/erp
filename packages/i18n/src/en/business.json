@@ -1,4 +1,77 @@
 {
+  "permissions": {
+    "title": "Permissions",
+    "description": "Select the permissions granted to this role. Users get the union of all their roles' permissions.",
+    "groups": {
+      "identity": "Identity & access",
+      "catalog": "Catalog",
+      "inventory": "Inventory",
+      "commercial": "Commercial",
+      "accounting": "Accounting",
+      "reports": "Reports",
+      "system": "System"
+    },
+    "actions": {
+      "view": "View",
+      "create": "Create",
+      "update": "Update",
+      "delete": "Delete",
+      "post": "Post",
+      "cancel": "Cancel",
+      "allocate": "Allocate",
+      "manage": "Manage",
+      "reverse": "Reverse",
+      "close": "Close",
+      "reset": "Reset",
+      "run": "Run",
+      "use": "Use"
+    },
+    "resources": {
+      "users": "Users",
+      "roles": "Roles",
+      "tenants": "Company settings",
+      "units": "Units",
+      "itemCategories": "Item categories",
+      "items": "Items",
+      "customFields": "Custom fields",
+      "tags": "Tags",
+      "tagAssignments": "Tag assignments",
+      "itemRelations": "Item relations",
+      "catalogEntities": "Catalog entities",
+      "itemCatalogEntities": "Item catalog entities",
+      "brands": "Brands",
+      "warehouses": "Warehouses",
+      "inventory": "Stock balances",
+      "stockLedger": "Stock movements",
+      "stockCounts": "Stock counts",
+      "parties": "Customers & suppliers",
+      "invoiceTypes": "Invoice types",
+      "invoices": "Invoices",
+      "cashboxes": "Cashboxes",
+      "bankAccounts": "Bank accounts",
+      "payments": "Payments",
+      "expenses": "Expenses",
+      "accounts": "Chart of accounts",
+      "fiscalPeriods": "Fiscal periods",
+      "documentSequences": "Document sequences",
+      "currencies": "Currencies",
+      "financialSettings": "Financial settings",
+      "openingBalanceSessions": "Opening balances (GL)",
+      "journals": "Journal entries",
+      "periods": "Period closing",
+      "openingBalances": "Opening balances (posting)",
+      "reconciliation": "Reconciliation",
+      "reports": "Reports",
+      "dashboard": "Dashboard",
+      "auditLogs": "Audit log",
+      "files": "Files",
+      "ai": "AI assistant",
+      "onboarding": "Onboarding wizard",
+      "businessSetup": "Business setup",
+      "settings": "Settings",
+      "danger": "Danger zone"
+    }
+  },
   "navigation": {
     "groups": {
       "commercial": "Commercial Operations",
@@ -30,6 +103,7 @@
       "openingBalances": "Opening Balances",
       "cashboxes": "Cashboxes",
       "cashboxesList": "Cashboxes",
+      "bankAccounts": "Bank Accounts",
       "expenses": "Expenses",
       "payments": "Payments",
       "accounting": "Accounting",
@@ -132,7 +206,9 @@
       "defaultPurchaseAccount": "Default purchase account",
       "defaultTaxAccount": "Default tax account",
       "defaultReceivableAccount": "Default receivable account",
-      "defaultPayableAccount": "Default payable account"
+      "defaultPayableAccount": "Default payable account",
+      "defaultCashAccount": "Default Cash account",
+      "defaultBankAccount": "Default Bank account"
     },
     "documents": {
       "navLabel": "Documents",
@@ -147,6 +223,7 @@
       "showLogoOnDocuments": "Show logo on documents"
     },
     "danger": {
+      "noAccess": "You do not have permission to reset data.",
       "navLabel": "Danger zone",
       "title": "Danger zone",
       "description": "Irreversible, destructive actions. Master data (accounts, items, parties, cashboxes) is preserved — only transactional records are removed.",
@@ -517,6 +594,7 @@
       "active": "Active"
     },
     "roles": {
+      "systemRoleNotice": "System roles cannot be edited.",
       "title": "Roles",
       "addAction": "Add Role",
       "entity": "Role",
@@ -629,6 +707,20 @@
       "codePlaceholder": "e.g. CASH-SYP",
       "name": "Name",
       "currency": "Currency",
+      "active": "Active"
+    },
+    "bankAccounts": {
+      "title": "Bank Accounts",
+      "entity": "Bank Account",
+      "addAction": "Add Bank Account",
+      "code": "Code",
+      "codePlaceholder": "e.g. BANK-SYP",
+      "name": "Name",
+      "currency": "Currency",
+      "accountNumber": "Account Number",
+      "accountNumberPlaceholder": "e.g. 1234567890",
+      "bankName": "Bank Name",
+      "bankNamePlaceholder": "e.g. Commercial Bank",
       "active": "Active"
     },
     "expenses": {
@@ -905,6 +997,100 @@
           "type": "Type"
         }
       }
+    },
+    "openingBalanceSessions": {
+      "title": "Opening Balance Sessions",
+      "subtitle": "Create draft → validate → review → post → lock opening balance sessions for cash, bank, parties and accounts.",
+      "newSession": "New Session",
+      "number": "Number",
+      "status": "Status",
+      "description": "Description",
+      "createdAt": "Created",
+      "actions": "Actions",
+      "loading": "Loading…",
+      "noSessions": "No opening balance sessions found.",
+      "selectPeriod": "Select fiscal period…",
+      "dimension": "Dimension",
+      "dimensionCASHBOX": "Cash",
+      "dimensionBANK_ACCOUNT": "Bank",
+      "dimensionPARTY": "Party",
+      "dimensionACCOUNT": "GL Account",
+      "cashbox": "Cashbox",
+      "bankAccount": "Bank Account",
+      "party": "Party",
+      "partySide": "Party Side",
+      "sideAR": "Receivable (AR)",
+      "sideAP": "Payable (AP)",
+      "account": "Account",
+      "currency": "Currency",
+      "amount": "Amount",
+      "exchangeRate": "Exchange Rate",
+      "create": "Create",
+      "cancel": "Cancel",
+      "select": "Select…",
+      "post": "Post",
+      "lock": "Lock",
+      "statusDraft": "Draft",
+      "statusValidated": "Validated",
+      "statusReviewed": "Reviewed",
+      "statusPosted": "Posted",
+      "statusLocked": "Locked",
+      "editSession": "Edit session",
+      "viewSession": "View session",
+      "fiscalPeriod": "Fiscal period",
+      "sectionCash": "Cash",
+      "sectionBank": "Bank",
+      "sectionParties": "Parties",
+      "sectionGL": "GL accounts",
+      "addLine": "Add line",
+      "removeLine": "Remove line",
+      "noLines": "No lines in this section yet.",
+      "saveDraft": "Save draft",
+      "saving": "Saving…",
+      "close": "Close",
+      "edit": "Edit",
+      "view": "View",
+      "delete": "Delete",
+      "deleteTitle": "Delete this session?",
+      "deleteDescription": "The draft session and its lines will be removed. This action cannot be undone.",
+      "confirmDelete": "Delete session",
+      "postTitle": "Post opening balances?",
+      "postDescription": "Review the computed totals and party balances before posting. Posting creates the opening journal entry; the session can no longer be edited afterwards.",
+      "postConfirm": "Post session",
+      "posting": "Posting…",
+      "postDone": "Opening balances posted.",
+      "lockTitle": "Lock this session?",
+      "lockDescription": "Locking prevents further changes to the posted session.",
+      "confirmLock": "Lock session",
+      "lockDone": "Session locked.",
+      "previewLoading": "Computing the posting preview…",
+      "previewError": "The session cannot be posted yet",
+      "currencyTotals": "Totals per currency",
+      "baseBucket": "Base currency",
+      "totalDebit": "Debit",
+      "totalCredit": "Credit",
+      "totalNet": "Net",
+      "offsetTitle": "Opening equity offset",
+      "offsetDescription": "{amount} will be posted to account {account}.",
+      "balanced": "The session is balanced — no opening-equity offset is needed.",
+      "partyPreview": "Party balances",
+      "partySideColumn": "Side",
+      "currencyColumn": "Currency",
+      "openingNet": "Opening",
+      "currentBalance": "Current",
+      "resultingBalance": "After posting",
+      "noPartyLines": "This session has no party lines.",
+      "enterTotals": "Entered per currency",
+      "linesCount": "{count} line(s)",
+      "selectCashbox": "Select cashbox…",
+      "selectBankAccount": "Select bank account…",
+      "selectParty": "Select party…",
+      "selectCurrency": "Select currency…",
+      "selectAccount": "Select account…",
+      "saveError": "Could not save the session.",
+      "deleteError": "Could not delete the session.",
+      "postError": "Could not post the session.",
+      "lockError": "Could not lock the session."
     }
   },
   "onboarding": {
@@ -914,7 +1100,9 @@
       "continue": "Continue",
       "saving": "Saving…",
       "confirm": "Confirm & Continue",
-      "complete": "Complete Setup"
+      "complete": "Complete Setup",
+      "remove": "Remove",
+      "finish": "Finish setup"
     },
     "company": {
       "title": "Company Profile",
@@ -941,11 +1129,15 @@
     },
     "currencies": {
       "title": "Currencies & Cashboxes",
-      "description": "Your system's currencies: Syrian Lira and US Dollar. The base currency is US Dollar. A cashbox will be created for each currency automatically.",
+      "description": "Choose the currencies your business uses and mark one as the base currency. You can add more later.",
       "baseIndicator": "Base",
       "sypName": "Syrian Lira",
       "usdName": "US Dollar",
-      "cashbox": "Cashbox"
+      "cashbox": "Cashbox",
+      "codePlaceholder": "Code (e.g. USD)",
+      "nameEnPlaceholder": "Name (English)",
+      "nameArPlaceholder": "Name (Arabic)",
+      "addCurrency": "Add currency"
     },
     "glDefaults": {
       "title": "GL Defaults",
@@ -959,6 +1151,16 @@
     "documentSequences": {
       "title": "Document Sequences",
       "description": "Customize the prefix and starting number for each document type."
+    },
+    "businessProfile": {
+      "title": "Business profile",
+      "description": "Tell us which parts of the business you'll be using — this decides which setup tasks are required.",
+      "modules": {
+        "inventory": "Inventory & warehouses",
+        "sales": "Sales & customers",
+        "purchasing": "Purchasing & suppliers",
+        "accounting": "Accounting & GL"
+      }
     }
   },
   "dashboard": {
@@ -1012,19 +1214,107 @@
       "active": "Active",
       "lowStock": "Low Stock",
       "outOfStock": "Out of Stock"
-    },
-    "openingBalances": {
-      "title": "Opening Balances",
-      "description": "Set opening balances for balance-sheet accounts when starting a new fiscal year.",
-      "code": "Code",
-      "name": "Name",
-      "type": "Type",
-      "currentBalance": "Current Balance",
-      "openingAmount": "Opening Amount",
-      "selectPeriod": "Select fiscal period…",
-      "saveAll": "Save All",
-      "saving": "Saving…",
-      "noAccounts": "No balance-sheet accounts found."
     }
+  },
+  "businessSetup": {
+    "noAccess": "You do not have permission to view business setup.",
+    "title": "Business setup",
+    "description": "Track the setup tasks for your business.",
+    "loading": "Loading…",
+    "status": {
+      "BLOCKED": "Blocked",
+      "READY": "Ready",
+      "COMPLETED": "Completed",
+      "SKIPPED": "Skipped"
+    },
+    "tasks": {
+      "CURRENCIES": "Currencies",
+      "FISCAL_PERIOD": "Fiscal period",
+      "CHART_OF_ACCOUNTS": "Chart of accounts",
+      "FINANCIAL_MAPPINGS": "Financial mappings",
+      "DOCUMENT_SEQUENCES": "Document numbering",
+      "CASHBOXES": "Cashboxes",
+      "BANK_ACCOUNTS": "Bank accounts",
+      "WAREHOUSES": "Warehouses",
+      "PRODUCTS": "Products",
+      "CUSTOMERS": "Customers",
+      "SUPPLIERS": "Suppliers",
+      "OPENING_CASH_BALANCES": "Opening cash balances",
+      "OPENING_BANK_BALANCES": "Opening bank balances",
+      "OPENING_RECEIVABLES": "Opening receivables",
+      "OPENING_PAYABLES": "Opening payables",
+      "OPENING_INVENTORY": "Opening inventory",
+      "RECONCILIATION": "Reconciliation"
+    },
+    "hubDescription": "Complete these steps to make your business ready to operate.",
+    "completedAt": "Setup completed on {date}",
+    "progress": {
+      "title": "Setup progress",
+      "description": "{completed} of {total} required tasks complete",
+      "percent": "{percent}% complete"
+    },
+    "groups": {
+      "accounting": "Accounting",
+      "money": "Money",
+      "inventory": "Inventory",
+      "parties": "Parties"
+    },
+    "nextAction": {
+      "title": "Next recommended step",
+      "ready": "Continue with {task}.",
+      "waitingOn": "{task} is waiting on: {blockers}.",
+      "open": "Open"
+    },
+    "actions": {
+      "open": "Open",
+      "run": "Run now",
+      "running": "Running…",
+      "skip": "Not applicable",
+      "skipping": "Skipping…",
+      "failed": "Could not update setup. Please try again."
+    },
+    "blockedBy": "Blocked by {tasks}",
+    "readiness": {
+      "title": "Operational readiness",
+      "ready": "Ready",
+      "notReady": "Not ready",
+      "modules": {
+        "accounting": "Accounting",
+        "cashOps": "Cash operations",
+        "bankOps": "Bank operations",
+        "inventory": "Inventory",
+        "sales": "Sales",
+        "purchasing": "Purchasing"
+      }
+    },
+    "reconciliation": {
+      "title": "Reconciliation",
+      "run": "Run reconciliation",
+      "running": "Running…",
+      "passed": "All reconciliation checks passed.",
+      "failed": "{count} reconciliation checks are failing.",
+      "neverRun": "Reconciliation has not run yet.",
+      "findings": "{count} findings"
+    },
+    "checks": {
+      "CASH_GL_VS_CASHBOX_SUBLEDGER": "The cash control account does not match cashbox balances.",
+      "CASHBOX_SUBLEDGER_VS_PROJECTION": "Cashbox balances do not match the ledger.",
+      "BANK_GL_VS_BANK_SUBLEDGER": "The bank control account does not match bank account balances.",
+      "AR_CONTROL_VS_CUSTOMER_SUBLEDGER": "The receivables control account does not match customer balances.",
+      "AP_CONTROL_VS_SUPPLIER_SUBLEDGER": "The payables control account does not match supplier balances.",
+      "INVENTORY_GL_VS_STOCK_VALUATION": "The inventory account does not match stock valuation.",
+      "JOURNAL_ENTRIES_BALANCED": "Some journal entries are unbalanced.",
+      "MULTI_CURRENCY_BASE_CONSISTENT": "Some foreign-currency lines are missing an amount or exchange rate.",
+      "STOCK_QUANTITY_PROJECTION": "Stock quantities do not match the movement ledger."
+    },
+    "legacy": {
+      "title": "Legacy data",
+      "description": "Entries created before the current accounting model can be incomplete. The failing checks above name exactly what must be corrected."
+    },
+    "banner": {
+      "text": "Business setup is {percent}% complete.",
+      "cta": "Continue setup"
+    },
+    "navWarning": "This module is not ready yet — complete business setup first."
   }
 }

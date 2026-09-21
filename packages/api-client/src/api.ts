@@ -17,6 +17,7 @@ import { InvoicesClient } from "./clients/invoices.client"
 import { ExpensesClient } from "./clients/expenses.client"
 import { PaymentsClient } from "./clients/payments.client"
 import { CashboxesClient } from "./clients/cashboxes.client"
+import { BankAccountsClient } from "./clients/bank-accounts.client"
 import { TagsClient } from "./clients/tags.client"
 import { TagAssignmentsClient } from "./clients/tag-assignments.client"
 import { ItemRelationsClient } from "./clients/item-relations.client"
@@ -28,15 +29,15 @@ import { StockMovementsClient } from "./clients/stock-movements.client"
 import { StockCountsClient } from "./clients/stock-counts.client"
 import { FinancialSettingClient } from "./clients/financial-setting.client"
 import { ReportsClient } from "./clients/reports.client"
-import { AccountOpeningBalancesClient } from "./clients/account-opening-balances.client"
 import { InventoryOpeningBalancesClient } from "./clients/inventory-opening-balances.client"
-import { authResource, itemCategoryResource, itemResource, unitResource, warehouseResource, partyResource, accountResource, currencyResource, fiscalPeriodResource, documentSequenceResource, roleResource, userResource, tenantResource, invoiceTypeResource, invoiceResource, customFieldResource, expenseResource, paymentResource, tagResource, tagAssignmentResource, itemRelationResource, catalogEntityResource, itemCatalogEntityResource, brandResource, inventoryResource, stockLedgerResource, stockCountResource, cashboxResource, financialSettingResource, reportResource, accountOpeningBalanceResource } from "@devloggers/api-contracts"
+import { OpeningBalanceSessionsClient } from "./clients/opening-balance-sessions.client"
+import { BusinessSetupClient } from "./clients/business-setup.client"
+import { authResource, itemCategoryResource, itemResource, unitResource, warehouseResource, partyResource, accountResource, currencyResource, fiscalPeriodResource, documentSequenceResource, roleResource, userResource, tenantResource, invoiceTypeResource, invoiceResource, customFieldResource, expenseResource, paymentResource, tagResource, tagAssignmentResource, itemRelationResource, catalogEntityResource, itemCatalogEntityResource, brandResource, inventoryResource, stockLedgerResource, stockCountResource, cashboxResource, bankAccountResource, financialSettingResource, reportResource, openingBalanceSessionResource, businessSetupResource } from "@devloggers/api-contracts"
 import { CustomFieldsClient } from "./clients/custom-fields.client"
 import { DashboardClient } from "./clients/dashboard.client"
 import { OnboardingClient } from "./clients/onboarding.client"
 
 export function createApi(options?: ApiClientOptions, baseUrl = 'http://localhost:4040') {
-    console.log("[createApi] baseUrl arg:", baseUrl, "| process.env.NEXT_PUBLIC_API_BASE_URL:", typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_BASE_URL : 'N/A (browser)')
     const client = new ApiClient(baseUrl, options)
     return {
         client,
@@ -57,6 +58,7 @@ export function createApi(options?: ApiClientOptions, baseUrl = 'http://localhos
         [invoiceTypeResource.key]: new InvoiceTypesClient(client),
         [invoiceResource.key]: new InvoicesClient(client,invoiceResource),
         [cashboxResource.key]: new CashboxesClient(client,cashboxResource),
+        [bankAccountResource.key]: new BankAccountsClient(client,bankAccountResource),
         [expenseResource.key]: new ExpensesClient(client),
         [paymentResource.key]: new PaymentsClient(client),
         [tagResource.key]: new TagsClient(client),
@@ -70,7 +72,8 @@ export function createApi(options?: ApiClientOptions, baseUrl = 'http://localhos
         [stockCountResource.key]: new StockCountsClient(client),
         [financialSettingResource.key]: new FinancialSettingClient(client),
         [reportResource.key]: new ReportsClient(client),
-        [accountOpeningBalanceResource.key]: new AccountOpeningBalancesClient(client),
+        [openingBalanceSessionResource.key]: new OpeningBalanceSessionsClient(client),
+        [businessSetupResource.key]: new BusinessSetupClient(client),
         inventoryOpening: new InventoryOpeningBalancesClient(client),
         dashboard: new DashboardClient(client),
         onboarding: new OnboardingClient(client),

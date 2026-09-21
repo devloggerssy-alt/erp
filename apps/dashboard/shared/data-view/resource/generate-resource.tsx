@@ -62,6 +62,9 @@ export function generateResource<TClient extends ICrudClient>(
     Resource.Filter = ResourceFilter as (props: ResourceFilterProps) => React.JSX.Element
     Resource.Toolbar = ResourceToolbar
     Resource.SelectionToolbar = ResourceSelectionToolbar as (props: ResourceSelectionToolbarProps) => React.JSX.Element | null
+    // useResourceContext is generic (<TClient>()); the static namespace property needs a
+    // monomorphic function type bound to this factory's TClient.
+    // eslint-disable-next-line no-restricted-syntax -- see comment above: binds a generic hook to a monomorphic namespace property
     Resource.useContext = useResourceContext as unknown as () => ResourceContext<TClient>
 
     return Resource as ResourceNamespace<TClient>

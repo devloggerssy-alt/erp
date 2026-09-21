@@ -25,7 +25,9 @@ import {
   type CrudOperationDoc,
 } from '../decorators/crud-swagger.decorators.js';
 import { CurrentUser } from '../auth/current-user.decorator.js';
+import { RequirePermission } from '../auth/require-permission.decorator.js';
 import type { RequestUser } from '../auth/request-user.js';
+import type { PermissionKey } from '@devloggers/api-contracts';
 import { createClassDtoBodyPipe } from './class-dto-body.pipe.js';
 import { ICrudService } from './crud-service.js';
 import {
@@ -67,6 +69,14 @@ export type CrudBulkOpenApi = {
   bulkUpdate?: CrudOperationDoc;
 };
 
+/** Required permission per CRUD verb; the factory applies `@RequirePermission` metadata to every generated route. */
+export type CrudPermissionConfig = {
+  view: PermissionKey;
+  create: PermissionKey;
+  update: PermissionKey;
+  delete: PermissionKey;
+};
+
 export type CreateCrudControllerConfig<TResponse, TCreateDto, TUpdateDto> = {
   responseDto: Type<TResponse>;
   createDto: Type<TCreateDto>;
@@ -76,6 +86,8 @@ export type CreateCrudControllerConfig<TResponse, TCreateDto, TUpdateDto> = {
   filterSchema?: FilterSchema;
   /** Optional Swagger doc overrides for the always-on bulk routes (`DELETE /resource`, `PATCH /resource`). */
   bulk?: CrudBulkOpenApi;
+  /** Required permission per CRUD verb. */
+  permissions: CrudPermissionConfig;
 };
 
 /**
@@ -93,7 +105,7 @@ export function createCrudController<TResponse, TCreateDto, TUpdateDto>(
   service: ICrudService<TResponse, TCreateDto, TUpdateDto>,
   resourceLabel: string,
 ) => object {
-  const { responseDto, createDto, updateDto, openApi, filterSchema, bulk } = config;
+  const { responseDto, createDto, updateDto, openApi, filterSchema, bulk, permissions } = config;
   const bulkOpenApi = bulk ?? {};
   const bulkUpdateBodyDto = createBulkUpdateBodyDto(updateDto);
 
@@ -235,6 +247,21 @@ export function createCrudController<TResponse, TCreateDto, TUpdateDto>(
   if (filterSchema) {
     const descriptor = Object.getOwnPropertyDescriptor(StandardCrudControllerBase.prototype, 'list')!;
     ApiFilterQuery(filterSchema)(StandardCrudControllerBase.prototype, 'list', descriptor);
+  }
+
+  const permissionByMethod: Array<[string, PermissionKey]> = [
+    ['list', permissions.view],
+    ['show', permissions.view],
+    ['create', permissions.create],
+    ['update', permissions.update],
+    ['delete', permissions.delete],
+    ['bulkDelete', permissions.delete],
+    ['bulkUpdate', permissions.update],
+  ];
+
+  for (const [method, permission] of permissionByMethod) {
+    const descriptor = Object.getOwnPropertyDescriptor(StandardCrudControllerBase.prototype, method)!;
+    RequirePermission(permission)(StandardCrudControllerBase.prototype, method, descriptor);
   }
 
   return StandardCrudControllerBase as new (

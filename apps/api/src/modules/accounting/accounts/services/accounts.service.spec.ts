@@ -26,7 +26,9 @@ describe('AccountsService.getTree', () => {
     const result = await service.getTree('t1');
 
     expect(result).toHaveLength(3);
-    expect(result[0]).toEqual({
+
+    const [assets, cash, revenue] = result;
+    expect(assets).toEqual({
       id: 'assets',
       code: '1000',
       name: 'الأصول',
@@ -35,8 +37,8 @@ describe('AccountsService.getTree', () => {
       parentId: null,
       isActive: true,
     });
-    expect(result[1].parentId).toBe('assets');
-    expect(result[2].isActive).toBe(false);
+    expect(cash?.parentId).toBe('assets');
+    expect(revenue?.isActive).toBe(false);
     expect(repo.findAllForBalances).toHaveBeenCalledWith('t1');
   });
 
@@ -50,7 +52,8 @@ describe('AccountsService.getTree', () => {
 
     const result = await service.getTree('t1');
 
-    expect(result[0].parentId).toBeNull();
+    const [root] = result;
+    expect(root?.parentId).toBeNull();
   });
 
   it('returns empty array when no accounts exist', async () => {

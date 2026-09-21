@@ -1,0 +1,11 @@
+{
+  "generatedAt": "2026-08-16T23:41:49.773Z",
+  "clean": true,
+  "cashboxes": [],
+  "stockBalances": [],
+  "unbalancedEntries": [],
+  "notChecked": [
+    "StockBalance.averageCost — a running weighted average whose recomputation requires replaying every movement in order. Deferred to Phase 7.",
+    "ChartOfAccount.currentBalance — no longer exists. Removed in the CoA refactor; account balances are computed from JournalLine on read, so the cache cannot drift."
+  ]
+}

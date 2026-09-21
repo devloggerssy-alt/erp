@@ -160,6 +160,11 @@ exports.Prisma.JournalLineScalarFieldEnum = {
   journalEntryId: 'journalEntryId',
   accountId: 'accountId',
   partyId: 'partyId',
+  cashboxId: 'cashboxId',
+  bankAccountId: 'bankAccountId',
+  currencyId: 'currencyId',
+  amount: 'amount',
+  exchangeRate: 'exchangeRate',
   debit: 'debit',
   credit: 'credit',
   description: 'description',
@@ -194,7 +199,24 @@ exports.Prisma.AuditLogScalarFieldEnum = {
   oldValues: 'oldValues',
   newValues: 'newValues',
   ipAddress: 'ipAddress',
+  source: 'source',
+  correlationId: 'correlationId',
+  metadata: 'metadata',
   createdAt: 'createdAt'
+};
+
+exports.Prisma.BankAccountScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  code: 'code',
+  name: 'name',
+  currencyId: 'currencyId',
+  accountNumber: 'accountNumber',
+  bankName: 'bankName',
+  balance: 'balance',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.BrandScalarFieldEnum = {
@@ -216,8 +238,7 @@ exports.Prisma.CashboxScalarFieldEnum = {
   balance: 'balance',
   isActive: 'isActive',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  linkedAccountId: 'linkedAccountId'
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.PaymentScalarFieldEnum = {
@@ -373,6 +394,8 @@ exports.Prisma.FinancialSettingScalarFieldEnum = {
   defaultCogsAccountId: 'defaultCogsAccountId',
   defaultInventoryAdjustmentAccountId: 'defaultInventoryAdjustmentAccountId',
   defaultOpeningEquityAccountId: 'defaultOpeningEquityAccountId',
+  defaultCashAccountId: 'defaultCashAccountId',
+  defaultBankAccountId: 'defaultBankAccountId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -496,6 +519,55 @@ exports.Prisma.ItemScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.OpeningBalanceSessionScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  number: 'number',
+  fiscalPeriodId: 'fiscalPeriodId',
+  status: 'status',
+  description: 'description',
+  postedAt: 'postedAt',
+  postedBy: 'postedBy',
+  lockedAt: 'lockedAt',
+  lockedBy: 'lockedBy',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.OpeningBalanceSessionLineScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  sessionId: 'sessionId',
+  dimension: 'dimension',
+  accountId: 'accountId',
+  partyId: 'partyId',
+  cashboxId: 'cashboxId',
+  bankAccountId: 'bankAccountId',
+  currencyId: 'currencyId',
+  partySide: 'partySide',
+  amount: 'amount',
+  exchangeRate: 'exchangeRate',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.OutboxEventScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  topic: 'topic',
+  payload: 'payload',
+  status: 'status',
+  attempts: 'attempts',
+  maxAttempts: 'maxAttempts',
+  lastError: 'lastError',
+  availableAt: 'availableAt',
+  lockedAt: 'lockedAt',
+  deliveredAt: 'deliveredAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.PartyScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
@@ -505,10 +577,53 @@ exports.Prisma.PartyScalarFieldEnum = {
   phone: 'phone',
   email: 'email',
   address: 'address',
-  openingBalance: 'openingBalance',
   isActive: 'isActive',
   receivableAccountId: 'receivableAccountId',
   payableAccountId: 'payableAccountId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.PermissionScalarFieldEnum = {
+  id: 'id',
+  key: 'key',
+  resource: 'resource',
+  action: 'action',
+  group: 'group',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.RolePermissionScalarFieldEnum = {
+  id: 'id',
+  roleId: 'roleId',
+  permissionId: 'permissionId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.ReconciliationRunScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  trigger: 'trigger',
+  passed: 'passed',
+  findingCount: 'findingCount',
+  findings: 'findings',
+  newFindings: 'newFindings',
+  report: 'report',
+  correlationId: 'correlationId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.SetupTaskScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  type: 'type',
+  status: 'status',
+  required: 'required',
+  dependencies: 'dependencies',
+  progress: 'progress',
+  metadata: 'metadata',
+  completedAt: 'completedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -611,6 +726,9 @@ exports.Prisma.TenantScalarFieldEnum = {
   isActive: 'isActive',
   onboardingStep: 'onboardingStep',
   onboardingCompletedAt: 'onboardingCompletedAt',
+  businessSetupProfile: 'businessSetupProfile',
+  businessSetupCompletedAt: 'businessSetupCompletedAt',
+  operationalReadiness: 'operationalReadiness',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -793,10 +911,64 @@ exports.ItemType = exports.$Enums.ItemType = {
   service: 'service'
 };
 
+exports.OpeningBalanceSessionStatus = exports.$Enums.OpeningBalanceSessionStatus = {
+  DRAFT: 'DRAFT',
+  VALIDATED: 'VALIDATED',
+  REVIEWED: 'REVIEWED',
+  POSTED: 'POSTED',
+  LOCKED: 'LOCKED'
+};
+
+exports.OpeningBalanceDimension = exports.$Enums.OpeningBalanceDimension = {
+  CASHBOX: 'CASHBOX',
+  BANK_ACCOUNT: 'BANK_ACCOUNT',
+  PARTY: 'PARTY',
+  ACCOUNT: 'ACCOUNT'
+};
+
+exports.OpeningBalancePartySide = exports.$Enums.OpeningBalancePartySide = {
+  AR: 'AR',
+  AP: 'AP'
+};
+
+exports.OutboxStatus = exports.$Enums.OutboxStatus = {
+  PENDING: 'PENDING',
+  PROCESSING: 'PROCESSING',
+  DELIVERED: 'DELIVERED',
+  DEAD: 'DEAD'
+};
+
 exports.PartyType = exports.$Enums.PartyType = {
   CUSTOMER: 'CUSTOMER',
   SUPPLIER: 'SUPPLIER',
   CUSTOMER_SUPPLIER: 'CUSTOMER_SUPPLIER'
+};
+
+exports.SetupTaskType = exports.$Enums.SetupTaskType = {
+  CURRENCIES: 'CURRENCIES',
+  FISCAL_PERIOD: 'FISCAL_PERIOD',
+  CHART_OF_ACCOUNTS: 'CHART_OF_ACCOUNTS',
+  FINANCIAL_MAPPINGS: 'FINANCIAL_MAPPINGS',
+  DOCUMENT_SEQUENCES: 'DOCUMENT_SEQUENCES',
+  CASHBOXES: 'CASHBOXES',
+  BANK_ACCOUNTS: 'BANK_ACCOUNTS',
+  WAREHOUSES: 'WAREHOUSES',
+  PRODUCTS: 'PRODUCTS',
+  CUSTOMERS: 'CUSTOMERS',
+  SUPPLIERS: 'SUPPLIERS',
+  OPENING_CASH_BALANCES: 'OPENING_CASH_BALANCES',
+  OPENING_BANK_BALANCES: 'OPENING_BANK_BALANCES',
+  OPENING_RECEIVABLES: 'OPENING_RECEIVABLES',
+  OPENING_PAYABLES: 'OPENING_PAYABLES',
+  OPENING_INVENTORY: 'OPENING_INVENTORY',
+  RECONCILIATION: 'RECONCILIATION'
+};
+
+exports.SetupTaskStatus = exports.$Enums.SetupTaskStatus = {
+  BLOCKED: 'BLOCKED',
+  READY: 'READY',
+  COMPLETED: 'COMPLETED',
+  SKIPPED: 'SKIPPED'
 };
 
 exports.StockCountStatus = exports.$Enums.StockCountStatus = {
@@ -822,6 +994,7 @@ exports.Prisma.ModelName = {
   AiChatSession: 'AiChatSession',
   AiChatMessage: 'AiChatMessage',
   AuditLog: 'AuditLog',
+  BankAccount: 'BankAccount',
   Brand: 'Brand',
   Cashbox: 'Cashbox',
   Payment: 'Payment',
@@ -843,7 +1016,14 @@ exports.Prisma.ModelName = {
   ItemCategory: 'ItemCategory',
   ItemRelation: 'ItemRelation',
   Item: 'Item',
+  OpeningBalanceSession: 'OpeningBalanceSession',
+  OpeningBalanceSessionLine: 'OpeningBalanceSessionLine',
+  OutboxEvent: 'OutboxEvent',
   Party: 'Party',
+  Permission: 'Permission',
+  RolePermission: 'RolePermission',
+  ReconciliationRun: 'ReconciliationRun',
+  SetupTask: 'SetupTask',
   StockCount: 'StockCount',
   StockCountLine: 'StockCountLine',
   StockBalance: 'StockBalance',

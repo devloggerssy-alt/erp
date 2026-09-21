@@ -13,7 +13,7 @@ export function BrandsPage() {
                 title={t("title")}
                 actions={
                     <BrandsResource.FormDialog
-                        title={(it) => (it?.id ? String((it as unknown as { name?: unknown }).name ?? "") : t("addAction"))}
+                        title={(it) => (it?.id ? it.name : t("addAction"))}
                         form={BrandsForm}
                     />
                 }

@@ -63,7 +63,7 @@ export class CurrencyResponseDto {
     @ApiProperty({ type: LocalizedStringDto })
     nameI18n: LocalizedStringDto = new LocalizedStringDto();
 
-    @ApiProperty({ example: '£', nullable: true })
+    @ApiProperty({ type: 'string', example: '£', nullable: true })
     symbol: string | null = null;
 
     @ApiPropertyOptional({ type: LocalizedStringDto, nullable: true })

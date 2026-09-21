@@ -10,6 +10,19 @@ import {
 import { CustomFieldsRepository } from '../repositories/custom-fields.repository';
 import { CustomFieldValuesRepository } from '../repositories/custom-field-values.repository';
 
+/**
+ * Coerce a submitted SELECT / MULTI_SELECT value to the string form used in
+ * `CustomField.options`. Returns null for objects and arrays: they can never
+ * equal an option, and `String(obj)` would silently produce '[object Object]'.
+ */
+function toOptionString(value: unknown): string | null {
+    if (typeof value === 'string') return value;
+    if (typeof value === 'number' || typeof value === 'boolean' || typeof value === 'bigint') {
+        return String(value);
+    }
+    return null;
+}
+
 @Injectable()
 export class CustomFieldValuesService {
     constructor(
@@ -137,14 +150,18 @@ export class CustomFieldValuesService {
                     throw new BadRequestException(`Custom field "${field.id}" must be a boolean`);
                 }
                 break;
-            case 'SELECT':
-                if (!field.options.includes(String(value))) {
+            case 'SELECT': {
+                const option = toOptionString(value);
+                if (option === null || !field.options.includes(option)) {
                     throw new BadRequestException(`Invalid option for custom field "${field.id}"`);
                 }
                 break;
+            }
             case 'MULTI_SELECT': {
-                const items = Array.isArray(value) ? value.map(String) : [String(value)];
-                const invalid = items.filter((item) => !field.options.includes(item));
+                const items: unknown[] = Array.isArray(value) ? value : [value];
+                const invalid = items
+                    .map(toOptionString)
+                    .filter((item) => item === null || !field.options.includes(item));
                 if (invalid.length > 0) {
                     throw new BadRequestException(`Invalid options for custom field "${field.id}"`);
                 }

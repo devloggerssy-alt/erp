@@ -36,10 +36,19 @@ export function ExpensesPage() {
                 >
                     <ExpensesResource.Table
                         columns={(helpers) =>
+                            // ExpensesClient.list()/show() return BaseCrudItem ({ id: string }) rather
+                            // than the real Expense shape, because the expenses controller declares no
+                            // response DTO (apps/api/src/modules/invoicing/expenses/expenses.controller.ts
+                            // — the same gap tracked for Invoices/Payments in .github/workflows/ci.yml's
+                            // known-debt notes). createExpensesColumns' accessorKey columns (number,
+                            // date, status, totalAmount) genuinely don't resolve against BaseCrudItem
+                            // until a real ExpenseResponseDto is added and ExpensesClient is rewritten
+                            // on top of CrudClient. Not a stale cast — verified via a scratch tsc probe.
                             createExpensesColumns(helpers, t, {
                                 onOpenModal: openEdit,
                                 postExpense: (id) => postExpense(id),
                                 cancelExpense: (id) => cancelExpense(id),
+                                // eslint-disable-next-line @typescript-eslint/no-explicit-any -- see comment above: ExpensesClient has no typed response DTO yet
                             }) as any
                         }
                     />

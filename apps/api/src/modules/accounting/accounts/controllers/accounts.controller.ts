@@ -1,9 +1,9 @@
 import { Controller, Get, Patch, Post, Param, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
-import { createCrudController, type CrudOpenApi } from '@devloggers/backend-core';
+import { createCrudController, type CrudOpenApi, RequirePermission } from '@devloggers/backend-core';
 import { AccountsService } from '../services/accounts.service';
 import { CreateChartOfAccountDto, UpdateChartOfAccountDto, ChartOfAccountResponseDto, ChartOfAccountTreeDto } from '../dto';
-import { JwtAuthGuard } from '@/modules/identity/auth/guards';
+import { JwtAuthGuard, PermissionsGuard } from '@/modules/identity/auth/guards';
 import { CurrentUser, type RequestUser } from '@/modules/identity/auth/decorators';
 import { ApiResponseBuilder } from '@/common/api/api-response-builder';
 import { ApiStandardErrors, ApiOkResponseStandard } from '@/common/decorators/api-swagger.decorators';
@@ -54,14 +54,25 @@ const AccountsCrudBase = createCrudController({
     responseDto: ChartOfAccountResponseDto,
     createDto: CreateChartOfAccountDto,
     updateDto: UpdateChartOfAccountDto,
+    filterSchema: [
+        { field: 'code', type: 'string' },
+        { field: 'name', type: 'string', localized: true },
+        { field: 'isActive', type: 'boolean' },
+    ],
     openApi: ACCOUNTS_CRUD_OPENAPI,
+    permissions: {
+      view: 'accounts.view',
+      create: 'accounts.create',
+      update: 'accounts.update',
+      delete: 'accounts.delete',
+    },
 });
 
 // ── Concrete controller ───────────────────────────────────────────────────────
 
 @ApiTags('Accounting / Accounts')
 @Controller('accounting/chart-of-accounts')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, PermissionsGuard)
 @ApiBearerAuth('JWT-auth')
 export class AccountsController extends AccountsCrudBase {
     constructor(private readonly accountsService: AccountsService) {
@@ -69,6 +80,7 @@ export class AccountsController extends AccountsCrudBase {
     }
 
     @Get('tree')
+    @RequirePermission('accounts.view')
     @ApiOperation({
         summary: 'Get account tree structure',
         description: 'Lightweight account list for tree navigation. No balance computation.',
@@ -81,6 +93,7 @@ export class AccountsController extends AccountsCrudBase {
     }
 
     @Patch(':id/restore')
+    @RequirePermission('accounts.update')
     @ApiOperation({
         summary: 'Restore an archived account',
         description: 'Nulls deletedAt. The account becomes visible again.',
@@ -92,6 +105,7 @@ export class AccountsController extends AccountsCrudBase {
     }
 
     @Post(':id/convert-to-group')
+    @RequirePermission('accounts.update')
     @ApiOperation({
         summary: 'Convert a leaf account to a group account',
         description: 'Sets isPostable=false. Fails if the account has journal entries.',

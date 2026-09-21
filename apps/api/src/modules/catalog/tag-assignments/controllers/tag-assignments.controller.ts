@@ -22,17 +22,18 @@ import {
 } from '@nestjs/swagger';
 import { TagAssignmentsService } from '../services/tag-assignments.service';
 import { CreateTagAssignmentDto, TagAssignmentResponseDto } from '../dto';
-import { JwtAuthGuard } from '@/modules/identity/auth/guards';
-import { CurrentUser, RequestUser } from '@devloggers/backend-core';
+import { JwtAuthGuard, PermissionsGuard } from '@/modules/identity/auth/guards';
+import { CurrentUser, RequestUser, RequirePermission } from '@devloggers/backend-core';
 
 @ApiTags('Catalog / Tag Assignments')
 @Controller('tag-assignments')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, PermissionsGuard)
 @ApiBearerAuth('JWT-auth')
 export class TagAssignmentsController {
   constructor(private readonly tagAssignmentsService: TagAssignmentsService) {}
 
   @Get()
+  @RequirePermission('tagAssignments.view')
   @ApiOperation({ summary: 'List tag assignments for an entity' })
   @ApiQuery({ name: 'entityType', required: true, example: 'item' })
   @ApiQuery({ name: 'entityId', required: true })
@@ -46,6 +47,7 @@ export class TagAssignmentsController {
   }
 
   @Post()
+  @RequirePermission('tagAssignments.create')
   @ApiOperation({ summary: 'Assign a tag to an entity' })
   @ApiCreatedResponse({ type: TagAssignmentResponseDto })
   async assign(
@@ -56,6 +58,7 @@ export class TagAssignmentsController {
   }
 
   @Delete(':id')
+  @RequirePermission('tagAssignments.delete')
   @HttpCode(HttpStatus.NO_CONTENT)
   @ApiOperation({ summary: 'Remove a tag assignment' })
   @ApiNoContentResponse({ description: 'Assignment removed' })

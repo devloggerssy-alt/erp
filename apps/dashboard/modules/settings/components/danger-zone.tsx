@@ -2,6 +2,7 @@
 
 import { useTranslations } from "next-intl"
 import { useApi } from "@/shared/useApi"
+import { usePermissions } from "@/shared/hooks/use-permissions"
 import { DangerZoneCard, type DangerZoneCardLabels } from "./danger-zone-card"
 
 const FINANCE_CONFIRM_PHRASE = "RESET FINANCE"
@@ -10,6 +11,16 @@ const INVENTORY_CONFIRM_PHRASE = "RESET INVENTORY"
 export function DangerZone() {
   const api = useApi()
   const t = useTranslations("business.settings.danger")
+  const { can } = usePermissions()
+
+  if (!can("danger.reset")) {
+    return (
+      <div className="flex flex-col gap-2">
+        <h2 className="font-heading text-lg font-medium text-destructive">{t("title")}</h2>
+        <p className="text-sm text-muted-foreground">{t("noAccess")}</p>
+      </div>
+    )
+  }
 
   const labels = (key: "finance" | "inventory", phrase: string): DangerZoneCardLabels => ({
     dialogTitle: t(`${key}.dialogTitle`),

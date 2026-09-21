@@ -74,13 +74,13 @@ export class CreateItemDto {
 
     @ApiPropertyOptional({ example: 'https://cdn.example.com/item-main.png', description: 'Main product image URL', nullable: true })
     @IsOptional()
-    @IsUrl()
+    @IsUrl({ require_host: false })
     mainImageUrl?: string | null;
 
     @ApiPropertyOptional({ type: [String], example: ['https://cdn.example.com/item-1.png'], description: 'Gallery image URLs' })
     @IsOptional()
     @IsArray()
-    @IsUrl({}, { each: true })
+    @IsUrl({ require_host: false }, { each: true })
     galleryUrls?: string[];
 
     @ApiPropertyOptional({
@@ -152,13 +152,13 @@ export class UpdateItemDto {
 
     @ApiPropertyOptional({ example: 'https://cdn.example.com/item-main.png', nullable: true })
     @IsOptional()
-    @IsUrl()
+    @IsUrl({ require_host: false })
     mainImageUrl?: string | null;
 
     @ApiPropertyOptional({ type: [String], example: ['https://cdn.example.com/item-1.png'] })
     @IsOptional()
     @IsArray()
-    @IsUrl({}, { each: true })
+    @IsUrl({ require_host: false }, { each: true })
     galleryUrls?: string[];
 
     @ApiPropertyOptional({

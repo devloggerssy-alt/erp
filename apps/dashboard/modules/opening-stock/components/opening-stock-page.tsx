@@ -17,7 +17,7 @@ import {
   type OpeningStockRow,
 } from "./opening-stock-columns"
 
-const EDITABLE_COLUMNS = ["openingQty", "unitCost"] as const
+const EDITABLE_COLUMNS: string[] = ["openingQty", "unitCost"]
 
 export function OpeningStockPage() {
   const t = useTranslations("business.resources.openingStock")
@@ -93,7 +93,7 @@ export function OpeningStockPage() {
       <EditableGrid<OpeningStockRow>
         data={rows}
         columns={columns}
-        editableColumnIds={EDITABLE_COLUMNS as unknown as string[]}
+        editableColumnIds={EDITABLE_COLUMNS}
         getRowId={getRowId}
         onDirtyChange={handleDirtyChange}
         toolbarStart={toolbarStart}

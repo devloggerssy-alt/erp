@@ -2,7 +2,9 @@ import Image from "next/image"
  import { getLocale } from "next-intl/server"
 
 import { DashboardLayout } from "@/infrastructure/components/layout/dashboard"
+import { SetupProgressBanner } from "@/modules/business-setup"
 import { navGroups } from "@/config/navGroups"
+import { filterNavGroups } from "@/config/filter-nav-groups"
 import { getAuthCookies } from "@/modules/auth/auth.actions"
 import { getAuthApi } from "@/shared/api"
 import { redirect } from "@/i18n/navigation"
@@ -61,8 +63,12 @@ export default async function AuthenticatedLayout({
     email: user.email,
     initials: user.fullName.charAt(0).toUpperCase(),
   }
+  const permissions = (user as { permissions?: string[] }).permissions ?? []
+  const visibleNavGroups = filterNavGroups(navGroups, permissions)
+
   return (
-    <DashboardLayout navGroups={navGroups} logo={<Logo />} user={userInfo} breadcrumbs={breadcrumbs}>
+    <DashboardLayout navGroups={visibleNavGroups} logo={<Logo />} user={userInfo} breadcrumbs={breadcrumbs}>
+      <SetupProgressBanner />
       {children}
     </DashboardLayout>
   )

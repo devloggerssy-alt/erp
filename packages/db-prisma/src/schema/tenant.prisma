@@ -17,6 +17,9 @@ model Tenant {
     isActive              Boolean   @default(true) @map("is_active")
     onboardingStep        Int       @default(0) @map("onboarding_step")
     onboardingCompletedAt DateTime? @map("onboarding_completed_at")
+    businessSetupProfile      Json?     @db.JsonB @map("business_setup_profile")
+    businessSetupCompletedAt  DateTime? @map("business_setup_completed_at")
+    operationalReadiness      Json?     @db.JsonB @map("operational_readiness")
     createdAt             DateTime  @default(now()) @map("created_at")
     updatedAt             DateTime  @updatedAt @map("updated_at")
 
@@ -31,6 +34,7 @@ model Tenant {
     parties           Party[]
     warehouses        Warehouse[]
     cashboxes         Cashbox[]
+    bankAccounts      BankAccount[]
     invoiceTypes      InvoiceType[]
     invoices          Invoice[]
     payments          Payment[]
@@ -38,6 +42,8 @@ model Tenant {
     journalEntries    JournalEntry[]
     stockCounts       StockCount[]
     auditLogs         AuditLog[]
+    reconciliationRuns ReconciliationRun[]
+    outboxEvents       OutboxEvent[]
     aiChatSessions    AiChatSession[]
     baseCurrency         Currency?         @relation("TenantBaseCurrency", fields: [baseCurrencyId], references: [id])
     defaultSalesSequence DocumentSequence? @relation("TenantDefaultSalesSequence", fields: [defaultSalesSequenceId], references: [id])
@@ -49,6 +55,9 @@ model Tenant {
     catalogEntities      CatalogEntity[]
     itemCatalogEntities  ItemCatalogEntity[]
     brands               Brand[]
+    openingBalanceSessions     OpeningBalanceSession[]
+    openingBalanceSessionLines OpeningBalanceSessionLine[]
+    setupTasks                 SetupTask[]
 
     @@map("tenants")
 }

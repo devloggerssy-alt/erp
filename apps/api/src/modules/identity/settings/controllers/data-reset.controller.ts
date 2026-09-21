@@ -1,8 +1,9 @@
 import { Body, Controller, HttpCode, Post, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth, ApiOperation, ApiBody } from '@nestjs/swagger';
 import { DataResetService } from '../services/data-reset.service';
-import { JwtAuthGuard } from '../../auth/guards';
+import { JwtAuthGuard, PermissionsGuard } from '../../auth/guards';
 import { CurrentUser, RequestUser } from '../../auth/decorators';
+import { RequirePermission } from '@devloggers/backend-core';
 import { ApiResponseBuilder } from '../../../../common/api/api-response-builder';
 import { ApiStandardErrors, ApiOkResponseStandard } from '../../../../common/decorators/api-swagger.decorators';
 import {
@@ -14,12 +15,13 @@ import {
 
 @ApiTags('Settings')
 @Controller('settings/danger')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, PermissionsGuard)
 @ApiBearerAuth('JWT-auth')
 export class DataResetController {
     constructor(private readonly dataResetService: DataResetService) {}
 
     @Post('reset-finance')
+    @RequirePermission('danger.reset')
     @HttpCode(200)
     @ApiOperation({
         summary: 'Reset all financial records',
@@ -37,6 +39,7 @@ export class DataResetController {
     }
 
     @Post('reset-inventory')
+    @RequirePermission('danger.reset')
     @HttpCode(200)
     @ApiOperation({
         summary: 'Reset all inventory records',

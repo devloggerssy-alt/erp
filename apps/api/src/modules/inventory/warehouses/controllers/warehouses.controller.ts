@@ -3,7 +3,7 @@ import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { WarehousesService } from '../services/warehouses.service';
 import { CreateWarehouseDto, UpdateWarehouseDto, WarehouseResponseDto } from '../dto';
 import { createCrudController, type CrudOpenApi } from '@devloggers/backend-core';
-import { JwtAuthGuard } from '@/modules/identity/auth/guards';
+import { JwtAuthGuard, PermissionsGuard } from '@/modules/identity/auth/guards';
 
 const WAREHOUSES_OPENAPI = {
     list: {
@@ -35,12 +35,24 @@ const WarehousesCrudBase = createCrudController({
     responseDto: WarehouseResponseDto,
     createDto: CreateWarehouseDto,
     updateDto: UpdateWarehouseDto,
+    filterSchema: [
+        { field: 'code', type: 'string' },
+        { field: 'name', type: 'string', localized: true },
+        { field: 'address', type: 'string' },
+        { field: 'isActive', type: 'boolean' },
+    ],
+    permissions: {
+      view: 'warehouses.view',
+      create: 'warehouses.create',
+      update: 'warehouses.update',
+      delete: 'warehouses.delete',
+    },
     openApi: WAREHOUSES_OPENAPI,
 });
 
 @ApiTags('Inventory / Warehouses')
 @Controller('warehouses')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, PermissionsGuard)
 @ApiBearerAuth('JWT-auth')
 export class WarehousesController extends WarehousesCrudBase {
     constructor(private readonly warehousesService: WarehousesService) {

@@ -1,19 +1,20 @@
 "use client"
 
 import { useTranslations } from "next-intl"
-import type { ICrudClient } from "@devloggers/api-client"
+import type { CatalogEntitiesClient } from "@devloggers/api-client"
+import { catalogEntityResource } from "@devloggers/api-contracts"
 import { ResourceFormShell, RhfCheckboxField, RhfResourceSelect, RhfTextField } from "@/shared/components/form"
 import type { ResourceFormProps } from "@/shared/data-view/resource"
 import { useResourceFormController } from "@/shared/hooks/use-resource-form-controller"
 import { catalogEntitiesFormConfig, type CatalogEntityFormValues } from "../catalog-entities.config"
 
-export function CatalogEntitiesForm({ resourceId, initialData, onSuccess, paramKey }: ResourceFormProps<ICrudClient>) {
+export function CatalogEntitiesForm({ resourceId, initialData, onSuccess, paramKey }: ResourceFormProps<CatalogEntitiesClient>) {
     const t = useTranslations("business.resources.catalogEntities")
     const tf = useTranslations("system.resourceForm")
 
-    const ctrl = useResourceFormController<ICrudClient, CatalogEntityFormValues>({
+    const ctrl = useResourceFormController<CatalogEntitiesClient, CatalogEntityFormValues>({
         config: catalogEntitiesFormConfig,
-        getClient: (api) => api["catalog-entities"] as ICrudClient,
+        getClient: (api) => api[catalogEntityResource.key],
         entityLabel: t("entity"),
         resourceId,
         initialData,
@@ -41,11 +42,8 @@ export function CatalogEntitiesForm({ resourceId, initialData, onSuccess, paramK
                 name="parent"
                 label={t("parent")}
                 placeholder={t("parentPlaceholder")}
-                client={(api) => api["catalog-entities"] as ICrudClient}
-                getLabel={(item) => {
-                    const e = item as unknown as { name: string; kind: string }
-                    return `${e.name} (${e.kind})`
-                }}
+                client={(api) => api[catalogEntityResource.key]}
+                getLabel={(item) => `${item.name} (${item.kind})`}
                 getValue={(item) => item}
                 pageSize={20}
                 disabled={ctrl.isBusy}

@@ -62,15 +62,18 @@ export default function FormDialog(props: {
     title: string
     paramKey?: string
     onClose?: () => void
+    hideTrigger?: boolean
 }) {
     const { isOpen, resourceId, open, close } = useFormDialog(props.paramKey)
 
     return (
         <>
-            <Button size='lg' onClick={() => open()}>
-                <Plus />
-                {props.title}
-            </Button>
+            {!props.hideTrigger && (
+                <Button size='lg' onClick={() => open()}>
+                    <Plus />
+                    {props.title}
+                </Button>
+            )}
             <Dialog open={isOpen} onOpenChange={(v) => {
                 if (!v) {
                     close();

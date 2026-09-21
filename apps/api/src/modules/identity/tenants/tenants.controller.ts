@@ -9,8 +9,9 @@ import {
 import { ApiTags, ApiBearerAuth, ApiOperation, ApiOkResponse, ApiCreatedResponse } from '@nestjs/swagger';
 import { TenantsService } from './tenants.service';
 import { CreateTenantDto, UpdateTenantDto } from './dto';
-import { JwtAuthGuard } from '../auth/guards';
+import { JwtAuthGuard, PermissionsGuard } from '../auth/guards';
 import { CurrentUser, RequestUser } from '../auth/decorators';
+import { RequirePermission } from '@devloggers/backend-core';
 import { ApiResponseBuilder } from '../../../common/api/api-response-builder';
 import { ApiStandardErrors } from '../../../common/decorators/api-swagger.decorators';
 
@@ -37,7 +38,8 @@ export class TenantsController {
     }
 
     @Get('current')
-    @UseGuards(JwtAuthGuard)
+    @UseGuards(JwtAuthGuard, PermissionsGuard)
+    @RequirePermission('settings.manage')
     @ApiBearerAuth('JWT-auth')
     @ApiOperation({ summary: 'Get current tenant', description: 'Returns the tenant profile associated with the authenticated user\'s JWT token.' })
     @ApiOkResponse({
@@ -56,7 +58,8 @@ export class TenantsController {
     }
 
     @Patch('current')
-    @UseGuards(JwtAuthGuard)
+    @UseGuards(JwtAuthGuard, PermissionsGuard)
+    @RequirePermission('settings.manage')
     @ApiBearerAuth('JWT-auth')
     @ApiOperation({ summary: 'Update current tenant' })
     @ApiOkResponse({

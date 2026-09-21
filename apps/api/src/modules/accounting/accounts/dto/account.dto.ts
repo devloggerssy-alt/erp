@@ -35,6 +35,16 @@ export class CreateChartOfAccountDto {
     @IsOptional()
     @IsString()
     parentId?: string;
+
+    @ApiPropertyOptional({ example: false, description: 'Set false for group/summary accounts that only aggregate children; defaults to true (postable leaf account)' })
+    @IsOptional()
+    @IsBoolean()
+    isPostable?: boolean;
+
+    @ApiPropertyOptional({ example: false, description: 'True for contra accounts (e.g. accumulated depreciation) that reduce their parent balance' })
+    @IsOptional()
+    @IsBoolean()
+    isContra?: boolean;
 }
 
 // ── Update DTO ────────────────────────────────────────────────────────────────
@@ -46,7 +56,7 @@ export class UpdateChartOfAccountDto {
     @Type(() => LocalizedStringDto)
     name?: LocalizedStringDto;
 
-    @ApiPropertyOptional({ example: '00000000-0000-4000-a601-000000000001', nullable: true, description: 'Updated parent account UUID — set to null to make it a root account' })
+    @ApiPropertyOptional({ type: 'string', example: '00000000-0000-4000-a601-000000000001', nullable: true, description: 'Updated parent account UUID — set to null to make it a root account' })
     @IsOptional()
     @IsString()
     parentId?: string | null;
@@ -75,13 +85,13 @@ export class ChartOfAccountResponseDto {
     @ApiProperty({ enum: AccountTypeEnum, example: 'ASSET' })
     type: string = '';
 
-    @ApiPropertyOptional({ example: '00000000-0000-4000-a601-000000000001', nullable: true })
+    @ApiPropertyOptional({ type: 'string', example: '00000000-0000-4000-a601-000000000001', nullable: true })
     parentId: string | null = null;
 
-    @ApiPropertyOptional({ example: '1000', nullable: true })
+    @ApiPropertyOptional({ type: 'string', example: '1000', nullable: true })
     parentCode: string | null = null;
 
-    @ApiPropertyOptional({ example: 'الأصول المتداولة', nullable: true })
+    @ApiPropertyOptional({ type: 'string', example: 'الأصول المتداولة', nullable: true })
     parentName: string | null = null;
 
     @ApiProperty({ example: true })
@@ -98,23 +108,23 @@ export class ChartOfAccountResponseDto {
 
 export class ChartOfAccountTreeDto {
     @ApiProperty({ description: 'Account UUID' })
-    id: string;
+    id: string = '';
 
     @ApiProperty({ description: 'Account code' })
-    code: string;
+    code: string = '';
 
     @ApiProperty({ description: 'Locale-resolved display name' })
-    name: string;
+    name: string = '';
 
-    @ApiProperty({ description: 'Raw localized name object' })
-    nameI18n: object;
+    @ApiProperty({ type: LocalizedStringDto, description: 'Raw localized name object' })
+    nameI18n: LocalizedStringDto = new LocalizedStringDto();
 
     @ApiProperty({ enum: AccountType, description: 'Account type' })
-    type: AccountType;
+    type: AccountType = AccountType.ASSET;
 
-    @ApiProperty({ nullable: true, description: 'Parent account UUID or null' })
-    parentId: string | null;
+    @ApiProperty({ type: 'string', nullable: true, description: 'Parent account UUID or null' })
+    parentId: string | null = null;
 
     @ApiProperty({ description: 'Whether account is active' })
-    isActive: boolean;
+    isActive: boolean = true;
 }

@@ -13,7 +13,6 @@ import {
     glDefaultsStepSchema, GL_DEFAULT_CODES,
     type GlDefaultsStepValues,
 } from "../onboarding.config"
-import type { AccountListItem } from "@/modules/accounts/accounts.types"
 
 type Props = {
     codeToId: Record<string, string>
@@ -46,7 +45,7 @@ export function GlDefaultsStep({ codeToId, onSuccess }: Props) {
         staleTime: 60_000,
     })
 
-    const accounts = useMemo(() => (data?.data ?? []) as unknown as AccountListItem[], [data])
+    const accounts = useMemo(() => data?.data ?? [], [data])
 
     const form = useForm<GlDefaultsStepValues>({
         resolver: zodResolver(glDefaultsStepSchema),

@@ -13,7 +13,7 @@ export class AuthTenantDto {
     @ApiProperty({ example: 0 })
     onboardingStep: number = 0;
 
-    @ApiProperty({ nullable: true, example: null })
+    @ApiProperty({ type: 'string', nullable: true, example: null })
     onboardingCompletedAt: string | null = null;
 }
 
@@ -33,6 +33,9 @@ export class AuthUserDto {
     @ApiProperty({ type: [String], example: ['Admin'] })
     roles: string[] = [];
 
+    @ApiProperty({ type: [String], example: ['invoices.view', 'invoices.post'] })
+    permissions: string[] = [];
+
     @ApiProperty({ type: AuthTenantDto })
     tenant: AuthTenantDto = new AuthTenantDto();
 }
@@ -46,6 +49,6 @@ export class LoginDataDto {
 }
 
 export class MeDataDto extends AuthUserDto {
-    @ApiProperty({ nullable: true, example: null })
+    @ApiProperty({ type: 'string', nullable: true, example: null })
     phone?: string | null;
 }

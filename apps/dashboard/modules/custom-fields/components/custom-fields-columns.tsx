@@ -14,7 +14,7 @@ export function createCustomFieldsColumns(
     return [
         {
             id: "label",
-            accessorFn: (row) => localize(row.label as never, locale, localize(row.name as never, locale)),
+            accessorFn: (row) => localize(row.label, locale, localize(row.name, locale)),
             header: ({ column }) => <ColumnHeader column={column} title={t("label")} />,
         },
         {

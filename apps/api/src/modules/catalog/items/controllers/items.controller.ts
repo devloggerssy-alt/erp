@@ -3,7 +3,7 @@ import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { ItemsService } from '../services/items.service';
 import { CreateItemDto, UpdateItemDto, ItemResponseDto } from '../dto';
 import { createCrudController, type CrudOpenApi, type RequestUser } from '@devloggers/backend-core';
-import { JwtAuthGuard } from '@/modules/identity/auth/guards';
+import { JwtAuthGuard, PermissionsGuard } from '@/modules/identity/auth/guards';
 import { itemCategoryResource, } from '@devloggers/api-contracts';
 
 const ITEMS_OPENAPI = {
@@ -45,11 +45,17 @@ const ItemsCrudBase = createCrudController({
         { field: 'createdAt', type: 'date' },
     ],
     openApi: ITEMS_OPENAPI,
+    permissions: {
+      view: 'items.view',
+      create: 'items.create',
+      update: 'items.update',
+      delete: 'items.delete',
+    },
 });
 
 @ApiTags('Catalog / Items')
 @Controller('items')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, PermissionsGuard)
 @ApiBearerAuth('JWT-auth')
 export class ItemsController extends ItemsCrudBase {
     constructor(private readonly itemsService: ItemsService) {

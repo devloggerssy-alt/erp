@@ -5,17 +5,6 @@ import { BooleanCell, ColumnHeader } from "@/shared/data-view/table-view"
 
 type ColumnTranslator = (key: string) => string
 
-type BrandRow = {
-    id: string
-    name: string
-    imageUrl: string | null
-    isActive: boolean
-}
-
-function asRow(item: ResourceItem<BrandsClient>): BrandRow {
-    return item as unknown as BrandRow
-}
-
 export function createBrandsColumns(
     helpers: ResourceTableHelpers<BrandsClient>,
     t: ColumnTranslator,
@@ -24,10 +13,10 @@ export function createBrandsColumns(
         {
             id: "name",
             enableSorting: true,
-            accessorFn: (row) => asRow(row).name,
+            accessorFn: (row) => row.name,
             header: ({ column }) => <ColumnHeader column={column} title={t("name")} />,
             cell: ({ row }) => {
-                const brand = asRow(row.original)
+                const brand = row.original
                 return (
                     <div className="flex items-center gap-2">
                         {brand.imageUrl && (
@@ -44,9 +33,9 @@ export function createBrandsColumns(
         },
         {
             id: "isActive",
-            accessorFn: (row) => asRow(row).isActive,
+            accessorFn: (row) => row.isActive,
             header: ({ column }) => <ColumnHeader column={column} title={t("active")} />,
-            cell: ({ row }) => <BooleanCell value={asRow(row.original).isActive} />,
+            cell: ({ row }) => <BooleanCell value={row.original.isActive} />,
         },
         helpers.actionsColumn(),
     ]

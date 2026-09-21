@@ -15,7 +15,7 @@ export class CreateItemCategoryDto {
 
     @ApiPropertyOptional({ example: 'https://cdn.example.com/electronics.png', description: 'Category image URL', nullable: true })
     @IsOptional()
-    @IsUrl()
+    @IsUrl({ require_host: false })
     imageUrl?: string | null;
 
     @ApiPropertyOptional({ example: '00000000-0000-4000-a700-000000000001', description: 'Parent category ID for nesting' })
@@ -42,7 +42,7 @@ export class UpdateItemCategoryDto {
 
     @ApiPropertyOptional({ example: 'https://cdn.example.com/electronics.png', nullable: true })
     @IsOptional()
-    @IsUrl()
+    @IsUrl({ require_host: false })
     imageUrl?: string | null;
 
     @ApiPropertyOptional({ example: '00000000-0000-4000-a700-000000000001', description: 'Parent category ID' })

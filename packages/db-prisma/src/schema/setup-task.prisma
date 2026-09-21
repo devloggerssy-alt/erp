@@ -1,0 +1,48 @@
+enum SetupTaskType {
+    CURRENCIES
+    FISCAL_PERIOD
+    CHART_OF_ACCOUNTS
+    FINANCIAL_MAPPINGS
+    DOCUMENT_SEQUENCES
+    CASHBOXES
+    BANK_ACCOUNTS
+    WAREHOUSES
+    PRODUCTS
+    CUSTOMERS
+    SUPPLIERS
+    OPENING_CASH_BALANCES
+    OPENING_BANK_BALANCES
+    OPENING_RECEIVABLES
+    OPENING_PAYABLES
+    OPENING_INVENTORY
+    RECONCILIATION
+}
+
+enum SetupTaskStatus {
+    BLOCKED
+    READY
+    COMPLETED
+    SKIPPED
+}
+
+// ─── SetupTask ──────────────────────────────────────────────────────────────
+// One row per (tenant, task type). Drives the Business Setup dependency engine
+// (docs/superpowers/specs/2026-08-20-erp-roadmap/phase-06-business-setup-orchestration.md).
+model SetupTask {
+    id           String           @id @default(uuid())
+    tenantId     String           @map("tenant_id")
+    tenant       Tenant           @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+    type         SetupTaskType
+    status       SetupTaskStatus  @default(BLOCKED)
+    required     Boolean          @default(true)
+    dependencies SetupTaskType[]
+    progress     Json?            @db.JsonB
+    metadata     Json?            @db.JsonB
+    completedAt  DateTime?        @map("completed_at")
+    createdAt    DateTime         @default(now()) @map("created_at")
+    updatedAt    DateTime         @updatedAt @map("updated_at")
+
+    @@unique([tenantId, type])
+    @@index([tenantId, status])
+    @@map("setup_tasks")
+}

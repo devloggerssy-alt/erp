@@ -227,9 +227,7 @@ export function InvoiceForm({ ctrl }: { ctrl: InvoiceFormController }) {
     const disabled = ctrl.isReadOnly || ctrl.isBusy
 
     return (
-        <Rhform form={ctrl.form} onSubmit={() => ctrl.onSubmit(ctrl.isEditing ? undefined : "draft")} errorHandler={ers => {
-            console.log("Form submission errors:", ers)
-        }}>
+        <Rhform form={ctrl.form} onSubmit={() => ctrl.onSubmit(ctrl.isEditing ? undefined : "draft")}>
             <div className="p-6 grid grid-cols-12 gap-8">
                 <div className="col-span-3">
 

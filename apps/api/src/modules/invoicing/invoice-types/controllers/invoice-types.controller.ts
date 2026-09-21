@@ -3,7 +3,7 @@ import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { InvoiceTypesService } from '../services/invoice-types.service';
 import { CreateInvoiceTypeDto, UpdateInvoiceTypeDto, InvoiceTypeResponseDto } from '../dto';
 import { createCrudController, type CrudOpenApi } from '@devloggers/backend-core';
-import { JwtAuthGuard } from '@/modules/identity/auth/guards';
+import { JwtAuthGuard, PermissionsGuard } from '@/modules/identity/auth/guards';
 
 const INVOICE_TYPES_OPENAPI = {
     list: {
@@ -35,12 +35,18 @@ const InvoiceTypesCrudBase = createCrudController({
     responseDto: InvoiceTypeResponseDto,
     createDto: CreateInvoiceTypeDto,
     updateDto: UpdateInvoiceTypeDto,
+    permissions: {
+      view: 'invoiceTypes.view',
+      create: 'invoiceTypes.create',
+      update: 'invoiceTypes.update',
+      delete: 'invoiceTypes.delete',
+    },
     openApi: INVOICE_TYPES_OPENAPI,
 });
 
 @ApiTags('Invoicing / Invoice Types')
 @Controller('invoice-types')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, PermissionsGuard)
 @ApiBearerAuth('JWT-auth')
 export class InvoiceTypesController extends InvoiceTypesCrudBase {
     constructor(private readonly invoiceTypesService: InvoiceTypesService) {

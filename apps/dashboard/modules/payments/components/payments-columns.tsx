@@ -20,8 +20,39 @@ type ColumnTranslator = (key: string) => string
 
 export type PaymentColumnActions = {
     onOpenModal: (id: string) => void
-    postPayment: (id: string) => Promise<void>
-    cancelPayment: (id: string) => Promise<void>
+    postPayment: (id: string) => Promise<unknown>
+    cancelPayment: (id: string) => Promise<unknown>
+}
+
+// NOTE ON THE CASTS BELOW (kept intentionally — do not remove without fixing the root cause):
+// `ResourceItem<PaymentsClient>` resolves to `BaseCrudItem` (just `{ id: string }`), not the real
+// `PaymentResponseDto` shape, because `PaymentsClient` hand-implements `ICrudClient` instead of
+// extending `CrudClient<typeof paymentResource>` (see packages/api-client/src/clients/payments.client.ts).
+// It does this because `paymentResource` (packages/api-contracts/src/resources/payment.resource.ts)
+// is defined with `defineResource` and uses non-standard route names (`details` instead of `show`,
+// no `delete` route), so it doesn't satisfy the `CrudResource` shape `CrudClient<R>` requires.
+// Fixing this properly means changing `paymentResource`'s route names and `PaymentsClient`'s base
+// class — both outside apps/dashboard and out of scope for this task. Verified via the generated
+// OpenAPI types that the real `PaymentResponseDto` is FLAT (`cashboxCode`, `cashboxName`, `partyName`
+// — no nested `cashbox`/`party` objects), so the field access below has been corrected to match,
+// even though the compile-time type still forces a cast.
+type PaymentRow = {
+    id: string
+    number: string
+    type: string
+    date: string
+    status: string
+    cashboxCode?: string
+    partyName?: string
+    amount: number
+}
+
+function asRow(item: PaymentItem): PaymentRow {
+    // See NOTE above: PaymentsClient hand-implements ICrudClient instead of extending
+    // CrudClient<typeof paymentResource>, so ResourceItem<PaymentsClient> erases to
+    // BaseCrudItem ({ id: string }) rather than the real PaymentResponseDto shape.
+    // eslint-disable-next-line no-restricted-syntax -- see comment above: ResourceItem<PaymentsClient> erases to BaseCrudItem
+    return item as unknown as PaymentRow
 }
 
 function PaymentActionsCell({
@@ -33,7 +64,7 @@ function PaymentActionsCell({
     t: ColumnTranslator
     actions: PaymentColumnActions
 }) {
-    const status = (row as Record<string, unknown>)["status"] as string
+    const status = asRow(row).status
     const id = String(row.id)
 
     return (
@@ -90,17 +121,19 @@ export function createPaymentsColumns(
 ): ColumnDef<PaymentItem>[] {
     return [
         {
-            accessorKey: "number",
+            id: "number",
+            accessorFn: (row) => asRow(row).number,
             header: ({ column }) => <ColumnHeader column={column} title={t("number")} />,
             cell: ({ row }) => (
-                <span className="font-mono font-semibold text-sm">{row.getValue("number")}</span>
+                <span className="font-mono font-semibold text-sm">{asRow(row.original).number}</span>
             ),
         },
         {
-            accessorKey: "type",
+            id: "type",
+            accessorFn: (row) => asRow(row).type,
             header: ({ column }) => <ColumnHeader column={column} title={t("type")} />,
             cell: ({ row }) => {
-                const type = row.getValue("type") as string
+                const type = asRow(row.original).type
                 return (
                     <Badge variant="secondary" className="text-xs font-medium">
                         {type === "RECEIPT" ? t("types.RECEIPT") : type === "PAYMENT" ? t("types.PAYMENT") : t("types.ADJUSTMENT")}
@@ -109,10 +142,11 @@ export function createPaymentsColumns(
             },
         },
         {
-            accessorKey: "date",
+            id: "date",
+            accessorFn: (row) => asRow(row).date,
             header: ({ column }) => <ColumnHeader column={column} title={t("date")} />,
             cell: ({ row }) => {
-                const val = row.getValue("date") as string
+                const val = asRow(row.original).date
                 return val ? new Date(val).toLocaleDateString() : "—"
             },
         },
@@ -120,9 +154,9 @@ export function createPaymentsColumns(
             id: "cashboxCode",
             header: ({ column }) => <ColumnHeader column={column} title={t("cashbox")} />,
             cell: ({ row }) => {
-                const cashbox = (row.original as Record<string, unknown>)["cashbox"] as Record<string, string> | undefined
-                return cashbox?.["code"]
-                    ? <span className="font-mono text-sm">{cashbox["code"]}</span>
+                const code = asRow(row.original).cashboxCode
+                return code
+                    ? <span className="font-mono text-sm">{code}</span>
                     : <span className="text-muted-foreground">—</span>
             },
         },
@@ -130,17 +164,18 @@ export function createPaymentsColumns(
             id: "partyName",
             header: ({ column }) => <ColumnHeader column={column} title={t("party")} />,
             cell: ({ row }) => {
-                const party = (row.original as Record<string, unknown>)["party"] as Record<string, string> | undefined
-                return party?.["name"]
-                    ? <span>{party["name"]}</span>
+                const name = asRow(row.original).partyName
+                return name
+                    ? <span>{name}</span>
                     : <span className="text-muted-foreground">—</span>
             },
         },
         {
-            accessorKey: "status",
+            id: "status",
+            accessorFn: (row) => asRow(row).status,
             header: ({ column }) => <ColumnHeader column={column} title={t("statusLabel")} />,
             cell: ({ row }) => {
-                const status = row.getValue("status") as string
+                const status = asRow(row.original).status
                 return (
                     <Badge
                         variant="outline"
@@ -161,12 +196,13 @@ export function createPaymentsColumns(
             },
         },
         {
-            accessorKey: "amount",
+            id: "amount",
+            accessorFn: (row) => asRow(row).amount,
             header: ({ column }) => (
                 <ColumnHeader column={column} title={t("amount")} className="text-end" />
             ),
             cell: ({ row }) => {
-                const amount = row.getValue("amount") as number
+                const amount = asRow(row.original).amount
                 return (
                     <div className="text-end font-medium tabular-nums">
                         {amount?.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}

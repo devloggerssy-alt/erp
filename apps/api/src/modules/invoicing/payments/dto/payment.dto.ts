@@ -10,15 +10,15 @@ export enum PaymentTypeEnum {
 export class CreatePaymentDto {
     @ApiProperty({ enum: PaymentTypeEnum, example: 'RECEIPT', description: 'Payment type' })
     @IsEnum(PaymentTypeEnum)
-    type: PaymentTypeEnum;
+    type!: PaymentTypeEnum;
 
     @ApiProperty({ example: '2026-04-14', description: 'Payment date (ISO 8601)' })
     @IsDateString()
-    date: string;
+    date!: string;
 
     @ApiProperty({ example: '00000000-0000-4000-ac00-000000000001', description: 'Cashbox ID (Main Cash SYP)' })
     @IsString() @IsNotEmpty()
-    cashboxId: string;
+    cashboxId!: string;
 
     @ApiPropertyOptional({ example: '00000000-0000-4000-aa00-000000000001', description: 'Party ID (Ahmad Al-Hassan)' })
     @IsOptional() @IsString()
@@ -26,15 +26,15 @@ export class CreatePaymentDto {
 
     @ApiProperty({ example: '00000000-0000-4000-a300-000000000001', description: 'Currency ID (SYP)' })
     @IsString() @IsNotEmpty()
-    currencyId: string;
+    currencyId!: string;
 
     @ApiProperty({ example: '00000000-0000-4000-a400-000000000001', description: 'Fiscal period ID (2026)' })
     @IsString() @IsNotEmpty()
-    fiscalPeriodId: string;
+    fiscalPeriodId!: string;
 
     @ApiProperty({ example: 250000, description: 'Payment amount in currency' })
     @IsNumber() @Min(0.01)
-    amount: number;
+    amount!: number;
 
     @ApiPropertyOptional({ example: 1.0, description: 'Exchange rate to base currency (default 1)' })
     @IsOptional() @IsNumber() @Min(0.0001)
@@ -69,9 +69,9 @@ export class UpdatePaymentDto {
 export class AllocatePaymentDto {
     @ApiProperty({ example: '00000000-0000-4000-ad00-000000000001', description: 'Invoice ID placeholder (Real ID would be from creation)' })
     @IsString() @IsNotEmpty()
-    invoiceId: string;
+    invoiceId!: string;
 
     @ApiProperty({ example: 250000, description: 'Amount to allocate to this invoice' })
     @IsNumber() @Min(0.01)
-    amount: number;
+    amount!: number;
 }

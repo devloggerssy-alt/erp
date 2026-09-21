@@ -56,7 +56,7 @@ export function PaymentForm({ ctrl }: { ctrl: PaymentFormController }) {
                     name="cashbox"
                     label={t("cashbox")}
                     client={(api) => api.cashboxes}
-                    getLabel={(it) => `${(it as Record<string, string>)["code"]} — ${(it as Record<string, string>)["name"]}`}
+                    getLabel={(it) => `${it.code} — ${it.name}`}
                     getValue={(it) => it}
                     extraQuery={currencyId ? { filters: { currencyId: { $eq: currencyId } } } : undefined}
                     required
@@ -66,7 +66,7 @@ export function PaymentForm({ ctrl }: { ctrl: PaymentFormController }) {
                     name="party"
                     label={t("party")}
                     client={(api) => api.parties}
-                    getLabel={(it) => (it as Record<string, string>)["name"]}
+                    getLabel={(it) => it.name}
                     getValue={(it) => it}
                     disabled={disabled}
                 />
@@ -75,7 +75,7 @@ export function PaymentForm({ ctrl }: { ctrl: PaymentFormController }) {
                         name="currency"
                         label={t("currency")}
                         client={(api) => api.currencies}
-                        getLabel={(it) => `${(it as Record<string, string>)["code"]} — ${(it as Record<string, string>)["name"]}`}
+                        getLabel={(it) => `${it.code} — ${it.name}`}
                         getValue={(it) => it}
                         required
                         disabled={disabled}
@@ -84,7 +84,7 @@ export function PaymentForm({ ctrl }: { ctrl: PaymentFormController }) {
                         name="fiscalPeriod"
                         label={t("fiscalPeriod")}
                         client={(api) => api["fiscal-periods"]}
-                        getLabel={(it) => (it as Record<string, string>)["name"]}
+                        getLabel={(it) => it.name}
                         getValue={(it) => it}
                         required
                         disabled={disabled}

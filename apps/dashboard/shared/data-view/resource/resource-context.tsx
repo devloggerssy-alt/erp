@@ -7,10 +7,15 @@ import { useTranslations } from "next-intl"
 import { createActionsColumn, type ActionsColumnOptions } from "@/shared/data-view/table-view"
 import { useFormDialog } from "@/shared/components/form-dialog"
 import { confirm } from "@/shared/components/confirm-dialog"
+import { usePermissions } from "@/shared/hooks/use-permissions"
+import { RESOURCE_PERMISSIONS } from "@/config/resource-permissions"
 import type { ResourceContext, ResourceItem, UseResourceOptions } from "./types"
 import { useResourceQuery } from "./use-resource-query"
 import { useResourceMutations } from "./use-resource-mutations"
 
+// Generic React Context needs an erased initial value; narrowed back to
+// ResourceContext<TClient> by useResourceContext() below.
+// eslint-disable-next-line no-restricted-syntax -- see comment above: erased initial value for a generic context
 const resourceContext = createContext(null as unknown)
 
 export function useResourceContext<TClient extends ICrudClient>(): ResourceContext<TClient> {
@@ -18,6 +23,9 @@ export function useResourceContext<TClient extends ICrudClient>(): ResourceConte
     if (!ctx) {
         throw new Error("useResourceContext must be used within a <ResourceProvider>")
     }
+    // Narrows the erased context value back to the caller's concrete TClient; the
+    // provider below is the only place that ever sets this context value.
+    // eslint-disable-next-line no-restricted-syntax -- see comment above: narrows erased context value to TClient
     return ctx as unknown as ResourceContext<TClient>
 }
 
@@ -37,6 +45,11 @@ export function ResourceProvider<TClient extends ICrudClient>({
     })
     const t = useTranslations("system.resource")
     const dialog = useFormDialog(config.paramKey)
+    const { can } = usePermissions()
+    const permissionSet = RESOURCE_PERMISSIONS[queryState.client.key] ?? {}
+    const canCreate = !permissionSet.create || can(permissionSet.create)
+    const canUpdate = !permissionSet.update || can(permissionSet.update)
+    const canDelete = !permissionSet.delete || can(permissionSet.delete)
     const [selectedItem, setSelectedItem] = useState<TItem | null>(null)
     const [selectedItems, setSelectedItems] = useState<TItem[]>([])
     const clearSelection = () => setSelectedItems([])
@@ -55,18 +68,20 @@ export function ResourceProvider<TClient extends ICrudClient>({
         options?: Partial<ActionsColumnOptions<TItem>>,
     ): ColumnDef<TItem, unknown> =>
         createActionsColumn<TItem>({
-            onEdit: openEdit,
-            onDelete: async (row) => {
-                const confirmed = await confirm({
-                    title: t("deleteTitle"),
-                    description: t("deleteDescription"),
-                    confirmLabel: t("deleteConfirm"),
-                    variant: "destructive",
-                })
-                if (confirmed) {
-                    await mutations.deleteItem(String(row.id))
+            onEdit: canUpdate ? openEdit : undefined,
+            onDelete: canDelete
+                ? async (row) => {
+                    const confirmed = await confirm({
+                        title: t("deleteTitle"),
+                        description: t("deleteDescription"),
+                        confirmLabel: t("deleteConfirm"),
+                        variant: "destructive",
+                    })
+                    if (confirmed) {
+                        await mutations.deleteItem(String(row.id))
+                    }
                 }
-            },
+                : undefined,
             ...options,
         })
 
@@ -80,6 +95,9 @@ export function ResourceProvider<TClient extends ICrudClient>({
         items: queryState.items,
         isLoading: queryState.isLoading,
         isFetching: queryState.isFetching,
+        canCreate,
+        canUpdate,
+        canDelete,
         pagination: queryState.pagination,
         sorting: queryState.sorting,
         params: queryState.params,
@@ -103,6 +121,9 @@ export function ResourceProvider<TClient extends ICrudClient>({
     }
 
     return (
+        // Erases the concrete ResourceContext<TClient> back to the context's declared
+        // ResourceContext<ICrudClient> shape; useResourceContext<TClient>() re-narrows it for each consumer.
+        // eslint-disable-next-line no-restricted-syntax -- see comment above: erases TClient to the context's declared shape
         <resourceContext.Provider value={value as unknown as ResourceContext<ICrudClient>}>
             {children}
         </resourceContext.Provider>

@@ -6,18 +6,6 @@ import { Badge } from "@/shared/components/ui/badge"
 
 type ColumnTranslator = (key: string) => string
 
-type CatalogEntityRow = {
-    id: string
-    name: string
-    kind: string
-    parent?: { name: string; kind: string } | null
-    isActive: boolean
-}
-
-function asRow(item: ResourceItem<CatalogEntitiesClient>): CatalogEntityRow {
-    return item as unknown as CatalogEntityRow
-}
-
 export function createCatalogEntitiesColumns(
     helpers: ResourceTableHelpers<CatalogEntitiesClient>,
     t: ColumnTranslator,
@@ -26,16 +14,16 @@ export function createCatalogEntitiesColumns(
         {
             id: "name",
             enableSorting: true,
-            accessorFn: (row) => asRow(row).name,
+            accessorFn: (row) => row.name,
             header: ({ column }) => <ColumnHeader column={column} title={t("name")} />,
-            cell: ({ row }) => asRow(row.original).name,
+            cell: ({ row }) => row.original.name,
         },
         {
             id: "kind",
-            accessorFn: (row) => asRow(row).kind,
+            accessorFn: (row) => row.kind,
             header: ({ column }) => <ColumnHeader column={column} title={t("kind")} />,
             cell: ({ row }) => {
-                const kind = asRow(row.original).kind
+                const kind = row.original.kind
                 return kind ? <Badge variant="secondary">{kind}</Badge> : null
             },
         },
@@ -43,7 +31,7 @@ export function createCatalogEntitiesColumns(
             id: "parent",
             header: ({ column }) => <ColumnHeader column={column} title={t("parent")} />,
             cell: ({ row }) => {
-                const parent = asRow(row.original).parent
+                const parent = row.original.parent
                 if (!parent) return <span className="text-muted-foreground text-sm">—</span>
                 return (
                     <span className="text-sm">
@@ -55,9 +43,9 @@ export function createCatalogEntitiesColumns(
         },
         {
             id: "isActive",
-            accessorFn: (row) => asRow(row).isActive,
+            accessorFn: (row) => row.isActive,
             header: ({ column }) => <ColumnHeader column={column} title={t("active")} />,
-            cell: ({ row }) => <BooleanCell value={asRow(row.original).isActive} />,
+            cell: ({ row }) => <BooleanCell value={row.original.isActive} />,
         },
         helpers.actionsColumn(),
     ]

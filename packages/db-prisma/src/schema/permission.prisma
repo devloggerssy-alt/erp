@@ -1,0 +1,30 @@
+// ─── Permission (global catalog — no tenant scope) ───────────────────────────
+model Permission {
+    id        String   @id @default(uuid())
+    key       String   @unique // "resource.action", e.g. "invoices.post"
+    resource  String
+    action    String
+    group     String
+    createdAt DateTime @default(now()) @map("created_at")
+
+    rolePermissions RolePermission[]
+
+    @@index([resource])
+    @@index([group])
+    @@map("permissions")
+}
+
+// ─── Role ⇄ Permission ───────────────────────────────────────────────────────
+model RolePermission {
+    id           String   @id @default(uuid())
+    roleId       String   @map("role_id")
+    permissionId String   @map("permission_id")
+    createdAt    DateTime @default(now()) @map("created_at")
+
+    role       Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+    permission Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+
+    @@unique([roleId, permissionId])
+    @@index([roleId])
+    @@map("role_permissions")
+}

@@ -36,6 +36,33 @@ function conditionToPrisma(
   return {};
 }
 
+/** Locales stored in every LocalizedString Json column. */
+const LOCALIZED_PATHS = ['ar', 'en'] as const;
+
+function localizedContains(field: string, value: string): Record<string, unknown>[] {
+  return LOCALIZED_PATHS.map((path) => ({
+    [field]: { path: [path], string_contains: value, mode: 'insensitive' },
+  }));
+}
+
+function localizedEquals(
+  field: string,
+  value: string | number | boolean,
+): Record<string, unknown>[] {
+  return LOCALIZED_PATHS.map((path) => ({
+    [field]: { path: [path], equals: value },
+  }));
+}
+
+function localizedFilter(
+  field: string,
+  condition: FilterCondition,
+): Record<string, unknown>[] | null {
+  if ('$like' in condition) return localizedContains(field, condition.$like);
+  if ('$eq' in condition) return localizedEquals(field, condition.$eq);
+  return null;
+}
+
 export const resolvePagination = (query?: ApiQueryOptionsDto): PaginationParams => {
   const page = query?.page && query.page > 0 ? query.page : 1;
   const limit = query?.limit && query.limit > 0 ? query.limit : 10;
@@ -56,23 +83,34 @@ export function buildPrismaWhere(
   schema?: FilterSchema,
 ): Record<string, unknown> {
   const where: Record<string, unknown> = {};
+  const schemaMap = new Map((schema ?? []).map((def) => [def.field, def]));
 
   if (query.search && query.searchIn) {
-    const fields = query.searchIn.split(',').map((f) => f.trim());
-    where['OR'] = fields.map((field) => ({
-      [field]: { contains: query.search, mode: 'insensitive' },
-    }));
+    const fields = query.searchIn.split(',').map((f) => f.trim()).filter(Boolean);
+    where['OR'] = fields.flatMap((field) =>
+      schemaMap.get(field)?.localized
+        ? localizedContains(field, query.search as string)
+        : [{ [field]: { contains: query.search, mode: 'insensitive' } }],
+    );
   }
 
   if (query.filters && schema) {
-    const schemaMap = new Map(schema.map((def) => [def.field, def]));
-
     for (const [field, rawCondition] of Object.entries(query.filters)) {
       const def = schemaMap.get(field);
       if (!def) continue;
 
       const condition = rawCondition as FilterCondition;
       if (!isOperatorAllowedForField(condition, def)) continue;
+
+      if (def.localized) {
+        const localized = localizedFilter(field, condition);
+        if (localized) {
+          const and = (where['AND'] as Record<string, unknown>[] | undefined) ?? [];
+          and.push({ OR: localized });
+          where['AND'] = and;
+          continue;
+        }
+      }
 
       where[field] = conditionToPrisma(condition, def.type);
     }

@@ -56,7 +56,7 @@ export class WarehouseResponseDto {
     @ApiProperty({ type: LocalizedStringDto })
     nameI18n: LocalizedStringDto = new LocalizedStringDto();
 
-    @ApiProperty({ example: 'Damascus Industrial Zone', nullable: true })
+    @ApiProperty({ type: 'string', example: 'Damascus Industrial Zone', nullable: true })
     address: string | null = null;
 
     @ApiProperty({ example: true })

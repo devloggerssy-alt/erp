@@ -1,19 +1,21 @@
 import { Controller, Get, Query, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth, ApiQuery, ApiOperation, ApiOkResponse } from '@nestjs/swagger';
 import { AuditService } from './audit.service';
-import { JwtAuthGuard } from '../identity/auth/guards';
+import { JwtAuthGuard, PermissionsGuard } from '../identity/auth/guards';
 import { CurrentUser, RequestUser } from '../identity/auth/decorators';
+import { RequirePermission } from '@devloggers/backend-core';
 import { ApiResponseBuilder } from '../../common/api/api-response-builder';
 import { ApiStandardErrors } from '../../common/decorators/api-swagger.decorators';
 
 @ApiTags('Audit')
 @Controller('audit-logs')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, PermissionsGuard)
 @ApiBearerAuth('JWT-auth')
 export class AuditController {
     constructor(private readonly auditService: AuditService) {}
 
     @Get()
+    @RequirePermission('auditLogs.view')
     @ApiOperation({ summary: 'List audit logs', description: 'Returns a paginated list of audit trail entries tracking all data changes (create, update, delete) across the system. Filter by entity type or specific entity ID.' })
     @ApiQuery({ name: 'entityType', required: false, description: 'Filter by entity type (e.g., INVOICE, PAYMENT, ITEM)' })
     @ApiQuery({ name: 'entityId', required: false, description: 'Filter by specific entity ID' })

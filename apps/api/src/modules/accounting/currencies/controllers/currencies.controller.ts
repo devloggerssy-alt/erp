@@ -3,7 +3,7 @@ import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { CurrenciesService } from '../services/currencies.service';
 import { CreateCurrencyDto, UpdateCurrencyDto, CurrencyResponseDto } from '../dto';
 import { createCrudController, type CrudOpenApi } from '@devloggers/backend-core';
-import { JwtAuthGuard } from '@/modules/identity/auth/guards';
+import { JwtAuthGuard, PermissionsGuard } from '@/modules/identity/auth/guards';
 
 const CURRENCIES_OPENAPI = {
     list: {
@@ -35,12 +35,23 @@ const CurrenciesCrudBase = createCrudController({
     responseDto: CurrencyResponseDto,
     createDto: CreateCurrencyDto,
     updateDto: UpdateCurrencyDto,
+    filterSchema: [
+        { field: 'code', type: 'string' },
+        { field: 'name', type: 'string', localized: true },
+        { field: 'isActive', type: 'boolean' },
+    ],
+    permissions: {
+      view: 'currencies.view',
+      create: 'currencies.create',
+      update: 'currencies.update',
+      delete: 'currencies.delete',
+    },
     openApi: CURRENCIES_OPENAPI,
 });
 
 @ApiTags('Accounting / Currencies')
 @Controller('currencies')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, PermissionsGuard)
 @ApiBearerAuth('JWT-auth')
 export class CurrenciesController extends CurrenciesCrudBase {
     constructor(private readonly currenciesService: CurrenciesService) {

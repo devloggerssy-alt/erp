@@ -13,9 +13,11 @@
   },
   "scripts": {
     "dev": "tsc --watch",
-    "build": "tsc",
+    "build": "tsc -p tsconfig.build.json",
     "lint": "echo \"No lint configured for @devloggers/api\"",
-    "check-types": "echo \"No typecheck configured for @devloggers/api\""
+    "check-types": "echo \"No typecheck configured for @devloggers/api\"",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@devloggers/api-contracts": "workspace:*",
@@ -30,7 +32,8 @@
     "@types/react": "19.2.2",
     "@types/react-dom": "19.2.2",
     "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "react-dom": "^19.2.0",
+    "vitest": "^4.1.8"
   },
   "peerDependencies": {
     "@tanstack/react-query": "^5.0.0",

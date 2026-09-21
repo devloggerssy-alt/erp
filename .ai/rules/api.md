@@ -22,7 +22,9 @@ Each feature under `apps/api/src/modules/<domain>/<feature>/`:
 - Resource key: `resources.{name}.key` from `@devloggers/api-contracts` — never hardcode
 - Do not call Prisma from services — use repository
 - Do not return raw entities from controllers — always go through presenter
-- Do not re-emit CRUD events in `onCreated` / `onUpdated` / `onDeleted` — base `CrudService` already does
+- Do not re-emit CRUD events in `onCreated` / `onUpdated` / `onDeleted` — base `CrudService` already does.
+  Events are consumed by `CrudEventsListener` (`src/common/events/`) for structured debug logging
+  (Phase 8.4.5); register future consumers there. `EventEmitterModule` runs in wildcard mode.
 
 ---
 
@@ -112,6 +114,74 @@ A backend task is **not complete** until:
 **Never** use `as any`, `as never`, `@ts-ignore`, or local interface re-declarations to work
 around a type mismatch that stems from stale or incorrect generated types. Fix the decorator,
 regenerate, rebuild.
+
+## Domain boundaries (lint-enforced)
+
+Each directory under `apps/api/src/modules/` is a domain. **Outside a domain, import only its public entry point.** Deep imports are `no-restricted-imports` errors, configured in `apps/api/eslint/domain-boundaries.mjs` and proven by `pnpm --filter @devloggers/api lint:architecture` (CI). Inside a domain, use relative imports and never import your own barrel (that creates module cycles).
+
+| Domain | Public entry point(s) | Exposes |
+|---|---|---|
+| `accounting` | `accounting/posting`, `accounting/document-sequences`, `accounting/financial-settings`, `accounting/fiscal-periods`, `accounting/currencies`, `accounting/opening-balances`, `accounting/reconciliation`, `accounting/accounts/utils`, `accounting/accounts/bootstrap` | `AccountingPostingFacade` + `PostingIntent` types; numbering; tenant setup config; currencies; opening-balance subledger services; reconciliation monitor; period/slot guards; CoA bootstrap |
+| `identity` | `identity/auth/guards`, `identity/auth/decorators` | `JwtAuthGuard`, `@CurrentUser` (shared kernel) |
+| `inventory` | `inventory` | `InventoryModule`, `InventoryService`, `InventoryMovementFacade` + `MovementIntent` types |
+| `invoicing` | `invoicing` | `computeInvoicePaidState`, `CashboxesModule`/`CashboxesService`/`CreateCashboxDto`, `BankAccountsModule`/`BankAccountsService`/`CreateBankAccountDto` |
+| `custom-fields` | `custom-fields` | `CustomFieldsModule`, `CustomFieldValuesService`, `CustomFieldsRepository` |
+| `catalog`, `parties`, `reports`, `files`, `audit`, `ai-chat` | — (no consumers yet) | add an `index.ts` before another domain depends on it |
+
+Allowed dependency graph (besides every domain → `identity` auth kernel):
+
+```
+invoicing ─┬─► accounting (posting, document-sequences, accounts/utils)
+           └─► inventory
+inventory ───► accounting (posting, document-sequences, accounts/utils)
+catalog   ─┬─► inventory
+           └─► custom-fields
+identity  ───► accounting (document-sequences, financial-settings, fiscal-periods)   # onboarding
+identity  ───► accounting (currencies, opening-balances, reconciliation, accounts/bootstrap)
+identity  ───► invoicing (CashboxesModule/Service, BankAccountsModule/Service)   # business-setup
+reports   ───► invoicing
+```
+
+`src/app.module.ts` is the composition root and is exempt. **Adding an edge** means: export the symbol from the target's `index.ts`, add it to the table above, and add a probe case to `apps/api/scripts/check-architecture-rules.mjs`. **Adding a domain** folder fails `lint:architecture` until it has a `DOMAIN_RESTRICTIONS` entry.
+
+The graph is machine-checked (Phase 8.1.2): `apps/api/src/domain/manifest.ts` declares each domain's
+`dependsOn` / `provides` / `routes`; `pnpm --filter @devloggers/api lint:architecture` fails when the
+manifest drifts from the production import graph, controller routes or barrel exports. `identity` is the
+shared auth kernel and is omitted from `dependsOn`.
+
+`DISABLED_DOMAINS` (comma-separated keys, process env or `.env.<NODE_ENV>`) removes optional domains at
+boot; requests to a disabled domain answer 404 with a clear message (guard + filter). Non-optional domains
+(`accounting`, `audit`, `identity`, `inventory`, `invoicing`) and domains an enabled domain depends on
+cannot be disabled — the registry throws a clear configuration error at startup.
+
+## Deletion semantics (per model)
+
+Rule: **financial documents and ledger rows are cancelled or reversed, never hard-deleted** (`.ai/rules/domain.md`). Enforced by service status guards (400), `StatusGuardedCrudRepository` (409 backstop), a `no-restricted-syntax` lint rule on raw Prisma deletes (reviewed allowlist in `apps/api/eslint.config.mjs`), and pinned by `*.delete-guard.spec.ts` / `payments.delete-http.spec.ts`.
+
+| Model | Policy | How |
+|---|---|---|
+| `Invoice` | cancel-only once POSTED; DRAFT deletable in service, **no HTTP route** | `POST /invoices/:id/cancel` reverses JE + stock |
+| `Payment` | cancel-only once POSTED; DRAFT hard delete (`DELETE /payments/:id`, bulk) | `POST /payments/:id/cancel`; `StatusGuardedCrudService` + `StatusGuardedCrudRepository` |
+| `Expense` | cancel-only once POSTED; DRAFT hard delete (`DELETE /expenses/:id`) | `POST /expenses/:id/cancel` reverses JE |
+| `JournalEntry`, `JournalLine` | never deleted | reversal entry via `AccountingPostingFacade.reverse` |
+| `StockMovement` | never deleted | compensating movement via `InventoryMovementFacade` |
+| `StockCount` | never deleted (no route); DRAFT stays draft | — |
+| `OpeningBalanceSession` | DRAFT hard delete; later statuses immutable | `assertMutable` |
+| `PaymentAllocation` | hard delete (link row, no GL effect) | `POST /payments/:id/allocations/:allocationId/remove` |
+| `ChartOfAccount` | **soft delete** (archive via `deletedAt`), refused if journal lines exist | `AccountsService.delete` |
+| `Party`, `Cashbox`, `BankAccount`, `Currency` | hard delete **only if no ledger rows reference it**, else 409 → set `isActive = false` | `beforeDelete` + `countLedgerReferences` — their ledger FKs are `ON DELETE SET NULL` |
+| Other master data (units, brands, items, warehouses, categories, tags, invoice types, …) | hard delete; FK `RESTRICT` violations map to 409 | `CrudRepository` + `mapPrismaError` — not audited row-by-row in Phase 5 |
+| Whole tenant | danger-zone reset of all transactional data | `DataResetService`, phrase-confirmed |
+
+Adding a deletable financial model: extend `StatusGuardedCrudRepository`, or add the delete site to the lint allowlist **with** a pinning test. Known debt: flip the `SET NULL` ledger FKs to `RESTRICT` in a migration.
+
+## Outbox seam (Phase 8.4)
+
+`OUTBOX_ENABLED` (default `false`) turns on the dual-write outbox: `AccountingPostingFacade` keeps posting
+synchronously and additionally writes an `OutboxEvent` row in the same transaction. A poll worker
+(`src/outbox/outbox-worker.service.ts`) delivers rows through `OutboxHandlerRegistry` with retry
+(`OUTBOX_RETRY_DELAY_MS`) and dead-lettering. Enabling the flag does not change GL consistency, call sites
+or the facade return type; the async GL split (enqueue-only) requires a design review per `.ai/rules/domain.md` §4.
 
 ## Reference
 `apps/api/src/modules/catalog/units/`

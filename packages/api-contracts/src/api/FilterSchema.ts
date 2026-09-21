@@ -20,6 +20,12 @@ export type ParsedFilters = Record<string, FilterCondition>;
 export interface FilterFieldDef {
   field: string;
   type: FilterFieldType;
+  /**
+   * True when the column stores a LocalizedString JSON object (`{ ar, en }`).
+   * Search and `$eq`/`$like` filters are translated to per-locale JSON path
+   * filters instead of plain string `contains`.
+   */
+  localized?: boolean;
   operators?: FilterOperator[];
   enumValues?: string[];
   /** Frontend hint to load options from another resource (e.g. categories). */
@@ -34,6 +40,7 @@ export type FilterSchema = FilterFieldDef[];
 export interface ListFilterField {
   field: string;
   type: FilterFieldType;
+  localized?: boolean;
   operators: FilterOperator[];
   enumValues?: string[];
   foreignResourceKey?: string;

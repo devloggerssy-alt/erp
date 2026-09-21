@@ -13,6 +13,16 @@
     "check-types": {
       "dependsOn": ["^check-types"]
     },
+    "typecheck": {
+      "dependsOn": ["^build"]
+    },
+    "lint:ci": {
+      "dependsOn": ["^build"]
+    },
+    "test": {
+      "dependsOn": ["^build"],
+      "outputs": ["coverage/**"]
+    },
     "dev": {
       "cache": false,
       "persistent": true

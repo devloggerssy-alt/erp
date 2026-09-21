@@ -52,7 +52,7 @@ export class TagResponseDto {
   @ApiProperty({ example: 'Fragile' })
   name: string = '';
 
-  @ApiProperty({ example: '#FF5733', nullable: true })
+  @ApiProperty({ type: 'string', example: '#FF5733', nullable: true })
   color: string | null = null;
 
   @ApiProperty({ example: 'items', enum: ['items', 'parties', 'invoices', 'warehouses'] })

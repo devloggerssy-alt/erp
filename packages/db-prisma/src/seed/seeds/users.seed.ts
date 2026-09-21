@@ -16,7 +16,7 @@ export async function seedUsers(prisma: PrismaClient, tenantId: string): Promise
                 email: 'admin@demo-shop.com',
                 passwordHash: adminHash,
                 fullName: 'Admin User',
-                userRoles: { create: { roleId: SEED_IDS.ROLE_ADMIN } },
+                userRoles: { create: { roleId: SEED_IDS.ROLE_OWNER } },
             },
         }),
         prisma.appUser.create({
@@ -36,7 +36,7 @@ export async function seedUsers(prisma: PrismaClient, tenantId: string): Promise
                 email: 'warehouse@demo-shop.com',
                 passwordHash: userHash,
                 fullName: 'Khalid Barakat',
-                userRoles: { create: { roleId: SEED_IDS.ROLE_WAREHOUSE } },
+                userRoles: { create: { roleId: SEED_IDS.ROLE_INVENTORY } },
             },
         }),
         prisma.appUser.create({

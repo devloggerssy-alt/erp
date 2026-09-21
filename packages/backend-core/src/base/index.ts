@@ -9,3 +9,5 @@ export * from './crud-events';
 export * from './import-result.dto';
 export * from './bulk.dto';
 export * from './class-dto-body.pipe';
+export * from './status-guarded-crud-service';
+export * from './status-guarded-crud-repository';

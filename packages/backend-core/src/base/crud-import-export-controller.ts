@@ -21,7 +21,9 @@ import { ApiResponseBuilder } from '../api/api-response-builder.js';
 import type { FilterSchema } from '../api/filter-schema.js';
 import { ApiFilterQuery } from '../decorators/api-filter-query.decorator.js';
 import { CurrentUser } from '../auth/current-user.decorator.js';
+import { RequirePermission } from '../auth/require-permission.decorator.js';
 import type { RequestUser } from '../auth/request-user.js';
+import type { PermissionKey } from '@devloggers/api-contracts';
 import { CrudExportServiceBase } from './crud-export-service.js';
 import { CrudImportServiceBase } from './crud-import-service.js';
 import type { TenantEntity } from './crud-repository.js';
@@ -51,6 +53,8 @@ export type CrudImportExportOpenApi = {
 export type CreateCrudImportExportControllerConfig = {
     filterSchema?: FilterSchema;
     openApi: CrudImportExportOpenApi;
+    /** Required permission for export/template (`view`) and import (`create`). */
+    permissions: { view: PermissionKey; create: PermissionKey };
 };
 
 class ImportFileDto {
@@ -76,7 +80,7 @@ export function createCrudImportExportController(
     exportService: CrudExportServiceLike,
     importService: CrudImportServiceLike,
 ) => object {
-    const { filterSchema, openApi } = config;
+    const { filterSchema, openApi, permissions } = config;
 
     class StandardCrudImportExportControllerBase {
         constructor(
@@ -145,6 +149,24 @@ export function createCrudImportExportController(
         ApiFilterQuery(filterSchema)(
             StandardCrudImportExportControllerBase.prototype,
             'exportResources',
+            descriptor,
+        );
+    }
+
+    const permissionByMethod: Array<[string, PermissionKey]> = [
+        ['exportResources', permissions.view],
+        ['downloadImportTemplate', permissions.view],
+        ['importResources', permissions.create],
+    ];
+
+    for (const [method, permission] of permissionByMethod) {
+        const descriptor = Object.getOwnPropertyDescriptor(
+            StandardCrudImportExportControllerBase.prototype,
+            method,
+        )!;
+        RequirePermission(permission)(
+            StandardCrudImportExportControllerBase.prototype,
+            method,
             descriptor,
         );
     }

@@ -1,14 +1,16 @@
 import { Module } from '@nestjs/common';
+import { PrismaModule } from '@devloggers/db-prisma/nest';
+import { DocumentSequencesModule } from '../../accounting/document-sequences/document-sequences.module';
+import { PostingModule } from '../../accounting/posting';
 import { PaymentsController } from './payments.controller';
 import { PaymentsService } from './payments.service';
-import { DocumentSequencesModule } from '../../accounting/document-sequences/document-sequences.module';
-import { FinancialSettingsModule } from '../../accounting/financial-settings/financial-settings.module';
-import { AccountsModule } from '../../accounting/accounts/accounts.module';
+import { PaymentsRepository } from './repositories/payments.repository';
+import { PaymentPresenter } from './presenters/payment.presenter';
 
 @Module({
-    imports: [DocumentSequencesModule, FinancialSettingsModule, AccountsModule],
-    controllers: [PaymentsController],
-    providers: [PaymentsService],
-    exports: [PaymentsService],
+  imports: [PrismaModule, DocumentSequencesModule, PostingModule],
+  controllers: [PaymentsController],
+  providers: [PaymentsService, PaymentsRepository, PaymentPresenter],
+  exports: [PaymentsService],
 })
 export class PaymentsModule {}

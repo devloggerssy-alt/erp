@@ -3,8 +3,8 @@ import { ApiTags, ApiBearerAuth, ApiOperation, ApiQuery } from '@nestjs/swagger'
 import { CustomFieldsService } from '../services/custom-fields.service';
 import { CreateCustomFieldDto, UpdateCustomFieldDto, CustomFieldResponseDto } from '../dto';
 import { createCrudController, type CrudOpenApi } from '@devloggers/backend-core';
-import { JwtAuthGuard } from '@/modules/identity/auth/guards';
-import { CurrentUser, type RequestUser } from '@devloggers/backend-core';
+import { JwtAuthGuard, PermissionsGuard } from '@/modules/identity/auth/guards';
+import { CurrentUser, type RequestUser, RequirePermission } from '@devloggers/backend-core';
 import { customFieldModules } from '@devloggers/api-contracts';
 
 const CUSTOM_FIELDS_OPENAPI = {
@@ -45,11 +45,17 @@ const CustomFieldsCrudBase = createCrudController({
         { field: 'createdAt', type: 'date' },
     ],
     openApi: CUSTOM_FIELDS_OPENAPI,
+    permissions: {
+      view: 'customFields.view',
+      create: 'customFields.create',
+      update: 'customFields.update',
+      delete: 'customFields.delete',
+    },
 });
 
 @ApiTags('Custom Fields')
 @Controller('custom-fields')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, PermissionsGuard)
 @ApiBearerAuth('JWT-auth')
 export class CustomFieldsController extends CustomFieldsCrudBase {
     constructor(private readonly customFieldsService: CustomFieldsService) {
@@ -57,6 +63,7 @@ export class CustomFieldsController extends CustomFieldsCrudBase {
     }
 
     @Get('by-module')
+    @RequirePermission('customFields.view')
     @ApiOperation({ summary: 'List all custom fields for a module (non-paginated)' })
     @ApiQuery({ name: 'module', enum: Object.values(customFieldModules) })
     async listByModule(

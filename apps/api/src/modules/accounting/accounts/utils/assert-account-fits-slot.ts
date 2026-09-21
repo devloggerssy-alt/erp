@@ -10,7 +10,9 @@ export type AccountSlotName =
     | 'defaultInventory'
     | 'defaultCogs'
     | 'defaultInventoryAdjustment'
-    | 'defaultOpeningEquity';
+    | 'defaultOpeningEquity'
+    | 'defaultCash'
+    | 'defaultBank';
 
 export const SLOT_EXPECTATIONS: Record<AccountSlotName, AccountType> = {
     defaultSales: 'REVENUE',
@@ -22,6 +24,8 @@ export const SLOT_EXPECTATIONS: Record<AccountSlotName, AccountType> = {
     defaultCogs: 'EXPENSE',
     defaultInventoryAdjustment: 'EXPENSE',
     defaultOpeningEquity: 'EQUITY',
+    defaultCash: 'ASSET',
+    defaultBank: 'ASSET',
 };
 
 export interface AccountSlotCheck {

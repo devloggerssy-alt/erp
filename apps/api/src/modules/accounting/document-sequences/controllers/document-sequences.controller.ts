@@ -3,7 +3,7 @@ import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { DocumentSequencesService } from '../services/document-sequences.service';
 import { CreateDocumentSequenceDto, UpdateDocumentSequenceDto, DocumentSequenceResponseDto } from '../dto';
 import { createCrudController, type CrudOpenApi } from '@devloggers/backend-core';
-import { JwtAuthGuard } from '@/modules/identity/auth/guards';
+import { JwtAuthGuard, PermissionsGuard } from '@/modules/identity/auth/guards';
 
 const DOCUMENT_SEQUENCES_OPENAPI = {
     list: {
@@ -35,12 +35,18 @@ const DocumentSequencesCrudBase = createCrudController({
     responseDto: DocumentSequenceResponseDto,
     createDto: CreateDocumentSequenceDto,
     updateDto: UpdateDocumentSequenceDto,
+    permissions: {
+      view: 'documentSequences.view',
+      create: 'documentSequences.create',
+      update: 'documentSequences.update',
+      delete: 'documentSequences.delete',
+    },
     openApi: DOCUMENT_SEQUENCES_OPENAPI,
 });
 
 @ApiTags('Accounting / Document Sequences')
 @Controller('document-sequences')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, PermissionsGuard)
 @ApiBearerAuth('JWT-auth')
 export class DocumentSequencesController extends DocumentSequencesCrudBase {
     constructor(private readonly documentSequencesService: DocumentSequencesService) {

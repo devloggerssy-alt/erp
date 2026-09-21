@@ -3,7 +3,7 @@ import { OnboardingWizard } from "@/modules/onboarding"
 
 export default async function OnboardingPage() {
     const { user } = await getAuthCookies()
-    const initialStep = Math.min((user?.tenant?.onboardingStep ?? 0) + 1, 5)
+    const initialStep = Math.min((user?.tenant?.onboardingStep ?? 0) + 1, 7)
 
     return (
         <OnboardingWizard

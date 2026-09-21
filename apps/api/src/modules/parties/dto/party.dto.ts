@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, IsOptional, IsBoolean, IsNumber, IsEnum } from 'class-validator';
+import { IsString, IsNotEmpty, IsOptional, IsBoolean, IsEnum } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export enum PartyTypeEnum {
@@ -16,12 +16,12 @@ export class CreatePartyDto {
     @ApiProperty({ example: 'Damascus Import Co.', description: 'Party display name' })
     @IsString()
     @IsNotEmpty()
-    name: string;
+    name!: string;
 
     @ApiProperty({ enum: PartyTypeEnum, example: 'SUPPLIER' })
     @IsEnum(PartyTypeEnum)
     @IsNotEmpty()
-    type: PartyTypeEnum;
+    type!: PartyTypeEnum;
 
     @ApiPropertyOptional({ example: '+963-11-9876543' })
     @IsOptional()
@@ -37,11 +37,6 @@ export class CreatePartyDto {
     @IsOptional()
     @IsString()
     address?: string;
-
-    @ApiPropertyOptional({ example: 0, description: 'Initial opening balance in base currency' })
-    @IsOptional()
-    @IsNumber()
-    openingBalance?: number;
 }
 
 export class UpdatePartyDto {
@@ -75,11 +70,6 @@ export class UpdatePartyDto {
     @IsString()
     address?: string;
 
-    @ApiPropertyOptional({ example: 500000 })
-    @IsOptional()
-    @IsNumber()
-    openingBalance?: number;
-
     @ApiPropertyOptional({ example: true })
     @IsOptional()
     @IsBoolean()
@@ -90,14 +80,14 @@ export class UpdatePartyStatusDto {
     @ApiProperty({ example: false, description: 'Set party active/inactive' })
     @IsBoolean()
     @IsNotEmpty()
-    isActive: boolean;
+    isActive!: boolean;
 }
 
 export class PartyResponseDto {
     @ApiProperty({ example: '00000000-0000-4000-e100-000000000001' })
     id: string = '';
 
-    @ApiProperty({ example: 'SUPP-001', nullable: true })
+    @ApiProperty({ type: 'string', example: 'SUPP-001', nullable: true })
     code: string | null = null;
 
     @ApiProperty({ example: 'Damascus Import Co.' })
@@ -106,17 +96,14 @@ export class PartyResponseDto {
     @ApiProperty({ enum: PartyTypeEnum, example: 'SUPPLIER' })
     type: string = '';
 
-    @ApiProperty({ example: '+963-11-9876543', nullable: true })
+    @ApiProperty({ type: 'string', example: '+963-11-9876543', nullable: true })
     phone: string | null = null;
 
-    @ApiProperty({ example: 'info@damsimport.sy', nullable: true })
+    @ApiProperty({ type: 'string', example: 'info@damsimport.sy', nullable: true })
     email: string | null = null;
 
-    @ApiProperty({ example: 'Damascus, Industrial Zone', nullable: true })
+    @ApiProperty({ type: 'string', example: 'Damascus, Industrial Zone', nullable: true })
     address: string | null = null;
-
-    @ApiProperty({ example: 0 })
-    openingBalance: number = 0;
 
     @ApiProperty({ example: true })
     isActive: boolean = true;

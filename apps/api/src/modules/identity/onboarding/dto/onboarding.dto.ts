@@ -1,9 +1,10 @@
 import {
     IsString, IsNotEmpty, IsOptional, IsIn,
-    IsDateString, IsInt, IsArray, ValidateNested, Min, IsUUID, IsObject,
+    IsDateString, IsInt, IsArray, ValidateNested, Min, IsUUID,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { CreateCurrencyDto } from '../../../accounting/currencies/dto';
 
 export class OnboardingCompanyStepDto {
     @ApiProperty({ example: 'My Company' })
@@ -96,7 +97,9 @@ export class OnboardingDocumentSequencesStepDto {
 }
 
 export class OnboardingCurrenciesStepDto {
-    @ApiProperty({ description: 'Code-to-ID map from chart of accounts bootstrap' })
-    @IsObject()
-    codeToId: Record<string, string> = {};
+    @ApiProperty({ type: () => CreateCurrencyDto, isArray: true, description: 'ADR-6: caller-supplied currency list — no hardcoded codes' })
+    @IsArray()
+    @ValidateNested({ each: true })
+    @Type(() => CreateCurrencyDto)
+    currencies: CreateCurrencyDto[] = [];
 }

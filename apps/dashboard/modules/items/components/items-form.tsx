@@ -119,7 +119,7 @@ export function ItemsForm({
                                 label={t("baseUnit")}
                                 placeholder={t("baseUnitPlaceholder")}
                                 client={(api) => api[unitResource.key]}
-                                getLabel={(item) => (item as unknown as { name: string }).name}
+                                getLabel={(item) => item.name}
                                 getValue={(item) => item}
                                 required
                                 disabled={ctrl.isBusy}
@@ -129,7 +129,7 @@ export function ItemsForm({
                                 label={t("brand")}
                                 placeholder={t("brandPlaceholder")}
                                 client={(api) => api[brandResource.key]}
-                                getLabel={(item) => (item as unknown as { name: string }).name}
+                                getLabel={(item) => item.name}
                                 getValue={(item) => item}
                                 disabled={ctrl.isBusy}
                                 createForm={(props) => <InlineBrandCreateForm {...props} />}

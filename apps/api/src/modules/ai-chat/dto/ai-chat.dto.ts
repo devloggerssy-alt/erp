@@ -8,5 +8,5 @@ export class CreateSessionDto {
 
 export class SendMessageDto {
     @ApiProperty({ example: 'What were the top 5 selling items last month?', description: 'User message to the AI assistant' })
-    @IsString() @IsNotEmpty() message: string;
+    @IsString() @IsNotEmpty() message!: string;
 }

@@ -2,11 +2,18 @@ import { IsString, IsNotEmpty, IsOptional, IsBoolean, IsObject } from 'class-val
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 // Local type used in response DTO and presenter
-export type CatalogEntityParentSummary = {
-  id: string;
-  name: string;
-  kind: string;
-};
+export class CatalogEntityParentSummaryDto {
+  @ApiProperty()
+  id: string = '';
+
+  @ApiProperty()
+  name: string = '';
+
+  @ApiProperty()
+  kind: string = '';
+}
+
+export type CatalogEntityParentSummary = CatalogEntityParentSummaryDto;
 
 // ── Create DTO ────────────────────────────────────────────────────────────────
 
@@ -24,7 +31,7 @@ export class CreateCatalogEntityDto {
   @IsNotEmpty()
   kind: string = '';
 
-  @ApiPropertyOptional({ example: null, nullable: true })
+  @ApiPropertyOptional({ type: 'string', example: null, nullable: true })
   @IsOptional()
   @IsString()
   parentId?: string | null;
@@ -50,7 +57,7 @@ export class UpdateCatalogEntityDto {
   @IsNotEmpty()
   kind?: string;
 
-  @ApiPropertyOptional({ nullable: true })
+  @ApiPropertyOptional({ type: 'string', nullable: true })
   @IsOptional()
   @IsString()
   parentId?: string | null;
@@ -78,10 +85,10 @@ export class CatalogEntityResponseDto {
   @ApiProperty()
   kind: string = '';
 
-  @ApiProperty({ nullable: true })
+  @ApiProperty({ type: 'string', nullable: true })
   parentId: string | null = null;
 
-  @ApiProperty({ nullable: true, type: () => Object })
+  @ApiProperty({ nullable: true, type: () => CatalogEntityParentSummaryDto })
   parent: CatalogEntityParentSummary | null = null;
 
   @ApiProperty({ nullable: true, type: 'object', additionalProperties: true })

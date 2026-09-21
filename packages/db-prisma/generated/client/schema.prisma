@@ -42,25 +42,27 @@ model ChartOfAccount {
   createdAt  DateTime    @default(now()) @map("created_at")
   updatedAt  DateTime    @updatedAt @map("updated_at")
 
-  tenant                        Tenant             @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-  parent                        ChartOfAccount?    @relation("AccountHierarchy", fields: [parentId], references: [id])
-  children                      ChartOfAccount[]   @relation("AccountHierarchy")
+  tenant                        Tenant                      @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  parent                        ChartOfAccount?             @relation("AccountHierarchy", fields: [parentId], references: [id])
+  children                      ChartOfAccount[]            @relation("AccountHierarchy")
   journalLines                  JournalLine[]
-  expenseItems                  ExpenseItem[]      @relation("ExpenseItemAccount")
-  linkedCashboxes               Cashbox[]          @relation("CashboxLinkedAccount")
+  expenseItems                  ExpenseItem[]               @relation("ExpenseItemAccount")
   // FinancialSetting back-relations (GL mapping)
-  defaultSalesFor               FinancialSetting[] @relation("DefaultSalesAccount")
-  defaultPurchaseFor            FinancialSetting[] @relation("DefaultPurchaseAccount")
-  defaultTaxFor                 FinancialSetting[] @relation("DefaultTaxAccount")
-  defaultReceivableFor          FinancialSetting[] @relation("DefaultReceivableAccount")
-  defaultPayableFor             FinancialSetting[] @relation("DefaultPayableAccount")
-  defaultInventoryFor           FinancialSetting[] @relation("DefaultInventoryAccount")
-  defaultCogsFor                FinancialSetting[] @relation("DefaultCogsAccount")
-  defaultInventoryAdjustmentFor FinancialSetting[] @relation("DefaultInventoryAdjustmentAccount")
-  defaultOpeningEquityFor       FinancialSetting[] @relation("DefaultOpeningEquityAccount")
+  defaultSalesFor               FinancialSetting[]          @relation("DefaultSalesAccount")
+  defaultPurchaseFor            FinancialSetting[]          @relation("DefaultPurchaseAccount")
+  defaultTaxFor                 FinancialSetting[]          @relation("DefaultTaxAccount")
+  defaultReceivableFor          FinancialSetting[]          @relation("DefaultReceivableAccount")
+  defaultPayableFor             FinancialSetting[]          @relation("DefaultPayableAccount")
+  defaultInventoryFor           FinancialSetting[]          @relation("DefaultInventoryAccount")
+  defaultCogsFor                FinancialSetting[]          @relation("DefaultCogsAccount")
+  defaultInventoryAdjustmentFor FinancialSetting[]          @relation("DefaultInventoryAdjustmentAccount")
+  defaultOpeningEquityFor       FinancialSetting[]          @relation("DefaultOpeningEquityAccount")
+  defaultCashFor                FinancialSetting[]          @relation("DefaultCashAccount")
+  defaultBankFor                FinancialSetting[]          @relation("DefaultBankAccount")
   // Party-level override back-relations
-  partyReceivables              Party[]            @relation("PartyReceivableAccount")
-  partyPayables                 Party[]            @relation("PartyPayableAccount")
+  partyReceivables              Party[]                     @relation("PartyReceivableAccount")
+  partyPayables                 Party[]                     @relation("PartyPayableAccount")
+  openingBalanceSessionLines    OpeningBalanceSessionLine[]
   // REMOVED: currentBalance Decimal (source of truth is JournalLine; balances computed on read)
 
   @@unique([tenantId, code])
@@ -108,6 +110,13 @@ model JournalLine {
   journalEntryId String  @map("journal_entry_id")
   accountId      String  @map("account_id")
   partyId        String? @map("party_id")
+  cashboxId      String? @map("cashbox_id")
+  bankAccountId  String? @map("bank_account_id")
+  currencyId     String? @map("currency_id")
+  /// Transaction-currency amount; direction implied by debit/credit.
+  amount         Decimal @default(0) @db.Decimal(18, 4)
+  /// Locked exchange rate to base currency for this line.
+  exchangeRate   Decimal @default(1) @map("exchange_rate") @db.Decimal(18, 6)
   debit          Decimal @default(0) @db.Decimal(18, 4)
   credit         Decimal @default(0) @db.Decimal(18, 4)
   description    String?
@@ -116,10 +125,17 @@ model JournalLine {
   journalEntry JournalEntry   @relation(fields: [journalEntryId], references: [id], onDelete: Cascade)
   account      ChartOfAccount @relation(fields: [accountId], references: [id])
   party        Party?         @relation("JournalLineParty", fields: [partyId], references: [id])
+  cashbox      Cashbox?       @relation(fields: [cashboxId], references: [id])
+  bankAccount  BankAccount?   @relation(fields: [bankAccountId], references: [id])
+  currency     Currency?      @relation(fields: [currencyId], references: [id])
 
   @@index([tenantId])
   @@index([journalEntryId])
   @@index([accountId])
+  @@index([tenantId, cashboxId])
+  @@index([tenantId, bankAccountId])
+  @@index([tenantId, currencyId])
+  @@index([accountId, currencyId])
   @@map("journal_lines")
 }
 
@@ -169,22 +185,58 @@ model AiChatMessage {
 /// when any entity (Invoice, Payment, Expense, etc.) is hard-deleted, the
 /// corresponding AuditLog rows must be deleted in the same transaction.
 model AuditLog {
-  id         String   @id @default(uuid())
-  tenantId   String   @map("tenant_id")
-  userId     String   @map("user_id")
-  action     String // e.g. CREATE, UPDATE, DELETE, POST, CANCEL
-  entityType String   @map("entity_type") // e.g. "invoice", "payment"
-  entityId   String   @map("entity_id")
-  oldValues  Json?    @map("old_values")
-  newValues  Json?    @map("new_values")
-  ipAddress  String?  @map("ip_address")
-  createdAt  DateTime @default(now()) @map("created_at")
+  id            String   @id @default(uuid())
+  tenantId      String   @map("tenant_id")
+  userId        String   @map("user_id") // "system" for scheduler / non-user work
+  action        String // e.g. CREATE, UPDATE, DELETE, JOURNAL_POST, OPENING_SESSION_LOCK
+  entityType    String   @map("entity_type") // e.g. "payments", "journal_entry"
+  entityId      String   @map("entity_id")
+  oldValues     Json?    @map("old_values")
+  newValues     Json?    @map("new_values")
+  ipAddress     String?  @map("ip_address")
+  /// HTTP | GL | SCHEDULER | BUSINESS_SETUP | SYSTEM — see RequestContext.AuditSource
+  source        String   @default("HTTP")
+  /// Joins this row to its request's log lines and sibling audit rows.
+  correlationId String?  @map("correlation_id")
+  /// Free-form context, e.g. { method, route, handler } or { taskType }.
+  metadata      Json?
+  /// Append-only: a DB trigger rejects UPDATE (migration audit_log_observability).
+  createdAt     DateTime @default(now()) @map("created_at")
 
   tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
 
   @@index([tenantId])
   @@index([tenantId, entityType, entityId])
+  @@index([tenantId, createdAt])
+  @@index([correlationId])
   @@map("audit_logs")
+}
+
+// ─── Bank Account ────────────────────────────────────────────────────────────
+// Subledger dimension over the Bank control account (FinancialSetting.defaultBankAccountId).
+// No dedicated GL field — shared control account + bankAccountId on JournalLine (ADR-2).
+model BankAccount {
+  id            String   @id @default(uuid())
+  tenantId      String   @map("tenant_id")
+  code          String
+  name          Json     @db.JsonB // LocalizedString: { ar: string; en?: string }
+  currencyId    String   @map("currency_id")
+  accountNumber String?  @map("account_number")
+  bankName      String?  @map("bank_name")
+  balance       Decimal  @default(0) @db.Decimal(18, 4)
+  isActive      Boolean  @default(true) @map("is_active")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  tenant                     Tenant                      @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  currency                   Currency                    @relation(fields: [currencyId], references: [id])
+  journalLines               JournalLine[]
+  openingBalanceSessionLines OpeningBalanceSessionLine[]
+
+  @@unique([tenantId, code])
+  @@index([tenantId])
+  @@index([tenantId, currencyId])
+  @@map("bank_accounts")
 }
 
 // ─── Brand ────────────────────────────────────────────────────────────────────
@@ -231,12 +283,12 @@ model Cashbox {
   createdAt  DateTime @default(now()) @map("created_at")
   updatedAt  DateTime @updatedAt @map("updated_at")
 
-  tenant          Tenant          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-  currency        Currency        @relation(fields: [currencyId], references: [id])
-  linkedAccountId String?         @map("linked_account_id")
-  linkedAccount   ChartOfAccount? @relation("CashboxLinkedAccount", fields: [linkedAccountId], references: [id])
-  expenses        Expense[]
-  payments        Payment[]
+  tenant                     Tenant                      @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  currency                   Currency                    @relation(fields: [currencyId], references: [id])
+  expenses                   Expense[]
+  payments                   Payment[]
+  journalLines               JournalLine[]
+  openingBalanceSessionLines OpeningBalanceSessionLine[]
 
   @@unique([tenantId, code])
   @@index([tenantId])
@@ -334,12 +386,15 @@ model Currency {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  tenant         Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-  cashboxes      Cashbox[]
-  invoices       Invoice[]
-  payments       Payment[]
-  baseForTenants Tenant[]  @relation("TenantBaseCurrency")
-  expenses       Expense[]
+  tenant                     Tenant                      @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  cashboxes                  Cashbox[]
+  bankAccounts               BankAccount[]
+  journalLines               JournalLine[]
+  invoices                   Invoice[]
+  payments                   Payment[]
+  baseForTenants             Tenant[]                    @relation("TenantBaseCurrency")
+  expenses                   Expense[]
+  openingBalanceSessionLines OpeningBalanceSessionLine[]
 
   @@unique([tenantId, code])
   @@index([tenantId])
@@ -511,6 +566,8 @@ model FinancialSetting {
   defaultCogsAccountId                String?  @map("default_cogs_account_id")
   defaultInventoryAdjustmentAccountId String?  @map("default_inventory_adjustment_account_id")
   defaultOpeningEquityAccountId       String?  @map("default_opening_equity_account_id")
+  defaultCashAccountId                String?  @map("default_cash_account_id")
+  defaultBankAccountId                String?  @map("default_bank_account_id")
   createdAt                           DateTime @default(now()) @map("created_at")
   updatedAt                           DateTime @updatedAt @map("updated_at")
 
@@ -524,6 +581,8 @@ model FinancialSetting {
   defaultCogsAccount                ChartOfAccount? @relation("DefaultCogsAccount", fields: [defaultCogsAccountId], references: [id])
   defaultInventoryAdjustmentAccount ChartOfAccount? @relation("DefaultInventoryAdjustmentAccount", fields: [defaultInventoryAdjustmentAccountId], references: [id])
   defaultOpeningEquityAccount       ChartOfAccount? @relation("DefaultOpeningEquityAccount", fields: [defaultOpeningEquityAccountId], references: [id])
+  defaultCashAccount                ChartOfAccount? @relation("DefaultCashAccount", fields: [defaultCashAccountId], references: [id])
+  defaultBankAccount                ChartOfAccount? @relation("DefaultBankAccount", fields: [defaultBankAccountId], references: [id])
 
   @@index([tenantId])
   @@map("financial_settings")
@@ -540,13 +599,14 @@ model FiscalPeriod {
   createdAt DateTime           @default(now()) @map("created_at")
   updatedAt DateTime           @updatedAt @map("updated_at")
 
-  tenant         Tenant          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-  stockMovements StockMovement[]
-  invoices       Invoice[]
-  payments       Payment[]
-  journalEntries JournalEntry[]
-  stockCounts    StockCount[]
-  expenses       Expense[]
+  tenant                 Tenant                  @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  stockMovements         StockMovement[]
+  invoices               Invoice[]
+  payments               Payment[]
+  journalEntries         JournalEntry[]
+  stockCounts            StockCount[]
+  expenses               Expense[]
+  openingBalanceSessions OpeningBalanceSession[]
 
   @@index([tenantId])
   @@map("fiscal_periods")
@@ -775,6 +835,124 @@ model Item {
   @@map("items")
 }
 
+// ─── Opening Balance Session ──────────────────────────────────────────────────
+// ADR-3 / ADR-4 / ADR-5 — unified draft → validate → review → post → lock lifecycle.
+// Operational dimensions (partyId / cashboxId / bankAccountId / currencyId) live on
+// session lines; the GL control accounts are resolved at post time by
+// OpeningSessionPostedPolicy from FinancialSettings + party overrides — never stored here.
+enum OpeningBalanceSessionStatus {
+  DRAFT
+  VALIDATED
+  REVIEWED
+  POSTED
+  LOCKED
+}
+
+enum OpeningBalanceDimension {
+  CASHBOX
+  BANK_ACCOUNT
+  PARTY
+  ACCOUNT
+}
+
+enum OpeningBalancePartySide {
+  AR
+  AP
+}
+
+model OpeningBalanceSession {
+  id             String                      @id @default(uuid())
+  tenantId       String                      @map("tenant_id")
+  number         String
+  fiscalPeriodId String                      @map("fiscal_period_id")
+  status         OpeningBalanceSessionStatus @default(DRAFT)
+  description    String?
+  postedAt       DateTime?                   @map("posted_at")
+  postedBy       String?                     @map("posted_by")
+  lockedAt       DateTime?                   @map("locked_at")
+  lockedBy       String?                     @map("locked_by")
+  createdBy      String                      @map("created_by")
+  createdAt      DateTime                    @default(now()) @map("created_at")
+  updatedAt      DateTime                    @updatedAt @map("updated_at")
+
+  tenant       Tenant                      @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  fiscalPeriod FiscalPeriod                @relation(fields: [fiscalPeriodId], references: [id])
+  lines        OpeningBalanceSessionLine[]
+
+  @@unique([tenantId, number])
+  @@index([tenantId])
+  @@index([tenantId, status])
+  @@map("opening_balance_sessions")
+}
+
+model OpeningBalanceSessionLine {
+  id            String                   @id @default(uuid())
+  tenantId      String                   @map("tenant_id")
+  sessionId     String                   @map("session_id")
+  dimension     OpeningBalanceDimension
+  accountId     String?                  @map("account_id")
+  partyId       String?                  @map("party_id")
+  cashboxId     String?                  @map("cashbox_id")
+  bankAccountId String?                  @map("bank_account_id")
+  currencyId    String?                  @map("currency_id")
+  /// AR = debit the receivable control account (money owed to us); AP = credit the payable control account (money we owe).
+  partySide     OpeningBalancePartySide? @map("party_side")
+  /// Signed transaction-currency amount: positive increases the target balance (asset → debit, liability/equity → credit).
+  amount        Decimal                  @db.Decimal(18, 4)
+  /// Locked exchange rate to tenant base currency (ADR-5).
+  exchangeRate  Decimal                  @default(1) @map("exchange_rate") @db.Decimal(18, 6)
+  createdAt     DateTime                 @default(now()) @map("created_at")
+  updatedAt     DateTime                 @updatedAt @map("updated_at")
+
+  session     OpeningBalanceSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  tenant      Tenant                @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  party       Party?                @relation(fields: [partyId], references: [id])
+  cashbox     Cashbox?              @relation(fields: [cashboxId], references: [id])
+  bankAccount BankAccount?          @relation(fields: [bankAccountId], references: [id])
+  account     ChartOfAccount?       @relation(fields: [accountId], references: [id])
+  currency    Currency?             @relation(fields: [currencyId], references: [id])
+
+  @@index([tenantId, sessionId])
+  @@map("opening_balance_session_lines")
+}
+
+// ─── Outbox ───────────────────────────────────────────────────────────────────
+/// Phase 8.4 — durable event repository for the optional async seam.
+/// Dual-write mode: AccountingPostingFacade writes the outbox row in the same
+/// transaction as the journal entry. OFF by default (OUTBOX_ENABLED=false);
+/// the synchronous posting path remains the production behavior (8.4.4).
+enum OutboxStatus {
+  PENDING
+  PROCESSING
+  DELIVERED
+  DEAD
+}
+
+model OutboxEvent {
+  id          String       @id @default(uuid())
+  tenantId    String       @map("tenant_id")
+  /// Stable routing key, e.g. 'accounting.journal-posted'.
+  topic       String
+  payload     Json         @db.JsonB
+  status      OutboxStatus @default(PENDING)
+  attempts    Int          @default(0)
+  maxAttempts Int          @default(5) @map("max_attempts")
+  lastError   String?      @map("last_error")
+  /// Earliest time the next attempt may run (retry backoff).
+  availableAt DateTime     @default(now()) @map("available_at")
+  /// Set while status = PROCESSING; stale locks are reclaimable by the worker.
+  lockedAt    DateTime?    @map("locked_at")
+  deliveredAt DateTime?    @map("delivered_at")
+  createdAt   DateTime     @default(now()) @map("created_at")
+  updatedAt   DateTime     @updatedAt @map("updated_at")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@index([status, availableAt])
+  @@index([tenantId, createdAt])
+  @@map("outbox_events")
+}
+
 // ─── Party ─────────────────────────────────────────────────────────────────────
 enum PartyType {
   CUSTOMER
@@ -791,24 +969,82 @@ model Party {
   phone               String?
   email               String?
   address             String?
-  openingBalance      Decimal   @default(0) @map("opening_balance") @db.Decimal(18, 4)
   isActive            Boolean   @default(true) @map("is_active")
   receivableAccountId String?   @map("receivable_account_id")
   payableAccountId    String?   @map("payable_account_id")
   createdAt           DateTime  @default(now()) @map("created_at")
   updatedAt           DateTime  @updatedAt @map("updated_at")
 
-  tenant            Tenant          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-  invoices          Invoice[]
-  payments          Payment[]
-  journalLines      JournalLine[]   @relation("JournalLineParty")
-  receivableAccount ChartOfAccount? @relation("PartyReceivableAccount", fields: [receivableAccountId], references: [id])
-  payableAccount    ChartOfAccount? @relation("PartyPayableAccount", fields: [payableAccountId], references: [id])
+  tenant                     Tenant                      @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  invoices                   Invoice[]
+  payments                   Payment[]
+  journalLines               JournalLine[]               @relation("JournalLineParty")
+  openingBalanceSessionLines OpeningBalanceSessionLine[]
+  receivableAccount          ChartOfAccount?             @relation("PartyReceivableAccount", fields: [receivableAccountId], references: [id])
+  payableAccount             ChartOfAccount?             @relation("PartyPayableAccount", fields: [payableAccountId], references: [id])
 
   @@unique([tenantId, code])
   @@index([tenantId])
   @@index([tenantId, type])
   @@map("parties")
+}
+
+// ─── Permission (global catalog — no tenant scope) ───────────────────────────
+model Permission {
+  id        String   @id @default(uuid())
+  key       String   @unique // "resource.action", e.g. "invoices.post"
+  resource  String
+  action    String
+  group     String
+  createdAt DateTime @default(now()) @map("created_at")
+
+  rolePermissions RolePermission[]
+
+  @@index([resource])
+  @@index([group])
+  @@map("permissions")
+}
+
+// ─── Role ⇄ Permission ───────────────────────────────────────────────────────
+model RolePermission {
+  id           String   @id @default(uuid())
+  roleId       String   @map("role_id")
+  permissionId String   @map("permission_id")
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  role       Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  permission Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+
+  @@unique([roleId, permissionId])
+  @@index([roleId])
+  @@map("role_permissions")
+}
+
+// ─── Reconciliation Run ───────────────────────────────────────────────────────
+/// Phase 7.5 — history of reconciliation runs. Each run stores its finding
+/// fingerprints so the next run can detect NEW or GROWN drift (drift-baselines.md).
+/// Append-only by convention: written once by ReconciliationMonitorService.
+model ReconciliationRun {
+  id            String   @id @default(uuid())
+  tenantId      String   @map("tenant_id")
+  /// SCHEDULED | MANUAL | BUSINESS_SETUP
+  trigger       String
+  passed        Boolean
+  findingCount  Int      @map("finding_count")
+  /// Record<fingerprint, |difference|> — see reconciliation-checks.ts
+  findings      Json
+  /// string[] — fingerprints new or grown vs the previous run
+  newFindings   Json     @map("new_findings")
+  /// Full ReconciliationResultDto at run time
+  report        Json
+  correlationId String?  @map("correlation_id")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId, createdAt])
+  @@map("reconciliation_runs")
 }
 
 datasource db {
@@ -818,6 +1054,55 @@ datasource db {
 generator client {
   provider = "prisma-client-js"
   output   = "../../generated/client"
+}
+
+enum SetupTaskType {
+  CURRENCIES
+  FISCAL_PERIOD
+  CHART_OF_ACCOUNTS
+  FINANCIAL_MAPPINGS
+  DOCUMENT_SEQUENCES
+  CASHBOXES
+  BANK_ACCOUNTS
+  WAREHOUSES
+  PRODUCTS
+  CUSTOMERS
+  SUPPLIERS
+  OPENING_CASH_BALANCES
+  OPENING_BANK_BALANCES
+  OPENING_RECEIVABLES
+  OPENING_PAYABLES
+  OPENING_INVENTORY
+  RECONCILIATION
+}
+
+enum SetupTaskStatus {
+  BLOCKED
+  READY
+  COMPLETED
+  SKIPPED
+}
+
+// ─── SetupTask ──────────────────────────────────────────────────────────────
+// One row per (tenant, task type). Drives the Business Setup dependency engine
+// (docs/superpowers/specs/2026-08-20-erp-roadmap/phase-06-business-setup-orchestration.md).
+model SetupTask {
+  id           String          @id @default(uuid())
+  tenantId     String          @map("tenant_id")
+  tenant       Tenant          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  type         SetupTaskType
+  status       SetupTaskStatus @default(BLOCKED)
+  required     Boolean         @default(true)
+  dependencies SetupTaskType[]
+  progress     Json?           @db.JsonB
+  metadata     Json?           @db.JsonB
+  completedAt  DateTime?       @map("completed_at")
+  createdAt    DateTime        @default(now()) @map("created_at")
+  updatedAt    DateTime        @updatedAt @map("updated_at")
+
+  @@unique([tenantId, type])
+  @@index([tenantId, status])
+  @@map("setup_tasks")
 }
 
 // ─── Stock Count Status Enum ──────────────────────────────────────────────────
@@ -1000,41 +1285,50 @@ model Tenant {
   baseCurrencyId         String? @map("base_currency_id")
   defaultSalesSequenceId String? @map("default_sales_sequence_id")
 
-  isActive              Boolean   @default(true) @map("is_active")
-  onboardingStep        Int       @default(0) @map("onboarding_step")
-  onboardingCompletedAt DateTime? @map("onboarding_completed_at")
-  createdAt             DateTime  @default(now()) @map("created_at")
-  updatedAt             DateTime  @updatedAt @map("updated_at")
+  isActive                 Boolean   @default(true) @map("is_active")
+  onboardingStep           Int       @default(0) @map("onboarding_step")
+  onboardingCompletedAt    DateTime? @map("onboarding_completed_at")
+  businessSetupProfile     Json?     @map("business_setup_profile") @db.JsonB
+  businessSetupCompletedAt DateTime? @map("business_setup_completed_at")
+  operationalReadiness     Json?     @map("operational_readiness") @db.JsonB
+  createdAt                DateTime  @default(now()) @map("created_at")
+  updatedAt                DateTime  @updatedAt @map("updated_at")
 
-  users                AppUser[]
-  roles                Role[]
-  currencies           Currency[]
-  fiscalPeriods        FiscalPeriod[]
-  documentSequences    DocumentSequence[]
-  itemCategories       ItemCategory[]
-  units                Unit[]
-  items                Item[]
-  parties              Party[]
-  warehouses           Warehouse[]
-  cashboxes            Cashbox[]
-  invoiceTypes         InvoiceType[]
-  invoices             Invoice[]
-  payments             Payment[]
-  chartOfAccounts      ChartOfAccount[]
-  journalEntries       JournalEntry[]
-  stockCounts          StockCount[]
-  auditLogs            AuditLog[]
-  aiChatSessions       AiChatSession[]
-  baseCurrency         Currency?           @relation("TenantBaseCurrency", fields: [baseCurrencyId], references: [id])
-  defaultSalesSequence DocumentSequence?   @relation("TenantDefaultSalesSequence", fields: [defaultSalesSequenceId], references: [id])
-  settings             TenantSetting[]
-  financialSetting     FinancialSetting?
-  expenses             Expense[]
-  tags                 Tag[]
-  itemRelations        ItemRelation[]
-  catalogEntities      CatalogEntity[]
-  itemCatalogEntities  ItemCatalogEntity[]
-  brands               Brand[]
+  users                      AppUser[]
+  roles                      Role[]
+  currencies                 Currency[]
+  fiscalPeriods              FiscalPeriod[]
+  documentSequences          DocumentSequence[]
+  itemCategories             ItemCategory[]
+  units                      Unit[]
+  items                      Item[]
+  parties                    Party[]
+  warehouses                 Warehouse[]
+  cashboxes                  Cashbox[]
+  bankAccounts               BankAccount[]
+  invoiceTypes               InvoiceType[]
+  invoices                   Invoice[]
+  payments                   Payment[]
+  chartOfAccounts            ChartOfAccount[]
+  journalEntries             JournalEntry[]
+  stockCounts                StockCount[]
+  auditLogs                  AuditLog[]
+  reconciliationRuns         ReconciliationRun[]
+  outboxEvents               OutboxEvent[]
+  aiChatSessions             AiChatSession[]
+  baseCurrency               Currency?                   @relation("TenantBaseCurrency", fields: [baseCurrencyId], references: [id])
+  defaultSalesSequence       DocumentSequence?           @relation("TenantDefaultSalesSequence", fields: [defaultSalesSequenceId], references: [id])
+  settings                   TenantSetting[]
+  financialSetting           FinancialSetting?
+  expenses                   Expense[]
+  tags                       Tag[]
+  itemRelations              ItemRelation[]
+  catalogEntities            CatalogEntity[]
+  itemCatalogEntities        ItemCatalogEntity[]
+  brands                     Brand[]
+  openingBalanceSessions     OpeningBalanceSession[]
+  openingBalanceSessionLines OpeningBalanceSessionLine[]
+  setupTasks                 SetupTask[]
 
   @@map("tenants")
 }
@@ -1088,8 +1382,9 @@ model Role {
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")
 
-  tenant    Tenant     @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-  userRoles UserRole[]
+  tenant          Tenant           @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  userRoles       UserRole[]
+  rolePermissions RolePermission[]
 
   // Note: unique on (tenantId, name->>'ar') enforced via expression index in migration SQL
   @@index([tenantId])

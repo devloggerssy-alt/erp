@@ -3,10 +3,12 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useLocale, useTranslations } from "next-intl"
-import { ChevronRight, Circle } from "lucide-react"
+import { ChevronRight, Circle, TriangleAlertIcon } from "lucide-react"
 
-import type { NavGroup, NavItem } from "@/infrastructure/types/navigation"
+import type { NavGroup, NavItem, ReadinessModuleKey } from "@/infrastructure/types/navigation"
 import { cn } from "@/shared/lib/utils"
+import { IconTooltip } from "@/shared/components/icon-tooltip"
+import { useSetupReadiness } from "@/shared/hooks/use-setup-readiness"
 import {
     Collapsible,
     CollapsibleContent,
@@ -50,6 +52,10 @@ export function AppSidebar({ navGroups, logo, ...props }: AppSidebarProps) {
     const pathname = usePathname() ?? "/"
     const isRtl = locale === "ar"
 
+    const { state: setupState } = useSetupReadiness()
+    const isModuleReady = (moduleKey?: ReadinessModuleKey) =>
+        !moduleKey || !setupState?.readiness || setupState.readiness.modules[moduleKey].ready
+
     const normalizePathname = (value: string) => {
         if (value.startsWith(`/${locale}`)) {
             const stripped = value.slice(locale.length + 1)
@@ -91,6 +97,7 @@ export function AppSidebar({ navGroups, logo, ...props }: AppSidebarProps) {
                                         t={t}
                                         normalizedPathname={normalizedPathname}
                                         localizedHref={localizedHref}
+                                        isModuleReady={isModuleReady}
                                     />
                                 ) : (
                                     <SimpleNavItem
@@ -100,6 +107,7 @@ export function AppSidebar({ navGroups, logo, ...props }: AppSidebarProps) {
                                         t={t}
                                         normalizedPathname={normalizedPathname}
                                         localizedHref={localizedHref}
+                                        isModuleReady={isModuleReady}
                                     />
                                 )
                             )}
@@ -112,20 +120,33 @@ export function AppSidebar({ navGroups, logo, ...props }: AppSidebarProps) {
     )
 }
 
+function NavReadinessWarning({ label }: { label: string }) {
+    return (
+        <IconTooltip label={label}>
+            <span className="ms-auto inline-flex shrink-0 items-center">
+                <TriangleAlertIcon className="size-3.5 text-amber-500" />
+            </span>
+        </IconTooltip>
+    )
+}
+
 function SimpleNavItem({
     item,
     isCollapsed,
     t,
     normalizedPathname,
     localizedHref,
+    isModuleReady,
 }: {
     item: NavItem
     isCollapsed: boolean
     t: ReturnType<typeof useTranslations>
     normalizedPathname: string
     localizedHref: (href: string) => string
+    isModuleReady: (moduleKey?: ReadinessModuleKey) => boolean
 }) {
     const isActive = item.isActive ?? normalizedPathname === item.href
+    const showWarning = !isModuleReady(item.readinessModule)
 
     return (
         <SidebarMenuItem>
@@ -143,6 +164,7 @@ function SimpleNavItem({
                         !isCollapsed &&
                         <span>{t(item.titleKey)}</span>
                     }
+                    {showWarning && <NavReadinessWarning label={t("business.businessSetup.navWarning")} />}
                 </Link>
             </SidebarMenuButton>
         </SidebarMenuItem>
@@ -155,16 +177,19 @@ function CollapsibleNavItem({
     t,
     normalizedPathname,
     localizedHref,
+    isModuleReady,
 }: {
     item: NavItem
     isCollapsed: boolean
     t: ReturnType<typeof useTranslations>
     normalizedPathname: string
     localizedHref: (href: string) => string
+    isModuleReady: (moduleKey?: ReadinessModuleKey) => boolean
 }) {
     const isChildActive = item.items?.some((sub) => normalizedPathname === sub.href)
     const isActive = item.isActive ?? (normalizedPathname === item.href || isChildActive === true)
     const isRtl = useLocale() === "ar"
+    const showWarning = !isModuleReady(item.readinessModule)
 
     // Collapsed sidebar → flyout dropdown with sub-items
     if (isCollapsed) {
@@ -188,6 +213,7 @@ function CollapsibleNavItem({
                                 !isCollapsed &&
                                 <span>{t(item.titleKey)}</span>
                             }
+                            {showWarning && <TriangleAlertIcon className="ms-auto size-3.5 text-amber-500" />}
                         </SidebarMenuButton>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent
@@ -221,6 +247,9 @@ function CollapsibleNavItem({
                                             </span>
                                         )}
                                         {t(sub.titleKey)}
+                                        {!isModuleReady(sub.readinessModule) && (
+                                            <TriangleAlertIcon className="ms-auto size-3.5 text-amber-500" />
+                                        )}
                                     </Link>
                                 </DropdownMenuItem>
                             )
@@ -245,6 +274,8 @@ function CollapsibleNavItem({
 
 
                         <span>{t(item.titleKey)}</span>
+
+                        {showWarning && <NavReadinessWarning label={t("business.businessSetup.navWarning")} />}
 
                         <ChevronRight
                             className={cn(
@@ -272,6 +303,9 @@ function CollapsibleNavItem({
                                                 </span>
                                             )}
                                             <span>{t(sub.titleKey)}</span>
+                                            {!isModuleReady(sub.readinessModule) && (
+                                                <TriangleAlertIcon className="ms-auto size-3.5 text-amber-500" />
+                                            )}
                                         </Link>
                                     </SidebarMenuSubButton>
                                 </SidebarMenuSubItem>

@@ -1,4 +1,77 @@
 {
+  "permissions": {
+    "title": "الصلاحيات",
+    "description": "اختر الصلاحيات الممنوحة لهذا الدور. يحصل المستخدم على اتحاد صلاحيات جميع أدواره.",
+    "groups": {
+      "identity": "الهوية والوصول",
+      "catalog": "الكتالوج",
+      "inventory": "المخزون",
+      "commercial": "المبيعات والمشتريات",
+      "accounting": "المحاسبة",
+      "reports": "التقارير",
+      "system": "النظام"
+    },
+    "actions": {
+      "view": "عرض",
+      "create": "إنشاء",
+      "update": "تعديل",
+      "delete": "حذف",
+      "post": "ترحيل",
+      "cancel": "إلغاء",
+      "allocate": "تخصيص",
+      "manage": "إدارة",
+      "reverse": "عكس القيد",
+      "close": "إغلاق",
+      "reset": "إعادة تعيين",
+      "run": "تشغيل",
+      "use": "استخدام"
+    },
+    "resources": {
+      "users": "المستخدمون",
+      "roles": "الأدوار",
+      "tenants": "إعدادات الشركة",
+      "units": "الوحدات",
+      "itemCategories": "تصنيفات الأصناف",
+      "items": "الأصناف",
+      "customFields": "الحقول المخصصة",
+      "tags": "الوسوم",
+      "tagAssignments": "إسناد الوسوم",
+      "itemRelations": "علاقات الأصناف",
+      "catalogEntities": "كيانات الكتالوج",
+      "itemCatalogEntities": "كيانات كتالوج الأصناف",
+      "brands": "العلامات التجارية",
+      "warehouses": "المستودعات",
+      "inventory": "أرصدة المخزون",
+      "stockLedger": "حركات المخزون",
+      "stockCounts": "جرد المخزون",
+      "parties": "العملاء والموردون",
+      "invoiceTypes": "أنواع الفواتير",
+      "invoices": "الفواتير",
+      "cashboxes": "الصناديق",
+      "bankAccounts": "الحسابات البنكية",
+      "payments": "الدفعات",
+      "expenses": "المصروفات",
+      "accounts": "دليل الحسابات",
+      "fiscalPeriods": "الفترات المالية",
+      "documentSequences": "تسلسلات المستندات",
+      "currencies": "العملات",
+      "financialSettings": "الإعدادات المالية",
+      "openingBalanceSessions": "الأرصدة الافتتاحية (دفتر الأستاذ)",
+      "journals": "القيود اليومية",
+      "periods": "إغلاق الفترات",
+      "openingBalances": "الأرصدة الافتتاحية (الترحيل)",
+      "reconciliation": "التسويات",
+      "reports": "التقارير",
+      "dashboard": "لوحة التحكم",
+      "auditLogs": "سجل التدقيق",
+      "files": "الملفات",
+      "ai": "المساعد الذكي",
+      "onboarding": "معالج التهيئة",
+      "businessSetup": "إعداد النشاط",
+      "settings": "الإعدادات",
+      "danger": "منطقة الخطر"
+    }
+  },
   "navigation": {
     "groups": {
       "commercial": "العمليات التجارية",
@@ -147,6 +220,7 @@
       "showLogoOnDocuments": "إظهار الشعار على المستندات"
     },
     "danger": {
+      "noAccess": "ليس لديك صلاحية لإعادة تعيين البيانات.",
       "navLabel": "منطقة الخطر",
       "title": "منطقة الخطر",
       "description": "إجراءات تدميرية لا يمكن التراجع عنها. يتم الحفاظ على البيانات الأساسية (الحسابات، الأصناف، الأطراف، الصناديق) — تُحذف السجلات الحركية فقط.",
@@ -518,6 +592,7 @@
       "active": "نشط"
     },
     "roles": {
+      "systemRoleNotice": "لا يمكن تعديل أدوار النظام.",
       "title": "الأدوار",
       "addAction": "إضافة دور",
       "entity": "دور",
@@ -630,6 +705,20 @@
       "codePlaceholder": "مثال: CASH-SYP",
       "name": "الاسم",
       "currency": "العملة",
+      "active": "نشط"
+    },
+    "bankAccounts": {
+      "title": "الحسابات البنكية",
+      "entity": "حساب بنكي",
+      "addAction": "إضافة حساب بنكي",
+      "code": "الرمز",
+      "codePlaceholder": "مثال: BANK-SYP",
+      "name": "الاسم",
+      "currency": "العملة",
+      "accountNumber": "رقم الحساب",
+      "accountNumberPlaceholder": "مثال: 1234567890",
+      "bankName": "اسم البنك",
+      "bankNamePlaceholder": "مثال: البنك التجاري",
       "active": "نشط"
     },
     "expenses": {
@@ -760,25 +849,6 @@
       "saveAll": "حفظ الكل",
       "saving": "جارٍ الحفظ…",
       "noItems": "لا توجد أصناف نشطة."
-    },
-    "openingBalances": {
-      "title": "الأرصدة الافتتاحية",
-      "description": "أدخل أرصدة افتتاحية للحسابات والصناديق عند بدء سنة مالية جديدة.",
-      "accountCode": "كود الحساب",
-      "accountName": "اسم الحساب",
-      "cashboxCode": "كود الصندوق",
-      "cashboxName": "اسم الصندوق",
-      "currentBalance": "الرصيد الحالي",
-      "openingBalance": "الرصيد الافتتاحي",
-      "selectPeriod": "اختر الفترة المالية…",
-      "openingAmount":"مبلغ الافتتاح",
-      "type":"النوع",
-      "name":"الاسم",
-      "code":"الرمز",
-
-      "saveAll": "حفظ الكل",
-      "saving": "جارٍ الحفظ…"
-      ,"noAccounts": "لا توجد حسابات ميزانية عمومية."
     },
     "stockBalances": {
       "title": "أرصدة المخزون",
@@ -925,6 +995,100 @@
           "type": "النوع"
         }
       }
+    },
+    "openingBalanceSessions": {
+      "title": "جلسات الأرصدة الافتتاحية",
+      "subtitle": "أنشئ جلسات الأرصدة الافتتاحية للنقد والمصارف والعملاء والموردين والحسابات بمسار: مسودة → تحقق → مراجعة → ترحيل → قفل.",
+      "newSession": "جلسة جديدة",
+      "number": "الرقم",
+      "status": "الحالة",
+      "description": "الوصف",
+      "createdAt": "تاريخ الإنشاء",
+      "actions": "إجراءات",
+      "loading": "جارٍ التحميل…",
+      "noSessions": "لا توجد جلسات أرصدة افتتاحية.",
+      "selectPeriod": "اختر الفترة المالية…",
+      "dimension": "البُعد",
+      "dimensionCASHBOX": "نقد",
+      "dimensionBANK_ACCOUNT": "مصرف",
+      "dimensionPARTY": "طرف",
+      "dimensionACCOUNT": "حساب دفتر الأستاذ",
+      "cashbox": "الصندوق",
+      "bankAccount": "الحساب المصرفي",
+      "party": "الطرف",
+      "partySide": "جانب الطرف",
+      "sideAR": "ذمم مدينة (AR)",
+      "sideAP": "ذمم دائنة (AP)",
+      "account": "الحساب",
+      "currency": "العملة",
+      "amount": "المبلغ",
+      "exchangeRate": "سعر الصرف",
+      "create": "إنشاء",
+      "cancel": "إلغاء",
+      "select": "اختر…",
+      "post": "ترحيل",
+      "lock": "قفل",
+      "statusDraft": "مسودة",
+      "statusValidated": "تم التحقق",
+      "statusReviewed": "تمت المراجعة",
+      "statusPosted": "تم الترحيل",
+      "statusLocked": "مقفلة",
+      "editSession": "تعديل الجلسة",
+      "viewSession": "عرض الجلسة",
+      "fiscalPeriod": "الفترة المالية",
+      "sectionCash": "النقد",
+      "sectionBank": "المصارف",
+      "sectionParties": "الأطراف",
+      "sectionGL": "حسابات دفتر الأستاذ",
+      "addLine": "إضافة سطر",
+      "removeLine": "حذف السطر",
+      "noLines": "لا توجد سطور في هذا القسم بعد.",
+      "saveDraft": "حفظ المسودة",
+      "saving": "جارٍ الحفظ…",
+      "close": "إغلاق",
+      "edit": "تعديل",
+      "view": "عرض",
+      "delete": "حذف",
+      "deleteTitle": "حذف هذه الجلسة؟",
+      "deleteDescription": "سيتم حذف جلسة المسودة وسطورها. لا يمكن التراجع عن هذا الإجراء.",
+      "confirmDelete": "حذف الجلسة",
+      "postTitle": "ترحيل الأرصدة الافتتاحية؟",
+      "postDescription": "راجع الإجماليات المحتسبة وأرصدة الأطراف قبل الترحيل. يؤدي الترحيل إلى إنشاء قيد الافتتاح ولا يمكن تعديل الجلسة بعده.",
+      "postConfirm": "ترحيل الجلسة",
+      "posting": "جارٍ الترحيل…",
+      "postDone": "تم ترحيل الأرصدة الافتتاحية.",
+      "lockTitle": "قفل هذه الجلسة؟",
+      "lockDescription": "يمنع القفل إجراء أي تغييرات أخرى على الجلسة المرحّلة.",
+      "confirmLock": "قفل الجلسة",
+      "lockDone": "تم قفل الجلسة.",
+      "previewLoading": "جارٍ احتساب معاينة الترحيل…",
+      "previewError": "لا يمكن ترحيل الجلسة بعد",
+      "currencyTotals": "الإجماليات حسب العملة",
+      "baseBucket": "العملة الأساسية",
+      "totalDebit": "مدين",
+      "totalCredit": "دائن",
+      "totalNet": "الصافي",
+      "offsetTitle": "موازنة الأرصدة الافتتاحية",
+      "offsetDescription": "سيتم ترحيل {amount} إلى الحساب {account}.",
+      "balanced": "الجلسة متوازنة — لا حاجة إلى موازنة افتتاحية.",
+      "partyPreview": "أرصدة الأطراف",
+      "partySideColumn": "الجانب",
+      "currencyColumn": "العملة",
+      "openingNet": "الافتتاحي",
+      "currentBalance": "الحالي",
+      "resultingBalance": "بعد الترحيل",
+      "noPartyLines": "لا تحتوي هذه الجلسة على سطور أطراف.",
+      "enterTotals": "المبالغ المُدخلة حسب العملة",
+      "linesCount": "{count} سطر",
+      "selectCashbox": "اختر الصندوق…",
+      "selectBankAccount": "اختر الحساب المصرفي…",
+      "selectParty": "اختر الطرف…",
+      "selectCurrency": "اختر العملة…",
+      "selectAccount": "اختر الحساب…",
+      "saveError": "تعذّر حفظ الجلسة.",
+      "deleteError": "تعذّر حذف الجلسة.",
+      "postError": "تعذّر ترحيل الجلسة.",
+      "lockError": "تعذّر قفل الجلسة."
     }
   },
   "landing": {
@@ -1029,7 +1193,9 @@
       "continue": "متابعة",
       "saving": "جارٍ الحفظ…",
       "confirm": "تأكيد ومتابعة",
-      "complete": "إكمال الإعداد"
+      "complete": "إكمال الإعداد",
+      "remove": "إزالة",
+      "finish": "إتمام الإعداد"
     },
     "company": {
       "title": "ملف الشركة",
@@ -1056,11 +1222,15 @@
     },
     "currencies": {
       "title": "العملات والخزائن",
-      "description": "العملات المدعومة في نظامك: الليرة السورية والدولار الأمريكي. العملة الأساسية هي الدولار. سيتم إنشاء خزينة لكل عملة تلقائياً.",
+      "description": "اختر العملات التي يستخدمها نشاطك التجاري وحدّد واحدة كعملة أساسية. يمكنك إضافة المزيد لاحقاً.",
       "baseIndicator": "الأساسية",
       "sypName": "الليرة السورية",
       "usdName": "الدولار الأمريكي",
-      "cashbox": "الخزينة"
+      "cashbox": "الخزينة",
+      "codePlaceholder": "الرمز (مثال: USD)",
+      "nameEnPlaceholder": "الاسم (بالإنجليزية)",
+      "nameArPlaceholder": "الاسم (بالعربية)",
+      "addCurrency": "إضافة عملة"
     },
     "glDefaults": {
       "title": "حسابات الأستاذ الافتراضية",
@@ -1074,6 +1244,16 @@
     "documentSequences": {
       "title": "ترقيم المستندات",
       "description": "خصص البادئة ورقم البداية لكل نوع من المستندات."
+    },
+    "businessProfile": {
+      "title": "ملف النشاط التجاري",
+      "description": "أخبرنا بالأجزاء التي ستستخدمها من النظام — هذا يحدد المهام الإعدادية المطلوبة.",
+      "modules": {
+        "inventory": "المخزون والمستودعات",
+        "sales": "المبيعات والعملاء",
+        "purchasing": "المشتريات والموردون",
+        "accounting": "المحاسبة والأستاذ العام"
+      }
     }
   },
   "dashboard": {
@@ -1127,19 +1307,107 @@
       "active": "نشط",
       "lowStock": "مخزون منخفض",
       "outOfStock": "نفذ المخزون"
-    },
-    "openingBalances": {
-      "title": "أرصدة أول المدة",
-      "description": "أدخل أرصدة افتتاحية لحسابات الميزانية العمومية عند بدء سنة مالية جديدة.",
-      "code": "الرمز",
-      "name": "الاسم",
-      "type": "النوع",
-      "currentBalance": "الرصيد الحالي",
-      "openingAmount": "مبلغ الافتتاح",
-      "selectPeriod": "اختر الفترة المالية…",
-      "saveAll": "حفظ الكل",
-      "saving": "جارٍ الحفظ…",
-      "noAccounts": "لا توجد حسابات ميزانية عمومية."
     }
+  },
+  "businessSetup": {
+    "noAccess": "ليس لديك صلاحية لعرض إعداد النشاط.",
+    "title": "إعداد النشاط التجاري",
+    "description": "تابع مهام إعداد نشاطك التجاري.",
+    "loading": "جارٍ التحميل…",
+    "status": {
+      "BLOCKED": "محظور",
+      "READY": "جاهز",
+      "COMPLETED": "مكتمل",
+      "SKIPPED": "متجاوز"
+    },
+    "tasks": {
+      "CURRENCIES": "العملات",
+      "FISCAL_PERIOD": "الفترة المالية",
+      "CHART_OF_ACCOUNTS": "دليل الحسابات",
+      "FINANCIAL_MAPPINGS": "الربط المالي",
+      "DOCUMENT_SEQUENCES": "ترقيم المستندات",
+      "CASHBOXES": "الخزائن",
+      "BANK_ACCOUNTS": "الحسابات البنكية",
+      "WAREHOUSES": "المستودعات",
+      "PRODUCTS": "المنتجات",
+      "CUSTOMERS": "العملاء",
+      "SUPPLIERS": "الموردون",
+      "OPENING_CASH_BALANCES": "الأرصدة النقدية الافتتاحية",
+      "OPENING_BANK_BALANCES": "الأرصدة البنكية الافتتاحية",
+      "OPENING_RECEIVABLES": "الذمم المدينة الافتتاحية",
+      "OPENING_PAYABLES": "الذمم الدائنة الافتتاحية",
+      "OPENING_INVENTORY": "المخزون الافتتاحي",
+      "RECONCILIATION": "التسوية"
+    },
+    "hubDescription": "أكمل هذه الخطوات لتصبح منشأتك جاهزة للعمل.",
+    "completedAt": "اكتمل الإعداد في {date}",
+    "progress": {
+      "title": "تقدم الإعداد",
+      "description": "اكتملت {completed} من {total} مهمة مطلوبة",
+      "percent": "اكتمل {percent}%"
+    },
+    "groups": {
+      "accounting": "المحاسبة",
+      "money": "الأموال",
+      "inventory": "المخزون",
+      "parties": "الأطراف"
+    },
+    "nextAction": {
+      "title": "الخطوة التالية الموصى بها",
+      "ready": "تابع {task}.",
+      "waitingOn": "{task} بانتظار: {blockers}.",
+      "open": "فتح"
+    },
+    "actions": {
+      "open": "فتح",
+      "run": "تشغيل الآن",
+      "running": "جارٍ التشغيل…",
+      "skip": "غير مطبّق",
+      "skipping": "جارٍ التخطي…",
+      "failed": "تعذّر تحديث الإعداد. حاول مرة أخرى."
+    },
+    "blockedBy": "محظورة بسبب {tasks}",
+    "readiness": {
+      "title": "الجاهزية التشغيلية",
+      "ready": "جاهز",
+      "notReady": "غير جاهز",
+      "modules": {
+        "accounting": "المحاسبة",
+        "cashOps": "عمليات النقد",
+        "bankOps": "عمليات البنوك",
+        "inventory": "المخزون",
+        "sales": "المبيعات",
+        "purchasing": "المشتريات"
+      }
+    },
+    "reconciliation": {
+      "title": "التسوية",
+      "run": "تشغيل التسوية",
+      "running": "جارٍ التشغيل…",
+      "passed": "اجتازت جميع فحوص التسوية.",
+      "failed": "{count} من فحوص التسوية فاشلة.",
+      "neverRun": "لم يتم تشغيل التسوية بعد.",
+      "findings": "{count} ملاحظة"
+    },
+    "checks": {
+      "CASH_GL_VS_CASHBOX_SUBLEDGER": "حساب النقد لا يطابق أرصدة الصناديق.",
+      "CASHBOX_SUBLEDGER_VS_PROJECTION": "أرصدة الصناديق لا تطابق دفتر اليومية.",
+      "BANK_GL_VS_BANK_SUBLEDGER": "حساب البنوك لا يطابق أرصدة الحسابات البنكية.",
+      "AR_CONTROL_VS_CUSTOMER_SUBLEDGER": "حساب الذمم المدينة لا يطابق أرصدة العملاء.",
+      "AP_CONTROL_VS_SUPPLIER_SUBLEDGER": "حساب الذمم الدائنة لا يطابق أرصدة الموردين.",
+      "INVENTORY_GL_VS_STOCK_VALUATION": "حساب المخزون لا يطابق تقييم المخزون.",
+      "JOURNAL_ENTRIES_BALANCED": "بعض القيود المحاسبية غير متوازنة.",
+      "MULTI_CURRENCY_BASE_CONSISTENT": "بعض سطور العملات الأجنبية تفتقد المبلغ أو سعر الصرف.",
+      "STOCK_QUANTITY_PROJECTION": "كميات المخزون لا تطابق دفتر الحركات."
+    },
+    "legacy": {
+      "title": "بيانات قديمة",
+      "description": "القيود المنشأة قبل نموذج المحاسبة الحالي قد تكون ناقصة. الفحوص الفاشلة أعلاه تحدد ما يجب تصحيحه."
+    },
+    "banner": {
+      "text": "اكتمل إعداد النشاط بنسبة {percent}%.",
+      "cta": "متابعة الإعداد"
+    },
+    "navWarning": "هذه الوحدة غير جاهزة بعد — أكمل إعداد النشاط أولاً."
   }
 }

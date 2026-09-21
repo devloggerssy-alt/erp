@@ -1,0 +1,169 @@
+name: CI
+
+# Phase 0.3 — the guardrail gate for the architecture refactor.
+# Spec: docs/superpowers/specs/2026-07-25-architecture-refactor/phase-0-guardrails.md
+#
+# Two jobs, deliberately:
+#
+#   guardrails  — BLOCKING. Only checks verified green at the time of writing.
+#                 A gate that is red on day one gets ignored, so nothing known-
+#                 broken goes in here. This is what protects Phases 1 and 1.5.
+#
+#   known-debt  — ADVISORY (continue-on-error). Reports the pre-existing
+#                 failures so they stay visible and can be watched down rather
+#                 than forgotten. Each line has an owning phase.
+#
+# Promote a check from known-debt to guardrails the moment its phase lands.
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  TURBO_TELEMETRY_DISABLED: 1
+  NEXT_TELEMETRY_DISABLED: 1
+
+jobs:
+  guardrails:
+    name: Guardrails (blocking)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.0.0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      # db-prisma generates the client that api-contracts and the API type against.
+      - name: Generate Prisma client
+        run: pnpm --filter @devloggers/db-prisma db:generate
+
+      # ── OpenAPI artifact hygiene ───────────────────────────────────────────
+      # apps/api/openapi.yaml and packages/api-contracts/types/index.ts are
+      # committed as the API contract (.ai/rules/packages.md). Fail fast if
+      # they've drifted from what a fresh `pnpm generate` produces, and ratchet
+      # down the count of untyped OpenAPI 2xx responses instead of letting it
+      # creep back up.
+      - name: Check OpenAPI contract is up to date
+        run: |
+          pnpm generate
+          git diff --exit-code apps/api/openapi.yaml packages/api-contracts/types/index.ts
+          node scripts/audit-openapi-response-types.mjs
+
+      # ── F4 guardrail: the API must type-check under the strict base ──────────
+      # This is the check the whole roadmap's verification depends on. Without
+      # it, `turbo run build` exits 0 on refactors that dropped a parameter type.
+      - name: Typecheck — apps/api (strict)
+        run: pnpm --filter @devloggers/api typecheck
+
+      - name: Typecheck — packages
+        run: |
+          pnpm --filter @devloggers/api-contracts typecheck
+          pnpm --filter @devloggers/api-client typecheck
+          pnpm --filter @devloggers/ui check-types
+
+      - name: Lint — apps/api
+        run: pnpm --filter @devloggers/api lint:ci
+
+      # ── 5.2.3 — prove the boundary / deletion lint rules still fire ─────────
+      - name: Architecture lint rules fire
+        run: pnpm --filter @devloggers/api lint:architecture
+
+      - name: Lint — packages
+        run: |
+          pnpm --filter @devloggers/api-client lint
+          pnpm --filter @devloggers/ui lint
+
+      # ── 0.3.2 — no new suppressions in the tree the refactor touches ─────────
+      - name: No eslint-disable under apps/api/src/modules
+        run: node scripts/check-eslint-disable.mjs
+
+      - name: Test — apps/api
+        run: pnpm --filter @devloggers/api test
+
+      - name: Test — backend-core
+        run: pnpm --filter @devloggers/backend-core test
+
+      - name: Test — api-contracts
+        run: pnpm --filter @devloggers/api-contracts test
+
+      - name: Test — api-client
+        run: pnpm --filter @devloggers/api-client test
+
+      - name: Build — apps/api
+        run: pnpm turbo run build --filter=@devloggers/api
+
+      - name: Build — api-client
+        run: pnpm --filter @devloggers/api-client build
+
+      # ── 0.1 — golden masters ────────────────────────────────────────────────
+      # The API test step above already runs them once the suite exists; this
+      # step exists so a missing suite is loud rather than silent.
+      - name: Golden masters present
+        run: |
+          if [ -f apps/api/src/modules/accounting/posting/__tests__/golden-master.spec.ts ]; then
+            echo "✓ golden-master suite present"
+          else
+            echo "⚠ golden-master suite not yet written (Phase 0 task 0.1)."
+            echo "  Phase 1 MUST NOT start until it exists — it is the only check"
+            echo "  that a posting refactor did not change GL output."
+          fi
+
+  known-debt:
+    name: Known debt (advisory)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.0.0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Generate Prisma client
+        run: pnpm --filter @devloggers/db-prisma db:generate
+
+      # api-client's build/typecheck/test all pass clean as of Phase 4
+      # (Client & Dashboard Type Safety) — promoted to the blocking
+      # guardrails job above. No known-debt entry for it anymore.
+
+      # 61 errors — no-explicit-any in shared form field wrappers +
+      # react-hooks/set-state-in-effect. Pre-existing React/typing issues,
+      # unrelated to the refactor. Owner: unassigned.
+      - name: Lint — dashboard (61 errors, pre-existing)
+        continue-on-error: true
+        run: pnpm --filter @devloggers/dashboard lint
+
+      # 0 errors as of Phase 4 (Client & Dashboard Type Safety) — kept here
+      # as advisory rather than promoted to guardrails since this job's
+      # scope wasn't otherwise revisited. Owner: unassigned.
+      - name: Typecheck — dashboard (0 errors as of Phase 4)
+        continue-on-error: true
+        run: pnpm --filter @devloggers/dashboard typecheck
+
+      - name: eslint-disable inventory (repo-wide)
+        continue-on-error: true
+        run: node scripts/check-eslint-disable.mjs --report

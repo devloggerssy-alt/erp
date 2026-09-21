@@ -123,7 +123,7 @@ export class CustomFieldResponseDto {
     @ApiProperty({ enum: fieldTypes })
     type: keyof typeof fieldTypes = fieldTypes.TEXT;
 
-    @ApiProperty({ nullable: true })
+    @ApiProperty({ type: 'string', nullable: true })
     defaultValue: string | null = null;
 
     @ApiProperty({ type: LocalizedStringDto, nullable: true })

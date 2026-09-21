@@ -24,8 +24,9 @@ import {
 } from '@nestjs/swagger';
 import multer from 'multer';
 import { FilesService } from './files.service';
-import { JwtAuthGuard } from '@/modules/identity/auth/guards';
+import { JwtAuthGuard, PermissionsGuard } from '@/modules/identity/auth/guards';
 import { CurrentUser, RequestUser } from '@/modules/identity/auth/decorators';
+import { RequirePermission } from '@devloggers/backend-core';
 
 class UploadFileDto {
     @ApiProperty({ type: 'string', format: 'binary', description: 'File to upload' })
@@ -37,12 +38,13 @@ class UploadFileDto {
 
 @ApiTags('Files')
 @Controller('files')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, PermissionsGuard)
 @ApiBearerAuth('JWT-auth')
 export class FilesController {
     constructor(private readonly filesService: FilesService) {}
 
     @Post('upload')
+    @RequirePermission('files.manage')
     @ApiOperation({ summary: 'Upload a file', description: 'Upload a file to local or S3 storage and persist its metadata.' })
     @ApiConsumes('multipart/form-data')
     @ApiBody({ type: UploadFileDto })
@@ -57,6 +59,7 @@ export class FilesController {
     }
 
     @Delete(':id')
+    @RequirePermission('files.manage')
     @HttpCode(HttpStatus.NO_CONTENT)
     @ApiOperation({ summary: 'Delete a file by ID' })
     @ApiNoContentResponse({ description: 'File deleted successfully' })

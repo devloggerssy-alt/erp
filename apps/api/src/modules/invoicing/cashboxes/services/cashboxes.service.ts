@@ -25,4 +25,12 @@ export class CashboxesService extends CrudService<Cashbox, CashboxResponseDto, C
             throw new ConflictException(`A cashbox with code "${dto.code}" already exists`);
         }
     }
+
+    protected override async beforeDelete(tenantId: string, id: string): Promise<void> {
+        if ((await this.cashboxesRepository.countLedgerReferences(tenantId, id)) > 0) {
+            throw new ConflictException(
+                'Cannot delete a cashbox that has journal entries. Deactivate it instead.',
+            );
+        }
+    }
 }

@@ -1,6 +1,6 @@
 "use client"
 
-import { useReducer } from "react"
+import { useEffect, useReducer } from "react"
 import { useRouter } from "next/navigation"
 import { useLocale, useTranslations } from "next-intl"
 import { useMutation } from "@tanstack/react-query"
@@ -10,6 +10,7 @@ import { ChartOfAccountsStep } from "./components/chart-of-accounts-step"
 import { CurrenciesStep } from "./components/currencies-step"
 import { GlDefaultsStep } from "./components/gl-defaults-step"
 import { DocumentSequencesStep } from "./components/document-sequences-step"
+import { BusinessProfileStep } from "./components/business-profile-step"
 import { useApi } from "@/shared/useApi"
 import { refreshUserCookie } from "@/modules/auth/auth.actions"
 
@@ -21,6 +22,7 @@ type WizardState = {
 type WizardAction =
     | { type: "NEXT" }
     | { type: "SET_CODE_TO_ID"; payload: Record<string, string> }
+    | { type: "HYDRATE_CODE_TO_ID"; payload: Record<string, string> }
 
 function wizardReducer(state: WizardState, action: WizardAction): WizardState {
     switch (action.type) {
@@ -28,6 +30,8 @@ function wizardReducer(state: WizardState, action: WizardAction): WizardState {
             return { ...state, currentStep: state.currentStep + 1 }
         case "SET_CODE_TO_ID":
             return { ...state, codeToId: action.payload, currentStep: state.currentStep + 1 }
+        case "HYDRATE_CODE_TO_ID":
+            return { ...state, codeToId: action.payload }
     }
 }
 
@@ -38,6 +42,7 @@ const STEP_TITLE_KEYS = [
     "onboarding.currencies.title",
     "onboarding.glDefaults.title",
     "onboarding.documentSequences.title",
+    "onboarding.businessProfile.title",
 ]
 
 type Props = { initialStep?: number; initialName?: string }
@@ -49,16 +54,25 @@ export function OnboardingWizard({ initialStep = 1, initialName }: Props) {
     const t = useTranslations("business")
 
     const [state, dispatch] = useReducer(wizardReducer, {
-        currentStep: Math.max(1, Math.min(initialStep, 6)),
+        currentStep: Math.max(1, Math.min(initialStep, 7)),
         codeToId: {},
     })
+
+    useEffect(() => {
+        if (initialStep > 3) {
+            api.onboarding.stepChartOfAccounts().then(({ codeToId }) => {
+                dispatch({ type: "HYDRATE_CODE_TO_ID", payload: codeToId })
+            })
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     const { mutate: complete } = useMutation({
         mutationFn: async () => {
             await api.onboarding.complete()
             await refreshUserCookie()
         },
-        onSuccess: () => router.push(`/${locale}`),
+        onSuccess: () => router.push(`/${locale}/setup`),
     })
 
     return (
@@ -103,7 +117,6 @@ export function OnboardingWizard({ initialStep = 1, initialName }: Props) {
 
                     {state.currentStep === 4 && (
                         <CurrenciesStep
-                            codeToId={state.codeToId}
                             onSuccess={() => dispatch({ type: "NEXT" })}
                         />
                     )}
@@ -117,6 +130,12 @@ export function OnboardingWizard({ initialStep = 1, initialName }: Props) {
 
                     {state.currentStep === 6 && (
                         <DocumentSequencesStep
+                            onSuccess={() => dispatch({ type: "NEXT" })}
+                        />
+                    )}
+
+                    {state.currentStep === 7 && (
+                        <BusinessProfileStep
                             onSuccess={() => complete()}
                         />
                     )}

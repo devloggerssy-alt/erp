@@ -1,3 +1,5 @@
+import type { PermissionKey } from '../permissions/permission-catalog';
+
 export interface LoginDto {
     email: string;
     password: string;
@@ -25,6 +27,8 @@ export interface AuthUser {
     email: string;
     fullName: string;
     roles: string[];
+    /** Effective permission keys resolved from the user's roles. */
+    permissions: PermissionKey[];
     tenant: AuthTenant;
 }
 

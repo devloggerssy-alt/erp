@@ -92,6 +92,10 @@ export function ResourceSelectField<
   placeholder = "Search...",
   client,
   getLabel,
+  // Default getValue for the generic TValue: the resolved item's id is always a string, but
+  // TValue is unconstrained, so the default must bridge through `unknown`. Callers that need
+  // a non-string TValue supply their own getValue.
+  // eslint-disable-next-line no-restricted-syntax -- see comment above: generic bridge for unconstrained TValue
   getValue = (item: any) => String(item.id) as unknown as TValue,
   getId = (item: any) => String(item.id),
   queryKey,
@@ -322,6 +326,9 @@ export function ResourceMultiSelectField<
   placeholder = "Search...",
   client,
   getLabel,
+  // Same generic bridge as ResourceSelectField above: TValue is unconstrained,
+  // the default assumes a string id.
+  // eslint-disable-next-line no-restricted-syntax -- see comment above: generic bridge for unconstrained TValue
   getValue = (item: any) => String(item.id) as unknown as TValue,
   getId = (item: any) => String(item.id),
   queryKey,

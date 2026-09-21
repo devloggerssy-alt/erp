@@ -7,17 +7,17 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 export class CreateUserDto {
     @ApiProperty({ example: 'accountant@demo-shop.com', description: 'User email (unique per tenant)' })
     @IsEmail()
-    email: string;
+    email!: string;
 
     @ApiProperty({ example: 'user123', description: 'Password (min 8 characters)' })
     @IsString()
     @MinLength(8)
-    password: string;
+    password!: string;
 
     @ApiProperty({ example: 'Sara Al-Amin', description: 'Full display name' })
     @IsString()
     @IsNotEmpty()
-    fullName: string;
+    fullName!: string;
 
     @ApiPropertyOptional({ example: '+963-933-111222' })
     @IsOptional()
@@ -57,7 +57,7 @@ export class UpdateUserDto {
 export class UpdateUserStatusDto {
     @ApiProperty({ example: false, description: 'Set user active/inactive' })
     @IsBoolean()
-    isActive: boolean;
+    isActive!: boolean;
 }
 
 export class UserRoleDto {
@@ -78,13 +78,13 @@ export class UserResponseDto {
     @ApiProperty({ example: 'Sara Al-Amin' })
     fullName: string = '';
 
-    @ApiPropertyOptional({ example: '+963-933-111222', nullable: true })
+    @ApiPropertyOptional({ type: 'string', example: '+963-933-111222', nullable: true })
     phone: string | null = null;
 
     @ApiProperty({ example: true })
     isActive: boolean = true;
 
-    @ApiPropertyOptional({ nullable: true })
+    @ApiPropertyOptional({ type: 'string', nullable: true })
     lastLoginAt: string | null = null;
 
     @ApiProperty({ type: [UserRoleDto] })

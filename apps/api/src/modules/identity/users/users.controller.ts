@@ -11,35 +11,31 @@ import {
     HttpCode,
     HttpStatus,
 } from '@nestjs/common';
-import { ApiTags, ApiBearerAuth, ApiOperation, ApiOkResponse, ApiCreatedResponse } from '@nestjs/swagger';
+import { ApiTags, ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
 import { UsersService } from './users.service';
-import { CreateUserDto, UpdateUserDto, UpdateUserStatusDto } from './dto';
-import { JwtAuthGuard } from '../auth/guards';
+import { CreateUserDto, UpdateUserDto, UpdateUserStatusDto, UserResponseDto } from './dto';
+import { JwtAuthGuard, PermissionsGuard } from '../auth/guards';
 import { CurrentUser, RequestUser } from '../auth/decorators';
+import { RequirePermission } from '@devloggers/backend-core';
 import { ApiResponseBuilder } from '../../../common/api/api-response-builder';
-import { ApiStandardErrors } from '../../../common/decorators/api-swagger.decorators';
+import {
+    ApiStandardErrors,
+    ApiOkResponseStandard,
+    ApiOkResponsePaginated,
+    ApiCreatedResponseStandard,
+} from '../../../common/decorators/api-swagger.decorators';
 
 @ApiTags('Users')
 @Controller('users')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, PermissionsGuard)
 @ApiBearerAuth('JWT-auth')
 export class UsersController {
     constructor(private readonly usersService: UsersService) {}
 
     @Get()
+    @RequirePermission('users.view')
     @ApiOperation({ summary: 'List all users' })
-    @ApiOkResponse({
-        description: 'Paginated list of users',
-        schema: {
-            example: {
-                message: 'Users list',
-                data: [
-                    { id: '00000000-0000-4000-a100-000000000001', email: 'admin@demo-shop.com', name: 'Admin User', isActive: true },
-                ],
-                meta: { pagination: { total: 5, page: 1, limit: 10, totalPages: 1 } },
-            },
-        },
-    })
+    @ApiOkResponsePaginated(UserResponseDto, { description: 'Paginated list of users' })
     @ApiStandardErrors()
     async findAll(
         @CurrentUser() user: RequestUser,
@@ -58,16 +54,9 @@ export class UsersController {
     }
 
     @Post()
+    @RequirePermission('users.create')
     @ApiOperation({ summary: 'Create a new user' })
-    @ApiCreatedResponse({
-        description: 'User created successfully',
-        schema: {
-            example: {
-                message: 'User created',
-                data: { id: '00000000-0000-4000-a100-000000000002', email: 'user@demo-shop.com', name: 'New User', isActive: true },
-            },
-        },
-    })
+    @ApiCreatedResponseStandard(UserResponseDto, { description: 'User created successfully' })
     @ApiStandardErrors()
     async create(@CurrentUser() user: RequestUser, @Body() dto: CreateUserDto) {
         const created = await this.usersService.create(user.tenantId, dto);
@@ -75,16 +64,9 @@ export class UsersController {
     }
 
     @Patch(':id')
+    @RequirePermission('users.update')
     @ApiOperation({ summary: 'Update a user' })
-    @ApiOkResponse({
-        description: 'User updated successfully',
-        schema: {
-            example: {
-                message: 'User updated',
-                data: { id: '00000000-0000-4000-a100-000000000001', email: 'admin@demo-shop.com', name: 'Updated Name' },
-            },
-        },
-    })
+    @ApiOkResponseStandard(UserResponseDto, { description: 'User updated successfully' })
     @ApiStandardErrors()
     async update(
         @CurrentUser() user: RequestUser,
@@ -96,16 +78,9 @@ export class UsersController {
     }
 
     @Patch(':id/status')
+    @RequirePermission('users.update')
     @ApiOperation({ summary: 'Toggle user active status', description: 'Activates or deactivates a user account. Deactivated users cannot log in.' })
-    @ApiOkResponse({
-        description: 'User status updated',
-        schema: {
-            example: {
-                message: 'User status updated',
-                data: { id: '00000000-0000-4000-a100-000000000001', isActive: false },
-            },
-        },
-    })
+    @ApiOkResponseStandard(UserResponseDto, { description: 'User status updated' })
     @ApiStandardErrors()
     async updateStatus(
         @CurrentUser() user: RequestUser,
@@ -117,16 +92,9 @@ export class UsersController {
     }
 
     @Get(':id')
+    @RequirePermission('users.view')
     @ApiOperation({ summary: 'Get a user by ID' })
-    @ApiOkResponse({
-        description: 'User details',
-        schema: {
-            example: {
-                message: 'User details',
-                data: { id: '00000000-0000-4000-a100-000000000001', email: 'admin@demo-shop.com', fullName: 'Admin User', isActive: true, roles: [] },
-            },
-        },
-    })
+    @ApiOkResponseStandard(UserResponseDto, { description: 'User details' })
     @ApiStandardErrors()
     async findOne(@CurrentUser() user: RequestUser, @Param('id') id: string) {
         const result = await this.usersService.findById(user.tenantId, id);
@@ -134,6 +102,7 @@ export class UsersController {
     }
 
     @Delete(':id')
+    @RequirePermission('users.delete')
     @HttpCode(HttpStatus.NO_CONTENT)
     @ApiOperation({ summary: 'Delete a user', description: 'Hard-deletes the user and all role assignments.' })
     @ApiStandardErrors()

@@ -34,8 +34,10 @@ import { itemRelationResource } from './item-relation.resource'
 import { catalogEntityResource } from './catalog-entity.resource'
 import { itemCatalogEntityResource } from './item-catalog-entity.resource'
 import { brandResource } from './brand.resource'
+import { bankAccountResource } from './bank-account.resource'
 import { financialSettingResource } from './financial-setting.resource'
-import { accountOpeningBalanceResource } from './account-opening-balance.resource'
+import { openingBalanceSessionResource } from './opening-balance-session.resource'
+import { businessSetupResource } from './business-setup.resource'
 
 export * from './auth.resource'
 export * from './tenant.resource'
@@ -70,8 +72,10 @@ export * from './item-relation.resource'
 export * from './catalog-entity.resource'
 export * from './item-catalog-entity.resource'
 export * from './brand.resource'
+export * from './bank-account.resource'
 export * from './financial-setting.resource'
-export * from './account-opening-balance.resource'
+export * from './opening-balance-session.resource'
+export * from './business-setup.resource'
 export * from './accounting.types'
 
 export const resources = {
@@ -108,7 +112,9 @@ export const resources = {
   catalogEntities: catalogEntityResource,
   itemCatalogEntities: itemCatalogEntityResource,
   brands: brandResource,
+  bankAccounts: bankAccountResource,
   financialSettings: financialSettingResource,
-  accountOpeningBalances: accountOpeningBalanceResource,
+  openingBalanceSessions: openingBalanceSessionResource,
+  businessSetup: businessSetupResource,
 } as const
 

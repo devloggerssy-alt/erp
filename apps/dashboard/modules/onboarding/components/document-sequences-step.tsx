@@ -41,8 +41,8 @@ export function DocumentSequencesStep({ onSuccess }: Props) {
                         <div className="space-y-1">
                             <label className="text-xs font-medium">Prefix</label>
                             <Input {...register(`sequences.${i}.prefix`)} className="h-8 text-sm" />
-                            {(errors.sequences as any)?.[i]?.prefix && (
-                                <p className="text-xs text-destructive">{(errors.sequences as any)[i].prefix.message}</p>
+                            {errors.sequences?.[i]?.prefix && (
+                                <p className="text-xs text-destructive">{errors.sequences[i]?.prefix?.message}</p>
                             )}
                         </div>
                         <div className="space-y-1">

@@ -14,7 +14,6 @@ import { ACCOUNT_BALANCES_KEY, ACCOUNT_TREE_KEY } from "../hooks"
 import { ACCOUNT_TYPES } from "../lib/account-types"
 import { useAccountDraftStore } from "../accounts-draft.store"
 import { buildAccountTree, collectDescendantIds, findNodeById } from "../lib/build-account-tree"
-import type { AccountListItem } from "../accounts.types"
 import { RhfAccountField } from "./account-picker"
 
 export function AccountsForm({ resourceId, initialData, onSuccess, paramKey }: ResourceFormProps<AccountsClient>) {
@@ -69,7 +68,7 @@ export function AccountsForm({ resourceId, initialData, onSuccess, paramKey }: R
 
     const excludeIds = useMemo(() => {
         if (!resourceId) return undefined
-        const items = ((pickerData?.data ?? []) as unknown) as AccountListItem[]
+        const items = pickerData?.data ?? []
         const buckets = buildAccountTree(items, locale)
         const node = findNodeById(buckets, resourceId)
         return node ? collectDescendantIds(node) : new Set([resourceId])

@@ -5,13 +5,13 @@ export class CreateTenantDto {
     @ApiProperty({ example: 'Demo Shop', description: 'Company / tenant name' })
     @IsString()
     @IsNotEmpty()
-    name: string;
+    name!: string;
 
     @ApiProperty({ example: 'demo-shop', description: 'URL-friendly slug (lowercase, alphanumeric, dashes)' })
     @IsString()
     @IsNotEmpty()
     @Matches(/^[a-z0-9-]+$/, { message: 'Slug must be lowercase alphanumeric with dashes' })
-    slug: string;
+    slug!: string;
 
     @ApiPropertyOptional({ example: 'Damascus, Syria' })
     @IsOptional()
@@ -31,17 +31,17 @@ export class CreateTenantDto {
     // Initial admin user created with tenant
     @ApiProperty({ example: 'admin@demo-shop.com', description: 'Email for the initial admin user' })
     @IsEmail()
-    adminEmail: string;
+    adminEmail!: string;
 
     @ApiProperty({ example: 'admin123', description: 'Password for the initial admin user (min 8 chars)' })
     @IsString()
     @MinLength(8)
-    adminPassword: string;
+    adminPassword!: string;
 
     @ApiProperty({ example: 'Admin User', description: 'Full name of the initial admin' })
     @IsString()
     @IsNotEmpty()
-    adminFullName: string;
+    adminFullName!: string;
 }
 
 export class UpdateTenantDto {
@@ -106,15 +106,15 @@ export class TenantResponseDto {
     @ApiProperty({ example: 'demo-shop' })
     slug: string = '';
 
-    @ApiPropertyOptional({ nullable: true }) address: string | null = null;
-    @ApiPropertyOptional({ nullable: true }) phone: string | null = null;
-    @ApiPropertyOptional({ nullable: true }) email: string | null = null;
-    @ApiPropertyOptional({ nullable: true }) logo: string | null = null;
-    @ApiPropertyOptional({ nullable: true }) legalName: string | null = null;
-    @ApiPropertyOptional({ nullable: true }) taxNumber: string | null = null;
-    @ApiPropertyOptional({ nullable: true }) website: string | null = null;
-    @ApiPropertyOptional({ nullable: true }) baseCurrencyId: string | null = null;
-    @ApiPropertyOptional({ nullable: true }) defaultSalesSequenceId: string | null = null;
+    @ApiPropertyOptional({ type: 'string', nullable: true }) address: string | null = null;
+    @ApiPropertyOptional({ type: 'string', nullable: true }) phone: string | null = null;
+    @ApiPropertyOptional({ type: 'string', nullable: true }) email: string | null = null;
+    @ApiPropertyOptional({ type: 'string', nullable: true }) logo: string | null = null;
+    @ApiPropertyOptional({ type: 'string', nullable: true }) legalName: string | null = null;
+    @ApiPropertyOptional({ type: 'string', nullable: true }) taxNumber: string | null = null;
+    @ApiPropertyOptional({ type: 'string', nullable: true }) website: string | null = null;
+    @ApiPropertyOptional({ type: 'string', nullable: true }) baseCurrencyId: string | null = null;
+    @ApiPropertyOptional({ type: 'string', nullable: true }) defaultSalesSequenceId: string | null = null;
 
     @ApiProperty({ example: '2025-01-01T00:00:00.000Z' })
     createdAt: string = '';

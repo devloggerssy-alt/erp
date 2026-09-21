@@ -18,6 +18,8 @@ export class FinancialSettingsRepository {
                 defaultCogsAccount: true,
                 defaultInventoryAdjustmentAccount: true,
                 defaultOpeningEquityAccount: true,
+                defaultCashAccount: true,
+                defaultBankAccount: true,
 
               } });
     }

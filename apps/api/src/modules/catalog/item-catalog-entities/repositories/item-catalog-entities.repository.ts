@@ -49,19 +49,21 @@ export class ItemCatalogEntitiesRepository extends CrudRepository<ItemCatalogEnt
 
   // Override create so the returned record includes the catalog entity relation.
   override async create(data: Record<string, any>): Promise<ItemCatalogEntityWithRelations> {
-    return this.prisma.itemCatalogEntity.create({
+    const created = await this.prisma.itemCatalogEntity.create({
       data: data as any,
       include: CATALOG_ENTITY_INCLUDE,
-    }) as unknown as ItemCatalogEntityWithRelations;
+    });
+    return created as unknown as ItemCatalogEntityWithRelations;
   }
 
   // Override update for the same reason (keeps toResponse safe on edit paths).
   override async update(id: string, data: Record<string, any>): Promise<ItemCatalogEntityWithRelations> {
-    return this.prisma.itemCatalogEntity.update({
+    const updated = await this.prisma.itemCatalogEntity.update({
       where: { id },
       data: data as any,
       include: CATALOG_ENTITY_INCLUDE,
-    }) as unknown as ItemCatalogEntityWithRelations;
+    });
+    return updated as unknown as ItemCatalogEntityWithRelations;
   }
 
   async existsLink(

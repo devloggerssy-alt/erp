@@ -1,21 +1,23 @@
-import { Controller, Get, Post, Delete, Body, Param, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth, ApiOperation, ApiOkResponse, ApiCreatedResponse } from '@nestjs/swagger';
 import { AiChatService } from './ai-chat.service';
 import { CreateSessionDto, SendMessageDto } from './dto/ai-chat.dto';
-import { JwtAuthGuard } from '../identity/auth/guards';
+import { JwtAuthGuard, PermissionsGuard } from '../identity/auth/guards';
 import { CurrentUser, RequestUser } from '../identity/auth/decorators';
+import { RequirePermission } from '@devloggers/backend-core';
 import { ApiResponseBuilder } from '../../common/api/api-response-builder';
 import { ApiStandardErrors } from '../../common/decorators/api-swagger.decorators';
 
 @ApiTags('AI Assistant')
 @Controller('ai')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, PermissionsGuard)
 @ApiBearerAuth('JWT-auth')
 export class AiChatController {
     constructor(private readonly aiChatService: AiChatService) {}
 
     /** Get the currently active AI model */
     @Get('model')
+    @RequirePermission('ai.view')
     @ApiOperation({ summary: 'Get active AI model', description: 'Returns the currently configured AI model name and provider (e.g., Gemini, OpenAI). The model can be switched via server configuration.' })
     @ApiOkResponse({
         description: 'Active AI model info',
@@ -32,6 +34,7 @@ export class AiChatController {
     }
 
     @Get('sessions')
+    @RequirePermission('ai.view')
     @ApiOperation({ summary: 'List AI chat sessions' })
     @ApiOkResponse({
         description: 'AI sessions list retrieved',
@@ -50,6 +53,7 @@ export class AiChatController {
     }
 
     @Post('sessions')
+    @RequirePermission('ai.use')
     @ApiOperation({ summary: 'Create a new AI chat session' })
     @ApiCreatedResponse({
         description: 'AI session created',
@@ -66,6 +70,7 @@ export class AiChatController {
     }
 
     @Get('sessions/:id')
+    @RequirePermission('ai.view')
     @ApiOperation({ summary: 'Get AI session with messages' })
     @ApiOkResponse({
         description: 'Session details with full message history',
@@ -88,6 +93,7 @@ export class AiChatController {
     }
 
     @Post('sessions/:id/messages')
+    @RequirePermission('ai.use')
     @ApiOperation({
         summary: 'Send a message to the AI assistant',
         description: 'Sends a user message to the AI assistant within an existing session. The AI uses the tenant\'s business data (invoices, inventory, sales) to provide contextual answers. Returns both the user message and the AI response.',

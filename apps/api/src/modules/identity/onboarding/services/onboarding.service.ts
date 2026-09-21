@@ -1,10 +1,11 @@
 import { Injectable, ConflictException, BadRequestException } from '@nestjs/common';
-import { AccountType } from '@devloggers/db-prisma';
 import { PrismaService } from '@devloggers/db-prisma/nest';
 import { SettingsService } from '../../settings/services/settings.service';
 import { FiscalPeriodsService } from '../../../accounting/fiscal-periods/services/fiscal-periods.service';
 import { DocumentSequencesService } from '../../../accounting/document-sequences/services/document-sequences.service';
 import { FinancialSettingsService } from '../../../accounting/financial-settings/services/financial-settings.service';
+import { CurrenciesService } from '../../../accounting/currencies/services/currencies.service';
+import { ChartOfAccountsBootstrapService } from '../../../accounting/accounts/bootstrap/chart-of-accounts-bootstrap.service';
 import type {
     OnboardingCompanyStepDto,
     OnboardingFiscalYearStepDto,
@@ -12,6 +13,8 @@ import type {
     OnboardingDocumentSequencesStepDto,
     OnboardingCurrenciesStepDto,
 } from '../dto/onboarding.dto';
+
+const GL_AUTO_MAPPED_CODES = ['1130', '5100', '5210', '3100', '1110', '1150'] as const;
 
 @Injectable()
 export class OnboardingService {
@@ -21,7 +24,9 @@ export class OnboardingService {
         private readonly fiscalPeriodsService: FiscalPeriodsService,
         private readonly documentSequencesService: DocumentSequencesService,
         private readonly financialSettingsService: FinancialSettingsService,
-    ) { }
+        private readonly currenciesService: CurrenciesService,
+        private readonly chartOfAccountsBootstrap: ChartOfAccountsBootstrapService,
+    ) {}
 
     private async assertNotCompleted(tenantId: string): Promise<void> {
         const tenant = await this.prisma.tenant.findUnique({
@@ -80,7 +85,7 @@ export class OnboardingService {
 
     async stepChartOfAccounts(tenantId: string): Promise<Record<string, string>> {
         await this.assertNotCompleted(tenantId);
-        const codeToId = await this.bootstrapChartOfAccounts(tenantId);
+        const codeToId = await this.chartOfAccountsBootstrap.bootstrapDefaultTemplate(tenantId);
         await this.advanceStep(tenantId, 3);
         return codeToId;
     }
@@ -88,11 +93,7 @@ export class OnboardingService {
     async stepGlDefaults(tenantId: string, dto: OnboardingGlDefaultsStepDto): Promise<void> {
         await this.assertNotCompleted(tenantId);
 
-        const seededAccounts = await this.prisma.chartOfAccount.findMany({
-            where: { tenantId, code: { in: ['1130', '3100', '5100', '5210'] } },
-            select: { id: true, code: true },
-        });
-        const ids = Object.fromEntries(seededAccounts.map((a) => [a.code, a.id]));
+        const ids = await this.chartOfAccountsBootstrap.resolveIdsByCode(tenantId, [...GL_AUTO_MAPPED_CODES]);
 
         await this.financialSettingsService.upsert(tenantId, {
             defaultSalesAccountId: dto.defaultSalesAccountId,
@@ -104,6 +105,8 @@ export class OnboardingService {
             defaultCogsAccountId: ids['5100'],
             defaultInventoryAdjustmentAccountId: ids['5210'],
             defaultOpeningEquityAccountId: ids['3100'],
+            defaultCashAccountId: ids['1110'],
+            defaultBankAccountId: ids['1150'],
         });
 
         await this.advanceStep(tenantId, 5);
@@ -112,82 +115,16 @@ export class OnboardingService {
     async stepCurrencies(tenantId: string, dto: OnboardingCurrenciesStepDto): Promise<void> {
         await this.assertNotCompleted(tenantId);
 
-        const existing = await this.prisma.currency.findFirst({
-            where: { tenantId },
-        });
-        if (existing) {
-            await this.advanceStep(tenantId, 4);
-            return;
-        }
-
-        const syp = await this.prisma.currency.create({
-            data: {
-                tenantId,
-                code: 'SYP',
-                name: { ar: 'الليرة السورية', en: 'Syrian Lira' },
-                symbol: { ar: 'ل.س', en: '£' },
-                isBase: false,
-            },
-        });
-
-        const usd = await this.prisma.currency.create({
-            data: {
-                tenantId,
-                code: 'USD',
-                name: { ar: 'الدولار الأمريكي', en: 'US Dollar' },
-                symbol: { ar: '$', en: '$' },
-                isBase: true,
-            },
-        });
-
-        await this.prisma.tenant.update({
-            where: { id: tenantId },
-            data: { baseCurrencyId: usd.id },
-        });
-
-        const account1110Id = dto.codeToId['1110'];
-        if (account1110Id) {
-            await this.prisma.cashbox.createMany({
-                data: [
-                    {
-                        tenantId,
-                        code: 'CASH-SYP',
-                        name: { ar: 'الصندوق الرئيسي (ل.س)', en: 'Main Cash (SYP)' },
-                        currencyId: syp.id,
-                        linkedAccountId: account1110Id,
-                    },
-                    {
-                        tenantId,
-                        code: 'CASH-USD',
-                        name: { ar: 'صندوق الدولار', en: 'USD Cash' },
-                        currencyId: usd.id,
-                        linkedAccountId: account1110Id,
-                    },
-                ],
-            });
-        }
-
-        await this.prisma.warehouse.upsert({
-            where: { tenantId_code: { tenantId, code: 'WH-MAIN' } },
-            create: { tenantId, code: 'WH-MAIN', name: { ar: 'المستودع الرئيسي', en: 'Main Warehouse' } },
-            update: {},
-        });
-
-        const existingUnits = await this.prisma.unit.findFirst({
-            where: { tenantId },
-        });
-        if (!existingUnits) {
-            await this.prisma.unit.createMany({
-                data: [
-                    { tenantId, name: { ar: 'قطعة', en: 'Piece' }, abbreviation: 'pcs' },
-                    { tenantId, name: { ar: 'كيلوغرام', en: 'Kilogram' }, abbreviation: 'kg' },
-                    { tenantId, name: { ar: 'لتر', en: 'Liter' }, abbreviation: 'L' },
-                    { tenantId, name: { ar: 'متر', en: 'Meter' }, abbreviation: 'm' },
-                    { tenantId, name: { ar: 'علبة', en: 'Box' }, abbreviation: 'box' },
-                    { tenantId, name: { ar: 'دزينة', en: 'Dozen' }, abbreviation: 'doz' },
-                    { tenantId, name: { ar: 'حزمة', en: 'Pack' }, abbreviation: 'pack' },
-                ],
-            });
+        const existing = await this.currenciesService.list(tenantId, { take: 1 });
+        if (existing.total === 0) {
+            let baseCurrencyId: string | undefined;
+            for (const currency of dto.currencies) {
+                const created = await this.currenciesService.create(tenantId, currency);
+                if (currency.isBase) baseCurrencyId = created.id;
+            }
+            if (baseCurrencyId) {
+                await this.prisma.tenant.update({ where: { id: tenantId }, data: { baseCurrencyId } });
+            }
         }
 
         await this.advanceStep(tenantId, 4);
@@ -219,115 +156,5 @@ export class OnboardingService {
             where: { id: tenantId },
             data: { onboardingCompletedAt: new Date(), onboardingStep: 6 },
         });
-    }
-
-    private async bootstrapChartOfAccounts(tenantId: string): Promise<Record<string, string>> {
-        const existingAccounts = await this.prisma.chartOfAccount.findMany({
-            where: { tenantId },
-            select: { id: true, code: true, isPostable: true },
-        });
-
-        if (existingAccounts.length > 0) {
-            const template = this.getCoaTemplate();
-            const parentCodes = new Set(template.map((a) => a.parentCode).filter(Boolean) as string[]);
-            const leafCodes = new Set(template.filter((a) => !parentCodes.has(a.code)).map((a) => a.code));
-            const staleIds = existingAccounts
-                .filter((a) => !a.isPostable && leafCodes.has(a.code))
-                .map((a) => a.id);
-            if (staleIds.length > 0) {
-                await this.prisma.chartOfAccount.updateMany({
-                    where: { id: { in: staleIds }, tenantId },
-                    data: { isPostable: true },
-                });
-            }
-            return Object.fromEntries(existingAccounts.map((a) => [a.code, a.id]));
-        }
-
-        const ids: Record<string, string> = {};
-        const template = this.getCoaTemplate();
-        const parentCodes = new Set(template.map((a) => a.parentCode).filter(Boolean) as string[]);
-        for (const acct of template) {
-            ids[acct.code] = crypto.randomUUID();
-        }
-
-        const n = (ar: string, en: string) => ({ ar, en });
-
-        await this.prisma.$transaction(async (tx) => {
-            for (const acct of template) {
-                const isParent = parentCodes.has(acct.code);
-                await tx.chartOfAccount.create({
-                    data: {
-                        id: ids[acct.code],
-                        tenantId,
-                        code: acct.code,
-                        name: n(acct.nameAr, acct.nameEn),
-                        type: acct.type,
-                        ...(acct.parentCode ? { parentId: ids[acct.parentCode] } : {}),
-                        isPostable: !isParent,
-                        ...(acct.code === '1220' ? { isContra: true } : {}),
-                    },
-                });
-            }
-        }, { timeout: 30000 });
-
-        return Object.fromEntries(template.map((a) => [a.code, ids[a.code]]));
-    }
-
-    private getCoaTemplate(): Array<{
-        code: string;
-        nameAr: string;
-        nameEn: string;
-        type: AccountType;
-        parentCode?: string;
-    }> {
-        return [
-            // Level 1
-            { code: '1000', nameAr: 'الأصول', nameEn: 'Assets', type: AccountType.ASSET },
-            { code: '2000', nameAr: 'الالتزامات', nameEn: 'Liabilities', type: AccountType.LIABILITY },
-            { code: '3000', nameAr: 'حقوق الملكية', nameEn: 'Equity', type: AccountType.EQUITY },
-            { code: '4000', nameAr: 'الإيرادات', nameEn: 'Revenue', type: AccountType.REVENUE },
-            { code: '5000', nameAr: 'تكلفة المبيعات', nameEn: 'Cost of Sales', type: AccountType.EXPENSE },
-            { code: '6000', nameAr: 'المصروفات', nameEn: 'Expenses', type: AccountType.EXPENSE },
-            // Level 2
-            { code: '1100', nameAr: 'الأصول المتداولة', nameEn: 'Current Assets', type: AccountType.ASSET, parentCode: '1000' },
-            { code: '1200', nameAr: 'الأصول غير المتداولة', nameEn: 'Non-Current Assets', type: AccountType.ASSET, parentCode: '1000' },
-            { code: '2100', nameAr: 'الالتزامات المتداولة', nameEn: 'Current Liabilities', type: AccountType.LIABILITY, parentCode: '2000' },
-            { code: '2200', nameAr: 'الالتزامات غير المتداولة', nameEn: 'Non-Current Liabilities', type: AccountType.LIABILITY, parentCode: '2000' },
-            { code: '6100', nameAr: 'المصروفات التشغيلية', nameEn: 'Operating Expenses', type: AccountType.EXPENSE, parentCode: '6000' },
-            { code: '6200', nameAr: 'المصروفات الإدارية', nameEn: 'Administrative Expenses', type: AccountType.EXPENSE, parentCode: '6000' },
-            // Level 3 — Current Assets
-            { code: '1110', nameAr: 'النقد وما في حكمه', nameEn: 'Cash and Cash Equivalents', type: AccountType.ASSET, parentCode: '1100' },
-            { code: '1120', nameAr: 'ذمم مدينة', nameEn: 'Accounts Receivable', type: AccountType.ASSET, parentCode: '1100' },
-            { code: '1130', nameAr: 'المخزون', nameEn: 'Inventory', type: AccountType.ASSET, parentCode: '1100' },
-            { code: '1140', nameAr: 'مصروفات مدفوعة مقدماً', nameEn: 'Prepaid Expenses', type: AccountType.ASSET, parentCode: '1100' },
-            // Level 3 — Non-Current Assets
-            { code: '1210', nameAr: 'الأصول الثابتة', nameEn: 'Fixed Assets', type: AccountType.ASSET, parentCode: '1200' },
-            { code: '1220', nameAr: 'مجمع الإهلاك', nameEn: 'Accumulated Depreciation', type: AccountType.ASSET, parentCode: '1200' },
-            // Level 3 — Current Liabilities
-            { code: '2110', nameAr: 'ذمم دائنة', nameEn: 'Accounts Payable', type: AccountType.LIABILITY, parentCode: '2100' },
-            { code: '2120', nameAr: 'مصروفات مستحقة', nameEn: 'Accrued Expenses', type: AccountType.LIABILITY, parentCode: '2100' },
-            { code: '2130', nameAr: 'قروض قصيرة الأجل', nameEn: 'Short-term Loans', type: AccountType.LIABILITY, parentCode: '2100' },
-            { code: '2140', nameAr: 'ضريبة القيمة المضافة', nameEn: 'VAT Payable', type: AccountType.LIABILITY, parentCode: '2100' },
-            // Level 3 — Non-Current Liabilities
-            { code: '2210', nameAr: 'قروض طويلة الأجل', nameEn: 'Long-term Loans', type: AccountType.LIABILITY, parentCode: '2200' },
-            // Level 3 — Equity
-            { code: '3100', nameAr: "حقوق صاحب العمل", nameEn: "Owner's Equity", type: AccountType.EQUITY, parentCode: '3000' },
-            { code: '3200', nameAr: 'الأرباح المحتجزة', nameEn: 'Retained Earnings', type: AccountType.EQUITY, parentCode: '3000' },
-            // Level 3 — Revenue
-            { code: '4100', nameAr: 'إيرادات المبيعات', nameEn: 'Sales Revenue', type: AccountType.REVENUE, parentCode: '4000' },
-            { code: '4200', nameAr: 'إيرادات أخرى', nameEn: 'Other Revenue', type: AccountType.REVENUE, parentCode: '4000' },
-            // Level 3 — Cost of Sales
-            { code: '5100', nameAr: 'تكلفة البضاعة المباعة', nameEn: 'Cost of Goods Sold', type: AccountType.EXPENSE, parentCode: '5000' },
-            { code: '5210', nameAr: 'تسويات المخزون', nameEn: 'Inventory Adjustments', type: AccountType.EXPENSE, parentCode: '5000' },
-            // Level 3 — Operating Expenses
-            { code: '6110', nameAr: 'الرواتب والأجور', nameEn: 'Salaries and Wages', type: AccountType.EXPENSE, parentCode: '6100' },
-            { code: '6120', nameAr: 'مصروف الإيجار', nameEn: 'Rent Expense', type: AccountType.EXPENSE, parentCode: '6100' },
-            { code: '6130', nameAr: 'مصروف المرافق', nameEn: 'Utilities Expense', type: AccountType.EXPENSE, parentCode: '6100' },
-            { code: '6140', nameAr: 'مصروف النقل', nameEn: 'Transportation Expense', type: AccountType.EXPENSE, parentCode: '6100' },
-            // Level 3 — Administrative Expenses
-            { code: '6210', nameAr: 'مستلزمات مكتبية', nameEn: 'Office Supplies', type: AccountType.EXPENSE, parentCode: '6200' },
-            { code: '6220', nameAr: 'الصيانة والإصلاحات', nameEn: 'Maintenance and Repairs', type: AccountType.EXPENSE, parentCode: '6200' },
-            { code: '6230', nameAr: 'مصروفات متنوعة', nameEn: 'Miscellaneous Expense', type: AccountType.EXPENSE, parentCode: '6200' },
-        ];
     }
 }

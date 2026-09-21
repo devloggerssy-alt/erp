@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "dev": "docker compose --env-file .env up",
+    "_dev": "docker compose --env-file .env up",
     "start": "docker compose --env-file .env up -d",
     "stop": "docker compose --env-file .env down",
     "restart": "docker compose --env-file .env restart",

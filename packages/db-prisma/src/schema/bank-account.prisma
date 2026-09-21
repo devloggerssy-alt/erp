@@ -1,0 +1,26 @@
+// ─── Bank Account ────────────────────────────────────────────────────────────
+// Subledger dimension over the Bank control account (FinancialSetting.defaultBankAccountId).
+// No dedicated GL field — shared control account + bankAccountId on JournalLine (ADR-2).
+model BankAccount {
+    id            String   @id @default(uuid())
+    tenantId      String   @map("tenant_id")
+    code          String
+    name          Json     @db.JsonB // LocalizedString: { ar: string; en?: string }
+    currencyId    String   @map("currency_id")
+    accountNumber String?  @map("account_number")
+    bankName      String?  @map("bank_name")
+    balance       Decimal  @default(0) @db.Decimal(18, 4)
+    isActive      Boolean  @default(true) @map("is_active")
+    createdAt     DateTime @default(now()) @map("created_at")
+    updatedAt     DateTime @updatedAt @map("updated_at")
+
+    tenant       Tenant        @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+    currency     Currency      @relation(fields: [currencyId], references: [id])
+    journalLines JournalLine[]
+    openingBalanceSessionLines OpeningBalanceSessionLine[]
+
+    @@unique([tenantId, code])
+    @@index([tenantId])
+    @@index([tenantId, currencyId])
+    @@map("bank_accounts")
+}

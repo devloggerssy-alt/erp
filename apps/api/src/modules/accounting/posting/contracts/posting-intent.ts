@@ -1,0 +1,126 @@
+/**
+ * Discriminated union of every economic event a non-accounting module can
+ * report to `AccountingPostingFacade`. Fields describe *what happened*
+ * (amounts, quantities, party, direction) — never which GL account it hits.
+ *
+ * One exception carries an `accountId`, by deliberate design, not oversight:
+ * `ExpenseRecordedIntent.items[].accountId`. The account is direct user input
+ * at the API boundary (the DTO already carries it) — there is no
+ * fallback/override resolution logic to move into a policy, only validation.
+ * See Task 6 and Task 8 for the full reasoning.
+ */
+export interface PostingIntentBase {
+    tenantId: string;
+    userId: string;
+    /** Also used as the reversal date for cancellation intents. */
+    date: Date;
+    fiscalPeriodId: string;
+    fiscalPeriodStatus: string | undefined;
+    exchangeRate: number;
+    /** The id of the domain entity this posting is about (invoice id, payment id, …). */
+    referenceId: string;
+    description: string;
+}
+
+export interface InvoicePostedIntent extends PostingIntentBase {
+    kind: 'INVOICE_POSTED';
+    direction: 'PURCHASE' | 'SALE';
+    partyId: string;
+    /** Invoice transaction currency. */
+    currencyId: string;
+    /** subtotal - discountAmount, invoice currency. */
+    netAmount: number;
+    taxAmount: number;
+    total: number;
+    /** PURCHASE only: stock-line net (tax-exclusive) capitalised to Inventory. */
+    inventoryAmount?: number;
+    /** SALE only: cost of goods sold, computed by the caller from average cost during movement posting. */
+    cogsTotal?: number;
+}
+
+export interface InvoiceCancelledIntent extends PostingIntentBase {
+    kind: 'INVOICE_CANCELLED';
+    originalEntryId: string;
+}
+
+export interface PaymentRecordedIntent extends PostingIntentBase {
+    kind: 'PAYMENT_RECORDED';
+    type: 'RECEIPT' | 'PAYMENT' | 'ADJUSTMENT';
+    partyId: string | null;
+    amount: number;
+    cashboxId: string;
+    currencyId: string;
+}
+
+export interface PaymentCancelledIntent extends PostingIntentBase {
+    kind: 'PAYMENT_CANCELLED';
+    originalEntryId: string;
+}
+
+export interface ExpenseRecordedIntent extends PostingIntentBase {
+    kind: 'EXPENSE_RECORDED';
+    cashboxId: string;
+    currencyId: string;
+    /** Total in transaction currency; policy computes base = txn × rate. */
+    totalAmount: number;
+    /** Each item's `accountId` is direct user input from `CreateExpenseItemDto` — see contracts/posting-intent.ts header. */
+    items: { accountId: string; amount: number; description: string; sortOrder: number }[];
+}
+
+export interface ExpenseCancelledIntent extends PostingIntentBase {
+    kind: 'EXPENSE_CANCELLED';
+    originalEntryId: string;
+}
+
+export interface StockCountAdjustedIntent extends PostingIntentBase {
+    kind: 'STOCK_COUNT_ADJUSTED';
+    /** Positive = surplus, negative = shortage, already valued at average cost. */
+    netVariance: number;
+}
+
+export interface OpeningStockPostedIntent extends PostingIntentBase {
+    kind: 'OPENING_STOCK_POSTED';
+    totalValue: number;
+}
+
+/**
+ * A single opening line inside an opening session. Describes *what* opens and by
+ * how much — never which GL account (control accounts are resolved by
+ * OpeningSessionPostedPolicy from FinancialSettings + party overrides).
+ */
+export interface OpeningSessionLineDraft {
+    dimension: 'CASHBOX' | 'BANK_ACCOUNT' | 'PARTY' | 'ACCOUNT';
+    /** ACCOUNT dimension only — direct GL account input, like OpeningBalancePostedIntent.entries[].accountId. */
+    accountId?: string | null;
+    partyId?: string | null;
+    cashboxId?: string | null;
+    bankAccountId?: string | null;
+    /** Transaction currency. Required for CASHBOX / BANK_ACCOUNT / PARTY. */
+    currencyId?: string | null;
+    /** PARTY only: AR debits the receivable control, AP credits the payable control. */
+    partySide?: 'AR' | 'AP' | null;
+    /** Signed transaction-currency amount; positive increases the target balance. */
+    amount: number;
+    /** Locked rate to base currency; falls back to intent.exchangeRate ?? 1. */
+    exchangeRate?: number;
+}
+
+export interface OpeningSessionPostedIntent extends PostingIntentBase {
+    kind: 'OPENING_SESSION_POSTED';
+    lines: OpeningSessionLineDraft[];
+}
+
+export type PostingRecordIntent =
+    | InvoicePostedIntent
+    | PaymentRecordedIntent
+    | ExpenseRecordedIntent
+    | StockCountAdjustedIntent
+    | OpeningStockPostedIntent
+    | OpeningSessionPostedIntent;
+
+export type PostingCancellationIntent =
+    | InvoiceCancelledIntent
+    | PaymentCancelledIntent
+    | ExpenseCancelledIntent;
+
+export type PostingIntent = PostingRecordIntent | PostingCancellationIntent;

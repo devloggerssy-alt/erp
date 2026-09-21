@@ -99,6 +99,7 @@ export function buildListFilterOptionsExample(schema: FilterSchema): ListFilterF
   return schema.map((def) => ({
     field: def.field,
     type: def.type,
+    ...(def.localized !== undefined ? { localized: def.localized } : {}),
     operators: getAllowedOperators(def),
     ...(def.enumValues !== undefined ? { enumValues: def.enumValues } : {}),
     ...(def.foreignResourceKey !== undefined

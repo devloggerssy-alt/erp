@@ -1,4 +1,4 @@
-import { NestFactory, HttpAdapterHost } from '@nestjs/core';
+import { NestFactory } from '@nestjs/core';
 import { Logger } from '@nestjs/common';
 import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
@@ -9,6 +9,8 @@ import { join, resolve } from 'path';
 import { writeFileSync } from 'fs';
 import { execSync } from 'child_process';
 import * as yaml from 'js-yaml';
+import { correlationIdMiddleware } from './common/request-context/correlation-id.middleware';
+import { AppLogger } from './common/logging/app-logger';
 
 // Paths are relative to apps/api/ (process.cwd() when running via nest start)
 const SPEC_PATH = resolve(process.cwd(), 'openapi.yaml');
@@ -17,7 +19,9 @@ const TYPES_PATH = resolve(process.cwd(), '../../packages/api-contracts/types/in
 const logger = new Logger('Bootstrap');
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+    logger: process.env.NODE_ENV === 'production' ? new AppLogger({ json: true }) : undefined,
+  });
 
   const configService = app.get(ConfigService);
   const port = configService.get<number>('PORT') ?? 4040;
@@ -51,6 +55,7 @@ async function bootstrap() {
   }
 
   app.useStaticAssets(join(process.cwd(), 'uploads'), { prefix: '/uploads' });
+  app.use(correlationIdMiddleware);
   app.use(cookieParser.default());
   app.enableCors({ origin: true, credentials: true });
   app.set('query parser', 'extended');

@@ -31,6 +31,13 @@ export type OnboardingSequenceItem = {
     padLength?: number
 }
 
+export type OnboardingCurrencyItem = {
+    code: string
+    name: { ar: string; en?: string }
+    symbol?: { ar?: string; en?: string }
+    isBase?: boolean
+}
+
 export type OnboardingDocumentSequencesBody = {
     sequences: OnboardingSequenceItem[]
 }
@@ -51,8 +58,8 @@ export class OnboardingClient {
         return res as { codeToId: Record<string, string> }
     }
 
-    stepCurrencies = async (codeToId: Record<string, string>): Promise<void> => {
-        await this.apiClient.post('/onboarding/step/currencies' as never, { codeToId } as never)
+    stepCurrencies = async (currencies: OnboardingCurrencyItem[]): Promise<void> => {
+        await this.apiClient.post('/onboarding/step/currencies' as never, { currencies } as never)
     }
 
     stepGlDefaults = async (body: OnboardingGlDefaultsBody): Promise<void> => {

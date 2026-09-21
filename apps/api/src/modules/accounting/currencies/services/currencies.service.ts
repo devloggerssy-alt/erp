@@ -47,4 +47,12 @@ export class CurrenciesService extends CrudService<Currency, CurrencyResponseDto
             }
         }
     }
+
+    protected override async beforeDelete(tenantId: string, id: string): Promise<void> {
+        if ((await this.currenciesRepository.countLedgerReferences(tenantId, id)) > 0) {
+            throw new ConflictException(
+                'Cannot delete a currency that has journal entries. Deactivate it instead.',
+            );
+        }
+    }
 }

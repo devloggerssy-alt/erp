@@ -6,7 +6,7 @@ import {
   createCrudController,
   type CrudOpenApi,
 } from '@devloggers/backend-core';
-import { JwtAuthGuard } from '@/modules/identity/auth/guards';
+import { JwtAuthGuard, PermissionsGuard } from '@/modules/identity/auth/guards';
 
 const BRANDS_CRUD_OPENAPI = {
   list: {
@@ -55,12 +55,18 @@ const BrandsCrudBase = createCrudController({
     { field: 'isActive', type: 'boolean' },
     { field: 'createdAt', type: 'date' },
   ],
+  permissions: {
+    view: 'brands.view',
+    create: 'brands.create',
+    update: 'brands.update',
+    delete: 'brands.delete',
+  },
   openApi: BRANDS_CRUD_OPENAPI,
 });
 
 @ApiTags('Catalog / Brands')
 @Controller('brands')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, PermissionsGuard)
 @ApiBearerAuth('JWT-auth')
 export class BrandsController extends BrandsCrudBase {
   constructor(private readonly brandsService: BrandsService) {

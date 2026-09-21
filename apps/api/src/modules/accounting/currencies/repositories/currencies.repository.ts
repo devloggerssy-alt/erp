@@ -21,4 +21,9 @@ export class CurrenciesRepository extends CrudRepository<Currency> {
     async clearBase(tenantId: string): Promise<void> {
         await this.prisma.currency.updateMany({ where: { tenantId, isBase: true }, data: { isBase: false } });
     }
+
+    /** journal_lines.currency_id is ON DELETE SET NULL: deleting the currency would silently detach them. */
+    async countLedgerReferences(tenantId: string, id: string): Promise<number> {
+        return this.prisma.journalLine.count({ where: { tenantId, currencyId: id } });
+    }
 }

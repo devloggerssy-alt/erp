@@ -60,6 +60,10 @@ export type ResourceContext<TClient extends ICrudClient> = ResourceTableHelpers<
     dialogResourceId: string | null
     isLoading: boolean
     isFetching: boolean
+    /** Cosmetic gates derived from `RESOURCE_PERMISSIONS[client.key]`; the API enforces. */
+    canCreate: boolean
+    canUpdate: boolean
+    canDelete: boolean
     pagination: DataViewPaginationState
     sorting: DataViewSorting
     params: DataViewQueryParams

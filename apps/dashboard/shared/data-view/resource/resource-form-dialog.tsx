@@ -25,6 +25,7 @@ export function ResourceFormDialog<TClient extends ICrudClient>({
         <FormDialog
             title={resolvedTitle}
             paramKey={resource.paramKey}
+            hideTrigger={!resource.canCreate}
             onClose={() => resource.setSelectedItem(null)}
         >
             {(resourceId) => (
