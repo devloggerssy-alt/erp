@@ -16,6 +16,8 @@ import {
 import type { ColumnDef } from "@tanstack/react-table"
 import type { ICrudClient } from "@devloggers/api-client"
 import { toastErrorMessage } from "@/shared/lib/utils"
+import { usePermissions } from "@/shared/hooks/use-permissions"
+import { RESOURCE_PERMISSIONS } from "@/config/resource-permissions"
 import type {
     ResourceContext,
     ResourceItem,
@@ -34,6 +36,11 @@ export function useResource<TClient extends ICrudClient>({
     const api = useApi()
     const t = useTranslations("system.resource")
     const client = getClient(api)
+    const { can } = usePermissions()
+    const permissionSet = RESOURCE_PERMISSIONS[client.key] ?? {}
+    const canCreate = !permissionSet.create || can(permissionSet.create)
+    const canUpdate = !permissionSet.update || can(permissionSet.update)
+    const canDelete = !permissionSet.delete || can(permissionSet.delete)
     const { open: openDialog, close: closeDialog, isOpen, resourceId } = useFormDialog(paramKey)
     const [selectedItem, setSelectedItem] = useState<TItem | null>(null)
     const [selectedItems, setSelectedItems] = useState<TItem[]>([])
@@ -78,19 +85,21 @@ export function useResource<TClient extends ICrudClient>({
         options?: Partial<ActionsColumnOptions<TItem>>,
     ): ColumnDef<TItem, unknown> =>
         createActionsColumn<TItem>({
-            onEdit: openEdit,
-            onDelete: async (row) => {
-                const confirmed = await confirm({
-                    title: t("deleteTitle"),
-                    description: t("deleteDescription"),
-                    confirmLabel: t("deleteConfirm"),
-                    variant: "destructive",
-                })
+            onEdit: canUpdate ? openEdit : undefined,
+            onDelete: canDelete
+                ? async (row) => {
+                    const confirmed = await confirm({
+                        title: t("deleteTitle"),
+                        description: t("deleteDescription"),
+                        confirmLabel: t("deleteConfirm"),
+                        variant: "destructive",
+                    })
 
-                if (confirmed) {
-                    await deleteItem(String(row.id))
+                    if (confirmed) {
+                        await deleteItem(String(row.id))
+                    }
                 }
-            },
+                : undefined,
             ...options,
         })
 
@@ -109,6 +118,9 @@ export function useResource<TClient extends ICrudClient>({
         clearSelection,
         isDialogOpen: isOpen,
         dialogResourceId: resourceId,
+        canCreate,
+        canUpdate,
+        canDelete,
         isLoading: query.isLoading,
         isFetching: query.isFetching,
         pagination: query.pagination,
