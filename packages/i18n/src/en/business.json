@@ -1202,6 +1202,75 @@
       "OPENING_PAYABLES": "Opening payables",
       "OPENING_INVENTORY": "Opening inventory",
       "RECONCILIATION": "Reconciliation"
-    }
+    },
+    "hubDescription": "Complete these steps to make your business ready to operate.",
+    "completedAt": "Setup completed on {date}",
+    "progress": {
+      "title": "Setup progress",
+      "description": "{completed} of {total} required tasks complete",
+      "percent": "{percent}% complete"
+    },
+    "groups": {
+      "accounting": "Accounting",
+      "money": "Money",
+      "inventory": "Inventory",
+      "parties": "Parties"
+    },
+    "nextAction": {
+      "title": "Next recommended step",
+      "ready": "Continue with {task}.",
+      "waitingOn": "{task} is waiting on: {blockers}.",
+      "open": "Open"
+    },
+    "actions": {
+      "open": "Open",
+      "run": "Run now",
+      "running": "Running…",
+      "skip": "Not applicable",
+      "skipping": "Skipping…"
+    },
+    "blockedBy": "Blocked by {tasks}",
+    "readiness": {
+      "title": "Operational readiness",
+      "ready": "Ready",
+      "notReady": "Not ready",
+      "modules": {
+        "accounting": "Accounting",
+        "cashOps": "Cash operations",
+        "bankOps": "Bank operations",
+        "inventory": "Inventory",
+        "sales": "Sales",
+        "purchasing": "Purchasing"
+      }
+    },
+    "reconciliation": {
+      "title": "Reconciliation",
+      "run": "Run reconciliation",
+      "running": "Running…",
+      "passed": "All reconciliation checks passed.",
+      "failed": "{count} reconciliation checks are failing.",
+      "neverRun": "Reconciliation has not run yet.",
+      "findings": "{count} findings"
+    },
+    "checks": {
+      "CASH_GL_VS_CASHBOX_SUBLEDGER": "The cash control account does not match cashbox balances.",
+      "CASHBOX_SUBLEDGER_VS_PROJECTION": "Cashbox balances do not match the ledger.",
+      "BANK_GL_VS_BANK_SUBLEDGER": "The bank control account does not match bank account balances.",
+      "AR_CONTROL_VS_CUSTOMER_SUBLEDGER": "The receivables control account does not match customer balances.",
+      "AP_CONTROL_VS_SUPPLIER_SUBLEDGER": "The payables control account does not match supplier balances.",
+      "INVENTORY_GL_VS_STOCK_VALUATION": "The inventory account does not match stock valuation.",
+      "JOURNAL_ENTRIES_BALANCED": "Some journal entries are unbalanced.",
+      "MULTI_CURRENCY_BASE_CONSISTENT": "Some foreign-currency lines are missing an amount or exchange rate.",
+      "STOCK_QUANTITY_PROJECTION": "Stock quantities do not match the movement ledger."
+    },
+    "legacy": {
+      "title": "Legacy data",
+      "description": "Entries created before the current accounting model can be incomplete. The failing checks above name exactly what must be corrected."
+    },
+    "banner": {
+      "text": "Business setup is {percent}% complete.",
+      "cta": "Continue setup"
+    },
+    "navWarning": "This module is not ready yet — complete business setup first."
   }
 }

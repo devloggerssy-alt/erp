@@ -1313,6 +1313,75 @@
       "OPENING_PAYABLES": "الذمم الدائنة الافتتاحية",
       "OPENING_INVENTORY": "المخزون الافتتاحي",
       "RECONCILIATION": "التسوية"
-    }
+    },
+    "hubDescription": "أكمل هذه الخطوات لتصبح منشأتك جاهزة للعمل.",
+    "completedAt": "اكتمل الإعداد في {date}",
+    "progress": {
+      "title": "تقدم الإعداد",
+      "description": "اكتملت {completed} من {total} مهمة مطلوبة",
+      "percent": "اكتمل {percent}%"
+    },
+    "groups": {
+      "accounting": "المحاسبة",
+      "money": "الأموال",
+      "inventory": "المخزون",
+      "parties": "الأطراف"
+    },
+    "nextAction": {
+      "title": "الخطوة التالية الموصى بها",
+      "ready": "تابع {task}.",
+      "waitingOn": "{task} بانتظار: {blockers}.",
+      "open": "فتح"
+    },
+    "actions": {
+      "open": "فتح",
+      "run": "تشغيل الآن",
+      "running": "جارٍ التشغيل…",
+      "skip": "غير مطبّق",
+      "skipping": "جارٍ التخطي…"
+    },
+    "blockedBy": "محظورة بسبب {tasks}",
+    "readiness": {
+      "title": "الجاهزية التشغيلية",
+      "ready": "جاهز",
+      "notReady": "غير جاهز",
+      "modules": {
+        "accounting": "المحاسبة",
+        "cashOps": "عمليات النقد",
+        "bankOps": "عمليات البنوك",
+        "inventory": "المخزون",
+        "sales": "المبيعات",
+        "purchasing": "المشتريات"
+      }
+    },
+    "reconciliation": {
+      "title": "التسوية",
+      "run": "تشغيل التسوية",
+      "running": "جارٍ التشغيل…",
+      "passed": "اجتازت جميع فحوص التسوية.",
+      "failed": "{count} من فحوص التسوية فاشلة.",
+      "neverRun": "لم يتم تشغيل التسوية بعد.",
+      "findings": "{count} ملاحظة"
+    },
+    "checks": {
+      "CASH_GL_VS_CASHBOX_SUBLEDGER": "حساب النقد لا يطابق أرصدة الصناديق.",
+      "CASHBOX_SUBLEDGER_VS_PROJECTION": "أرصدة الصناديق لا تطابق دفتر اليومية.",
+      "BANK_GL_VS_BANK_SUBLEDGER": "حساب البنوك لا يطابق أرصدة الحسابات البنكية.",
+      "AR_CONTROL_VS_CUSTOMER_SUBLEDGER": "حساب الذمم المدينة لا يطابق أرصدة العملاء.",
+      "AP_CONTROL_VS_SUPPLIER_SUBLEDGER": "حساب الذمم الدائنة لا يطابق أرصدة الموردين.",
+      "INVENTORY_GL_VS_STOCK_VALUATION": "حساب المخزون لا يطابق تقييم المخزون.",
+      "JOURNAL_ENTRIES_BALANCED": "بعض القيود المحاسبية غير متوازنة.",
+      "MULTI_CURRENCY_BASE_CONSISTENT": "بعض سطور العملات الأجنبية تفتقد المبلغ أو سعر الصرف.",
+      "STOCK_QUANTITY_PROJECTION": "كميات المخزون لا تطابق دفتر الحركات."
+    },
+    "legacy": {
+      "title": "بيانات قديمة",
+      "description": "القيود المنشأة قبل نموذج المحاسبة الحالي قد تكون ناقصة. الفحوص الفاشلة أعلاه تحدد ما يجب تصحيحه."
+    },
+    "banner": {
+      "text": "اكتمل إعداد النشاط بنسبة {percent}%.",
+      "cta": "متابعة الإعداد"
+    },
+    "navWarning": "هذه الوحدة غير جاهزة بعد — أكمل إعداد النشاط أولاً."
   }
 }
