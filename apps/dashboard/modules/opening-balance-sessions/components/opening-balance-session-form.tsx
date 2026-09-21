@@ -12,7 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/shared/components/ui/select"
-import type { CreateSessionBody, useOpeningBalanceSessions } from "../hooks/use-opening-balance-sessions"
+import type { CreateSessionBody, OpeningSessionLineBody, useOpeningBalanceSessions } from "../hooks/use-opening-balance-sessions"
 
 type Props = {
   onSubmit: (body: CreateSessionBody) => void
@@ -213,13 +213,13 @@ export function OpeningBalanceSessionForm({ onSubmit, options, disabled, onCance
               description: description || undefined,
               lines: [
                 {
-                  dimension,
+                  dimension: dimension as OpeningSessionLineBody["dimension"],
                   accountId: dimension === "ACCOUNT" ? accountId : null,
                   partyId: dimension === "PARTY" ? partyId : null,
                   cashboxId: dimension === "CASHBOX" ? cashboxId : null,
                   bankAccountId: dimension === "BANK_ACCOUNT" ? bankAccountId : null,
                   currencyId: needsCurrency ? currencyId : null,
-                  partySide: dimension === "PARTY" ? partySide : null,
+                  partySide: (dimension === "PARTY" ? partySide : null) as OpeningSessionLineBody["partySide"],
                   amount: Number(amount),
                   exchangeRate: Number(exchangeRate) || 1,
                 },

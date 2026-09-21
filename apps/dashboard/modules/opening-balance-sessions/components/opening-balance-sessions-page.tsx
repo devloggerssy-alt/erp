@@ -85,7 +85,7 @@ export function OpeningBalanceSessionsPage() {
                         size="sm"
                         variant="outline"
                         disabled={hook.busy}
-                        onClick={() => hook.postSession.mutate(session.id)}
+                        onClick={() => hook.postSession.mutate({ id: session.id, status: session.status })}
                       >
                         {t("post")}
                       </Button>
