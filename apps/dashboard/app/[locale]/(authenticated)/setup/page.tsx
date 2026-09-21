@@ -1,5 +1,5 @@
-import { BusinessSetupSummary } from "@/modules/business-setup/business-setup-summary"
+import { SetupHub } from "@/modules/business-setup"
 
 export default function Page() {
-    return <BusinessSetupSummary />
+  return <SetupHub />
 }
