@@ -28,13 +28,14 @@
         "db:generate": "prisma generate --schema=src/schema",
         "db:migrate:dev": "prisma migrate dev --schema=src/schema",
         "db:migrate:deploy": "prisma migrate deploy --schema=src/schema",
-        "db:studio": "prisma studio --schema=src/schema",
+        "db:studio": "prisma studio",
         "db:reset": "prisma migrate reset --schema=src/schema",
         "db:push": "prisma db push --schema=src/schema",
         "db:seed": "ts-node src/seed/index.ts",
         "db:seed:clear": "ts-node scripts/clear-seed.ts",
         "backfill:business-setup": "ts-node src/seed/backfill-business-setup-tasks.ts",
-        "backfill:document-sequences": "ts-node src/seed/backfill-document-sequences.ts"
+        "backfill:document-sequences": "ts-node src/seed/backfill-document-sequences.ts",
+        "backfill:invoice-types": "ts-node src/seed/backfill-invoice-types.ts"
     },
     "dependencies": {
         "@prisma/adapter-pg": "^7.0.0",

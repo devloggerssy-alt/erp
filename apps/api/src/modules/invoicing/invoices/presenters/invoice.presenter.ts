@@ -52,7 +52,10 @@ export class InvoicePresenter {
             partyPhone: entity.party?.phone ?? null,
             partyEmail: entity.party?.email ?? null,
             warehouseId: entity.warehouseId ?? null,
-            warehouseName: entity.warehouse?.name,
+            // warehouse.name is a LocalizedString ({ ar, en }) — resolve to the request locale.
+            warehouseName: entity.warehouse?.name
+                ? this.locale.resolve(entity.warehouse.name as LocalizedString)
+                : undefined,
             fiscalPeriodId: entity.fiscalPeriodId,
             currencyId: entity.currencyId,
             currencyCode: entity.currency?.code,

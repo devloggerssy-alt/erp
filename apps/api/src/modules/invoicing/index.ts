@@ -10,3 +10,5 @@ export { CreateCashboxDto } from './cashboxes/dto';
 export { BankAccountsModule } from './bank-accounts/bank-accounts.module';
 export { BankAccountsService } from './bank-accounts/services/bank-accounts.service';
 export { CreateBankAccountDto } from './bank-accounts/dto';
+export { InvoiceTypesModule } from './invoice-types/invoice-types.module';
+export { InvoiceTypesService } from './invoice-types/services/invoice-types.service';

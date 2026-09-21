@@ -14,6 +14,8 @@ export class PartyPresenter extends CrudPresenter<Party, PartyResponseDto> {
             phone: entity.phone ?? null,
             email: entity.email ?? null,
             address: entity.address ?? null,
+            receivableAccountId: entity.receivableAccountId ?? null,
+            payableAccountId: entity.payableAccountId ?? null,
             isActive: entity.isActive,
             createdAt: entity.createdAt.toISOString(),
             updatedAt: entity.updatedAt.toISOString(),

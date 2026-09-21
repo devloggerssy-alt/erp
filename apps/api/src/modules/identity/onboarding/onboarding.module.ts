@@ -7,6 +7,7 @@ import { FinancialSettingsModule } from '../../accounting/financial-settings/fin
 import { CurrenciesModule } from '../../accounting/currencies/currencies.module';
 import { ChartOfAccountsBootstrapModule } from '../../accounting/accounts/bootstrap/chart-of-accounts-bootstrap.module';
 import { UnitsModule } from '../../catalog';
+import { InvoiceTypesModule } from '../../invoicing';
 import { OnboardingService } from './services/onboarding.service';
 import { OnboardingController } from './controllers/onboarding.controller';
 
@@ -20,6 +21,7 @@ import { OnboardingController } from './controllers/onboarding.controller';
         CurrenciesModule,
         ChartOfAccountsBootstrapModule,
         UnitsModule,
+        InvoiceTypesModule,
     ],
     controllers: [OnboardingController],
     providers: [OnboardingService],

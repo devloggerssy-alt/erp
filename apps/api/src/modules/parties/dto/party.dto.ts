@@ -37,6 +37,16 @@ export class CreatePartyDto {
     @IsOptional()
     @IsString()
     address?: string;
+
+    @ApiPropertyOptional({ type: 'string', nullable: true, description: 'Override the default AR account for this party (falls back to FinancialSetting.defaultReceivableAccountId)' })
+    @IsOptional()
+    @IsString()
+    receivableAccountId?: string | null;
+
+    @ApiPropertyOptional({ type: 'string', nullable: true, description: 'Override the default AP account for this party (falls back to FinancialSetting.defaultPayableAccountId)' })
+    @IsOptional()
+    @IsString()
+    payableAccountId?: string | null;
 }
 
 export class UpdatePartyDto {
@@ -74,6 +84,16 @@ export class UpdatePartyDto {
     @IsOptional()
     @IsBoolean()
     isActive?: boolean;
+
+    @ApiPropertyOptional({ type: 'string', nullable: true, description: 'Override the default AR account for this party (falls back to FinancialSetting.defaultReceivableAccountId)' })
+    @IsOptional()
+    @IsString()
+    receivableAccountId?: string | null;
+
+    @ApiPropertyOptional({ type: 'string', nullable: true, description: 'Override the default AP account for this party (falls back to FinancialSetting.defaultPayableAccountId)' })
+    @IsOptional()
+    @IsString()
+    payableAccountId?: string | null;
 }
 
 export class UpdatePartyStatusDto {
@@ -104,6 +124,12 @@ export class PartyResponseDto {
 
     @ApiProperty({ type: 'string', example: 'Damascus, Industrial Zone', nullable: true })
     address: string | null = null;
+
+    @ApiProperty({ type: 'string', example: '00000000-0000-4000-a600-000000000004', nullable: true, description: 'AR account override; null falls back to the tenant default' })
+    receivableAccountId: string | null = null;
+
+    @ApiProperty({ type: 'string', example: '00000000-0000-4000-a600-000000000005', nullable: true, description: 'AP account override; null falls back to the tenant default' })
+    payableAccountId: string | null = null;
 
     @ApiProperty({ example: true })
     isActive: boolean = true;

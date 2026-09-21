@@ -124,7 +124,7 @@ Each directory under `apps/api/src/modules/` is a domain. **Outside a domain, im
 | `accounting` | `accounting/posting`, `accounting/document-sequences`, `accounting/financial-settings`, `accounting/fiscal-periods`, `accounting/currencies`, `accounting/opening-balances`, `accounting/reconciliation`, `accounting/accounts/utils`, `accounting/accounts/bootstrap` | `AccountingPostingFacade` + `PostingIntent` types; numbering; tenant setup config; currencies; opening-balance subledger services; reconciliation monitor; period/slot guards; CoA bootstrap |
 | `identity` | `identity/auth/guards`, `identity/auth/decorators` | `JwtAuthGuard`, `@CurrentUser` (shared kernel) |
 | `inventory` | `inventory` | `InventoryModule`, `InventoryService`, `InventoryMovementFacade` + `MovementIntent` types |
-| `invoicing` | `invoicing` | `computeInvoicePaidState`, `CashboxesModule`/`CashboxesService`/`CreateCashboxDto`, `BankAccountsModule`/`BankAccountsService`/`CreateBankAccountDto` |
+| `invoicing` | `invoicing` | `computeInvoicePaidState`, `CashboxesModule`/`CashboxesService`/`CreateCashboxDto`, `BankAccountsModule`/`BankAccountsService`/`CreateBankAccountDto`, `InvoiceTypesModule`/`InvoiceTypesService` |
 | `custom-fields` | `custom-fields` | `CustomFieldsModule`, `CustomFieldValuesService`, `CustomFieldsRepository` |
 | `catalog` | `catalog` | `UnitsModule`, `UnitsService` |
 | `parties`, `reports`, `files`, `audit`, `ai-chat` | — (no consumers yet) | add an `index.ts` before another domain depends on it |

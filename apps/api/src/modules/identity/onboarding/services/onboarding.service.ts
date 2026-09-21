@@ -7,6 +7,7 @@ import { FinancialSettingsService } from '../../../accounting/financial-settings
 import { CurrenciesService } from '../../../accounting/currencies/services/currencies.service';
 import { ChartOfAccountsBootstrapService } from '../../../accounting/accounts/bootstrap/chart-of-accounts-bootstrap.service';
 import { UnitsService } from '../../../catalog';
+import { InvoiceTypesService } from '../../../invoicing';
 import type {
     OnboardingCompanyStepDto,
     OnboardingFiscalYearStepDto,
@@ -28,6 +29,7 @@ export class OnboardingService {
         private readonly currenciesService: CurrenciesService,
         private readonly chartOfAccountsBootstrap: ChartOfAccountsBootstrapService,
         private readonly unitsService: UnitsService,
+        private readonly invoiceTypesService: InvoiceTypesService,
     ) {}
 
     private async assertNotCompleted(tenantId: string): Promise<void> {
@@ -155,6 +157,7 @@ export class OnboardingService {
     async complete(tenantId: string): Promise<void> {
         await this.assertNotCompleted(tenantId);
         await this.unitsService.createDefaults(tenantId);
+        await this.invoiceTypesService.createDefaults(tenantId);
         await this.prisma.tenant.update({
             where: { id: tenantId },
             data: { onboardingCompletedAt: new Date(), onboardingStep: 6 },
