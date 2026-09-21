@@ -1,5 +1,6 @@
 import { ConflictException, Injectable } from '@nestjs/common';
 import { CrudRepository, TenantEntity } from './crud-repository';
+import type { PrismaModelDelegate } from '../prisma/prisma-delegate.interface.js';
 
 /**
  * Repository backstop for status-lifecycle documents (Phase 5.3.4).
@@ -14,7 +15,10 @@ import { CrudRepository, TenantEntity } from './crud-repository';
  * not-found error surfaces exactly as before.
  */
 @Injectable()
-export abstract class StatusGuardedCrudRepository<T extends TenantEntity & { status: string }> extends CrudRepository<T> {
+export abstract class StatusGuardedCrudRepository<
+  T extends TenantEntity & { status: string },
+  TDelegate extends PrismaModelDelegate = PrismaModelDelegate,
+> extends CrudRepository<T, TDelegate> {
   protected readonly deletableStatuses: readonly string[] = ['DRAFT'];
 
   protected override async beforeHardDelete(id: string): Promise<void> {

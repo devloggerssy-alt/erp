@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@devloggers/db-prisma/nest';
 import { CrudRepository } from '@devloggers/backend-core';
-import type { OpeningBalanceSession } from '@devloggers/db-prisma';
+import type { OpeningBalanceSession, Prisma } from '@devloggers/db-prisma';
 
 @Injectable()
-export class OpeningBalanceSessionsRepository extends CrudRepository<OpeningBalanceSession> {
+export class OpeningBalanceSessionsRepository extends CrudRepository<OpeningBalanceSession, Prisma.OpeningBalanceSessionDelegate> {
     constructor(private readonly prisma: PrismaService) {
         super(prisma.openingBalanceSession);
     }

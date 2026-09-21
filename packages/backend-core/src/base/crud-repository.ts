@@ -1,4 +1,9 @@
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import type {
+  PrismaDelegateArgField,
+  PrismaDelegateData,
+  PrismaModelDelegate,
+} from '../prisma/prisma-delegate.interface.js';
 
 // ── Entity contracts ─────────────────────────────────────────────────────────
 
@@ -9,12 +14,18 @@ export interface TenantEntity {
 
 // ── Query options ─────────────────────────────────────────────────────────────
 
-export interface FindManyOptions {
+/**
+ * Filter/sort/include options for a list query. When the repository is
+ * parameterized on its Prisma delegate these derive from the model's own
+ * `WhereInput` / `OrderByInput` / `Include`, so an invalid filter field fails
+ * to compile. The un-parameterized default stays open for generic callers.
+ */
+export interface FindManyOptions<D = PrismaModelDelegate> {
   skip?: number;
   take?: number;
-  where?: Record<string, any>;
-  orderBy?: Record<string, any> | Record<string, any>[];
-  include?: Record<string, any>;
+  where?: PrismaDelegateArgField<D, 'findMany', 'where'>;
+  orderBy?: PrismaDelegateArgField<D, 'findMany', 'orderBy'>;
+  include?: PrismaDelegateArgField<D, 'findMany', 'include'>;
 }
 
 export interface FindManyResult<T> {
@@ -57,10 +68,11 @@ function mapPrismaError(error: unknown): never {
 /**
  * Generic tenant-scoped CRUD repository.
  *
- * Extend this class and inject the Prisma delegate for your model:
+ * Extend this class and inject the Prisma delegate for your model. Parameterize
+ * it on the delegate type so create/update/filter inputs come from Prisma:
  * ```ts
  * @Injectable()
- * export class UnitsRepository extends CrudRepository<Unit> {
+ * export class UnitsRepository extends CrudRepository<Unit, Prisma.UnitDelegate> {
  *   constructor(private prisma: PrismaService) {
  *     super(prisma.unit);
  *   }
@@ -68,13 +80,17 @@ function mapPrismaError(error: unknown): never {
  * ```
  */
 @Injectable()
-export abstract class CrudRepository<T extends TenantEntity> {
-  constructor(protected readonly model: any) {}
+export abstract class CrudRepository<
+  T extends TenantEntity,
+  TDelegate extends PrismaModelDelegate = PrismaModelDelegate,
+> {
+  constructor(protected readonly model: TDelegate) {}
 
   /**
    * Find many records scoped to a tenant.
    * Automatically merges `tenantId` into the `where` clause.
    */
+  async findMany(tenantId: string, options?: FindManyOptions<TDelegate>): Promise<FindManyResult<T>>;
   async findMany(tenantId: string, options: FindManyOptions = {}): Promise<FindManyResult<T>> {
     const { skip = 0, take = 10, where = {}, include } = options;
     const orderBy = options.orderBy ?? { createdAt: 'desc' };
@@ -116,7 +132,7 @@ export abstract class CrudRepository<T extends TenantEntity> {
   /**
    * Create a new record. Caller is responsible for including `tenantId` in data.
    */
-  async create(data: Record<string, any>): Promise<T> {
+  async create(data: PrismaDelegateData<TDelegate, 'create'>): Promise<T> {
     try {
       return await this.model.create({ data });
     } catch (error) {
@@ -127,7 +143,7 @@ export abstract class CrudRepository<T extends TenantEntity> {
   /**
    * Update a record by id.
    */
-  async update(id: string, data: Record<string, any>): Promise<T> {
+  async update(id: string, data: PrismaDelegateData<TDelegate, 'update'>): Promise<T> {
     try {
       return await this.model.update({ where: { id }, data });
     } catch (error) {
@@ -156,7 +172,11 @@ export abstract class CrudRepository<T extends TenantEntity> {
   /**
    * Check whether a record matching `where` (scoped to tenant) exists.
    */
-  async exists(tenantId: string, where: Record<string, any>): Promise<boolean> {
+  async exists(
+    tenantId: string,
+    where: PrismaDelegateArgField<TDelegate, 'findMany', 'where'>,
+  ): Promise<boolean>;
+  async exists(tenantId: string, where: any): Promise<boolean> {
     const count = await this.model.count({ where: { ...where, tenantId } });
     return count > 0;
   }

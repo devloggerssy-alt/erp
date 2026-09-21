@@ -1,16 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@devloggers/db-prisma/nest';
 import { CrudRepository, FindManyOptions } from '@devloggers/backend-core';
-import { JournalEntryStatus, type ChartOfAccount } from '@devloggers/db-prisma';
+import { JournalEntryStatus, type ChartOfAccount, type Prisma } from '@devloggers/db-prisma';
 
 @Injectable()
-export class AccountsRepository extends CrudRepository<ChartOfAccount> {
+export class AccountsRepository extends CrudRepository<ChartOfAccount, Prisma.ChartOfAccountDelegate> {
     constructor(private readonly prisma: PrismaService) {
         super(prisma.chartOfAccount);
     }
 
     /** List always sorted by code and includes parent name/code for display. */
-    override async findMany(tenantId: string, options: FindManyOptions = {}) {
+    override async findMany(tenantId: string, options: FindManyOptions<Prisma.ChartOfAccountDelegate> = {}) {
         return super.findMany(tenantId, {
             ...options,
             where: { ...options.where, deletedAt: null },

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@devloggers/db-prisma/nest';
 import { CrudRepository } from '@devloggers/backend-core';
-import type { Role } from '@devloggers/db-prisma';
+import type { Prisma, Role } from '@devloggers/db-prisma';
 import type { PermissionKey } from '@devloggers/api-contracts';
 
 export type RoleWithPermissions = Role & {
@@ -9,7 +9,7 @@ export type RoleWithPermissions = Role & {
 };
 
 @Injectable()
-export class RolesRepository extends CrudRepository<Role> {
+export class RolesRepository extends CrudRepository<Role, Prisma.RoleDelegate> {
     constructor(private readonly prisma: PrismaService) {
         super(prisma.role);
     }

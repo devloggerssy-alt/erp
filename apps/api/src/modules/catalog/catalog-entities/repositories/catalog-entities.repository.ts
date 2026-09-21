@@ -5,7 +5,7 @@ import {
   type FindManyOptions,
   type FindManyResult,
 } from '@devloggers/backend-core';
-import type { CatalogEntity } from '@devloggers/db-prisma';
+import type { CatalogEntity, Prisma } from '@devloggers/db-prisma';
 
 type CatalogEntityParentSummary = {
   id: string;
@@ -22,7 +22,7 @@ const PARENT_INCLUDE = {
 } as const;
 
 @Injectable()
-export class CatalogEntitiesRepository extends CrudRepository<CatalogEntityWithParent> {
+export class CatalogEntitiesRepository extends CrudRepository<CatalogEntityWithParent, Prisma.CatalogEntityDelegate> {
   constructor(private readonly prisma: PrismaService) {
     super(prisma.catalogEntity);
   }
@@ -30,7 +30,7 @@ export class CatalogEntitiesRepository extends CrudRepository<CatalogEntityWithP
   // Override findMany to include the parent summary.
   override async findMany(
     tenantId: string,
-    options: FindManyOptions = {},
+    options: FindManyOptions<Prisma.CatalogEntityDelegate> = {},
   ): Promise<FindManyResult<CatalogEntityWithParent>> {
     return super.findMany(tenantId, { ...options, include: PARENT_INCLUDE });
   }

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@devloggers/db-prisma/nest';
 import { CrudRepository, type FindManyOptions, type FindManyResult } from '@devloggers/backend-core';
-import type { ItemRelation } from '@devloggers/db-prisma';
+import type { ItemRelation, Prisma } from '@devloggers/db-prisma';
 import { RelationType } from '@devloggers/db-prisma';
 
 const RELATED_ITEM_INCLUDE = {
@@ -9,12 +9,12 @@ const RELATED_ITEM_INCLUDE = {
 } as const;
 
 @Injectable()
-export class ItemRelationsRepository extends CrudRepository<ItemRelation> {
+export class ItemRelationsRepository extends CrudRepository<ItemRelation, Prisma.ItemRelationDelegate> {
   constructor(private readonly prisma: PrismaService) {
     super(prisma.itemRelation);
   }
 
-  override async findMany(tenantId: string, options: FindManyOptions = {}): Promise<FindManyResult<ItemRelation>> {
+  override async findMany(tenantId: string, options: FindManyOptions<Prisma.ItemRelationDelegate> = {}): Promise<FindManyResult<ItemRelation>> {
     return super.findMany(tenantId, { ...options, include: RELATED_ITEM_INCLUDE });
   }
 

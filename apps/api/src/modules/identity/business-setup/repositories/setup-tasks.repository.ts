@@ -13,7 +13,7 @@ export interface UpsertSetupTaskData {
 }
 
 @Injectable()
-export class SetupTasksRepository extends CrudRepository<SetupTask> {
+export class SetupTasksRepository extends CrudRepository<SetupTask, Prisma.SetupTaskDelegate> {
     constructor(private readonly prisma: PrismaService) {
         super(prisma.setupTask);
     }

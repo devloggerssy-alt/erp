@@ -1,10 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '@devloggers/db-prisma/nest';
 import { CrudRepository } from '@devloggers/backend-core';
-import type { DocumentSequence } from '@devloggers/db-prisma';
+import type { DocumentSequence, Prisma } from '@devloggers/db-prisma';
 
 @Injectable()
-export class DocumentSequencesRepository extends CrudRepository<DocumentSequence> {
+export class DocumentSequencesRepository extends CrudRepository<DocumentSequence, Prisma.DocumentSequenceDelegate> {
     constructor(private readonly prisma: PrismaService) {
         super(prisma.documentSequence);
     }

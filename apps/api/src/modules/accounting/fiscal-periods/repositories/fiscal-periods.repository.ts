@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@devloggers/db-prisma/nest';
 import { CrudRepository } from '@devloggers/backend-core';
-import type { FiscalPeriod } from '@devloggers/db-prisma';
+import type { FiscalPeriod, Prisma } from '@devloggers/db-prisma';
 
 @Injectable()
-export class FiscalPeriodsRepository extends CrudRepository<FiscalPeriod> {
+export class FiscalPeriodsRepository extends CrudRepository<FiscalPeriod, Prisma.FiscalPeriodDelegate> {
     constructor(private readonly prisma: PrismaService) {
         super(prisma.fiscalPeriod);
     }

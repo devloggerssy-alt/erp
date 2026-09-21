@@ -30,7 +30,7 @@ const ITEM_LIST_INCLUDE = {
 } as const;
 
 @Injectable()
-export class ItemsRepository extends CrudRepository<Item> {
+export class ItemsRepository extends CrudRepository<Item, Prisma.ItemDelegate> {
     constructor(private readonly prisma: PrismaService) {
         super(prisma.item);
     }

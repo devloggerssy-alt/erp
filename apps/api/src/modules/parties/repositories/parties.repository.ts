@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@devloggers/db-prisma/nest';
 import { CrudRepository } from '@devloggers/backend-core';
-import type { Party } from '@devloggers/db-prisma';
+import type { Party, Prisma } from '@devloggers/db-prisma';
 
 @Injectable()
-export class PartiesRepository extends CrudRepository<Party> {
+export class PartiesRepository extends CrudRepository<Party, Prisma.PartyDelegate> {
     constructor(private readonly prisma: PrismaService) {
         super(prisma.party);
     }

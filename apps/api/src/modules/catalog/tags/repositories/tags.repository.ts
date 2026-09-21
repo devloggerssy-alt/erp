@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@devloggers/db-prisma/nest';
 import { CrudRepository } from '@devloggers/backend-core';
-import type { Tag } from '@devloggers/db-prisma';
+import type { Tag, Prisma } from '@devloggers/db-prisma';
 
 @Injectable()
-export class TagsRepository extends CrudRepository<Tag> {
+export class TagsRepository extends CrudRepository<Tag, Prisma.TagDelegate> {
   constructor(private readonly prisma: PrismaService) {
     super(prisma.tag);
   }

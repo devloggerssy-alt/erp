@@ -1,20 +1,20 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@devloggers/db-prisma/nest';
 import { CrudRepository, FindManyOptions, FindManyResult } from '@devloggers/backend-core';
-import type { ItemCategory } from '@devloggers/db-prisma';
+import type { ItemCategory, Prisma } from '@devloggers/db-prisma';
 
 export type ItemCategoryWithParent = ItemCategory & {
     parent: ItemCategory | null
 }
 
 @Injectable()
-export class ItemCategoriesRepository extends CrudRepository<ItemCategoryWithParent> {
+export class ItemCategoriesRepository extends CrudRepository<ItemCategoryWithParent, Prisma.ItemCategoryDelegate> {
     constructor(private readonly prisma: PrismaService) {
         super(prisma.itemCategory);
     }
 
     /** List always includes parent category for display. */
-    override async findMany(tenantId: string, options: FindManyOptions = {}): Promise<FindManyResult<ItemCategoryWithParent>> {
+    override async findMany(tenantId: string, options: FindManyOptions<Prisma.ItemCategoryDelegate> = {}): Promise<FindManyResult<ItemCategoryWithParent>> {
         return super.findMany(tenantId, {
             ...options,
             include: { parent: { select: { id: true, name: true } } },

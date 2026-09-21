@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@devloggers/db-prisma/nest';
 import { CrudRepository } from '@devloggers/backend-core';
-import type { CustomField } from '@devloggers/db-prisma';
+import type { CustomField, Prisma } from '@devloggers/db-prisma';
 
 @Injectable()
-export class CustomFieldsRepository extends CrudRepository<CustomField> {
+export class CustomFieldsRepository extends CrudRepository<CustomField, Prisma.CustomFieldDelegate> {
     constructor(private readonly prisma: PrismaService) {
         super(prisma.customField);
     }

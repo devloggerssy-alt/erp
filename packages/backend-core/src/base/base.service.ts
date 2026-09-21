@@ -1,11 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import type { PrismaDelegate } from '../prisma/prisma-delegate.interface';
+import type { PrismaModelDelegate } from '../prisma/prisma-delegate.interface';
 import { PrismaQueryBuilder, QueryParams } from '../utils/query-builder';
 
 @Injectable()
 export abstract class BaseService<T, CreateDto, UpdateDto> {
     // نحقن الموديل المحدد (مثل prisma.product)
-    constructor(protected readonly model: PrismaDelegate<T, any, any>) { }
+    constructor(protected readonly model: PrismaModelDelegate) { }
 
     /**
      * List Resources with Pagination, Sort, Filter

@@ -4,7 +4,7 @@ import { CrudRepository } from '@devloggers/backend-core';
 import type { Prisma, InvoiceType } from '@devloggers/db-prisma';
 
 @Injectable()
-export class InvoiceTypesRepository extends CrudRepository<InvoiceType> {
+export class InvoiceTypesRepository extends CrudRepository<InvoiceType, Prisma.InvoiceTypeDelegate> {
     constructor(private readonly prisma: PrismaService) {
         super(prisma.invoiceType);
     }

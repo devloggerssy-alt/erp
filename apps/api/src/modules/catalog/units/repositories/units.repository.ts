@@ -4,7 +4,7 @@ import { CrudRepository } from '@devloggers/backend-core';
 import type { Prisma, Unit } from '@devloggers/db-prisma';
 
 @Injectable()
-export class UnitsRepository extends CrudRepository<Unit> {
+export class UnitsRepository extends CrudRepository<Unit, Prisma.UnitDelegate> {
   constructor(private readonly prisma: PrismaService) {
     super(prisma.unit);
   }

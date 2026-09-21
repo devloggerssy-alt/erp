@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@devloggers/db-prisma/nest';
 import { CrudRepository } from '@devloggers/backend-core';
-import type { Currency } from '@devloggers/db-prisma';
+import type { Currency, Prisma } from '@devloggers/db-prisma';
 
 @Injectable()
-export class CurrenciesRepository extends CrudRepository<Currency> {
+export class CurrenciesRepository extends CrudRepository<Currency, Prisma.CurrencyDelegate> {
     constructor(private readonly prisma: PrismaService) {
         super(prisma.currency);
     }
