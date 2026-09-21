@@ -64,6 +64,11 @@ jobs:
           git diff --exit-code apps/api/openapi.yaml packages/api-contracts/types/index.ts
           node scripts/audit-openapi-response-types.mjs
 
+      # The audit classifies intended no-content responses apart from real gaps.
+      # Prove that classification with a unit test before trusting the ratchet.
+      - name: Test — guardrail scripts
+        run: pnpm test:scripts
+
       # ── F4 guardrail: the API must type-check under the strict base ──────────
       # This is the check the whole roadmap's verification depends on. Without
       # it, `turbo run build` exits 0 on refactors that dropped a parameter type.

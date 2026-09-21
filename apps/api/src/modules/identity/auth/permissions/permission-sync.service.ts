@@ -84,7 +84,7 @@ export class PermissionSyncService implements OnModuleInit {
         const grantData = DEFAULT_ROLE_PERMISSIONS[roleName]
           .map((key) => permissionIdByKey.get(key))
           .filter((permissionId): permissionId is string => Boolean(permissionId))
-          .map((permissionId) => ({ roleId: role!.id, permissionId }));
+          .map((permissionId) => ({ roleId: role.id, permissionId }));
 
         if (grantData.length > 0) {
           await this.prisma.rolePermission.createMany({ data: grantData, skipDuplicates: true });

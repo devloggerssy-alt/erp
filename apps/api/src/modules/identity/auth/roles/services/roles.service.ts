@@ -3,7 +3,6 @@ import { EventEmitter2 } from '@nestjs/event-emitter';
 import {
     CrudService,
     ResourceCreatedEvent,
-    ResourceDeletedEvent,
     ResourceUpdatedEvent,
 } from '@devloggers/backend-core';
 import { resources } from '@devloggers/api-contracts';

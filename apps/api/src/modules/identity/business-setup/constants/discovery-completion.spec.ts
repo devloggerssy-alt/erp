@@ -2,7 +2,7 @@ import { DISCOVERY_COMPLETABLE_TASK_TYPES, isDiscoverablyComplete } from './disc
 import type { BusinessSetupInspection } from '../services/business-setup-discovery.service';
 import { SETUP_TASK_TYPES } from './setup-task-graph';
 
-function inspectionWith(overrides: Partial<Record<keyof BusinessSetupInspection, { count: number; classification: string }>> = {}): BusinessSetupInspection {
+function inspectionWith(overrides: Partial<BusinessSetupInspection> = {}): BusinessSetupInspection {
     const empty = { count: 0, classification: 'EMPTY' as const };
     const exist = { count: 1, classification: 'EXISTING' as const };
     return {

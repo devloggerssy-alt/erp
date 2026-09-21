@@ -2,51 +2,34 @@
  * CI / manual equivalent of the watch-mode generation in main.ts.
  * Bootstraps NestJS without starting the HTTP server.
  *
+ * Must run against the Nest-compiled output (`dist/`) so the `@nestjs/swagger`
+ * decorator plugin is applied identically to watch mode. The `generate:spec`
+ * script builds the API (and its workspace dependencies) before invoking this.
+ *
  * Usage (from repo root): pnpm generate
  * Usage (from apps/api):  pnpm generate:spec
  */
-// Must be set before AppModule is imported so PrismaService skips $connect()
+// Must be set before the app module is required so PrismaService skips $connect()
 process.env.GENERATE_SPEC = 'true';
 
 import { NestFactory } from '@nestjs/core';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { writeFileSync } from 'fs';
-import { resolve } from 'path';
-import { execSync } from 'child_process';
-import * as yaml from 'js-yaml';
-import { AppModule } from '../src/app.module';
 
-const SPEC_PATH = resolve(process.cwd(), 'openapi.yaml');
-const TYPES_PATH = resolve(process.cwd(), '../../packages/api-contracts/types/index.ts');
+/* eslint-disable @typescript-eslint/no-var-requires */
+const { AppModule } = require('../dist/src/app.module');
+const { buildContractDocument, writeContractArtifacts } = require('../dist/src/contracts/contract-generation');
+/* eslint-enable @typescript-eslint/no-var-requires */
 
 async function run() {
-    const app = await NestFactory.create(AppModule, { logger: false });
+  const app = await NestFactory.create(AppModule, { logger: false });
 
-    const config = new DocumentBuilder()
-        .setTitle('Devloggers ERP API')
-        .setDescription('ERP system API documentation')
-        .setVersion('1.0.0')
-        .addBearerAuth(
-            { type: 'http', scheme: 'bearer', bearerFormat: 'JWT', name: 'JWT', in: 'header' },
-            'JWT-auth',
-        )
-        .build();
+  const document = buildContractDocument(app);
+  await app.close();
 
-    const document = SwaggerModule.createDocument(app, config, {
-        operationIdFactory: (controllerKey: string, methodKey: string) =>
-            `${controllerKey.replace('Controller', '')}.${methodKey}`,
-    });
-
-    await app.close();
-
-    writeFileSync(SPEC_PATH, yaml.dump(document, { noRefs: true }));
-    console.log(`✅  Spec written → ${SPEC_PATH}`);
-
-    execSync(`node node_modules/openapi-typescript/bin/cli.js "${SPEC_PATH}" -o "${TYPES_PATH}"`, { stdio: 'inherit' });
-    console.log(`✅  Types written → ${TYPES_PATH}`);
+  writeContractArtifacts(document);
+  console.log('✅  Contract artifacts written (openapi.yaml + api-contracts types)');
 }
 
 run().catch((err) => {
-    console.error(err);
-    process.exit(1);
+  console.error(err);
+  process.exit(1);
 });
