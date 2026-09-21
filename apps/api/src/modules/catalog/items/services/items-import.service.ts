@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import {
     customFieldModules,
+    ITEM_TYPES,
     ITEMS_CUSTOM_FIELD_PREFIX,
     ITEMS_IMPORT_COLUMNS,
     type CustomFieldValuesMap,
@@ -21,8 +22,6 @@ import {
 } from '@devloggers/backend-core';
 import { ItemsService } from './items.service';
 import { CreateItemDto as CreateItemApiDto, UpdateItemDto as UpdateItemApiDto } from '../dto';
-
-const VALID_ITEM_TYPES = new Set<ItemType>(['product', 'service', 'bundle']);
 
 type LookupEntry = { id: string; name: string };
 
@@ -137,11 +136,11 @@ export class ItemsImportService extends CrudImportServiceBase<
         }
 
         const itemTypeRaw = parseStringCell(rawRow[ITEMS_IMPORT_COLUMNS.itemType]) ?? 'product';
-        if (!VALID_ITEM_TYPES.has(itemTypeRaw as ItemType)) {
+        if (!ITEM_TYPES.includes(itemTypeRaw as ItemType)) {
             result.errors.push({
                 row: rowNumber,
                 field: ITEMS_IMPORT_COLUMNS.itemType,
-                message: `Invalid item type "${itemTypeRaw}". Use product, service, or bundle.`,
+                message: `Invalid item type "${itemTypeRaw}". Use ${ITEM_TYPES.join(', ')}.`,
             });
             result.skipped += 1;
             return null;

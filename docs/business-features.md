@@ -3,7 +3,7 @@
 ## Core Business Capabilities
 
 ### 1. Catalog Management
-- **Items** — Products, services, vehicles, and bundles with code, barcode, category, base unit, brand, selling price, and purchase price tracking.
+- **Items** — Products and services with code, barcode, category, base unit, brand, selling price, and purchase price tracking.
 - **Item Categories** — Hierarchical category tree (self-referencing parent/child).
 - **Units of Measure** — Customizable units (kg, piece, liter, etc.) with unique name constraint per tenant.
 - **Brands** — Brand registry linked to items.

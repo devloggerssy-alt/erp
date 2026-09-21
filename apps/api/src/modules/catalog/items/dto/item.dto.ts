@@ -1,7 +1,7 @@
 import { IsString, IsNotEmpty, IsOptional, IsBoolean, IsNumber, IsObject, IsIn, IsArray, IsUrl, ValidateNested, Min } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional, ApiHideProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import type { CustomFieldValuesMap, ItemType } from '@devloggers/api-contracts';
+import { ITEM_TYPES, type CustomFieldValuesMap, type ItemType } from '@devloggers/api-contracts';
 
 export class CreateItemOpeningStockDto {
     @ApiProperty({ example: '00000000-0000-4000-b100-000000000001', description: 'Warehouse to register the opening stock in' })
@@ -67,9 +67,9 @@ export class CreateItemDto {
     @IsNumber()
     latestPurchasePrice?: number;
 
-    @ApiPropertyOptional({ example: 'product', description: 'Item type', enum: ['product', 'service', 'vehicle', 'bundle'] })
+    @ApiPropertyOptional({ example: 'product', description: 'Item type', enum: ITEM_TYPES, enumName: 'ItemType' })
     @IsOptional()
-    @IsIn(['product', 'service', 'vehicle', 'bundle'])
+    @IsIn(ITEM_TYPES)
     itemType?: ItemType;
 
     @ApiPropertyOptional({ example: 'https://cdn.example.com/item-main.png', description: 'Main product image URL', nullable: true })
@@ -145,9 +145,9 @@ export class UpdateItemDto {
     @IsBoolean()
     isActive?: boolean;
 
-    @ApiPropertyOptional({ example: 'product', enum: ['product', 'service', 'vehicle', 'bundle'] })
+    @ApiPropertyOptional({ example: 'product', enum: ITEM_TYPES, enumName: 'ItemType' })
     @IsOptional()
-    @IsIn(['product', 'service', 'vehicle', 'bundle'])
+    @IsIn(ITEM_TYPES)
     itemType?: ItemType;
 
     @ApiPropertyOptional({ example: 'https://cdn.example.com/item-main.png', nullable: true })
@@ -217,7 +217,7 @@ export class ItemResponseDto {
     @ApiProperty({ type: [String], example: [] })
     galleryUrls: string[] = [];
 
-    @ApiProperty({ example: 'product', enum: ['product', 'service', 'vehicle', 'bundle'] })
+    @ApiProperty({ example: 'product', enum: ITEM_TYPES, enumName: 'ItemType' })
     itemType: ItemType = 'product';
 
     @ApiProperty({

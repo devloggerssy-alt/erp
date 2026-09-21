@@ -332,8 +332,7 @@
       "itemTypePlaceholder": "Ürün türü seçin...",
       "itemTypes": {
         "product": "Ürün",
-        "service": "Hizmet",
-        "bundle": "Paket"
+        "service": "Hizmet"
       },
       "active": "Aktif",
       "sectionDescription": "Açıklama",

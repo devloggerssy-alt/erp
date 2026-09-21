@@ -4096,6 +4096,8 @@ export interface components {
             /** @example true */
             isActive?: boolean;
         };
+        /** @enum {string} */
+        ItemType: "product" | "service";
         ItemResponseDto: {
             /**
              * @default
@@ -4174,9 +4176,8 @@ export interface components {
             /**
              * @default product
              * @example product
-             * @enum {string}
              */
-            itemType: "product" | "service" | "vehicle" | "bundle";
+            itemType: components["schemas"]["ItemType"];
             /**
              * @default {}
              * @example {}
@@ -4262,9 +4263,8 @@ export interface components {
             /**
              * @description Item type
              * @example product
-             * @enum {string}
              */
-            itemType?: "product" | "service" | "vehicle" | "bundle";
+            itemType?: components["schemas"]["ItemType"];
             /**
              * Format: uri
              * @description Main product image URL
@@ -4304,11 +4304,8 @@ export interface components {
             latestPurchasePrice?: number;
             /** @example true */
             isActive?: boolean;
-            /**
-             * @example product
-             * @enum {string}
-             */
-            itemType?: "product" | "service" | "vehicle" | "bundle";
+            /** @example product */
+            itemType?: components["schemas"]["ItemType"];
             /**
              * Format: uri
              * @example https://cdn.example.com/item-main.png

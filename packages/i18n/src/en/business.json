@@ -334,8 +334,7 @@
       "itemTypePlaceholder": "Select item type...",
       "itemTypes": {
         "product": "Product",
-        "service": "Service",
-        "bundle": "Bundle"
+        "service": "Service"
       },
       "active": "Active",
       "sectionDescription": "Description",

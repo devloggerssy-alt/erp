@@ -1,6 +1,5 @@
 import type { CustomFieldValuesMap } from './custom-field.dto';
-
-export type ItemType = 'product' | 'service' | 'bundle'
+import type { ItemType } from '../enums';
 
 export interface CreateItemOpeningStockDto {
     warehouseId: string;

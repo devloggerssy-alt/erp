@@ -3,7 +3,7 @@
 import { useTranslations } from "next-intl"
 import { useWatch } from "react-hook-form"
 import { type ItemsClient, type WarehousesClient } from "@devloggers/api-client"
-import { itemCategoryResource, unitResource, brandResource } from "@devloggers/api-contracts"
+import { ITEM_TYPES, itemCategoryResource, unitResource, brandResource, type ItemType } from "@devloggers/api-contracts"
 import { ResourceFormShell, RhfCheckboxField, RhfImageField, RhfResourceSelect, RhfSelectField, RhfTextareaField, RhfTextField } from "@/shared/components/form"
 import type { ResourceFormProps } from "@/shared/data-view/resource"
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/components/ui/card"
@@ -34,6 +34,11 @@ export function ItemsForm({
     const t = useTranslations("business.resources.items")
     const tf = useTranslations("system.resourceForm")
     const uploadFile = useFileUpload("items")
+
+    const itemTypeLabels: Record<ItemType, string> = {
+        product: t("itemTypes.product"),
+        service: t("itemTypes.service"),
+    }
 
     const ctrl = useResourceFormController<ItemsClient, ItemFormValues>({
         config: itemsFormConfig,
@@ -93,11 +98,7 @@ export function ItemsForm({
                                     name="itemType"
                                     label={t("itemType")}
                                     placeholder={t("itemTypePlaceholder")}
-                                    options={[
-                                        { label: t("itemTypes.product"), value: "product" },
-                                        { label: t("itemTypes.service"), value: "service" },
-                                        { label: t("itemTypes.bundle"), value: "bundle" },
-                                    ]}
+                                    options={ITEM_TYPES.map((value) => ({ label: itemTypeLabels[value], value }))}
                                     disabled={ctrl.isBusy}
                                 />
                             </div>

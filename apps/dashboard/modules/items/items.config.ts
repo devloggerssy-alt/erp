@@ -1,5 +1,5 @@
 import { z } from "zod"
-import type { CreateItemDto, UpdateItemDto, CustomFieldValuesMap, ItemType } from "@devloggers/api-contracts"
+import { ITEM_TYPES, type CreateItemDto, type UpdateItemDto, type CustomFieldValuesMap, type ItemType } from "@devloggers/api-contracts"
 import type { ResourceFormConfig } from "@/shared/hooks/use-resource-form-controller"
 import { unwrapApiData } from "@/shared/hooks/unwrap-api-data"
 
@@ -18,7 +18,7 @@ export const itemFormSchema = z.object({
     code: z.string().trim().min(1, "Code is required"),
     name: z.string().trim().min(1, "Name is required"),
     barcode: z.string().optional(),
-    itemType: z.enum(['product', 'service', 'bundle']).default('product'),
+    itemType: z.enum(ITEM_TYPES).default('product'),
     category: resourceObjectSchema.nullable(),
     baseUnit: resourceObjectSchema.nullable(),
     brand: resourceObjectSchema.nullable().optional(),

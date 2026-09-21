@@ -68,11 +68,11 @@
 ---
 
 #### `catalog/items`
-**Purpose**: Product/service/vehicle/bundle catalog.
+**Purpose**: Product/service catalog.
 
 **Key classes**: Standard 4-layer.
 
-**Business rules**: Unique code per tenant. `ItemType` (product, service, vehicle, bundle) determines stock behavior — service items skip stock posting.
+**Business rules**: Unique code per tenant. `ItemType` (product, service) determines stock behavior — service items skip stock posting.
 
 **Notable**: `latestPurchasePrice` is updated by `InvoicePostingService` when a purchase invoice is posted.
 

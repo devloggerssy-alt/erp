@@ -1,3 +1,5 @@
+import { ITEM_TYPES } from './enums';
+
 /** Stable column keys for items Excel import/export (row 1 headers). */
 export const ITEMS_IMPORT_COLUMNS = {
     code: 'code',
@@ -27,7 +29,7 @@ export const ITEMS_INSTRUCTIONS = [
     { column: ITEMS_IMPORT_COLUMNS.categoryName, description: 'Required. Must match an existing category name exactly.' },
     { column: ITEMS_IMPORT_COLUMNS.baseUnitName, description: 'Required. Must match an existing unit name exactly.' },
     { column: ITEMS_IMPORT_COLUMNS.brandName, description: 'Optional. Must match an existing brand name exactly.' },
-    { column: ITEMS_IMPORT_COLUMNS.itemType, description: 'Optional. product | service | bundle. Defaults to product.' },
+    { column: ITEMS_IMPORT_COLUMNS.itemType, description: `Optional. ${ITEM_TYPES.join(' | ')}. Defaults to product.` },
     { column: ITEMS_IMPORT_COLUMNS.defaultSellingPrice, description: 'Optional decimal selling price.' },
     { column: ITEMS_IMPORT_COLUMNS.latestPurchasePrice, description: 'Optional decimal purchase price.' },
     { column: ITEMS_IMPORT_COLUMNS.isActive, description: 'Optional. true/false, yes/no, or 1/0. Defaults to true.' },

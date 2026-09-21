@@ -331,8 +331,7 @@
       "itemTypePlaceholder": "اختر نوع الصنف...",
       "itemTypes": {
         "product": "منتج",
-        "service": "خدمة",
-        "bundle": "حزمة"
+        "service": "خدمة"
       },
       "active": "نشط",
       "sectionDescription": "الوصف",

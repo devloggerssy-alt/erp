@@ -24703,6 +24703,11 @@ components:
         isActive:
           type: boolean
           example: true
+    ItemType:
+      type: string
+      enum:
+        - product
+        - service
     ItemResponseDto:
       type: object
       properties:
@@ -24799,14 +24804,10 @@ components:
           items:
             type: string
         itemType:
-          type: string
           default: product
           example: product
-          enum:
-            - product
-            - service
-            - vehicle
-            - bundle
+          allOf:
+            - $ref: '#/components/schemas/ItemType'
         customFields:
           type: object
           default: {}
@@ -24898,14 +24899,10 @@ components:
           example: 600000
           description: Latest purchase price
         itemType:
-          type: string
-          enum:
-            - product
-            - service
-            - vehicle
-            - bundle
           example: product
           description: Item type
+          allOf:
+            - $ref: '#/components/schemas/ItemType'
         mainImageUrl:
           type: string
           nullable: true
@@ -24965,13 +24962,9 @@ components:
           type: boolean
           example: true
         itemType:
-          type: string
-          enum:
-            - product
-            - service
-            - vehicle
-            - bundle
           example: product
+          allOf:
+            - $ref: '#/components/schemas/ItemType'
         mainImageUrl:
           type: string
           nullable: true

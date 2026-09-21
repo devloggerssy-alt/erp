@@ -92,7 +92,7 @@ model EntityName {
 
 **ItemCategory** — Hierarchical product category. Self-referencing parent/child. Unique name per tenant.
 
-**Item** — Core catalog entity. Has code (unique per tenant), name, barcode, category, base unit, brand, selling price, latest purchase price. `ItemType` enum: product, service, vehicle, bundle. Service items bypass stock logic.
+**Item** — Core catalog entity. Has code (unique per tenant), name, barcode, category, base unit, brand, selling price, latest purchase price. `ItemType` enum: product, service. Service items bypass stock logic.
 
 **Brand** — Item brand with optional image URL.
 
