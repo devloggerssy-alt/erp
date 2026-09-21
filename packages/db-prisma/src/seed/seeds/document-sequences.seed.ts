@@ -8,6 +8,7 @@ export async function seedDocumentSequences(prisma: PrismaClient, tenantId: stri
             { id: SEED_IDS.DOC_SEQ_PURCHASE, tenantId, documentType: 'PURCHASE_INVOICE', prefix: 'PUR', padding: 5 },
             { id: SEED_IDS.DOC_SEQ_SALES,    tenantId, documentType: 'SALES_INVOICE',    prefix: 'SAL', padding: 5 },
             { id: SEED_IDS.DOC_SEQ_PAYMENT,  tenantId, documentType: 'PAYMENT',          prefix: 'PAY', padding: 5 },
+            { id: SEED_IDS.DOC_SEQ_PAYMENT_ADJUSTMENT, tenantId, documentType: 'PAYMENT_ADJUSTMENT', prefix: 'ADJ', padding: 5 },
             { id: SEED_IDS.DOC_SEQ_RECEIPT,  tenantId, documentType: 'RECEIPT',          prefix: 'REC', padding: 5 },
             { id: SEED_IDS.DOC_SEQ_EXPENSE,  tenantId, documentType: 'EXPENSE',          prefix: 'EXP', padding: 5 },
             { id: SEED_IDS.DOC_SEQ_STOCK,    tenantId, documentType: 'STOCK_COUNT',      prefix: 'SCT', padding: 5 },

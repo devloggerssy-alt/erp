@@ -16,7 +16,7 @@ User-facing Business Setup hub, bulk import for existing businesses, operational
 
 ## Success criteria
 
-- [ ] `/setup` hub shows progress %, task groups, next recommended action
+- [X] `/setup` hub shows progress %, task groups, next recommended action
 - [ ] Import pipeline: upload → parse → validate → map → preview → commit → reconcile
 - [ ] `businessSetupCompletedAt` set only when reconciliation passes
 - [ ] Final acceptance scenario (§11 below) achievable end-to-end
@@ -35,9 +35,9 @@ User-facing Business Setup hub, bulk import for existing businesses, operational
 
 ### 10.2 — Opening balance UI
 
-- [ ] 10.2.1 Session-based opening workflows (cash, bank, AR, AP) — replace legacy account grid where needed
-- [ ] 10.2.2 Currency-specific party statement preview before post
-- [ ] 10.2.3 Review step before lock
+- [x] 10.2.1 Session-based opening workflows (cash, bank, AR, AP) — replace legacy account grid where needed
+- [x] 10.2.2 Currency-specific party statement preview before post
+- [x] 10.2.3 Review step before lock
 
 ### 10.3 — Import pipeline (incremental)
 

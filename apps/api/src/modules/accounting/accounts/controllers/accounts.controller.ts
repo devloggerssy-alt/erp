@@ -54,6 +54,11 @@ const AccountsCrudBase = createCrudController({
     responseDto: ChartOfAccountResponseDto,
     createDto: CreateChartOfAccountDto,
     updateDto: UpdateChartOfAccountDto,
+    filterSchema: [
+        { field: 'code', type: 'string' },
+        { field: 'name', type: 'string', localized: true },
+        { field: 'isActive', type: 'boolean' },
+    ],
     openApi: ACCOUNTS_CRUD_OPENAPI,
     permissions: {
       view: 'accounts.view',

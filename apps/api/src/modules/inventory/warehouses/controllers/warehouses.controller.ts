@@ -35,6 +35,12 @@ const WarehousesCrudBase = createCrudController({
     responseDto: WarehouseResponseDto,
     createDto: CreateWarehouseDto,
     updateDto: UpdateWarehouseDto,
+    filterSchema: [
+        { field: 'code', type: 'string' },
+        { field: 'name', type: 'string', localized: true },
+        { field: 'address', type: 'string' },
+        { field: 'isActive', type: 'boolean' },
+    ],
     permissions: {
       view: 'warehouses.view',
       create: 'warehouses.create',

@@ -6826,6 +6826,46 @@ export interface operations {
                 search?: string;
                 /** @description Comma-separated field names to search within (e.g. name,symbol) */
                 searchIn?: string;
+                /** @description Structured filters. Example: filters[code][$like]=sample-code&filters[name][$like]=sample-name&filters[isActive][$eq]=true */
+                filters?: {
+                    /**
+                     * @description Filter on `code` (string)
+                     * @example {
+                     *       "$like": "sample-code"
+                     *     }
+                     */
+                    code?: {
+                        $eq?: string;
+                        /** @example sample-code */
+                        $like?: string;
+                        $in?: string[];
+                        /** @enum {boolean} */
+                        $isNull?: true;
+                    };
+                    /**
+                     * @description Filter on `name` (string)
+                     * @example {
+                     *       "$like": "sample-name"
+                     *     }
+                     */
+                    name?: {
+                        $eq?: string;
+                        /** @example sample-name */
+                        $like?: string;
+                    };
+                    /**
+                     * @description Filter on `isActive` (boolean)
+                     * @example {
+                     *       "$eq": true
+                     *     }
+                     */
+                    isActive?: {
+                        /** @example true */
+                        $eq?: boolean;
+                        /** @enum {boolean} */
+                        $isNull?: true;
+                    };
+                };
             };
             header?: never;
             path?: never;
@@ -6841,6 +6881,50 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
                         data?: components["schemas"]["CurrencyResponseDto"][];
+                        meta?: {
+                            pagination?: {
+                                /** @example 0 */
+                                total?: number;
+                                /** @example 1 */
+                                page?: number;
+                                /** @example 10 */
+                                limit?: number;
+                                /** @example 0 */
+                                totalPages?: number;
+                            };
+                            /**
+                             * @example [
+                             *       {
+                             *         "field": "code",
+                             *         "type": "string",
+                             *         "operators": [
+                             *           "$eq",
+                             *           "$like",
+                             *           "$in",
+                             *           "$isNull"
+                             *         ]
+                             *       },
+                             *       {
+                             *         "field": "name",
+                             *         "type": "string",
+                             *         "localized": true,
+                             *         "operators": [
+                             *           "$eq",
+                             *           "$like"
+                             *         ]
+                             *       },
+                             *       {
+                             *         "field": "isActive",
+                             *         "type": "boolean",
+                             *         "operators": [
+                             *           "$eq",
+                             *           "$isNull"
+                             *         ]
+                             *       }
+                             *     ]
+                             */
+                            filterOptions?: unknown[];
+                        };
                     };
                 };
             };
@@ -8245,6 +8329,46 @@ export interface operations {
                 search?: string;
                 /** @description Comma-separated field names to search within (e.g. name,symbol) */
                 searchIn?: string;
+                /** @description Structured filters. Example: filters[code][$like]=sample-code&filters[name][$like]=sample-name&filters[isActive][$eq]=true */
+                filters?: {
+                    /**
+                     * @description Filter on `code` (string)
+                     * @example {
+                     *       "$like": "sample-code"
+                     *     }
+                     */
+                    code?: {
+                        $eq?: string;
+                        /** @example sample-code */
+                        $like?: string;
+                        $in?: string[];
+                        /** @enum {boolean} */
+                        $isNull?: true;
+                    };
+                    /**
+                     * @description Filter on `name` (string)
+                     * @example {
+                     *       "$like": "sample-name"
+                     *     }
+                     */
+                    name?: {
+                        $eq?: string;
+                        /** @example sample-name */
+                        $like?: string;
+                    };
+                    /**
+                     * @description Filter on `isActive` (boolean)
+                     * @example {
+                     *       "$eq": true
+                     *     }
+                     */
+                    isActive?: {
+                        /** @example true */
+                        $eq?: boolean;
+                        /** @enum {boolean} */
+                        $isNull?: true;
+                    };
+                };
             };
             header?: never;
             path?: never;
@@ -8260,6 +8384,50 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
                         data?: components["schemas"]["ChartOfAccountResponseDto"][];
+                        meta?: {
+                            pagination?: {
+                                /** @example 0 */
+                                total?: number;
+                                /** @example 1 */
+                                page?: number;
+                                /** @example 10 */
+                                limit?: number;
+                                /** @example 0 */
+                                totalPages?: number;
+                            };
+                            /**
+                             * @example [
+                             *       {
+                             *         "field": "code",
+                             *         "type": "string",
+                             *         "operators": [
+                             *           "$eq",
+                             *           "$like",
+                             *           "$in",
+                             *           "$isNull"
+                             *         ]
+                             *       },
+                             *       {
+                             *         "field": "name",
+                             *         "type": "string",
+                             *         "localized": true,
+                             *         "operators": [
+                             *           "$eq",
+                             *           "$like"
+                             *         ]
+                             *       },
+                             *       {
+                             *         "field": "isActive",
+                             *         "type": "boolean",
+                             *         "operators": [
+                             *           "$eq",
+                             *           "$isNull"
+                             *         ]
+                             *       }
+                             *     ]
+                             */
+                            filterOptions?: unknown[];
+                        };
                     };
                 };
             };
@@ -10396,9 +10564,6 @@ export interface operations {
                         $eq?: string;
                         /** @example sample-name */
                         $like?: string;
-                        $in?: string[];
-                        /** @enum {boolean} */
-                        $isNull?: true;
                     };
                     /**
                      * @description Filter on `abbreviation` (string)
@@ -10535,9 +10700,6 @@ export interface operations {
                         $eq?: string;
                         /** @example sample-name */
                         $like?: string;
-                        $in?: string[];
-                        /** @enum {boolean} */
-                        $isNull?: true;
                     };
                     /**
                      * @description Filter on `abbreviation` (string)
@@ -10615,11 +10777,10 @@ export interface operations {
                              *       {
                              *         "field": "name",
                              *         "type": "string",
+                             *         "localized": true,
                              *         "operators": [
                              *           "$eq",
-                             *           "$like",
-                             *           "$in",
-                             *           "$isNull"
+                             *           "$like"
                              *         ]
                              *       },
                              *       {
@@ -13010,6 +13171,60 @@ export interface operations {
                 search?: string;
                 /** @description Comma-separated field names to search within (e.g. name,symbol) */
                 searchIn?: string;
+                /** @description Structured filters. Example: filters[code][$like]=sample-code&filters[name][$like]=sample-name&filters[address][$like]=sample-address&filters[isActive][$eq]=true */
+                filters?: {
+                    /**
+                     * @description Filter on `code` (string)
+                     * @example {
+                     *       "$like": "sample-code"
+                     *     }
+                     */
+                    code?: {
+                        $eq?: string;
+                        /** @example sample-code */
+                        $like?: string;
+                        $in?: string[];
+                        /** @enum {boolean} */
+                        $isNull?: true;
+                    };
+                    /**
+                     * @description Filter on `name` (string)
+                     * @example {
+                     *       "$like": "sample-name"
+                     *     }
+                     */
+                    name?: {
+                        $eq?: string;
+                        /** @example sample-name */
+                        $like?: string;
+                    };
+                    /**
+                     * @description Filter on `address` (string)
+                     * @example {
+                     *       "$like": "sample-address"
+                     *     }
+                     */
+                    address?: {
+                        $eq?: string;
+                        /** @example sample-address */
+                        $like?: string;
+                        $in?: string[];
+                        /** @enum {boolean} */
+                        $isNull?: true;
+                    };
+                    /**
+                     * @description Filter on `isActive` (boolean)
+                     * @example {
+                     *       "$eq": true
+                     *     }
+                     */
+                    isActive?: {
+                        /** @example true */
+                        $eq?: boolean;
+                        /** @enum {boolean} */
+                        $isNull?: true;
+                    };
+                };
             };
             header?: never;
             path?: never;
@@ -13025,6 +13240,60 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
                         data?: components["schemas"]["WarehouseResponseDto"][];
+                        meta?: {
+                            pagination?: {
+                                /** @example 0 */
+                                total?: number;
+                                /** @example 1 */
+                                page?: number;
+                                /** @example 10 */
+                                limit?: number;
+                                /** @example 0 */
+                                totalPages?: number;
+                            };
+                            /**
+                             * @example [
+                             *       {
+                             *         "field": "code",
+                             *         "type": "string",
+                             *         "operators": [
+                             *           "$eq",
+                             *           "$like",
+                             *           "$in",
+                             *           "$isNull"
+                             *         ]
+                             *       },
+                             *       {
+                             *         "field": "name",
+                             *         "type": "string",
+                             *         "localized": true,
+                             *         "operators": [
+                             *           "$eq",
+                             *           "$like"
+                             *         ]
+                             *       },
+                             *       {
+                             *         "field": "address",
+                             *         "type": "string",
+                             *         "operators": [
+                             *           "$eq",
+                             *           "$like",
+                             *           "$in",
+                             *           "$isNull"
+                             *         ]
+                             *       },
+                             *       {
+                             *         "field": "isActive",
+                             *         "type": "boolean",
+                             *         "operators": [
+                             *           "$eq",
+                             *           "$isNull"
+                             *         ]
+                             *       }
+                             *     ]
+                             */
+                            filterOptions?: unknown[];
+                        };
                     };
                 };
             };
@@ -16334,6 +16603,32 @@ export interface operations {
                 search?: string;
                 /** @description Comma-separated field names to search within (e.g. name,symbol) */
                 searchIn?: string;
+                /** @description Structured filters. Example: filters[name][$like]=sample-name&filters[isSystem][$eq]=true */
+                filters?: {
+                    /**
+                     * @description Filter on `name` (string)
+                     * @example {
+                     *       "$like": "sample-name"
+                     *     }
+                     */
+                    name?: {
+                        $eq?: string;
+                        /** @example sample-name */
+                        $like?: string;
+                    };
+                    /**
+                     * @description Filter on `isSystem` (boolean)
+                     * @example {
+                     *       "$eq": true
+                     *     }
+                     */
+                    isSystem?: {
+                        /** @example true */
+                        $eq?: boolean;
+                        /** @enum {boolean} */
+                        $isNull?: true;
+                    };
+                };
             };
             header?: never;
             path?: never;
@@ -16349,6 +16644,40 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
                         data?: components["schemas"]["RoleResponseDto"][];
+                        meta?: {
+                            pagination?: {
+                                /** @example 0 */
+                                total?: number;
+                                /** @example 1 */
+                                page?: number;
+                                /** @example 10 */
+                                limit?: number;
+                                /** @example 0 */
+                                totalPages?: number;
+                            };
+                            /**
+                             * @example [
+                             *       {
+                             *         "field": "name",
+                             *         "type": "string",
+                             *         "localized": true,
+                             *         "operators": [
+                             *           "$eq",
+                             *           "$like"
+                             *         ]
+                             *       },
+                             *       {
+                             *         "field": "isSystem",
+                             *         "type": "boolean",
+                             *         "operators": [
+                             *           "$eq",
+                             *           "$isNull"
+                             *         ]
+                             *       }
+                             *     ]
+                             */
+                            filterOptions?: unknown[];
+                        };
                     };
                 };
             };
@@ -17957,8 +18286,33 @@ export interface operations {
                 search?: string;
                 /** @description Comma-separated field names to search within (e.g. name,symbol) */
                 searchIn?: string;
-                /** @description Structured filters. Example: filters[currencyId][$eq]=018e1234-abcd-7000-a001-000000000001 */
+                /** @description Structured filters. Example: filters[code][$like]=sample-code&filters[name][$like]=sample-name&filters[currencyId][$eq]=018e1234-abcd-7000-a001-000000000001 */
                 filters?: {
+                    /**
+                     * @description Filter on `code` (string)
+                     * @example {
+                     *       "$like": "sample-code"
+                     *     }
+                     */
+                    code?: {
+                        $eq?: string;
+                        /** @example sample-code */
+                        $like?: string;
+                        $in?: string[];
+                        /** @enum {boolean} */
+                        $isNull?: true;
+                    };
+                    /**
+                     * @description Filter on `name` (string)
+                     * @example {
+                     *       "$like": "sample-name"
+                     *     }
+                     */
+                    name?: {
+                        $eq?: string;
+                        /** @example sample-name */
+                        $like?: string;
+                    };
                     /**
                      * @description Filter on `currencyId` (id)
                      * @example {
@@ -18001,6 +18355,25 @@ export interface operations {
                             };
                             /**
                              * @example [
+                             *       {
+                             *         "field": "code",
+                             *         "type": "string",
+                             *         "operators": [
+                             *           "$eq",
+                             *           "$like",
+                             *           "$in",
+                             *           "$isNull"
+                             *         ]
+                             *       },
+                             *       {
+                             *         "field": "name",
+                             *         "type": "string",
+                             *         "localized": true,
+                             *         "operators": [
+                             *           "$eq",
+                             *           "$like"
+                             *         ]
+                             *       },
                              *       {
                              *         "field": "currencyId",
                              *         "type": "id",
@@ -18408,8 +18781,33 @@ export interface operations {
                 search?: string;
                 /** @description Comma-separated field names to search within (e.g. name,symbol) */
                 searchIn?: string;
-                /** @description Structured filters. Example: filters[currencyId][$eq]=018e1234-abcd-7000-a001-000000000001 */
+                /** @description Structured filters. Example: filters[code][$like]=sample-code&filters[name][$like]=sample-name&filters[currencyId][$eq]=018e1234-abcd-7000-a001-000000000001 */
                 filters?: {
+                    /**
+                     * @description Filter on `code` (string)
+                     * @example {
+                     *       "$like": "sample-code"
+                     *     }
+                     */
+                    code?: {
+                        $eq?: string;
+                        /** @example sample-code */
+                        $like?: string;
+                        $in?: string[];
+                        /** @enum {boolean} */
+                        $isNull?: true;
+                    };
+                    /**
+                     * @description Filter on `name` (string)
+                     * @example {
+                     *       "$like": "sample-name"
+                     *     }
+                     */
+                    name?: {
+                        $eq?: string;
+                        /** @example sample-name */
+                        $like?: string;
+                    };
                     /**
                      * @description Filter on `currencyId` (id)
                      * @example {
@@ -18452,6 +18850,25 @@ export interface operations {
                             };
                             /**
                              * @example [
+                             *       {
+                             *         "field": "code",
+                             *         "type": "string",
+                             *         "operators": [
+                             *           "$eq",
+                             *           "$like",
+                             *           "$in",
+                             *           "$isNull"
+                             *         ]
+                             *       },
+                             *       {
+                             *         "field": "name",
+                             *         "type": "string",
+                             *         "localized": true,
+                             *         "operators": [
+                             *           "$eq",
+                             *           "$like"
+                             *         ]
+                             *       },
                              *       {
                              *         "field": "currencyId",
                              *         "type": "id",

@@ -69,14 +69,20 @@ export type GlDefaultsStepValues = z.infer<typeof glDefaultsStepSchema>
 
 // ── Step 5: Document Sequences ───────────────────────────────────────────────
 
+// Document types must match the strings requested from the backend via
+// `DocumentSequencesService.getNextNumber(...)` (invoices, payments, expenses,
+// stock counts, journal entries, opening balances). Keep in sync with
+// packages/db-prisma/src/seed/backfill-document-sequences.ts.
 export const DEFAULT_SEQUENCES = [
-    { type: "SALES_INVOICE",    prefix: "INV-", startNumber: 1, padLength: 5 },
-    { type: "PURCHASE_INVOICE", prefix: "PUR-", startNumber: 1, padLength: 5 },
-    { type: "PAYMENT",          prefix: "PAY-", startNumber: 1, padLength: 5 },
-    { type: "RECEIPT",          prefix: "REC-", startNumber: 1, padLength: 5 },
-    { type: "EXPENSE",          prefix: "EXP-", startNumber: 1, padLength: 5 },
-    { type: "STOCK_ADJUSTMENT", prefix: "STK-", startNumber: 1, padLength: 5 },
-    { type: "JOURNAL",          prefix: "JNL-", startNumber: 1, padLength: 5 },
+    { type: "SALES_INVOICE",      prefix: "INV-", startNumber: 1, padLength: 5 },
+    { type: "PURCHASE_INVOICE",   prefix: "PUR-", startNumber: 1, padLength: 5 },
+    { type: "PAYMENT",            prefix: "PAY-", startNumber: 1, padLength: 5 },
+    { type: "PAYMENT_ADJUSTMENT", prefix: "ADJ-", startNumber: 1, padLength: 5 },
+    { type: "RECEIPT",            prefix: "REC-", startNumber: 1, padLength: 5 },
+    { type: "EXPENSE",            prefix: "EXP-", startNumber: 1, padLength: 5 },
+    { type: "STOCK_COUNT",        prefix: "STK-", startNumber: 1, padLength: 5 },
+    { type: "JOURNAL_ENTRY",      prefix: "JNL-", startNumber: 1, padLength: 5 },
+    { type: "OPENING_BALANCE",    prefix: "OB-",  startNumber: 1, padLength: 5 },
 ]
 
 export const sequenceItemSchema = z.object({

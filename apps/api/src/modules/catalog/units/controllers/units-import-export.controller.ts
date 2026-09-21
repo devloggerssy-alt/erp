@@ -31,7 +31,7 @@ const UNITS_IMPORT_EXPORT_OPENAPI = {
 
 const UnitsImportExportBase = createCrudImportExportController({
     filterSchema: [
-        { field: 'name', type: 'string' },
+        { field: 'name', type: 'string', localized: true },
         { field: 'abbreviation', type: 'string' },
         { field: 'isActive', type: 'boolean' },
         { field: 'createdAt', type: 'date' },

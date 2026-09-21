@@ -37,6 +37,8 @@ const BankAccountsCrudBase = createCrudController({
     createDto: CreateBankAccountDto,
     updateDto: UpdateBankAccountDto,
     filterSchema: [
+        { field: 'code', type: 'string' },
+        { field: 'name', type: 'string', localized: true },
         { field: 'currencyId', type: 'id', foreignResourceKey: currencyResource.key },
     ],
     permissions: {

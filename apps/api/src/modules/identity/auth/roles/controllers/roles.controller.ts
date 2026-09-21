@@ -35,6 +35,10 @@ const RolesCrudBase = createCrudController({
     responseDto: RoleResponseDto,
     createDto: CreateRoleDto,
     updateDto: UpdateRoleDto,
+    filterSchema: [
+        { field: 'name', type: 'string', localized: true },
+        { field: 'isSystem', type: 'boolean' },
+    ],
     permissions: {
       view: 'roles.view',
       create: 'roles.create',

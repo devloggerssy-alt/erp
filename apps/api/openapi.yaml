@@ -51,6 +51,67 @@ paths:
           schema:
             example: ''
             type: string
+        - name: filters
+          required: false
+          in: query
+          style: deepObject
+          explode: true
+          description: >-
+            Structured filters. Example:
+            filters[code][$like]=sample-code&filters[name][$like]=sample-name&filters[isActive][$eq]=true
+          schema:
+            type: object
+            properties:
+              code:
+                type: object
+                description: Filter on `code` (string)
+                properties:
+                  $eq:
+                    type: string
+                  $like:
+                    type: string
+                    example: sample-code
+                  $in:
+                    type: array
+                    items:
+                      type: string
+                  $isNull:
+                    type: boolean
+                    enum:
+                      - true
+                example:
+                  $like: sample-code
+              name:
+                type: object
+                description: Filter on `name` (string)
+                properties:
+                  $eq:
+                    type: string
+                  $like:
+                    type: string
+                    example: sample-name
+                example:
+                  $like: sample-name
+              isActive:
+                type: object
+                description: Filter on `isActive` (boolean)
+                properties:
+                  $eq:
+                    type: boolean
+                    example: true
+                  $isNull:
+                    type: boolean
+                    enum:
+                      - true
+                example:
+                  $eq: true
+            example:
+              code:
+                $like: sample-code
+              name:
+                $like: sample-name
+              isActive:
+                $eq: true
       responses:
         '200':
           description: Paginated list of currencies
@@ -64,6 +125,45 @@ paths:
                         type: array
                         items:
                           $ref: '#/components/schemas/CurrencyResponseDto'
+                      meta:
+                        type: object
+                        properties:
+                          pagination:
+                            type: object
+                            properties:
+                              total:
+                                type: number
+                                example: 0
+                              page:
+                                type: number
+                                example: 1
+                              limit:
+                                type: number
+                                example: 10
+                              totalPages:
+                                type: number
+                                example: 0
+                          filterOptions:
+                            type: array
+                            example:
+                              - field: code
+                                type: string
+                                operators:
+                                  - $eq
+                                  - $like
+                                  - $in
+                                  - $isNull
+                              - field: name
+                                type: string
+                                localized: true
+                                operators:
+                                  - $eq
+                                  - $like
+                              - field: isActive
+                                type: boolean
+                                operators:
+                                  - $eq
+                                  - $isNull
         '401':
           description: JWT token is missing, expired, or invalid
           content:
@@ -1910,6 +2010,67 @@ paths:
           schema:
             example: ''
             type: string
+        - name: filters
+          required: false
+          in: query
+          style: deepObject
+          explode: true
+          description: >-
+            Structured filters. Example:
+            filters[code][$like]=sample-code&filters[name][$like]=sample-name&filters[isActive][$eq]=true
+          schema:
+            type: object
+            properties:
+              code:
+                type: object
+                description: Filter on `code` (string)
+                properties:
+                  $eq:
+                    type: string
+                  $like:
+                    type: string
+                    example: sample-code
+                  $in:
+                    type: array
+                    items:
+                      type: string
+                  $isNull:
+                    type: boolean
+                    enum:
+                      - true
+                example:
+                  $like: sample-code
+              name:
+                type: object
+                description: Filter on `name` (string)
+                properties:
+                  $eq:
+                    type: string
+                  $like:
+                    type: string
+                    example: sample-name
+                example:
+                  $like: sample-name
+              isActive:
+                type: object
+                description: Filter on `isActive` (boolean)
+                properties:
+                  $eq:
+                    type: boolean
+                    example: true
+                  $isNull:
+                    type: boolean
+                    enum:
+                      - true
+                example:
+                  $eq: true
+            example:
+              code:
+                $like: sample-code
+              name:
+                $like: sample-name
+              isActive:
+                $eq: true
       responses:
         '200':
           description: Chart-of-accounts list
@@ -1923,6 +2084,45 @@ paths:
                         type: array
                         items:
                           $ref: '#/components/schemas/ChartOfAccountResponseDto'
+                      meta:
+                        type: object
+                        properties:
+                          pagination:
+                            type: object
+                            properties:
+                              total:
+                                type: number
+                                example: 0
+                              page:
+                                type: number
+                                example: 1
+                              limit:
+                                type: number
+                                example: 10
+                              totalPages:
+                                type: number
+                                example: 0
+                          filterOptions:
+                            type: array
+                            example:
+                              - field: code
+                                type: string
+                                operators:
+                                  - $eq
+                                  - $like
+                                  - $in
+                                  - $isNull
+                              - field: name
+                                type: string
+                                localized: true
+                                operators:
+                                  - $eq
+                                  - $like
+                              - field: isActive
+                                type: boolean
+                                operators:
+                                  - $eq
+                                  - $isNull
         '401':
           description: JWT token is missing, expired, or invalid
           content:
@@ -4766,14 +4966,6 @@ paths:
                   $like:
                     type: string
                     example: sample-name
-                  $in:
-                    type: array
-                    items:
-                      type: string
-                  $isNull:
-                    type: boolean
-                    enum:
-                      - true
                 example:
                   $like: sample-name
               abbreviation:
@@ -4972,14 +5164,6 @@ paths:
                   $like:
                     type: string
                     example: sample-name
-                  $in:
-                    type: array
-                    items:
-                      type: string
-                  $isNull:
-                    type: boolean
-                    enum:
-                      - true
                 example:
                   $like: sample-name
               abbreviation:
@@ -5078,11 +5262,10 @@ paths:
                             example:
                               - field: name
                                 type: string
+                                localized: true
                                 operators:
                                   - $eq
                                   - $like
-                                  - $in
-                                  - $isNull
                               - field: abbreviation
                                 type: string
                                 operators:
@@ -8180,6 +8363,88 @@ paths:
           schema:
             example: ''
             type: string
+        - name: filters
+          required: false
+          in: query
+          style: deepObject
+          explode: true
+          description: >-
+            Structured filters. Example:
+            filters[code][$like]=sample-code&filters[name][$like]=sample-name&filters[address][$like]=sample-address&filters[isActive][$eq]=true
+          schema:
+            type: object
+            properties:
+              code:
+                type: object
+                description: Filter on `code` (string)
+                properties:
+                  $eq:
+                    type: string
+                  $like:
+                    type: string
+                    example: sample-code
+                  $in:
+                    type: array
+                    items:
+                      type: string
+                  $isNull:
+                    type: boolean
+                    enum:
+                      - true
+                example:
+                  $like: sample-code
+              name:
+                type: object
+                description: Filter on `name` (string)
+                properties:
+                  $eq:
+                    type: string
+                  $like:
+                    type: string
+                    example: sample-name
+                example:
+                  $like: sample-name
+              address:
+                type: object
+                description: Filter on `address` (string)
+                properties:
+                  $eq:
+                    type: string
+                  $like:
+                    type: string
+                    example: sample-address
+                  $in:
+                    type: array
+                    items:
+                      type: string
+                  $isNull:
+                    type: boolean
+                    enum:
+                      - true
+                example:
+                  $like: sample-address
+              isActive:
+                type: object
+                description: Filter on `isActive` (boolean)
+                properties:
+                  $eq:
+                    type: boolean
+                    example: true
+                  $isNull:
+                    type: boolean
+                    enum:
+                      - true
+                example:
+                  $eq: true
+            example:
+              code:
+                $like: sample-code
+              name:
+                $like: sample-name
+              address:
+                $like: sample-address
+              isActive:
+                $eq: true
       responses:
         '200':
           description: Paginated list of warehouses
@@ -8193,6 +8458,52 @@ paths:
                         type: array
                         items:
                           $ref: '#/components/schemas/WarehouseResponseDto'
+                      meta:
+                        type: object
+                        properties:
+                          pagination:
+                            type: object
+                            properties:
+                              total:
+                                type: number
+                                example: 0
+                              page:
+                                type: number
+                                example: 1
+                              limit:
+                                type: number
+                                example: 10
+                              totalPages:
+                                type: number
+                                example: 0
+                          filterOptions:
+                            type: array
+                            example:
+                              - field: code
+                                type: string
+                                operators:
+                                  - $eq
+                                  - $like
+                                  - $in
+                                  - $isNull
+                              - field: name
+                                type: string
+                                localized: true
+                                operators:
+                                  - $eq
+                                  - $like
+                              - field: address
+                                type: string
+                                operators:
+                                  - $eq
+                                  - $like
+                                  - $in
+                                  - $isNull
+                              - field: isActive
+                                type: boolean
+                                operators:
+                                  - $eq
+                                  - $isNull
         '401':
           description: JWT token is missing, expired, or invalid
           content:
@@ -12471,6 +12782,46 @@ paths:
           schema:
             example: ''
             type: string
+        - name: filters
+          required: false
+          in: query
+          style: deepObject
+          explode: true
+          description: >-
+            Structured filters. Example:
+            filters[name][$like]=sample-name&filters[isSystem][$eq]=true
+          schema:
+            type: object
+            properties:
+              name:
+                type: object
+                description: Filter on `name` (string)
+                properties:
+                  $eq:
+                    type: string
+                  $like:
+                    type: string
+                    example: sample-name
+                example:
+                  $like: sample-name
+              isSystem:
+                type: object
+                description: Filter on `isSystem` (boolean)
+                properties:
+                  $eq:
+                    type: boolean
+                    example: true
+                  $isNull:
+                    type: boolean
+                    enum:
+                      - true
+                example:
+                  $eq: true
+            example:
+              name:
+                $like: sample-name
+              isSystem:
+                $eq: true
       responses:
         '200':
           description: Paginated list of roles
@@ -12484,6 +12835,38 @@ paths:
                         type: array
                         items:
                           $ref: '#/components/schemas/RoleResponseDto'
+                      meta:
+                        type: object
+                        properties:
+                          pagination:
+                            type: object
+                            properties:
+                              total:
+                                type: number
+                                example: 0
+                              page:
+                                type: number
+                                example: 1
+                              limit:
+                                type: number
+                                example: 10
+                              totalPages:
+                                type: number
+                                example: 0
+                          filterOptions:
+                            type: array
+                            example:
+                              - field: name
+                                type: string
+                                localized: true
+                                operators:
+                                  - $eq
+                                  - $like
+                              - field: isSystem
+                                type: boolean
+                                operators:
+                                  - $eq
+                                  - $isNull
         '401':
           description: JWT token is missing, expired, or invalid
           content:
@@ -14510,10 +14893,40 @@ paths:
           explode: true
           description: >-
             Structured filters. Example:
-            filters[currencyId][$eq]=018e1234-abcd-7000-a001-000000000001
+            filters[code][$like]=sample-code&filters[name][$like]=sample-name&filters[currencyId][$eq]=018e1234-abcd-7000-a001-000000000001
           schema:
             type: object
             properties:
+              code:
+                type: object
+                description: Filter on `code` (string)
+                properties:
+                  $eq:
+                    type: string
+                  $like:
+                    type: string
+                    example: sample-code
+                  $in:
+                    type: array
+                    items:
+                      type: string
+                  $isNull:
+                    type: boolean
+                    enum:
+                      - true
+                example:
+                  $like: sample-code
+              name:
+                type: object
+                description: Filter on `name` (string)
+                properties:
+                  $eq:
+                    type: string
+                  $like:
+                    type: string
+                    example: sample-name
+                example:
+                  $like: sample-name
               currencyId:
                 type: object
                 description: Filter on `currencyId` (id)
@@ -14532,6 +14945,10 @@ paths:
                 example:
                   $eq: 018e1234-abcd-7000-a001-000000000001
             example:
+              code:
+                $like: sample-code
+              name:
+                $like: sample-name
               currencyId:
                 $eq: 018e1234-abcd-7000-a001-000000000001
       responses:
@@ -14568,6 +14985,19 @@ paths:
                           filterOptions:
                             type: array
                             example:
+                              - field: code
+                                type: string
+                                operators:
+                                  - $eq
+                                  - $like
+                                  - $in
+                                  - $isNull
+                              - field: name
+                                type: string
+                                localized: true
+                                operators:
+                                  - $eq
+                                  - $like
                               - field: currencyId
                                 type: id
                                 operators:
@@ -15103,10 +15533,40 @@ paths:
           explode: true
           description: >-
             Structured filters. Example:
-            filters[currencyId][$eq]=018e1234-abcd-7000-a001-000000000001
+            filters[code][$like]=sample-code&filters[name][$like]=sample-name&filters[currencyId][$eq]=018e1234-abcd-7000-a001-000000000001
           schema:
             type: object
             properties:
+              code:
+                type: object
+                description: Filter on `code` (string)
+                properties:
+                  $eq:
+                    type: string
+                  $like:
+                    type: string
+                    example: sample-code
+                  $in:
+                    type: array
+                    items:
+                      type: string
+                  $isNull:
+                    type: boolean
+                    enum:
+                      - true
+                example:
+                  $like: sample-code
+              name:
+                type: object
+                description: Filter on `name` (string)
+                properties:
+                  $eq:
+                    type: string
+                  $like:
+                    type: string
+                    example: sample-name
+                example:
+                  $like: sample-name
               currencyId:
                 type: object
                 description: Filter on `currencyId` (id)
@@ -15125,6 +15585,10 @@ paths:
                 example:
                   $eq: 018e1234-abcd-7000-a001-000000000001
             example:
+              code:
+                $like: sample-code
+              name:
+                $like: sample-name
               currencyId:
                 $eq: 018e1234-abcd-7000-a001-000000000001
       responses:
@@ -15161,6 +15625,19 @@ paths:
                           filterOptions:
                             type: array
                             example:
+                              - field: code
+                                type: string
+                                operators:
+                                  - $eq
+                                  - $like
+                                  - $in
+                                  - $isNull
+                              - field: name
+                                type: string
+                                localized: true
+                                operators:
+                                  - $eq
+                                  - $like
                               - field: currencyId
                                 type: id
                                 operators:

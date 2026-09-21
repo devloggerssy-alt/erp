@@ -26,9 +26,15 @@ const OPERATORS_BY_TYPE: Record<FilterFieldType, FilterOperator[]> = {
   enum: ['$eq', '$in', '$isNull'],
 };
 
+/** Localized Json columns only support substring/equality filters (no `$in`/`$isNull`). */
+const LOCALIZED_OPERATORS: FilterOperator[] = ['$eq', '$like'];
+
 export function getAllowedOperators(def: FilterFieldDef): FilterOperator[] {
   const defaults = OPERATORS_BY_TYPE[def.type];
-  return def.operators ? def.operators.filter((op) => defaults.includes(op)) : defaults;
+  const allowed = def.localized
+    ? defaults.filter((op) => LOCALIZED_OPERATORS.includes(op))
+    : defaults;
+  return def.operators ? allowed.filter((op) => def.operators!.includes(op)) : allowed;
 }
 
 export function conditionUsesOperator(

@@ -53,7 +53,7 @@ const UnitsCrudBase = createCrudController({
   createDto: CreateUnitDto,
   updateDto: UpdateUnitDto,
   filterSchema: [
-    { field: 'name', type: 'string' },
+    { field: 'name', type: 'string', localized: true },
     { field: 'abbreviation', type: 'string' },
     { field: 'isActive', type: 'boolean' },
     { field: 'createdAt', type: 'date' },

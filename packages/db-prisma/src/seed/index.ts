@@ -28,6 +28,7 @@ import { seedCashboxes } from './seeds/cashboxes.seed'
 import { seedBankAccounts } from './seeds/bank-accounts.seed'
 import { seedInvoiceTypes } from './seeds/invoice-types.seed'
 import { seedJournalEntry } from './seeds/journal-entry.seed'
+import { backfillDocumentSequences } from './backfill-document-sequences'
 
 async function main() {
     console.log('🚀 Starting database seeding...')
@@ -37,6 +38,11 @@ async function main() {
     const prisma = new PrismaClient({ adapter })
 
     try {
+        // Existing databases short-circuit the seed below, so document types added
+        // after their creation (e.g. OPENING_BALANCE) must be backfilled first.
+        console.log('  → Backfilling document sequences...')
+        await backfillDocumentSequences(prisma)
+
         const existingTenant = await prisma.tenant.findUnique({ where: { id: SEED_IDS.TENANT } })
         if (existingTenant) {
             console.log('⏭️  Seed data already exists, skipping...')

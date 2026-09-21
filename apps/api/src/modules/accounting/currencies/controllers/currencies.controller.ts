@@ -35,6 +35,11 @@ const CurrenciesCrudBase = createCrudController({
     responseDto: CurrencyResponseDto,
     createDto: CreateCurrencyDto,
     updateDto: UpdateCurrencyDto,
+    filterSchema: [
+        { field: 'code', type: 'string' },
+        { field: 'name', type: 'string', localized: true },
+        { field: 'isActive', type: 'boolean' },
+    ],
     permissions: {
       view: 'currencies.view',
       create: 'currencies.create',
