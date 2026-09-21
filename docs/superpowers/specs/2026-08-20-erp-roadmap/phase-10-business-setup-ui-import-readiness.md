@@ -1,6 +1,6 @@
 # Phase 10 — Business Setup UI, Import & Readiness
 
-**Status:** ⬜ not started  
+**Status:** 🚧 in progress — 10.1 / 10.4 / 10.5 shipped via [2026-09-21-phase-10-setup-hub-readiness.md](../../plans/2026-09-21-phase-10-setup-hub-readiness.md); 10.2 (opening-balance UI) and 10.3 (import pipeline) pending  
 **Priority:** 🟠 P1  
 **Depends on:** [Phase 6](phase-06-business-setup-orchestration.md), [Phase 7](phase-07-audit-reconciliation-observability.md)  
 **Blocks:** nothing (product completion)  
@@ -27,11 +27,11 @@ User-facing Business Setup hub, bulk import for existing businesses, operational
 
 ### 10.1 — Setup UI
 
-- [ ] 10.1.1 Route: `/{locale}/setup` — persistent hub (not linear wizard)
-- [ ] 10.1.2 Groups: Accounting, Money, Inventory, Parties
-- [ ] 10.1.3 Task cards → existing CRUD pages or opening wizards
-- [ ] 10.1.4 "Next recommended action" from dependency engine with explanation
-- [ ] 10.1.5 Gate policy (Q10): hard redirect vs soft warnings — decide at implementation
+- [x] 10.1.1 Route: `/{locale}/setup` — persistent hub (not linear wizard)
+- [x] 10.1.2 Groups: Accounting, Money, Inventory, Parties
+- [x] 10.1.3 Task cards → existing CRUD pages or opening wizards
+- [x] 10.1.4 "Next recommended action" from dependency engine with explanation
+- [x] 10.1.5 Gate policy (Q10): **decided — soft warnings only** (nav warning icons + dashboard banner + hub prominence). Hard redirect rejected: accepted legacy reconciliation drift would permanently lock existing tenants out of the product.
 
 ### 10.2 — Opening balance UI
 
@@ -50,14 +50,16 @@ User-facing Business Setup hub, bulk import for existing businesses, operational
 
 ### 10.4 — Operational readiness
 
-- [ ] 10.4.1 `operationalReadiness` cache: sales, purchasing, inventory, cashOps, bankOps, accounting
-- [ ] 10.4.2 Nav soft warnings for non-ready modules
-- [ ] 10.4.3 `RECONCILIATION` task triggers Phase 7 service; blockers listed explicitly
+- [x] 10.4.1 `operationalReadiness` cache: sales, purchasing, inventory, cashOps, bankOps, accounting
+- [x] 10.4.2 Nav soft warnings for non-ready modules
+- [x] 10.4.3 `RECONCILIATION` task triggers Phase 7 service; blockers listed explicitly
 
 ### 10.5 — Remediation UI
 
-- [ ] 10.5.1 Surface orphan `Party.openingBalance` from migration
-- [ ] 10.5.2 Surface historical `linkedAccountId` remediation (post-Phase 2 cohorts)
+> **Implemented differently (2026-09-21):** `Party.openingBalance` was dropped in `20260821014711_drop_party_opening_balance` and `cashboxes.linkedAccountId` was backfilled then dropped in `20260821000000_subledger_foundation`, so neither can be surfaced as data. Remediation instead names the failing reconciliation checks (the real legacy blockers: unbalanced entries and missing FX amounts/rates) on the setup hub — see `SetupReconciliationPanel`. Verified by `git grep` against `packages/db-prisma/src/schema/*.prisma`: neither column exists.
+
+- [x] 10.5.1 Surface orphan `Party.openingBalance` from migration — obsolete (column dropped, data unrecoverable); replaced by failing-check remediation panel
+- [x] 10.5.2 Surface historical `linkedAccountId` remediation (post-Phase 2 cohorts) — obsolete (column backfilled to `FinancialSetting.defaultCashAccountId`, then dropped); replaced by failing-check remediation panel
 
 ---
 
@@ -84,6 +86,6 @@ pnpm turbo run build --filter=@devloggers/dashboard
 
 ## Done when
 
-- [ ] Setup hub shows accurate READY/BLOCKED states
+- [x] Setup hub shows accurate READY/BLOCKED states
 - [ ] Import 100+ products commits with validation errors blocking partial financial state
-- [ ] Reconciliation failure prevents `businessSetupCompletedAt`
+- [x] Reconciliation failure prevents `businessSetupCompletedAt`
