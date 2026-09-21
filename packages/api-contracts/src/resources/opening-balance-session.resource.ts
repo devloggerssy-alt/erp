@@ -12,5 +12,6 @@ export const openingBalanceSessionResource = defineCrudResource({
     review: '/accounting/opening-balance-sessions/{id}/review',
     post: '/accounting/opening-balance-sessions/{id}/post',
     lock: '/accounting/opening-balance-sessions/{id}/lock',
+    preview: '/accounting/opening-balance-sessions/{id}/preview',
   },
 })

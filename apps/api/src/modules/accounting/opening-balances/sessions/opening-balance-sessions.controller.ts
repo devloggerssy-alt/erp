@@ -6,6 +6,8 @@ import { RequirePermission } from '@devloggers/backend-core';
 import { ApiResponseBuilder } from '@/common/api/api-response-builder';
 import { ApiStandardErrors, ApiOkResponseStandard } from '@/common/decorators/api-swagger.decorators';
 import { OpeningBalanceSessionsService } from './opening-balance-sessions.service';
+import { OpeningBalanceSessionPreviewService } from './opening-balance-session-preview.service';
+import { OpeningBalanceSessionPreviewDto } from '../dto/opening-balance-session-preview.dto';
 import {
     CreateOpeningBalanceSessionDto,
     UpdateOpeningBalanceSessionDto,
@@ -17,7 +19,10 @@ import {
 @UseGuards(JwtAuthGuard, PermissionsGuard)
 @ApiBearerAuth('JWT-auth')
 export class OpeningBalanceSessionsController {
-    constructor(private readonly service: OpeningBalanceSessionsService) {}
+    constructor(
+        private readonly service: OpeningBalanceSessionsService,
+        private readonly previewService: OpeningBalanceSessionPreviewService,
+    ) {}
 
     @Post()
     @RequirePermission('openingBalances.manage')
@@ -60,6 +65,18 @@ export class OpeningBalanceSessionsController {
     async show(@CurrentUser() user: RequestUser, @Param('id') id: string) {
         const result = await this.service.findById(user.tenantId, id);
         return ApiResponseBuilder.success(result, 'Opening balance session');
+    }
+
+    @Get(':id/preview')
+    @RequirePermission('openingBalances.manage')
+    @ApiParam({ name: 'id', description: 'Session UUID' })
+    @ApiOkResponseStandard(OpeningBalanceSessionPreviewDto, {
+        description: 'Dry-run of the posting policy: per-currency totals, opening-equity offset and per-party balances',
+    })
+    @ApiStandardErrors()
+    async preview(@CurrentUser() user: RequestUser, @Param('id') id: string) {
+        const result = await this.previewService.preview(user.tenantId, id);
+        return ApiResponseBuilder.success(result, 'Opening balance session preview');
     }
 
     @Patch(':id')
