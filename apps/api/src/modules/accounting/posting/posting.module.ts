@@ -39,6 +39,6 @@ import { AccountingPostingFacade } from './accounting-posting.facade';
         PostingPolicyRegistry,
         AccountingPostingFacade,
     ],
-    exports: [AccountingPostingFacade],
+    exports: [AccountingPostingFacade, OpeningSessionPostedPolicy],
 })
 export class PostingModule {}

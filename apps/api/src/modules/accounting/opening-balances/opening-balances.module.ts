@@ -7,6 +7,7 @@ import { PartyOpeningBalanceService } from './services/party-opening-balance.ser
 import { OpeningBalanceSessionsRepository } from './sessions/opening-balance-sessions.repository';
 import { OpeningBalanceSessionsPresenter } from './sessions/opening-balance-sessions.presenter';
 import { OpeningBalanceSessionsService } from './sessions/opening-balance-sessions.service';
+import { OpeningBalanceSessionPreviewService } from './sessions/opening-balance-session-preview.service';
 import { OpeningBalanceSessionsController } from './sessions/opening-balance-sessions.controller';
 
 @Module({
@@ -19,6 +20,7 @@ import { OpeningBalanceSessionsController } from './sessions/opening-balance-ses
         OpeningBalanceSessionsRepository,
         OpeningBalanceSessionsPresenter,
         OpeningBalanceSessionsService,
+        OpeningBalanceSessionPreviewService,
     ],
     exports: [OpeningCashService, OpeningBankService, PartyOpeningBalanceService, OpeningBalanceSessionsService],
 })
