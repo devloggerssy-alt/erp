@@ -13,7 +13,7 @@
 ## Global Constraints
 
 - **No new automated tests** (user decision). Do not write `*.spec.ts` / `*.test.tsx`. Existing suites must stay green.
-- **Do not commit.** `main` holds unrelated uncommitted work; leave changes in the working tree. Each task ends with a verification step instead of a commit.
+- **Commit once per task on branch `feat/ai-agent`** after its verification step passes (`git add` only the task's files; message `feat(ai-agent): <task title>` ending with `Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>`). Never push. Never read or edit `.env` files.
 - No `as any`, `as unknown as X`, `@ts-ignore`, `@ts-expect-error` on API data (`.ai/rules/code-quality.md` §4). Consume API types via `ApiResponse` / `ApiRequestBody` / `ApiQueryParams`.
 - Every request DTO field: complete `@ApiProperty`/`@ApiPropertyOptional` with `type`; request DTO required fields use `!`, never initializers (`.ai/skills/backend-resource-module` DTO rule).
 - `tenantId` / `userId` come only from the JWT (`@CurrentUser()`), never from a tool input schema.
