@@ -11,10 +11,10 @@ export default () => ({
         saltRounds: parseInt(process.env.BCRYPT_SALT_ROUNDS || '10', 10),
     },
     ai: {
-        // Switch the AI model any time by changing AI_MODEL in .env
-        // Supported: 'gemini-1.5-flash', 'gemini-1.5-pro', 'gemini-2.0-flash', etc.
-        model: process.env.AI_MODEL || 'gemini-1.5-flash',
-        apiKey: process.env.GEMINI_API_KEY,
+        // Provider + model are read per chat request; the API boots without them.
+        provider: process.env.AI_PROVIDER || 'openai',
+        model: process.env.AI_MODEL,
+        apiKey: process.env.OPENAI_API_KEY,
     },
     storage: {
         type: process.env.STORAGE_TYPE || 'local',

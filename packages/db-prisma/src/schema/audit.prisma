@@ -14,7 +14,7 @@ model AuditLog {
     oldValues     Json?    @map("old_values")
     newValues     Json?    @map("new_values")
     ipAddress     String?  @map("ip_address")
-    /// HTTP | GL | SCHEDULER | BUSINESS_SETUP | SYSTEM — see RequestContext.AuditSource
+    /// HTTP | GL | SCHEDULER | BUSINESS_SETUP | SYSTEM | AI_AGENT — see RequestContext.AuditSource
     source        String   @default("HTTP")
     /// Joins this row to its request's log lines and sibling audit rows.
     correlationId String?  @map("correlation_id")

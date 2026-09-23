@@ -2,7 +2,7 @@ import { AsyncLocalStorage } from 'node:async_hooks';
 import { randomUUID } from 'node:crypto';
 
 /** Where a unit of work originated. Persisted on AuditLog.source. */
-export type AuditSource = 'HTTP' | 'GL' | 'SCHEDULER' | 'BUSINESS_SETUP' | 'SYSTEM';
+export type AuditSource = 'HTTP' | 'GL' | 'SCHEDULER' | 'BUSINESS_SETUP' | 'SYSTEM' | 'AI_AGENT';
 
 export interface RequestContextStore {
     correlationId: string;
