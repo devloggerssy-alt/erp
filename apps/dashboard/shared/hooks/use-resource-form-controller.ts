@@ -11,6 +11,7 @@ import { useApi } from "@/shared/useApi"
 import { toastErrorMessage } from "@/shared/lib/utils"
 import { useFormMutation } from "./use-form-mutation"
 import { useResourceForm } from "./use-resource-form"
+import { useApplyFormDefaults, type FormDefaultsMap } from "./use-form-defaults"
 
 type ApiInstance = ReturnType<typeof useApi>
 
@@ -29,6 +30,8 @@ export type ResourceFormConfig<
     mapToFormValues: (data: unknown) => TValues
     toCreate: (values: TValues) => TCreate
     toUpdate: (values: TValues) => TUpdate
+    /** Create-only opt-in: pre-fill these fields from the tenant's defaults. */
+    defaults?: FormDefaultsMap<TValues>
 }
 
 export type UseResourceFormControllerOptions<
@@ -95,6 +98,12 @@ export function useResourceFormController<
         initialData,
         queryKey: queryKey ?? [client.key, "show", resourceId],
         mapToFormValues: config.mapToFormValues,
+    })
+
+    useApplyFormDefaults({
+        form,
+        map: config.defaults ?? {},
+        enabled: !isEditing,
     })
 
     const { mutate, error, isPending } = useFormMutation(form, {

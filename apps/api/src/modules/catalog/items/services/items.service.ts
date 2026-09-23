@@ -6,6 +6,7 @@ import type { Item } from '@devloggers/db-prisma';
 import { PrismaService } from '@devloggers/db-prisma/nest';
 import { CustomFieldValuesService } from '@/modules/custom-fields';
 import { InventoryService } from '@/modules/inventory';
+import { CodeSequencesService } from '@/modules/platform';
 import { ItemsRepository } from '../repositories/items.repository';
 import { ItemPresenter } from '../presenters/item.presenter';
 import { CreateItemDto, UpdateItemDto, ItemResponseDto } from '../dto';
@@ -20,6 +21,7 @@ export class ItemsService extends CrudService<Item, ItemResponseDto, CreateItemD
         private readonly customFieldValuesService: CustomFieldValuesService,
         private readonly prisma: PrismaService,
         private readonly inventoryService: InventoryService,
+        private readonly codeSequences: CodeSequencesService,
         private readonly emitter: EventEmitter2,
     ) {
         super(itemsRepository, itemPresenter, emitter);
@@ -140,22 +142,16 @@ export class ItemsService extends CrudService<Item, ItemResponseDto, CreateItemD
     }
 
     protected override async beforeCreate(tenantId: string, dto: CreateItemDto): Promise<void> {
-        const taken = await this.itemsRepository.isCodeTaken(tenantId, dto.code);
-        if (taken) {
-            throw new ConflictException(`An item with code "${dto.code}" already exists`);
-        }
-    }
-
-    protected override async beforeUpdate(
-        tenantId: string,
-        id: string,
-        dto: UpdateItemDto,
-    ): Promise<void> {
-        if (dto.code) {
-            const taken = await this.itemsRepository.isCodeTaken(tenantId, dto.code, id);
-            if (taken) {
-                throw new ConflictException(`An item with code "${dto.code}" already exists`);
+        const code = dto.code?.trim();
+        if (code) {
+            if (await this.itemsRepository.isCodeTaken(tenantId, code)) {
+                throw new ConflictException(`An item with code "${code}" already exists`);
             }
+            dto.code = code;
+            return;
         }
+        dto.code = await this.codeSequences.next(tenantId, 'item', (candidate) =>
+            this.itemsRepository.isCodeTaken(tenantId, candidate),
+        );
     }
 }

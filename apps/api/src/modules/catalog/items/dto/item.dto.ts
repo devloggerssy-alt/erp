@@ -27,10 +27,10 @@ export class CreateItemOpeningStockDto {
 }
 
 export class CreateItemDto {
-    @ApiProperty({ example: 'ELEC-001', description: 'Unique item code' })
+    @ApiPropertyOptional({ type: 'string', example: 'ELEC-001', description: 'Unique item code; auto-generated (ITM-0001) when omitted' })
+    @IsOptional()
     @IsString()
-    @IsNotEmpty()
-    code: string = '';
+    code?: string;
 
     @ApiProperty({ example: 'Laptop 15"', description: 'Item display name' })
     @IsString()
@@ -100,11 +100,6 @@ export class CreateItemDto {
 }
 
 export class UpdateItemDto {
-    @ApiPropertyOptional({ example: 'ELEC-001' })
-    @IsOptional()
-    @IsString()
-    code?: string;
-
     @ApiPropertyOptional({ example: 'Laptop 15" (Updated)' })
     @IsOptional()
     @IsString()

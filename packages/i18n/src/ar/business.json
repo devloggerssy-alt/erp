@@ -194,6 +194,18 @@
       "roundingPrecision": "دقة التقريب",
       "fiscalYearStartMonth": "شهر بداية السنة المالية"
     },
+    "defaults": {
+      "navLabel": "الافتراضيات",
+      "title": "افتراضيات نماذج الإنشاء",
+      "description": "قيم تُعبّأ تلقائياً عند إنشاء سجلات جديدة.",
+      "saving": "جارٍ الحفظ…",
+      "saved": "تم حفظ الافتراضيات",
+      "failed": "تعذّر حفظ الافتراضيات",
+      "defaultWarehouse": "المستودع الافتراضي",
+      "defaultWarehousePlaceholder": "أول مستودع نشط",
+      "defaultUnit": "وحدة القياس الأساسية الافتراضية",
+      "defaultUnitPlaceholder": "أول وحدة نشطة"
+    },
     "glAccounts": {
       "navLabel": "حسابات الأستاذ",
       "title": "حسابات الأستاذ الافتراضية",
@@ -315,6 +327,7 @@
       "sectionStatus": "الحالة",
       "code": "الرمز",
       "codePlaceholder": "مثال: ELEC-001",
+      "codeAuto": "تلقائي (مثال: ITM-0001)",
       "name": "الاسم",
       "namePlaceholder": "مثال: لابتوب 15 بوصة",
       "barcode": "الباركود",
@@ -412,6 +425,7 @@
       "entity": "مستودع",
       "code": "الرمز",
       "codePlaceholder": "مثال: WH-01",
+      "codeAuto": "تلقائي (مثال: WH-0001)",
       "name": "الاسم",
       "namePlaceholder": "مثال: المستودع الرئيسي",
       "namePlaceholderAr": "مثال: المستودع الرئيسي",
@@ -702,6 +716,7 @@
       "addAction": "إضافة صندوق",
       "code": "الرمز",
       "codePlaceholder": "مثال: CASH-SYP",
+      "codeAuto": "تلقائي (مثال: CSH-0001)",
       "name": "الاسم",
       "currency": "العملة",
       "active": "نشط"
@@ -712,6 +727,7 @@
       "addAction": "إضافة حساب بنكي",
       "code": "الرمز",
       "codePlaceholder": "مثال: BANK-SYP",
+      "codeAuto": "تلقائي (مثال: BA-0001)",
       "name": "الاسم",
       "currency": "العملة",
       "accountNumber": "رقم الحساب",
@@ -1407,6 +1423,35 @@
       "text": "اكتمل إعداد النشاط بنسبة {percent}%.",
       "cta": "متابعة الإعداد"
     },
-    "navWarning": "هذه الوحدة غير جاهزة بعد — أكمل إعداد النشاط أولاً."
+    "navWarning": "هذه الوحدة غير جاهزة بعد — أكمل إعداد النشاط أولاً.",
+    "descriptions": {
+      "CURRENCIES": "اختر العملة الأساسية وأي عملات أخرى تتعامل بها.",
+      "FISCAL_PERIOD": "حدد السنة المالية التي تُقفل عليها دفاترك.",
+      "CHART_OF_ACCOUNTS": "أنشئ شجرة الحسابات التي تُرحّل إليها كل القيود.",
+      "FINANCIAL_MAPPINGS": "اختر الحسابات الافتراضية للمبيعات والمشتريات والضرائب.",
+      "DOCUMENT_SEQUENCES": "حدد طريقة ترقيم الفواتير والسندات.",
+      "CASHBOXES": "أضف الصناديق والخزائن التي تتعامل فيها بالنقد.",
+      "BANK_ACCOUNTS": "أضف الحسابات البنكية التي يستخدمها نشاطك.",
+      "OPENING_CASH_BALANCES": "أدخل رصيد كل صندوق في يوم البدء.",
+      "OPENING_BANK_BALANCES": "أدخل الرصيد الافتتاحي لكل حساب بنكي.",
+      "WAREHOUSES": "أضف المواقع التي تحفظ فيها المخزون.",
+      "PRODUCTS": "أضف المواد والخدمات التي تبيعها أو تشتريها.",
+      "OPENING_INVENTORY": "سجّل المخزون الموجود عند البدء.",
+      "CUSTOMERS": "أضف العملاء الذين تبيع لهم.",
+      "SUPPLIERS": "أضف الموردين الذين تشتري منهم.",
+      "OPENING_RECEIVABLES": "أدخل المبالغ المستحقة لك على العملاء.",
+      "OPENING_PAYABLES": "أدخل المبالغ المستحقة عليك للموردين.",
+      "RECONCILIATION": "تحقق من تطابق الدفاتر والأرصدة."
+    },
+    "overview": {
+      "requiredCount": "اكتملت {completed} من {total} خطوة إلزامية",
+      "upNext": "الخطوة التالية",
+      "waitingOn": "بانتظار {blockers}",
+      "allDone": "نشاطك جاهز للعمل",
+      "allDoneDescription": "اكتملت كل الخطوات الإلزامية. يمكنك مراجعة أي خطوة أدناه."
+    },
+    "groupProgress": "{completed} من {total}",
+    "readinessSummary": "{ready} من {total} جاهزة",
+    "readinessNeeds": "يتطلب {tasks}"
   }
 }

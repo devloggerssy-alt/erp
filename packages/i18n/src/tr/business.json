@@ -195,6 +195,18 @@
       "roundingPrecision": "Yuvarlama hassasiyeti",
       "fiscalYearStartMonth": "Mali yıl başlangıç ayı"
     },
+    "defaults": {
+      "navLabel": "Varsayılanlar",
+      "title": "Oluşturma formu varsayılanları",
+      "description": "Yeni kayıt oluştururken önceden doldurulan değerler.",
+      "saving": "Kaydediliyor…",
+      "saved": "Varsayılanlar kaydedildi",
+      "failed": "Varsayılanlar kaydedilemedi",
+      "defaultWarehouse": "Varsayılan depo",
+      "defaultWarehousePlaceholder": "İlk aktif depo",
+      "defaultUnit": "Varsayılan temel birim",
+      "defaultUnitPlaceholder": "İlk aktif birim"
+    },
     "glAccounts": {
       "navLabel": "Muhasebe Hesapları",
       "title": "Varsayılan muhasebe hesapları",
@@ -316,6 +328,7 @@
       "sectionStatus": "Durum",
       "code": "Kod",
       "codePlaceholder": "örn. ELEC-001",
+      "codeAuto": "Otomatik (örn. ITM-0001)",
       "name": "Ad",
       "namePlaceholder": "örn. 15\" Laptop",
       "barcode": "Barkod",
@@ -413,6 +426,7 @@
       "entity": "Depo",
       "code": "Kod",
       "codePlaceholder": "örn. WH-01",
+      "codeAuto": "Otomatik (örn. WH-0001)",
       "name": "Ad",
       "namePlaceholder": "örn. Ana Depo",
       "address": "Adres",
@@ -700,6 +714,7 @@
       "addAction": "Kasa Ekle",
       "code": "Kod",
       "codePlaceholder": "örn. CASH-SYP",
+      "codeAuto": "Otomatik (örn. CSH-0001)",
       "name": "Ad",
       "currency": "Para Birimi",
       "active": "Aktif"
@@ -710,6 +725,7 @@
       "addAction": "Banka Hesabı Ekle",
       "code": "Kod",
       "codePlaceholder": "örn. BANK-SYP",
+      "codeAuto": "Otomatik (örn. BA-0001)",
       "name": "Ad",
       "currency": "Para Birimi",
       "accountNumber": "Hesap Numarası",
@@ -1240,6 +1256,35 @@
       "text": "İş kurulumu %{percent} tamamlandı.",
       "cta": "Kuruluma devam et"
     },
-    "navWarning": "Bu modül henüz hazır değil — önce iş kurulumunu tamamlayın."
+    "navWarning": "Bu modül henüz hazır değil — önce iş kurulumunu tamamlayın.",
+    "descriptions": {
+      "CURRENCIES": "Ana para biriminizi ve kullandığınız diğer para birimlerini seçin.",
+      "FISCAL_PERIOD": "Defterlerinizin kapandığı mali yılı tanımlayın.",
+      "CHART_OF_ACCOUNTS": "Tüm kayıtların işlendiği hesap planını oluşturun.",
+      "FINANCIAL_MAPPINGS": "Satış, alış ve vergi için varsayılan hesapları seçin.",
+      "DOCUMENT_SEQUENCES": "Fatura ve makbuzların nasıl numaralanacağını belirleyin.",
+      "CASHBOXES": "Nakit tuttuğunuz kasaları ekleyin.",
+      "BANK_ACCOUNTS": "İşletmenizin kullandığı banka hesaplarını ekleyin.",
+      "OPENING_CASH_BALANCES": "Her kasanın başlangıç günündeki nakdini girin.",
+      "OPENING_BANK_BALANCES": "Her banka hesabının açılış bakiyesini girin.",
+      "WAREHOUSES": "Stok tuttuğunuz depoları ekleyin.",
+      "PRODUCTS": "Sattığınız veya aldığınız ürün ve hizmetleri ekleyin.",
+      "OPENING_INVENTORY": "Başlangıçtaki eldeki stoku kaydedin.",
+      "CUSTOMERS": "Satış yaptığınız müşterileri ekleyin.",
+      "SUPPLIERS": "Alış yaptığınız tedarikçileri ekleyin.",
+      "OPENING_RECEIVABLES": "Müşterilerin size olan mevcut borçlarını girin.",
+      "OPENING_PAYABLES": "Tedarikçilere olan mevcut borçlarınızı girin.",
+      "RECONCILIATION": "Defterlerin ve bakiyelerin uyuştuğunu kontrol edin."
+    },
+    "overview": {
+      "requiredCount": "{total} zorunlu adımdan {completed} tanesi tamamlandı",
+      "upNext": "Sıradaki adım",
+      "waitingOn": "Bekleniyor: {blockers}",
+      "allDone": "İşletmeniz hazır",
+      "allDoneDescription": "Tüm zorunlu adımlar tamamlandı. Aşağıdaki adımları istediğiniz zaman gözden geçirebilirsiniz."
+    },
+    "groupProgress": "{completed} / {total}",
+    "readinessSummary": "{ready} / {total} hazır",
+    "readinessNeeds": "Gerekli: {tasks}"
   }
 }

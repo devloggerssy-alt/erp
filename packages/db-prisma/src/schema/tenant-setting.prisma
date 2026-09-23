@@ -2,7 +2,7 @@
 model TenantSetting {
     id        String   @id @default(uuid())
     tenantId  String   @map("tenant_id")
-    category  String // 'localization' | 'financial' | 'documents'
+    category  String // 'localization' | 'financial' | 'documents' | 'defaults'
     key       String // registry key, e.g. 'timezone'
     value     Json     @db.JsonB
     createdAt DateTime @default(now()) @map("created_at")

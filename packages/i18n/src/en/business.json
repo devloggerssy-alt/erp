@@ -195,6 +195,18 @@
       "roundingPrecision": "Rounding precision",
       "fiscalYearStartMonth": "Fiscal year start month"
     },
+    "defaults": {
+      "navLabel": "Defaults",
+      "title": "Creation form defaults",
+      "description": "Values pre-filled when creating new records.",
+      "saving": "Saving…",
+      "saved": "Defaults saved",
+      "failed": "Could not save defaults",
+      "defaultWarehouse": "Default warehouse",
+      "defaultWarehousePlaceholder": "First active warehouse",
+      "defaultUnit": "Default base unit",
+      "defaultUnitPlaceholder": "First active unit"
+    },
     "glAccounts": {
       "navLabel": "GL Accounts",
       "title": "Default GL accounts",
@@ -318,6 +330,7 @@
       "sectionStatus": "Status",
       "code": "Code",
       "codePlaceholder": "e.g. ELEC-001",
+      "codeAuto": "Auto (e.g. ITM-0001)",
       "name": "Name",
       "namePlaceholder": "e.g. Laptop 15\"",
       "barcode": "Barcode",
@@ -415,6 +428,7 @@
       "entity": "Warehouse",
       "code": "Code",
       "codePlaceholder": "e.g. WH-01",
+      "codeAuto": "Auto (e.g. WH-0001)",
       "name": "Name",
       "namePlaceholder": "e.g. Main Warehouse",
       "namePlaceholderAr": "مثال: المستودع الرئيسي",
@@ -704,6 +718,7 @@
       "addAction": "Add Cashbox",
       "code": "Code",
       "codePlaceholder": "e.g. CASH-SYP",
+      "codeAuto": "Auto (e.g. CSH-0001)",
       "name": "Name",
       "currency": "Currency",
       "active": "Active"
@@ -714,6 +729,7 @@
       "addAction": "Add Bank Account",
       "code": "Code",
       "codePlaceholder": "e.g. BANK-SYP",
+      "codeAuto": "Auto (e.g. BA-0001)",
       "name": "Name",
       "currency": "Currency",
       "accountNumber": "Account Number",
@@ -1314,6 +1330,35 @@
       "text": "Business setup is {percent}% complete.",
       "cta": "Continue setup"
     },
-    "navWarning": "This module is not ready yet — complete business setup first."
+    "navWarning": "This module is not ready yet — complete business setup first.",
+    "descriptions": {
+      "CURRENCIES": "Pick your base currency and any others you trade in.",
+      "FISCAL_PERIOD": "Define the financial year your books close on.",
+      "CHART_OF_ACCOUNTS": "Create the account tree every posting lands in.",
+      "FINANCIAL_MAPPINGS": "Choose default accounts for sales, purchases and tax.",
+      "DOCUMENT_SEQUENCES": "Set how invoices and receipts are numbered.",
+      "CASHBOXES": "Add the cash drawers and safes you handle money in.",
+      "BANK_ACCOUNTS": "Add the bank accounts your business uses.",
+      "OPENING_CASH_BALANCES": "Enter how much cash each box held on day one.",
+      "OPENING_BANK_BALANCES": "Enter each bank account's starting balance.",
+      "WAREHOUSES": "Add the locations where you keep stock.",
+      "PRODUCTS": "Add the items and services you sell or buy.",
+      "OPENING_INVENTORY": "Record the stock on hand when you start.",
+      "CUSTOMERS": "Add the customers you sell to.",
+      "SUPPLIERS": "Add the suppliers you buy from.",
+      "OPENING_RECEIVABLES": "Enter what customers already owe you.",
+      "OPENING_PAYABLES": "Enter what you already owe suppliers.",
+      "RECONCILIATION": "Check that ledgers and balances agree."
+    },
+    "overview": {
+      "requiredCount": "{completed} of {total} required steps done",
+      "upNext": "Up next",
+      "waitingOn": "Waiting on {blockers}",
+      "allDone": "Your business is ready",
+      "allDoneDescription": "Every required step is complete. You can revisit any step below."
+    },
+    "groupProgress": "{completed} of {total}",
+    "readinessSummary": "{ready} of {total} ready",
+    "readinessNeeds": "Needs {tasks}"
   }
 }

@@ -1,8 +1,8 @@
 "use client"
 
+import { AlertTriangle, BookOpenCheck, CircleCheck, RefreshCw } from "lucide-react"
 import { useTranslations } from "next-intl"
 import { Button } from "@/shared/components/ui/button"
-import { Card, CardContent } from "@/shared/components/ui/card"
 import type { SetupTask, SetupTaskType } from "../hooks/use-business-setup"
 import { parseReconciliationChecks } from "../setup.config"
 
@@ -25,42 +25,49 @@ export function SetupReconciliationPanel({ task, onRun, isRunning }: Props) {
   const isCompleted = task.status === "COMPLETED"
 
   return (
-    <section className="space-y-3">
-      <h2 className="text-lg font-semibold">{t("reconciliation.title")}</h2>
-      <Card>
-        <CardContent className="space-y-3 p-4">
-          {isCompleted ? (
-            <p className="text-sm text-muted-foreground">{t("reconciliation.passed")}</p>
-          ) : failedChecks.length > 0 ? (
-            <div className="space-y-2">
-              <p className="text-sm text-destructive">
-                {t("reconciliation.failed", { count: failedChecks.length })}
-              </p>
-              <ul className="list-disc space-y-1 ps-5 text-sm">
-                {failedChecks.map((check) => (
-                  <li key={check.code}>
-                    {t(`checks.${check.code}`)}{" "}
-                    <span className="text-muted-foreground">
-                      ({t("reconciliation.findings", { count: check.findingCount })})
-                    </span>
-                  </li>
-                ))}
-              </ul>
-              <p className="text-xs text-muted-foreground">{t("legacy.description")}</p>
-            </div>
-          ) : (
-            <p className="text-sm text-muted-foreground">{t("reconciliation.neverRun")}</p>
-          )}
+    <section className="space-y-3 p-4">
+      <h2 className="text-sm font-semibold">{t("reconciliation.title")}</h2>
 
-          <Button
-            size="sm"
-            disabled={task.status !== "READY" || isRunning}
-            onClick={() => onRun("RECONCILIATION")}
-          >
-            {isRunning ? t("reconciliation.running") : t("reconciliation.run")}
-          </Button>
-        </CardContent>
-      </Card>
+      {isCompleted ? (
+        <p className="flex items-center gap-2 text-sm text-muted-foreground">
+          <CircleCheck className="size-4 shrink-0 text-primary" aria-hidden />
+          {t("reconciliation.passed")}
+        </p>
+      ) : failedChecks.length > 0 ? (
+        <div className="space-y-2.5">
+          <p className="flex items-center gap-2 text-sm font-medium text-destructive">
+            <AlertTriangle className="size-4 shrink-0" aria-hidden />
+            {t("reconciliation.failed", { count: failedChecks.length })}
+          </p>
+          <ul className="space-y-2 rounded-lg bg-destructive/5 p-3">
+            {failedChecks.map((check) => (
+              <li key={check.code} className="text-xs leading-relaxed">
+                {t(`checks.${check.code}`)}{" "}
+                <span className="font-medium text-destructive tabular-nums">
+                  {t("reconciliation.findings", { count: check.findingCount })}
+                </span>
+              </li>
+            ))}
+          </ul>
+          <p className="text-xs text-muted-foreground">{t("legacy.description")}</p>
+        </div>
+      ) : (
+        <p className="flex items-center gap-2 text-sm text-muted-foreground">
+          <BookOpenCheck className="size-4 shrink-0" aria-hidden />
+          {t("reconciliation.neverRun")}
+        </p>
+      )}
+
+      <Button
+        size="sm"
+        variant="outline"
+        className="w-full"
+        disabled={task.status !== "READY" || isRunning}
+        onClick={() => onRun("RECONCILIATION")}
+      >
+        <RefreshCw className={isRunning ? "size-3.5 animate-spin motion-reduce:animate-none" : "size-3.5"} aria-hidden />
+        {isRunning ? t("reconciliation.running") : t("reconciliation.run")}
+      </Button>
     </section>
   )
 }

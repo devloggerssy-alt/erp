@@ -4,10 +4,10 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { LocalizedStringDto } from '@devloggers/backend-core';
 
 export class CreateBankAccountDto {
-    @ApiProperty({ example: 'BANK-SYP', description: 'Unique bank account code' })
+    @ApiPropertyOptional({ type: 'string', example: 'BANK-SYP', description: 'Unique bank account code; auto-generated (BA-0001) when omitted' })
+    @IsOptional()
     @IsString()
-    @IsNotEmpty()
-    code!: string;
+    code?: string;
 
     @ApiProperty({ type: LocalizedStringDto, description: 'Bank account display name' })
     @ValidateNested()

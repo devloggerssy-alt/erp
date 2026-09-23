@@ -78,6 +78,11 @@ export type PaymentAllocation = $Result.DefaultSelection<Prisma.$PaymentAllocati
  */
 export type CatalogEntity = $Result.DefaultSelection<Prisma.$CatalogEntityPayload>
 /**
+ * Model CodeSequence
+ * 
+ */
+export type CodeSequence = $Result.DefaultSelection<Prisma.$CodeSequencePayload>
+/**
  * Model Currency
  * 
  */
@@ -840,6 +845,16 @@ export class PrismaClient<
     * ```
     */
   get catalogEntity(): Prisma.CatalogEntityDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.codeSequence`: Exposes CRUD operations for the **CodeSequence** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more CodeSequences
+    * const codeSequences = await prisma.codeSequence.findMany()
+    * ```
+    */
+  get codeSequence(): Prisma.CodeSequenceDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.currency`: Exposes CRUD operations for the **Currency** model.
@@ -1666,6 +1681,7 @@ export namespace Prisma {
     Payment: 'Payment',
     PaymentAllocation: 'PaymentAllocation',
     CatalogEntity: 'CatalogEntity',
+    CodeSequence: 'CodeSequence',
     Currency: 'Currency',
     CustomField: 'CustomField',
     CustomFieldValue: 'CustomFieldValue',
@@ -1719,7 +1735,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "chartOfAccount" | "journalEntry" | "journalLine" | "aiChatSession" | "aiChatMessage" | "auditLog" | "bankAccount" | "brand" | "cashbox" | "payment" | "paymentAllocation" | "catalogEntity" | "currency" | "customField" | "customFieldValue" | "documentSequence" | "expense" | "expenseItem" | "file" | "financialSetting" | "fiscalPeriod" | "invoiceType" | "invoice" | "invoiceLine" | "itemCatalogEntity" | "itemCategory" | "itemRelation" | "item" | "openingBalanceSession" | "openingBalanceSessionLine" | "outboxEvent" | "party" | "permission" | "rolePermission" | "reconciliationRun" | "setupTask" | "stockCount" | "stockCountLine" | "stockBalance" | "stockMovement" | "tagAssignment" | "tag" | "tenantSetting" | "tenant" | "unit" | "appUser" | "role" | "userRole" | "warehouse" | "warehouseItem"
+      modelProps: "chartOfAccount" | "journalEntry" | "journalLine" | "aiChatSession" | "aiChatMessage" | "auditLog" | "bankAccount" | "brand" | "cashbox" | "payment" | "paymentAllocation" | "catalogEntity" | "codeSequence" | "currency" | "customField" | "customFieldValue" | "documentSequence" | "expense" | "expenseItem" | "file" | "financialSetting" | "fiscalPeriod" | "invoiceType" | "invoice" | "invoiceLine" | "itemCatalogEntity" | "itemCategory" | "itemRelation" | "item" | "openingBalanceSession" | "openingBalanceSessionLine" | "outboxEvent" | "party" | "permission" | "rolePermission" | "reconciliationRun" | "setupTask" | "stockCount" | "stockCountLine" | "stockBalance" | "stockMovement" | "tagAssignment" | "tag" | "tenantSetting" | "tenant" | "unit" | "appUser" | "role" | "userRole" | "warehouse" | "warehouseItem"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2608,6 +2624,80 @@ export namespace Prisma {
           count: {
             args: Prisma.CatalogEntityCountArgs<ExtArgs>
             result: $Utils.Optional<CatalogEntityCountAggregateOutputType> | number
+          }
+        }
+      }
+      CodeSequence: {
+        payload: Prisma.$CodeSequencePayload<ExtArgs>
+        fields: Prisma.CodeSequenceFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CodeSequenceFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CodeSequencePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CodeSequenceFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CodeSequencePayload>
+          }
+          findFirst: {
+            args: Prisma.CodeSequenceFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CodeSequencePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CodeSequenceFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CodeSequencePayload>
+          }
+          findMany: {
+            args: Prisma.CodeSequenceFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CodeSequencePayload>[]
+          }
+          create: {
+            args: Prisma.CodeSequenceCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CodeSequencePayload>
+          }
+          createMany: {
+            args: Prisma.CodeSequenceCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.CodeSequenceCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CodeSequencePayload>[]
+          }
+          delete: {
+            args: Prisma.CodeSequenceDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CodeSequencePayload>
+          }
+          update: {
+            args: Prisma.CodeSequenceUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CodeSequencePayload>
+          }
+          deleteMany: {
+            args: Prisma.CodeSequenceDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CodeSequenceUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.CodeSequenceUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CodeSequencePayload>[]
+          }
+          upsert: {
+            args: Prisma.CodeSequenceUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CodeSequencePayload>
+          }
+          aggregate: {
+            args: Prisma.CodeSequenceAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCodeSequence>
+          }
+          groupBy: {
+            args: Prisma.CodeSequenceGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CodeSequenceGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CodeSequenceCountArgs<ExtArgs>
+            result: $Utils.Optional<CodeSequenceCountAggregateOutputType> | number
           }
         }
       }
@@ -5543,6 +5633,7 @@ export namespace Prisma {
     payment?: PaymentOmit
     paymentAllocation?: PaymentAllocationOmit
     catalogEntity?: CatalogEntityOmit
+    codeSequence?: CodeSequenceOmit
     currency?: CurrencyOmit
     customField?: CustomFieldOmit
     customFieldValue?: CustomFieldValueOmit
@@ -6771,6 +6862,7 @@ export namespace Prisma {
     currencies: number
     fiscalPeriods: number
     documentSequences: number
+    codeSequences: number
     itemCategories: number
     units: number
     items: number
@@ -6806,6 +6898,7 @@ export namespace Prisma {
     currencies?: boolean | TenantCountOutputTypeCountCurrenciesArgs
     fiscalPeriods?: boolean | TenantCountOutputTypeCountFiscalPeriodsArgs
     documentSequences?: boolean | TenantCountOutputTypeCountDocumentSequencesArgs
+    codeSequences?: boolean | TenantCountOutputTypeCountCodeSequencesArgs
     itemCategories?: boolean | TenantCountOutputTypeCountItemCategoriesArgs
     units?: boolean | TenantCountOutputTypeCountUnitsArgs
     items?: boolean | TenantCountOutputTypeCountItemsArgs
@@ -6879,6 +6972,13 @@ export namespace Prisma {
    */
   export type TenantCountOutputTypeCountDocumentSequencesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: DocumentSequenceWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountCodeSequencesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CodeSequenceWhereInput
   }
 
   /**
@@ -22293,6 +22393,1116 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: CatalogEntityInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model CodeSequence
+   */
+
+  export type AggregateCodeSequence = {
+    _count: CodeSequenceCountAggregateOutputType | null
+    _avg: CodeSequenceAvgAggregateOutputType | null
+    _sum: CodeSequenceSumAggregateOutputType | null
+    _min: CodeSequenceMinAggregateOutputType | null
+    _max: CodeSequenceMaxAggregateOutputType | null
+  }
+
+  export type CodeSequenceAvgAggregateOutputType = {
+    nextValue: number | null
+  }
+
+  export type CodeSequenceSumAggregateOutputType = {
+    nextValue: number | null
+  }
+
+  export type CodeSequenceMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    entity: string | null
+    nextValue: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type CodeSequenceMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    entity: string | null
+    nextValue: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type CodeSequenceCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    entity: number
+    nextValue: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type CodeSequenceAvgAggregateInputType = {
+    nextValue?: true
+  }
+
+  export type CodeSequenceSumAggregateInputType = {
+    nextValue?: true
+  }
+
+  export type CodeSequenceMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    entity?: true
+    nextValue?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type CodeSequenceMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    entity?: true
+    nextValue?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type CodeSequenceCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    entity?: true
+    nextValue?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type CodeSequenceAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CodeSequence to aggregate.
+     */
+    where?: CodeSequenceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CodeSequences to fetch.
+     */
+    orderBy?: CodeSequenceOrderByWithRelationInput | CodeSequenceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CodeSequenceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CodeSequences from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CodeSequences.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned CodeSequences
+    **/
+    _count?: true | CodeSequenceCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: CodeSequenceAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: CodeSequenceSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CodeSequenceMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CodeSequenceMaxAggregateInputType
+  }
+
+  export type GetCodeSequenceAggregateType<T extends CodeSequenceAggregateArgs> = {
+        [P in keyof T & keyof AggregateCodeSequence]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCodeSequence[P]>
+      : GetScalarType<T[P], AggregateCodeSequence[P]>
+  }
+
+
+
+
+  export type CodeSequenceGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CodeSequenceWhereInput
+    orderBy?: CodeSequenceOrderByWithAggregationInput | CodeSequenceOrderByWithAggregationInput[]
+    by: CodeSequenceScalarFieldEnum[] | CodeSequenceScalarFieldEnum
+    having?: CodeSequenceScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CodeSequenceCountAggregateInputType | true
+    _avg?: CodeSequenceAvgAggregateInputType
+    _sum?: CodeSequenceSumAggregateInputType
+    _min?: CodeSequenceMinAggregateInputType
+    _max?: CodeSequenceMaxAggregateInputType
+  }
+
+  export type CodeSequenceGroupByOutputType = {
+    id: string
+    tenantId: string
+    entity: string
+    nextValue: number
+    createdAt: Date
+    updatedAt: Date
+    _count: CodeSequenceCountAggregateOutputType | null
+    _avg: CodeSequenceAvgAggregateOutputType | null
+    _sum: CodeSequenceSumAggregateOutputType | null
+    _min: CodeSequenceMinAggregateOutputType | null
+    _max: CodeSequenceMaxAggregateOutputType | null
+  }
+
+  type GetCodeSequenceGroupByPayload<T extends CodeSequenceGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CodeSequenceGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CodeSequenceGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CodeSequenceGroupByOutputType[P]>
+            : GetScalarType<T[P], CodeSequenceGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CodeSequenceSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    entity?: boolean
+    nextValue?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["codeSequence"]>
+
+  export type CodeSequenceSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    entity?: boolean
+    nextValue?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["codeSequence"]>
+
+  export type CodeSequenceSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    entity?: boolean
+    nextValue?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["codeSequence"]>
+
+  export type CodeSequenceSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    entity?: boolean
+    nextValue?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type CodeSequenceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "entity" | "nextValue" | "createdAt" | "updatedAt", ExtArgs["result"]["codeSequence"]>
+  export type CodeSequenceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type CodeSequenceIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type CodeSequenceIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+
+  export type $CodeSequencePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "CodeSequence"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      entity: string
+      nextValue: number
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["codeSequence"]>
+    composites: {}
+  }
+
+  type CodeSequenceGetPayload<S extends boolean | null | undefined | CodeSequenceDefaultArgs> = $Result.GetResult<Prisma.$CodeSequencePayload, S>
+
+  type CodeSequenceCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<CodeSequenceFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: CodeSequenceCountAggregateInputType | true
+    }
+
+  export interface CodeSequenceDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['CodeSequence'], meta: { name: 'CodeSequence' } }
+    /**
+     * Find zero or one CodeSequence that matches the filter.
+     * @param {CodeSequenceFindUniqueArgs} args - Arguments to find a CodeSequence
+     * @example
+     * // Get one CodeSequence
+     * const codeSequence = await prisma.codeSequence.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CodeSequenceFindUniqueArgs>(args: SelectSubset<T, CodeSequenceFindUniqueArgs<ExtArgs>>): Prisma__CodeSequenceClient<$Result.GetResult<Prisma.$CodeSequencePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one CodeSequence that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {CodeSequenceFindUniqueOrThrowArgs} args - Arguments to find a CodeSequence
+     * @example
+     * // Get one CodeSequence
+     * const codeSequence = await prisma.codeSequence.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CodeSequenceFindUniqueOrThrowArgs>(args: SelectSubset<T, CodeSequenceFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CodeSequenceClient<$Result.GetResult<Prisma.$CodeSequencePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CodeSequence that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CodeSequenceFindFirstArgs} args - Arguments to find a CodeSequence
+     * @example
+     * // Get one CodeSequence
+     * const codeSequence = await prisma.codeSequence.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CodeSequenceFindFirstArgs>(args?: SelectSubset<T, CodeSequenceFindFirstArgs<ExtArgs>>): Prisma__CodeSequenceClient<$Result.GetResult<Prisma.$CodeSequencePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CodeSequence that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CodeSequenceFindFirstOrThrowArgs} args - Arguments to find a CodeSequence
+     * @example
+     * // Get one CodeSequence
+     * const codeSequence = await prisma.codeSequence.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CodeSequenceFindFirstOrThrowArgs>(args?: SelectSubset<T, CodeSequenceFindFirstOrThrowArgs<ExtArgs>>): Prisma__CodeSequenceClient<$Result.GetResult<Prisma.$CodeSequencePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more CodeSequences that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CodeSequenceFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all CodeSequences
+     * const codeSequences = await prisma.codeSequence.findMany()
+     * 
+     * // Get first 10 CodeSequences
+     * const codeSequences = await prisma.codeSequence.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const codeSequenceWithIdOnly = await prisma.codeSequence.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends CodeSequenceFindManyArgs>(args?: SelectSubset<T, CodeSequenceFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CodeSequencePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a CodeSequence.
+     * @param {CodeSequenceCreateArgs} args - Arguments to create a CodeSequence.
+     * @example
+     * // Create one CodeSequence
+     * const CodeSequence = await prisma.codeSequence.create({
+     *   data: {
+     *     // ... data to create a CodeSequence
+     *   }
+     * })
+     * 
+     */
+    create<T extends CodeSequenceCreateArgs>(args: SelectSubset<T, CodeSequenceCreateArgs<ExtArgs>>): Prisma__CodeSequenceClient<$Result.GetResult<Prisma.$CodeSequencePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many CodeSequences.
+     * @param {CodeSequenceCreateManyArgs} args - Arguments to create many CodeSequences.
+     * @example
+     * // Create many CodeSequences
+     * const codeSequence = await prisma.codeSequence.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CodeSequenceCreateManyArgs>(args?: SelectSubset<T, CodeSequenceCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many CodeSequences and returns the data saved in the database.
+     * @param {CodeSequenceCreateManyAndReturnArgs} args - Arguments to create many CodeSequences.
+     * @example
+     * // Create many CodeSequences
+     * const codeSequence = await prisma.codeSequence.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many CodeSequences and only return the `id`
+     * const codeSequenceWithIdOnly = await prisma.codeSequence.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends CodeSequenceCreateManyAndReturnArgs>(args?: SelectSubset<T, CodeSequenceCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CodeSequencePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a CodeSequence.
+     * @param {CodeSequenceDeleteArgs} args - Arguments to delete one CodeSequence.
+     * @example
+     * // Delete one CodeSequence
+     * const CodeSequence = await prisma.codeSequence.delete({
+     *   where: {
+     *     // ... filter to delete one CodeSequence
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CodeSequenceDeleteArgs>(args: SelectSubset<T, CodeSequenceDeleteArgs<ExtArgs>>): Prisma__CodeSequenceClient<$Result.GetResult<Prisma.$CodeSequencePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one CodeSequence.
+     * @param {CodeSequenceUpdateArgs} args - Arguments to update one CodeSequence.
+     * @example
+     * // Update one CodeSequence
+     * const codeSequence = await prisma.codeSequence.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CodeSequenceUpdateArgs>(args: SelectSubset<T, CodeSequenceUpdateArgs<ExtArgs>>): Prisma__CodeSequenceClient<$Result.GetResult<Prisma.$CodeSequencePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more CodeSequences.
+     * @param {CodeSequenceDeleteManyArgs} args - Arguments to filter CodeSequences to delete.
+     * @example
+     * // Delete a few CodeSequences
+     * const { count } = await prisma.codeSequence.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CodeSequenceDeleteManyArgs>(args?: SelectSubset<T, CodeSequenceDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CodeSequences.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CodeSequenceUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many CodeSequences
+     * const codeSequence = await prisma.codeSequence.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CodeSequenceUpdateManyArgs>(args: SelectSubset<T, CodeSequenceUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CodeSequences and returns the data updated in the database.
+     * @param {CodeSequenceUpdateManyAndReturnArgs} args - Arguments to update many CodeSequences.
+     * @example
+     * // Update many CodeSequences
+     * const codeSequence = await prisma.codeSequence.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more CodeSequences and only return the `id`
+     * const codeSequenceWithIdOnly = await prisma.codeSequence.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends CodeSequenceUpdateManyAndReturnArgs>(args: SelectSubset<T, CodeSequenceUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CodeSequencePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one CodeSequence.
+     * @param {CodeSequenceUpsertArgs} args - Arguments to update or create a CodeSequence.
+     * @example
+     * // Update or create a CodeSequence
+     * const codeSequence = await prisma.codeSequence.upsert({
+     *   create: {
+     *     // ... data to create a CodeSequence
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the CodeSequence we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CodeSequenceUpsertArgs>(args: SelectSubset<T, CodeSequenceUpsertArgs<ExtArgs>>): Prisma__CodeSequenceClient<$Result.GetResult<Prisma.$CodeSequencePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of CodeSequences.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CodeSequenceCountArgs} args - Arguments to filter CodeSequences to count.
+     * @example
+     * // Count the number of CodeSequences
+     * const count = await prisma.codeSequence.count({
+     *   where: {
+     *     // ... the filter for the CodeSequences we want to count
+     *   }
+     * })
+    **/
+    count<T extends CodeSequenceCountArgs>(
+      args?: Subset<T, CodeSequenceCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CodeSequenceCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a CodeSequence.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CodeSequenceAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CodeSequenceAggregateArgs>(args: Subset<T, CodeSequenceAggregateArgs>): Prisma.PrismaPromise<GetCodeSequenceAggregateType<T>>
+
+    /**
+     * Group by CodeSequence.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CodeSequenceGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CodeSequenceGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CodeSequenceGroupByArgs['orderBy'] }
+        : { orderBy?: CodeSequenceGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CodeSequenceGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCodeSequenceGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the CodeSequence model
+   */
+  readonly fields: CodeSequenceFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for CodeSequence.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CodeSequenceClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the CodeSequence model
+   */
+  interface CodeSequenceFieldRefs {
+    readonly id: FieldRef<"CodeSequence", 'String'>
+    readonly tenantId: FieldRef<"CodeSequence", 'String'>
+    readonly entity: FieldRef<"CodeSequence", 'String'>
+    readonly nextValue: FieldRef<"CodeSequence", 'Int'>
+    readonly createdAt: FieldRef<"CodeSequence", 'DateTime'>
+    readonly updatedAt: FieldRef<"CodeSequence", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * CodeSequence findUnique
+   */
+  export type CodeSequenceFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CodeSequence
+     */
+    select?: CodeSequenceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CodeSequence
+     */
+    omit?: CodeSequenceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CodeSequenceInclude<ExtArgs> | null
+    /**
+     * Filter, which CodeSequence to fetch.
+     */
+    where: CodeSequenceWhereUniqueInput
+  }
+
+  /**
+   * CodeSequence findUniqueOrThrow
+   */
+  export type CodeSequenceFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CodeSequence
+     */
+    select?: CodeSequenceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CodeSequence
+     */
+    omit?: CodeSequenceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CodeSequenceInclude<ExtArgs> | null
+    /**
+     * Filter, which CodeSequence to fetch.
+     */
+    where: CodeSequenceWhereUniqueInput
+  }
+
+  /**
+   * CodeSequence findFirst
+   */
+  export type CodeSequenceFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CodeSequence
+     */
+    select?: CodeSequenceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CodeSequence
+     */
+    omit?: CodeSequenceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CodeSequenceInclude<ExtArgs> | null
+    /**
+     * Filter, which CodeSequence to fetch.
+     */
+    where?: CodeSequenceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CodeSequences to fetch.
+     */
+    orderBy?: CodeSequenceOrderByWithRelationInput | CodeSequenceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CodeSequences.
+     */
+    cursor?: CodeSequenceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CodeSequences from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CodeSequences.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CodeSequences.
+     */
+    distinct?: CodeSequenceScalarFieldEnum | CodeSequenceScalarFieldEnum[]
+  }
+
+  /**
+   * CodeSequence findFirstOrThrow
+   */
+  export type CodeSequenceFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CodeSequence
+     */
+    select?: CodeSequenceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CodeSequence
+     */
+    omit?: CodeSequenceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CodeSequenceInclude<ExtArgs> | null
+    /**
+     * Filter, which CodeSequence to fetch.
+     */
+    where?: CodeSequenceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CodeSequences to fetch.
+     */
+    orderBy?: CodeSequenceOrderByWithRelationInput | CodeSequenceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CodeSequences.
+     */
+    cursor?: CodeSequenceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CodeSequences from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CodeSequences.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CodeSequences.
+     */
+    distinct?: CodeSequenceScalarFieldEnum | CodeSequenceScalarFieldEnum[]
+  }
+
+  /**
+   * CodeSequence findMany
+   */
+  export type CodeSequenceFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CodeSequence
+     */
+    select?: CodeSequenceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CodeSequence
+     */
+    omit?: CodeSequenceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CodeSequenceInclude<ExtArgs> | null
+    /**
+     * Filter, which CodeSequences to fetch.
+     */
+    where?: CodeSequenceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CodeSequences to fetch.
+     */
+    orderBy?: CodeSequenceOrderByWithRelationInput | CodeSequenceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing CodeSequences.
+     */
+    cursor?: CodeSequenceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CodeSequences from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CodeSequences.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CodeSequences.
+     */
+    distinct?: CodeSequenceScalarFieldEnum | CodeSequenceScalarFieldEnum[]
+  }
+
+  /**
+   * CodeSequence create
+   */
+  export type CodeSequenceCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CodeSequence
+     */
+    select?: CodeSequenceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CodeSequence
+     */
+    omit?: CodeSequenceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CodeSequenceInclude<ExtArgs> | null
+    /**
+     * The data needed to create a CodeSequence.
+     */
+    data: XOR<CodeSequenceCreateInput, CodeSequenceUncheckedCreateInput>
+  }
+
+  /**
+   * CodeSequence createMany
+   */
+  export type CodeSequenceCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many CodeSequences.
+     */
+    data: CodeSequenceCreateManyInput | CodeSequenceCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * CodeSequence createManyAndReturn
+   */
+  export type CodeSequenceCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CodeSequence
+     */
+    select?: CodeSequenceSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CodeSequence
+     */
+    omit?: CodeSequenceOmit<ExtArgs> | null
+    /**
+     * The data used to create many CodeSequences.
+     */
+    data: CodeSequenceCreateManyInput | CodeSequenceCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CodeSequenceIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CodeSequence update
+   */
+  export type CodeSequenceUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CodeSequence
+     */
+    select?: CodeSequenceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CodeSequence
+     */
+    omit?: CodeSequenceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CodeSequenceInclude<ExtArgs> | null
+    /**
+     * The data needed to update a CodeSequence.
+     */
+    data: XOR<CodeSequenceUpdateInput, CodeSequenceUncheckedUpdateInput>
+    /**
+     * Choose, which CodeSequence to update.
+     */
+    where: CodeSequenceWhereUniqueInput
+  }
+
+  /**
+   * CodeSequence updateMany
+   */
+  export type CodeSequenceUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update CodeSequences.
+     */
+    data: XOR<CodeSequenceUpdateManyMutationInput, CodeSequenceUncheckedUpdateManyInput>
+    /**
+     * Filter which CodeSequences to update
+     */
+    where?: CodeSequenceWhereInput
+    /**
+     * Limit how many CodeSequences to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * CodeSequence updateManyAndReturn
+   */
+  export type CodeSequenceUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CodeSequence
+     */
+    select?: CodeSequenceSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CodeSequence
+     */
+    omit?: CodeSequenceOmit<ExtArgs> | null
+    /**
+     * The data used to update CodeSequences.
+     */
+    data: XOR<CodeSequenceUpdateManyMutationInput, CodeSequenceUncheckedUpdateManyInput>
+    /**
+     * Filter which CodeSequences to update
+     */
+    where?: CodeSequenceWhereInput
+    /**
+     * Limit how many CodeSequences to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CodeSequenceIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CodeSequence upsert
+   */
+  export type CodeSequenceUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CodeSequence
+     */
+    select?: CodeSequenceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CodeSequence
+     */
+    omit?: CodeSequenceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CodeSequenceInclude<ExtArgs> | null
+    /**
+     * The filter to search for the CodeSequence to update in case it exists.
+     */
+    where: CodeSequenceWhereUniqueInput
+    /**
+     * In case the CodeSequence found by the `where` argument doesn't exist, create a new CodeSequence with this data.
+     */
+    create: XOR<CodeSequenceCreateInput, CodeSequenceUncheckedCreateInput>
+    /**
+     * In case the CodeSequence was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CodeSequenceUpdateInput, CodeSequenceUncheckedUpdateInput>
+  }
+
+  /**
+   * CodeSequence delete
+   */
+  export type CodeSequenceDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CodeSequence
+     */
+    select?: CodeSequenceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CodeSequence
+     */
+    omit?: CodeSequenceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CodeSequenceInclude<ExtArgs> | null
+    /**
+     * Filter which CodeSequence to delete.
+     */
+    where: CodeSequenceWhereUniqueInput
+  }
+
+  /**
+   * CodeSequence deleteMany
+   */
+  export type CodeSequenceDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CodeSequences to delete
+     */
+    where?: CodeSequenceWhereInput
+    /**
+     * Limit how many CodeSequences to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * CodeSequence without action
+   */
+  export type CodeSequenceDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CodeSequence
+     */
+    select?: CodeSequenceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CodeSequence
+     */
+    omit?: CodeSequenceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CodeSequenceInclude<ExtArgs> | null
   }
 
 
@@ -60125,6 +61335,7 @@ export namespace Prisma {
     currencies?: boolean | Tenant$currenciesArgs<ExtArgs>
     fiscalPeriods?: boolean | Tenant$fiscalPeriodsArgs<ExtArgs>
     documentSequences?: boolean | Tenant$documentSequencesArgs<ExtArgs>
+    codeSequences?: boolean | Tenant$codeSequencesArgs<ExtArgs>
     itemCategories?: boolean | Tenant$itemCategoriesArgs<ExtArgs>
     units?: boolean | Tenant$unitsArgs<ExtArgs>
     items?: boolean | Tenant$itemsArgs<ExtArgs>
@@ -60238,6 +61449,7 @@ export namespace Prisma {
     currencies?: boolean | Tenant$currenciesArgs<ExtArgs>
     fiscalPeriods?: boolean | Tenant$fiscalPeriodsArgs<ExtArgs>
     documentSequences?: boolean | Tenant$documentSequencesArgs<ExtArgs>
+    codeSequences?: boolean | Tenant$codeSequencesArgs<ExtArgs>
     itemCategories?: boolean | Tenant$itemCategoriesArgs<ExtArgs>
     units?: boolean | Tenant$unitsArgs<ExtArgs>
     items?: boolean | Tenant$itemsArgs<ExtArgs>
@@ -60287,6 +61499,7 @@ export namespace Prisma {
       currencies: Prisma.$CurrencyPayload<ExtArgs>[]
       fiscalPeriods: Prisma.$FiscalPeriodPayload<ExtArgs>[]
       documentSequences: Prisma.$DocumentSequencePayload<ExtArgs>[]
+      codeSequences: Prisma.$CodeSequencePayload<ExtArgs>[]
       itemCategories: Prisma.$ItemCategoryPayload<ExtArgs>[]
       units: Prisma.$UnitPayload<ExtArgs>[]
       items: Prisma.$ItemPayload<ExtArgs>[]
@@ -60738,6 +61951,7 @@ export namespace Prisma {
     currencies<T extends Tenant$currenciesArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$currenciesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CurrencyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     fiscalPeriods<T extends Tenant$fiscalPeriodsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$fiscalPeriodsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FiscalPeriodPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     documentSequences<T extends Tenant$documentSequencesArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$documentSequencesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DocumentSequencePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    codeSequences<T extends Tenant$codeSequencesArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$codeSequencesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CodeSequencePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     itemCategories<T extends Tenant$itemCategoriesArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$itemCategoriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ItemCategoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     units<T extends Tenant$unitsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$unitsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UnitPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     items<T extends Tenant$itemsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$itemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -61335,6 +62549,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: DocumentSequenceScalarFieldEnum | DocumentSequenceScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.codeSequences
+   */
+  export type Tenant$codeSequencesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CodeSequence
+     */
+    select?: CodeSequenceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CodeSequence
+     */
+    omit?: CodeSequenceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CodeSequenceInclude<ExtArgs> | null
+    where?: CodeSequenceWhereInput
+    orderBy?: CodeSequenceOrderByWithRelationInput | CodeSequenceOrderByWithRelationInput[]
+    cursor?: CodeSequenceWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CodeSequenceScalarFieldEnum | CodeSequenceScalarFieldEnum[]
   }
 
   /**
@@ -69164,6 +70402,18 @@ export namespace Prisma {
   export type CatalogEntityScalarFieldEnum = (typeof CatalogEntityScalarFieldEnum)[keyof typeof CatalogEntityScalarFieldEnum]
 
 
+  export const CodeSequenceScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    entity: 'entity',
+    nextValue: 'nextValue',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type CodeSequenceScalarFieldEnum = (typeof CodeSequenceScalarFieldEnum)[keyof typeof CodeSequenceScalarFieldEnum]
+
+
   export const CurrencyScalarFieldEnum: {
     id: 'id',
     tenantId: 'tenantId',
@@ -71410,6 +72660,69 @@ export namespace Prisma {
     isActive?: BoolWithAggregatesFilter<"CatalogEntity"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"CatalogEntity"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"CatalogEntity"> | Date | string
+  }
+
+  export type CodeSequenceWhereInput = {
+    AND?: CodeSequenceWhereInput | CodeSequenceWhereInput[]
+    OR?: CodeSequenceWhereInput[]
+    NOT?: CodeSequenceWhereInput | CodeSequenceWhereInput[]
+    id?: StringFilter<"CodeSequence"> | string
+    tenantId?: StringFilter<"CodeSequence"> | string
+    entity?: StringFilter<"CodeSequence"> | string
+    nextValue?: IntFilter<"CodeSequence"> | number
+    createdAt?: DateTimeFilter<"CodeSequence"> | Date | string
+    updatedAt?: DateTimeFilter<"CodeSequence"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+  }
+
+  export type CodeSequenceOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    entity?: SortOrder
+    nextValue?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+  }
+
+  export type CodeSequenceWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tenantId_entity?: CodeSequenceTenantIdEntityCompoundUniqueInput
+    AND?: CodeSequenceWhereInput | CodeSequenceWhereInput[]
+    OR?: CodeSequenceWhereInput[]
+    NOT?: CodeSequenceWhereInput | CodeSequenceWhereInput[]
+    tenantId?: StringFilter<"CodeSequence"> | string
+    entity?: StringFilter<"CodeSequence"> | string
+    nextValue?: IntFilter<"CodeSequence"> | number
+    createdAt?: DateTimeFilter<"CodeSequence"> | Date | string
+    updatedAt?: DateTimeFilter<"CodeSequence"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+  }, "id" | "tenantId_entity">
+
+  export type CodeSequenceOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    entity?: SortOrder
+    nextValue?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: CodeSequenceCountOrderByAggregateInput
+    _avg?: CodeSequenceAvgOrderByAggregateInput
+    _max?: CodeSequenceMaxOrderByAggregateInput
+    _min?: CodeSequenceMinOrderByAggregateInput
+    _sum?: CodeSequenceSumOrderByAggregateInput
+  }
+
+  export type CodeSequenceScalarWhereWithAggregatesInput = {
+    AND?: CodeSequenceScalarWhereWithAggregatesInput | CodeSequenceScalarWhereWithAggregatesInput[]
+    OR?: CodeSequenceScalarWhereWithAggregatesInput[]
+    NOT?: CodeSequenceScalarWhereWithAggregatesInput | CodeSequenceScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"CodeSequence"> | string
+    tenantId?: StringWithAggregatesFilter<"CodeSequence"> | string
+    entity?: StringWithAggregatesFilter<"CodeSequence"> | string
+    nextValue?: IntWithAggregatesFilter<"CodeSequence"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"CodeSequence"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"CodeSequence"> | Date | string
   }
 
   export type CurrencyWhereInput = {
@@ -74312,6 +75625,7 @@ export namespace Prisma {
     currencies?: CurrencyListRelationFilter
     fiscalPeriods?: FiscalPeriodListRelationFilter
     documentSequences?: DocumentSequenceListRelationFilter
+    codeSequences?: CodeSequenceListRelationFilter
     itemCategories?: ItemCategoryListRelationFilter
     units?: UnitListRelationFilter
     items?: ItemListRelationFilter
@@ -74370,6 +75684,7 @@ export namespace Prisma {
     currencies?: CurrencyOrderByRelationAggregateInput
     fiscalPeriods?: FiscalPeriodOrderByRelationAggregateInput
     documentSequences?: DocumentSequenceOrderByRelationAggregateInput
+    codeSequences?: CodeSequenceOrderByRelationAggregateInput
     itemCategories?: ItemCategoryOrderByRelationAggregateInput
     units?: UnitOrderByRelationAggregateInput
     items?: ItemOrderByRelationAggregateInput
@@ -74431,6 +75746,7 @@ export namespace Prisma {
     currencies?: CurrencyListRelationFilter
     fiscalPeriods?: FiscalPeriodListRelationFilter
     documentSequences?: DocumentSequenceListRelationFilter
+    codeSequences?: CodeSequenceListRelationFilter
     itemCategories?: ItemCategoryListRelationFilter
     units?: UnitListRelationFilter
     items?: ItemListRelationFilter
@@ -76216,6 +77532,68 @@ export namespace Prisma {
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
     attributes?: NullableJsonNullValueInput | InputJsonValue
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CodeSequenceCreateInput = {
+    id?: string
+    entity: string
+    nextValue?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutCodeSequencesInput
+  }
+
+  export type CodeSequenceUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    entity: string
+    nextValue?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CodeSequenceUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    entity?: StringFieldUpdateOperationsInput | string
+    nextValue?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutCodeSequencesNestedInput
+  }
+
+  export type CodeSequenceUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    entity?: StringFieldUpdateOperationsInput | string
+    nextValue?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CodeSequenceCreateManyInput = {
+    id?: string
+    tenantId: string
+    entity: string
+    nextValue?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CodeSequenceUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    entity?: StringFieldUpdateOperationsInput | string
+    nextValue?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CodeSequenceUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    entity?: StringFieldUpdateOperationsInput | string
+    nextValue?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -79287,6 +80665,7 @@ export namespace Prisma {
     currencies?: CurrencyCreateNestedManyWithoutTenantInput
     fiscalPeriods?: FiscalPeriodCreateNestedManyWithoutTenantInput
     documentSequences?: DocumentSequenceCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceCreateNestedManyWithoutTenantInput
     itemCategories?: ItemCategoryCreateNestedManyWithoutTenantInput
     units?: UnitCreateNestedManyWithoutTenantInput
     items?: ItemCreateNestedManyWithoutTenantInput
@@ -79345,6 +80724,7 @@ export namespace Prisma {
     currencies?: CurrencyUncheckedCreateNestedManyWithoutTenantInput
     fiscalPeriods?: FiscalPeriodUncheckedCreateNestedManyWithoutTenantInput
     documentSequences?: DocumentSequenceUncheckedCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceUncheckedCreateNestedManyWithoutTenantInput
     itemCategories?: ItemCategoryUncheckedCreateNestedManyWithoutTenantInput
     units?: UnitUncheckedCreateNestedManyWithoutTenantInput
     items?: ItemUncheckedCreateNestedManyWithoutTenantInput
@@ -79399,6 +80779,7 @@ export namespace Prisma {
     currencies?: CurrencyUpdateManyWithoutTenantNestedInput
     fiscalPeriods?: FiscalPeriodUpdateManyWithoutTenantNestedInput
     documentSequences?: DocumentSequenceUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUpdateManyWithoutTenantNestedInput
     itemCategories?: ItemCategoryUpdateManyWithoutTenantNestedInput
     units?: UnitUpdateManyWithoutTenantNestedInput
     items?: ItemUpdateManyWithoutTenantNestedInput
@@ -79457,6 +80838,7 @@ export namespace Prisma {
     currencies?: CurrencyUncheckedUpdateManyWithoutTenantNestedInput
     fiscalPeriods?: FiscalPeriodUncheckedUpdateManyWithoutTenantNestedInput
     documentSequences?: DocumentSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUncheckedUpdateManyWithoutTenantNestedInput
     itemCategories?: ItemCategoryUncheckedUpdateManyWithoutTenantNestedInput
     units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
     items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
@@ -81205,6 +82587,46 @@ export namespace Prisma {
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type CodeSequenceTenantIdEntityCompoundUniqueInput = {
+    tenantId: string
+    entity: string
+  }
+
+  export type CodeSequenceCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    entity?: SortOrder
+    nextValue?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CodeSequenceAvgOrderByAggregateInput = {
+    nextValue?: SortOrder
+  }
+
+  export type CodeSequenceMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    entity?: SortOrder
+    nextValue?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CodeSequenceMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    entity?: SortOrder
+    nextValue?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CodeSequenceSumOrderByAggregateInput = {
+    nextValue?: SortOrder
   }
 
   export type CashboxListRelationFilter = {
@@ -83282,6 +84704,12 @@ export namespace Prisma {
     none?: DocumentSequenceWhereInput
   }
 
+  export type CodeSequenceListRelationFilter = {
+    every?: CodeSequenceWhereInput
+    some?: CodeSequenceWhereInput
+    none?: CodeSequenceWhereInput
+  }
+
   export type UnitListRelationFilter = {
     every?: UnitWhereInput
     some?: UnitWhereInput
@@ -83375,6 +84803,10 @@ export namespace Prisma {
   }
 
   export type DocumentSequenceOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type CodeSequenceOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -85444,6 +86876,20 @@ export namespace Prisma {
     update?: ItemCatalogEntityUpdateWithWhereUniqueWithoutCatalogEntityInput | ItemCatalogEntityUpdateWithWhereUniqueWithoutCatalogEntityInput[]
     updateMany?: ItemCatalogEntityUpdateManyWithWhereWithoutCatalogEntityInput | ItemCatalogEntityUpdateManyWithWhereWithoutCatalogEntityInput[]
     deleteMany?: ItemCatalogEntityScalarWhereInput | ItemCatalogEntityScalarWhereInput[]
+  }
+
+  export type TenantCreateNestedOneWithoutCodeSequencesInput = {
+    create?: XOR<TenantCreateWithoutCodeSequencesInput, TenantUncheckedCreateWithoutCodeSequencesInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutCodeSequencesInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type TenantUpdateOneRequiredWithoutCodeSequencesNestedInput = {
+    create?: XOR<TenantCreateWithoutCodeSequencesInput, TenantUncheckedCreateWithoutCodeSequencesInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutCodeSequencesInput
+    upsert?: TenantUpsertWithoutCodeSequencesInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutCodeSequencesInput, TenantUpdateWithoutCodeSequencesInput>, TenantUncheckedUpdateWithoutCodeSequencesInput>
   }
 
   export type TenantCreateNestedOneWithoutCurrenciesInput = {
@@ -88296,6 +89742,13 @@ export namespace Prisma {
     connect?: DocumentSequenceWhereUniqueInput | DocumentSequenceWhereUniqueInput[]
   }
 
+  export type CodeSequenceCreateNestedManyWithoutTenantInput = {
+    create?: XOR<CodeSequenceCreateWithoutTenantInput, CodeSequenceUncheckedCreateWithoutTenantInput> | CodeSequenceCreateWithoutTenantInput[] | CodeSequenceUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: CodeSequenceCreateOrConnectWithoutTenantInput | CodeSequenceCreateOrConnectWithoutTenantInput[]
+    createMany?: CodeSequenceCreateManyTenantInputEnvelope
+    connect?: CodeSequenceWhereUniqueInput | CodeSequenceWhereUniqueInput[]
+  }
+
   export type ItemCategoryCreateNestedManyWithoutTenantInput = {
     create?: XOR<ItemCategoryCreateWithoutTenantInput, ItemCategoryUncheckedCreateWithoutTenantInput> | ItemCategoryCreateWithoutTenantInput[] | ItemCategoryUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: ItemCategoryCreateOrConnectWithoutTenantInput | ItemCategoryCreateOrConnectWithoutTenantInput[]
@@ -88536,6 +89989,13 @@ export namespace Prisma {
     connectOrCreate?: DocumentSequenceCreateOrConnectWithoutTenantInput | DocumentSequenceCreateOrConnectWithoutTenantInput[]
     createMany?: DocumentSequenceCreateManyTenantInputEnvelope
     connect?: DocumentSequenceWhereUniqueInput | DocumentSequenceWhereUniqueInput[]
+  }
+
+  export type CodeSequenceUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<CodeSequenceCreateWithoutTenantInput, CodeSequenceUncheckedCreateWithoutTenantInput> | CodeSequenceCreateWithoutTenantInput[] | CodeSequenceUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: CodeSequenceCreateOrConnectWithoutTenantInput | CodeSequenceCreateOrConnectWithoutTenantInput[]
+    createMany?: CodeSequenceCreateManyTenantInputEnvelope
+    connect?: CodeSequenceWhereUniqueInput | CodeSequenceWhereUniqueInput[]
   }
 
   export type ItemCategoryUncheckedCreateNestedManyWithoutTenantInput = {
@@ -88801,6 +90261,20 @@ export namespace Prisma {
     update?: DocumentSequenceUpdateWithWhereUniqueWithoutTenantInput | DocumentSequenceUpdateWithWhereUniqueWithoutTenantInput[]
     updateMany?: DocumentSequenceUpdateManyWithWhereWithoutTenantInput | DocumentSequenceUpdateManyWithWhereWithoutTenantInput[]
     deleteMany?: DocumentSequenceScalarWhereInput | DocumentSequenceScalarWhereInput[]
+  }
+
+  export type CodeSequenceUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<CodeSequenceCreateWithoutTenantInput, CodeSequenceUncheckedCreateWithoutTenantInput> | CodeSequenceCreateWithoutTenantInput[] | CodeSequenceUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: CodeSequenceCreateOrConnectWithoutTenantInput | CodeSequenceCreateOrConnectWithoutTenantInput[]
+    upsert?: CodeSequenceUpsertWithWhereUniqueWithoutTenantInput | CodeSequenceUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: CodeSequenceCreateManyTenantInputEnvelope
+    set?: CodeSequenceWhereUniqueInput | CodeSequenceWhereUniqueInput[]
+    disconnect?: CodeSequenceWhereUniqueInput | CodeSequenceWhereUniqueInput[]
+    delete?: CodeSequenceWhereUniqueInput | CodeSequenceWhereUniqueInput[]
+    connect?: CodeSequenceWhereUniqueInput | CodeSequenceWhereUniqueInput[]
+    update?: CodeSequenceUpdateWithWhereUniqueWithoutTenantInput | CodeSequenceUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: CodeSequenceUpdateManyWithWhereWithoutTenantInput | CodeSequenceUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: CodeSequenceScalarWhereInput | CodeSequenceScalarWhereInput[]
   }
 
   export type ItemCategoryUpdateManyWithoutTenantNestedInput = {
@@ -89279,6 +90753,20 @@ export namespace Prisma {
     update?: DocumentSequenceUpdateWithWhereUniqueWithoutTenantInput | DocumentSequenceUpdateWithWhereUniqueWithoutTenantInput[]
     updateMany?: DocumentSequenceUpdateManyWithWhereWithoutTenantInput | DocumentSequenceUpdateManyWithWhereWithoutTenantInput[]
     deleteMany?: DocumentSequenceScalarWhereInput | DocumentSequenceScalarWhereInput[]
+  }
+
+  export type CodeSequenceUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<CodeSequenceCreateWithoutTenantInput, CodeSequenceUncheckedCreateWithoutTenantInput> | CodeSequenceCreateWithoutTenantInput[] | CodeSequenceUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: CodeSequenceCreateOrConnectWithoutTenantInput | CodeSequenceCreateOrConnectWithoutTenantInput[]
+    upsert?: CodeSequenceUpsertWithWhereUniqueWithoutTenantInput | CodeSequenceUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: CodeSequenceCreateManyTenantInputEnvelope
+    set?: CodeSequenceWhereUniqueInput | CodeSequenceWhereUniqueInput[]
+    disconnect?: CodeSequenceWhereUniqueInput | CodeSequenceWhereUniqueInput[]
+    delete?: CodeSequenceWhereUniqueInput | CodeSequenceWhereUniqueInput[]
+    connect?: CodeSequenceWhereUniqueInput | CodeSequenceWhereUniqueInput[]
+    update?: CodeSequenceUpdateWithWhereUniqueWithoutTenantInput | CodeSequenceUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: CodeSequenceUpdateManyWithWhereWithoutTenantInput | CodeSequenceUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: CodeSequenceScalarWhereInput | CodeSequenceScalarWhereInput[]
   }
 
   export type ItemCategoryUncheckedUpdateManyWithoutTenantNestedInput = {
@@ -90873,6 +92361,7 @@ export namespace Prisma {
     currencies?: CurrencyCreateNestedManyWithoutTenantInput
     fiscalPeriods?: FiscalPeriodCreateNestedManyWithoutTenantInput
     documentSequences?: DocumentSequenceCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceCreateNestedManyWithoutTenantInput
     itemCategories?: ItemCategoryCreateNestedManyWithoutTenantInput
     units?: UnitCreateNestedManyWithoutTenantInput
     items?: ItemCreateNestedManyWithoutTenantInput
@@ -90930,6 +92419,7 @@ export namespace Prisma {
     currencies?: CurrencyUncheckedCreateNestedManyWithoutTenantInput
     fiscalPeriods?: FiscalPeriodUncheckedCreateNestedManyWithoutTenantInput
     documentSequences?: DocumentSequenceUncheckedCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceUncheckedCreateNestedManyWithoutTenantInput
     itemCategories?: ItemCategoryUncheckedCreateNestedManyWithoutTenantInput
     units?: UnitUncheckedCreateNestedManyWithoutTenantInput
     items?: ItemUncheckedCreateNestedManyWithoutTenantInput
@@ -91832,6 +93322,7 @@ export namespace Prisma {
     currencies?: CurrencyUpdateManyWithoutTenantNestedInput
     fiscalPeriods?: FiscalPeriodUpdateManyWithoutTenantNestedInput
     documentSequences?: DocumentSequenceUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUpdateManyWithoutTenantNestedInput
     itemCategories?: ItemCategoryUpdateManyWithoutTenantNestedInput
     units?: UnitUpdateManyWithoutTenantNestedInput
     items?: ItemUpdateManyWithoutTenantNestedInput
@@ -91889,6 +93380,7 @@ export namespace Prisma {
     currencies?: CurrencyUncheckedUpdateManyWithoutTenantNestedInput
     fiscalPeriods?: FiscalPeriodUncheckedUpdateManyWithoutTenantNestedInput
     documentSequences?: DocumentSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUncheckedUpdateManyWithoutTenantNestedInput
     itemCategories?: ItemCategoryUncheckedUpdateManyWithoutTenantNestedInput
     units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
     items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
@@ -92399,6 +93891,7 @@ export namespace Prisma {
     currencies?: CurrencyCreateNestedManyWithoutTenantInput
     fiscalPeriods?: FiscalPeriodCreateNestedManyWithoutTenantInput
     documentSequences?: DocumentSequenceCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceCreateNestedManyWithoutTenantInput
     itemCategories?: ItemCategoryCreateNestedManyWithoutTenantInput
     units?: UnitCreateNestedManyWithoutTenantInput
     items?: ItemCreateNestedManyWithoutTenantInput
@@ -92456,6 +93949,7 @@ export namespace Prisma {
     currencies?: CurrencyUncheckedCreateNestedManyWithoutTenantInput
     fiscalPeriods?: FiscalPeriodUncheckedCreateNestedManyWithoutTenantInput
     documentSequences?: DocumentSequenceUncheckedCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceUncheckedCreateNestedManyWithoutTenantInput
     itemCategories?: ItemCategoryUncheckedCreateNestedManyWithoutTenantInput
     units?: UnitUncheckedCreateNestedManyWithoutTenantInput
     items?: ItemUncheckedCreateNestedManyWithoutTenantInput
@@ -92701,6 +94195,7 @@ export namespace Prisma {
     currencies?: CurrencyUpdateManyWithoutTenantNestedInput
     fiscalPeriods?: FiscalPeriodUpdateManyWithoutTenantNestedInput
     documentSequences?: DocumentSequenceUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUpdateManyWithoutTenantNestedInput
     itemCategories?: ItemCategoryUpdateManyWithoutTenantNestedInput
     units?: UnitUpdateManyWithoutTenantNestedInput
     items?: ItemUpdateManyWithoutTenantNestedInput
@@ -92758,6 +94253,7 @@ export namespace Prisma {
     currencies?: CurrencyUncheckedUpdateManyWithoutTenantNestedInput
     fiscalPeriods?: FiscalPeriodUncheckedUpdateManyWithoutTenantNestedInput
     documentSequences?: DocumentSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUncheckedUpdateManyWithoutTenantNestedInput
     itemCategories?: ItemCategoryUncheckedUpdateManyWithoutTenantNestedInput
     units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
     items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
@@ -93533,6 +95029,7 @@ export namespace Prisma {
     currencies?: CurrencyCreateNestedManyWithoutTenantInput
     fiscalPeriods?: FiscalPeriodCreateNestedManyWithoutTenantInput
     documentSequences?: DocumentSequenceCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceCreateNestedManyWithoutTenantInput
     itemCategories?: ItemCategoryCreateNestedManyWithoutTenantInput
     units?: UnitCreateNestedManyWithoutTenantInput
     items?: ItemCreateNestedManyWithoutTenantInput
@@ -93590,6 +95087,7 @@ export namespace Prisma {
     currencies?: CurrencyUncheckedCreateNestedManyWithoutTenantInput
     fiscalPeriods?: FiscalPeriodUncheckedCreateNestedManyWithoutTenantInput
     documentSequences?: DocumentSequenceUncheckedCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceUncheckedCreateNestedManyWithoutTenantInput
     itemCategories?: ItemCategoryUncheckedCreateNestedManyWithoutTenantInput
     units?: UnitUncheckedCreateNestedManyWithoutTenantInput
     items?: ItemUncheckedCreateNestedManyWithoutTenantInput
@@ -93685,6 +95183,7 @@ export namespace Prisma {
     currencies?: CurrencyUpdateManyWithoutTenantNestedInput
     fiscalPeriods?: FiscalPeriodUpdateManyWithoutTenantNestedInput
     documentSequences?: DocumentSequenceUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUpdateManyWithoutTenantNestedInput
     itemCategories?: ItemCategoryUpdateManyWithoutTenantNestedInput
     units?: UnitUpdateManyWithoutTenantNestedInput
     items?: ItemUpdateManyWithoutTenantNestedInput
@@ -93742,6 +95241,7 @@ export namespace Prisma {
     currencies?: CurrencyUncheckedUpdateManyWithoutTenantNestedInput
     fiscalPeriods?: FiscalPeriodUncheckedUpdateManyWithoutTenantNestedInput
     documentSequences?: DocumentSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUncheckedUpdateManyWithoutTenantNestedInput
     itemCategories?: ItemCategoryUncheckedUpdateManyWithoutTenantNestedInput
     units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
     items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
@@ -93875,6 +95375,7 @@ export namespace Prisma {
     currencies?: CurrencyCreateNestedManyWithoutTenantInput
     fiscalPeriods?: FiscalPeriodCreateNestedManyWithoutTenantInput
     documentSequences?: DocumentSequenceCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceCreateNestedManyWithoutTenantInput
     itemCategories?: ItemCategoryCreateNestedManyWithoutTenantInput
     units?: UnitCreateNestedManyWithoutTenantInput
     items?: ItemCreateNestedManyWithoutTenantInput
@@ -93932,6 +95433,7 @@ export namespace Prisma {
     currencies?: CurrencyUncheckedCreateNestedManyWithoutTenantInput
     fiscalPeriods?: FiscalPeriodUncheckedCreateNestedManyWithoutTenantInput
     documentSequences?: DocumentSequenceUncheckedCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceUncheckedCreateNestedManyWithoutTenantInput
     itemCategories?: ItemCategoryUncheckedCreateNestedManyWithoutTenantInput
     units?: UnitUncheckedCreateNestedManyWithoutTenantInput
     items?: ItemUncheckedCreateNestedManyWithoutTenantInput
@@ -94001,6 +95503,7 @@ export namespace Prisma {
     currencies?: CurrencyUpdateManyWithoutTenantNestedInput
     fiscalPeriods?: FiscalPeriodUpdateManyWithoutTenantNestedInput
     documentSequences?: DocumentSequenceUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUpdateManyWithoutTenantNestedInput
     itemCategories?: ItemCategoryUpdateManyWithoutTenantNestedInput
     units?: UnitUpdateManyWithoutTenantNestedInput
     items?: ItemUpdateManyWithoutTenantNestedInput
@@ -94058,6 +95561,7 @@ export namespace Prisma {
     currencies?: CurrencyUncheckedUpdateManyWithoutTenantNestedInput
     fiscalPeriods?: FiscalPeriodUncheckedUpdateManyWithoutTenantNestedInput
     documentSequences?: DocumentSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUncheckedUpdateManyWithoutTenantNestedInput
     itemCategories?: ItemCategoryUncheckedUpdateManyWithoutTenantNestedInput
     units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
     items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
@@ -94111,6 +95615,7 @@ export namespace Prisma {
     currencies?: CurrencyCreateNestedManyWithoutTenantInput
     fiscalPeriods?: FiscalPeriodCreateNestedManyWithoutTenantInput
     documentSequences?: DocumentSequenceCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceCreateNestedManyWithoutTenantInput
     itemCategories?: ItemCategoryCreateNestedManyWithoutTenantInput
     units?: UnitCreateNestedManyWithoutTenantInput
     items?: ItemCreateNestedManyWithoutTenantInput
@@ -94168,6 +95673,7 @@ export namespace Prisma {
     currencies?: CurrencyUncheckedCreateNestedManyWithoutTenantInput
     fiscalPeriods?: FiscalPeriodUncheckedCreateNestedManyWithoutTenantInput
     documentSequences?: DocumentSequenceUncheckedCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceUncheckedCreateNestedManyWithoutTenantInput
     itemCategories?: ItemCategoryUncheckedCreateNestedManyWithoutTenantInput
     units?: UnitUncheckedCreateNestedManyWithoutTenantInput
     items?: ItemUncheckedCreateNestedManyWithoutTenantInput
@@ -94364,6 +95870,7 @@ export namespace Prisma {
     currencies?: CurrencyUpdateManyWithoutTenantNestedInput
     fiscalPeriods?: FiscalPeriodUpdateManyWithoutTenantNestedInput
     documentSequences?: DocumentSequenceUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUpdateManyWithoutTenantNestedInput
     itemCategories?: ItemCategoryUpdateManyWithoutTenantNestedInput
     units?: UnitUpdateManyWithoutTenantNestedInput
     items?: ItemUpdateManyWithoutTenantNestedInput
@@ -94421,6 +95928,7 @@ export namespace Prisma {
     currencies?: CurrencyUncheckedUpdateManyWithoutTenantNestedInput
     fiscalPeriods?: FiscalPeriodUncheckedUpdateManyWithoutTenantNestedInput
     documentSequences?: DocumentSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUncheckedUpdateManyWithoutTenantNestedInput
     itemCategories?: ItemCategoryUncheckedUpdateManyWithoutTenantNestedInput
     units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
     items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
@@ -94555,6 +96063,7 @@ export namespace Prisma {
     currencies?: CurrencyCreateNestedManyWithoutTenantInput
     fiscalPeriods?: FiscalPeriodCreateNestedManyWithoutTenantInput
     documentSequences?: DocumentSequenceCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceCreateNestedManyWithoutTenantInput
     itemCategories?: ItemCategoryCreateNestedManyWithoutTenantInput
     units?: UnitCreateNestedManyWithoutTenantInput
     items?: ItemCreateNestedManyWithoutTenantInput
@@ -94612,6 +96121,7 @@ export namespace Prisma {
     currencies?: CurrencyUncheckedCreateNestedManyWithoutTenantInput
     fiscalPeriods?: FiscalPeriodUncheckedCreateNestedManyWithoutTenantInput
     documentSequences?: DocumentSequenceUncheckedCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceUncheckedCreateNestedManyWithoutTenantInput
     itemCategories?: ItemCategoryUncheckedCreateNestedManyWithoutTenantInput
     units?: UnitUncheckedCreateNestedManyWithoutTenantInput
     items?: ItemUncheckedCreateNestedManyWithoutTenantInput
@@ -94747,6 +96257,7 @@ export namespace Prisma {
     currencies?: CurrencyUpdateManyWithoutTenantNestedInput
     fiscalPeriods?: FiscalPeriodUpdateManyWithoutTenantNestedInput
     documentSequences?: DocumentSequenceUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUpdateManyWithoutTenantNestedInput
     itemCategories?: ItemCategoryUpdateManyWithoutTenantNestedInput
     units?: UnitUpdateManyWithoutTenantNestedInput
     items?: ItemUpdateManyWithoutTenantNestedInput
@@ -94804,6 +96315,7 @@ export namespace Prisma {
     currencies?: CurrencyUncheckedUpdateManyWithoutTenantNestedInput
     fiscalPeriods?: FiscalPeriodUncheckedUpdateManyWithoutTenantNestedInput
     documentSequences?: DocumentSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUncheckedUpdateManyWithoutTenantNestedInput
     itemCategories?: ItemCategoryUncheckedUpdateManyWithoutTenantNestedInput
     units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
     items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
@@ -94897,6 +96409,7 @@ export namespace Prisma {
     currencies?: CurrencyCreateNestedManyWithoutTenantInput
     fiscalPeriods?: FiscalPeriodCreateNestedManyWithoutTenantInput
     documentSequences?: DocumentSequenceCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceCreateNestedManyWithoutTenantInput
     itemCategories?: ItemCategoryCreateNestedManyWithoutTenantInput
     units?: UnitCreateNestedManyWithoutTenantInput
     items?: ItemCreateNestedManyWithoutTenantInput
@@ -94954,6 +96467,7 @@ export namespace Prisma {
     currencies?: CurrencyUncheckedCreateNestedManyWithoutTenantInput
     fiscalPeriods?: FiscalPeriodUncheckedCreateNestedManyWithoutTenantInput
     documentSequences?: DocumentSequenceUncheckedCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceUncheckedCreateNestedManyWithoutTenantInput
     itemCategories?: ItemCategoryUncheckedCreateNestedManyWithoutTenantInput
     units?: UnitUncheckedCreateNestedManyWithoutTenantInput
     items?: ItemUncheckedCreateNestedManyWithoutTenantInput
@@ -95264,6 +96778,7 @@ export namespace Prisma {
     currencies?: CurrencyUpdateManyWithoutTenantNestedInput
     fiscalPeriods?: FiscalPeriodUpdateManyWithoutTenantNestedInput
     documentSequences?: DocumentSequenceUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUpdateManyWithoutTenantNestedInput
     itemCategories?: ItemCategoryUpdateManyWithoutTenantNestedInput
     units?: UnitUpdateManyWithoutTenantNestedInput
     items?: ItemUpdateManyWithoutTenantNestedInput
@@ -95321,6 +96836,7 @@ export namespace Prisma {
     currencies?: CurrencyUncheckedUpdateManyWithoutTenantNestedInput
     fiscalPeriods?: FiscalPeriodUncheckedUpdateManyWithoutTenantNestedInput
     documentSequences?: DocumentSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUncheckedUpdateManyWithoutTenantNestedInput
     itemCategories?: ItemCategoryUncheckedUpdateManyWithoutTenantNestedInput
     units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
     items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
@@ -95540,6 +97056,7 @@ export namespace Prisma {
     currencies?: CurrencyCreateNestedManyWithoutTenantInput
     fiscalPeriods?: FiscalPeriodCreateNestedManyWithoutTenantInput
     documentSequences?: DocumentSequenceCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceCreateNestedManyWithoutTenantInput
     itemCategories?: ItemCategoryCreateNestedManyWithoutTenantInput
     units?: UnitCreateNestedManyWithoutTenantInput
     items?: ItemCreateNestedManyWithoutTenantInput
@@ -95597,6 +97114,7 @@ export namespace Prisma {
     currencies?: CurrencyUncheckedCreateNestedManyWithoutTenantInput
     fiscalPeriods?: FiscalPeriodUncheckedCreateNestedManyWithoutTenantInput
     documentSequences?: DocumentSequenceUncheckedCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceUncheckedCreateNestedManyWithoutTenantInput
     itemCategories?: ItemCategoryUncheckedCreateNestedManyWithoutTenantInput
     units?: UnitUncheckedCreateNestedManyWithoutTenantInput
     items?: ItemUncheckedCreateNestedManyWithoutTenantInput
@@ -95852,6 +97370,7 @@ export namespace Prisma {
     currencies?: CurrencyUpdateManyWithoutTenantNestedInput
     fiscalPeriods?: FiscalPeriodUpdateManyWithoutTenantNestedInput
     documentSequences?: DocumentSequenceUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUpdateManyWithoutTenantNestedInput
     itemCategories?: ItemCategoryUpdateManyWithoutTenantNestedInput
     units?: UnitUpdateManyWithoutTenantNestedInput
     items?: ItemUpdateManyWithoutTenantNestedInput
@@ -95909,6 +97428,7 @@ export namespace Prisma {
     currencies?: CurrencyUncheckedUpdateManyWithoutTenantNestedInput
     fiscalPeriods?: FiscalPeriodUncheckedUpdateManyWithoutTenantNestedInput
     documentSequences?: DocumentSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUncheckedUpdateManyWithoutTenantNestedInput
     itemCategories?: ItemCategoryUncheckedUpdateManyWithoutTenantNestedInput
     units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
     items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
@@ -96418,6 +97938,7 @@ export namespace Prisma {
     currencies?: CurrencyCreateNestedManyWithoutTenantInput
     fiscalPeriods?: FiscalPeriodCreateNestedManyWithoutTenantInput
     documentSequences?: DocumentSequenceCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceCreateNestedManyWithoutTenantInput
     itemCategories?: ItemCategoryCreateNestedManyWithoutTenantInput
     units?: UnitCreateNestedManyWithoutTenantInput
     items?: ItemCreateNestedManyWithoutTenantInput
@@ -96475,6 +97996,7 @@ export namespace Prisma {
     currencies?: CurrencyUncheckedCreateNestedManyWithoutTenantInput
     fiscalPeriods?: FiscalPeriodUncheckedCreateNestedManyWithoutTenantInput
     documentSequences?: DocumentSequenceUncheckedCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceUncheckedCreateNestedManyWithoutTenantInput
     itemCategories?: ItemCategoryUncheckedCreateNestedManyWithoutTenantInput
     units?: UnitUncheckedCreateNestedManyWithoutTenantInput
     items?: ItemUncheckedCreateNestedManyWithoutTenantInput
@@ -96635,6 +98157,7 @@ export namespace Prisma {
     currencies?: CurrencyUpdateManyWithoutTenantNestedInput
     fiscalPeriods?: FiscalPeriodUpdateManyWithoutTenantNestedInput
     documentSequences?: DocumentSequenceUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUpdateManyWithoutTenantNestedInput
     itemCategories?: ItemCategoryUpdateManyWithoutTenantNestedInput
     units?: UnitUpdateManyWithoutTenantNestedInput
     items?: ItemUpdateManyWithoutTenantNestedInput
@@ -96692,6 +98215,7 @@ export namespace Prisma {
     currencies?: CurrencyUncheckedUpdateManyWithoutTenantNestedInput
     fiscalPeriods?: FiscalPeriodUncheckedUpdateManyWithoutTenantNestedInput
     documentSequences?: DocumentSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUncheckedUpdateManyWithoutTenantNestedInput
     itemCategories?: ItemCategoryUncheckedUpdateManyWithoutTenantNestedInput
     units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
     items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
@@ -96816,6 +98340,246 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"ItemCatalogEntity"> | Date | string
   }
 
+  export type TenantCreateWithoutCodeSequencesInput = {
+    id?: string
+    name: string
+    slug: string
+    address?: string | null
+    phone?: string | null
+    email?: string | null
+    logo?: string | null
+    legalName?: string | null
+    taxNumber?: string | null
+    website?: string | null
+    isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: AppUserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    currencies?: CurrencyCreateNestedManyWithoutTenantInput
+    fiscalPeriods?: FiscalPeriodCreateNestedManyWithoutTenantInput
+    documentSequences?: DocumentSequenceCreateNestedManyWithoutTenantInput
+    itemCategories?: ItemCategoryCreateNestedManyWithoutTenantInput
+    units?: UnitCreateNestedManyWithoutTenantInput
+    items?: ItemCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    cashboxes?: CashboxCreateNestedManyWithoutTenantInput
+    bankAccounts?: BankAccountCreateNestedManyWithoutTenantInput
+    invoiceTypes?: InvoiceTypeCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    chartOfAccounts?: ChartOfAccountCreateNestedManyWithoutTenantInput
+    journalEntries?: JournalEntryCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountCreateNestedManyWithoutTenantInput
+    auditLogs?: AuditLogCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    aiChatSessions?: AiChatSessionCreateNestedManyWithoutTenantInput
+    baseCurrency?: CurrencyCreateNestedOneWithoutBaseForTenantsInput
+    defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
+    settings?: TenantSettingCreateNestedManyWithoutTenantInput
+    financialSetting?: FinancialSettingCreateNestedOneWithoutTenantInput
+    expenses?: ExpenseCreateNestedManyWithoutTenantInput
+    tags?: TagCreateNestedManyWithoutTenantInput
+    itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
+    catalogEntities?: CatalogEntityCreateNestedManyWithoutTenantInput
+    itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutTenantInput
+    brands?: BrandCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutCodeSequencesInput = {
+    id?: string
+    name: string
+    slug: string
+    address?: string | null
+    phone?: string | null
+    email?: string | null
+    logo?: string | null
+    legalName?: string | null
+    taxNumber?: string | null
+    website?: string | null
+    baseCurrencyId?: string | null
+    defaultSalesSequenceId?: string | null
+    isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    currencies?: CurrencyUncheckedCreateNestedManyWithoutTenantInput
+    fiscalPeriods?: FiscalPeriodUncheckedCreateNestedManyWithoutTenantInput
+    documentSequences?: DocumentSequenceUncheckedCreateNestedManyWithoutTenantInput
+    itemCategories?: ItemCategoryUncheckedCreateNestedManyWithoutTenantInput
+    units?: UnitUncheckedCreateNestedManyWithoutTenantInput
+    items?: ItemUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    cashboxes?: CashboxUncheckedCreateNestedManyWithoutTenantInput
+    bankAccounts?: BankAccountUncheckedCreateNestedManyWithoutTenantInput
+    invoiceTypes?: InvoiceTypeUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    chartOfAccounts?: ChartOfAccountUncheckedCreateNestedManyWithoutTenantInput
+    journalEntries?: JournalEntryUncheckedCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    aiChatSessions?: AiChatSessionUncheckedCreateNestedManyWithoutTenantInput
+    settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
+    financialSetting?: FinancialSettingUncheckedCreateNestedOneWithoutTenantInput
+    expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
+    tags?: TagUncheckedCreateNestedManyWithoutTenantInput
+    itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
+    catalogEntities?: CatalogEntityUncheckedCreateNestedManyWithoutTenantInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutTenantInput
+    brands?: BrandUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutCodeSequencesInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutCodeSequencesInput, TenantUncheckedCreateWithoutCodeSequencesInput>
+  }
+
+  export type TenantUpsertWithoutCodeSequencesInput = {
+    update: XOR<TenantUpdateWithoutCodeSequencesInput, TenantUncheckedUpdateWithoutCodeSequencesInput>
+    create: XOR<TenantCreateWithoutCodeSequencesInput, TenantUncheckedCreateWithoutCodeSequencesInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutCodeSequencesInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutCodeSequencesInput, TenantUncheckedUpdateWithoutCodeSequencesInput>
+  }
+
+  export type TenantUpdateWithoutCodeSequencesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: AppUserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    currencies?: CurrencyUpdateManyWithoutTenantNestedInput
+    fiscalPeriods?: FiscalPeriodUpdateManyWithoutTenantNestedInput
+    documentSequences?: DocumentSequenceUpdateManyWithoutTenantNestedInput
+    itemCategories?: ItemCategoryUpdateManyWithoutTenantNestedInput
+    units?: UnitUpdateManyWithoutTenantNestedInput
+    items?: ItemUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    cashboxes?: CashboxUpdateManyWithoutTenantNestedInput
+    bankAccounts?: BankAccountUpdateManyWithoutTenantNestedInput
+    invoiceTypes?: InvoiceTypeUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    chartOfAccounts?: ChartOfAccountUpdateManyWithoutTenantNestedInput
+    journalEntries?: JournalEntryUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    aiChatSessions?: AiChatSessionUpdateManyWithoutTenantNestedInput
+    baseCurrency?: CurrencyUpdateOneWithoutBaseForTenantsNestedInput
+    defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
+    settings?: TenantSettingUpdateManyWithoutTenantNestedInput
+    financialSetting?: FinancialSettingUpdateOneWithoutTenantNestedInput
+    expenses?: ExpenseUpdateManyWithoutTenantNestedInput
+    tags?: TagUpdateManyWithoutTenantNestedInput
+    itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
+    catalogEntities?: CatalogEntityUpdateManyWithoutTenantNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutTenantNestedInput
+    brands?: BrandUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutCodeSequencesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    baseCurrencyId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultSalesSequenceId?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    currencies?: CurrencyUncheckedUpdateManyWithoutTenantNestedInput
+    fiscalPeriods?: FiscalPeriodUncheckedUpdateManyWithoutTenantNestedInput
+    documentSequences?: DocumentSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    itemCategories?: ItemCategoryUncheckedUpdateManyWithoutTenantNestedInput
+    units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
+    items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    cashboxes?: CashboxUncheckedUpdateManyWithoutTenantNestedInput
+    bankAccounts?: BankAccountUncheckedUpdateManyWithoutTenantNestedInput
+    invoiceTypes?: InvoiceTypeUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    chartOfAccounts?: ChartOfAccountUncheckedUpdateManyWithoutTenantNestedInput
+    journalEntries?: JournalEntryUncheckedUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    aiChatSessions?: AiChatSessionUncheckedUpdateManyWithoutTenantNestedInput
+    settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
+    financialSetting?: FinancialSettingUncheckedUpdateOneWithoutTenantNestedInput
+    expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
+    tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
+    itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
+    catalogEntities?: CatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
+    brands?: BrandUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
   export type TenantCreateWithoutCurrenciesInput = {
     id?: string
     name: string
@@ -96839,6 +98603,7 @@ export namespace Prisma {
     roles?: RoleCreateNestedManyWithoutTenantInput
     fiscalPeriods?: FiscalPeriodCreateNestedManyWithoutTenantInput
     documentSequences?: DocumentSequenceCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceCreateNestedManyWithoutTenantInput
     itemCategories?: ItemCategoryCreateNestedManyWithoutTenantInput
     units?: UnitCreateNestedManyWithoutTenantInput
     items?: ItemCreateNestedManyWithoutTenantInput
@@ -96896,6 +98661,7 @@ export namespace Prisma {
     roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
     fiscalPeriods?: FiscalPeriodUncheckedCreateNestedManyWithoutTenantInput
     documentSequences?: DocumentSequenceUncheckedCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceUncheckedCreateNestedManyWithoutTenantInput
     itemCategories?: ItemCategoryUncheckedCreateNestedManyWithoutTenantInput
     units?: UnitUncheckedCreateNestedManyWithoutTenantInput
     items?: ItemUncheckedCreateNestedManyWithoutTenantInput
@@ -97203,6 +98969,7 @@ export namespace Prisma {
     currencies?: CurrencyCreateNestedManyWithoutTenantInput
     fiscalPeriods?: FiscalPeriodCreateNestedManyWithoutTenantInput
     documentSequences?: DocumentSequenceCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceCreateNestedManyWithoutTenantInput
     itemCategories?: ItemCategoryCreateNestedManyWithoutTenantInput
     units?: UnitCreateNestedManyWithoutTenantInput
     items?: ItemCreateNestedManyWithoutTenantInput
@@ -97259,6 +99026,7 @@ export namespace Prisma {
     currencies?: CurrencyUncheckedCreateNestedManyWithoutTenantInput
     fiscalPeriods?: FiscalPeriodUncheckedCreateNestedManyWithoutTenantInput
     documentSequences?: DocumentSequenceUncheckedCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceUncheckedCreateNestedManyWithoutTenantInput
     itemCategories?: ItemCategoryUncheckedCreateNestedManyWithoutTenantInput
     units?: UnitUncheckedCreateNestedManyWithoutTenantInput
     items?: ItemUncheckedCreateNestedManyWithoutTenantInput
@@ -97429,6 +99197,7 @@ export namespace Prisma {
     roles?: RoleUpdateManyWithoutTenantNestedInput
     fiscalPeriods?: FiscalPeriodUpdateManyWithoutTenantNestedInput
     documentSequences?: DocumentSequenceUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUpdateManyWithoutTenantNestedInput
     itemCategories?: ItemCategoryUpdateManyWithoutTenantNestedInput
     units?: UnitUpdateManyWithoutTenantNestedInput
     items?: ItemUpdateManyWithoutTenantNestedInput
@@ -97486,6 +99255,7 @@ export namespace Prisma {
     roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
     fiscalPeriods?: FiscalPeriodUncheckedUpdateManyWithoutTenantNestedInput
     documentSequences?: DocumentSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUncheckedUpdateManyWithoutTenantNestedInput
     itemCategories?: ItemCategoryUncheckedUpdateManyWithoutTenantNestedInput
     units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
     items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
@@ -97885,6 +99655,7 @@ export namespace Prisma {
     roles?: RoleCreateNestedManyWithoutTenantInput
     currencies?: CurrencyCreateNestedManyWithoutTenantInput
     fiscalPeriods?: FiscalPeriodCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceCreateNestedManyWithoutTenantInput
     itemCategories?: ItemCategoryCreateNestedManyWithoutTenantInput
     units?: UnitCreateNestedManyWithoutTenantInput
     items?: ItemCreateNestedManyWithoutTenantInput
@@ -97942,6 +99713,7 @@ export namespace Prisma {
     roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
     currencies?: CurrencyUncheckedCreateNestedManyWithoutTenantInput
     fiscalPeriods?: FiscalPeriodUncheckedCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceUncheckedCreateNestedManyWithoutTenantInput
     itemCategories?: ItemCategoryUncheckedCreateNestedManyWithoutTenantInput
     units?: UnitUncheckedCreateNestedManyWithoutTenantInput
     items?: ItemUncheckedCreateNestedManyWithoutTenantInput
@@ -98001,6 +99773,7 @@ export namespace Prisma {
     currencies?: CurrencyCreateNestedManyWithoutTenantInput
     fiscalPeriods?: FiscalPeriodCreateNestedManyWithoutTenantInput
     documentSequences?: DocumentSequenceCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceCreateNestedManyWithoutTenantInput
     itemCategories?: ItemCategoryCreateNestedManyWithoutTenantInput
     units?: UnitCreateNestedManyWithoutTenantInput
     items?: ItemCreateNestedManyWithoutTenantInput
@@ -98057,6 +99830,7 @@ export namespace Prisma {
     currencies?: CurrencyUncheckedCreateNestedManyWithoutTenantInput
     fiscalPeriods?: FiscalPeriodUncheckedCreateNestedManyWithoutTenantInput
     documentSequences?: DocumentSequenceUncheckedCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceUncheckedCreateNestedManyWithoutTenantInput
     itemCategories?: ItemCategoryUncheckedCreateNestedManyWithoutTenantInput
     units?: UnitUncheckedCreateNestedManyWithoutTenantInput
     items?: ItemUncheckedCreateNestedManyWithoutTenantInput
@@ -98131,6 +99905,7 @@ export namespace Prisma {
     roles?: RoleUpdateManyWithoutTenantNestedInput
     currencies?: CurrencyUpdateManyWithoutTenantNestedInput
     fiscalPeriods?: FiscalPeriodUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUpdateManyWithoutTenantNestedInput
     itemCategories?: ItemCategoryUpdateManyWithoutTenantNestedInput
     units?: UnitUpdateManyWithoutTenantNestedInput
     items?: ItemUpdateManyWithoutTenantNestedInput
@@ -98188,6 +99963,7 @@ export namespace Prisma {
     roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
     currencies?: CurrencyUncheckedUpdateManyWithoutTenantNestedInput
     fiscalPeriods?: FiscalPeriodUncheckedUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUncheckedUpdateManyWithoutTenantNestedInput
     itemCategories?: ItemCategoryUncheckedUpdateManyWithoutTenantNestedInput
     units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
     items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
@@ -98258,6 +100034,7 @@ export namespace Prisma {
     currencies?: CurrencyCreateNestedManyWithoutTenantInput
     fiscalPeriods?: FiscalPeriodCreateNestedManyWithoutTenantInput
     documentSequences?: DocumentSequenceCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceCreateNestedManyWithoutTenantInput
     itemCategories?: ItemCategoryCreateNestedManyWithoutTenantInput
     units?: UnitCreateNestedManyWithoutTenantInput
     items?: ItemCreateNestedManyWithoutTenantInput
@@ -98315,6 +100092,7 @@ export namespace Prisma {
     currencies?: CurrencyUncheckedCreateNestedManyWithoutTenantInput
     fiscalPeriods?: FiscalPeriodUncheckedCreateNestedManyWithoutTenantInput
     documentSequences?: DocumentSequenceUncheckedCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceUncheckedCreateNestedManyWithoutTenantInput
     itemCategories?: ItemCategoryUncheckedCreateNestedManyWithoutTenantInput
     units?: UnitUncheckedCreateNestedManyWithoutTenantInput
     items?: ItemUncheckedCreateNestedManyWithoutTenantInput
@@ -98531,6 +100309,7 @@ export namespace Prisma {
     currencies?: CurrencyUpdateManyWithoutTenantNestedInput
     fiscalPeriods?: FiscalPeriodUpdateManyWithoutTenantNestedInput
     documentSequences?: DocumentSequenceUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUpdateManyWithoutTenantNestedInput
     itemCategories?: ItemCategoryUpdateManyWithoutTenantNestedInput
     units?: UnitUpdateManyWithoutTenantNestedInput
     items?: ItemUpdateManyWithoutTenantNestedInput
@@ -98588,6 +100367,7 @@ export namespace Prisma {
     currencies?: CurrencyUncheckedUpdateManyWithoutTenantNestedInput
     fiscalPeriods?: FiscalPeriodUncheckedUpdateManyWithoutTenantNestedInput
     documentSequences?: DocumentSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUncheckedUpdateManyWithoutTenantNestedInput
     itemCategories?: ItemCategoryUncheckedUpdateManyWithoutTenantNestedInput
     units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
     items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
@@ -99036,6 +100816,7 @@ export namespace Prisma {
     currencies?: CurrencyCreateNestedManyWithoutTenantInput
     fiscalPeriods?: FiscalPeriodCreateNestedManyWithoutTenantInput
     documentSequences?: DocumentSequenceCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceCreateNestedManyWithoutTenantInput
     itemCategories?: ItemCategoryCreateNestedManyWithoutTenantInput
     units?: UnitCreateNestedManyWithoutTenantInput
     items?: ItemCreateNestedManyWithoutTenantInput
@@ -99093,6 +100874,7 @@ export namespace Prisma {
     currencies?: CurrencyUncheckedCreateNestedManyWithoutTenantInput
     fiscalPeriods?: FiscalPeriodUncheckedCreateNestedManyWithoutTenantInput
     documentSequences?: DocumentSequenceUncheckedCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceUncheckedCreateNestedManyWithoutTenantInput
     itemCategories?: ItemCategoryUncheckedCreateNestedManyWithoutTenantInput
     units?: UnitUncheckedCreateNestedManyWithoutTenantInput
     items?: ItemUncheckedCreateNestedManyWithoutTenantInput
@@ -99899,6 +101681,7 @@ export namespace Prisma {
     currencies?: CurrencyUpdateManyWithoutTenantNestedInput
     fiscalPeriods?: FiscalPeriodUpdateManyWithoutTenantNestedInput
     documentSequences?: DocumentSequenceUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUpdateManyWithoutTenantNestedInput
     itemCategories?: ItemCategoryUpdateManyWithoutTenantNestedInput
     units?: UnitUpdateManyWithoutTenantNestedInput
     items?: ItemUpdateManyWithoutTenantNestedInput
@@ -99956,6 +101739,7 @@ export namespace Prisma {
     currencies?: CurrencyUncheckedUpdateManyWithoutTenantNestedInput
     fiscalPeriods?: FiscalPeriodUncheckedUpdateManyWithoutTenantNestedInput
     documentSequences?: DocumentSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUncheckedUpdateManyWithoutTenantNestedInput
     itemCategories?: ItemCategoryUncheckedUpdateManyWithoutTenantNestedInput
     units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
     items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
@@ -100811,6 +102595,7 @@ export namespace Prisma {
     roles?: RoleCreateNestedManyWithoutTenantInput
     currencies?: CurrencyCreateNestedManyWithoutTenantInput
     documentSequences?: DocumentSequenceCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceCreateNestedManyWithoutTenantInput
     itemCategories?: ItemCategoryCreateNestedManyWithoutTenantInput
     units?: UnitCreateNestedManyWithoutTenantInput
     items?: ItemCreateNestedManyWithoutTenantInput
@@ -100868,6 +102653,7 @@ export namespace Prisma {
     roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
     currencies?: CurrencyUncheckedCreateNestedManyWithoutTenantInput
     documentSequences?: DocumentSequenceUncheckedCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceUncheckedCreateNestedManyWithoutTenantInput
     itemCategories?: ItemCategoryUncheckedCreateNestedManyWithoutTenantInput
     units?: UnitUncheckedCreateNestedManyWithoutTenantInput
     items?: ItemUncheckedCreateNestedManyWithoutTenantInput
@@ -101291,6 +103077,7 @@ export namespace Prisma {
     roles?: RoleUpdateManyWithoutTenantNestedInput
     currencies?: CurrencyUpdateManyWithoutTenantNestedInput
     documentSequences?: DocumentSequenceUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUpdateManyWithoutTenantNestedInput
     itemCategories?: ItemCategoryUpdateManyWithoutTenantNestedInput
     units?: UnitUpdateManyWithoutTenantNestedInput
     items?: ItemUpdateManyWithoutTenantNestedInput
@@ -101348,6 +103135,7 @@ export namespace Prisma {
     roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
     currencies?: CurrencyUncheckedUpdateManyWithoutTenantNestedInput
     documentSequences?: DocumentSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUncheckedUpdateManyWithoutTenantNestedInput
     itemCategories?: ItemCategoryUncheckedUpdateManyWithoutTenantNestedInput
     units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
     items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
@@ -101571,6 +103359,7 @@ export namespace Prisma {
     currencies?: CurrencyCreateNestedManyWithoutTenantInput
     fiscalPeriods?: FiscalPeriodCreateNestedManyWithoutTenantInput
     documentSequences?: DocumentSequenceCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceCreateNestedManyWithoutTenantInput
     itemCategories?: ItemCategoryCreateNestedManyWithoutTenantInput
     units?: UnitCreateNestedManyWithoutTenantInput
     items?: ItemCreateNestedManyWithoutTenantInput
@@ -101628,6 +103417,7 @@ export namespace Prisma {
     currencies?: CurrencyUncheckedCreateNestedManyWithoutTenantInput
     fiscalPeriods?: FiscalPeriodUncheckedCreateNestedManyWithoutTenantInput
     documentSequences?: DocumentSequenceUncheckedCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceUncheckedCreateNestedManyWithoutTenantInput
     itemCategories?: ItemCategoryUncheckedCreateNestedManyWithoutTenantInput
     units?: UnitUncheckedCreateNestedManyWithoutTenantInput
     items?: ItemUncheckedCreateNestedManyWithoutTenantInput
@@ -101763,6 +103553,7 @@ export namespace Prisma {
     currencies?: CurrencyUpdateManyWithoutTenantNestedInput
     fiscalPeriods?: FiscalPeriodUpdateManyWithoutTenantNestedInput
     documentSequences?: DocumentSequenceUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUpdateManyWithoutTenantNestedInput
     itemCategories?: ItemCategoryUpdateManyWithoutTenantNestedInput
     units?: UnitUpdateManyWithoutTenantNestedInput
     items?: ItemUpdateManyWithoutTenantNestedInput
@@ -101820,6 +103611,7 @@ export namespace Prisma {
     currencies?: CurrencyUncheckedUpdateManyWithoutTenantNestedInput
     fiscalPeriods?: FiscalPeriodUncheckedUpdateManyWithoutTenantNestedInput
     documentSequences?: DocumentSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUncheckedUpdateManyWithoutTenantNestedInput
     itemCategories?: ItemCategoryUncheckedUpdateManyWithoutTenantNestedInput
     units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
     items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
@@ -101889,6 +103681,7 @@ export namespace Prisma {
     currencies?: CurrencyCreateNestedManyWithoutTenantInput
     fiscalPeriods?: FiscalPeriodCreateNestedManyWithoutTenantInput
     documentSequences?: DocumentSequenceCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceCreateNestedManyWithoutTenantInput
     itemCategories?: ItemCategoryCreateNestedManyWithoutTenantInput
     units?: UnitCreateNestedManyWithoutTenantInput
     items?: ItemCreateNestedManyWithoutTenantInput
@@ -101946,6 +103739,7 @@ export namespace Prisma {
     currencies?: CurrencyUncheckedCreateNestedManyWithoutTenantInput
     fiscalPeriods?: FiscalPeriodUncheckedCreateNestedManyWithoutTenantInput
     documentSequences?: DocumentSequenceUncheckedCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceUncheckedCreateNestedManyWithoutTenantInput
     itemCategories?: ItemCategoryUncheckedCreateNestedManyWithoutTenantInput
     units?: UnitUncheckedCreateNestedManyWithoutTenantInput
     items?: ItemUncheckedCreateNestedManyWithoutTenantInput
@@ -102272,6 +104066,7 @@ export namespace Prisma {
     currencies?: CurrencyUpdateManyWithoutTenantNestedInput
     fiscalPeriods?: FiscalPeriodUpdateManyWithoutTenantNestedInput
     documentSequences?: DocumentSequenceUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUpdateManyWithoutTenantNestedInput
     itemCategories?: ItemCategoryUpdateManyWithoutTenantNestedInput
     units?: UnitUpdateManyWithoutTenantNestedInput
     items?: ItemUpdateManyWithoutTenantNestedInput
@@ -102329,6 +104124,7 @@ export namespace Prisma {
     currencies?: CurrencyUncheckedUpdateManyWithoutTenantNestedInput
     fiscalPeriods?: FiscalPeriodUncheckedUpdateManyWithoutTenantNestedInput
     documentSequences?: DocumentSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUncheckedUpdateManyWithoutTenantNestedInput
     itemCategories?: ItemCategoryUncheckedUpdateManyWithoutTenantNestedInput
     units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
     items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
@@ -102969,6 +104765,7 @@ export namespace Prisma {
     currencies?: CurrencyCreateNestedManyWithoutTenantInput
     fiscalPeriods?: FiscalPeriodCreateNestedManyWithoutTenantInput
     documentSequences?: DocumentSequenceCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceCreateNestedManyWithoutTenantInput
     itemCategories?: ItemCategoryCreateNestedManyWithoutTenantInput
     units?: UnitCreateNestedManyWithoutTenantInput
     items?: ItemCreateNestedManyWithoutTenantInput
@@ -103026,6 +104823,7 @@ export namespace Prisma {
     currencies?: CurrencyUncheckedCreateNestedManyWithoutTenantInput
     fiscalPeriods?: FiscalPeriodUncheckedCreateNestedManyWithoutTenantInput
     documentSequences?: DocumentSequenceUncheckedCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceUncheckedCreateNestedManyWithoutTenantInput
     itemCategories?: ItemCategoryUncheckedCreateNestedManyWithoutTenantInput
     units?: UnitUncheckedCreateNestedManyWithoutTenantInput
     items?: ItemUncheckedCreateNestedManyWithoutTenantInput
@@ -103187,6 +104985,7 @@ export namespace Prisma {
     currencies?: CurrencyUpdateManyWithoutTenantNestedInput
     fiscalPeriods?: FiscalPeriodUpdateManyWithoutTenantNestedInput
     documentSequences?: DocumentSequenceUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUpdateManyWithoutTenantNestedInput
     itemCategories?: ItemCategoryUpdateManyWithoutTenantNestedInput
     units?: UnitUpdateManyWithoutTenantNestedInput
     items?: ItemUpdateManyWithoutTenantNestedInput
@@ -103244,6 +105043,7 @@ export namespace Prisma {
     currencies?: CurrencyUncheckedUpdateManyWithoutTenantNestedInput
     fiscalPeriods?: FiscalPeriodUncheckedUpdateManyWithoutTenantNestedInput
     documentSequences?: DocumentSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUncheckedUpdateManyWithoutTenantNestedInput
     itemCategories?: ItemCategoryUncheckedUpdateManyWithoutTenantNestedInput
     units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
     items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
@@ -103401,6 +105201,7 @@ export namespace Prisma {
     currencies?: CurrencyCreateNestedManyWithoutTenantInput
     fiscalPeriods?: FiscalPeriodCreateNestedManyWithoutTenantInput
     documentSequences?: DocumentSequenceCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceCreateNestedManyWithoutTenantInput
     units?: UnitCreateNestedManyWithoutTenantInput
     items?: ItemCreateNestedManyWithoutTenantInput
     parties?: PartyCreateNestedManyWithoutTenantInput
@@ -103458,6 +105259,7 @@ export namespace Prisma {
     currencies?: CurrencyUncheckedCreateNestedManyWithoutTenantInput
     fiscalPeriods?: FiscalPeriodUncheckedCreateNestedManyWithoutTenantInput
     documentSequences?: DocumentSequenceUncheckedCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceUncheckedCreateNestedManyWithoutTenantInput
     units?: UnitUncheckedCreateNestedManyWithoutTenantInput
     items?: ItemUncheckedCreateNestedManyWithoutTenantInput
     parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
@@ -103660,6 +105462,7 @@ export namespace Prisma {
     currencies?: CurrencyUpdateManyWithoutTenantNestedInput
     fiscalPeriods?: FiscalPeriodUpdateManyWithoutTenantNestedInput
     documentSequences?: DocumentSequenceUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUpdateManyWithoutTenantNestedInput
     units?: UnitUpdateManyWithoutTenantNestedInput
     items?: ItemUpdateManyWithoutTenantNestedInput
     parties?: PartyUpdateManyWithoutTenantNestedInput
@@ -103717,6 +105520,7 @@ export namespace Prisma {
     currencies?: CurrencyUncheckedUpdateManyWithoutTenantNestedInput
     fiscalPeriods?: FiscalPeriodUncheckedUpdateManyWithoutTenantNestedInput
     documentSequences?: DocumentSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUncheckedUpdateManyWithoutTenantNestedInput
     units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
     items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
     parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
@@ -103854,6 +105658,7 @@ export namespace Prisma {
     currencies?: CurrencyCreateNestedManyWithoutTenantInput
     fiscalPeriods?: FiscalPeriodCreateNestedManyWithoutTenantInput
     documentSequences?: DocumentSequenceCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceCreateNestedManyWithoutTenantInput
     itemCategories?: ItemCategoryCreateNestedManyWithoutTenantInput
     units?: UnitCreateNestedManyWithoutTenantInput
     items?: ItemCreateNestedManyWithoutTenantInput
@@ -103911,6 +105716,7 @@ export namespace Prisma {
     currencies?: CurrencyUncheckedCreateNestedManyWithoutTenantInput
     fiscalPeriods?: FiscalPeriodUncheckedCreateNestedManyWithoutTenantInput
     documentSequences?: DocumentSequenceUncheckedCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceUncheckedCreateNestedManyWithoutTenantInput
     itemCategories?: ItemCategoryUncheckedCreateNestedManyWithoutTenantInput
     units?: UnitUncheckedCreateNestedManyWithoutTenantInput
     items?: ItemUncheckedCreateNestedManyWithoutTenantInput
@@ -104102,6 +105908,7 @@ export namespace Prisma {
     currencies?: CurrencyUpdateManyWithoutTenantNestedInput
     fiscalPeriods?: FiscalPeriodUpdateManyWithoutTenantNestedInput
     documentSequences?: DocumentSequenceUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUpdateManyWithoutTenantNestedInput
     itemCategories?: ItemCategoryUpdateManyWithoutTenantNestedInput
     units?: UnitUpdateManyWithoutTenantNestedInput
     items?: ItemUpdateManyWithoutTenantNestedInput
@@ -104159,6 +105966,7 @@ export namespace Prisma {
     currencies?: CurrencyUncheckedUpdateManyWithoutTenantNestedInput
     fiscalPeriods?: FiscalPeriodUncheckedUpdateManyWithoutTenantNestedInput
     documentSequences?: DocumentSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUncheckedUpdateManyWithoutTenantNestedInput
     itemCategories?: ItemCategoryUncheckedUpdateManyWithoutTenantNestedInput
     units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
     items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
@@ -104346,6 +106154,7 @@ export namespace Prisma {
     currencies?: CurrencyCreateNestedManyWithoutTenantInput
     fiscalPeriods?: FiscalPeriodCreateNestedManyWithoutTenantInput
     documentSequences?: DocumentSequenceCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceCreateNestedManyWithoutTenantInput
     itemCategories?: ItemCategoryCreateNestedManyWithoutTenantInput
     units?: UnitCreateNestedManyWithoutTenantInput
     parties?: PartyCreateNestedManyWithoutTenantInput
@@ -104403,6 +106212,7 @@ export namespace Prisma {
     currencies?: CurrencyUncheckedCreateNestedManyWithoutTenantInput
     fiscalPeriods?: FiscalPeriodUncheckedCreateNestedManyWithoutTenantInput
     documentSequences?: DocumentSequenceUncheckedCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceUncheckedCreateNestedManyWithoutTenantInput
     itemCategories?: ItemCategoryUncheckedCreateNestedManyWithoutTenantInput
     units?: UnitUncheckedCreateNestedManyWithoutTenantInput
     parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
@@ -104809,6 +106619,7 @@ export namespace Prisma {
     currencies?: CurrencyUpdateManyWithoutTenantNestedInput
     fiscalPeriods?: FiscalPeriodUpdateManyWithoutTenantNestedInput
     documentSequences?: DocumentSequenceUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUpdateManyWithoutTenantNestedInput
     itemCategories?: ItemCategoryUpdateManyWithoutTenantNestedInput
     units?: UnitUpdateManyWithoutTenantNestedInput
     parties?: PartyUpdateManyWithoutTenantNestedInput
@@ -104866,6 +106677,7 @@ export namespace Prisma {
     currencies?: CurrencyUncheckedUpdateManyWithoutTenantNestedInput
     fiscalPeriods?: FiscalPeriodUncheckedUpdateManyWithoutTenantNestedInput
     documentSequences?: DocumentSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUncheckedUpdateManyWithoutTenantNestedInput
     itemCategories?: ItemCategoryUncheckedUpdateManyWithoutTenantNestedInput
     units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
     parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
@@ -105203,6 +107015,7 @@ export namespace Prisma {
     currencies?: CurrencyCreateNestedManyWithoutTenantInput
     fiscalPeriods?: FiscalPeriodCreateNestedManyWithoutTenantInput
     documentSequences?: DocumentSequenceCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceCreateNestedManyWithoutTenantInput
     itemCategories?: ItemCategoryCreateNestedManyWithoutTenantInput
     units?: UnitCreateNestedManyWithoutTenantInput
     items?: ItemCreateNestedManyWithoutTenantInput
@@ -105260,6 +107073,7 @@ export namespace Prisma {
     currencies?: CurrencyUncheckedCreateNestedManyWithoutTenantInput
     fiscalPeriods?: FiscalPeriodUncheckedCreateNestedManyWithoutTenantInput
     documentSequences?: DocumentSequenceUncheckedCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceUncheckedCreateNestedManyWithoutTenantInput
     itemCategories?: ItemCategoryUncheckedCreateNestedManyWithoutTenantInput
     units?: UnitUncheckedCreateNestedManyWithoutTenantInput
     items?: ItemUncheckedCreateNestedManyWithoutTenantInput
@@ -105410,6 +107224,7 @@ export namespace Prisma {
     currencies?: CurrencyUpdateManyWithoutTenantNestedInput
     fiscalPeriods?: FiscalPeriodUpdateManyWithoutTenantNestedInput
     documentSequences?: DocumentSequenceUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUpdateManyWithoutTenantNestedInput
     itemCategories?: ItemCategoryUpdateManyWithoutTenantNestedInput
     units?: UnitUpdateManyWithoutTenantNestedInput
     items?: ItemUpdateManyWithoutTenantNestedInput
@@ -105467,6 +107282,7 @@ export namespace Prisma {
     currencies?: CurrencyUncheckedUpdateManyWithoutTenantNestedInput
     fiscalPeriods?: FiscalPeriodUncheckedUpdateManyWithoutTenantNestedInput
     documentSequences?: DocumentSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUncheckedUpdateManyWithoutTenantNestedInput
     itemCategories?: ItemCategoryUncheckedUpdateManyWithoutTenantNestedInput
     units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
     items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
@@ -105618,6 +107434,7 @@ export namespace Prisma {
     currencies?: CurrencyCreateNestedManyWithoutTenantInput
     fiscalPeriods?: FiscalPeriodCreateNestedManyWithoutTenantInput
     documentSequences?: DocumentSequenceCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceCreateNestedManyWithoutTenantInput
     itemCategories?: ItemCategoryCreateNestedManyWithoutTenantInput
     units?: UnitCreateNestedManyWithoutTenantInput
     items?: ItemCreateNestedManyWithoutTenantInput
@@ -105675,6 +107492,7 @@ export namespace Prisma {
     currencies?: CurrencyUncheckedCreateNestedManyWithoutTenantInput
     fiscalPeriods?: FiscalPeriodUncheckedCreateNestedManyWithoutTenantInput
     documentSequences?: DocumentSequenceUncheckedCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceUncheckedCreateNestedManyWithoutTenantInput
     itemCategories?: ItemCategoryUncheckedCreateNestedManyWithoutTenantInput
     units?: UnitUncheckedCreateNestedManyWithoutTenantInput
     items?: ItemUncheckedCreateNestedManyWithoutTenantInput
@@ -106010,6 +107828,7 @@ export namespace Prisma {
     currencies?: CurrencyUpdateManyWithoutTenantNestedInput
     fiscalPeriods?: FiscalPeriodUpdateManyWithoutTenantNestedInput
     documentSequences?: DocumentSequenceUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUpdateManyWithoutTenantNestedInput
     itemCategories?: ItemCategoryUpdateManyWithoutTenantNestedInput
     units?: UnitUpdateManyWithoutTenantNestedInput
     items?: ItemUpdateManyWithoutTenantNestedInput
@@ -106067,6 +107886,7 @@ export namespace Prisma {
     currencies?: CurrencyUncheckedUpdateManyWithoutTenantNestedInput
     fiscalPeriods?: FiscalPeriodUncheckedUpdateManyWithoutTenantNestedInput
     documentSequences?: DocumentSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUncheckedUpdateManyWithoutTenantNestedInput
     itemCategories?: ItemCategoryUncheckedUpdateManyWithoutTenantNestedInput
     units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
     items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
@@ -106373,6 +108193,7 @@ export namespace Prisma {
     currencies?: CurrencyCreateNestedManyWithoutTenantInput
     fiscalPeriods?: FiscalPeriodCreateNestedManyWithoutTenantInput
     documentSequences?: DocumentSequenceCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceCreateNestedManyWithoutTenantInput
     itemCategories?: ItemCategoryCreateNestedManyWithoutTenantInput
     units?: UnitCreateNestedManyWithoutTenantInput
     items?: ItemCreateNestedManyWithoutTenantInput
@@ -106430,6 +108251,7 @@ export namespace Prisma {
     currencies?: CurrencyUncheckedCreateNestedManyWithoutTenantInput
     fiscalPeriods?: FiscalPeriodUncheckedCreateNestedManyWithoutTenantInput
     documentSequences?: DocumentSequenceUncheckedCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceUncheckedCreateNestedManyWithoutTenantInput
     itemCategories?: ItemCategoryUncheckedCreateNestedManyWithoutTenantInput
     units?: UnitUncheckedCreateNestedManyWithoutTenantInput
     items?: ItemUncheckedCreateNestedManyWithoutTenantInput
@@ -106499,6 +108321,7 @@ export namespace Prisma {
     currencies?: CurrencyUpdateManyWithoutTenantNestedInput
     fiscalPeriods?: FiscalPeriodUpdateManyWithoutTenantNestedInput
     documentSequences?: DocumentSequenceUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUpdateManyWithoutTenantNestedInput
     itemCategories?: ItemCategoryUpdateManyWithoutTenantNestedInput
     units?: UnitUpdateManyWithoutTenantNestedInput
     items?: ItemUpdateManyWithoutTenantNestedInput
@@ -106556,6 +108379,7 @@ export namespace Prisma {
     currencies?: CurrencyUncheckedUpdateManyWithoutTenantNestedInput
     fiscalPeriods?: FiscalPeriodUncheckedUpdateManyWithoutTenantNestedInput
     documentSequences?: DocumentSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUncheckedUpdateManyWithoutTenantNestedInput
     itemCategories?: ItemCategoryUncheckedUpdateManyWithoutTenantNestedInput
     units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
     items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
@@ -106609,6 +108433,7 @@ export namespace Prisma {
     currencies?: CurrencyCreateNestedManyWithoutTenantInput
     fiscalPeriods?: FiscalPeriodCreateNestedManyWithoutTenantInput
     documentSequences?: DocumentSequenceCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceCreateNestedManyWithoutTenantInput
     itemCategories?: ItemCategoryCreateNestedManyWithoutTenantInput
     units?: UnitCreateNestedManyWithoutTenantInput
     items?: ItemCreateNestedManyWithoutTenantInput
@@ -106666,6 +108491,7 @@ export namespace Prisma {
     currencies?: CurrencyUncheckedCreateNestedManyWithoutTenantInput
     fiscalPeriods?: FiscalPeriodUncheckedCreateNestedManyWithoutTenantInput
     documentSequences?: DocumentSequenceUncheckedCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceUncheckedCreateNestedManyWithoutTenantInput
     itemCategories?: ItemCategoryUncheckedCreateNestedManyWithoutTenantInput
     units?: UnitUncheckedCreateNestedManyWithoutTenantInput
     items?: ItemUncheckedCreateNestedManyWithoutTenantInput
@@ -107079,6 +108905,7 @@ export namespace Prisma {
     currencies?: CurrencyUpdateManyWithoutTenantNestedInput
     fiscalPeriods?: FiscalPeriodUpdateManyWithoutTenantNestedInput
     documentSequences?: DocumentSequenceUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUpdateManyWithoutTenantNestedInput
     itemCategories?: ItemCategoryUpdateManyWithoutTenantNestedInput
     units?: UnitUpdateManyWithoutTenantNestedInput
     items?: ItemUpdateManyWithoutTenantNestedInput
@@ -107136,6 +108963,7 @@ export namespace Prisma {
     currencies?: CurrencyUncheckedUpdateManyWithoutTenantNestedInput
     fiscalPeriods?: FiscalPeriodUncheckedUpdateManyWithoutTenantNestedInput
     documentSequences?: DocumentSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUncheckedUpdateManyWithoutTenantNestedInput
     itemCategories?: ItemCategoryUncheckedUpdateManyWithoutTenantNestedInput
     units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
     items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
@@ -107559,6 +109387,7 @@ export namespace Prisma {
     currencies?: CurrencyCreateNestedManyWithoutTenantInput
     fiscalPeriods?: FiscalPeriodCreateNestedManyWithoutTenantInput
     documentSequences?: DocumentSequenceCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceCreateNestedManyWithoutTenantInput
     itemCategories?: ItemCategoryCreateNestedManyWithoutTenantInput
     units?: UnitCreateNestedManyWithoutTenantInput
     items?: ItemCreateNestedManyWithoutTenantInput
@@ -107616,6 +109445,7 @@ export namespace Prisma {
     currencies?: CurrencyUncheckedCreateNestedManyWithoutTenantInput
     fiscalPeriods?: FiscalPeriodUncheckedCreateNestedManyWithoutTenantInput
     documentSequences?: DocumentSequenceUncheckedCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceUncheckedCreateNestedManyWithoutTenantInput
     itemCategories?: ItemCategoryUncheckedCreateNestedManyWithoutTenantInput
     units?: UnitUncheckedCreateNestedManyWithoutTenantInput
     items?: ItemUncheckedCreateNestedManyWithoutTenantInput
@@ -107685,6 +109515,7 @@ export namespace Prisma {
     currencies?: CurrencyUpdateManyWithoutTenantNestedInput
     fiscalPeriods?: FiscalPeriodUpdateManyWithoutTenantNestedInput
     documentSequences?: DocumentSequenceUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUpdateManyWithoutTenantNestedInput
     itemCategories?: ItemCategoryUpdateManyWithoutTenantNestedInput
     units?: UnitUpdateManyWithoutTenantNestedInput
     items?: ItemUpdateManyWithoutTenantNestedInput
@@ -107742,6 +109573,7 @@ export namespace Prisma {
     currencies?: CurrencyUncheckedUpdateManyWithoutTenantNestedInput
     fiscalPeriods?: FiscalPeriodUncheckedUpdateManyWithoutTenantNestedInput
     documentSequences?: DocumentSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUncheckedUpdateManyWithoutTenantNestedInput
     itemCategories?: ItemCategoryUncheckedUpdateManyWithoutTenantNestedInput
     units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
     items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
@@ -107795,6 +109627,7 @@ export namespace Prisma {
     currencies?: CurrencyCreateNestedManyWithoutTenantInput
     fiscalPeriods?: FiscalPeriodCreateNestedManyWithoutTenantInput
     documentSequences?: DocumentSequenceCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceCreateNestedManyWithoutTenantInput
     itemCategories?: ItemCategoryCreateNestedManyWithoutTenantInput
     units?: UnitCreateNestedManyWithoutTenantInput
     items?: ItemCreateNestedManyWithoutTenantInput
@@ -107852,6 +109685,7 @@ export namespace Prisma {
     currencies?: CurrencyUncheckedCreateNestedManyWithoutTenantInput
     fiscalPeriods?: FiscalPeriodUncheckedCreateNestedManyWithoutTenantInput
     documentSequences?: DocumentSequenceUncheckedCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceUncheckedCreateNestedManyWithoutTenantInput
     itemCategories?: ItemCategoryUncheckedCreateNestedManyWithoutTenantInput
     units?: UnitUncheckedCreateNestedManyWithoutTenantInput
     items?: ItemUncheckedCreateNestedManyWithoutTenantInput
@@ -107921,6 +109755,7 @@ export namespace Prisma {
     currencies?: CurrencyUpdateManyWithoutTenantNestedInput
     fiscalPeriods?: FiscalPeriodUpdateManyWithoutTenantNestedInput
     documentSequences?: DocumentSequenceUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUpdateManyWithoutTenantNestedInput
     itemCategories?: ItemCategoryUpdateManyWithoutTenantNestedInput
     units?: UnitUpdateManyWithoutTenantNestedInput
     items?: ItemUpdateManyWithoutTenantNestedInput
@@ -107978,6 +109813,7 @@ export namespace Prisma {
     currencies?: CurrencyUncheckedUpdateManyWithoutTenantNestedInput
     fiscalPeriods?: FiscalPeriodUncheckedUpdateManyWithoutTenantNestedInput
     documentSequences?: DocumentSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUncheckedUpdateManyWithoutTenantNestedInput
     itemCategories?: ItemCategoryUncheckedUpdateManyWithoutTenantNestedInput
     units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
     items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
@@ -108031,6 +109867,7 @@ export namespace Prisma {
     currencies?: CurrencyCreateNestedManyWithoutTenantInput
     fiscalPeriods?: FiscalPeriodCreateNestedManyWithoutTenantInput
     documentSequences?: DocumentSequenceCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceCreateNestedManyWithoutTenantInput
     itemCategories?: ItemCategoryCreateNestedManyWithoutTenantInput
     units?: UnitCreateNestedManyWithoutTenantInput
     items?: ItemCreateNestedManyWithoutTenantInput
@@ -108088,6 +109925,7 @@ export namespace Prisma {
     currencies?: CurrencyUncheckedCreateNestedManyWithoutTenantInput
     fiscalPeriods?: FiscalPeriodUncheckedCreateNestedManyWithoutTenantInput
     documentSequences?: DocumentSequenceUncheckedCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceUncheckedCreateNestedManyWithoutTenantInput
     itemCategories?: ItemCategoryUncheckedCreateNestedManyWithoutTenantInput
     units?: UnitUncheckedCreateNestedManyWithoutTenantInput
     items?: ItemUncheckedCreateNestedManyWithoutTenantInput
@@ -108261,6 +110099,7 @@ export namespace Prisma {
     currencies?: CurrencyUpdateManyWithoutTenantNestedInput
     fiscalPeriods?: FiscalPeriodUpdateManyWithoutTenantNestedInput
     documentSequences?: DocumentSequenceUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUpdateManyWithoutTenantNestedInput
     itemCategories?: ItemCategoryUpdateManyWithoutTenantNestedInput
     units?: UnitUpdateManyWithoutTenantNestedInput
     items?: ItemUpdateManyWithoutTenantNestedInput
@@ -108318,6 +110157,7 @@ export namespace Prisma {
     currencies?: CurrencyUncheckedUpdateManyWithoutTenantNestedInput
     fiscalPeriods?: FiscalPeriodUncheckedUpdateManyWithoutTenantNestedInput
     documentSequences?: DocumentSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUncheckedUpdateManyWithoutTenantNestedInput
     itemCategories?: ItemCategoryUncheckedUpdateManyWithoutTenantNestedInput
     units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
     items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
@@ -109229,6 +111069,7 @@ export namespace Prisma {
     currencies?: CurrencyCreateNestedManyWithoutTenantInput
     fiscalPeriods?: FiscalPeriodCreateNestedManyWithoutTenantInput
     documentSequences?: DocumentSequenceCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceCreateNestedManyWithoutTenantInput
     itemCategories?: ItemCategoryCreateNestedManyWithoutTenantInput
     units?: UnitCreateNestedManyWithoutTenantInput
     items?: ItemCreateNestedManyWithoutTenantInput
@@ -109286,6 +111127,7 @@ export namespace Prisma {
     currencies?: CurrencyUncheckedCreateNestedManyWithoutTenantInput
     fiscalPeriods?: FiscalPeriodUncheckedCreateNestedManyWithoutTenantInput
     documentSequences?: DocumentSequenceUncheckedCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceUncheckedCreateNestedManyWithoutTenantInput
     itemCategories?: ItemCategoryUncheckedCreateNestedManyWithoutTenantInput
     units?: UnitUncheckedCreateNestedManyWithoutTenantInput
     items?: ItemUncheckedCreateNestedManyWithoutTenantInput
@@ -109381,6 +111223,7 @@ export namespace Prisma {
     currencies?: CurrencyUpdateManyWithoutTenantNestedInput
     fiscalPeriods?: FiscalPeriodUpdateManyWithoutTenantNestedInput
     documentSequences?: DocumentSequenceUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUpdateManyWithoutTenantNestedInput
     itemCategories?: ItemCategoryUpdateManyWithoutTenantNestedInput
     units?: UnitUpdateManyWithoutTenantNestedInput
     items?: ItemUpdateManyWithoutTenantNestedInput
@@ -109438,6 +111281,7 @@ export namespace Prisma {
     currencies?: CurrencyUncheckedUpdateManyWithoutTenantNestedInput
     fiscalPeriods?: FiscalPeriodUncheckedUpdateManyWithoutTenantNestedInput
     documentSequences?: DocumentSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUncheckedUpdateManyWithoutTenantNestedInput
     itemCategories?: ItemCategoryUncheckedUpdateManyWithoutTenantNestedInput
     units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
     items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
@@ -109519,6 +111363,7 @@ export namespace Prisma {
     currencies?: CurrencyCreateNestedManyWithoutTenantInput
     fiscalPeriods?: FiscalPeriodCreateNestedManyWithoutTenantInput
     documentSequences?: DocumentSequenceCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceCreateNestedManyWithoutTenantInput
     itemCategories?: ItemCategoryCreateNestedManyWithoutTenantInput
     units?: UnitCreateNestedManyWithoutTenantInput
     items?: ItemCreateNestedManyWithoutTenantInput
@@ -109576,6 +111421,7 @@ export namespace Prisma {
     currencies?: CurrencyUncheckedCreateNestedManyWithoutTenantInput
     fiscalPeriods?: FiscalPeriodUncheckedCreateNestedManyWithoutTenantInput
     documentSequences?: DocumentSequenceUncheckedCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceUncheckedCreateNestedManyWithoutTenantInput
     itemCategories?: ItemCategoryUncheckedCreateNestedManyWithoutTenantInput
     units?: UnitUncheckedCreateNestedManyWithoutTenantInput
     items?: ItemUncheckedCreateNestedManyWithoutTenantInput
@@ -109645,6 +111491,7 @@ export namespace Prisma {
     currencies?: CurrencyUpdateManyWithoutTenantNestedInput
     fiscalPeriods?: FiscalPeriodUpdateManyWithoutTenantNestedInput
     documentSequences?: DocumentSequenceUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUpdateManyWithoutTenantNestedInput
     itemCategories?: ItemCategoryUpdateManyWithoutTenantNestedInput
     units?: UnitUpdateManyWithoutTenantNestedInput
     items?: ItemUpdateManyWithoutTenantNestedInput
@@ -109702,6 +111549,7 @@ export namespace Prisma {
     currencies?: CurrencyUncheckedUpdateManyWithoutTenantNestedInput
     fiscalPeriods?: FiscalPeriodUncheckedUpdateManyWithoutTenantNestedInput
     documentSequences?: DocumentSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUncheckedUpdateManyWithoutTenantNestedInput
     itemCategories?: ItemCategoryUncheckedUpdateManyWithoutTenantNestedInput
     units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
     items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
@@ -109920,6 +111768,32 @@ export namespace Prisma {
 
   export type DocumentSequenceCreateManyTenantInputEnvelope = {
     data: DocumentSequenceCreateManyTenantInput | DocumentSequenceCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CodeSequenceCreateWithoutTenantInput = {
+    id?: string
+    entity: string
+    nextValue?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CodeSequenceUncheckedCreateWithoutTenantInput = {
+    id?: string
+    entity: string
+    nextValue?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CodeSequenceCreateOrConnectWithoutTenantInput = {
+    where: CodeSequenceWhereUniqueInput
+    create: XOR<CodeSequenceCreateWithoutTenantInput, CodeSequenceUncheckedCreateWithoutTenantInput>
+  }
+
+  export type CodeSequenceCreateManyTenantInputEnvelope = {
+    data: CodeSequenceCreateManyTenantInput | CodeSequenceCreateManyTenantInput[]
     skipDuplicates?: boolean
   }
 
@@ -111306,6 +113180,34 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"DocumentSequence"> | Date | string
   }
 
+  export type CodeSequenceUpsertWithWhereUniqueWithoutTenantInput = {
+    where: CodeSequenceWhereUniqueInput
+    update: XOR<CodeSequenceUpdateWithoutTenantInput, CodeSequenceUncheckedUpdateWithoutTenantInput>
+    create: XOR<CodeSequenceCreateWithoutTenantInput, CodeSequenceUncheckedCreateWithoutTenantInput>
+  }
+
+  export type CodeSequenceUpdateWithWhereUniqueWithoutTenantInput = {
+    where: CodeSequenceWhereUniqueInput
+    data: XOR<CodeSequenceUpdateWithoutTenantInput, CodeSequenceUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type CodeSequenceUpdateManyWithWhereWithoutTenantInput = {
+    where: CodeSequenceScalarWhereInput
+    data: XOR<CodeSequenceUpdateManyMutationInput, CodeSequenceUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type CodeSequenceScalarWhereInput = {
+    AND?: CodeSequenceScalarWhereInput | CodeSequenceScalarWhereInput[]
+    OR?: CodeSequenceScalarWhereInput[]
+    NOT?: CodeSequenceScalarWhereInput | CodeSequenceScalarWhereInput[]
+    id?: StringFilter<"CodeSequence"> | string
+    tenantId?: StringFilter<"CodeSequence"> | string
+    entity?: StringFilter<"CodeSequence"> | string
+    nextValue?: IntFilter<"CodeSequence"> | number
+    createdAt?: DateTimeFilter<"CodeSequence"> | Date | string
+    updatedAt?: DateTimeFilter<"CodeSequence"> | Date | string
+  }
+
   export type ItemCategoryUpsertWithWhereUniqueWithoutTenantInput = {
     where: ItemCategoryWhereUniqueInput
     update: XOR<ItemCategoryUpdateWithoutTenantInput, ItemCategoryUncheckedUpdateWithoutTenantInput>
@@ -112054,6 +113956,7 @@ export namespace Prisma {
     currencies?: CurrencyCreateNestedManyWithoutTenantInput
     fiscalPeriods?: FiscalPeriodCreateNestedManyWithoutTenantInput
     documentSequences?: DocumentSequenceCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceCreateNestedManyWithoutTenantInput
     itemCategories?: ItemCategoryCreateNestedManyWithoutTenantInput
     items?: ItemCreateNestedManyWithoutTenantInput
     parties?: PartyCreateNestedManyWithoutTenantInput
@@ -112111,6 +114014,7 @@ export namespace Prisma {
     currencies?: CurrencyUncheckedCreateNestedManyWithoutTenantInput
     fiscalPeriods?: FiscalPeriodUncheckedCreateNestedManyWithoutTenantInput
     documentSequences?: DocumentSequenceUncheckedCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceUncheckedCreateNestedManyWithoutTenantInput
     itemCategories?: ItemCategoryUncheckedCreateNestedManyWithoutTenantInput
     items?: ItemUncheckedCreateNestedManyWithoutTenantInput
     parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
@@ -112288,6 +114192,7 @@ export namespace Prisma {
     currencies?: CurrencyUpdateManyWithoutTenantNestedInput
     fiscalPeriods?: FiscalPeriodUpdateManyWithoutTenantNestedInput
     documentSequences?: DocumentSequenceUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUpdateManyWithoutTenantNestedInput
     itemCategories?: ItemCategoryUpdateManyWithoutTenantNestedInput
     items?: ItemUpdateManyWithoutTenantNestedInput
     parties?: PartyUpdateManyWithoutTenantNestedInput
@@ -112345,6 +114250,7 @@ export namespace Prisma {
     currencies?: CurrencyUncheckedUpdateManyWithoutTenantNestedInput
     fiscalPeriods?: FiscalPeriodUncheckedUpdateManyWithoutTenantNestedInput
     documentSequences?: DocumentSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUncheckedUpdateManyWithoutTenantNestedInput
     itemCategories?: ItemCategoryUncheckedUpdateManyWithoutTenantNestedInput
     items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
     parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
@@ -112429,6 +114335,7 @@ export namespace Prisma {
     currencies?: CurrencyCreateNestedManyWithoutTenantInput
     fiscalPeriods?: FiscalPeriodCreateNestedManyWithoutTenantInput
     documentSequences?: DocumentSequenceCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceCreateNestedManyWithoutTenantInput
     itemCategories?: ItemCategoryCreateNestedManyWithoutTenantInput
     units?: UnitCreateNestedManyWithoutTenantInput
     items?: ItemCreateNestedManyWithoutTenantInput
@@ -112486,6 +114393,7 @@ export namespace Prisma {
     currencies?: CurrencyUncheckedCreateNestedManyWithoutTenantInput
     fiscalPeriods?: FiscalPeriodUncheckedCreateNestedManyWithoutTenantInput
     documentSequences?: DocumentSequenceUncheckedCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceUncheckedCreateNestedManyWithoutTenantInput
     itemCategories?: ItemCategoryUncheckedCreateNestedManyWithoutTenantInput
     units?: UnitUncheckedCreateNestedManyWithoutTenantInput
     items?: ItemUncheckedCreateNestedManyWithoutTenantInput
@@ -112577,6 +114485,7 @@ export namespace Prisma {
     currencies?: CurrencyUpdateManyWithoutTenantNestedInput
     fiscalPeriods?: FiscalPeriodUpdateManyWithoutTenantNestedInput
     documentSequences?: DocumentSequenceUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUpdateManyWithoutTenantNestedInput
     itemCategories?: ItemCategoryUpdateManyWithoutTenantNestedInput
     units?: UnitUpdateManyWithoutTenantNestedInput
     items?: ItemUpdateManyWithoutTenantNestedInput
@@ -112634,6 +114543,7 @@ export namespace Prisma {
     currencies?: CurrencyUncheckedUpdateManyWithoutTenantNestedInput
     fiscalPeriods?: FiscalPeriodUncheckedUpdateManyWithoutTenantNestedInput
     documentSequences?: DocumentSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUncheckedUpdateManyWithoutTenantNestedInput
     itemCategories?: ItemCategoryUncheckedUpdateManyWithoutTenantNestedInput
     units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
     items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
@@ -112713,6 +114623,7 @@ export namespace Prisma {
     currencies?: CurrencyCreateNestedManyWithoutTenantInput
     fiscalPeriods?: FiscalPeriodCreateNestedManyWithoutTenantInput
     documentSequences?: DocumentSequenceCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceCreateNestedManyWithoutTenantInput
     itemCategories?: ItemCategoryCreateNestedManyWithoutTenantInput
     units?: UnitCreateNestedManyWithoutTenantInput
     items?: ItemCreateNestedManyWithoutTenantInput
@@ -112770,6 +114681,7 @@ export namespace Prisma {
     currencies?: CurrencyUncheckedCreateNestedManyWithoutTenantInput
     fiscalPeriods?: FiscalPeriodUncheckedCreateNestedManyWithoutTenantInput
     documentSequences?: DocumentSequenceUncheckedCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceUncheckedCreateNestedManyWithoutTenantInput
     itemCategories?: ItemCategoryUncheckedCreateNestedManyWithoutTenantInput
     units?: UnitUncheckedCreateNestedManyWithoutTenantInput
     items?: ItemUncheckedCreateNestedManyWithoutTenantInput
@@ -112883,6 +114795,7 @@ export namespace Prisma {
     currencies?: CurrencyUpdateManyWithoutTenantNestedInput
     fiscalPeriods?: FiscalPeriodUpdateManyWithoutTenantNestedInput
     documentSequences?: DocumentSequenceUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUpdateManyWithoutTenantNestedInput
     itemCategories?: ItemCategoryUpdateManyWithoutTenantNestedInput
     units?: UnitUpdateManyWithoutTenantNestedInput
     items?: ItemUpdateManyWithoutTenantNestedInput
@@ -112940,6 +114853,7 @@ export namespace Prisma {
     currencies?: CurrencyUncheckedUpdateManyWithoutTenantNestedInput
     fiscalPeriods?: FiscalPeriodUncheckedUpdateManyWithoutTenantNestedInput
     documentSequences?: DocumentSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUncheckedUpdateManyWithoutTenantNestedInput
     itemCategories?: ItemCategoryUncheckedUpdateManyWithoutTenantNestedInput
     units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
     items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
@@ -113154,6 +115068,7 @@ export namespace Prisma {
     currencies?: CurrencyCreateNestedManyWithoutTenantInput
     fiscalPeriods?: FiscalPeriodCreateNestedManyWithoutTenantInput
     documentSequences?: DocumentSequenceCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceCreateNestedManyWithoutTenantInput
     itemCategories?: ItemCategoryCreateNestedManyWithoutTenantInput
     units?: UnitCreateNestedManyWithoutTenantInput
     items?: ItemCreateNestedManyWithoutTenantInput
@@ -113211,6 +115126,7 @@ export namespace Prisma {
     currencies?: CurrencyUncheckedCreateNestedManyWithoutTenantInput
     fiscalPeriods?: FiscalPeriodUncheckedCreateNestedManyWithoutTenantInput
     documentSequences?: DocumentSequenceUncheckedCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceUncheckedCreateNestedManyWithoutTenantInput
     itemCategories?: ItemCategoryUncheckedCreateNestedManyWithoutTenantInput
     units?: UnitUncheckedCreateNestedManyWithoutTenantInput
     items?: ItemUncheckedCreateNestedManyWithoutTenantInput
@@ -113486,6 +115402,7 @@ export namespace Prisma {
     currencies?: CurrencyUpdateManyWithoutTenantNestedInput
     fiscalPeriods?: FiscalPeriodUpdateManyWithoutTenantNestedInput
     documentSequences?: DocumentSequenceUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUpdateManyWithoutTenantNestedInput
     itemCategories?: ItemCategoryUpdateManyWithoutTenantNestedInput
     units?: UnitUpdateManyWithoutTenantNestedInput
     items?: ItemUpdateManyWithoutTenantNestedInput
@@ -113543,6 +115460,7 @@ export namespace Prisma {
     currencies?: CurrencyUncheckedUpdateManyWithoutTenantNestedInput
     fiscalPeriods?: FiscalPeriodUncheckedUpdateManyWithoutTenantNestedInput
     documentSequences?: DocumentSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUncheckedUpdateManyWithoutTenantNestedInput
     itemCategories?: ItemCategoryUncheckedUpdateManyWithoutTenantNestedInput
     units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
     items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
@@ -116275,6 +118193,7 @@ export namespace Prisma {
     currencies?: CurrencyUpdateManyWithoutTenantNestedInput
     fiscalPeriods?: FiscalPeriodUpdateManyWithoutTenantNestedInput
     documentSequences?: DocumentSequenceUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUpdateManyWithoutTenantNestedInput
     itemCategories?: ItemCategoryUpdateManyWithoutTenantNestedInput
     units?: UnitUpdateManyWithoutTenantNestedInput
     items?: ItemUpdateManyWithoutTenantNestedInput
@@ -116331,6 +118250,7 @@ export namespace Prisma {
     currencies?: CurrencyUncheckedUpdateManyWithoutTenantNestedInput
     fiscalPeriods?: FiscalPeriodUncheckedUpdateManyWithoutTenantNestedInput
     documentSequences?: DocumentSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUncheckedUpdateManyWithoutTenantNestedInput
     itemCategories?: ItemCategoryUncheckedUpdateManyWithoutTenantNestedInput
     units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
     items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
@@ -116574,6 +118494,7 @@ export namespace Prisma {
     currencies?: CurrencyUpdateManyWithoutTenantNestedInput
     fiscalPeriods?: FiscalPeriodUpdateManyWithoutTenantNestedInput
     documentSequences?: DocumentSequenceUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUpdateManyWithoutTenantNestedInput
     itemCategories?: ItemCategoryUpdateManyWithoutTenantNestedInput
     units?: UnitUpdateManyWithoutTenantNestedInput
     items?: ItemUpdateManyWithoutTenantNestedInput
@@ -116630,6 +118551,7 @@ export namespace Prisma {
     currencies?: CurrencyUncheckedUpdateManyWithoutTenantNestedInput
     fiscalPeriods?: FiscalPeriodUncheckedUpdateManyWithoutTenantNestedInput
     documentSequences?: DocumentSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUncheckedUpdateManyWithoutTenantNestedInput
     itemCategories?: ItemCategoryUncheckedUpdateManyWithoutTenantNestedInput
     units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
     items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
@@ -118516,6 +120438,14 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type CodeSequenceCreateManyTenantInput = {
+    id?: string
+    entity: string
+    nextValue?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type ItemCategoryCreateManyTenantInput = {
     id?: string
     name: string
@@ -119074,6 +121004,30 @@ export namespace Prisma {
     prefix?: StringFieldUpdateOperationsInput | string
     nextNumber?: IntFieldUpdateOperationsInput | number
     padding?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CodeSequenceUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    entity?: StringFieldUpdateOperationsInput | string
+    nextValue?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CodeSequenceUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    entity?: StringFieldUpdateOperationsInput | string
+    nextValue?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CodeSequenceUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    entity?: StringFieldUpdateOperationsInput | string
+    nextValue?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

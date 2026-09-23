@@ -6,6 +6,9 @@ import { ALL_PERMISSIONS, type PermissionKey } from '@devloggers/api-contracts';
 const ALLOWLIST = new Set([
   // Public login/register/logout + authenticated-only /auth/me.
   'auth.controller.ts',
+  // Authenticated-only GET /settings/defaults — every signed-in user needs
+  // form pre-fill defaults, so it deliberately has no permission gate.
+  'form-defaults.controller.ts',
   // Public POST /tenants; its two other routes are asserted in factory-permission-metadata.spec.ts.
   'tenants.controller.ts',
 ]);

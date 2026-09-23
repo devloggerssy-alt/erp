@@ -19,6 +19,7 @@ const SECTIONS: { groupKey: string; items: SettingsNavItem[] }[] = [
     items: [
       { href: "/settings/localization", labelKey: "localization.navLabel", permission: "settings.manage" },
       { href: "/settings/financial", labelKey: "financial.navLabel", permission: "financialSettings.manage" },
+      { href: "/settings/defaults", labelKey: "defaults.navLabel", permission: "settings.manage" },
       { href: "/settings/gl-accounts", labelKey: "glAccounts.navLabel", permission: "accounts.view" },
       { href: "/settings/documents", labelKey: "documents.navLabel", permission: "settings.manage" },
     ],

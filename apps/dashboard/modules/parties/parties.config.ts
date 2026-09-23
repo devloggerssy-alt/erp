@@ -78,6 +78,7 @@ export const partiesFormConfig: ResourceFormConfig<PartyFormValues, CreatePartyD
     schema: partyFormSchema,
     defaultValues: DEFAULT_PARTY_FORM_VALUES,
     mapToFormValues: mapPartyToFormValues,
+    defaults: { receivableAccount: "receivableAccount", payableAccount: "payableAccount" },
     toCreate: (values) => ({
         code: values.code?.trim() || undefined,
         name: values.name.trim(),

@@ -9,7 +9,7 @@ const relational = z.object({ id: z.string() }).passthrough().nullable()
 export type BankAccountRelationalField = { id: string }
 
 export const bankAccountFormSchema = z.object({
-    code: z.string().trim().min(1, "Code is required"),
+    code: z.string().trim().optional(),
     name: localizedStringSchema,
     currency: relational,
     accountNumber: z.string().trim().optional().nullable(),
@@ -59,9 +59,10 @@ export function mapBankAccountToFormValues(data: unknown): BankAccountFormValues
 export const bankAccountsFormConfig: ResourceFormConfig<BankAccountFormValues, CreateBankAccountDto, UpdateBankAccountDto> = {
     schema: bankAccountFormSchema,
     defaultValues: DEFAULT_BANK_ACCOUNT_FORM_VALUES,
+    defaults: { currency: "currency" },
     mapToFormValues: mapBankAccountToFormValues,
     toCreate: (values) => ({
-        code: values.code.trim(),
+        code: values.code?.trim() || undefined,
         name: { ar: values.name.ar.trim(), en: values.name.en?.trim() || undefined },
         currencyId: values.currency?.id ?? "",
         accountNumber: values.accountNumber?.trim() || null,

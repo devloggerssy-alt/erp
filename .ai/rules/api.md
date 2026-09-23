@@ -127,16 +127,20 @@ Each directory under `apps/api/src/modules/` is a domain. **Outside a domain, im
 | `invoicing` | `invoicing` | `computeInvoicePaidState`, `CashboxesModule`/`CashboxesService`/`CreateCashboxDto`, `BankAccountsModule`/`BankAccountsService`/`CreateBankAccountDto`, `InvoiceTypesModule`/`InvoiceTypesService` |
 | `custom-fields` | `custom-fields` | `CustomFieldsModule`, `CustomFieldValuesService`, `CustomFieldsRepository` |
 | `catalog` | `catalog` | `UnitsModule`, `UnitsService` |
+| `platform` | `platform` | `CodeSequencesModule`, `CodeSequencesService` (master-data code allocation) |
 | `parties`, `reports`, `files`, `audit`, `ai-chat` | — (no consumers yet) | add an `index.ts` before another domain depends on it |
 
 Allowed dependency graph (besides every domain → `identity` auth kernel):
 
 ```
 invoicing ─┬─► accounting (posting, document-sequences, accounts/utils)
-           └─► inventory
-inventory ───► accounting (posting, document-sequences, accounts/utils)
+           ├─► inventory
+           └─► platform
+inventory ─┬─► accounting (posting, document-sequences, accounts/utils)
+           └─► platform
 catalog   ─┬─► inventory
-           └─► custom-fields
+           ├─► custom-fields
+           └─► platform
 identity  ───► accounting (document-sequences, financial-settings, fiscal-periods)   # onboarding
 identity  ───► accounting (currencies, opening-balances, reconciliation, accounts/bootstrap)
 identity  ───► catalog (UnitsModule/UnitsService)   # onboarding default units
@@ -153,7 +157,7 @@ shared auth kernel and is omitted from `dependsOn`.
 
 `DISABLED_DOMAINS` (comma-separated keys, process env or `.env.<NODE_ENV>`) removes optional domains at
 boot; requests to a disabled domain answer 404 with a clear message (guard + filter). Non-optional domains
-(`accounting`, `audit`, `identity`, `inventory`, `invoicing`) and domains an enabled domain depends on
+(`accounting`, `audit`, `identity`, `inventory`, `invoicing`, `platform`) and domains an enabled domain depends on
 cannot be disabled — the registry throws a clear configuration error at startup.
 
 ## Deletion semantics (per model)

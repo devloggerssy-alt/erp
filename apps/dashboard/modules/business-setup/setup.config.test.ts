@@ -3,7 +3,9 @@ import {
   EXECUTABLE_TASK_TYPES,
   SETUP_GROUPS,
   SETUP_TASK_LINKS,
+  computeGroupProgress,
   computeSetupProgress,
+  initialOpenGroup,
   parseReconciliationChecks,
 } from "./setup.config"
 import type { SetupTask, SetupTaskType } from "./hooks/use-business-setup"
@@ -45,6 +47,39 @@ describe("computeSetupProgress", () => {
 
   it("returns 100% when there are no required tasks", () => {
     expect(computeSetupProgress([])).toEqual({ completed: 0, total: 0, percent: 100 })
+  })
+})
+
+describe("computeGroupProgress", () => {
+  it("counts every task present in the group and ignores missing ones", () => {
+    const taskByType = new Map([
+      ["CASHBOXES", task("CASHBOXES", "COMPLETED")],
+      ["BANK_ACCOUNTS", task("BANK_ACCOUNTS", "SKIPPED", false)],
+      ["OPENING_CASH_BALANCES", task("OPENING_CASH_BALANCES", "BLOCKED")],
+    ] as [SetupTaskType, SetupTask][])
+    expect(computeGroupProgress({ tasks: ["CASHBOXES", "BANK_ACCOUNTS", "OPENING_CASH_BALANCES", "OPENING_BANK_BALANCES"] }, taskByType))
+      .toEqual({ completed: 2, total: 3 })
+  })
+})
+
+describe("initialOpenGroup", () => {
+  const taskByType = new Map([
+    ["CURRENCIES", task("CURRENCIES", "COMPLETED")],
+    ["CASHBOXES", task("CASHBOXES", "READY")],
+    ["CUSTOMERS", task("CUSTOMERS", "READY")],
+  ] as [SetupTaskType, SetupTask][])
+
+  it("opens the group holding the next recommended task", () => {
+    expect(initialOpenGroup(taskByType, "CUSTOMERS")).toBe("parties")
+  })
+
+  it("falls back to the first group with unfinished work", () => {
+    expect(initialOpenGroup(taskByType, null)).toBe("money")
+  })
+
+  it("opens nothing when every task is done", () => {
+    const done = new Map([["CURRENCIES", task("CURRENCIES", "COMPLETED")]] as [SetupTaskType, SetupTask][])
+    expect(initialOpenGroup(done, null)).toBeUndefined()
   })
 })
 

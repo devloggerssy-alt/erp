@@ -14,7 +14,7 @@ export class BankAccountsTaskHandler implements SetupTaskHandler {
 
         let created = 0;
         for (const item of items) {
-            if (existingCodes.has(item.code)) continue;
+            if (item.code && existingCodes.has(item.code)) continue;
             await this.bankAccountsService.create(tenantId, item);
             created += 1;
         }

@@ -42,6 +42,14 @@ export class DocumentsSettingsDto {
     showLogoOnDocuments: boolean = true;
 }
 
+export class DefaultsSettingsDto {
+    @ApiPropertyOptional({ type: 'string', nullable: true, example: '00000000-0000-4000-a700-000000000004', description: 'Warehouse pre-filled on creation forms, or null' })
+    defaultWarehouseId: string | null = null;
+
+    @ApiPropertyOptional({ type: 'string', nullable: true, example: '00000000-0000-4000-a700-000000000005', description: 'Base unit pre-filled on item creation forms, or null' })
+    defaultUnitId: string | null = null;
+}
+
 export class SettingsResponseDto {
     @ApiProperty({ type: LocalizationSettingsDto })
     localization: LocalizationSettingsDto = new LocalizationSettingsDto();
@@ -51,6 +59,9 @@ export class SettingsResponseDto {
 
     @ApiProperty({ type: DocumentsSettingsDto })
     documents: DocumentsSettingsDto = new DocumentsSettingsDto();
+
+    @ApiProperty({ type: DefaultsSettingsDto })
+    defaults: DefaultsSettingsDto = new DefaultsSettingsDto();
 }
 
 // ── Form defaults ─────────────────────────────────────────────────────────────
@@ -80,6 +91,33 @@ export class FormDefaultCashboxDto {
     name: string = '';
 }
 
+export class FormDefaultWarehouseDto {
+    @ApiProperty({ type: 'string', example: '00000000-0000-4000-a700-000000000004' })
+    id: string = '';
+    @ApiProperty({ type: 'string', example: 'WH-MAIN' })
+    code: string = '';
+    @ApiProperty({ type: 'string', example: 'Main Warehouse' })
+    name: string = '';
+}
+
+export class FormDefaultUnitDto {
+    @ApiProperty({ type: 'string', example: '00000000-0000-4000-a700-000000000005' })
+    id: string = '';
+    @ApiProperty({ type: 'string', example: 'Piece' })
+    name: string = '';
+    @ApiProperty({ type: 'string', example: 'pcs' })
+    abbreviation: string = '';
+}
+
+export class FormDefaultAccountDto {
+    @ApiProperty({ type: 'string', example: '00000000-0000-4000-a600-000000000004' })
+    id: string = '';
+    @ApiProperty({ type: 'string', example: '1200' })
+    code: string = '';
+    @ApiProperty({ type: 'string', example: 'Accounts Receivable' })
+    name: string = '';
+}
+
 export class FormDefaultsResponseDto {
     @ApiPropertyOptional({ type: () => FormDefaultFiscalPeriodDto, nullable: true, description: 'Current open fiscal period covering today, or null' })
     fiscalPeriod: FormDefaultFiscalPeriodDto | null = null;
@@ -89,6 +127,18 @@ export class FormDefaultsResponseDto {
 
     @ApiPropertyOptional({ type: () => FormDefaultCashboxDto, nullable: true, description: 'First active cashbox in the base currency, or null' })
     cashbox: FormDefaultCashboxDto | null = null;
+
+    @ApiPropertyOptional({ type: () => FormDefaultWarehouseDto, nullable: true, description: 'Tenant default warehouse, or first active warehouse, or null' })
+    warehouse: FormDefaultWarehouseDto | null = null;
+
+    @ApiPropertyOptional({ type: () => FormDefaultUnitDto, nullable: true, description: 'Tenant default base unit, or first active unit, or null' })
+    unit: FormDefaultUnitDto | null = null;
+
+    @ApiPropertyOptional({ type: () => FormDefaultAccountDto, nullable: true, description: 'FinancialSetting.defaultReceivableAccountId, or null if not configured' })
+    receivableAccount: FormDefaultAccountDto | null = null;
+
+    @ApiPropertyOptional({ type: () => FormDefaultAccountDto, nullable: true, description: 'FinancialSetting.defaultPayableAccountId, or null if not configured' })
+    payableAccount: FormDefaultAccountDto | null = null;
 }
 
 export class UpdateSettingsDto {
@@ -130,4 +180,11 @@ export class UpdateSettingsDto {
 
     @ApiPropertyOptional({ type: 'boolean', example: true })
     showLogoOnDocuments?: boolean;
+
+    // ── Defaults ──
+    @ApiPropertyOptional({ type: 'string', nullable: true, example: '00000000-0000-4000-a700-000000000004' })
+    defaultWarehouseId?: string | null;
+
+    @ApiPropertyOptional({ type: 'string', nullable: true, example: '00000000-0000-4000-a700-000000000005' })
+    defaultUnitId?: string | null;
 }

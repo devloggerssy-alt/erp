@@ -4,6 +4,7 @@ import {
   getDefaults,
   mergeWithDefaults,
   groupByCategory,
+  getSettingRef,
   validateSettingsPatch,
 } from "./settings-registry"
 
@@ -30,7 +31,15 @@ describe("settings registry helpers", () => {
     expect(grouped.localization.timezone).toBe("UTC")
     expect(grouped.financial.defaultTaxRate).toBe(0)
     expect(grouped.documents.showLogoOnDocuments).toBe(true)
+    expect(grouped.defaults.defaultWarehouseId).toBeNull()
     expect("timezone" in grouped.financial).toBe(false)
+  })
+
+  it("getSettingRef returns the reference target only for id-valued keys", () => {
+    expect(getSettingRef("defaultWarehouseId")).toBe("warehouse")
+    expect(getSettingRef("defaultUnitId")).toBe("unit")
+    expect(getSettingRef("timezone")).toBeUndefined()
+    expect(getSettingRef("ghost")).toBeUndefined()
   })
 
   it("validateSettingsPatch accepts valid values and coerces via zod", () => {

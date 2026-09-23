@@ -1,13 +1,13 @@
-import { IsString, IsNotEmpty, IsOptional, IsBoolean, ValidateNested } from 'class-validator';
+import { IsString, IsOptional, IsBoolean, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { LocalizedStringDto } from '@devloggers/backend-core';
 
 export class CreateWarehouseDto {
-    @ApiProperty({ example: 'WH-MAIN', description: 'Unique warehouse code' })
+    @ApiPropertyOptional({ type: 'string', example: 'WH-MAIN', description: 'Unique warehouse code; auto-generated (WH-0001) when omitted' })
+    @IsOptional()
     @IsString()
-    @IsNotEmpty()
-    code: string = '';
+    code?: string;
 
     @ApiProperty({ type: LocalizedStringDto, description: 'Warehouse display name' })
     @ValidateNested()
@@ -21,11 +21,6 @@ export class CreateWarehouseDto {
 }
 
 export class UpdateWarehouseDto {
-    @ApiPropertyOptional({ example: 'WH-MAIN' })
-    @IsOptional()
-    @IsString()
-    code?: string;
-
     @ApiPropertyOptional({ type: LocalizedStringDto })
     @IsOptional()
     @ValidateNested()

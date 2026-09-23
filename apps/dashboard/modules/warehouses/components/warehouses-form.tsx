@@ -26,9 +26,8 @@ export function WarehousesForm({ resourceId, initialData, onSuccess, paramKey }:
             <RhfTextField
                 name="code"
                 label={t("code")}
-                placeholder={t("codePlaceholder")}
-                required
-                disabled={ctrl.isBusy}
+                placeholder={t("codeAuto")}
+                disabled={ctrl.isBusy || ctrl.isEditing}
             />
             <RhfLocalizedTextField
                 name="name"

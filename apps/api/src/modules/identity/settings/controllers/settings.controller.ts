@@ -5,8 +5,8 @@ import { JwtAuthGuard, PermissionsGuard } from '../../auth/guards';
 import { CurrentUser, RequestUser } from '../../auth/decorators';
 import { RequirePermission } from '@devloggers/backend-core';
 import { ApiResponseBuilder } from '../../../../common/api/api-response-builder';
-import { ApiStandardErrors, ApiOkResponseStandard } from '../../../../common/decorators/api-swagger.decorators';
-import { SettingsResponseDto, UpdateSettingsDto, FormDefaultsResponseDto } from '../dto/settings.dto';
+import { ApiStandardErrors } from '../../../../common/decorators/api-swagger.decorators';
+import { SettingsResponseDto, UpdateSettingsDto } from '../dto/settings.dto';
 
 @ApiTags('Settings')
 @Controller('settings')
@@ -14,19 +14,6 @@ import { SettingsResponseDto, UpdateSettingsDto, FormDefaultsResponseDto } from 
 @ApiBearerAuth('JWT-auth')
 export class SettingsController {
     constructor(private readonly settingsService: SettingsService) {}
-
-    @Get('defaults')
-    @RequirePermission('settings.manage')
-    @ApiOperation({
-        summary: 'Get form auto-fill defaults',
-        description: 'Returns the current open fiscal period, base currency, and first active cashbox for invoice form pre-population.',
-    })
-    @ApiOkResponseStandard(FormDefaultsResponseDto, { description: 'Computed defaults for form pre-population' })
-    @ApiStandardErrors()
-    async getDefaults(@CurrentUser() user: RequestUser) {
-        const defaults = await this.settingsService.getDefaults(user.tenantId);
-        return ApiResponseBuilder.success(defaults, 'Form defaults');
-    }
 
     @Get()
     @RequirePermission('settings.manage')

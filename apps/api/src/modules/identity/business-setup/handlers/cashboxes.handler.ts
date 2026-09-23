@@ -14,7 +14,7 @@ export class CashboxesTaskHandler implements SetupTaskHandler {
 
         let created = 0;
         for (const item of items) {
-            if (existingCodes.has(item.code)) continue;
+            if (item.code && existingCodes.has(item.code)) continue;
             await this.cashboxesService.create(tenantId, item);
             created += 1;
         }

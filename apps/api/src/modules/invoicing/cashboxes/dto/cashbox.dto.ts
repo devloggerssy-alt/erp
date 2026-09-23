@@ -4,10 +4,10 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { LocalizedStringDto } from '@devloggers/backend-core';
 
 export class CreateCashboxDto {
-    @ApiProperty({ example: 'CASH-SYP', description: 'Unique cashbox code' })
+    @ApiPropertyOptional({ type: 'string', example: 'CASH-SYP', description: 'Unique cashbox code; auto-generated (CSH-0001) when omitted' })
+    @IsOptional()
     @IsString()
-    @IsNotEmpty()
-    code: string = '';
+    code?: string;
 
     @ApiProperty({ type: LocalizedStringDto, description: 'Cashbox display name' })
     @ValidateNested()

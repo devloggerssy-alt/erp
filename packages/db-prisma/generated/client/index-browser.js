@@ -287,6 +287,15 @@ exports.Prisma.CatalogEntityScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.CodeSequenceScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  entity: 'entity',
+  nextValue: 'nextValue',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.CurrencyScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
@@ -1000,6 +1009,7 @@ exports.Prisma.ModelName = {
   Payment: 'Payment',
   PaymentAllocation: 'PaymentAllocation',
   CatalogEntity: 'CatalogEntity',
+  CodeSequence: 'CodeSequence',
   Currency: 'Currency',
   CustomField: 'CustomField',
   CustomFieldValue: 'CustomFieldValue',

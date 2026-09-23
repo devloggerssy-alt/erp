@@ -124,6 +124,7 @@ export const DOMAIN_RESTRICTIONS = {
     'custom-fields': barrelOnly('custom-fields', 'CustomFieldsModule, CustomFieldValuesService, CustomFieldsRepository'),
     catalog: barrelOnly('catalog', 'UnitsModule, UnitsService'),
     parties: barrelOnly('parties', 'nothing yet — add an index.ts before depending on parties'),
+    platform: barrelOnly('platform', 'CodeSequencesModule, CodeSequencesService'),
     reports: barrelOnly('reports', 'nothing yet — reports is a leaf'),
     files: barrelOnly('files', 'nothing yet — add an index.ts before depending on files'),
     audit: barrelOnly('audit', 'AuditWriter (record/recordInTx) + SYSTEM_USER_ID'),

@@ -28,6 +28,7 @@ model Tenant {
     currencies        Currency[]
     fiscalPeriods     FiscalPeriod[]
     documentSequences DocumentSequence[]
+    codeSequences     CodeSequence[]
     itemCategories    ItemCategory[]
     units             Unit[]
     items             Item[]

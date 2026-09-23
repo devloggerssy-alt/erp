@@ -1,18 +1,26 @@
 import { z } from "zod"
 
-export type SettingCategory = "localization" | "financial" | "documents"
+export type SettingCategory = "localization" | "financial" | "documents" | "defaults"
+
+/** Entity types whose ids may be stored as reference-typed settings values. */
+export type SettingReference = "warehouse" | "unit"
 
 export interface SettingDef {
   category: SettingCategory
   schema: z.ZodTypeAny
   default: unknown
+  /**
+   * Marks an id-valued setting. When present, the API validates existence and
+   * tenancy on write and resolves the id to a labelled object on read.
+   */
+  ref?: SettingReference
 }
 
 /**
- * Single source of truth for tenant-wide scalar preferences.
- * Add a new preference = add one entry here (no migration). Relational
- * defaults (base currency, default sequences) are typed FK columns on Tenant
- * and are NOT in this registry.
+ * Single source of truth for tenant-wide preferences.
+ * Add a scalar preference = add one entry here (no migration). Keys marked with
+ * `ref` hold an entity id — the API validates and resolves them (see ADR 0001).
+ * Structural FK columns (base currency, default sequences) remain on Tenant.
  */
 export const settingsRegistry = {
   // ── Localization ──
@@ -44,6 +52,20 @@ export const settingsRegistry = {
   invoiceDefaultTerms: { category: "documents", schema: z.string().max(2000), default: "" },
   documentFooter: { category: "documents", schema: z.string().max(2000), default: "" },
   showLogoOnDocuments: { category: "documents", schema: z.boolean(), default: true },
+
+  // ── Defaults (pre-fill values for creation forms) ──
+  defaultWarehouseId: {
+    category: "defaults",
+    schema: z.string().uuid().nullable(),
+    default: null,
+    ref: "warehouse",
+  },
+  defaultUnitId: {
+    category: "defaults",
+    schema: z.string().uuid().nullable(),
+    default: null,
+    ref: "unit",
+  },
 } as const satisfies Record<string, SettingDef>
 
 export type SettingKey = keyof typeof settingsRegistry
@@ -65,12 +87,17 @@ export function mergeWithDefaults(rows: Array<{ key: string; value: unknown }>):
 }
 
 export function groupByCategory(flat: Record<string, unknown>): GroupedSettings {
-  const grouped: GroupedSettings = { localization: {}, financial: {}, documents: {} }
+  const grouped: GroupedSettings = { localization: {}, financial: {}, documents: {}, defaults: {} }
   for (const [key, value] of Object.entries(flat)) {
     const def = settingsRegistry[key as SettingKey]
     if (def) grouped[def.category][key] = value
   }
   return grouped
+}
+
+/** Returns the reference target for an id-valued setting key, if any. */
+export function getSettingRef(key: string): SettingReference | undefined {
+  return (settingsRegistry as Record<string, SettingDef>)[key]?.ref
 }
 
 export interface ValidatePatchResult {

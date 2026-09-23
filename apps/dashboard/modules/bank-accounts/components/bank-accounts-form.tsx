@@ -32,8 +32,7 @@ export function BankAccountsForm({ resourceId, initialData, onSuccess, paramKey 
             <RhfTextField
                 name="code"
                 label={t("code")}
-                placeholder={t("codePlaceholder")}
-                required
+                placeholder={t("codeAuto")}
                 disabled={ctrl.isBusy || ctrl.isEditing}
             />
             <RhfLocalizedTextField

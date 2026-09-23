@@ -9,7 +9,7 @@ const relational = z.object({ id: z.string() }).passthrough().nullable()
 export type CashboxRelationalField = { id: string }
 
 export const cashboxFormSchema = z.object({
-    code: z.string().trim().min(1, "Code is required"),
+    code: z.string().trim().optional(),
     name: localizedStringSchema,
     currency: relational,
     isActive: z.boolean().optional(),
@@ -51,9 +51,10 @@ export function mapCashboxToFormValues(data: unknown): CashboxFormValues {
 export const cashboxesFormConfig: ResourceFormConfig<CashboxFormValues, CreateCashboxDto, UpdateCashboxDto> = {
     schema: cashboxFormSchema,
     defaultValues: DEFAULT_CASHBOX_FORM_VALUES,
+    defaults: { currency: "currency" },
     mapToFormValues: mapCashboxToFormValues,
     toCreate: (values) => ({
-        code: values.code.trim(),
+        code: values.code?.trim() || undefined,
         name: { ar: values.name.ar.trim(), en: values.name.en?.trim() || undefined },
         currencyId: values.currency?.id ?? "",
     }),

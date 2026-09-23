@@ -15,7 +15,7 @@ export type ItemOpeningWarehouseField = { id: string; name: string }
 const imagePath = z.string().trim().min(1, "Invalid image URL")
 
 export const itemFormSchema = z.object({
-    code: z.string().trim().min(1, "Code is required"),
+    code: z.string().trim().optional(),
     name: z.string().trim().min(1, "Name is required"),
     barcode: z.string().optional(),
     itemType: z.enum(ITEM_TYPES).default('product'),
@@ -96,9 +96,10 @@ export function mapItemToFormValues(data: unknown): ItemFormValues {
 export const itemsFormConfig: ResourceFormConfig<ItemFormValues, CreateItemDto, UpdateItemDto> = {
     schema: itemFormSchema,
     defaultValues: DEFAULT_ITEM_FORM_VALUES,
+    defaults: { baseUnit: "unit", openingWarehouse: "warehouse" },
     mapToFormValues: mapItemToFormValues,
     toCreate: (values) => ({
-        code: values.code.trim(),
+        code: values.code?.trim() || undefined,
         name: values.name.trim(),
         barcode: values.barcode?.trim() || undefined,
         itemType: values.itemType,
@@ -115,7 +116,6 @@ export const itemsFormConfig: ResourceFormConfig<ItemFormValues, CreateItemDto, 
             : undefined,
     }),
     toUpdate: (values) => ({
-        code: values.code.trim(),
         name: values.name.trim(),
         barcode: values.barcode?.trim() || undefined,
         itemType: values.itemType,

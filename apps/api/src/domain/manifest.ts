@@ -28,6 +28,7 @@ export type DomainKey =
     | 'inventory'
     | 'invoicing'
     | 'parties'
+    | 'platform'
     | 'reports';
 
 export interface DomainManifest {
@@ -87,7 +88,7 @@ export const DOMAIN_MANIFESTS: readonly DomainManifest[] = Object.freeze([
     },
     {
         key: 'catalog',
-        dependsOn: ['custom-fields', 'inventory'],
+        dependsOn: ['custom-fields', 'inventory', 'platform'],
         provides: ['UnitsModule', 'UnitsService'],
         routes: [
             'units',
@@ -131,7 +132,7 @@ export const DOMAIN_MANIFESTS: readonly DomainManifest[] = Object.freeze([
     },
     {
         key: 'inventory',
-        dependsOn: ['accounting'],
+        dependsOn: ['accounting', 'platform'],
         provides: ['InventoryModule', 'InventoryService', 'InventoryMovementFacade', 'InventoryMovementsModule'],
         routes: ['inventory', 'warehouses', 'stock-ledger', 'stock-counts'],
         optional: false,
@@ -141,7 +142,7 @@ export const DOMAIN_MANIFESTS: readonly DomainManifest[] = Object.freeze([
     },
     {
         key: 'invoicing',
-        dependsOn: ['accounting', 'inventory'],
+        dependsOn: ['accounting', 'inventory', 'platform'],
         provides: [
             'computeInvoicePaidState',
             'CashboxesModule',
@@ -163,6 +164,16 @@ export const DOMAIN_MANIFESTS: readonly DomainManifest[] = Object.freeze([
         provides: [],
         routes: ['parties'],
         optional: true,
+    },
+    {
+        key: 'platform',
+        dependsOn: [],
+        provides: ['CodeSequencesModule', 'CodeSequencesService'],
+        routes: [],
+        optional: false,
+        rationale:
+            'Master-data code allocation is shared infrastructure: inventory, catalog and invoicing mint ' +
+            'warehouse/item/cashbox/bank-account codes through it, so it cannot be disabled while they run.',
     },
     {
         key: 'reports',

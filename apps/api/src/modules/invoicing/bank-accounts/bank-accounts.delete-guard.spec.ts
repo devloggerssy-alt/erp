@@ -8,7 +8,7 @@ function build(ledgerReferences: number) {
         countLedgerReferences: jest.fn().mockResolvedValue(ledgerReferences),
         delete: jest.fn().mockResolvedValue({}),
     };
-    const svc = new BankAccountsService(repository as any, {} as any, { emit: jest.fn() } as any);
+    const svc = new BankAccountsService(repository as any, {} as any, { next: jest.fn() } as any, { emit: jest.fn() } as any);
     return { svc, repository };
 }
 

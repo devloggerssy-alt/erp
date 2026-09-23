@@ -1,7 +1,7 @@
 import type { LocalizedString } from './i18n.dto';
 
 export interface CreateBankAccountDto {
-    code: string;
+    code?: string;
     name: LocalizedString;
     currencyId: string;
     accountNumber?: string | null;

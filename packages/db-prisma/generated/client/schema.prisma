@@ -374,6 +374,22 @@ model CatalogEntity {
   @@map("catalog_entities")
 }
 
+// ─── Code Sequence ────────────────────────────────────────────────────────────
+model CodeSequence {
+  id        String   @id @default(uuid())
+  tenantId  String   @map("tenant_id")
+  entity    String // 'warehouse' | 'cashbox' | 'item' | 'bank_account'
+  nextValue Int      @default(1) @map("next_value")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@unique([tenantId, entity])
+  @@index([tenantId])
+  @@map("code_sequences")
+}
+
 // ─── Currency ─────────────────────────────────────────────────────────────────
 model Currency {
   id        String   @id @default(uuid())
@@ -1256,7 +1272,7 @@ model Tag {
 model TenantSetting {
   id        String   @id @default(uuid())
   tenantId  String   @map("tenant_id")
-  category  String // 'localization' | 'financial' | 'documents'
+  category  String // 'localization' | 'financial' | 'documents' | 'defaults'
   key       String // registry key, e.g. 'timezone'
   value     Json     @db.JsonB
   createdAt DateTime @default(now()) @map("created_at")
@@ -1299,6 +1315,7 @@ model Tenant {
   currencies                 Currency[]
   fiscalPeriods              FiscalPeriod[]
   documentSequences          DocumentSequence[]
+  codeSequences              CodeSequence[]
   itemCategories             ItemCategory[]
   units                      Unit[]
   items                      Item[]

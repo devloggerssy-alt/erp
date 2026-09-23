@@ -46,14 +46,48 @@ export const SETUP_TASK_LINKS: Record<SetupTaskType, string> = {
 /** Tasks the hub runs server-side (payload-free handlers). Everything else completes via discovery. */
 export const EXECUTABLE_TASK_TYPES: SetupTaskType[] = ["CHART_OF_ACCOUNTS", "RECONCILIATION"]
 
+export function isTaskDone(task: Pick<SetupTask, "status">): boolean {
+  return task.status === "COMPLETED" || task.status === "SKIPPED"
+}
+
 export function computeSetupProgress(tasks: SetupTask[]): { completed: number; total: number; percent: number } {
   const required = tasks.filter((task) => task.required)
-  const completed = required.filter((task) => task.status === "COMPLETED" || task.status === "SKIPPED").length
+  const completed = required.filter(isTaskDone).length
   const total = required.length
   return { completed, total, percent: total === 0 ? 100 : Math.round((completed / total) * 100) }
 }
 
-export type ReconciliationCheck = { code: string; passed: boolean; findingCount: number }
+/** Per-group counter for the step list headers — counts every task in the group, required or not. */
+export function computeGroupProgress(
+  group: { tasks: SetupTaskType[] },
+  taskByType: ReadonlyMap<SetupTaskType, SetupTask>,
+): { completed: number; total: number } {
+  const tasks = group.tasks.flatMap((type) => {
+    const task = taskByType.get(type)
+    return task ? [task] : []
+  })
+  return { completed: tasks.filter(isTaskDone).length, total: tasks.length }
+}
+
+/**
+ * The group the hub expands on load: the one holding the next recommended task,
+ * else the first group with unfinished work. `undefined` when everything is done.
+ */
+export function initialOpenGroup(
+  taskByType: ReadonlyMap<SetupTaskType, SetupTask>,
+  nextActionType: SetupTaskType | null,
+): SetupGroupKey | undefined {
+  const byNextAction = nextActionType
+    ? SETUP_GROUPS.find((group) => group.tasks.includes(nextActionType))
+    : undefined
+  if (byNextAction) return byNextAction.key
+  return SETUP_GROUPS.find((group) => {
+    const { completed, total } = computeGroupProgress(group, taskByType)
+    return completed < total
+  })?.key
+}
+
+export type ReconciliationCheck ={ code: string; passed: boolean; findingCount: number }
 
 /** Defensively parses the per-check summary stored on the RECONCILIATION task's `progress` JSON. */
 export function parseReconciliationChecks(progress: Record<string, unknown> | null): ReconciliationCheck[] {

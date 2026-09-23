@@ -14718,103 +14718,6 @@ paths:
       summary: Update current tenant
       tags:
         - Tenants
-  /settings/defaults:
-    get:
-      description: >-
-        Returns the current open fiscal period, base currency, and first active
-        cashbox for invoice form pre-population.
-      operationId: Settings.getDefaults
-      parameters: []
-      responses:
-        '200':
-          description: Computed defaults for form pre-population
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/ApiSuccessResponseDto'
-                  - properties:
-                      data:
-                        $ref: '#/components/schemas/FormDefaultsResponseDto'
-        '401':
-          description: JWT token is missing, expired, or invalid
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/ApiErrorResponseDto'
-                example:
-                  status: error
-                  message: Unauthorized
-                  data: null
-                  error:
-                    code: UNAUTHORIZED
-                    message: JWT token is missing, expired, or invalid
-        '403':
-          description: Insufficient permissions to perform this action
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/ApiErrorResponseDto'
-                example:
-                  status: error
-                  message: Forbidden
-                  data: null
-                  error:
-                    code: FORBIDDEN
-                    message: Insufficient permissions to perform this action
-        '404':
-          description: The requested resource was not found
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/ApiErrorResponseDto'
-                example:
-                  status: error
-                  message: Not found
-                  data: null
-                  error:
-                    code: NOT_FOUND
-                    message: The requested resource was not found
-        '422':
-          description: Request body validation failed
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/ApiErrorResponseDto'
-                example:
-                  status: error
-                  message: Validation failed
-                  data: null
-                  error:
-                    code: VALIDATION_ERROR
-                    message: Validation failed
-                    details:
-                      - field: email
-                        message: email must be a valid email address
-                        code: isEmail
-        '500':
-          description: An unexpected internal server error occurred
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/ApiErrorResponseDto'
-                example:
-                  status: error
-                  message: Internal server error
-                  data: null
-                  error:
-                    code: INTERNAL_ERROR
-                    message: Internal server error
-      security:
-        - JWT-auth: []
-      summary: Get form auto-fill defaults
-      tags:
-        - Settings
   /settings:
     get:
       description: >-
@@ -15004,6 +14907,104 @@ paths:
       security:
         - JWT-auth: []
       summary: Update tenant settings
+      tags:
+        - Settings
+  /settings/defaults:
+    get:
+      description: >-
+        Returns the current open fiscal period, base currency, first active
+        cashbox, default (or first active) warehouse, default (or first active)
+        unit, and the tenant's default AR/AP accounts for form pre-population.
+      operationId: FormDefaults.getDefaults
+      parameters: []
+      responses:
+        '200':
+          description: Computed defaults for form pre-population
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiSuccessResponseDto'
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/FormDefaultsResponseDto'
+        '401':
+          description: JWT token is missing, expired, or invalid
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Unauthorized
+                  data: null
+                  error:
+                    code: UNAUTHORIZED
+                    message: JWT token is missing, expired, or invalid
+        '403':
+          description: Insufficient permissions to perform this action
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Forbidden
+                  data: null
+                  error:
+                    code: FORBIDDEN
+                    message: Insufficient permissions to perform this action
+        '404':
+          description: The requested resource was not found
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Not found
+                  data: null
+                  error:
+                    code: NOT_FOUND
+                    message: The requested resource was not found
+        '422':
+          description: Request body validation failed
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Validation failed
+                  data: null
+                  error:
+                    code: VALIDATION_ERROR
+                    message: Validation failed
+                    details:
+                      - field: email
+                        message: email must be a valid email address
+                        code: isEmail
+        '500':
+          description: An unexpected internal server error occurred
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Internal server error
+                  data: null
+                  error:
+                    code: INTERNAL_ERROR
+                    message: Internal server error
+      security:
+        - JWT-auth: []
+      summary: Get form auto-fill defaults
       tags:
         - Settings
   /settings/danger/reset-finance:
@@ -24863,9 +24864,8 @@ components:
       properties:
         code:
           type: string
-          default: ''
           example: ELEC-001
-          description: Unique item code
+          description: Unique item code; auto-generated (ITM-0001) when omitted
         name:
           type: string
           default: ''
@@ -24926,16 +24926,12 @@ components:
           allOf:
             - $ref: '#/components/schemas/CreateItemOpeningStockDto'
       required:
-        - code
         - name
         - categoryId
         - baseUnitId
     UpdateItemDto:
       type: object
       properties:
-        code:
-          type: string
-          example: ELEC-001
         name:
           type: string
           example: Laptop 15" (Updated)
@@ -25224,9 +25220,8 @@ components:
       properties:
         code:
           type: string
-          default: ''
           example: WH-MAIN
-          description: Unique warehouse code
+          description: Unique warehouse code; auto-generated (WH-0001) when omitted
         name:
           default:
             ar: ''
@@ -25237,14 +25232,10 @@ components:
           type: string
           example: Damascus Industrial Zone
       required:
-        - code
         - name
     UpdateWarehouseDto:
       type: object
       properties:
-        code:
-          type: string
-          example: WH-MAIN
         name:
           $ref: '#/components/schemas/LocalizedStringDto'
         address:
@@ -26107,79 +26098,6 @@ components:
           type: string
           example: 00000000-0000-4000-a400-000000000001
           description: Default sales sequence id
-    FormDefaultFiscalPeriodDto:
-      type: object
-      properties:
-        id:
-          type: string
-          default: ''
-          example: 00000000-0000-4000-a700-000000000001
-        name:
-          type: string
-          default: ''
-          example: '2026'
-      required:
-        - id
-        - name
-    FormDefaultCurrencyDto:
-      type: object
-      properties:
-        id:
-          type: string
-          default: ''
-          example: 00000000-0000-4000-a700-000000000002
-        code:
-          type: string
-          default: ''
-          example: USD
-        name:
-          type: string
-          default: ''
-          example: US Dollar
-      required:
-        - id
-        - code
-        - name
-    FormDefaultCashboxDto:
-      type: object
-      properties:
-        id:
-          type: string
-          default: ''
-          example: 00000000-0000-4000-a700-000000000003
-        code:
-          type: string
-          default: ''
-          example: MAIN
-        name:
-          type: string
-          default: ''
-          example: Main Cashbox
-      required:
-        - id
-        - code
-        - name
-    FormDefaultsResponseDto:
-      type: object
-      properties:
-        fiscalPeriod:
-          nullable: true
-          default: null
-          description: Current open fiscal period covering today, or null
-          allOf:
-            - $ref: '#/components/schemas/FormDefaultFiscalPeriodDto'
-        currency:
-          nullable: true
-          default: null
-          description: Tenant base currency, or null if not configured
-          allOf:
-            - $ref: '#/components/schemas/FormDefaultCurrencyDto'
-        cashbox:
-          nullable: true
-          default: null
-          description: First active cashbox in the base currency, or null
-          allOf:
-            - $ref: '#/components/schemas/FormDefaultCashboxDto'
     LocalizationSettingsDto:
       type: object
       properties:
@@ -26272,6 +26190,21 @@ components:
         - invoiceDefaultTerms
         - documentFooter
         - showLogoOnDocuments
+    DefaultsSettingsDto:
+      type: object
+      properties:
+        defaultWarehouseId:
+          type: string
+          nullable: true
+          default: null
+          example: 00000000-0000-4000-a700-000000000004
+          description: Warehouse pre-filled on creation forms, or null
+        defaultUnitId:
+          type: string
+          nullable: true
+          default: null
+          example: 00000000-0000-4000-a700-000000000005
+          description: Base unit pre-filled on item creation forms, or null
     SettingsResponseDto:
       type: object
       properties:
@@ -26299,10 +26232,17 @@ components:
             showLogoOnDocuments: true
           allOf:
             - $ref: '#/components/schemas/DocumentsSettingsDto'
+        defaults:
+          default:
+            defaultWarehouseId: null
+            defaultUnitId: null
+          allOf:
+            - $ref: '#/components/schemas/DefaultsSettingsDto'
       required:
         - localization
         - financial
         - documents
+        - defaults
     UpdateSettingsDto:
       type: object
       properties:
@@ -26350,6 +26290,170 @@ components:
         showLogoOnDocuments:
           type: boolean
           example: true
+        defaultWarehouseId:
+          type: string
+          nullable: true
+          example: 00000000-0000-4000-a700-000000000004
+        defaultUnitId:
+          type: string
+          nullable: true
+          example: 00000000-0000-4000-a700-000000000005
+    FormDefaultFiscalPeriodDto:
+      type: object
+      properties:
+        id:
+          type: string
+          default: ''
+          example: 00000000-0000-4000-a700-000000000001
+        name:
+          type: string
+          default: ''
+          example: '2026'
+      required:
+        - id
+        - name
+    FormDefaultCurrencyDto:
+      type: object
+      properties:
+        id:
+          type: string
+          default: ''
+          example: 00000000-0000-4000-a700-000000000002
+        code:
+          type: string
+          default: ''
+          example: USD
+        name:
+          type: string
+          default: ''
+          example: US Dollar
+      required:
+        - id
+        - code
+        - name
+    FormDefaultCashboxDto:
+      type: object
+      properties:
+        id:
+          type: string
+          default: ''
+          example: 00000000-0000-4000-a700-000000000003
+        code:
+          type: string
+          default: ''
+          example: MAIN
+        name:
+          type: string
+          default: ''
+          example: Main Cashbox
+      required:
+        - id
+        - code
+        - name
+    FormDefaultWarehouseDto:
+      type: object
+      properties:
+        id:
+          type: string
+          default: ''
+          example: 00000000-0000-4000-a700-000000000004
+        code:
+          type: string
+          default: ''
+          example: WH-MAIN
+        name:
+          type: string
+          default: ''
+          example: Main Warehouse
+      required:
+        - id
+        - code
+        - name
+    FormDefaultUnitDto:
+      type: object
+      properties:
+        id:
+          type: string
+          default: ''
+          example: 00000000-0000-4000-a700-000000000005
+        name:
+          type: string
+          default: ''
+          example: Piece
+        abbreviation:
+          type: string
+          default: ''
+          example: pcs
+      required:
+        - id
+        - name
+        - abbreviation
+    FormDefaultAccountDto:
+      type: object
+      properties:
+        id:
+          type: string
+          default: ''
+          example: 00000000-0000-4000-a600-000000000004
+        code:
+          type: string
+          default: ''
+          example: '1200'
+        name:
+          type: string
+          default: ''
+          example: Accounts Receivable
+      required:
+        - id
+        - code
+        - name
+    FormDefaultsResponseDto:
+      type: object
+      properties:
+        fiscalPeriod:
+          nullable: true
+          default: null
+          description: Current open fiscal period covering today, or null
+          allOf:
+            - $ref: '#/components/schemas/FormDefaultFiscalPeriodDto'
+        currency:
+          nullable: true
+          default: null
+          description: Tenant base currency, or null if not configured
+          allOf:
+            - $ref: '#/components/schemas/FormDefaultCurrencyDto'
+        cashbox:
+          nullable: true
+          default: null
+          description: First active cashbox in the base currency, or null
+          allOf:
+            - $ref: '#/components/schemas/FormDefaultCashboxDto'
+        warehouse:
+          nullable: true
+          default: null
+          description: Tenant default warehouse, or first active warehouse, or null
+          allOf:
+            - $ref: '#/components/schemas/FormDefaultWarehouseDto'
+        unit:
+          nullable: true
+          default: null
+          description: Tenant default base unit, or first active unit, or null
+          allOf:
+            - $ref: '#/components/schemas/FormDefaultUnitDto'
+        receivableAccount:
+          nullable: true
+          default: null
+          description: >-
+            FinancialSetting.defaultReceivableAccountId, or null if not
+            configured
+          allOf:
+            - $ref: '#/components/schemas/FormDefaultAccountDto'
+        payableAccount:
+          nullable: true
+          default: null
+          description: FinancialSetting.defaultPayableAccountId, or null if not configured
+          allOf:
+            - $ref: '#/components/schemas/FormDefaultAccountDto'
     FinanceResetResultDto:
       type: object
       properties:
@@ -27134,9 +27238,8 @@ components:
       properties:
         code:
           type: string
-          default: ''
           example: CASH-SYP
-          description: Unique cashbox code
+          description: Unique cashbox code; auto-generated (CSH-0001) when omitted
         name:
           default:
             ar: ''
@@ -27149,7 +27252,6 @@ components:
           example: 00000000-0000-4000-a300-000000000001
           description: Currency ID
       required:
-        - code
         - name
         - currencyId
     UpdateCashboxDto:
@@ -27226,7 +27328,7 @@ components:
         code:
           type: string
           example: BANK-SYP
-          description: Unique bank account code
+          description: Unique bank account code; auto-generated (BA-0001) when omitted
         name:
           description: Bank account display name
           allOf:
@@ -27246,7 +27348,6 @@ components:
           example: Commercial Bank
           description: Bank name
       required:
-        - code
         - name
         - currencyId
     UpdateBankAccountDto:

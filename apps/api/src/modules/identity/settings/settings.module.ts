@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { SettingsController } from './controllers/settings.controller';
+import { FormDefaultsController } from './controllers/form-defaults.controller';
 import { DataResetController } from './controllers/data-reset.controller';
 import { SettingsService } from './services/settings.service';
 import { DataResetService } from './services/data-reset.service';
@@ -9,7 +10,7 @@ import { PrismaModule } from '@devloggers/db-prisma/nest';
 
 @Module({
     imports: [PrismaModule],
-    controllers: [SettingsController, DataResetController],
+    controllers: [SettingsController, FormDefaultsController, DataResetController],
     providers: [SettingsService, DataResetService, TenantSettingsRepository, LocaleResolverService],
     exports: [SettingsService],
 })

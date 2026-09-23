@@ -3,6 +3,7 @@ import { EventEmitter2 } from '@nestjs/event-emitter';
 import { CrudService } from '@devloggers/backend-core';
 import { resources } from '@devloggers/api-contracts';
 import type { BankAccount } from '@devloggers/db-prisma';
+import { CodeSequencesService } from '@/modules/platform';
 import { BankAccountsRepository } from '../repositories/bank-accounts.repository';
 import { BankAccountPresenter } from '../presenters/bank-account.presenter';
 import { CreateBankAccountDto, UpdateBankAccountDto, BankAccountResponseDto } from '../dto';
@@ -14,16 +15,24 @@ export class BankAccountsService extends CrudService<BankAccount, BankAccountRes
     constructor(
         private readonly bankAccountsRepository: BankAccountsRepository,
         private readonly bankAccountPresenter: BankAccountPresenter,
+        private readonly codeSequences: CodeSequencesService,
         private readonly emitter: EventEmitter2,
     ) {
         super(bankAccountsRepository, bankAccountPresenter, emitter);
     }
 
     protected override async beforeCreate(tenantId: string, dto: CreateBankAccountDto): Promise<void> {
-        const taken = await this.bankAccountsRepository.isCodeTaken(tenantId, dto.code);
-        if (taken) {
-            throw new ConflictException(`A bank account with code "${dto.code}" already exists`);
+        const code = dto.code?.trim();
+        if (code) {
+            if (await this.bankAccountsRepository.isCodeTaken(tenantId, code)) {
+                throw new ConflictException(`A bank account with code "${code}" already exists`);
+            }
+            dto.code = code;
+            return;
         }
+        dto.code = await this.codeSequences.next(tenantId, 'bank_account', (candidate) =>
+            this.bankAccountsRepository.isCodeTaken(tenantId, candidate),
+        );
     }
 
     protected override async beforeUpdate(_tenantId: string, _id: string, _dto: UpdateBankAccountDto): Promise<void> {

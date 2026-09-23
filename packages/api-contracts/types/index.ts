@@ -1510,26 +1510,6 @@ export interface paths {
         patch: operations["Tenants.updateCurrent"];
         trace?: never;
     };
-    "/settings/defaults": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Get form auto-fill defaults
-         * @description Returns the current open fiscal period, base currency, and first active cashbox for invoice form pre-population.
-         */
-        get: operations["Settings.getDefaults"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/settings": {
         parameters: {
             query?: never;
@@ -1552,6 +1532,26 @@ export interface paths {
          * @description Partial update of preference keys. Each key is validated against the settings registry; invalid keys return 422.
          */
         patch: operations["Settings.update"];
+        trace?: never;
+    };
+    "/settings/defaults": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get form auto-fill defaults
+         * @description Returns the current open fiscal period, base currency, first active cashbox, default (or first active) warehouse, default (or first active) unit, and the tenant's default AR/AP accounts for form pre-population.
+         */
+        get: operations["FormDefaults.getDefaults"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
         trace?: never;
     };
     "/settings/danger/reset-finance": {
@@ -4217,11 +4217,10 @@ export interface components {
         };
         CreateItemDto: {
             /**
-             * @description Unique item code
-             * @default
+             * @description Unique item code; auto-generated (ITM-0001) when omitted
              * @example ELEC-001
              */
-            code: string;
+            code?: string;
             /**
              * @description Item display name
              * @default
@@ -4286,8 +4285,6 @@ export interface components {
             openingStock?: components["schemas"]["CreateItemOpeningStockDto"];
         };
         UpdateItemDto: {
-            /** @example ELEC-001 */
-            code?: string;
             /** @example Laptop 15" (Updated) */
             name?: string;
             /** @example 6901234567890 */
@@ -4499,11 +4496,10 @@ export interface components {
         };
         CreateWarehouseDto: {
             /**
-             * @description Unique warehouse code
-             * @default
+             * @description Unique warehouse code; auto-generated (WH-0001) when omitted
              * @example WH-MAIN
              */
-            code: string;
+            code?: string;
             /**
              * @description Warehouse display name
              * @default {
@@ -4515,8 +4511,6 @@ export interface components {
             address?: string;
         };
         UpdateWarehouseDto: {
-            /** @example WH-MAIN */
-            code?: string;
             name?: components["schemas"]["LocalizedStringDto"];
             /** @example Damascus Industrial Zone, Building 5 */
             address?: string;
@@ -5195,69 +5189,6 @@ export interface components {
              */
             defaultSalesSequenceId?: string;
         };
-        FormDefaultFiscalPeriodDto: {
-            /**
-             * @default
-             * @example 00000000-0000-4000-a700-000000000001
-             */
-            id: string;
-            /**
-             * @default
-             * @example 2026
-             */
-            name: string;
-        };
-        FormDefaultCurrencyDto: {
-            /**
-             * @default
-             * @example 00000000-0000-4000-a700-000000000002
-             */
-            id: string;
-            /**
-             * @default
-             * @example USD
-             */
-            code: string;
-            /**
-             * @default
-             * @example US Dollar
-             */
-            name: string;
-        };
-        FormDefaultCashboxDto: {
-            /**
-             * @default
-             * @example 00000000-0000-4000-a700-000000000003
-             */
-            id: string;
-            /**
-             * @default
-             * @example MAIN
-             */
-            code: string;
-            /**
-             * @default
-             * @example Main Cashbox
-             */
-            name: string;
-        };
-        FormDefaultsResponseDto: {
-            /**
-             * @description Current open fiscal period covering today, or null
-             * @default null
-             */
-            fiscalPeriod: components["schemas"]["FormDefaultFiscalPeriodDto"] | null;
-            /**
-             * @description Tenant base currency, or null if not configured
-             * @default null
-             */
-            currency: components["schemas"]["FormDefaultCurrencyDto"] | null;
-            /**
-             * @description First active cashbox in the base currency, or null
-             * @default null
-             */
-            cashbox: components["schemas"]["FormDefaultCashboxDto"] | null;
-        };
         LocalizationSettingsDto: {
             /**
              * @description IANA timezone identifier
@@ -5336,6 +5267,20 @@ export interface components {
              */
             showLogoOnDocuments: boolean;
         };
+        DefaultsSettingsDto: {
+            /**
+             * @description Warehouse pre-filled on creation forms, or null
+             * @default null
+             * @example 00000000-0000-4000-a700-000000000004
+             */
+            defaultWarehouseId: string | null;
+            /**
+             * @description Base unit pre-filled on item creation forms, or null
+             * @default null
+             * @example 00000000-0000-4000-a700-000000000005
+             */
+            defaultUnitId: string | null;
+        };
         SettingsResponseDto: {
             /**
              * @default {
@@ -5364,6 +5309,13 @@ export interface components {
              *     }
              */
             documents: components["schemas"]["DocumentsSettingsDto"];
+            /**
+             * @default {
+             *       "defaultWarehouseId": null,
+             *       "defaultUnitId": null
+             *     }
+             */
+            defaults: components["schemas"]["DefaultsSettingsDto"];
         };
         UpdateSettingsDto: {
             /** @example Europe/Istanbul */
@@ -5390,6 +5342,144 @@ export interface components {
             documentFooter?: string;
             /** @example true */
             showLogoOnDocuments?: boolean;
+            /** @example 00000000-0000-4000-a700-000000000004 */
+            defaultWarehouseId?: string | null;
+            /** @example 00000000-0000-4000-a700-000000000005 */
+            defaultUnitId?: string | null;
+        };
+        FormDefaultFiscalPeriodDto: {
+            /**
+             * @default
+             * @example 00000000-0000-4000-a700-000000000001
+             */
+            id: string;
+            /**
+             * @default
+             * @example 2026
+             */
+            name: string;
+        };
+        FormDefaultCurrencyDto: {
+            /**
+             * @default
+             * @example 00000000-0000-4000-a700-000000000002
+             */
+            id: string;
+            /**
+             * @default
+             * @example USD
+             */
+            code: string;
+            /**
+             * @default
+             * @example US Dollar
+             */
+            name: string;
+        };
+        FormDefaultCashboxDto: {
+            /**
+             * @default
+             * @example 00000000-0000-4000-a700-000000000003
+             */
+            id: string;
+            /**
+             * @default
+             * @example MAIN
+             */
+            code: string;
+            /**
+             * @default
+             * @example Main Cashbox
+             */
+            name: string;
+        };
+        FormDefaultWarehouseDto: {
+            /**
+             * @default
+             * @example 00000000-0000-4000-a700-000000000004
+             */
+            id: string;
+            /**
+             * @default
+             * @example WH-MAIN
+             */
+            code: string;
+            /**
+             * @default
+             * @example Main Warehouse
+             */
+            name: string;
+        };
+        FormDefaultUnitDto: {
+            /**
+             * @default
+             * @example 00000000-0000-4000-a700-000000000005
+             */
+            id: string;
+            /**
+             * @default
+             * @example Piece
+             */
+            name: string;
+            /**
+             * @default
+             * @example pcs
+             */
+            abbreviation: string;
+        };
+        FormDefaultAccountDto: {
+            /**
+             * @default
+             * @example 00000000-0000-4000-a600-000000000004
+             */
+            id: string;
+            /**
+             * @default
+             * @example 1200
+             */
+            code: string;
+            /**
+             * @default
+             * @example Accounts Receivable
+             */
+            name: string;
+        };
+        FormDefaultsResponseDto: {
+            /**
+             * @description Current open fiscal period covering today, or null
+             * @default null
+             */
+            fiscalPeriod: components["schemas"]["FormDefaultFiscalPeriodDto"] | null;
+            /**
+             * @description Tenant base currency, or null if not configured
+             * @default null
+             */
+            currency: components["schemas"]["FormDefaultCurrencyDto"] | null;
+            /**
+             * @description First active cashbox in the base currency, or null
+             * @default null
+             */
+            cashbox: components["schemas"]["FormDefaultCashboxDto"] | null;
+            /**
+             * @description Tenant default warehouse, or first active warehouse, or null
+             * @default null
+             */
+            warehouse: components["schemas"]["FormDefaultWarehouseDto"] | null;
+            /**
+             * @description Tenant default base unit, or first active unit, or null
+             * @default null
+             */
+            unit: components["schemas"]["FormDefaultUnitDto"] | null;
+            /**
+             * @description FinancialSetting.defaultReceivableAccountId, or null if not configured
+             * @default null
+             */
+            receivableAccount: components["schemas"]["FormDefaultAccountDto"] | null;
+            /**
+             * @description FinancialSetting.defaultPayableAccountId, or null if not configured
+             * @default null
+             */
+            payableAccount: components["schemas"]["FormDefaultAccountDto"] | null;
         };
         FinanceResetResultDto: {
             /**
@@ -6000,11 +6090,10 @@ export interface components {
         };
         CreateCashboxDto: {
             /**
-             * @description Unique cashbox code
-             * @default
+             * @description Unique cashbox code; auto-generated (CSH-0001) when omitted
              * @example CASH-SYP
              */
-            code: string;
+            code?: string;
             /**
              * @description Cashbox display name
              * @default {
@@ -6084,10 +6173,10 @@ export interface components {
         };
         CreateBankAccountDto: {
             /**
-             * @description Unique bank account code
+             * @description Unique bank account code; auto-generated (BA-0001) when omitted
              * @example BANK-SYP
              */
-            code: string;
+            code?: string;
             /** @description Bank account display name */
             name: components["schemas"]["LocalizedStringDto"];
             /**
@@ -17305,73 +17394,6 @@ export interface operations {
             };
         };
     };
-    "Settings.getDefaults": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Computed defaults for form pre-population */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
-                        data?: components["schemas"]["FormDefaultsResponseDto"];
-                    };
-                };
-            };
-            /** @description JWT token is missing, expired, or invalid */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            /** @description Insufficient permissions to perform this action */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            /** @description The requested resource was not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            /** @description Request body validation failed */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            /** @description An unexpected internal server error occurred */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-        };
-    };
     "Settings.getAll": {
         parameters: {
             query?: never;
@@ -17457,6 +17479,73 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["SettingsResponseDto"];
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    "FormDefaults.getDefaults": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Computed defaults for form pre-population */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["FormDefaultsResponseDto"];
+                    };
                 };
             };
             /** @description JWT token is missing, expired, or invalid */

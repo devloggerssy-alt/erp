@@ -9,7 +9,7 @@ const localizedStringSchema = z.object({
 })
 
 export const warehouseFormSchema = z.object({
-    code: z.string().trim().min(1, "Code is required"),
+    code: z.string().trim().optional(),
     name: localizedStringSchema,
     address: z.string().optional(),
     isActive: z.boolean().optional(),
@@ -39,12 +39,11 @@ export const warehousesFormConfig: ResourceFormConfig<WarehouseFormValues, Creat
     defaultValues: DEFAULT_WAREHOUSE_FORM_VALUES,
     mapToFormValues: mapWarehouseToFormValues,
     toCreate: (values) => ({
-        code: values.code.trim(),
+        code: values.code?.trim() || undefined,
         name: { ar: values.name.ar.trim(), en: values.name.en?.trim() || undefined },
         address: values.address?.trim() || undefined,
     }),
     toUpdate: (values) => ({
-        code: values.code.trim(),
         name: { ar: values.name.ar.trim(), en: values.name.en?.trim() || undefined },
         address: values.address?.trim() || null,
         isActive: values.isActive ?? true,

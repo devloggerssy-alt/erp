@@ -8,7 +8,7 @@ export interface CreateItemOpeningStockDto {
 }
 
 export interface CreateItemDto {
-    code: string;
+    code?: string;
     name: string;
     barcode?: string;
     categoryId: string;

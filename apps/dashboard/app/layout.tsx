@@ -1,8 +1,19 @@
+import type { Metadata } from "next"
 import { Geist_Mono, Tajawal } from "next/font/google"
 import { getLocale } from "next-intl/server"
 
 import "./globals.css"
 import { cn } from "@/shared/lib/utils"
+
+export const metadata: Metadata = {
+  title: {
+    default: "Devloggers ERP",
+    template: "%s · Devloggers ERP",
+  },
+  description:
+    "Devloggers ERP — inventory, invoicing, accounting, and operations in one platform.",
+  applicationName: "Devloggers ERP",
+}
 
 const tajawal = Tajawal({
   subsets: ["arabic", "latin"],

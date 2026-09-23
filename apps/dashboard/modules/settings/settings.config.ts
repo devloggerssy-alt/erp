@@ -120,3 +120,23 @@ export function mapSettingsToDocumentsValues(data: unknown): DocumentsFormValues
     showLogoOnDocuments: typeof g.showLogoOnDocuments === "boolean" ? (g.showLogoOnDocuments as boolean) : true,
   }
 }
+
+// ── Defaults (values pre-filled on creation forms) ──
+export const defaultsSchema = z.object({
+  defaultWarehouseId: z.string().optional(),
+  defaultUnitId: z.string().optional(),
+})
+export type DefaultsFormValues = z.infer<typeof defaultsSchema>
+
+export const DEFAULT_DEFAULTS_VALUES: DefaultsFormValues = {
+  defaultWarehouseId: (registryDefaults.defaultWarehouseId as string | null) ?? "",
+  defaultUnitId: (registryDefaults.defaultUnitId as string | null) ?? "",
+}
+
+export function mapSettingsToDefaultsValues(data: unknown): DefaultsFormValues {
+  const g = (unwrapApiData<{ defaults?: Record<string, unknown> }>(data).defaults) ?? {}
+  return {
+    defaultWarehouseId: (g.defaultWarehouseId as string) ?? "",
+    defaultUnitId: (g.defaultUnitId as string) ?? "",
+  }
+}
