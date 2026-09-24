@@ -1,4 +1,4 @@
-import { AIMessage, SystemMessage, ToolMessage, trimMessages, type BaseMessage } from '@langchain/core/messages';
+import { AIMessage, HumanMessage, SystemMessage, ToolMessage, trimMessages, type BaseMessage } from '@langchain/core/messages';
 import { END, START, StateGraph, interrupt } from '@langchain/langgraph';
 import type { BaseCheckpointSaver } from '@langchain/langgraph-checkpoint';
 import type { ChatOpenAI } from '@langchain/openai';
@@ -55,19 +55,37 @@ function estimateTokens(messages: BaseMessage[]): number {
     return messages.reduce((total, message) => total + Math.ceil(JSON.stringify(message.content).length / 4), 0);
 }
 
+/**
+ * `trimMessages` with `startOn: 'human'` returns `[]` when the current turn alone (the latest
+ * human message plus its tool-call loop) already exceeds the token budget. Falling back to an
+ * empty history would run the model with only the system prompt and silently drop the user's
+ * question, so keep at least the current turn regardless of budget.
+ */
+function fallbackToCurrentTurn(messages: BaseMessage[]): BaseMessage[] {
+    let lastHumanIndex = -1;
+    for (let i = messages.length - 1; i >= 0; i--) {
+        if (HumanMessage.isInstance(messages[i])) {
+            lastHumanIndex = i;
+            break;
+        }
+    }
+    return lastHumanIndex === -1 ? messages : messages.slice(lastHumanIndex);
+}
+
 export function buildAgentGraph(deps: AgentGraphDeps) {
     const { ctx, model, registry, executor, checkpointer } = deps;
 
     const agent = async (state: AgentStateValue) => {
         const tools = registry.forUser(ctx, state.loadedDomains);
         const bound = model.bindTools(tools.map(toOpenAiTool));
-        const history = await trimMessages(state.messages, {
+        const trimmed = await trimMessages(state.messages, {
             maxTokens: CONTEXT_TOKEN_BUDGET,
             strategy: 'last',
             tokenCounter: estimateTokens,
             startOn: 'human',
             allowPartial: false,
         });
+        const history = trimmed.length > 0 ? trimmed : fallbackToCurrentTurn(state.messages);
         const response = await bound.invoke([new SystemMessage(buildSystemPrompt(ctx)), ...history]);
         return { messages: [response], decisions: {} };
     };
@@ -97,7 +115,8 @@ export function buildAgentGraph(deps: AgentGraphDeps) {
         const loadedDomains: string[] = [];
 
         for (const call of calls) {
-            const toolCallId = call.id ?? '';
+            if (!call.id) continue; // no id to attach a ToolMessage to; the gate already skips these too
+            const toolCallId = call.id;
             const name = fromModelToolName(call.name);
             const tool = registry.find(ctx, name);
             if (!tool) {
