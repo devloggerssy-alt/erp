@@ -13,6 +13,7 @@ import { ChatModelFactory } from './runtime/model.factory';
 import { ChatController } from './chat/chat.controller';
 import { ChatService } from './chat/chat.service';
 import { ChatRateLimiter } from './chat/chat-rate-limiter';
+import { ConversationTurnLock } from './chat/conversation-turn-lock';
 
 @Module({
     imports: [DiscoveryModule, PermissionsModule],
@@ -28,6 +29,7 @@ import { ChatRateLimiter } from './chat/chat-rate-limiter';
         ChatModelFactory,
         ChatService,
         ChatRateLimiter,
+        ConversationTurnLock,
     ],
 })
 export class AiAgentModule {}
