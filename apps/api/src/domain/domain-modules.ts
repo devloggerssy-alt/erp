@@ -1,6 +1,6 @@
 import type { Type } from '@nestjs/common';
 import { AccountingModule } from '../modules/accounting/accounting.module';
-import { AiChatModule } from '../modules/ai-chat/ai-chat.module';
+import { AiAgentModule } from '../modules/ai-agent/ai-agent.module';
 import { AuditModule } from '../modules/audit/audit.module';
 import { CatalogModule } from '../modules/catalog/catalog.module';
 import { CustomFieldsModule } from '../modules/custom-fields/custom-fields.module';
@@ -27,7 +27,7 @@ import { resolveEnabledDomains, type DomainKey } from './manifest';
  */
 export const DOMAIN_MODULES: Record<DomainKey, Type<unknown>[]> = {
     accounting: [AccountingModule],
-    'ai-chat': [AiChatModule],
+    'ai-agent': [AiAgentModule],
     audit: [AuditModule],
     catalog: [CatalogModule],
     'custom-fields': [CustomFieldsModule],

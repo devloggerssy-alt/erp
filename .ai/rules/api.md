@@ -122,13 +122,15 @@ Each directory under `apps/api/src/modules/` is a domain. **Outside a domain, im
 | Domain | Public entry point(s) | Exposes |
 |---|---|---|
 | `accounting` | `accounting/posting`, `accounting/document-sequences`, `accounting/financial-settings`, `accounting/fiscal-periods`, `accounting/currencies`, `accounting/opening-balances`, `accounting/reconciliation`, `accounting/accounts/utils`, `accounting/accounts/bootstrap` | `AccountingPostingFacade` + `PostingIntent` types; numbering; tenant setup config; currencies; opening-balance subledger services; reconciliation monitor; period/slot guards; CoA bootstrap |
-| `identity` | `identity/auth/guards`, `identity/auth/decorators` | `JwtAuthGuard`, `@CurrentUser` (shared kernel) |
+| `identity` | `identity/auth/guards`, `identity/auth/decorators` | `JwtAuthGuard`, `@CurrentUser` (shared kernel), `PermissionResolverService` |
 | `inventory` | `inventory` | `InventoryModule`, `InventoryService`, `InventoryMovementFacade` + `MovementIntent` types |
 | `invoicing` | `invoicing` | `computeInvoicePaidState`, `CashboxesModule`/`CashboxesService`/`CreateCashboxDto`, `BankAccountsModule`/`BankAccountsService`/`CreateBankAccountDto`, `InvoiceTypesModule`/`InvoiceTypesService` |
 | `custom-fields` | `custom-fields` | `CustomFieldsModule`, `CustomFieldValuesService`, `CustomFieldsRepository` |
 | `catalog` | `catalog` | `UnitsModule`, `UnitsService` |
 | `platform` | `platform` | `CodeSequencesModule`, `CodeSequencesService` (master-data code allocation) |
-| `parties`, `reports`, `files`, `audit`, `ai-chat` | — (no consumers yet) | add an `index.ts` before another domain depends on it |
+| `parties`, `reports`, `files`, `audit`, `ai-agent` | — (no consumers yet) | add an `index.ts` before another domain depends on it |
+
+`ai-agent` discovers tools via `@AiToolProvider()` classes registered in each domain's own module (contract in `@devloggers/backend-core`), so it has no import edges to the domains whose tools it runs.
 
 Allowed dependency graph (besides every domain → `identity` auth kernel):
 

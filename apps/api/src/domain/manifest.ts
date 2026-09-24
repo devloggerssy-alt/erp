@@ -19,7 +19,7 @@ export const SHARED_KERNEL = 'identity' as const;
 
 export type DomainKey =
     | 'accounting'
-    | 'ai-chat'
+    | 'ai-agent'
     | 'audit'
     | 'catalog'
     | 'custom-fields'
@@ -70,10 +70,10 @@ export const DOMAIN_MANIFESTS: readonly DomainManifest[] = Object.freeze([
             'without accounting, invoicing and inventory cannot boot or operate.',
     },
     {
-        key: 'ai-chat',
+        key: 'ai-agent',
         dependsOn: [],
         provides: [],
-        routes: ['ai'],
+        routes: ['ai/conversations'],
         optional: true,
     },
     {

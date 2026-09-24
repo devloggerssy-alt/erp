@@ -128,7 +128,7 @@ export const DOMAIN_RESTRICTIONS = {
     reports: barrelOnly('reports', 'nothing yet — reports is a leaf'),
     files: barrelOnly('files', 'nothing yet — add an index.ts before depending on files'),
     audit: barrelOnly('audit', 'AuditWriter (record/recordInTx) + SYSTEM_USER_ID'),
-    'ai-chat': barrelOnly('ai-chat', 'nothing yet — ai-chat is a leaf'),
+    'ai-agent': barrelOnly('ai-agent', 'nothing yet — ai-agent is a leaf'),
 };
 
 /** One flat-config block per importing domain, restricting every other domain. */

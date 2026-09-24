@@ -55,7 +55,7 @@ describe('resolveEnabledDomains', () => {
     });
 
     it('disables optional leaf domains', () => {
-        expect(resolveEnabledDomains('files, ai-chat').disabled).toEqual(['files', 'ai-chat']);
+        expect(resolveEnabledDomains('files, ai-agent').disabled).toEqual(['files', 'ai-agent']);
     });
 
     it('rejects unknown domains with a clear error', () => {
