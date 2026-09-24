@@ -49,7 +49,7 @@ export const navGroups: NavGroup[] = [
       {
         titleKey: "business.navigation.items.aiAssistant",
         permission: "ai.view",
-        href: "/ai/chat",
+        href: "/ai",
         icon: <MessageSquareIcon />,
       },
     ],

@@ -1312,5 +1312,53 @@
     "groupProgress": "{completed} / {total}",
     "readinessSummary": "{ready} / {total} hazır",
     "readinessNeeds": "Gerekli: {tasks}"
+  },
+  "aiAgent": {
+    "newConversation": "Yeni sohbet",
+    "noConversations": "Henüz sohbet yok",
+    "untitled": "Başlıksız sohbet",
+    "actions": "Sohbet işlemleri",
+    "rename": "Yeniden adlandır",
+    "renamePrompt": "Sohbet başlığı",
+    "delete": "Sil",
+    "deleteTitle": "Bu sohbet silinsin mi?",
+    "deleteDescription": "Mesajları kalıcı olarak silinecek.",
+    "loadMore": "Daha fazla yükle",
+    "emptyState": "Bir sohbet seçin veya yeni bir sohbet başlatın",
+    "startHint": "Asistandan kayıt bulmasını, oluşturmasını veya güncellemesini isteyin.",
+    "composerPlaceholder": "Asistana mesaj yazın…",
+    "send": "Gönder",
+    "stop": "Durdur",
+    "pendingApprovalHint": "Devam etmek için bekleyen işlemi onaylayın veya reddedin.",
+    "newMessages": "Yeni mesajlar",
+    "streamError": "Asistan yanıt veremedi. Tekrar deneyin.",
+    "actionFailed": "Bir şeyler ters gitti. Lütfen tekrar deneyin.",
+    "loadFailed": "Bu sohbet yüklenemedi.",
+    "retry": "Tekrar dene",
+    "toolLabel": "{op} {resource}",
+    "resultCount": "{count} sonuç",
+    "rejected": "reddedildi",
+    "approvalTitle": "Onayla: {op} {resource}",
+    "approve": "Onayla",
+    "confirmDestructive": "Onaylamak için tekrar tıklayın",
+    "reject": "Reddet",
+    "confirmReject": "İşlemi reddet",
+    "rejectReasonPlaceholder": "Neden (isteğe bağlı)",
+    "cancel": "İptal",
+    "ops": {
+      "list": "Listele",
+      "show": "Görüntüle",
+      "create": "Oluştur",
+      "update": "Güncelle",
+      "delete": "Sil",
+      "search": "Ara",
+      "load": "Yükle"
+    },
+    "resources": {
+      "units": "birimler",
+      "items": "ürünler",
+      "customers": "müşteriler",
+      "tools": "araçlar"
+    }
   }
 }

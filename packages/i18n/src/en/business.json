@@ -1386,5 +1386,53 @@
     "groupProgress": "{completed} of {total}",
     "readinessSummary": "{ready} of {total} ready",
     "readinessNeeds": "Needs {tasks}"
+  },
+  "aiAgent": {
+    "newConversation": "New conversation",
+    "noConversations": "No conversations yet",
+    "untitled": "Untitled conversation",
+    "actions": "Conversation actions",
+    "rename": "Rename",
+    "renamePrompt": "Conversation title",
+    "delete": "Delete",
+    "deleteTitle": "Delete this conversation?",
+    "deleteDescription": "Its messages will be permanently removed.",
+    "loadMore": "Load more",
+    "emptyState": "Select a conversation or start a new one",
+    "startHint": "Ask the assistant to find, create or update records.",
+    "composerPlaceholder": "Message the assistant…",
+    "send": "Send",
+    "stop": "Stop",
+    "pendingApprovalHint": "Approve or reject the pending action to continue.",
+    "newMessages": "New messages",
+    "streamError": "The assistant could not respond. Try again.",
+    "actionFailed": "Something went wrong. Please try again.",
+    "loadFailed": "Could not load this conversation.",
+    "retry": "Retry",
+    "toolLabel": "{op} {resource}",
+    "resultCount": "{count} results",
+    "rejected": "rejected",
+    "approvalTitle": "Confirm: {op} {resource}",
+    "approve": "Approve",
+    "confirmDestructive": "Click again to confirm",
+    "reject": "Reject",
+    "confirmReject": "Reject action",
+    "rejectReasonPlaceholder": "Reason (optional)",
+    "cancel": "Cancel",
+    "ops": {
+      "list": "List",
+      "show": "View",
+      "create": "Create",
+      "update": "Update",
+      "delete": "Delete",
+      "search": "Search",
+      "load": "Load"
+    },
+    "resources": {
+      "units": "units",
+      "items": "items",
+      "customers": "customers",
+      "tools": "tools"
+    }
   }
 }

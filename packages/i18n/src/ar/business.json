@@ -1479,5 +1479,53 @@
     "groupProgress": "{completed} من {total}",
     "readinessSummary": "{ready} من {total} جاهزة",
     "readinessNeeds": "يتطلب {tasks}"
+  },
+  "aiAgent": {
+    "newConversation": "محادثة جديدة",
+    "noConversations": "لا توجد محادثات بعد",
+    "untitled": "محادثة بدون عنوان",
+    "actions": "إجراءات المحادثة",
+    "rename": "إعادة تسمية",
+    "renamePrompt": "عنوان المحادثة",
+    "delete": "حذف",
+    "deleteTitle": "حذف هذه المحادثة؟",
+    "deleteDescription": "سيتم حذف رسائلها نهائياً.",
+    "loadMore": "تحميل المزيد",
+    "emptyState": "اختر محادثة أو ابدأ محادثة جديدة",
+    "startHint": "اطلب من المساعد البحث عن السجلات أو إنشاءها أو تعديلها.",
+    "composerPlaceholder": "اكتب رسالة للمساعد…",
+    "send": "إرسال",
+    "stop": "إيقاف",
+    "pendingApprovalHint": "وافق على الإجراء المعلّق أو ارفضه للمتابعة.",
+    "newMessages": "رسائل جديدة",
+    "streamError": "تعذّر على المساعد الرد. حاول مرة أخرى.",
+    "actionFailed": "حدث خطأ ما. يرجى المحاولة مرة أخرى.",
+    "loadFailed": "تعذّر تحميل هذه المحادثة.",
+    "retry": "إعادة المحاولة",
+    "toolLabel": "{op} {resource}",
+    "resultCount": "{count} نتيجة",
+    "rejected": "مرفوض",
+    "approvalTitle": "تأكيد: {op} {resource}",
+    "approve": "موافقة",
+    "confirmDestructive": "انقر مرة أخرى للتأكيد",
+    "reject": "رفض",
+    "confirmReject": "رفض الإجراء",
+    "rejectReasonPlaceholder": "السبب (اختياري)",
+    "cancel": "إلغاء",
+    "ops": {
+      "list": "عرض قائمة",
+      "show": "عرض",
+      "create": "إنشاء",
+      "update": "تعديل",
+      "delete": "حذف",
+      "search": "بحث",
+      "load": "تحميل"
+    },
+    "resources": {
+      "units": "الوحدات",
+      "items": "المواد",
+      "customers": "العملاء",
+      "tools": "الأدوات"
+    }
   }
 }
