@@ -8,6 +8,7 @@ import { AiToolRegistry } from './tools/ai-tool-registry';
 import { AiToolExecutor } from './tools/ai-tool-executor';
 import { MetaToolsProvider } from './tools/meta-tools.provider';
 import { PrismaCheckpointSaver } from './runtime/prisma-checkpoint-saver';
+import { ChatModelFactory } from './runtime/model.factory';
 
 @Module({
     imports: [DiscoveryModule],
@@ -20,6 +21,7 @@ import { PrismaCheckpointSaver } from './runtime/prisma-checkpoint-saver';
         AiToolExecutor,
         MetaToolsProvider,
         PrismaCheckpointSaver,
+        ChatModelFactory,
     ],
 })
 export class AiAgentModule {}
