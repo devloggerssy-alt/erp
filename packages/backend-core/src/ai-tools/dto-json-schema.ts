@@ -1,5 +1,9 @@
 import type { JsonSchema } from './ai-tool.types.js';
 
+// This module reads `reflect-metadata` decorator metadata (via `Reflect.getMetadata`) that
+// @nestjs/swagger's @ApiProperty writes onto DTO prototypes. `reflect-metadata` itself is not a
+// backend-core dependency — it relies on the consuming Nest app (apps/api) having loaded it.
+
 /** Metadata keys written by @nestjs/swagger's @ApiProperty (stable since v4). */
 const PROPERTIES_ARRAY = 'swagger/apiModelPropertiesArray';
 const PROPERTY = 'swagger/apiModelProperties';
@@ -16,6 +20,13 @@ interface SwaggerPropertyMeta {
   format?: string;
   minimum?: number;
   maximum?: number;
+  /**
+   * Element metadata for array properties. @nestjs/swagger rewrites
+   * `@ApiProperty({ enum: X, isArray: true })` into `{ type: 'array', items: { type, enum }, enum: undefined }`
+   * (see node_modules/@nestjs/swagger/dist/decorators/api-property.decorator.js), so this is where
+   * enum-array constraints actually live.
+   */
+  items?: { type?: unknown; enum?: unknown };
 }
 
 function readMeta<T>(key: string, target: object, property?: string): T | undefined {
@@ -81,18 +92,34 @@ export function dtoJsonSchema(dto: DtoClass, seen: ReadonlySet<DtoClass> = new S
     const meta = readMeta<SwaggerPropertyMeta>(PROPERTY, prototype, key) ?? {};
     const rawType = resolveType(meta.type ?? readMeta<unknown>('design:type', prototype, key));
 
+    const isArrayType = rawType === 'array' || rawType === Array;
+
     let schema: JsonSchema;
     if (meta.enum !== undefined) {
       const values = enumValues(meta.enum);
       schema = { type: typeof values[0] === 'number' ? 'number' : 'string', enum: values };
     } else if (isDtoClass(rawType)) {
       schema = dtoJsonSchema(rawType, nextSeen);
-    } else {
+    } else if (!isArrayType) {
       schema = primitiveSchema(rawType) ?? {};
+    } else {
+      schema = {};
     }
 
-    if (meta.isArray || rawType === Array) {
-      schema = { type: 'array', items: rawType === Array ? {} : schema };
+    if (isArrayType && meta.items) {
+      const itemType = resolveType(meta.items.type);
+      let itemSchema: JsonSchema;
+      if (meta.items.enum !== undefined) {
+        const values = enumValues(meta.items.enum);
+        itemSchema = { type: typeof values[0] === 'number' ? 'number' : 'string', enum: values };
+      } else if (isDtoClass(itemType)) {
+        itemSchema = dtoJsonSchema(itemType, nextSeen);
+      } else {
+        itemSchema = primitiveSchema(itemType) ?? {};
+      }
+      schema = { type: 'array', items: itemSchema };
+    } else if (meta.isArray || isArrayType) {
+      schema = { type: 'array', items: isArrayType ? {} : schema };
     }
     if (meta.nullable && typeof schema.type === 'string') {
       schema = { ...schema, type: [schema.type, 'null'] };
