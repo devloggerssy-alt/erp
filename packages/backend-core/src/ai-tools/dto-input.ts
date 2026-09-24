@@ -32,9 +32,10 @@ function asRecord(raw: unknown): Record<string, unknown> {
  */
 export function dtoInput<T extends object>(
   dto: DtoClass<T>,
-  options: { omit?: readonly string[] } = {},
+  options: { omit?: readonly string[]; defaults?: Partial<T> } = {},
 ): AiToolInput<T> {
   const omit = options.omit ?? [];
+  const defaults = options.defaults ?? {};
   return {
     jsonSchema: omitProperties(dtoJsonSchema(dto), omit),
     async validate(raw): Promise<AiToolValidation<T>> {
@@ -43,7 +44,11 @@ export function dtoInput<T extends object>(
       if (forbidden.length > 0) {
         return { ok: false, errors: Object.fromEntries(forbidden.map((key) => [key, [`${key} cannot be set by the assistant`]])) };
       }
-      const instance = plainToInstance(dto, body, { enableImplicitConversion: true });
+      // Defaults fill in fields the model didn't send (e.g. omitted fields the
+      // handler used to Object.assign in post-validation). Values the model DID
+      // send always win, so this can never let the model override an omitted field.
+      const merged: Record<string, unknown> = { ...defaults, ...body };
+      const instance = plainToInstance(dto, merged, { enableImplicitConversion: true });
       const errors = await validate(instance, { whitelist: true, forbidNonWhitelisted: true });
       return errors.length > 0 ? { ok: false, errors: flattenErrors(errors) } : { ok: true, value: instance };
     },

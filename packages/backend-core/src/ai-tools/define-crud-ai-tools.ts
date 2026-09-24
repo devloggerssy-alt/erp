@@ -115,8 +115,8 @@ export function defineCrudAiTools<TResponse, TCreate extends object, TUpdate ext
         risk: 'write',
         permission: permissions.create,
         description: `Create a ${label}. The user must approve before it runs.`,
-        input: dtoInput(config.createDto, { omit }),
-        handler: (ctx, input) => service.create(ctx.tenantId, Object.assign(input, scope.createDefaults ?? {})),
+        input: dtoInput(config.createDto, { omit, defaults: scope.createDefaults }),
+        handler: (ctx, input) => service.create(ctx.tenantId, input),
       }),
     );
   }

@@ -52,7 +52,7 @@ export class CreateItemDto {
     @IsNotEmpty()
     baseUnitId: string = '';
 
-    @ApiPropertyOptional({ example: '00000000-0000-4000-b000-000000000001', description: 'Brand ID', nullable: true })
+    @ApiPropertyOptional({ type: 'string', example: '00000000-0000-4000-b000-000000000001', description: 'Brand ID', nullable: true })
     @IsOptional()
     @IsString()
     brandId?: string | null;
@@ -72,7 +72,7 @@ export class CreateItemDto {
     @IsIn(ITEM_TYPES)
     itemType?: ItemType;
 
-    @ApiPropertyOptional({ example: 'https://cdn.example.com/item-main.png', description: 'Main product image URL', nullable: true })
+    @ApiPropertyOptional({ type: 'string', example: 'https://cdn.example.com/item-main.png', description: 'Main product image URL', nullable: true })
     @IsOptional()
     @IsUrl({ require_host: false })
     mainImageUrl?: string | null;
@@ -120,7 +120,7 @@ export class UpdateItemDto {
     @IsString()
     baseUnitId?: string;
 
-    @ApiPropertyOptional({ example: '00000000-0000-4000-b000-000000000001', nullable: true })
+    @ApiPropertyOptional({ type: 'string', example: '00000000-0000-4000-b000-000000000001', nullable: true })
     @IsOptional()
     @IsString()
     brandId?: string | null;
@@ -145,7 +145,7 @@ export class UpdateItemDto {
     @IsIn(ITEM_TYPES)
     itemType?: ItemType;
 
-    @ApiPropertyOptional({ example: 'https://cdn.example.com/item-main.png', nullable: true })
+    @ApiPropertyOptional({ type: 'string', example: 'https://cdn.example.com/item-main.png', nullable: true })
     @IsOptional()
     @IsUrl({ require_host: false })
     mainImageUrl?: string | null;
@@ -185,7 +185,7 @@ export class ItemResponseDto {
     @ApiProperty({ example: '00000000-0000-4000-a800-000000000001' })
     baseUnitId: string = '';
 
-    @ApiPropertyOptional({ example: '00000000-0000-4000-b000-000000000001', nullable: true })
+    @ApiPropertyOptional({ type: 'string', example: '00000000-0000-4000-b000-000000000001', nullable: true })
     brandId: string | null = null;
 
     @ApiPropertyOptional({ description: 'Populated in show responses only' })
@@ -206,7 +206,7 @@ export class ItemResponseDto {
     @ApiProperty({ example: true })
     isActive: boolean = true;
 
-    @ApiPropertyOptional({ example: 'https://cdn.example.com/item-main.png', nullable: true })
+    @ApiPropertyOptional({ type: 'string', example: 'https://cdn.example.com/item-main.png', nullable: true })
     mainImageUrl: string | null = null;
 
     @ApiProperty({ type: [String], example: [] })
