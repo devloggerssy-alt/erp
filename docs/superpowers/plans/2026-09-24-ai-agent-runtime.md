@@ -24,7 +24,7 @@
 - Audit: every executed `write`/`destructive` tool → `AuditWriter.record` with `source: 'AI_AGENT'`.
 - Env: `AI_PROVIDER` (default `openai`), `AI_MODEL` (required at chat time), `OPENAI_API_KEY`. Remove `GEMINI_API_KEY`.
 - i18n: `en`, `ar`, `tr` under `packages/i18n/src/<locale>/business.json`, namespace `business.aiAgent.*`. RTL: logical CSS only (`ps-`, `pe-`, `ms-`, `me-`, `start-`, `end-`, `text-start`).
-- Library versions: install current releases; they must satisfy `ai@^6`, `@ai-sdk/react@^3`, `@langchain/core@^1`, `@langchain/langgraph@^1`, `@langchain/openai@^1`. If an installed major differs, stop and report — the stream/approval code below targets these majors.
+- Library versions: install current releases; they must satisfy `ai@^7`, `@ai-sdk/react@^4` (user switched to ai v7 on 2026-09-24), `@langchain/core@^1`, `@langchain/langgraph@^1`, `@langchain/openai@^1`. If an installed major differs, stop and report — the stream/approval code below targets these majors.
 
 ---
 
@@ -101,7 +101,7 @@
 - [ ] **Step 1: Install API dependencies**
 
 Run: `pnpm --filter @devloggers/api add @langchain/core @langchain/langgraph @langchain/openai ai`
-Expected: installs; then run `pnpm --filter @devloggers/api list @langchain/core @langchain/langgraph @langchain/openai ai` and confirm majors `1.x, 1.x, 1.x, 6.x` (see Global Constraints).
+Expected: installs; then run `pnpm --filter @devloggers/api list @langchain/core @langchain/langgraph @langchain/openai ai` and confirm majors `1.x, 1.x, 1.x, 7.x` (see Global Constraints).
 
 - [ ] **Step 2: Replace the `ai` config block**
 
@@ -2952,7 +2952,7 @@ Run: `git diff --stat apps/api/openapi.yaml packages/api-contracts/types/index.t
 - [ ] **Step 1: Install**
 
 Run: `pnpm --filter @devloggers/dashboard add ai @ai-sdk/react @tanstack/react-virtual react-markdown remark-gfm`
-Expected: `ai` 6.x, `@ai-sdk/react` 3.x.
+Expected: `ai` 7.x, `@ai-sdk/react` 4.x.
 
 - [ ] **Step 2: `ai-agent.types.ts`**
 
