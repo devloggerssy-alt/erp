@@ -37,7 +37,7 @@ export function MessageList({ messages, isStreaming, hasOlder, isLoadingOlder, o
     const scrollRef = useRef<HTMLDivElement>(null)
     const atBottomRef = useRef(true)
     const [showJump, setShowJump] = useState(false)
-    const anchorRef = useRef<{ id: string; delta: number } | null>(null)
+    const anchorRef = useRef<{ id: string; delta: number; headId: string | undefined } | null>(null)
 
     const virtualizer = useVirtualizer({
         count: messages.length,
@@ -51,17 +51,28 @@ export function MessageList({ messages, isStreaming, hasOlder, isLoadingOlder, o
         if (messages.length > 0) virtualizer.scrollToIndex(messages.length - 1, { align: "end" })
     }, [messages.length, virtualizer])
 
+    // Latest scrollToBottom, read via ref so the stick-to-bottom effect below isn't
+    // re-triggered by identity changes caused by `messages.length` (e.g. prepending older history).
+    const scrollToBottomRef = useRef(scrollToBottom)
+    scrollToBottomRef.current = scrollToBottom
+
     // Stick to bottom while new content arrives, unless the user scrolled up.
+    // Keyed on `signature` ALONE: it only changes when the tail (last) message grows.
+    // Prepending older pages changes `messages.length` but not the tail, so it must not
+    // toggle the jump pill or force-scroll.
     const signature = tailSignature(messages)
     useEffect(() => {
-        if (atBottomRef.current) scrollToBottom()
+        if (atBottomRef.current) scrollToBottomRef.current()
         else setShowJump(true)
-    }, [signature, scrollToBottom])
+    }, [signature])
 
     // Keep the first visible message in place when older pages are prepended.
+    // Only consume the anchor once the list's head has actually changed (older page prepended) —
+    // a streamed token updating the tail must not clear the anchor before the prepend lands.
     useLayoutEffect(() => {
         const anchor = anchorRef.current
         if (!anchor) return
+        if (messages[0]?.id === anchor.headId) return
         const index = messages.findIndex((message) => message.id === anchor.id)
         if (index > 0) {
             const [offset] = virtualizer.getOffsetForIndex(index, "start") ?? [0]
@@ -79,7 +90,9 @@ export function MessageList({ messages, isStreaming, hasOlder, isLoadingOlder, o
         if (el.scrollTop < TOP_LOAD_THRESHOLD_PX && hasOlder && !isLoadingOlder) {
             const first = virtualizer.getVirtualItems()[0]
             const firstMessage = first ? messages[first.index] : undefined
-            if (first && firstMessage) anchorRef.current = { id: firstMessage.id, delta: el.scrollTop - first.start }
+            if (first && firstMessage) {
+                anchorRef.current = { id: firstMessage.id, delta: el.scrollTop - first.start, headId: messages[0]?.id }
+            }
             onLoadOlder()
         }
     }

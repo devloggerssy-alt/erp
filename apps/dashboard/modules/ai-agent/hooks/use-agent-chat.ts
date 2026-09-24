@@ -18,6 +18,8 @@ export function useAgentChat({ conversationId, initialMessages }: { conversation
         messages: initialMessages,
         transport,
         sendAutomaticallyWhen: lastAssistantMessageIsCompleteWithApprovalResponses,
-        onFinish: () => void queryClient.invalidateQueries({ queryKey: conversationKeys.all }),
+        // Invalidate the conversation list only (e.g. title/updatedAt refresh) — must not also
+        // refetch every loaded history page for this conversation after each turn.
+        onFinish: () => void queryClient.invalidateQueries({ queryKey: conversationKeys.list }),
     })
 }

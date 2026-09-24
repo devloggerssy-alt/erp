@@ -20,7 +20,11 @@ export function isRecord(value: unknown): value is Record<string, unknown> {
     return typeof value === "object" && value !== null && !Array.isArray(value)
 }
 
-/** Risk comes from the server's `data-toolMeta` part emitted next to each tool call. */
+/**
+ * Risk comes from the server's `data-toolMeta` part emitted next to each tool call.
+ * Falls back to `"destructive"` (the cautious value) when no meta part is found, so an
+ * approval card never renders with read-level (unguarded) styling for an unclassified tool.
+ */
 export function findToolRisk(message: UIMessage, toolCallId: string): ToolRisk {
     for (const part of message.parts) {
         if (part.type !== "data-toolMeta" || !("data" in part)) continue
@@ -30,7 +34,7 @@ export function findToolRisk(message: UIMessage, toolCallId: string): ToolRisk {
             if (risk === "write" || risk === "destructive" || risk === "read") return risk
         }
     }
-    return "read"
+    return "destructive"
 }
 
 /** `units.update` → { resource: "units", op: "update" } */

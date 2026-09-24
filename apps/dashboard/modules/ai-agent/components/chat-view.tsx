@@ -1,7 +1,10 @@
 "use client"
 
 import type { UIMessage } from "ai"
+import { RefreshCwIcon } from "lucide-react"
+import { useTranslations } from "next-intl"
 import { useMemo } from "react"
+import { Button } from "@/shared/components/ui/button"
 import { useAgentChat } from "../hooks/use-agent-chat"
 import { useConversationHistory } from "../hooks/use-conversation-history"
 import { hasPendingApproval } from "../ai-agent.types"
@@ -48,7 +51,19 @@ function ChatSession({
 }
 
 export function ChatView({ conversationId }: { conversationId: string }) {
+    const t = useTranslations("business.aiAgent")
     const history = useConversationHistory(conversationId)
+    if (history.isError) {
+        return (
+            <div className="flex flex-1 flex-col items-center justify-center gap-3 p-8 text-center">
+                <p className="text-sm text-muted-foreground">{t("loadFailed")}</p>
+                <Button size="sm" variant="outline" onClick={() => void history.refetch()}>
+                    <RefreshCwIcon className="size-4" />
+                    {t("retry")}
+                </Button>
+            </div>
+        )
+    }
     if (!history.initialMessages) return <div className="flex-1" />
     return (
         <ChatSession key={conversationId} conversationId={conversationId} initialMessages={history.initialMessages} history={history} />

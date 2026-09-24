@@ -3,7 +3,7 @@
 import { useQuery } from "@tanstack/react-query"
 import { ShieldAlertIcon } from "lucide-react"
 import { useTranslations } from "next-intl"
-import { useState } from "react"
+import { useRef, useState } from "react"
 import { Button } from "@/shared/components/ui/button"
 import { Textarea } from "@/shared/components/ui/textarea"
 import { cn } from "@/shared/lib/utils"
@@ -19,6 +19,9 @@ import {
 
 /** `Api` is not re-exported from the `@devloggers/api-client` barrel; derive it from the hook. */
 type Api = ReturnType<typeof useApi>
+
+/** Guards against a fast double-click arming then immediately confirming a destructive action. */
+const ARM_CONFIRM_DELAY_MS = 400
 
 /** Current values for the before → after diff of `<resource>.update` tools. */
 const CURRENT_VALUE_FETCHERS: Record<string, (api: Api, id: string) => Promise<unknown>> = {
@@ -44,6 +47,7 @@ export function ToolApprovalCard({
     const t = useTranslations("business.aiAgent")
     const api = useApi()
     const [armed, setArmed] = useState(false)
+    const armedAtRef = useRef(0)
     const [rejecting, setRejecting] = useState(false)
     const [reason, setReason] = useState("")
     const { resource, op } = splitToolName(part.toolName)
@@ -61,7 +65,11 @@ export function ToolApprovalCard({
     const destructive = risk === "destructive"
 
     const approve = () => {
-        if (destructive && !armed) return setArmed(true)
+        if (destructive && !armed) {
+            armedAtRef.current = Date.now()
+            return setArmed(true)
+        }
+        if (destructive && armed && Date.now() - armedAtRef.current < ARM_CONFIRM_DELAY_MS) return
         onRespond({ id: part.approval.id, approved: true })
     }
 

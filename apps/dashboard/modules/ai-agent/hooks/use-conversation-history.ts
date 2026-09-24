@@ -35,8 +35,10 @@ export function useConversationHistory(conversationId: string) {
     const initialMessages = useMemo(
         () => (pages?.[0] ? (pages[0].data?.items ?? []).map(toUiMessage).reverse() : undefined),
         // Only the first page seeds useChat; later pages must not reset it.
+        // `conversationId` is included so seeding can't leak across conversations if this
+        // component ever stays mounted across a conversation switch.
         // eslint-disable-next-line react-hooks/exhaustive-deps
-        [hasFirstPage],
+        [hasFirstPage, conversationId],
     )
     const olderMessages = useMemo(
         () => (pages ?? []).slice(1).flatMap((page) => (page.data?.items ?? []).map(toUiMessage)).reverse(),
@@ -49,5 +51,7 @@ export function useConversationHistory(conversationId: string) {
         loadOlder: () => void query.fetchNextPage(),
         hasOlder: query.hasNextPage,
         isLoadingOlder: query.isFetchingNextPage,
+        isError: query.isError,
+        refetch: query.refetch,
     }
 }

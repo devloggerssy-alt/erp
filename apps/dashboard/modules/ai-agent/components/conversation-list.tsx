@@ -2,6 +2,7 @@
 
 import { MoreHorizontalIcon, PlusIcon } from "lucide-react"
 import { useTranslations } from "next-intl"
+import { toast } from "sonner"
 import { useRouter } from "@/i18n/navigation"
 import { Button } from "@/shared/components/ui/button"
 import {
@@ -11,7 +12,7 @@ import {
     DropdownMenuTrigger,
 } from "@/shared/components/ui/dropdown-menu"
 import { confirm } from "@/shared/components/confirm-dialog"
-import { cn } from "@/shared/lib/utils"
+import { cn, toastErrorMessage } from "@/shared/lib/utils"
 import { useConversationMutations, useConversations } from "../hooks/use-conversations"
 
 export function ConversationList({ activeId }: { activeId?: string }) {
@@ -22,8 +23,12 @@ export function ConversationList({ activeId }: { activeId?: string }) {
     const items = conversations.data?.pages.flatMap((page) => page.data?.items ?? []) ?? []
 
     const onNew = async () => {
-        const created = await create.mutateAsync()
-        if (created.data) router.push(`/ai/${created.data.id}`)
+        try {
+            const created = await create.mutateAsync()
+            if (created.data) router.push(`/ai/${created.data.id}`)
+        } catch (error) {
+            toast.error(toastErrorMessage(error, t("actionFailed")))
+        }
     }
 
     const onRename = (id: string, current: string | null) => {
@@ -34,8 +39,12 @@ export function ConversationList({ activeId }: { activeId?: string }) {
     const onDelete = async (id: string) => {
         const ok = await confirm({ title: t("deleteTitle"), description: t("deleteDescription"), variant: "destructive" })
         if (!ok) return
-        await remove.mutateAsync(id)
-        if (id === activeId) router.push("/ai")
+        try {
+            await remove.mutateAsync(id)
+            if (id === activeId) router.push("/ai")
+        } catch (error) {
+            toast.error(toastErrorMessage(error, t("actionFailed")))
+        }
     }
 
     return (
