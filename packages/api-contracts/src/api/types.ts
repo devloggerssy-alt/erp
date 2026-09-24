@@ -57,9 +57,16 @@ export type ApiPathParams<Path extends ApiPath, Method extends HttpMethod> =
     ? Params
     : never
 
+/**
+ * Query params of an operation. openapi-typescript emits `query?: {...}` when every
+ * query param is optional and `query?: never` when there are none; both the required
+ * and the optional form resolve to the params object, and "no params" stays `never`.
+ */
 export type ApiQueryParams<Path extends ApiPath, Method extends HttpMethod> =
-    OperationFor<Path, Method> extends { parameters: { query: infer Params } }
-    ? Params
+    OperationFor<Path, Method> extends { parameters: infer Parameters }
+    ? "query" extends keyof Parameters
+        ? NotNeverOrUndefined<Parameters["query" & keyof Parameters]>
+        : never
     : never
 
 export type ApiHeaderParams<Path extends ApiPath, Method extends HttpMethod> =
