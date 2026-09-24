@@ -4717,24 +4717,539 @@ paths:
         - JWT-auth: []
       tags:
         - Accounting / Opening Balances
+  /ai/conversations:
+    get:
+      description: Cursor-paginated, most recently active first.
+      operationId: Conversations.list
+      parameters:
+        - name: cursor
+          required: false
+          in: query
+          description: Id of the last row of the previous page
+          schema:
+            type: string
+        - name: limit
+          required: false
+          in: query
+          schema:
+            minimum: 1
+            maximum: 50
+            default: 20
+            type: integer
+      responses:
+        '200':
+          description: Conversation page
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiSuccessResponseDto'
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/ConversationPageDto'
+        '401':
+          description: JWT token is missing, expired, or invalid
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Unauthorized
+                  data: null
+                  error:
+                    code: UNAUTHORIZED
+                    message: JWT token is missing, expired, or invalid
+        '403':
+          description: Insufficient permissions to perform this action
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Forbidden
+                  data: null
+                  error:
+                    code: FORBIDDEN
+                    message: Insufficient permissions to perform this action
+        '404':
+          description: The requested resource was not found
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Not found
+                  data: null
+                  error:
+                    code: NOT_FOUND
+                    message: The requested resource was not found
+        '422':
+          description: Request body validation failed
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Validation failed
+                  data: null
+                  error:
+                    code: VALIDATION_ERROR
+                    message: Validation failed
+                    details:
+                      - field: email
+                        message: email must be a valid email address
+                        code: isEmail
+        '500':
+          description: An unexpected internal server error occurred
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Internal server error
+                  data: null
+                  error:
+                    code: INTERNAL_ERROR
+                    message: Internal server error
+      security:
+        - JWT-auth: []
+      summary: List my AI conversations
+      tags:
+        - AI / Agent
+    post:
+      operationId: Conversations.create
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateConversationDto'
+      responses:
+        '201':
+          description: Conversation created
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiSuccessResponseDto'
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/ConversationResponseDto'
+        '401':
+          description: JWT token is missing, expired, or invalid
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Unauthorized
+                  data: null
+                  error:
+                    code: UNAUTHORIZED
+                    message: JWT token is missing, expired, or invalid
+        '403':
+          description: Insufficient permissions to perform this action
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Forbidden
+                  data: null
+                  error:
+                    code: FORBIDDEN
+                    message: Insufficient permissions to perform this action
+        '404':
+          description: The requested resource was not found
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Not found
+                  data: null
+                  error:
+                    code: NOT_FOUND
+                    message: The requested resource was not found
+        '422':
+          description: Request body validation failed
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Validation failed
+                  data: null
+                  error:
+                    code: VALIDATION_ERROR
+                    message: Validation failed
+                    details:
+                      - field: email
+                        message: email must be a valid email address
+                        code: isEmail
+        '500':
+          description: An unexpected internal server error occurred
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Internal server error
+                  data: null
+                  error:
+                    code: INTERNAL_ERROR
+                    message: Internal server error
+      security:
+        - JWT-auth: []
+      summary: Create an AI conversation
+      tags:
+        - AI / Agent
+  /ai/conversations/{id}:
+    patch:
+      operationId: Conversations.rename
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateConversationDto'
+      responses:
+        '200':
+          description: Conversation renamed
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiSuccessResponseDto'
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/ConversationResponseDto'
+        '401':
+          description: JWT token is missing, expired, or invalid
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Unauthorized
+                  data: null
+                  error:
+                    code: UNAUTHORIZED
+                    message: JWT token is missing, expired, or invalid
+        '403':
+          description: Insufficient permissions to perform this action
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Forbidden
+                  data: null
+                  error:
+                    code: FORBIDDEN
+                    message: Insufficient permissions to perform this action
+        '404':
+          description: The requested resource was not found
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Not found
+                  data: null
+                  error:
+                    code: NOT_FOUND
+                    message: The requested resource was not found
+        '422':
+          description: Request body validation failed
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Validation failed
+                  data: null
+                  error:
+                    code: VALIDATION_ERROR
+                    message: Validation failed
+                    details:
+                      - field: email
+                        message: email must be a valid email address
+                        code: isEmail
+        '500':
+          description: An unexpected internal server error occurred
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Internal server error
+                  data: null
+                  error:
+                    code: INTERNAL_ERROR
+                    message: Internal server error
+      security:
+        - JWT-auth: []
+      summary: Rename an AI conversation
+      tags:
+        - AI / Agent
+    delete:
+      description: Deletes its messages and the agent checkpoints.
+      operationId: Conversations.remove
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Conversation deleted
+        '401':
+          description: JWT token is missing, expired, or invalid
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Unauthorized
+                  data: null
+                  error:
+                    code: UNAUTHORIZED
+                    message: JWT token is missing, expired, or invalid
+        '403':
+          description: Insufficient permissions to perform this action
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Forbidden
+                  data: null
+                  error:
+                    code: FORBIDDEN
+                    message: Insufficient permissions to perform this action
+        '404':
+          description: The requested resource was not found
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Not found
+                  data: null
+                  error:
+                    code: NOT_FOUND
+                    message: The requested resource was not found
+        '422':
+          description: Request body validation failed
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Validation failed
+                  data: null
+                  error:
+                    code: VALIDATION_ERROR
+                    message: Validation failed
+                    details:
+                      - field: email
+                        message: email must be a valid email address
+                        code: isEmail
+        '500':
+          description: An unexpected internal server error occurred
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Internal server error
+                  data: null
+                  error:
+                    code: INTERNAL_ERROR
+                    message: Internal server error
+      security:
+        - JWT-auth: []
+      summary: Delete an AI conversation
+      tags:
+        - AI / Agent
+  /ai/conversations/{id}/messages:
+    get:
+      description: Cursor-paginated, newest first.
+      operationId: Conversations.messages
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+        - name: cursor
+          required: false
+          in: query
+          description: Id of the last row of the previous page
+          schema:
+            type: string
+        - name: limit
+          required: false
+          in: query
+          schema:
+            minimum: 1
+            maximum: 50
+            default: 20
+            type: integer
+      responses:
+        '200':
+          description: Message page
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiSuccessResponseDto'
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/AiMessagePageDto'
+        '401':
+          description: JWT token is missing, expired, or invalid
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Unauthorized
+                  data: null
+                  error:
+                    code: UNAUTHORIZED
+                    message: JWT token is missing, expired, or invalid
+        '403':
+          description: Insufficient permissions to perform this action
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Forbidden
+                  data: null
+                  error:
+                    code: FORBIDDEN
+                    message: Insufficient permissions to perform this action
+        '404':
+          description: The requested resource was not found
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Not found
+                  data: null
+                  error:
+                    code: NOT_FOUND
+                    message: The requested resource was not found
+        '422':
+          description: Request body validation failed
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Validation failed
+                  data: null
+                  error:
+                    code: VALIDATION_ERROR
+                    message: Validation failed
+                    details:
+                      - field: email
+                        message: email must be a valid email address
+                        code: isEmail
+        '500':
+          description: An unexpected internal server error occurred
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Internal server error
+                  data: null
+                  error:
+                    code: INTERNAL_ERROR
+                    message: Internal server error
+      security:
+        - JWT-auth: []
+      summary: List messages of an AI conversation
+      tags:
+        - AI / Agent
   /ai/model:
     get:
-      description: >-
-        Returns the currently configured AI model name and provider (e.g.,
-        Gemini, OpenAI). The model can be switched via server configuration.
-      operationId: AiChat.getModel
+      operationId: Chat.getModel
       parameters: []
       responses:
         '200':
-          description: Active AI model info
+          description: Active AI model
           content:
             application/json:
               schema:
-                example:
-                  message: Active AI model
-                  data:
-                    provider: google
-                    model: gemini-2.0-flash
+                allOf:
+                  - $ref: '#/components/schemas/ApiSuccessResponseDto'
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/AiModelResponseDto'
         '401':
           description: JWT token is missing, expired, or invalid
           content:
@@ -4811,317 +5326,17 @@ paths:
                     message: Internal server error
       security:
         - JWT-auth: []
-      summary: Get active AI model
+      summary: Get the configured AI provider and model
       tags:
-        - AI Assistant
-  /ai/sessions:
-    get:
-      operationId: AiChat.findAll
-      parameters: []
-      responses:
-        '200':
-          description: AI sessions list retrieved
-          content:
-            application/json:
-              schema:
-                example:
-                  message: AI sessions
-                  data:
-                    - id: ...
-                      title: Monthly sales analysis
-                      createdAt: '2026-04-14T10:00:00.000Z'
-                      messageCount: 5
-        '401':
-          description: JWT token is missing, expired, or invalid
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/ApiErrorResponseDto'
-                example:
-                  status: error
-                  message: Unauthorized
-                  data: null
-                  error:
-                    code: UNAUTHORIZED
-                    message: JWT token is missing, expired, or invalid
-        '403':
-          description: Insufficient permissions to perform this action
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/ApiErrorResponseDto'
-                example:
-                  status: error
-                  message: Forbidden
-                  data: null
-                  error:
-                    code: FORBIDDEN
-                    message: Insufficient permissions to perform this action
-        '404':
-          description: The requested resource was not found
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/ApiErrorResponseDto'
-                example:
-                  status: error
-                  message: Not found
-                  data: null
-                  error:
-                    code: NOT_FOUND
-                    message: The requested resource was not found
-        '422':
-          description: Request body validation failed
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/ApiErrorResponseDto'
-                example:
-                  status: error
-                  message: Validation failed
-                  data: null
-                  error:
-                    code: VALIDATION_ERROR
-                    message: Validation failed
-                    details:
-                      - field: email
-                        message: email must be a valid email address
-                        code: isEmail
-        '500':
-          description: An unexpected internal server error occurred
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/ApiErrorResponseDto'
-                example:
-                  status: error
-                  message: Internal server error
-                  data: null
-                  error:
-                    code: INTERNAL_ERROR
-                    message: Internal server error
-      security:
-        - JWT-auth: []
-      summary: List AI chat sessions
-      tags:
-        - AI Assistant
-    post:
-      operationId: AiChat.create
-      parameters: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreateSessionDto'
-      responses:
-        '201':
-          description: AI session created
-          content:
-            application/json:
-              schema:
-                example:
-                  message: Session created
-                  data:
-                    id: ...
-                    title: Monthly sales analysis
-                    createdAt: '2026-04-14T10:00:00.000Z'
-        '401':
-          description: JWT token is missing, expired, or invalid
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/ApiErrorResponseDto'
-                example:
-                  status: error
-                  message: Unauthorized
-                  data: null
-                  error:
-                    code: UNAUTHORIZED
-                    message: JWT token is missing, expired, or invalid
-        '403':
-          description: Insufficient permissions to perform this action
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/ApiErrorResponseDto'
-                example:
-                  status: error
-                  message: Forbidden
-                  data: null
-                  error:
-                    code: FORBIDDEN
-                    message: Insufficient permissions to perform this action
-        '404':
-          description: The requested resource was not found
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/ApiErrorResponseDto'
-                example:
-                  status: error
-                  message: Not found
-                  data: null
-                  error:
-                    code: NOT_FOUND
-                    message: The requested resource was not found
-        '422':
-          description: Request body validation failed
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/ApiErrorResponseDto'
-                example:
-                  status: error
-                  message: Validation failed
-                  data: null
-                  error:
-                    code: VALIDATION_ERROR
-                    message: Validation failed
-                    details:
-                      - field: email
-                        message: email must be a valid email address
-                        code: isEmail
-        '500':
-          description: An unexpected internal server error occurred
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/ApiErrorResponseDto'
-                example:
-                  status: error
-                  message: Internal server error
-                  data: null
-                  error:
-                    code: INTERNAL_ERROR
-                    message: Internal server error
-      security:
-        - JWT-auth: []
-      summary: Create a new AI chat session
-      tags:
-        - AI Assistant
-  /ai/sessions/{id}:
-    get:
-      operationId: AiChat.findOne
-      parameters:
-        - name: id
-          required: true
-          in: path
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Session details with full message history
-          content:
-            application/json:
-              schema:
-                example:
-                  message: Session details
-                  data:
-                    id: ...
-                    title: Monthly sales analysis
-                    messages:
-                      - role: user
-                        content: What were the top 5 selling items last month?
-                      - role: assistant
-                        content: Based on the sales data...
-        '401':
-          description: JWT token is missing, expired, or invalid
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/ApiErrorResponseDto'
-                example:
-                  status: error
-                  message: Unauthorized
-                  data: null
-                  error:
-                    code: UNAUTHORIZED
-                    message: JWT token is missing, expired, or invalid
-        '403':
-          description: Insufficient permissions to perform this action
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/ApiErrorResponseDto'
-                example:
-                  status: error
-                  message: Forbidden
-                  data: null
-                  error:
-                    code: FORBIDDEN
-                    message: Insufficient permissions to perform this action
-        '404':
-          description: The requested resource was not found
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/ApiErrorResponseDto'
-                example:
-                  status: error
-                  message: Not found
-                  data: null
-                  error:
-                    code: NOT_FOUND
-                    message: The requested resource was not found
-        '422':
-          description: Request body validation failed
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/ApiErrorResponseDto'
-                example:
-                  status: error
-                  message: Validation failed
-                  data: null
-                  error:
-                    code: VALIDATION_ERROR
-                    message: Validation failed
-                    details:
-                      - field: email
-                        message: email must be a valid email address
-                        code: isEmail
-        '500':
-          description: An unexpected internal server error occurred
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/ApiErrorResponseDto'
-                example:
-                  status: error
-                  message: Internal server error
-                  data: null
-                  error:
-                    code: INTERNAL_ERROR
-                    message: Internal server error
-      security:
-        - JWT-auth: []
-      summary: Get AI session with messages
-      tags:
-        - AI Assistant
-  /ai/sessions/{id}/messages:
+        - AI / Agent
+  /ai/conversations/{id}/chat:
     post:
       description: >-
-        Sends a user message to the AI assistant within an existing session. The
-        AI uses the tenant's business data (invoices, inventory, sales) to
-        provide contextual answers. Returns both the user message and the AI
-        response.
-      operationId: AiChat.sendMessage
+        Server-Sent Events in the Vercel AI SDK UI message stream protocol
+        (x-vercel-ai-ui-message-stream: v1). Body carries exactly one of
+        `message` or `approvals`. 409 when approvals do not match the pending
+        actions.
+      operationId: Chat.chat
       parameters:
         - name: id
           required: true
@@ -5133,28 +5348,20 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/SendMessageDto'
+              $ref: '#/components/schemas/ChatRequestDto'
       responses:
-        '201':
-          description: Message sent and AI response received
+        '200':
+          description: SSE stream of UI message chunks
           content:
-            application/json:
+            text/event-stream:
               schema:
-                example:
-                  message: Message sent
-                  data:
-                    userMessage:
-                      role: user
-                      content: What were the top 5 selling items last month?
-                    assistantMessage:
-                      role: assistant
-                      content: >-
-                        Based on the sales data, the top 5 selling items last
-                        month were...
+                type: string
+        '201':
+          description: ''
         '401':
           description: JWT token is missing, expired, or invalid
           content:
-            application/json:
+            text/event-stream:
               schema:
                 allOf:
                   - $ref: '#/components/schemas/ApiErrorResponseDto'
@@ -5168,7 +5375,7 @@ paths:
         '403':
           description: Insufficient permissions to perform this action
           content:
-            application/json:
+            text/event-stream:
               schema:
                 allOf:
                   - $ref: '#/components/schemas/ApiErrorResponseDto'
@@ -5182,7 +5389,7 @@ paths:
         '404':
           description: The requested resource was not found
           content:
-            application/json:
+            text/event-stream:
               schema:
                 allOf:
                   - $ref: '#/components/schemas/ApiErrorResponseDto'
@@ -5196,7 +5403,7 @@ paths:
         '422':
           description: Request body validation failed
           content:
-            application/json:
+            text/event-stream:
               schema:
                 allOf:
                   - $ref: '#/components/schemas/ApiErrorResponseDto'
@@ -5214,7 +5421,7 @@ paths:
         '500':
           description: An unexpected internal server error occurred
           content:
-            application/json:
+            text/event-stream:
               schema:
                 allOf:
                   - $ref: '#/components/schemas/ApiErrorResponseDto'
@@ -5227,9 +5434,9 @@ paths:
                     message: Internal server error
       security:
         - JWT-auth: []
-      summary: Send a message to the AI assistant
+      summary: Send a message or approval decisions to the AI agent
       tags:
-        - AI Assistant
+        - AI / Agent
   /audit-logs:
     get:
       description: >-
@@ -22641,6 +22848,214 @@ paths:
       summary: Get dashboard chart data
       tags:
         - Dashboard
+  /dashboard/expense-breakdown:
+    get:
+      description: >-
+        Posted expense totals grouped by GL account for the selected date range
+        (top 5 + "Other"). Defaults to current calendar month.
+      operationId: Dashboard.expenseBreakdown
+      parameters:
+        - name: from
+          required: false
+          in: query
+          description: Start date (ISO 8601)
+          schema:
+            type: string
+        - name: to
+          required: false
+          in: query
+          description: End date (ISO 8601)
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Expense breakdown by account
+        '401':
+          description: JWT token is missing, expired, or invalid
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Unauthorized
+                  data: null
+                  error:
+                    code: UNAUTHORIZED
+                    message: JWT token is missing, expired, or invalid
+        '403':
+          description: Insufficient permissions to perform this action
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Forbidden
+                  data: null
+                  error:
+                    code: FORBIDDEN
+                    message: Insufficient permissions to perform this action
+        '404':
+          description: The requested resource was not found
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Not found
+                  data: null
+                  error:
+                    code: NOT_FOUND
+                    message: The requested resource was not found
+        '422':
+          description: Request body validation failed
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Validation failed
+                  data: null
+                  error:
+                    code: VALIDATION_ERROR
+                    message: Validation failed
+                    details:
+                      - field: email
+                        message: email must be a valid email address
+                        code: isEmail
+        '500':
+          description: An unexpected internal server error occurred
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Internal server error
+                  data: null
+                  error:
+                    code: INTERNAL_ERROR
+                    message: Internal server error
+      security:
+        - JWT-auth: []
+      summary: Get dashboard expense breakdown
+      tags:
+        - Dashboard
+  /dashboard/top-items:
+    get:
+      description: >-
+        Top items by posted sales revenue for the selected date range. Defaults
+        to current calendar month.
+      operationId: Dashboard.topItems
+      parameters:
+        - name: from
+          required: false
+          in: query
+          description: Start date (ISO 8601)
+          schema:
+            type: string
+        - name: to
+          required: false
+          in: query
+          description: End date (ISO 8601)
+          schema:
+            type: string
+        - name: limit
+          required: false
+          in: query
+          description: Max items to return (default 5, max 10)
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Top-selling items
+        '401':
+          description: JWT token is missing, expired, or invalid
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Unauthorized
+                  data: null
+                  error:
+                    code: UNAUTHORIZED
+                    message: JWT token is missing, expired, or invalid
+        '403':
+          description: Insufficient permissions to perform this action
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Forbidden
+                  data: null
+                  error:
+                    code: FORBIDDEN
+                    message: Insufficient permissions to perform this action
+        '404':
+          description: The requested resource was not found
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Not found
+                  data: null
+                  error:
+                    code: NOT_FOUND
+                    message: The requested resource was not found
+        '422':
+          description: Request body validation failed
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Validation failed
+                  data: null
+                  error:
+                    code: VALIDATION_ERROR
+                    message: Validation failed
+                    details:
+                      - field: email
+                        message: email must be a valid email address
+                        code: isEmail
+        '500':
+          description: An unexpected internal server error occurred
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Internal server error
+                  data: null
+                  error:
+                    code: INTERNAL_ERROR
+                    message: Internal server error
+      security:
+        - JWT-auth: []
+      summary: Get dashboard top-selling items
+      tags:
+        - Dashboard
 info:
   title: Devloggers ERP API
   description: ERP system API documentation
@@ -24449,22 +24864,169 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/OpeningBalanceSessionLineDto'
-    CreateSessionDto:
+    ConversationResponseDto:
+      type: object
+      properties:
+        id:
+          type: string
+          default: ''
+          example: 018e1234-abcd-7000-a001-000000000001
+        title:
+          type: string
+          nullable: true
+          default: null
+          example: Stock cleanup
+        lastMessageAt:
+          type: string
+          default: ''
+          example: '2026-09-24T10:00:00.000Z'
+        createdAt:
+          type: string
+          default: ''
+          example: '2026-09-24T10:00:00.000Z'
+      required:
+        - id
+        - title
+        - lastMessageAt
+        - createdAt
+    ConversationPageDto:
+      type: object
+      properties:
+        items:
+          default: []
+          type: array
+          items:
+            $ref: '#/components/schemas/ConversationResponseDto'
+        nextCursor:
+          type: string
+          nullable: true
+          default: null
+      required:
+        - items
+        - nextCursor
+    CreateConversationDto:
       type: object
       properties:
         title:
           type: string
-          example: Monthly sales analysis
-          description: Optional session title
-    SendMessageDto:
+          maxLength: 200
+          example: Stock cleanup
+          description: Optional title; defaults to the first message
+    UpdateConversationDto:
+      type: object
+      properties:
+        title:
+          type: string
+          maxLength: 200
+          example: Stock cleanup
+      required:
+        - title
+    AiMessageRoleEnum:
+      type: string
+      enum:
+        - USER
+        - ASSISTANT
+        - SYSTEM
+    AiMessageResponseDto:
+      type: object
+      properties:
+        id:
+          type: string
+          default: ''
+        role:
+          default: USER
+          allOf:
+            - $ref: '#/components/schemas/AiMessageRoleEnum'
+        parts:
+          type: array
+          default: []
+          items:
+            type: object
+            additionalProperties: true
+          description: AI SDK UIMessage parts, verbatim
+        metadata:
+          type: object
+          nullable: true
+          default: null
+          additionalProperties: true
+        createdAt:
+          type: string
+          default: ''
+          example: '2026-09-24T10:00:00.000Z'
+      required:
+        - id
+        - role
+        - parts
+        - metadata
+        - createdAt
+    AiMessagePageDto:
+      type: object
+      properties:
+        items:
+          default: []
+          description: Newest first
+          type: array
+          items:
+            $ref: '#/components/schemas/AiMessageResponseDto'
+        nextCursor:
+          type: string
+          nullable: true
+          default: null
+      required:
+        - items
+        - nextCursor
+    AiModelResponseDto:
+      type: object
+      properties:
+        provider:
+          type: string
+          default: ''
+          example: openai
+        model:
+          type: string
+          nullable: true
+          default: null
+          example: null
+      required:
+        - provider
+        - model
+    ChatUserMessageDto:
+      type: object
+      properties:
+        id:
+          type: string
+          maxLength: 100
+          description: Client-generated message id (AI SDK)
+        text:
+          type: string
+          maxLength: 8000
+          example: List my units
+      required:
+        - id
+        - text
+    ApprovalDecisionDto:
+      type: object
+      properties:
+        toolCallId:
+          type: string
+        approved:
+          type: boolean
+        reason:
+          type: string
+          maxLength: 500
+      required:
+        - toolCallId
+        - approved
+    ChatRequestDto:
       type: object
       properties:
         message:
-          type: string
-          example: What were the top 5 selling items last month?
-          description: User message to the AI assistant
-      required:
-        - message
+          $ref: '#/components/schemas/ChatUserMessageDto'
+        approvals:
+          maxItems: 20
+          type: array
+          items:
+            $ref: '#/components/schemas/ApprovalDecisionDto'
     ImportFileDto:
       type: object
       properties:

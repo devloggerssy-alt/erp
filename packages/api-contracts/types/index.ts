@@ -526,7 +526,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/ai/model": {
+    "/ai/conversations": {
         parameters: {
             query?: never;
             header?: never;
@@ -534,10 +534,52 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * Get active AI model
-         * @description Returns the currently configured AI model name and provider (e.g., Gemini, OpenAI). The model can be switched via server configuration.
+         * List my AI conversations
+         * @description Cursor-paginated, most recently active first.
          */
-        get: operations["AiChat.getModel"];
+        get: operations["Conversations.list"];
+        put?: never;
+        /** Create an AI conversation */
+        post: operations["Conversations.create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai/conversations/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /**
+         * Delete an AI conversation
+         * @description Deletes its messages and the agent checkpoints.
+         */
+        delete: operations["Conversations.remove"];
+        options?: never;
+        head?: never;
+        /** Rename an AI conversation */
+        patch: operations["Conversations.rename"];
+        trace?: never;
+    };
+    "/ai/conversations/{id}/messages": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List messages of an AI conversation
+         * @description Cursor-paginated, newest first.
+         */
+        get: operations["Conversations.messages"];
         put?: never;
         post?: never;
         delete?: never;
@@ -546,33 +588,15 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/ai/sessions": {
+    "/ai/model": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /** List AI chat sessions */
-        get: operations["AiChat.findAll"];
-        put?: never;
-        /** Create a new AI chat session */
-        post: operations["AiChat.create"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/ai/sessions/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get AI session with messages */
-        get: operations["AiChat.findOne"];
+        /** Get the configured AI provider and model */
+        get: operations["Chat.getModel"];
         put?: never;
         post?: never;
         delete?: never;
@@ -581,7 +605,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/ai/sessions/{id}/messages": {
+    "/ai/conversations/{id}/chat": {
         parameters: {
             query?: never;
             header?: never;
@@ -591,10 +615,10 @@ export interface paths {
         get?: never;
         put?: never;
         /**
-         * Send a message to the AI assistant
-         * @description Sends a user message to the AI assistant within an existing session. The AI uses the tenant's business data (invoices, inventory, sales) to provide contextual answers. Returns both the user message and the AI response.
+         * Send a message or approval decisions to the AI agent
+         * @description Server-Sent Events in the Vercel AI SDK UI message stream protocol (x-vercel-ai-ui-message-stream: v1). Body carries exactly one of `message` or `approvals`. 409 when approvals do not match the pending actions.
          */
-        post: operations["AiChat.sendMessage"];
+        post: operations["Chat.chat"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2558,6 +2582,46 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/dashboard/expense-breakdown": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get dashboard expense breakdown
+         * @description Posted expense totals grouped by GL account for the selected date range (top 5 + "Other"). Defaults to current calendar month.
+         */
+        get: operations["Dashboard.expenseBreakdown"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/dashboard/top-items": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get dashboard top-selling items
+         * @description Top items by posted sales revenue for the selected date range. Defaults to current calendar month.
+         */
+        get: operations["Dashboard.topItems"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -3884,19 +3948,104 @@ export interface components {
             description?: string;
             lines?: components["schemas"]["OpeningBalanceSessionLineDto"][];
         };
-        CreateSessionDto: {
+        ConversationResponseDto: {
             /**
-             * @description Optional session title
-             * @example Monthly sales analysis
+             * @default
+             * @example 018e1234-abcd-7000-a001-000000000001
+             */
+            id: string;
+            /**
+             * @default null
+             * @example Stock cleanup
+             */
+            title: string | null;
+            /**
+             * @default
+             * @example 2026-09-24T10:00:00.000Z
+             */
+            lastMessageAt: string;
+            /**
+             * @default
+             * @example 2026-09-24T10:00:00.000Z
+             */
+            createdAt: string;
+        };
+        ConversationPageDto: {
+            /** @default [] */
+            items: components["schemas"]["ConversationResponseDto"][];
+            /** @default null */
+            nextCursor: string | null;
+        };
+        CreateConversationDto: {
+            /**
+             * @description Optional title; defaults to the first message
+             * @example Stock cleanup
              */
             title?: string;
         };
-        SendMessageDto: {
+        UpdateConversationDto: {
+            /** @example Stock cleanup */
+            title: string;
+        };
+        /** @enum {string} */
+        AiMessageRoleEnum: "USER" | "ASSISTANT" | "SYSTEM";
+        AiMessageResponseDto: {
+            /** @default  */
+            id: string;
+            /** @default USER */
+            role: components["schemas"]["AiMessageRoleEnum"];
             /**
-             * @description User message to the AI assistant
-             * @example What were the top 5 selling items last month?
+             * @description AI SDK UIMessage parts, verbatim
+             * @default []
              */
-            message: string;
+            parts: {
+                [key: string]: unknown;
+            }[];
+            /** @default null */
+            metadata: {
+                [key: string]: unknown;
+            } | null;
+            /**
+             * @default
+             * @example 2026-09-24T10:00:00.000Z
+             */
+            createdAt: string;
+        };
+        AiMessagePageDto: {
+            /**
+             * @description Newest first
+             * @default []
+             */
+            items: components["schemas"]["AiMessageResponseDto"][];
+            /** @default null */
+            nextCursor: string | null;
+        };
+        AiModelResponseDto: {
+            /**
+             * @default
+             * @example openai
+             */
+            provider: string;
+            /**
+             * @default null
+             * @example null
+             */
+            model: string | null;
+        };
+        ChatUserMessageDto: {
+            /** @description Client-generated message id (AI SDK) */
+            id: string;
+            /** @example List my units */
+            text: string;
+        };
+        ApprovalDecisionDto: {
+            toolCallId: string;
+            approved: boolean;
+            reason?: string;
+        };
+        ChatRequestDto: {
+            message?: components["schemas"]["ChatUserMessageDto"];
+            approvals?: components["schemas"]["ApprovalDecisionDto"][];
         };
         ImportFileDto: {
             /**
@@ -10263,22 +10412,28 @@ export interface operations {
             };
         };
     };
-    "AiChat.getModel": {
+    "Conversations.list": {
         parameters: {
-            query?: never;
+            query?: {
+                /** @description Id of the last row of the previous page */
+                cursor?: string;
+                limit?: number;
+            };
             header?: never;
             path?: never;
             cookie?: never;
         };
         requestBody?: never;
         responses: {
-            /** @description Active AI model info */
+            /** @description Conversation page */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["ConversationPageDto"];
+                    };
                 };
             };
             /** @description JWT token is missing, expired, or invalid */
@@ -10328,72 +10483,7 @@ export interface operations {
             };
         };
     };
-    "AiChat.findAll": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description AI sessions list retrieved */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description JWT token is missing, expired, or invalid */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            /** @description Insufficient permissions to perform this action */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            /** @description The requested resource was not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            /** @description Request body validation failed */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            /** @description An unexpected internal server error occurred */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-        };
-    };
-    "AiChat.create": {
+    "Conversations.create": {
         parameters: {
             query?: never;
             header?: never;
@@ -10402,17 +10492,19 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["CreateSessionDto"];
+                "application/json": components["schemas"]["CreateConversationDto"];
             };
         };
         responses: {
-            /** @description AI session created */
+            /** @description Conversation created */
             201: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["ConversationResponseDto"];
+                    };
                 };
             };
             /** @description JWT token is missing, expired, or invalid */
@@ -10462,7 +10554,7 @@ export interface operations {
             };
         };
     };
-    "AiChat.findOne": {
+    "Conversations.remove": {
         parameters: {
             query?: never;
             header?: never;
@@ -10473,13 +10565,84 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Session details with full message history */
+            /** @description Conversation deleted */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    "Conversations.rename": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateConversationDto"];
+            };
+        };
+        responses: {
+            /** @description Conversation renamed */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["ConversationResponseDto"];
+                    };
                 };
             };
             /** @description JWT token is missing, expired, or invalid */
@@ -10529,28 +10692,30 @@ export interface operations {
             };
         };
     };
-    "AiChat.sendMessage": {
+    "Conversations.messages": {
         parameters: {
-            query?: never;
+            query?: {
+                /** @description Id of the last row of the previous page */
+                cursor?: string;
+                limit?: number;
+            };
             header?: never;
             path: {
                 id: string;
             };
             cookie?: never;
         };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["SendMessageDto"];
-            };
-        };
+        requestBody?: never;
         responses: {
-            /** @description Message sent and AI response received */
-            201: {
+            /** @description Message page */
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["AiMessagePageDto"];
+                    };
                 };
             };
             /** @description JWT token is missing, expired, or invalid */
@@ -10596,6 +10761,150 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    "Chat.getModel": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Active AI model */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["AiModelResponseDto"];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    "Chat.chat": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ChatRequestDto"];
+            };
+        };
+        responses: {
+            /** @description SSE stream of UI message chunks */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/event-stream": string;
+                };
+            };
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/event-stream": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/event-stream": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/event-stream": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/event-stream": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/event-stream": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -22917,6 +23226,144 @@ export interface operations {
                 content: {
                     "application/json": unknown;
                 };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    "Dashboard.expenseBreakdown": {
+        parameters: {
+            query?: {
+                /** @description Start date (ISO 8601) */
+                from?: string;
+                /** @description End date (ISO 8601) */
+                to?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Expense breakdown by account */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    "Dashboard.topItems": {
+        parameters: {
+            query?: {
+                /** @description Start date (ISO 8601) */
+                from?: string;
+                /** @description End date (ISO 8601) */
+                to?: string;
+                /** @description Max items to return (default 5, max 10) */
+                limit?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Top-selling items */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
             /** @description JWT token is missing, expired, or invalid */
             401: {

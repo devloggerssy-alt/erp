@@ -206,6 +206,19 @@ export class ApiClient {
     }
 
 
+    /**
+     * URL + default headers (auth, locale) for requests the typed client cannot
+     * make itself — e.g. the AI chat SSE stream consumed by the AI SDK transport.
+     */
+    resolveRequestTarget(endpoint: string): { url: string; headers: Record<string, string> } {
+        const headers = this.withDefaultHeaders()
+        headers.delete("Accept")
+        return {
+            url: `${this.normalizeBaseUrl(this.baseUrl)}${endpoint}`,
+            headers: Object.fromEntries(headers.entries()),
+        }
+    }
+
     async postFormData(endpoint: string, formData: FormData): Promise<any> {
         const url = `${this.normalizeBaseUrl(this.baseUrl)}${endpoint}`
         const headers = new Headers(this.defaultOptions.headers as Record<string, string>)
