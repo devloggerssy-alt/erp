@@ -171,22 +171,49 @@ exports.Prisma.JournalLineScalarFieldEnum = {
   sortOrder: 'sortOrder'
 };
 
-exports.Prisma.AiChatSessionScalarFieldEnum = {
+exports.Prisma.AiConversationScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
   userId: 'userId',
   title: 'title',
+  lastMessageAt: 'lastMessageAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
 
-exports.Prisma.AiChatMessageScalarFieldEnum = {
+exports.Prisma.AiMessageScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
-  sessionId: 'sessionId',
+  conversationId: 'conversationId',
   role: 'role',
-  content: 'content',
+  parts: 'parts',
+  metadata: 'metadata',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.AiCheckpointScalarFieldEnum = {
+  threadId: 'threadId',
+  checkpointNs: 'checkpointNs',
+  checkpointId: 'checkpointId',
+  parentCheckpointId: 'parentCheckpointId',
+  tenantId: 'tenantId',
+  type: 'type',
+  checkpoint: 'checkpoint',
+  metadata: 'metadata',
   createdAt: 'createdAt'
+};
+
+exports.Prisma.AiCheckpointWriteScalarFieldEnum = {
+  threadId: 'threadId',
+  checkpointNs: 'checkpointNs',
+  checkpointId: 'checkpointId',
+  taskId: 'taskId',
+  idx: 'idx',
+  channel: 'channel',
+  type: 'type',
+  value: 'value',
+  tenantId: 'tenantId'
 };
 
 exports.Prisma.AuditLogScalarFieldEnum = {
@@ -859,9 +886,10 @@ exports.JournalEntryStatus = exports.$Enums.JournalEntryStatus = {
   POSTED: 'POSTED'
 };
 
-exports.MessageRole = exports.$Enums.MessageRole = {
+exports.AiMessageRole = exports.$Enums.AiMessageRole = {
   USER: 'USER',
-  ASSISTANT: 'ASSISTANT'
+  ASSISTANT: 'ASSISTANT',
+  SYSTEM: 'SYSTEM'
 };
 
 exports.PaymentType = exports.$Enums.PaymentType = {
@@ -1000,8 +1028,10 @@ exports.Prisma.ModelName = {
   ChartOfAccount: 'ChartOfAccount',
   JournalEntry: 'JournalEntry',
   JournalLine: 'JournalLine',
-  AiChatSession: 'AiChatSession',
-  AiChatMessage: 'AiChatMessage',
+  AiConversation: 'AiConversation',
+  AiMessage: 'AiMessage',
+  AiCheckpoint: 'AiCheckpoint',
+  AiCheckpointWrite: 'AiCheckpointWrite',
   AuditLog: 'AuditLog',
   BankAccount: 'BankAccount',
   Brand: 'Brand',

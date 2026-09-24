@@ -45,7 +45,8 @@ model Tenant {
     auditLogs         AuditLog[]
     reconciliationRuns ReconciliationRun[]
     outboxEvents       OutboxEvent[]
-    aiChatSessions    AiChatSession[]
+    aiConversations   AiConversation[]
+    aiMessages        AiMessage[]
     baseCurrency         Currency?         @relation("TenantBaseCurrency", fields: [baseCurrencyId], references: [id])
     defaultSalesSequence DocumentSequence? @relation("TenantDefaultSalesSequence", fields: [defaultSalesSequenceId], references: [id])
     settings             TenantSetting[]
