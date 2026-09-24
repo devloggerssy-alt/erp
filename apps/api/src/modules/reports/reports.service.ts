@@ -213,4 +213,89 @@ export class ReportsService {
             .map(([date, values]) => ({ date, ...values }))
             .sort((a, b) => a.date.localeCompare(b.date));
     }
+
+    async getDashboardExpenseBreakdown(tenantId: string, filters?: { from?: string; to?: string }) {
+        const today = new Date();
+        const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+        const from = filters?.from ? new Date(filters.from) : startOfMonth;
+        const to = filters?.to ? new Date(filters.to) : today;
+
+        const grouped = await this.prisma.expenseItem.groupBy({
+            by: ['accountId'],
+            where: { tenantId, expense: { status: 'POSTED', date: { gte: from, lte: to } } },
+            _sum: { amount: true },
+            orderBy: { _sum: { amount: 'desc' } },
+        });
+
+        if (grouped.length === 0) {
+            return [];
+        }
+
+        const TOP_N = 5;
+        const top = grouped.slice(0, TOP_N);
+        const rest = grouped.slice(TOP_N);
+
+        const accounts = await this.prisma.chartOfAccount.findMany({
+            where: { id: { in: top.map((g) => g.accountId) } },
+            select: { id: true, name: true },
+        });
+        const accountById = new Map(accounts.map((a) => [a.id, a.name]));
+
+        const result = top.map((g) => ({
+            accountId: g.accountId,
+            accountName: accountById.get(g.accountId) ?? null,
+            total: Number(g._sum.amount ?? 0),
+        }));
+
+        if (rest.length > 0) {
+            const otherTotal = rest.reduce((sum, g) => sum + Number(g._sum.amount ?? 0), 0);
+            result.push({
+                accountId: 'other',
+                accountName: { en: 'Other', ar: 'أخرى' },
+                total: otherTotal,
+            });
+        }
+
+        return result;
+    }
+
+    async getDashboardTopItems(tenantId: string, filters?: { from?: string; to?: string; limit?: number }) {
+        const today = new Date();
+        const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+        const from = filters?.from ? new Date(filters.from) : startOfMonth;
+        const to = filters?.to ? new Date(filters.to) : today;
+        const limit = filters?.limit ?? 5;
+
+        const grouped = await this.prisma.invoiceLine.groupBy({
+            by: ['itemId'],
+            where: {
+                tenantId,
+                invoice: { status: 'POSTED', invoiceType: { direction: 'SALE' }, date: { gte: from, lte: to } },
+            },
+            _sum: { total: true, quantity: true },
+            orderBy: { _sum: { total: 'desc' } },
+            take: limit,
+        });
+
+        if (grouped.length === 0) {
+            return [];
+        }
+
+        const items = await this.prisma.item.findMany({
+            where: { id: { in: grouped.map((g) => g.itemId) } },
+            select: { id: true, name: true, code: true },
+        });
+        const itemById = new Map(items.map((i) => [i.id, i]));
+
+        return grouped.map((g) => {
+            const item = itemById.get(g.itemId);
+            return {
+                itemId: g.itemId,
+                itemName: item?.name ?? '',
+                itemCode: item?.code ?? '',
+                quantity: Number(g._sum.quantity ?? 0),
+                revenue: Number(g._sum.total ?? 0),
+            };
+        });
+    }
 }
