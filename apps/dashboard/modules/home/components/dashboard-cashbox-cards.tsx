@@ -3,27 +3,15 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/shared/components/ui
 import { Skeleton } from "@/shared/components/ui/skeleton"
 import { useTranslations, useLocale } from "next-intl"
 import type { DashboardCashbox } from "@devloggers/api-client"
+import { localize } from "@/shared/lib/localize"
 
 const BORDER_COLORS = [
-    "border-s-emerald-500",
-    "border-s-blue-500",
-    "border-s-violet-500",
-    "border-s-amber-500",
-    "border-s-rose-500",
-    "border-s-cyan-500",
+    "border-s-[var(--chart-1)]",
+    "border-s-[var(--chart-2)]",
+    "border-s-[var(--chart-3)]",
+    "border-s-[var(--chart-4)]",
+    "border-s-[var(--chart-5)]",
 ]
-
-function getLocalizedName(
-    name: Record<string, string> | unknown,
-    locale: string,
-): string {
-    if (typeof name === "string") return name
-    if (name && typeof name === "object") {
-        const n = name as Record<string, string>
-        return n[locale] ?? n["ar"] ?? n["en"] ?? ""
-    }
-    return ""
-}
 
 interface DashboardCashboxCardsProps {
     cashboxes: DashboardCashbox[]
@@ -52,13 +40,13 @@ export function DashboardCashboxCards({
                           >
                               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1 pt-4">
                                   <CardTitle className="text-sm font-medium truncate">
-                                      {getLocalizedName(cashbox.name, locale)}
+                                      {localize(cashbox.name, locale)}
                                   </CardTitle>
                                   <WalletIcon className="h-4 w-4 text-muted-foreground shrink-0" />
                               </CardHeader>
                               <CardContent className="pb-4">
                                   <div className="text-xl font-bold">
-                                      {getLocalizedName(cashbox.currency.symbol, locale)}{" "}
+                                      {cashbox.currency.symbol}{" "}
                                       {new Intl.NumberFormat(undefined, {
                                           minimumFractionDigits: 2,
                                           maximumFractionDigits: 2,

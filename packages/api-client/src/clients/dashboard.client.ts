@@ -1,10 +1,11 @@
+import type { LocalizedString } from "@devloggers/api-contracts"
 import { ApiClient } from "../infra/client"
 import type { DateRangeFilter } from "./reports.client"
 
 export type DashboardCashbox = {
     id: string
     code: string
-    name: Record<string, string>
+    name: LocalizedString
     balance: string
     currency: { code: string; symbol: string }
 }
