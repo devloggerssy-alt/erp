@@ -7,6 +7,7 @@ import { ConversationsService } from './conversations/services/conversations.ser
 import { AiToolRegistry } from './tools/ai-tool-registry';
 import { AiToolExecutor } from './tools/ai-tool-executor';
 import { MetaToolsProvider } from './tools/meta-tools.provider';
+import { PrismaCheckpointSaver } from './runtime/prisma-checkpoint-saver';
 
 @Module({
     imports: [DiscoveryModule],
@@ -18,6 +19,7 @@ import { MetaToolsProvider } from './tools/meta-tools.provider';
         AiToolRegistry,
         AiToolExecutor,
         MetaToolsProvider,
+        PrismaCheckpointSaver,
     ],
 })
 export class AiAgentModule {}
