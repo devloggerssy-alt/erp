@@ -7,13 +7,20 @@ import DashboardPage from "@/infrastructure/components/layout/dashboard/dashboar
 import { DashboardDateRangePicker } from "./components/dashboard-date-range-picker"
 import { DashboardKpiCards } from "./components/dashboard-kpi-cards"
 import { DashboardCashboxCards } from "./components/dashboard-cashbox-cards"
+import { DashboardCashDistribution } from "./components/dashboard-cash-distribution"
+import { DashboardRevenueBreakdown } from "./components/dashboard-revenue-breakdown"
 import { DashboardQuickActions } from "./components/dashboard-quick-actions"
 import { DashboardChart } from "./components/dashboard-chart"
+import { DashboardExpenseBreakdown } from "./components/dashboard-expense-breakdown"
+import { DashboardTopItems } from "./components/dashboard-top-items"
 import { DashboardLowStock } from "./components/dashboard-low-stock"
 import { DashboardRecentPayments } from "./components/dashboard-recent-payments"
 import { DashboardItemsOverview } from "./components/dashboard-items-overview"
 import { useDashboardSummary } from "./hooks/use-dashboard-summary"
 import { useDashboardChart } from "./hooks/use-dashboard-chart"
+import { useDashboardExpenseBreakdown } from "./hooks/use-dashboard-expense-breakdown"
+import { useDashboardTopItems } from "./hooks/use-dashboard-top-items"
+import { getPriorPeriodRange } from "./lib/date-range"
 
 export function DashboardContent() {
     const t = useTranslations("business.dashboard")
@@ -26,8 +33,15 @@ export function DashboardContent() {
     const fromIso = dateRange.from.toISOString()
     const toIso = dateRange.to.toISOString()
 
+    const priorRange = getPriorPeriodRange(dateRange.from, dateRange.to)
+    const priorFromIso = priorRange.from.toISOString()
+    const priorToIso = priorRange.to.toISOString()
+
     const summary = useDashboardSummary(fromIso, toIso)
+    const previousSummary = useDashboardSummary(priorFromIso, priorToIso)
     const chart = useDashboardChart(fromIso, toIso)
+    const expenseBreakdown = useDashboardExpenseBreakdown(fromIso, toIso)
+    const topItems = useDashboardTopItems(fromIso, toIso)
 
     return (
         <DashboardPage
@@ -44,11 +58,7 @@ export function DashboardContent() {
             <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
                 <DashboardKpiCards
                     data={summary.data}
-                    isLoading={summary.isLoading}
-                />
-
-                <DashboardCashboxCards
-                    cashboxes={summary.data?.cashboxes ?? []}
+                    previousData={previousSummary.data}
                     isLoading={summary.isLoading}
                 />
 
@@ -64,6 +74,33 @@ export function DashboardContent() {
                     <div className="md:col-span-2">
                         <DashboardLowStock />
                     </div>
+                </div>
+
+                <div className="grid gap-4 md:grid-cols-2">
+                    <DashboardCashDistribution
+                        cashboxes={summary.data?.cashboxes ?? []}
+                        isLoading={summary.isLoading}
+                    />
+                    <DashboardRevenueBreakdown
+                        data={summary.data}
+                        isLoading={summary.isLoading}
+                    />
+                </div>
+
+                <DashboardCashboxCards
+                    cashboxes={summary.data?.cashboxes ?? []}
+                    isLoading={summary.isLoading}
+                />
+
+                <div className="grid gap-4 md:grid-cols-2">
+                    <DashboardExpenseBreakdown
+                        data={expenseBreakdown.data}
+                        isLoading={expenseBreakdown.isLoading}
+                    />
+                    <DashboardTopItems
+                        data={topItems.data}
+                        isLoading={topItems.isLoading}
+                    />
                 </div>
 
                 <div className="grid gap-4 md:grid-cols-7">
