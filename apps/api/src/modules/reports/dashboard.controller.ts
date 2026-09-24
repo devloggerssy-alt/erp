@@ -57,4 +57,49 @@ export class DashboardController {
             'Chart data',
         );
     }
+
+    @Get('expense-breakdown')
+    @RequirePermission('dashboard.view')
+    @ApiOperation({
+        summary: 'Get dashboard expense breakdown',
+        description: 'Posted expense totals grouped by GL account for the selected date range (top 5 + "Other"). Defaults to current calendar month.',
+    })
+    @ApiQuery({ name: 'from', required: false, description: 'Start date (ISO 8601)' })
+    @ApiQuery({ name: 'to', required: false, description: 'End date (ISO 8601)' })
+    @ApiOkResponse({ description: 'Expense breakdown by account' })
+    @ApiStandardErrors()
+    async expenseBreakdown(
+        @CurrentUser() user: RequestUser,
+        @Query('from') from?: string,
+        @Query('to') to?: string,
+    ) {
+        return ApiResponseBuilder.success(
+            await this.reportsService.getDashboardExpenseBreakdown(user.tenantId, { from, to }),
+            'Expense breakdown',
+        );
+    }
+
+    @Get('top-items')
+    @RequirePermission('dashboard.view')
+    @ApiOperation({
+        summary: 'Get dashboard top-selling items',
+        description: 'Top items by posted sales revenue for the selected date range. Defaults to current calendar month.',
+    })
+    @ApiQuery({ name: 'from', required: false, description: 'Start date (ISO 8601)' })
+    @ApiQuery({ name: 'to', required: false, description: 'End date (ISO 8601)' })
+    @ApiQuery({ name: 'limit', required: false, description: 'Max items to return (default 5, max 10)' })
+    @ApiOkResponse({ description: 'Top-selling items' })
+    @ApiStandardErrors()
+    async topItems(
+        @CurrentUser() user: RequestUser,
+        @Query('from') from?: string,
+        @Query('to') to?: string,
+        @Query('limit') limit?: string,
+    ) {
+        const parsedLimit = limit ? Math.min(10, Math.max(1, parseInt(limit, 10) || 5)) : 5;
+        return ApiResponseBuilder.success(
+            await this.reportsService.getDashboardTopItems(user.tenantId, { from, to, limit: parsedLimit }),
+            'Top items',
+        );
+    }
 }

@@ -26,6 +26,20 @@ export type DashboardChartPoint = {
     purchases: number
 }
 
+export type DashboardExpenseBreakdownItem = {
+    accountId: string
+    accountName: Record<string, string>
+    total: number
+}
+
+export type DashboardTopItem = {
+    itemId: string
+    itemName: string
+    itemCode: string
+    quantity: number
+    revenue: number
+}
+
 const EMPTY_SUMMARY: DashboardSummaryResponse = {
     totalSales: 0,
     totalPurchases: 0,
@@ -59,6 +73,28 @@ export class DashboardClient {
             '/dashboard/chart-data' as never,
             query ? ({ query } as never) : undefined,
         ) as { data?: DashboardChartPoint[] }
+        return res?.data ?? []
+    }
+
+    async expenseBreakdown(filters?: DateRangeFilter): Promise<DashboardExpenseBreakdownItem[]> {
+        const query = filters
+            ? Object.fromEntries(Object.entries(filters).filter(([, v]) => v))
+            : undefined
+        const res = await this.apiClient.get(
+            '/dashboard/expense-breakdown' as never,
+            query ? ({ query } as never) : undefined,
+        ) as { data?: DashboardExpenseBreakdownItem[] }
+        return res?.data ?? []
+    }
+
+    async topItems(filters?: DateRangeFilter & { limit?: number }): Promise<DashboardTopItem[]> {
+        const query = filters
+            ? Object.fromEntries(Object.entries(filters).filter(([, v]) => v))
+            : undefined
+        const res = await this.apiClient.get(
+            '/dashboard/top-items' as never,
+            query ? ({ query } as never) : undefined,
+        ) as { data?: DashboardTopItem[] }
         return res?.data ?? []
     }
 }
