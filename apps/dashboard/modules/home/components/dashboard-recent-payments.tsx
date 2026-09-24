@@ -15,16 +15,28 @@ import {
 } from "@/shared/components/ui/table"
 import { Badge } from "@/shared/components/ui/badge"
 import { Skeleton } from "@/shared/components/ui/skeleton"
-import { useTranslations, useLocale } from "next-intl"
+import { useTranslations } from "next-intl"
+import type { BaseCrudItem } from "@devloggers/api-client"
 import { useDashboardMovements } from "../hooks"
 
-function resolveLocalizedName(name: unknown, locale: string): string {
-    if (typeof name === "string") return name
-    if (name && typeof name === "object") {
-        const n = name as Record<string, string>
-        return n[locale] ?? n["ar"] ?? n["en"] ?? ""
-    }
-    return ""
+// NOTE (kept intentionally — do not remove without fixing the root cause):
+// `PaymentsClient.list()` returns `BaseCrudItem[]` (just `{ id: string }`), not the real
+// `PaymentResponseDto` shape, because `PaymentsClient` hand-implements `ICrudClient` instead of
+// extending `CrudClient<typeof paymentResource>`. See the identical, more detailed note in
+// apps/dashboard/modules/payments/components/payments-columns.tsx. Verified against the real
+// (flat) `PaymentResponseDto`.
+type PaymentRow = {
+    id: string
+    date: string
+    number: string
+    type: string
+    cashboxName?: string
+    amount: number
+}
+
+function asRow(item: BaseCrudItem): PaymentRow {
+    // eslint-disable-next-line no-restricted-syntax -- see NOTE above: list() erases to BaseCrudItem
+    return item as unknown as PaymentRow
 }
 
 const TYPE_VARIANT: Record<string, "default" | "destructive" | "secondary"> = {
@@ -35,7 +47,6 @@ const TYPE_VARIANT: Record<string, "default" | "destructive" | "secondary"> = {
 
 export function DashboardRecentPayments() {
     const t = useTranslations("business.dashboard.recentPayments")
-    const locale = useLocale()
     const { data, isLoading } = useDashboardMovements()
 
     const payments = data?.data ?? []
@@ -64,7 +75,7 @@ export function DashboardRecentPayments() {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {payments.map((payment: any) => (
+                            {payments.map(asRow).map((payment) => (
                                 <TableRow key={payment.id}>
                                     <TableCell className="text-sm text-muted-foreground">
                                         {format(new Date(payment.date), "MMM d, yyyy")}
@@ -74,11 +85,11 @@ export function DashboardRecentPayments() {
                                     </TableCell>
                                     <TableCell>
                                         <Badge variant={TYPE_VARIANT[payment.type] ?? "secondary"}>
-                                            {t(payment.type?.toLowerCase() as "receipt" | "payment" | "adjustment")}
+                                            {t(payment.type.toLowerCase() as "receipt" | "payment" | "adjustment")}
                                         </Badge>
                                     </TableCell>
                                     <TableCell className="text-sm text-muted-foreground">
-                                        {resolveLocalizedName(payment.cashbox?.name, locale) || "—"}
+                                        {payment.cashboxName || "—"}
                                     </TableCell>
                                     <TableCell className="text-end font-bold">
                                         {new Intl.NumberFormat(undefined, {
