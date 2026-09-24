@@ -2,7 +2,7 @@ import { Controller, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { PartiesService } from './parties.service';
 import { CreatePartyDto, UpdatePartyDto, PartyResponseDto } from './dto';
-import { createCrudController, type CrudOpenApi } from '@devloggers/backend-core';
+import { createCrudController, type CrudOpenApi, type FilterSchema } from '@devloggers/backend-core';
 import { JwtAuthGuard, PermissionsGuard } from '../identity/auth/guards';
 
 const PARTIES_CRUD_OPENAPI = {
@@ -31,17 +31,19 @@ const PARTIES_CRUD_OPENAPI = {
     },
 } satisfies CrudOpenApi;
 
+export const PARTIES_FILTER_SCHEMA: FilterSchema = [
+    { field: 'name', type: 'string' },
+    { field: 'code', type: 'string' },
+    { field: 'type', type: 'enum', enumValues: ['CUSTOMER', 'SUPPLIER', 'CUSTOMER_SUPPLIER'] },
+    { field: 'isActive', type: 'boolean' },
+    { field: 'createdAt', type: 'date' },
+];
+
 const PartiesCrudBase = createCrudController({
     responseDto: PartyResponseDto,
     createDto: CreatePartyDto,
     updateDto: UpdatePartyDto,
-    filterSchema: [
-        { field: 'name', type: 'string' },
-        { field: 'code', type: 'string' },
-        { field: 'type', type: 'enum', enumValues: ['CUSTOMER', 'SUPPLIER', 'CUSTOMER_SUPPLIER'] },
-        { field: 'isActive', type: 'boolean' },
-        { field: 'createdAt', type: 'date' },
-    ],
+    filterSchema: PARTIES_FILTER_SCHEMA,
     permissions: {
       view: 'parties.view',
       create: 'parties.create',

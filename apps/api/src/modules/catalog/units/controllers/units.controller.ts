@@ -5,6 +5,7 @@ import { CreateUnitDto, UpdateUnitDto, UnitResponseDto } from '../dto';
 import {
   createCrudController,
   type CrudOpenApi,
+  type FilterSchema,
 } from '@devloggers/backend-core';
 import { JwtAuthGuard, PermissionsGuard } from '@/modules/identity/auth/guards';
 
@@ -48,16 +49,18 @@ const UNITS_CRUD_OPENAPI = {
   },
 } satisfies CrudOpenApi;
 
+export const UNITS_FILTER_SCHEMA: FilterSchema = [
+  { field: 'name', type: 'string', localized: true },
+  { field: 'abbreviation', type: 'string' },
+  { field: 'isActive', type: 'boolean' },
+  { field: 'createdAt', type: 'date' },
+];
+
 const UnitsCrudBase = createCrudController({
   responseDto: UnitResponseDto,
   createDto: CreateUnitDto,
   updateDto: UpdateUnitDto,
-  filterSchema: [
-    { field: 'name', type: 'string', localized: true },
-    { field: 'abbreviation', type: 'string' },
-    { field: 'isActive', type: 'boolean' },
-    { field: 'createdAt', type: 'date' },
-  ],
+  filterSchema: UNITS_FILTER_SCHEMA,
   openApi: UNITS_CRUD_OPENAPI,
   permissions: {
     view: 'units.view',

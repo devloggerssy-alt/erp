@@ -2,7 +2,7 @@ import { Controller, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { ItemsService } from '../services/items.service';
 import { CreateItemDto, UpdateItemDto, ItemResponseDto } from '../dto';
-import { createCrudController, type CrudOpenApi, type RequestUser } from '@devloggers/backend-core';
+import { createCrudController, type CrudOpenApi, type FilterSchema, type RequestUser } from '@devloggers/backend-core';
 import { JwtAuthGuard, PermissionsGuard } from '@/modules/identity/auth/guards';
 import { itemCategoryResource, } from '@devloggers/api-contracts';
 
@@ -32,18 +32,20 @@ const ITEMS_OPENAPI = {
     },
 } satisfies CrudOpenApi;
 
+export const ITEMS_FILTER_SCHEMA: FilterSchema = [
+    { field: 'categoryId', type: 'id', foreignResourceKey: itemCategoryResource.key },
+    { field: 'name', type: 'string' },
+    { field: 'code', type: 'string' },
+    { field: 'defaultSellingPrice', type: 'number' },
+    { field: 'isActive', type: 'boolean' },
+    { field: 'createdAt', type: 'date' },
+];
+
 const ItemsCrudBase = createCrudController({
     responseDto: ItemResponseDto,
     createDto: CreateItemDto,
     updateDto: UpdateItemDto,
-    filterSchema: [
-        { field: 'categoryId', type: 'id', foreignResourceKey: itemCategoryResource.key },
-        { field: 'name', type: 'string' },
-        { field: 'code', type: 'string' },
-        { field: 'defaultSellingPrice', type: 'number' },
-        { field: 'isActive', type: 'boolean' },
-        { field: 'createdAt', type: 'date' },
-    ],
+    filterSchema: ITEMS_FILTER_SCHEMA,
     openApi: ITEMS_OPENAPI,
     permissions: {
       view: 'items.view',

@@ -7,10 +7,11 @@ import { UnitsImportService } from './services/units-import.service';
 import { UnitPresenter } from './presenters/unit.presenter';
 import { UnitsController } from './controllers/units.controller';
 import { UnitsImportExportController } from './controllers/units-import-export.controller';
+import { UnitsAiTools } from './units.ai-tools';
 
 @Module({
   controllers: [UnitsImportExportController, UnitsController],
-  providers: [UnitsRepository, UnitsService, UnitsExportService, UnitsImportService, UnitPresenter, LocaleResolverService],
+  providers: [UnitsRepository, UnitsService, UnitsExportService, UnitsImportService, UnitPresenter, LocaleResolverService, UnitsAiTools],
   exports: [UnitsService],
 })
 export class UnitsModule {}

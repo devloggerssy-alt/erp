@@ -9,11 +9,12 @@ import { ItemsExportService } from './services/items-export.service';
 import { ItemsImportService } from './services/items-import.service';
 import { ItemsRepository } from './repositories/items.repository';
 import { ItemPresenter } from './presenters/item.presenter';
+import { ItemsAiTools } from './items.ai-tools';
 
 @Module({
     imports: [CustomFieldsModule, InventoryModule, CodeSequencesModule],
     controllers: [ItemsImportExportController, ItemsController],
-    providers: [ItemsService, ItemsExportService, ItemsImportService, ItemsRepository, ItemPresenter],
+    providers: [ItemsService, ItemsExportService, ItemsImportService, ItemsRepository, ItemPresenter, ItemsAiTools],
     exports: [ItemsService],
 })
 export class ItemsModule {}
