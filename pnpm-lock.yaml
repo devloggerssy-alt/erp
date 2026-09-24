@@ -36,13 +36,13 @@ importers:
         specifier: workspace:*
         version: link:../../packages/i18n
       '@langchain/core':
-        specifier: '1'
+        specifier: ^1.2.12
         version: 1.2.12(@opentelemetry/api@1.9.1)(openai@7.23.0(@aws-sdk/credential-provider-node@3.972.29)(@smithy/hash-node@4.2.12)(@smithy/signature-v4@5.3.12)(undici@6.24.1)(zod@4.3.6))
       '@langchain/langgraph':
-        specifier: '1'
+        specifier: ^1.4.17
         version: 1.4.17(@langchain/core@1.2.12(@opentelemetry/api@1.9.1)(openai@7.23.0(@aws-sdk/credential-provider-node@3.972.29)(@smithy/hash-node@4.2.12)(@smithy/signature-v4@5.3.12)(undici@6.24.1)(zod@4.3.6)))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(zod@4.3.6)
       '@langchain/openai':
-        specifier: '1'
+        specifier: ^1.5.13
         version: 1.5.13(@aws-sdk/credential-provider-node@3.972.29)(@langchain/core@1.2.12(@opentelemetry/api@1.9.1)(openai@7.23.0(@aws-sdk/credential-provider-node@3.972.29)(@smithy/hash-node@4.2.12)(@smithy/signature-v4@5.3.12)(undici@6.24.1)(zod@4.3.6)))(@smithy/hash-node@4.2.12)(@smithy/signature-v4@5.3.12)(undici@6.24.1)
       '@nestjs-modules/mailer':
         specifier: ^2.0.2
@@ -78,7 +78,7 @@ importers:
         specifier: ^1.4.9
         version: 1.4.10(@types/express@5.0.6)
       ai:
-        specifier: '6'
+        specifier: ^6.0.290
         version: 6.0.290(zod@4.3.6)
       bcryptjs:
         specifier: ^2.4.3
