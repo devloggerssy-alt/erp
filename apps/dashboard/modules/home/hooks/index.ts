@@ -1,3 +1,5 @@
 export { useDashboardSummary } from "./use-dashboard-summary"
 export { useDashboardChart } from "./use-dashboard-chart"
 export { useDashboardMovements } from "./use-dashboard-movements"
+export { useDashboardExpenseBreakdown } from "./use-dashboard-expense-breakdown"
+export { useDashboardTopItems } from "./use-dashboard-top-items"
