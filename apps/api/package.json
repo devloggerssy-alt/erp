@@ -111,8 +111,16 @@
       "^@/(.*)$": "<rootDir>/$1"
     },
     "transform": {
-      "^.+\\.(t|j)s$": "ts-jest"
+      "^.+\\.(t|j)s$": [
+        "ts-jest",
+        {
+          "tsconfig": "<rootDir>/../tsconfig.spec.json"
+        }
+      ]
     },
+    "transformIgnorePatterns": [
+      "node_modules/(?!(?:\\.pnpm/)?(ai|@ai-sdk[+/][A-Za-z0-9-]+|@workflow[+/][A-Za-z0-9-]+)(@[^/]+)?/)"
+    ],
     "collectCoverageFrom": [
       "**/*.(t|j)s"
     ],

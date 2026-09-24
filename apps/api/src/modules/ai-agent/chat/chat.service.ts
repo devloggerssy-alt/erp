@@ -3,7 +3,7 @@ import { BadRequestException, ConflictException, Injectable, Logger } from '@nes
 import type { Response } from 'express';
 import { HumanMessage } from '@langchain/core/messages';
 import { Command } from '@langchain/langgraph';
-import { createUIMessageStream, pipeUIMessageStreamToResponse, type UIMessage } from 'ai';
+import { createUIMessageStream, pipeUIMessageStreamToResponse, type UIMessage, type UIMessageChunk } from 'ai';
 import type { AiConversation } from '@devloggers/db-prisma';
 import type { AiToolContext, RequestUser } from '@devloggers/backend-core';
 import { PermissionResolverService } from '../../identity/auth/guards';
@@ -163,22 +163,51 @@ export class ChatService {
             const [clientStream, drainStream] = uiStream.tee();
             void this.drain(drainStream, conversationId);
 
-            // If the client disconnects, `pipeUIMessageStreamToResponse` would otherwise await
-            // the response's 'drain' event forever (the socket is gone, so it never fires) while
-            // the tee buffers every chunk nobody reads. Cancel the client branch so that read loop
-            // unblocks. Per the WHATWG Streams tee() algorithm, cancelling one branch does NOT
-            // cancel the underlying source (both branches must cancel first) — the drain branch
-            // above keeps consuming the real stream, so the graph run and onFinish persistence
-            // are unaffected by a client disconnect.
-            let pipeSettled = false;
-            res.on('close', () => {
-                if (pipeSettled) return;
-                clientStream.cancel().catch(() => {
-                    // Best-effort — e.g. the branch may already be locked/consumed internally by the pipe.
-                });
+            // `pipeUIMessageStreamToResponse` locks whatever stream it is handed (it calls
+            // `.pipeThrough()`/`.getReader()` internally). If we gave it `clientStream` directly,
+            // a later `clientStream.cancel()` from the 'close' handler below would reject with
+            // "stream is locked" and get silently swallowed — the client tee branch would never
+            // actually cancel, so it keeps buffering, and the SDK's write loop never sees a `done`
+            // signal and can hang forever once the client is gone. Instead we take the only reader
+            // on `clientStream` ourselves and hand the SDK a thin pass-through stream backed by that
+            // reader, so we can cancel our own (unlocked) reader on disconnect and close the
+            // pass-through so the SDK's read loop unblocks. Cancelling only this reader does not
+            // cancel `uiStream` itself — per the WHATWG tee() algorithm both branches must cancel —
+            // so the drain branch above keeps consuming the real stream unaffected.
+            const clientReader = clientStream.getReader();
+            let clientPassthroughController: ReadableStreamDefaultController<UIMessageChunk> | null = null;
+            const clientPassthrough = new ReadableStream<UIMessageChunk>({
+                start: (controller) => {
+                    clientPassthroughController = controller;
+                },
+                pull: async (controller) => {
+                    const { done, value } = await clientReader.read();
+                    if (done) {
+                        controller.close();
+                        return;
+                    }
+                    controller.enqueue(value);
+                },
+                cancel: (reason) => clientReader.cancel(reason),
             });
 
-            pipeUIMessageStreamToResponse({ response: res, stream: clientStream })
+            let pipeSettled = false;
+            res.on('close', () => {
+                // `res.writableFinished` is a more reliable "did this finish normally?" signal than
+                // `pipeSettled` alone: 'close' always follows a normal finish too, and can fire before
+                // our `.finally()` microtask below has run.
+                if (pipeSettled || res.writableFinished) return;
+                clientReader.cancel().catch(() => {
+                    // Best-effort — a read() already in flight resolves from the cancel either way.
+                });
+                try {
+                    clientPassthroughController?.close();
+                } catch {
+                    // Already closed/errored by the in-flight pull() resolving from the cancel above.
+                }
+            });
+
+            pipeUIMessageStreamToResponse({ response: res, stream: clientPassthrough })
                 .catch((error: unknown) => {
                     this.logger.warn({ msg: 'AI chat response write failed', conversationId, error: errorMessage(error) });
                 })

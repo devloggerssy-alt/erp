@@ -1,0 +1,15 @@
+{
+  // Jest-only tsconfig: ts-jest also transforms select ESM-only node_modules
+  // dependencies (see jest.transformIgnorePatterns in package.json), e.g. the
+  // `ai` v7 SDK, which ships "import" syntax with no CJS build. `module` is
+  // pinned to commonjs (overriding the app's NodeNext) and allowJs lets
+  // ts-jest transpile those plain .js files the same way it does our .ts.
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "resolvePackageJsonExports": false,
+    "allowJs": true,
+    "checkJs": false
+  }
+}
