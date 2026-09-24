@@ -13,9 +13,11 @@ import {
 import { Skeleton } from "@/shared/components/ui/skeleton"
 import { useTranslations } from "next-intl"
 import type { DashboardSummaryResponse } from "@devloggers/api-client"
+import { DashboardKpiDelta } from "./dashboard-kpi-delta"
 
 interface DashboardKpiCardsProps {
     data: DashboardSummaryResponse | undefined
+    previousData: DashboardSummaryResponse | undefined
     isLoading: boolean
 }
 
@@ -26,33 +28,41 @@ function formatNumber(value: number) {
     }).format(value)
 }
 
-export function DashboardKpiCards({ data, isLoading }: DashboardKpiCardsProps) {
+export function DashboardKpiCards({ data, previousData, isLoading }: DashboardKpiCardsProps) {
     const t = useTranslations("business.dashboard.kpi")
 
     const cards = [
         {
             label: t("totalSales"),
             value: data?.totalSales ?? 0,
+            previousValue: previousData?.totalSales ?? 0,
+            higherIsBetter: true,
             icon: TrendingUp,
-            iconClass: "text-emerald-500",
+            iconClass: "text-[var(--chart-1)]",
         },
         {
             label: t("totalPurchases"),
             value: data?.totalPurchases ?? 0,
+            previousValue: previousData?.totalPurchases ?? 0,
+            higherIsBetter: false,
             icon: ShoppingCart,
-            iconClass: "text-blue-500",
+            iconClass: "text-[var(--chart-2)]",
         },
         {
             label: t("netProfit"),
             value: data?.netProfit ?? 0,
+            previousValue: previousData?.netProfit ?? 0,
+            higherIsBetter: true,
             icon: LineChart,
-            iconClass: "text-violet-500",
+            iconClass: "text-[var(--chart-4)]",
         },
         {
             label: t("totalExpenses"),
             value: data?.totalExpenses ?? 0,
+            previousValue: previousData?.totalExpenses ?? 0,
+            higherIsBetter: false,
             icon: CreditCard,
-            iconClass: "text-amber-500",
+            iconClass: "text-[var(--chart-3)]",
         },
     ]
 
@@ -72,8 +82,15 @@ export function DashboardKpiCards({ data, isLoading }: DashboardKpiCardsProps) {
                             {isLoading ? (
                                 <Skeleton className="h-8 w-32" />
                             ) : (
-                                <div className="text-2xl font-bold">
-                                    {formatNumber(card.value)}
+                                <div className="flex items-baseline gap-2">
+                                    <div className="text-2xl font-bold">
+                                        {formatNumber(card.value)}
+                                    </div>
+                                    <DashboardKpiDelta
+                                        current={card.value}
+                                        previous={card.previousValue}
+                                        higherIsBetter={card.higherIsBetter}
+                                    />
                                 </div>
                             )}
                         </CardContent>
