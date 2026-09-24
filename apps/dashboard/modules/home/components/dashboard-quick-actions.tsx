@@ -12,25 +12,25 @@ const ACTIONS = [
         key: "salesInvoice" as const,
         href: "/sales/invoices?action=create",
         icon: ReceiptIcon,
-        hoverClass: "hover:border-emerald-500 hover:text-emerald-500",
+        hoverClass: "hover:border-[var(--chart-1)] hover:text-[var(--chart-1)]",
     },
     {
         key: "purchaseInvoice" as const,
         href: "/purchases/invoices?action=create",
         icon: ShoppingCartIcon,
-        hoverClass: "hover:border-blue-500 hover:text-blue-500",
+        hoverClass: "hover:border-[var(--chart-2)] hover:text-[var(--chart-2)]",
     },
     {
         key: "receipt" as const,
         href: "/finance/payments?action=create&type=RECEIPT",
         icon: HandCoinsIcon,
-        hoverClass: "hover:border-violet-500 hover:text-violet-500",
+        hoverClass: "hover:border-[var(--chart-4)] hover:text-[var(--chart-4)]",
     },
     {
         key: "expense" as const,
         href: "/finance/expenses?action=create",
         icon: CreditCardIcon,
-        hoverClass: "hover:border-amber-500 hover:text-amber-500",
+        hoverClass: "hover:border-[var(--chart-3)] hover:text-[var(--chart-3)]",
     },
 ]
 
