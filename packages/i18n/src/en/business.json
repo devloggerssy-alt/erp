@@ -1203,7 +1203,32 @@
       "title": "Sales vs Purchases",
       "description": "Day-by-day comparison for the selected period.",
       "sales": "Sales",
-      "purchases": "Purchases"
+      "purchases": "Purchases",
+      "empty": "No sales or purchases in this period yet."
+    },
+    "cashDistribution": {
+      "title": "Cash Distribution",
+      "description": "Balance composition across your cashboxes.",
+      "empty": "No cashbox balances to show yet."
+    },
+    "revenueBreakdown": {
+      "title": "Revenue Breakdown",
+      "description": "Sales, purchases, expenses, and net profit for the selected period.",
+      "sales": "Sales",
+      "purchases": "Purchases",
+      "expenses": "Expenses",
+      "netProfit": "Net Profit"
+    },
+    "expenseBreakdown": {
+      "title": "Expenses by Account",
+      "description": "Where posted expenses went this period.",
+      "empty": "No posted expenses in this period yet."
+    },
+    "topItems": {
+      "title": "Top Selling Items",
+      "description": "Highest-revenue items for the selected period.",
+      "revenue": "Revenue",
+      "empty": "No posted sales in this period yet."
     },
     "lowStock": {
       "title": "Low Stock Alerts",
@@ -1227,6 +1252,7 @@
       "title": "Items Overview",
       "total": "Total Items",
       "active": "Active",
+      "activeParties": "Active Parties",
       "lowStock": "Low Stock",
       "outOfStock": "Out of Stock"
     }

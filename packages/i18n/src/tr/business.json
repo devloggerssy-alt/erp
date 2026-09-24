@@ -1129,7 +1129,32 @@
       "title": "Satışlar ve Alımlar",
       "description": "Seçilen dönem için günlük karşılaştırma.",
       "sales": "Satışlar",
-      "purchases": "Alımlar"
+      "purchases": "Alımlar",
+      "empty": "Bu dönemde henüz satış veya alış yok."
+    },
+    "cashDistribution": {
+      "title": "Nakit Dağılımı",
+      "description": "Kasalarınız arasındaki bakiye dağılımı.",
+      "empty": "Henüz gösterilecek kasa bakiyesi yok."
+    },
+    "revenueBreakdown": {
+      "title": "Gelir Dağılımı",
+      "description": "Seçilen dönem için satışlar, alışlar, giderler ve net kâr.",
+      "sales": "Satışlar",
+      "purchases": "Alışlar",
+      "expenses": "Giderler",
+      "netProfit": "Net Kâr"
+    },
+    "expenseBreakdown": {
+      "title": "Hesaba Göre Giderler",
+      "description": "Bu dönemde işlenmiş giderlerin dağılımı.",
+      "empty": "Bu dönemde henüz işlenmiş gider yok."
+    },
+    "topItems": {
+      "title": "En Çok Satan Ürünler",
+      "description": "Seçilen dönem için en yüksek gelirli ürünler.",
+      "revenue": "Gelir",
+      "empty": "Bu dönemde henüz işlenmiş satış yok."
     },
     "lowStock": {
       "title": "Düşük Stok Uyarıları",
@@ -1153,6 +1178,7 @@
       "title": "Ürün Genel Bakışı",
       "total": "Toplam Ürünler",
       "active": "Aktif",
+      "activeParties": "Aktif Cariler",
       "lowStock": "Düşük Stok",
       "outOfStock": "Stok Tükendi"
     }
