@@ -71,7 +71,7 @@ export const DOMAIN_MANIFESTS: readonly DomainManifest[] = Object.freeze([
     },
     {
         key: 'ai-agent',
-        dependsOn: [],
+        dependsOn: ['audit'],
         provides: [],
         routes: ['ai/conversations'],
         optional: true,

@@ -148,6 +148,7 @@ identity  ───► accounting (currencies, opening-balances, reconciliation,
 identity  ───► catalog (UnitsModule/UnitsService)   # onboarding default units
 identity  ───► invoicing (CashboxesModule/Service, BankAccountsModule/Service)   # business-setup
 reports   ───► invoicing
+ai-agent  ───► audit (AuditWriter)
 ```
 
 `src/app.module.ts` is the composition root and is exempt. **Adding an edge** means: export the symbol from the target's `index.ts`, add it to the table above, and add a probe case to `apps/api/scripts/check-architecture-rules.mjs`. **Adding a domain** folder fails `lint:architecture` until it has a `DOMAIN_RESTRICTIONS` entry.
