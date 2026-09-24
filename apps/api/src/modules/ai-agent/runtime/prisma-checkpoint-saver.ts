@@ -82,6 +82,11 @@ export class PrismaCheckpointSaver extends BaseCheckpointSaver {
         const c = configurable(config);
         const threadId = requireThread(c);
         const before = options?.before ? configurable(options.before).checkpoint_id : undefined;
+        // MemorySaver semantics: filter (a JS-side check against decoded metadata) must be
+        // applied before limit is counted, so `limit` counts matching tuples — not raw rows.
+        // Only pass `take` to Prisma when there's no filter; otherwise we'd cut off rows
+        // before they've been checked against the filter.
+        const hasFilter = Boolean(options?.filter);
         const rows = await this.prisma.aiCheckpoint.findMany({
             where: {
                 threadId,
@@ -89,8 +94,9 @@ export class PrismaCheckpointSaver extends BaseCheckpointSaver {
                 ...(before ? { checkpointId: { lt: before } } : {}),
             },
             orderBy: { checkpointId: 'desc' },
-            ...(options?.limit ? { take: options.limit } : {}),
+            ...(!hasFilter && options?.limit ? { take: options.limit } : {}),
         });
+        let yielded = 0;
         for (const row of rows) {
             if (options?.filter) {
                 const metadata = row.metadata as Record<string, unknown>;
@@ -100,7 +106,11 @@ export class PrismaCheckpointSaver extends BaseCheckpointSaver {
             const tuple = await this.getTuple({
                 configurable: { thread_id: threadId, checkpoint_ns: row.checkpointNs, checkpoint_id: row.checkpointId },
             });
-            if (tuple) yield tuple;
+            if (tuple) {
+                yield tuple;
+                yielded += 1;
+                if (options?.limit !== undefined && yielded >= options.limit) return;
+            }
         }
     }
 
@@ -148,16 +158,36 @@ export class PrismaCheckpointSaver extends BaseCheckpointSaver {
                 return { idx, channel, type, value: Buffer.from(bytes), tenantId };
             }),
         );
-        const operations = serialized.map(({ idx, ...payload }) =>
-            this.prisma.aiCheckpointWrite.upsert({
-                where: {
-                    threadId_checkpointNs_checkpointId_taskId_idx: { threadId, checkpointNs, checkpointId, taskId, idx },
-                },
-                create: { threadId, checkpointNs, checkpointId, taskId, idx, ...payload },
-                update: payload,
-            }),
-        );
-        await this.prisma.$transaction(operations);
+
+        // MemorySaver semantics (memory.js putWrites): regular writes (idx >= 0, i.e. not
+        // remapped by WRITES_IDX_MAP) are write-once — an existing (thread, ns, checkpoint,
+        // task, idx) row is kept as-is. Only special channels (negative idx from
+        // WRITES_IDX_MAP, e.g. ERROR/SCHEDULED) are overwritten on every call.
+        const regular = serialized.filter(({ idx }) => idx >= 0);
+        const special = serialized.filter(({ idx }) => idx < 0);
+
+        const operations = [
+            ...(regular.length > 0
+                ? [
+                      this.prisma.aiCheckpointWrite.createMany({
+                          data: regular.map(({ idx, ...payload }) => ({ threadId, checkpointNs, checkpointId, taskId, idx, ...payload })),
+                          skipDuplicates: true,
+                      }),
+                  ]
+                : []),
+            ...special.map(({ idx, ...payload }) =>
+                this.prisma.aiCheckpointWrite.upsert({
+                    where: {
+                        threadId_checkpointNs_checkpointId_taskId_idx: { threadId, checkpointNs, checkpointId, taskId, idx },
+                    },
+                    create: { threadId, checkpointNs, checkpointId, taskId, idx, ...payload },
+                    update: payload,
+                }),
+            ),
+        ];
+        if (operations.length > 0) {
+            await this.prisma.$transaction(operations);
+        }
     }
 
     async deleteThread(threadId: string): Promise<void> {
