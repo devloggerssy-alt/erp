@@ -29,7 +29,7 @@ export type DashboardChartPoint = {
 
 export type DashboardExpenseBreakdownItem = {
     accountId: string
-    accountName: Record<string, string>
+    accountName: LocalizedString
     total: number
 }
 
