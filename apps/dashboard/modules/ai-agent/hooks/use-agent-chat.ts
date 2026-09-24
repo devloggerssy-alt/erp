@@ -1,10 +1,11 @@
 "use client"
 
 import { useChat } from "@ai-sdk/react"
-import { lastAssistantMessageIsCompleteWithApprovalResponses, type UIMessage } from "ai"
+import type { UIMessage } from "ai"
 import { useMemo } from "react"
 import { useQueryClient } from "@tanstack/react-query"
 import { useApi } from "@/shared/useApi"
+import { shouldSendApprovals } from "../ai-agent.types"
 import { createNestChatTransport } from "../transport/nest-chat-transport"
 import { conversationKeys } from "./use-conversations"
 
@@ -17,7 +18,7 @@ export function useAgentChat({ conversationId, initialMessages }: { conversation
         id: conversationId,
         messages: initialMessages,
         transport,
-        sendAutomaticallyWhen: lastAssistantMessageIsCompleteWithApprovalResponses,
+        sendAutomaticallyWhen: shouldSendApprovals,
         // Invalidate the conversation list only (e.g. title/updatedAt refresh) — must not also
         // refetch every loaded history page for this conversation after each turn.
         onFinish: () => void queryClient.invalidateQueries({ queryKey: conversationKeys.list }),

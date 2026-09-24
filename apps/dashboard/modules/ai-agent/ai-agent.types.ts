@@ -46,3 +46,24 @@ export function splitToolName(toolName: string): { resource: string; op: string 
 export function hasPendingApproval(message: UIMessage | undefined): boolean {
     return !!message?.parts.some((part) => isDynamicToolPart(part) && part.state === "approval-requested")
 }
+
+/**
+ * Replaces the SDK's `lastAssistantMessageIsCompleteWithApprovalResponses`, which requires
+ * every dynamic-tool part since the last step-start to be resolved — including read-risk calls
+ * the server never asks approval for. Our server always emits `tool-input-available` for every
+ * call and only routes risky ones through `approval-requested`, so a mixed batch (a read call
+ * alongside a write call) never satisfies the SDK's predicate once the user approves the write.
+ * This predicate only cares about approvals: send once at least one has been answered and none
+ * are still pending.
+ */
+export function shouldSendApprovals({ messages }: { messages: UIMessage[] }): boolean {
+    const last = messages[messages.length - 1]
+    if (!last || last.role !== "assistant") return false
+    let hasResponded = false
+    for (const part of last.parts) {
+        if (!isDynamicToolPart(part)) continue
+        if (part.state === "approval-requested") return false
+        if (part.state === "approval-responded") hasResponded = true
+    }
+    return hasResponded
+}

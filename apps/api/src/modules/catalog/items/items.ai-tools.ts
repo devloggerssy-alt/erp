@@ -22,6 +22,10 @@ export class ItemsAiTools implements AiToolSource {
             filterSchema: ITEMS_FILTER_SCHEMA,
             searchFields: ['name', 'code'],
             permissions: { view: 'items.view', create: 'items.create', update: 'items.update' },
+            // Opening stock posts a stock movement + GL journal entry and carries `_userId`
+            // attribution — the assistant must not set it; use items.create then a dedicated
+            // stock-adjustment flow instead.
+            scope: { omitInputFields: ['openingStock'] },
         });
     }
 }

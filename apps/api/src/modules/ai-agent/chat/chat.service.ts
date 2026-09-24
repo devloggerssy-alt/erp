@@ -3,7 +3,7 @@ import { BadRequestException, ConflictException, Injectable, Logger } from '@nes
 import type { Response } from 'express';
 import { HumanMessage } from '@langchain/core/messages';
 import { Command } from '@langchain/langgraph';
-import { createUIMessageStream, pipeUIMessageStreamToResponse, type UIMessage, type UIMessageChunk } from 'ai';
+import { createUIMessageStream, pipeUIMessageStreamToResponse, safeValidateUIMessages, type UIMessage, type UIMessageChunk } from 'ai';
 import type { AiConversation } from '@devloggers/db-prisma';
 import type { AiToolContext, RequestUser } from '@devloggers/backend-core';
 import { PermissionResolverService } from '../../identity/auth/guards';
@@ -37,9 +37,18 @@ function hasToolCallId(part: Record<string, unknown>): part is Record<string, un
     return typeof part.toolCallId === 'string';
 }
 
-function toUiMessage(stored: StoredUiMessage): UIMessage {
-    // Parts were produced by the AI SDK itself (stored verbatim in onFinish) — shape is the SDK's own.
-    return { id: stored.id, role: stored.role, parts: stored.parts as UIMessage['parts'] };
+/**
+ * Parts were produced by the AI SDK itself (stored verbatim in onFinish) — shape is the SDK's
+ * own, validated here with the SDK's own `safeValidateUIMessages` rather than cast. A malformed
+ * stored message can only mean the checkpoint and the stored message have drifted apart, which is
+ * exactly the condition `assertApprovalsTargetCurrentMessage` already asks the client to recover
+ * from — so an invalid message maps to that same "reload" error instead of a 500.
+ */
+async function toUiMessage(stored: StoredUiMessage): Promise<UIMessage> {
+    const result = await safeValidateUIMessages<UIMessage>({ messages: [stored] });
+    const [message] = result.success ? result.data : [];
+    if (!message) throw new ConflictException('Reload the conversation — the pending actions are out of date');
+    return message;
 }
 
 /** Marks still-pending approval parts as denied (superseded by a new user message). */
@@ -129,8 +138,9 @@ export class ChatService {
             }
 
             const userText = body.message?.text ?? '';
+            const originalMessage = original ? await toUiMessage(original) : undefined;
             const uiStream = createUIMessageStream<UIMessage>({
-                originalMessages: original ? [toUiMessage(original)] : undefined,
+                originalMessages: originalMessage ? [originalMessage] : undefined,
                 generateId: () => randomUUID(),
                 execute: async ({ writer }) => {
                     // createUIMessageStream does not emit start/finish itself; `start` gets the message id injected.
