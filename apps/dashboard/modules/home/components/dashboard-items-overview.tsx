@@ -18,19 +18,19 @@ export function DashboardItemsOverview({ data, isLoading }: DashboardItemsOvervi
             label: t("active"),
             value: data?.totalActiveItems ?? 0,
             href: "/catalog/items",
-            colorClass: "text-emerald-600",
+            colorClass: "text-[var(--chart-1)]",
         },
         {
-            label: t("total"),
+            label: t("activeParties"),
             value: data?.totalActiveParties ?? 0,
             href: "/parties/customers",
-            colorClass: "text-blue-600",
+            colorClass: "text-[var(--chart-2)]",
         },
         {
             label: t("outOfStock"),
             value: data?.lowStockItemsCount ?? 0,
             href: "/inventory/stock-balances",
-            colorClass: "text-red-600",
+            colorClass: "text-destructive",
         },
     ]
 
@@ -38,7 +38,7 @@ export function DashboardItemsOverview({ data, isLoading }: DashboardItemsOvervi
         <Card className="flex flex-col">
             <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                    <PackageIcon className="h-4 w-4 text-indigo-500" />
+                    <PackageIcon className="h-4 w-4 text-[var(--chart-1)]" />
                     {t("title")}
                 </CardTitle>
             </CardHeader>
