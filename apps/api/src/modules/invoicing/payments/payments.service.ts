@@ -3,7 +3,7 @@ import { PrismaService } from '@devloggers/db-prisma/nest';
 import { ReferenceType } from '@devloggers/db-prisma';
 import { StatusGuardedCrudService } from '@devloggers/backend-core';
 import { resources } from '@devloggers/api-contracts';
-import type { Payment } from '@devloggers/db-prisma';
+import type { Payment, Prisma, PaymentAllocation } from '@devloggers/db-prisma';
 import { PaymentsRepository } from './repositories/payments.repository';
 import { PaymentPresenter } from './presenters/payment.presenter';
 import { CreatePaymentDto, UpdatePaymentDto, AllocatePaymentDto } from './dto';
@@ -106,21 +106,35 @@ export class PaymentsService extends StatusGuardedCrudService<Payment, PaymentRe
       currencyId: payment.currencyId,
     };
 
-    await this.prisma.$transaction(async (tx) => {
-      await this.postingFacade.record(tx, intent);
-
-      await tx.cashbox.update({
-        where: { id: payment.cashboxId },
-        data: { balance: { increment: balanceDelta } },
-      });
-
-      await tx.payment.update({
-        where: { id },
-        data: { status: 'POSTED', postedAt: new Date(), postedBy: userId },
-      });
-    });
+    await this.prisma.$transaction((tx) => this.postInTx(tx, id, payment.cashboxId, balanceDelta, userId, intent));
 
     return this.findById(tenantId, id);
+  }
+
+  /**
+   * The write portion of `post()`, parameterized so `SalesCheckoutFacade` can
+   * run it inside a larger checkout transaction. Behavior-identical to the
+   * transaction body `post()` ran inline before this extraction.
+   */
+  async postInTx(
+    tx: Prisma.TransactionClient,
+    paymentId: string,
+    cashboxId: string,
+    balanceDelta: number,
+    userId: string,
+    intent: PaymentRecordedIntent,
+  ): Promise<void> {
+    await this.postingFacade.record(tx, intent);
+
+    await tx.cashbox.update({
+      where: { id: cashboxId },
+      data: { balance: { increment: balanceDelta } },
+    });
+
+    await tx.payment.update({
+      where: { id: paymentId },
+      data: { status: 'POSTED', postedAt: new Date(), postedBy: userId },
+    });
   }
 
   async cancel(tenantId: string, id: string, userId: string): Promise<PaymentResponseDto> {
@@ -205,21 +219,33 @@ export class PaymentsService extends StatusGuardedCrudService<Payment, PaymentRe
       throw new BadRequestException(`Allocation amount (${dto.amount}) exceeds the invoice's remaining balance (${invoiceRemaining})`);
     }
 
-    return this.prisma.$transaction(async (tx) => {
-      const allocation = await tx.paymentAllocation.create({
-        data: { tenantId, paymentId, invoiceId: dto.invoiceId, amount: dto.amount },
-      });
+    return this.prisma.$transaction((tx) => this.allocateInTx(tx, tenantId, paymentId, dto.invoiceId, dto.amount));
+  }
 
-      await tx.payment.update({
-        where: { id: paymentId },
-        data: {
-          allocatedAmount: { increment: dto.amount },
-          unallocatedAmount: { decrement: dto.amount },
-        },
-      });
-
-      return allocation;
+  /**
+   * The write portion of `allocate()`. Behavior-identical to the transaction
+   * body `allocate()` ran inline before this extraction.
+   */
+  async allocateInTx(
+    tx: Prisma.TransactionClient,
+    tenantId: string,
+    paymentId: string,
+    invoiceId: string,
+    amount: number,
+  ): Promise<PaymentAllocation> {
+    const allocation = await tx.paymentAllocation.create({
+      data: { tenantId, paymentId, invoiceId, amount },
     });
+
+    await tx.payment.update({
+      where: { id: paymentId },
+      data: {
+        allocatedAmount: { increment: amount },
+        unallocatedAmount: { decrement: amount },
+      },
+    });
+
+    return allocation;
   }
 
   async removeAllocation(tenantId: string, paymentId: string, allocationId: string) {
