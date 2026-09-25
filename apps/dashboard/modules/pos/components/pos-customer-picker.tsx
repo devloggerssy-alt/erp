@@ -22,7 +22,7 @@ export function PosCustomerPicker({ defaultPartyName, selectedPartyId, onSelect 
 
     const partiesQuery = useQuery({
         queryKey: ["pos", "parties", query],
-        queryFn: () => api.parties.list({ name: query, limit: 6 }),
+        queryFn: () => api.parties.list({ search: query, searchIn: "name", limit: 6 }),
         enabled: query.length > 0,
     })
 

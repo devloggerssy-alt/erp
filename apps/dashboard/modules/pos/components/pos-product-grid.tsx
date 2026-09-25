@@ -24,7 +24,13 @@ export function PosProductGrid({ warehouseId, onAdd }: PosProductGridProps) {
 
     const itemsQuery = useQuery({
         queryKey: ["pos", "items", query],
-        queryFn: () => api.items.list({ name: query || undefined, isActive: true, limit: 40 }),
+        queryFn: () =>
+            api.items.list({
+                search: query || undefined,
+                searchIn: "name,barcode",
+                limit: 40,
+                filters: { isActive: { $eq: true } },
+            }),
     })
 
     const balancesQuery = useQuery({
