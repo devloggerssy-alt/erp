@@ -36,6 +36,7 @@ export const ITEMS_FILTER_SCHEMA: FilterSchema = [
     { field: 'categoryId', type: 'id', foreignResourceKey: itemCategoryResource.key },
     { field: 'name', type: 'string' },
     { field: 'code', type: 'string' },
+    { field: 'barcode', type: 'string' },
     { field: 'defaultSellingPrice', type: 'number' },
     { field: 'isActive', type: 'boolean' },
     { field: 'createdAt', type: 'date' },
