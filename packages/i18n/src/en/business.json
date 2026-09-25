@@ -1434,5 +1434,34 @@
       "customers": "customers",
       "tools": "tools"
     }
+  },
+  "pos": {
+    "setupTitle": "Set up the till",
+    "setupDescription": "Create the walk-in customer, POS invoice type, and pick a default cashbox and warehouse.",
+    "setupAction": "Set up POS",
+    "provisioning": "Setting up...",
+    "provisioned": "POS is ready",
+    "provisionFailed": "Could not set up POS",
+    "searchPlaceholder": "Search by name or scan a barcode...",
+    "stock": "Stock",
+    "emptyCart": "Cart is empty — tap an item to add it",
+    "discountPercent": "Disc. %",
+    "subtotal": "Subtotal",
+    "discount": "Discount",
+    "total": "Total",
+    "tendered": "Amount tendered",
+    "change": "Change",
+    "pay": "Pay",
+    "checkingOut": "Processing sale...",
+    "saleCompleted": "Sale completed",
+    "checkoutFailed": "Sale could not be completed",
+    "customer": "Customer",
+    "namedCustomer": "Named customer",
+    "useWalkIn": "Use walk-in customer",
+    "customerSearchPlaceholder": "Search customers...",
+    "invoiceNumber": "Invoice",
+    "paymentNumber": "Receipt",
+    "viewInvoice": "View invoice",
+    "newSale": "New sale"
   }
 }

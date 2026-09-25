@@ -1360,5 +1360,34 @@
       "customers": "müşteriler",
       "tools": "araçlar"
     }
+  },
+  "pos": {
+    "setupTitle": "POS'u kur",
+    "setupDescription": "Perakende müşteri, POS fatura türü ile varsayılan kasa ve depoyu oluştur.",
+    "setupAction": "POS'u kur",
+    "provisioning": "Kuruluyor...",
+    "provisioned": "POS hazır",
+    "provisionFailed": "POS kurulamadı",
+    "searchPlaceholder": "İsimle ara veya barkod okut...",
+    "stock": "Stok",
+    "emptyCart": "Sepet boş — eklemek için bir ürüne dokunun",
+    "discountPercent": "İndirim %",
+    "subtotal": "Ara toplam",
+    "discount": "İndirim",
+    "total": "Toplam",
+    "tendered": "Alınan tutar",
+    "change": "Para üstü",
+    "pay": "Öde",
+    "checkingOut": "Satış işleniyor...",
+    "saleCompleted": "Satış tamamlandı",
+    "checkoutFailed": "Satış tamamlanamadı",
+    "customer": "Müşteri",
+    "namedCustomer": "Kayıtlı müşteri",
+    "useWalkIn": "Perakende müşteriyi kullan",
+    "customerSearchPlaceholder": "Müşteri ara...",
+    "invoiceNumber": "Fatura",
+    "paymentNumber": "Makbuz",
+    "viewInvoice": "Faturayı görüntüle",
+    "newSale": "Yeni satış"
   }
 }

@@ -43,6 +43,7 @@ export const navGroups: NavGroup[] = [
       },
       {
         titleKey: "business.navigation.items.cashier",
+        permission: "pos.checkout",
         href: "/cashier",
         icon: <ReceiptIcon />,
       },

@@ -1527,5 +1527,34 @@
       "customers": "العملاء",
       "tools": "الأدوات"
     }
+  },
+  "pos": {
+    "setupTitle": "إعداد نقطة البيع",
+    "setupDescription": "أنشئ عميل البيع النقدي ونوع فاتورة نقطة البيع، واختر صندوق النقدية والمستودع الافتراضيين.",
+    "setupAction": "إعداد نقطة البيع",
+    "provisioning": "جارٍ الإعداد...",
+    "provisioned": "نقطة البيع جاهزة",
+    "provisionFailed": "تعذّر إعداد نقطة البيع",
+    "searchPlaceholder": "ابحث بالاسم أو امسح الباركود...",
+    "stock": "المخزون",
+    "emptyCart": "السلة فارغة — اضغط على منتج لإضافته",
+    "discountPercent": "الخصم %",
+    "subtotal": "المجموع الفرعي",
+    "discount": "الخصم",
+    "total": "الإجمالي",
+    "tendered": "المبلغ المستلم",
+    "change": "الباقي",
+    "pay": "دفع",
+    "checkingOut": "جارٍ إتمام البيع...",
+    "saleCompleted": "تم إتمام البيع",
+    "checkoutFailed": "تعذّر إتمام البيع",
+    "customer": "العميل",
+    "namedCustomer": "عميل محدد",
+    "useWalkIn": "استخدم عميل البيع النقدي",
+    "customerSearchPlaceholder": "ابحث عن عميل...",
+    "invoiceNumber": "الفاتورة",
+    "paymentNumber": "سند القبض",
+    "viewInvoice": "عرض الفاتورة",
+    "newSale": "عملية بيع جديدة"
   }
 }
