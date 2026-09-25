@@ -2422,6 +2422,70 @@ export interface paths {
         patch: operations["Parties.update"];
         trace?: never;
     };
+    "/pos/settings": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get POS settings
+         * @description Returns the tenant POS configuration, or null if not yet provisioned.
+         */
+        get: operations["PosSettings.get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /**
+         * Update POS settings
+         * @description Change the till cashbox or issuing warehouse.
+         */
+        patch: operations["PosSettings.update"];
+        trace?: never;
+    };
+    "/pos/settings/provision": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Provision POS
+         * @description Idempotently creates the walk-in customer, POS invoice type, and default till/warehouse.
+         */
+        post: operations["PosSettings.provision"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/pos/checkout": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Ring up a POS sale
+         * @description Creates and posts a sales invoice plus an allocated cash receipt in one atomic operation.
+         */
+        post: operations["PosCheckout.checkout"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/reports/stock-balance": {
         parameters: {
             query?: never;
@@ -7085,6 +7149,154 @@ export interface components {
             receivableAccountId?: string | null;
             /** @description Override the default AP account for this party (falls back to FinancialSetting.defaultPayableAccountId) */
             payableAccountId?: string | null;
+        };
+        PosSettingResponseDto: {
+            /**
+             * @default
+             * @example 00000000-0000-4000-f000-000000000001
+             */
+            id: string;
+            /**
+             * @default
+             * @example 00000000-0000-4000-e100-000000000001
+             */
+            defaultPartyId: string;
+            /**
+             * @default
+             * @example Walk-in Customer
+             */
+            defaultPartyName: string;
+            /**
+             * @default
+             * @example 00000000-0000-4000-d100-000000000001
+             */
+            invoiceTypeId: string;
+            /**
+             * @default
+             * @example POS Sales
+             */
+            invoiceTypeName: string;
+            /**
+             * @default
+             * @example 00000000-0000-4000-ac00-000000000001
+             */
+            cashboxId: string;
+            /**
+             * @default
+             * @example Main Till
+             */
+            cashboxName: string;
+            /**
+             * @default
+             * @example 00000000-0000-4000-ab00-000000000001
+             */
+            warehouseId: string;
+            /**
+             * @default
+             * @example Main Warehouse
+             */
+            warehouseName: string;
+            /**
+             * @default
+             * @example 2026-09-25T10:00:00.000Z
+             */
+            updatedAt: string;
+        };
+        UpdatePosSettingDto: {
+            /**
+             * @description Till cashbox for POS receipts
+             * @example 00000000-0000-4000-ac00-000000000001
+             */
+            cashboxId?: string;
+            /**
+             * @description Warehouse POS sales issue stock from
+             * @example 00000000-0000-4000-ab00-000000000001
+             */
+            warehouseId?: string;
+        };
+        PosCheckoutLineDto: {
+            /** @example 00000000-0000-4000-a900-000000000001 */
+            itemId: string;
+            /** @example 00000000-0000-4000-a800-000000000001 */
+            unitId: string;
+            /** @example 2 */
+            quantity: number;
+            /**
+             * @description Unit price in tenant base currency
+             * @example 15000
+             */
+            unitPrice: number;
+            /**
+             * @description Discount percentage
+             * @default 0
+             * @example 0
+             */
+            discountPercent: number;
+        };
+        CreatePosCheckoutDto: {
+            /** @description Named customer; omitted defaults to the tenant walk-in customer */
+            partyId?: string | null;
+            lines: components["schemas"]["PosCheckoutLineDto"][];
+            /**
+             * @description Cash amount tendered by the customer
+             * @example 50000
+             */
+            tendered: number;
+            /**
+             * Format: uuid
+             * @description Client-generated UUID; retrying the same cart sends the same value
+             * @example 3fa85f64-5717-4562-b3fc-2c963f66afa6
+             */
+            clientRequestId: string;
+            notes?: string | null;
+        };
+        PosCheckoutResponseDto: {
+            /**
+             * @default
+             * @example 00000000-0000-4000-e000-000000000001
+             */
+            invoiceId: string;
+            /**
+             * @default
+             * @example SAL-00042
+             */
+            invoiceNumber: string;
+            /**
+             * @default
+             * @example 00000000-0000-4000-e000-000000000002
+             */
+            paymentId: string;
+            /**
+             * @default
+             * @example REC-00042
+             */
+            paymentNumber: string;
+            /**
+             * @default 0
+             * @example 30000
+             */
+            total: number;
+            /**
+             * @default 0
+             * @example 50000
+             */
+            tendered: number;
+            /**
+             * @default 0
+             * @example 20000
+             */
+            change: number;
+            /**
+             * @default
+             * @example 2026-09-25T10:00:00.000Z
+             */
+            date: string;
+            /**
+             * @description True when this response replays an earlier checkout with the same clientRequestId
+             * @default false
+             * @example false
+             */
+            replayed: boolean;
         };
     };
     responses: never;
@@ -12341,7 +12553,7 @@ export interface operations {
                 search?: string;
                 /** @description Comma-separated field names to search within (e.g. name,symbol) */
                 searchIn?: string;
-                /** @description Structured filters. Example: filters[categoryId][$eq]=018e1234-abcd-7000-a001-000000000001&filters[name][$like]=sample-name&filters[code][$like]=sample-code&filters[defaultSellingPrice][$gte]=10&filters[isActive][$eq]=true&filters[createdAt][$gte]=2024-01-01T00%3A00%3A00.000Z */
+                /** @description Structured filters. Example: filters[categoryId][$eq]=018e1234-abcd-7000-a001-000000000001&filters[name][$like]=sample-name&filters[code][$like]=sample-code&filters[barcode][$like]=sample-barcode&filters[defaultSellingPrice][$gte]=10&filters[isActive][$eq]=true&filters[createdAt][$gte]=2024-01-01T00%3A00%3A00.000Z */
                 filters?: {
                     /**
                      * @description Filter on `categoryId` (id)
@@ -12379,6 +12591,20 @@ export interface operations {
                     code?: {
                         $eq?: string;
                         /** @example sample-code */
+                        $like?: string;
+                        $in?: string[];
+                        /** @enum {boolean} */
+                        $isNull?: true;
+                    };
+                    /**
+                     * @description Filter on `barcode` (string)
+                     * @example {
+                     *       "$like": "sample-barcode"
+                     *     }
+                     */
+                    barcode?: {
+                        $eq?: string;
+                        /** @example sample-barcode */
                         $like?: string;
                         $in?: string[];
                         /** @enum {boolean} */
@@ -12480,6 +12706,16 @@ export interface operations {
                              *       },
                              *       {
                              *         "field": "code",
+                             *         "type": "string",
+                             *         "operators": [
+                             *           "$eq",
+                             *           "$like",
+                             *           "$in",
+                             *           "$isNull"
+                             *         ]
+                             *       },
+                             *       {
+                             *         "field": "barcode",
                              *         "type": "string",
                              *         "operators": [
                              *           "$eq",
@@ -22715,6 +22951,106 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
+            };
+        };
+    };
+    "PosSettings.get": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description POS settings or null */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PosSettingResponseDto"];
+                };
+            };
+        };
+    };
+    "PosSettings.update": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdatePosSettingDto"];
+            };
+        };
+        responses: {
+            /** @description Updated POS settings */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PosSettingResponseDto"];
+                };
+            };
+        };
+    };
+    "PosSettings.provision": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description POS settings */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PosSettingResponseDto"];
+                };
+            };
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    "PosCheckout.checkout": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreatePosCheckoutDto"];
+            };
+        };
+        responses: {
+            /** @description Sale completed */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PosCheckoutResponseDto"];
+                };
+            };
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
         };
     };

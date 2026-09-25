@@ -7510,7 +7510,7 @@ paths:
           explode: true
           description: >-
             Structured filters. Example:
-            filters[categoryId][$eq]=018e1234-abcd-7000-a001-000000000001&filters[name][$like]=sample-name&filters[code][$like]=sample-code&filters[defaultSellingPrice][$gte]=10&filters[isActive][$eq]=true&filters[createdAt][$gte]=2024-01-01T00%3A00%3A00.000Z
+            filters[categoryId][$eq]=018e1234-abcd-7000-a001-000000000001&filters[name][$like]=sample-name&filters[code][$like]=sample-code&filters[barcode][$like]=sample-barcode&filters[defaultSellingPrice][$gte]=10&filters[isActive][$eq]=true&filters[createdAt][$gte]=2024-01-01T00%3A00%3A00.000Z
           schema:
             type: object
             properties:
@@ -7569,6 +7569,25 @@ paths:
                       - true
                 example:
                   $like: sample-code
+              barcode:
+                type: object
+                description: Filter on `barcode` (string)
+                properties:
+                  $eq:
+                    type: string
+                  $like:
+                    type: string
+                    example: sample-barcode
+                  $in:
+                    type: array
+                    items:
+                      type: string
+                  $isNull:
+                    type: boolean
+                    enum:
+                      - true
+                example:
+                  $like: sample-barcode
               defaultSellingPrice:
                 type: object
                 description: Filter on `defaultSellingPrice` (number)
@@ -7629,6 +7648,8 @@ paths:
                 $like: sample-name
               code:
                 $like: sample-code
+              barcode:
+                $like: sample-barcode
               defaultSellingPrice:
                 $gte: 10
               isActive:
@@ -7684,6 +7705,13 @@ paths:
                                   - $in
                                   - $isNull
                               - field: code
+                                type: string
+                                operators:
+                                  - $eq
+                                  - $like
+                                  - $in
+                                  - $isNull
+                              - field: barcode
                                 type: string
                                 operators:
                                   - $eq
@@ -21964,6 +21992,93 @@ paths:
       summary: Delete a party
       tags:
         - Parties
+  /pos/settings:
+    get:
+      description: Returns the tenant POS configuration, or null if not yet provisioned.
+      operationId: PosSettings.get
+      parameters: []
+      responses:
+        '200':
+          description: POS settings or null
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PosSettingResponseDto'
+      security:
+        - JWT-auth: []
+      summary: Get POS settings
+      tags:
+        - POS / Settings
+    patch:
+      description: Change the till cashbox or issuing warehouse.
+      operationId: PosSettings.update
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdatePosSettingDto'
+      responses:
+        '200':
+          description: Updated POS settings
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PosSettingResponseDto'
+      security:
+        - JWT-auth: []
+      summary: Update POS settings
+      tags:
+        - POS / Settings
+  /pos/settings/provision:
+    post:
+      description: >-
+        Idempotently creates the walk-in customer, POS invoice type, and default
+        till/warehouse.
+      operationId: PosSettings.provision
+      parameters: []
+      responses:
+        '200':
+          description: POS settings
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PosSettingResponseDto'
+        '201':
+          description: ''
+      security:
+        - JWT-auth: []
+      summary: Provision POS
+      tags:
+        - POS / Settings
+  /pos/checkout:
+    post:
+      description: >-
+        Creates and posts a sales invoice plus an allocated cash receipt in one
+        atomic operation.
+      operationId: PosCheckout.checkout
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePosCheckoutDto'
+      responses:
+        '200':
+          description: Sale completed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PosCheckoutResponseDto'
+        '201':
+          description: ''
+      security:
+        - JWT-auth: []
+      summary: Ring up a POS sale
+      tags:
+        - POS / Checkout
   /reports/stock-balance:
     get:
       description: >-
@@ -28892,3 +29007,178 @@ components:
           description: >-
             Override the default AP account for this party (falls back to
             FinancialSetting.defaultPayableAccountId)
+    PosSettingResponseDto:
+      type: object
+      properties:
+        id:
+          type: string
+          default: ''
+          example: 00000000-0000-4000-f000-000000000001
+        defaultPartyId:
+          type: string
+          default: ''
+          example: 00000000-0000-4000-e100-000000000001
+        defaultPartyName:
+          type: string
+          default: ''
+          example: Walk-in Customer
+        invoiceTypeId:
+          type: string
+          default: ''
+          example: 00000000-0000-4000-d100-000000000001
+        invoiceTypeName:
+          type: string
+          default: ''
+          example: POS Sales
+        cashboxId:
+          type: string
+          default: ''
+          example: 00000000-0000-4000-ac00-000000000001
+        cashboxName:
+          type: string
+          default: ''
+          example: Main Till
+        warehouseId:
+          type: string
+          default: ''
+          example: 00000000-0000-4000-ab00-000000000001
+        warehouseName:
+          type: string
+          default: ''
+          example: Main Warehouse
+        updatedAt:
+          type: string
+          default: ''
+          example: '2026-09-25T10:00:00.000Z'
+      required:
+        - id
+        - defaultPartyId
+        - defaultPartyName
+        - invoiceTypeId
+        - invoiceTypeName
+        - cashboxId
+        - cashboxName
+        - warehouseId
+        - warehouseName
+        - updatedAt
+    UpdatePosSettingDto:
+      type: object
+      properties:
+        cashboxId:
+          type: string
+          example: 00000000-0000-4000-ac00-000000000001
+          description: Till cashbox for POS receipts
+        warehouseId:
+          type: string
+          example: 00000000-0000-4000-ab00-000000000001
+          description: Warehouse POS sales issue stock from
+    PosCheckoutLineDto:
+      type: object
+      properties:
+        itemId:
+          type: string
+          example: 00000000-0000-4000-a900-000000000001
+        unitId:
+          type: string
+          example: 00000000-0000-4000-a800-000000000001
+        quantity:
+          type: number
+          minimum: 0.0001
+          example: 2
+        unitPrice:
+          type: number
+          minimum: 0
+          example: 15000
+          description: Unit price in tenant base currency
+        discountPercent:
+          type: number
+          minimum: 0
+          example: 0
+          default: 0
+          description: Discount percentage
+      required:
+        - itemId
+        - unitId
+        - quantity
+        - unitPrice
+    CreatePosCheckoutDto:
+      type: object
+      properties:
+        partyId:
+          type: string
+          nullable: true
+          description: Named customer; omitted defaults to the tenant walk-in customer
+        lines:
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/PosCheckoutLineDto'
+        tendered:
+          type: number
+          minimum: 0
+          example: 50000
+          description: Cash amount tendered by the customer
+        clientRequestId:
+          type: string
+          format: uuid
+          example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+          description: Client-generated UUID; retrying the same cart sends the same value
+        notes:
+          type: string
+          nullable: true
+      required:
+        - lines
+        - tendered
+        - clientRequestId
+    PosCheckoutResponseDto:
+      type: object
+      properties:
+        invoiceId:
+          type: string
+          default: ''
+          example: 00000000-0000-4000-e000-000000000001
+        invoiceNumber:
+          type: string
+          default: ''
+          example: SAL-00042
+        paymentId:
+          type: string
+          default: ''
+          example: 00000000-0000-4000-e000-000000000002
+        paymentNumber:
+          type: string
+          default: ''
+          example: REC-00042
+        total:
+          type: number
+          default: 0
+          example: 30000
+        tendered:
+          type: number
+          default: 0
+          example: 50000
+        change:
+          type: number
+          default: 0
+          example: 20000
+        date:
+          type: string
+          default: ''
+          example: '2026-09-25T10:00:00.000Z'
+        replayed:
+          type: boolean
+          default: false
+          example: false
+          description: >-
+            True when this response replays an earlier checkout with the same
+            clientRequestId
+      required:
+        - invoiceId
+        - invoiceNumber
+        - paymentId
+        - paymentNumber
+        - total
+        - tendered
+        - change
+        - date
+        - replayed
