@@ -2724,7 +2724,7 @@ export interface components {
              *     ]
              */
             enumValues?: string[];
-            /** @example auth|tenants|users|roles|currencies|fiscal-periods|document-sequences|units|item-categories|items|custom-fields|parties|warehouses|inventory|stock-ledger|invoice-types|invoices|cashboxes|payments|expenses|accounting|chart-of-accounts|stock-counts|reports|dashboard|ai|audit-logs|tags|tag-assignments|item-relations|catalog-entities|item-catalog-entities|brands|bank-accounts|financial-settings|opening-balance-sessions|business-setup */
+            /** @example auth|tenants|users|roles|currencies|fiscal-periods|document-sequences|units|item-categories|items|custom-fields|parties|warehouses|inventory|stock-ledger|invoice-types|invoices|cashboxes|payments|expenses|accounting|chart-of-accounts|stock-counts|reports|dashboard|ai|audit-logs|tags|tag-assignments|item-relations|catalog-entities|item-catalog-entities|brands|bank-accounts|financial-settings|opening-balance-sessions|business-setup|pos */
             foreignResourceKey?: string;
         };
         ApiMetaDto: {
@@ -7214,42 +7214,6 @@ export interface components {
              */
             warehouseId?: string;
         };
-        PosCheckoutLineDto: {
-            /** @example 00000000-0000-4000-a900-000000000001 */
-            itemId: string;
-            /** @example 00000000-0000-4000-a800-000000000001 */
-            unitId: string;
-            /** @example 2 */
-            quantity: number;
-            /**
-             * @description Unit price in tenant base currency
-             * @example 15000
-             */
-            unitPrice: number;
-            /**
-             * @description Discount percentage
-             * @default 0
-             * @example 0
-             */
-            discountPercent: number;
-        };
-        CreatePosCheckoutDto: {
-            /** @description Named customer; omitted defaults to the tenant walk-in customer */
-            partyId?: string | null;
-            lines: components["schemas"]["PosCheckoutLineDto"][];
-            /**
-             * @description Cash amount tendered by the customer
-             * @example 50000
-             */
-            tendered: number;
-            /**
-             * Format: uuid
-             * @description Client-generated UUID; retrying the same cart sends the same value
-             * @example 3fa85f64-5717-4562-b3fc-2c963f66afa6
-             */
-            clientRequestId: string;
-            notes?: string | null;
-        };
         PosCheckoutResponseDto: {
             /**
              * @default
@@ -7297,6 +7261,42 @@ export interface components {
              * @example false
              */
             replayed: boolean;
+        };
+        PosCheckoutLineDto: {
+            /** @example 00000000-0000-4000-a900-000000000001 */
+            itemId: string;
+            /** @example 00000000-0000-4000-a800-000000000001 */
+            unitId: string;
+            /** @example 2 */
+            quantity: number;
+            /**
+             * @description Unit price in tenant base currency
+             * @example 15000
+             */
+            unitPrice: number;
+            /**
+             * @description Discount percentage
+             * @default 0
+             * @example 0
+             */
+            discountPercent: number;
+        };
+        CreatePosCheckoutDto: {
+            /** @description Named customer; omitted defaults to the tenant walk-in customer */
+            partyId?: string | null;
+            lines: components["schemas"]["PosCheckoutLineDto"][];
+            /**
+             * @description Cash amount tendered by the customer
+             * @example 50000
+             */
+            tendered: number;
+            /**
+             * Format: uuid
+             * @description Client-generated UUID; retrying the same cart sends the same value
+             * @example 3fa85f64-5717-4562-b3fc-2c963f66afa6
+             */
+            clientRequestId: string;
+            notes?: string | null;
         };
     };
     responses: never;
@@ -22969,7 +22969,54 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["PosSettingResponseDto"];
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["PosSettingResponseDto"];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -22993,7 +23040,54 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["PosSettingResponseDto"];
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["PosSettingResponseDto"];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
@@ -23013,7 +23107,9 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["PosSettingResponseDto"];
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["PosSettingResponseDto"];
+                    };
                 };
             };
             201: {
@@ -23021,6 +23117,51 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
             };
         };
     };
@@ -23043,7 +23184,9 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["PosCheckoutResponseDto"];
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["PosCheckoutResponseDto"];
+                    };
                 };
             };
             201: {
@@ -23051,6 +23194,51 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
             };
         };
     };
