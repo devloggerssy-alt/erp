@@ -29,3 +29,4 @@ export * from './bank-account.dto';
 export * from './financial-setting.dto';
 export * from './import-export.dto';
 export * from './bulk.dto';
+export * from './pos.dto';
