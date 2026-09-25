@@ -207,6 +207,11 @@ export type Permission = $Result.DefaultSelection<Prisma.$PermissionPayload>
  */
 export type RolePermission = $Result.DefaultSelection<Prisma.$RolePermissionPayload>
 /**
+ * Model PosSetting
+ * 
+ */
+export type PosSetting = $Result.DefaultSelection<Prisma.$PosSettingPayload>
+/**
  * Model ReconciliationRun
  * Phase 7.5 — history of reconciliation runs. Each run stores its finding
  * fingerprints so the next run can detect NEW or GROWN drift (drift-baselines.md).
@@ -1108,6 +1113,16 @@ export class PrismaClient<
   get rolePermission(): Prisma.RolePermissionDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.posSetting`: Exposes CRUD operations for the **PosSetting** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PosSettings
+    * const posSettings = await prisma.posSetting.findMany()
+    * ```
+    */
+  get posSetting(): Prisma.PosSettingDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.reconciliationRun`: Exposes CRUD operations for the **ReconciliationRun** model.
     * Example usage:
     * ```ts
@@ -1737,6 +1752,7 @@ export namespace Prisma {
     Party: 'Party',
     Permission: 'Permission',
     RolePermission: 'RolePermission',
+    PosSetting: 'PosSetting',
     ReconciliationRun: 'ReconciliationRun',
     SetupTask: 'SetupTask',
     StockCount: 'StockCount',
@@ -1768,7 +1784,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "chartOfAccount" | "journalEntry" | "journalLine" | "aiConversation" | "aiMessage" | "aiCheckpoint" | "aiCheckpointWrite" | "auditLog" | "bankAccount" | "brand" | "cashbox" | "payment" | "paymentAllocation" | "catalogEntity" | "codeSequence" | "currency" | "customField" | "customFieldValue" | "documentSequence" | "expense" | "expenseItem" | "file" | "financialSetting" | "fiscalPeriod" | "invoiceType" | "invoice" | "invoiceLine" | "itemCatalogEntity" | "itemCategory" | "itemRelation" | "item" | "openingBalanceSession" | "openingBalanceSessionLine" | "outboxEvent" | "party" | "permission" | "rolePermission" | "reconciliationRun" | "setupTask" | "stockCount" | "stockCountLine" | "stockBalance" | "stockMovement" | "tagAssignment" | "tag" | "tenantSetting" | "tenant" | "unit" | "appUser" | "role" | "userRole" | "warehouse" | "warehouseItem"
+      modelProps: "chartOfAccount" | "journalEntry" | "journalLine" | "aiConversation" | "aiMessage" | "aiCheckpoint" | "aiCheckpointWrite" | "auditLog" | "bankAccount" | "brand" | "cashbox" | "payment" | "paymentAllocation" | "catalogEntity" | "codeSequence" | "currency" | "customField" | "customFieldValue" | "documentSequence" | "expense" | "expenseItem" | "file" | "financialSetting" | "fiscalPeriod" | "invoiceType" | "invoice" | "invoiceLine" | "itemCatalogEntity" | "itemCategory" | "itemRelation" | "item" | "openingBalanceSession" | "openingBalanceSessionLine" | "outboxEvent" | "party" | "permission" | "rolePermission" | "posSetting" | "reconciliationRun" | "setupTask" | "stockCount" | "stockCountLine" | "stockBalance" | "stockMovement" | "tagAssignment" | "tag" | "tenantSetting" | "tenant" | "unit" | "appUser" | "role" | "userRole" | "warehouse" | "warehouseItem"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -4510,6 +4526,80 @@ export namespace Prisma {
           }
         }
       }
+      PosSetting: {
+        payload: Prisma.$PosSettingPayload<ExtArgs>
+        fields: Prisma.PosSettingFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PosSettingFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PosSettingPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PosSettingFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PosSettingPayload>
+          }
+          findFirst: {
+            args: Prisma.PosSettingFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PosSettingPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PosSettingFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PosSettingPayload>
+          }
+          findMany: {
+            args: Prisma.PosSettingFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PosSettingPayload>[]
+          }
+          create: {
+            args: Prisma.PosSettingCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PosSettingPayload>
+          }
+          createMany: {
+            args: Prisma.PosSettingCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PosSettingCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PosSettingPayload>[]
+          }
+          delete: {
+            args: Prisma.PosSettingDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PosSettingPayload>
+          }
+          update: {
+            args: Prisma.PosSettingUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PosSettingPayload>
+          }
+          deleteMany: {
+            args: Prisma.PosSettingDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PosSettingUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PosSettingUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PosSettingPayload>[]
+          }
+          upsert: {
+            args: Prisma.PosSettingUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PosSettingPayload>
+          }
+          aggregate: {
+            args: Prisma.PosSettingAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePosSetting>
+          }
+          groupBy: {
+            args: Prisma.PosSettingGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PosSettingGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PosSettingCountArgs<ExtArgs>
+            result: $Utils.Optional<PosSettingCountAggregateOutputType> | number
+          }
+        }
+      }
       ReconciliationRun: {
         payload: Prisma.$ReconciliationRunPayload<ExtArgs>
         fields: Prisma.ReconciliationRunFieldRefs
@@ -5839,6 +5929,7 @@ export namespace Prisma {
     party?: PartyOmit
     permission?: PermissionOmit
     rolePermission?: RolePermissionOmit
+    posSetting?: PosSettingOmit
     reconciliationRun?: ReconciliationRunOmit
     setupTask?: SetupTaskOmit
     stockCount?: StockCountOmit
@@ -6256,6 +6347,7 @@ export namespace Prisma {
     payments: number
     journalLines: number
     openingBalanceSessionLines: number
+    posSettings: number
   }
 
   export type CashboxCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6263,6 +6355,7 @@ export namespace Prisma {
     payments?: boolean | CashboxCountOutputTypeCountPaymentsArgs
     journalLines?: boolean | CashboxCountOutputTypeCountJournalLinesArgs
     openingBalanceSessionLines?: boolean | CashboxCountOutputTypeCountOpeningBalanceSessionLinesArgs
+    posSettings?: boolean | CashboxCountOutputTypeCountPosSettingsArgs
   }
 
   // Custom InputTypes
@@ -6302,6 +6395,13 @@ export namespace Prisma {
    */
   export type CashboxCountOutputTypeCountOpeningBalanceSessionLinesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: OpeningBalanceSessionLineWhereInput
+  }
+
+  /**
+   * CashboxCountOutputType without action
+   */
+  export type CashboxCountOutputTypeCountPosSettingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PosSettingWhereInput
   }
 
 
@@ -6654,10 +6754,12 @@ export namespace Prisma {
 
   export type InvoiceTypeCountOutputType = {
     invoices: number
+    posSettings: number
   }
 
   export type InvoiceTypeCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     invoices?: boolean | InvoiceTypeCountOutputTypeCountInvoicesArgs
+    posSettings?: boolean | InvoiceTypeCountOutputTypeCountPosSettingsArgs
   }
 
   // Custom InputTypes
@@ -6676,6 +6778,13 @@ export namespace Prisma {
    */
   export type InvoiceTypeCountOutputTypeCountInvoicesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: InvoiceWhereInput
+  }
+
+  /**
+   * InvoiceTypeCountOutputType without action
+   */
+  export type InvoiceTypeCountOutputTypeCountPosSettingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PosSettingWhereInput
   }
 
 
@@ -6893,6 +7002,7 @@ export namespace Prisma {
     payments: number
     journalLines: number
     openingBalanceSessionLines: number
+    posSettings: number
   }
 
   export type PartyCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6900,6 +7010,7 @@ export namespace Prisma {
     payments?: boolean | PartyCountOutputTypeCountPaymentsArgs
     journalLines?: boolean | PartyCountOutputTypeCountJournalLinesArgs
     openingBalanceSessionLines?: boolean | PartyCountOutputTypeCountOpeningBalanceSessionLinesArgs
+    posSettings?: boolean | PartyCountOutputTypeCountPosSettingsArgs
   }
 
   // Custom InputTypes
@@ -6939,6 +7050,13 @@ export namespace Prisma {
    */
   export type PartyCountOutputTypeCountOpeningBalanceSessionLinesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: OpeningBalanceSessionLineWhereInput
+  }
+
+  /**
+   * PartyCountOutputType without action
+   */
+  export type PartyCountOutputTypeCountPosSettingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PosSettingWhereInput
   }
 
 
@@ -7484,6 +7602,7 @@ export namespace Prisma {
     stockMovements: number
     invoices: number
     stockCounts: number
+    posSettings: number
   }
 
   export type WarehouseCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -7492,6 +7611,7 @@ export namespace Prisma {
     stockMovements?: boolean | WarehouseCountOutputTypeCountStockMovementsArgs
     invoices?: boolean | WarehouseCountOutputTypeCountInvoicesArgs
     stockCounts?: boolean | WarehouseCountOutputTypeCountStockCountsArgs
+    posSettings?: boolean | WarehouseCountOutputTypeCountPosSettingsArgs
   }
 
   // Custom InputTypes
@@ -7538,6 +7658,13 @@ export namespace Prisma {
    */
   export type WarehouseCountOutputTypeCountStockCountsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: StockCountWhereInput
+  }
+
+  /**
+   * WarehouseCountOutputType without action
+   */
+  export type WarehouseCountOutputTypeCountPosSettingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PosSettingWhereInput
   }
 
 
@@ -20010,6 +20137,7 @@ export namespace Prisma {
     payments?: boolean | Cashbox$paymentsArgs<ExtArgs>
     journalLines?: boolean | Cashbox$journalLinesArgs<ExtArgs>
     openingBalanceSessionLines?: boolean | Cashbox$openingBalanceSessionLinesArgs<ExtArgs>
+    posSettings?: boolean | Cashbox$posSettingsArgs<ExtArgs>
     _count?: boolean | CashboxCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["cashbox"]>
 
@@ -20061,6 +20189,7 @@ export namespace Prisma {
     payments?: boolean | Cashbox$paymentsArgs<ExtArgs>
     journalLines?: boolean | Cashbox$journalLinesArgs<ExtArgs>
     openingBalanceSessionLines?: boolean | Cashbox$openingBalanceSessionLinesArgs<ExtArgs>
+    posSettings?: boolean | Cashbox$posSettingsArgs<ExtArgs>
     _count?: boolean | CashboxCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type CashboxIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -20081,6 +20210,7 @@ export namespace Prisma {
       payments: Prisma.$PaymentPayload<ExtArgs>[]
       journalLines: Prisma.$JournalLinePayload<ExtArgs>[]
       openingBalanceSessionLines: Prisma.$OpeningBalanceSessionLinePayload<ExtArgs>[]
+      posSettings: Prisma.$PosSettingPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -20492,6 +20622,7 @@ export namespace Prisma {
     payments<T extends Cashbox$paymentsArgs<ExtArgs> = {}>(args?: Subset<T, Cashbox$paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     journalLines<T extends Cashbox$journalLinesArgs<ExtArgs> = {}>(args?: Subset<T, Cashbox$journalLinesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$JournalLinePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     openingBalanceSessionLines<T extends Cashbox$openingBalanceSessionLinesArgs<ExtArgs> = {}>(args?: Subset<T, Cashbox$openingBalanceSessionLinesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OpeningBalanceSessionLinePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    posSettings<T extends Cashbox$posSettingsArgs<ExtArgs> = {}>(args?: Subset<T, Cashbox$posSettingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PosSettingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -21024,6 +21155,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: OpeningBalanceSessionLineScalarFieldEnum | OpeningBalanceSessionLineScalarFieldEnum[]
+  }
+
+  /**
+   * Cashbox.posSettings
+   */
+  export type Cashbox$posSettingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PosSetting
+     */
+    select?: PosSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PosSetting
+     */
+    omit?: PosSettingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PosSettingInclude<ExtArgs> | null
+    where?: PosSettingWhereInput
+    orderBy?: PosSettingOrderByWithRelationInput | PosSettingOrderByWithRelationInput[]
+    cursor?: PosSettingWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PosSettingScalarFieldEnum | PosSettingScalarFieldEnum[]
   }
 
   /**
@@ -37209,6 +37364,7 @@ export namespace Prisma {
     updatedAt?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     invoices?: boolean | InvoiceType$invoicesArgs<ExtArgs>
+    posSettings?: boolean | InvoiceType$posSettingsArgs<ExtArgs>
     _count?: boolean | InvoiceTypeCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["invoiceType"]>
 
@@ -37254,6 +37410,7 @@ export namespace Prisma {
   export type InvoiceTypeInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     invoices?: boolean | InvoiceType$invoicesArgs<ExtArgs>
+    posSettings?: boolean | InvoiceType$posSettingsArgs<ExtArgs>
     _count?: boolean | InvoiceTypeCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type InvoiceTypeIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -37268,6 +37425,7 @@ export namespace Prisma {
     objects: {
       tenant: Prisma.$TenantPayload<ExtArgs>
       invoices: Prisma.$InvoicePayload<ExtArgs>[]
+      posSettings: Prisma.$PosSettingPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -37675,6 +37833,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     invoices<T extends InvoiceType$invoicesArgs<ExtArgs> = {}>(args?: Subset<T, InvoiceType$invoicesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    posSettings<T extends InvoiceType$posSettingsArgs<ExtArgs> = {}>(args?: Subset<T, InvoiceType$posSettingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PosSettingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -38138,6 +38297,30 @@ export namespace Prisma {
   }
 
   /**
+   * InvoiceType.posSettings
+   */
+  export type InvoiceType$posSettingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PosSetting
+     */
+    select?: PosSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PosSetting
+     */
+    omit?: PosSettingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PosSettingInclude<ExtArgs> | null
+    where?: PosSettingWhereInput
+    orderBy?: PosSettingOrderByWithRelationInput | PosSettingOrderByWithRelationInput[]
+    cursor?: PosSettingWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PosSettingScalarFieldEnum | PosSettingScalarFieldEnum[]
+  }
+
+  /**
    * InvoiceType without action
    */
   export type InvoiceTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -38202,6 +38385,7 @@ export namespace Prisma {
     taxAmount: Decimal | null
     total: Decimal | null
     notes: string | null
+    clientRequestId: string | null
     postedAt: Date | null
     postedBy: string | null
     cancelledAt: Date | null
@@ -38229,6 +38413,7 @@ export namespace Prisma {
     taxAmount: Decimal | null
     total: Decimal | null
     notes: string | null
+    clientRequestId: string | null
     postedAt: Date | null
     postedBy: string | null
     cancelledAt: Date | null
@@ -38256,6 +38441,7 @@ export namespace Prisma {
     taxAmount: number
     total: number
     notes: number
+    clientRequestId: number
     postedAt: number
     postedBy: number
     cancelledAt: number
@@ -38301,6 +38487,7 @@ export namespace Prisma {
     taxAmount?: true
     total?: true
     notes?: true
+    clientRequestId?: true
     postedAt?: true
     postedBy?: true
     cancelledAt?: true
@@ -38328,6 +38515,7 @@ export namespace Prisma {
     taxAmount?: true
     total?: true
     notes?: true
+    clientRequestId?: true
     postedAt?: true
     postedBy?: true
     cancelledAt?: true
@@ -38355,6 +38543,7 @@ export namespace Prisma {
     taxAmount?: true
     total?: true
     notes?: true
+    clientRequestId?: true
     postedAt?: true
     postedBy?: true
     cancelledAt?: true
@@ -38469,6 +38658,7 @@ export namespace Prisma {
     taxAmount: Decimal
     total: Decimal
     notes: string | null
+    clientRequestId: string | null
     postedAt: Date | null
     postedBy: string | null
     cancelledAt: Date | null
@@ -38515,6 +38705,7 @@ export namespace Prisma {
     taxAmount?: boolean
     total?: boolean
     notes?: boolean
+    clientRequestId?: boolean
     postedAt?: boolean
     postedBy?: boolean
     cancelledAt?: boolean
@@ -38551,6 +38742,7 @@ export namespace Prisma {
     taxAmount?: boolean
     total?: boolean
     notes?: boolean
+    clientRequestId?: boolean
     postedAt?: boolean
     postedBy?: boolean
     cancelledAt?: boolean
@@ -38584,6 +38776,7 @@ export namespace Prisma {
     taxAmount?: boolean
     total?: boolean
     notes?: boolean
+    clientRequestId?: boolean
     postedAt?: boolean
     postedBy?: boolean
     cancelledAt?: boolean
@@ -38617,6 +38810,7 @@ export namespace Prisma {
     taxAmount?: boolean
     total?: boolean
     notes?: boolean
+    clientRequestId?: boolean
     postedAt?: boolean
     postedBy?: boolean
     cancelledAt?: boolean
@@ -38626,7 +38820,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type InvoiceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "invoiceTypeId" | "number" | "date" | "dueDate" | "partyId" | "warehouseId" | "fiscalPeriodId" | "currencyId" | "exchangeRate" | "status" | "subtotal" | "discountAmount" | "taxAmount" | "total" | "notes" | "postedAt" | "postedBy" | "cancelledAt" | "cancelledBy" | "createdBy" | "createdAt" | "updatedAt", ExtArgs["result"]["invoice"]>
+  export type InvoiceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "invoiceTypeId" | "number" | "date" | "dueDate" | "partyId" | "warehouseId" | "fiscalPeriodId" | "currencyId" | "exchangeRate" | "status" | "subtotal" | "discountAmount" | "taxAmount" | "total" | "notes" | "clientRequestId" | "postedAt" | "postedBy" | "cancelledAt" | "cancelledBy" | "createdBy" | "createdAt" | "updatedAt", ExtArgs["result"]["invoice"]>
   export type InvoiceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     invoiceType?: boolean | InvoiceTypeDefaultArgs<ExtArgs>
@@ -38688,6 +38882,10 @@ export namespace Prisma {
       taxAmount: Prisma.Decimal
       total: Prisma.Decimal
       notes: string | null
+      /**
+       * * Idempotency key for POS checkout retries; null for non-POS invoices.
+       */
+      clientRequestId: string | null
       postedAt: Date | null
       postedBy: string | null
       cancelledAt: Date | null
@@ -39143,6 +39341,7 @@ export namespace Prisma {
     readonly taxAmount: FieldRef<"Invoice", 'Decimal'>
     readonly total: FieldRef<"Invoice", 'Decimal'>
     readonly notes: FieldRef<"Invoice", 'String'>
+    readonly clientRequestId: FieldRef<"Invoice", 'String'>
     readonly postedAt: FieldRef<"Invoice", 'DateTime'>
     readonly postedBy: FieldRef<"Invoice", 'String'>
     readonly cancelledAt: FieldRef<"Invoice", 'DateTime'>
@@ -49846,6 +50045,7 @@ export namespace Prisma {
     openingBalanceSessionLines?: boolean | Party$openingBalanceSessionLinesArgs<ExtArgs>
     receivableAccount?: boolean | Party$receivableAccountArgs<ExtArgs>
     payableAccount?: boolean | Party$payableAccountArgs<ExtArgs>
+    posSettings?: boolean | Party$posSettingsArgs<ExtArgs>
     _count?: boolean | PartyCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["party"]>
 
@@ -49912,6 +50112,7 @@ export namespace Prisma {
     openingBalanceSessionLines?: boolean | Party$openingBalanceSessionLinesArgs<ExtArgs>
     receivableAccount?: boolean | Party$receivableAccountArgs<ExtArgs>
     payableAccount?: boolean | Party$payableAccountArgs<ExtArgs>
+    posSettings?: boolean | Party$posSettingsArgs<ExtArgs>
     _count?: boolean | PartyCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type PartyIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -49935,6 +50136,7 @@ export namespace Prisma {
       openingBalanceSessionLines: Prisma.$OpeningBalanceSessionLinePayload<ExtArgs>[]
       receivableAccount: Prisma.$ChartOfAccountPayload<ExtArgs> | null
       payableAccount: Prisma.$ChartOfAccountPayload<ExtArgs> | null
+      posSettings: Prisma.$PosSettingPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -50351,6 +50553,7 @@ export namespace Prisma {
     openingBalanceSessionLines<T extends Party$openingBalanceSessionLinesArgs<ExtArgs> = {}>(args?: Subset<T, Party$openingBalanceSessionLinesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OpeningBalanceSessionLinePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     receivableAccount<T extends Party$receivableAccountArgs<ExtArgs> = {}>(args?: Subset<T, Party$receivableAccountArgs<ExtArgs>>): Prisma__ChartOfAccountClient<$Result.GetResult<Prisma.$ChartOfAccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     payableAccount<T extends Party$payableAccountArgs<ExtArgs> = {}>(args?: Subset<T, Party$payableAccountArgs<ExtArgs>>): Prisma__ChartOfAccountClient<$Result.GetResult<Prisma.$ChartOfAccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    posSettings<T extends Party$posSettingsArgs<ExtArgs> = {}>(args?: Subset<T, Party$posSettingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PosSettingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -50925,6 +51128,30 @@ export namespace Prisma {
      */
     include?: ChartOfAccountInclude<ExtArgs> | null
     where?: ChartOfAccountWhereInput
+  }
+
+  /**
+   * Party.posSettings
+   */
+  export type Party$posSettingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PosSetting
+     */
+    select?: PosSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PosSetting
+     */
+    omit?: PosSettingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PosSettingInclude<ExtArgs> | null
+    where?: PosSettingWhereInput
+    orderBy?: PosSettingOrderByWithRelationInput | PosSettingOrderByWithRelationInput[]
+    cursor?: PosSettingWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PosSettingScalarFieldEnum | PosSettingScalarFieldEnum[]
   }
 
   /**
@@ -53089,6 +53316,1140 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: RolePermissionInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model PosSetting
+   */
+
+  export type AggregatePosSetting = {
+    _count: PosSettingCountAggregateOutputType | null
+    _min: PosSettingMinAggregateOutputType | null
+    _max: PosSettingMaxAggregateOutputType | null
+  }
+
+  export type PosSettingMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    defaultPartyId: string | null
+    invoiceTypeId: string | null
+    cashboxId: string | null
+    warehouseId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PosSettingMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    defaultPartyId: string | null
+    invoiceTypeId: string | null
+    cashboxId: string | null
+    warehouseId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PosSettingCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    defaultPartyId: number
+    invoiceTypeId: number
+    cashboxId: number
+    warehouseId: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type PosSettingMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    defaultPartyId?: true
+    invoiceTypeId?: true
+    cashboxId?: true
+    warehouseId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PosSettingMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    defaultPartyId?: true
+    invoiceTypeId?: true
+    cashboxId?: true
+    warehouseId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PosSettingCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    defaultPartyId?: true
+    invoiceTypeId?: true
+    cashboxId?: true
+    warehouseId?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type PosSettingAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PosSetting to aggregate.
+     */
+    where?: PosSettingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PosSettings to fetch.
+     */
+    orderBy?: PosSettingOrderByWithRelationInput | PosSettingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PosSettingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PosSettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PosSettings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PosSettings
+    **/
+    _count?: true | PosSettingCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PosSettingMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PosSettingMaxAggregateInputType
+  }
+
+  export type GetPosSettingAggregateType<T extends PosSettingAggregateArgs> = {
+        [P in keyof T & keyof AggregatePosSetting]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePosSetting[P]>
+      : GetScalarType<T[P], AggregatePosSetting[P]>
+  }
+
+
+
+
+  export type PosSettingGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PosSettingWhereInput
+    orderBy?: PosSettingOrderByWithAggregationInput | PosSettingOrderByWithAggregationInput[]
+    by: PosSettingScalarFieldEnum[] | PosSettingScalarFieldEnum
+    having?: PosSettingScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PosSettingCountAggregateInputType | true
+    _min?: PosSettingMinAggregateInputType
+    _max?: PosSettingMaxAggregateInputType
+  }
+
+  export type PosSettingGroupByOutputType = {
+    id: string
+    tenantId: string
+    defaultPartyId: string
+    invoiceTypeId: string
+    cashboxId: string
+    warehouseId: string
+    createdAt: Date
+    updatedAt: Date
+    _count: PosSettingCountAggregateOutputType | null
+    _min: PosSettingMinAggregateOutputType | null
+    _max: PosSettingMaxAggregateOutputType | null
+  }
+
+  type GetPosSettingGroupByPayload<T extends PosSettingGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PosSettingGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PosSettingGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PosSettingGroupByOutputType[P]>
+            : GetScalarType<T[P], PosSettingGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PosSettingSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    defaultPartyId?: boolean
+    invoiceTypeId?: boolean
+    cashboxId?: boolean
+    warehouseId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    defaultParty?: boolean | PartyDefaultArgs<ExtArgs>
+    invoiceType?: boolean | InvoiceTypeDefaultArgs<ExtArgs>
+    cashbox?: boolean | CashboxDefaultArgs<ExtArgs>
+    warehouse?: boolean | WarehouseDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["posSetting"]>
+
+  export type PosSettingSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    defaultPartyId?: boolean
+    invoiceTypeId?: boolean
+    cashboxId?: boolean
+    warehouseId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    defaultParty?: boolean | PartyDefaultArgs<ExtArgs>
+    invoiceType?: boolean | InvoiceTypeDefaultArgs<ExtArgs>
+    cashbox?: boolean | CashboxDefaultArgs<ExtArgs>
+    warehouse?: boolean | WarehouseDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["posSetting"]>
+
+  export type PosSettingSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    defaultPartyId?: boolean
+    invoiceTypeId?: boolean
+    cashboxId?: boolean
+    warehouseId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    defaultParty?: boolean | PartyDefaultArgs<ExtArgs>
+    invoiceType?: boolean | InvoiceTypeDefaultArgs<ExtArgs>
+    cashbox?: boolean | CashboxDefaultArgs<ExtArgs>
+    warehouse?: boolean | WarehouseDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["posSetting"]>
+
+  export type PosSettingSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    defaultPartyId?: boolean
+    invoiceTypeId?: boolean
+    cashboxId?: boolean
+    warehouseId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type PosSettingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "defaultPartyId" | "invoiceTypeId" | "cashboxId" | "warehouseId" | "createdAt" | "updatedAt", ExtArgs["result"]["posSetting"]>
+  export type PosSettingInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    defaultParty?: boolean | PartyDefaultArgs<ExtArgs>
+    invoiceType?: boolean | InvoiceTypeDefaultArgs<ExtArgs>
+    cashbox?: boolean | CashboxDefaultArgs<ExtArgs>
+    warehouse?: boolean | WarehouseDefaultArgs<ExtArgs>
+  }
+  export type PosSettingIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    defaultParty?: boolean | PartyDefaultArgs<ExtArgs>
+    invoiceType?: boolean | InvoiceTypeDefaultArgs<ExtArgs>
+    cashbox?: boolean | CashboxDefaultArgs<ExtArgs>
+    warehouse?: boolean | WarehouseDefaultArgs<ExtArgs>
+  }
+  export type PosSettingIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    defaultParty?: boolean | PartyDefaultArgs<ExtArgs>
+    invoiceType?: boolean | InvoiceTypeDefaultArgs<ExtArgs>
+    cashbox?: boolean | CashboxDefaultArgs<ExtArgs>
+    warehouse?: boolean | WarehouseDefaultArgs<ExtArgs>
+  }
+
+  export type $PosSettingPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PosSetting"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+      defaultParty: Prisma.$PartyPayload<ExtArgs>
+      invoiceType: Prisma.$InvoiceTypePayload<ExtArgs>
+      cashbox: Prisma.$CashboxPayload<ExtArgs>
+      warehouse: Prisma.$WarehousePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      defaultPartyId: string
+      invoiceTypeId: string
+      cashboxId: string
+      warehouseId: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["posSetting"]>
+    composites: {}
+  }
+
+  type PosSettingGetPayload<S extends boolean | null | undefined | PosSettingDefaultArgs> = $Result.GetResult<Prisma.$PosSettingPayload, S>
+
+  type PosSettingCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PosSettingFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PosSettingCountAggregateInputType | true
+    }
+
+  export interface PosSettingDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PosSetting'], meta: { name: 'PosSetting' } }
+    /**
+     * Find zero or one PosSetting that matches the filter.
+     * @param {PosSettingFindUniqueArgs} args - Arguments to find a PosSetting
+     * @example
+     * // Get one PosSetting
+     * const posSetting = await prisma.posSetting.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PosSettingFindUniqueArgs>(args: SelectSubset<T, PosSettingFindUniqueArgs<ExtArgs>>): Prisma__PosSettingClient<$Result.GetResult<Prisma.$PosSettingPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one PosSetting that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PosSettingFindUniqueOrThrowArgs} args - Arguments to find a PosSetting
+     * @example
+     * // Get one PosSetting
+     * const posSetting = await prisma.posSetting.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PosSettingFindUniqueOrThrowArgs>(args: SelectSubset<T, PosSettingFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PosSettingClient<$Result.GetResult<Prisma.$PosSettingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PosSetting that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PosSettingFindFirstArgs} args - Arguments to find a PosSetting
+     * @example
+     * // Get one PosSetting
+     * const posSetting = await prisma.posSetting.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PosSettingFindFirstArgs>(args?: SelectSubset<T, PosSettingFindFirstArgs<ExtArgs>>): Prisma__PosSettingClient<$Result.GetResult<Prisma.$PosSettingPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PosSetting that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PosSettingFindFirstOrThrowArgs} args - Arguments to find a PosSetting
+     * @example
+     * // Get one PosSetting
+     * const posSetting = await prisma.posSetting.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PosSettingFindFirstOrThrowArgs>(args?: SelectSubset<T, PosSettingFindFirstOrThrowArgs<ExtArgs>>): Prisma__PosSettingClient<$Result.GetResult<Prisma.$PosSettingPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more PosSettings that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PosSettingFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PosSettings
+     * const posSettings = await prisma.posSetting.findMany()
+     * 
+     * // Get first 10 PosSettings
+     * const posSettings = await prisma.posSetting.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const posSettingWithIdOnly = await prisma.posSetting.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PosSettingFindManyArgs>(args?: SelectSubset<T, PosSettingFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PosSettingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a PosSetting.
+     * @param {PosSettingCreateArgs} args - Arguments to create a PosSetting.
+     * @example
+     * // Create one PosSetting
+     * const PosSetting = await prisma.posSetting.create({
+     *   data: {
+     *     // ... data to create a PosSetting
+     *   }
+     * })
+     * 
+     */
+    create<T extends PosSettingCreateArgs>(args: SelectSubset<T, PosSettingCreateArgs<ExtArgs>>): Prisma__PosSettingClient<$Result.GetResult<Prisma.$PosSettingPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many PosSettings.
+     * @param {PosSettingCreateManyArgs} args - Arguments to create many PosSettings.
+     * @example
+     * // Create many PosSettings
+     * const posSetting = await prisma.posSetting.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PosSettingCreateManyArgs>(args?: SelectSubset<T, PosSettingCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many PosSettings and returns the data saved in the database.
+     * @param {PosSettingCreateManyAndReturnArgs} args - Arguments to create many PosSettings.
+     * @example
+     * // Create many PosSettings
+     * const posSetting = await prisma.posSetting.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many PosSettings and only return the `id`
+     * const posSettingWithIdOnly = await prisma.posSetting.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PosSettingCreateManyAndReturnArgs>(args?: SelectSubset<T, PosSettingCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PosSettingPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a PosSetting.
+     * @param {PosSettingDeleteArgs} args - Arguments to delete one PosSetting.
+     * @example
+     * // Delete one PosSetting
+     * const PosSetting = await prisma.posSetting.delete({
+     *   where: {
+     *     // ... filter to delete one PosSetting
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PosSettingDeleteArgs>(args: SelectSubset<T, PosSettingDeleteArgs<ExtArgs>>): Prisma__PosSettingClient<$Result.GetResult<Prisma.$PosSettingPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one PosSetting.
+     * @param {PosSettingUpdateArgs} args - Arguments to update one PosSetting.
+     * @example
+     * // Update one PosSetting
+     * const posSetting = await prisma.posSetting.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PosSettingUpdateArgs>(args: SelectSubset<T, PosSettingUpdateArgs<ExtArgs>>): Prisma__PosSettingClient<$Result.GetResult<Prisma.$PosSettingPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more PosSettings.
+     * @param {PosSettingDeleteManyArgs} args - Arguments to filter PosSettings to delete.
+     * @example
+     * // Delete a few PosSettings
+     * const { count } = await prisma.posSetting.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PosSettingDeleteManyArgs>(args?: SelectSubset<T, PosSettingDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PosSettings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PosSettingUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PosSettings
+     * const posSetting = await prisma.posSetting.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PosSettingUpdateManyArgs>(args: SelectSubset<T, PosSettingUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PosSettings and returns the data updated in the database.
+     * @param {PosSettingUpdateManyAndReturnArgs} args - Arguments to update many PosSettings.
+     * @example
+     * // Update many PosSettings
+     * const posSetting = await prisma.posSetting.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more PosSettings and only return the `id`
+     * const posSettingWithIdOnly = await prisma.posSetting.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PosSettingUpdateManyAndReturnArgs>(args: SelectSubset<T, PosSettingUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PosSettingPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one PosSetting.
+     * @param {PosSettingUpsertArgs} args - Arguments to update or create a PosSetting.
+     * @example
+     * // Update or create a PosSetting
+     * const posSetting = await prisma.posSetting.upsert({
+     *   create: {
+     *     // ... data to create a PosSetting
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PosSetting we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PosSettingUpsertArgs>(args: SelectSubset<T, PosSettingUpsertArgs<ExtArgs>>): Prisma__PosSettingClient<$Result.GetResult<Prisma.$PosSettingPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of PosSettings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PosSettingCountArgs} args - Arguments to filter PosSettings to count.
+     * @example
+     * // Count the number of PosSettings
+     * const count = await prisma.posSetting.count({
+     *   where: {
+     *     // ... the filter for the PosSettings we want to count
+     *   }
+     * })
+    **/
+    count<T extends PosSettingCountArgs>(
+      args?: Subset<T, PosSettingCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PosSettingCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PosSetting.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PosSettingAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PosSettingAggregateArgs>(args: Subset<T, PosSettingAggregateArgs>): Prisma.PrismaPromise<GetPosSettingAggregateType<T>>
+
+    /**
+     * Group by PosSetting.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PosSettingGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PosSettingGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PosSettingGroupByArgs['orderBy'] }
+        : { orderBy?: PosSettingGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PosSettingGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPosSettingGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PosSetting model
+   */
+  readonly fields: PosSettingFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PosSetting.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PosSettingClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    defaultParty<T extends PartyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PartyDefaultArgs<ExtArgs>>): Prisma__PartyClient<$Result.GetResult<Prisma.$PartyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    invoiceType<T extends InvoiceTypeDefaultArgs<ExtArgs> = {}>(args?: Subset<T, InvoiceTypeDefaultArgs<ExtArgs>>): Prisma__InvoiceTypeClient<$Result.GetResult<Prisma.$InvoiceTypePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    cashbox<T extends CashboxDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CashboxDefaultArgs<ExtArgs>>): Prisma__CashboxClient<$Result.GetResult<Prisma.$CashboxPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    warehouse<T extends WarehouseDefaultArgs<ExtArgs> = {}>(args?: Subset<T, WarehouseDefaultArgs<ExtArgs>>): Prisma__WarehouseClient<$Result.GetResult<Prisma.$WarehousePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PosSetting model
+   */
+  interface PosSettingFieldRefs {
+    readonly id: FieldRef<"PosSetting", 'String'>
+    readonly tenantId: FieldRef<"PosSetting", 'String'>
+    readonly defaultPartyId: FieldRef<"PosSetting", 'String'>
+    readonly invoiceTypeId: FieldRef<"PosSetting", 'String'>
+    readonly cashboxId: FieldRef<"PosSetting", 'String'>
+    readonly warehouseId: FieldRef<"PosSetting", 'String'>
+    readonly createdAt: FieldRef<"PosSetting", 'DateTime'>
+    readonly updatedAt: FieldRef<"PosSetting", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PosSetting findUnique
+   */
+  export type PosSettingFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PosSetting
+     */
+    select?: PosSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PosSetting
+     */
+    omit?: PosSettingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PosSettingInclude<ExtArgs> | null
+    /**
+     * Filter, which PosSetting to fetch.
+     */
+    where: PosSettingWhereUniqueInput
+  }
+
+  /**
+   * PosSetting findUniqueOrThrow
+   */
+  export type PosSettingFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PosSetting
+     */
+    select?: PosSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PosSetting
+     */
+    omit?: PosSettingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PosSettingInclude<ExtArgs> | null
+    /**
+     * Filter, which PosSetting to fetch.
+     */
+    where: PosSettingWhereUniqueInput
+  }
+
+  /**
+   * PosSetting findFirst
+   */
+  export type PosSettingFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PosSetting
+     */
+    select?: PosSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PosSetting
+     */
+    omit?: PosSettingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PosSettingInclude<ExtArgs> | null
+    /**
+     * Filter, which PosSetting to fetch.
+     */
+    where?: PosSettingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PosSettings to fetch.
+     */
+    orderBy?: PosSettingOrderByWithRelationInput | PosSettingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PosSettings.
+     */
+    cursor?: PosSettingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PosSettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PosSettings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PosSettings.
+     */
+    distinct?: PosSettingScalarFieldEnum | PosSettingScalarFieldEnum[]
+  }
+
+  /**
+   * PosSetting findFirstOrThrow
+   */
+  export type PosSettingFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PosSetting
+     */
+    select?: PosSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PosSetting
+     */
+    omit?: PosSettingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PosSettingInclude<ExtArgs> | null
+    /**
+     * Filter, which PosSetting to fetch.
+     */
+    where?: PosSettingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PosSettings to fetch.
+     */
+    orderBy?: PosSettingOrderByWithRelationInput | PosSettingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PosSettings.
+     */
+    cursor?: PosSettingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PosSettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PosSettings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PosSettings.
+     */
+    distinct?: PosSettingScalarFieldEnum | PosSettingScalarFieldEnum[]
+  }
+
+  /**
+   * PosSetting findMany
+   */
+  export type PosSettingFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PosSetting
+     */
+    select?: PosSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PosSetting
+     */
+    omit?: PosSettingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PosSettingInclude<ExtArgs> | null
+    /**
+     * Filter, which PosSettings to fetch.
+     */
+    where?: PosSettingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PosSettings to fetch.
+     */
+    orderBy?: PosSettingOrderByWithRelationInput | PosSettingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PosSettings.
+     */
+    cursor?: PosSettingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PosSettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PosSettings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PosSettings.
+     */
+    distinct?: PosSettingScalarFieldEnum | PosSettingScalarFieldEnum[]
+  }
+
+  /**
+   * PosSetting create
+   */
+  export type PosSettingCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PosSetting
+     */
+    select?: PosSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PosSetting
+     */
+    omit?: PosSettingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PosSettingInclude<ExtArgs> | null
+    /**
+     * The data needed to create a PosSetting.
+     */
+    data: XOR<PosSettingCreateInput, PosSettingUncheckedCreateInput>
+  }
+
+  /**
+   * PosSetting createMany
+   */
+  export type PosSettingCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PosSettings.
+     */
+    data: PosSettingCreateManyInput | PosSettingCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PosSetting createManyAndReturn
+   */
+  export type PosSettingCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PosSetting
+     */
+    select?: PosSettingSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PosSetting
+     */
+    omit?: PosSettingOmit<ExtArgs> | null
+    /**
+     * The data used to create many PosSettings.
+     */
+    data: PosSettingCreateManyInput | PosSettingCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PosSettingIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PosSetting update
+   */
+  export type PosSettingUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PosSetting
+     */
+    select?: PosSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PosSetting
+     */
+    omit?: PosSettingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PosSettingInclude<ExtArgs> | null
+    /**
+     * The data needed to update a PosSetting.
+     */
+    data: XOR<PosSettingUpdateInput, PosSettingUncheckedUpdateInput>
+    /**
+     * Choose, which PosSetting to update.
+     */
+    where: PosSettingWhereUniqueInput
+  }
+
+  /**
+   * PosSetting updateMany
+   */
+  export type PosSettingUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PosSettings.
+     */
+    data: XOR<PosSettingUpdateManyMutationInput, PosSettingUncheckedUpdateManyInput>
+    /**
+     * Filter which PosSettings to update
+     */
+    where?: PosSettingWhereInput
+    /**
+     * Limit how many PosSettings to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PosSetting updateManyAndReturn
+   */
+  export type PosSettingUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PosSetting
+     */
+    select?: PosSettingSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PosSetting
+     */
+    omit?: PosSettingOmit<ExtArgs> | null
+    /**
+     * The data used to update PosSettings.
+     */
+    data: XOR<PosSettingUpdateManyMutationInput, PosSettingUncheckedUpdateManyInput>
+    /**
+     * Filter which PosSettings to update
+     */
+    where?: PosSettingWhereInput
+    /**
+     * Limit how many PosSettings to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PosSettingIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PosSetting upsert
+   */
+  export type PosSettingUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PosSetting
+     */
+    select?: PosSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PosSetting
+     */
+    omit?: PosSettingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PosSettingInclude<ExtArgs> | null
+    /**
+     * The filter to search for the PosSetting to update in case it exists.
+     */
+    where: PosSettingWhereUniqueInput
+    /**
+     * In case the PosSetting found by the `where` argument doesn't exist, create a new PosSetting with this data.
+     */
+    create: XOR<PosSettingCreateInput, PosSettingUncheckedCreateInput>
+    /**
+     * In case the PosSetting was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PosSettingUpdateInput, PosSettingUncheckedUpdateInput>
+  }
+
+  /**
+   * PosSetting delete
+   */
+  export type PosSettingDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PosSetting
+     */
+    select?: PosSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PosSetting
+     */
+    omit?: PosSettingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PosSettingInclude<ExtArgs> | null
+    /**
+     * Filter which PosSetting to delete.
+     */
+    where: PosSettingWhereUniqueInput
+  }
+
+  /**
+   * PosSetting deleteMany
+   */
+  export type PosSettingDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PosSettings to delete
+     */
+    where?: PosSettingWhereInput
+    /**
+     * Limit how many PosSettings to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * PosSetting without action
+   */
+  export type PosSettingDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PosSetting
+     */
+    select?: PosSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PosSetting
+     */
+    omit?: PosSettingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PosSettingInclude<ExtArgs> | null
   }
 
 
@@ -63744,6 +65105,7 @@ export namespace Prisma {
     openingBalanceSessions?: boolean | Tenant$openingBalanceSessionsArgs<ExtArgs>
     openingBalanceSessionLines?: boolean | Tenant$openingBalanceSessionLinesArgs<ExtArgs>
     setupTasks?: boolean | Tenant$setupTasksArgs<ExtArgs>
+    posSetting?: boolean | Tenant$posSettingArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["tenant"]>
 
@@ -63859,6 +65221,7 @@ export namespace Prisma {
     openingBalanceSessions?: boolean | Tenant$openingBalanceSessionsArgs<ExtArgs>
     openingBalanceSessionLines?: boolean | Tenant$openingBalanceSessionLinesArgs<ExtArgs>
     setupTasks?: boolean | Tenant$setupTasksArgs<ExtArgs>
+    posSetting?: boolean | Tenant$posSettingArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TenantIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -63910,6 +65273,7 @@ export namespace Prisma {
       openingBalanceSessions: Prisma.$OpeningBalanceSessionPayload<ExtArgs>[]
       openingBalanceSessionLines: Prisma.$OpeningBalanceSessionLinePayload<ExtArgs>[]
       setupTasks: Prisma.$SetupTaskPayload<ExtArgs>[]
+      posSetting: Prisma.$PosSettingPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -64363,6 +65727,7 @@ export namespace Prisma {
     openingBalanceSessions<T extends Tenant$openingBalanceSessionsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$openingBalanceSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OpeningBalanceSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     openingBalanceSessionLines<T extends Tenant$openingBalanceSessionLinesArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$openingBalanceSessionLinesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OpeningBalanceSessionLinePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     setupTasks<T extends Tenant$setupTasksArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$setupTasksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SetupTaskPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    posSetting<T extends Tenant$posSettingArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$posSettingArgs<ExtArgs>>): Prisma__PosSettingClient<$Result.GetResult<Prisma.$PosSettingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -65683,6 +67048,25 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: SetupTaskScalarFieldEnum | SetupTaskScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.posSetting
+   */
+  export type Tenant$posSettingArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PosSetting
+     */
+    select?: PosSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PosSetting
+     */
+    omit?: PosSettingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PosSettingInclude<ExtArgs> | null
+    where?: PosSettingWhereInput
   }
 
   /**
@@ -70392,6 +71776,7 @@ export namespace Prisma {
     stockMovements?: boolean | Warehouse$stockMovementsArgs<ExtArgs>
     invoices?: boolean | Warehouse$invoicesArgs<ExtArgs>
     stockCounts?: boolean | Warehouse$stockCountsArgs<ExtArgs>
+    posSettings?: boolean | Warehouse$posSettingsArgs<ExtArgs>
     _count?: boolean | WarehouseCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["warehouse"]>
 
@@ -70438,6 +71823,7 @@ export namespace Prisma {
     stockMovements?: boolean | Warehouse$stockMovementsArgs<ExtArgs>
     invoices?: boolean | Warehouse$invoicesArgs<ExtArgs>
     stockCounts?: boolean | Warehouse$stockCountsArgs<ExtArgs>
+    posSettings?: boolean | Warehouse$posSettingsArgs<ExtArgs>
     _count?: boolean | WarehouseCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type WarehouseIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -70456,6 +71842,7 @@ export namespace Prisma {
       stockMovements: Prisma.$StockMovementPayload<ExtArgs>[]
       invoices: Prisma.$InvoicePayload<ExtArgs>[]
       stockCounts: Prisma.$StockCountPayload<ExtArgs>[]
+      posSettings: Prisma.$PosSettingPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -70866,6 +72253,7 @@ export namespace Prisma {
     stockMovements<T extends Warehouse$stockMovementsArgs<ExtArgs> = {}>(args?: Subset<T, Warehouse$stockMovementsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StockMovementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     invoices<T extends Warehouse$invoicesArgs<ExtArgs> = {}>(args?: Subset<T, Warehouse$invoicesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     stockCounts<T extends Warehouse$stockCountsArgs<ExtArgs> = {}>(args?: Subset<T, Warehouse$stockCountsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StockCountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    posSettings<T extends Warehouse$posSettingsArgs<ExtArgs> = {}>(args?: Subset<T, Warehouse$posSettingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PosSettingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -71421,6 +72809,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: StockCountScalarFieldEnum | StockCountScalarFieldEnum[]
+  }
+
+  /**
+   * Warehouse.posSettings
+   */
+  export type Warehouse$posSettingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PosSetting
+     */
+    select?: PosSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PosSetting
+     */
+    omit?: PosSettingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PosSettingInclude<ExtArgs> | null
+    where?: PosSettingWhereInput
+    orderBy?: PosSettingOrderByWithRelationInput | PosSettingOrderByWithRelationInput[]
+    cursor?: PosSettingWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PosSettingScalarFieldEnum | PosSettingScalarFieldEnum[]
   }
 
   /**
@@ -73036,6 +74448,7 @@ export namespace Prisma {
     taxAmount: 'taxAmount',
     total: 'total',
     notes: 'notes',
+    clientRequestId: 'clientRequestId',
     postedAt: 'postedAt',
     postedBy: 'postedBy',
     cancelledAt: 'cancelledAt',
@@ -73229,6 +74642,20 @@ export namespace Prisma {
   };
 
   export type RolePermissionScalarFieldEnum = (typeof RolePermissionScalarFieldEnum)[keyof typeof RolePermissionScalarFieldEnum]
+
+
+  export const PosSettingScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    defaultPartyId: 'defaultPartyId',
+    invoiceTypeId: 'invoiceTypeId',
+    cashboxId: 'cashboxId',
+    warehouseId: 'warehouseId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type PosSettingScalarFieldEnum = (typeof PosSettingScalarFieldEnum)[keyof typeof PosSettingScalarFieldEnum]
 
 
   export const ReconciliationRunScalarFieldEnum: {
@@ -74899,6 +76326,7 @@ export namespace Prisma {
     payments?: PaymentListRelationFilter
     journalLines?: JournalLineListRelationFilter
     openingBalanceSessionLines?: OpeningBalanceSessionLineListRelationFilter
+    posSettings?: PosSettingListRelationFilter
   }
 
   export type CashboxOrderByWithRelationInput = {
@@ -74917,6 +76345,7 @@ export namespace Prisma {
     payments?: PaymentOrderByRelationAggregateInput
     journalLines?: JournalLineOrderByRelationAggregateInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineOrderByRelationAggregateInput
+    posSettings?: PosSettingOrderByRelationAggregateInput
   }
 
   export type CashboxWhereUniqueInput = Prisma.AtLeast<{
@@ -74939,6 +76368,7 @@ export namespace Prisma {
     payments?: PaymentListRelationFilter
     journalLines?: JournalLineListRelationFilter
     openingBalanceSessionLines?: OpeningBalanceSessionLineListRelationFilter
+    posSettings?: PosSettingListRelationFilter
   }, "id" | "tenantId_code">
 
   export type CashboxOrderByWithAggregationInput = {
@@ -76218,6 +77648,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"InvoiceType"> | Date | string
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
     invoices?: InvoiceListRelationFilter
+    posSettings?: PosSettingListRelationFilter
   }
 
   export type InvoiceTypeOrderByWithRelationInput = {
@@ -76232,6 +77663,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     tenant?: TenantOrderByWithRelationInput
     invoices?: InvoiceOrderByRelationAggregateInput
+    posSettings?: PosSettingOrderByRelationAggregateInput
   }
 
   export type InvoiceTypeWhereUniqueInput = Prisma.AtLeast<{
@@ -76250,6 +77682,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"InvoiceType"> | Date | string
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
     invoices?: InvoiceListRelationFilter
+    posSettings?: PosSettingListRelationFilter
   }, "id" | "tenantId_code">
 
   export type InvoiceTypeOrderByWithAggregationInput = {
@@ -76303,6 +77736,7 @@ export namespace Prisma {
     taxAmount?: DecimalFilter<"Invoice"> | Decimal | DecimalJsLike | number | string
     total?: DecimalFilter<"Invoice"> | Decimal | DecimalJsLike | number | string
     notes?: StringNullableFilter<"Invoice"> | string | null
+    clientRequestId?: StringNullableFilter<"Invoice"> | string | null
     postedAt?: DateTimeNullableFilter<"Invoice"> | Date | string | null
     postedBy?: StringNullableFilter<"Invoice"> | string | null
     cancelledAt?: DateTimeNullableFilter<"Invoice"> | Date | string | null
@@ -76338,6 +77772,7 @@ export namespace Prisma {
     taxAmount?: SortOrder
     total?: SortOrder
     notes?: SortOrderInput | SortOrder
+    clientRequestId?: SortOrderInput | SortOrder
     postedAt?: SortOrderInput | SortOrder
     postedBy?: SortOrderInput | SortOrder
     cancelledAt?: SortOrderInput | SortOrder
@@ -76358,6 +77793,7 @@ export namespace Prisma {
   export type InvoiceWhereUniqueInput = Prisma.AtLeast<{
     id?: string
     tenantId_number?: InvoiceTenantIdNumberCompoundUniqueInput
+    tenantId_clientRequestId?: InvoiceTenantIdClientRequestIdCompoundUniqueInput
     AND?: InvoiceWhereInput | InvoiceWhereInput[]
     OR?: InvoiceWhereInput[]
     NOT?: InvoiceWhereInput | InvoiceWhereInput[]
@@ -76377,6 +77813,7 @@ export namespace Prisma {
     taxAmount?: DecimalFilter<"Invoice"> | Decimal | DecimalJsLike | number | string
     total?: DecimalFilter<"Invoice"> | Decimal | DecimalJsLike | number | string
     notes?: StringNullableFilter<"Invoice"> | string | null
+    clientRequestId?: StringNullableFilter<"Invoice"> | string | null
     postedAt?: DateTimeNullableFilter<"Invoice"> | Date | string | null
     postedBy?: StringNullableFilter<"Invoice"> | string | null
     cancelledAt?: DateTimeNullableFilter<"Invoice"> | Date | string | null
@@ -76392,7 +77829,7 @@ export namespace Prisma {
     currency?: XOR<CurrencyScalarRelationFilter, CurrencyWhereInput>
     lines?: InvoiceLineListRelationFilter
     paymentAllocations?: PaymentAllocationListRelationFilter
-  }, "id" | "tenantId_number">
+  }, "id" | "tenantId_number" | "tenantId_clientRequestId">
 
   export type InvoiceOrderByWithAggregationInput = {
     id?: SortOrder
@@ -76412,6 +77849,7 @@ export namespace Prisma {
     taxAmount?: SortOrder
     total?: SortOrder
     notes?: SortOrderInput | SortOrder
+    clientRequestId?: SortOrderInput | SortOrder
     postedAt?: SortOrderInput | SortOrder
     postedBy?: SortOrderInput | SortOrder
     cancelledAt?: SortOrderInput | SortOrder
@@ -76447,6 +77885,7 @@ export namespace Prisma {
     taxAmount?: DecimalWithAggregatesFilter<"Invoice"> | Decimal | DecimalJsLike | number | string
     total?: DecimalWithAggregatesFilter<"Invoice"> | Decimal | DecimalJsLike | number | string
     notes?: StringNullableWithAggregatesFilter<"Invoice"> | string | null
+    clientRequestId?: StringNullableWithAggregatesFilter<"Invoice"> | string | null
     postedAt?: DateTimeNullableWithAggregatesFilter<"Invoice"> | Date | string | null
     postedBy?: StringNullableWithAggregatesFilter<"Invoice"> | string | null
     cancelledAt?: DateTimeNullableWithAggregatesFilter<"Invoice"> | Date | string | null
@@ -77287,6 +78726,7 @@ export namespace Prisma {
     openingBalanceSessionLines?: OpeningBalanceSessionLineListRelationFilter
     receivableAccount?: XOR<ChartOfAccountNullableScalarRelationFilter, ChartOfAccountWhereInput> | null
     payableAccount?: XOR<ChartOfAccountNullableScalarRelationFilter, ChartOfAccountWhereInput> | null
+    posSettings?: PosSettingListRelationFilter
   }
 
   export type PartyOrderByWithRelationInput = {
@@ -77310,6 +78750,7 @@ export namespace Prisma {
     openingBalanceSessionLines?: OpeningBalanceSessionLineOrderByRelationAggregateInput
     receivableAccount?: ChartOfAccountOrderByWithRelationInput
     payableAccount?: ChartOfAccountOrderByWithRelationInput
+    posSettings?: PosSettingOrderByRelationAggregateInput
   }
 
   export type PartyWhereUniqueInput = Prisma.AtLeast<{
@@ -77337,6 +78778,7 @@ export namespace Prisma {
     openingBalanceSessionLines?: OpeningBalanceSessionLineListRelationFilter
     receivableAccount?: XOR<ChartOfAccountNullableScalarRelationFilter, ChartOfAccountWhereInput> | null
     payableAccount?: XOR<ChartOfAccountNullableScalarRelationFilter, ChartOfAccountWhereInput> | null
+    posSettings?: PosSettingListRelationFilter
   }, "id" | "tenantId_code">
 
   export type PartyOrderByWithAggregationInput = {
@@ -77489,6 +78931,88 @@ export namespace Prisma {
     roleId?: StringWithAggregatesFilter<"RolePermission"> | string
     permissionId?: StringWithAggregatesFilter<"RolePermission"> | string
     createdAt?: DateTimeWithAggregatesFilter<"RolePermission"> | Date | string
+  }
+
+  export type PosSettingWhereInput = {
+    AND?: PosSettingWhereInput | PosSettingWhereInput[]
+    OR?: PosSettingWhereInput[]
+    NOT?: PosSettingWhereInput | PosSettingWhereInput[]
+    id?: StringFilter<"PosSetting"> | string
+    tenantId?: StringFilter<"PosSetting"> | string
+    defaultPartyId?: StringFilter<"PosSetting"> | string
+    invoiceTypeId?: StringFilter<"PosSetting"> | string
+    cashboxId?: StringFilter<"PosSetting"> | string
+    warehouseId?: StringFilter<"PosSetting"> | string
+    createdAt?: DateTimeFilter<"PosSetting"> | Date | string
+    updatedAt?: DateTimeFilter<"PosSetting"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    defaultParty?: XOR<PartyScalarRelationFilter, PartyWhereInput>
+    invoiceType?: XOR<InvoiceTypeScalarRelationFilter, InvoiceTypeWhereInput>
+    cashbox?: XOR<CashboxScalarRelationFilter, CashboxWhereInput>
+    warehouse?: XOR<WarehouseScalarRelationFilter, WarehouseWhereInput>
+  }
+
+  export type PosSettingOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    defaultPartyId?: SortOrder
+    invoiceTypeId?: SortOrder
+    cashboxId?: SortOrder
+    warehouseId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+    defaultParty?: PartyOrderByWithRelationInput
+    invoiceType?: InvoiceTypeOrderByWithRelationInput
+    cashbox?: CashboxOrderByWithRelationInput
+    warehouse?: WarehouseOrderByWithRelationInput
+  }
+
+  export type PosSettingWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tenantId?: string
+    AND?: PosSettingWhereInput | PosSettingWhereInput[]
+    OR?: PosSettingWhereInput[]
+    NOT?: PosSettingWhereInput | PosSettingWhereInput[]
+    defaultPartyId?: StringFilter<"PosSetting"> | string
+    invoiceTypeId?: StringFilter<"PosSetting"> | string
+    cashboxId?: StringFilter<"PosSetting"> | string
+    warehouseId?: StringFilter<"PosSetting"> | string
+    createdAt?: DateTimeFilter<"PosSetting"> | Date | string
+    updatedAt?: DateTimeFilter<"PosSetting"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    defaultParty?: XOR<PartyScalarRelationFilter, PartyWhereInput>
+    invoiceType?: XOR<InvoiceTypeScalarRelationFilter, InvoiceTypeWhereInput>
+    cashbox?: XOR<CashboxScalarRelationFilter, CashboxWhereInput>
+    warehouse?: XOR<WarehouseScalarRelationFilter, WarehouseWhereInput>
+  }, "id" | "tenantId">
+
+  export type PosSettingOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    defaultPartyId?: SortOrder
+    invoiceTypeId?: SortOrder
+    cashboxId?: SortOrder
+    warehouseId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: PosSettingCountOrderByAggregateInput
+    _max?: PosSettingMaxOrderByAggregateInput
+    _min?: PosSettingMinOrderByAggregateInput
+  }
+
+  export type PosSettingScalarWhereWithAggregatesInput = {
+    AND?: PosSettingScalarWhereWithAggregatesInput | PosSettingScalarWhereWithAggregatesInput[]
+    OR?: PosSettingScalarWhereWithAggregatesInput[]
+    NOT?: PosSettingScalarWhereWithAggregatesInput | PosSettingScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"PosSetting"> | string
+    tenantId?: StringWithAggregatesFilter<"PosSetting"> | string
+    defaultPartyId?: StringWithAggregatesFilter<"PosSetting"> | string
+    invoiceTypeId?: StringWithAggregatesFilter<"PosSetting"> | string
+    cashboxId?: StringWithAggregatesFilter<"PosSetting"> | string
+    warehouseId?: StringWithAggregatesFilter<"PosSetting"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"PosSetting"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"PosSetting"> | Date | string
   }
 
   export type ReconciliationRunWhereInput = {
@@ -78275,6 +79799,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionListRelationFilter
     openingBalanceSessionLines?: OpeningBalanceSessionLineListRelationFilter
     setupTasks?: SetupTaskListRelationFilter
+    posSetting?: XOR<PosSettingNullableScalarRelationFilter, PosSettingWhereInput> | null
   }
 
   export type TenantOrderByWithRelationInput = {
@@ -78335,6 +79860,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionOrderByRelationAggregateInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineOrderByRelationAggregateInput
     setupTasks?: SetupTaskOrderByRelationAggregateInput
+    posSetting?: PosSettingOrderByWithRelationInput
   }
 
   export type TenantWhereUniqueInput = Prisma.AtLeast<{
@@ -78398,6 +79924,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionListRelationFilter
     openingBalanceSessionLines?: OpeningBalanceSessionLineListRelationFilter
     setupTasks?: SetupTaskListRelationFilter
+    posSetting?: XOR<PosSettingNullableScalarRelationFilter, PosSettingWhereInput> | null
   }, "id" | "slug">
 
   export type TenantOrderByWithAggregationInput = {
@@ -78752,6 +80279,7 @@ export namespace Prisma {
     stockMovements?: StockMovementListRelationFilter
     invoices?: InvoiceListRelationFilter
     stockCounts?: StockCountListRelationFilter
+    posSettings?: PosSettingListRelationFilter
   }
 
   export type WarehouseOrderByWithRelationInput = {
@@ -78769,6 +80297,7 @@ export namespace Prisma {
     stockMovements?: StockMovementOrderByRelationAggregateInput
     invoices?: InvoiceOrderByRelationAggregateInput
     stockCounts?: StockCountOrderByRelationAggregateInput
+    posSettings?: PosSettingOrderByRelationAggregateInput
   }
 
   export type WarehouseWhereUniqueInput = Prisma.AtLeast<{
@@ -78790,6 +80319,7 @@ export namespace Prisma {
     stockMovements?: StockMovementListRelationFilter
     invoices?: InvoiceListRelationFilter
     stockCounts?: StockCountListRelationFilter
+    posSettings?: PosSettingListRelationFilter
   }, "id" | "tenantId_code">
 
   export type WarehouseOrderByWithAggregationInput = {
@@ -79936,6 +81466,7 @@ export namespace Prisma {
     payments?: PaymentCreateNestedManyWithoutCashboxInput
     journalLines?: JournalLineCreateNestedManyWithoutCashboxInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutCashboxInput
+    posSettings?: PosSettingCreateNestedManyWithoutCashboxInput
   }
 
   export type CashboxUncheckedCreateInput = {
@@ -79952,6 +81483,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedCreateNestedManyWithoutCashboxInput
     journalLines?: JournalLineUncheckedCreateNestedManyWithoutCashboxInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutCashboxInput
+    posSettings?: PosSettingUncheckedCreateNestedManyWithoutCashboxInput
   }
 
   export type CashboxUpdateInput = {
@@ -79968,6 +81500,7 @@ export namespace Prisma {
     payments?: PaymentUpdateManyWithoutCashboxNestedInput
     journalLines?: JournalLineUpdateManyWithoutCashboxNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutCashboxNestedInput
+    posSettings?: PosSettingUpdateManyWithoutCashboxNestedInput
   }
 
   export type CashboxUncheckedUpdateInput = {
@@ -79984,6 +81517,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedUpdateManyWithoutCashboxNestedInput
     journalLines?: JournalLineUncheckedUpdateManyWithoutCashboxNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutCashboxNestedInput
+    posSettings?: PosSettingUncheckedUpdateManyWithoutCashboxNestedInput
   }
 
   export type CashboxCreateManyInput = {
@@ -81336,6 +82870,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     tenant: TenantCreateNestedOneWithoutInvoiceTypesInput
     invoices?: InvoiceCreateNestedManyWithoutInvoiceTypeInput
+    posSettings?: PosSettingCreateNestedManyWithoutInvoiceTypeInput
   }
 
   export type InvoiceTypeUncheckedCreateInput = {
@@ -81349,6 +82884,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     invoices?: InvoiceUncheckedCreateNestedManyWithoutInvoiceTypeInput
+    posSettings?: PosSettingUncheckedCreateNestedManyWithoutInvoiceTypeInput
   }
 
   export type InvoiceTypeUpdateInput = {
@@ -81362,6 +82898,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: TenantUpdateOneRequiredWithoutInvoiceTypesNestedInput
     invoices?: InvoiceUpdateManyWithoutInvoiceTypeNestedInput
+    posSettings?: PosSettingUpdateManyWithoutInvoiceTypeNestedInput
   }
 
   export type InvoiceTypeUncheckedUpdateInput = {
@@ -81375,6 +82912,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     invoices?: InvoiceUncheckedUpdateManyWithoutInvoiceTypeNestedInput
+    posSettings?: PosSettingUncheckedUpdateManyWithoutInvoiceTypeNestedInput
   }
 
   export type InvoiceTypeCreateManyInput = {
@@ -81424,6 +82962,7 @@ export namespace Prisma {
     taxAmount?: Decimal | DecimalJsLike | number | string
     total?: Decimal | DecimalJsLike | number | string
     notes?: string | null
+    clientRequestId?: string | null
     postedAt?: Date | string | null
     postedBy?: string | null
     cancelledAt?: Date | string | null
@@ -81459,6 +82998,7 @@ export namespace Prisma {
     taxAmount?: Decimal | DecimalJsLike | number | string
     total?: Decimal | DecimalJsLike | number | string
     notes?: string | null
+    clientRequestId?: string | null
     postedAt?: Date | string | null
     postedBy?: string | null
     cancelledAt?: Date | string | null
@@ -81482,6 +83022,7 @@ export namespace Prisma {
     taxAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    clientRequestId?: NullableStringFieldUpdateOperationsInput | string | null
     postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     postedBy?: NullableStringFieldUpdateOperationsInput | string | null
     cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -81517,6 +83058,7 @@ export namespace Prisma {
     taxAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    clientRequestId?: NullableStringFieldUpdateOperationsInput | string | null
     postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     postedBy?: NullableStringFieldUpdateOperationsInput | string | null
     cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -81546,6 +83088,7 @@ export namespace Prisma {
     taxAmount?: Decimal | DecimalJsLike | number | string
     total?: Decimal | DecimalJsLike | number | string
     notes?: string | null
+    clientRequestId?: string | null
     postedAt?: Date | string | null
     postedBy?: string | null
     cancelledAt?: Date | string | null
@@ -81567,6 +83110,7 @@ export namespace Prisma {
     taxAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    clientRequestId?: NullableStringFieldUpdateOperationsInput | string | null
     postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     postedBy?: NullableStringFieldUpdateOperationsInput | string | null
     cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -81594,6 +83138,7 @@ export namespace Prisma {
     taxAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    clientRequestId?: NullableStringFieldUpdateOperationsInput | string | null
     postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     postedBy?: NullableStringFieldUpdateOperationsInput | string | null
     cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -82466,6 +84011,7 @@ export namespace Prisma {
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutPartyInput
     receivableAccount?: ChartOfAccountCreateNestedOneWithoutPartyReceivablesInput
     payableAccount?: ChartOfAccountCreateNestedOneWithoutPartyPayablesInput
+    posSettings?: PosSettingCreateNestedManyWithoutDefaultPartyInput
   }
 
   export type PartyUncheckedCreateInput = {
@@ -82486,6 +84032,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedCreateNestedManyWithoutPartyInput
     journalLines?: JournalLineUncheckedCreateNestedManyWithoutPartyInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutPartyInput
+    posSettings?: PosSettingUncheckedCreateNestedManyWithoutDefaultPartyInput
   }
 
   export type PartyUpdateInput = {
@@ -82506,6 +84053,7 @@ export namespace Prisma {
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutPartyNestedInput
     receivableAccount?: ChartOfAccountUpdateOneWithoutPartyReceivablesNestedInput
     payableAccount?: ChartOfAccountUpdateOneWithoutPartyPayablesNestedInput
+    posSettings?: PosSettingUpdateManyWithoutDefaultPartyNestedInput
   }
 
   export type PartyUncheckedUpdateInput = {
@@ -82526,6 +84074,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedUpdateManyWithoutPartyNestedInput
     journalLines?: JournalLineUncheckedUpdateManyWithoutPartyNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutPartyNestedInput
+    posSettings?: PosSettingUncheckedUpdateManyWithoutDefaultPartyNestedInput
   }
 
   export type PartyCreateManyInput = {
@@ -82685,6 +84234,78 @@ export namespace Prisma {
     roleId?: StringFieldUpdateOperationsInput | string
     permissionId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PosSettingCreateInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutPosSettingInput
+    defaultParty: PartyCreateNestedOneWithoutPosSettingsInput
+    invoiceType: InvoiceTypeCreateNestedOneWithoutPosSettingsInput
+    cashbox: CashboxCreateNestedOneWithoutPosSettingsInput
+    warehouse: WarehouseCreateNestedOneWithoutPosSettingsInput
+  }
+
+  export type PosSettingUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    defaultPartyId: string
+    invoiceTypeId: string
+    cashboxId: string
+    warehouseId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PosSettingUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutPosSettingNestedInput
+    defaultParty?: PartyUpdateOneRequiredWithoutPosSettingsNestedInput
+    invoiceType?: InvoiceTypeUpdateOneRequiredWithoutPosSettingsNestedInput
+    cashbox?: CashboxUpdateOneRequiredWithoutPosSettingsNestedInput
+    warehouse?: WarehouseUpdateOneRequiredWithoutPosSettingsNestedInput
+  }
+
+  export type PosSettingUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    defaultPartyId?: StringFieldUpdateOperationsInput | string
+    invoiceTypeId?: StringFieldUpdateOperationsInput | string
+    cashboxId?: StringFieldUpdateOperationsInput | string
+    warehouseId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PosSettingCreateManyInput = {
+    id?: string
+    tenantId: string
+    defaultPartyId: string
+    invoiceTypeId: string
+    cashboxId: string
+    warehouseId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PosSettingUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PosSettingUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    defaultPartyId?: StringFieldUpdateOperationsInput | string
+    invoiceTypeId?: StringFieldUpdateOperationsInput | string
+    cashboxId?: StringFieldUpdateOperationsInput | string
+    warehouseId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ReconciliationRunCreateInput = {
@@ -83506,6 +85127,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
     setupTasks?: SetupTaskCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingCreateNestedOneWithoutTenantInput
   }
 
   export type TenantUncheckedCreateInput = {
@@ -83564,6 +85186,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
     setupTasks?: SetupTaskUncheckedCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingUncheckedCreateNestedOneWithoutTenantInput
   }
 
   export type TenantUpdateInput = {
@@ -83622,6 +85245,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUpdateOneWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateInput = {
@@ -83680,6 +85304,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUncheckedUpdateOneWithoutTenantNestedInput
   }
 
   export type TenantCreateManyInput = {
@@ -84058,6 +85683,7 @@ export namespace Prisma {
     stockMovements?: StockMovementCreateNestedManyWithoutWarehouseInput
     invoices?: InvoiceCreateNestedManyWithoutWarehouseInput
     stockCounts?: StockCountCreateNestedManyWithoutWarehouseInput
+    posSettings?: PosSettingCreateNestedManyWithoutWarehouseInput
   }
 
   export type WarehouseUncheckedCreateInput = {
@@ -84074,6 +85700,7 @@ export namespace Prisma {
     stockMovements?: StockMovementUncheckedCreateNestedManyWithoutWarehouseInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutWarehouseInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutWarehouseInput
+    posSettings?: PosSettingUncheckedCreateNestedManyWithoutWarehouseInput
   }
 
   export type WarehouseUpdateInput = {
@@ -84090,6 +85717,7 @@ export namespace Prisma {
     stockMovements?: StockMovementUpdateManyWithoutWarehouseNestedInput
     invoices?: InvoiceUpdateManyWithoutWarehouseNestedInput
     stockCounts?: StockCountUpdateManyWithoutWarehouseNestedInput
+    posSettings?: PosSettingUpdateManyWithoutWarehouseNestedInput
   }
 
   export type WarehouseUncheckedUpdateInput = {
@@ -84106,6 +85734,7 @@ export namespace Prisma {
     stockMovements?: StockMovementUncheckedUpdateManyWithoutWarehouseNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutWarehouseNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutWarehouseNestedInput
+    posSettings?: PosSettingUncheckedUpdateManyWithoutWarehouseNestedInput
   }
 
   export type WarehouseCreateManyInput = {
@@ -85214,11 +86843,21 @@ export namespace Prisma {
     none?: PaymentWhereInput
   }
 
+  export type PosSettingListRelationFilter = {
+    every?: PosSettingWhereInput
+    some?: PosSettingWhereInput
+    none?: PosSettingWhereInput
+  }
+
   export type ExpenseOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
   export type PaymentOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type PosSettingOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -86217,6 +87856,11 @@ export namespace Prisma {
     number: string
   }
 
+  export type InvoiceTenantIdClientRequestIdCompoundUniqueInput = {
+    tenantId: string
+    clientRequestId: string
+  }
+
   export type InvoiceCountOrderByAggregateInput = {
     id?: SortOrder
     tenantId?: SortOrder
@@ -86235,6 +87879,7 @@ export namespace Prisma {
     taxAmount?: SortOrder
     total?: SortOrder
     notes?: SortOrder
+    clientRequestId?: SortOrder
     postedAt?: SortOrder
     postedBy?: SortOrder
     cancelledAt?: SortOrder
@@ -86270,6 +87915,7 @@ export namespace Prisma {
     taxAmount?: SortOrder
     total?: SortOrder
     notes?: SortOrder
+    clientRequestId?: SortOrder
     postedAt?: SortOrder
     postedBy?: SortOrder
     cancelledAt?: SortOrder
@@ -86297,6 +87943,7 @@ export namespace Prisma {
     taxAmount?: SortOrder
     total?: SortOrder
     notes?: SortOrder
+    clientRequestId?: SortOrder
     postedAt?: SortOrder
     postedBy?: SortOrder
     cancelledAt?: SortOrder
@@ -87111,6 +88758,44 @@ export namespace Prisma {
     createdAt?: SortOrder
   }
 
+  export type WarehouseScalarRelationFilter = {
+    is?: WarehouseWhereInput
+    isNot?: WarehouseWhereInput
+  }
+
+  export type PosSettingCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    defaultPartyId?: SortOrder
+    invoiceTypeId?: SortOrder
+    cashboxId?: SortOrder
+    warehouseId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PosSettingMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    defaultPartyId?: SortOrder
+    invoiceTypeId?: SortOrder
+    cashboxId?: SortOrder
+    warehouseId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PosSettingMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    defaultPartyId?: SortOrder
+    invoiceTypeId?: SortOrder
+    cashboxId?: SortOrder
+    warehouseId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
   export type ReconciliationRunCountOrderByAggregateInput = {
     id?: SortOrder
     tenantId?: SortOrder
@@ -87243,11 +88928,6 @@ export namespace Prisma {
     in?: $Enums.StockCountStatus[] | ListEnumStockCountStatusFieldRefInput<$PrismaModel>
     notIn?: $Enums.StockCountStatus[] | ListEnumStockCountStatusFieldRefInput<$PrismaModel>
     not?: NestedEnumStockCountStatusFilter<$PrismaModel> | $Enums.StockCountStatus
-  }
-
-  export type WarehouseScalarRelationFilter = {
-    is?: WarehouseWhereInput
-    isNot?: WarehouseWhereInput
   }
 
   export type StockCountTenantIdNumberCompoundUniqueInput = {
@@ -87711,6 +89391,11 @@ export namespace Prisma {
     every?: SetupTaskWhereInput
     some?: SetupTaskWhereInput
     none?: SetupTaskWhereInput
+  }
+
+  export type PosSettingNullableScalarRelationFilter = {
+    is?: PosSettingWhereInput | null
+    isNot?: PosSettingWhereInput | null
   }
 
   export type AppUserOrderByRelationAggregateInput = {
@@ -89403,6 +91088,13 @@ export namespace Prisma {
     connect?: OpeningBalanceSessionLineWhereUniqueInput | OpeningBalanceSessionLineWhereUniqueInput[]
   }
 
+  export type PosSettingCreateNestedManyWithoutCashboxInput = {
+    create?: XOR<PosSettingCreateWithoutCashboxInput, PosSettingUncheckedCreateWithoutCashboxInput> | PosSettingCreateWithoutCashboxInput[] | PosSettingUncheckedCreateWithoutCashboxInput[]
+    connectOrCreate?: PosSettingCreateOrConnectWithoutCashboxInput | PosSettingCreateOrConnectWithoutCashboxInput[]
+    createMany?: PosSettingCreateManyCashboxInputEnvelope
+    connect?: PosSettingWhereUniqueInput | PosSettingWhereUniqueInput[]
+  }
+
   export type ExpenseUncheckedCreateNestedManyWithoutCashboxInput = {
     create?: XOR<ExpenseCreateWithoutCashboxInput, ExpenseUncheckedCreateWithoutCashboxInput> | ExpenseCreateWithoutCashboxInput[] | ExpenseUncheckedCreateWithoutCashboxInput[]
     connectOrCreate?: ExpenseCreateOrConnectWithoutCashboxInput | ExpenseCreateOrConnectWithoutCashboxInput[]
@@ -89429,6 +91121,13 @@ export namespace Prisma {
     connectOrCreate?: OpeningBalanceSessionLineCreateOrConnectWithoutCashboxInput | OpeningBalanceSessionLineCreateOrConnectWithoutCashboxInput[]
     createMany?: OpeningBalanceSessionLineCreateManyCashboxInputEnvelope
     connect?: OpeningBalanceSessionLineWhereUniqueInput | OpeningBalanceSessionLineWhereUniqueInput[]
+  }
+
+  export type PosSettingUncheckedCreateNestedManyWithoutCashboxInput = {
+    create?: XOR<PosSettingCreateWithoutCashboxInput, PosSettingUncheckedCreateWithoutCashboxInput> | PosSettingCreateWithoutCashboxInput[] | PosSettingUncheckedCreateWithoutCashboxInput[]
+    connectOrCreate?: PosSettingCreateOrConnectWithoutCashboxInput | PosSettingCreateOrConnectWithoutCashboxInput[]
+    createMany?: PosSettingCreateManyCashboxInputEnvelope
+    connect?: PosSettingWhereUniqueInput | PosSettingWhereUniqueInput[]
   }
 
   export type TenantUpdateOneRequiredWithoutCashboxesNestedInput = {
@@ -89503,6 +91202,20 @@ export namespace Prisma {
     deleteMany?: OpeningBalanceSessionLineScalarWhereInput | OpeningBalanceSessionLineScalarWhereInput[]
   }
 
+  export type PosSettingUpdateManyWithoutCashboxNestedInput = {
+    create?: XOR<PosSettingCreateWithoutCashboxInput, PosSettingUncheckedCreateWithoutCashboxInput> | PosSettingCreateWithoutCashboxInput[] | PosSettingUncheckedCreateWithoutCashboxInput[]
+    connectOrCreate?: PosSettingCreateOrConnectWithoutCashboxInput | PosSettingCreateOrConnectWithoutCashboxInput[]
+    upsert?: PosSettingUpsertWithWhereUniqueWithoutCashboxInput | PosSettingUpsertWithWhereUniqueWithoutCashboxInput[]
+    createMany?: PosSettingCreateManyCashboxInputEnvelope
+    set?: PosSettingWhereUniqueInput | PosSettingWhereUniqueInput[]
+    disconnect?: PosSettingWhereUniqueInput | PosSettingWhereUniqueInput[]
+    delete?: PosSettingWhereUniqueInput | PosSettingWhereUniqueInput[]
+    connect?: PosSettingWhereUniqueInput | PosSettingWhereUniqueInput[]
+    update?: PosSettingUpdateWithWhereUniqueWithoutCashboxInput | PosSettingUpdateWithWhereUniqueWithoutCashboxInput[]
+    updateMany?: PosSettingUpdateManyWithWhereWithoutCashboxInput | PosSettingUpdateManyWithWhereWithoutCashboxInput[]
+    deleteMany?: PosSettingScalarWhereInput | PosSettingScalarWhereInput[]
+  }
+
   export type ExpenseUncheckedUpdateManyWithoutCashboxNestedInput = {
     create?: XOR<ExpenseCreateWithoutCashboxInput, ExpenseUncheckedCreateWithoutCashboxInput> | ExpenseCreateWithoutCashboxInput[] | ExpenseUncheckedCreateWithoutCashboxInput[]
     connectOrCreate?: ExpenseCreateOrConnectWithoutCashboxInput | ExpenseCreateOrConnectWithoutCashboxInput[]
@@ -89557,6 +91270,20 @@ export namespace Prisma {
     update?: OpeningBalanceSessionLineUpdateWithWhereUniqueWithoutCashboxInput | OpeningBalanceSessionLineUpdateWithWhereUniqueWithoutCashboxInput[]
     updateMany?: OpeningBalanceSessionLineUpdateManyWithWhereWithoutCashboxInput | OpeningBalanceSessionLineUpdateManyWithWhereWithoutCashboxInput[]
     deleteMany?: OpeningBalanceSessionLineScalarWhereInput | OpeningBalanceSessionLineScalarWhereInput[]
+  }
+
+  export type PosSettingUncheckedUpdateManyWithoutCashboxNestedInput = {
+    create?: XOR<PosSettingCreateWithoutCashboxInput, PosSettingUncheckedCreateWithoutCashboxInput> | PosSettingCreateWithoutCashboxInput[] | PosSettingUncheckedCreateWithoutCashboxInput[]
+    connectOrCreate?: PosSettingCreateOrConnectWithoutCashboxInput | PosSettingCreateOrConnectWithoutCashboxInput[]
+    upsert?: PosSettingUpsertWithWhereUniqueWithoutCashboxInput | PosSettingUpsertWithWhereUniqueWithoutCashboxInput[]
+    createMany?: PosSettingCreateManyCashboxInputEnvelope
+    set?: PosSettingWhereUniqueInput | PosSettingWhereUniqueInput[]
+    disconnect?: PosSettingWhereUniqueInput | PosSettingWhereUniqueInput[]
+    delete?: PosSettingWhereUniqueInput | PosSettingWhereUniqueInput[]
+    connect?: PosSettingWhereUniqueInput | PosSettingWhereUniqueInput[]
+    update?: PosSettingUpdateWithWhereUniqueWithoutCashboxInput | PosSettingUpdateWithWhereUniqueWithoutCashboxInput[]
+    updateMany?: PosSettingUpdateManyWithWhereWithoutCashboxInput | PosSettingUpdateManyWithWhereWithoutCashboxInput[]
+    deleteMany?: PosSettingScalarWhereInput | PosSettingScalarWhereInput[]
   }
 
   export type TenantCreateNestedOneWithoutPaymentsInput = {
@@ -90957,11 +92684,25 @@ export namespace Prisma {
     connect?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
   }
 
+  export type PosSettingCreateNestedManyWithoutInvoiceTypeInput = {
+    create?: XOR<PosSettingCreateWithoutInvoiceTypeInput, PosSettingUncheckedCreateWithoutInvoiceTypeInput> | PosSettingCreateWithoutInvoiceTypeInput[] | PosSettingUncheckedCreateWithoutInvoiceTypeInput[]
+    connectOrCreate?: PosSettingCreateOrConnectWithoutInvoiceTypeInput | PosSettingCreateOrConnectWithoutInvoiceTypeInput[]
+    createMany?: PosSettingCreateManyInvoiceTypeInputEnvelope
+    connect?: PosSettingWhereUniqueInput | PosSettingWhereUniqueInput[]
+  }
+
   export type InvoiceUncheckedCreateNestedManyWithoutInvoiceTypeInput = {
     create?: XOR<InvoiceCreateWithoutInvoiceTypeInput, InvoiceUncheckedCreateWithoutInvoiceTypeInput> | InvoiceCreateWithoutInvoiceTypeInput[] | InvoiceUncheckedCreateWithoutInvoiceTypeInput[]
     connectOrCreate?: InvoiceCreateOrConnectWithoutInvoiceTypeInput | InvoiceCreateOrConnectWithoutInvoiceTypeInput[]
     createMany?: InvoiceCreateManyInvoiceTypeInputEnvelope
     connect?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
+  }
+
+  export type PosSettingUncheckedCreateNestedManyWithoutInvoiceTypeInput = {
+    create?: XOR<PosSettingCreateWithoutInvoiceTypeInput, PosSettingUncheckedCreateWithoutInvoiceTypeInput> | PosSettingCreateWithoutInvoiceTypeInput[] | PosSettingUncheckedCreateWithoutInvoiceTypeInput[]
+    connectOrCreate?: PosSettingCreateOrConnectWithoutInvoiceTypeInput | PosSettingCreateOrConnectWithoutInvoiceTypeInput[]
+    createMany?: PosSettingCreateManyInvoiceTypeInputEnvelope
+    connect?: PosSettingWhereUniqueInput | PosSettingWhereUniqueInput[]
   }
 
   export type EnumInvoiceDirectionFieldUpdateOperationsInput = {
@@ -90990,6 +92731,20 @@ export namespace Prisma {
     deleteMany?: InvoiceScalarWhereInput | InvoiceScalarWhereInput[]
   }
 
+  export type PosSettingUpdateManyWithoutInvoiceTypeNestedInput = {
+    create?: XOR<PosSettingCreateWithoutInvoiceTypeInput, PosSettingUncheckedCreateWithoutInvoiceTypeInput> | PosSettingCreateWithoutInvoiceTypeInput[] | PosSettingUncheckedCreateWithoutInvoiceTypeInput[]
+    connectOrCreate?: PosSettingCreateOrConnectWithoutInvoiceTypeInput | PosSettingCreateOrConnectWithoutInvoiceTypeInput[]
+    upsert?: PosSettingUpsertWithWhereUniqueWithoutInvoiceTypeInput | PosSettingUpsertWithWhereUniqueWithoutInvoiceTypeInput[]
+    createMany?: PosSettingCreateManyInvoiceTypeInputEnvelope
+    set?: PosSettingWhereUniqueInput | PosSettingWhereUniqueInput[]
+    disconnect?: PosSettingWhereUniqueInput | PosSettingWhereUniqueInput[]
+    delete?: PosSettingWhereUniqueInput | PosSettingWhereUniqueInput[]
+    connect?: PosSettingWhereUniqueInput | PosSettingWhereUniqueInput[]
+    update?: PosSettingUpdateWithWhereUniqueWithoutInvoiceTypeInput | PosSettingUpdateWithWhereUniqueWithoutInvoiceTypeInput[]
+    updateMany?: PosSettingUpdateManyWithWhereWithoutInvoiceTypeInput | PosSettingUpdateManyWithWhereWithoutInvoiceTypeInput[]
+    deleteMany?: PosSettingScalarWhereInput | PosSettingScalarWhereInput[]
+  }
+
   export type InvoiceUncheckedUpdateManyWithoutInvoiceTypeNestedInput = {
     create?: XOR<InvoiceCreateWithoutInvoiceTypeInput, InvoiceUncheckedCreateWithoutInvoiceTypeInput> | InvoiceCreateWithoutInvoiceTypeInput[] | InvoiceUncheckedCreateWithoutInvoiceTypeInput[]
     connectOrCreate?: InvoiceCreateOrConnectWithoutInvoiceTypeInput | InvoiceCreateOrConnectWithoutInvoiceTypeInput[]
@@ -91002,6 +92757,20 @@ export namespace Prisma {
     update?: InvoiceUpdateWithWhereUniqueWithoutInvoiceTypeInput | InvoiceUpdateWithWhereUniqueWithoutInvoiceTypeInput[]
     updateMany?: InvoiceUpdateManyWithWhereWithoutInvoiceTypeInput | InvoiceUpdateManyWithWhereWithoutInvoiceTypeInput[]
     deleteMany?: InvoiceScalarWhereInput | InvoiceScalarWhereInput[]
+  }
+
+  export type PosSettingUncheckedUpdateManyWithoutInvoiceTypeNestedInput = {
+    create?: XOR<PosSettingCreateWithoutInvoiceTypeInput, PosSettingUncheckedCreateWithoutInvoiceTypeInput> | PosSettingCreateWithoutInvoiceTypeInput[] | PosSettingUncheckedCreateWithoutInvoiceTypeInput[]
+    connectOrCreate?: PosSettingCreateOrConnectWithoutInvoiceTypeInput | PosSettingCreateOrConnectWithoutInvoiceTypeInput[]
+    upsert?: PosSettingUpsertWithWhereUniqueWithoutInvoiceTypeInput | PosSettingUpsertWithWhereUniqueWithoutInvoiceTypeInput[]
+    createMany?: PosSettingCreateManyInvoiceTypeInputEnvelope
+    set?: PosSettingWhereUniqueInput | PosSettingWhereUniqueInput[]
+    disconnect?: PosSettingWhereUniqueInput | PosSettingWhereUniqueInput[]
+    delete?: PosSettingWhereUniqueInput | PosSettingWhereUniqueInput[]
+    connect?: PosSettingWhereUniqueInput | PosSettingWhereUniqueInput[]
+    update?: PosSettingUpdateWithWhereUniqueWithoutInvoiceTypeInput | PosSettingUpdateWithWhereUniqueWithoutInvoiceTypeInput[]
+    updateMany?: PosSettingUpdateManyWithWhereWithoutInvoiceTypeInput | PosSettingUpdateManyWithWhereWithoutInvoiceTypeInput[]
+    deleteMany?: PosSettingScalarWhereInput | PosSettingScalarWhereInput[]
   }
 
   export type TenantCreateNestedOneWithoutInvoicesInput = {
@@ -92091,6 +93860,13 @@ export namespace Prisma {
     connect?: ChartOfAccountWhereUniqueInput
   }
 
+  export type PosSettingCreateNestedManyWithoutDefaultPartyInput = {
+    create?: XOR<PosSettingCreateWithoutDefaultPartyInput, PosSettingUncheckedCreateWithoutDefaultPartyInput> | PosSettingCreateWithoutDefaultPartyInput[] | PosSettingUncheckedCreateWithoutDefaultPartyInput[]
+    connectOrCreate?: PosSettingCreateOrConnectWithoutDefaultPartyInput | PosSettingCreateOrConnectWithoutDefaultPartyInput[]
+    createMany?: PosSettingCreateManyDefaultPartyInputEnvelope
+    connect?: PosSettingWhereUniqueInput | PosSettingWhereUniqueInput[]
+  }
+
   export type InvoiceUncheckedCreateNestedManyWithoutPartyInput = {
     create?: XOR<InvoiceCreateWithoutPartyInput, InvoiceUncheckedCreateWithoutPartyInput> | InvoiceCreateWithoutPartyInput[] | InvoiceUncheckedCreateWithoutPartyInput[]
     connectOrCreate?: InvoiceCreateOrConnectWithoutPartyInput | InvoiceCreateOrConnectWithoutPartyInput[]
@@ -92117,6 +93893,13 @@ export namespace Prisma {
     connectOrCreate?: OpeningBalanceSessionLineCreateOrConnectWithoutPartyInput | OpeningBalanceSessionLineCreateOrConnectWithoutPartyInput[]
     createMany?: OpeningBalanceSessionLineCreateManyPartyInputEnvelope
     connect?: OpeningBalanceSessionLineWhereUniqueInput | OpeningBalanceSessionLineWhereUniqueInput[]
+  }
+
+  export type PosSettingUncheckedCreateNestedManyWithoutDefaultPartyInput = {
+    create?: XOR<PosSettingCreateWithoutDefaultPartyInput, PosSettingUncheckedCreateWithoutDefaultPartyInput> | PosSettingCreateWithoutDefaultPartyInput[] | PosSettingUncheckedCreateWithoutDefaultPartyInput[]
+    connectOrCreate?: PosSettingCreateOrConnectWithoutDefaultPartyInput | PosSettingCreateOrConnectWithoutDefaultPartyInput[]
+    createMany?: PosSettingCreateManyDefaultPartyInputEnvelope
+    connect?: PosSettingWhereUniqueInput | PosSettingWhereUniqueInput[]
   }
 
   export type EnumPartyTypeFieldUpdateOperationsInput = {
@@ -92207,6 +93990,20 @@ export namespace Prisma {
     update?: XOR<XOR<ChartOfAccountUpdateToOneWithWhereWithoutPartyPayablesInput, ChartOfAccountUpdateWithoutPartyPayablesInput>, ChartOfAccountUncheckedUpdateWithoutPartyPayablesInput>
   }
 
+  export type PosSettingUpdateManyWithoutDefaultPartyNestedInput = {
+    create?: XOR<PosSettingCreateWithoutDefaultPartyInput, PosSettingUncheckedCreateWithoutDefaultPartyInput> | PosSettingCreateWithoutDefaultPartyInput[] | PosSettingUncheckedCreateWithoutDefaultPartyInput[]
+    connectOrCreate?: PosSettingCreateOrConnectWithoutDefaultPartyInput | PosSettingCreateOrConnectWithoutDefaultPartyInput[]
+    upsert?: PosSettingUpsertWithWhereUniqueWithoutDefaultPartyInput | PosSettingUpsertWithWhereUniqueWithoutDefaultPartyInput[]
+    createMany?: PosSettingCreateManyDefaultPartyInputEnvelope
+    set?: PosSettingWhereUniqueInput | PosSettingWhereUniqueInput[]
+    disconnect?: PosSettingWhereUniqueInput | PosSettingWhereUniqueInput[]
+    delete?: PosSettingWhereUniqueInput | PosSettingWhereUniqueInput[]
+    connect?: PosSettingWhereUniqueInput | PosSettingWhereUniqueInput[]
+    update?: PosSettingUpdateWithWhereUniqueWithoutDefaultPartyInput | PosSettingUpdateWithWhereUniqueWithoutDefaultPartyInput[]
+    updateMany?: PosSettingUpdateManyWithWhereWithoutDefaultPartyInput | PosSettingUpdateManyWithWhereWithoutDefaultPartyInput[]
+    deleteMany?: PosSettingScalarWhereInput | PosSettingScalarWhereInput[]
+  }
+
   export type InvoiceUncheckedUpdateManyWithoutPartyNestedInput = {
     create?: XOR<InvoiceCreateWithoutPartyInput, InvoiceUncheckedCreateWithoutPartyInput> | InvoiceCreateWithoutPartyInput[] | InvoiceUncheckedCreateWithoutPartyInput[]
     connectOrCreate?: InvoiceCreateOrConnectWithoutPartyInput | InvoiceCreateOrConnectWithoutPartyInput[]
@@ -92261,6 +94058,20 @@ export namespace Prisma {
     update?: OpeningBalanceSessionLineUpdateWithWhereUniqueWithoutPartyInput | OpeningBalanceSessionLineUpdateWithWhereUniqueWithoutPartyInput[]
     updateMany?: OpeningBalanceSessionLineUpdateManyWithWhereWithoutPartyInput | OpeningBalanceSessionLineUpdateManyWithWhereWithoutPartyInput[]
     deleteMany?: OpeningBalanceSessionLineScalarWhereInput | OpeningBalanceSessionLineScalarWhereInput[]
+  }
+
+  export type PosSettingUncheckedUpdateManyWithoutDefaultPartyNestedInput = {
+    create?: XOR<PosSettingCreateWithoutDefaultPartyInput, PosSettingUncheckedCreateWithoutDefaultPartyInput> | PosSettingCreateWithoutDefaultPartyInput[] | PosSettingUncheckedCreateWithoutDefaultPartyInput[]
+    connectOrCreate?: PosSettingCreateOrConnectWithoutDefaultPartyInput | PosSettingCreateOrConnectWithoutDefaultPartyInput[]
+    upsert?: PosSettingUpsertWithWhereUniqueWithoutDefaultPartyInput | PosSettingUpsertWithWhereUniqueWithoutDefaultPartyInput[]
+    createMany?: PosSettingCreateManyDefaultPartyInputEnvelope
+    set?: PosSettingWhereUniqueInput | PosSettingWhereUniqueInput[]
+    disconnect?: PosSettingWhereUniqueInput | PosSettingWhereUniqueInput[]
+    delete?: PosSettingWhereUniqueInput | PosSettingWhereUniqueInput[]
+    connect?: PosSettingWhereUniqueInput | PosSettingWhereUniqueInput[]
+    update?: PosSettingUpdateWithWhereUniqueWithoutDefaultPartyInput | PosSettingUpdateWithWhereUniqueWithoutDefaultPartyInput[]
+    updateMany?: PosSettingUpdateManyWithWhereWithoutDefaultPartyInput | PosSettingUpdateManyWithWhereWithoutDefaultPartyInput[]
+    deleteMany?: PosSettingScalarWhereInput | PosSettingScalarWhereInput[]
   }
 
   export type RolePermissionCreateNestedManyWithoutPermissionInput = {
@@ -92331,6 +94142,76 @@ export namespace Prisma {
     upsert?: PermissionUpsertWithoutRolePermissionsInput
     connect?: PermissionWhereUniqueInput
     update?: XOR<XOR<PermissionUpdateToOneWithWhereWithoutRolePermissionsInput, PermissionUpdateWithoutRolePermissionsInput>, PermissionUncheckedUpdateWithoutRolePermissionsInput>
+  }
+
+  export type TenantCreateNestedOneWithoutPosSettingInput = {
+    create?: XOR<TenantCreateWithoutPosSettingInput, TenantUncheckedCreateWithoutPosSettingInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutPosSettingInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type PartyCreateNestedOneWithoutPosSettingsInput = {
+    create?: XOR<PartyCreateWithoutPosSettingsInput, PartyUncheckedCreateWithoutPosSettingsInput>
+    connectOrCreate?: PartyCreateOrConnectWithoutPosSettingsInput
+    connect?: PartyWhereUniqueInput
+  }
+
+  export type InvoiceTypeCreateNestedOneWithoutPosSettingsInput = {
+    create?: XOR<InvoiceTypeCreateWithoutPosSettingsInput, InvoiceTypeUncheckedCreateWithoutPosSettingsInput>
+    connectOrCreate?: InvoiceTypeCreateOrConnectWithoutPosSettingsInput
+    connect?: InvoiceTypeWhereUniqueInput
+  }
+
+  export type CashboxCreateNestedOneWithoutPosSettingsInput = {
+    create?: XOR<CashboxCreateWithoutPosSettingsInput, CashboxUncheckedCreateWithoutPosSettingsInput>
+    connectOrCreate?: CashboxCreateOrConnectWithoutPosSettingsInput
+    connect?: CashboxWhereUniqueInput
+  }
+
+  export type WarehouseCreateNestedOneWithoutPosSettingsInput = {
+    create?: XOR<WarehouseCreateWithoutPosSettingsInput, WarehouseUncheckedCreateWithoutPosSettingsInput>
+    connectOrCreate?: WarehouseCreateOrConnectWithoutPosSettingsInput
+    connect?: WarehouseWhereUniqueInput
+  }
+
+  export type TenantUpdateOneRequiredWithoutPosSettingNestedInput = {
+    create?: XOR<TenantCreateWithoutPosSettingInput, TenantUncheckedCreateWithoutPosSettingInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutPosSettingInput
+    upsert?: TenantUpsertWithoutPosSettingInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutPosSettingInput, TenantUpdateWithoutPosSettingInput>, TenantUncheckedUpdateWithoutPosSettingInput>
+  }
+
+  export type PartyUpdateOneRequiredWithoutPosSettingsNestedInput = {
+    create?: XOR<PartyCreateWithoutPosSettingsInput, PartyUncheckedCreateWithoutPosSettingsInput>
+    connectOrCreate?: PartyCreateOrConnectWithoutPosSettingsInput
+    upsert?: PartyUpsertWithoutPosSettingsInput
+    connect?: PartyWhereUniqueInput
+    update?: XOR<XOR<PartyUpdateToOneWithWhereWithoutPosSettingsInput, PartyUpdateWithoutPosSettingsInput>, PartyUncheckedUpdateWithoutPosSettingsInput>
+  }
+
+  export type InvoiceTypeUpdateOneRequiredWithoutPosSettingsNestedInput = {
+    create?: XOR<InvoiceTypeCreateWithoutPosSettingsInput, InvoiceTypeUncheckedCreateWithoutPosSettingsInput>
+    connectOrCreate?: InvoiceTypeCreateOrConnectWithoutPosSettingsInput
+    upsert?: InvoiceTypeUpsertWithoutPosSettingsInput
+    connect?: InvoiceTypeWhereUniqueInput
+    update?: XOR<XOR<InvoiceTypeUpdateToOneWithWhereWithoutPosSettingsInput, InvoiceTypeUpdateWithoutPosSettingsInput>, InvoiceTypeUncheckedUpdateWithoutPosSettingsInput>
+  }
+
+  export type CashboxUpdateOneRequiredWithoutPosSettingsNestedInput = {
+    create?: XOR<CashboxCreateWithoutPosSettingsInput, CashboxUncheckedCreateWithoutPosSettingsInput>
+    connectOrCreate?: CashboxCreateOrConnectWithoutPosSettingsInput
+    upsert?: CashboxUpsertWithoutPosSettingsInput
+    connect?: CashboxWhereUniqueInput
+    update?: XOR<XOR<CashboxUpdateToOneWithWhereWithoutPosSettingsInput, CashboxUpdateWithoutPosSettingsInput>, CashboxUncheckedUpdateWithoutPosSettingsInput>
+  }
+
+  export type WarehouseUpdateOneRequiredWithoutPosSettingsNestedInput = {
+    create?: XOR<WarehouseCreateWithoutPosSettingsInput, WarehouseUncheckedCreateWithoutPosSettingsInput>
+    connectOrCreate?: WarehouseCreateOrConnectWithoutPosSettingsInput
+    upsert?: WarehouseUpsertWithoutPosSettingsInput
+    connect?: WarehouseWhereUniqueInput
+    update?: XOR<XOR<WarehouseUpdateToOneWithWhereWithoutPosSettingsInput, WarehouseUpdateWithoutPosSettingsInput>, WarehouseUncheckedUpdateWithoutPosSettingsInput>
   }
 
   export type TenantCreateNestedOneWithoutReconciliationRunsInput = {
@@ -92908,6 +94789,12 @@ export namespace Prisma {
     connect?: SetupTaskWhereUniqueInput | SetupTaskWhereUniqueInput[]
   }
 
+  export type PosSettingCreateNestedOneWithoutTenantInput = {
+    create?: XOR<PosSettingCreateWithoutTenantInput, PosSettingUncheckedCreateWithoutTenantInput>
+    connectOrCreate?: PosSettingCreateOrConnectWithoutTenantInput
+    connect?: PosSettingWhereUniqueInput
+  }
+
   export type AppUserUncheckedCreateNestedManyWithoutTenantInput = {
     create?: XOR<AppUserCreateWithoutTenantInput, AppUserUncheckedCreateWithoutTenantInput> | AppUserCreateWithoutTenantInput[] | AppUserUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: AppUserCreateOrConnectWithoutTenantInput | AppUserCreateOrConnectWithoutTenantInput[]
@@ -93150,6 +95037,12 @@ export namespace Prisma {
     connectOrCreate?: SetupTaskCreateOrConnectWithoutTenantInput | SetupTaskCreateOrConnectWithoutTenantInput[]
     createMany?: SetupTaskCreateManyTenantInputEnvelope
     connect?: SetupTaskWhereUniqueInput | SetupTaskWhereUniqueInput[]
+  }
+
+  export type PosSettingUncheckedCreateNestedOneWithoutTenantInput = {
+    create?: XOR<PosSettingCreateWithoutTenantInput, PosSettingUncheckedCreateWithoutTenantInput>
+    connectOrCreate?: PosSettingCreateOrConnectWithoutTenantInput
+    connect?: PosSettingWhereUniqueInput
   }
 
   export type AppUserUpdateManyWithoutTenantNestedInput = {
@@ -93658,6 +95551,16 @@ export namespace Prisma {
     deleteMany?: SetupTaskScalarWhereInput | SetupTaskScalarWhereInput[]
   }
 
+  export type PosSettingUpdateOneWithoutTenantNestedInput = {
+    create?: XOR<PosSettingCreateWithoutTenantInput, PosSettingUncheckedCreateWithoutTenantInput>
+    connectOrCreate?: PosSettingCreateOrConnectWithoutTenantInput
+    upsert?: PosSettingUpsertWithoutTenantInput
+    disconnect?: PosSettingWhereInput | boolean
+    delete?: PosSettingWhereInput | boolean
+    connect?: PosSettingWhereUniqueInput
+    update?: XOR<XOR<PosSettingUpdateToOneWithWhereWithoutTenantInput, PosSettingUpdateWithoutTenantInput>, PosSettingUncheckedUpdateWithoutTenantInput>
+  }
+
   export type AppUserUncheckedUpdateManyWithoutTenantNestedInput = {
     create?: XOR<AppUserCreateWithoutTenantInput, AppUserUncheckedCreateWithoutTenantInput> | AppUserCreateWithoutTenantInput[] | AppUserUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: AppUserCreateOrConnectWithoutTenantInput | AppUserCreateOrConnectWithoutTenantInput[]
@@ -94144,6 +96047,16 @@ export namespace Prisma {
     deleteMany?: SetupTaskScalarWhereInput | SetupTaskScalarWhereInput[]
   }
 
+  export type PosSettingUncheckedUpdateOneWithoutTenantNestedInput = {
+    create?: XOR<PosSettingCreateWithoutTenantInput, PosSettingUncheckedCreateWithoutTenantInput>
+    connectOrCreate?: PosSettingCreateOrConnectWithoutTenantInput
+    upsert?: PosSettingUpsertWithoutTenantInput
+    disconnect?: PosSettingWhereInput | boolean
+    delete?: PosSettingWhereInput | boolean
+    connect?: PosSettingWhereUniqueInput
+    update?: XOR<XOR<PosSettingUpdateToOneWithWhereWithoutTenantInput, PosSettingUpdateWithoutTenantInput>, PosSettingUncheckedUpdateWithoutTenantInput>
+  }
+
   export type TenantCreateNestedOneWithoutUnitsInput = {
     create?: XOR<TenantCreateWithoutUnitsInput, TenantUncheckedCreateWithoutUnitsInput>
     connectOrCreate?: TenantCreateOrConnectWithoutUnitsInput
@@ -94465,6 +96378,13 @@ export namespace Prisma {
     connect?: StockCountWhereUniqueInput | StockCountWhereUniqueInput[]
   }
 
+  export type PosSettingCreateNestedManyWithoutWarehouseInput = {
+    create?: XOR<PosSettingCreateWithoutWarehouseInput, PosSettingUncheckedCreateWithoutWarehouseInput> | PosSettingCreateWithoutWarehouseInput[] | PosSettingUncheckedCreateWithoutWarehouseInput[]
+    connectOrCreate?: PosSettingCreateOrConnectWithoutWarehouseInput | PosSettingCreateOrConnectWithoutWarehouseInput[]
+    createMany?: PosSettingCreateManyWarehouseInputEnvelope
+    connect?: PosSettingWhereUniqueInput | PosSettingWhereUniqueInput[]
+  }
+
   export type WarehouseItemUncheckedCreateNestedManyWithoutWarehouseInput = {
     create?: XOR<WarehouseItemCreateWithoutWarehouseInput, WarehouseItemUncheckedCreateWithoutWarehouseInput> | WarehouseItemCreateWithoutWarehouseInput[] | WarehouseItemUncheckedCreateWithoutWarehouseInput[]
     connectOrCreate?: WarehouseItemCreateOrConnectWithoutWarehouseInput | WarehouseItemCreateOrConnectWithoutWarehouseInput[]
@@ -94498,6 +96418,13 @@ export namespace Prisma {
     connectOrCreate?: StockCountCreateOrConnectWithoutWarehouseInput | StockCountCreateOrConnectWithoutWarehouseInput[]
     createMany?: StockCountCreateManyWarehouseInputEnvelope
     connect?: StockCountWhereUniqueInput | StockCountWhereUniqueInput[]
+  }
+
+  export type PosSettingUncheckedCreateNestedManyWithoutWarehouseInput = {
+    create?: XOR<PosSettingCreateWithoutWarehouseInput, PosSettingUncheckedCreateWithoutWarehouseInput> | PosSettingCreateWithoutWarehouseInput[] | PosSettingUncheckedCreateWithoutWarehouseInput[]
+    connectOrCreate?: PosSettingCreateOrConnectWithoutWarehouseInput | PosSettingCreateOrConnectWithoutWarehouseInput[]
+    createMany?: PosSettingCreateManyWarehouseInputEnvelope
+    connect?: PosSettingWhereUniqueInput | PosSettingWhereUniqueInput[]
   }
 
   export type TenantUpdateOneRequiredWithoutWarehousesNestedInput = {
@@ -94578,6 +96505,20 @@ export namespace Prisma {
     deleteMany?: StockCountScalarWhereInput | StockCountScalarWhereInput[]
   }
 
+  export type PosSettingUpdateManyWithoutWarehouseNestedInput = {
+    create?: XOR<PosSettingCreateWithoutWarehouseInput, PosSettingUncheckedCreateWithoutWarehouseInput> | PosSettingCreateWithoutWarehouseInput[] | PosSettingUncheckedCreateWithoutWarehouseInput[]
+    connectOrCreate?: PosSettingCreateOrConnectWithoutWarehouseInput | PosSettingCreateOrConnectWithoutWarehouseInput[]
+    upsert?: PosSettingUpsertWithWhereUniqueWithoutWarehouseInput | PosSettingUpsertWithWhereUniqueWithoutWarehouseInput[]
+    createMany?: PosSettingCreateManyWarehouseInputEnvelope
+    set?: PosSettingWhereUniqueInput | PosSettingWhereUniqueInput[]
+    disconnect?: PosSettingWhereUniqueInput | PosSettingWhereUniqueInput[]
+    delete?: PosSettingWhereUniqueInput | PosSettingWhereUniqueInput[]
+    connect?: PosSettingWhereUniqueInput | PosSettingWhereUniqueInput[]
+    update?: PosSettingUpdateWithWhereUniqueWithoutWarehouseInput | PosSettingUpdateWithWhereUniqueWithoutWarehouseInput[]
+    updateMany?: PosSettingUpdateManyWithWhereWithoutWarehouseInput | PosSettingUpdateManyWithWhereWithoutWarehouseInput[]
+    deleteMany?: PosSettingScalarWhereInput | PosSettingScalarWhereInput[]
+  }
+
   export type WarehouseItemUncheckedUpdateManyWithoutWarehouseNestedInput = {
     create?: XOR<WarehouseItemCreateWithoutWarehouseInput, WarehouseItemUncheckedCreateWithoutWarehouseInput> | WarehouseItemCreateWithoutWarehouseInput[] | WarehouseItemUncheckedCreateWithoutWarehouseInput[]
     connectOrCreate?: WarehouseItemCreateOrConnectWithoutWarehouseInput | WarehouseItemCreateOrConnectWithoutWarehouseInput[]
@@ -94646,6 +96587,20 @@ export namespace Prisma {
     update?: StockCountUpdateWithWhereUniqueWithoutWarehouseInput | StockCountUpdateWithWhereUniqueWithoutWarehouseInput[]
     updateMany?: StockCountUpdateManyWithWhereWithoutWarehouseInput | StockCountUpdateManyWithWhereWithoutWarehouseInput[]
     deleteMany?: StockCountScalarWhereInput | StockCountScalarWhereInput[]
+  }
+
+  export type PosSettingUncheckedUpdateManyWithoutWarehouseNestedInput = {
+    create?: XOR<PosSettingCreateWithoutWarehouseInput, PosSettingUncheckedCreateWithoutWarehouseInput> | PosSettingCreateWithoutWarehouseInput[] | PosSettingUncheckedCreateWithoutWarehouseInput[]
+    connectOrCreate?: PosSettingCreateOrConnectWithoutWarehouseInput | PosSettingCreateOrConnectWithoutWarehouseInput[]
+    upsert?: PosSettingUpsertWithWhereUniqueWithoutWarehouseInput | PosSettingUpsertWithWhereUniqueWithoutWarehouseInput[]
+    createMany?: PosSettingCreateManyWarehouseInputEnvelope
+    set?: PosSettingWhereUniqueInput | PosSettingWhereUniqueInput[]
+    disconnect?: PosSettingWhereUniqueInput | PosSettingWhereUniqueInput[]
+    delete?: PosSettingWhereUniqueInput | PosSettingWhereUniqueInput[]
+    connect?: PosSettingWhereUniqueInput | PosSettingWhereUniqueInput[]
+    update?: PosSettingUpdateWithWhereUniqueWithoutWarehouseInput | PosSettingUpdateWithWhereUniqueWithoutWarehouseInput[]
+    updateMany?: PosSettingUpdateManyWithWhereWithoutWarehouseInput | PosSettingUpdateManyWithWhereWithoutWarehouseInput[]
+    deleteMany?: PosSettingScalarWhereInput | PosSettingScalarWhereInput[]
   }
 
   export type WarehouseCreateNestedOneWithoutWarehouseItemsInput = {
@@ -95396,6 +97351,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
     setupTasks?: SetupTaskCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingCreateNestedOneWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutChartOfAccountsInput = {
@@ -95453,6 +97409,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
     setupTasks?: SetupTaskUncheckedCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingUncheckedCreateNestedOneWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutChartOfAccountsInput = {
@@ -96172,6 +98129,7 @@ export namespace Prisma {
     journalLines?: JournalLineCreateNestedManyWithoutPartyInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutPartyInput
     payableAccount?: ChartOfAccountCreateNestedOneWithoutPartyPayablesInput
+    posSettings?: PosSettingCreateNestedManyWithoutDefaultPartyInput
   }
 
   export type PartyUncheckedCreateWithoutReceivableAccountInput = {
@@ -96191,6 +98149,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedCreateNestedManyWithoutPartyInput
     journalLines?: JournalLineUncheckedCreateNestedManyWithoutPartyInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutPartyInput
+    posSettings?: PosSettingUncheckedCreateNestedManyWithoutDefaultPartyInput
   }
 
   export type PartyCreateOrConnectWithoutReceivableAccountInput = {
@@ -96220,6 +98179,7 @@ export namespace Prisma {
     journalLines?: JournalLineCreateNestedManyWithoutPartyInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutPartyInput
     receivableAccount?: ChartOfAccountCreateNestedOneWithoutPartyReceivablesInput
+    posSettings?: PosSettingCreateNestedManyWithoutDefaultPartyInput
   }
 
   export type PartyUncheckedCreateWithoutPayableAccountInput = {
@@ -96239,6 +98199,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedCreateNestedManyWithoutPartyInput
     journalLines?: JournalLineUncheckedCreateNestedManyWithoutPartyInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutPartyInput
+    posSettings?: PosSettingUncheckedCreateNestedManyWithoutDefaultPartyInput
   }
 
   export type PartyCreateOrConnectWithoutPayableAccountInput = {
@@ -96359,6 +98320,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUpdateOneWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutChartOfAccountsInput = {
@@ -96416,6 +98378,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUncheckedUpdateOneWithoutTenantNestedInput
   }
 
   export type ChartOfAccountUpsertWithoutChildrenInput = {
@@ -96930,6 +98893,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
     setupTasks?: SetupTaskCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingCreateNestedOneWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutJournalEntriesInput = {
@@ -96987,6 +98951,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
     setupTasks?: SetupTaskUncheckedCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingUncheckedCreateNestedOneWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutJournalEntriesInput = {
@@ -97236,6 +99201,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUpdateOneWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutJournalEntriesInput = {
@@ -97293,6 +99259,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUncheckedUpdateOneWithoutTenantNestedInput
   }
 
   export type FiscalPeriodUpsertWithoutJournalEntriesInput = {
@@ -97574,6 +99541,7 @@ export namespace Prisma {
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutPartyInput
     receivableAccount?: ChartOfAccountCreateNestedOneWithoutPartyReceivablesInput
     payableAccount?: ChartOfAccountCreateNestedOneWithoutPartyPayablesInput
+    posSettings?: PosSettingCreateNestedManyWithoutDefaultPartyInput
   }
 
   export type PartyUncheckedCreateWithoutJournalLinesInput = {
@@ -97593,6 +99561,7 @@ export namespace Prisma {
     invoices?: InvoiceUncheckedCreateNestedManyWithoutPartyInput
     payments?: PaymentUncheckedCreateNestedManyWithoutPartyInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutPartyInput
+    posSettings?: PosSettingUncheckedCreateNestedManyWithoutDefaultPartyInput
   }
 
   export type PartyCreateOrConnectWithoutJournalLinesInput = {
@@ -97613,6 +99582,7 @@ export namespace Prisma {
     expenses?: ExpenseCreateNestedManyWithoutCashboxInput
     payments?: PaymentCreateNestedManyWithoutCashboxInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutCashboxInput
+    posSettings?: PosSettingCreateNestedManyWithoutCashboxInput
   }
 
   export type CashboxUncheckedCreateWithoutJournalLinesInput = {
@@ -97628,6 +99598,7 @@ export namespace Prisma {
     expenses?: ExpenseUncheckedCreateNestedManyWithoutCashboxInput
     payments?: PaymentUncheckedCreateNestedManyWithoutCashboxInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutCashboxInput
+    posSettings?: PosSettingUncheckedCreateNestedManyWithoutCashboxInput
   }
 
   export type CashboxCreateOrConnectWithoutJournalLinesInput = {
@@ -97865,6 +99836,7 @@ export namespace Prisma {
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutPartyNestedInput
     receivableAccount?: ChartOfAccountUpdateOneWithoutPartyReceivablesNestedInput
     payableAccount?: ChartOfAccountUpdateOneWithoutPartyPayablesNestedInput
+    posSettings?: PosSettingUpdateManyWithoutDefaultPartyNestedInput
   }
 
   export type PartyUncheckedUpdateWithoutJournalLinesInput = {
@@ -97884,6 +99856,7 @@ export namespace Prisma {
     invoices?: InvoiceUncheckedUpdateManyWithoutPartyNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutPartyNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutPartyNestedInput
+    posSettings?: PosSettingUncheckedUpdateManyWithoutDefaultPartyNestedInput
   }
 
   export type CashboxUpsertWithoutJournalLinesInput = {
@@ -97910,6 +99883,7 @@ export namespace Prisma {
     expenses?: ExpenseUpdateManyWithoutCashboxNestedInput
     payments?: PaymentUpdateManyWithoutCashboxNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutCashboxNestedInput
+    posSettings?: PosSettingUpdateManyWithoutCashboxNestedInput
   }
 
   export type CashboxUncheckedUpdateWithoutJournalLinesInput = {
@@ -97925,6 +99899,7 @@ export namespace Prisma {
     expenses?: ExpenseUncheckedUpdateManyWithoutCashboxNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutCashboxNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutCashboxNestedInput
+    posSettings?: PosSettingUncheckedUpdateManyWithoutCashboxNestedInput
   }
 
   export type BankAccountUpsertWithoutJournalLinesInput = {
@@ -98072,6 +100047,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
     setupTasks?: SetupTaskCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingCreateNestedOneWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAiConversationsInput = {
@@ -98129,6 +100105,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
     setupTasks?: SetupTaskUncheckedCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingUncheckedCreateNestedOneWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAiConversationsInput = {
@@ -98232,6 +100209,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUpdateOneWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAiConversationsInput = {
@@ -98289,6 +100267,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUncheckedUpdateOneWithoutTenantNestedInput
   }
 
   export type AiMessageUpsertWithWhereUniqueWithoutConversationInput = {
@@ -98376,6 +100355,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
     setupTasks?: SetupTaskCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingCreateNestedOneWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAiMessagesInput = {
@@ -98433,6 +100413,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
     setupTasks?: SetupTaskUncheckedCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingUncheckedCreateNestedOneWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAiMessagesInput = {
@@ -98531,6 +100512,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUpdateOneWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAiMessagesInput = {
@@ -98588,6 +100570,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUncheckedUpdateOneWithoutTenantNestedInput
   }
 
   export type AiConversationUpsertWithoutMessagesInput = {
@@ -98676,6 +100659,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
     setupTasks?: SetupTaskCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingCreateNestedOneWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAuditLogsInput = {
@@ -98733,6 +100717,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
     setupTasks?: SetupTaskUncheckedCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingUncheckedCreateNestedOneWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAuditLogsInput = {
@@ -98806,6 +100791,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUpdateOneWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAuditLogsInput = {
@@ -98863,6 +100849,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUncheckedUpdateOneWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutBankAccountsInput = {
@@ -98920,6 +100907,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
     setupTasks?: SetupTaskCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingCreateNestedOneWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBankAccountsInput = {
@@ -98977,6 +100965,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
     setupTasks?: SetupTaskUncheckedCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingUncheckedCreateNestedOneWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBankAccountsInput = {
@@ -99177,6 +101166,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUpdateOneWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBankAccountsInput = {
@@ -99234,6 +101224,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUncheckedUpdateOneWithoutTenantNestedInput
   }
 
   export type CurrencyUpsertWithoutBankAccountsInput = {
@@ -99372,6 +101363,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
     setupTasks?: SetupTaskCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingCreateNestedOneWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBrandsInput = {
@@ -99429,6 +101421,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
     setupTasks?: SetupTaskUncheckedCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingUncheckedCreateNestedOneWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBrandsInput = {
@@ -99568,6 +101561,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUpdateOneWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBrandsInput = {
@@ -99625,6 +101619,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUncheckedUpdateOneWithoutTenantNestedInput
   }
 
   export type ItemUpsertWithWhereUniqueWithoutBrandInput = {
@@ -99722,6 +101717,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
     setupTasks?: SetupTaskCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingCreateNestedOneWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCashboxesInput = {
@@ -99779,6 +101775,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
     setupTasks?: SetupTaskUncheckedCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingUncheckedCreateNestedOneWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCashboxesInput = {
@@ -100027,6 +102024,36 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type PosSettingCreateWithoutCashboxInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutPosSettingInput
+    defaultParty: PartyCreateNestedOneWithoutPosSettingsInput
+    invoiceType: InvoiceTypeCreateNestedOneWithoutPosSettingsInput
+    warehouse: WarehouseCreateNestedOneWithoutPosSettingsInput
+  }
+
+  export type PosSettingUncheckedCreateWithoutCashboxInput = {
+    id?: string
+    tenantId: string
+    defaultPartyId: string
+    invoiceTypeId: string
+    warehouseId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PosSettingCreateOrConnectWithoutCashboxInput = {
+    where: PosSettingWhereUniqueInput
+    create: XOR<PosSettingCreateWithoutCashboxInput, PosSettingUncheckedCreateWithoutCashboxInput>
+  }
+
+  export type PosSettingCreateManyCashboxInputEnvelope = {
+    data: PosSettingCreateManyCashboxInput | PosSettingCreateManyCashboxInput[]
+    skipDuplicates?: boolean
+  }
+
   export type TenantUpsertWithoutCashboxesInput = {
     update: XOR<TenantUpdateWithoutCashboxesInput, TenantUncheckedUpdateWithoutCashboxesInput>
     create: XOR<TenantCreateWithoutCashboxesInput, TenantUncheckedCreateWithoutCashboxesInput>
@@ -100093,6 +102120,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUpdateOneWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCashboxesInput = {
@@ -100150,6 +102178,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUncheckedUpdateOneWithoutTenantNestedInput
   }
 
   export type CurrencyUpsertWithoutCashboxesInput = {
@@ -100318,6 +102347,36 @@ export namespace Prisma {
     data: XOR<OpeningBalanceSessionLineUpdateManyMutationInput, OpeningBalanceSessionLineUncheckedUpdateManyWithoutCashboxInput>
   }
 
+  export type PosSettingUpsertWithWhereUniqueWithoutCashboxInput = {
+    where: PosSettingWhereUniqueInput
+    update: XOR<PosSettingUpdateWithoutCashboxInput, PosSettingUncheckedUpdateWithoutCashboxInput>
+    create: XOR<PosSettingCreateWithoutCashboxInput, PosSettingUncheckedCreateWithoutCashboxInput>
+  }
+
+  export type PosSettingUpdateWithWhereUniqueWithoutCashboxInput = {
+    where: PosSettingWhereUniqueInput
+    data: XOR<PosSettingUpdateWithoutCashboxInput, PosSettingUncheckedUpdateWithoutCashboxInput>
+  }
+
+  export type PosSettingUpdateManyWithWhereWithoutCashboxInput = {
+    where: PosSettingScalarWhereInput
+    data: XOR<PosSettingUpdateManyMutationInput, PosSettingUncheckedUpdateManyWithoutCashboxInput>
+  }
+
+  export type PosSettingScalarWhereInput = {
+    AND?: PosSettingScalarWhereInput | PosSettingScalarWhereInput[]
+    OR?: PosSettingScalarWhereInput[]
+    NOT?: PosSettingScalarWhereInput | PosSettingScalarWhereInput[]
+    id?: StringFilter<"PosSetting"> | string
+    tenantId?: StringFilter<"PosSetting"> | string
+    defaultPartyId?: StringFilter<"PosSetting"> | string
+    invoiceTypeId?: StringFilter<"PosSetting"> | string
+    cashboxId?: StringFilter<"PosSetting"> | string
+    warehouseId?: StringFilter<"PosSetting"> | string
+    createdAt?: DateTimeFilter<"PosSetting"> | Date | string
+    updatedAt?: DateTimeFilter<"PosSetting"> | Date | string
+  }
+
   export type TenantCreateWithoutPaymentsInput = {
     id?: string
     name: string
@@ -100373,6 +102432,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
     setupTasks?: SetupTaskCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingCreateNestedOneWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPaymentsInput = {
@@ -100430,6 +102490,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
     setupTasks?: SetupTaskUncheckedCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingUncheckedCreateNestedOneWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPaymentsInput = {
@@ -100450,6 +102511,7 @@ export namespace Prisma {
     expenses?: ExpenseCreateNestedManyWithoutCashboxInput
     journalLines?: JournalLineCreateNestedManyWithoutCashboxInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutCashboxInput
+    posSettings?: PosSettingCreateNestedManyWithoutCashboxInput
   }
 
   export type CashboxUncheckedCreateWithoutPaymentsInput = {
@@ -100465,6 +102527,7 @@ export namespace Prisma {
     expenses?: ExpenseUncheckedCreateNestedManyWithoutCashboxInput
     journalLines?: JournalLineUncheckedCreateNestedManyWithoutCashboxInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutCashboxInput
+    posSettings?: PosSettingUncheckedCreateNestedManyWithoutCashboxInput
   }
 
   export type CashboxCreateOrConnectWithoutPaymentsInput = {
@@ -100489,6 +102552,7 @@ export namespace Prisma {
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutPartyInput
     receivableAccount?: ChartOfAccountCreateNestedOneWithoutPartyReceivablesInput
     payableAccount?: ChartOfAccountCreateNestedOneWithoutPartyPayablesInput
+    posSettings?: PosSettingCreateNestedManyWithoutDefaultPartyInput
   }
 
   export type PartyUncheckedCreateWithoutPaymentsInput = {
@@ -100508,6 +102572,7 @@ export namespace Prisma {
     invoices?: InvoiceUncheckedCreateNestedManyWithoutPartyInput
     journalLines?: JournalLineUncheckedCreateNestedManyWithoutPartyInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutPartyInput
+    posSettings?: PosSettingUncheckedCreateNestedManyWithoutDefaultPartyInput
   }
 
   export type PartyCreateOrConnectWithoutPaymentsInput = {
@@ -100689,6 +102754,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUpdateOneWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPaymentsInput = {
@@ -100746,6 +102812,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUncheckedUpdateOneWithoutTenantNestedInput
   }
 
   export type CashboxUpsertWithoutPaymentsInput = {
@@ -100772,6 +102839,7 @@ export namespace Prisma {
     expenses?: ExpenseUpdateManyWithoutCashboxNestedInput
     journalLines?: JournalLineUpdateManyWithoutCashboxNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutCashboxNestedInput
+    posSettings?: PosSettingUpdateManyWithoutCashboxNestedInput
   }
 
   export type CashboxUncheckedUpdateWithoutPaymentsInput = {
@@ -100787,6 +102855,7 @@ export namespace Prisma {
     expenses?: ExpenseUncheckedUpdateManyWithoutCashboxNestedInput
     journalLines?: JournalLineUncheckedUpdateManyWithoutCashboxNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutCashboxNestedInput
+    posSettings?: PosSettingUncheckedUpdateManyWithoutCashboxNestedInput
   }
 
   export type PartyUpsertWithoutPaymentsInput = {
@@ -100817,6 +102886,7 @@ export namespace Prisma {
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutPartyNestedInput
     receivableAccount?: ChartOfAccountUpdateOneWithoutPartyReceivablesNestedInput
     payableAccount?: ChartOfAccountUpdateOneWithoutPartyPayablesNestedInput
+    posSettings?: PosSettingUpdateManyWithoutDefaultPartyNestedInput
   }
 
   export type PartyUncheckedUpdateWithoutPaymentsInput = {
@@ -100836,6 +102906,7 @@ export namespace Prisma {
     invoices?: InvoiceUncheckedUpdateManyWithoutPartyNestedInput
     journalLines?: JournalLineUncheckedUpdateManyWithoutPartyNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutPartyNestedInput
+    posSettings?: PosSettingUncheckedUpdateManyWithoutDefaultPartyNestedInput
   }
 
   export type CurrencyUpsertWithoutPaymentsInput = {
@@ -101027,6 +103098,7 @@ export namespace Prisma {
     taxAmount?: Decimal | DecimalJsLike | number | string
     total?: Decimal | DecimalJsLike | number | string
     notes?: string | null
+    clientRequestId?: string | null
     postedAt?: Date | string | null
     postedBy?: string | null
     cancelledAt?: Date | string | null
@@ -101061,6 +103133,7 @@ export namespace Prisma {
     taxAmount?: Decimal | DecimalJsLike | number | string
     total?: Decimal | DecimalJsLike | number | string
     notes?: string | null
+    clientRequestId?: string | null
     postedAt?: Date | string | null
     postedBy?: string | null
     cancelledAt?: Date | string | null
@@ -101160,6 +103233,7 @@ export namespace Prisma {
     taxAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    clientRequestId?: NullableStringFieldUpdateOperationsInput | string | null
     postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     postedBy?: NullableStringFieldUpdateOperationsInput | string | null
     cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -101194,6 +103268,7 @@ export namespace Prisma {
     taxAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    clientRequestId?: NullableStringFieldUpdateOperationsInput | string | null
     postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     postedBy?: NullableStringFieldUpdateOperationsInput | string | null
     cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -101259,6 +103334,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
     setupTasks?: SetupTaskCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingCreateNestedOneWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCatalogEntitiesInput = {
@@ -101316,6 +103392,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
     setupTasks?: SetupTaskUncheckedCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingUncheckedCreateNestedOneWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCatalogEntitiesInput = {
@@ -101480,6 +103557,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUpdateOneWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCatalogEntitiesInput = {
@@ -101537,6 +103615,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUncheckedUpdateOneWithoutTenantNestedInput
   }
 
   export type CatalogEntityUpsertWithoutChildrenInput = {
@@ -101689,6 +103768,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
     setupTasks?: SetupTaskCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingCreateNestedOneWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCodeSequencesInput = {
@@ -101746,6 +103826,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
     setupTasks?: SetupTaskUncheckedCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingUncheckedCreateNestedOneWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCodeSequencesInput = {
@@ -101819,6 +103900,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUpdateOneWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCodeSequencesInput = {
@@ -101876,6 +103958,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUncheckedUpdateOneWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCurrenciesInput = {
@@ -101933,6 +104016,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
     setupTasks?: SetupTaskCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingCreateNestedOneWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCurrenciesInput = {
@@ -101990,6 +104074,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
     setupTasks?: SetupTaskUncheckedCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingUncheckedCreateNestedOneWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCurrenciesInput = {
@@ -102010,6 +104095,7 @@ export namespace Prisma {
     payments?: PaymentCreateNestedManyWithoutCashboxInput
     journalLines?: JournalLineCreateNestedManyWithoutCashboxInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutCashboxInput
+    posSettings?: PosSettingCreateNestedManyWithoutCashboxInput
   }
 
   export type CashboxUncheckedCreateWithoutCurrencyInput = {
@@ -102025,6 +104111,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedCreateNestedManyWithoutCashboxInput
     journalLines?: JournalLineUncheckedCreateNestedManyWithoutCashboxInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutCashboxInput
+    posSettings?: PosSettingUncheckedCreateNestedManyWithoutCashboxInput
   }
 
   export type CashboxCreateOrConnectWithoutCurrencyInput = {
@@ -102131,6 +104218,7 @@ export namespace Prisma {
     taxAmount?: Decimal | DecimalJsLike | number | string
     total?: Decimal | DecimalJsLike | number | string
     notes?: string | null
+    clientRequestId?: string | null
     postedAt?: Date | string | null
     postedBy?: string | null
     cancelledAt?: Date | string | null
@@ -102164,6 +104252,7 @@ export namespace Prisma {
     taxAmount?: Decimal | DecimalJsLike | number | string
     total?: Decimal | DecimalJsLike | number | string
     notes?: string | null
+    clientRequestId?: string | null
     postedAt?: Date | string | null
     postedBy?: string | null
     cancelledAt?: Date | string | null
@@ -102300,6 +104389,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
     setupTasks?: SetupTaskCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingCreateNestedOneWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBaseCurrencyInput = {
@@ -102357,6 +104447,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
     setupTasks?: SetupTaskUncheckedCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingUncheckedCreateNestedOneWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBaseCurrencyInput = {
@@ -102531,6 +104622,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUpdateOneWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCurrenciesInput = {
@@ -102588,6 +104680,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUncheckedUpdateOneWithoutTenantNestedInput
   }
 
   export type CashboxUpsertWithWhereUniqueWithoutCurrencyInput = {
@@ -102707,6 +104800,7 @@ export namespace Prisma {
     taxAmount?: DecimalFilter<"Invoice"> | Decimal | DecimalJsLike | number | string
     total?: DecimalFilter<"Invoice"> | Decimal | DecimalJsLike | number | string
     notes?: StringNullableFilter<"Invoice"> | string | null
+    clientRequestId?: StringNullableFilter<"Invoice"> | string | null
     postedAt?: DateTimeNullableFilter<"Invoice"> | Date | string | null
     postedBy?: StringNullableFilter<"Invoice"> | string | null
     cancelledAt?: DateTimeNullableFilter<"Invoice"> | Date | string | null
@@ -102991,6 +105085,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
     setupTasks?: SetupTaskCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingCreateNestedOneWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDocumentSequencesInput = {
@@ -103048,6 +105143,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
     setupTasks?: SetupTaskUncheckedCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingUncheckedCreateNestedOneWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDocumentSequencesInput = {
@@ -103110,6 +105206,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
     setupTasks?: SetupTaskCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingCreateNestedOneWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDefaultSalesSequenceInput = {
@@ -103167,6 +105264,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
     setupTasks?: SetupTaskUncheckedCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingUncheckedCreateNestedOneWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDefaultSalesSequenceInput = {
@@ -103245,6 +105343,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUpdateOneWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDocumentSequencesInput = {
@@ -103302,6 +105401,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUncheckedUpdateOneWithoutTenantNestedInput
   }
 
   export type TenantUpsertWithWhereUniqueWithoutDefaultSalesSequenceInput = {
@@ -103375,6 +105475,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
     setupTasks?: SetupTaskCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingCreateNestedOneWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutExpensesInput = {
@@ -103432,6 +105533,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
     setupTasks?: SetupTaskUncheckedCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingUncheckedCreateNestedOneWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutExpensesInput = {
@@ -103452,6 +105554,7 @@ export namespace Prisma {
     payments?: PaymentCreateNestedManyWithoutCashboxInput
     journalLines?: JournalLineCreateNestedManyWithoutCashboxInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutCashboxInput
+    posSettings?: PosSettingCreateNestedManyWithoutCashboxInput
   }
 
   export type CashboxUncheckedCreateWithoutExpensesInput = {
@@ -103467,6 +105570,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedCreateNestedManyWithoutCashboxInput
     journalLines?: JournalLineUncheckedCreateNestedManyWithoutCashboxInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutCashboxInput
+    posSettings?: PosSettingUncheckedCreateNestedManyWithoutCashboxInput
   }
 
   export type CashboxCreateOrConnectWithoutExpensesInput = {
@@ -103652,6 +105756,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUpdateOneWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutExpensesInput = {
@@ -103709,6 +105814,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUncheckedUpdateOneWithoutTenantNestedInput
   }
 
   export type CashboxUpsertWithoutExpensesInput = {
@@ -103735,6 +105841,7 @@ export namespace Prisma {
     payments?: PaymentUpdateManyWithoutCashboxNestedInput
     journalLines?: JournalLineUpdateManyWithoutCashboxNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutCashboxNestedInput
+    posSettings?: PosSettingUpdateManyWithoutCashboxNestedInput
   }
 
   export type CashboxUncheckedUpdateWithoutExpensesInput = {
@@ -103750,6 +105857,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedUpdateManyWithoutCashboxNestedInput
     journalLines?: JournalLineUncheckedUpdateManyWithoutCashboxNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutCashboxNestedInput
+    posSettings?: PosSettingUncheckedUpdateManyWithoutCashboxNestedInput
   }
 
   export type CurrencyUpsertWithoutExpensesInput = {
@@ -104161,6 +106269,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
     setupTasks?: SetupTaskCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingCreateNestedOneWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutFinancialSettingInput = {
@@ -104218,6 +106327,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
     setupTasks?: SetupTaskUncheckedCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingUncheckedCreateNestedOneWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutFinancialSettingInput = {
@@ -105028,6 +107138,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUpdateOneWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutFinancialSettingInput = {
@@ -105085,6 +107196,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUncheckedUpdateOneWithoutTenantNestedInput
   }
 
   export type ChartOfAccountUpsertWithoutDefaultSalesForInput = {
@@ -105945,6 +108057,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
     setupTasks?: SetupTaskCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingCreateNestedOneWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutFiscalPeriodsInput = {
@@ -106002,6 +108115,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
     setupTasks?: SetupTaskUncheckedCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingUncheckedCreateNestedOneWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutFiscalPeriodsInput = {
@@ -106061,6 +108175,7 @@ export namespace Prisma {
     taxAmount?: Decimal | DecimalJsLike | number | string
     total?: Decimal | DecimalJsLike | number | string
     notes?: string | null
+    clientRequestId?: string | null
     postedAt?: Date | string | null
     postedBy?: string | null
     cancelledAt?: Date | string | null
@@ -106094,6 +108209,7 @@ export namespace Prisma {
     taxAmount?: Decimal | DecimalJsLike | number | string
     total?: Decimal | DecimalJsLike | number | string
     notes?: string | null
+    clientRequestId?: string | null
     postedAt?: Date | string | null
     postedBy?: string | null
     cancelledAt?: Date | string | null
@@ -106429,6 +108545,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUpdateOneWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutFiscalPeriodsInput = {
@@ -106486,6 +108603,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUncheckedUpdateOneWithoutTenantNestedInput
   }
 
   export type StockMovementUpsertWithWhereUniqueWithoutFiscalPeriodInput = {
@@ -106712,6 +108830,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
     setupTasks?: SetupTaskCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingCreateNestedOneWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutInvoiceTypesInput = {
@@ -106769,6 +108888,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
     setupTasks?: SetupTaskUncheckedCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingUncheckedCreateNestedOneWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutInvoiceTypesInput = {
@@ -106788,6 +108908,7 @@ export namespace Prisma {
     taxAmount?: Decimal | DecimalJsLike | number | string
     total?: Decimal | DecimalJsLike | number | string
     notes?: string | null
+    clientRequestId?: string | null
     postedAt?: Date | string | null
     postedBy?: string | null
     cancelledAt?: Date | string | null
@@ -106821,6 +108942,7 @@ export namespace Prisma {
     taxAmount?: Decimal | DecimalJsLike | number | string
     total?: Decimal | DecimalJsLike | number | string
     notes?: string | null
+    clientRequestId?: string | null
     postedAt?: Date | string | null
     postedBy?: string | null
     cancelledAt?: Date | string | null
@@ -106839,6 +108961,36 @@ export namespace Prisma {
 
   export type InvoiceCreateManyInvoiceTypeInputEnvelope = {
     data: InvoiceCreateManyInvoiceTypeInput | InvoiceCreateManyInvoiceTypeInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type PosSettingCreateWithoutInvoiceTypeInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutPosSettingInput
+    defaultParty: PartyCreateNestedOneWithoutPosSettingsInput
+    cashbox: CashboxCreateNestedOneWithoutPosSettingsInput
+    warehouse: WarehouseCreateNestedOneWithoutPosSettingsInput
+  }
+
+  export type PosSettingUncheckedCreateWithoutInvoiceTypeInput = {
+    id?: string
+    tenantId: string
+    defaultPartyId: string
+    cashboxId: string
+    warehouseId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PosSettingCreateOrConnectWithoutInvoiceTypeInput = {
+    where: PosSettingWhereUniqueInput
+    create: XOR<PosSettingCreateWithoutInvoiceTypeInput, PosSettingUncheckedCreateWithoutInvoiceTypeInput>
+  }
+
+  export type PosSettingCreateManyInvoiceTypeInputEnvelope = {
+    data: PosSettingCreateManyInvoiceTypeInput | PosSettingCreateManyInvoiceTypeInput[]
     skipDuplicates?: boolean
   }
 
@@ -106908,6 +109060,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUpdateOneWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutInvoiceTypesInput = {
@@ -106965,6 +109118,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUncheckedUpdateOneWithoutTenantNestedInput
   }
 
   export type InvoiceUpsertWithWhereUniqueWithoutInvoiceTypeInput = {
@@ -106981,6 +109135,22 @@ export namespace Prisma {
   export type InvoiceUpdateManyWithWhereWithoutInvoiceTypeInput = {
     where: InvoiceScalarWhereInput
     data: XOR<InvoiceUpdateManyMutationInput, InvoiceUncheckedUpdateManyWithoutInvoiceTypeInput>
+  }
+
+  export type PosSettingUpsertWithWhereUniqueWithoutInvoiceTypeInput = {
+    where: PosSettingWhereUniqueInput
+    update: XOR<PosSettingUpdateWithoutInvoiceTypeInput, PosSettingUncheckedUpdateWithoutInvoiceTypeInput>
+    create: XOR<PosSettingCreateWithoutInvoiceTypeInput, PosSettingUncheckedCreateWithoutInvoiceTypeInput>
+  }
+
+  export type PosSettingUpdateWithWhereUniqueWithoutInvoiceTypeInput = {
+    where: PosSettingWhereUniqueInput
+    data: XOR<PosSettingUpdateWithoutInvoiceTypeInput, PosSettingUncheckedUpdateWithoutInvoiceTypeInput>
+  }
+
+  export type PosSettingUpdateManyWithWhereWithoutInvoiceTypeInput = {
+    where: PosSettingScalarWhereInput
+    data: XOR<PosSettingUpdateManyMutationInput, PosSettingUncheckedUpdateManyWithoutInvoiceTypeInput>
   }
 
   export type TenantCreateWithoutInvoicesInput = {
@@ -107038,6 +109208,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
     setupTasks?: SetupTaskCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingCreateNestedOneWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutInvoicesInput = {
@@ -107095,6 +109266,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
     setupTasks?: SetupTaskUncheckedCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingUncheckedCreateNestedOneWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutInvoicesInput = {
@@ -107112,6 +109284,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     tenant: TenantCreateNestedOneWithoutInvoiceTypesInput
+    posSettings?: PosSettingCreateNestedManyWithoutInvoiceTypeInput
   }
 
   export type InvoiceTypeUncheckedCreateWithoutInvoicesInput = {
@@ -107124,6 +109297,7 @@ export namespace Prisma {
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    posSettings?: PosSettingUncheckedCreateNestedManyWithoutInvoiceTypeInput
   }
 
   export type InvoiceTypeCreateOrConnectWithoutInvoicesInput = {
@@ -107148,6 +109322,7 @@ export namespace Prisma {
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutPartyInput
     receivableAccount?: ChartOfAccountCreateNestedOneWithoutPartyReceivablesInput
     payableAccount?: ChartOfAccountCreateNestedOneWithoutPartyPayablesInput
+    posSettings?: PosSettingCreateNestedManyWithoutDefaultPartyInput
   }
 
   export type PartyUncheckedCreateWithoutInvoicesInput = {
@@ -107167,6 +109342,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedCreateNestedManyWithoutPartyInput
     journalLines?: JournalLineUncheckedCreateNestedManyWithoutPartyInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutPartyInput
+    posSettings?: PosSettingUncheckedCreateNestedManyWithoutDefaultPartyInput
   }
 
   export type PartyCreateOrConnectWithoutInvoicesInput = {
@@ -107187,6 +109363,7 @@ export namespace Prisma {
     stockBalances?: StockBalanceCreateNestedManyWithoutWarehouseInput
     stockMovements?: StockMovementCreateNestedManyWithoutWarehouseInput
     stockCounts?: StockCountCreateNestedManyWithoutWarehouseInput
+    posSettings?: PosSettingCreateNestedManyWithoutWarehouseInput
   }
 
   export type WarehouseUncheckedCreateWithoutInvoicesInput = {
@@ -107202,6 +109379,7 @@ export namespace Prisma {
     stockBalances?: StockBalanceUncheckedCreateNestedManyWithoutWarehouseInput
     stockMovements?: StockMovementUncheckedCreateNestedManyWithoutWarehouseInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutWarehouseInput
+    posSettings?: PosSettingUncheckedCreateNestedManyWithoutWarehouseInput
   }
 
   export type WarehouseCreateOrConnectWithoutInvoicesInput = {
@@ -107425,6 +109603,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUpdateOneWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutInvoicesInput = {
@@ -107482,6 +109661,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUncheckedUpdateOneWithoutTenantNestedInput
   }
 
   export type InvoiceTypeUpsertWithoutInvoicesInput = {
@@ -107505,6 +109685,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: TenantUpdateOneRequiredWithoutInvoiceTypesNestedInput
+    posSettings?: PosSettingUpdateManyWithoutInvoiceTypeNestedInput
   }
 
   export type InvoiceTypeUncheckedUpdateWithoutInvoicesInput = {
@@ -107517,6 +109698,7 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    posSettings?: PosSettingUncheckedUpdateManyWithoutInvoiceTypeNestedInput
   }
 
   export type PartyUpsertWithoutInvoicesInput = {
@@ -107547,6 +109729,7 @@ export namespace Prisma {
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutPartyNestedInput
     receivableAccount?: ChartOfAccountUpdateOneWithoutPartyReceivablesNestedInput
     payableAccount?: ChartOfAccountUpdateOneWithoutPartyPayablesNestedInput
+    posSettings?: PosSettingUpdateManyWithoutDefaultPartyNestedInput
   }
 
   export type PartyUncheckedUpdateWithoutInvoicesInput = {
@@ -107566,6 +109749,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedUpdateManyWithoutPartyNestedInput
     journalLines?: JournalLineUncheckedUpdateManyWithoutPartyNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutPartyNestedInput
+    posSettings?: PosSettingUncheckedUpdateManyWithoutDefaultPartyNestedInput
   }
 
   export type WarehouseUpsertWithoutInvoicesInput = {
@@ -107592,6 +109776,7 @@ export namespace Prisma {
     stockBalances?: StockBalanceUpdateManyWithoutWarehouseNestedInput
     stockMovements?: StockMovementUpdateManyWithoutWarehouseNestedInput
     stockCounts?: StockCountUpdateManyWithoutWarehouseNestedInput
+    posSettings?: PosSettingUpdateManyWithoutWarehouseNestedInput
   }
 
   export type WarehouseUncheckedUpdateWithoutInvoicesInput = {
@@ -107607,6 +109792,7 @@ export namespace Prisma {
     stockBalances?: StockBalanceUncheckedUpdateManyWithoutWarehouseNestedInput
     stockMovements?: StockMovementUncheckedUpdateManyWithoutWarehouseNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutWarehouseNestedInput
+    posSettings?: PosSettingUncheckedUpdateManyWithoutWarehouseNestedInput
   }
 
   export type FiscalPeriodUpsertWithoutInvoicesInput = {
@@ -107767,6 +109953,7 @@ export namespace Prisma {
     taxAmount?: Decimal | DecimalJsLike | number | string
     total?: Decimal | DecimalJsLike | number | string
     notes?: string | null
+    clientRequestId?: string | null
     postedAt?: Date | string | null
     postedBy?: string | null
     cancelledAt?: Date | string | null
@@ -107801,6 +109988,7 @@ export namespace Prisma {
     taxAmount?: Decimal | DecimalJsLike | number | string
     total?: Decimal | DecimalJsLike | number | string
     notes?: string | null
+    clientRequestId?: string | null
     postedAt?: Date | string | null
     postedBy?: string | null
     cancelledAt?: Date | string | null
@@ -107927,6 +110115,7 @@ export namespace Prisma {
     taxAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    clientRequestId?: NullableStringFieldUpdateOperationsInput | string | null
     postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     postedBy?: NullableStringFieldUpdateOperationsInput | string | null
     cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -107961,6 +110150,7 @@ export namespace Prisma {
     taxAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    clientRequestId?: NullableStringFieldUpdateOperationsInput | string | null
     postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     postedBy?: NullableStringFieldUpdateOperationsInput | string | null
     cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -108126,6 +110316,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
     setupTasks?: SetupTaskCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingCreateNestedOneWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutItemCatalogEntitiesInput = {
@@ -108183,6 +110374,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
     setupTasks?: SetupTaskUncheckedCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingUncheckedCreateNestedOneWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutItemCatalogEntitiesInput = {
@@ -108348,6 +110540,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUpdateOneWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutItemCatalogEntitiesInput = {
@@ -108405,6 +110598,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUncheckedUpdateOneWithoutTenantNestedInput
   }
 
   export type ItemUpsertWithoutItemCatalogEntitiesInput = {
@@ -108566,6 +110760,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
     setupTasks?: SetupTaskCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingCreateNestedOneWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutItemCategoriesInput = {
@@ -108623,6 +110818,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
     setupTasks?: SetupTaskUncheckedCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingUncheckedCreateNestedOneWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutItemCategoriesInput = {
@@ -108829,6 +111025,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUpdateOneWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutItemCategoriesInput = {
@@ -108886,6 +111083,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUncheckedUpdateOneWithoutTenantNestedInput
   }
 
   export type ItemCategoryUpsertWithoutChildrenInput = {
@@ -109027,6 +111225,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
     setupTasks?: SetupTaskCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingCreateNestedOneWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutItemRelationsInput = {
@@ -109084,6 +111283,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
     setupTasks?: SetupTaskUncheckedCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingUncheckedCreateNestedOneWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutItemRelationsInput = {
@@ -109279,6 +111479,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUpdateOneWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutItemRelationsInput = {
@@ -109336,6 +111537,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUncheckedUpdateOneWithoutTenantNestedInput
   }
 
   export type ItemUpsertWithoutItemRelationsInput = {
@@ -109527,6 +111729,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
     setupTasks?: SetupTaskCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingCreateNestedOneWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutItemsInput = {
@@ -109584,6 +111787,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
     setupTasks?: SetupTaskUncheckedCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingUncheckedCreateNestedOneWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutItemsInput = {
@@ -109994,6 +112198,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUpdateOneWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutItemsInput = {
@@ -110051,6 +112256,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUncheckedUpdateOneWithoutTenantNestedInput
   }
 
   export type ItemCategoryUpsertWithoutItemsInput = {
@@ -110392,6 +112598,7 @@ export namespace Prisma {
     brands?: BrandCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
     setupTasks?: SetupTaskCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingCreateNestedOneWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOpeningBalanceSessionsInput = {
@@ -110449,6 +112656,7 @@ export namespace Prisma {
     brands?: BrandUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
     setupTasks?: SetupTaskUncheckedCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingUncheckedCreateNestedOneWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOpeningBalanceSessionsInput = {
@@ -110603,6 +112811,7 @@ export namespace Prisma {
     brands?: BrandUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUpdateOneWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOpeningBalanceSessionsInput = {
@@ -110660,6 +112869,7 @@ export namespace Prisma {
     brands?: BrandUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUncheckedUpdateOneWithoutTenantNestedInput
   }
 
   export type FiscalPeriodUpsertWithoutOpeningBalanceSessionsInput = {
@@ -110815,6 +113025,7 @@ export namespace Prisma {
     brands?: BrandCreateNestedManyWithoutTenantInput
     openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
     setupTasks?: SetupTaskCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingCreateNestedOneWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOpeningBalanceSessionLinesInput = {
@@ -110872,6 +113083,7 @@ export namespace Prisma {
     brands?: BrandUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
     setupTasks?: SetupTaskUncheckedCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingUncheckedCreateNestedOneWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOpeningBalanceSessionLinesInput = {
@@ -110896,6 +113108,7 @@ export namespace Prisma {
     journalLines?: JournalLineCreateNestedManyWithoutPartyInput
     receivableAccount?: ChartOfAccountCreateNestedOneWithoutPartyReceivablesInput
     payableAccount?: ChartOfAccountCreateNestedOneWithoutPartyPayablesInput
+    posSettings?: PosSettingCreateNestedManyWithoutDefaultPartyInput
   }
 
   export type PartyUncheckedCreateWithoutOpeningBalanceSessionLinesInput = {
@@ -110915,6 +113128,7 @@ export namespace Prisma {
     invoices?: InvoiceUncheckedCreateNestedManyWithoutPartyInput
     payments?: PaymentUncheckedCreateNestedManyWithoutPartyInput
     journalLines?: JournalLineUncheckedCreateNestedManyWithoutPartyInput
+    posSettings?: PosSettingUncheckedCreateNestedManyWithoutDefaultPartyInput
   }
 
   export type PartyCreateOrConnectWithoutOpeningBalanceSessionLinesInput = {
@@ -110935,6 +113149,7 @@ export namespace Prisma {
     expenses?: ExpenseCreateNestedManyWithoutCashboxInput
     payments?: PaymentCreateNestedManyWithoutCashboxInput
     journalLines?: JournalLineCreateNestedManyWithoutCashboxInput
+    posSettings?: PosSettingCreateNestedManyWithoutCashboxInput
   }
 
   export type CashboxUncheckedCreateWithoutOpeningBalanceSessionLinesInput = {
@@ -110950,6 +113165,7 @@ export namespace Prisma {
     expenses?: ExpenseUncheckedCreateNestedManyWithoutCashboxInput
     payments?: PaymentUncheckedCreateNestedManyWithoutCashboxInput
     journalLines?: JournalLineUncheckedCreateNestedManyWithoutCashboxInput
+    posSettings?: PosSettingUncheckedCreateNestedManyWithoutCashboxInput
   }
 
   export type CashboxCreateOrConnectWithoutOpeningBalanceSessionLinesInput = {
@@ -111211,6 +113427,7 @@ export namespace Prisma {
     brands?: BrandUpdateManyWithoutTenantNestedInput
     openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUpdateOneWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOpeningBalanceSessionLinesInput = {
@@ -111268,6 +113485,7 @@ export namespace Prisma {
     brands?: BrandUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUncheckedUpdateOneWithoutTenantNestedInput
   }
 
   export type PartyUpsertWithoutOpeningBalanceSessionLinesInput = {
@@ -111298,6 +113516,7 @@ export namespace Prisma {
     journalLines?: JournalLineUpdateManyWithoutPartyNestedInput
     receivableAccount?: ChartOfAccountUpdateOneWithoutPartyReceivablesNestedInput
     payableAccount?: ChartOfAccountUpdateOneWithoutPartyPayablesNestedInput
+    posSettings?: PosSettingUpdateManyWithoutDefaultPartyNestedInput
   }
 
   export type PartyUncheckedUpdateWithoutOpeningBalanceSessionLinesInput = {
@@ -111317,6 +113536,7 @@ export namespace Prisma {
     invoices?: InvoiceUncheckedUpdateManyWithoutPartyNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutPartyNestedInput
     journalLines?: JournalLineUncheckedUpdateManyWithoutPartyNestedInput
+    posSettings?: PosSettingUncheckedUpdateManyWithoutDefaultPartyNestedInput
   }
 
   export type CashboxUpsertWithoutOpeningBalanceSessionLinesInput = {
@@ -111343,6 +113563,7 @@ export namespace Prisma {
     expenses?: ExpenseUpdateManyWithoutCashboxNestedInput
     payments?: PaymentUpdateManyWithoutCashboxNestedInput
     journalLines?: JournalLineUpdateManyWithoutCashboxNestedInput
+    posSettings?: PosSettingUpdateManyWithoutCashboxNestedInput
   }
 
   export type CashboxUncheckedUpdateWithoutOpeningBalanceSessionLinesInput = {
@@ -111358,6 +113579,7 @@ export namespace Prisma {
     expenses?: ExpenseUncheckedUpdateManyWithoutCashboxNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutCashboxNestedInput
     journalLines?: JournalLineUncheckedUpdateManyWithoutCashboxNestedInput
+    posSettings?: PosSettingUncheckedUpdateManyWithoutCashboxNestedInput
   }
 
   export type BankAccountUpsertWithoutOpeningBalanceSessionLinesInput = {
@@ -111578,6 +113800,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
     setupTasks?: SetupTaskCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingCreateNestedOneWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOutboxEventsInput = {
@@ -111635,6 +113858,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
     setupTasks?: SetupTaskUncheckedCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingUncheckedCreateNestedOneWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOutboxEventsInput = {
@@ -111708,6 +113932,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUpdateOneWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOutboxEventsInput = {
@@ -111765,6 +113990,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUncheckedUpdateOneWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPartiesInput = {
@@ -111822,6 +114048,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
     setupTasks?: SetupTaskCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingCreateNestedOneWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPartiesInput = {
@@ -111879,6 +114106,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
     setupTasks?: SetupTaskUncheckedCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingUncheckedCreateNestedOneWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPartiesInput = {
@@ -111898,6 +114126,7 @@ export namespace Prisma {
     taxAmount?: Decimal | DecimalJsLike | number | string
     total?: Decimal | DecimalJsLike | number | string
     notes?: string | null
+    clientRequestId?: string | null
     postedAt?: Date | string | null
     postedBy?: string | null
     cancelledAt?: Date | string | null
@@ -111931,6 +114160,7 @@ export namespace Prisma {
     taxAmount?: Decimal | DecimalJsLike | number | string
     total?: Decimal | DecimalJsLike | number | string
     notes?: string | null
+    clientRequestId?: string | null
     postedAt?: Date | string | null
     postedBy?: string | null
     cancelledAt?: Date | string | null
@@ -112230,6 +114460,36 @@ export namespace Prisma {
     create: XOR<ChartOfAccountCreateWithoutPartyPayablesInput, ChartOfAccountUncheckedCreateWithoutPartyPayablesInput>
   }
 
+  export type PosSettingCreateWithoutDefaultPartyInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutPosSettingInput
+    invoiceType: InvoiceTypeCreateNestedOneWithoutPosSettingsInput
+    cashbox: CashboxCreateNestedOneWithoutPosSettingsInput
+    warehouse: WarehouseCreateNestedOneWithoutPosSettingsInput
+  }
+
+  export type PosSettingUncheckedCreateWithoutDefaultPartyInput = {
+    id?: string
+    tenantId: string
+    invoiceTypeId: string
+    cashboxId: string
+    warehouseId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PosSettingCreateOrConnectWithoutDefaultPartyInput = {
+    where: PosSettingWhereUniqueInput
+    create: XOR<PosSettingCreateWithoutDefaultPartyInput, PosSettingUncheckedCreateWithoutDefaultPartyInput>
+  }
+
+  export type PosSettingCreateManyDefaultPartyInputEnvelope = {
+    data: PosSettingCreateManyDefaultPartyInput | PosSettingCreateManyDefaultPartyInput[]
+    skipDuplicates?: boolean
+  }
+
   export type TenantUpsertWithoutPartiesInput = {
     update: XOR<TenantUpdateWithoutPartiesInput, TenantUncheckedUpdateWithoutPartiesInput>
     create: XOR<TenantCreateWithoutPartiesInput, TenantUncheckedCreateWithoutPartiesInput>
@@ -112296,6 +114556,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUpdateOneWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPartiesInput = {
@@ -112353,6 +114614,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUncheckedUpdateOneWithoutTenantNestedInput
   }
 
   export type InvoiceUpsertWithWhereUniqueWithoutPartyInput = {
@@ -112565,6 +114827,22 @@ export namespace Prisma {
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutAccountNestedInput
   }
 
+  export type PosSettingUpsertWithWhereUniqueWithoutDefaultPartyInput = {
+    where: PosSettingWhereUniqueInput
+    update: XOR<PosSettingUpdateWithoutDefaultPartyInput, PosSettingUncheckedUpdateWithoutDefaultPartyInput>
+    create: XOR<PosSettingCreateWithoutDefaultPartyInput, PosSettingUncheckedCreateWithoutDefaultPartyInput>
+  }
+
+  export type PosSettingUpdateWithWhereUniqueWithoutDefaultPartyInput = {
+    where: PosSettingWhereUniqueInput
+    data: XOR<PosSettingUpdateWithoutDefaultPartyInput, PosSettingUncheckedUpdateWithoutDefaultPartyInput>
+  }
+
+  export type PosSettingUpdateManyWithWhereWithoutDefaultPartyInput = {
+    where: PosSettingScalarWhereInput
+    data: XOR<PosSettingUpdateManyMutationInput, PosSettingUncheckedUpdateManyWithoutDefaultPartyInput>
+  }
+
   export type RolePermissionCreateWithoutPermissionInput = {
     id?: string
     createdAt?: Date | string
@@ -112725,6 +115003,578 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type TenantCreateWithoutPosSettingInput = {
+    id?: string
+    name: string
+    slug: string
+    address?: string | null
+    phone?: string | null
+    email?: string | null
+    logo?: string | null
+    legalName?: string | null
+    taxNumber?: string | null
+    website?: string | null
+    isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: AppUserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    currencies?: CurrencyCreateNestedManyWithoutTenantInput
+    fiscalPeriods?: FiscalPeriodCreateNestedManyWithoutTenantInput
+    documentSequences?: DocumentSequenceCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceCreateNestedManyWithoutTenantInput
+    itemCategories?: ItemCategoryCreateNestedManyWithoutTenantInput
+    units?: UnitCreateNestedManyWithoutTenantInput
+    items?: ItemCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    cashboxes?: CashboxCreateNestedManyWithoutTenantInput
+    bankAccounts?: BankAccountCreateNestedManyWithoutTenantInput
+    invoiceTypes?: InvoiceTypeCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    chartOfAccounts?: ChartOfAccountCreateNestedManyWithoutTenantInput
+    journalEntries?: JournalEntryCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountCreateNestedManyWithoutTenantInput
+    auditLogs?: AuditLogCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    aiConversations?: AiConversationCreateNestedManyWithoutTenantInput
+    aiMessages?: AiMessageCreateNestedManyWithoutTenantInput
+    baseCurrency?: CurrencyCreateNestedOneWithoutBaseForTenantsInput
+    defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
+    settings?: TenantSettingCreateNestedManyWithoutTenantInput
+    financialSetting?: FinancialSettingCreateNestedOneWithoutTenantInput
+    expenses?: ExpenseCreateNestedManyWithoutTenantInput
+    tags?: TagCreateNestedManyWithoutTenantInput
+    itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
+    catalogEntities?: CatalogEntityCreateNestedManyWithoutTenantInput
+    itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutTenantInput
+    brands?: BrandCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutPosSettingInput = {
+    id?: string
+    name: string
+    slug: string
+    address?: string | null
+    phone?: string | null
+    email?: string | null
+    logo?: string | null
+    legalName?: string | null
+    taxNumber?: string | null
+    website?: string | null
+    baseCurrencyId?: string | null
+    defaultSalesSequenceId?: string | null
+    isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    currencies?: CurrencyUncheckedCreateNestedManyWithoutTenantInput
+    fiscalPeriods?: FiscalPeriodUncheckedCreateNestedManyWithoutTenantInput
+    documentSequences?: DocumentSequenceUncheckedCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceUncheckedCreateNestedManyWithoutTenantInput
+    itemCategories?: ItemCategoryUncheckedCreateNestedManyWithoutTenantInput
+    units?: UnitUncheckedCreateNestedManyWithoutTenantInput
+    items?: ItemUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    cashboxes?: CashboxUncheckedCreateNestedManyWithoutTenantInput
+    bankAccounts?: BankAccountUncheckedCreateNestedManyWithoutTenantInput
+    invoiceTypes?: InvoiceTypeUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    chartOfAccounts?: ChartOfAccountUncheckedCreateNestedManyWithoutTenantInput
+    journalEntries?: JournalEntryUncheckedCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    aiConversations?: AiConversationUncheckedCreateNestedManyWithoutTenantInput
+    aiMessages?: AiMessageUncheckedCreateNestedManyWithoutTenantInput
+    settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
+    financialSetting?: FinancialSettingUncheckedCreateNestedOneWithoutTenantInput
+    expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
+    tags?: TagUncheckedCreateNestedManyWithoutTenantInput
+    itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
+    catalogEntities?: CatalogEntityUncheckedCreateNestedManyWithoutTenantInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutTenantInput
+    brands?: BrandUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutPosSettingInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutPosSettingInput, TenantUncheckedCreateWithoutPosSettingInput>
+  }
+
+  export type PartyCreateWithoutPosSettingsInput = {
+    id?: string
+    code?: string | null
+    name: string
+    type: $Enums.PartyType
+    phone?: string | null
+    email?: string | null
+    address?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutPartiesInput
+    invoices?: InvoiceCreateNestedManyWithoutPartyInput
+    payments?: PaymentCreateNestedManyWithoutPartyInput
+    journalLines?: JournalLineCreateNestedManyWithoutPartyInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutPartyInput
+    receivableAccount?: ChartOfAccountCreateNestedOneWithoutPartyReceivablesInput
+    payableAccount?: ChartOfAccountCreateNestedOneWithoutPartyPayablesInput
+  }
+
+  export type PartyUncheckedCreateWithoutPosSettingsInput = {
+    id?: string
+    tenantId: string
+    code?: string | null
+    name: string
+    type: $Enums.PartyType
+    phone?: string | null
+    email?: string | null
+    address?: string | null
+    isActive?: boolean
+    receivableAccountId?: string | null
+    payableAccountId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutPartyInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutPartyInput
+    journalLines?: JournalLineUncheckedCreateNestedManyWithoutPartyInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutPartyInput
+  }
+
+  export type PartyCreateOrConnectWithoutPosSettingsInput = {
+    where: PartyWhereUniqueInput
+    create: XOR<PartyCreateWithoutPosSettingsInput, PartyUncheckedCreateWithoutPosSettingsInput>
+  }
+
+  export type InvoiceTypeCreateWithoutPosSettingsInput = {
+    id?: string
+    code: string
+    name: JsonNullValueInput | InputJsonValue
+    direction: $Enums.InvoiceDirection
+    affectsStock?: boolean
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutInvoiceTypesInput
+    invoices?: InvoiceCreateNestedManyWithoutInvoiceTypeInput
+  }
+
+  export type InvoiceTypeUncheckedCreateWithoutPosSettingsInput = {
+    id?: string
+    tenantId: string
+    code: string
+    name: JsonNullValueInput | InputJsonValue
+    direction: $Enums.InvoiceDirection
+    affectsStock?: boolean
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutInvoiceTypeInput
+  }
+
+  export type InvoiceTypeCreateOrConnectWithoutPosSettingsInput = {
+    where: InvoiceTypeWhereUniqueInput
+    create: XOR<InvoiceTypeCreateWithoutPosSettingsInput, InvoiceTypeUncheckedCreateWithoutPosSettingsInput>
+  }
+
+  export type CashboxCreateWithoutPosSettingsInput = {
+    id?: string
+    code: string
+    name: JsonNullValueInput | InputJsonValue
+    balance?: Decimal | DecimalJsLike | number | string
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutCashboxesInput
+    currency: CurrencyCreateNestedOneWithoutCashboxesInput
+    expenses?: ExpenseCreateNestedManyWithoutCashboxInput
+    payments?: PaymentCreateNestedManyWithoutCashboxInput
+    journalLines?: JournalLineCreateNestedManyWithoutCashboxInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutCashboxInput
+  }
+
+  export type CashboxUncheckedCreateWithoutPosSettingsInput = {
+    id?: string
+    tenantId: string
+    code: string
+    name: JsonNullValueInput | InputJsonValue
+    currencyId: string
+    balance?: Decimal | DecimalJsLike | number | string
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    expenses?: ExpenseUncheckedCreateNestedManyWithoutCashboxInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutCashboxInput
+    journalLines?: JournalLineUncheckedCreateNestedManyWithoutCashboxInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutCashboxInput
+  }
+
+  export type CashboxCreateOrConnectWithoutPosSettingsInput = {
+    where: CashboxWhereUniqueInput
+    create: XOR<CashboxCreateWithoutPosSettingsInput, CashboxUncheckedCreateWithoutPosSettingsInput>
+  }
+
+  export type WarehouseCreateWithoutPosSettingsInput = {
+    id?: string
+    code: string
+    name: JsonNullValueInput | InputJsonValue
+    address?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutWarehousesInput
+    warehouseItems?: WarehouseItemCreateNestedManyWithoutWarehouseInput
+    stockBalances?: StockBalanceCreateNestedManyWithoutWarehouseInput
+    stockMovements?: StockMovementCreateNestedManyWithoutWarehouseInput
+    invoices?: InvoiceCreateNestedManyWithoutWarehouseInput
+    stockCounts?: StockCountCreateNestedManyWithoutWarehouseInput
+  }
+
+  export type WarehouseUncheckedCreateWithoutPosSettingsInput = {
+    id?: string
+    tenantId: string
+    code: string
+    name: JsonNullValueInput | InputJsonValue
+    address?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    warehouseItems?: WarehouseItemUncheckedCreateNestedManyWithoutWarehouseInput
+    stockBalances?: StockBalanceUncheckedCreateNestedManyWithoutWarehouseInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutWarehouseInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutWarehouseInput
+    stockCounts?: StockCountUncheckedCreateNestedManyWithoutWarehouseInput
+  }
+
+  export type WarehouseCreateOrConnectWithoutPosSettingsInput = {
+    where: WarehouseWhereUniqueInput
+    create: XOR<WarehouseCreateWithoutPosSettingsInput, WarehouseUncheckedCreateWithoutPosSettingsInput>
+  }
+
+  export type TenantUpsertWithoutPosSettingInput = {
+    update: XOR<TenantUpdateWithoutPosSettingInput, TenantUncheckedUpdateWithoutPosSettingInput>
+    create: XOR<TenantCreateWithoutPosSettingInput, TenantUncheckedCreateWithoutPosSettingInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutPosSettingInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutPosSettingInput, TenantUncheckedUpdateWithoutPosSettingInput>
+  }
+
+  export type TenantUpdateWithoutPosSettingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: AppUserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    currencies?: CurrencyUpdateManyWithoutTenantNestedInput
+    fiscalPeriods?: FiscalPeriodUpdateManyWithoutTenantNestedInput
+    documentSequences?: DocumentSequenceUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUpdateManyWithoutTenantNestedInput
+    itemCategories?: ItemCategoryUpdateManyWithoutTenantNestedInput
+    units?: UnitUpdateManyWithoutTenantNestedInput
+    items?: ItemUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    cashboxes?: CashboxUpdateManyWithoutTenantNestedInput
+    bankAccounts?: BankAccountUpdateManyWithoutTenantNestedInput
+    invoiceTypes?: InvoiceTypeUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    chartOfAccounts?: ChartOfAccountUpdateManyWithoutTenantNestedInput
+    journalEntries?: JournalEntryUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    aiConversations?: AiConversationUpdateManyWithoutTenantNestedInput
+    aiMessages?: AiMessageUpdateManyWithoutTenantNestedInput
+    baseCurrency?: CurrencyUpdateOneWithoutBaseForTenantsNestedInput
+    defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
+    settings?: TenantSettingUpdateManyWithoutTenantNestedInput
+    financialSetting?: FinancialSettingUpdateOneWithoutTenantNestedInput
+    expenses?: ExpenseUpdateManyWithoutTenantNestedInput
+    tags?: TagUpdateManyWithoutTenantNestedInput
+    itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
+    catalogEntities?: CatalogEntityUpdateManyWithoutTenantNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutTenantNestedInput
+    brands?: BrandUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutPosSettingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    baseCurrencyId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultSalesSequenceId?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    currencies?: CurrencyUncheckedUpdateManyWithoutTenantNestedInput
+    fiscalPeriods?: FiscalPeriodUncheckedUpdateManyWithoutTenantNestedInput
+    documentSequences?: DocumentSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    itemCategories?: ItemCategoryUncheckedUpdateManyWithoutTenantNestedInput
+    units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
+    items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    cashboxes?: CashboxUncheckedUpdateManyWithoutTenantNestedInput
+    bankAccounts?: BankAccountUncheckedUpdateManyWithoutTenantNestedInput
+    invoiceTypes?: InvoiceTypeUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    chartOfAccounts?: ChartOfAccountUncheckedUpdateManyWithoutTenantNestedInput
+    journalEntries?: JournalEntryUncheckedUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    aiConversations?: AiConversationUncheckedUpdateManyWithoutTenantNestedInput
+    aiMessages?: AiMessageUncheckedUpdateManyWithoutTenantNestedInput
+    settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
+    financialSetting?: FinancialSettingUncheckedUpdateOneWithoutTenantNestedInput
+    expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
+    tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
+    itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
+    catalogEntities?: CatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
+    brands?: BrandUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type PartyUpsertWithoutPosSettingsInput = {
+    update: XOR<PartyUpdateWithoutPosSettingsInput, PartyUncheckedUpdateWithoutPosSettingsInput>
+    create: XOR<PartyCreateWithoutPosSettingsInput, PartyUncheckedCreateWithoutPosSettingsInput>
+    where?: PartyWhereInput
+  }
+
+  export type PartyUpdateToOneWithWhereWithoutPosSettingsInput = {
+    where?: PartyWhereInput
+    data: XOR<PartyUpdateWithoutPosSettingsInput, PartyUncheckedUpdateWithoutPosSettingsInput>
+  }
+
+  export type PartyUpdateWithoutPosSettingsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    type?: EnumPartyTypeFieldUpdateOperationsInput | $Enums.PartyType
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutPartiesNestedInput
+    invoices?: InvoiceUpdateManyWithoutPartyNestedInput
+    payments?: PaymentUpdateManyWithoutPartyNestedInput
+    journalLines?: JournalLineUpdateManyWithoutPartyNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutPartyNestedInput
+    receivableAccount?: ChartOfAccountUpdateOneWithoutPartyReceivablesNestedInput
+    payableAccount?: ChartOfAccountUpdateOneWithoutPartyPayablesNestedInput
+  }
+
+  export type PartyUncheckedUpdateWithoutPosSettingsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    code?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    type?: EnumPartyTypeFieldUpdateOperationsInput | $Enums.PartyType
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    receivableAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    payableAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    invoices?: InvoiceUncheckedUpdateManyWithoutPartyNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutPartyNestedInput
+    journalLines?: JournalLineUncheckedUpdateManyWithoutPartyNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutPartyNestedInput
+  }
+
+  export type InvoiceTypeUpsertWithoutPosSettingsInput = {
+    update: XOR<InvoiceTypeUpdateWithoutPosSettingsInput, InvoiceTypeUncheckedUpdateWithoutPosSettingsInput>
+    create: XOR<InvoiceTypeCreateWithoutPosSettingsInput, InvoiceTypeUncheckedCreateWithoutPosSettingsInput>
+    where?: InvoiceTypeWhereInput
+  }
+
+  export type InvoiceTypeUpdateToOneWithWhereWithoutPosSettingsInput = {
+    where?: InvoiceTypeWhereInput
+    data: XOR<InvoiceTypeUpdateWithoutPosSettingsInput, InvoiceTypeUncheckedUpdateWithoutPosSettingsInput>
+  }
+
+  export type InvoiceTypeUpdateWithoutPosSettingsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
+    direction?: EnumInvoiceDirectionFieldUpdateOperationsInput | $Enums.InvoiceDirection
+    affectsStock?: BoolFieldUpdateOperationsInput | boolean
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutInvoiceTypesNestedInput
+    invoices?: InvoiceUpdateManyWithoutInvoiceTypeNestedInput
+  }
+
+  export type InvoiceTypeUncheckedUpdateWithoutPosSettingsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
+    direction?: EnumInvoiceDirectionFieldUpdateOperationsInput | $Enums.InvoiceDirection
+    affectsStock?: BoolFieldUpdateOperationsInput | boolean
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    invoices?: InvoiceUncheckedUpdateManyWithoutInvoiceTypeNestedInput
+  }
+
+  export type CashboxUpsertWithoutPosSettingsInput = {
+    update: XOR<CashboxUpdateWithoutPosSettingsInput, CashboxUncheckedUpdateWithoutPosSettingsInput>
+    create: XOR<CashboxCreateWithoutPosSettingsInput, CashboxUncheckedCreateWithoutPosSettingsInput>
+    where?: CashboxWhereInput
+  }
+
+  export type CashboxUpdateToOneWithWhereWithoutPosSettingsInput = {
+    where?: CashboxWhereInput
+    data: XOR<CashboxUpdateWithoutPosSettingsInput, CashboxUncheckedUpdateWithoutPosSettingsInput>
+  }
+
+  export type CashboxUpdateWithoutPosSettingsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
+    balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutCashboxesNestedInput
+    currency?: CurrencyUpdateOneRequiredWithoutCashboxesNestedInput
+    expenses?: ExpenseUpdateManyWithoutCashboxNestedInput
+    payments?: PaymentUpdateManyWithoutCashboxNestedInput
+    journalLines?: JournalLineUpdateManyWithoutCashboxNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutCashboxNestedInput
+  }
+
+  export type CashboxUncheckedUpdateWithoutPosSettingsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
+    currencyId?: StringFieldUpdateOperationsInput | string
+    balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expenses?: ExpenseUncheckedUpdateManyWithoutCashboxNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutCashboxNestedInput
+    journalLines?: JournalLineUncheckedUpdateManyWithoutCashboxNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutCashboxNestedInput
+  }
+
+  export type WarehouseUpsertWithoutPosSettingsInput = {
+    update: XOR<WarehouseUpdateWithoutPosSettingsInput, WarehouseUncheckedUpdateWithoutPosSettingsInput>
+    create: XOR<WarehouseCreateWithoutPosSettingsInput, WarehouseUncheckedCreateWithoutPosSettingsInput>
+    where?: WarehouseWhereInput
+  }
+
+  export type WarehouseUpdateToOneWithWhereWithoutPosSettingsInput = {
+    where?: WarehouseWhereInput
+    data: XOR<WarehouseUpdateWithoutPosSettingsInput, WarehouseUncheckedUpdateWithoutPosSettingsInput>
+  }
+
+  export type WarehouseUpdateWithoutPosSettingsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutWarehousesNestedInput
+    warehouseItems?: WarehouseItemUpdateManyWithoutWarehouseNestedInput
+    stockBalances?: StockBalanceUpdateManyWithoutWarehouseNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutWarehouseNestedInput
+    invoices?: InvoiceUpdateManyWithoutWarehouseNestedInput
+    stockCounts?: StockCountUpdateManyWithoutWarehouseNestedInput
+  }
+
+  export type WarehouseUncheckedUpdateWithoutPosSettingsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    warehouseItems?: WarehouseItemUncheckedUpdateManyWithoutWarehouseNestedInput
+    stockBalances?: StockBalanceUncheckedUpdateManyWithoutWarehouseNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutWarehouseNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutWarehouseNestedInput
+    stockCounts?: StockCountUncheckedUpdateManyWithoutWarehouseNestedInput
+  }
+
   export type TenantCreateWithoutReconciliationRunsInput = {
     id?: string
     name: string
@@ -112780,6 +115630,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
     setupTasks?: SetupTaskCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingCreateNestedOneWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutReconciliationRunsInput = {
@@ -112837,6 +115688,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
     setupTasks?: SetupTaskUncheckedCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingUncheckedCreateNestedOneWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutReconciliationRunsInput = {
@@ -112910,6 +115762,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUpdateOneWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutReconciliationRunsInput = {
@@ -112967,6 +115820,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUncheckedUpdateOneWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSetupTasksInput = {
@@ -113024,6 +115878,7 @@ export namespace Prisma {
     brands?: BrandCreateNestedManyWithoutTenantInput
     openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingCreateNestedOneWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSetupTasksInput = {
@@ -113081,6 +115936,7 @@ export namespace Prisma {
     brands?: BrandUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingUncheckedCreateNestedOneWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSetupTasksInput = {
@@ -113154,6 +116010,7 @@ export namespace Prisma {
     brands?: BrandUpdateManyWithoutTenantNestedInput
     openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUpdateOneWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSetupTasksInput = {
@@ -113211,6 +116068,7 @@ export namespace Prisma {
     brands?: BrandUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUncheckedUpdateOneWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutStockCountsInput = {
@@ -113268,6 +116126,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
     setupTasks?: SetupTaskCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingCreateNestedOneWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockCountsInput = {
@@ -113325,6 +116184,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
     setupTasks?: SetupTaskUncheckedCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingUncheckedCreateNestedOneWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockCountsInput = {
@@ -113345,6 +116205,7 @@ export namespace Prisma {
     stockBalances?: StockBalanceCreateNestedManyWithoutWarehouseInput
     stockMovements?: StockMovementCreateNestedManyWithoutWarehouseInput
     invoices?: InvoiceCreateNestedManyWithoutWarehouseInput
+    posSettings?: PosSettingCreateNestedManyWithoutWarehouseInput
   }
 
   export type WarehouseUncheckedCreateWithoutStockCountsInput = {
@@ -113360,6 +116221,7 @@ export namespace Prisma {
     stockBalances?: StockBalanceUncheckedCreateNestedManyWithoutWarehouseInput
     stockMovements?: StockMovementUncheckedCreateNestedManyWithoutWarehouseInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutWarehouseInput
+    posSettings?: PosSettingUncheckedCreateNestedManyWithoutWarehouseInput
   }
 
   export type WarehouseCreateOrConnectWithoutStockCountsInput = {
@@ -113502,6 +116364,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUpdateOneWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockCountsInput = {
@@ -113559,6 +116422,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUncheckedUpdateOneWithoutTenantNestedInput
   }
 
   export type WarehouseUpsertWithoutStockCountsInput = {
@@ -113585,6 +116449,7 @@ export namespace Prisma {
     stockBalances?: StockBalanceUpdateManyWithoutWarehouseNestedInput
     stockMovements?: StockMovementUpdateManyWithoutWarehouseNestedInput
     invoices?: InvoiceUpdateManyWithoutWarehouseNestedInput
+    posSettings?: PosSettingUpdateManyWithoutWarehouseNestedInput
   }
 
   export type WarehouseUncheckedUpdateWithoutStockCountsInput = {
@@ -113600,6 +116465,7 @@ export namespace Prisma {
     stockBalances?: StockBalanceUncheckedUpdateManyWithoutWarehouseNestedInput
     stockMovements?: StockMovementUncheckedUpdateManyWithoutWarehouseNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutWarehouseNestedInput
+    posSettings?: PosSettingUncheckedUpdateManyWithoutWarehouseNestedInput
   }
 
   export type FiscalPeriodUpsertWithoutStockCountsInput = {
@@ -113884,6 +116750,7 @@ export namespace Prisma {
     stockMovements?: StockMovementCreateNestedManyWithoutWarehouseInput
     invoices?: InvoiceCreateNestedManyWithoutWarehouseInput
     stockCounts?: StockCountCreateNestedManyWithoutWarehouseInput
+    posSettings?: PosSettingCreateNestedManyWithoutWarehouseInput
   }
 
   export type WarehouseUncheckedCreateWithoutStockBalancesInput = {
@@ -113899,6 +116766,7 @@ export namespace Prisma {
     stockMovements?: StockMovementUncheckedCreateNestedManyWithoutWarehouseInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutWarehouseInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutWarehouseInput
+    posSettings?: PosSettingUncheckedCreateNestedManyWithoutWarehouseInput
   }
 
   export type WarehouseCreateOrConnectWithoutStockBalancesInput = {
@@ -113991,6 +116859,7 @@ export namespace Prisma {
     stockMovements?: StockMovementUpdateManyWithoutWarehouseNestedInput
     invoices?: InvoiceUpdateManyWithoutWarehouseNestedInput
     stockCounts?: StockCountUpdateManyWithoutWarehouseNestedInput
+    posSettings?: PosSettingUpdateManyWithoutWarehouseNestedInput
   }
 
   export type WarehouseUncheckedUpdateWithoutStockBalancesInput = {
@@ -114006,6 +116875,7 @@ export namespace Prisma {
     stockMovements?: StockMovementUncheckedUpdateManyWithoutWarehouseNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutWarehouseNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutWarehouseNestedInput
+    posSettings?: PosSettingUncheckedUpdateManyWithoutWarehouseNestedInput
   }
 
   export type ItemUpsertWithoutStockBalancesInput = {
@@ -114088,6 +116958,7 @@ export namespace Prisma {
     stockBalances?: StockBalanceCreateNestedManyWithoutWarehouseInput
     invoices?: InvoiceCreateNestedManyWithoutWarehouseInput
     stockCounts?: StockCountCreateNestedManyWithoutWarehouseInput
+    posSettings?: PosSettingCreateNestedManyWithoutWarehouseInput
   }
 
   export type WarehouseUncheckedCreateWithoutStockMovementsInput = {
@@ -114103,6 +116974,7 @@ export namespace Prisma {
     stockBalances?: StockBalanceUncheckedCreateNestedManyWithoutWarehouseInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutWarehouseInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutWarehouseInput
+    posSettings?: PosSettingUncheckedCreateNestedManyWithoutWarehouseInput
   }
 
   export type WarehouseCreateOrConnectWithoutStockMovementsInput = {
@@ -114234,6 +117106,7 @@ export namespace Prisma {
     stockBalances?: StockBalanceUpdateManyWithoutWarehouseNestedInput
     invoices?: InvoiceUpdateManyWithoutWarehouseNestedInput
     stockCounts?: StockCountUpdateManyWithoutWarehouseNestedInput
+    posSettings?: PosSettingUpdateManyWithoutWarehouseNestedInput
   }
 
   export type WarehouseUncheckedUpdateWithoutStockMovementsInput = {
@@ -114249,6 +117122,7 @@ export namespace Prisma {
     stockBalances?: StockBalanceUncheckedUpdateManyWithoutWarehouseNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutWarehouseNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutWarehouseNestedInput
+    posSettings?: PosSettingUncheckedUpdateManyWithoutWarehouseNestedInput
   }
 
   export type ItemUpsertWithoutStockMovementsInput = {
@@ -114474,6 +117348,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
     setupTasks?: SetupTaskCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingCreateNestedOneWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTagsInput = {
@@ -114531,6 +117406,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
     setupTasks?: SetupTaskUncheckedCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingUncheckedCreateNestedOneWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTagsInput = {
@@ -114630,6 +117506,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUpdateOneWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTagsInput = {
@@ -114687,6 +117564,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUncheckedUpdateOneWithoutTenantNestedInput
   }
 
   export type TagAssignmentUpsertWithWhereUniqueWithoutTagInput = {
@@ -114772,6 +117650,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
     setupTasks?: SetupTaskCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingCreateNestedOneWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSettingsInput = {
@@ -114829,6 +117708,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
     setupTasks?: SetupTaskUncheckedCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingUncheckedCreateNestedOneWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSettingsInput = {
@@ -114902,6 +117782,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUpdateOneWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSettingsInput = {
@@ -114959,6 +117840,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUncheckedUpdateOneWithoutTenantNestedInput
   }
 
   export type AppUserCreateWithoutTenantInput = {
@@ -115330,6 +118212,7 @@ export namespace Prisma {
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutPartyInput
     receivableAccount?: ChartOfAccountCreateNestedOneWithoutPartyReceivablesInput
     payableAccount?: ChartOfAccountCreateNestedOneWithoutPartyPayablesInput
+    posSettings?: PosSettingCreateNestedManyWithoutDefaultPartyInput
   }
 
   export type PartyUncheckedCreateWithoutTenantInput = {
@@ -115349,6 +118232,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedCreateNestedManyWithoutPartyInput
     journalLines?: JournalLineUncheckedCreateNestedManyWithoutPartyInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutPartyInput
+    posSettings?: PosSettingUncheckedCreateNestedManyWithoutDefaultPartyInput
   }
 
   export type PartyCreateOrConnectWithoutTenantInput = {
@@ -115374,6 +118258,7 @@ export namespace Prisma {
     stockMovements?: StockMovementCreateNestedManyWithoutWarehouseInput
     invoices?: InvoiceCreateNestedManyWithoutWarehouseInput
     stockCounts?: StockCountCreateNestedManyWithoutWarehouseInput
+    posSettings?: PosSettingCreateNestedManyWithoutWarehouseInput
   }
 
   export type WarehouseUncheckedCreateWithoutTenantInput = {
@@ -115389,6 +118274,7 @@ export namespace Prisma {
     stockMovements?: StockMovementUncheckedCreateNestedManyWithoutWarehouseInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutWarehouseInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutWarehouseInput
+    posSettings?: PosSettingUncheckedCreateNestedManyWithoutWarehouseInput
   }
 
   export type WarehouseCreateOrConnectWithoutTenantInput = {
@@ -115414,6 +118300,7 @@ export namespace Prisma {
     payments?: PaymentCreateNestedManyWithoutCashboxInput
     journalLines?: JournalLineCreateNestedManyWithoutCashboxInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutCashboxInput
+    posSettings?: PosSettingCreateNestedManyWithoutCashboxInput
   }
 
   export type CashboxUncheckedCreateWithoutTenantInput = {
@@ -115429,6 +118316,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedCreateNestedManyWithoutCashboxInput
     journalLines?: JournalLineUncheckedCreateNestedManyWithoutCashboxInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutCashboxInput
+    posSettings?: PosSettingUncheckedCreateNestedManyWithoutCashboxInput
   }
 
   export type CashboxCreateOrConnectWithoutTenantInput = {
@@ -115491,6 +118379,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     invoices?: InvoiceCreateNestedManyWithoutInvoiceTypeInput
+    posSettings?: PosSettingCreateNestedManyWithoutInvoiceTypeInput
   }
 
   export type InvoiceTypeUncheckedCreateWithoutTenantInput = {
@@ -115503,6 +118392,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     invoices?: InvoiceUncheckedCreateNestedManyWithoutInvoiceTypeInput
+    posSettings?: PosSettingUncheckedCreateNestedManyWithoutInvoiceTypeInput
   }
 
   export type InvoiceTypeCreateOrConnectWithoutTenantInput = {
@@ -115527,6 +118417,7 @@ export namespace Prisma {
     taxAmount?: Decimal | DecimalJsLike | number | string
     total?: Decimal | DecimalJsLike | number | string
     notes?: string | null
+    clientRequestId?: string | null
     postedAt?: Date | string | null
     postedBy?: string | null
     cancelledAt?: Date | string | null
@@ -115560,6 +118451,7 @@ export namespace Prisma {
     taxAmount?: Decimal | DecimalJsLike | number | string
     total?: Decimal | DecimalJsLike | number | string
     notes?: string | null
+    clientRequestId?: string | null
     postedAt?: Date | string | null
     postedBy?: string | null
     cancelledAt?: Date | string | null
@@ -116440,6 +119332,31 @@ export namespace Prisma {
   export type SetupTaskCreateManyTenantInputEnvelope = {
     data: SetupTaskCreateManyTenantInput | SetupTaskCreateManyTenantInput[]
     skipDuplicates?: boolean
+  }
+
+  export type PosSettingCreateWithoutTenantInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    defaultParty: PartyCreateNestedOneWithoutPosSettingsInput
+    invoiceType: InvoiceTypeCreateNestedOneWithoutPosSettingsInput
+    cashbox: CashboxCreateNestedOneWithoutPosSettingsInput
+    warehouse: WarehouseCreateNestedOneWithoutPosSettingsInput
+  }
+
+  export type PosSettingUncheckedCreateWithoutTenantInput = {
+    id?: string
+    defaultPartyId: string
+    invoiceTypeId: string
+    cashboxId: string
+    warehouseId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PosSettingCreateOrConnectWithoutTenantInput = {
+    where: PosSettingWhereUniqueInput
+    create: XOR<PosSettingCreateWithoutTenantInput, PosSettingUncheckedCreateWithoutTenantInput>
   }
 
   export type AppUserUpsertWithWhereUniqueWithoutTenantInput = {
@@ -117363,6 +120280,37 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"SetupTask"> | Date | string
   }
 
+  export type PosSettingUpsertWithoutTenantInput = {
+    update: XOR<PosSettingUpdateWithoutTenantInput, PosSettingUncheckedUpdateWithoutTenantInput>
+    create: XOR<PosSettingCreateWithoutTenantInput, PosSettingUncheckedCreateWithoutTenantInput>
+    where?: PosSettingWhereInput
+  }
+
+  export type PosSettingUpdateToOneWithWhereWithoutTenantInput = {
+    where?: PosSettingWhereInput
+    data: XOR<PosSettingUpdateWithoutTenantInput, PosSettingUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type PosSettingUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    defaultParty?: PartyUpdateOneRequiredWithoutPosSettingsNestedInput
+    invoiceType?: InvoiceTypeUpdateOneRequiredWithoutPosSettingsNestedInput
+    cashbox?: CashboxUpdateOneRequiredWithoutPosSettingsNestedInput
+    warehouse?: WarehouseUpdateOneRequiredWithoutPosSettingsNestedInput
+  }
+
+  export type PosSettingUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    defaultPartyId?: StringFieldUpdateOperationsInput | string
+    invoiceTypeId?: StringFieldUpdateOperationsInput | string
+    cashboxId?: StringFieldUpdateOperationsInput | string
+    warehouseId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type TenantCreateWithoutUnitsInput = {
     id?: string
     name: string
@@ -117418,6 +120366,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
     setupTasks?: SetupTaskCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingCreateNestedOneWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutUnitsInput = {
@@ -117475,6 +120424,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
     setupTasks?: SetupTaskUncheckedCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingUncheckedCreateNestedOneWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutUnitsInput = {
@@ -117656,6 +120606,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUpdateOneWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutUnitsInput = {
@@ -117713,6 +120664,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUncheckedUpdateOneWithoutTenantNestedInput
   }
 
   export type ItemUpsertWithWhereUniqueWithoutBaseUnitInput = {
@@ -117802,6 +120754,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
     setupTasks?: SetupTaskCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingCreateNestedOneWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutUsersInput = {
@@ -117859,6 +120812,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
     setupTasks?: SetupTaskUncheckedCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingUncheckedCreateNestedOneWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutUsersInput = {
@@ -117954,6 +120908,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUpdateOneWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutUsersInput = {
@@ -118011,6 +120966,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUncheckedUpdateOneWithoutTenantNestedInput
   }
 
   export type UserRoleUpsertWithWhereUniqueWithoutUserInput = {
@@ -118094,6 +121050,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
     setupTasks?: SetupTaskCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingCreateNestedOneWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRolesInput = {
@@ -118151,6 +121108,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
     setupTasks?: SetupTaskUncheckedCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingUncheckedCreateNestedOneWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRolesInput = {
@@ -118268,6 +121226,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUpdateOneWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRolesInput = {
@@ -118325,6 +121284,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUncheckedUpdateOneWithoutTenantNestedInput
   }
 
   export type UserRoleUpsertWithWhereUniqueWithoutRoleInput = {
@@ -118542,6 +121502,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
     setupTasks?: SetupTaskCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingCreateNestedOneWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWarehousesInput = {
@@ -118599,6 +121560,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
     setupTasks?: SetupTaskUncheckedCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingUncheckedCreateNestedOneWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWarehousesInput = {
@@ -118716,6 +121678,7 @@ export namespace Prisma {
     taxAmount?: Decimal | DecimalJsLike | number | string
     total?: Decimal | DecimalJsLike | number | string
     notes?: string | null
+    clientRequestId?: string | null
     postedAt?: Date | string | null
     postedBy?: string | null
     cancelledAt?: Date | string | null
@@ -118749,6 +121712,7 @@ export namespace Prisma {
     taxAmount?: Decimal | DecimalJsLike | number | string
     total?: Decimal | DecimalJsLike | number | string
     notes?: string | null
+    clientRequestId?: string | null
     postedAt?: Date | string | null
     postedBy?: string | null
     cancelledAt?: Date | string | null
@@ -118809,6 +121773,36 @@ export namespace Prisma {
 
   export type StockCountCreateManyWarehouseInputEnvelope = {
     data: StockCountCreateManyWarehouseInput | StockCountCreateManyWarehouseInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type PosSettingCreateWithoutWarehouseInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutPosSettingInput
+    defaultParty: PartyCreateNestedOneWithoutPosSettingsInput
+    invoiceType: InvoiceTypeCreateNestedOneWithoutPosSettingsInput
+    cashbox: CashboxCreateNestedOneWithoutPosSettingsInput
+  }
+
+  export type PosSettingUncheckedCreateWithoutWarehouseInput = {
+    id?: string
+    tenantId: string
+    defaultPartyId: string
+    invoiceTypeId: string
+    cashboxId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PosSettingCreateOrConnectWithoutWarehouseInput = {
+    where: PosSettingWhereUniqueInput
+    create: XOR<PosSettingCreateWithoutWarehouseInput, PosSettingUncheckedCreateWithoutWarehouseInput>
+  }
+
+  export type PosSettingCreateManyWarehouseInputEnvelope = {
+    data: PosSettingCreateManyWarehouseInput | PosSettingCreateManyWarehouseInput[]
     skipDuplicates?: boolean
   }
 
@@ -118878,6 +121872,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUpdateOneWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWarehousesInput = {
@@ -118935,6 +121930,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUncheckedUpdateOneWithoutTenantNestedInput
   }
 
   export type WarehouseItemUpsertWithWhereUniqueWithoutWarehouseInput = {
@@ -119017,6 +122013,22 @@ export namespace Prisma {
     data: XOR<StockCountUpdateManyMutationInput, StockCountUncheckedUpdateManyWithoutWarehouseInput>
   }
 
+  export type PosSettingUpsertWithWhereUniqueWithoutWarehouseInput = {
+    where: PosSettingWhereUniqueInput
+    update: XOR<PosSettingUpdateWithoutWarehouseInput, PosSettingUncheckedUpdateWithoutWarehouseInput>
+    create: XOR<PosSettingCreateWithoutWarehouseInput, PosSettingUncheckedCreateWithoutWarehouseInput>
+  }
+
+  export type PosSettingUpdateWithWhereUniqueWithoutWarehouseInput = {
+    where: PosSettingWhereUniqueInput
+    data: XOR<PosSettingUpdateWithoutWarehouseInput, PosSettingUncheckedUpdateWithoutWarehouseInput>
+  }
+
+  export type PosSettingUpdateManyWithWhereWithoutWarehouseInput = {
+    where: PosSettingScalarWhereInput
+    data: XOR<PosSettingUpdateManyMutationInput, PosSettingUncheckedUpdateManyWithoutWarehouseInput>
+  }
+
   export type WarehouseCreateWithoutWarehouseItemsInput = {
     id?: string
     code: string
@@ -119030,6 +122042,7 @@ export namespace Prisma {
     stockMovements?: StockMovementCreateNestedManyWithoutWarehouseInput
     invoices?: InvoiceCreateNestedManyWithoutWarehouseInput
     stockCounts?: StockCountCreateNestedManyWithoutWarehouseInput
+    posSettings?: PosSettingCreateNestedManyWithoutWarehouseInput
   }
 
   export type WarehouseUncheckedCreateWithoutWarehouseItemsInput = {
@@ -119045,6 +122058,7 @@ export namespace Prisma {
     stockMovements?: StockMovementUncheckedCreateNestedManyWithoutWarehouseInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutWarehouseInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutWarehouseInput
+    posSettings?: PosSettingUncheckedCreateNestedManyWithoutWarehouseInput
   }
 
   export type WarehouseCreateOrConnectWithoutWarehouseItemsInput = {
@@ -119137,6 +122151,7 @@ export namespace Prisma {
     stockMovements?: StockMovementUpdateManyWithoutWarehouseNestedInput
     invoices?: InvoiceUpdateManyWithoutWarehouseNestedInput
     stockCounts?: StockCountUpdateManyWithoutWarehouseNestedInput
+    posSettings?: PosSettingUpdateManyWithoutWarehouseNestedInput
   }
 
   export type WarehouseUncheckedUpdateWithoutWarehouseItemsInput = {
@@ -119152,6 +122167,7 @@ export namespace Prisma {
     stockMovements?: StockMovementUncheckedUpdateManyWithoutWarehouseNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutWarehouseNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutWarehouseNestedInput
+    posSettings?: PosSettingUncheckedUpdateManyWithoutWarehouseNestedInput
   }
 
   export type ItemUpsertWithoutWarehouseItemsInput = {
@@ -120226,6 +123242,7 @@ export namespace Prisma {
     journalLines?: JournalLineUpdateManyWithoutPartyNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutPartyNestedInput
     payableAccount?: ChartOfAccountUpdateOneWithoutPartyPayablesNestedInput
+    posSettings?: PosSettingUpdateManyWithoutDefaultPartyNestedInput
   }
 
   export type PartyUncheckedUpdateWithoutReceivableAccountInput = {
@@ -120245,6 +123262,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedUpdateManyWithoutPartyNestedInput
     journalLines?: JournalLineUncheckedUpdateManyWithoutPartyNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutPartyNestedInput
+    posSettings?: PosSettingUncheckedUpdateManyWithoutDefaultPartyNestedInput
   }
 
   export type PartyUncheckedUpdateManyWithoutReceivableAccountInput = {
@@ -120279,6 +123297,7 @@ export namespace Prisma {
     journalLines?: JournalLineUpdateManyWithoutPartyNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutPartyNestedInput
     receivableAccount?: ChartOfAccountUpdateOneWithoutPartyReceivablesNestedInput
+    posSettings?: PosSettingUpdateManyWithoutDefaultPartyNestedInput
   }
 
   export type PartyUncheckedUpdateWithoutPayableAccountInput = {
@@ -120298,6 +123317,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedUpdateManyWithoutPartyNestedInput
     journalLines?: JournalLineUncheckedUpdateManyWithoutPartyNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutPartyNestedInput
+    posSettings?: PosSettingUncheckedUpdateManyWithoutDefaultPartyNestedInput
   }
 
   export type PartyUncheckedUpdateManyWithoutPayableAccountInput = {
@@ -120844,6 +123864,16 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type PosSettingCreateManyCashboxInput = {
+    id?: string
+    tenantId: string
+    defaultPartyId: string
+    invoiceTypeId: string
+    warehouseId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type ExpenseUpdateWithoutCashboxInput = {
     id?: StringFieldUpdateOperationsInput | string
     number?: StringFieldUpdateOperationsInput | string
@@ -121079,6 +124109,36 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type PosSettingUpdateWithoutCashboxInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutPosSettingNestedInput
+    defaultParty?: PartyUpdateOneRequiredWithoutPosSettingsNestedInput
+    invoiceType?: InvoiceTypeUpdateOneRequiredWithoutPosSettingsNestedInput
+    warehouse?: WarehouseUpdateOneRequiredWithoutPosSettingsNestedInput
+  }
+
+  export type PosSettingUncheckedUpdateWithoutCashboxInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    defaultPartyId?: StringFieldUpdateOperationsInput | string
+    invoiceTypeId?: StringFieldUpdateOperationsInput | string
+    warehouseId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PosSettingUncheckedUpdateManyWithoutCashboxInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    defaultPartyId?: StringFieldUpdateOperationsInput | string
+    invoiceTypeId?: StringFieldUpdateOperationsInput | string
+    warehouseId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type PaymentAllocationCreateManyPaymentInput = {
     id?: string
     tenantId: string
@@ -121244,6 +124304,7 @@ export namespace Prisma {
     taxAmount?: Decimal | DecimalJsLike | number | string
     total?: Decimal | DecimalJsLike | number | string
     notes?: string | null
+    clientRequestId?: string | null
     postedAt?: Date | string | null
     postedBy?: string | null
     cancelledAt?: Date | string | null
@@ -121349,6 +124410,7 @@ export namespace Prisma {
     payments?: PaymentUpdateManyWithoutCashboxNestedInput
     journalLines?: JournalLineUpdateManyWithoutCashboxNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutCashboxNestedInput
+    posSettings?: PosSettingUpdateManyWithoutCashboxNestedInput
   }
 
   export type CashboxUncheckedUpdateWithoutCurrencyInput = {
@@ -121364,6 +124426,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedUpdateManyWithoutCashboxNestedInput
     journalLines?: JournalLineUncheckedUpdateManyWithoutCashboxNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutCashboxNestedInput
+    posSettings?: PosSettingUncheckedUpdateManyWithoutCashboxNestedInput
   }
 
   export type CashboxUncheckedUpdateManyWithoutCurrencyInput = {
@@ -121480,6 +124543,7 @@ export namespace Prisma {
     taxAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    clientRequestId?: NullableStringFieldUpdateOperationsInput | string | null
     postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     postedBy?: NullableStringFieldUpdateOperationsInput | string | null
     cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -121513,6 +124577,7 @@ export namespace Prisma {
     taxAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    clientRequestId?: NullableStringFieldUpdateOperationsInput | string | null
     postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     postedBy?: NullableStringFieldUpdateOperationsInput | string | null
     cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -121541,6 +124606,7 @@ export namespace Prisma {
     taxAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    clientRequestId?: NullableStringFieldUpdateOperationsInput | string | null
     postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     postedBy?: NullableStringFieldUpdateOperationsInput | string | null
     cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -121679,6 +124745,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUpdateOneWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBaseCurrencyInput = {
@@ -121736,6 +124803,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUncheckedUpdateOneWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateManyWithoutBaseCurrencyInput = {
@@ -121982,6 +125050,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUpdateOneWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDefaultSalesSequenceInput = {
@@ -122039,6 +125108,7 @@ export namespace Prisma {
     openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUncheckedUpdateOneWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateManyWithoutDefaultSalesSequenceInput = {
@@ -122135,6 +125205,7 @@ export namespace Prisma {
     taxAmount?: Decimal | DecimalJsLike | number | string
     total?: Decimal | DecimalJsLike | number | string
     notes?: string | null
+    clientRequestId?: string | null
     postedAt?: Date | string | null
     postedBy?: string | null
     cancelledAt?: Date | string | null
@@ -122294,6 +125365,7 @@ export namespace Prisma {
     taxAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    clientRequestId?: NullableStringFieldUpdateOperationsInput | string | null
     postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     postedBy?: NullableStringFieldUpdateOperationsInput | string | null
     cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -122327,6 +125399,7 @@ export namespace Prisma {
     taxAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    clientRequestId?: NullableStringFieldUpdateOperationsInput | string | null
     postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     postedBy?: NullableStringFieldUpdateOperationsInput | string | null
     cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -122355,6 +125428,7 @@ export namespace Prisma {
     taxAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    clientRequestId?: NullableStringFieldUpdateOperationsInput | string | null
     postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     postedBy?: NullableStringFieldUpdateOperationsInput | string | null
     cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -122672,11 +125746,22 @@ export namespace Prisma {
     taxAmount?: Decimal | DecimalJsLike | number | string
     total?: Decimal | DecimalJsLike | number | string
     notes?: string | null
+    clientRequestId?: string | null
     postedAt?: Date | string | null
     postedBy?: string | null
     cancelledAt?: Date | string | null
     cancelledBy?: string | null
     createdBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PosSettingCreateManyInvoiceTypeInput = {
+    id?: string
+    tenantId: string
+    defaultPartyId: string
+    cashboxId: string
+    warehouseId: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -122693,6 +125778,7 @@ export namespace Prisma {
     taxAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    clientRequestId?: NullableStringFieldUpdateOperationsInput | string | null
     postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     postedBy?: NullableStringFieldUpdateOperationsInput | string | null
     cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -122726,6 +125812,7 @@ export namespace Prisma {
     taxAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    clientRequestId?: NullableStringFieldUpdateOperationsInput | string | null
     postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     postedBy?: NullableStringFieldUpdateOperationsInput | string | null
     cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -122754,11 +125841,42 @@ export namespace Prisma {
     taxAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    clientRequestId?: NullableStringFieldUpdateOperationsInput | string | null
     postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     postedBy?: NullableStringFieldUpdateOperationsInput | string | null
     cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cancelledBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PosSettingUpdateWithoutInvoiceTypeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutPosSettingNestedInput
+    defaultParty?: PartyUpdateOneRequiredWithoutPosSettingsNestedInput
+    cashbox?: CashboxUpdateOneRequiredWithoutPosSettingsNestedInput
+    warehouse?: WarehouseUpdateOneRequiredWithoutPosSettingsNestedInput
+  }
+
+  export type PosSettingUncheckedUpdateWithoutInvoiceTypeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    defaultPartyId?: StringFieldUpdateOperationsInput | string
+    cashboxId?: StringFieldUpdateOperationsInput | string
+    warehouseId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PosSettingUncheckedUpdateManyWithoutInvoiceTypeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    defaultPartyId?: StringFieldUpdateOperationsInput | string
+    cashboxId?: StringFieldUpdateOperationsInput | string
+    warehouseId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -123432,6 +126550,7 @@ export namespace Prisma {
     taxAmount?: Decimal | DecimalJsLike | number | string
     total?: Decimal | DecimalJsLike | number | string
     notes?: string | null
+    clientRequestId?: string | null
     postedAt?: Date | string | null
     postedBy?: string | null
     cancelledAt?: Date | string | null
@@ -123497,6 +126616,16 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type PosSettingCreateManyDefaultPartyInput = {
+    id?: string
+    tenantId: string
+    invoiceTypeId: string
+    cashboxId: string
+    warehouseId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type InvoiceUpdateWithoutPartyInput = {
     id?: StringFieldUpdateOperationsInput | string
     number?: StringFieldUpdateOperationsInput | string
@@ -123509,6 +126638,7 @@ export namespace Prisma {
     taxAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    clientRequestId?: NullableStringFieldUpdateOperationsInput | string | null
     postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     postedBy?: NullableStringFieldUpdateOperationsInput | string | null
     cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -123542,6 +126672,7 @@ export namespace Prisma {
     taxAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    clientRequestId?: NullableStringFieldUpdateOperationsInput | string | null
     postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     postedBy?: NullableStringFieldUpdateOperationsInput | string | null
     cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -123570,6 +126701,7 @@ export namespace Prisma {
     taxAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    clientRequestId?: NullableStringFieldUpdateOperationsInput | string | null
     postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     postedBy?: NullableStringFieldUpdateOperationsInput | string | null
     cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -123745,6 +126877,36 @@ export namespace Prisma {
     partySide?: NullableEnumOpeningBalancePartySideFieldUpdateOperationsInput | $Enums.OpeningBalancePartySide | null
     amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     exchangeRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PosSettingUpdateWithoutDefaultPartyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutPosSettingNestedInput
+    invoiceType?: InvoiceTypeUpdateOneRequiredWithoutPosSettingsNestedInput
+    cashbox?: CashboxUpdateOneRequiredWithoutPosSettingsNestedInput
+    warehouse?: WarehouseUpdateOneRequiredWithoutPosSettingsNestedInput
+  }
+
+  export type PosSettingUncheckedUpdateWithoutDefaultPartyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    invoiceTypeId?: StringFieldUpdateOperationsInput | string
+    cashboxId?: StringFieldUpdateOperationsInput | string
+    warehouseId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PosSettingUncheckedUpdateManyWithoutDefaultPartyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    invoiceTypeId?: StringFieldUpdateOperationsInput | string
+    cashboxId?: StringFieldUpdateOperationsInput | string
+    warehouseId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -124022,6 +127184,7 @@ export namespace Prisma {
     taxAmount?: Decimal | DecimalJsLike | number | string
     total?: Decimal | DecimalJsLike | number | string
     notes?: string | null
+    clientRequestId?: string | null
     postedAt?: Date | string | null
     postedBy?: string | null
     cancelledAt?: Date | string | null
@@ -124663,6 +127826,7 @@ export namespace Prisma {
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutPartyNestedInput
     receivableAccount?: ChartOfAccountUpdateOneWithoutPartyReceivablesNestedInput
     payableAccount?: ChartOfAccountUpdateOneWithoutPartyPayablesNestedInput
+    posSettings?: PosSettingUpdateManyWithoutDefaultPartyNestedInput
   }
 
   export type PartyUncheckedUpdateWithoutTenantInput = {
@@ -124682,6 +127846,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedUpdateManyWithoutPartyNestedInput
     journalLines?: JournalLineUncheckedUpdateManyWithoutPartyNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutPartyNestedInput
+    posSettings?: PosSettingUncheckedUpdateManyWithoutDefaultPartyNestedInput
   }
 
   export type PartyUncheckedUpdateManyWithoutTenantInput = {
@@ -124712,6 +127877,7 @@ export namespace Prisma {
     stockMovements?: StockMovementUpdateManyWithoutWarehouseNestedInput
     invoices?: InvoiceUpdateManyWithoutWarehouseNestedInput
     stockCounts?: StockCountUpdateManyWithoutWarehouseNestedInput
+    posSettings?: PosSettingUpdateManyWithoutWarehouseNestedInput
   }
 
   export type WarehouseUncheckedUpdateWithoutTenantInput = {
@@ -124727,6 +127893,7 @@ export namespace Prisma {
     stockMovements?: StockMovementUncheckedUpdateManyWithoutWarehouseNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutWarehouseNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutWarehouseNestedInput
+    posSettings?: PosSettingUncheckedUpdateManyWithoutWarehouseNestedInput
   }
 
   export type WarehouseUncheckedUpdateManyWithoutTenantInput = {
@@ -124752,6 +127919,7 @@ export namespace Prisma {
     payments?: PaymentUpdateManyWithoutCashboxNestedInput
     journalLines?: JournalLineUpdateManyWithoutCashboxNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutCashboxNestedInput
+    posSettings?: PosSettingUpdateManyWithoutCashboxNestedInput
   }
 
   export type CashboxUncheckedUpdateWithoutTenantInput = {
@@ -124767,6 +127935,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedUpdateManyWithoutCashboxNestedInput
     journalLines?: JournalLineUncheckedUpdateManyWithoutCashboxNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutCashboxNestedInput
+    posSettings?: PosSettingUncheckedUpdateManyWithoutCashboxNestedInput
   }
 
   export type CashboxUncheckedUpdateManyWithoutTenantInput = {
@@ -124833,6 +128002,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     invoices?: InvoiceUpdateManyWithoutInvoiceTypeNestedInput
+    posSettings?: PosSettingUpdateManyWithoutInvoiceTypeNestedInput
   }
 
   export type InvoiceTypeUncheckedUpdateWithoutTenantInput = {
@@ -124845,6 +128015,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     invoices?: InvoiceUncheckedUpdateManyWithoutInvoiceTypeNestedInput
+    posSettings?: PosSettingUncheckedUpdateManyWithoutInvoiceTypeNestedInput
   }
 
   export type InvoiceTypeUncheckedUpdateManyWithoutTenantInput = {
@@ -124870,6 +128041,7 @@ export namespace Prisma {
     taxAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    clientRequestId?: NullableStringFieldUpdateOperationsInput | string | null
     postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     postedBy?: NullableStringFieldUpdateOperationsInput | string | null
     cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -124903,6 +128075,7 @@ export namespace Prisma {
     taxAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    clientRequestId?: NullableStringFieldUpdateOperationsInput | string | null
     postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     postedBy?: NullableStringFieldUpdateOperationsInput | string | null
     cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -124931,6 +128104,7 @@ export namespace Prisma {
     taxAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    clientRequestId?: NullableStringFieldUpdateOperationsInput | string | null
     postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     postedBy?: NullableStringFieldUpdateOperationsInput | string | null
     cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -126038,6 +129212,7 @@ export namespace Prisma {
     taxAmount?: Decimal | DecimalJsLike | number | string
     total?: Decimal | DecimalJsLike | number | string
     notes?: string | null
+    clientRequestId?: string | null
     postedAt?: Date | string | null
     postedBy?: string | null
     cancelledAt?: Date | string | null
@@ -126058,6 +129233,16 @@ export namespace Prisma {
     postedAt?: Date | string | null
     postedBy?: string | null
     createdBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PosSettingCreateManyWarehouseInput = {
+    id?: string
+    tenantId: string
+    defaultPartyId: string
+    invoiceTypeId: string
+    cashboxId: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -126176,6 +129361,7 @@ export namespace Prisma {
     taxAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    clientRequestId?: NullableStringFieldUpdateOperationsInput | string | null
     postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     postedBy?: NullableStringFieldUpdateOperationsInput | string | null
     cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -126209,6 +129395,7 @@ export namespace Prisma {
     taxAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    clientRequestId?: NullableStringFieldUpdateOperationsInput | string | null
     postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     postedBy?: NullableStringFieldUpdateOperationsInput | string | null
     cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -126237,6 +129424,7 @@ export namespace Prisma {
     taxAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    clientRequestId?: NullableStringFieldUpdateOperationsInput | string | null
     postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     postedBy?: NullableStringFieldUpdateOperationsInput | string | null
     cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -126289,6 +129477,36 @@ export namespace Prisma {
     postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     postedBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PosSettingUpdateWithoutWarehouseInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutPosSettingNestedInput
+    defaultParty?: PartyUpdateOneRequiredWithoutPosSettingsNestedInput
+    invoiceType?: InvoiceTypeUpdateOneRequiredWithoutPosSettingsNestedInput
+    cashbox?: CashboxUpdateOneRequiredWithoutPosSettingsNestedInput
+  }
+
+  export type PosSettingUncheckedUpdateWithoutWarehouseInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    defaultPartyId?: StringFieldUpdateOperationsInput | string
+    invoiceTypeId?: StringFieldUpdateOperationsInput | string
+    cashboxId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PosSettingUncheckedUpdateManyWithoutWarehouseInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    defaultPartyId?: StringFieldUpdateOperationsInput | string
+    invoiceTypeId?: StringFieldUpdateOperationsInput | string
+    cashboxId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

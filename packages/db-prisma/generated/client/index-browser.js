@@ -477,6 +477,7 @@ exports.Prisma.InvoiceScalarFieldEnum = {
   taxAmount: 'taxAmount',
   total: 'total',
   notes: 'notes',
+  clientRequestId: 'clientRequestId',
   postedAt: 'postedAt',
   postedBy: 'postedBy',
   cancelledAt: 'cancelledAt',
@@ -634,6 +635,17 @@ exports.Prisma.RolePermissionScalarFieldEnum = {
   roleId: 'roleId',
   permissionId: 'permissionId',
   createdAt: 'createdAt'
+};
+
+exports.Prisma.PosSettingScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  defaultPartyId: 'defaultPartyId',
+  invoiceTypeId: 'invoiceTypeId',
+  cashboxId: 'cashboxId',
+  warehouseId: 'warehouseId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.ReconciliationRunScalarFieldEnum = {
@@ -1062,6 +1074,7 @@ exports.Prisma.ModelName = {
   Party: 'Party',
   Permission: 'Permission',
   RolePermission: 'RolePermission',
+  PosSetting: 'PosSetting',
   ReconciliationRun: 'ReconciliationRun',
   SetupTask: 'SetupTask',
   StockCount: 'StockCount',

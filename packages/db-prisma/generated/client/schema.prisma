@@ -331,6 +331,7 @@ model Cashbox {
   payments                   Payment[]
   journalLines               JournalLine[]
   openingBalanceSessionLines OpeningBalanceSessionLine[]
+  posSettings                PosSetting[]
 
   @@unique([tenantId, code])
   @@index([tenantId])
@@ -701,8 +702,9 @@ model InvoiceType {
   createdAt    DateTime         @default(now()) @map("created_at")
   updatedAt    DateTime         @updatedAt @map("updated_at")
 
-  tenant   Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-  invoices Invoice[]
+  tenant      Tenant       @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  invoices    Invoice[]
+  posSettings PosSetting[]
 
   @@unique([tenantId, code])
   @@index([tenantId])
@@ -711,31 +713,35 @@ model InvoiceType {
 
 // ─── Invoice ──────────────────────────────────────────────────────────────────
 model Invoice {
-  id             String        @id @default(uuid())
-  tenantId       String        @map("tenant_id")
-  invoiceTypeId  String        @map("invoice_type_id")
-  number         String
-  date           DateTime
-  dueDate        DateTime?     @map("due_date")
-  partyId        String        @map("party_id")
-  warehouseId    String?       @map("warehouse_id")
-  fiscalPeriodId String        @map("fiscal_period_id")
-  currencyId     String        @map("currency_id")
+  id              String        @id @default(uuid())
+  tenantId        String        @map("tenant_id")
+  invoiceTypeId   String        @map("invoice_type_id")
+  number          String
+  date            DateTime
+  dueDate         DateTime?     @map("due_date")
+  partyId         String        @map("party_id")
+  warehouseId     String?       @map("warehouse_id")
+  fiscalPeriodId  String        @map("fiscal_period_id")
+  currencyId      String        @map("currency_id")
   /// Exchange rate of the invoice currency to tenant base currency, locked at posting time.
-  exchangeRate   Decimal       @default(1) @map("exchange_rate") @db.Decimal(18, 6)
-  status         InvoiceStatus @default(DRAFT)
-  subtotal       Decimal       @default(0) @db.Decimal(18, 4)
-  discountAmount Decimal       @default(0) @map("discount_amount") @db.Decimal(18, 4)
-  taxAmount      Decimal       @default(0) @map("tax_amount") @db.Decimal(18, 4)
-  total          Decimal       @default(0) @db.Decimal(18, 4)
-  notes          String?
-  postedAt       DateTime?     @map("posted_at")
-  postedBy       String?       @map("posted_by")
-  cancelledAt    DateTime?     @map("cancelled_at")
-  cancelledBy    String?       @map("cancelled_by")
-  createdBy      String        @map("created_by")
-  createdAt      DateTime      @default(now()) @map("created_at")
-  updatedAt      DateTime      @updatedAt @map("updated_at")
+  exchangeRate    Decimal       @default(1) @map("exchange_rate") @db.Decimal(18, 6)
+  status          InvoiceStatus @default(DRAFT)
+  subtotal        Decimal       @default(0) @db.Decimal(18, 4)
+  discountAmount  Decimal       @default(0) @map("discount_amount") @db.Decimal(18, 4)
+  taxAmount       Decimal       @default(0) @map("tax_amount") @db.Decimal(18, 4)
+  total           Decimal       @default(0) @db.Decimal(18, 4)
+  notes           String?
+  /**
+   * Idempotency key for POS checkout retries; null for non-POS invoices.
+   */
+  clientRequestId String?       @map("client_request_id")
+  postedAt        DateTime?     @map("posted_at")
+  postedBy        String?       @map("posted_by")
+  cancelledAt     DateTime?     @map("cancelled_at")
+  cancelledBy     String?       @map("cancelled_by")
+  createdBy       String        @map("created_by")
+  createdAt       DateTime      @default(now()) @map("created_at")
+  updatedAt       DateTime      @updatedAt @map("updated_at")
 
   tenant             Tenant              @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   invoiceType        InvoiceType         @relation(fields: [invoiceTypeId], references: [id])
@@ -747,6 +753,7 @@ model Invoice {
   paymentAllocations PaymentAllocation[]
 
   @@unique([tenantId, number])
+  @@unique([tenantId, clientRequestId])
   @@index([tenantId])
   @@index([tenantId, status])
   @@map("invoices")
@@ -1040,6 +1047,7 @@ model Party {
   openingBalanceSessionLines OpeningBalanceSessionLine[]
   receivableAccount          ChartOfAccount?             @relation("PartyReceivableAccount", fields: [receivableAccountId], references: [id])
   payableAccount             ChartOfAccount?             @relation("PartyPayableAccount", fields: [payableAccountId], references: [id])
+  posSettings                PosSetting[]
 
   @@unique([tenantId, code])
   @@index([tenantId])
@@ -1076,6 +1084,28 @@ model RolePermission {
   @@unique([roleId, permissionId])
   @@index([roleId])
   @@map("role_permissions")
+}
+
+// ─── POS Setting ──────────────────────────────────────────────────────────────
+// One row per tenant. Configures the walk-in customer, POS invoice type, till
+// cashbox, and issuing warehouse used by POS checkout (apps/api modules/pos).
+model PosSetting {
+  id             String   @id @default(uuid())
+  tenantId       String   @unique @map("tenant_id")
+  defaultPartyId String   @map("default_party_id")
+  invoiceTypeId  String   @map("invoice_type_id")
+  cashboxId      String   @map("cashbox_id")
+  warehouseId    String   @map("warehouse_id")
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  tenant       Tenant      @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  defaultParty Party       @relation(fields: [defaultPartyId], references: [id], onDelete: Restrict)
+  invoiceType  InvoiceType @relation(fields: [invoiceTypeId], references: [id], onDelete: Restrict)
+  cashbox      Cashbox     @relation(fields: [cashboxId], references: [id], onDelete: Restrict)
+  warehouse    Warehouse   @relation(fields: [warehouseId], references: [id], onDelete: Restrict)
+
+  @@map("pos_settings")
 }
 
 // ─── Reconciliation Run ───────────────────────────────────────────────────────
@@ -1389,6 +1419,7 @@ model Tenant {
   openingBalanceSessions     OpeningBalanceSession[]
   openingBalanceSessionLines OpeningBalanceSessionLine[]
   setupTasks                 SetupTask[]
+  posSetting                 PosSetting?
 
   @@map("tenants")
 }
@@ -1482,6 +1513,7 @@ model Warehouse {
   stockMovements StockMovement[]
   invoices       Invoice[]
   stockCounts    StockCount[]
+  posSettings    PosSetting[]
 
   @@unique([tenantId, code])
   @@index([tenantId])

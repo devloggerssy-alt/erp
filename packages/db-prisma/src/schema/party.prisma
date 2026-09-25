@@ -27,6 +27,7 @@ model Party {
     openingBalanceSessionLines OpeningBalanceSessionLine[]
     receivableAccount ChartOfAccount? @relation("PartyReceivableAccount", fields: [receivableAccountId], references: [id])
     payableAccount    ChartOfAccount? @relation("PartyPayableAccount", fields: [payableAccountId], references: [id])
+    posSettings       PosSetting[]
 
     @@unique([tenantId, code])
     @@index([tenantId])

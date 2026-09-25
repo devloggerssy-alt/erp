@@ -60,6 +60,7 @@ model Tenant {
     openingBalanceSessions     OpeningBalanceSession[]
     openingBalanceSessionLines OpeningBalanceSessionLine[]
     setupTasks                 SetupTask[]
+    posSetting                 PosSetting?
 
     @@map("tenants")
 }

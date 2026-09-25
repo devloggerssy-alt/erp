@@ -25,6 +25,7 @@ model InvoiceType {
 
     tenant   Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
     invoices Invoice[]
+    posSettings PosSetting[]
 
     @@unique([tenantId, code])
     @@index([tenantId])
@@ -51,6 +52,8 @@ model Invoice {
     taxAmount      Decimal       @default(0) @map("tax_amount") @db.Decimal(18, 4)
     total          Decimal       @default(0) @db.Decimal(18, 4)
     notes          String?
+    /** Idempotency key for POS checkout retries; null for non-POS invoices. */
+    clientRequestId String? @map("client_request_id")
     postedAt       DateTime?     @map("posted_at")
     postedBy       String?       @map("posted_by")
     cancelledAt    DateTime?     @map("cancelled_at")
@@ -69,6 +72,7 @@ model Invoice {
     paymentAllocations PaymentAllocation[]
 
     @@unique([tenantId, number])
+    @@unique([tenantId, clientRequestId])
     @@index([tenantId])
     @@index([tenantId, status])
     @@map("invoices")

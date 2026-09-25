@@ -15,6 +15,7 @@ model Warehouse {
     stockMovements StockMovement[]
     invoices       Invoice[]
     stockCounts    StockCount[]
+    posSettings    PosSetting[]
 
     @@unique([tenantId, code])
     @@index([tenantId])
