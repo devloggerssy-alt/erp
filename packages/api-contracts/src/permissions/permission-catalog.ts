@@ -44,6 +44,7 @@ export const PERMISSION_CATALOG = {
   businessSetup: ['manage'],
   settings: ['manage'],
   danger: ['reset'],
+  pos: ['checkout', 'manage'],
 } as const
 
 export type CatalogResource = keyof typeof PERMISSION_CATALOG
@@ -99,6 +100,7 @@ export const PERMISSION_GROUPS = {
     'bankAccounts',
     'payments',
     'expenses',
+    'pos',
   ],
   accounting: [
     'accounts',
