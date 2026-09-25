@@ -3,7 +3,9 @@ export interface PosCheckoutLineDto {
     unitId: string
     quantity: number
     unitPrice: number
-    discountPercent?: number
+    /** Always sent, even when 0 — the generated OpenAPI type treats this field
+     *  as non-optional because the backend DTO declares a Swagger `default`. */
+    discountPercent: number
 }
 
 export interface CreatePosCheckoutDto {

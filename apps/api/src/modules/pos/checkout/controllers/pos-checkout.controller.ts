@@ -1,9 +1,10 @@
 import { Controller, Post, Body, UseGuards, UsePipes } from '@nestjs/common';
-import { ApiTags, ApiBearerAuth, ApiBody, ApiOkResponse, ApiOperation } from '@nestjs/swagger';
+import { ApiTags, ApiBearerAuth, ApiBody, ApiOperation } from '@nestjs/swagger';
 import { RequirePermission, createClassDtoBodyPipe, type RequestUser } from '@devloggers/backend-core';
 import { JwtAuthGuard, PermissionsGuard } from '../../../identity/auth/guards';
 import { CurrentUser } from '../../../identity/auth/decorators';
 import { ApiResponseBuilder } from '../../../../common/api/api-response-builder';
+import { ApiOkResponseStandard, ApiStandardErrors } from '../../../../common/decorators/api-swagger.decorators';
 import { PosCheckoutService } from '../services/pos-checkout.service';
 import { CreatePosCheckoutDto, PosCheckoutResponseDto } from '../dto';
 
@@ -20,7 +21,8 @@ export class PosCheckoutController {
         summary: 'Ring up a POS sale',
         description: 'Creates and posts a sales invoice plus an allocated cash receipt in one atomic operation.',
     })
-    @ApiOkResponse({ description: 'Sale completed', type: PosCheckoutResponseDto })
+    @ApiOkResponseStandard(PosCheckoutResponseDto, { description: 'Sale completed' })
+    @ApiStandardErrors()
     @ApiBody({ type: CreatePosCheckoutDto, required: true })
     @UsePipes(createClassDtoBodyPipe(CreatePosCheckoutDto))
     async checkout(@CurrentUser() user: RequestUser, @Body() dto: CreatePosCheckoutDto) {
