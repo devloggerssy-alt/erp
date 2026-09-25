@@ -64,6 +64,7 @@ const STOCK_COUNTS_SERVICE = 'src/modules/inventory/stock-counts/stock-counts.se
 const PAYMENTS_SERVICE = 'src/modules/invoicing/payments/payments.service.ts';
 const EXPENSES_SERVICE = 'src/modules/invoicing/expenses/expenses.service.ts';
 const DATA_RESET_SERVICE = 'src/modules/identity/settings/services/data-reset.service.ts';
+const POS_CHECKOUT_SERVICE = 'src/modules/pos/checkout/services/pos-checkout.service.ts';
 
 /** @type {Case[]} */
 const CASES = [
@@ -87,6 +88,14 @@ const CASES = [
     // A domain may deep-import itself.
     importCase(POSTING_FACADE, '../accounts/services/journal-posting.service', 'clean'),
     // ── Phase 5.2: every domain is reachable only through its public entry point ──
+    importCase(POS_CHECKOUT_SERVICE, '../../../invoicing', 'clean'),
+    importCase(POS_CHECKOUT_SERVICE, '../../../invoicing/checkout/sales-checkout.facade', 'error'),
+    importCase(POS_CHECKOUT_SERVICE, '../../../parties', 'clean'),
+    importCase(POS_CHECKOUT_SERVICE, '../../../parties/repositories/parties.repository', 'error'),
+    // barrelOnly() permits importing another domain's barrel; it only blocks deep
+    // paths. The one-way 'invoicing must never depend on pos' guarantee itself is
+    // enforced by `lint:manifest`'s import-graph-vs-dependsOn check (Task 12).
+    importCase(INVOICE_POSTING, '../../pos/checkout/services/pos-checkout.service', 'error'),
     importCase(INVOICE_POSTING, '../../inventory', 'clean'),
     importCase(INVOICE_POSTING, '../../inventory/inventory.service', 'error'),
     importCase(INVOICE_POSTING, '../../inventory/movements', 'error'),

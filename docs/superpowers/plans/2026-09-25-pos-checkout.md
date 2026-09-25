@@ -2583,7 +2583,11 @@ and add these cases immediately after it:
     importCase(POS_CHECKOUT_SERVICE, '../../../invoicing/checkout/sales-checkout.facade', 'error'),
     importCase(POS_CHECKOUT_SERVICE, '../../../parties', 'clean'),
     importCase(POS_CHECKOUT_SERVICE, '../../../parties/repositories/parties.repository', 'error'),
-    importCase(INVOICE_POSTING, '../../pos', 'error'),
+    // barrelOnly() permits importing another domain's barrel; it only blocks deep
+    // paths. The one-way 'invoicing must never depend on pos' guarantee itself is
+    // enforced by `lint:manifest`'s import-graph-vs-dependsOn check (Task 12) —
+    // importing the bare 'pos' barrel from invoicing would NOT trip this probe.
+    importCase(INVOICE_POSTING, '../../pos/checkout/services/pos-checkout.service', 'error'),
 ```
 
 - [ ] **Step 3: Run the probe suite**
@@ -2593,6 +2597,8 @@ pnpm --filter @devloggers/api lint:architecture
 ```
 
 Expected: `All N architecture-rule cases passed.` — including the 5 new cases and the "domains with no DOMAIN_RESTRICTIONS entry" check now passing for `pos`.
+
+> **Correction found during execution:** the original draft of this probe used `importCase(INVOICE_POSTING, '../../pos', 'error')` — importing `pos`'s bare barrel. That's wrong: `barrelOnly()` only blocks *deep* paths into a domain; every domain's barrel is importable from anywhere by design (that's the whole point of a barrel). The real one-way guarantee — "no real `invoicing` file imports `pos` at all" — is what `lint:manifest`'s import-graph-vs-`dependsOn` check proves, not this eslint rule. The probe above targets a deep path instead, which this rule does block.
 
 - [ ] **Step 4: Commit**
 

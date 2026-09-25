@@ -126,6 +126,7 @@ export const DOMAIN_RESTRICTIONS = {
     parties: barrelOnly('parties', 'PartiesModule, PartiesService, CreatePartyDto, PartyTypeEnum'),
     platform: barrelOnly('platform', 'CodeSequencesModule, CodeSequencesService'),
     reports: barrelOnly('reports', 'nothing yet — reports is a leaf'),
+    pos: barrelOnly('pos', 'nothing yet — pos is a leaf; add an index.ts export before another domain depends on it'),
     files: barrelOnly('files', 'nothing yet — add an index.ts before depending on files'),
     audit: barrelOnly('audit', 'AuditWriter (record/recordInTx) + SYSTEM_USER_ID'),
     'ai-agent': barrelOnly('ai-agent', 'nothing yet — ai-agent is a leaf'),
