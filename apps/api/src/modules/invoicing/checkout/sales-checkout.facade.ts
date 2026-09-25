@@ -104,7 +104,7 @@ export class SalesCheckoutFacade {
                 },
             });
 
-            const postedInvoice = await this.invoicePosting.postSalesInvoiceInTx(tx, invoice, intent.userId);
+            const postedInvoice = await this.invoicePosting.postSalesInvoiceInTx(tx, tenantId, invoice, intent.userId);
 
             const paymentNumber = await this.docSeq.getNextNumberInTx(tx, tenantId, 'RECEIPT');
             const payment = await tx.payment.create({

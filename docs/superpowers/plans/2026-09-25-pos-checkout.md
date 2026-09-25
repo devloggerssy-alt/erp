@@ -1014,7 +1014,7 @@ with:
         if (!invoice.warehouseId) throw new BadRequestException('Sales invoice must have a warehouse assigned');
         if (invoice.lines.length === 0) throw new BadRequestException('Invoice must have at least one line');
 
-        return this.prisma.$transaction((tx) => this.postSalesInvoiceInTx(tx, invoice, userId));
+        return this.prisma.$transaction((tx) => this.postSalesInvoiceInTx(tx, tenantId, invoice, userId));
     }
 
     /**
@@ -1024,9 +1024,22 @@ with:
      * post + receipt + allocation) runs in one transaction. Behavior-identical
      * to the transaction body `postSalesInvoice` ran inline before this
      * extraction.
+     *
+     * `tenantId` stays an explicit parameter (not read off `invoice.tenantId`)
+     * because the original inline body closed over the caller's `tenantId`
+     * argument, not the entity field — and `movement-characterization.spec.ts`
+     * pins that with a fixture that never sets `tenantId` on the invoice at
+     * all. Reading it off the entity instead is a real (if subtle) contract
+     * change: it broke that golden-master test during execution because the
+     * real `SaleIssuePolicy` looked up stock by `{tenantId: undefined, ...}`
+     * and silently saw zero balance. Caught by Task 14's full-suite run.
      */
-    async postSalesInvoiceInTx(tx: Prisma.TransactionClient, invoice: SalesInvoiceForPosting, userId: string) {
-        const tenantId = invoice.tenantId;
+    async postSalesInvoiceInTx(
+        tx: Prisma.TransactionClient,
+        tenantId: string,
+        invoice: SalesInvoiceForPosting,
+        userId: string,
+    ) {
         const warehouseId = invoice.warehouseId;
         if (!warehouseId) throw new BadRequestException('Sales invoice must have a warehouse assigned');
 
@@ -1214,7 +1227,7 @@ describe('SalesCheckoutFacade.checkout', () => {
         expect(tx.invoice.create).toHaveBeenCalledWith(expect.objectContaining({
             data: expect.objectContaining({ tenantId: 't1', clientRequestId: 'req-1', total: 200 }),
         }));
-        expect(invoicePosting.postSalesInvoiceInTx).toHaveBeenCalledWith(tx, expect.objectContaining({ id: 'inv-1' }), 'u1');
+        expect(invoicePosting.postSalesInvoiceInTx).toHaveBeenCalledWith(tx, 't1', expect.objectContaining({ id: 'inv-1' }), 'u1');
         expect(tx.payment.create).toHaveBeenCalledWith(expect.objectContaining({
             data: expect.objectContaining({ type: 'RECEIPT', amount: 200, unallocatedAmount: 200 }),
         }));
@@ -1387,7 +1400,7 @@ export class SalesCheckoutFacade {
                 },
             });
 
-            const postedInvoice = await this.invoicePosting.postSalesInvoiceInTx(tx, invoice, intent.userId);
+            const postedInvoice = await this.invoicePosting.postSalesInvoiceInTx(tx, tenantId, invoice, intent.userId);
 
             const paymentNumber = await this.docSeq.getNextNumberInTx(tx, tenantId, 'RECEIPT');
             const payment = await tx.payment.create({

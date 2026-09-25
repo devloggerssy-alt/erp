@@ -128,7 +128,7 @@ export class InvoicePostingService {
         if (!invoice.warehouseId) throw new BadRequestException('Sales invoice must have a warehouse assigned');
         if (invoice.lines.length === 0) throw new BadRequestException('Invoice must have at least one line');
 
-        return this.prisma.$transaction((tx) => this.postSalesInvoiceInTx(tx, invoice, userId));
+        return this.prisma.$transaction((tx) => this.postSalesInvoiceInTx(tx, tenantId, invoice, userId));
     }
 
     /**
@@ -139,8 +139,12 @@ export class InvoicePostingService {
      * to the transaction body `postSalesInvoice` ran inline before this
      * extraction.
      */
-    async postSalesInvoiceInTx(tx: Prisma.TransactionClient, invoice: SalesInvoiceForPosting, userId: string) {
-        const tenantId = invoice.tenantId;
+    async postSalesInvoiceInTx(
+        tx: Prisma.TransactionClient,
+        tenantId: string,
+        invoice: SalesInvoiceForPosting,
+        userId: string,
+    ) {
         const warehouseId = invoice.warehouseId;
         if (!warehouseId) throw new BadRequestException('Sales invoice must have a warehouse assigned');
 

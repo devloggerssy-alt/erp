@@ -49,7 +49,7 @@ describe('SalesCheckoutFacade.checkout', () => {
         expect(tx.invoice.create).toHaveBeenCalledWith(expect.objectContaining({
             data: expect.objectContaining({ tenantId: 't1', clientRequestId: 'req-1', total: 200 }),
         }));
-        expect(invoicePosting.postSalesInvoiceInTx).toHaveBeenCalledWith(tx, expect.objectContaining({ id: 'inv-1' }), 'u1');
+        expect(invoicePosting.postSalesInvoiceInTx).toHaveBeenCalledWith(tx, 't1', expect.objectContaining({ id: 'inv-1' }), 'u1');
         expect(tx.payment.create).toHaveBeenCalledWith(expect.objectContaining({
             data: expect.objectContaining({ type: 'RECEIPT', amount: 200, unallocatedAmount: 200 }),
         }));
