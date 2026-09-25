@@ -33,10 +33,11 @@ import { InventoryOpeningBalancesClient } from "./clients/inventory-opening-bala
 import { OpeningBalanceSessionsClient } from "./clients/opening-balance-sessions.client"
 import { BusinessSetupClient } from "./clients/business-setup.client"
 import { AiAgentClient } from "./clients/ai-agent.client"
-import { authResource, itemCategoryResource, itemResource, unitResource, warehouseResource, partyResource, accountResource, currencyResource, fiscalPeriodResource, documentSequenceResource, roleResource, userResource, tenantResource, invoiceTypeResource, invoiceResource, customFieldResource, expenseResource, paymentResource, tagResource, tagAssignmentResource, itemRelationResource, catalogEntityResource, itemCatalogEntityResource, brandResource, inventoryResource, stockLedgerResource, stockCountResource, cashboxResource, bankAccountResource, financialSettingResource, reportResource, openingBalanceSessionResource, businessSetupResource, aiResource } from "@devloggers/api-contracts"
+import { authResource, itemCategoryResource, itemResource, unitResource, warehouseResource, partyResource, accountResource, currencyResource, fiscalPeriodResource, documentSequenceResource, roleResource, userResource, tenantResource, invoiceTypeResource, invoiceResource, customFieldResource, expenseResource, paymentResource, tagResource, tagAssignmentResource, itemRelationResource, catalogEntityResource, itemCatalogEntityResource, brandResource, inventoryResource, stockLedgerResource, stockCountResource, cashboxResource, bankAccountResource, financialSettingResource, reportResource, openingBalanceSessionResource, businessSetupResource, aiResource, posResource } from "@devloggers/api-contracts"
 import { CustomFieldsClient } from "./clients/custom-fields.client"
 import { DashboardClient } from "./clients/dashboard.client"
 import { OnboardingClient } from "./clients/onboarding.client"
+import { PosClient } from "./clients/pos.client"
 
 export function createApi(options?: ApiClientOptions, baseUrl = 'http://localhost:4040') {
     const client = new ApiClient(baseUrl, options)
@@ -76,6 +77,7 @@ export function createApi(options?: ApiClientOptions, baseUrl = 'http://localhos
         [openingBalanceSessionResource.key]: new OpeningBalanceSessionsClient(client),
         [businessSetupResource.key]: new BusinessSetupClient(client),
         [aiResource.key]: new AiAgentClient(client),
+        [posResource.key]: new PosClient(client),
         inventoryOpening: new InventoryOpeningBalancesClient(client),
         dashboard: new DashboardClient(client),
         onboarding: new OnboardingClient(client),
