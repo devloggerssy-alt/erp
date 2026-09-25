@@ -13,3 +13,6 @@ export { CreateBankAccountDto } from './bank-accounts/dto';
 export { InvoiceTypesModule } from './invoice-types/invoice-types.module';
 export { InvoiceTypesService } from './invoice-types/services/invoice-types.service';
 export { InvoiceDirectionEnum, CreateInvoiceTypeDto } from './invoice-types/dto';
+export { SalesCheckoutModule } from './checkout/sales-checkout.module';
+export { SalesCheckoutFacade } from './checkout/sales-checkout.facade';
+export type { SalesCheckoutIntent, SalesCheckoutResult, SalesCheckoutLine } from './checkout/sales-checkout.types';
