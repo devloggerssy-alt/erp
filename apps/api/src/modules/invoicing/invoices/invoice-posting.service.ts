@@ -1,6 +1,6 @@
 import { Injectable, BadRequestException, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '@devloggers/db-prisma/nest';
-import { ReferenceType } from '@devloggers/db-prisma';
+import { ReferenceType, type Prisma } from '@devloggers/db-prisma';
 import {
     InventoryMovementFacade,
     type PurchaseReceiptIntent,
@@ -9,6 +9,19 @@ import {
 } from '../../inventory';
 import { AccountingPostingFacade, type InvoicePostedIntent, type InvoiceCancelledIntent } from '../../accounting/posting';
 import { assertFiscalPeriodOpen } from '../../accounting/accounts/utils/assert-period-open';
+
+/**
+ * The exact `include` shape `postSalesInvoice` loads before posting, and the
+ * exact shape `SalesCheckoutFacade` creates its invoice with — so a freshly
+ * created invoice can be posted via `postSalesInvoiceInTx` without a re-fetch.
+ */
+export type SalesInvoiceForPosting = Prisma.InvoiceGetPayload<{
+    include: {
+        invoiceType: true;
+        lines: { include: { item: { select: { itemType: true } } } };
+        fiscalPeriod: { select: { status: true } };
+    };
+}>;
 
 @Injectable()
 export class InvoicePostingService {
@@ -112,9 +125,24 @@ export class InvoicePostingService {
         if (invoice.status !== 'DRAFT') throw new BadRequestException('Only draft invoices can be posted');
         assertFiscalPeriodOpen(invoice.fiscalPeriod?.status);
         if (invoice.invoiceType.direction !== 'SALE') throw new BadRequestException('This is not a sales invoice');
+        if (!invoice.warehouseId) throw new BadRequestException('Sales invoice must have a warehouse assigned');
+        if (invoice.lines.length === 0) throw new BadRequestException('Invoice must have at least one line');
+
+        return this.prisma.$transaction((tx) => this.postSalesInvoiceInTx(tx, invoice, userId));
+    }
+
+    /**
+     * The write portion of `postSalesInvoice()`: stock issue + COGS + GL
+     * posting + status flip. Callable directly by `SalesCheckoutFacade` with a
+     * freshly created, already-validated invoice so the whole sale (create +
+     * post + receipt + allocation) runs in one transaction. Behavior-identical
+     * to the transaction body `postSalesInvoice` ran inline before this
+     * extraction.
+     */
+    async postSalesInvoiceInTx(tx: Prisma.TransactionClient, invoice: SalesInvoiceForPosting, userId: string) {
+        const tenantId = invoice.tenantId;
         const warehouseId = invoice.warehouseId;
         if (!warehouseId) throw new BadRequestException('Sales invoice must have a warehouse assigned');
-        if (invoice.lines.length === 0) throw new BadRequestException('Invoice must have at least one line');
 
         const exchangeRate = Number(invoice.exchangeRate);
         const netAmount = Number(invoice.subtotal) - Number(invoice.discountAmount);
@@ -138,36 +166,34 @@ export class InvoicePostingService {
             })),
         };
 
-        return this.prisma.$transaction(async (tx) => {
-            const { valueDelta } = await this.movements.apply(tx, issue);
-            // An issue's valueDelta is Σ(−qty × averageCost) ≤ 0; COGS is its magnitude.
-            const cogsTotal = Math.abs(valueDelta);
+        const { valueDelta } = await this.movements.apply(tx, issue);
+        // An issue's valueDelta is Σ(−qty × averageCost) ≤ 0; COGS is its magnitude.
+        const cogsTotal = Math.abs(valueDelta);
 
-            const intent: InvoicePostedIntent = {
-                kind: 'INVOICE_POSTED',
-                tenantId,
-                userId,
-                date: invoice.date,
-                fiscalPeriodId: invoice.fiscalPeriodId,
-                fiscalPeriodStatus: invoice.fiscalPeriod?.status,
-                exchangeRate,
-                referenceId: invoice.id,
-                description: `Sales invoice ${invoice.number}`,
-                direction: 'SALE',
-                partyId: invoice.partyId,
-                currencyId: invoice.currencyId,
-                netAmount,
-                taxAmount: Number(invoice.taxAmount),
-                total: Number(invoice.total),
-                cogsTotal,
-            };
-            await this.postingFacade.record(tx, intent);
+        const intent: InvoicePostedIntent = {
+            kind: 'INVOICE_POSTED',
+            tenantId,
+            userId,
+            date: invoice.date,
+            fiscalPeriodId: invoice.fiscalPeriodId,
+            fiscalPeriodStatus: invoice.fiscalPeriod?.status,
+            exchangeRate,
+            referenceId: invoice.id,
+            description: `Sales invoice ${invoice.number}`,
+            direction: 'SALE',
+            partyId: invoice.partyId,
+            currencyId: invoice.currencyId,
+            netAmount,
+            taxAmount: Number(invoice.taxAmount),
+            total: Number(invoice.total),
+            cogsTotal,
+        };
+        await this.postingFacade.record(tx, intent);
 
-            return tx.invoice.update({
-                where: { id: invoiceId },
-                data: { status: 'POSTED', postedAt: new Date(), postedBy: userId },
-                include: { invoiceType: true, lines: true },
-            });
+        return tx.invoice.update({
+            where: { id: invoice.id },
+            data: { status: 'POSTED', postedAt: new Date(), postedBy: userId },
+            include: { invoiceType: true, lines: true },
         });
     }
 
