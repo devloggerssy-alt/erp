@@ -17,6 +17,7 @@ import { StockCountsModule } from '../modules/inventory/stock-counts/stock-count
 import { StockLedgerModule } from '../modules/inventory/stock-ledger/stock-ledger.module';
 import { InvoicingModule } from '../modules/invoicing/invoicing.module';
 import { PartiesModule } from '../modules/parties/parties.module';
+import { PosModule } from '../modules/pos/pos.module';
 import { CodeSequencesModule } from '../modules/platform/code-sequences/code-sequences.module';
 import { ReportsModule } from '../modules/reports/reports.module';
 import { resolveEnabledDomains, type DomainKey } from './manifest';
@@ -37,6 +38,7 @@ export const DOMAIN_MODULES: Record<DomainKey, Type<unknown>[]> = {
     invoicing: [InvoicingModule],
     parties: [PartiesModule],
     platform: [CodeSequencesModule],
+    pos: [PosModule],
     reports: [ReportsModule],
 };
 

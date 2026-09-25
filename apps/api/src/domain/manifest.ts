@@ -29,6 +29,7 @@ export type DomainKey =
     | 'invoicing'
     | 'parties'
     | 'platform'
+    | 'pos'
     | 'reports';
 
 export interface DomainManifest {
@@ -167,6 +168,13 @@ export const DOMAIN_MANIFESTS: readonly DomainManifest[] = Object.freeze([
         dependsOn: [],
         provides: [],
         routes: ['parties'],
+        optional: true,
+    },
+    {
+        key: 'pos',
+        dependsOn: ['invoicing', 'parties'],
+        provides: [],
+        routes: ['pos/checkout', 'pos/settings'],
         optional: true,
     },
     {
