@@ -151,6 +151,8 @@ export const DOMAIN_MANIFESTS: readonly DomainManifest[] = Object.freeze([
             'BankAccountsService',
             'InvoiceTypesModule',
             'InvoiceTypesService',
+            'InvoiceDirectionEnum',
+            'CreateInvoiceTypeDto',
         ],
         routes: ['invoices', 'payments', 'expenses', 'cashboxes', 'bank-accounts', 'invoice-types'],
         optional: false,
