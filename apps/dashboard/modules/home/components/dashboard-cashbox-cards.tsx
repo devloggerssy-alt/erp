@@ -46,7 +46,7 @@ export function DashboardCashboxCards({
                               </CardHeader>
                               <CardContent className="pb-4">
                                   <div className="text-xl font-bold">
-                                      {cashbox.currency.symbol}{" "}
+                                      {localize(cashbox.currency.symbol, locale, cashbox.currency.code)}{" "}
                                       {new Intl.NumberFormat(undefined, {
                                           minimumFractionDigits: 2,
                                           maximumFractionDigits: 2,

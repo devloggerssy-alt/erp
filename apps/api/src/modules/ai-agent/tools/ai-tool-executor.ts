@@ -41,6 +41,7 @@ export class AiToolExecutor {
             return { kind: 'error', errorText: `Missing permission: ${tool.permission}` };
         }
         const prepared = await tool.prepare(rawInput);
+        
         if (!prepared.ok) {
             return { kind: 'error', errorText: 'Invalid tool input', details: prepared.errors };
         }

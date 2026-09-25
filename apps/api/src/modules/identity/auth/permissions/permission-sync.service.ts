@@ -68,6 +68,21 @@ export class PermissionSyncService implements OnModuleInit {
         let role = roles.find((candidate) => this.resolveRoleName(candidate.name) === roleName);
 
         if (!role) {
+          const arName = DEFAULT_ROLE_DEFINITIONS[roleName].name.ar;
+          // The DB's uniqueness index on (tenantId, name->>'ar') covers every role in the
+          // tenant, not just system ones — a tenant-created custom role can already hold this
+          // name (e.g. created before this default role existed). Check the same scope the
+          // constraint enforces before creating, or `role.create` throws below.
+          const nameTaken = await this.prisma.role.count({
+            where: { tenantId: tenant.id, name: { path: ['ar'], equals: arName } },
+          });
+          if (nameTaken > 0) {
+            this.logger.warn(
+              `Skipping default role "${roleName}" for tenant ${tenant.id} — an existing role already uses the name "${arName}"`,
+            );
+            continue;
+          }
+
           const created = await this.prisma.role.create({
             data: {
               tenantId: tenant.id,

@@ -1,3 +1,4 @@
+import { Logger } from '@nestjs/common';
 import { ALL_PERMISSIONS, DEFAULT_ROLE_DEFINITIONS, DEFAULT_ROLE_PERMISSIONS } from '@devloggers/api-contracts';
 import { PermissionSyncService } from './permission-sync.service';
 
@@ -7,7 +8,11 @@ function createPrismaMock() {
     findMany: jest.fn().mockResolvedValue([]),
   };
   const rolePermission = { createMany: jest.fn().mockResolvedValue({ count: 0 }) };
-  const role = { findMany: jest.fn().mockResolvedValue([]), create: jest.fn() };
+  const role = {
+    findMany: jest.fn().mockResolvedValue([]),
+    create: jest.fn(),
+    count: jest.fn().mockResolvedValue(0),
+  };
   const tenant = { findMany: jest.fn().mockResolvedValue([]) };
   return { permission, rolePermission, role, tenant };
 }
@@ -77,5 +82,31 @@ describe('PermissionSyncService', () => {
     await service.syncDefaultRoleGrants();
 
     expect(prisma.role.create).toHaveBeenCalledTimes(Object.keys(DEFAULT_ROLE_DEFINITIONS).length);
+  });
+
+  it('skips a default role whose Arabic name is already used by a non-system role, instead of throwing', async () => {
+    const prisma = createPrismaMock();
+    prisma.permission.findMany.mockResolvedValue([{ id: 'perm-1', key: ALL_PERMISSIONS[0] }]);
+    prisma.tenant.findMany.mockResolvedValue([{ id: 'tenant-1' }]);
+    // No system roles exist yet for this tenant — but a custom (isSystem: false) role
+    // already occupies the "Accountant" role's Arabic name at the DB level.
+    prisma.role.findMany.mockResolvedValue([]);
+    prisma.role.count.mockImplementation(({ where }: { where: { name: { equals: string } } }) =>
+      Promise.resolve(where.name.equals === DEFAULT_ROLE_DEFINITIONS.Accountant.name.ar ? 1 : 0),
+    );
+    prisma.role.create.mockImplementation(({ data }: { data: { name: { en: string } } }) =>
+      Promise.resolve({ id: `role-${data.name.en}`, name: data.name }),
+    );
+    const warnSpy = jest.spyOn(Logger.prototype, 'warn').mockImplementation(() => undefined);
+
+    const service = new PermissionSyncService(prisma as never);
+    await expect(service.syncDefaultRoleGrants()).resolves.not.toThrow();
+
+    const createdNames = prisma.role.create.mock.calls.map((call) => call[0].data.name.en);
+    expect(createdNames).not.toContain('Accountant');
+    expect(createdNames).toHaveLength(Object.keys(DEFAULT_ROLE_DEFINITIONS).length - 1);
+    expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('Accountant'));
+
+    warnSpy.mockRestore();
   });
 });

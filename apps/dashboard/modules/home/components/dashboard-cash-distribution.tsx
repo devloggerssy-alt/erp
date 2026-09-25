@@ -32,7 +32,7 @@ function groupByCurrency(cashboxes: DashboardCashbox[], locale: string): Currenc
         const code = cashbox.currency.code
         const group = groups.get(code) ?? {
             currencyCode: code,
-            currencySymbol: cashbox.currency.symbol,
+            currencySymbol: localize(cashbox.currency.symbol, locale, code),
             slices: [],
             total: 0,
         }

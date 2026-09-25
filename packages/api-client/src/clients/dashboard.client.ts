@@ -7,7 +7,7 @@ export type DashboardCashbox = {
     code: string
     name: LocalizedString
     balance: string
-    currency: { code: string; symbol: string }
+    currency: { code: string; symbol: LocalizedString | null }
 }
 
 export type DashboardSummaryResponse = {
