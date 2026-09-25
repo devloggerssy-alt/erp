@@ -4005,6 +4005,16 @@ State the exact commands run and their pass/fail output for Steps 1–3, and che
 
 **Honest summary:** every automated gate (backend tests, architecture/manifest, both full builds, both lints) passes, and the two riskiest correctness properties — idempotent provisioning and atomic rollback-on-failure — were confirmed against the real live database, not just mocks. The full successful-sale path and the two remaining interactive checks are the parts left unverified in this session; a follow-up session with a clean dev-server restart and stable browser tooling should complete them before considering this fully done end-to-end.
 
+### Follow-up session: browser smoke test found and fixed a real bug
+
+A second pass did get the browser working reliably enough (`form_input` instead of `computer type`, which was silently not registering keystrokes) to load `/cashier` fully logged in and already-provisioned (from the first session's live curl testing). The cart panel, customer picker default, empty-cart copy, and Pay button all rendered exactly as designed — but the product grid was empty and the customer search returned nothing.
+
+Root cause: `PosProductGrid` and `PosCustomerPicker` called `api.items.list({ name, isActive })` / `api.parties.list({ name })` — flat query params. The real generic list contract (`ApiQueryOptionsDto`, `forbidNonWhitelisted: true`) only accepts `search`/`searchIn`/`filters[field][operator]=value`; the flat params it doesn't declare are rejected with `422`, not silently ignored. Every product/customer search was failing on every keystroke, and the initial empty-search load (which should show up to 40 active items) failed too since it still sent `isActive=true` as a flat param.
+
+Fixed both to use `search` + `searchIn` for the free-text match and `filters: { isActive: { $eq: true } }` for the active-only filter (client already bracket-serializes nested filter objects — confirmed via `packages/api-client/src/infra/client.ts`'s `serialize()`). Verified the exact query shape against the live API by curl before writing the fix and again after. Dashboard typecheck, lint, and the 51-test unit suite all still pass; no new lint errors introduced.
+
+This is exactly the class of bug the unit tests couldn't catch (they never call the real endpoint's query-validation layer) and the plan's own manual-smoke step exists to catch — the browser session earned its keep once the tooling cooperated.
+
 ---
 
 ## Out of scope (per approved spec)
