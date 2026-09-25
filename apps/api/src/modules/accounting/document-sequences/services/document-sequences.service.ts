@@ -2,7 +2,7 @@ import { Injectable, ConflictException } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { CrudService, IDocumentNumberAllocator } from '@devloggers/backend-core';
 import { resources } from '@devloggers/api-contracts';
-import type { DocumentSequence } from '@devloggers/db-prisma';
+import type { DocumentSequence, Prisma } from '@devloggers/db-prisma';
 import { DocumentSequencesRepository } from '../repositories/document-sequences.repository';
 import { DocumentSequencePresenter } from '../presenters/document-sequence.presenter';
 import { CreateDocumentSequenceDto, UpdateDocumentSequenceDto, DocumentSequenceResponseDto } from '../dto';
@@ -33,5 +33,9 @@ export class DocumentSequencesService extends CrudService<DocumentSequence, Docu
      */
     async getNextNumber(tenantId: string, documentType: string): Promise<string> {
         return this.documentSequencesRepository.getNextNumber(tenantId, documentType);
+    }
+
+    async getNextNumberInTx(tx: Prisma.TransactionClient, tenantId: string, documentType: string): Promise<string> {
+        return this.documentSequencesRepository.getNextNumberInTx(tx, tenantId, documentType);
     }
 }

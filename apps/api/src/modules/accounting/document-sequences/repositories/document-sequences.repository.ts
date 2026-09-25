@@ -36,4 +36,27 @@ export class DocumentSequencesRepository extends CrudRepository<DocumentSequence
         const padded = String(seq.nextNumber).padStart(seq.padding, '0');
         return `${seq.prefix}-${padded}`;
     }
+
+    /**
+     * Same contract as `getNextNumber`, but the increment runs on the caller's
+     * transaction client so a rollback un-consumes the number and concurrent
+     * callers serialize on the row lock instead of racing on two statements.
+     */
+    async getNextNumberInTx(tx: Prisma.TransactionClient, tenantId: string, documentType: string): Promise<string> {
+        let seq;
+        try {
+            seq = await tx.documentSequence.update({
+                where: { tenantId_documentType: { tenantId, documentType } },
+                data: { nextNumber: { increment: 1 } },
+            });
+        } catch (error) {
+            if (error && typeof error === 'object' && 'code' in error && (error as { code: string }).code === 'P2025') {
+                throw new NotFoundException(`No sequence configured for document type: ${documentType}`);
+            }
+            throw error;
+        }
+
+        const padded = String(seq.nextNumber - 1).padStart(seq.padding, '0');
+        return `${seq.prefix}-${padded}`;
+    }
 }
