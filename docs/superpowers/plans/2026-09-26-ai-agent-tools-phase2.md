@@ -21,7 +21,6 @@
 - No `as any`, `@ts-ignore`, `@ts-expect-error` in production code. Specs may use `as never` for stubs (existing convention, e.g. `fiscal-periods.service.spec.ts`).
 - No new cross-domain imports in production code (`pnpm --filter @devloggers/api lint:architecture` must stay green).
 - Read-list defaults: `limit` default 20, max 50.
-- The user has an unrelated uncommitted line in `packages/i18n/src/ar/business.json`. **Before Task 11, ask the user to commit or stash it**; never stage it.
 - Run API tests from `apps/api`: `npx jest <path>`. After any change in `packages/backend-core`, run `pnpm --filter @devloggers/backend-core build` before API tests (the API consumes its `dist`).
 
 ## Shared test helpers (copy into each spec that needs them)
@@ -1149,12 +1148,12 @@ export class InvoiceTypesAiTools implements AiToolSource {
 
 Register in `invoice-types.module.ts`: `providers: [InvoiceTypesService, InvoiceTypesRepository, InvoiceTypePresenter, LocaleResolverService, InvoiceTypesAiTools],`.
 
-- [ ] **Step 6: Run — expect PASS**, then the full API suite (the DTO change is shared): `cd apps/api && npx jest` — all suites pass. `tsc` clean. Regenerate the contract, since the DTO's OpenAPI default changes: `pnpm generate` from the repo root, then `git diff --stat apps/api/openapi.yaml packages/api-contracts/types/index.ts` — **stage only the hunks for `CreateInvoiceTypeDto`**. Both files already had unrelated uncommitted changes before this branch; if you can't separate the hunks, leave them unstaged and note it in the task report.
+- [ ] **Step 6: Run — expect PASS**, then the full API suite (the DTO change is shared): `cd apps/api && npx jest` — all suites pass. `tsc` clean. Regenerate the contract, since the DTO's OpenAPI default changes: `pnpm generate` from the repo root, then `git diff --stat apps/api/openapi.yaml packages/api-contracts/types/index.ts`. The working tree was clean before this task, so commit whatever regeneration produces (user-approved), then `pnpm --filter @devloggers/api-contracts build`.
 
 - [ ] **Step 7: Commit**
 
 ```bash
-git add apps/api/src/modules/invoicing/invoice-types
+git add apps/api/src/modules/invoicing/invoice-types apps/api/openapi.yaml packages/api-contracts/types/index.ts
 git commit -m "feat(ai-agent): invoice type tools; require explicit direction and add localized search"
 ```
 
@@ -1999,8 +1998,6 @@ git commit -m "test(ai-agent): pin the full tool catalog, permissions and delete
 ---
 
 ### Task 11: Chat labels (en / ar / tr)
-
-**Precondition:** `packages/i18n/src/ar/business.json` has an unrelated uncommitted line from the user. Ask the user to commit or stash it before this task. Do not stage it.
 
 **Files:**
 - Modify: `packages/i18n/src/en/business.json`, `packages/i18n/src/ar/business.json`, `packages/i18n/src/tr/business.json` (`aiAgent.resources`, `aiAgent.ops`)
