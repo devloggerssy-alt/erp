@@ -5,9 +5,10 @@ import type { ChatOpenAI } from '@langchain/openai';
 import type { AiTool, AiToolContext, AiToolResult } from '@devloggers/backend-core';
 import type { AiToolRegistry } from '../tools/ai-tool-registry';
 import type { AiToolExecutor } from '../tools/ai-tool-executor';
-import { fromModelToolName, toModelToolName } from '../tools/tool-names';
+import { toModelToolName } from '../tools/tool-names';
 import { AgentState, type AgentStateValue, type ApprovalInterrupt, type ApprovalResume, type PendingApprovalCall } from './agent-state';
 import { buildSystemPrompt } from './system-prompt';
+import { planToolCalls } from './tool-call-disposition';
 
 export const AGENT_NODE = 'agent';
 export const GATE_NODE = 'gate';
@@ -96,14 +97,8 @@ export function buildAgentGraph(deps: AgentGraphDeps) {
     // No side effects before interrupt(): LangGraph re-runs this node from the top on resume.
     const gate = async (state: AgentStateValue) => {
         const calls = lastAiMessage(state.messages)?.tool_calls ?? [];
-        const pending: PendingApprovalCall[] = [];
-        for (const call of calls) {
-            const tool = registry.find(ctx, fromModelToolName(call.name));
-            if (!call.id || !tool || tool.risk === 'read') continue;
-            const prepared = await tool.prepare(call.args);
-            if (!prepared.ok) continue; // invalid input is reported by the tools node without asking the user
-            pending.push({ toolCallId: call.id, name: tool.name, risk: tool.risk, input: call.args });
-        }
+        const dispositions = await planToolCalls(registry, ctx, calls, { phase: 'gate' });
+        const pending: PendingApprovalCall[] = dispositions.flatMap((d) => (d.kind === 'needs-approval' ? [d.pending] : []));
         if (pending.length === 0) return { decisions: {} };
         const resume = interrupt<ApprovalInterrupt, ApprovalResume>({ calls: pending });
         return { decisions: Object.fromEntries(resume.decisions.map((decision) => [decision.toolCallId, decision])) };
@@ -114,31 +109,16 @@ export function buildAgentGraph(deps: AgentGraphDeps) {
         const messages: ToolMessage[] = [];
         const loadedDomains: string[] = [];
 
-        for (const call of calls) {
-            if (!call.id) continue; // no id to attach a ToolMessage to; the gate already skips these too
-            const toolCallId = call.id;
-            const name = fromModelToolName(call.name);
-            const tool = registry.find(ctx, name);
-            if (!tool) {
-                messages.push(toolMessage(toolCallId, { kind: 'error', errorText: `Tool "${name}" is unknown or not permitted` }));
+        const dispositions = await planToolCalls(registry, ctx, calls, { phase: 'execute', decisions: state.decisions });
+        for (const disposition of dispositions) {
+            const { toolCallId } = disposition;
+            if (disposition.kind === 'reject') {
+                messages.push(toolMessage(toolCallId, disposition.result));
                 continue;
             }
-            if (tool.risk !== 'read') {
-                const decision = state.decisions[toolCallId];
-                if (decision && !decision.approved) {
-                    messages.push(toolMessage(toolCallId, { kind: 'denied', reason: decision.reason ?? 'no reason given' }));
-                    continue;
-                }
-                if (!decision) {
-                    // Only reachable when input was invalid (gate skipped it): let the executor report the validation error.
-                    const prepared = await tool.prepare(call.args);
-                    if (prepared.ok) {
-                        messages.push(toolMessage(toolCallId, { kind: 'denied', reason: 'approval missing' }));
-                        continue;
-                    }
-                }
-            }
-            const result = await executor.execute(ctx, tool, call.args, toolCallId);
+            if (disposition.kind !== 'run') continue; // the execute phase never returns needs-approval
+            const { name, tool, args } = disposition;
+            const result = await executor.execute(ctx, tool, args, toolCallId);
             if (name === 'tools.load' && result.kind === 'output') {
                 const loaded = (result.output as { loadedDomain?: unknown } | null)?.loadedDomain;
                 if (typeof loaded === 'string') loadedDomains.push(loaded);
