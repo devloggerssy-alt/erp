@@ -5,11 +5,12 @@ import { BankAccountsController } from './controllers/bank-accounts.controller';
 import { BankAccountsService } from './services/bank-accounts.service';
 import { BankAccountsRepository } from './repositories/bank-accounts.repository';
 import { BankAccountPresenter } from './presenters/bank-account.presenter';
+import { BankAccountsAiTools } from './bank-accounts.ai-tools';
 
 @Module({
     imports: [CodeSequencesModule],
     controllers: [BankAccountsController],
-    providers: [BankAccountsService, BankAccountsRepository, BankAccountPresenter, LocaleResolverService],
+    providers: [BankAccountsService, BankAccountsRepository, BankAccountPresenter, LocaleResolverService, BankAccountsAiTools],
     exports: [BankAccountsService],
 })
 export class BankAccountsModule {}

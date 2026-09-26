@@ -2,7 +2,7 @@ import { Controller, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { BankAccountsService } from '../services/bank-accounts.service';
 import { CreateBankAccountDto, UpdateBankAccountDto, BankAccountResponseDto } from '../dto';
-import { createCrudController, type CrudOpenApi } from '@devloggers/backend-core';
+import { createCrudController, type CrudOpenApi, type FilterSchema } from '@devloggers/backend-core';
 import { JwtAuthGuard, PermissionsGuard } from '@/modules/identity/auth/guards';
 import { currencyResource } from '@devloggers/api-contracts';
 
@@ -32,15 +32,17 @@ const BANK_ACCOUNTS_OPENAPI = {
     },
 } satisfies CrudOpenApi;
 
+export const BANK_ACCOUNTS_FILTER_SCHEMA: FilterSchema = [
+    { field: 'code', type: 'string' },
+    { field: 'name', type: 'string', localized: true },
+    { field: 'currencyId', type: 'id', foreignResourceKey: currencyResource.key },
+];
+
 const BankAccountsCrudBase = createCrudController({
     responseDto: BankAccountResponseDto,
     createDto: CreateBankAccountDto,
     updateDto: UpdateBankAccountDto,
-    filterSchema: [
-        { field: 'code', type: 'string' },
-        { field: 'name', type: 'string', localized: true },
-        { field: 'currencyId', type: 'id', foreignResourceKey: currencyResource.key },
-    ],
+    filterSchema: BANK_ACCOUNTS_FILTER_SCHEMA,
     permissions: {
       view: 'bankAccounts.view',
       create: 'bankAccounts.create',
