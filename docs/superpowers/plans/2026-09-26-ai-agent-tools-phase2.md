@@ -2145,3 +2145,29 @@ git commit -m "docs(ai-agent): record phase 2 tool verification results"
 ## Verification results
 
 _(filled in by Task 12)_
+
+Recorded 2026-09-26 on `feat/ai-agent-tools-phase2`:
+
+| Gate | Result |
+|---|---|
+| `pnpm --filter @devloggers/backend-core build` / `test` | OK · 8 suites, 41 tests passed |
+| `pnpm --filter @devloggers/api test` | 116 suites, 619 tests passed |
+| `pnpm --filter @devloggers/api lint` | exit 0 — 0 errors (373 pre-existing warnings; `eslint` on the 58 API files changed on this branch: clean) |
+| `pnpm --filter @devloggers/api lint:architecture` | Domain manifest is in sync with the code |
+| `tsc --noEmit` (apps/api) | exit 0 |
+| `pnpm turbo run build --filter=@devloggers/api` | 5/5 tasks successful |
+
+Live smoke (local Postgres, app context): `Registered 67 AI tools`, `offered without load: 39`.
+
+| Tool | Result | Size |
+|---|---|---|
+| `brands.list` | output (0 rows) | 58 chars |
+| `suppliers.list` | output | 1,099 chars |
+| `warehouses.list` | output | 589 chars |
+| `cashboxes.list` | output | 686 chars |
+| `currencies.list` | output | 634 chars |
+| `invoices.list` (limit 3) | output (0 rows) | 58 chars |
+| `stock.balances` | output (0 rows) | 49 chars |
+| `reports.sales-summary` (Sept 2026) | output `{ count: 0, totalSales: 0 }` | 53 chars |
+
+Not yet done: Step 3 dashboard chat smoke (needs the user to restart `pnpm dev` and try the four prompts). The local DB has no brands, invoices or stock yet, so those tools were verified on empty data.
