@@ -1,5 +1,5 @@
 import { HttpException, Injectable, Logger } from '@nestjs/common';
-import type { AiTool, AiToolContext, AiToolResult } from '@devloggers/backend-core';
+import { LocaleContext, parseLocale, type AiTool, type AiToolContext, type AiToolResult } from '@devloggers/backend-core';
 import { AuditWriter } from '../../audit';
 
 const TOOL_TIMEOUT_MS = 30_000;
@@ -46,7 +46,10 @@ export class AiToolExecutor {
             return { kind: 'error', errorText: 'Invalid tool input', details: prepared.errors };
         }
         try {
-            const output = await withTimeout(prepared.run(ctx), TOOL_TIMEOUT_MS);
+            const output = await withTimeout(
+                LocaleContext.run(parseLocale(ctx.locale), () => prepared.run(ctx)),
+                TOOL_TIMEOUT_MS,
+            );
             if (tool.risk !== 'read') {
                 await this.audit.record({
                     tenantId: ctx.tenantId,
