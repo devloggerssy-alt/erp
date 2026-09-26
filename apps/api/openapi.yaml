@@ -16222,6 +16222,67 @@ paths:
           schema:
             example: ''
             type: string
+        - name: filters
+          required: false
+          in: query
+          style: deepObject
+          explode: true
+          description: >-
+            Structured filters. Example:
+            filters[code][$like]=sample-code&filters[name][$like]=sample-name&filters[isActive][$eq]=true
+          schema:
+            type: object
+            properties:
+              code:
+                type: object
+                description: Filter on `code` (string)
+                properties:
+                  $eq:
+                    type: string
+                  $like:
+                    type: string
+                    example: sample-code
+                  $in:
+                    type: array
+                    items:
+                      type: string
+                  $isNull:
+                    type: boolean
+                    enum:
+                      - true
+                example:
+                  $like: sample-code
+              name:
+                type: object
+                description: Filter on `name` (string)
+                properties:
+                  $eq:
+                    type: string
+                  $like:
+                    type: string
+                    example: sample-name
+                example:
+                  $like: sample-name
+              isActive:
+                type: object
+                description: Filter on `isActive` (boolean)
+                properties:
+                  $eq:
+                    type: boolean
+                    example: true
+                  $isNull:
+                    type: boolean
+                    enum:
+                      - true
+                example:
+                  $eq: true
+            example:
+              code:
+                $like: sample-code
+              name:
+                $like: sample-name
+              isActive:
+                $eq: true
       responses:
         '200':
           description: Paginated list of invoice types
@@ -16235,6 +16296,45 @@ paths:
                         type: array
                         items:
                           $ref: '#/components/schemas/InvoiceTypeResponseDto'
+                      meta:
+                        type: object
+                        properties:
+                          pagination:
+                            type: object
+                            properties:
+                              total:
+                                type: number
+                                example: 0
+                              page:
+                                type: number
+                                example: 1
+                              limit:
+                                type: number
+                                example: 10
+                              totalPages:
+                                type: number
+                                example: 0
+                          filterOptions:
+                            type: array
+                            example:
+                              - field: code
+                                type: string
+                                operators:
+                                  - $eq
+                                  - $like
+                                  - $in
+                                  - $isNull
+                              - field: name
+                                type: string
+                                localized: true
+                                operators:
+                                  - $eq
+                                  - $like
+                              - field: isActive
+                                type: boolean
+                                operators:
+                                  - $eq
+                                  - $isNull
         '401':
           description: JWT token is missing, expired, or invalid
           content:
@@ -27851,7 +27951,6 @@ components:
           allOf:
             - $ref: '#/components/schemas/LocalizedStringDto'
         direction:
-          default: PURCHASE
           enum:
             - PURCHASE
             - SALE

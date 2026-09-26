@@ -2,7 +2,7 @@ import { Controller, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { InvoiceTypesService } from '../services/invoice-types.service';
 import { CreateInvoiceTypeDto, UpdateInvoiceTypeDto, InvoiceTypeResponseDto } from '../dto';
-import { createCrudController, type CrudOpenApi } from '@devloggers/backend-core';
+import { createCrudController, type CrudOpenApi, type FilterSchema } from '@devloggers/backend-core';
 import { JwtAuthGuard, PermissionsGuard } from '@/modules/identity/auth/guards';
 
 const INVOICE_TYPES_OPENAPI = {
@@ -31,10 +31,17 @@ const INVOICE_TYPES_OPENAPI = {
     },
 } satisfies CrudOpenApi;
 
+export const INVOICE_TYPES_FILTER_SCHEMA: FilterSchema = [
+    { field: 'code', type: 'string' },
+    { field: 'name', type: 'string', localized: true },
+    { field: 'isActive', type: 'boolean' },
+];
+
 const InvoiceTypesCrudBase = createCrudController({
     responseDto: InvoiceTypeResponseDto,
     createDto: CreateInvoiceTypeDto,
     updateDto: UpdateInvoiceTypeDto,
+    filterSchema: INVOICE_TYPES_FILTER_SCHEMA,
     permissions: {
       view: 'invoiceTypes.view',
       create: 'invoiceTypes.create',

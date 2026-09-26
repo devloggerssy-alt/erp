@@ -22,7 +22,7 @@ export class CreateInvoiceTypeDto {
     @ApiProperty({ enum: InvoiceDirectionEnum, example: 'PURCHASE', description: 'PURCHASE = inbound, SALE = outbound' })
     @IsEnum(InvoiceDirectionEnum)
     @IsNotEmpty()
-    direction: InvoiceDirectionEnum = InvoiceDirectionEnum.PURCHASE;
+    direction!: InvoiceDirectionEnum;
 
     @ApiPropertyOptional({ example: true, description: 'Whether this type affects warehouse stock' })
     @IsOptional()
