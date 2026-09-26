@@ -2171,3 +2171,13 @@ Live smoke (local Postgres, app context): `Registered 67 AI tools`, `offered wit
 | `reports.sales-summary` (Sept 2026) | output `{ count: 0, totalSales: 0 }` | 53 chars |
 
 Not yet done: Step 3 dashboard chat smoke (needs the user to restart `pnpm dev` and try the four prompts). The local DB has no brands, invoices or stock yet, so those tools were verified on empty data.
+
+### Known follow-ups (from final review)
+
+- `ai-tool-catalog.spec.ts` stubs `isDependencyTreeStatic: () => true`; the real request-scope guard for all providers is proven only by app boot (live smoke `Registered 67 AI tools`) plus `ai-tool-registry.spec.ts`.
+- `apps/dashboard` lint has 61 pre-existing errors (none from this branch) — the spec's dashboard-lint gate is not green.
+- HTTP report routes likely share the date-only `to` exclusivity bug (fixed only for AI tools here, in `reports.ai-tools.ts`).
+- `chat.controller.ts` defaults locale to `'en'` while `parseLocale` defaults to `'ar'`.
+- `expenses.show` returns the raw Prisma entity (not a presenter shape).
+- `currencies.update` can set `isActive: false` on the base currency (no service guard; same gap in the UI).
+- Minor: `AiPageDto` duplicates `AiListQueryDto` paging; `stock.balances` slices in memory; `expenses.list` returns untruncated notes; `payments.list` passes an `orderBy` the service ignores; `CreateInvoiceTypeDto.direction` lacks `enumName`.
