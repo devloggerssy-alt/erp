@@ -2,7 +2,7 @@ import { Controller, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { WarehousesService } from '../services/warehouses.service';
 import { CreateWarehouseDto, UpdateWarehouseDto, WarehouseResponseDto } from '../dto';
-import { createCrudController, type CrudOpenApi } from '@devloggers/backend-core';
+import { createCrudController, type CrudOpenApi, type FilterSchema } from '@devloggers/backend-core';
 import { JwtAuthGuard, PermissionsGuard } from '@/modules/identity/auth/guards';
 
 const WAREHOUSES_OPENAPI = {
@@ -31,16 +31,18 @@ const WAREHOUSES_OPENAPI = {
     },
 } satisfies CrudOpenApi;
 
+export const WAREHOUSES_FILTER_SCHEMA: FilterSchema = [
+    { field: 'code', type: 'string' },
+    { field: 'name', type: 'string', localized: true },
+    { field: 'address', type: 'string' },
+    { field: 'isActive', type: 'boolean' },
+];
+
 const WarehousesCrudBase = createCrudController({
     responseDto: WarehouseResponseDto,
     createDto: CreateWarehouseDto,
     updateDto: UpdateWarehouseDto,
-    filterSchema: [
-        { field: 'code', type: 'string' },
-        { field: 'name', type: 'string', localized: true },
-        { field: 'address', type: 'string' },
-        { field: 'isActive', type: 'boolean' },
-    ],
+    filterSchema: WAREHOUSES_FILTER_SCHEMA,
     permissions: {
       view: 'warehouses.view',
       create: 'warehouses.create',
