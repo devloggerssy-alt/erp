@@ -6,11 +6,12 @@ import { PaymentsController } from './payments.controller';
 import { PaymentsService } from './payments.service';
 import { PaymentsRepository } from './repositories/payments.repository';
 import { PaymentPresenter } from './presenters/payment.presenter';
+import { PaymentsAiTools } from './payments.ai-tools';
 
 @Module({
   imports: [PrismaModule, DocumentSequencesModule, PostingModule],
   controllers: [PaymentsController],
-  providers: [PaymentsService, PaymentsRepository, PaymentPresenter],
+  providers: [PaymentsService, PaymentsRepository, PaymentPresenter, PaymentsAiTools],
   exports: [PaymentsService],
 })
 export class PaymentsModule {}
