@@ -25,7 +25,7 @@ export function useOpeningStock() {
 
   const { data: items, isLoading: isLoadingItems } = useQuery({
     queryKey: ["opening-stock-items"],
-    queryFn: () => api[itemResource.key].list({ pageSize: 1000 }),
+    queryFn: () => api[itemResource.key].list({ limit: 1000 }),
     select: (res) =>
       (res?.data ?? []) as Array<{
         id: string

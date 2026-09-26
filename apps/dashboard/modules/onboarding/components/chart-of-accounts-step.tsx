@@ -1,24 +1,63 @@
 "use client"
 
 import { useMutation } from "@tanstack/react-query"
-import { useTranslations } from "next-intl"
+import { useLocale, useTranslations } from "next-intl"
 import { Button } from "@/shared/components/ui/button"
 import { useApi } from "@/shared/useApi"
 
+// Mirrors apps/api/src/modules/accounting/accounts/bootstrap/chart-of-accounts-template.ts
+// (level 1 + level 2 only) so the preview matches what onboarding actually creates.
 const COA_PREVIEW = [
-    { code: "1000", name: "Assets",        children: ["1100 Current Assets", "1200 Non-Current Assets"] },
-    { code: "2000", name: "Liabilities",   children: ["2100 Current Liabilities", "2200 Non-Current Liabilities"] },
-    { code: "3000", name: "Equity",        children: ["3100 Owner's Equity", "3200 Retained Earnings"] },
-    { code: "4000", name: "Revenue",       children: ["4100 Sales Revenue", "4200 Other Revenue"] },
-    { code: "5000", name: "Cost of Sales", children: ["5100 Cost of Goods Sold"] },
-    { code: "6000", name: "Expenses",      children: ["6100 Operating Expenses", "6200 Administrative Expenses"] },
+    {
+        code: "1000", nameEn: "Assets", nameAr: "الأصول",
+        children: [
+            { code: "1100", nameEn: "Current Assets", nameAr: "الأصول المتداولة" },
+            { code: "1200", nameEn: "Non-Current Assets", nameAr: "الأصول غير المتداولة" },
+        ],
+    },
+    {
+        code: "2000", nameEn: "Liabilities", nameAr: "الالتزامات",
+        children: [
+            { code: "2100", nameEn: "Current Liabilities", nameAr: "الالتزامات المتداولة" },
+            { code: "2200", nameEn: "Non-Current Liabilities", nameAr: "الالتزامات غير المتداولة" },
+        ],
+    },
+    {
+        code: "3000", nameEn: "Equity", nameAr: "حقوق الملكية",
+        children: [
+            { code: "3100", nameEn: "Owner's Equity", nameAr: "حقوق صاحب العمل" },
+            { code: "3200", nameEn: "Retained Earnings", nameAr: "الأرباح المحتجزة" },
+        ],
+    },
+    {
+        code: "4000", nameEn: "Revenue", nameAr: "الإيرادات",
+        children: [
+            { code: "4100", nameEn: "Sales Revenue", nameAr: "إيرادات المبيعات" },
+            { code: "4200", nameEn: "Other Revenue", nameAr: "إيرادات أخرى" },
+        ],
+    },
+    {
+        code: "5000", nameEn: "Cost of Sales", nameAr: "تكلفة المبيعات",
+        children: [
+            { code: "5100", nameEn: "Cost of Goods Sold", nameAr: "تكلفة البضاعة المباعة" },
+        ],
+    },
+    {
+        code: "6000", nameEn: "Expenses", nameAr: "المصروفات",
+        children: [
+            { code: "6100", nameEn: "Operating Expenses", nameAr: "المصروفات التشغيلية" },
+            { code: "6200", nameEn: "Administrative Expenses", nameAr: "المصروفات الإدارية" },
+        ],
+    },
 ]
 
 type Props = { onSuccess: (codeToId: Record<string, string>) => void }
 
 export function ChartOfAccountsStep({ onSuccess }: Props) {
     const api = useApi()
+    const locale = useLocale()
     const t = useTranslations("business")
+    const groupName = (group: { nameEn: string; nameAr: string }) => (locale === "ar" ? group.nameAr : group.nameEn)
     const { mutate, isPending, error } = useMutation({
         mutationFn: () => api.onboarding.stepChartOfAccounts(),
         onSuccess: (data) => onSuccess(data.codeToId),
@@ -33,10 +72,12 @@ export function ChartOfAccountsStep({ onSuccess }: Props) {
             <div className="border rounded-lg divide-y">
                 {COA_PREVIEW.map((group) => (
                     <div key={group.code} className="p-3 space-y-1">
-                        <div className="font-medium text-sm">{group.code} — {group.name}</div>
+                        <div className="font-medium text-sm">{group.code} — {groupName(group)}</div>
                         <div className="ps-4 space-y-0.5">
                             {group.children.map((child) => (
-                                <div key={child} className="text-xs text-muted-foreground">{child}</div>
+                                <div key={child.code} className="text-xs text-muted-foreground">
+                                    {child.code} {groupName(child)}
+                                </div>
                             ))}
                         </div>
                     </div>
