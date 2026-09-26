@@ -3,6 +3,7 @@ import { InventoryController } from './inventory.controller';
 import { InventoryService } from './inventory.service';
 import { InventoryRepository } from './repositories/inventory.repository';
 import { InventoryPresenter } from './presenters/inventory.presenter';
+import { InventoryAiTools } from './inventory.ai-tools';
 import { WarehousesModule } from './warehouses/warehouses.module';
 import { InventoryMovementsModule } from './movements/inventory-movements.module';
 import { PostingModule } from '../accounting/posting';
@@ -10,7 +11,7 @@ import { PostingModule } from '../accounting/posting';
 @Module({
     imports: [WarehousesModule, PostingModule, InventoryMovementsModule],
     controllers: [InventoryController],
-    providers: [InventoryService, InventoryRepository, InventoryPresenter],
+    providers: [InventoryService, InventoryRepository, InventoryPresenter, InventoryAiTools],
     exports: [InventoryService, WarehousesModule, InventoryMovementsModule],
 })
 export class InventoryModule {}
