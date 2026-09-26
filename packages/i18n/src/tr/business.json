@@ -1352,13 +1352,35 @@
       "update": "Güncelle",
       "delete": "Sil",
       "search": "Ara",
-      "load": "Yükle"
+      "load": "Yükle",
+      "balances": "Bakiyeler",
+      "movements": "Hareketler",
+      "sales-summary": "Satış özeti",
+      "purchase-summary": "Alış özeti",
+      "profit-summary": "Kâr özeti",
+      "party-statement": "Hesap ekstresi",
+      "dashboard-summary": "Genel bakış",
+      "top-items": "En çok satanlar"
     },
     "resources": {
       "units": "birimler",
       "items": "ürünler",
       "customers": "müşteriler",
-      "tools": "araçlar"
+      "tools": "araçlar",
+      "brands": "markalar",
+      "item-categories": "ürün kategorileri",
+      "tags": "etiketler",
+      "suppliers": "tedarikçiler",
+      "warehouses": "depolar",
+      "stock": "stok",
+      "cashboxes": "kasalar",
+      "bank-accounts": "banka hesapları",
+      "invoice-types": "fatura türleri",
+      "invoices": "faturalar",
+      "expenses": "giderler",
+      "payments": "ödemeler",
+      "currencies": "para birimleri",
+      "reports": "raporlar"
     }
   },
   "pos": {

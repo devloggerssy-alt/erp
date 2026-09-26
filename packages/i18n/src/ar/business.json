@@ -1520,13 +1520,35 @@
       "update": "تعديل",
       "delete": "حذف",
       "search": "بحث",
-      "load": "تحميل"
+      "load": "تحميل",
+      "balances": "الأرصدة",
+      "movements": "الحركات",
+      "sales-summary": "ملخص المبيعات",
+      "purchase-summary": "ملخص المشتريات",
+      "profit-summary": "ملخص الأرباح",
+      "party-statement": "كشف حساب",
+      "dashboard-summary": "نظرة عامة",
+      "top-items": "الأكثر مبيعاً"
     },
     "resources": {
       "units": "الوحدات",
       "items": "المواد",
       "customers": "العملاء",
-      "tools": "الأدوات"
+      "tools": "الأدوات",
+      "brands": "العلامات التجارية",
+      "item-categories": "تصنيفات المواد",
+      "tags": "الوسوم",
+      "suppliers": "الموردين",
+      "warehouses": "المستودعات",
+      "stock": "المخزون",
+      "cashboxes": "الصناديق",
+      "bank-accounts": "الحسابات البنكية",
+      "invoice-types": "أنواع الفواتير",
+      "invoices": "الفواتير",
+      "expenses": "المصاريف",
+      "payments": "الدفعات",
+      "currencies": "العملات",
+      "reports": "التقارير"
     }
   },
   "pos": {
