@@ -24,6 +24,22 @@ describe('WarehousesAiTools', () => {
         const prepared = await toolNamed(tools, 'warehouses.list').prepare({ search: 'main' });
         if (!prepared.ok) throw new Error('invalid');
         await prepared.run(ctx);
-        expect(service.list).toHaveBeenCalledWith('tenant-1', expect.objectContaining({ where: expect.any(Object), take: 20 }));
+        const [, options] = service.list.mock.calls[0];
+        // search: 'main' with searchFields: ['code', 'name'] where name is localized
+        // should produce: OR: [
+        //   { code: { contains: 'main', mode: 'insensitive' } },
+        //   { name: { path: ['ar'], string_contains: 'main', mode: 'insensitive' } },
+        //   { name: { path: ['en'], string_contains: 'main', mode: 'insensitive' } }
+        // ]
+        expect(options.where).toEqual(
+            expect.objectContaining({
+                OR: expect.arrayContaining([
+                    { code: { contains: 'main', mode: 'insensitive' } },
+                    { name: { path: ['ar'], string_contains: 'main', mode: 'insensitive' } },
+                    { name: { path: ['en'], string_contains: 'main', mode: 'insensitive' } },
+                ]),
+            }),
+        );
+        expect(options.take).toBe(20);
     });
 });
