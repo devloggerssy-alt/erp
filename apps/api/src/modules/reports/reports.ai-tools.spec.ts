@@ -45,7 +45,19 @@ describe('ReportsAiTools', () => {
     it('returns sales aggregates without the invoice rows', async () => {
         service.getSalesSummary.mockResolvedValue({ invoices: [{ id: 'x' }], totalSales: 120, count: 1 });
         await expect(run(toolNamed(tools, 'reports.sales-summary'), { from: '2026-09-01', to: '2026-09-30' })).resolves.toEqual({ count: 1, totalSales: 120 });
-        expect(service.getSalesSummary).toHaveBeenCalledWith('tenant-1', { from: '2026-09-01', to: '2026-09-30', partyId: undefined });
+        expect(service.getSalesSummary).toHaveBeenCalledWith('tenant-1', { from: '2026-09-01', to: '2026-09-30T23:59:59.999Z', partyId: undefined });
+    });
+
+    it('passes a full ISO datetime `to` through unchanged', async () => {
+        service.getSalesSummary.mockResolvedValue({ invoices: [], totalSales: 0, count: 0 });
+        await run(toolNamed(tools, 'reports.sales-summary'), { to: '2026-09-30T12:00:00Z' });
+        expect(service.getSalesSummary).toHaveBeenCalledWith('tenant-1', { from: undefined, to: '2026-09-30T12:00:00Z', partyId: undefined });
+    });
+
+    it('widens a date-only `to` to end-of-day for profit-summary', async () => {
+        service.getProfitSummary.mockResolvedValue({});
+        await run(toolNamed(tools, 'reports.profit-summary'), { from: '2026-09-01', to: '2026-09-30' });
+        expect(service.getProfitSummary).toHaveBeenCalledWith('tenant-1', { from: '2026-09-01', to: '2026-09-30T23:59:59.999Z' });
     });
 
     it('returns purchase aggregates without the invoice rows', async () => {
@@ -74,5 +86,11 @@ describe('ReportsAiTools', () => {
         service.getDashboardTopItems.mockResolvedValue([]);
         await run(toolNamed(tools, 'reports.top-items'), { limit: 5 });
         expect(service.getDashboardTopItems).toHaveBeenCalledWith('tenant-1', { from: undefined, to: undefined, limit: 5 });
+    });
+
+    it('widens a date-only `to` for top-items', async () => {
+        service.getDashboardTopItems.mockResolvedValue([]);
+        await run(toolNamed(tools, 'reports.top-items'), { to: '2026-09-30' });
+        expect(service.getDashboardTopItems).toHaveBeenCalledWith('tenant-1', { from: undefined, to: '2026-09-30T23:59:59.999Z', limit: undefined });
     });
 });

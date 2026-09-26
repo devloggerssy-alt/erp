@@ -41,6 +41,11 @@ export class AiTopItemsDto extends AiDateRangeDto {
 
 const PERIOD_HINT = 'Dates are YYYY-MM-DD; posted documents only.';
 
+/** A date-only `to` means the whole day: widen it to its last millisecond (UTC). */
+function inclusiveEnd(to: string | undefined): string | undefined {
+    return to && /^\d{4}-\d{2}-\d{2}$/.test(to) ? `${to}T23:59:59.999Z` : to;
+}
+
 @AiToolProvider()
 @Injectable()
 export class ReportsAiTools implements AiToolSource {
@@ -57,7 +62,7 @@ export class ReportsAiTools implements AiToolSource {
                 description: `Total sales and invoice count for a period, optionally for one customer. ${PERIOD_HINT} Use invoices.list for the rows.`,
                 input: dtoInput(AiPartyDateRangeDto),
                 handler: async (ctx, input) => {
-                    const { count, totalSales } = await this.reports.getSalesSummary(ctx.tenantId, { from: input.from, to: input.to, partyId: input.partyId });
+                    const { count, totalSales } = await this.reports.getSalesSummary(ctx.tenantId, { from: input.from, to: inclusiveEnd(input.to), partyId: input.partyId });
                     return { count, totalSales };
                 },
             }),
@@ -70,7 +75,7 @@ export class ReportsAiTools implements AiToolSource {
                 description: `Total purchases and invoice count for a period, optionally for one supplier. ${PERIOD_HINT}`,
                 input: dtoInput(AiPartyDateRangeDto),
                 handler: async (ctx, input) => {
-                    const { count, totalPurchases } = await this.reports.getPurchaseSummary(ctx.tenantId, { from: input.from, to: input.to, partyId: input.partyId });
+                    const { count, totalPurchases } = await this.reports.getPurchaseSummary(ctx.tenantId, { from: input.from, to: inclusiveEnd(input.to), partyId: input.partyId });
                     return { count, totalPurchases };
                 },
             }),
@@ -82,7 +87,7 @@ export class ReportsAiTools implements AiToolSource {
                 permission: 'reports.view',
                 description: `Sales, purchases, expenses, gross and net profit for a period. ${PERIOD_HINT}`,
                 input: dtoInput(AiDateRangeDto),
-                handler: (ctx, input) => this.reports.getProfitSummary(ctx.tenantId, { from: input.from, to: input.to }),
+                handler: (ctx, input) => this.reports.getProfitSummary(ctx.tenantId, { from: input.from, to: inclusiveEnd(input.to) }),
             }),
             defineAiTool({
                 name: 'reports.party-statement',
@@ -113,7 +118,7 @@ export class ReportsAiTools implements AiToolSource {
                 permission: 'dashboard.view',
                 description: `Business KPIs for a period: sales, purchases, expenses, net profit, cashbox balances, low-stock and active counts. ${PERIOD_HINT}`,
                 input: dtoInput(AiDateRangeDto),
-                handler: (ctx, input) => this.reports.getDashboardSummary(ctx.tenantId, { from: input.from, to: input.to }),
+                handler: (ctx, input) => this.reports.getDashboardSummary(ctx.tenantId, { from: input.from, to: inclusiveEnd(input.to) }),
             }),
             defineAiTool({
                 name: 'reports.top-items',
@@ -123,7 +128,7 @@ export class ReportsAiTools implements AiToolSource {
                 permission: 'dashboard.view',
                 description: `Best-selling items by sales value for a period (default: this month). ${PERIOD_HINT}`,
                 input: dtoInput(AiTopItemsDto),
-                handler: (ctx, input) => this.reports.getDashboardTopItems(ctx.tenantId, { from: input.from, to: input.to, limit: input.limit }),
+                handler: (ctx, input) => this.reports.getDashboardTopItems(ctx.tenantId, { from: input.from, to: inclusiveEnd(input.to), limit: input.limit }),
             }),
         ];
     }
