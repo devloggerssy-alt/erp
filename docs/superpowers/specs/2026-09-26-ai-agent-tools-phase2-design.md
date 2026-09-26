@@ -82,7 +82,20 @@
   so the JSON schema lists them; ids are `@IsUUID()`; `page ≥ 1`, `1 ≤ limit ≤ 50`, default 20.
 - [ ] **Compact list output:** `invoices.list`, `expenses.list` and `payments.list` map each row to
   `{ id, number, date, partyName, status, currency, total, paid?, remaining? }` (fields that exist on the entity)
-  and return `{ items, total, page }`. `*.show` returns the full record. Reports return the service result as is.
+  and return `{ items, total, page }`. `*.show` returns the full record. `invoices.*` go through the existing
+  `InvoicePresenter` (localized names, `amountPaid` / `balanceDue` / `paidStatus`).
+- [ ] **Compact report output:** `getSalesSummary` / `getPurchaseSummary` return every matching invoice and
+  `getPartyStatement` returns every invoice and payment, which would overflow the output cap. Their tools return
+  aggregates only: `{ count, totalSales | totalPurchases }` and `{ party: { id, name, code }, totalInvoiced, totalPaid,
+  balance, invoiceCount, paymentCount }`. The model uses `invoices.list` / `payments.list` for rows.
+  `reports.profit-summary` and `reports.dashboard-summary` return the service result unchanged; `reports.top-items`
+  uses the service's own `limit` (max 20). `stock.balances` returns at most 50 rows plus `total`.
+- [ ] **Paging DTO:** add `AiPageDto` (`page`, `limit`) to `packages/backend-core/src/ai-tools/ai-tool-dtos.ts` for read
+  tools whose services do not support free-text search.
+- [ ] **`CreateInvoiceTypeDto.direction`** changes from an initializer (`= PURCHASE`) to `direction!:`. With the
+  initializer, a create call that omits `direction` silently becomes a purchase type — the hazard described in
+  `backend-resource-module` ("Satisfying strictPropertyInitialization"). The model omitting a field is likely, so
+  this is fixed with the tool.
 - [ ] `ALWAYS_LOADED_DOMAINS` gains `'reports'`.
 - [ ] System prompt (`runtime/system-prompt.ts`) adds guidance: resolve names to ids with a `*.list` call before
   id-taking tools; convert relative dates ("this month") to ISO dates from today's date; use `tools.search` /
@@ -178,6 +191,8 @@ and non-read tools write an audit row with `source: 'AI_AGENT'`.
 | Each module file owning a provider above (`brands.module.ts`, …, `parties.module.ts`, `inventory.module.ts`, `stock-ledger.module.ts`, `reports.module.ts`) | Add provider |
 | Controllers of brands, item-categories, tags, warehouses, cashboxes, bank-accounts, currencies | Move inline `filterSchema` into an exported `<X>_FILTER_SCHEMA` constant (no behaviour change) |
 | `apps/api/src/modules/invoicing/invoice-types/controllers/invoice-types.controller.ts` | Add `INVOICE_TYPES_FILTER_SCHEMA` (`name` localized, `isActive`) — also fixes HTTP search on localized names |
+| `apps/api/src/modules/invoicing/invoice-types/dto/invoice-type.dto.ts` | `direction!:` instead of a defaulted initializer |
+| `packages/backend-core/src/ai-tools/ai-tool-dtos.ts` | Add `AiPageDto` |
 | `apps/api/src/modules/ai-agent/tools/tool-names.ts` | `ALWAYS_LOADED_DOMAINS` += `'reports'` |
 | `apps/api/src/modules/ai-agent/runtime/system-prompt.ts` | Guidance sentence (ids, dates, tool loading) |
 | `packages/i18n/src/{en,ar,tr}/business.json` | `aiAgent.resources.*`, `aiAgent.ops.*` keys |
