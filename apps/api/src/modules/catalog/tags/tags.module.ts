@@ -3,6 +3,7 @@ import { TagsRepository } from './repositories/tags.repository';
 import { TagsService } from './services/tags.service';
 import { TagPresenter } from './presenters/tag.presenter';
 import { TagsController } from './controllers/tags.controller';
+import { TagsAiTools } from './tags.ai-tools';
 
 /**
  * TagsModule — tags CRUD feature.
@@ -15,7 +16,7 @@ import { TagsController } from './controllers/tags.controller';
  */
 @Module({
   controllers: [TagsController],
-  providers: [TagsRepository, TagsService, TagPresenter],
+  providers: [TagsRepository, TagsService, TagPresenter, TagsAiTools],
   exports: [TagsService],
 })
 export class TagsModule {}

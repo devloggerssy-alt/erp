@@ -1,6 +1,6 @@
 import { Controller, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
-import { createCrudController, type CrudOpenApi } from '@devloggers/backend-core';
+import { createCrudController, type CrudOpenApi, type FilterSchema } from '@devloggers/backend-core';
 import { TagsService } from '../services/tags.service';
 import { CreateTagDto, UpdateTagDto, TagResponseDto } from '../dto';
 import { JwtAuthGuard, PermissionsGuard } from '@/modules/identity/auth/guards';
@@ -43,15 +43,17 @@ const TAGS_CRUD_OPENAPI = {
   },
 } satisfies CrudOpenApi;
 
+export const TAGS_FILTER_SCHEMA: FilterSchema = [
+  { field: 'name',      type: 'string' },
+  { field: 'module',    type: 'string' },
+  { field: 'createdAt', type: 'date' },
+];
+
 const TagsCrudBase = createCrudController({
   responseDto: TagResponseDto,
   createDto: CreateTagDto,
   updateDto: UpdateTagDto,
-  filterSchema: [
-    { field: 'name',      type: 'string' },
-    { field: 'module',    type: 'string' },
-    { field: 'createdAt', type: 'date' },
-  ],
+  filterSchema: TAGS_FILTER_SCHEMA,
   permissions: {
     view: 'tags.view',
     create: 'tags.create',
