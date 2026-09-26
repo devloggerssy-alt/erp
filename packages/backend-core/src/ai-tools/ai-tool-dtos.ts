@@ -27,3 +27,19 @@ export class AiIdDto {
   @IsUUID()
   id!: string;
 }
+
+/** Paging for read tools whose services have no free-text search. */
+export class AiPageDto {
+  @ApiPropertyOptional({ type: 'integer', minimum: 1, description: 'Page number, starting at 1' })
+  @IsOptional()
+  @IsInt()
+  @Min(1)
+  page?: number;
+
+  @ApiPropertyOptional({ type: 'integer', minimum: 1, maximum: 50, description: 'Rows per page (max 50, default 20)' })
+  @IsOptional()
+  @IsInt()
+  @Min(1)
+  @Max(50)
+  limit?: number;
+}
