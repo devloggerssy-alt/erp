@@ -1,5 +1,6 @@
 import { tenantResource, type ApiRequestBody } from "@devloggers/api-contracts"
 import { ApiClient } from "../infra/client"
+import { triggerBrowserDownload } from "../infra/crud-client"
 
 export class TenantsClient {
     constructor(private readonly apiClient: ApiClient) {}
@@ -39,5 +40,19 @@ export class TenantsClient {
         payload: ApiRequestBody<typeof tenantResource.routes.resetInventory, "post">,
     ) => {
         return this.apiClient.post(tenantResource.routes.resetInventory, payload)
+    }
+
+    /** Downloads the full tenant database backup (browser only). */
+    exportDatabase = async (): Promise<void> => {
+        const { blob, filename } = await this.apiClient.getBlob(tenantResource.routes.exportDatabase)
+        triggerBrowserDownload(blob, filename)
+    }
+
+    /** Uploads a backup file to restore the tenant. Requires the exact confirmation phrase. */
+    importDatabase = async (file: File, confirmation: string) => {
+        const formData = new FormData()
+        formData.append("file", file)
+        formData.append("confirmation", confirmation)
+        return this.apiClient.postFormData(tenantResource.routes.importDatabase, formData)
     }
 }
