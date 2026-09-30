@@ -1618,6 +1618,46 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/settings/danger/export-database": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Export the full tenant database
+         * @description Downloads every tenant-scoped record (accounting, invoicing, inventory, catalog, parties, users/roles, settings) as a gzip-compressed JSON backup. File attachments are not included — only their metadata rows.
+         */
+        get: operations["DatabaseBackup.exportDatabase"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/settings/danger/import-database": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Restore the tenant database from a backup
+         * @description DANGER: wipes ALL existing data for this tenant and replaces it with the uploaded backup. The tenant ID in every restored row is rewritten to the current tenant, so a backup from a different tenant can be used to migrate into this one. Requires the exact confirmation phrase. The acting admin will be logged out afterward, since users/roles are replaced too.
+         */
+        post: operations["DatabaseBackup.importDatabase"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/users": {
         parameters: {
             query?: never;
@@ -5771,6 +5811,39 @@ export interface components {
              * @description Confirmation phrase. Must be exactly "RESET INVENTORY".
              * @default
              * @example RESET INVENTORY
+             */
+            confirmation: string;
+        };
+        DatabaseBackupResultDto: {
+            /**
+             * @description Number of cataloged models processed
+             * @default 0
+             * @example 48
+             */
+            modelsProcessed: number;
+            /**
+             * @description Rows loaded per model (by delegate key)
+             * @default {}
+             * @example {
+             *       "currency": 3,
+             *       "chartOfAccount": 42,
+             *       "invoice": 128
+             *     }
+             */
+            countsByModel: {
+                [key: string]: number;
+            };
+        };
+        ImportDatabaseDto: {
+            /**
+             * Format: binary
+             * @description Gzip-compressed backup file (.json.gz) produced by the export endpoint.
+             */
+            file: string;
+            /**
+             * @description Confirmation phrase. Must be exactly "IMPORT DATABASE".
+             * @default
+             * @example IMPORT DATABASE
              */
             confirmation: string;
         };
@@ -18234,6 +18307,145 @@ export interface operations {
                         data?: components["schemas"]["InventoryResetResultDto"];
                     };
                 };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    "DatabaseBackup.exportDatabase": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    "DatabaseBackup.importDatabase": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "multipart/form-data": components["schemas"]["ImportDatabaseDto"];
+            };
+        };
+        responses: {
+            /** @description Restore completed; returns per-model row counts */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["DatabaseBackupResultDto"];
+                    };
+                };
+            };
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
             /** @description JWT token is missing, expired, or invalid */
             401: {
