@@ -1404,18 +1404,24 @@ git commit -m "feat(i18n): add database export/import Danger Zone strings"
 
 **Files:** none — verification only.
 
-- [ ] **Step 1: Full API test suite**
+- [x] **Step 1: Full API test suite**
 
 Run: `pnpm --filter @devloggers/api test`
 Expected: all pass, including the 3 new spec files from Tasks 2, 4, 5 and `enforcement-coverage.spec.ts`.
 
-- [ ] **Step 2: Full builds**
+Result: 101 suites, 578 tests, all passed.
+
+- [x] **Step 2: Full builds**
 
 Run: `pnpm turbo run build --filter=@devloggers/api`
 Run: `pnpm turbo run build --filter=@devloggers/dashboard`
 Expected: both succeed.
 
-- [ ] **Step 3: Manual smoke test** (per the design spec's Verification section — requires `pnpm dev` running)
+Result: both succeeded. (One dashboard build attempt failed on a transient Google Fonts network fetch, unrelated to this feature — confirmed transient by an immediate successful retry.)
+
+- [ ] **Step 3: Manual smoke test — DEFERRED, not run.** (per the design spec's Verification section — requires `pnpm dev` running)
+
+**Status:** the user explicitly chose to skip this for now (2026-09-30) rather than run it themselves or authorize browser automation against their dev database, since it requires real login credentials and performs a genuinely destructive wipe-and-restore. Automated coverage (Tasks 1–10, all passing) verifies the unit-level logic — model ordering, scoping, remap, self-ref two-pass, format-version rejection — but **no one has yet verified this against a real Postgres database**, per Global Constraints deviation #4 (no real-DB integration harness exists in this repo). This checklist must be run before merging to main:
 
 - [ ] Export the current dev tenant from Settings → Danger Zone; confirm a `.json.gz` file downloads and `gunzip -c <file> | jq .formatVersion` prints `1`.
 - [ ] Re-import that same file into the same tenant; confirm the success toast, then confirm you're redirected to `/login`.
@@ -1425,13 +1431,13 @@ Expected: both succeed.
 - [ ] Attempt import with no file chosen; confirm the trigger button is disabled.
 - [ ] Switch the dashboard to Arabic; confirm the two new cards render RTL-correctly with translated text.
 
-- [ ] **Step 4: Update the design spec's Approval section**
+- [x] **Step 4: Update the design spec's Approval section**
 
-In `docs/superpowers/specs/2026-09-24-database-backup-restore-design.md`, check the second Approval checkbox and note the implementation commit range.
+In `docs/superpowers/specs/2026-09-24-database-backup-restore-design.md`, note that code is complete and automated tests pass, but the manual smoke test (real-DB verification) is still pending — do not mark fully "Implemented" until Step 3 above has actually run.
 
-- [ ] **Step 5: Final commit**
+- [x] **Step 5: Final commit**
 
 ```bash
 git add docs/superpowers/specs/2026-09-24-database-backup-restore-design.md
-git commit -m "docs: mark database backup/restore spec as implemented"
+git commit -m "docs: record database backup/restore implementation status"
 ```
