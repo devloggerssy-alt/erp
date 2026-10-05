@@ -15,20 +15,16 @@ import { confirm } from "@/shared/components/confirm-dialog"
 import { cn, toastErrorMessage } from "@/shared/lib/utils"
 import { useConversationMutations, useConversations } from "../hooks/use-conversations"
 
-export function ConversationList({ activeId }: { activeId?: string }) {
+export function ConversationList({ activeId, onNew }: { activeId?: string; onNew?: () => void }) {
     const t = useTranslations("business.aiAgent")
     const router = useRouter()
     const conversations = useConversations()
-    const { create, rename, remove } = useConversationMutations()
+    const { rename, remove } = useConversationMutations()
     const items = conversations.data?.pages.flatMap((page) => page.data?.items ?? []) ?? []
 
-    const onNew = async () => {
-        try {
-            const created = await create.mutateAsync()
-            if (created.data) router.push(`/ai/${created.data.id}`)
-        } catch (error) {
-            toast.error(toastErrorMessage(error, t("actionFailed")))
-        }
+    const handleNew = () => {
+        if (onNew) onNew()
+        else router.push("/ai")
     }
 
     const onRename = (id: string, current: string | null) => {
@@ -49,7 +45,7 @@ export function ConversationList({ activeId }: { activeId?: string }) {
 
     return (
         <aside className="flex h-full w-full flex-col gap-2 border-e p-2 md:w-72">
-            <Button onClick={() => void onNew()} disabled={create.isPending} className="w-full justify-start gap-2">
+            <Button onClick={handleNew} className="w-full justify-start gap-2">
                 <PlusIcon className="size-4" />
                 {t("newConversation")}
             </Button>
