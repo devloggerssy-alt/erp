@@ -2,7 +2,7 @@
 
 import { useChat } from "@ai-sdk/react"
 import type { UIMessage } from "ai"
-import { useMemo } from "react"
+import { useEffect, useMemo } from "react"
 import { useQueryClient } from "@tanstack/react-query"
 import { useApi } from "@/shared/useApi"
 import { shouldSendApprovals } from "../ai-agent.types"
@@ -13,6 +13,12 @@ export function useAgentChat({ conversationId, initialMessages }: { conversation
     const api = useApi()
     const queryClient = useQueryClient()
     const transport = useMemo(() => createNestChatTransport(() => api.ai.chatTarget(conversationId)), [api, conversationId])
+    useEffect(
+        () => () => {
+            void queryClient.invalidateQueries({ queryKey: conversationKeys.messages(conversationId), refetchType: "none" })
+        },
+        [queryClient, conversationId],
+    )
 
     return useChat<UIMessage>({
         id: conversationId,
