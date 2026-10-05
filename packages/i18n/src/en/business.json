@@ -1449,13 +1449,35 @@
       "update": "Update",
       "delete": "Delete",
       "search": "Search",
-      "load": "Load"
+      "load": "Load",
+      "balances": "Balances",
+      "movements": "Movements",
+      "sales-summary": "Sales summary",
+      "purchase-summary": "Purchase summary",
+      "profit-summary": "Profit summary",
+      "party-statement": "Statement",
+      "dashboard-summary": "Overview",
+      "top-items": "Top items"
     },
     "resources": {
       "units": "units",
       "items": "items",
       "customers": "customers",
-      "tools": "tools"
+      "tools": "tools",
+      "brands": "brands",
+      "item-categories": "item categories",
+      "tags": "tags",
+      "suppliers": "suppliers",
+      "warehouses": "warehouses",
+      "stock": "stock",
+      "cashboxes": "cashboxes",
+      "bank-accounts": "bank accounts",
+      "invoice-types": "invoice types",
+      "invoices": "invoices",
+      "expenses": "expenses",
+      "payments": "payments",
+      "currencies": "currencies",
+      "reports": "reports"
     }
   },
   "pos": {

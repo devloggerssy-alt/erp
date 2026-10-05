@@ -8,7 +8,7 @@ export function fromModelToolName(name: string): string {
 }
 
 /** Tools of these domains are always offered; others are pulled in by `tools.load`. */
-export const ALWAYS_LOADED_DOMAINS: ReadonlySet<string> = new Set(['ai-agent', 'catalog', 'parties']);
+export const ALWAYS_LOADED_DOMAINS: ReadonlySet<string> = new Set(['ai-agent', 'catalog', 'parties', 'reports']);
 
 /** Financial documents and ledgers are cancelled or reversed, never deleted (.ai/rules/domain.md). */
 export const NEVER_DELETE_RESOURCES: ReadonlySet<string> = new Set([

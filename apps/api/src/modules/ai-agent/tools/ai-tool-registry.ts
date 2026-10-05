@@ -24,6 +24,14 @@ export class AiToolRegistry implements OnApplicationBootstrap {
             const { metatype, instance } = wrapper;
             if (!metatype || typeof metatype !== 'function') continue;
             if (!this.reflector.get<boolean | undefined>(AI_TOOL_PROVIDER_METADATA, metatype)) continue;
+            // A request-scoped provider (or one depending on one) is only a constructor-less prototype
+            // at bootstrap: its methods exist but its injected fields are undefined.
+            if (!wrapper.isDependencyTreeStatic()) {
+                throw new Error(
+                    `${metatype.name} is an @AiToolProvider() but its dependency tree is request-scoped; ` +
+                        'tool providers must be singletons',
+                );
+            }
             if (!isToolSource(instance)) {
                 throw new Error(`${metatype.name} is an @AiToolProvider() but does not implement aiTools()`);
             }

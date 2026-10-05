@@ -30,3 +30,15 @@ _Avoid_: auto code, next code, sequential code
 **Code sequence**:
 The per-tenant, per-entity counter that backs system-generated codes.
 _Avoid_: number sequence (reserved for `DocumentSequence`), document sequence
+
+### AI agent
+
+**Approval decision**:
+The user's approve-or-reject answer to one pending write or destructive tool
+call the assistant proposed.
+_Avoid_: confirmation, consent
+
+**Tool-call disposition**:
+The outcome the agent assigns to one tool call the model proposed: run it, hold
+it for an approval decision, or reject it as unknown, not permitted, or denied.
+_Avoid_: tool-call plan, tool routing

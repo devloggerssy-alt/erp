@@ -5,6 +5,7 @@ import { CreateBrandDto, UpdateBrandDto, BrandResponseDto } from '../dto';
 import {
   createCrudController,
   type CrudOpenApi,
+  type FilterSchema,
 } from '@devloggers/backend-core';
 import { JwtAuthGuard, PermissionsGuard } from '@/modules/identity/auth/guards';
 
@@ -46,15 +47,17 @@ const BRANDS_CRUD_OPENAPI = {
   },
 } satisfies CrudOpenApi;
 
+export const BRANDS_FILTER_SCHEMA: FilterSchema = [
+  { field: 'name', type: 'string' },
+  { field: 'isActive', type: 'boolean' },
+  { field: 'createdAt', type: 'date' },
+];
+
 const BrandsCrudBase = createCrudController({
   responseDto: BrandResponseDto,
   createDto: CreateBrandDto,
   updateDto: UpdateBrandDto,
-  filterSchema: [
-    { field: 'name', type: 'string' },
-    { field: 'isActive', type: 'boolean' },
-    { field: 'createdAt', type: 'date' },
-  ],
+  filterSchema: BRANDS_FILTER_SCHEMA,
   permissions: {
     view: 'brands.view',
     create: 'brands.create',

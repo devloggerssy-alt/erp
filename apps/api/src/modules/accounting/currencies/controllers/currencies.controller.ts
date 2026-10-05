@@ -2,7 +2,7 @@ import { Controller, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { CurrenciesService } from '../services/currencies.service';
 import { CreateCurrencyDto, UpdateCurrencyDto, CurrencyResponseDto } from '../dto';
-import { createCrudController, type CrudOpenApi } from '@devloggers/backend-core';
+import { createCrudController, type CrudOpenApi, type FilterSchema } from '@devloggers/backend-core';
 import { JwtAuthGuard, PermissionsGuard } from '@/modules/identity/auth/guards';
 
 const CURRENCIES_OPENAPI = {
@@ -31,15 +31,17 @@ const CURRENCIES_OPENAPI = {
     },
 } satisfies CrudOpenApi;
 
+export const CURRENCIES_FILTER_SCHEMA: FilterSchema = [
+    { field: 'code', type: 'string' },
+    { field: 'name', type: 'string', localized: true },
+    { field: 'isActive', type: 'boolean' },
+];
+
 const CurrenciesCrudBase = createCrudController({
     responseDto: CurrencyResponseDto,
     createDto: CreateCurrencyDto,
     updateDto: UpdateCurrencyDto,
-    filterSchema: [
-        { field: 'code', type: 'string' },
-        { field: 'name', type: 'string', localized: true },
-        { field: 'isActive', type: 'boolean' },
-    ],
+    filterSchema: CURRENCIES_FILTER_SCHEMA,
     permissions: {
       view: 'currencies.view',
       create: 'currencies.create',

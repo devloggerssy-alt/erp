@@ -2,7 +2,7 @@ import { Controller, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { ItemCategoriesService } from '../services/item-categories.service';
 import { CreateItemCategoryDto, UpdateItemCategoryDto, ItemCategoryResponseDto } from '../dto';
-import { createCrudController, type CrudOpenApi } from '@devloggers/backend-core';
+import { createCrudController, type CrudOpenApi, type FilterSchema } from '@devloggers/backend-core';
 import { JwtAuthGuard, PermissionsGuard } from '@/modules/identity/auth/guards';
 import { itemCategoryResource } from '@devloggers/api-contracts';
 
@@ -32,16 +32,18 @@ const ITEM_CATEGORIES_OPENAPI = {
     },
 } satisfies CrudOpenApi;
 
+export const ITEM_CATEGORIES_FILTER_SCHEMA: FilterSchema = [
+    { field: 'name', type: 'string' },
+    { field: 'isActive', type: 'boolean' },
+    { field: 'createdAt', type: 'date' },
+    { field: 'parentId', type: 'id', foreignResourceKey: itemCategoryResource.key },
+];
+
 const ItemCategoriesCrudBase = createCrudController({
     responseDto: ItemCategoryResponseDto,
     createDto: CreateItemCategoryDto,
     updateDto: UpdateItemCategoryDto,
-    filterSchema: [
-        { field: 'name', type: 'string' },
-        { field: 'isActive', type: 'boolean' },
-        { field: 'createdAt', type: 'date' },
-        { field: 'parentId', type: 'id', foreignResourceKey: itemCategoryResource.key },
-    ],
+    filterSchema: ITEM_CATEGORIES_FILTER_SCHEMA,
     permissions: {
       view: 'itemCategories.view',
       create: 'itemCategories.create',

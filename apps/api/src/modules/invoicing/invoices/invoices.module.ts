@@ -4,6 +4,7 @@ import { InvoicesController } from './invoices.controller';
 import { InvoicesService } from './invoices.service';
 import { InvoicePostingService } from './invoice-posting.service';
 import { InvoicePresenter } from './presenters/invoice.presenter';
+import { InvoicesAiTools } from './invoices.ai-tools';
 import { DocumentSequencesModule } from '../../accounting/document-sequences/document-sequences.module';
 import { InventoryModule } from '../../inventory';
 import { PostingModule } from '../../accounting/posting';
@@ -12,7 +13,7 @@ import { PaymentsModule } from '../payments/payments.module';
 @Module({
     imports: [DocumentSequencesModule, PostingModule, InventoryModule, PaymentsModule],
     controllers: [InvoicesController],
-    providers: [InvoicesService, InvoicePostingService, InvoicePresenter, LocaleResolverService],
+    providers: [InvoicesService, InvoicePostingService, InvoicePresenter, LocaleResolverService, InvoicesAiTools],
     exports: [InvoicesService, InvoicePostingService],
 })
 export class InvoicesModule {}

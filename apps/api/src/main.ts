@@ -6,6 +6,7 @@ import { SwaggerModule } from '@nestjs/swagger';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import * as cookieParser from 'cookie-parser';
 import { join } from 'path';
+import { localeMiddleware } from '@devloggers/backend-core';
 import { correlationIdMiddleware } from './common/request-context/correlation-id.middleware';
 import { AppLogger } from './common/logging/app-logger';
 import { buildContractDocument, writeContractArtifacts } from './contracts/contract-generation';
@@ -39,6 +40,7 @@ async function bootstrap() {
 
   app.useStaticAssets(join(process.cwd(), 'uploads'), { prefix: '/uploads' });
   app.use(correlationIdMiddleware);
+  app.use(localeMiddleware);
   app.use(cookieParser.default());
   app.enableCors({ origin: true, credentials: true });
   app.set('query parser', 'extended');

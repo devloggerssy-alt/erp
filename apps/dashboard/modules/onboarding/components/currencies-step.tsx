@@ -23,10 +23,16 @@ function makeRow(isBase = false): CurrencyRow {
     return { code: "", nameEn: "", nameAr: "", isBase }
 }
 
+// Default onboarding currencies for the Syrian market this ERP targets.
+const DEFAULT_ROWS: CurrencyRow[] = [
+    { code: "SYP", nameEn: "Syrian Lira", nameAr: "الليرة السورية", isBase: true },
+    { code: "USD", nameEn: "US Dollar", nameAr: "الدولار الأمريكي", isBase: false },
+]
+
 export function CurrenciesStep({ onSuccess }: Props) {
     const api = useApi()
     const t = useTranslations("business")
-    const [rows, setRows] = useState<CurrencyRow[]>([makeRow(true)])
+    const [rows, setRows] = useState<CurrencyRow[]>(DEFAULT_ROWS)
 
     const updateRow = (index: number, patch: Partial<CurrencyRow>) => {
         setRows((prev) => prev.map((row, i) => (i === index ? { ...row, ...patch } : row)))
