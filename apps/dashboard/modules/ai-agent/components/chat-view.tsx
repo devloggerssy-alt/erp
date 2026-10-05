@@ -20,6 +20,7 @@ function ChatSession({
     initialMessages: UIMessage[]
     history: ReturnType<typeof useConversationHistory>
 }) {
+    const t = useTranslations("business.aiAgent")
     const chat = useAgentChat({ conversationId, initialMessages })
     const seen = useMemo(() => new Set(chat.messages.map((message) => message.id)), [chat.messages])
     const messages = useMemo(
@@ -43,6 +44,7 @@ function ChatSession({
             <Composer
                 disabled={pending}
                 busy={busy}
+                hint={pending ? t("pendingApprovalHint") : undefined}
                 onSend={(text) => void chat.sendMessage({ text })}
                 onStop={() => void chat.stop()}
             />

@@ -8,15 +8,37 @@ import { Textarea } from "@/shared/components/ui/textarea"
 
 const MAX_LENGTH = 8000
 
-export function Composer({ disabled, busy, onSend, onStop }: { disabled: boolean; busy: boolean; onSend: (text: string) => void; onStop: () => void }) {
+export function Composer({
+    disabled,
+    busy,
+    onSend,
+    onStop,
+    value,
+    onValueChange,
+    hint,
+}: {
+    disabled: boolean
+    busy: boolean
+    onSend: (text: string) => void
+    onStop: () => void
+    value?: string
+    onValueChange?: (value: string) => void
+    hint?: string
+}) {
     const t = useTranslations("business.aiAgent")
-    const [text, setText] = useState("")
+    const [innerText, setInnerText] = useState("")
+    const text = value ?? innerText
     const canSend = !disabled && !busy && text.trim().length > 0
+
+    const setText = (next: string) => {
+        if (onValueChange) onValueChange(next)
+        else setInnerText(next)
+    }
 
     const send = () => {
         if (!canSend) return
         onSend(text.trim())
-        setText("")
+        if (!onValueChange) setInnerText("")
     }
 
     const onKeyDown = (event: KeyboardEvent<HTMLTextAreaElement>) => {
@@ -28,7 +50,7 @@ export function Composer({ disabled, busy, onSend, onStop }: { disabled: boolean
 
     return (
         <div className="border-t p-3">
-            {disabled && <p className="mb-2 text-xs text-muted-foreground">{t("pendingApprovalHint")}</p>}
+            {hint && <p className="mb-2 text-xs text-muted-foreground">{hint}</p>}
             <div className="flex items-end gap-2">
                 <Textarea
                     value={text}
