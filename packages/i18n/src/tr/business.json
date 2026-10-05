@@ -1347,6 +1347,8 @@
     "deleteTitle": "Bu sohbet silinsin mi?",
     "deleteDescription": "Mesajları kalıcı olarak silinecek.",
     "loadMore": "Daha fazla yükle",
+    "newChatTitle": "Bugün size nasıl yardımcı olabilirim?",
+    "openConversations": "Sohbetleri aç",
     "emptyState": "Bir sohbet seçin veya yeni bir sohbet başlatın",
     "startHint": "Asistandan kayıt bulmasını, oluşturmasını veya güncellemesini isteyin.",
     "composerPlaceholder": "Asistana mesaj yazın…",
