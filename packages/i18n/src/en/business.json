@@ -1423,7 +1423,6 @@
     "loadMore": "Load more",
     "newChatTitle": "How can I help you today?",
     "openConversations": "Open conversations",
-    "emptyState": "Select a conversation or start a new one",
     "startHint": "Ask the assistant to find, create or update records.",
     "composerPlaceholder": "Message the assistant…",
     "send": "Send",
