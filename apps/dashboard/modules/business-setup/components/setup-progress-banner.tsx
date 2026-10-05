@@ -3,14 +3,15 @@
 import { useTranslations } from "next-intl"
 import { Link, usePathname } from "@/i18n/navigation"
 import { useBusinessSetup } from "../hooks/use-business-setup"
-import { computeSetupProgress } from "../setup.config"
+import { computeSetupProgress, isSetupComplete } from "../setup.config"
 
 export function SetupProgressBanner() {
   const t = useTranslations("business.businessSetup")
   const pathname = usePathname()
   const { allowed, state } = useBusinessSetup()
 
-  if (!allowed || !state || state.businessSetupCompletedAt || pathname === "/setup") return null
+  if (!allowed || !state || pathname === "/setup") return null
+  if (isSetupComplete(state.tasks, state.businessSetupCompletedAt)) return null
 
   const progress = computeSetupProgress(state.tasks)
 

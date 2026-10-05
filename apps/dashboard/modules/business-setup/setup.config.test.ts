@@ -6,6 +6,7 @@ import {
   computeGroupProgress,
   computeSetupProgress,
   initialOpenGroup,
+  isSetupComplete,
   parseReconciliationChecks,
 } from "./setup.config"
 import type { SetupTask, SetupTaskType } from "./hooks/use-business-setup"
@@ -47,6 +48,29 @@ describe("computeSetupProgress", () => {
 
   it("returns 100% when there are no required tasks", () => {
     expect(computeSetupProgress([])).toEqual({ completed: 0, total: 0, percent: 100 })
+  })
+})
+
+describe("isSetupComplete", () => {
+  it("is complete once the tenant acknowledged completion, even with pending tasks", () => {
+    expect(isSetupComplete([task("CURRENCIES", "READY")], "2026-01-01T00:00:00.000Z")).toBe(true)
+  })
+
+  it("is complete when every required task is done", () => {
+    expect(
+      isSetupComplete(
+        [task("CURRENCIES", "COMPLETED"), task("CASHBOXES", "SKIPPED"), task("WAREHOUSES", "READY", false)],
+        null,
+      ),
+    ).toBe(true)
+  })
+
+  it("is complete when there is no plan to continue", () => {
+    expect(isSetupComplete([], null)).toBe(true)
+  })
+
+  it("is not complete while a required task is pending", () => {
+    expect(isSetupComplete([task("CURRENCIES", "COMPLETED"), task("CASHBOXES", "READY")], null)).toBe(false)
   })
 })
 

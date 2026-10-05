@@ -57,6 +57,18 @@ export function computeSetupProgress(tasks: SetupTask[]): { completed: number; t
   return { completed, total, percent: total === 0 ? 100 : Math.round((completed / total) * 100) }
 }
 
+/**
+ * Nothing left to continue: the tenant acknowledged completion (reconciliation
+ * passed), or every required task is done. An empty task plan also counts as
+ * complete — otherwise the progress banner would show "100% complete" forever,
+ * because `businessSetupCompletedAt` is only written by a passing reconciliation.
+ */
+export function isSetupComplete(tasks: SetupTask[], completedAt: string | null): boolean {
+  if (completedAt) return true
+  const { completed, total } = computeSetupProgress(tasks)
+  return completed === total
+}
+
 /** Per-group counter for the step list headers — counts every task in the group, required or not. */
 export function computeGroupProgress(
   group: { tasks: SetupTaskType[] },
