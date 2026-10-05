@@ -4,7 +4,7 @@
 
 **Goal:** Let a tenant admin export the tenant's entire dataset as one gzip-compressed JSON backup, and restore it (same tenant or a different one) via a wipe-then-replace import, gated by the existing Danger Zone permission/confirmation pattern.
 
-**Architecture:** An explicit, hand-maintained ordered list of the 47 tenant-scoped Prisma models (`database-backup-models.ts`) drives both export (read each model, assemble JSON, gzip) and import (wipe in reverse order, load in forward order, inside one Prisma transaction). Two models (`UserRole`, `RolePermission`) have no `tenantId` column of their own and are scoped through a parent relation instead. Three self-referencing models (`ChartOfAccount`, `ItemCategory`, `CatalogEntity`) plus `JournalEntry.reversalOfId` are loaded with the self-FK nulled, then patched in a second pass.
+**Architecture:** An explicit, hand-maintained ordered list of the 48 tenant-scoped Prisma models (`database-backup-models.ts`) drives both export (read each model, assemble JSON, gzip) and import (wipe in reverse order, load in forward order, inside one Prisma transaction). Two models (`UserRole`, `RolePermission`) have no `tenantId` column of their own and are scoped through a parent relation instead. Three self-referencing models (`ChartOfAccount`, `ItemCategory`, `CatalogEntity`) plus `JournalEntry.reversalOfId` are loaded with the self-FK nulled, then patched in a second pass.
 
 **Tech Stack:** NestJS (`apps/api`), Prisma 7 (`packages/db-prisma`), Next.js dashboard (`apps/dashboard`), Jest (API tests), Vitest (`api-contracts` tests).
 
@@ -13,7 +13,8 @@
 - Design spec: `docs/superpowers/specs/2026-09-24-database-backup-restore-design.md` — every task below implements a section of it. Three implementation-level deviations from the written spec, discovered while grounding this plan in the real codebase, are called out explicitly where they occur:
   1. Task 6: export is `GET` not `POST`, returning a `StreamableFile` — matches the codebase's one existing file-download precedent (`crud-import-export-controller.ts`) instead of inventing a second convention.
   2. Task 2: `UserRole` and `RolePermission` have no `tenantId` column at all (confirmed by reading `user.prisma`/`permission.prisma` directly) and are scoped through a parent relation instead — the spec's model table listed them as ordinary tenantId-scoped models, which would have been a real bug (every `deleteMany`/`findMany({where:{tenantId}})` call for these two models would have silently matched zero rows).
-  3. **The spec's "automated round-trip integration test against a seeded real-Postgres tenant" is not implemented as written.** Grounding this plan found that no test in this codebase (`apps/api/src/**/*.spec.ts`) hits a real database — every existing test either mocks the repository/Prisma delegate directly (e.g. `bank-accounts.delete-guard.spec.ts`) or boots a module subtree with `PrismaService` stubbed out (`common/testing/module-isolation.ts`). Building a real-Postgres integration harness from scratch is a separate, unscoped undertaking. Tasks 4 and 5 instead unit-test `DatabaseExportService`/`DatabaseImportService` against a mocked Prisma client covering the full real 47-model list (call order, scoping, remap, self-ref two-pass, tenant-FK-snapshot), and Task 2's DMMF coverage test guards against a forgotten model. Real end-to-end correctness (actual FK constraints, actual round-trip data fidelity) is verified manually in Task 11's smoke test instead of automatically. Flag this to the user as a residual risk if a real-DB integration suite gets built later — this feature should get a test in it.
+  3. **Schema drift since the spec/plan were written (2026-09-24 → execution on 2026-09-30):** `main` merged the AI agent feature in the interim, which replaced `AiChatSession`/`AiChatMessage` with `AiConversation`/`AiMessage`/`AiCheckpoint`/`AiCheckpointWrite`, and added a new `PosSetting` model. Task 2's list below reflects the current schema: `AiConversation`/`AiMessage` (JSON-safe chat history) are included in the same slot the old chat models occupied; `PosSetting` is included after `InvoiceType` (its last dependency); `AiCheckpoint`/`AiCheckpointWrite` are deliberately excluded — they hold LangGraph's binary (`Bytes`) conversation-replay state, not user-visible data, and restoring stale checkpoints into a remapped tenant could point LangGraph at incoherent graph state. Confirmed with the user before implementing.
+  4. **The spec's "automated round-trip integration test against a seeded real-Postgres tenant" is not implemented as written.** Grounding this plan found that no test in this codebase (`apps/api/src/**/*.spec.ts`) hits a real database — every existing test either mocks the repository/Prisma delegate directly (e.g. `bank-accounts.delete-guard.spec.ts`) or boots a module subtree with `PrismaService` stubbed out (`common/testing/module-isolation.ts`). Building a real-Postgres integration harness from scratch is a separate, unscoped undertaking. Tasks 4 and 5 instead unit-test `DatabaseExportService`/`DatabaseImportService` against a mocked Prisma client covering the full real 48-model list (call order, scoping, remap, self-ref two-pass, tenant-FK-snapshot), and Task 2's DMMF coverage test guards against a forgotten model. Real end-to-end correctness (actual FK constraints, actual round-trip data fidelity) is verified manually in Task 11's smoke test instead of automatically. Flag this to the user as a residual risk if a real-DB integration suite gets built later — this feature should get a test in it.
 - No `as any` / type-erasure around **API request/response DTOs** (`.ai/rules/code-quality.md` §4) — this plan's dynamic per-model dispatch is a different, narrowly-scoped use of a type assertion (iterating Prisma delegates generically), isolated to one helper type per service and commented as such. It is not a workaround for a stale generated type.
 - Confirmation-phrase pattern must exactly match `ResetFinanceDto`/`ResetInventoryDto` (`@Equals(...)`, `class-validator`).
 - Every new permission code must exist in `packages/api-contracts/src/permissions/permission-catalog.ts` before `apps/api/src/modules/identity/auth/permissions/enforcement-coverage.spec.ts` will pass.
@@ -85,7 +86,7 @@ git commit -m "feat(permissions): add danger.export and danger.import"
 **Interfaces:**
 - Produces:
   - `interface DatabaseBackupModelSpec { model: string; selfReferenceField?: string; scopeViaRelation?: string }`
-  - `const DATABASE_BACKUP_MODELS: DatabaseBackupModelSpec[]` (47 entries, load order; reverse it for wipe order)
+  - `const DATABASE_BACKUP_MODELS: DatabaseBackupModelSpec[]` (48 entries, load order; reverse it for wipe order)
   - `function delegateKey(modelName: string): string` — `'ChartOfAccount'` → `'chartOfAccount'`
 - Consumed by: `DatabaseExportService` (Task 4), `DatabaseImportService` (Task 5).
 
@@ -98,8 +99,15 @@ This test reads Prisma's DMMF (compiled schema metadata — no DB connection nee
 import { Prisma } from '@devloggers/db-prisma';
 import { DATABASE_BACKUP_MODELS } from '../database-backup-models';
 
-/** No tenantId column at all — never touched by import/export (see design spec §Model list). */
-const DELIBERATELY_EXCLUDED = new Set(['AuditLog', 'OutboxEvent']);
+/**
+ * Deliberately not backed up: AuditLog/OutboxEvent are history/transient
+ * infra (see design spec §Model list). AiCheckpoint/AiCheckpointWrite are
+ * LangGraph's binary conversation-replay state (a `Bytes` column each) —
+ * not user-visible data, and restoring stale checkpoints into a remapped
+ * tenant could point LangGraph at incoherent graph state. AiConversation/
+ * AiMessage (the actual chat history, JSON-safe) ARE included below.
+ */
+const DELIBERATELY_EXCLUDED = new Set(['AuditLog', 'OutboxEvent', 'AiCheckpoint', 'AiCheckpointWrite']);
 /** Scoped through a parent relation instead of their own tenantId column. */
 const RELATION_SCOPED = new Set(['UserRole', 'RolePermission']);
 
@@ -197,14 +205,15 @@ export const DATABASE_BACKUP_MODELS: DatabaseBackupModelSpec[] = [
     { model: 'Cashbox' },
     { model: 'BankAccount' },
     { model: 'InvoiceType' },
+    { model: 'PosSetting' },
     { model: 'Item' },
     { model: 'WarehouseItem' },
     { model: 'ItemCatalogEntity' },
     { model: 'ItemRelation' },
     { model: 'UserRole', scopeViaRelation: 'user' },
     { model: 'RolePermission', scopeViaRelation: 'role' },
-    { model: 'AiChatSession' },
-    { model: 'AiChatMessage' },
+    { model: 'AiConversation' },
+    { model: 'AiMessage' },
     { model: 'StockBalance' },
     { model: 'OpeningBalanceSession' },
     { model: 'Invoice' },
@@ -291,7 +300,7 @@ export class ImportDatabaseDto {
 // ── Response DTO ────────────────────────────────────────────────────────────
 
 export class DatabaseBackupResultDto {
-    @ApiProperty({ type: 'number', example: 47, description: 'Number of cataloged models processed' })
+    @ApiProperty({ type: 'number', example: 48, description: 'Number of cataloged models processed' })
     modelsProcessed: number = 0;
 
     @ApiProperty({
@@ -439,7 +448,7 @@ export class DatabaseExportService {
     async exportTenant(tenantId: string): Promise<StreamableFile> {
         const models: Record<string, unknown[]> = {};
 
-        // Iterating 47 Prisma delegates generically requires one narrow escape
+        // Iterating every cataloged Prisma delegate generically requires one narrow escape
         // hatch from static typing — this cast is scoped to this single loop,
         // not a workaround for a stale generated type (see Global Constraints).
         const client = this.prisma as unknown as Record<string, ReadableDelegate>;
@@ -681,7 +690,7 @@ export class DatabaseImportService {
         await this.prisma.$transaction(
             async (tx) => {
                 // Same narrow, isolated escape hatch as DatabaseExportService —
-                // generic dispatch across 47 Prisma delegates.
+                // generic dispatch across every cataloged Prisma delegate.
                 const client = tx as unknown as Record<string, WritableDelegate> & {
                     tenant: { update: (args: { where: { id: string }; data: Record<string, unknown> }) => Promise<unknown> };
                 };
@@ -1395,18 +1404,24 @@ git commit -m "feat(i18n): add database export/import Danger Zone strings"
 
 **Files:** none — verification only.
 
-- [ ] **Step 1: Full API test suite**
+- [x] **Step 1: Full API test suite**
 
 Run: `pnpm --filter @devloggers/api test`
 Expected: all pass, including the 3 new spec files from Tasks 2, 4, 5 and `enforcement-coverage.spec.ts`.
 
-- [ ] **Step 2: Full builds**
+Result: 101 suites, 578 tests, all passed.
+
+- [x] **Step 2: Full builds**
 
 Run: `pnpm turbo run build --filter=@devloggers/api`
 Run: `pnpm turbo run build --filter=@devloggers/dashboard`
 Expected: both succeed.
 
-- [ ] **Step 3: Manual smoke test** (per the design spec's Verification section — requires `pnpm dev` running)
+Result: both succeeded. (One dashboard build attempt failed on a transient Google Fonts network fetch, unrelated to this feature — confirmed transient by an immediate successful retry.)
+
+- [ ] **Step 3: Manual smoke test — DEFERRED, not run.** (per the design spec's Verification section — requires `pnpm dev` running)
+
+**Status:** the user explicitly chose to skip this for now (2026-09-30) rather than run it themselves or authorize browser automation against their dev database, since it requires real login credentials and performs a genuinely destructive wipe-and-restore. Automated coverage (Tasks 1–10, all passing) verifies the unit-level logic — model ordering, scoping, remap, self-ref two-pass, format-version rejection — but **no one has yet verified this against a real Postgres database**, per Global Constraints deviation #4 (no real-DB integration harness exists in this repo). This checklist must be run before merging to main:
 
 - [ ] Export the current dev tenant from Settings → Danger Zone; confirm a `.json.gz` file downloads and `gunzip -c <file> | jq .formatVersion` prints `1`.
 - [ ] Re-import that same file into the same tenant; confirm the success toast, then confirm you're redirected to `/login`.
@@ -1416,13 +1431,13 @@ Expected: both succeed.
 - [ ] Attempt import with no file chosen; confirm the trigger button is disabled.
 - [ ] Switch the dashboard to Arabic; confirm the two new cards render RTL-correctly with translated text.
 
-- [ ] **Step 4: Update the design spec's Approval section**
+- [x] **Step 4: Update the design spec's Approval section**
 
-In `docs/superpowers/specs/2026-09-24-database-backup-restore-design.md`, check the second Approval checkbox and note the implementation commit range.
+In `docs/superpowers/specs/2026-09-24-database-backup-restore-design.md`, note that code is complete and automated tests pass, but the manual smoke test (real-DB verification) is still pending — do not mark fully "Implemented" until Step 3 above has actually run.
 
-- [ ] **Step 5: Final commit**
+- [x] **Step 5: Final commit**
 
 ```bash
 git add docs/superpowers/specs/2026-09-24-database-backup-restore-design.md
-git commit -m "docs: mark database backup/restore spec as implemented"
+git commit -m "docs: record database backup/restore implementation status"
 ```

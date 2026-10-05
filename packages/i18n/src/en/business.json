@@ -241,6 +241,29 @@
       "description": "Irreversible, destructive actions. Master data (accounts, items, parties, cashboxes) is preserved — only transactional records are removed.",
       "confirmPrompt": "Type {phrase} to confirm",
       "cancel": "Cancel",
+      "exportDatabase": {
+        "title": "Export database",
+        "description": "Download every record for this organisation as one backup file. File attachments (images, documents) are not included — only their metadata.",
+        "action": "Export database",
+        "running": "Preparing backup…",
+        "success": "Backup downloaded",
+        "failed": "Could not export the database"
+      },
+      "importDatabase": {
+        "title": "Restore database",
+        "description": "Replaces ALL data in this tenant with the contents of the uploaded backup file.",
+        "filePickerLabel": "Backup file (.json.gz)",
+        "noFileSelected": "Choose a backup file first",
+        "item_allData": "Every record in this tenant is deleted and replaced by the backup",
+        "item_users": "Users and roles are replaced too — accounts not in the backup will no longer exist",
+        "item_logout": "You will be logged out immediately after and must sign back in with an account from the restored backup",
+        "dialogTitle": "Restore this tenant from a backup?",
+        "dialogDescription": "This cannot be undone. Every record in this tenant will be permanently replaced by the uploaded backup, and you will be logged out.",
+        "action": "Restore database",
+        "running": "Restoring database…",
+        "success": "Database restored",
+        "failed": "Could not restore the database"
+      },
       "finance": {
         "title": "Reset financial records",
         "description": "Permanently deletes all financial transactions for this organisation and resets balances to zero.",

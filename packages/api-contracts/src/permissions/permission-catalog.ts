@@ -43,7 +43,7 @@ export const PERMISSION_CATALOG = {
   onboarding: ['manage'],
   businessSetup: ['manage'],
   settings: ['manage'],
-  danger: ['reset'],
+  danger: ['reset', 'export', 'import'],
   pos: ['checkout', 'manage'],
 } as const
 

@@ -46,6 +46,8 @@ export type DangerZoneCardProps = {
   /** Runs the destructive request. */
   onConfirm: () => Promise<unknown>
   labels: DangerZoneCardLabels
+  /** Disables the trigger button entirely (e.g. no file chosen yet). */
+  disabled?: boolean
 }
 
 export function DangerZoneCard({
@@ -55,6 +57,7 @@ export function DangerZoneCard({
   confirmPhrase,
   onConfirm,
   labels,
+  disabled = false,
 }: DangerZoneCardProps) {
   const queryClient = useQueryClient()
   const [open, setOpen] = useState(false)
@@ -101,7 +104,7 @@ export function DangerZoneCard({
           <Button
             type="button"
             variant="destructive"
-            disabled={isPending}
+            disabled={isPending || disabled}
             onClick={() => setOpen(true)}
           >
             <AlertTriangle />

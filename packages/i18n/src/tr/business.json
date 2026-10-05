@@ -241,6 +241,29 @@
       "description": "Geri alınamaz, yıkıcı işlemler. Ana veriler (hesaplar, ürünler, taraflar, kasalar) korunur — yalnızca işlem kayıtları silinir.",
       "confirmPrompt": "Onaylamak için {phrase} yazın",
       "cancel": "İptal",
+      "exportDatabase": {
+        "title": "Veritabanını dışa aktar",
+        "description": "Bu kuruluşa ait tüm verileri tek bir yedek dosyası olarak indirin. Dosya ekleri (görseller, belgeler) dahil değildir — yalnızca meta verileri.",
+        "action": "Veritabanını dışa aktar",
+        "running": "Yedek hazırlanıyor…",
+        "success": "Yedek indirildi",
+        "failed": "Veritabanı dışa aktarılamadı"
+      },
+      "importDatabase": {
+        "title": "Veritabanını geri yükle",
+        "description": "Bu kiracıdaki TÜM verileri, yüklenen yedek dosyasının içeriğiyle değiştirir.",
+        "filePickerLabel": "Yedek dosyası (.json.gz)",
+        "noFileSelected": "Önce bir yedek dosyası seçin",
+        "item_allData": "Bu kiracıdaki her kayıt silinir ve yedekle değiştirilir",
+        "item_users": "Kullanıcılar ve roller de değiştirilir — yedekte olmayan hesaplar artık var olmayacak",
+        "item_logout": "Hemen ardından oturumunuz kapatılır ve geri yüklenen yedekten bir hesapla tekrar giriş yapmanız gerekir",
+        "dialogTitle": "Bu kiracı bir yedekten geri yüklensin mi?",
+        "dialogDescription": "Bu işlem geri alınamaz. Bu kiracıdaki her kayıt kalıcı olarak yüklenen yedekle değiştirilir ve oturumunuz kapatılır.",
+        "action": "Veritabanını geri yükle",
+        "running": "Veritabanı geri yükleniyor…",
+        "success": "Veritabanı geri yüklendi",
+        "failed": "Veritabanı geri yüklenemedi"
+      },
       "finance": {
         "title": "Finansal kayıtları sıfırla",
         "description": "Bu kuruluşa ait tüm finansal işlemleri kalıcı olarak siler ve bakiyeleri sıfırlar.",

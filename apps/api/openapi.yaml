@@ -15450,6 +15450,205 @@ paths:
       summary: Reset all inventory records
       tags:
         - Settings
+  /settings/danger/export-database:
+    get:
+      description: >-
+        Downloads every tenant-scoped record (accounting, invoicing, inventory,
+        catalog, parties, users/roles, settings) as a gzip-compressed JSON
+        backup. File attachments are not included — only their metadata rows.
+      operationId: DatabaseBackup.exportDatabase
+      parameters: []
+      responses:
+        '200':
+          description: ''
+        '401':
+          description: JWT token is missing, expired, or invalid
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Unauthorized
+                  data: null
+                  error:
+                    code: UNAUTHORIZED
+                    message: JWT token is missing, expired, or invalid
+        '403':
+          description: Insufficient permissions to perform this action
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Forbidden
+                  data: null
+                  error:
+                    code: FORBIDDEN
+                    message: Insufficient permissions to perform this action
+        '404':
+          description: The requested resource was not found
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Not found
+                  data: null
+                  error:
+                    code: NOT_FOUND
+                    message: The requested resource was not found
+        '422':
+          description: Request body validation failed
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Validation failed
+                  data: null
+                  error:
+                    code: VALIDATION_ERROR
+                    message: Validation failed
+                    details:
+                      - field: email
+                        message: email must be a valid email address
+                        code: isEmail
+        '500':
+          description: An unexpected internal server error occurred
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Internal server error
+                  data: null
+                  error:
+                    code: INTERNAL_ERROR
+                    message: Internal server error
+      security:
+        - JWT-auth: []
+      summary: Export the full tenant database
+      tags:
+        - Settings
+  /settings/danger/import-database:
+    post:
+      description: >-
+        DANGER: wipes ALL existing data for this tenant and replaces it with the
+        uploaded backup. The tenant ID in every restored row is rewritten to the
+        current tenant, so a backup from a different tenant can be used to
+        migrate into this one. Requires the exact confirmation phrase. The
+        acting admin will be logged out afterward, since users/roles are
+        replaced too.
+      operationId: DatabaseBackup.importDatabase
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ImportDatabaseDto'
+      responses:
+        '200':
+          description: Restore completed; returns per-model row counts
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiSuccessResponseDto'
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/DatabaseBackupResultDto'
+        '201':
+          description: ''
+        '401':
+          description: JWT token is missing, expired, or invalid
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Unauthorized
+                  data: null
+                  error:
+                    code: UNAUTHORIZED
+                    message: JWT token is missing, expired, or invalid
+        '403':
+          description: Insufficient permissions to perform this action
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Forbidden
+                  data: null
+                  error:
+                    code: FORBIDDEN
+                    message: Insufficient permissions to perform this action
+        '404':
+          description: The requested resource was not found
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Not found
+                  data: null
+                  error:
+                    code: NOT_FOUND
+                    message: The requested resource was not found
+        '422':
+          description: Request body validation failed
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Validation failed
+                  data: null
+                  error:
+                    code: VALIDATION_ERROR
+                    message: Validation failed
+                    details:
+                      - field: email
+                        message: email must be a valid email address
+                        code: isEmail
+        '500':
+          description: An unexpected internal server error occurred
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Internal server error
+                  data: null
+                  error:
+                    code: INTERNAL_ERROR
+                    message: Internal server error
+      security:
+        - JWT-auth: []
+      summary: Restore the tenant database from a backup
+      tags:
+        - Settings
   /users:
     get:
       operationId: Users.findAll
@@ -27530,6 +27729,44 @@ components:
           example: RESET INVENTORY
           description: Confirmation phrase. Must be exactly "RESET INVENTORY".
       required:
+        - confirmation
+    DatabaseBackupResultDto:
+      type: object
+      properties:
+        modelsProcessed:
+          type: number
+          default: 0
+          example: 48
+          description: Number of cataloged models processed
+        countsByModel:
+          type: object
+          default: {}
+          additionalProperties:
+            type: number
+          example:
+            currency: 3
+            chartOfAccount: 42
+            invoice: 128
+          description: Rows loaded per model (by delegate key)
+      required:
+        - modelsProcessed
+        - countsByModel
+    ImportDatabaseDto:
+      type: object
+      properties:
+        file:
+          type: string
+          format: binary
+          description: >-
+            Gzip-compressed backup file (.json.gz) produced by the export
+            endpoint.
+        confirmation:
+          type: string
+          default: ''
+          example: IMPORT DATABASE
+          description: Confirmation phrase. Must be exactly "IMPORT DATABASE".
+      required:
+        - file
         - confirmation
     UserRoleDto:
       type: object

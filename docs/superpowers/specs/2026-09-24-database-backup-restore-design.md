@@ -2,7 +2,7 @@
 
 **Date:** 2026-09-24
 **Author:** Claude Code
-**Status:** Draft
+**Status:** Code complete, automated tests passing; manual real-database smoke test pending (see plan's Task 11)
 **Scope:** New "Danger Zone" feature — full tenant data export/import (backend `identity/settings` domain + dashboard `settings` module)
 **Primary goal:** Let a tenant admin export their entire tenant's data as one JSON backup, and restore it — either back into the same tenant (disaster recovery) or into a different tenant (environment migration).
 
@@ -267,4 +267,6 @@ None outstanding — all decisions above were confirmed during brainstorming.
 ## Approval
 
 - [x] Design reviewed by: user (conversational approval, 2026-09-24)
-- [ ] Approved on written spec: pending user review of this file
+- [x] Approved on written spec: user, 2026-09-24
+- [x] Implemented: `feat/database-backup-restore` branch, 2026-09-30 (commits from `docs: correct database backup/restore plan for schema drift` through `feat(i18n): add database export/import Danger Zone strings`). Automated tests pass (API: 578/578; new coverage/export/import specs included). Schema drifted since this spec was written — see the plan's Global Constraints deviation #3 for what changed (`AiChatSession`/`AiChatMessage` → `AiConversation`/`AiMessage`, `AiCheckpoint`/`AiCheckpointWrite` excluded, `PosSetting` added).
+- [ ] Manual smoke test against a real database: **not yet run** — deferred by the user (2026-09-30). Required before merging to `main`; checklist is in the plan's Task 11 Step 3.
