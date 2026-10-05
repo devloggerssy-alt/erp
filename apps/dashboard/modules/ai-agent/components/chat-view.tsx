@@ -3,10 +3,11 @@
 import type { UIMessage } from "ai"
 import { RefreshCwIcon } from "lucide-react"
 import { useTranslations } from "next-intl"
-import { useMemo } from "react"
+import { useEffect, useMemo, useRef } from "react"
 import { Button } from "@/shared/components/ui/button"
 import { useAgentChat } from "../hooks/use-agent-chat"
 import { useConversationHistory } from "../hooks/use-conversation-history"
+import { takePendingFirstMessage } from "../pending-first-message"
 import { hasPendingApproval } from "../ai-agent.types"
 import { MessageList } from "./message-list"
 import { Composer } from "./composer"
@@ -22,6 +23,14 @@ function ChatSession({
 }) {
     const t = useTranslations("business.aiAgent")
     const chat = useAgentChat({ conversationId, initialMessages })
+    const sentPending = useRef(false)
+
+    useEffect(() => {
+        if (sentPending.current) return
+        sentPending.current = true
+        const text = takePendingFirstMessage(conversationId)
+        if (text) void chat.sendMessage({ text })
+    }, [chat, conversationId])
     const seen = useMemo(() => new Set(chat.messages.map((message) => message.id)), [chat.messages])
     const messages = useMemo(
         () => [...history.olderMessages.filter((message) => !seen.has(message.id)), ...chat.messages],
