@@ -29,8 +29,13 @@ function ChatSession({
         if (sentPending.current) return
         sentPending.current = true
         const text = takePendingFirstMessage(conversationId)
-        if (text) void chat.sendMessage({ text })
+        console.log("Pending first message:", text)
+        if (text)
+            chat.sendMessage({ text }) 
     }, [chat, conversationId])
+
+
+
     const seen = useMemo(() => new Set(chat.messages.map((message) => message.id)), [chat.messages])
     const messages = useMemo(
         () => [...history.olderMessages.filter((message) => !seen.has(message.id)), ...chat.messages],
@@ -54,8 +59,8 @@ function ChatSession({
                 disabled={pending}
                 busy={busy}
                 hint={pending ? t("pendingApprovalHint") : undefined}
-                onSend={(text) => void chat.sendMessage({ text })}
-                onStop={() => void chat.stop()}
+                onSend={(text) => chat.sendMessage({ text })}
+                onStop={() => chat.stop()}
             />
         </div>
     )

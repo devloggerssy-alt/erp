@@ -13,6 +13,8 @@ export function useAgentChat({ conversationId, initialMessages }: { conversation
     const api = useApi()
     const queryClient = useQueryClient()
     const transport = useMemo(() => createNestChatTransport(() => api.ai.chatTarget(conversationId)), [api, conversationId])
+
+    console.log(initialMessages, conversationId)
     useEffect(
         () => () => {
             void queryClient.invalidateQueries({ queryKey: conversationKeys.messages(conversationId), refetchType: "none" })
@@ -28,5 +30,6 @@ export function useAgentChat({ conversationId, initialMessages }: { conversation
         // Invalidate the conversation list only (e.g. title/updatedAt refresh) — must not also
         // refetch every loaded history page for this conversation after each turn.
         onFinish: () => void queryClient.invalidateQueries({ queryKey: conversationKeys.list }),
+        onError: (error) => console.error("Error in agent chat transport; conversationId:", error.message, conversationId, error),
     })
 }

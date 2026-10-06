@@ -25,7 +25,7 @@ export function useConversationMutations() {
     const queryClient = useQueryClient()
     const invalidate = () => queryClient.invalidateQueries({ queryKey: conversationKeys.list })
     return {
-        create: useMutation({ mutationFn: () => api.ai.createConversation({}), onSuccess: invalidate }),
+        create: useMutation({ mutationFn: (payload) => api.ai.createConversation({}), onSuccess: invalidate }),
         rename: useMutation({
             mutationFn: (input: { id: string; title: string }) => api.ai.renameConversation(input.id, { title: input.title }),
             onSuccess: invalidate,
