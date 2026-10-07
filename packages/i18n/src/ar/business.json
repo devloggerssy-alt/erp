@@ -1583,6 +1583,7 @@
     "provisioned": "نقطة البيع جاهزة",
     "provisionFailed": "تعذّر إعداد نقطة البيع",
     "searchPlaceholder": "ابحث بالاسم أو امسح الباركود...",
+    "sellingFrom": "البيع من {warehouse}",
     "stock": "المخزون",
     "emptyCart": "السلة فارغة — اضغط على منتج لإضافته",
     "discountPercent": "الخصم %",

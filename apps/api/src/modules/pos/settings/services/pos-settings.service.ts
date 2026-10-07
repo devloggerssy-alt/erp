@@ -68,7 +68,12 @@ export class PosSettingsService {
         const cashbox = await this.prisma.cashbox.findFirst({ where: { tenantId, isActive: true }, orderBy: { createdAt: 'asc' } });
         if (!cashbox) throw new BadRequestException('Create at least one active cashbox before setting up POS.');
 
-        const warehouse = await this.prisma.warehouse.findFirst({ where: { tenantId, isActive: true }, orderBy: { createdAt: 'asc' } });
+        // code breaks createdAt ties. Seeded warehouses share one timestamp, and
+        // an unordered tie was binding the till to the empty showroom.
+        const warehouse = await this.prisma.warehouse.findFirst({
+            where: { tenantId, isActive: true },
+            orderBy: [{ createdAt: 'asc' }, { code: 'asc' }],
+        });
         if (!warehouse) throw new BadRequestException('Create at least one active warehouse before setting up POS.');
 
         return this.repo.upsert(tenantId, {

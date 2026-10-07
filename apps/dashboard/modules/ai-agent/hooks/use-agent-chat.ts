@@ -14,7 +14,6 @@ export function useAgentChat({ conversationId, initialMessages }: { conversation
     const queryClient = useQueryClient()
     const transport = useMemo(() => createNestChatTransport(() => api.ai.chatTarget(conversationId)), [api, conversationId])
 
-    console.log(initialMessages, conversationId)
     useEffect(
         () => () => {
             void queryClient.invalidateQueries({ queryKey: conversationKeys.messages(conversationId), refetchType: "none" })

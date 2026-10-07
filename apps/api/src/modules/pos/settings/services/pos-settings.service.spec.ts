@@ -40,6 +40,10 @@ describe('PosSettingsService.provision', () => {
 
         expect(partiesService.create).toHaveBeenCalledWith('t1', expect.objectContaining({ code: 'WALKIN' }));
         expect(invoiceTypesService.create).toHaveBeenCalledWith('t1', expect.objectContaining({ code: 'POS', direction: 'SALE' }));
+        expect(prisma.warehouse.findFirst).toHaveBeenCalledWith({
+            where: { tenantId: 't1', isActive: true },
+            orderBy: [{ createdAt: 'asc' }, { code: 'asc' }],
+        });
         expect(repo.upsert).toHaveBeenCalledWith('t1', {
             defaultPartyId: 'party-walkin', invoiceTypeId: 'itype-pos', cashboxId: 'cbx-1', warehouseId: 'wh-1',
         });

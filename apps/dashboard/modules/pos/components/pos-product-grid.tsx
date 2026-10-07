@@ -14,10 +14,11 @@ type PosItem = CrudListDataItem<ItemsClient>
 
 type PosProductGridProps = {
     warehouseId: string
+    warehouseName: string
     onAdd: (item: Omit<PosCartLine, "quantity" | "discountPercent">) => void
 }
 
-export function PosProductGrid({ warehouseId, onAdd }: PosProductGridProps) {
+export function PosProductGrid({ warehouseId, warehouseName, onAdd }: PosProductGridProps) {
     const t = useTranslations("business.pos")
     const api = useApi()
     const [query, setQuery] = useState("")
@@ -68,6 +69,7 @@ export function PosProductGrid({ warehouseId, onAdd }: PosProductGridProps) {
 
     return (
         <div className="flex flex-col gap-4">
+            <p className="text-sm text-muted-foreground">{t("sellingFrom", { warehouse: warehouseName })}</p>
             <div className="relative">
                 <Search className="absolute inset-y-0 inset-s-3 my-auto h-4 w-4 text-muted-foreground" />
                 <Input

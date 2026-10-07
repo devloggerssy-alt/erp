@@ -30,7 +30,7 @@ export function PosPage() {
         <DashboardPage>
             <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
                 <div className="lg:col-span-2">
-                    <PosProductGrid warehouseId={settings.warehouseId} onAdd={cart.addItem} />
+                    <PosProductGrid warehouseId={settings.warehouseId} warehouseName={settings.warehouseName} onAdd={cart.addItem} />
                 </div>
                 <div>
                     <PosCartPanel

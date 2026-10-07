@@ -1489,6 +1489,7 @@
     "provisioned": "POS is ready",
     "provisionFailed": "Could not set up POS",
     "searchPlaceholder": "Search by name or scan a barcode...",
+    "sellingFrom": "Selling from {warehouse}",
     "stock": "Stock",
     "emptyCart": "Cart is empty — tap an item to add it",
     "discountPercent": "Disc. %",

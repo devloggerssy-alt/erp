@@ -3,7 +3,7 @@
 import type { UIMessage } from "ai"
 import { RefreshCwIcon } from "lucide-react"
 import { useTranslations } from "next-intl"
-import { useEffect, useMemo, useRef } from "react"
+import { useEffect, useMemo } from "react"
 import { Button } from "@/shared/components/ui/button"
 import { useAgentChat } from "../hooks/use-agent-chat"
 import { useConversationHistory } from "../hooks/use-conversation-history"
@@ -23,18 +23,20 @@ function ChatSession({
 }) {
     const t = useTranslations("business.aiAgent")
     const chat = useAgentChat({ conversationId, initialMessages })
-    const sentPending = useRef(false)
+    const { sendMessage } = chat
 
     useEffect(() => {
-        if (sentPending.current) return
-        sentPending.current = true
-        const text = takePendingFirstMessage(conversationId)
-        console.log("Pending first message:", text)
-        if (text)
-            chat.sendMessage({ text }) 
-    }, [chat, conversationId])
-
-
+        // Defer one macrotask so React StrictMode's mount → cleanup → mount replay
+        // finishes first: useChat's unmount cleanup calls chat.stop(), which would
+        // otherwise abort the sendMessage started during the first mount and drop
+        // the message. Taking the text inside the timeout also makes the replay
+        // harmless — the first timer is cleared before it can consume it.
+        const timer = setTimeout(() => {
+            const text = takePendingFirstMessage(conversationId)
+            if (text) void sendMessage({ text })
+        }, 0)
+        return () => clearTimeout(timer)
+    }, [sendMessage, conversationId])
 
     const seen = useMemo(() => new Set(chat.messages.map((message) => message.id)), [chat.messages])
     const messages = useMemo(

@@ -1415,6 +1415,7 @@
     "provisioned": "POS hazır",
     "provisionFailed": "POS kurulamadı",
     "searchPlaceholder": "İsimle ara veya barkod okut...",
+    "sellingFrom": "{warehouse} deposundan satış",
     "stock": "Stok",
     "emptyCart": "Sepet boş — eklemek için bir ürüne dokunun",
     "discountPercent": "İndirim %",
