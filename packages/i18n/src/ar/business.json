@@ -218,7 +218,9 @@
       "defaultPurchaseAccount": "حساب المشتريات الافتراضي",
       "defaultTaxAccount": "حساب الضريبة الافتراضي",
       "defaultReceivableAccount": "حساب المدينين الافتراضي",
-      "defaultPayableAccount": "حساب الدائنين الافتراضي"
+      "defaultPayableAccount": "حساب الدائنين الافتراضي",
+      "defaultCashAccount": "حساب النقدية الافتراضي",
+      "defaultBankAccount": "حساب البنك الافتراضي"
     },
     "documents": {
       "navLabel": "المستندات",

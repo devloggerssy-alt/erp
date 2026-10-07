@@ -13,7 +13,6 @@ import { ApiStandardErrors } from '../../common/decorators/api-swagger.decorator
 @ApiBearerAuth('JWT-auth')
 export class ReportsController {
     constructor(private readonly reportsService: ReportsService) {}
-
     @Get('stock-balance')
     @RequirePermission('reports.view')
     @ApiOperation({ summary: 'Stock balance report', description: 'Returns current stock quantities grouped by item and warehouse. Optionally filter by a specific warehouse.' })
@@ -34,6 +33,7 @@ export class ReportsController {
         return ApiResponseBuilder.success(await this.reportsService.getStockBalance(user.tenantId, warehouseId), 'Stock balance report');
     }
 
+    
     @Get('sales-summary')
     @RequirePermission('reports.view')
     @ApiOperation({ summary: 'Sales summary report', description: 'Aggregates total sales amounts, invoice count, and top-selling items within an optional date range. Can be filtered by party.' })
@@ -53,6 +53,8 @@ export class ReportsController {
     async salesSummary(@CurrentUser() user: RequestUser, @Query('from') from?: string, @Query('to') to?: string, @Query('partyId') partyId?: string) {
         return ApiResponseBuilder.success(await this.reportsService.getSalesSummary(user.tenantId, { from, to, partyId }), 'Sales summary report');
     }
+
+
 
     @Get('purchase-summary')
     @RequirePermission('reports.view')

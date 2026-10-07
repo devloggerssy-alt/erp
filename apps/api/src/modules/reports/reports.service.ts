@@ -12,7 +12,7 @@ export class ReportsService {
         return this.prisma.stockBalance.findMany({
             where,
             include: {
-                item: { select: { code: true, name: true } },
+                item: { select: { code: true, name: true,  } },
                 warehouse: { select: { code: true, name: true } },
             },
             orderBy: [{ warehouse: { code: 'asc' } }, { item: { code: 'asc' } }],

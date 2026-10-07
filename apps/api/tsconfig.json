@@ -11,6 +11,9 @@
     "sourceMap": true,
     "removeComments": true,
     "incremental": true,
+    // Private app — no consumers of its .d.ts. Keeps inferred Prisma types
+    // (JsonValue etc.) out of declaration emit, where they aren't nameable.
+    "declaration": false,
     "declarationMap": false,
 
     // ── API-specific: module resolution ──────────────────────────────────────

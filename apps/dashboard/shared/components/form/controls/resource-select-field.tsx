@@ -1,9 +1,10 @@
 "use client"
 
 import { useState, useCallback, useMemo, useRef } from "react"
-import { useInfiniteQuery, type InfiniteData } from "@tanstack/react-query"
+import { useInfiniteQuery, useQuery, type InfiniteData } from "@tanstack/react-query"
 import type { ICrudClient } from "@devloggers/api-client"
 import { useApi } from "@/shared/useApi"
+import { unwrapApiData } from "@/shared/hooks/unwrap-api-data"
 import type { ResourceItem } from "@/shared/data-view/resource"
 import {
   Combobox,
@@ -180,19 +181,42 @@ export function ResourceSelectField<
   // `null` means "show the selected option's label"; a string is the active query.
   const [query, setQuery] = useState<string | null>(null)
 
+  // A stored value (bare FK id or the minimal `{ id }` edit-mode object) is not
+  // necessarily among the loaded options — those are lazy-loaded only once the
+  // dropdown opens. Fetch the selected entity so its label renders on first
+  // paint instead of blank (string id) or "undefined — undefined" (`{ id }`).
+  const hasLoadedOption = options.some((opt) => opt.id === selectedId)
+  const selectedValueIsObject = value !== null && value !== undefined && typeof value === "object"
+  const selectedValueIsMinimalObject =
+    selectedValueIsObject && Object.keys(value as Record<string, unknown>).length === 1
+  const { data: selectedItem } = useQuery({
+    queryKey: [...resolvedQueryKey, "show", selectedId],
+    queryFn: async () => {
+      if (selectedId === null) return null
+      return unwrapApiData<ResourceItem<TClient>>(await resolvedClient.show(selectedId))
+    },
+    enabled: selectedId !== null && !hasLoadedOption && (!selectedValueIsObject || selectedValueIsMinimalObject),
+    staleTime,
+  })
+
   // Label for the current selection, derived (no effect needed — an effect that
   // calls setState on every render is what previously wiped the search text).
-  // Falls back to deriving the label from the stored value itself (e.g. when it's
-  // the full object) so the name shows before matching options have loaded.
+  // Falls back to the fetched selected entity, or to the stored object itself
+  // (e.g. when it carries label data) so the name shows before matching options
+  // have loaded.
   const selectedLabel = useMemo(() => {
     if (selectedId === null) return ""
     const option = options.find((opt) => opt.id === selectedId)
     if (option) return option.label
+    if (selectedItem) {
+      return getLabel(selectedItem as ResourceItem<TClient>)
+    }
     if (value !== null && value !== undefined && typeof value === "object") {
+      if (selectedValueIsMinimalObject) return ""
       return getLabel(value as ResourceItem<TClient>)
     }
     return ""
-  }, [selectedId, options, value, getLabel])
+  }, [selectedId, options, value, getLabel, selectedItem, selectedValueIsMinimalObject])
 
   const inputValue = query ?? selectedLabel
 
