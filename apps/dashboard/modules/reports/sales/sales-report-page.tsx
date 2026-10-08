@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { useTranslations } from "next-intl"
 import { useQuery } from "@tanstack/react-query"
 import { useApi } from "@/shared/useApi"
 import { TrendingUp, FileText, TrendingDown, DollarSign } from "lucide-react"
@@ -13,6 +14,7 @@ import { ReportTable } from "../shared/report-table"
 import type { InvoiceReportItem } from "@devloggers/api-client"
 
 export function SalesReportPage() {
+    const t = useTranslations("business.reports.sales")
     const api = useApi()
     const [from, setFrom] = useState("")
     const [to, setTo] = useState("")
@@ -46,20 +48,20 @@ export function SalesReportPage() {
     }
 
     const columns = [
-        { key: "number", header: "Invoice #" },
+        { key: "number", header: t("columns.number") },
         {
             key: "date",
-            header: "Date",
+            header: t("columns.date"),
             render: (r: InvoiceReportItem) => new Date(r.date).toLocaleDateString(),
         },
         {
             key: "party",
-            header: "Customer",
+            header: t("columns.customer"),
             render: (r: InvoiceReportItem) => r.party?.name ?? "—",
         },
         {
             key: "total",
-            header: "Total",
+            header: t("columns.total"),
             align: "right" as const,
             render: (r: InvoiceReportItem) => Number(r.total).toLocaleString(),
         },
@@ -69,12 +71,12 @@ export function SalesReportPage() {
 
     return (
         <ReportLayout
-            title="Sales Report"
-            description="Sales invoice summary with totals and profit overview."
+            title={t("title")}
+            description={t("description")}
             filters={
                 <>
                     <div className="flex flex-col gap-1">
-                        <Label className="text-xs">From</Label>
+                        <Label className="text-xs">{t("filters.from")}</Label>
                         <Input
                             type="date"
                             className="w-40"
@@ -83,7 +85,7 @@ export function SalesReportPage() {
                         />
                     </div>
                     <div className="flex flex-col gap-1">
-                        <Label className="text-xs">To</Label>
+                        <Label className="text-xs">{t("filters.to")}</Label>
                         <Input
                             type="date"
                             className="w-40"
@@ -92,11 +94,11 @@ export function SalesReportPage() {
                         />
                     </div>
                     <Button size="sm" className="self-end" onClick={applyFilters}>
-                        Apply
+                        {t("filters.apply")}
                     </Button>
                     {hasFilters && (
                         <Button variant="ghost" size="sm" className="self-end" onClick={clearFilters}>
-                            Clear
+                            {t("filters.clear")}
                         </Button>
                     )}
                 </>
@@ -104,24 +106,24 @@ export function SalesReportPage() {
         >
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
                 <StatCard
-                    title="Total Sales"
+                    title={t("stats.totalSales")}
                     value={totalSales.toLocaleString()}
                     icon={TrendingUp}
                     variant="success"
                 />
-                <StatCard title="Invoices" value={count} icon={FileText} />
+                <StatCard title={t("stats.invoices")} value={count} icon={FileText} />
                 <StatCard
-                    title="Gross Profit"
+                    title={t("stats.grossProfit")}
                     value={(profitData?.grossProfit ?? 0).toLocaleString()}
                     icon={DollarSign}
                     variant={profitData?.grossProfit && profitData.grossProfit > 0 ? "success" : "danger"}
                 />
                 <StatCard
-                    title="Net Profit"
+                    title={t("stats.netProfit")}
                     value={(profitData?.netProfit ?? 0).toLocaleString()}
                     icon={TrendingDown}
                     variant={profitData?.netProfit && profitData.netProfit > 0 ? "success" : "danger"}
-                    subtitle={`Expenses: ${(profitData?.totalExpenses ?? 0).toLocaleString()}`}
+                    subtitle={t("stats.expensesSubtitle", { amount: (profitData?.totalExpenses ?? 0).toLocaleString() })}
                 />
             </div>
 

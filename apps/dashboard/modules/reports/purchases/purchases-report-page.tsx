@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { useTranslations } from "next-intl"
 import { useQuery } from "@tanstack/react-query"
 import { useApi } from "@/shared/useApi"
 import { ShoppingCart, FileText } from "lucide-react"
@@ -13,6 +14,7 @@ import { ReportTable } from "../shared/report-table"
 import type { InvoiceReportItem } from "@devloggers/api-client"
 
 export function PurchasesReportPage() {
+    const t = useTranslations("business.reports.purchases")
     const api = useApi()
     const [from, setFrom] = useState("")
     const [to, setTo] = useState("")
@@ -43,20 +45,20 @@ export function PurchasesReportPage() {
     const hasFilters = !!filters.from || !!filters.to
 
     const columns = [
-        { key: "number", header: "Invoice #" },
+        { key: "number", header: t("columns.number") },
         {
             key: "date",
-            header: "Date",
+            header: t("columns.date"),
             render: (r: InvoiceReportItem) => new Date(r.date).toLocaleDateString(),
         },
         {
             key: "party",
-            header: "Supplier",
+            header: t("columns.supplier"),
             render: (r: InvoiceReportItem) => r.party?.name ?? "—",
         },
         {
             key: "total",
-            header: "Total",
+            header: t("columns.total"),
             align: "right" as const,
             render: (r: InvoiceReportItem) => Number(r.total).toLocaleString(),
         },
@@ -64,12 +66,12 @@ export function PurchasesReportPage() {
 
     return (
         <ReportLayout
-            title="Purchases Report"
-            description="Purchase invoice summary with supplier breakdown."
+            title={t("title")}
+            description={t("description")}
             filters={
                 <>
                     <div className="flex flex-col gap-1">
-                        <Label className="text-xs">From</Label>
+                        <Label className="text-xs">{t("filters.from")}</Label>
                         <Input
                             type="date"
                             className="w-40"
@@ -78,7 +80,7 @@ export function PurchasesReportPage() {
                         />
                     </div>
                     <div className="flex flex-col gap-1">
-                        <Label className="text-xs">To</Label>
+                        <Label className="text-xs">{t("filters.to")}</Label>
                         <Input
                             type="date"
                             className="w-40"
@@ -87,11 +89,11 @@ export function PurchasesReportPage() {
                         />
                     </div>
                     <Button size="sm" className="self-end" onClick={applyFilters}>
-                        Apply
+                        {t("filters.apply")}
                     </Button>
                     {hasFilters && (
                         <Button variant="ghost" size="sm" className="self-end" onClick={clearFilters}>
-                            Clear
+                            {t("filters.clear")}
                         </Button>
                     )}
                 </>
@@ -99,12 +101,12 @@ export function PurchasesReportPage() {
         >
             <div className="grid gap-4 sm:grid-cols-2">
                 <StatCard
-                    title="Total Purchases"
+                    title={t("stats.totalPurchases")}
                     value={totalPurchases.toLocaleString()}
                     icon={ShoppingCart}
                     variant="warning"
                 />
-                <StatCard title="Invoices" value={count} icon={FileText} />
+                <StatCard title={t("stats.invoices")} value={count} icon={FileText} />
             </div>
 
             <ReportTable

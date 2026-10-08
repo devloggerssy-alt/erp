@@ -23,7 +23,17 @@ export class ReportsController {
             example: {
                 message: 'Stock balance report',
                 data: [
-                    { itemId: '...', itemName: 'Laptop 15"', warehouseId: '...', warehouseName: 'Main Warehouse', quantity: 50 },
+                    {
+                        itemId: 'b1f2…',
+                        itemName: 'Laptop 15"',
+                        itemCode: 'LAP-15',
+                        warehouseId: 'a3c4…',
+                        warehouseName: 'Main Warehouse',
+                        warehouseCode: 'MAIN',
+                        quantity: 50,
+                        averageCost: 1200.5,
+                        updatedAt: '2026-04-14T09:30:00.000Z',
+                    },
                 ],
             },
         },
@@ -45,7 +55,20 @@ export class ReportsController {
         schema: {
             example: {
                 message: 'Sales summary report',
-                data: { totalSales: 15000000, invoiceCount: 12, topItems: [{ itemName: 'Laptop 15"', totalQty: 20, totalAmount: 12000000 }] },
+                data: {
+                    invoices: [
+                        {
+                            id: 'd4e5…',
+                            number: 'SI-2026-0001',
+                            date: '2026-04-14T09:30:00.000Z',
+                            total: 600000,
+                            partyId: 'c9d8…',
+                            party: { name: 'Aleppo Electronics Co.', code: 'C-001' },
+                        },
+                    ],
+                    totalSales: 15000000,
+                    count: 12,
+                },
             },
         },
     })
@@ -67,7 +90,20 @@ export class ReportsController {
         schema: {
             example: {
                 message: 'Purchase summary report',
-                data: { totalPurchases: 8000000, invoiceCount: 5, topItems: [{ itemName: 'Smartphone X', totalQty: 50, totalAmount: 5600000 }] },
+                data: {
+                    invoices: [
+                        {
+                            id: 'e5f6…',
+                            number: 'PI-2026-0004',
+                            date: '2026-04-13T11:00:00.000Z',
+                            total: 1148000,
+                            partyId: 'f7a8…',
+                            party: { name: 'Damascus Import Co.', code: 'S-004' },
+                        },
+                    ],
+                    totalPurchases: 8000000,
+                    count: 5,
+                },
             },
         },
     })
@@ -86,10 +122,21 @@ export class ReportsController {
             example: {
                 message: 'Customer statement',
                 data: {
-                    partyName: 'Aleppo Electronics Co.',
-                    openingBalance: 0,
-                    transactions: [{ date: '2026-04-14', type: 'INVOICE', amount: 600000, runningBalance: 600000 }],
-                    closingBalance: 600000,
+                    party: { id: 'c9d8…', name: 'Aleppo Electronics Co.', code: 'C-001' },
+                    invoices: [
+                        {
+                            id: 'd4e5…',
+                            number: 'SI-2026-0001',
+                            date: '2026-04-14T09:30:00.000Z',
+                            total: 600000,
+                            partyId: 'c9d8…',
+                            party: { name: 'Aleppo Electronics Co.', code: 'C-001' },
+                        },
+                    ],
+                    payments: [{ id: 'a1b2…', date: '2026-04-15T12:00:00.000Z', amount: 200000 }],
+                    totalInvoiced: 600000,
+                    totalPaid: 200000,
+                    balance: 400000,
                 },
             },
         },
@@ -109,10 +156,21 @@ export class ReportsController {
             example: {
                 message: 'Supplier statement',
                 data: {
-                    partyName: 'Damascus Import Co.',
-                    openingBalance: 0,
-                    transactions: [{ date: '2026-04-14', type: 'INVOICE', amount: 5740000, runningBalance: 5740000 }],
-                    closingBalance: 5740000,
+                    party: { id: 'f7a8…', name: 'Damascus Import Co.', code: 'S-004' },
+                    invoices: [
+                        {
+                            id: 'e5f6…',
+                            number: 'PI-2026-0004',
+                            date: '2026-04-13T11:00:00.000Z',
+                            total: 5740000,
+                            partyId: 'f7a8…',
+                            party: { name: 'Damascus Import Co.', code: 'S-004' },
+                        },
+                    ],
+                    payments: [{ id: 'b2c3…', date: '2026-04-16T08:15:00.000Z', amount: 5740000 }],
+                    totalInvoiced: 5740000,
+                    totalPaid: 5740000,
+                    balance: 0,
                 },
             },
         },
@@ -132,7 +190,13 @@ export class ReportsController {
         schema: {
             example: {
                 message: 'Profit summary report',
-                data: { totalRevenue: 15000000, totalCost: 8000000, grossProfit: 7000000, profitMargin: 46.67 },
+                data: {
+                    totalSales: 15000000,
+                    totalPurchases: 8000000,
+                    totalExpenses: 2000000,
+                    grossProfit: 7000000,
+                    netProfit: 5000000,
+                },
             },
         },
     })

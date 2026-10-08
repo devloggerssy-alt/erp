@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { useTranslations } from "next-intl"
 import { useQuery } from "@tanstack/react-query"
 import { useApi } from "@/shared/useApi"
 import { BarChart3, Package, Warehouse } from "lucide-react"
@@ -15,6 +16,7 @@ import type { StockBalanceReportItem } from "@devloggers/api-client"
 type Warehouse = { id: string; name: string; code: string }
 
 export function StockReportPage() {
+    const t = useTranslations("business.reports.stock")
     const api = useApi()
     const [warehouseId, setWarehouseId] = useState<string | undefined>()
 
@@ -36,12 +38,12 @@ export function StockReportPage() {
     const outOfStock = data.filter((r) => r.quantity <= 0).length
 
     const columns = [
-        { key: "itemCode", header: "Item Code" },
-        { key: "itemName", header: "Item Name" },
-        { key: "warehouseCode", header: "Warehouse" },
+        { key: "itemCode", header: t("columns.itemCode") },
+        { key: "itemName", header: t("columns.itemName") },
+        { key: "warehouseCode", header: t("columns.warehouse") },
         {
             key: "quantity",
-            header: "Quantity",
+            header: t("columns.quantity"),
             align: "right" as const,
             render: (r: StockBalanceReportItem) => (
                 <span className={r.quantity <= 0 ? "font-medium text-rose-600" : ""}>
@@ -51,13 +53,13 @@ export function StockReportPage() {
         },
         {
             key: "averageCost",
-            header: "Avg. Cost",
+            header: t("columns.avgCost"),
             align: "right" as const,
             render: (r: StockBalanceReportItem) => Number(r.averageCost).toLocaleString(),
         },
         {
             key: "updatedAt",
-            header: "Last Updated",
+            header: t("columns.lastUpdated"),
             render: (r: StockBalanceReportItem) =>
                 r.updatedAt ? new Date(r.updatedAt).toLocaleDateString() : "—",
         },
@@ -65,18 +67,18 @@ export function StockReportPage() {
 
     return (
         <ReportLayout
-            title="Stock Balance Report"
-            description="Current inventory levels by item and warehouse."
+            title={t("title")}
+            description={t("description")}
             filters={
                 <>
                     <div className="flex flex-col gap-1">
-                        <Label className="text-xs">Warehouse</Label>
+                        <Label className="text-xs">{t("filters.warehouse")}</Label>
                         <Select value={warehouseId ?? "all"} onValueChange={(v) => setWarehouseId(v === "all" ? undefined : v)}>
                             <SelectTrigger className="w-52">
-                                <SelectValue placeholder="All warehouses" />
+                                <SelectValue placeholder={t("filters.allWarehouses")} />
                             </SelectTrigger>
                             <SelectContent>
-                                <SelectItem value="all">All warehouses</SelectItem>
+                                <SelectItem value="all">{t("filters.allWarehouses")}</SelectItem>
                                 {warehouses.map((w) => (
                                     <SelectItem key={w.id} value={w.id}>
                                         {w.name}
@@ -87,17 +89,17 @@ export function StockReportPage() {
                     </div>
                     {warehouseId && (
                         <Button variant="ghost" size="sm" className="self-end" onClick={() => setWarehouseId(undefined)}>
-                            Clear
+                            {t("filters.clear")}
                         </Button>
                     )}
                 </>
             }
         >
             <div className="grid gap-4 sm:grid-cols-3">
-                <StatCard title="Items in stock" value={totalItems} icon={Package} />
-                <StatCard title="Total quantity" value={totalQty.toLocaleString()} icon={BarChart3} />
+                <StatCard title={t("stats.itemsInStock")} value={totalItems} icon={Package} />
+                <StatCard title={t("stats.totalQuantity")} value={totalQty.toLocaleString()} icon={BarChart3} />
                 <StatCard
-                    title="Out of stock"
+                    title={t("stats.outOfStock")}
                     value={outOfStock}
                     icon={Warehouse}
                     variant={outOfStock > 0 ? "danger" : "success"}

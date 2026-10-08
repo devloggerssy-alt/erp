@@ -980,7 +980,8 @@
           "totalSales": "Total Sales",
           "invoices": "Invoices",
           "grossProfit": "Gross Profit",
-          "netProfit": "Net Profit"
+          "netProfit": "Net Profit",
+          "expensesSubtitle": "Expenses: {amount}"
         },
         "columns": {
           "number": "Invoice #",
@@ -1028,6 +1029,8 @@
           "invoices": "Invoices",
           "payments": "Payments"
         },
+        "typeInvoice": "Invoice",
+        "typePayment": "Payment",
         "columns": {
           "number": "Invoice #",
           "date": "Date",

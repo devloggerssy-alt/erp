@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { useTranslations } from "next-intl"
 import { useQuery } from "@tanstack/react-query"
 import { useApi } from "@/shared/useApi"
 import { Receipt, Wallet, Scale } from "lucide-react"
@@ -18,6 +19,7 @@ type InvoiceRow = { id: string; date: string; number?: string | null; total: num
 type PaymentRow = { id: string; date: string; amount: number | string }
 
 export function PartyStatementPage() {
+    const t = useTranslations("business.reports.partyStatement")
     const api = useApi()
     const [partyType, setPartyType] = useState<PartyType>("customer")
     const [partyId, setPartyId] = useState<string | undefined>()
@@ -51,25 +53,25 @@ export function PartyStatementPage() {
     const invoiceColumns = [
         {
             key: "number",
-            header: "Invoice #",
+            header: t("columns.number"),
             render: (r: InvoiceRow) => r.number ?? "—",
         },
         {
             key: "date",
-            header: "Date",
+            header: t("columns.date"),
             render: (r: InvoiceRow) => new Date(r.date).toLocaleDateString(),
         },
         {
             key: "total",
-            header: "Amount",
+            header: t("columns.amount"),
             align: "right" as const,
             render: (r: InvoiceRow) => Number(r.total).toLocaleString(),
         },
         {
             key: "type",
-            header: "Type",
+            header: t("columns.type"),
             render: (_r: InvoiceRow) => (
-                <Badge variant="outline">Invoice</Badge>
+                <Badge variant="outline">{t("typeInvoice")}</Badge>
             ),
         },
     ]
@@ -77,32 +79,32 @@ export function PartyStatementPage() {
     const paymentColumns = [
         {
             key: "date",
-            header: "Date",
+            header: t("columns.date"),
             render: (r: PaymentRow) => new Date(r.date).toLocaleDateString(),
         },
         {
             key: "amount",
-            header: "Amount",
+            header: t("columns.amount"),
             align: "right" as const,
             render: (r: PaymentRow) => Number(r.amount).toLocaleString(),
         },
         {
             key: "type",
-            header: "Type",
+            header: t("columns.type"),
             render: (_r: PaymentRow) => (
-                <Badge variant="secondary">Payment</Badge>
+                <Badge variant="secondary">{t("typePayment")}</Badge>
             ),
         },
     ]
 
     return (
         <ReportLayout
-            title="Account Statements"
-            description="Customer and supplier transaction history with running balance."
+            title={t("title")}
+            description={t("description")}
             filters={
                 <>
                     <div className="flex flex-col gap-1">
-                        <Label className="text-xs">Type</Label>
+                        <Label className="text-xs">{t("columns.type")}</Label>
                         <Tabs
                             value={partyType}
                             onValueChange={(v) => {
@@ -111,14 +113,14 @@ export function PartyStatementPage() {
                             }}
                         >
                             <TabsList>
-                                <TabsTrigger value="customer">Customers</TabsTrigger>
-                                <TabsTrigger value="supplier">Suppliers</TabsTrigger>
+                                <TabsTrigger value="customer">{t("tabs.customers")}</TabsTrigger>
+                                <TabsTrigger value="supplier">{t("tabs.suppliers")}</TabsTrigger>
                             </TabsList>
                         </Tabs>
                     </div>
                     <div className="flex flex-col gap-1">
                         <Label className="text-xs">
-                            {partyType === "customer" ? "Customer" : "Supplier"}
+                            {partyType === "customer" ? t("customer") : t("supplier")}
                         </Label>
                         <Select
                             value={partyId ?? ""}
@@ -126,7 +128,9 @@ export function PartyStatementPage() {
                         >
                             <SelectTrigger className="w-64">
                                 <SelectValue
-                                    placeholder={`Select ${partyType === "customer" ? "customer" : "supplier"}…`}
+                                    placeholder={t("selectPrompt", {
+                                        partyType: partyType === "customer" ? t("customer") : t("supplier"),
+                                    })}
                                 />
                             </SelectTrigger>
                             <SelectContent>
@@ -143,25 +147,27 @@ export function PartyStatementPage() {
         >
             {!partyId ? (
                 <div className="flex h-40 items-center justify-center rounded-lg border border-dashed text-sm text-muted-foreground">
-                    Select a {partyType === "customer" ? "customer" : "supplier"} to view their statement.
+                    {t("selectPrompt", {
+                        partyType: partyType === "customer" ? t("customer") : t("supplier"),
+                    })}
                 </div>
             ) : (
                 <>
                     <div className="grid gap-4 sm:grid-cols-3">
                         <StatCard
-                            title="Total Invoiced"
+                            title={t("stats.totalInvoiced")}
                             value={totalInvoiced.toLocaleString()}
                             icon={Receipt}
                             variant="default"
                         />
                         <StatCard
-                            title="Total Paid"
+                            title={t("stats.totalPaid")}
                             value={totalPaid.toLocaleString()}
                             icon={Wallet}
                             variant="success"
                         />
                         <StatCard
-                            title="Outstanding Balance"
+                            title={t("stats.balance")}
                             value={balance.toLocaleString()}
                             icon={Scale}
                             variant={balance > 0 ? "warning" : "success"}
@@ -172,7 +178,7 @@ export function PartyStatementPage() {
                         <div>
                             <h3 className="mb-2 flex items-center gap-2 text-sm font-medium text-muted-foreground">
                                 <Receipt className="h-4 w-4" />
-                                Invoices ({invoices.length})
+                                {t("sections.invoices")} ({invoices.length})
                             </h3>
                             <ReportTable
                                 columns={invoiceColumns}
@@ -184,7 +190,7 @@ export function PartyStatementPage() {
                         <div>
                             <h3 className="mb-2 flex items-center gap-2 text-sm font-medium text-muted-foreground">
                                 <Wallet className="h-4 w-4" />
-                                Payments ({payments.length})
+                                {t("sections.payments")} ({payments.length})
                             </h3>
                             <ReportTable
                                 columns={paymentColumns}

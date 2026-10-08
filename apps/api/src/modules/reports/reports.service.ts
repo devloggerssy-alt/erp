@@ -1,22 +1,27 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@devloggers/db-prisma/nest';
 import { computeInvoicePaidState } from '../invoicing';
+import { ReportsPresenter } from './presenters/reports.presenter';
 
 @Injectable()
 export class ReportsService {
-    constructor(private readonly prisma: PrismaService) {}
+    constructor(
+        private readonly prisma: PrismaService,
+        private readonly presenter: ReportsPresenter,
+    ) {}
 
     async getStockBalance(tenantId: string, warehouseId?: string) {
         const where: any = { tenantId };
         if (warehouseId) where.warehouseId = warehouseId;
-        return this.prisma.stockBalance.findMany({
+        const rows = await this.prisma.stockBalance.findMany({
             where,
             include: {
-                item: { select: { code: true, name: true,  } },
+                item: { select: { code: true, name: true } },
                 warehouse: { select: { code: true, name: true } },
             },
             orderBy: [{ warehouse: { code: 'asc' } }, { item: { code: 'asc' } }],
         });
+        return this.presenter.toStockBalance(rows);
     }
 
     async getSalesSummary(tenantId: string, filters: { from?: string; to?: string; partyId?: string }) {
@@ -35,7 +40,7 @@ export class ReportsService {
         });
 
         const totalSales = invoices.reduce((s, i) => s + Number(i.total), 0);
-        return { invoices, totalSales, count: invoices.length };
+        return { invoices: this.presenter.toInvoiceSummary(invoices), totalSales, count: invoices.length };
     }
 
     async getPurchaseSummary(tenantId: string, filters: { from?: string; to?: string; partyId?: string }) {
@@ -54,7 +59,7 @@ export class ReportsService {
         });
 
         const totalPurchases = invoices.reduce((s, i) => s + Number(i.total), 0);
-        return { invoices, totalPurchases, count: invoices.length };
+        return { invoices: this.presenter.toInvoiceSummary(invoices), totalPurchases, count: invoices.length };
     }
 
     async getPartyStatement(tenantId: string, partyId: string) {
@@ -84,7 +89,14 @@ export class ReportsService {
         );
         const balance = totalInvoiced - totalPaid;
 
-        return { party, invoices, payments, totalInvoiced, totalPaid, balance };
+        return this.presenter.toPartyStatement({
+            party,
+            invoices,
+            payments,
+            totalInvoiced,
+            totalPaid,
+            balance,
+        });
     }
 
     async getProfitSummary(tenantId: string, filters: { from?: string; to?: string }) {

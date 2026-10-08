@@ -1,66 +1,26 @@
 import { reportResource } from "@devloggers/api-contracts"
+import type {
+    InvoiceReportItem,
+    PartyStatementResponse,
+    ProfitSummaryResponse,
+    PurchaseSummaryResponse,
+    SalesSummaryResponse,
+    StockBalanceReportItem,
+} from "@devloggers/api-contracts"
 import { ApiClient } from "../infra/client"
 
-// ── Response types ────────────────────────────────────────────────────────────
+// ── Response types (contracts are the source of truth) ───────────────────────
 
-export type StockBalanceReportItem = {
-    itemId: string
-    itemName: string | null
-    itemCode: string | null
-    warehouseId: string
-    warehouseName: string | null
-    warehouseCode: string | null
-    quantity: number
-    averageCost: number
-    updatedAt: string
-}
-
-export type InvoiceReportItem = {
-    id: string
-    number: string | null
-    date: string
-    total: number | string
-    partyId: string | null
-    party?: { name: string; code: string } | null
-}
-
-export type SalesSummaryResponse = {
-    invoices: InvoiceReportItem[]
-    totalSales: number
-    count: number
-}
-
-export type PurchaseSummaryResponse = {
-    invoices: InvoiceReportItem[]
-    totalPurchases: number
-    count: number
-}
-
-export type PartyStatementTransaction = {
-    id: string
-    date: string
-    number?: string | null
-    type: "INVOICE" | "PAYMENT"
-    amount: number | string
-    direction?: string
-}
-
-export type PartyStatementResponse = {
-    party: { id: string; name: string; code: string } | null
-    invoices: InvoiceReportItem[]
-    payments: { id: string; date: string; amount: number | string }[]
-    totalInvoiced: number
-    totalPaid: number
-    balance: number
-}
-
-export type ProfitSummaryResponse = {
-    totalSales: number
-    totalPurchases: number
-    totalExpenses: number
-    grossProfit: number
-    netProfit: number
-}
+export type {
+    InvoiceReportItem,
+    PartyStatementParty,
+    PartyStatementPayment,
+    PartyStatementResponse,
+    ProfitSummaryResponse,
+    PurchaseSummaryResponse,
+    SalesSummaryResponse,
+    StockBalanceReportItem,
+} from "@devloggers/api-contracts"
 
 // ── Filters ───────────────────────────────────────────────────────────────────
 

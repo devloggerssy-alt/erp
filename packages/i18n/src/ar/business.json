@@ -981,7 +981,8 @@
           "totalSales": "إجمالي المبيعات",
           "invoices": "الفواتير",
           "grossProfit": "الربح الإجمالي",
-          "netProfit": "صافي الربح"
+          "netProfit": "صافي الربح",
+          "expensesSubtitle": "المصروفات: {amount}"
         },
         "columns": {
           "number": "رقم الفاتورة",
@@ -1029,6 +1030,8 @@
           "invoices": "الفواتير",
           "payments": "المدفوعات"
         },
+        "typeInvoice": "فاتورة",
+        "typePayment": "دفعة",
         "columns": {
           "number": "رقم الفاتورة",
           "date": "التاريخ",

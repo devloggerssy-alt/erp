@@ -1,4 +1,5 @@
 import { ReportsService } from './reports.service';
+import { ReportsPresenter } from './presenters/reports.presenter';
 
 interface PrismaStub {
     expenseItemGroups?: Array<{ accountId: string; _sum: { amount: number | null } }>;
@@ -22,7 +23,11 @@ function makeService(stub: PrismaStub = {}): ReportsService {
             findMany: async () => stub.items ?? [],
         },
     };
-    return new ReportsService(prisma as never);
+    const presenter = new ReportsPresenter({
+        resolve: (field: { en?: string; ar?: string } | null | undefined, fallback = '') =>
+            field?.en ?? field?.ar ?? fallback,
+    } as never);
+    return new ReportsService(prisma as never, presenter);
 }
 
 describe('ReportsService.getDashboardExpenseBreakdown', () => {

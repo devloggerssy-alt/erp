@@ -1,4 +1,7 @@
+"use client"
+
 import type { ReactNode } from "react"
+import { useTranslations } from "next-intl"
 import { Skeleton } from "@/shared/components/ui/skeleton"
 import {
     Table,
@@ -25,6 +28,8 @@ type ReportTableProps<T> = {
 }
 
 export function ReportTable<T>({ columns, rows, isLoading, getRowKey }: ReportTableProps<T>) {
+    const t = useTranslations("system.dataView")
+
     if (isLoading) {
         return (
             <div className="space-y-2">
@@ -38,7 +43,7 @@ export function ReportTable<T>({ columns, rows, isLoading, getRowKey }: ReportTa
     if (rows.length === 0) {
         return (
             <Empty className="py-12">
-                <EmptyTitle>No data</EmptyTitle>
+                <EmptyTitle>{t("empty")}</EmptyTitle>
             </Empty>
         )
     }

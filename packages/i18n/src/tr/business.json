@@ -976,7 +976,8 @@
           "totalSales": "Toplam Satış",
           "invoices": "Faturalar",
           "grossProfit": "Brüt Kâr",
-          "netProfit": "Net Kâr"
+          "netProfit": "Net Kâr",
+          "expensesSubtitle": "Giderler: {amount}"
         },
         "columns": {
           "number": "Fatura #",
@@ -1024,6 +1025,8 @@
           "invoices": "Faturalar",
           "payments": "Ödemeler"
         },
+        "typeInvoice": "Fatura",
+        "typePayment": "Ödeme",
         "columns": {
           "number": "Fatura #",
           "date": "Tarih",
