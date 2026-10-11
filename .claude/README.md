@@ -1,6 +1,6 @@
 # Claude Code — Team Setup
 
-This folder configures **Claude Code** for the Devloggers ERP monorepo.
+This folder configures **Claude Code** for the Sanad ERP monorepo.
 Cursor teammates use `.cursor/`; Claude teammates use `.claude/` + root `CLAUDE.md`.
 
 ## First-time setup

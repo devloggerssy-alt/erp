@@ -9,7 +9,7 @@ disable-model-invocation: true
 
 # Caveman Workflow (ERP)
 
-Orchestrates a disciplined development cycle for the Devloggers ERP monorepo.
+Orchestrates a disciplined development cycle for the Sanad ERP monorepo.
 Do not skip steps unless the user explicitly overrides.
 
 ## 1. Context orientation (using-superpowers + erp-project-map)

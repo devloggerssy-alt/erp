@@ -7,12 +7,16 @@ import { cn } from "@/shared/lib/utils"
 
 export const metadata: Metadata = {
   title: {
-    default: "Devloggers ERP",
-    template: "%s · Devloggers ERP",
+    default: "Sanad ERP",
+    template: "%s · Sanad ERP",
   },
   description:
-    "Devloggers ERP — inventory, invoicing, accounting, and operations in one platform.",
-  applicationName: "Devloggers ERP",
+    "Sanad ERP — inventory, invoicing, accounting, and operations in one platform.",
+  applicationName: "Sanad ERP",
+  icons: {
+    icon: [{ url: "/assets/logo-2.svg", type: "image/svg+xml" }],
+    apple: [{ url: "/assets/apple-icon.png", sizes: "180x180", type: "image/png" }],
+  },
 }
 
 const tajawal = Tajawal({

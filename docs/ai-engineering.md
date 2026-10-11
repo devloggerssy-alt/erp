@@ -1,6 +1,6 @@
 # AI Engineering Guide
 
-How humans and AI agents work together in the **Devloggers ERP** monorepo.
+How humans and AI agents work together in the **Sanad ERP** monorepo.
 Read this once when onboarding; reference it when adding features, rules, or specs.
 
 ---

@@ -1,4 +1,4 @@
-# Contributing to Devloggers ERP
+# Contributing to Sanad ERP
 
 Thanks for helping. This guide is how a change gets from your machine into the repository: setup, what to touch, what to leave alone, and what reviewers expect in a pull request.
 

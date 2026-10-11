@@ -30,7 +30,7 @@ const OPENAPI_TYPESCRIPT_BIN = resolve(
  */
 export function buildContractDocument(app: INestApplication): OpenAPIObject {
   const config = new DocumentBuilder()
-    .setTitle('Devloggers ERP API')
+    .setTitle('Sanad ERP API')
     .setDescription('ERP system API documentation')
     .setVersion('1.0.0')
     .addBearerAuth(

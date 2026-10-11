@@ -2,7 +2,7 @@
 
 ## Project Purpose
 
-**Devloggers ERP** is a full-featured, multi-tenant ERP system targeting small-to-medium businesses (SMBs) in the MENA (Middle East and North Africa) region. It covers the complete business operations cycle:
+**Sanad ERP** is a full-featured, multi-tenant ERP system targeting small-to-medium businesses (SMBs) in the MENA (Middle East and North Africa) region. It covers the complete business operations cycle:
 
 - Sales and purchase **invoicing**
 - **Customer and supplier** management

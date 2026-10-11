@@ -111,7 +111,7 @@ The `buildPrismaWhere()` utility in `backend-core` translates query params to Pr
 
 Configured in `apps/api/src/main.ts`:
 
-- Title: `Devloggers ERP API`
+- Title: `Sanad ERP API`
 - Bearer auth scheme: `JWT-auth` (used with `@ApiBearerAuth('JWT-auth')`)
 - `operationIdFactory`: generates IDs as `ControllerName.methodName`
 - `persistAuthorization: true` in Swagger UI options

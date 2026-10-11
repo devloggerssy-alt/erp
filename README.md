@@ -1,4 +1,4 @@
-# Devloggers ERP
+# Sanad ERP
 
 Multi-tenant ERP for small and medium businesses in the MENA region. It covers invoicing, parties, inventory, accounting, catalog, reporting, and an in-product AI assistant. The dashboard is Arabic-first (RTL), with English and Turkish.
 

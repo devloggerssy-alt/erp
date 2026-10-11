@@ -1,5 +1,5 @@
 ---
-name: DevLoggers ERP
+name: Sanad ERP
 description: Full-stack ERP for MENA SMBs — commanding operational clarity in a single workspace.
 colors:
   signal-green: "oklch(77.17% 0.20466 129.029)"
@@ -84,7 +84,7 @@ components:
     height: "2.25rem"
 ---
 
-# Design System: DevLoggers ERP
+# Design System: Sanad ERP
 
 ## 1. Overview
 

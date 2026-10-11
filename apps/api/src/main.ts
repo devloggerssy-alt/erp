@@ -24,7 +24,7 @@ async function bootstrap() {
   const document = buildContractDocument(app);
 
   SwaggerModule.setup('docs', app, document, {
-    customSiteTitle: 'Devloggers ERP API',
+    customSiteTitle: 'Sanad ERP API',
     jsonDocumentUrl: 'swagger.json',
     yamlDocumentUrl: 'swagger.yaml',
     swaggerOptions: { persistAuthorization: true, displayRequestDuration: true, filter: true, docExpansion: 'none', tryItOutEnabled: true },

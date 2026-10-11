@@ -1,6 +1,6 @@
 # Claude Code — ERP Workflow
 
-You are working in the **Devloggers ERP** monorepo. Follow this workflow unless the user overrides.
+You are working in the **Sanad ERP** monorepo. Follow this workflow unless the user overrides.
 
 ## Before coding
 

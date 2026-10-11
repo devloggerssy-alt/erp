@@ -3,7 +3,7 @@
 This folder is the **single source of truth** for feature designs and implementation plans.
 Any developer or AI agent entering the project should start here before building non-trivial work.
 
-Inspired by the [Superpowers](https://github.com/obra/superpowers) plugin workflow and adapted for the Devloggers ERP monorepo.
+Inspired by the [Superpowers](https://github.com/obra/superpowers) plugin workflow and adapted for the Sanad ERP monorepo.
 
 ---
 
