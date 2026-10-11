@@ -16,11 +16,13 @@
     "notifications": "Notifications",
     "searchPlaceholder": "Type to search...",
     "searchEmpty": "No results found.",
-    "quickActions": "Quick Actions",
-    "quickItems": {
-      "dashboard": "Dashboard",
-      "jobCards": "Job Cards",
-      "customers": "Customers"
+    "searching": "Searching...",
+    "searchGroups": {
+      "pages": "Pages",
+      "items": "Items",
+      "invoices": "Invoices",
+      "parties": "Parties",
+      "payments": "Payments"
     }
   },
   "auth": {
@@ -141,5 +143,32 @@
     "update": "Update {entity}",
     "activeDescription": "Inactive records remain available historically but are hidden from active choices.",
     "discard": "Discard"
+  },
+  "profile": {
+    "title": "Profile",
+    "description": "Manage your personal information and password.",
+    "avatar": "Profile picture",
+    "avatarHint": "Click or drag & drop an image. Clear it and save to remove your picture.",
+    "fullName": "Full name",
+    "phone": "Phone",
+    "email": "Email",
+    "emailHint": "Email cannot be changed.",
+    "save": "Save",
+    "saving": "Saving...",
+    "saved": "Profile saved",
+    "saveFailed": "Failed to save profile",
+    "changePassword": "Change password",
+    "changePasswordDescription": "Enter your current password and choose a new one.",
+    "currentPassword": "Current password",
+    "newPassword": "New password",
+    "confirmPassword": "Confirm new password",
+    "updatePassword": "Update password",
+    "updatingPassword": "Updating password...",
+    "passwordUpdated": "Password updated",
+    "passwordUpdateFailed": "Failed to update password",
+    "passwordMinLength": "At least 8 characters",
+    "passwordMismatch": "Passwords do not match",
+    "passwordSameAsCurrent": "New password must be different from the current password",
+    "cancel": "Cancel"
   }
 }

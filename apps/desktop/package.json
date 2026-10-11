@@ -4,8 +4,8 @@
   "private": true,
   "main": "dist/main.js",
   "scripts": {
+    "_dev": "wait-on http://localhost:3000 && tsc && electron .",
     "build": "tsc",
-    "dev": "wait-on http://localhost:3000 && tsc && electron .",
     "start": "electron .",
     "check-types": "tsc --noEmit"
   },

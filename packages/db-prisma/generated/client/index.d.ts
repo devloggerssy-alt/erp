@@ -68248,6 +68248,7 @@ export namespace Prisma {
     passwordHash: string | null
     fullName: string | null
     phone: string | null
+    avatarUrl: string | null
     isActive: boolean | null
     lastLoginAt: Date | null
     createdAt: Date | null
@@ -68261,6 +68262,7 @@ export namespace Prisma {
     passwordHash: string | null
     fullName: string | null
     phone: string | null
+    avatarUrl: string | null
     isActive: boolean | null
     lastLoginAt: Date | null
     createdAt: Date | null
@@ -68274,6 +68276,7 @@ export namespace Prisma {
     passwordHash: number
     fullName: number
     phone: number
+    avatarUrl: number
     isActive: number
     lastLoginAt: number
     createdAt: number
@@ -68289,6 +68292,7 @@ export namespace Prisma {
     passwordHash?: true
     fullName?: true
     phone?: true
+    avatarUrl?: true
     isActive?: true
     lastLoginAt?: true
     createdAt?: true
@@ -68302,6 +68306,7 @@ export namespace Prisma {
     passwordHash?: true
     fullName?: true
     phone?: true
+    avatarUrl?: true
     isActive?: true
     lastLoginAt?: true
     createdAt?: true
@@ -68315,6 +68320,7 @@ export namespace Prisma {
     passwordHash?: true
     fullName?: true
     phone?: true
+    avatarUrl?: true
     isActive?: true
     lastLoginAt?: true
     createdAt?: true
@@ -68401,6 +68407,7 @@ export namespace Prisma {
     passwordHash: string
     fullName: string
     phone: string | null
+    avatarUrl: string | null
     isActive: boolean
     lastLoginAt: Date | null
     createdAt: Date
@@ -68431,6 +68438,7 @@ export namespace Prisma {
     passwordHash?: boolean
     fullName?: boolean
     phone?: boolean
+    avatarUrl?: boolean
     isActive?: boolean
     lastLoginAt?: boolean
     createdAt?: boolean
@@ -68447,6 +68455,7 @@ export namespace Prisma {
     passwordHash?: boolean
     fullName?: boolean
     phone?: boolean
+    avatarUrl?: boolean
     isActive?: boolean
     lastLoginAt?: boolean
     createdAt?: boolean
@@ -68461,6 +68470,7 @@ export namespace Prisma {
     passwordHash?: boolean
     fullName?: boolean
     phone?: boolean
+    avatarUrl?: boolean
     isActive?: boolean
     lastLoginAt?: boolean
     createdAt?: boolean
@@ -68475,13 +68485,14 @@ export namespace Prisma {
     passwordHash?: boolean
     fullName?: boolean
     phone?: boolean
+    avatarUrl?: boolean
     isActive?: boolean
     lastLoginAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type AppUserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "email" | "passwordHash" | "fullName" | "phone" | "isActive" | "lastLoginAt" | "createdAt" | "updatedAt", ExtArgs["result"]["appUser"]>
+  export type AppUserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "email" | "passwordHash" | "fullName" | "phone" | "avatarUrl" | "isActive" | "lastLoginAt" | "createdAt" | "updatedAt", ExtArgs["result"]["appUser"]>
   export type AppUserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     userRoles?: boolean | AppUser$userRolesArgs<ExtArgs>
@@ -68507,6 +68518,7 @@ export namespace Prisma {
       passwordHash: string
       fullName: string
       phone: string | null
+      avatarUrl: string | null
       isActive: boolean
       lastLoginAt: Date | null
       createdAt: Date
@@ -68942,6 +68954,7 @@ export namespace Prisma {
     readonly passwordHash: FieldRef<"AppUser", 'String'>
     readonly fullName: FieldRef<"AppUser", 'String'>
     readonly phone: FieldRef<"AppUser", 'String'>
+    readonly avatarUrl: FieldRef<"AppUser", 'String'>
     readonly isActive: FieldRef<"AppUser", 'Boolean'>
     readonly lastLoginAt: FieldRef<"AppUser", 'DateTime'>
     readonly createdAt: FieldRef<"AppUser", 'DateTime'>
@@ -74841,6 +74854,7 @@ export namespace Prisma {
     passwordHash: 'passwordHash',
     fullName: 'fullName',
     phone: 'phone',
+    avatarUrl: 'avatarUrl',
     isActive: 'isActive',
     lastLoginAt: 'lastLoginAt',
     createdAt: 'createdAt',
@@ -80062,6 +80076,7 @@ export namespace Prisma {
     passwordHash?: StringFilter<"AppUser"> | string
     fullName?: StringFilter<"AppUser"> | string
     phone?: StringNullableFilter<"AppUser"> | string | null
+    avatarUrl?: StringNullableFilter<"AppUser"> | string | null
     isActive?: BoolFilter<"AppUser"> | boolean
     lastLoginAt?: DateTimeNullableFilter<"AppUser"> | Date | string | null
     createdAt?: DateTimeFilter<"AppUser"> | Date | string
@@ -80077,6 +80092,7 @@ export namespace Prisma {
     passwordHash?: SortOrder
     fullName?: SortOrder
     phone?: SortOrderInput | SortOrder
+    avatarUrl?: SortOrderInput | SortOrder
     isActive?: SortOrder
     lastLoginAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
@@ -80096,6 +80112,7 @@ export namespace Prisma {
     passwordHash?: StringFilter<"AppUser"> | string
     fullName?: StringFilter<"AppUser"> | string
     phone?: StringNullableFilter<"AppUser"> | string | null
+    avatarUrl?: StringNullableFilter<"AppUser"> | string | null
     isActive?: BoolFilter<"AppUser"> | boolean
     lastLoginAt?: DateTimeNullableFilter<"AppUser"> | Date | string | null
     createdAt?: DateTimeFilter<"AppUser"> | Date | string
@@ -80111,6 +80128,7 @@ export namespace Prisma {
     passwordHash?: SortOrder
     fullName?: SortOrder
     phone?: SortOrderInput | SortOrder
+    avatarUrl?: SortOrderInput | SortOrder
     isActive?: SortOrder
     lastLoginAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
@@ -80130,6 +80148,7 @@ export namespace Prisma {
     passwordHash?: StringWithAggregatesFilter<"AppUser"> | string
     fullName?: StringWithAggregatesFilter<"AppUser"> | string
     phone?: StringNullableWithAggregatesFilter<"AppUser"> | string | null
+    avatarUrl?: StringNullableWithAggregatesFilter<"AppUser"> | string | null
     isActive?: BoolWithAggregatesFilter<"AppUser"> | boolean
     lastLoginAt?: DateTimeNullableWithAggregatesFilter<"AppUser"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"AppUser"> | Date | string
@@ -85457,6 +85476,7 @@ export namespace Prisma {
     passwordHash: string
     fullName: string
     phone?: string | null
+    avatarUrl?: string | null
     isActive?: boolean
     lastLoginAt?: Date | string | null
     createdAt?: Date | string
@@ -85472,6 +85492,7 @@ export namespace Prisma {
     passwordHash: string
     fullName: string
     phone?: string | null
+    avatarUrl?: string | null
     isActive?: boolean
     lastLoginAt?: Date | string | null
     createdAt?: Date | string
@@ -85485,6 +85506,7 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -85500,6 +85522,7 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -85514,6 +85537,7 @@ export namespace Prisma {
     passwordHash: string
     fullName: string
     phone?: string | null
+    avatarUrl?: string | null
     isActive?: boolean
     lastLoginAt?: Date | string | null
     createdAt?: Date | string
@@ -85526,6 +85550,7 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -85539,6 +85564,7 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -89589,6 +89615,7 @@ export namespace Prisma {
     passwordHash?: SortOrder
     fullName?: SortOrder
     phone?: SortOrder
+    avatarUrl?: SortOrder
     isActive?: SortOrder
     lastLoginAt?: SortOrder
     createdAt?: SortOrder
@@ -89602,6 +89629,7 @@ export namespace Prisma {
     passwordHash?: SortOrder
     fullName?: SortOrder
     phone?: SortOrder
+    avatarUrl?: SortOrder
     isActive?: SortOrder
     lastLoginAt?: SortOrder
     createdAt?: SortOrder
@@ -89615,6 +89643,7 @@ export namespace Prisma {
     passwordHash?: SortOrder
     fullName?: SortOrder
     phone?: SortOrder
+    avatarUrl?: SortOrder
     isActive?: SortOrder
     lastLoginAt?: SortOrder
     createdAt?: SortOrder
@@ -117849,6 +117878,7 @@ export namespace Prisma {
     passwordHash: string
     fullName: string
     phone?: string | null
+    avatarUrl?: string | null
     isActive?: boolean
     lastLoginAt?: Date | string | null
     createdAt?: Date | string
@@ -117862,6 +117892,7 @@ export namespace Prisma {
     passwordHash: string
     fullName: string
     phone?: string | null
+    avatarUrl?: string | null
     isActive?: boolean
     lastLoginAt?: Date | string | null
     createdAt?: Date | string
@@ -119385,6 +119416,7 @@ export namespace Prisma {
     passwordHash?: StringFilter<"AppUser"> | string
     fullName?: StringFilter<"AppUser"> | string
     phone?: StringNullableFilter<"AppUser"> | string | null
+    avatarUrl?: StringNullableFilter<"AppUser"> | string | null
     isActive?: BoolFilter<"AppUser"> | boolean
     lastLoginAt?: DateTimeNullableFilter<"AppUser"> | Date | string | null
     createdAt?: DateTimeFilter<"AppUser"> | Date | string
@@ -121325,6 +121357,7 @@ export namespace Prisma {
     passwordHash: string
     fullName: string
     phone?: string | null
+    avatarUrl?: string | null
     isActive?: boolean
     lastLoginAt?: Date | string | null
     createdAt?: Date | string
@@ -121339,6 +121372,7 @@ export namespace Prisma {
     passwordHash: string
     fullName: string
     phone?: string | null
+    avatarUrl?: string | null
     isActive?: boolean
     lastLoginAt?: Date | string | null
     createdAt?: Date | string
@@ -121394,6 +121428,7 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -121408,6 +121443,7 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -127013,6 +127049,7 @@ export namespace Prisma {
     passwordHash: string
     fullName: string
     phone?: string | null
+    avatarUrl?: string | null
     isActive?: boolean
     lastLoginAt?: Date | string | null
     createdAt?: Date | string
@@ -127453,6 +127490,7 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -127466,6 +127504,7 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -127479,6 +127518,7 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string

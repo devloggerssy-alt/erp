@@ -15,18 +15,11 @@ import {
 import type { UserInfo } from "@/infrastructure/types/navigation"
 import { useAuthStore } from "@/shared/stores/auth-store"
 import { cn } from "@/shared/lib/utils"
-import { Avatar, AvatarFallback, } from "@/shared/components/ui/avatar"
+import { Avatar, AvatarFallback, AvatarImage } from "@/shared/components/ui/avatar"
 import { Button } from "@/shared/components/ui/button"
 import { SidebarTrigger } from "@/shared/components/ui/sidebar"
-import {
-  CommandDialog,
-  Command,
-  CommandInput,
-  CommandList,
-  CommandEmpty,
-  CommandGroup,
-  CommandItem,
-} from "@/shared/components/ui/command"
+import { resolveMediaUrl } from "@/shared/lib/resolve-media-url"
+import { GlobalSearchDialog } from "./global-search/global-search-dialog"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -148,6 +141,9 @@ export function DashboardHeader({ actions, breadcrumbs, className }: DashboardHe
                 aria-label={user?.fullName}
               >
                 <Avatar>
+                  {user?.avatarUrl && (
+                    <AvatarImage src={resolveMediaUrl(user.avatarUrl)} alt={user.fullName} />
+                  )}
                   <AvatarFallback>
                     {user?.fullName?.charAt(0).toUpperCase()}
                   </AvatarFallback>
@@ -162,6 +158,9 @@ export function DashboardHeader({ actions, breadcrumbs, className }: DashboardHe
               <DropdownMenuLabel className="font-normal">
                 <div className="flex items-center gap-3 py-1">
                   <Avatar size="lg">
+                    {user?.avatarUrl && (
+                      <AvatarImage src={resolveMediaUrl(user.avatarUrl)} alt={user.fullName} />
+                    )}
                     <AvatarFallback className="text-base">
                       {user?.fullName?.charAt(0).toUpperCase()}
                     </AvatarFallback>
@@ -197,19 +196,7 @@ export function DashboardHeader({ actions, breadcrumbs, className }: DashboardHe
 
       </div>
 
-      <CommandDialog open={searchOpen} onOpenChange={setSearchOpen}>
-        <Command>
-          <CommandInput placeholder={t("system.header.searchPlaceholder")} />
-          <CommandList>
-            <CommandEmpty>{t("system.header.searchEmpty")}</CommandEmpty>
-            <CommandGroup heading={t("system.header.quickActions")}>
-              <CommandItem>{t("system.header.quickItems.dashboard")}</CommandItem>
-              <CommandItem>{t("system.header.quickItems.jobCards")}</CommandItem>
-              <CommandItem>{t("system.header.quickItems.customers")}</CommandItem>
-            </CommandGroup>
-          </CommandList>
-        </Command>
-      </CommandDialog>
+      <GlobalSearchDialog open={searchOpen} onOpenChange={setSearchOpen} />
 
 
 

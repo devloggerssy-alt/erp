@@ -11,6 +11,11 @@ const ALLOWLIST = new Set([
   'form-defaults.controller.ts',
   // Public POST /tenants; its two other routes are asserted in factory-permission-metadata.spec.ts.
   'tenants.controller.ts',
+  // Self-service profile routes (JWT-only by design, see docs/adr/0003): every
+  // signed-in user updates their own profile, password, and avatar.
+  'profile.controller.ts',
+  'change-password.controller.ts',
+  'avatar.controller.ts',
 ]);
 
 const SRC_DIR = join(__dirname, '..', '..', '..', '..');

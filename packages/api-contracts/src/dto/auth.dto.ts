@@ -26,10 +26,17 @@ export interface AuthUser {
     tenantId: string;
     email: string;
     fullName: string;
+    phone?: string | null;
+    avatarUrl?: string | null;
     roles: string[];
     /** Effective permission keys resolved from the user's roles. */
     permissions: PermissionKey[];
     tenant: AuthTenant;
+}
+
+export interface ChangePasswordDto {
+    currentPassword: string;
+    newPassword: string;
 }
 
 export interface TokenPayload {

@@ -9,5 +9,6 @@ export const userResource = defineCrudResource({
     create: '/users',
     update: '/users/{id}',
     delete: '/users/{id}',
+    me: '/users/me',
   },
 })

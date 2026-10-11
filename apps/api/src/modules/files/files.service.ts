@@ -1,8 +1,9 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { LocalStorageProvider } from './storage/local.storage';
 import { S3StorageProvider } from './storage/s3.storage';
 import { IStorageProvider } from './storage/storage.interface';
+import { FILE_SIZE_LIMITS, IMAGE_MIME_TYPES, validateFile } from './storage/s3.utils';
 import { PrismaService } from '@devloggers/db-prisma/nest';
 import { createHash } from 'crypto';
 
@@ -46,6 +47,23 @@ export class FilesService {
                 checksum,
             },
         });
+    }
+
+    /**
+     * Self-service avatar upload: validates image type/size for every storage
+     * provider (the S3 provider validates internally, the local one does not)
+     * and stores the file under the caller's avatar folder.
+     */
+    async uploadAvatar(file: Express.Multer.File, tenantId: string, userId: string) {
+        const validation = validateFile(file, {
+            allowedMimeTypes: IMAGE_MIME_TYPES,
+            maxSize: FILE_SIZE_LIMITS.IMAGE,
+        });
+        if (!validation.isValid) {
+            throw new BadRequestException(validation.error ?? 'Invalid avatar file');
+        }
+
+        return this.upload(file, `avatars/${userId}`, tenantId);
     }
 
     async delete(id: string, tenantId: string) {

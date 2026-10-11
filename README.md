@@ -1,276 +1,78 @@
-````md
-# NestJS Boilerplate – Architecture Documentation
+# Devloggers ERP
 
-هذا الملف يشرح هيكلية المشروع، مسؤولية كل مجلد، وكيفية استخدامه مع أمثلة بسيطة.  
-الهدف من هذه التقسيمة هو إنشاء Boilerplate احترافي قابل لإعادة الاستخدام في مشاريع SaaS و ERP و E-commerce.
+Multi-tenant ERP for small and medium businesses in the MENA region. It covers invoicing, parties, inventory, accounting, catalog, reporting, and an in-product AI assistant. The dashboard is Arabic-first (RTL), with English and Turkish.
 
----
+This file is the front door. The contribution workflow lives in [CONTRIBUTING.md](CONTRIBUTING.md).
 
-## src/
+## Stack
 
-الجذر الرئيسي للتطبيق ويحتوي على نقطة التشغيل وربط جميع الوحدات.
+| Layer        | Package                     | Path                     |
+| ------------ | --------------------------- | ------------------------ |
+| Database     | `@devloggers/db-prisma`     | `packages/db-prisma`     |
+| Contracts    | `@devloggers/api-contracts` | `packages/api-contracts` |
+| API          | `@devloggers/api`           | `apps/api`               |
+| HTTP clients | `@devloggers/api-client`    | `packages/api-client`    |
+| Dashboard    | `@devloggers/dashboard`     | `apps/dashboard`         |
 
-### main.ts
-نقطة تشغيل التطبيق (Bootstrap).
+Orchestration is Turborepo with pnpm workspaces. A feature crosses the stack in this order:
 
-### app.module.ts
-يجمع كل الـ Modules الأساسية ولا يحتوي أي Business Logic.
+`Prisma model` → `api-contracts resource + DTO` → `NestJS module` → `api-client` → `dashboard module`
 
-```ts
-@Module({
-  imports: [ConfigModule, UsersModule, AuthModule],
-})
-export class AppModule {}
-````
+The reference slice is **units**. Copy it when you add a CRUD entity. Paths are listed in [CONTRIBUTING.md](CONTRIBUTING.md#the-units-slice).
 
----
+## Requirements
 
-## src/config/
+- Node.js 18 or newer
+- pnpm 9 (`packageManager` is `pnpm@9.0.0`)
+- Docker, for local PostgreSQL
 
-### الهدف
+## Quick start
 
-إدارة إعدادات التطبيق بشكل منظم، مع Validation للـ Environment Variables.
+```bash
+corepack enable
+corepack prepare pnpm@9.0.0 --activate
+pnpm install
 
-### ماذا نضع هنا؟
-
-* قراءة `process.env`
-* التحقق من القيم
-* تقسيم الإعدادات حسب concern (app, db, auth…)
-
-### مثال
-
-```ts
-export default () => ({
-  app: {
-    port: process.env.PORT || 3000,
-  },
-});
+docker compose up -d db
 ```
 
-قاعدة:
+Create the local env files from [CONTRIBUTING.md](CONTRIBUTING.md#local-setup), then:
 
-* يمنع استخدام `process.env` مباشرة خارج هذا المجلد.
+```bash
+pnpm --filter @devloggers/db-prisma db:migrate:dev
+pnpm --filter @devloggers/db-prisma db:seed
 
----
-
-## src/common/
-
-### الهدف
-
-كود مشترك مرتبط بـ NestJS و HTTP lifecycle، بدون أي منطق أعمال.
-
-### ماذا نضع هنا؟
-
-* Guards
-* Interceptors
-* Filters
-* Pipes
-* Decorators
-* Base classes
-
-### مثال Guard
-
-```ts
-@Injectable()
-export class JwtAuthGuard extends AuthGuard('jwt') {}
+pnpm --filter @devloggers/api dev          # http://localhost:4040
+pnpm --filter @devloggers/dashboard dev    # http://localhost:3000
 ```
 
-### مثال Decorator
+`pnpm dev` starts every workspace dev task. Prefer the two filters above when you are only working on the API and dashboard.
 
-```ts
-export const CurrentUser = createParamDecorator(
-  (_, ctx) => ctx.switchToHttp().getRequest().user
-);
-```
+The dashboard `predev` hook calls an API script named `generate`, while the published script is `generate:spec`. If that hook fails, use the workaround in [CONTRIBUTING.md](CONTRIBUTING.md#4-migrate-seed-and-run).
 
-قواعد:
+## Contributing
 
-* ❌ ممنوع Business Logic
-* ❌ ممنوع التعامل مع Database
-* ✅ مسموح أي شيء مرتبط بالـ Framework
+Read [CONTRIBUTING.md](CONTRIBUTING.md) before you open a pull request. Short version:
 
----
+1. Look for an existing issue, or open one, before you write a large change.
+2. Non-trivial features need an approved design in `docs/superpowers/specs/` before code.
+3. Keep the change small and on the existing pattern for that layer.
+4. Run the checks for the packages you touched, and paste the commands in the pull request.
+5. Keep secrets out of the diff. `apps/api/.env.development` is loaded by the API and is not gitignored.
 
-## src/shared/
+Good first contributions: a reproduced bug with a failing test, a missing Arabic/English/Turkish string, a doc correction, or a small fix inside one existing module.
 
-### الهدف
+## Docs
 
-منطق مشترك بين أكثر من Module وله معنى على مستوى التطبيق أو الـ Business، وغير مرتبط بـ HTTP.
+| Topic                     | Where                                                    |
+| ------------------------- | -------------------------------------------------------- |
+| Product and architecture  | [docs/overview.md](docs/overview.md)                     |
+| File map                  | [docs/file-structure.md](docs/file-structure.md)         |
+| Environment and scripts   | [docs/deployment.md](docs/deployment.md)                 |
+| Spec-driven workflow      | [docs/superpowers/README.md](docs/superpowers/README.md) |
+| Decisions                 | [docs/adr/](docs/adr/)                                   |
+| Domain rules (accounting) | [.ai/rules/domain.md](.ai/rules/domain.md)               |
 
-### ماذا نضع هنا؟
+## License
 
-* Value Objects
-* Services مشتركة
-* Cross-module logic
-
-### مثال Value Object
-
-```ts
-export class Money {
-  constructor(
-    public readonly amount: number,
-    public readonly currency: Currency
-  ) {}
-
-  add(other: Money): Money {
-    if (this.currency !== other.currency) {
-      throw new Error('Currency mismatch');
-    }
-    return new Money(this.amount + other.amount, this.currency);
-  }
-}
-```
-
-قاعدة ذهبية:
-
-* إذا أزلنا NestJS، يجب أن يبقى هذا المجلد منطقياً وقابلاً للاستخدام.
-
----
-
-## src/infrastructure/
-
-### الهدف
-
-التعامل مع الأمور التقنية الخارجية فقط.
-
-### ماذا نضع هنا؟
-
-* ORM (Prisma / TypeORM)
-* Redis / Cache
-* Mail
-* Storage
-* Queues
-
-### مثال Repository
-
-```ts
-@Injectable()
-export class UserRepository implements UserRepositoryInterface {
-  findById(id: string) {
-    return this.prisma.user.findUnique({ where: { id } });
-  }
-}
-```
-
-قواعد:
-
-* infrastructure يعرف الـ domain
-* الـ domain لا يعرف infrastructure ❌
-
----
-
-## src/modules/
-
-### الهدف
-
-كل Module يمثل Feature مستقلة (Users, Orders, Products…).
-
-### هيكلية أي Module
-
-```
-users/
-├── domain
-├── application
-├── infrastructure
-├── api
-└── users.module.ts
-```
-
----
-
-### domain/
-
-يمثل كيان النظام والقواعد الأساسية.
-
-```ts
-export class User {
-  constructor(
-    public id: string,
-    public email: string
-  ) {}
-}
-```
-
----
-
-### application/
-
-يحتوي Use Cases ومنطق الأعمال.
-
-```ts
-@Injectable()
-export class CreateUserUseCase {
-  execute(dto: CreateUserDto) {
-    // business logic
-  }
-}
-```
-
-قاعدة:
-
-* لا يعرف HTTP
-* لا يعرف Controllers
-
----
-
-### infrastructure/
-
-تنفيذ فعلي للتعامل مع DB أو Services خارجية داخل هذا الـ Feature.
-
----
-
-### api/
-
-Controllers و DTO فقط.
-
-```ts
-@Controller('users')
-export class UsersController {
-  @Post()
-  create(@Body() dto: CreateUserDto) {}
-}
-```
-
-قاعدة:
-
-* Controller لا يحتوي Business Logic
-
----
-
-## src/health/
-
-### الهدف
-
-Health Check Endpoint لمراقبة حالة النظام.
-
-### مثال
-
-```ts
-@Controller('health')
-export class HealthController {
-  @Get()
-  check() {
-    return { status: 'ok' };
-  }
-}
-```
-
-قواعد:
-
-* بدون Auth
-* سريع وخفيف
-
----
-
-## قواعد معمارية مختصرة
-
-* Feature-Based Architecture
-* Business Logic داخل application فقط
-* Framework Logic داخل common فقط
-* Cross-domain logic داخل shared
-* Infrastructure منفصلة وقابلة للاستبدال
-
-هذه الهيكلية مصممة لتكون أساساً ثابتاً وقابلاً للتوسع في مشاريع كبيرة وطويلة العمر.
-
-```
-```
+This repository has no `LICENSE` file. `@devloggers/api` is marked `UNLICENSED`. Ask the maintainers before you reuse the code outside this project. A pull request contributes that change to this repository. It does not grant a license to republish the codebase.

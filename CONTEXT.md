@@ -1,8 +1,9 @@
 # ERP
 
 Multi-tenant ERP. This glossary fixes the vocabulary for tenant-configured
-defaults and generated master-data codes, both introduced in
-`docs/superpowers/specs/2026-09-22-form-defaults-auto-codes-design.md`.
+defaults and generated master-data codes
+(`docs/superpowers/specs/2026-09-22-form-defaults-auto-codes-design.md`) and for
+the user profile (`docs/superpowers/specs/2026-10-08-user-profile-design.md`).
 
 ## Language
 
@@ -30,6 +31,15 @@ _Avoid_: auto code, next code, sequential code
 **Code sequence**:
 The per-tenant, per-entity counter that backs system-generated codes.
 _Avoid_: number sequence (reserved for `DocumentSequence`), document sequence
+
+### Identity
+
+**User profile**:
+The authenticated user's own editable personal data — display name, phone, and
+avatar — managed at `/[locale]/profile`. Distinct from the **Company profile**
+(tenant-level settings at `/settings/company`) and from **User management** (the
+admin CRUD over accounts and roles).
+_Avoid_: account, my account, user settings
 
 ### AI agent
 

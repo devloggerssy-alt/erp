@@ -6,6 +6,7 @@ model AppUser {
     passwordHash String         @map("password_hash")
     fullName     String         @map("full_name")
     phone        String?
+    avatarUrl    String?        @map("avatar_url")
     isActive     Boolean        @default(true) @map("is_active")
     lastLoginAt  DateTime?      @map("last_login_at")
     createdAt    DateTime       @default(now()) @map("created_at")

@@ -9,7 +9,7 @@ import { Alert, AlertTitle } from "@/shared/components/ui/alert"
 import { Button } from "@/shared/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/shared/components/ui/card"
 import { FieldGroup } from "@/shared/components/ui/field"
-import type { SettingsSectionController } from "../hooks/use-settings-section"
+import type { SettingsSectionController } from "@/shared/hooks/use-settings-section"
 
 export type SettingsSectionCardProps<TValues extends FieldValues> = {
   ctrl: SettingsSectionController<TValues>

@@ -93,7 +93,12 @@ export class UsersRepository {
         });
     }
 
-    async updateUser(userId: string, data: { email?: string; fullName?: string; phone?: string }) {
+    async updateUser(userId: string, data: {
+        email?: string;
+        fullName?: string;
+        phone?: string | null;
+        avatarUrl?: string | null;
+    }) {
         return this.prisma.appUser.update({
             where: { id: userId },
             data,

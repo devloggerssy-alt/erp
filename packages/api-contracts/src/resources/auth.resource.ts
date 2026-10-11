@@ -9,6 +9,7 @@ export const authResource = defineResource({
     register: '/auth/register',
     logout: '/auth/logout',
     me: '/auth/me',
+    changePassword: '/auth/change-password',
   },
 
   

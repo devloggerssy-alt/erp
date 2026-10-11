@@ -17,6 +17,8 @@ export type UseSettingsSectionOptions<TValues extends FieldValues> = {
   /** Persists the section. Returns a promise the toast tracks. */
   submit: (values: TValues) => Promise<unknown>
   messages: { saving: string; saved: string; failed: string }
+  /** Runs after a successful save and query invalidation (e.g. syncing auth state). */
+  onSuccess?: () => void | Promise<void>
 }
 
 export type SettingsSectionController<TValues extends FieldValues> = {
@@ -28,7 +30,7 @@ export type SettingsSectionController<TValues extends FieldValues> = {
 }
 
 /**
- * Drives a singleton (one-per-tenant) settings card: loads current values,
+ * Drives a singleton (one-per-user/tenant) settings card: loads current values,
  * binds an RHF form, and saves in place (no dialog). Reuses useFormMutation so
  * 422 field errors map onto matching field names.
  */
@@ -39,8 +41,12 @@ export function useSettingsSection<TValues extends FieldValues>({
   load,
   submit,
   messages,
+  onSuccess,
 }: UseSettingsSectionOptions<TValues>): SettingsSectionController<TValues> {
   const queryClient = useQueryClient()
+  // Documented escape hatch: zodResolver cannot resolve the abstract ZodType<TValues>
+  // generic (its input is unknown, the resolver expects FieldValues).
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const form = useForm<TValues>({ resolver: zodResolver(schema as any), defaultValues })
 
   const { data, isLoading } = useQuery({ queryKey, queryFn: load })
@@ -62,6 +68,7 @@ export function useSettingsSection<TValues extends FieldValues>({
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey })
+      void onSuccess?.()
     },
   })
 

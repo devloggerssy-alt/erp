@@ -23,6 +23,8 @@ export class InvoicesService {
         direction?: string;
         status?: string;
         partyId?: string;
+        search?: string;
+        searchIn?: string;
         page?: number;
         limit?: number;
     }) {
@@ -35,6 +37,22 @@ export class InvoicesService {
         if (filters.partyId) where.partyId = filters.partyId;
         if (filters.direction) {
             where.invoiceType = { direction: filters.direction };
+        }
+
+        if (filters.search) {
+            const searchIn = (filters.searchIn ?? 'number,partyName')
+                .split(',')
+                .map((field) => field.trim())
+                .filter(Boolean);
+
+            const or: Record<string, unknown>[] = [];
+            if (searchIn.includes('number')) {
+                or.push({ number: { contains: filters.search, mode: 'insensitive' } });
+            }
+            if (searchIn.includes('partyName')) {
+                or.push({ party: { name: { contains: filters.search, mode: 'insensitive' } } });
+            }
+            if (or.length > 0) where.OR = or;
         }
 
         const [data, total] = await Promise.all([

@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class AuthTenantDto {
     @ApiProperty({ example: '00000000-0000-4000-a000-000000000001' })
@@ -29,6 +29,9 @@ export class AuthUserDto {
 
     @ApiProperty({ example: 'Admin User' })
     fullName: string = '';
+
+    @ApiPropertyOptional({ type: 'string', nullable: true, example: null, description: 'Profile avatar URL' })
+    avatarUrl?: string | null;
 
     @ApiProperty({ type: [String], example: ['Admin'] })
     roles: string[] = [];

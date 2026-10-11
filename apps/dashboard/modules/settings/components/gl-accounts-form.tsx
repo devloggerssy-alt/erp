@@ -6,7 +6,7 @@ import { financialSettingResource } from "@devloggers/api-contracts"
 import type { AccountsClient } from "@devloggers/api-client"
 import { RhfResourceSelect } from "@/shared/components/form"
 import { useApi } from "@/shared/useApi"
-import { useSettingsSection } from "../hooks/use-settings-section"
+import { useSettingsSection } from "@/shared/hooks/use-settings-section"
 import { SettingsSectionCard } from "./settings-section-card"
 import { unwrapApiData } from "@/shared/hooks/unwrap-api-data"
 

@@ -16,11 +16,13 @@
     "notifications": "الإشعارات",
     "searchPlaceholder": "اكتب للبحث...",
     "searchEmpty": "لا توجد نتائج.",
-    "quickActions": "إجراءات سريعة",
-    "quickItems": {
-      "dashboard": "لوحة التحكم",
-      "jobCards": "بطاقات العمل",
-      "customers": "العملاء"
+    "searching": "جارٍ البحث…",
+    "searchGroups": {
+      "pages": "الصفحات",
+      "items": "الأصناف",
+      "invoices": "الفواتير",
+      "parties": "الأطراف",
+      "payments": "المدفوعات"
     }
   },
   "auth": {
@@ -141,5 +143,32 @@
     "update": "تحديث {entity}",
     "activeDescription": "تبقى السجلات غير النشطة متاحة تاريخياً ولكنها مخفية من الخيارات النشطة.",
     "discard": "تجاهل"
+  },
+  "profile": {
+    "title": "الملف الشخصي",
+    "description": "إدارة معلوماتك الشخصية وكلمة المرور.",
+    "avatar": "صورة الملف الشخصي",
+    "avatarHint": "انقر أو اسحب وأفلت صورة. امسحها ثم احفظ لإزالة الصورة.",
+    "fullName": "الاسم الكامل",
+    "phone": "الهاتف",
+    "email": "البريد الإلكتروني",
+    "emailHint": "لا يمكن تغيير البريد الإلكتروني.",
+    "save": "حفظ",
+    "saving": "جارٍ الحفظ...",
+    "saved": "تم حفظ الملف الشخصي",
+    "saveFailed": "فشل حفظ الملف الشخصي",
+    "changePassword": "تغيير كلمة المرور",
+    "changePasswordDescription": "أدخل كلمة المرور الحالية واختر كلمة مرور جديدة.",
+    "currentPassword": "كلمة المرور الحالية",
+    "newPassword": "كلمة المرور الجديدة",
+    "confirmPassword": "تأكيد كلمة المرور الجديدة",
+    "updatePassword": "تحديث كلمة المرور",
+    "updatingPassword": "جارٍ تحديث كلمة المرور...",
+    "passwordUpdated": "تم تحديث كلمة المرور",
+    "passwordUpdateFailed": "فشل تحديث كلمة المرور",
+    "passwordMinLength": "8 أحرف على الأقل",
+    "passwordMismatch": "كلمتا المرور غير متطابقتين",
+    "passwordSameAsCurrent": "يجب أن تكون كلمة المرور الجديدة مختلفة عن الحالية",
+    "cancel": "إلغاء"
   }
 }

@@ -16,11 +16,13 @@
     "notifications": "Bildirimler",
     "searchPlaceholder": "Aramak için yazın...",
     "searchEmpty": "Sonuç bulunamadı.",
-    "quickActions": "Hızlı İşlemler",
-    "quickItems": {
-      "dashboard": "Kontrol Paneli",
-      "jobCards": "İş Kartları",
-      "customers": "Müşteriler"
+    "searching": "Aranıyor…",
+    "searchGroups": {
+      "pages": "Sayfalar",
+      "items": "Ürünler",
+      "invoices": "Faturalar",
+      "parties": "Taraflar",
+      "payments": "Ödemeler"
     }
   },
   "auth": {
@@ -141,5 +143,32 @@
     "update": "{entity} Güncelle",
     "activeDescription": "Pasif kayıtlar geçmişte kullanılabilir kalır ancak aktif seçeneklerden gizlenir.",
     "discard": "Vazgeç"
+  },
+  "profile": {
+    "title": "Profil",
+    "description": "Kişisel bilgilerinizi ve şifrenizi yönetin.",
+    "avatar": "Profil resmi",
+    "avatarHint": "Bir görsele tıklayın veya sürükleyip bırakın. Resmi kaldırmak için temizleyip kaydedin.",
+    "fullName": "Ad soyad",
+    "phone": "Telefon",
+    "email": "E-posta",
+    "emailHint": "E-posta değiştirilemez.",
+    "save": "Kaydet",
+    "saving": "Kaydediliyor...",
+    "saved": "Profil kaydedildi",
+    "saveFailed": "Profil kaydedilemedi",
+    "changePassword": "Şifre değiştir",
+    "changePasswordDescription": "Mevcut şifrenizi girin ve yeni bir şifre seçin.",
+    "currentPassword": "Mevcut şifre",
+    "newPassword": "Yeni şifre",
+    "confirmPassword": "Yeni şifreyi doğrula",
+    "updatePassword": "Şifreyi güncelle",
+    "updatingPassword": "Şifre güncelleniyor...",
+    "passwordUpdated": "Şifre güncellendi",
+    "passwordUpdateFailed": "Şifre güncellenemedi",
+    "passwordMinLength": "En az 8 karakter",
+    "passwordMismatch": "Şifreler eşleşmiyor",
+    "passwordSameAsCurrent": "Yeni şifre mevcut şifreden farklı olmalıdır",
+    "cancel": "İptal"
   }
 }

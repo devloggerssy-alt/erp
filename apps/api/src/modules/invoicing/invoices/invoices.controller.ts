@@ -41,6 +41,8 @@ export class InvoicesController {
     @ApiQuery({ name: 'direction', required: false, enum: ['PURCHASE', 'SALE'] })
     @ApiQuery({ name: 'status', required: false, enum: ['DRAFT', 'POSTED', 'CANCELLED'] })
     @ApiQuery({ name: 'partyId', required: false })
+    @ApiQuery({ name: 'search', required: false, description: 'Free-text search value' })
+    @ApiQuery({ name: 'searchIn', required: false, description: 'Comma-separated fields: number, partyName' })
     @ApiQuery({ name: 'page', required: false })
     @ApiQuery({ name: 'limit', required: false })
     @ApiOkResponsePaginated(InvoiceResponseDto, { description: 'Paginated list of invoices' })
@@ -50,6 +52,8 @@ export class InvoicesController {
         @Query('direction') direction?: string,
         @Query('status') status?: string,
         @Query('partyId') partyId?: string,
+        @Query('search') search?: string,
+        @Query('searchIn') searchIn?: string,
         @Query('page') page?: number,
         @Query('limit') limit?: number,
     ) {
@@ -57,6 +61,8 @@ export class InvoicesController {
             direction,
             status,
             partyId,
+            search,
+            searchIn,
             page: page ? Number(page) : 1,
             limit: limit ? Number(limit) : 50,
         });

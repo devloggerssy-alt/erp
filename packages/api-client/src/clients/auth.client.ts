@@ -19,4 +19,8 @@ export class AuthClient {
         return this.apiClient.get(authResource.routes.me)
     }
 
+    changePassword = async (payload: ApiRequestBody<typeof authResource.routes.changePassword, 'post'>) => {
+        return this.apiClient.post(authResource.routes.changePassword, payload)
+    }
+
 }

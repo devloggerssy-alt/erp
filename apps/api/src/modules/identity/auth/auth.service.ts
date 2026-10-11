@@ -78,6 +78,7 @@ export class AuthService {
         tenantId: string;
         email: string;
         fullName: string;
+        avatarUrl: string | null;
         userRoles: Array<{ role: { name: unknown; rolePermissions: Array<{ permission: { key: string } }> } }>;
         tenant: {
             id: string;
@@ -92,6 +93,7 @@ export class AuthService {
             tenantId: user.tenantId,
             email: user.email,
             fullName: user.fullName,
+            avatarUrl: user.avatarUrl,
             roles: user.userRoles.map((ur) => this.resolveRoleName(ur.role.name)),
             permissions: this.buildPermissions(user),
             tenant: {
@@ -186,6 +188,7 @@ export class AuthService {
             email: user.email,
             fullName: user.fullName,
             phone: user.phone,
+            avatarUrl: user.avatarUrl,
             roles: user.userRoles.map((ur) => this.resolveRoleName(ur.role.name)),
             permissions: this.buildPermissions(user),
             tenant: {

@@ -4,7 +4,7 @@ import { useTranslations } from "next-intl"
 import { tenantResource } from "@devloggers/api-contracts"
 import { RhfTextField, RhfResourceSelect } from "@/shared/components/form"
 import { useApi } from "@/shared/useApi"
-import { useSettingsSection } from "../hooks/use-settings-section"
+import { useSettingsSection } from "@/shared/hooks/use-settings-section"
 import { SettingsSectionCard } from "./settings-section-card"
 import {
   financialSchema,
