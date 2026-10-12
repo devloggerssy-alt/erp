@@ -1,7 +1,13 @@
 import { z } from "zod"
-import type { CreatePartyDto, UpdatePartyDto } from "@devloggers/api-contracts"
+import type { ApiComponents, CreatePartyDto, UpdatePartyDto } from "@devloggers/api-contracts"
 import type { ResourceFormConfig } from "@/shared/hooks/use-resource-form-controller"
 import { unwrapApiData } from "@/shared/hooks/unwrap-api-data"
+
+/**
+ * The party response is generated from the API's `PartyResponseDto`; consumers
+ * read it directly instead of re-declaring a hand-written mirror.
+ */
+type PartyResponse = ApiComponents["schemas"]["PartyResponseDto"]
 
 export type PartyAccountField = { id: string }
 const optionalAccount = z.object({ id: z.string() }).passthrough().nullable().optional()
@@ -60,7 +66,7 @@ export const DEFAULT_PARTY_FORM_VALUES: PartyFormValues = {
 }
 
 export function mapPartyToFormValues(data: unknown): PartyFormValues {
-    const resolved = unwrapApiData<PartyFormValues & { receivableAccountId?: string; payableAccountId?: string }>(data)
+    const resolved = unwrapApiData<PartyResponse>(data)
     return {
         code: resolved.code ?? "",
         name: resolved.name ?? "",

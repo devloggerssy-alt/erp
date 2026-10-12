@@ -14,7 +14,6 @@ import { StatCard } from "../shared/stat-card"
 import { ReportTable } from "../shared/report-table"
 
 type PartyType = "customer" | "supplier"
-type Party = { id: string; name: string; code: string }
 type InvoiceRow = { id: string; date: string; number?: string | null; total: number | string; invoiceType?: { direction?: string } }
 type PaymentRow = { id: string; date: string; amount: number | string }
 
@@ -24,14 +23,14 @@ export function PartyStatementPage() {
     const [partyType, setPartyType] = useState<PartyType>("customer")
     const [partyId, setPartyId] = useState<string | undefined>()
 
-    const { data: parties = [] } = useQuery<Party[]>({
+    const { data: parties = [] } = useQuery({
         queryKey: ["parties", "list-for-filter", partyType],
         queryFn: async () => {
             const res = await api.parties.list({
                 limit: 500,
                 type: partyType === "customer" ? "CUSTOMER" : "SUPPLIER",
             })
-            return (res.data ?? []) as Party[]
+            return res.data ?? []
         },
     })
 
