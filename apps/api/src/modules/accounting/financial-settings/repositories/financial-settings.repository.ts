@@ -7,21 +7,7 @@ export class FinancialSettingsRepository {
     constructor(private readonly prisma: PrismaService) { }
 
     async findByTenantId(tenantId: string): Promise<FinancialSetting | null> {
-        return this.prisma.financialSetting.findUnique({ where: { tenantId },
-             include: {
-                defaultPayableAccount: true,
-                defaultReceivableAccount: true,
-                defaultSalesAccount: true,
-                defaultPurchaseAccount: true,
-                defaultTaxAccount: true,
-                defaultInventoryAccount: true,
-                defaultCogsAccount: true,
-                defaultInventoryAdjustmentAccount: true,
-                defaultOpeningEquityAccount: true,
-                defaultCashAccount: true,
-                defaultBankAccount: true,
-
-              } });
+        return this.prisma.financialSetting.findUnique({ where: { tenantId } });
     }
 
     async upsert(tenantId: string, data: Partial<Omit<FinancialSetting, 'id' | 'tenantId' | 'createdAt' | 'updatedAt'>>): Promise<FinancialSetting> {

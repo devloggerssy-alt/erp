@@ -1,7 +1,6 @@
 import { IsOptional, IsString } from 'class-validator';
-import { ApiPropertyOptional } from '@nestjs/swagger';
-import { Type } from 'class-transformer';
-import { ChartOfAccountResponseDto } from '../../accounts/dto';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+
 export class UpsertFinancialSettingBodyDto {
     @ApiPropertyOptional({ type: 'string', nullable: true, example: '00000000-0000-4000-a600-000000000001', description: 'Default sales revenue account' })
     @IsOptional() @IsString()
@@ -49,47 +48,36 @@ export class UpsertFinancialSettingBodyDto {
 }
 
 export class FinancialSettingResponseDto {
-    @ApiPropertyOptional({ type: ChartOfAccountResponseDto, nullable: true, description: 'Default sales revenue account' })
-    @Type(() => ChartOfAccountResponseDto)
-    defaultSalesAccount: ChartOfAccountResponseDto | null = null
+    @ApiProperty({ type: 'string', nullable: true, example: '00000000-0000-4000-a600-000000000001', description: 'Default sales revenue account' })
+    defaultSalesAccountId: string | null = null;
 
-    @ApiPropertyOptional({ type: ChartOfAccountResponseDto, nullable: true, description: 'Default purchase/COGS account' })
-    @Type(() => ChartOfAccountResponseDto)
-    defaultPurchaseAccount: ChartOfAccountResponseDto | null = null
+    @ApiProperty({ type: 'string', nullable: true, example: '00000000-0000-4000-a600-000000000002', description: 'Default purchase/COGS account' })
+    defaultPurchaseAccountId: string | null = null;
 
-    @ApiPropertyOptional({ type: ChartOfAccountResponseDto, nullable: true, description: 'Default tax/VAT payable account' })
-    @Type(() => ChartOfAccountResponseDto)
-    defaultTaxAccount: ChartOfAccountResponseDto | null = null
+    @ApiProperty({ type: 'string', nullable: true, example: '00000000-0000-4000-a600-000000000003', description: 'Default tax/VAT payable account' })
+    defaultTaxAccountId: string | null = null;
 
-    @ApiPropertyOptional({ type: ChartOfAccountResponseDto, nullable: true, description: 'Default accounts receivable (AR) account' })
-    @Type(() => ChartOfAccountResponseDto)
-    defaultReceivableAccount: ChartOfAccountResponseDto | null = null
+    @ApiProperty({ type: 'string', nullable: true, example: '00000000-0000-4000-a600-000000000004', description: 'Default accounts receivable (AR) account' })
+    defaultReceivableAccountId: string | null = null;
 
-    @ApiPropertyOptional({ type: ChartOfAccountResponseDto, nullable: true, description: 'Default accounts payable (AP) account' })
-    @Type(() => ChartOfAccountResponseDto)
-    defaultPayableAccount: ChartOfAccountResponseDto | null = null
+    @ApiProperty({ type: 'string', nullable: true, example: '00000000-0000-4000-a600-000000000005', description: 'Default accounts payable (AP) account' })
+    defaultPayableAccountId: string | null = null;
 
-    @ApiPropertyOptional({ type: ChartOfAccountResponseDto, nullable: true, description: 'Default inventory asset account' })
-    @Type(() => ChartOfAccountResponseDto)
-    defaultInventoryAccount: ChartOfAccountResponseDto | null = null
+    @ApiProperty({ type: 'string', nullable: true, example: '00000000-0000-4000-a602-000000000003', description: 'Default inventory asset account' })
+    defaultInventoryAccountId: string | null = null;
 
-    @ApiPropertyOptional({ type: ChartOfAccountResponseDto, nullable: true, description: 'Default cost-of-goods-sold account' })
-    @Type(() => ChartOfAccountResponseDto)
-    defaultCogsAccount: ChartOfAccountResponseDto | null = null
+    @ApiProperty({ type: 'string', nullable: true, example: '00000000-0000-4000-a602-000000000016', description: 'Default cost-of-goods-sold account' })
+    defaultCogsAccountId: string | null = null;
 
-    @ApiPropertyOptional({ type: ChartOfAccountResponseDto, nullable: true, description: 'Default inventory adjustment / shrinkage account' })
-    @Type(() => ChartOfAccountResponseDto)
-    defaultInventoryAdjustmentAccount: ChartOfAccountResponseDto | null = null
+    @ApiProperty({ type: 'string', nullable: true, example: '00000000-0000-4000-a602-000000005200', description: 'Default inventory adjustment / shrinkage account' })
+    defaultInventoryAdjustmentAccountId: string | null = null;
 
-    @ApiPropertyOptional({ type: ChartOfAccountResponseDto, nullable: true, description: 'Default opening-balance equity account' })
-    @Type(() => ChartOfAccountResponseDto)
-    defaultOpeningEquityAccount: ChartOfAccountResponseDto | null = null
+    @ApiProperty({ type: 'string', nullable: true, example: '00000000-0000-4000-a602-000000003300', description: 'Default opening-balance equity account' })
+    defaultOpeningEquityAccountId: string | null = null;
 
-    @ApiPropertyOptional({ type: ChartOfAccountResponseDto, nullable: true, description: 'Default Cash control account' })
-    @Type(() => ChartOfAccountResponseDto)
-    defaultCashAccount: ChartOfAccountResponseDto | null = null
+    @ApiProperty({ type: 'string', nullable: true, example: '00000000-0000-4000-a602-000000000001', description: 'Default Cash control account' })
+    defaultCashAccountId: string | null = null;
 
-    @ApiPropertyOptional({ type: ChartOfAccountResponseDto, nullable: true, description: 'Default Bank control account' })
-    @Type(() => ChartOfAccountResponseDto)
-    defaultBankAccount: ChartOfAccountResponseDto | null = null
+    @ApiProperty({ type: 'string', nullable: true, example: '00000000-0000-4000-a602-000000000024', description: 'Default Bank control account' })
+    defaultBankAccountId: string | null = null;
 }

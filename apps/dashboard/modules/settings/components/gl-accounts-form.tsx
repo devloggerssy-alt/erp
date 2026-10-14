@@ -1,62 +1,20 @@
 "use client"
 
 import { useTranslations } from "next-intl"
-import { z } from "zod"
 import { financialSettingResource } from "@devloggers/api-contracts"
 import type { AccountsClient } from "@devloggers/api-client"
 import { RhfResourceSelect } from "@/shared/components/form"
 import { useApi } from "@/shared/useApi"
 import { useSettingsSection } from "@/shared/hooks/use-settings-section"
 import { SettingsSectionCard } from "./settings-section-card"
-import { unwrapApiData } from "@/shared/hooks/unwrap-api-data"
-
-// ── Schema & types ──────────────────────────────────────────────────────────
-
-const optionalAccount = z.object({ id: z.string() }).passthrough().nullable().optional()
-
-export const glAccountsSchema = z.object({
-    defaultSalesAccount: optionalAccount,
-    defaultPurchaseAccount: optionalAccount,
-    defaultTaxAccount: optionalAccount,
-    defaultReceivableAccount: optionalAccount,
-    defaultPayableAccount: optionalAccount,
-    defaultCashAccount: optionalAccount,
-    defaultBankAccount: optionalAccount,
-})
-
-export type GlAccountsFormValues = z.infer<typeof glAccountsSchema>
-export type GlAccountField = { id: string }
-
-export const DEFAULT_GL_ACCOUNTS_VALUES: GlAccountsFormValues = {
-    defaultSalesAccount: null,
-    defaultPurchaseAccount: null,
-    defaultTaxAccount: null,
-    defaultReceivableAccount: null,
-    defaultPayableAccount: null,
-    defaultCashAccount: null,
-    defaultBankAccount: null,
-}
-
-function mapToGlAccountsValues(data: unknown): GlAccountsFormValues {
-    const d = unwrapApiData<{
-        defaultSalesAccountId?: string | null
-        defaultPurchaseAccountId?: string | null
-        defaultTaxAccountId?: string | null
-        defaultReceivableAccountId?: string | null
-        defaultPayableAccountId?: string | null
-        defaultCashAccountId?: string | null
-        defaultBankAccountId?: string | null
-    }>(data)
-    return {
-        defaultSalesAccount: d?.defaultSalesAccountId ? { id: d.defaultSalesAccountId } : null,
-        defaultPurchaseAccount: d?.defaultPurchaseAccountId ? { id: d.defaultPurchaseAccountId } : null,
-        defaultTaxAccount: d?.defaultTaxAccountId ? { id: d.defaultTaxAccountId } : null,
-        defaultReceivableAccount: d?.defaultReceivableAccountId ? { id: d.defaultReceivableAccountId } : null,
-        defaultPayableAccount: d?.defaultPayableAccountId ? { id: d.defaultPayableAccountId } : null,
-        defaultCashAccount: d?.defaultCashAccountId ? { id: d.defaultCashAccountId } : null,
-        defaultBankAccount: d?.defaultBankAccountId ? { id: d.defaultBankAccountId } : null,
-    }
-}
+import {
+    DEFAULT_GL_ACCOUNTS_VALUES,
+    glAccountsSchema,
+    mapToGlAccountsValues,
+    toGlAccountsPayload,
+    type GlAccountField,
+    type GlAccountsFormValues,
+} from "../gl-accounts.config"
 
 // ── Component ───────────────────────────────────────────────────────────────
 
@@ -72,16 +30,7 @@ export function GlAccountsForm() {
             const result = await api["financial-settings"].get()
             return mapToGlAccountsValues(result)
         },
-        submit: (values) =>
-            api["financial-settings"].upsert({
-                defaultSalesAccountId: values.defaultSalesAccount?.id ?? null,
-                defaultPurchaseAccountId: values.defaultPurchaseAccount?.id ?? null,
-                defaultTaxAccountId: values.defaultTaxAccount?.id ?? null,
-                defaultReceivableAccountId: values.defaultReceivableAccount?.id ?? null,
-                defaultPayableAccountId: values.defaultPayableAccount?.id ?? null,
-                defaultCashAccountId: values.defaultCashAccount?.id ?? null,
-                defaultBankAccountId: values.defaultBankAccount?.id ?? null,
-            }),
+        submit: (values) => api["financial-settings"].upsert(toGlAccountsPayload(values)),
         messages: {
             saving: t("saving"),
             saved: t("saved"),
