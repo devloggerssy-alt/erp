@@ -29,7 +29,7 @@
     "resources": {
       "users": "المستخدمون",
       "roles": "الأدوار",
-      "tenants": "إعدادات الشركة",
+      "tenants": "إعدادات ",
       "units": "الوحدات",
       "itemCategories": "تصنيفات الأصناف",
       "items": "الأصناف",
@@ -114,7 +114,7 @@
       "salesReports": "تقارير المبيعات",
       "purchaseReports": "تقارير المشتريات",
       "accountStatements": "كشوف الحسابات",
-      "companySettings": "إعدادات الشركة",
+      "companySettings": "إعدادات ",
       "usersAndPermissions": "المستخدمين والصلاحيات",
       "users": "المستخدمين",
       "roles": "الأدوار",
@@ -132,10 +132,16 @@
     "saving": "جارٍ الحفظ…",
     "saveFailed": "فشل الحفظ",
     "groups": {
-      "company": "الشركة",
+      "company": "",
       "preferences": "التفضيلات",
+      "access": "التحكم في الوصول",
       "systemData": "بيانات النظام",
       "danger": "منطقة الخطر"
+    },
+    "index": {
+      "title": "الإعدادات",
+      "description": "أدر ملف  والتفضيلات والوصول وبيانات النظام.",
+      "empty": "ليس لديك صلاحية الوصول إلى أي قسم من الإعدادات."
     },
     "currencies": {
       "navLabel": "العملات"
@@ -147,8 +153,8 @@
       "navLabel": "تسلسلات المستندات"
     },
     "profile": {
-      "navLabel": "ملف الشركة",
-      "title": "ملف الشركة",
+      "navLabel": "ملف المؤسسة ",
+      "title": "ملف المؤسسة",
       "description": "هوية مؤسستك وبيانات الاتصال الخاصة بها.",
       "saving": "جارٍ حفظ الملف…",
       "saved": "تم حفظ الملف",
@@ -233,6 +239,12 @@
       "invoiceDefaultTerms": "الشروط الافتراضية",
       "documentFooter": "تذييل المستند",
       "showLogoOnDocuments": "إظهار الشعار على المستندات"
+    },
+    "users": {
+      "navLabel": "المستخدمون"
+    },
+    "roles": {
+      "navLabel": "الأدوار"
     },
     "danger": {
       "noAccess": "ليس لديك صلاحية لإعادة تعيين البيانات.",
@@ -1242,8 +1254,8 @@
       "finish": "إتمام الإعداد"
     },
     "company": {
-      "title": "ملف الشركة",
-      "name": "اسم الشركة",
+      "title": "ملف المؤسسة",
+      "name": "اسم المؤسسة",
       "namePlaceholder": "متجر تجريبي",
       "address": "العنوان",
       "phone": "الهاتف",
@@ -1591,7 +1603,9 @@
     "sellingFrom": "البيع من {warehouse}",
     "stock": "المخزون",
     "emptyCart": "السلة فارغة — اضغط على منتج لإضافته",
+    "quantity": "الكمية",
     "discountPercent": "الخصم %",
+    "removeItem": "إزالة المنتج",
     "subtotal": "المجموع الفرعي",
     "discount": "الخصم",
     "total": "الإجمالي",

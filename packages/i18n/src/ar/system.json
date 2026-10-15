@@ -44,7 +44,7 @@
       "title": "إنشاء حساب جديد",
       "description": "أنشئ شركتك وابدأ باستخدام النظام خلال دقائق",
       "errorTitle": "فشل التسجيل",
-      "companyName": "اسم الشركة",
+      "companyName": "اسم ",
       "companyNamePlaceholder": "ادخل اسم شركتك",
       "fullName": "الاسم الكامل",
       "fullNamePlaceholder": "أدخل اسمك الشخصي",

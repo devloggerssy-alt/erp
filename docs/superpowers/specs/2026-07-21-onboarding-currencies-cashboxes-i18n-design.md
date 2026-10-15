@@ -111,8 +111,8 @@ Add `onboarding` section:
     "complete": "إكمال الإعداد"
   },
   "company": {
-    "title": "ملف الشركة",
-    "name": "اسم الشركة",
+    "title": "ملف ",
+    "name": "اسم ",
     "namePlaceholder": "متجر تجريبي",
     "address": "العنوان",
     "phone": "الهاتف",

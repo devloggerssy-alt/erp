@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 import { useTranslations } from "next-intl"
-import { Search } from "lucide-react"
+import { Package, Search } from "lucide-react"
 import { Input } from "@/shared/components/ui/input"
 import { useApi } from "@/shared/useApi"
 import type { ItemsClient } from "@devloggers/api-client"
@@ -87,8 +87,23 @@ export function PosProductGrid({ warehouseId, warehouseName, onAdd }: PosProduct
                         key={item.id}
                         type="button"
                         onClick={() => addToCart(item)}
-                        className="flex flex-col gap-2 rounded-lg border bg-card p-3 text-start shadow-sm transition-colors hover:border-primary/50"
+                        className="group flex flex-col gap-2 overflow-hidden rounded-lg border bg-card p-3 text-start shadow-sm transition-colors hover:border-primary/50"
                     >
+                        {item.mainImageUrl ? (
+                            <span className="block h-24 w-full overflow-hidden rounded-md border bg-muted">
+                                {/* eslint-disable-next-line @next/next/no-img-element */}
+                                <img
+                                    src={item.mainImageUrl}
+                                    alt={item.name}
+                                    loading="lazy"
+                                    className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                                />
+                            </span>
+                        ) : (
+                            <span className="flex h-24 w-full items-center justify-center rounded-md border bg-muted">
+                                <Package className="h-6 w-6 text-muted-foreground" />
+                            </span>
+                        )}
                         <span className="line-clamp-2 text-sm font-semibold">{item.name}</span>
                         <div className="mt-auto flex items-center justify-between">
                             <span className="font-bold text-primary">{item.defaultSellingPrice ?? 0}</span>

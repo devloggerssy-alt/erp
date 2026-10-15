@@ -134,8 +134,14 @@
     "groups": {
       "company": "Şirket",
       "preferences": "Tercihler",
+      "access": "Erişim kontrolü",
       "systemData": "Sistem verileri",
       "danger": "Tehlike bölgesi"
+    },
+    "index": {
+      "title": "Ayarlar",
+      "description": "Şirket profilinizi, tercihlerinizi, erişimi ve sistem verilerini yönetin.",
+      "empty": "Erişebileceğiniz bir ayar bölümü yok."
     },
     "currencies": {
       "navLabel": "Para birimleri"
@@ -233,6 +239,12 @@
       "invoiceDefaultTerms": "Varsayılan şartlar",
       "documentFooter": "Belge alt bilgisi",
       "showLogoOnDocuments": "Belgelerde logoyu göster"
+    },
+    "users": {
+      "navLabel": "Kullanıcılar"
+    },
+    "roles": {
+      "navLabel": "Roller"
     },
     "danger": {
       "noAccess": "Verileri sıfırlama izniniz yok.",
@@ -1421,7 +1433,9 @@
     "sellingFrom": "{warehouse} deposundan satış",
     "stock": "Stok",
     "emptyCart": "Sepet boş — eklemek için bir ürüne dokunun",
+    "quantity": "Adet",
     "discountPercent": "İndirim %",
+    "removeItem": "Ürünü kaldır",
     "subtotal": "Ara toplam",
     "discount": "İndirim",
     "total": "Toplam",

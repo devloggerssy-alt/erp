@@ -37,35 +37,55 @@ export function PosCartPanel({
                     </div>
                 ) : (
                     <div className="flex flex-col gap-3">
-                        {lines.map((line) => (
+                        {lines.map((line) => {
+                            const lineSubtotal = line.quantity * line.unitPrice
+                            const lineTotal = lineSubtotal * (1 - (line.discountPercent || 0) / 100)
+                            return (
                             <div key={`${line.itemId}-${line.unitId}`} className="rounded-lg border p-3">
                                 <div className="flex items-start justify-between gap-2">
-                                    <span className="text-sm font-medium">{line.itemName}</span>
-                                    <button type="button" onClick={() => onRemove(line.itemId)} className="text-destructive">
+                                    <span className="min-w-0 flex-1 text-sm font-medium leading-tight">{line.itemName}</span>
+                                    <button
+                                        type="button"
+                                        onClick={() => onRemove(line.itemId)}
+                                        className="shrink-0 text-destructive hover:text-destructive/80"
+                                        aria-label={`${t("removeItem")}: ${line.itemName}`}
+                                    >
                                         <Trash2 className="h-4 w-4" />
                                     </button>
                                 </div>
-                                <div className="mt-2 flex items-center gap-2">
-                                    <Input
-                                        type="number"
-                                        min={0}
-                                        value={line.quantity}
-                                        onChange={(event) => onQuantityChange(line.itemId, Number(event.target.value))}
-                                        className="h-8 w-20"
-                                    />
-                                    <span className="text-xs text-muted-foreground">× {line.unitPrice}</span>
-                                    <Input
-                                        type="number"
-                                        min={0}
-                                        max={100}
-                                        value={line.discountPercent}
-                                        onChange={(event) => onDiscountChange(line.itemId, Number(event.target.value))}
-                                        placeholder={t("discountPercent")}
-                                        className="h-8 w-20"
-                                    />
+                                <div className="mt-2 grid grid-cols-2 gap-2">
+                                    <label className="flex flex-col gap-1">
+                                        <span className="text-[11px] font-medium text-muted-foreground">{t("quantity")}</span>
+                                        <Input
+                                            type="number"
+                                            min={0}
+                                            value={line.quantity}
+                                            aria-label={`${t("quantity")}: ${line.itemName}`}
+                                            onChange={(event) => onQuantityChange(line.itemId, Number(event.target.value))}
+                                            className="h-8"
+                                        />
+                                    </label>
+                                    <label className="flex flex-col gap-1">
+                                        <span className="text-[11px] font-medium text-muted-foreground">{t("discountPercent")}</span>
+                                        <Input
+                                            type="number"
+                                            min={0}
+                                            max={100}
+                                            value={line.discountPercent}
+                                            aria-label={`${t("discountPercent")}: ${line.itemName}`}
+                                            onChange={(event) => onDiscountChange(line.itemId, Number(event.target.value))}
+                                            placeholder="0"
+                                            className="h-8"
+                                        />
+                                    </label>
+                                </div>
+                                <div className="mt-2 flex items-center justify-between text-xs text-muted-foreground">
+                                    <span>@ {line.unitPrice}{line.unitLabel ? ` / ${line.unitLabel}` : ""}</span>
+                                    <span className="font-semibold text-foreground">{lineTotal}</span>
                                 </div>
                             </div>
-                        ))}
+                            )
+                        })}
                     </div>
                 )}
             </div>

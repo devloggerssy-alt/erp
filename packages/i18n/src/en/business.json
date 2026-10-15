@@ -134,8 +134,14 @@
     "groups": {
       "company": "Company",
       "preferences": "Preferences",
+      "access": "Access control",
       "systemData": "System data",
       "danger": "Danger zone"
+    },
+    "index": {
+      "title": "Settings",
+      "description": "Manage your company profile, preferences, access, and system data.",
+      "empty": "You do not have access to any settings section."
     },
     "currencies": {
       "navLabel": "Currencies"
@@ -233,6 +239,12 @@
       "invoiceDefaultTerms": "Default terms",
       "documentFooter": "Document footer",
       "showLogoOnDocuments": "Show logo on documents"
+    },
+    "users": {
+      "navLabel": "Users"
+    },
+    "roles": {
+      "navLabel": "Roles"
     },
     "danger": {
       "noAccess": "You do not have permission to reset data.",
@@ -1495,7 +1507,9 @@
     "sellingFrom": "Selling from {warehouse}",
     "stock": "Stock",
     "emptyCart": "Cart is empty — tap an item to add it",
+    "quantity": "Qty",
     "discountPercent": "Disc. %",
+    "removeItem": "Remove item",
     "subtotal": "Subtotal",
     "discount": "Discount",
     "total": "Total",

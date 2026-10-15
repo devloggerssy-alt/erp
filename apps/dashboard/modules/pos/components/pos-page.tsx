@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import DashboardPage from "@/infrastructure/components/layout/dashboard/dashboard-page"
 import { usePosCart, usePosCheckout, usePosSettings } from "../hooks"
 import { PosSetupCta } from "./pos-setup-cta"
@@ -15,6 +15,22 @@ export function PosPage() {
     const checkout = usePosCheckout()
     const [selectedPartyId, setSelectedPartyId] = useState<string | null>(null)
     const [tendered, setTendered] = useState(0)
+    const prevTotalRef = useRef(0)
+
+    const cartTotal = cart.totals.total
+
+    useEffect(() => {
+        const total = cartTotal
+        const prevTotal = prevTotalRef.current
+        prevTotalRef.current = total
+        setTendered((prev) => {
+            if (total === 0) return 0
+            if (prev === 0) return total
+            if (prev === prevTotal) return total
+            if (prev < total) return total
+            return prev
+        })
+    }, [cartTotal])
 
     if (isLoading) return null
     if (!settings) return <PosSetupCta />

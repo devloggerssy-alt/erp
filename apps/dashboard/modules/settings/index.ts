@@ -1,4 +1,7 @@
 export { SettingsNav } from "./components/settings-nav"
+export { SettingsIndexPage } from "./components/settings-index-page"
+export { SETTINGS_NAV_GROUPS, SETTINGS_NAV_ITEMS } from "./settings-navigation"
+export type { SettingsNavGroupDef, SettingsNavItemDef } from "./settings-navigation"
 export { CompanyProfileForm } from "./components/company-profile-form"
 export { LocalizationForm } from "./components/localization-form"
 export { FinancialForm } from "./components/financial-form"

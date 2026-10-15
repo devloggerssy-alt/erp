@@ -1,4 +1,5 @@
-import type { NavGroup } from "@/infrastructure/types/navigation"
+import type { NavGroup, NavSubItem } from "@/infrastructure/types/navigation"
+import { SETTINGS_NAV_ITEMS } from "@/modules/settings/settings-navigation"
 import {
   LayoutDashboardIcon,
   MessageSquareIcon,
@@ -19,11 +20,6 @@ import {
   BookIcon,
   LineChartIcon,
   SettingsIcon,
-  Building2Icon,
-  UserCogIcon,
-  ShieldCheckIcon,
-  CoinsIcon,
-  CalendarIcon,
   HashIcon,
   TagIcon,
   ListTreeIcon,
@@ -312,83 +308,27 @@ export const navGroups: NavGroup[] = [
     labelKey: "business.navigation.groups.settings",
     items: [
       {
-        titleKey: "business.navigation.items.companySettings",
-        permission: "settings.manage",
-        href: "/settings/company",
-        icon: <Building2Icon />,
-        items: [
-          {
-            titleKey: "business.navigation.items.companySettings",
-            permission: "settings.manage",
-            href: "/settings/company",
-            icon: <Building2Icon />,
-          },
-          {
-            titleKey: "business.settings.localization.navLabel",
-            permission: "settings.manage",
-            href: "/settings/localization",
-            icon: <SettingsIcon />,
-          },
-          {
-            titleKey: "business.settings.financial.navLabel",
-            permission: "financialSettings.manage",
-            href: "/settings/financial",
-            icon: <ScaleIcon />,
-          },
-          {
-            titleKey: "business.settings.documents.navLabel",
-            permission: "settings.manage",
-            href: "/settings/documents",
-            icon: <ReceiptIcon />,
-          },
-        ],
-      },
-      {
-        titleKey: "business.navigation.items.usersAndPermissions",
-        permission: "users.view",
-        href: "/settings/users",
-        icon: <UserCogIcon />,
-        items: [
-          {
-            titleKey: "business.navigation.items.users",
-            permission: "users.view",
-            href: "/settings/users",
-            icon: <UserCogIcon />,
-          },
-          {
-            titleKey: "business.navigation.items.roles",
-            permission: "roles.view",
-            href: "/settings/roles",
-            icon: <ShieldCheckIcon />,
-          },
-        ],
-      },
-      {
-        titleKey: "business.navigation.items.systemSettings",
-        permission: "currencies.view",
-        href: "/settings/currencies",
+        // Single entry point: every settings page lives under /settings and is
+        // listed here from SETTINGS_NAV_ITEMS, so the sidebar can never drift
+        // out of sync with the in-page settings nav. No permission on the
+        // parent — it renders when any sub-item is granted (see filterNavGroups).
+        titleKey: "business.navigation.groups.settings",
+        href: "/settings",
         icon: <SettingsIcon />,
-        items: [
-          {
-            titleKey: "business.navigation.items.currencies",
-            permission: "currencies.view",
-            href: "/settings/currencies",
-            icon: <CoinsIcon />,
-          },
-          {
-            titleKey: "business.navigation.items.fiscalPeriods",
-            permission: "fiscalPeriods.view",
-            href: "/settings/fiscal-periods",
-            icon: <CalendarIcon />,
-          },
-          {
-            titleKey: "business.navigation.items.documentSequences",
-            permission: "documentSequences.view",
-            href: "/settings/document-sequences",
-            icon: <HashIcon />,
-          },
-        ],
+        items: settingsSubItems(),
       },
     ],
   },
 ]
+
+function settingsSubItems(): NavSubItem[] {
+  return SETTINGS_NAV_ITEMS.map((item) => {
+    const Icon = item.icon
+    return {
+      titleKey: `business.settings.${item.labelKey}`,
+      href: item.href,
+      permission: item.permission,
+      icon: <Icon />,
+    }
+  })
+}
