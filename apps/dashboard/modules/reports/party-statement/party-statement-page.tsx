@@ -9,13 +9,12 @@ import { Label } from "@/shared/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/shared/components/ui/select"
 import { Tabs, TabsList, TabsTrigger } from "@/shared/components/ui/tabs"
 import { Badge } from "@/shared/components/ui/badge"
+import type { InvoiceReportItem, PartyStatementPayment } from "@devloggers/api-client"
 import { ReportLayout } from "../shared/report-layout"
 import { StatCard } from "../shared/stat-card"
 import { ReportTable } from "../shared/report-table"
 
 type PartyType = "customer" | "supplier"
-type InvoiceRow = { id: string; date: string; number?: string | null; total: number | string; invoiceType?: { direction?: string } }
-type PaymentRow = { id: string; date: string; amount: number | string }
 
 export function PartyStatementPage() {
     const t = useTranslations("business.reports.partyStatement")
@@ -43,8 +42,8 @@ export function PartyStatementPage() {
         enabled: !!partyId,
     })
 
-    const invoices: InvoiceRow[] = (statement?.invoices ?? []) as InvoiceRow[]
-    const payments: PaymentRow[] = (statement?.payments ?? []) as PaymentRow[]
+    const invoices = statement?.invoices ?? []
+    const payments = statement?.payments ?? []
     const totalInvoiced = statement?.totalInvoiced ?? 0
     const totalPaid = statement?.totalPaid ?? 0
     const balance = statement?.balance ?? 0
@@ -53,23 +52,23 @@ export function PartyStatementPage() {
         {
             key: "number",
             header: t("columns.number"),
-            render: (r: InvoiceRow) => r.number ?? "—",
+            render: (r: InvoiceReportItem) => r.number ?? "—",
         },
         {
             key: "date",
             header: t("columns.date"),
-            render: (r: InvoiceRow) => new Date(r.date).toLocaleDateString(),
+            render: (r: InvoiceReportItem) => new Date(r.date).toLocaleDateString(),
         },
         {
             key: "total",
             header: t("columns.amount"),
             align: "right" as const,
-            render: (r: InvoiceRow) => Number(r.total).toLocaleString(),
+            render: (r: InvoiceReportItem) => Number(r.total).toLocaleString(),
         },
         {
             key: "type",
             header: t("columns.type"),
-            render: (_r: InvoiceRow) => (
+            render: (_r: InvoiceReportItem) => (
                 <Badge variant="outline">{t("typeInvoice")}</Badge>
             ),
         },
@@ -79,18 +78,18 @@ export function PartyStatementPage() {
         {
             key: "date",
             header: t("columns.date"),
-            render: (r: PaymentRow) => new Date(r.date).toLocaleDateString(),
+            render: (r: PartyStatementPayment) => new Date(r.date).toLocaleDateString(),
         },
         {
             key: "amount",
             header: t("columns.amount"),
             align: "right" as const,
-            render: (r: PaymentRow) => Number(r.amount).toLocaleString(),
+            render: (r: PartyStatementPayment) => Number(r.amount).toLocaleString(),
         },
         {
             key: "type",
             header: t("columns.type"),
-            render: (_r: PaymentRow) => (
+            render: (_r: PartyStatementPayment) => (
                 <Badge variant="secondary">{t("typePayment")}</Badge>
             ),
         },

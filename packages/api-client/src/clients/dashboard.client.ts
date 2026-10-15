@@ -1,45 +1,19 @@
-import type { LocalizedString } from "@devloggers/api-contracts"
+import { dashboardResource } from "@devloggers/api-contracts"
+import type { ApiComponents, ApiResponse } from "@devloggers/api-contracts"
 import { ApiClient } from "../infra/client"
 import type { DateRangeFilter } from "./reports.client"
 
-export type DashboardCashbox = {
-    id: string
-    code: string
-    name: LocalizedString
-    balance: string
-    currency: { code: string; symbol: LocalizedString | null }
-}
+type DashboardResponse<Route extends typeof dashboardResource.routes[keyof typeof dashboardResource.routes]> =
+    ApiResponse<Route, "get">
 
-export type DashboardSummaryResponse = {
-    totalSales: number
-    totalPurchases: number
-    totalExpenses: number
-    netProfit: number
-    cashboxes: DashboardCashbox[]
-    lowStockItemsCount: number
-    totalActiveItems: number
-    totalActiveParties: number
-}
+type DashboardData<Route extends typeof dashboardResource.routes[keyof typeof dashboardResource.routes]> =
+    NonNullable<DashboardResponse<Route>["data"]>
 
-export type DashboardChartPoint = {
-    date: string
-    sales: number
-    purchases: number
-}
-
-export type DashboardExpenseBreakdownItem = {
-    accountId: string
-    accountName: LocalizedString
-    total: number
-}
-
-export type DashboardTopItem = {
-    itemId: string
-    itemName: string
-    itemCode: string
-    quantity: number
-    revenue: number
-}
+export type DashboardCashbox = ApiComponents["schemas"]["DashboardCashboxDto"]
+export type DashboardSummaryResponse = ApiComponents["schemas"]["DashboardSummaryResponseDto"]
+export type DashboardChartPoint = ApiComponents["schemas"]["DashboardChartPointDto"]
+export type DashboardExpenseBreakdownItem = ApiComponents["schemas"]["DashboardExpenseBreakdownItemDto"]
+export type DashboardTopItem = ApiComponents["schemas"]["DashboardTopItemDto"]
 
 const EMPTY_SUMMARY: DashboardSummaryResponse = {
     totalSales: 0,
@@ -52,50 +26,50 @@ const EMPTY_SUMMARY: DashboardSummaryResponse = {
     totalActiveParties: 0,
 }
 
+function definedQuery(filters?: DateRangeFilter): { from?: string; to?: string } {
+    const query: { from?: string; to?: string } = {}
+    if (filters?.from) query.from = filters.from
+    if (filters?.to) query.to = filters.to
+    return query
+}
+
 export class DashboardClient {
     constructor(private readonly apiClient: ApiClient) {}
 
-    async summary(filters?: DateRangeFilter): Promise<DashboardSummaryResponse> {
-        const query = filters
-            ? Object.fromEntries(Object.entries(filters).filter(([, v]) => v))
-            : undefined
+    async summary(filters?: DateRangeFilter): Promise<DashboardData<typeof dashboardResource.routes.summary>> {
+        const query = definedQuery(filters)
         const res = await this.apiClient.get(
-            '/dashboard/summary' as never,
-            query ? ({ query } as never) : undefined,
-        ) as { data?: DashboardSummaryResponse }
-        return res?.data ?? EMPTY_SUMMARY
+            dashboardResource.routes.summary,
+            Object.keys(query).length ? { query } : undefined,
+        )
+        return res.data ?? EMPTY_SUMMARY
     }
 
-    async chartData(filters?: DateRangeFilter): Promise<DashboardChartPoint[]> {
-        const query = filters
-            ? Object.fromEntries(Object.entries(filters).filter(([, v]) => v))
-            : undefined
+    async chartData(filters?: DateRangeFilter): Promise<DashboardData<typeof dashboardResource.routes.chartData>> {
+        const query = definedQuery(filters)
         const res = await this.apiClient.get(
-            '/dashboard/chart-data' as never,
-            query ? ({ query } as never) : undefined,
-        ) as { data?: DashboardChartPoint[] }
-        return res?.data ?? []
+            dashboardResource.routes.chartData,
+            Object.keys(query).length ? { query } : undefined,
+        )
+        return res.data ?? []
     }
 
-    async expenseBreakdown(filters?: DateRangeFilter): Promise<DashboardExpenseBreakdownItem[]> {
-        const query = filters
-            ? Object.fromEntries(Object.entries(filters).filter(([, v]) => v))
-            : undefined
+    async expenseBreakdown(filters?: DateRangeFilter): Promise<DashboardData<typeof dashboardResource.routes.expenseBreakdown>> {
+        const query = definedQuery(filters)
         const res = await this.apiClient.get(
-            '/dashboard/expense-breakdown' as never,
-            query ? ({ query } as never) : undefined,
-        ) as { data?: DashboardExpenseBreakdownItem[] }
-        return res?.data ?? []
+            dashboardResource.routes.expenseBreakdown,
+            Object.keys(query).length ? { query } : undefined,
+        )
+        return res.data ?? []
     }
 
-    async topItems(filters?: DateRangeFilter & { limit?: number }): Promise<DashboardTopItem[]> {
-        const query = filters
-            ? Object.fromEntries(Object.entries(filters).filter(([, v]) => v))
-            : undefined
+    async topItems(filters?: DateRangeFilter & { limit?: number }): Promise<DashboardData<typeof dashboardResource.routes.topItems>> {
+        const query: { from?: string; to?: string; limit?: string } = definedQuery(filters)
+        if (filters?.limit != null) query.limit = String(filters.limit)
         const res = await this.apiClient.get(
-            '/dashboard/top-items' as never,
-            query ? ({ query } as never) : undefined,
-        ) as { data?: DashboardTopItem[] }
-        return res?.data ?? []
+            dashboardResource.routes.topItems,
+            Object.keys(query).length ? { query } : undefined,
+        )
+        return res.data ?? []
     }
 }

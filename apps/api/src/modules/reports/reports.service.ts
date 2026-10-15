@@ -157,7 +157,13 @@ export class ReportsService {
             }),
             this.prisma.cashbox.findMany({
                 where: { tenantId, isActive: true },
-                include: { currency: { select: { code: true, symbol: true } } },
+                select: {
+                    id: true,
+                    code: true,
+                    name: true,
+                    balance: true,
+                    currency: { select: { code: true, symbol: true } },
+                },
             }),
             this.prisma.stockBalance.count({ where: { tenantId, quantity: { lte: 0 } } }),
             this.prisma.party.count({ where: { tenantId, isActive: true } }),
@@ -173,7 +179,7 @@ export class ReportsService {
             totalPurchases,
             totalExpenses,
             netProfit: totalSales - totalPurchases - totalExpenses,
-            cashboxes,
+            cashboxes: this.presenter.toDashboardCashboxes(cashboxes),
             lowStockItemsCount: lowStockCount,
             totalActiveParties: partiesCount,
             totalActiveItems: itemsCount,

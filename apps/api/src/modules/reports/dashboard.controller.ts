@@ -1,11 +1,17 @@
 import { Controller, Get, Query, UseGuards } from '@nestjs/common';
-import { ApiTags, ApiBearerAuth, ApiOperation, ApiOkResponse, ApiQuery } from '@nestjs/swagger';
+import { ApiTags, ApiBearerAuth, ApiOperation, ApiQuery } from '@nestjs/swagger';
 import { ReportsService } from './reports.service';
 import { JwtAuthGuard, PermissionsGuard } from '../identity/auth/guards';
 import { CurrentUser, RequestUser } from '../identity/auth/decorators';
 import { RequirePermission } from '@devloggers/backend-core';
 import { ApiResponseBuilder } from '../../common/api/api-response-builder';
-import { ApiStandardErrors } from '../../common/decorators/api-swagger.decorators';
+import { ApiOkResponseStandard, ApiStandardErrors } from '../../common/decorators/api-swagger.decorators';
+import {
+    DashboardChartPointDto,
+    DashboardExpenseBreakdownItemDto,
+    DashboardSummaryResponseDto,
+    DashboardTopItemDto,
+} from './dto';
 
 @ApiTags('Dashboard')
 @Controller('dashboard')
@@ -19,7 +25,7 @@ export class DashboardController {
     @ApiOperation({ summary: 'Get dashboard summary', description: 'Key business metrics for the selected date range. Defaults to current calendar month.' })
     @ApiQuery({ name: 'from', required: false, description: 'Start date (ISO 8601)' })
     @ApiQuery({ name: 'to', required: false, description: 'End date (ISO 8601)' })
-    @ApiOkResponse({ description: 'Dashboard summary data' })
+    @ApiOkResponseStandard(DashboardSummaryResponseDto, { description: 'Dashboard summary data' })
     @ApiStandardErrors()
     async summary(
         @CurrentUser() user: RequestUser,
@@ -37,15 +43,7 @@ export class DashboardController {
     @ApiOperation({ summary: 'Get dashboard chart data', description: 'Day-by-day sales and purchases totals for the selected date range (max 90 days).' })
     @ApiQuery({ name: 'from', required: false, description: 'Start date (ISO 8601)' })
     @ApiQuery({ name: 'to', required: false, description: 'End date (ISO 8601)' })
-    @ApiOkResponse({
-        description: 'Chart data points',
-        schema: {
-            example: {
-                message: 'Chart data',
-                data: [{ date: '2026-06-01', sales: 4200, purchases: 1800 }],
-            },
-        },
-    })
+    @ApiOkResponseStandard(DashboardChartPointDto, { isArray: true, description: 'Chart data points' })
     @ApiStandardErrors()
     async chartData(
         @CurrentUser() user: RequestUser,
@@ -66,7 +64,7 @@ export class DashboardController {
     })
     @ApiQuery({ name: 'from', required: false, description: 'Start date (ISO 8601)' })
     @ApiQuery({ name: 'to', required: false, description: 'End date (ISO 8601)' })
-    @ApiOkResponse({ description: 'Expense breakdown by account' })
+    @ApiOkResponseStandard(DashboardExpenseBreakdownItemDto, { isArray: true, description: 'Expense breakdown by account' })
     @ApiStandardErrors()
     async expenseBreakdown(
         @CurrentUser() user: RequestUser,
@@ -87,8 +85,8 @@ export class DashboardController {
     })
     @ApiQuery({ name: 'from', required: false, description: 'Start date (ISO 8601)' })
     @ApiQuery({ name: 'to', required: false, description: 'End date (ISO 8601)' })
-    @ApiQuery({ name: 'limit', required: false, description: 'Max items to return (default 5, max 10)' })
-    @ApiOkResponse({ description: 'Top-selling items' })
+    @ApiQuery({ name: 'limit', required: false, type: String, description: 'Max items to return (default 5, max 10)' })
+    @ApiOkResponseStandard(DashboardTopItemDto, { isArray: true, description: 'Top-selling items' })
     @ApiStandardErrors()
     async topItems(
         @CurrentUser() user: RequestUser,

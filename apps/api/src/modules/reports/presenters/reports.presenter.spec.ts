@@ -1,4 +1,4 @@
-import { ReportsPresenter, type InvoiceRow, type PartyStatementInput, type StockBalanceRow } from './reports.presenter';
+import { ReportsPresenter, type DashboardCashboxRow, type InvoiceRow, type PartyStatementInput, type StockBalanceRow } from './reports.presenter';
 
 function makePresenter(locale: 'en' | 'ar' = 'en'): ReportsPresenter {
     return new ReportsPresenter({
@@ -120,5 +120,29 @@ describe('ReportsPresenter.toPartyStatement', () => {
         } as unknown as PartyStatementInput;
 
         expect(makePresenter().toPartyStatement(statement).party).toBeNull();
+    });
+});
+
+describe('ReportsPresenter.toDashboardCashboxes', () => {
+    it('keeps the localized name and presents the balance as a string the widgets can number-format', () => {
+        const rows = [
+            {
+                id: 'cb-1',
+                code: 'MAIN',
+                name: { ar: 'الصندوق', en: 'Main till' },
+                balance: { toString: () => '1500.25' },
+                currency: { code: 'SYP', symbol: { ar: 'ل.س', en: 'SYP' } },
+            },
+        ] as unknown as DashboardCashboxRow[];
+
+        expect(makePresenter().toDashboardCashboxes(rows)).toEqual([
+            {
+                id: 'cb-1',
+                code: 'MAIN',
+                name: { ar: 'الصندوق', en: 'Main till' },
+                balance: '1500.25',
+                currency: { code: 'SYP', symbol: { ar: 'ل.س', en: 'SYP' } },
+            },
+        ]);
     });
 });

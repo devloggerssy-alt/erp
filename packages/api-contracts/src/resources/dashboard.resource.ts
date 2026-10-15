@@ -5,6 +5,9 @@ export const dashboardResource = defineResource({
 
   routes: {
     summary: '/dashboard/summary',
+    chartData: '/dashboard/chart-data',
+    expenseBreakdown: '/dashboard/expense-breakdown',
+    topItems: '/dashboard/top-items',
   },
 })
 
