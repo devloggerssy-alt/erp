@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest"
-import type { components } from "@devloggers/api-contracts"
+import type { ApiComponents } from "@devloggers/api-contracts"
 import { ApiClient } from "../infra/client"
 import { InventoryOpeningBalancesClient } from "./inventory-opening-balances.client"
 import { StockBalancesClient } from "./stock-balances.client"
@@ -14,12 +14,12 @@ const BALANCE = {
     quantity: 50,
     averageCost: 600000,
     updatedAt: "2026-01-01T00:00:00.000Z",
-} satisfies components["schemas"]["BalanceResponseDto"]
+} satisfies ApiComponents["schemas"]["BalanceResponseDto"]
 
 const REGISTERED = {
     count: 2,
     journalEntryId: "je-1",
-} satisfies components["schemas"]["OpeningBalanceRegisteredResponseDto"]
+} satisfies ApiComponents["schemas"]["OpeningBalanceRegisteredResponseDto"]
 
 function clientWithResponse(body: unknown, status = 200) {
     vi.stubGlobal(
