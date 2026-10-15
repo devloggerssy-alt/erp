@@ -122,3 +122,19 @@ export class TenantResponseDto {
     @ApiProperty({ example: '2025-01-01T00:00:00.000Z' })
     updatedAt: string = '';
 }
+
+export class TenantAdminUserDto {
+    @ApiProperty({ type: 'string', example: '00000000-0000-4000-a100-000000000001' })
+    id: string = '';
+
+    @ApiProperty({ type: 'string', example: 'admin@demo-shop.com' })
+    email: string = '';
+
+    @ApiProperty({ type: 'string', example: 'Admin User' })
+    fullName: string = '';
+}
+
+export class CreateTenantResponseDto extends TenantResponseDto {
+    @ApiProperty({ type: () => TenantAdminUserDto })
+    adminUser: TenantAdminUserDto = new TenantAdminUserDto();
+}

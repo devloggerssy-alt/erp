@@ -1,11 +1,11 @@
 "use client"
 
 import { useQuery } from "@tanstack/react-query"
-import type { BusinessSetupClient } from "@devloggers/api-client"
+import type { ApiComponents } from "@devloggers/api-contracts"
 import { useApi } from "@/shared/useApi"
 import { usePermissions } from "@/shared/hooks/use-permissions"
 
-export type BusinessSetupState = Awaited<ReturnType<BusinessSetupClient["getState"]>>
+export type BusinessSetupState = ApiComponents["schemas"]["BusinessSetupStateResponseDto"]
 export type SetupReadiness = NonNullable<BusinessSetupState["readiness"]>
 export type ReadinessModuleKey = keyof SetupReadiness["modules"]
 

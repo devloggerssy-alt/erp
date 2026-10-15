@@ -77,6 +77,7 @@ export * from './bank-account.resource'
 export * from './financial-setting.resource'
 export * from './opening-balance-session.resource'
 export * from './business-setup.resource'
+export * from './onboarding.resource'
 export * from './pos.resource'
 export * from './accounting.types'
 

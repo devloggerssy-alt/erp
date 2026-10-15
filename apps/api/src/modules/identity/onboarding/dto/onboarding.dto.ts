@@ -96,6 +96,20 @@ export class OnboardingDocumentSequencesStepDto {
     sequences: OnboardingSequenceItemDto[] = [];
 }
 
+export class OnboardingStepAckDto {
+    @ApiProperty({ type: 'boolean', example: true })
+    accepted: boolean = true;
+}
+
+export class OnboardingChartOfAccountsResponseDto {
+    @ApiProperty({
+        type: 'object',
+        additionalProperties: { type: 'string' },
+        example: { '1000': '00000000-0000-4000-a000-000000000001' },
+    })
+    codeToId: Record<string, string> = {};
+}
+
 export class OnboardingCurrenciesStepDto {
     @ApiProperty({ type: () => CreateCurrencyDto, isArray: true, description: 'ADR-6: caller-supplied currency list — no hardcoded codes' })
     @IsArray()

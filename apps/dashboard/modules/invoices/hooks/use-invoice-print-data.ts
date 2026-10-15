@@ -144,7 +144,7 @@ export function useInvoicePrintData(invoiceId: string) {
             }
 
             const invoice = mapInvoice(invoiceRaw as Partial<InvoiceDetail> & { id: string; number: string })
-            const tenantRaw = unwrapApiData<TenantPrintProfile>(tenantRes)
+            const tenantRaw = tenantRes
             const tenant: TenantPrintProfile = {
                 name: tenantRaw.name ?? "",
                 legalName: tenantRaw.legalName ?? null,

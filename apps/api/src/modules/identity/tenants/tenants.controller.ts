@@ -6,14 +6,14 @@ import {
     Body,
     UseGuards,
 } from '@nestjs/common';
-import { ApiTags, ApiBearerAuth, ApiOperation, ApiOkResponse, ApiCreatedResponse } from '@nestjs/swagger';
+import { ApiTags, ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
 import { TenantsService } from './tenants.service';
-import { CreateTenantDto, UpdateTenantDto } from './dto';
+import { CreateTenantDto, CreateTenantResponseDto, TenantResponseDto, UpdateTenantDto } from './dto';
 import { JwtAuthGuard, PermissionsGuard } from '../auth/guards';
 import { CurrentUser, RequestUser } from '../auth/decorators';
 import { RequirePermission } from '@devloggers/backend-core';
 import { ApiResponseBuilder } from '../../../common/api/api-response-builder';
-import { ApiStandardErrors } from '../../../common/decorators/api-swagger.decorators';
+import { ApiCreatedResponseStandard, ApiOkResponseStandard, ApiStandardErrors } from '../../../common/decorators/api-swagger.decorators';
 
 @ApiTags('Tenants')
 @Controller('tenants')
@@ -22,15 +22,7 @@ export class TenantsController {
 
     @Post()
     @ApiOperation({ summary: 'Create a new tenant' })
-    @ApiCreatedResponse({
-        description: 'Tenant created successfully',
-        schema: {
-            example: {
-                message: 'Tenant created',
-                data: { id: '00000000-0000-4000-a000-000000000001', name: 'Demo Shop', slug: 'demo-shop', createdAt: '2026-01-01T00:00:00.000Z' },
-            },
-        },
-    })
+    @ApiCreatedResponseStandard(CreateTenantResponseDto, { description: 'Tenant created successfully' })
     @ApiStandardErrors()
     async create(@Body() dto: CreateTenantDto) {
         const tenant = await this.tenantsService.create(dto);
@@ -42,15 +34,7 @@ export class TenantsController {
     @RequirePermission('settings.manage')
     @ApiBearerAuth('JWT-auth')
     @ApiOperation({ summary: 'Get current tenant', description: 'Returns the tenant profile associated with the authenticated user\'s JWT token.' })
-    @ApiOkResponse({
-        description: 'Current tenant returned',
-        schema: {
-            example: {
-                message: 'Current tenant',
-                data: { id: '00000000-0000-4000-a000-000000000001', name: 'Demo Shop', slug: 'demo-shop', baseCurrencyId: '00000000-0000-4000-a300-000000000001' },
-            },
-        },
-    })
+    @ApiOkResponseStandard(TenantResponseDto, { description: 'Current tenant returned' })
     @ApiStandardErrors()
     async getCurrent(@CurrentUser() user: RequestUser) {
         const tenant = await this.tenantsService.findCurrent(user.tenantId);
@@ -62,15 +46,7 @@ export class TenantsController {
     @RequirePermission('settings.manage')
     @ApiBearerAuth('JWT-auth')
     @ApiOperation({ summary: 'Update current tenant' })
-    @ApiOkResponse({
-        description: 'Tenant updated successfully',
-        schema: {
-            example: {
-                message: 'Tenant updated',
-                data: { id: '00000000-0000-4000-a000-000000000001', name: 'Demo Shop Updated', slug: 'demo-shop' },
-            },
-        },
-    })
+    @ApiOkResponseStandard(TenantResponseDto, { description: 'Tenant updated successfully' })
     @ApiStandardErrors()
     async updateCurrent(
         @CurrentUser() user: RequestUser,

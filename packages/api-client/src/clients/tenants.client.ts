@@ -1,18 +1,23 @@
-import { tenantResource, type ApiRequestBody } from "@devloggers/api-contracts"
+import { tenantResource, type ApiRequestBody, type ApiResponse } from "@devloggers/api-contracts"
 import { ApiClient } from "../infra/client"
 import { triggerBrowserDownload } from "../infra/crud-client"
+import { requireResponseData } from "../infra/require-response-data"
+
+type TenantResponse = NonNullable<ApiResponse<typeof tenantResource.routes.current, "get">["data"]>
 
 export class TenantsClient {
     constructor(private readonly apiClient: ApiClient) {}
 
-    current = async () => {
-        return this.apiClient.get(tenantResource.routes.current)
+    current = async (): Promise<TenantResponse> => {
+        const res = await this.apiClient.get(tenantResource.routes.current)
+        return requireResponseData(res.data, "Current tenant response missing")
     }
 
     updateCurrent = async (
         payload: ApiRequestBody<typeof tenantResource.routes.updateCurrent, "patch">,
-    ) => {
-        return this.apiClient.patch(tenantResource.routes.updateCurrent, payload)
+    ): Promise<TenantResponse> => {
+        const res = await this.apiClient.patch(tenantResource.routes.updateCurrent, payload)
+        return requireResponseData(res.data, "Updated tenant response missing")
     }
 
     getSettings = async () => {
