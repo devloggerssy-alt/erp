@@ -11,7 +11,7 @@ import {
 import * as express from 'express';
 import { ApiTags, ApiBearerAuth, ApiOperation, ApiOkResponse } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
-import { LoginDto, RegisterDto, LoginDataDto, MeDataDto } from './dto';
+import { LoginDto, RegisterDto, LoginDataDto, AuthUserDto, LogoutResponseDto } from './dto';
 import { JwtAuthGuard } from './guards';
 import { CurrentUser, RequestUser } from './decorators';
 import { ApiOkResponseStandard, ApiCreatedResponseStandard, ApiStandardErrors } from '../../../common/decorators/api-swagger.decorators';
@@ -77,12 +77,7 @@ export class AuthController {
     @Post('logout')
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: 'Logout user', description: 'Clears the access_token HTTP-only cookie, effectively invalidating the session on the client side.' })
-    @ApiOkResponse({
-        description: 'Logged out – cookie cleared',
-        schema: {
-            example: { status: 'success', message: 'Logged out', data: null },
-        },
-    })
+    @ApiOkResponse({ type: LogoutResponseDto, description: 'Logged out – cookie cleared' })
     @ApiStandardErrors()
     logout(@Res({ passthrough: true }) res: express.Response) {
         res.clearCookie('access_token');
@@ -98,7 +93,7 @@ export class AuthController {
         summary: 'Get current user profile',
         description: 'Returns the full profile of the currently authenticated user based on the JWT token.'
     })
-    @ApiOkResponseStandard(MeDataDto, { description: 'Current user profile returned' })
+    @ApiOkResponseStandard(AuthUserDto, { description: 'Current user profile returned' })
     @ApiStandardErrors()
     async me(@CurrentUser() user: RequestUser) {
         const data = await this.authService.getMe(user.id);

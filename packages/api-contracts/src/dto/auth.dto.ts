@@ -1,4 +1,4 @@
-import type { PermissionKey } from '../permissions/permission-catalog';
+import type { ApiComponents } from '../api';
 
 export interface LoginDto {
     email: string;
@@ -13,26 +13,9 @@ export interface RegisterDto {
     phone?: string;
 }
 
-export interface AuthTenant {
-    id: string;
-    name: string;
-    slug: string;
-    onboardingStep: number;
-    onboardingCompletedAt: string | null;
-}
+export type AuthTenant = ApiComponents['schemas']['AuthTenantDto']
 
-export interface AuthUser {
-    id: string;
-    tenantId: string;
-    email: string;
-    fullName: string;
-    phone?: string | null;
-    avatarUrl?: string | null;
-    roles: string[];
-    /** Effective permission keys resolved from the user's roles. */
-    permissions: PermissionKey[];
-    tenant: AuthTenant;
-}
+export type AuthUser = ApiComponents['schemas']['AuthUserDto']
 
 export interface ChangePasswordDto {
     currentPassword: string;

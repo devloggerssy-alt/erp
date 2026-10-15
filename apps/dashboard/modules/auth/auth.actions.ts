@@ -67,8 +67,7 @@ export async function refreshUserCookie(): Promise<void> {
     try {
         const api = createApi({ headers: { Authorization: `Bearer ${token}` } })
         const result = await api.auth.me()
-        const user = (result as { data?: AuthUser }).data
-        if (user) await setAuthCookies(token, user)
+        if (result.data) await setAuthCookies(token, result.data)
     } catch {
         // ignore — stale cookie is better than a broken session
     }

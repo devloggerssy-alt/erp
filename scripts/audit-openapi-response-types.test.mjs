@@ -1,5 +1,8 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import { dirname, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { auditOpenApiResponseTypes } from './audit-openapi-response-types.mjs';
 
 const SOURCE = `
@@ -101,4 +104,11 @@ test('a lone bodyless 200 is a gap, not intended no-content', () => {
 test('a 204 delete is always intended no-content', () => {
   const result = auditOpenApiResponseTypes(SOURCE);
   assert.ok(!result.untypedOps.some((op) => op.includes('Things.delete')));
+});
+
+test('POST /auth/logout success response is typed', () => {
+  const typesPath = resolve(dirname(fileURLToPath(import.meta.url)), '../packages/api-contracts/types/index.ts');
+  const result = auditOpenApiResponseTypes(readFileSync(typesPath, 'utf8'));
+  const gaps = result.untypedOps.filter((op) => op.includes('Auth.logout'));
+  assert.deepEqual(gaps, []);
 });
