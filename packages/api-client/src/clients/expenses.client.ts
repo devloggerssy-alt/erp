@@ -1,45 +1,53 @@
 import { expenseResource } from "@devloggers/api-contracts"
-import type { ApiPathByMethod } from "@devloggers/api-contracts"
+import type { ApiResponse } from "@devloggers/api-contracts"
 import { ApiClient } from "../infra/client"
-import type { ICrudClient, BaseCrudItem } from "../infra/crud-client"
+import type { ICrudClient } from "../infra/crud-client"
 
 export class ExpensesClient implements ICrudClient {
   readonly key = expenseResource.key
 
   constructor(private readonly apiClient: ApiClient) {}
 
-  list(query?: Record<string, unknown>): Promise<{ data?: ReadonlyArray<BaseCrudItem>; meta?: unknown }> {
-    const route = expenseResource.routes.list as ApiPathByMethod<"get">
-    return this.apiClient.get(route, query ? { query } as never : undefined) as any
+  list(query?: Record<string, unknown>): Promise<ApiResponse<typeof expenseResource.routes.list, "get">> {
+    return this.apiClient.get(
+      expenseResource.routes.list,
+      query ? ({ query } as never) : undefined,
+    )
   }
 
-  show(id: string): Promise<{ data?: BaseCrudItem }> {
-    const route = expenseResource.routes.show as ApiPathByMethod<"get">
-    return this.apiClient.get(route, { params: { id } } as never) as any
+  show(id: string): Promise<ApiResponse<typeof expenseResource.routes.show, "get">> {
+    return this.apiClient.get(expenseResource.routes.show, { params: { id } } as never)
   }
 
-  create(body: unknown): Promise<unknown> {
-    const route = expenseResource.routes.create as ApiPathByMethod<"post">
-    return this.apiClient.post(route, body as never) as any
+  create(body: unknown): Promise<ApiResponse<typeof expenseResource.routes.create, "post">> {
+    return this.apiClient.post(expenseResource.routes.create, body as never)
   }
 
-  update(id: string, body: unknown): Promise<unknown> {
-    const route = expenseResource.routes.update as ApiPathByMethod<"patch">
-    return this.apiClient.patch(route, body as never, { params: { id } } as never) as any
+  update(id: string, body: unknown): Promise<ApiResponse<typeof expenseResource.routes.update, "patch">> {
+    return this.apiClient.patch(
+      expenseResource.routes.update,
+      body as never,
+      { params: { id } } as never,
+    )
   }
 
-  destroy(id: string): Promise<unknown> {
-    const route = expenseResource.routes.delete as ApiPathByMethod<"delete">
-    return this.apiClient.delete(route, { params: { id } } as never) as any
+  destroy(id: string): Promise<ApiResponse<typeof expenseResource.routes.delete, "delete">> {
+    return this.apiClient.delete(expenseResource.routes.delete, { params: { id } } as never)
   }
 
-  post = (id: string) => {
-    const route = expenseResource.routes.post as ApiPathByMethod<"post">
-    return this.apiClient.post(route, undefined as never, { params: { id } } as never)
+  post = (id: string): Promise<ApiResponse<typeof expenseResource.routes.post, "post">> => {
+    return this.apiClient.post(
+      expenseResource.routes.post,
+      undefined as never,
+      { params: { id } } as never,
+    )
   }
 
-  cancel = (id: string) => {
-    const route = expenseResource.routes.cancel as ApiPathByMethod<"post">
-    return this.apiClient.post(route, undefined as never, { params: { id } } as never)
+  cancel = (id: string): Promise<ApiResponse<typeof expenseResource.routes.cancel, "post">> => {
+    return this.apiClient.post(
+      expenseResource.routes.cancel,
+      undefined as never,
+      { params: { id } } as never,
+    )
   }
 }

@@ -1,6 +1,7 @@
 import { IsString, IsNotEmpty, IsOptional, IsNumber, IsDateString, Min, ValidateNested, ArrayMinSize, IsInt } from 'class-validator';
 import { Type } from 'class-transformer';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { ExpenseStatus } from '@devloggers/db-prisma';
 
 export class CreateExpenseItemDto {
     @ApiProperty({ example: '00000000-0000-4000-a600-000000006120', description: 'EXPENSE-type chart-of-account ID (debited)' })
@@ -78,4 +79,76 @@ export class UpdateExpenseDto {
     @Type(() => CreateExpenseItemDto)
     @ArrayMinSize(1)
     items?: CreateExpenseItemDto[];
+}
+
+export class ExpenseItemResponseDto {
+    @ApiProperty({ type: 'string' })
+    id: string = '';
+
+    @ApiProperty({ type: 'string' })
+    accountId: string = '';
+
+    @ApiProperty({ type: 'string' })
+    description: string = '';
+
+    @ApiProperty({ type: 'number' })
+    amount: number = 0;
+
+    @ApiProperty({ type: 'string', nullable: true })
+    notes: string | null = null;
+
+    @ApiProperty({ type: 'number' })
+    sortOrder: number = 0;
+}
+
+export class ExpenseCashboxRefDto {
+    @ApiProperty({ type: 'string', example: 'CASH-01' })
+    code: string = '';
+}
+
+export class ExpenseResponseDto {
+    @ApiProperty({ type: 'string' })
+    id: string = '';
+
+    @ApiProperty({ type: 'string', example: 'EXP-00001' })
+    number: string = '';
+
+    @ApiProperty({ type: 'string', example: '2026-06-10T00:00:00.000Z' })
+    date: string = '';
+
+    @ApiProperty({ type: 'string' })
+    cashboxId: string = '';
+
+    @ApiProperty({ type: 'string' })
+    currencyId: string = '';
+
+    @ApiProperty({ type: 'string' })
+    fiscalPeriodId: string = '';
+
+    @ApiProperty({ type: 'number', example: 1 })
+    exchangeRate: number = 1;
+
+    @ApiProperty({ type: 'number', example: 200000 })
+    totalAmount: number = 0;
+
+    @ApiProperty({ enum: ExpenseStatus, enumName: 'ExpenseStatus', example: ExpenseStatus.DRAFT })
+    status: ExpenseStatus = ExpenseStatus.DRAFT;
+
+    @ApiProperty({ type: 'string', nullable: true })
+    notes: string | null = null;
+
+    @ApiProperty({ type: 'string', nullable: true })
+    journalEntryId: string | null = null;
+
+    @ApiPropertyOptional({ type: () => ExpenseCashboxRefDto })
+    cashbox?: ExpenseCashboxRefDto;
+
+    @ApiPropertyOptional({ type: () => ExpenseItemResponseDto, isArray: true })
+    items?: ExpenseItemResponseDto[];
+
+    @ApiProperty({ type: 'string', example: '2026-06-10T00:00:00.000Z' })
+    createdAt: string = '';
+
+    @ApiProperty({ type: 'string', example: '2026-06-10T00:00:00.000Z' })
+    updatedAt: string = '';
 }

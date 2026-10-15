@@ -1,12 +1,17 @@
-import { Controller, Get, Post, Patch, Delete, Body, Param, Query, UseGuards } from '@nestjs/common';
-import { ApiTags, ApiBearerAuth, ApiQuery, ApiOperation, ApiOkResponse, ApiCreatedResponse } from '@nestjs/swagger';
+import { Controller, Get, Post, Patch, Delete, Body, Param, Query, UseGuards, HttpCode, HttpStatus } from '@nestjs/common';
+import { ApiTags, ApiBearerAuth, ApiQuery, ApiOperation, ApiOkResponse } from '@nestjs/swagger';
 import { ExpensesService } from './expenses.service';
-import { CreateExpenseDto, UpdateExpenseDto } from './dto';
+import { CreateExpenseDto, UpdateExpenseDto, ExpenseResponseDto } from './dto';
 import { JwtAuthGuard, PermissionsGuard } from '../../identity/auth/guards';
 import { CurrentUser, RequestUser } from '../../identity/auth/decorators';
 import { RequirePermission } from '@devloggers/backend-core';
 import { ApiResponseBuilder } from '../../../common/api/api-response-builder';
-import { ApiStandardErrors } from '../../../common/decorators/api-swagger.decorators';
+import {
+    ApiStandardErrors,
+    ApiOkResponseStandard,
+    ApiOkResponsePaginated,
+    ApiCreatedResponseStandard,
+} from '../../../common/decorators/api-swagger.decorators';
 
 @ApiTags('Expenses')
 @Controller('expenses')
@@ -21,7 +26,7 @@ export class ExpensesController {
     @ApiQuery({ name: 'status', required: false, enum: ['DRAFT', 'POSTED', 'CANCELLED'] })
     @ApiQuery({ name: 'page', required: false })
     @ApiQuery({ name: 'limit', required: false })
-    @ApiOkResponse({ description: 'Paginated list of expenses' })
+    @ApiOkResponsePaginated(ExpenseResponseDto, { description: 'Paginated list of expenses' })
     @ApiStandardErrors()
     async findAll(@CurrentUser() user: RequestUser, @Query('status') status?: string, @Query('page') page?: number, @Query('limit') limit?: number) {
         const result = await this.expensesService.findAll(user.tenantId, { status, page: page ? Number(page) : 1, limit: limit ? Number(limit) : 50 });
@@ -31,7 +36,7 @@ export class ExpensesController {
     @Get(':id')
     @RequirePermission('expenses.view')
     @ApiOperation({ summary: 'Get expense by ID' })
-    @ApiOkResponse({ description: 'Expense details' })
+    @ApiOkResponseStandard(ExpenseResponseDto, { description: 'Expense details' })
     @ApiStandardErrors()
     async findOne(@CurrentUser() user: RequestUser, @Param('id') id: string) {
         return ApiResponseBuilder.success(await this.expensesService.findById(user.tenantId, id), 'Expense details');
@@ -40,7 +45,7 @@ export class ExpensesController {
     @Post()
     @RequirePermission('expenses.create')
     @ApiOperation({ summary: 'Create a new expense' })
-    @ApiCreatedResponse({ description: 'Expense created in DRAFT status' })
+    @ApiCreatedResponseStandard(ExpenseResponseDto, { description: 'Expense created in DRAFT status' })
     @ApiStandardErrors()
     async create(@CurrentUser() user: RequestUser, @Body() dto: CreateExpenseDto) {
         return ApiResponseBuilder.success(await this.expensesService.create(user.tenantId, user.id, dto), 'Expense created');
@@ -49,7 +54,7 @@ export class ExpensesController {
     @Patch(':id')
     @RequirePermission('expenses.update')
     @ApiOperation({ summary: 'Update a draft expense' })
-    @ApiOkResponse({ description: 'Expense updated' })
+    @ApiOkResponseStandard(ExpenseResponseDto, { description: 'Expense updated' })
     @ApiStandardErrors()
     async update(@CurrentUser() user: RequestUser, @Param('id') id: string, @Body() dto: UpdateExpenseDto) {
         return ApiResponseBuilder.success(await this.expensesService.update(user.tenantId, id, dto), 'Expense updated');
@@ -58,7 +63,18 @@ export class ExpensesController {
     @Delete(':id')
     @RequirePermission('expenses.delete')
     @ApiOperation({ summary: 'Delete a draft expense' })
-    @ApiOkResponse({ description: 'Expense deleted' })
+    @ApiOkResponse({
+        description: 'Expense deleted',
+        schema: {
+            type: 'object',
+            required: ['status', 'message', 'data'],
+            properties: {
+                status: { type: 'string', example: 'success' },
+                message: { type: 'string', example: 'Expense deleted' },
+                data: { nullable: true, example: null },
+            },
+        },
+    })
     @ApiStandardErrors()
     async remove(@CurrentUser() user: RequestUser, @Param('id') id: string) {
         await this.expensesService.remove(user.tenantId, id);
@@ -66,18 +82,20 @@ export class ExpensesController {
     }
 
     @Post(':id/post')
+    @HttpCode(HttpStatus.OK)
     @RequirePermission('expenses.post')
     @ApiOperation({ summary: 'Post (confirm) an expense', description: 'Transitions a DRAFT expense to POSTED: creates a balanced journal entry (debit per item, credit cashbox linked account) and decrements the cashbox balance.' })
-    @ApiOkResponse({ description: 'Expense posted — journal entry created, cashbox decremented' })
+    @ApiOkResponseStandard(ExpenseResponseDto, { description: 'Expense posted — journal entry created, cashbox decremented' })
     @ApiStandardErrors()
     async post(@CurrentUser() user: RequestUser, @Param('id') id: string) {
         return ApiResponseBuilder.success(await this.expensesService.post(user.tenantId, id, user.id), 'Expense posted');
     }
 
     @Post(':id/cancel')
+    @HttpCode(HttpStatus.OK)
     @RequirePermission('expenses.cancel')
     @ApiOperation({ summary: 'Cancel a posted expense', description: 'Posts a reversing journal entry and restores the cashbox balance. Only posted expenses can be cancelled.' })
-    @ApiOkResponse({ description: 'Expense cancelled — reversing entry created' })
+    @ApiOkResponseStandard(ExpenseResponseDto, { description: 'Expense cancelled — reversing entry created' })
     @ApiStandardErrors()
     async cancel(@CurrentUser() user: RequestUser, @Param('id') id: string) {
         return ApiResponseBuilder.success(await this.expensesService.cancel(user.tenantId, id, user.id), 'Expense cancelled');

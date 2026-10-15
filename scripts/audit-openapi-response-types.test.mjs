@@ -1,3 +1,6 @@
+import { readFileSync } from 'node:fs';
+import { dirname, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { auditOpenApiResponseTypes } from './audit-openapi-response-types.mjs';
@@ -101,4 +104,14 @@ test('a lone bodyless 200 is a gap, not intended no-content', () => {
 test('a 204 delete is always intended no-content', () => {
   const result = auditOpenApiResponseTypes(SOURCE);
   assert.ok(!result.untypedOps.some((op) => op.includes('Things.delete')));
+});
+
+test('every expense success response is typed in the committed contract', () => {
+  const typesPath = resolve(
+    dirname(fileURLToPath(import.meta.url)),
+    '../packages/api-contracts/types/index.ts',
+  );
+  const { untypedOps } = auditOpenApiResponseTypes(readFileSync(typesPath, 'utf8'));
+  const expenseGaps = untypedOps.filter((op) => op.includes('/expenses'));
+  assert.deepEqual(expenseGaps, []);
 });
