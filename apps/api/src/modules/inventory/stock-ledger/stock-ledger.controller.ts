@@ -4,13 +4,14 @@ import {
     Query,
     UseGuards,
 } from '@nestjs/common';
-import { ApiTags, ApiBearerAuth, ApiQuery, ApiOperation, ApiOkResponse } from '@nestjs/swagger';
+import { ApiTags, ApiBearerAuth, ApiQuery, ApiOperation } from '@nestjs/swagger';
 import { StockLedgerService } from './stock-ledger.service';
+import { StockMovementResponseDto } from './dto/stock-ledger.dto';
 import { JwtAuthGuard, PermissionsGuard } from '../../identity/auth/guards';
 import { CurrentUser, RequestUser } from '../../identity/auth/decorators';
 import { RequirePermission } from '@devloggers/backend-core';
 import { ApiResponseBuilder } from '../../../common/api/api-response-builder';
-import { ApiStandardErrors } from '../../../common/decorators/api-swagger.decorators';
+import { ApiOkResponsePaginated, ApiStandardErrors } from '../../../common/decorators/api-swagger.decorators';
 
 @ApiTags('Stock Ledger')
 @Controller('stock-ledger')
@@ -22,28 +23,12 @@ export class StockLedgerController {
     @Get('movements')
     @RequirePermission('stockLedger.view')
     @ApiOperation({ summary: 'List stock movements', description: 'Returns a paginated history of stock movements (purchases, sales, adjustments, opening balances). Filter by warehouse, item, or movement type.' })
-    @ApiQuery({ name: 'warehouseId', required: false })
-    @ApiQuery({ name: 'itemId', required: false })
-    @ApiQuery({ name: 'movementType', required: false })
-    @ApiQuery({ name: 'page', required: false })
-    @ApiQuery({ name: 'limit', required: false })
-    @ApiOkResponse({
-        description: 'Paginated list of stock movements',
-        schema: {
-            example: {
-                message: 'Movements retrieved',
-                data: [
-                    {
-                        id: '...', movementType: 'PURCHASE', quantity: 5,
-                        itemId: '00000000-0000-4000-a900-000000000001', itemName: 'Laptop 15"',
-                        warehouseId: '00000000-0000-4000-ab00-000000000001', warehouseName: 'Main Warehouse',
-                        createdAt: '2026-04-14T12:00:00.000Z',
-                    },
-                ],
-                meta: { pagination: { total: 25, page: 1, limit: 50, totalPages: 1 } },
-            },
-        },
-    })
+    @ApiQuery({ name: 'warehouseId', required: false, type: String })
+    @ApiQuery({ name: 'itemId', required: false, type: String })
+    @ApiQuery({ name: 'movementType', required: false, type: String })
+    @ApiQuery({ name: 'page', required: false, type: Number })
+    @ApiQuery({ name: 'limit', required: false, type: Number })
+    @ApiOkResponsePaginated(StockMovementResponseDto, { description: 'Paginated list of stock movements' })
     @ApiStandardErrors()
     async getMovements(
         @CurrentUser() user: RequestUser,

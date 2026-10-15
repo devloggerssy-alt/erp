@@ -1,4 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { StockMovementType } from '@devloggers/db-prisma';
 
 export class StockMovementResponseDto {
     @ApiProperty({ example: '00000000-0000-4000-ac00-000000000001' })
@@ -22,11 +23,11 @@ export class StockMovementResponseDto {
     @ApiProperty({ example: '00000000-0000-4000-a400-000000000001' })
     fiscalPeriodId: string = '';
 
-    @ApiPropertyOptional({ example: '2026' })
+    @ApiPropertyOptional({ type: 'string', example: '2026' })
     fiscalPeriodName?: string;
 
-    @ApiProperty({ example: 'PURCHASE', description: 'PURCHASE | SALE | STOCK_COUNT | OPENING_BALANCE | ADJUSTMENT' })
-    movementType: string = '';
+    @ApiProperty({ enum: StockMovementType, enumName: 'StockMovementType', example: StockMovementType.PURCHASE })
+    movementType: StockMovementType = StockMovementType.PURCHASE;
 
     @ApiProperty({ example: 5 })
     quantity: number = 0;
@@ -34,13 +35,13 @@ export class StockMovementResponseDto {
     @ApiProperty({ example: 600000 })
     unitCost: number = 0;
 
-    @ApiPropertyOptional({ type: 'string', example: 'invoice', nullable: true })
+    @ApiProperty({ type: 'string', example: 'invoice', nullable: true })
     referenceType: string | null = null;
 
-    @ApiPropertyOptional({ type: 'string', example: '00000000-0000-4000-ae00-000000000001', nullable: true })
+    @ApiProperty({ type: 'string', example: '00000000-0000-4000-ae00-000000000001', nullable: true })
     referenceId: string | null = null;
 
-    @ApiPropertyOptional({ type: 'string', nullable: true })
+    @ApiProperty({ type: 'string', nullable: true })
     notes: string | null = null;
 
     @ApiProperty({ example: '2026-04-14T12:00:00.000Z' })

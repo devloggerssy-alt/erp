@@ -1,40 +1,29 @@
 import { inventoryResource } from "@devloggers/api-contracts"
+import type { ApiQueryParams } from "@devloggers/api-contracts"
 import { ApiClient } from "../infra/client"
 import type { ICrudClient } from "../infra/crud-client"
 
-export type StockBalanceItem = {
-    id: string
-    warehouseId: string
-    warehouseName: string
-    warehouseCode: string
-    itemId: string
-    itemName: string
-    itemCode: string
-    quantity: number
-    averageCost: number
-    updatedAt: string
-}
+type BalanceQuery = ApiQueryParams<typeof inventoryResource.routes.balances, "get">
 
 export class StockBalancesClient implements ICrudClient {
     key = inventoryResource.key
 
     constructor(private readonly apiClient: ApiClient) {}
 
-    async list(query?: Record<string, unknown>): Promise<{ data?: StockBalanceItem[]; meta?: unknown }> {
+    async list(query?: BalanceQuery) {
         const result = await this.apiClient.get(
             inventoryResource.routes.balances,
-            query ? ({ query } as never) : undefined,
-        ) as { data?: Record<string, unknown>[] }
-        const raw = result?.data ?? []
+            query ? { query } : undefined,
+        )
         return {
-            data: raw.map((item) => ({
+            data: (result.data ?? []).map((item) => ({
                 ...item,
                 id: `${item.warehouseId}_${item.itemId}`,
-            })) as StockBalanceItem[],
+            })),
         }
     }
 
-    show(_id: string): Promise<{ data?: StockBalanceItem }> {
+    show(_id: string): Promise<{ data?: never }> {
         return Promise.resolve({})
     }
 
