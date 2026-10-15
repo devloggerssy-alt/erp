@@ -6,6 +6,8 @@ import {
     Body,
     Param,
     Query,
+    HttpCode,
+    HttpStatus,
     UseGuards,
 } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth, ApiQuery, ApiOperation } from '@nestjs/swagger';
@@ -114,6 +116,7 @@ export class InvoicesController {
     }
 
     @Post(':id/payments')
+    @HttpCode(HttpStatus.OK)
     @RequirePermission('payments.create')
     @ApiOperation({
         summary: 'Add a payment to a posted invoice',
@@ -131,6 +134,7 @@ export class InvoicesController {
     }
 
     @Post(':id/post')
+    @HttpCode(HttpStatus.OK)
     @RequirePermission('invoices.post')
     @ApiOperation({
         summary: 'Post (confirm) an invoice',
@@ -153,6 +157,7 @@ export class InvoicesController {
     }
 
     @Post(':id/cancel')
+    @HttpCode(HttpStatus.OK)
     @RequirePermission('invoices.cancel')
     @ApiOperation({
         summary: 'Cancel a posted invoice',
