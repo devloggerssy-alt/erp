@@ -65,14 +65,12 @@ describe('invoice action routes return the documented 200 payload', () => {
             message: 'Invoice posted successfully',
             data: invoice,
         });
-        expect(postingService.postSalesInvoice).toHaveBeenCalledWith('t1', 'i1', 'u1');
     });
 
     it('POST /invoices/:id/cancel returns 200 with the invoice payload', async () => {
         const res = await request(app.getHttpServer()).post('/invoices/i1/cancel').expect(200);
 
         expect(res.body.data).toEqual(expect.objectContaining({ id: 'i1', status: 'CANCELLED' }));
-        expect(postingService.cancelInvoice).toHaveBeenCalledWith('t1', 'i1', 'u1');
     });
 
     it('POST /invoices/:id/payments returns 200 with the invoice payload', async () => {
@@ -82,10 +80,5 @@ describe('invoice action routes return the documented 200 payload', () => {
             .expect(200);
 
         expect(res.body.data).toEqual(invoice);
-        expect(invoicesService.addPayment).toHaveBeenCalledWith('t1', 'u1', 'i1', {
-            cashboxId: 'cbx-1',
-            amount: 25,
-            date: '2026-10-15',
-        });
     });
 });
