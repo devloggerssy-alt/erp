@@ -8,6 +8,7 @@ import { PaymentsResource } from "../payments.resource"
 import { createPaymentsColumns } from "./payments-columns"
 import { PaymentFormModal } from "./payment-form-modal"
 import { usePaymentActions } from "../hooks/use-payment-actions"
+import { useCreateAction } from "@/shared/hooks/use-create-action"
 
 type ModalState = { open: boolean; paymentId: string | null }
 
@@ -19,6 +20,8 @@ export function PaymentsPage() {
     const openCreate = () => setModal({ open: true, paymentId: null })
     const openEdit = (id: string) => setModal({ open: true, paymentId: id })
     const closeModal = () => setModal({ open: false, paymentId: null })
+
+    useCreateAction(openCreate)
 
     const { postPayment, cancelPayment } = usePaymentActions()
 

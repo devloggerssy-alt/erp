@@ -29,7 +29,7 @@ export type ResourceNamespace<TClient extends ICrudClient> = {
     Provider: typeof ResourceProvider
     Page: (props: ResourcePageProps<TClient>) => React.JSX.Element
     Table: (props: ResourceTableProps<TClient>) => React.JSX.Element
-    FormDialog: (props: ResourceFormDialogProps<TClient>) => React.JSX.Element
+    FormDialog: <TExtra extends object = object>(props: ResourceFormDialogProps<TClient, TExtra>) => React.JSX.Element
     CreateButton: (props: ResourceCreateButtonProps) => React.JSX.Element
     Grid: (props: ResourceGridProps<ResourceItem<TClient>>) => React.JSX.Element
     Pagination: () => React.JSX.Element
@@ -54,7 +54,7 @@ export function generateResource<TClient extends ICrudClient>(
     Resource.Provider = ResourceProvider as typeof ResourceProvider
     Resource.Page = ResourcePage as (props: ResourcePageProps<TClient>) => React.JSX.Element
     Resource.Table = ResourceTable as (props: ResourceTableProps<TClient>) => React.JSX.Element
-    Resource.FormDialog = ResourceFormDialog as (props: ResourceFormDialogProps<TClient>) => React.JSX.Element
+    Resource.FormDialog = ResourceFormDialog as <TExtra extends object = object>(props: ResourceFormDialogProps<TClient, TExtra>) => React.JSX.Element
     Resource.CreateButton = ResourceCreateButton as (props: ResourceCreateButtonProps) => React.JSX.Element
     Resource.Grid = ResourceGrid as (props: ResourceGridProps<ResourceItem<TClient>>) => React.JSX.Element
     Resource.Pagination = ResourcePagination as () => React.JSX.Element

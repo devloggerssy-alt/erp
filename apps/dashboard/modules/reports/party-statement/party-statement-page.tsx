@@ -13,11 +13,12 @@ import type { InvoiceReportItem, PartyStatementPayment } from "@devloggers/api-c
 import { ReportLayout } from "../shared/report-layout"
 import { StatCard } from "../shared/stat-card"
 import { ReportTable } from "../shared/report-table"
+import { partyModeListExtraParams } from "@/modules/parties"
 
 type PartyType = "customer" | "supplier"
 
 export function PartyStatementPage() {
-    const t = useTranslations("business.reports.partyStatement")
+    const t = useTranslations("business.resources.reports.partyStatement")
     const api = useApi()
     const [partyType, setPartyType] = useState<PartyType>("customer")
     const [partyId, setPartyId] = useState<string | undefined>()
@@ -27,7 +28,7 @@ export function PartyStatementPage() {
         queryFn: async () => {
             const res = await api.parties.list({
                 limit: 500,
-                type: partyType === "customer" ? "CUSTOMER" : "SUPPLIER",
+                ...partyModeListExtraParams(partyType === "customer" ? "CUSTOMER" : "SUPPLIER"),
             })
             return res.data ?? []
         },

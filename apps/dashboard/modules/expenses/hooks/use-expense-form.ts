@@ -9,6 +9,7 @@ import { toast } from "sonner"
 import { useApi } from "@/shared/useApi"
 import { useResourceForm } from "@/shared/hooks/use-resource-form"
 import { useFormMutation } from "@/shared/hooks/use-form-mutation"
+import { useApplyFormDefaults } from "@/shared/hooks/use-form-defaults"
 import type { ExpenseStatus } from "@devloggers/api-contracts"
 import {
     DEFAULT_EXPENSE_FORM_VALUES,
@@ -72,6 +73,17 @@ export function useExpenseForm({
         initialize: (id) => api.expenses.show(id),
         mapToFormValues: mapExpenseToFormValues,
         queryKey: [api.expenses.key, "show", expenseId],
+    })
+
+    // Pre-fill cashbox / currency / fiscal period from tenant defaults (create only).
+    useApplyFormDefaults({
+        form,
+        enabled: open && !isEditing,
+        map: {
+            fiscalPeriod: "fiscalPeriod",
+            currency: "currency",
+            cashbox: "cashbox",
+        },
     })
 
     const { fields, append, remove } = useFieldArray({

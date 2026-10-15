@@ -14,7 +14,7 @@ import { ReportTable } from "../shared/report-table"
 import type { InvoiceReportItem } from "@devloggers/api-client"
 
 export function PurchasesReportPage() {
-    const t = useTranslations("business.reports.purchases")
+    const t = useTranslations("business.resources.reports.purchases")
     const api = useApi()
     const [from, setFrom] = useState("")
     const [to, setTo] = useState("")

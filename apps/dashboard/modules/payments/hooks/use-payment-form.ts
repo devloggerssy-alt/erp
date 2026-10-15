@@ -8,6 +8,7 @@ import { toast } from "sonner"
 import { useApi } from "@/shared/useApi"
 import { useResourceForm } from "@/shared/hooks/use-resource-form"
 import { useFormMutation } from "@/shared/hooks/use-form-mutation"
+import { useApplyFormDefaults } from "@/shared/hooks/use-form-defaults"
 import {
     DEFAULT_PAYMENT_FORM_VALUES,
     mapPaymentToFormValues,
@@ -61,6 +62,17 @@ export function usePaymentForm({
         initialize: (id) => api.payments.show(id),
         mapToFormValues: mapPaymentToFormValues,
         queryKey: [api.payments.key, "show", paymentId],
+    })
+
+    // Pre-fill cashbox / currency / fiscal period from tenant defaults (create only).
+    useApplyFormDefaults({
+        form,
+        enabled: open && !isEditing,
+        map: {
+            fiscalPeriod: "fiscalPeriod",
+            currency: "currency",
+            cashbox: "cashbox",
+        },
     })
 
     const cached = isEditing

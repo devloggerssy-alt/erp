@@ -1,6 +1,6 @@
-import { defineResource } from './resource.types'
+import { defineCrudResource } from './base/crud-resource'
 
-export const expenseResource = defineResource({
+export const expenseResource = defineCrudResource({
   key: 'expenses',
 
   routes: {

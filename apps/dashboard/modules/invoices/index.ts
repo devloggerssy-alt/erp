@@ -1,5 +1,6 @@
 export { InvoicesPage } from "./components/invoices-page"
-export { InvoiceFormModal } from "./components/invoice-form-modal"
+export { InvoiceFormDialog } from "./components/invoice-form-dialog"
+export type { InvoiceFormDialogProps } from "./components/invoice-form-dialog"
 export { InvoiceForm } from "./components/invoice-form"
 export { InvoicePrintPage } from "./components/invoice-print-page"
 export { InvoicePrintLayout } from "./components/invoice-print-layout"

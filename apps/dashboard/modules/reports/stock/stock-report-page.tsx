@@ -16,7 +16,7 @@ import type { StockBalanceReportItem } from "@devloggers/api-client"
 type Warehouse = { id: string; name: string; code: string }
 
 export function StockReportPage() {
-    const t = useTranslations("business.reports.stock")
+    const t = useTranslations("business.resources.reports.stock")
     const api = useApi()
     const [warehouseId, setWarehouseId] = useState<string | undefined>()
 

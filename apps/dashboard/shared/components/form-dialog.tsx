@@ -57,38 +57,75 @@ export function useFormDialog(paramKey?: string) {
     }
 }
 
-export default function FormDialog(props: {
-    children: (resourceId: string | null) => React.ReactNode
+/**
+ * Presentational, controlled dialog shell. Owns no domain state — the caller
+ * decides `open`/`resourceId`, and may override the shell (layout, header,
+ * close button, scrolling) for document-style forms. Domain-specific inputs are
+ * never accepted here; pass those to the form component instead.
+ */
+export type FormDialogProps = {
+    open: boolean
+    onOpenChange: (open: boolean) => void
     title: string
-    paramKey?: string
-    onClose?: () => void
-    hideTrigger?: boolean
-}) {
-    const { isOpen, resourceId, open, close } = useFormDialog(props.paramKey)
+    resourceId: string | null
+    children: (resourceId: string | null) => React.ReactNode
+    /** Custom trigger element. When omitted, the built-in "+ title" button is used. */
+    trigger?: React.ReactNode
+    /** Render the trigger. Defaults to true. */
+    showTrigger?: boolean
+    /** Override the `DialogContent` classes (e.g. full-screen document layouts). */
+    contentClassName?: string
+    /** Replace the default header, or pass `false` to hide it (the form renders its own). */
+    header?: React.ReactNode | false
+    /** Render the built-in close button. Defaults to true. */
+    showCloseButton?: boolean
+    /** Wrap children in a `ScrollArea`. Defaults to true; disable for self-scrolling forms. */
+    scrollable?: boolean
+    /** Override the `ScrollArea` classes. */
+    scrollClassName?: string
+}
 
+export default function FormDialog({
+    open,
+    onOpenChange,
+    title,
+    resourceId,
+    children,
+    trigger,
+    showTrigger = true,
+    contentClassName,
+    header,
+    showCloseButton = true,
+    scrollable = true,
+    scrollClassName,
+}: FormDialogProps) {
     return (
         <>
-            {!props.hideTrigger && (
-                <Button size='lg' onClick={() => open()}>
+            {showTrigger && (trigger ?? (
+                <Button size='lg' onClick={() => onOpenChange(true)}>
                     <Plus />
-                    {props.title}
+                    {title}
                 </Button>
-            )}
-            <Dialog open={isOpen} onOpenChange={(v) => {
-                if (!v) {
-                    close();
-                    props.onClose?.()
-                }
-            }}>
-                <DialogContent className='min-w-xl'>
-                    <DialogHeader>
-                        <DialogTitle className='text-2xl font-bold'>
-                            {props.title}
-                        </DialogTitle>
-                    </DialogHeader>
-                    <ScrollArea className='max-h-[80vh]'>
-                        {props.children(resourceId)}
-                    </ScrollArea>
+            ))}
+            <Dialog open={open} onOpenChange={onOpenChange}>
+                <DialogContent
+                    className={contentClassName ?? 'min-w-xl'}
+                    showCloseButton={showCloseButton}
+                >
+                    {header === false ? null : (header ?? (
+                        <DialogHeader>
+                            <DialogTitle className='text-2xl font-bold'>
+                                {title}
+                            </DialogTitle>
+                        </DialogHeader>
+                    ))}
+                    {scrollable ? (
+                        <ScrollArea className={scrollClassName ?? 'max-h-[80vh]'}>
+                            {children(resourceId)}
+                        </ScrollArea>
+                    ) : (
+                        children(resourceId)
+                    )}
                 </DialogContent>
             </Dialog>
         </>
