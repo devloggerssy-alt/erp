@@ -35,23 +35,21 @@ export class PaymentsClient implements ICrudClient {
         return Promise.reject(new Error("Payments cannot be deleted. Cancel the payment instead."))
     }
 
-    post = (id: string): Promise<unknown> => {
-        const route = paymentResource.routes.post as ApiPathByMethod<"post">
-        return this.apiClient.post(route, undefined as never, { params: { id } } as never)
+    post = (id: string) => {
+        return this.apiClient.post(paymentResource.routes.post, undefined, { params: { id } })
     }
 
-    cancel = (id: string): Promise<unknown> => {
-        const route = paymentResource.routes.cancel as ApiPathByMethod<"post">
-        return this.apiClient.post(route, undefined as never, { params: { id } } as never)
+    cancel = (id: string) => {
+        return this.apiClient.post(paymentResource.routes.cancel, undefined, { params: { id } })
     }
 
-    allocate = (id: string, body: AllocatePaymentDto): Promise<unknown> => {
-        const route = paymentResource.routes.allocate as ApiPathByMethod<"post">
-        return this.apiClient.post(route, body as never, { params: { id } } as never)
+    allocate = (id: string, body: AllocatePaymentDto) => {
+        return this.apiClient.post(paymentResource.routes.allocate, body, { params: { id } })
     }
 
-    removeAllocation = (id: string, allocationId: string): Promise<unknown> => {
-        const route = paymentResource.routes.removeAllocation as ApiPathByMethod<"delete">
-        return this.apiClient.delete(route, { params: { id, allocationId } } as never)
+    removeAllocation = (id: string, allocationId: string) => {
+        return this.apiClient.post(paymentResource.routes.removeAllocation, undefined, {
+            params: { id, allocationId },
+        })
     }
 }

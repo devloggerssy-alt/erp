@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Param, UseGuards, UsePipes } from '@nestjs/common';
+import { Controller, HttpCode, HttpStatus, Post, Body, Param, UseGuards, UsePipes } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth, ApiBody } from '@nestjs/swagger';
 import {
   createCrudController,
@@ -90,6 +90,7 @@ export class PaymentsController extends PaymentsCrudBase {
   }
 
   @Post(':id/post')
+  @HttpCode(HttpStatus.OK)
   @RequirePermission('payments.post')
   @ApiOkResponseStandard(PaymentResponseDto, { description: 'Payment posted' })
   @ApiStandardErrors()
@@ -101,6 +102,7 @@ export class PaymentsController extends PaymentsCrudBase {
   }
 
   @Post(':id/cancel')
+  @HttpCode(HttpStatus.OK)
   @RequirePermission('payments.cancel')
   @ApiOkResponseStandard(PaymentResponseDto, { description: 'Payment cancelled' })
   @ApiStandardErrors()
@@ -112,6 +114,7 @@ export class PaymentsController extends PaymentsCrudBase {
   }
 
   @Post(':id/allocate')
+  @HttpCode(HttpStatus.OK)
   @RequirePermission('payments.allocate')
   @ApiOkResponseStandard(PaymentResponseDto, { description: 'Payment allocated' })
   @ApiStandardErrors()
@@ -128,6 +131,7 @@ export class PaymentsController extends PaymentsCrudBase {
   }
 
   @Post(':id/allocations/:allocationId/remove')
+  @HttpCode(HttpStatus.OK)
   @RequirePermission('payments.allocate')
   @ApiOkResponseStandard(PaymentResponseDto, { description: 'Allocation removed' })
   @ApiStandardErrors()
