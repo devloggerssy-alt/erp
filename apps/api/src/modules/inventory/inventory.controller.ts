@@ -6,14 +6,14 @@ import {
     Query,
     UseGuards,
 } from '@nestjs/common';
-import { ApiTags, ApiBearerAuth, ApiOperation, ApiOkResponse, ApiCreatedResponse } from '@nestjs/swagger';
+import { ApiTags, ApiBearerAuth, ApiOperation, ApiQuery } from '@nestjs/swagger';
 import { InventoryService } from './inventory.service';
-import { PostOpeningBalanceDto } from './dto/inventory.dto';
+import { BalanceResponseDto, OpeningBalanceRegisteredResponseDto, PostOpeningBalanceDto } from './dto/inventory.dto';
 import { JwtAuthGuard, PermissionsGuard } from '../identity/auth/guards';
 import { CurrentUser, RequestUser } from '../identity/auth/decorators';
 import { RequirePermission } from '@devloggers/backend-core';
 import { ApiResponseBuilder } from '../../common/api/api-response-builder';
-import { ApiStandardErrors } from '../../common/decorators/api-swagger.decorators';
+import { ApiCreatedResponseStandard, ApiOkResponseStandard, ApiStandardErrors } from '../../common/decorators/api-swagger.decorators';
 
 @ApiTags('Inventory')
 @Controller('inventory')
@@ -25,18 +25,9 @@ export class InventoryController {
     @Get('balances')
     @RequirePermission('inventory.view')
     @ApiOperation({ summary: 'Get current stock balances', description: 'Returns the current quantity-on-hand for each item per warehouse. Optionally filter by a specific warehouse or item.' })
-    @ApiOkResponse({
-        description: 'Stock balances retrieved',
-        schema: {
-            example: {
-                message: 'Stock balances retrieved',
-                data: [
-                    { warehouseId: '00000000-0000-4000-ab00-000000000001', itemId: '00000000-0000-4000-a900-000000000001', quantity: 50, itemName: 'Laptop 15"', warehouseName: 'Main Warehouse' },
-                    { warehouseId: '00000000-0000-4000-ab00-000000000001', itemId: '00000000-0000-4000-a900-000000000002', quantity: 120, itemName: 'Smartphone X', warehouseName: 'Main Warehouse' },
-                ],
-            },
-        },
-    })
+    @ApiQuery({ name: 'warehouseId', required: false, type: String })
+    @ApiQuery({ name: 'itemId', required: false, type: String })
+    @ApiOkResponseStandard(BalanceResponseDto, { isArray: true, description: 'Stock balances retrieved' })
     @ApiStandardErrors()
     async getBalances(
         @CurrentUser() user: RequestUser,
@@ -56,14 +47,8 @@ export class InventoryController {
         summary: 'Register opening stock balances',
         description: 'Records initial stock quantities for items in a warehouse. Used during system setup to enter existing inventory. Creates stock ledger movement entries of type OPENING_BALANCE.',
     })
-    @ApiCreatedResponse({
+    @ApiCreatedResponseStandard(OpeningBalanceRegisteredResponseDto, {
         description: 'Opening balances registered – stock ledger entries created',
-        schema: {
-            example: {
-                message: 'Opening balances registered successfully',
-                data: { count: 3, warehouseId: '00000000-0000-4000-ab00-000000000001' },
-            },
-        },
     })
     @ApiStandardErrors()
     async registerOpeningBalances(@CurrentUser() user: RequestUser, @Body() dto: PostOpeningBalanceDto) {

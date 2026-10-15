@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import type { Prisma } from '@devloggers/db-prisma';
+import { StockMovementType, type Prisma } from '@devloggers/db-prisma';
 import { StockMovementResponseDto } from '../dto/stock-ledger.dto';
 
 function resolveName(name: Prisma.JsonValue | string | null | undefined): string | null {
@@ -16,7 +16,7 @@ type StockMovementWithRelations = {
     warehouseId: string;
     itemId: string;
     fiscalPeriodId: string;
-    movementType: string;
+    movementType: StockMovementType;
     quantity: { toNumber(): number } | number;
     unitCost: { toNumber(): number } | number;
     referenceType: string | null;

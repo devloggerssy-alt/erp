@@ -1,6 +1,7 @@
 import { IsString, IsNotEmpty, IsOptional, IsNumber, IsArray, IsDateString, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { StockCountStatus } from '@devloggers/db-prisma';
 
 export class StockCountLineDto {
     @ApiProperty({ example: '00000000-0000-4000-a900-000000000001', description: 'Item ID (Laptop 15")' })
@@ -40,14 +41,14 @@ export class CreateStockCountDto {
 // ─── Response DTOs ────────────────────────────────────────────────────────────
 
 export class StockCountLineResponseDto {
-    @ApiProperty() id: string = '';
-    @ApiProperty() itemId: string = '';
-    @ApiPropertyOptional() itemName?: string;
-    @ApiPropertyOptional() itemCode?: string;
-    @ApiProperty() systemQuantity: number = 0;
-    @ApiProperty() countedQuantity: number = 0;
-    @ApiProperty() difference: number = 0;
-    @ApiPropertyOptional({ type: 'string', nullable: true }) notes: string | null = null;
+    @ApiProperty({ type: 'string' }) id: string = '';
+    @ApiProperty({ type: 'string' }) itemId: string = '';
+    @ApiPropertyOptional({ type: 'string' }) itemName?: string;
+    @ApiPropertyOptional({ type: 'string' }) itemCode?: string;
+    @ApiProperty({ type: 'number' }) systemQuantity: number = 0;
+    @ApiProperty({ type: 'number' }) countedQuantity: number = 0;
+    @ApiProperty({ type: 'number' }) difference: number = 0;
+    @ApiProperty({ type: 'string', nullable: true }) notes: string | null = null;
 }
 
 export class StockCountResponseDto {
@@ -63,23 +64,24 @@ export class StockCountResponseDto {
     @ApiProperty({ example: '00000000-0000-4000-ab00-000000000001' })
     warehouseId: string = '';
 
-    @ApiPropertyOptional() warehouseName?: string;
+    @ApiPropertyOptional({ type: 'string' })
+    warehouseName?: string;
 
     @ApiProperty({ example: '00000000-0000-4000-a400-000000000001' })
     fiscalPeriodId: string = '';
 
-    @ApiProperty({ example: 'DRAFT', description: 'DRAFT | POSTED | CANCELLED' })
-    status: string = 'DRAFT';
+    @ApiProperty({ enum: StockCountStatus, enumName: 'StockCountStatus', example: StockCountStatus.DRAFT })
+    status: StockCountStatus = StockCountStatus.DRAFT;
 
-    @ApiPropertyOptional({ type: 'string', nullable: true }) notes: string | null = null;
-    @ApiPropertyOptional({ type: 'string', nullable: true }) postedAt: string | null = null;
-    @ApiProperty() createdAt: string = '';
-    @ApiProperty() updatedAt: string = '';
+    @ApiProperty({ type: 'string', nullable: true }) notes: string | null = null;
+    @ApiProperty({ type: 'string', nullable: true }) postedAt: string | null = null;
+    @ApiProperty({ type: 'string' }) createdAt: string = '';
+    @ApiProperty({ type: 'string' }) updatedAt: string = '';
 
-    @ApiPropertyOptional({ type: [StockCountLineResponseDto] })
+    @ApiPropertyOptional({ type: () => StockCountLineResponseDto, isArray: true })
     lines?: StockCountLineResponseDto[];
 
-    @ApiPropertyOptional({ description: 'Total line count (list view only)' })
+    @ApiPropertyOptional({ type: 'number', description: 'Total line count (list view only)' })
     lineCount?: number;
 }
 

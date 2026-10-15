@@ -42,14 +42,12 @@ export class PostOpeningBalanceDto {
     items!: OpeningBalanceItemDto[];
 }
 
-export enum StockMovementTypeEnum {
-    OPENING = 'OPENING',
-    PURCHASE = 'PURCHASE',
-    SALE = 'SALE',
-    ADJUSTMENT = 'ADJUSTMENT',
-    STOCK_COUNT = 'STOCK_COUNT',
-    TRANSFER_IN = 'TRANSFER_IN',
-    TRANSFER_OUT = 'TRANSFER_OUT',
+export class OpeningBalanceRegisteredResponseDto {
+    @ApiProperty({ type: 'number', example: 3 })
+    count: number = 0;
+
+    @ApiProperty({ type: 'string', nullable: true, example: '00000000-0000-4000-a700-000000000001' })
+    journalEntryId: string | null = null;
 }
 
 // ── Response DTOs ─────────────────────────────────────────────────────────────
