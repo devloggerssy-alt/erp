@@ -8,7 +8,7 @@ import {
     HttpCode,
     HttpStatus,
 } from '@nestjs/common';
-import * as express from 'express';
+import type * as express from 'express';
 import { ApiTags, ApiBearerAuth, ApiOperation, ApiOkResponse } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { LoginDto, RegisterDto, LoginDataDto, AuthUserDto, LogoutResponseDto } from './dto';
