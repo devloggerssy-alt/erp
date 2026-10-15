@@ -78,6 +78,7 @@ export class AuthService {
         tenantId: string;
         email: string;
         fullName: string;
+        phone: string | null;
         avatarUrl: string | null;
         userRoles: Array<{ role: { name: unknown; rolePermissions: Array<{ permission: { key: string } }> } }>;
         tenant: {
@@ -93,6 +94,7 @@ export class AuthService {
             tenantId: user.tenantId,
             email: user.email,
             fullName: user.fullName,
+            phone: user.phone,
             avatarUrl: user.avatarUrl,
             roles: user.userRoles.map((ur) => this.resolveRoleName(ur.role.name)),
             permissions: this.buildPermissions(user),
@@ -182,22 +184,6 @@ export class AuthService {
             throw new UnauthorizedException('User not found');
         }
 
-        return {
-            id: user.id,
-            tenantId: user.tenantId,
-            email: user.email,
-            fullName: user.fullName,
-            phone: user.phone,
-            avatarUrl: user.avatarUrl,
-            roles: user.userRoles.map((ur) => this.resolveRoleName(ur.role.name)),
-            permissions: this.buildPermissions(user),
-            tenant: {
-                id: user.tenant.id,
-                name: user.tenant.name,
-                slug: user.tenant.slug,
-                onboardingStep: user.tenant.onboardingStep,
-                onboardingCompletedAt: user.tenant.onboardingCompletedAt?.toISOString() ?? null,
-            },
-        };
+        return this.buildAuthUser(user);
     }
 }

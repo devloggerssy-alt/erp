@@ -27,8 +27,11 @@ export class AuthUserDto {
     @ApiProperty({ example: 'admin@demo-shop.com' })
     email: string = '';
 
-    @ApiProperty({ example: 'Admin User' })
+    @ApiProperty({ type: 'string', example: 'Admin User' })
     fullName: string = '';
+
+    @ApiPropertyOptional({ type: 'string', nullable: true, example: null })
+    phone?: string | null;
 
     @ApiPropertyOptional({ type: 'string', nullable: true, example: null, description: 'Profile avatar URL' })
     avatarUrl?: string | null;
@@ -39,19 +42,31 @@ export class AuthUserDto {
     @ApiProperty({ type: [String], example: ['invoices.view', 'invoices.post'] })
     permissions: string[] = [];
 
-    @ApiProperty({ type: AuthTenantDto })
+    @ApiProperty({ type: () => AuthTenantDto })
     tenant: AuthTenantDto = new AuthTenantDto();
+}
+
+export class LogoutResponseDto {
+    @ApiProperty({ type: 'string', example: 'success' })
+    status: 'success' = 'success';
+
+    @ApiProperty({ type: 'string', example: 'Logged out' })
+    message: string = '';
+
+    @ApiProperty({
+        type: () => Object,
+        nullable: true,
+        default: null,
+        example: null,
+        description: 'Always null — logout only clears the session cookie',
+    })
+    data: null = null;
 }
 
 export class LoginDataDto {
     @ApiProperty({ example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...' })
     accessToken: string = '';
 
-    @ApiProperty({ type: AuthUserDto })
+    @ApiProperty({ type: () => AuthUserDto })
     user: AuthUserDto = new AuthUserDto();
-}
-
-export class MeDataDto extends AuthUserDto {
-    @ApiProperty({ type: 'string', nullable: true, example: null })
-    phone?: string | null;
 }

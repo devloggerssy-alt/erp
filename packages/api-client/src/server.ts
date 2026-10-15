@@ -2,7 +2,7 @@ import "server-only"
 
 import { cookies } from "next/headers"
 import { createApi } from "./api"
-import { AuthUser } from "@devloggers/api-contracts"
+import type { AuthUser } from "@devloggers/api-contracts"
 
 export async function getServerApi() {
     const cookieStore = await cookies()

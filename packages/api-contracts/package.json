@@ -20,7 +20,7 @@
         "dev": "tsc --watch",
         "build": "tsc",
         "clean": "node -e \"require('fs').rmSync('./dist', { recursive: true, force: true })\"",
-        "test": "vitest run",
+        "test": "vitest run && tsc --noEmit -p tsconfig.type-test.json",
         "typecheck": "tsc --noEmit"
     },
     "dependencies": {

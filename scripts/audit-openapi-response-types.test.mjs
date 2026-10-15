@@ -115,3 +115,10 @@ test('every expense success response is typed in the committed contract', () => 
   const expenseGaps = untypedOps.filter((op) => op.includes('/expenses'));
   assert.deepEqual(expenseGaps, []);
 });
+
+test('POST /auth/logout success response is typed', () => {
+  const typesPath = resolve(dirname(fileURLToPath(import.meta.url)), '../packages/api-contracts/types/index.ts');
+  const result = auditOpenApiResponseTypes(readFileSync(typesPath, 'utf8'));
+  const gaps = result.untypedOps.filter((op) => op.includes('Auth.logout'));
+  assert.deepEqual(gaps, []);
+});
