@@ -1,6 +1,8 @@
 import { z } from "zod"
-import { getDefaults } from "@devloggers/api-contracts"
+import { getDefaults, type ApiComponents } from "@devloggers/api-contracts"
 import { unwrapApiData } from "@/shared/hooks/unwrap-api-data"
+
+type TenantResponse = ApiComponents["schemas"]["TenantResponseDto"]
 
 const registryDefaults = getDefaults()
 
@@ -23,12 +25,16 @@ export const DEFAULT_PROFILE_VALUES: ProfileFormValues = {
 }
 
 export function mapTenantToProfileValues(data: unknown): ProfileFormValues {
-  const t = unwrapApiData<Record<string, unknown>>(data)
-  const s = (k: string) => (typeof t[k] === "string" ? (t[k] as string) : "")
+  const t = unwrapApiData<TenantResponse>(data)
   return {
-    name: s("name"), legalName: s("legalName"), taxNumber: s("taxNumber"),
-    website: s("website"), address: s("address"), phone: s("phone"),
-    email: s("email"), logo: s("logo"),
+    name: t.name ?? "",
+    legalName: t.legalName ?? "",
+    taxNumber: t.taxNumber ?? "",
+    website: t.website ?? "",
+    address: t.address ?? "",
+    phone: t.phone ?? "",
+    email: t.email ?? "",
+    logo: t.logo ?? "",
   }
 }
 
@@ -84,11 +90,11 @@ export const DEFAULT_FINANCIAL_VALUES: FinancialFormValues = {
 }
 
 export function mapToFinancialValues(tenant: unknown, settings: unknown): FinancialFormValues {
-  const t = unwrapApiData<Record<string, unknown>>(tenant)
+  const t = unwrapApiData<TenantResponse>(tenant)
   const g = (unwrapApiData<{ financial?: Record<string, unknown> }>(settings).financial) ?? {}
   return {
-    baseCurrencyId: (t.baseCurrencyId as string) ?? "",
-    defaultSalesSequenceId: (t.defaultSalesSequenceId as string) ?? "",
+    baseCurrencyId: t.baseCurrencyId ?? "",
+    defaultSalesSequenceId: t.defaultSalesSequenceId ?? "",
     defaultTaxRate: (g.defaultTaxRate as number) ?? DEFAULT_FINANCIAL_VALUES.defaultTaxRate,
     roundingPrecision: (g.roundingPrecision as number) ?? DEFAULT_FINANCIAL_VALUES.roundingPrecision,
     fiscalYearStartMonth: (g.fiscalYearStartMonth as number) ?? DEFAULT_FINANCIAL_VALUES.fiscalYearStartMonth,

@@ -1,1 +1,1 @@
-export { CreateTenantDto, UpdateTenantDto, TenantResponseDto } from './tenant.dto';
+export { CreateTenantDto, UpdateTenantDto, TenantResponseDto, CreateTenantResponseDto, TenantAdminUserDto } from './tenant.dto';

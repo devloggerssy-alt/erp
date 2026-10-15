@@ -1,76 +1,59 @@
+import {
+    onboardingResource,
+    type ApiRequestBody,
+    type ApiResponse,
+} from "@devloggers/api-contracts"
 import { ApiClient } from "../infra/client"
+import { requireResponseData } from "../infra/require-response-data"
 
-export type OnboardingCompanyBody = {
-    name: string
-    address?: string
-    phone?: string
-    locale: string
-    timezone: string
-    dateFormat: string
-    numberFormat: string
-}
-
-export type OnboardingFiscalYearBody = {
-    startDate: string
-    endDate: string
-    name?: string
-}
-
-export type OnboardingGlDefaultsBody = {
-    defaultSalesAccountId: string
-    defaultPurchaseAccountId: string
-    defaultTaxAccountId: string
-    defaultReceivableAccountId: string
-    defaultPayableAccountId: string
-}
-
-export type OnboardingSequenceItem = {
-    type: string
-    prefix: string
-    startNumber?: number
-    padLength?: number
-}
-
-export type OnboardingCurrencyItem = {
-    code: string
-    name: { ar: string; en?: string }
-    symbol?: { ar?: string; en?: string }
-    isBase?: boolean
-}
-
-export type OnboardingDocumentSequencesBody = {
-    sequences: OnboardingSequenceItem[]
-}
+type OnboardingRoute = typeof onboardingResource.routes[keyof typeof onboardingResource.routes]
+type OnboardingData<Route extends OnboardingRoute> = NonNullable<ApiResponse<Route, "post">["data"]>
 
 export class OnboardingClient {
     constructor(private readonly apiClient: ApiClient) {}
 
-    stepCompany = async (body: OnboardingCompanyBody): Promise<void> => {
-        await this.apiClient.post('/onboarding/step/company' as never, body as never)
+    stepCompany = async (
+        body: ApiRequestBody<typeof onboardingResource.routes.company, "post">,
+    ): Promise<OnboardingData<typeof onboardingResource.routes.company>> => {
+        const res = await this.apiClient.post(onboardingResource.routes.company, body)
+        return requireResponseData(res.data, "Onboarding company response missing")
     }
 
-    stepFiscalYear = async (body: OnboardingFiscalYearBody): Promise<void> => {
-        await this.apiClient.post('/onboarding/step/fiscal-year' as never, body as never)
+    stepFiscalYear = async (
+        body: ApiRequestBody<typeof onboardingResource.routes.fiscalYear, "post">,
+    ): Promise<OnboardingData<typeof onboardingResource.routes.fiscalYear>> => {
+        const res = await this.apiClient.post(onboardingResource.routes.fiscalYear, body)
+        return requireResponseData(res.data, "Onboarding fiscal year response missing")
     }
 
-    stepChartOfAccounts = async (): Promise<{ codeToId: Record<string, string> }> => {
-        const res = await this.apiClient.post('/onboarding/step/chart-of-accounts' as never, undefined as never)
-        return res as { codeToId: Record<string, string> }
+    stepChartOfAccounts = async (): Promise<OnboardingData<typeof onboardingResource.routes.chartOfAccounts>> => {
+        const res = await this.apiClient.post(onboardingResource.routes.chartOfAccounts, undefined)
+        return requireResponseData(res.data, "Onboarding chart of accounts response missing")
     }
 
-    stepCurrencies = async (currencies: OnboardingCurrencyItem[]): Promise<void> => {
-        await this.apiClient.post('/onboarding/step/currencies' as never, { currencies } as never)
+    stepCurrencies = async (
+        currencies: ApiRequestBody<typeof onboardingResource.routes.currencies, "post">["currencies"],
+    ): Promise<OnboardingData<typeof onboardingResource.routes.currencies>> => {
+        const res = await this.apiClient.post(onboardingResource.routes.currencies, { currencies })
+        return requireResponseData(res.data, "Onboarding currencies response missing")
     }
 
-    stepGlDefaults = async (body: OnboardingGlDefaultsBody): Promise<void> => {
-        await this.apiClient.post('/onboarding/step/gl-defaults' as never, body as never)
+    stepGlDefaults = async (
+        body: ApiRequestBody<typeof onboardingResource.routes.glDefaults, "post">,
+    ): Promise<OnboardingData<typeof onboardingResource.routes.glDefaults>> => {
+        const res = await this.apiClient.post(onboardingResource.routes.glDefaults, body)
+        return requireResponseData(res.data, "Onboarding GL defaults response missing")
     }
 
-    stepDocumentSequences = async (body: OnboardingDocumentSequencesBody): Promise<void> => {
-        await this.apiClient.post('/onboarding/step/document-sequences' as never, body as never)
+    stepDocumentSequences = async (
+        body: ApiRequestBody<typeof onboardingResource.routes.documentSequences, "post">,
+    ): Promise<OnboardingData<typeof onboardingResource.routes.documentSequences>> => {
+        const res = await this.apiClient.post(onboardingResource.routes.documentSequences, body)
+        return requireResponseData(res.data, "Onboarding document sequences response missing")
     }
 
-    complete = async (): Promise<void> => {
-        await this.apiClient.post('/onboarding/complete' as never, undefined as never)
+    complete = async (): Promise<OnboardingData<typeof onboardingResource.routes.complete>> => {
+        const res = await this.apiClient.post(onboardingResource.routes.complete, undefined)
+        return requireResponseData(res.data, "Onboarding complete response missing")
     }
 }
