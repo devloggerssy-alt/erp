@@ -4,9 +4,11 @@ import { CrudRepository } from '@devloggers/backend-core';
 import type { Prisma, Role } from '@devloggers/db-prisma';
 import type { PermissionKey } from '@devloggers/api-contracts';
 
-export type RoleWithPermissions = Role & {
-    rolePermissions: Array<{ permission: { key: string } }>;
-};
+const ROLE_PERMISSIONS_INCLUDE = {
+    rolePermissions: { include: { permission: true } },
+} satisfies Prisma.RoleInclude;
+
+export type RoleWithPermissions = Prisma.RoleGetPayload<{ include: typeof ROLE_PERMISSIONS_INCLUDE }>;
 
 @Injectable()
 export class RolesRepository extends CrudRepository<Role, Prisma.RoleDelegate> {
@@ -14,10 +16,10 @@ export class RolesRepository extends CrudRepository<Role, Prisma.RoleDelegate> {
         super(prisma.role);
     }
 
-    override async findById(tenantId: string, id: string): Promise<Role | null> {
+    override async findById(tenantId: string, id: string): Promise<RoleWithPermissions | null> {
         return this.prisma.role.findFirst({
             where: { id, tenantId },
-            include: { rolePermissions: { include: { permission: true } } },
+            include: ROLE_PERMISSIONS_INCLUDE,
         });
     }
 

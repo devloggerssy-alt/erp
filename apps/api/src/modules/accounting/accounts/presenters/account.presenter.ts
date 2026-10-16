@@ -3,29 +3,32 @@ import { CrudPresenter, LocaleResolverService } from '@devloggers/backend-core';
 import type { ChartOfAccount } from '@devloggers/db-prisma';
 import type { LocalizedString } from '@devloggers/api-contracts';
 import { ChartOfAccountResponseDto } from '../dto';
+import type { AccountDetail, AccountListItem } from '../repositories/accounts.repository';
+
+type AccountEntity = ChartOfAccount | AccountListItem | AccountDetail;
 
 @Injectable()
-export class AccountPresenter extends CrudPresenter<ChartOfAccount, ChartOfAccountResponseDto> {
+export class AccountPresenter extends CrudPresenter<AccountEntity, ChartOfAccountResponseDto> {
     constructor(private readonly locale: LocaleResolverService) {
         super();
     }
 
-    toResponse(entity: ChartOfAccount): ChartOfAccountResponseDto {
-        const e = entity as any;
-        const name = e.name as LocalizedString;
-        const parentName = e.parent?.name as LocalizedString | undefined;
+    toResponse(entity: AccountEntity): ChartOfAccountResponseDto {
+        const parent = 'parent' in entity ? entity.parent : undefined;
+        const name = entity.name as unknown as LocalizedString;
+        const parentName = parent?.name as LocalizedString | undefined;
         return {
-            id: e.id,
-            code: e.code,
+            id: entity.id,
+            code: entity.code,
             name: this.locale.resolve(name),
             nameI18n: name,
-            type: e.type,
-            parentId: e.parentId ?? null,
-            parentCode: e.parent?.code ?? null,
+            type: entity.type,
+            parentId: entity.parentId ?? null,
+            parentCode: parent?.code ?? null,
             parentName: parentName ? this.locale.resolve(parentName) : null,
-            isActive: e.isActive,
-            createdAt: e.createdAt.toISOString(),
-            updatedAt: e.updatedAt.toISOString(),
+            isActive: entity.isActive,
+            createdAt: entity.createdAt.toISOString(),
+            updatedAt: entity.updatedAt.toISOString(),
         };
     }
 }

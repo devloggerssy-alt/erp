@@ -1,6 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@devloggers/db-prisma/nest';
-import type { CustomField, CustomFieldValue } from '@devloggers/db-prisma';
+import type { Prisma } from '@devloggers/db-prisma';
+
+const VALUE_WITH_FIELD_INCLUDE = { field: true } satisfies Prisma.CustomFieldValueInclude;
+
+export type CustomFieldValueWithField = Prisma.CustomFieldValueGetPayload<{
+    include: typeof VALUE_WITH_FIELD_INCLUDE;
+}>;
 
 @Injectable()
 export class CustomFieldValuesRepository {
@@ -10,18 +16,18 @@ export class CustomFieldValuesRepository {
         tenantId: string,
         entityType: string,
         entityId: string,
-    ): Promise<Array<CustomFieldValue & { field: CustomField }>> {
+    ): Promise<CustomFieldValueWithField[]> {
         return this.prisma.customFieldValue.findMany({
             where: { tenantId, entityType, entityId },
-            include: { field: true },
-        }) as Promise<Array<CustomFieldValue & { field: CustomField }>>;
+            include: VALUE_WITH_FIELD_INCLUDE,
+        });
     }
 
     async findForEntities(
         tenantId: string,
         entityType: string,
         entityIds: string[],
-    ): Promise<Array<CustomFieldValue & { field: CustomField }>> {
+    ): Promise<CustomFieldValueWithField[]> {
         if (entityIds.length === 0) return [];
 
         return this.prisma.customFieldValue.findMany({
@@ -30,8 +36,8 @@ export class CustomFieldValuesRepository {
                 entityType,
                 entityId: { in: entityIds },
             },
-            include: { field: true },
-        }) as Promise<Array<CustomFieldValue & { field: CustomField }>>;
+            include: VALUE_WITH_FIELD_INCLUDE,
+        });
     }
 
     async deleteForEntity(tenantId: string, entityType: string, entityId: string): Promise<void> {

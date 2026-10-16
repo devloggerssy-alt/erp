@@ -1,18 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { LocaleResolverService } from '@devloggers/backend-core';
-import type { LocalizedString } from '@devloggers/api-contracts';
+import { toLocalizedString } from '@/common/i18n/localized-string';
 import { UserResponseDto, UserRoleDto } from '../dto/user.dto';
-
-type UserWithRoles = {
-    id: string;
-    email: string;
-    fullName: string;
-    phone: string | null;
-    isActive: boolean;
-    lastLoginAt: Date | null;
-    createdAt: Date;
-    userRoles: { role: { id: string; name: unknown } }[];
-};
+import type { UserWithRoles } from '../repositories/users.repository';
 
 @Injectable()
 export class UserPresenter {
@@ -30,7 +20,7 @@ export class UserPresenter {
         dto.roles = user.userRoles.map((ur) => {
             const role = new UserRoleDto();
             role.id = ur.role.id;
-            role.name = this.locale.resolve(ur.role.name as LocalizedString);
+            role.name = this.locale.resolve(toLocalizedString(ur.role.name));
             return role;
         });
         return dto;

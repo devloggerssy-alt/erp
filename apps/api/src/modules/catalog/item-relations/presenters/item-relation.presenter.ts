@@ -1,30 +1,25 @@
 import { Injectable } from '@nestjs/common';
 import { CrudPresenter } from '@devloggers/backend-core';
-import type { ItemRelation } from '@devloggers/db-prisma';
 import { ItemRelationResponseDto } from '../dto';
 import type { RelationType } from '@devloggers/api-contracts';
-
-type ItemRelationWithRelated = ItemRelation & {
-  relatedItem: { id: string; name: string; code: string };
-};
+import type { ItemRelationWithRelatedItem } from '../repositories/item-relations.repository';
 
 @Injectable()
-export class ItemRelationPresenter extends CrudPresenter<ItemRelation, ItemRelationResponseDto> {
-  toResponse(entity: ItemRelation): ItemRelationResponseDto {
-    const e = entity as ItemRelationWithRelated;
+export class ItemRelationPresenter extends CrudPresenter<ItemRelationWithRelatedItem, ItemRelationResponseDto> {
+  toResponse(entity: ItemRelationWithRelatedItem): ItemRelationResponseDto {
     return {
-      id: e.id,
-      itemId: e.itemId,
-      relatedItemId: e.relatedItemId,
-      relationType: e.relationType as RelationType,
-      notes: e.notes ?? null,
+      id: entity.id,
+      itemId: entity.itemId,
+      relatedItemId: entity.relatedItemId,
+      relationType: entity.relationType as RelationType,
+      notes: entity.notes ?? null,
       relatedItem: {
-        id: e.relatedItem.id,
-        name: e.relatedItem.name,
-        code: e.relatedItem.code,
+        id: entity.relatedItem.id,
+        name: entity.relatedItem.name,
+        code: entity.relatedItem.code,
       },
-      createdAt: e.createdAt.toISOString(),
-      updatedAt: e.updatedAt.toISOString(),
+      createdAt: entity.createdAt.toISOString(),
+      updatedAt: entity.updatedAt.toISOString(),
     };
   }
 }

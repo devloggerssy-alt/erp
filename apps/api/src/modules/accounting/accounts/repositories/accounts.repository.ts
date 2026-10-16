@@ -3,6 +3,18 @@ import { PrismaService } from '@devloggers/db-prisma/nest';
 import { CrudRepository, FindManyOptions } from '@devloggers/backend-core';
 import { JournalEntryStatus, type ChartOfAccount, type Prisma } from '@devloggers/db-prisma';
 
+const ACCOUNT_LIST_INCLUDE = {
+    parent: { select: { code: true, name: true } },
+} satisfies Prisma.ChartOfAccountInclude;
+
+const ACCOUNT_DETAIL_INCLUDE = {
+    parent: { select: { id: true, code: true, name: true } },
+    children: { select: { id: true, code: true, name: true, type: true, isActive: true }, orderBy: { code: 'asc' } },
+} satisfies Prisma.ChartOfAccountInclude;
+
+export type AccountListItem = Prisma.ChartOfAccountGetPayload<{ include: typeof ACCOUNT_LIST_INCLUDE }>;
+export type AccountDetail = Prisma.ChartOfAccountGetPayload<{ include: typeof ACCOUNT_DETAIL_INCLUDE }>;
+
 @Injectable()
 export class AccountsRepository extends CrudRepository<ChartOfAccount, Prisma.ChartOfAccountDelegate> {
     constructor(private readonly prisma: PrismaService) {
@@ -15,18 +27,15 @@ export class AccountsRepository extends CrudRepository<ChartOfAccount, Prisma.Ch
             ...options,
             where: { ...options.where, deletedAt: null },
             orderBy: options.orderBy ?? { code: 'asc' },
-            include: { parent: { select: { code: true, name: true } } },
+            include: ACCOUNT_LIST_INCLUDE,
         });
     }
 
     /** Detail view includes parent and direct children. */
-    override async findById(tenantId: string, id: string): Promise<ChartOfAccount | null> {
+    override async findById(tenantId: string, id: string): Promise<AccountDetail | null> {
         return this.prisma.chartOfAccount.findFirst({
             where: { id, tenantId, deletedAt: null },
-            include: {
-                parent: { select: { id: true, code: true, name: true } },
-                children: { select: { id: true, code: true, name: true, type: true, isActive: true }, orderBy: { code: 'asc' } },
-            },
+            include: ACCOUNT_DETAIL_INCLUDE,
         });
     }
 

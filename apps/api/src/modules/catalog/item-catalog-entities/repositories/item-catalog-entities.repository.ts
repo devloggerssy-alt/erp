@@ -5,22 +5,13 @@ import {
   type FindManyOptions,
   type FindManyResult,
 } from '@devloggers/backend-core';
-import type { ItemCatalogEntity, Prisma } from '@devloggers/db-prisma';
-
-type CatalogEntitySummary = {
-  id: string;
-  name: string;
-  kind: string;
-  parentId: string | null;
-};
-
-export type ItemCatalogEntityWithRelations = ItemCatalogEntity & {
-  catalogEntity: CatalogEntitySummary;
-};
+import type { Prisma } from '@devloggers/db-prisma';
 
 const CATALOG_ENTITY_INCLUDE = {
   catalogEntity: { select: { id: true, name: true, kind: true, parentId: true } },
-} as const;
+} satisfies Prisma.ItemCatalogEntityInclude;
+
+export type ItemCatalogEntityWithRelations = Prisma.ItemCatalogEntityGetPayload<{ include: typeof CATALOG_ENTITY_INCLUDE }>;
 
 @Injectable()
 export class ItemCatalogEntitiesRepository extends CrudRepository<ItemCatalogEntityWithRelations, Prisma.ItemCatalogEntityDelegate> {
@@ -49,21 +40,19 @@ export class ItemCatalogEntitiesRepository extends CrudRepository<ItemCatalogEnt
 
   // Override create so the returned record includes the catalog entity relation.
   override async create(data: Record<string, any>): Promise<ItemCatalogEntityWithRelations> {
-    const created = await this.prisma.itemCatalogEntity.create({
+    return this.prisma.itemCatalogEntity.create({
       data: data as any,
       include: CATALOG_ENTITY_INCLUDE,
     });
-    return created as unknown as ItemCatalogEntityWithRelations;
   }
 
   // Override update for the same reason (keeps toResponse safe on edit paths).
   override async update(id: string, data: Record<string, any>): Promise<ItemCatalogEntityWithRelations> {
-    const updated = await this.prisma.itemCatalogEntity.update({
+    return this.prisma.itemCatalogEntity.update({
       where: { id },
       data: data as any,
       include: CATALOG_ENTITY_INCLUDE,
     });
-    return updated as unknown as ItemCatalogEntityWithRelations;
   }
 
   async existsLink(

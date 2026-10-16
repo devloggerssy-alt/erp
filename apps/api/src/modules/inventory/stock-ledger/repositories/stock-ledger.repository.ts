@@ -1,5 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@devloggers/db-prisma/nest';
+import type { Prisma } from '@devloggers/db-prisma';
+
+const MOVEMENT_INCLUDE = {
+    item: { select: { name: true, code: true } },
+    warehouse: { select: { name: true, code: true } },
+    fiscalPeriod: { select: { name: true } },
+} satisfies Prisma.StockMovementInclude;
+
+export type StockMovementWithRelations = Prisma.StockMovementGetPayload<{ include: typeof MOVEMENT_INCLUDE }>;
 
 export interface StockMovementFilters {
     warehouseId?: string;
@@ -13,7 +22,7 @@ export interface StockMovementFilters {
 export class StockLedgerRepository {
     constructor(private readonly prisma: PrismaService) {}
 
-    async findMovements(tenantId: string, filters: StockMovementFilters) {
+    async findMovements(tenantId: string, filters: StockMovementFilters): Promise<{ data: StockMovementWithRelations[]; total: number; page: number; limit: number }> {
         const page = filters.page ?? 1;
         const limit = filters.limit ?? 50;
         const skip = (page - 1) * limit;
@@ -26,11 +35,7 @@ export class StockLedgerRepository {
         const [data, total] = await Promise.all([
             this.prisma.stockMovement.findMany({
                 where,
-                include: {
-                    item: { select: { name: true, code: true } },
-                    warehouse: { select: { name: true, code: true } },
-                    fiscalPeriod: { select: { name: true } },
-                },
+                include: MOVEMENT_INCLUDE,
                 orderBy: { createdAt: 'desc' },
                 skip,
                 take: limit,

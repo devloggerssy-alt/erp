@@ -3,31 +3,20 @@ import { PrismaService } from '@devloggers/db-prisma/nest';
 import { CrudRepository, FindManyOptions } from '@devloggers/backend-core';
 import type { Item, Prisma } from '@devloggers/db-prisma';
 
-type CategorySummary = { id: string; name: string };
-type BaseUnitSummary = { id: string; name: Prisma.JsonValue; abbreviation: string };
-type BrandSummary = { id: string; name: string; imageUrl: string | null };
-
-export type ItemWithRelations = Item & {
-    category: CategorySummary;
-    baseUnit: BaseUnitSummary;
-    brand: BrandSummary | null;
-};
-
-export type ItemWithListRelations = Item & {
-    category: CategorySummary;
-    baseUnit: BaseUnitSummary;
-};
-
 const ITEM_SHOW_INCLUDE = {
     category: { select: { id: true, name: true } },
     baseUnit: { select: { id: true, name: true, abbreviation: true } },
     brand: { select: { id: true, name: true, imageUrl: true } },
-} as const;
+} satisfies Prisma.ItemInclude;
 
 const ITEM_LIST_INCLUDE = {
     category: { select: { id: true, name: true } },
     baseUnit: { select: { id: true, name: true, abbreviation: true } },
-} as const;
+} satisfies Prisma.ItemInclude;
+
+export type ItemWithRelations = Prisma.ItemGetPayload<{ include: typeof ITEM_SHOW_INCLUDE }>;
+
+export type ItemWithListRelations = Prisma.ItemGetPayload<{ include: typeof ITEM_LIST_INCLUDE }>;
 
 @Injectable()
 export class ItemsRepository extends CrudRepository<Item, Prisma.ItemDelegate> {
@@ -51,7 +40,7 @@ export class ItemsRepository extends CrudRepository<Item, Prisma.ItemDelegate> {
             }),
             this.prisma.item.count({ where: scopedWhere }),
         ]);
-        return { data: data as unknown as ItemWithListRelations[], total };
+        return { data, total };
     }
 
     async findByIdWithRelations(tenantId: string, id: string): Promise<ItemWithRelations | null> {

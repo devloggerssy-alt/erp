@@ -1,26 +1,10 @@
 import { Injectable } from '@nestjs/common';
+import type { Tenant } from '@devloggers/db-prisma';
 import { TenantResponseDto } from '../dto/tenant.dto';
-
-type TenantEntity = {
-    id: string;
-    name: string;
-    slug: string;
-    address: string | null;
-    phone: string | null;
-    email: string | null;
-    logo: string | null;
-    legalName: string | null;
-    taxNumber: string | null;
-    website: string | null;
-    baseCurrencyId: string | null;
-    defaultSalesSequenceId: string | null;
-    createdAt: Date;
-    updatedAt: Date;
-};
 
 @Injectable()
 export class TenantPresenter {
-    toResponse(tenant: TenantEntity): TenantResponseDto {
+    toResponse(tenant: Tenant): TenantResponseDto {
         const dto = new TenantResponseDto();
         dto.id = tenant.id;
         dto.name = tenant.name;

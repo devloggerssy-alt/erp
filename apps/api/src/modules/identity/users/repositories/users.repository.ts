@@ -1,7 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '@devloggers/db-prisma/nest';
+import type { Prisma } from '@devloggers/db-prisma';
 
-const userSelect = {
+const USER_SELECT = {
     id: true,
     email: true,
     fullName: true,
@@ -12,7 +13,9 @@ const userSelect = {
     userRoles: {
         select: { role: { select: { id: true, name: true } } },
     },
-} as const;
+} satisfies Prisma.AppUserSelect;
+
+export type UserWithRoles = Prisma.AppUserGetPayload<{ select: typeof USER_SELECT }>;
 
 @Injectable()
 export class UsersRepository {
@@ -27,7 +30,7 @@ export class UsersRepository {
                 skip,
                 take: limit,
                 orderBy: { createdAt: 'desc' },
-                select: userSelect,
+                select: USER_SELECT,
             }),
             this.prisma.appUser.count({ where: { tenantId } }),
         ]);
@@ -44,7 +47,7 @@ export class UsersRepository {
     async findByIdInTenant(tenantId: string, userId: string) {
         const user = await this.prisma.appUser.findFirst({
             where: { id: userId, tenantId },
-            select: userSelect,
+            select: USER_SELECT,
         });
         if (!user) {
             throw new NotFoundException('User not found');

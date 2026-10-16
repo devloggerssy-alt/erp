@@ -33,7 +33,7 @@ export class PaymentsService extends StatusGuardedCrudService<Payment, PaymentRe
       where: options.where,
     });
     return {
-      data: this.paymentPresenter.toResponseList(result.data as any),
+      data: this.paymentPresenter.toResponseList(result.data),
       total: result.total,
     };
   }
@@ -41,7 +41,7 @@ export class PaymentsService extends StatusGuardedCrudService<Payment, PaymentRe
   override async findById(tenantId: string, id: string): Promise<PaymentResponseDto> {
     const entity = await this.paymentsRepository.findByIdWithDetail(tenantId, id);
     if (!entity) throw new NotFoundException('Payment not found');
-    return this.paymentPresenter.toResponse(entity as any);
+    return this.paymentPresenter.toResponse(entity);
   }
 
   async createAs(tenantId: string, userId: string, dto: CreatePaymentDto): Promise<PaymentResponseDto> {
@@ -73,7 +73,7 @@ export class PaymentsService extends StatusGuardedCrudService<Payment, PaymentRe
       return this.post(tenantId, payment.id, userId);
     }
 
-    return this.paymentPresenter.toResponse(payment as any);
+    return this.paymentPresenter.toResponse(payment);
   }
 
   async post(tenantId: string, id: string, userId: string): Promise<PaymentResponseDto> {
@@ -95,7 +95,7 @@ export class PaymentsService extends StatusGuardedCrudService<Payment, PaymentRe
       userId,
       date: payment.date,
       fiscalPeriodId: payment.fiscalPeriodId,
-      fiscalPeriodStatus: (payment as any).fiscalPeriod?.status,
+      fiscalPeriodStatus: payment.fiscalPeriod.status,
       exchangeRate,
       referenceId: payment.id,
       description: `Payment ${payment.number}`,
@@ -166,7 +166,7 @@ export class PaymentsService extends StatusGuardedCrudService<Payment, PaymentRe
       userId,
       date: payment.date,
       fiscalPeriodId: payment.fiscalPeriodId,
-      fiscalPeriodStatus: (payment as any).fiscalPeriod?.status,
+      fiscalPeriodStatus: payment.fiscalPeriod.status,
       exchangeRate,
       referenceId: payment.id,
       description: `Reversal of payment ${payment.number}`,

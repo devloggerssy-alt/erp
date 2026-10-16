@@ -10,7 +10,10 @@ import {
 import { OpeningCashService } from '../services/opening-cash.service';
 import { OpeningBankService } from '../services/opening-bank.service';
 import { AuditWriter } from '../../../audit';
-import { OpeningBalanceSessionsRepository } from './opening-balance-sessions.repository';
+import {
+    OpeningBalanceSessionsRepository,
+    type OpeningBalanceSessionWithLines,
+} from './opening-balance-sessions.repository';
 import { OpeningBalanceSessionsPresenter } from './opening-balance-sessions.presenter';
 import {
     CreateOpeningBalanceSessionDto,
@@ -268,11 +271,8 @@ export class OpeningBalanceSessionsService {
         id: string,
         expected: string,
         action: string,
-    ): Promise<OpeningBalanceSession & { lines: OpeningBalanceSessionLine[] }> {
-        const session = await this.prisma.openingBalanceSession.findFirst({
-            where: { id, tenantId },
-            include: { lines: { orderBy: { createdAt: 'asc' } } },
-        });
+    ): Promise<OpeningBalanceSessionWithLines> {
+        const session = await this.repo.findWithLines(tenantId, id);
         if (!session) throw new NotFoundException('Opening balance session not found');
         if (session.status !== expected) {
             throw new BadRequestException(`Cannot ${action} a session in ${session.status} status. Expected ${expected}.`);

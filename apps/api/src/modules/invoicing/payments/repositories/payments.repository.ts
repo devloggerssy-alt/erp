@@ -3,6 +3,23 @@ import { PrismaService } from '@devloggers/db-prisma/nest';
 import { StatusGuardedCrudRepository } from '@devloggers/backend-core';
 import type { Payment, Prisma } from '@devloggers/db-prisma';
 
+const PAYMENT_LIST_INCLUDE = {
+  cashbox: { select: { name: true, code: true } },
+  party: { select: { name: true } },
+  currency: { select: { code: true, symbol: true } },
+} satisfies Prisma.PaymentInclude;
+
+const PAYMENT_DETAIL_INCLUDE = {
+  cashbox: true,
+  party: { select: { name: true, receivableAccountId: true, payableAccountId: true } },
+  currency: true,
+  fiscalPeriod: { select: { status: true } },
+  allocations: { include: { invoice: { select: { number: true, total: true } } } },
+} satisfies Prisma.PaymentInclude;
+
+export type PaymentListItem = Prisma.PaymentGetPayload<{ include: typeof PAYMENT_LIST_INCLUDE }>;
+export type PaymentDetail = Prisma.PaymentGetPayload<{ include: typeof PAYMENT_DETAIL_INCLUDE }>;
+
 @Injectable()
 export class PaymentsRepository extends StatusGuardedCrudRepository<Payment, Prisma.PaymentDelegate> {
   constructor(private readonly prisma: PrismaService) {
@@ -14,11 +31,7 @@ export class PaymentsRepository extends StatusGuardedCrudRepository<Payment, Pri
     const [data, total] = await Promise.all([
       this.prisma.payment.findMany({
         where,
-        include: {
-          cashbox: { select: { name: true, code: true } },
-          party: { select: { name: true } },
-          currency: { select: { code: true, symbol: true } },
-        },
+        include: PAYMENT_LIST_INCLUDE,
         orderBy: { createdAt: 'desc' },
         skip: options.skip,
         take: options.take,
@@ -28,16 +41,10 @@ export class PaymentsRepository extends StatusGuardedCrudRepository<Payment, Pri
     return { data, total };
   }
 
-  async findByIdWithDetail(tenantId: string, id: string) {
+  async findByIdWithDetail(tenantId: string, id: string): Promise<PaymentDetail | null> {
     return this.prisma.payment.findFirst({
       where: { id, tenantId },
-      include: {
-        cashbox: true,
-        party: { select: { name: true, receivableAccountId: true, payableAccountId: true } },
-        currency: true,
-        fiscalPeriod: { select: { status: true } },
-        allocations: { include: { invoice: { select: { number: true, total: true } } } },
-      },
+      include: PAYMENT_DETAIL_INCLUDE,
     });
   }
 }

@@ -2,10 +2,12 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@devloggers/db-prisma/nest';
 import type { Prisma } from '@devloggers/db-prisma';
 
-export interface TenantSetupState {
-    businessSetupCompletedAt: Date | null;
-    operationalReadiness: Prisma.JsonValue | null;
-}
+const TENANT_SETUP_STATE_SELECT = {
+    businessSetupCompletedAt: true,
+    operationalReadiness: true,
+} satisfies Prisma.TenantSelect;
+
+export type TenantSetupState = Prisma.TenantGetPayload<{ select: typeof TENANT_SETUP_STATE_SELECT }>;
 
 @Injectable()
 export class BusinessSetupTenantRepository {
@@ -14,7 +16,7 @@ export class BusinessSetupTenantRepository {
     async findSetupState(tenantId: string): Promise<TenantSetupState | null> {
         return this.prisma.tenant.findUnique({
             where: { id: tenantId },
-            select: { businessSetupCompletedAt: true, operationalReadiness: true },
+            select: TENANT_SETUP_STATE_SELECT,
         });
     }
 

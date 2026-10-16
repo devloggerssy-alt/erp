@@ -3,6 +3,12 @@ import { PrismaService } from '@devloggers/db-prisma/nest';
 import type { Prisma } from '@devloggers/db-prisma';
 import { computeInvoicePaidState } from '../invoicing';
 import { ReportsPresenter } from './presenters/reports.presenter';
+import {
+    DASHBOARD_CASHBOX_SELECT,
+    INVOICE_SUMMARY_INCLUDE,
+    PARTY_STATEMENT_INVOICE_INCLUDE,
+    STOCK_BALANCE_REPORT_INCLUDE,
+} from './report-queries';
 
 type LockedRate = { exchangeRate: Prisma.Decimal };
 
@@ -24,10 +30,7 @@ export class ReportsService {
         if (warehouseId) where.warehouseId = warehouseId;
         const rows = await this.prisma.stockBalance.findMany({
             where,
-            include: {
-                item: { select: { code: true, name: true } },
-                warehouse: { select: { code: true, name: true } },
-            },
+            include: STOCK_BALANCE_REPORT_INCLUDE,
             orderBy: [{ warehouse: { code: 'asc' } }, { item: { code: 'asc' } }],
         });
         return this.presenter.toStockBalance(rows);
@@ -44,7 +47,7 @@ export class ReportsService {
 
         const invoices = await this.prisma.invoice.findMany({
             where,
-            include: { party: { select: { name: true, code: true } } },
+            include: INVOICE_SUMMARY_INCLUDE,
             orderBy: { date: 'desc' },
         });
 
@@ -63,7 +66,7 @@ export class ReportsService {
 
         const invoices = await this.prisma.invoice.findMany({
             where,
-            include: { party: { select: { name: true, code: true } } },
+            include: INVOICE_SUMMARY_INCLUDE,
             orderBy: { date: 'desc' },
         });
 
@@ -76,10 +79,7 @@ export class ReportsService {
             this.prisma.party.findFirst({ where: { id: partyId, tenantId } }),
             this.prisma.invoice.findMany({
                 where: { tenantId, partyId, status: 'POSTED' },
-                include: {
-                    invoiceType: { select: { direction: true } },
-                    paymentAllocations: { select: { amount: true } },
-                },
+                include: PARTY_STATEMENT_INVOICE_INCLUDE,
                 orderBy: { date: 'asc' },
             }),
             this.prisma.payment.findMany({
@@ -166,13 +166,7 @@ export class ReportsService {
             }),
             this.prisma.cashbox.findMany({
                 where: { tenantId, isActive: true },
-                select: {
-                    id: true,
-                    code: true,
-                    name: true,
-                    balance: true,
-                    currency: { select: { code: true, symbol: true } },
-                },
+                select: DASHBOARD_CASHBOX_SELECT,
             }),
             this.prisma.stockBalance.count({ where: { tenantId, quantity: { lte: 0 } } }),
             this.prisma.party.count({ where: { tenantId, isActive: true } }),

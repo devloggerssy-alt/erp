@@ -5,21 +5,13 @@ import {
   type FindManyOptions,
   type FindManyResult,
 } from '@devloggers/backend-core';
-import type { CatalogEntity, Prisma } from '@devloggers/db-prisma';
-
-type CatalogEntityParentSummary = {
-  id: string;
-  name: string;
-  kind: string;
-};
-
-export type CatalogEntityWithParent = CatalogEntity & {
-  parent: CatalogEntityParentSummary | null;
-};
+import type { Prisma } from '@devloggers/db-prisma';
 
 const PARENT_INCLUDE = {
   parent: { select: { id: true, name: true, kind: true } },
-} as const;
+} satisfies Prisma.CatalogEntityInclude;
+
+export type CatalogEntityWithParent = Prisma.CatalogEntityGetPayload<{ include: typeof PARENT_INCLUDE }>;
 
 @Injectable()
 export class CatalogEntitiesRepository extends CrudRepository<CatalogEntityWithParent, Prisma.CatalogEntityDelegate> {
@@ -45,21 +37,19 @@ export class CatalogEntitiesRepository extends CrudRepository<CatalogEntityWithP
 
   // Override create so the returned record includes the parent relation.
   override async create(data: Record<string, any>): Promise<CatalogEntityWithParent> {
-    const created = await this.prisma.catalogEntity.create({
+    return this.prisma.catalogEntity.create({
       data: data as any,
       include: PARENT_INCLUDE,
     });
-    return created as unknown as CatalogEntityWithParent;
   }
 
   // Override update for the same reason.
   override async update(id: string, data: Record<string, any>): Promise<CatalogEntityWithParent> {
-    const updated = await this.prisma.catalogEntity.update({
+    return this.prisma.catalogEntity.update({
       where: { id },
       data: data as any,
       include: PARENT_INCLUDE,
     });
-    return updated as unknown as CatalogEntityWithParent;
   }
 
   async isNameTakenUnderParent(

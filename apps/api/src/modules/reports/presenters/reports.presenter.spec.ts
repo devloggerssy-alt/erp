@@ -1,4 +1,5 @@
-import { ReportsPresenter, type DashboardCashboxRow, type InvoiceRow, type PartyStatementInput, type StockBalanceRow } from './reports.presenter';
+import { ReportsPresenter, type PartyStatementInput } from './reports.presenter';
+import type { DashboardCashboxRow, InvoiceSummaryRow, StockBalanceRow } from '../report-queries';
 
 function makePresenter(locale: 'en' | 'ar' = 'en'): ReportsPresenter {
     return new ReportsPresenter({
@@ -14,7 +15,7 @@ const invoiceRow = {
     total: '150.75',
     partyId: 'party-1',
     party: { name: 'Aleppo Electronics', code: 'C-1' },
-} as unknown as InvoiceRow;
+} as unknown as InvoiceSummaryRow;
 
 describe('ReportsPresenter.toStockBalance', () => {
     it('flattens rows, converts Decimals to numbers, resolves the localized name and ISO-dates', () => {

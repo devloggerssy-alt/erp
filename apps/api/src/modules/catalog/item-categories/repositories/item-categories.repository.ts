@@ -1,11 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@devloggers/db-prisma/nest';
 import { CrudRepository, FindManyOptions, FindManyResult } from '@devloggers/backend-core';
-import type { ItemCategory, Prisma } from '@devloggers/db-prisma';
+import type { Prisma } from '@devloggers/db-prisma';
 
-export type ItemCategoryWithParent = ItemCategory & {
-    parent: ItemCategory | null
-}
+const ITEM_CATEGORY_INCLUDE = {
+    parent: { select: { id: true, name: true } },
+} satisfies Prisma.ItemCategoryInclude;
+
+export type ItemCategoryWithParent = Prisma.ItemCategoryGetPayload<{ include: typeof ITEM_CATEGORY_INCLUDE }>;
 
 @Injectable()
 export class ItemCategoriesRepository extends CrudRepository<ItemCategoryWithParent, Prisma.ItemCategoryDelegate> {
@@ -17,16 +19,16 @@ export class ItemCategoriesRepository extends CrudRepository<ItemCategoryWithPar
     override async findMany(tenantId: string, options: FindManyOptions<Prisma.ItemCategoryDelegate> = {}): Promise<FindManyResult<ItemCategoryWithParent>> {
         return super.findMany(tenantId, {
             ...options,
-            include: { parent: { select: { id: true, name: true } } },
+            include: ITEM_CATEGORY_INCLUDE,
         });
     }
 
     /** Detail view includes parent category. */
-    override   findById(tenantId: string, id: string): Promise<ItemCategoryWithParent | null> {
+    override findById(tenantId: string, id: string): Promise<ItemCategoryWithParent | null> {
         return this.prisma.itemCategory.findFirst({
             where: { id, tenantId },
-            include: { parent: { select: { id: true, name: true } } },
-        }) as any;
+            include: ITEM_CATEGORY_INCLUDE,
+        });
     }
 
     async isNameTaken(tenantId: string, name: string, excludeId?: string): Promise<boolean> {

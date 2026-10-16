@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { ReferenceType } from '@devloggers/db-prisma';
+import { ReferenceType, type Prisma } from '@devloggers/db-prisma';
 import { assertFiscalPeriodOpen } from '../utils/assert-period-open';
 import type { PrismaTransactionClient } from '../../posting/contracts/prisma-tx';
 
@@ -47,14 +47,16 @@ export interface ReverseInput {
     fiscalPeriodStatus: string | undefined;
 }
 
-interface AccountMeta {
-    id: string;
-    code: string;
-    type: string;
-    isPostable: boolean;
-    isContra: boolean;
-    deletedAt: Date | null;
-}
+const ACCOUNT_META_SELECT = {
+    id: true,
+    code: true,
+    type: true,
+    isPostable: true,
+    isContra: true,
+    deletedAt: true,
+} satisfies Prisma.ChartOfAccountSelect;
+
+type AccountMeta = Prisma.ChartOfAccountGetPayload<{ select: typeof ACCOUNT_META_SELECT }>;
 
 const BALANCE_TOLERANCE = 0.0001;
 
@@ -70,7 +72,7 @@ export class JournalPostingService {
         const accountIds = Array.from(new Set(input.lines.map((l) => l.accountId)));
         const accounts = await tx.chartOfAccount.findMany({
             where: { id: { in: accountIds } },
-            select: { id: true, code: true, type: true, isPostable: true, isContra: true, deletedAt: true },
+            select: ACCOUNT_META_SELECT,
         });
         const accountMap = new Map<string, AccountMeta>(accounts.map((a) => [a.id, a]));
 

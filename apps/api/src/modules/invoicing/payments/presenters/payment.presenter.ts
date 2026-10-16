@@ -1,27 +1,25 @@
 import { Injectable } from '@nestjs/common';
 import { CrudPresenter, LocaleResolverService } from '@devloggers/backend-core';
-import type { LocalizedString } from '@devloggers/api-contracts';
 import type { Payment } from '@devloggers/db-prisma';
+import { toLocalizedString } from '@/common/i18n/localized-string';
 import { PaymentResponseDto, PaymentAllocationResponseDto } from '../dto/payment-response.dto';
+import type { PaymentDetail, PaymentListItem } from '../repositories/payments.repository';
 
-type PaymentWithRelations = Payment & {
-  cashbox?: { name?: LocalizedString | null; code?: string };
-  party?: { name?: string; receivableAccountId?: string | null; payableAccountId?: string | null } | null;
-  currency?: { code?: string; symbol?: LocalizedString | null };
-  fiscalPeriod?: { status?: string };
-  allocations?: Array<{
-    id: string; invoiceId: string; amount: { toNumber(): number } | number; createdAt: Date;
-    invoice?: { number?: string; total?: unknown };
-  }>;
-};
+/** A plain row (create path), a list row, or a detail row. Relations exist only on the loaded shapes. */
+export type PaymentEntity = Payment | PaymentListItem | PaymentDetail;
 
 @Injectable()
-export class PaymentPresenter extends CrudPresenter<PaymentWithRelations, PaymentResponseDto> {
+export class PaymentPresenter extends CrudPresenter<PaymentEntity, PaymentResponseDto> {
   constructor(private readonly locale: LocaleResolverService) {
     super();
   }
 
-  toResponse(entity: PaymentWithRelations): PaymentResponseDto {
+  toResponse(entity: PaymentEntity): PaymentResponseDto {
+    const cashbox = 'cashbox' in entity ? entity.cashbox : undefined;
+    const party = 'party' in entity ? entity.party : undefined;
+    const currency = 'currency' in entity ? entity.currency : undefined;
+    const allocations = 'allocations' in entity ? entity.allocations : undefined;
+
     const dto = new PaymentResponseDto();
     dto.id = entity.id;
     dto.number = entity.number;
@@ -30,16 +28,16 @@ export class PaymentPresenter extends CrudPresenter<PaymentWithRelations, Paymen
     dto.status = entity.status;
     dto.cashboxId = entity.cashboxId;
     // cashbox.name is a LocalizedString ({ ar, en }) — resolve to the request locale.
-    dto.cashboxName = entity.cashbox?.name ? this.locale.resolve(entity.cashbox.name) : undefined;
-    dto.cashboxCode = entity.cashbox?.code;
+    const cashboxName = toLocalizedString(cashbox?.name);
+    dto.cashboxName = cashboxName ? this.locale.resolve(cashboxName) : undefined;
+    dto.cashboxCode = cashbox?.code;
     dto.partyId = entity.partyId ?? null;
-    dto.partyName = entity.party?.name;
+    dto.partyName = party?.name;
     dto.currencyId = entity.currencyId;
-    dto.currencyCode = entity.currency?.code;
+    dto.currencyCode = currency?.code;
     // currency.symbol is a LocalizedString ({ ar, en }) — resolve to the request locale.
-    dto.currencySymbol = entity.currency?.symbol
-      ? this.locale.resolve(entity.currency.symbol)
-      : undefined;
+    const currencySymbol = toLocalizedString(currency?.symbol);
+    dto.currencySymbol = currencySymbol ? this.locale.resolve(currencySymbol) : undefined;
     dto.fiscalPeriodId = entity.fiscalPeriodId;
     dto.amount = PaymentPresenter.toNum(entity.amount);
     dto.exchangeRate = PaymentPresenter.toNum(entity.exchangeRate);
@@ -51,8 +49,8 @@ export class PaymentPresenter extends CrudPresenter<PaymentWithRelations, Paymen
     dto.createdAt = entity.createdAt.toISOString();
     dto.updatedAt = entity.updatedAt.toISOString();
 
-    if (entity.allocations) {
-      dto.allocations = entity.allocations.map((a) => {
+    if (allocations) {
+      dto.allocations = allocations.map((a) => {
         const ad = new PaymentAllocationResponseDto();
         ad.id = a.id;
         ad.invoiceId = a.invoiceId;

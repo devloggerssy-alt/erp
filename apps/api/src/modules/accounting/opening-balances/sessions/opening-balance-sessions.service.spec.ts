@@ -16,11 +16,21 @@ function build(status: string) {
         fiscalPeriod: { findFirst: jest.fn().mockResolvedValue({ startDate: new Date('2026-01-01'), status: 'OPEN' }) },
         $transaction: jest.fn((cb: (client: typeof tx) => unknown) => cb(tx)),
     };
+    const repo = {
+        findWithLines: jest.fn().mockResolvedValue({
+            id: 's1',
+            tenantId: 't1',
+            number: 'OBS-0001',
+            status,
+            fiscalPeriodId: 'fp1',
+            lines: [],
+        }),
+    };
     const postingFacade = { record: jest.fn().mockResolvedValue({ journalEntryId: 'je-1' }) };
     const audit = { recordInTx: jest.fn().mockResolvedValue(undefined) };
     const service = new OpeningBalanceSessionsService(
         prisma as never,
-        {} as never,
+        repo as never,
         {} as never,
         {} as never,
         postingFacade as never,

@@ -1,49 +1,31 @@
 import { Injectable } from '@nestjs/common';
 import { LocaleResolverService } from '@devloggers/backend-core';
 import type { LocalizedString } from '@devloggers/api-contracts';
-import type { Prisma } from '@devloggers/db-prisma';
+import type { Party, Payment, Prisma } from '@devloggers/db-prisma';
+import { toLocalizedString } from '@/common/i18n/localized-string';
 import type {
     DashboardCashboxDto,
     InvoiceReportItemDto,
     PartyStatementResponseDto,
     StockBalanceReportItemDto,
 } from '../dto';
+import type {
+    DashboardCashboxRow,
+    InvoiceSummaryRow,
+    PartyStatementInvoiceRow,
+    StockBalanceRow,
+} from '../report-queries';
 
-export type StockBalanceRow = {
-    itemId: string;
-    warehouseId: string;
-    quantity: Prisma.Decimal;
-    averageCost: Prisma.Decimal;
-    updatedAt: Date;
-    item: { code: string; name: string };
-    warehouse: { code: string; name: Prisma.JsonValue };
-};
+type InvoiceRow = InvoiceSummaryRow | PartyStatementInvoiceRow;
 
-export type InvoiceRow = {
-    id: string;
-    number: string;
-    date: Date;
-    total: Prisma.Decimal;
-    partyId: string;
-    party?: { name: string; code: string | null } | null;
-};
-
-export type PartyStatementInput = {
-    party: { id: string; name: string; code: string | null } | null;
-    invoices: InvoiceRow[];
-    payments: { id: string; date: Date; amount: Prisma.Decimal }[];
+export interface PartyStatementInput {
+    party: Party | null;
+    invoices: PartyStatementInvoiceRow[];
+    payments: Payment[];
     totalInvoiced: number;
     totalPaid: number;
     balance: number;
-};
-
-export type DashboardCashboxRow = {
-    id: string;
-    code: string;
-    name: Prisma.JsonValue;
-    balance: { toString(): string };
-    currency: { code: string; symbol: Prisma.JsonValue | null };
-};
+}
 
 function readLocalized(value: Prisma.JsonValue): LocalizedString {
     if (!value || typeof value !== 'object' || Array.isArray(value)) return { ar: '' };
@@ -62,7 +44,7 @@ export class ReportsPresenter {
             itemName: row.item.name,
             itemCode: row.item.code,
             warehouseId: row.warehouseId,
-            warehouseName: this.locale.resolve(row.warehouse.name as unknown as LocalizedString),
+            warehouseName: this.locale.resolve(toLocalizedString(row.warehouse.name)),
             warehouseCode: row.warehouse.code,
             quantity: Number(row.quantity),
             averageCost: Number(row.averageCost),
@@ -70,7 +52,7 @@ export class ReportsPresenter {
         }));
     }
 
-    toInvoiceSummary(invoices: InvoiceRow[]): InvoiceReportItemDto[] {
+    toInvoiceSummary(invoices: InvoiceSummaryRow[]): InvoiceReportItemDto[] {
         return invoices.map((invoice) => this.toInvoice(invoice));
     }
 
@@ -105,13 +87,15 @@ export class ReportsPresenter {
     }
 
     private toInvoice(invoice: InvoiceRow): InvoiceReportItemDto {
+        // Statement invoices are loaded without the party: they belong to the statement's party.
+        const party = 'party' in invoice ? invoice.party : undefined;
         return {
             id: invoice.id,
             number: invoice.number,
             date: invoice.date.toISOString(),
             total: Number(invoice.total),
             partyId: invoice.partyId,
-            party: invoice.party ? { name: invoice.party.name, code: invoice.party.code } : null,
+            party: party ? { name: party.name, code: party.code } : null,
         };
     }
 }

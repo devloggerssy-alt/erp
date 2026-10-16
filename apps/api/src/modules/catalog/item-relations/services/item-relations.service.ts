@@ -2,14 +2,16 @@ import { Injectable, BadRequestException, ConflictException } from '@nestjs/comm
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { CrudService } from '@devloggers/backend-core';
 import { resources } from '@devloggers/api-contracts';
-import type { ItemRelation } from '@devloggers/db-prisma';
-import { ItemRelationsRepository } from '../repositories/item-relations.repository';
+import {
+  ItemRelationsRepository,
+  type ItemRelationWithRelatedItem,
+} from '../repositories/item-relations.repository';
 import { ItemRelationPresenter } from '../presenters/item-relation.presenter';
 import { CreateItemRelationDto, UpdateItemRelationDto, ItemRelationResponseDto } from '../dto';
 
 @Injectable()
 export class ItemRelationsService extends CrudService<
-  ItemRelation,
+  ItemRelationWithRelatedItem,
   ItemRelationResponseDto,
   CreateItemRelationDto,
   UpdateItemRelationDto
@@ -50,7 +52,7 @@ export class ItemRelationsService extends CrudService<
     tenantId: string,
     id: string,
     dto: UpdateItemRelationDto,
-    existing: ItemRelation,
+    existing: ItemRelationWithRelatedItem,
   ): Promise<void> {
     if (dto.relationType) {
       const exists = await this.itemRelationsRepository.existsRelation(

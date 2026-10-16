@@ -1,5 +1,6 @@
 import type { LocalizedString } from '@devloggers/api-contracts';
 import { PaymentPresenter } from './payment.presenter';
+import type { PaymentListItem } from '../repositories/payments.repository';
 
 type PaymentEntity = Parameters<PaymentPresenter['toResponse']>[0];
 
@@ -10,7 +11,8 @@ function makePresenter(locale: 'en' | 'ar' = 'en'): PaymentPresenter {
     } as never);
 }
 
-function makePayment(overrides: Partial<PaymentEntity> = {}): PaymentEntity {
+/** Relations are supplied in the shape the list query loads. */
+function makePayment(overrides: Partial<PaymentListItem> = {}): PaymentEntity {
     return {
         id: 'p1',
         tenantId: 't1',
@@ -53,7 +55,7 @@ describe('PaymentPresenter.toResponse', () => {
 
     it('falls back to Arabic when the requested locale is missing, and nulls empty symbols', () => {
         const entity = makePayment({
-            cashbox: { name: { ar: 'الصندوق الرئيسي' } },
+            cashbox: { code: 'MAIN', name: { ar: 'الصندوق الرئيسي' } },
             currency: { code: 'SYP', symbol: null },
         });
 
