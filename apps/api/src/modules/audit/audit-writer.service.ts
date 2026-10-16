@@ -1,8 +1,10 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { PrismaService } from '@devloggers/db-prisma/nest';
 import type { Prisma } from '@devloggers/db-prisma';
 import { RequestContext, type AuditSource } from '../../common/request-context/request-context';
 import { redact } from './redact';
+import { AuditLogRepository, type AuditTx } from './repositories/audit-log.repository';
+
+export type { AuditTx } from './repositories/audit-log.repository';
 
 export const SYSTEM_USER_ID = 'system';
 
@@ -19,11 +21,6 @@ export interface AuditEntry {
     metadata?: Record<string, unknown>;
 }
 
-/** Structural: any Prisma transaction client satisfies this. */
-export interface AuditTx {
-    auditLog: { create(args: { data: Prisma.AuditLogUncheckedCreateInput }): Promise<unknown> };
-}
-
 function toJson(value: unknown): Prisma.InputJsonValue | undefined {
     if (value === undefined || value === null) return undefined;
     return redact(value) as Prisma.InputJsonValue;
@@ -38,11 +35,11 @@ function toJson(value: unknown): Prisma.InputJsonValue | undefined {
 export class AuditWriter {
     private readonly logger = new Logger(AuditWriter.name);
 
-    constructor(private readonly prisma: PrismaService) {}
+    constructor(private readonly repository: AuditLogRepository) {}
 
     async record(entry: AuditEntry): Promise<void> {
         try {
-            await this.prisma.auditLog.create({ data: this.toData(entry) });
+            await this.repository.create(this.toData(entry));
         } catch (err) {
             this.logger.error({
                 msg: 'audit write failed',
@@ -55,7 +52,7 @@ export class AuditWriter {
     }
 
     async recordInTx(tx: AuditTx, entry: AuditEntry): Promise<void> {
-        await tx.auditLog.create({ data: this.toData(entry) });
+        await this.repository.create(this.toData(entry), tx);
     }
 
     private toData(entry: AuditEntry): Prisma.AuditLogUncheckedCreateInput {

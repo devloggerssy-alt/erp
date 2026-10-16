@@ -3,12 +3,13 @@ import { METHOD_METADATA } from '@nestjs/common/constants';
 import { AuditWriter } from './audit-writer.service';
 import { AuditService } from './audit.service';
 import { AuditController } from './audit.controller';
+import { AuditLogRepository } from './repositories/audit-log.repository';
 import { RequestContext } from '../../common/request-context/request-context';
 import { REDACTED } from './redact';
 
 function build(create: jest.Mock = jest.fn().mockResolvedValue({})) {
     const prisma = { auditLog: { create } };
-    return { writer: new AuditWriter(prisma as never), create };
+    return { writer: new AuditWriter(new AuditLogRepository(prisma as never)), create };
 }
 
 const entry = {
