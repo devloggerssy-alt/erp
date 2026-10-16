@@ -1,14 +1,11 @@
 import { Test } from '@nestjs/testing';
-import { PrismaService } from '@devloggers/db-prisma/nest';
 import { AuditService } from './audit.service';
 import { AuditLogPresenter } from './presenters/audit-log.presenter';
+import { AuditLogRepository } from './repositories/audit-log.repository';
 
 describe('AuditService.findAll', () => {
-    const prisma = {
-        auditLog: {
-            findMany: jest.fn(),
-            count: jest.fn(),
-        },
+    const repository = {
+        findPage: jest.fn(),
     };
 
     let service: AuditService;
@@ -19,53 +16,68 @@ describe('AuditService.findAll', () => {
             providers: [
                 AuditService,
                 AuditLogPresenter,
-                { provide: PrismaService, useValue: prisma },
+                { provide: AuditLogRepository, useValue: repository },
             ],
         }).compile();
 
         service = moduleRef.get(AuditService);
     });
 
-    it('returns presented audit rows, not raw Prisma rows', async () => {
-        prisma.auditLog.findMany.mockResolvedValue([
-            {
-                id: 'a1',
-                tenantId: 't1',
-                userId: 'u1',
-                action: 'CREATE',
-                entityType: 'PAYMENT',
-                entityId: 'e1',
-                oldValues: null,
-                newValues: { amount: 10 },
-                ipAddress: '203.0.113.7',
-                source: 'HTTP',
-                correlationId: null,
-                metadata: null,
-                createdAt: new Date('2026-04-14T12:00:00.000Z'),
-                internalFlag: true,
-            },
-        ]);
-        prisma.auditLog.count.mockResolvedValue(1);
+    it('returns presented audit rows, not raw rows', async () => {
+        repository.findPage.mockResolvedValue({
+            rows: [
+                {
+                    id: 'a1',
+                    tenantId: 't1',
+                    userId: 'u1',
+                    action: 'CREATE',
+                    entityType: 'PAYMENT',
+                    entityId: 'e1',
+                    oldValues: null,
+                    newValues: { amount: 10 },
+                    ipAddress: '203.0.113.7',
+                    source: 'HTTP',
+                    correlationId: null,
+                    metadata: null,
+                    createdAt: new Date('2026-04-14T12:00:00.000Z'),
+                    internalFlag: true,
+                },
+            ],
+            total: 1,
+        });
 
-        const result = await service.findAll('t1', { page: 1, limit: 50 });
+        const result = await service.findAll('t1', { entityType: 'PAYMENT', page: 1, limit: 50 });
 
-        expect(result.data).toEqual([
-            {
-                id: 'a1',
-                tenantId: 't1',
-                userId: 'u1',
-                action: 'CREATE',
-                entityType: 'PAYMENT',
-                entityId: 'e1',
-                oldValues: null,
-                newValues: { amount: 10 },
-                ipAddress: '203.0.113.7',
-                source: 'HTTP',
-                correlationId: null,
-                metadata: null,
-                createdAt: '2026-04-14T12:00:00.000Z',
-            },
-        ]);
-        expect(result.total).toBe(1);
+        expect(repository.findPage).toHaveBeenCalledWith('t1', { entityType: 'PAYMENT' }, 1, 50);
+        expect(result).toEqual({
+            data: [
+                {
+                    id: 'a1',
+                    tenantId: 't1',
+                    userId: 'u1',
+                    action: 'CREATE',
+                    entityType: 'PAYMENT',
+                    entityId: 'e1',
+                    oldValues: null,
+                    newValues: { amount: 10 },
+                    ipAddress: '203.0.113.7',
+                    source: 'HTTP',
+                    correlationId: null,
+                    metadata: null,
+                    createdAt: '2026-04-14T12:00:00.000Z',
+                },
+            ],
+            total: 1,
+            page: 1,
+            limit: 50,
+        });
+    });
+
+    it('defaults to page 1 and limit 50 when none are given', async () => {
+        repository.findPage.mockResolvedValue({ rows: [], total: 0 });
+
+        await service.findAll('t1', {});
+
+        expect(repository.findPage).toHaveBeenCalledWith('t1', {}, 1, 50);
     });
 });
