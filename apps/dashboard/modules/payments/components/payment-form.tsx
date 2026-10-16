@@ -9,7 +9,7 @@ import type {
     FiscalPeriodsClient,
     PartiesClient,
 } from "@devloggers/api-client"
-import { Rhform, RhfTextareaField, RhfResourceSelect, RhfTextField, RhfSelectField } from "@/shared/components/form"
+import { Rhform, RhfTextareaField, RhfResourceSelect, RhfTextField, RhfSelectField, RhfExchangeRateField } from "@/shared/components/form"
 import { RhfDateField } from "@/shared/components/form/fields/rhf-date-field"
 import type { PaymentFormValues, PaymentRelationalField } from "../payments.config"
 import type { PaymentFormController } from "../hooks/use-payment-form"
@@ -97,11 +97,11 @@ export function PaymentForm({ ctrl }: { ctrl: PaymentFormController }) {
                     required
                     disabled={disabled}
                 />
-                <RhfTextField
+                <RhfExchangeRateField<PaymentFormValues, "exchangeRate">
                     name="exchangeRate"
                     label={t("exchangeRate")}
-                    type="number"
                     disabled={disabled}
+                    documentCurrencyId={currencyId}
                 />
                 <RhfTextareaField
                     name="notes"

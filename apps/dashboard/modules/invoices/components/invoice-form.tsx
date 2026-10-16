@@ -11,7 +11,7 @@ import type {
 } from "@devloggers/api-client"
 import { Button } from "@/shared/components/ui/button"
 import { Rhform } from "@/shared/components/form"
-import { RhfTextareaField, RhfResourceSelect, RhfTextField, RhfCheckboxField } from "@/shared/components/form"
+import { RhfTextareaField, RhfResourceSelect, RhfTextField, RhfCheckboxField, RhfExchangeRateField } from "@/shared/components/form"
 import { DEFAULT_INVOICE_LINE } from "../invoices.config"
 import type { InvoiceFormValues, InvoiceRelationalField, InvoiceDirection } from "../invoices.config"
 import type { InvoiceFormController } from "../hooks/use-invoice-form"
@@ -111,11 +111,11 @@ function InvoiceHeaderFields({
                     disabled={disabled}
                 />
             </div>
-            <RhfTextField
+            <RhfExchangeRateField<InvoiceFormValues, "exchangeRate">
                 name="exchangeRate"
                 label={t("exchangeRate")}
-                type="number"
                 disabled={disabled}
+                documentCurrencyId={currencyId}
             />
             <RhfTextareaField
                 name="notes"

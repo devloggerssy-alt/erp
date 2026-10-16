@@ -76,7 +76,7 @@ export const invoiceFormSchema = z.object({
     warehouse: optionalRelational,
     fiscalPeriod: relational,
     currency: relational,
-    exchangeRate: z.coerce.number().min(0.0001).default(1),
+    exchangeRate: z.coerce.number().gt(0).default(1),
     notes: z.string().optional(),
     lines: z.array(invoiceLineSchema).min(1, "At least one line is required"),
     openingPayment: z.boolean().default(false),

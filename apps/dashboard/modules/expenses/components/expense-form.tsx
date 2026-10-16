@@ -1,6 +1,7 @@
 "use client"
 
 import { useTranslations } from "next-intl"
+import { useWatch } from "react-hook-form"
 import { PlusIcon } from "lucide-react"
 import type {
     CashboxesClient,
@@ -8,7 +9,7 @@ import type {
     FiscalPeriodsClient,
 } from "@devloggers/api-client"
 import { Button } from "@/shared/components/ui/button"
-import { Rhform, RhfTextareaField, RhfResourceSelect, RhfTextField } from "@/shared/components/form"
+import { Rhform, RhfTextareaField, RhfResourceSelect, RhfExchangeRateField } from "@/shared/components/form"
 import { RhfDateField } from "@/shared/components/form/fields/rhf-date-field"
 import { DEFAULT_EXPENSE_ITEM, type ExpenseFormValues, type ExpenseRelationalField } from "../expenses.config"
 import type { ExpenseFormController } from "../hooks/use-expense-form"
@@ -19,6 +20,11 @@ import { ExpenseLineRow } from "./expense-line-row"
 function ExpenseHeaderFields({ ctrl }: { ctrl: ExpenseFormController }) {
     const t = useTranslations("business.resources.expenses")
     const disabled = ctrl.isReadOnly || ctrl.isBusy
+    const currencyId = useWatch({
+        control: ctrl.form.control,
+        name: "currency",
+        compute: (c) => c?.id,
+    })
 
     return (
         <div className="space-y-4">
@@ -57,11 +63,11 @@ function ExpenseHeaderFields({ ctrl }: { ctrl: ExpenseFormController }) {
                     disabled={disabled}
                 />
             </div>
-            <RhfTextField
+            <RhfExchangeRateField<ExpenseFormValues, "exchangeRate">
                 name="exchangeRate"
                 label={t("exchangeRate")}
-                type="number"
                 disabled={disabled}
+                documentCurrencyId={currencyId}
             />
             <RhfTextareaField
                 name="notes"

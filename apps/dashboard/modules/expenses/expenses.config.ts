@@ -31,7 +31,7 @@ export const expenseFormSchema = z.object({
     cashbox: relational,
     currency: relational,
     fiscalPeriod: relational,
-    exchangeRate: z.coerce.number().min(0.0001).default(1),
+    exchangeRate: z.coerce.number().gt(0).default(1),
     notes: z.string().optional(),
     items: z.array(expenseItemSchema).min(1, "At least one item is required"),
 }).superRefine((data, ctx) => {

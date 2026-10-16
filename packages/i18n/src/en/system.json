@@ -121,6 +121,11 @@
     "nextPage": "Next page",
     "lastPage": "Last page"
   },
+  "exchangeRate": {
+    "swap": "Swap exchange direction",
+    "sameAsBase": "This is the base currency — rate is 1.",
+    "selectCurrency": "Select a currency to set the exchange rate."
+  },
   "booleanCell": {
     "active": "Active",
     "inactive": "Inactive"

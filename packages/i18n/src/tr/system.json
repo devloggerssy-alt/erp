@@ -121,6 +121,11 @@
     "nextPage": "Sonraki sayfa",
     "lastPage": "Son sayfa"
   },
+  "exchangeRate": {
+    "swap": "Kur yönünü değiştir",
+    "sameAsBase": "Bu temel para birimi — kur 1.",
+    "selectCurrency": "Kur belirlemek için bir para birimi seçin."
+  },
   "booleanCell": {
     "active": "Aktif",
     "inactive": "Pasif"

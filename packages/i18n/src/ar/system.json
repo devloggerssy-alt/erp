@@ -121,6 +121,11 @@
     "nextPage": "الصفحة التالية",
     "lastPage": "الصفحة الأخيرة"
   },
+  "exchangeRate": {
+    "swap": "تبديل اتجاه الصرف",
+    "sameAsBase": "هذه هي العملة الأساسية — سعر الصرف 1.",
+    "selectCurrency": "اختر عملة لتعيين سعر الصرف."
+  },
   "booleanCell": {
     "active": "نشط",
     "inactive": "غير نشط"

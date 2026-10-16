@@ -16,7 +16,7 @@ export const paymentFormSchema = z.object({
     currency: relational,
     fiscalPeriod: relational,
     amount: z.coerce.number().min(0.01, "Amount must be > 0"),
-    exchangeRate: z.coerce.number().min(0.0001).default(1),
+    exchangeRate: z.coerce.number().gt(0).default(1),
     notes: z.string().optional(),
 }).superRefine((data, ctx) => {
     const required = [

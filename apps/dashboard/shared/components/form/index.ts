@@ -30,6 +30,7 @@ export { FileInputField, type FileInputFieldProps } from "./controls/file-input-
 export { ImageInputField, type ImageInputFieldProps } from "./controls/image-input-field"
 export { GalleryImageUploadField, type GalleryImageUploadFieldProps } from "./controls/gallery-image-upload-field"
 export { DocumentInputField, type DocumentInputFieldProps } from "./controls/document-input-field"
+export { CurrencyExchangeInput, type CurrencyExchangeInputProps } from "./controls/currency-exchange-input"
 
 // ── RHF Field Wrappers ──
 export { RhfTextField } from "./fields/rhf-text-field"
@@ -44,4 +45,5 @@ export { RhfDocumentField } from "./fields/rhf-document-field"
 export { RhfAsyncSelectField, RhfAsyncMultiSelectField, type InlineCreateFormProps, type InlineCreateConfig } from "./fields/rhf-async-select-field"
 export { RhfResourceSelect, RhfResourceMultiSelect } from "./fields/rhf-resource-select"
 export type { RhfResourceSelectProps, RhfResourceMultiSelectProps } from "./fields/rhf-resource-select"
+export { RhfExchangeRateField, type RhfExchangeRateFieldProps } from "./fields/rhf-exchange-rate-field"
 export { SimpleTitleForm, type SimpleTitleFormProps } from "./fields/simple-title-form"

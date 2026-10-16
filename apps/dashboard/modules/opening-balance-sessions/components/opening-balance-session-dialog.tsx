@@ -25,6 +25,7 @@ import {
 } from "@/shared/components/ui/dialog"
 import { Input } from "@/shared/components/ui/input"
 import { Label } from "@/shared/components/ui/label"
+import { CurrencyExchangeInput } from "@/shared/components/form"
 import {
   Select,
   SelectContent,
@@ -301,6 +302,9 @@ type LineRowProps = {
 function EditableLineRow({ line, options, disabled, onChange, onRemove }: LineRowProps) {
   const t = useTranslations("business.resources.openingBalanceSessions")
   const needsCurrency = line.dimension !== "ACCOUNT"
+  const baseCurrencyCode = options.currencies.find((currency) => currency.isBase)?.code ?? null
+  const documentCurrencyCode =
+    options.currencies.find((currency) => currency.id === line.currencyId)?.code ?? null
   const partyOptions =
     line.dimension === "PARTY" && line.partySide
       ? options.parties.filter((party) => party.type === (line.partySide === "AR" ? "CUSTOMER" : "SUPPLIER"))
@@ -436,17 +440,18 @@ function EditableLineRow({ line, options, disabled, onChange, onRemove }: LineRo
         />
       </div>
 
-      <div className="grid gap-1">
-        <Label className="text-xs">{t("exchangeRate")}</Label>
-        <Input
-          type="number"
-          step="any"
-          className="w-24"
-          value={line.exchangeRate}
-          onChange={(event) => onChange({ exchangeRate: event.target.value })}
-          disabled={disabled}
-        />
-      </div>
+      {needsCurrency && (
+        <div className="grid min-w-[190px] gap-1">
+          <Label className="text-xs">{t("exchangeRate")}</Label>
+          <CurrencyExchangeInput
+            value={Number(line.exchangeRate) || 1}
+            onChange={(value) => onChange({ exchangeRate: String(value) })}
+            disabled={disabled}
+            documentCurrencyCode={documentCurrencyCode}
+            baseCurrencyCode={baseCurrencyCode}
+          />
+        </div>
+      )}
 
       {!disabled && (
         <Button variant="ghost" size="icon" onClick={onRemove} aria-label={t("removeLine")}>
