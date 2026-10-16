@@ -1,4 +1,5 @@
 export { useDashboardSummary } from "./use-dashboard-summary"
+export { useDashboardBaseCurrency } from "./use-dashboard-base-currency"
 export { useDashboardChart } from "./use-dashboard-chart"
 export { useDashboardMovements } from "./use-dashboard-movements"
 export { useDashboardExpenseBreakdown } from "./use-dashboard-expense-breakdown"

@@ -18,6 +18,7 @@ import { DashboardKpiDelta } from "./dashboard-kpi-delta"
 interface DashboardKpiCardsProps {
     data: DashboardSummaryResponse | undefined
     previousData: DashboardSummaryResponse | undefined
+    currency: { code: string; symbol: string | null } | null | undefined
     isLoading: boolean
 }
 
@@ -28,8 +29,9 @@ function formatNumber(value: number) {
     }).format(value)
 }
 
-export function DashboardKpiCards({ data, previousData, isLoading }: DashboardKpiCardsProps) {
+export function DashboardKpiCards({ data, previousData, currency, isLoading }: DashboardKpiCardsProps) {
     const t = useTranslations("business.dashboard.kpi")
+    const currencyLabel = currency ? (currency.symbol ?? currency.code) : null
 
     const cards = [
         {
@@ -84,6 +86,7 @@ export function DashboardKpiCards({ data, previousData, isLoading }: DashboardKp
                             ) : (
                                 <div className="flex items-baseline gap-2">
                                     <div className="text-2xl font-bold">
+                                        {currencyLabel && <span className="me-1">{currencyLabel}</span>}
                                         {formatNumber(card.value)}
                                     </div>
                                     <DashboardKpiDelta

@@ -19,6 +19,7 @@ import { InvoiceLineRow } from "./invoice-line-row"
 import { InvoicePaymentsPanel } from "./invoice-payments-panel"
 import { RhfDateField } from "@/shared/components/form/fields/rhf-date-field"
 import { InvoicePartySelect, type PartyTypeFilter } from "./invoice-party-select"
+import { useInvoiceDialog } from "./invoice-dialog-context"
 import { useWatch } from "react-hook-form"
 import { useEffect, useRef } from "react"
 
@@ -223,23 +224,26 @@ function InvoiceLineItems({ ctrl }: { ctrl: InvoiceFormController }) {
 
 // ── Main form ──────────────────────────────────────────────────────────────────
 
-export function InvoiceForm({ ctrl }: { ctrl: InvoiceFormController }) {
+export function InvoiceForm() {
+    const { ctrl } = useInvoiceDialog()
     const disabled = ctrl.isReadOnly || ctrl.isBusy
 
     return (
-        <Rhform form={ctrl.form} onSubmit={() => ctrl.onSubmit(ctrl.isEditing ? undefined : "draft")}>
-            <div className="p-6 grid grid-cols-12 gap-8">
-                <div className="col-span-3">
+        <div className="flex-1 min-h-0 overflow-y-auto">
+            <Rhform form={ctrl.form} onSubmit={() => ctrl.onSubmit(ctrl.isEditing ? undefined : "draft")}>
+                <div className="p-6 grid grid-cols-12 gap-8">
+                    <div className="col-span-3">
 
-                    <InvoiceHeaderFields ctrl={ctrl} disabled={disabled} direction={ctrl.direction} />
+                        <InvoiceHeaderFields ctrl={ctrl} disabled={disabled} direction={ctrl.direction} />
+                    </div>
+
+                    <div className="col-span-9 space-y-6">
+
+                        <InvoiceLineItems ctrl={ctrl} />
+                        <InvoicePaymentsPanel ctrl={ctrl} />
+                    </div>
                 </div>
-
-                <div className="col-span-9 space-y-6">
-
-                    <InvoiceLineItems ctrl={ctrl} />
-                    <InvoicePaymentsPanel ctrl={ctrl} />
-                </div>
-            </div>
-        </Rhform>
+            </Rhform>
+        </div>
     )
 }

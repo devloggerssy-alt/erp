@@ -1,12 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { CrudPresenter } from '@devloggers/backend-core';
+import { CrudPresenter, LocaleResolverService } from '@devloggers/backend-core';
+import type { LocalizedString } from '@devloggers/api-contracts';
 import type { Payment } from '@devloggers/db-prisma';
 import { PaymentResponseDto, PaymentAllocationResponseDto } from '../dto/payment-response.dto';
 
 type PaymentWithRelations = Payment & {
-  cashbox?: { name?: string; code?: string };
+  cashbox?: { name?: LocalizedString | null; code?: string };
   party?: { name?: string; receivableAccountId?: string | null; payableAccountId?: string | null } | null;
-  currency?: { code?: string; symbol?: unknown };
+  currency?: { code?: string; symbol?: LocalizedString | null };
   fiscalPeriod?: { status?: string };
   allocations?: Array<{
     id: string; invoiceId: string; amount: { toNumber(): number } | number; createdAt: Date;
@@ -16,6 +17,10 @@ type PaymentWithRelations = Payment & {
 
 @Injectable()
 export class PaymentPresenter extends CrudPresenter<PaymentWithRelations, PaymentResponseDto> {
+  constructor(private readonly locale: LocaleResolverService) {
+    super();
+  }
+
   toResponse(entity: PaymentWithRelations): PaymentResponseDto {
     const dto = new PaymentResponseDto();
     dto.id = entity.id;
@@ -24,13 +29,17 @@ export class PaymentPresenter extends CrudPresenter<PaymentWithRelations, Paymen
     dto.date = entity.date instanceof Date ? entity.date.toISOString() : String(entity.date);
     dto.status = entity.status;
     dto.cashboxId = entity.cashboxId;
-    dto.cashboxName = entity.cashbox?.name;
+    // cashbox.name is a LocalizedString ({ ar, en }) — resolve to the request locale.
+    dto.cashboxName = entity.cashbox?.name ? this.locale.resolve(entity.cashbox.name) : undefined;
     dto.cashboxCode = entity.cashbox?.code;
     dto.partyId = entity.partyId ?? null;
     dto.partyName = entity.party?.name;
     dto.currencyId = entity.currencyId;
     dto.currencyCode = entity.currency?.code;
-    dto.currencySymbol = entity.currency?.symbol as string | undefined;
+    // currency.symbol is a LocalizedString ({ ar, en }) — resolve to the request locale.
+    dto.currencySymbol = entity.currency?.symbol
+      ? this.locale.resolve(entity.currency.symbol)
+      : undefined;
     dto.fiscalPeriodId = entity.fiscalPeriodId;
     dto.amount = PaymentPresenter.toNum(entity.amount);
     dto.exchangeRate = PaymentPresenter.toNum(entity.exchangeRate);

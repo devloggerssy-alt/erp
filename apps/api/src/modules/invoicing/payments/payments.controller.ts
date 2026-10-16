@@ -3,6 +3,7 @@ import { ApiTags, ApiBearerAuth, ApiBody } from '@nestjs/swagger';
 import {
   createCrudController,
   type CrudOpenApi,
+  type FilterSchema,
   type RequestUser,
   createClassDtoBodyPipe,
   RequirePermission,
@@ -57,10 +58,21 @@ const PAYMENTS_CRUD_OPENAPI = {
   },
 } satisfies CrudOpenApi;
 
+export const PAYMENTS_FILTER_SCHEMA: FilterSchema = [
+  { field: 'number', type: 'string' },
+  { field: 'type', type: 'enum', enumValues: ['RECEIPT', 'PAYMENT', 'ADJUSTMENT'] },
+  { field: 'status', type: 'enum', enumValues: ['DRAFT', 'POSTED', 'CANCELLED'] },
+  { field: 'date', type: 'date' },
+  { field: 'partyId', type: 'id' },
+  { field: 'cashboxId', type: 'id' },
+  { field: 'createdAt', type: 'date' },
+];
+
 const PaymentsCrudBase = createCrudController({
   responseDto: PaymentResponseDto,
   createDto: CreatePaymentDto,
   updateDto: UpdatePaymentDto,
+  filterSchema: PAYMENTS_FILTER_SCHEMA,
   permissions: {
     view: 'payments.view',
     create: 'payments.create',

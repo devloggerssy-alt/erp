@@ -6,7 +6,10 @@ import { Button } from "@/shared/components/ui/button"
 import { useResourceContext } from "@/shared/data-view/resource"
 import { InvoicesResource } from "../invoices.resource"
 import { createInvoicesColumns } from "./invoices-columns"
-import { InvoiceFormDialog } from "./invoice-form-dialog"
+import { InvoiceForm } from "./invoice-form"
+import { InvoiceDialogProvider } from "./invoice-dialog-context"
+import { InvoiceDialogHeader } from "./invoice-dialog-header"
+import { InvoiceDialogFooter } from "./invoice-dialog-footer"
 import { useInvoiceActions } from "../hooks/use-invoice-actions"
 import { useCreateAction } from "@/shared/hooks/use-create-action"
 import { getInvoicePrintPath } from "../invoices-print.utils"
@@ -41,10 +44,12 @@ function InvoicesPageContent({ direction, initialTypeCode }: { direction: Invoic
             title={title}
             actions={
                 <InvoicesResource.FormDialog
-                    form={InvoiceFormDialog}
+                    form={InvoiceForm}
                     formProps={{ direction, initialTypeCode }}
+                    provider={InvoiceDialogProvider}
+                    header={<InvoiceDialogHeader />}
+                    footer={<InvoiceDialogFooter />}
                     contentClassName="flex flex-col min-w-7xl h-[90vh] p-0 overflow-hidden"
-                    header={false}
                     showCloseButton={false}
                     scrollable={false}
                     trigger={

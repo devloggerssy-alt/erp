@@ -1,7 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@devloggers/db-prisma/nest';
+import type { Prisma } from '@devloggers/db-prisma';
 import { computeInvoicePaidState } from '../invoicing';
 import { ReportsPresenter } from './presenters/reports.presenter';
+
+type LockedRate = { exchangeRate: Prisma.Decimal };
+
+// Amounts are stored in their document currency; exchangeRate is locked at posting
+// and converts to the tenant base currency. Sum base amounts only, never raw totals.
+function toBase(amount: Prisma.Decimal, rate: LockedRate): number {
+    return Number(amount) * Number(rate.exchangeRate);
+}
 
 @Injectable()
 export class ReportsService {
@@ -39,7 +48,7 @@ export class ReportsService {
             orderBy: { date: 'desc' },
         });
 
-        const totalSales = invoices.reduce((s, i) => s + Number(i.total), 0);
+        const totalSales = invoices.reduce((s, i) => s + toBase(i.total, i), 0);
         return { invoices: this.presenter.toInvoiceSummary(invoices), totalSales, count: invoices.length };
     }
 
@@ -58,7 +67,7 @@ export class ReportsService {
             orderBy: { date: 'desc' },
         });
 
-        const totalPurchases = invoices.reduce((s, i) => s + Number(i.total), 0);
+        const totalPurchases = invoices.reduce((s, i) => s + toBase(i.total, i), 0);
         return { invoices: this.presenter.toInvoiceSummary(invoices), totalPurchases, count: invoices.length };
     }
 
@@ -115,15 +124,15 @@ export class ReportsService {
             expenseWhere.date = dateFilter;
         }
 
-        const [salesAgg, purchasesAgg, expenses] = await Promise.all([
-            this.prisma.invoice.aggregate({ where: saleWhere, _sum: { total: true } }),
-            this.prisma.invoice.aggregate({ where: purchaseWhere, _sum: { total: true } }),
-            this.prisma.expense.aggregate({ where: expenseWhere, _sum: { totalAmount: true } }),
+        const [salesInvoices, purchaseInvoices, expenses] = await Promise.all([
+            this.prisma.invoice.findMany({ where: saleWhere, select: { total: true, exchangeRate: true } }),
+            this.prisma.invoice.findMany({ where: purchaseWhere, select: { total: true, exchangeRate: true } }),
+            this.prisma.expense.findMany({ where: expenseWhere, select: { totalAmount: true, exchangeRate: true } }),
         ]);
 
-        const totalSales = Number(salesAgg._sum.total || 0);
-        const totalPurchases = Number(purchasesAgg._sum.total || 0);
-        const totalExpenses = Number(expenses._sum.totalAmount || 0);
+        const totalSales = salesInvoices.reduce((s, i) => s + toBase(i.total, i), 0);
+        const totalPurchases = purchaseInvoices.reduce((s, i) => s + toBase(i.total, i), 0);
+        const totalExpenses = expenses.reduce((s, e) => s + toBase(e.totalAmount, e), 0);
         const grossProfit = totalSales - totalPurchases;
         const netProfit = grossProfit - totalExpenses;
 
@@ -139,21 +148,21 @@ export class ReportsService {
         const dateFilter = { gte: from, lte: to };
 
         const [
-            salesAgg, purchasesAgg, expensesAgg,
+            salesInvoices, purchaseInvoices, expenses,
             cashboxes, lowStockCount,
             partiesCount, itemsCount,
         ] = await Promise.all([
-            this.prisma.invoice.aggregate({
+            this.prisma.invoice.findMany({
                 where: { tenantId, status: 'POSTED', invoiceType: { direction: 'SALE' }, date: dateFilter },
-                _sum: { total: true },
+                select: { total: true, exchangeRate: true },
             }),
-            this.prisma.invoice.aggregate({
+            this.prisma.invoice.findMany({
                 where: { tenantId, status: 'POSTED', invoiceType: { direction: 'PURCHASE' }, date: dateFilter },
-                _sum: { total: true },
+                select: { total: true, exchangeRate: true },
             }),
-            this.prisma.expense.aggregate({
+            this.prisma.expense.findMany({
                 where: { tenantId, status: 'POSTED', date: dateFilter },
-                _sum: { totalAmount: true },
+                select: { totalAmount: true, exchangeRate: true },
             }),
             this.prisma.cashbox.findMany({
                 where: { tenantId, isActive: true },
@@ -170,9 +179,9 @@ export class ReportsService {
             this.prisma.item.count({ where: { tenantId, isActive: true } }),
         ]);
 
-        const totalSales = Number(salesAgg._sum.total || 0);
-        const totalPurchases = Number(purchasesAgg._sum.total || 0);
-        const totalExpenses = Number(expensesAgg._sum.totalAmount || 0);
+        const totalSales = salesInvoices.reduce((s, i) => s + toBase(i.total, i), 0);
+        const totalPurchases = purchaseInvoices.reduce((s, i) => s + toBase(i.total, i), 0);
+        const totalExpenses = expenses.reduce((s, e) => s + toBase(e.totalAmount, e), 0);
 
         return {
             totalSales,
@@ -201,12 +210,12 @@ export class ReportsService {
         const [salesInvoices, purchaseInvoices] = await Promise.all([
             this.prisma.invoice.findMany({
                 where: { tenantId, status: 'POSTED', invoiceType: { direction: 'SALE' }, date: { gte: from, lte: cappedTo } },
-                select: { date: true, total: true },
+                select: { date: true, total: true, exchangeRate: true },
                 orderBy: { date: 'asc' },
             }),
             this.prisma.invoice.findMany({
                 where: { tenantId, status: 'POSTED', invoiceType: { direction: 'PURCHASE' }, date: { gte: from, lte: cappedTo } },
-                select: { date: true, total: true },
+                select: { date: true, total: true, exchangeRate: true },
                 orderBy: { date: 'asc' },
             }),
         ]);
@@ -216,14 +225,14 @@ export class ReportsService {
         for (const inv of salesInvoices) {
             const key = inv.date.toISOString().slice(0, 10);
             const entry = map.get(key) ?? { sales: 0, purchases: 0 };
-            entry.sales += Number(inv.total);
+            entry.sales += toBase(inv.total, inv);
             map.set(key, entry);
         }
 
         for (const inv of purchaseInvoices) {
             const key = inv.date.toISOString().slice(0, 10);
             const entry = map.get(key) ?? { sales: 0, purchases: 0 };
-            entry.purchases += Number(inv.total);
+            entry.purchases += toBase(inv.total, inv);
             map.set(key, entry);
         }
 
@@ -238,12 +247,19 @@ export class ReportsService {
         const from = filters?.from ? new Date(filters.from) : startOfMonth;
         const to = filters?.to ? new Date(filters.to) : today;
 
-        const grouped = await this.prisma.expenseItem.groupBy({
-            by: ['accountId'],
+        const expenseItems = await this.prisma.expenseItem.findMany({
             where: { tenantId, expense: { status: 'POSTED', date: { gte: from, lte: to } } },
-            _sum: { amount: true },
-            orderBy: { _sum: { amount: 'desc' } },
+            select: { accountId: true, amount: true, expense: { select: { exchangeRate: true } } },
         });
+
+        const totalByAccount = new Map<string, number>();
+        for (const item of expenseItems) {
+            totalByAccount.set(item.accountId, (totalByAccount.get(item.accountId) ?? 0) + toBase(item.amount, item.expense));
+        }
+
+        const grouped = Array.from(totalByAccount.entries())
+            .map(([accountId, total]) => ({ accountId, total }))
+            .sort((a, b) => b.total - a.total);
 
         if (grouped.length === 0) {
             return [];
@@ -262,11 +278,11 @@ export class ReportsService {
         const result = top.map((g) => ({
             accountId: g.accountId,
             accountName: accountById.get(g.accountId) ?? null,
-            total: Number(g._sum.amount ?? 0),
+            total: g.total,
         }));
 
         if (rest.length > 0) {
-            const otherTotal = rest.reduce((sum, g) => sum + Number(g._sum.amount ?? 0), 0);
+            const otherTotal = rest.reduce((sum, g) => sum + g.total, 0);
             result.push({
                 accountId: 'other',
                 accountName: { en: 'Other', ar: 'أخرى' },
@@ -284,35 +300,44 @@ export class ReportsService {
         const to = filters?.to ? new Date(filters.to) : today;
         const limit = filters?.limit ?? 5;
 
-        const grouped = await this.prisma.invoiceLine.groupBy({
-            by: ['itemId'],
+        const lines = await this.prisma.invoiceLine.findMany({
             where: {
                 tenantId,
                 invoice: { status: 'POSTED', invoiceType: { direction: 'SALE' }, date: { gte: from, lte: to } },
             },
-            _sum: { total: true, quantity: true },
-            orderBy: { _sum: { total: 'desc' } },
-            take: limit,
+            select: { itemId: true, quantity: true, total: true, invoice: { select: { exchangeRate: true } } },
         });
+
+        const totalsByItem = new Map<string, { quantity: number; revenue: number }>();
+        for (const line of lines) {
+            const entry = totalsByItem.get(line.itemId) ?? { quantity: 0, revenue: 0 };
+            entry.quantity += Number(line.quantity);
+            entry.revenue += toBase(line.total, line.invoice);
+            totalsByItem.set(line.itemId, entry);
+        }
+
+        const grouped = Array.from(totalsByItem.entries())
+            .sort((a, b) => b[1].revenue - a[1].revenue)
+            .slice(0, limit);
 
         if (grouped.length === 0) {
             return [];
         }
 
         const items = await this.prisma.item.findMany({
-            where: { id: { in: grouped.map((g) => g.itemId) } },
+            where: { id: { in: grouped.map(([itemId]) => itemId) } },
             select: { id: true, name: true, code: true },
         });
         const itemById = new Map(items.map((i) => [i.id, i]));
 
-        return grouped.map((g) => {
-            const item = itemById.get(g.itemId);
+        return grouped.map(([itemId, totals]) => {
+            const item = itemById.get(itemId);
             return {
-                itemId: g.itemId,
+                itemId,
                 itemName: item?.name ?? '',
                 itemCode: item?.code ?? '',
-                quantity: Number(g._sum.quantity ?? 0),
-                revenue: Number(g._sum.total ?? 0),
+                quantity: totals.quantity,
+                revenue: totals.revenue,
             };
         });
     }

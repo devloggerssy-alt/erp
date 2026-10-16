@@ -17,6 +17,7 @@ import { DashboardLowStock } from "./components/dashboard-low-stock"
 import { DashboardRecentPayments } from "./components/dashboard-recent-payments"
 import { DashboardItemsOverview } from "./components/dashboard-items-overview"
 import { useDashboardSummary } from "./hooks/use-dashboard-summary"
+import { useDashboardBaseCurrency } from "./hooks/use-dashboard-base-currency"
 import { useDashboardChart } from "./hooks/use-dashboard-chart"
 import { useDashboardExpenseBreakdown } from "./hooks/use-dashboard-expense-breakdown"
 import { useDashboardTopItems } from "./hooks/use-dashboard-top-items"
@@ -38,6 +39,7 @@ export function DashboardContent() {
     const priorToIso = priorRange.to.toISOString()
 
     const summary = useDashboardSummary(fromIso, toIso)
+    const baseCurrency = useDashboardBaseCurrency()
     const previousSummary = useDashboardSummary(priorFromIso, priorToIso)
     const chart = useDashboardChart(fromIso, toIso)
     const expenseBreakdown = useDashboardExpenseBreakdown(fromIso, toIso)
@@ -56,9 +58,14 @@ export function DashboardContent() {
             }
         >
             <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                       <DashboardCashboxCards
+                    cashboxes={summary.data?.cashboxes ?? []}
+                    isLoading={summary.isLoading}
+                />
                 <DashboardKpiCards
                     data={summary.data}
                     previousData={previousSummary.data}
+                    currency={baseCurrency.data}
                     isLoading={summary.isLoading}
                 />
 
@@ -87,10 +94,7 @@ export function DashboardContent() {
                     />
                 </div>
 
-                <DashboardCashboxCards
-                    cashboxes={summary.data?.cashboxes ?? []}
-                    isLoading={summary.isLoading}
-                />
+         
 
                 <div className="grid gap-4 md:grid-cols-2">
                     <DashboardExpenseBreakdown

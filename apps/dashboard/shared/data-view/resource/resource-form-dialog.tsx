@@ -33,6 +33,14 @@ export type ResourceFormDialogProps<
     scrollable?: boolean
     /** Override the scroll area classes. */
     scrollClassName?: string
+    /** Optional footer rendered below the body (e.g. totals + save actions). */
+    footer?: ReactNode
+    /**
+     * Optional component wrapped around the dialog's header, body and footer.
+     * Use it to share a context (e.g. the form controller) with the `header` /
+     * `footer` slots, which live outside the form component.
+     */
+    provider?: ComponentType<ResourceFormProps<TClient> & TExtra & { children: ReactNode }>
 }
 
 export function ResourceFormDialog<
@@ -48,12 +56,22 @@ export function ResourceFormDialog<
     showCloseButton,
     scrollable,
     scrollClassName,
+    footer,
+    provider: Provider,
 }: ResourceFormDialogProps<TClient, TExtra>) {
     const resource = useResourceContext<TClient>()
 
     const resolvedTitle = typeof title === "function"
         ? title(resource.selectedItem)
         : title ?? ""
+
+    const sharedFormProps = {
+        resourceId: resource.dialogResourceId,
+        initialData: resource.dialogResourceId ? resource.selectedItem : null,
+        onSuccess: resource.invalidateQuery,
+        paramKey: resource.paramKey,
+        ...(formProps as TExtra),
+    }
 
     return (
         <FormDialog
@@ -75,6 +93,8 @@ export function ResourceFormDialog<
             showCloseButton={showCloseButton}
             scrollable={scrollable}
             scrollClassName={scrollClassName}
+            footer={footer}
+            contentWrapper={Provider ? (inner) => <Provider {...sharedFormProps}>{inner}</Provider> : undefined}
         >
             {(resourceId) => (
                 <FormComponent

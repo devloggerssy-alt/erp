@@ -6,6 +6,10 @@ export function useDashboardMovements() {
     return useQuery({
         queryKey: ["dashboard", "movements"],
         queryFn: () =>
-            api.payments.list({ status: "POSTED", limit: 10, page: 1 }),
+            api.payments.list({
+                filters: { status: { $eq: "POSTED" } },
+                limit: 10,
+                page: 1,
+            }),
     })
 }

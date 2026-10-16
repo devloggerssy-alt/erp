@@ -36,7 +36,7 @@ export function DashboardCashboxCards({
                     : cashboxes.map((cashbox, i) => (
                           <Card
                               key={cashbox.id}
-                              className={`shrink-0 w-52 border-s-4 ${BORDER_COLORS[i % BORDER_COLORS.length]}`}
+                              className={`shrink-0 grow border-s-4 ${BORDER_COLORS[i % BORDER_COLORS.length]}`}
                           >
                               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1 pt-4">
                                   <CardTitle className="text-sm font-medium truncate">

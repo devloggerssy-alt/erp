@@ -83,6 +83,10 @@ export type FormDialogProps = {
     scrollable?: boolean
     /** Override the `ScrollArea` classes. */
     scrollClassName?: string
+    /** Optional footer rendered below the body (e.g. totals + save actions). */
+    footer?: React.ReactNode
+    /** Wrap the dialog's inner content (header + body + footer), e.g. to provide a shared context. */
+    contentWrapper?: (children: React.ReactNode) => React.ReactNode
 }
 
 export default function FormDialog({
@@ -98,7 +102,29 @@ export default function FormDialog({
     showCloseButton = true,
     scrollable = true,
     scrollClassName,
+    footer,
+    contentWrapper = (inner) => inner,
 }: FormDialogProps) {
+    const inner = (
+        <>
+            {header === false ? null : (header ?? (
+                <DialogHeader>
+                    <DialogTitle className='text-2xl font-bold'>
+                        {title}
+                    </DialogTitle>
+                </DialogHeader>
+            ))}
+            {scrollable ? (
+                <ScrollArea className={scrollClassName ?? 'max-h-[80vh]'}>
+                    {children(resourceId)}
+                </ScrollArea>
+            ) : (
+                children(resourceId)
+            )}
+            {footer}
+        </>
+    )
+
     return (
         <>
             {showTrigger && (trigger ?? (
@@ -112,20 +138,7 @@ export default function FormDialog({
                     className={contentClassName ?? 'min-w-xl'}
                     showCloseButton={showCloseButton}
                 >
-                    {header === false ? null : (header ?? (
-                        <DialogHeader>
-                            <DialogTitle className='text-2xl font-bold'>
-                                {title}
-                            </DialogTitle>
-                        </DialogHeader>
-                    ))}
-                    {scrollable ? (
-                        <ScrollArea className={scrollClassName ?? 'max-h-[80vh]'}>
-                            {children(resourceId)}
-                        </ScrollArea>
-                    ) : (
-                        children(resourceId)
-                    )}
+                    {contentWrapper(inner)}
                 </DialogContent>
             </Dialog>
         </>
