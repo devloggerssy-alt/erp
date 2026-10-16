@@ -1,9 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@devloggers/db-prisma/nest';
+import { AuditLogPresenter } from './presenters/audit-log.presenter';
 
 @Injectable()
 export class AuditService {
-    constructor(private readonly prisma: PrismaService) {}
+    constructor(
+        private readonly prisma: PrismaService,
+        private readonly presenter: AuditLogPresenter,
+    ) {}
 
     async findAll(tenantId: string, filters: { entityType?: string; entityId?: string; page?: number; limit?: number }) {
         const page = filters.page || 1;
@@ -21,6 +25,6 @@ export class AuditService {
             }),
             this.prisma.auditLog.count({ where }),
         ]);
-        return { data, total, page, limit };
+        return { data: this.presenter.toResponseList(data), total, page, limit };
     }
 }

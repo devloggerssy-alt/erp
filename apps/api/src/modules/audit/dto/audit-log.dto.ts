@@ -1,4 +1,16 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import type { Prisma } from '@devloggers/db-prisma';
+
+/** Audited JSON payloads are whatever the request or caller wrote: object, array or scalar. */
+const AUDIT_JSON_VALUE = {
+    oneOf: [
+        { type: 'object', additionalProperties: true },
+        { type: 'array', items: {} },
+        { type: 'string' },
+        { type: 'number' },
+        { type: 'boolean' },
+    ],
+};
 
 export class AuditLogResponseDto {
     @ApiProperty({ type: 'string', example: '018e1234-abcd-7000-a100-000000000001' })
@@ -19,11 +31,11 @@ export class AuditLogResponseDto {
     @ApiProperty({ type: 'string', example: '00000000-0000-4000-ae00-000000000001', description: 'Audited entity ID' })
     entityId!: string;
 
-    @ApiPropertyOptional({ type: 'object', nullable: true, additionalProperties: true, description: 'Values before the change' })
-    oldValues?: Record<string, unknown> | null;
+    @ApiPropertyOptional({ ...AUDIT_JSON_VALUE, nullable: true, description: 'Values before the change' })
+    oldValues?: Prisma.JsonValue | null;
 
-    @ApiPropertyOptional({ type: 'object', nullable: true, additionalProperties: true, description: 'Values after the change' })
-    newValues?: Record<string, unknown> | null;
+    @ApiPropertyOptional({ ...AUDIT_JSON_VALUE, nullable: true, description: 'Values after the change' })
+    newValues?: Prisma.JsonValue | null;
 
     @ApiPropertyOptional({ type: 'string', nullable: true, example: '203.0.113.7' })
     ipAddress?: string | null;
@@ -34,8 +46,8 @@ export class AuditLogResponseDto {
     @ApiPropertyOptional({ type: 'string', nullable: true, description: 'Joins the row to its request log lines' })
     correlationId?: string | null;
 
-    @ApiPropertyOptional({ type: 'object', nullable: true, additionalProperties: true, description: 'Free-form request context' })
-    metadata?: Record<string, unknown> | null;
+    @ApiPropertyOptional({ ...AUDIT_JSON_VALUE, nullable: true, description: 'Free-form request context' })
+    metadata?: Prisma.JsonValue | null;
 
     @ApiProperty({ type: 'string', format: 'date-time', example: '2026-04-14T12:00:00.000Z' })
     createdAt!: string;

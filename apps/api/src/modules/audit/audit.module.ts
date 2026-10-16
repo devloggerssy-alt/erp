@@ -4,12 +4,13 @@ import { AuditController } from './audit.controller';
 import { AuditService } from './audit.service';
 import { AuditWriter } from './audit-writer.service';
 import { AuditInterceptor } from './audit.interceptor';
+import { AuditLogPresenter } from './presenters/audit-log.presenter';
 
 /** Global: GL services across accounting modules inject AuditWriter without importing this module. */
 @Global()
 @Module({
     controllers: [AuditController],
-    providers: [AuditService, AuditWriter, { provide: APP_INTERCEPTOR, useClass: AuditInterceptor }],
+    providers: [AuditService, AuditLogPresenter, AuditWriter, { provide: APP_INTERCEPTOR, useClass: AuditInterceptor }],
     exports: [AuditService, AuditWriter],
 })
 export class AuditModule {}
