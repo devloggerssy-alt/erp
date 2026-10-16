@@ -1,6 +1,9 @@
 import { z } from "zod"
-import type { CreateExpenseDto, UpdateExpenseDto, ExpenseStatus } from "@devloggers/api-contracts"
+import { expenseResource, type ApiRequestBody, type ExpenseStatus } from "@devloggers/api-contracts"
 import { unwrapApiData } from "@/shared/hooks/unwrap-api-data"
+
+type CreateExpenseBody = ApiRequestBody<typeof expenseResource.routes.create, "post">
+type UpdateExpenseBody = ApiRequestBody<typeof expenseResource.routes.update, "patch">
 
 export type { ExpenseStatus }
 
@@ -111,7 +114,7 @@ export function mapExpenseToFormValues(data: unknown): ExpenseFormValues {
 
 // ── DTO builders ───────────────────────────────────────────────────────────────
 
-export function toCreateExpenseDto(values: ExpenseFormValues): CreateExpenseDto {
+export function toCreateExpenseDto(values: ExpenseFormValues): CreateExpenseBody {
     return {
         date: values.date,
         cashboxId: values.cashbox?.id ?? "",
@@ -129,13 +132,12 @@ export function toCreateExpenseDto(values: ExpenseFormValues): CreateExpenseDto 
     }
 }
 
-export function toUpdateExpenseDto(values: ExpenseFormValues): UpdateExpenseDto {
+export function toUpdateExpenseDto(values: ExpenseFormValues): UpdateExpenseBody {
     return {
         date: values.date,
         cashboxId: values.cashbox?.id ?? "",
         currencyId: values.currency?.id ?? "",
         fiscalPeriodId: values.fiscalPeriod?.id ?? "",
-        exchangeRate: values.exchangeRate,
         notes: values.notes || undefined,
         items: values.items.map((item, index) => ({
             accountId: item._account?.id ?? "",

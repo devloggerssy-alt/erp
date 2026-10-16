@@ -56,27 +56,42 @@ export class CrudClient<R extends CrudResource> implements ICrudClient {
 
   show(id: string): Promise<ApiResponse<R["routes"]["show"], "get">> {
     const route = this.resource.routes.show
+    // Verified structural: while `R` is the abstract resource, `route` is
+    // `R["routes"]["show"]` rather than a literal path, so `ApiPathParams` and
+    // `ApiResponse` collapse to `never`/`unknown`. Removing the `params` cast
+    // (probe: `tsc`) errors with "Type '{ id: string }' is not assignable to
+    // type 'undefined'". The casts keep the declared return type honest.
     return this.apiClient.get(route, { params: { id } } as never) as Promise<
       ApiResponse<R["routes"]["show"], "get">
     >
   }
 
-  create(body: unknown): Promise<ApiResponse<NonNullable<R["routes"]["create"]>, "post">> {
+  create(
+    body: ApiRequestBody<NonNullable<R["routes"]["create"]>, "post">,
+  ): Promise<ApiResponse<NonNullable<R["routes"]["create"]>, "post">> {
     const route = this.resource.routes.create as NonNullable<R["routes"]["create"]>
-    return this.apiClient.post(route, body as never) as Promise<
+    return this.apiClient.post(route, body) as Promise<
       ApiResponse<NonNullable<R["routes"]["create"]>, "post">
     >
   }
 
-  update(id: string, body: unknown): Promise<ApiResponse<NonNullable<R["routes"]["update"]>, "patch">> {
+  update(
+    id: string,
+    body: ApiRequestBody<NonNullable<R["routes"]["update"]>, "patch">,
+  ): Promise<ApiResponse<NonNullable<R["routes"]["update"]>, "patch">> {
     const route = this.resource.routes.update as NonNullable<R["routes"]["update"]>
-    return this.apiClient.patch(route, body as never, { params: { id } } as never) as Promise<
+    // `params` is structurally cast for the same reason as `show`: it resolves to
+    // `never` while the route is the abstract R["routes"]["update"]. The `body` is
+    // NOT cast — it is typed from the route's generated operation type above.
+    return this.apiClient.patch(route, body, { params: { id } } as never) as Promise<
       ApiResponse<NonNullable<R["routes"]["update"]>, "patch">
     >
   }
 
   destroy(id: string): Promise<ApiResponse<NonNullable<R["routes"]["delete"]>, "delete">> {
     const route = this.resource.routes.delete as NonNullable<R["routes"]["delete"]>
+    // Structurally required for the same reason as `show` above: params resolve
+    // to `never` while the route is the abstract `R["routes"]["delete"]`.
     return this.apiClient.delete(route, { params: { id } } as never) as Promise<
       ApiResponse<NonNullable<R["routes"]["delete"]>, "delete">
     >

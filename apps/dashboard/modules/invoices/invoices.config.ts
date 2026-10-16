@@ -1,7 +1,10 @@
 import { z } from "zod"
 import type { InvoiceStatus } from "@devloggers/api-contracts"
-import type { CreateInvoiceDto, UpdateInvoiceDto } from "@devloggers/api-contracts"
+import { invoiceResource, type ApiRequestBody } from "@devloggers/api-contracts"
 import { unwrapApiData } from "@/shared/hooks/unwrap-api-data"
+
+type CreateInvoiceBody = ApiRequestBody<typeof invoiceResource.routes.create, "post">
+type UpdateInvoiceBody = ApiRequestBody<typeof invoiceResource.routes.update, "patch">
 import type { CrudListDataItem, CrudShowResponse, InvoicesClient, ItemsClient, UnitsClient } from "@devloggers/api-client"
 
 // Detail (show) response shape, derived from the typed API contract — the single
@@ -177,7 +180,7 @@ export function mapInvoiceToFormValues(data: unknown): InvoiceFormValues {
 
 // ── Payload builders ───────────────────────────────────────────────────────────
 
-export function toCreateInvoiceDto(values: InvoiceFormValues, options?: { complete?: boolean }): CreateInvoiceDto {
+export function toCreateInvoiceDto(values: InvoiceFormValues, options?: { complete?: boolean }): CreateInvoiceBody {
     return {
         invoiceTypeId: values.invoiceType?.id ?? "",
         date: values.date,
@@ -201,30 +204,29 @@ export function toCreateInvoiceDto(values: InvoiceFormValues, options?: { comple
             unitId: line._unit?.id ?? "",
             quantity: line.quantity,
             unitPrice: line.unitPrice,
-            discountPercent: line.discountPercent,
-            taxPercent: line.taxPercent,
+            discountPercent: line.discountPercent ?? 0,
+            taxPercent: line.taxPercent ?? 0,
             notes: line.notes || undefined,
             sortOrder: line.sortOrder ?? index,
         })),
     }
 }
 
-export function toUpdateInvoiceDto(values: InvoiceFormValues): UpdateInvoiceDto {
+export function toUpdateInvoiceDto(values: InvoiceFormValues): UpdateInvoiceBody {
     return {
         date: values.date,
         dueDate: values.dueDate || undefined,
         partyId: values.party?.id ?? "",
         warehouseId: values.warehouse?.id || undefined,
         currencyId: values.currency?.id ?? "",
-        exchangeRate: values.exchangeRate,
         notes: values.notes || undefined,
         lines: values.lines.map((line, index) => ({
             itemId: line.itemId,
             unitId: line._unit?.id ?? "",
             quantity: line.quantity,
             unitPrice: line.unitPrice,
-            discountPercent: line.discountPercent,
-            taxPercent: line.taxPercent,
+            discountPercent: line.discountPercent ?? 0,
+            taxPercent: line.taxPercent ?? 0,
             notes: line.notes || undefined,
             sortOrder: line.sortOrder ?? index,
         })),

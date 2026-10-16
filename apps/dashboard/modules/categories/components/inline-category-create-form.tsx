@@ -39,7 +39,11 @@ export function InlineCategoryCreateForm({ onSuccess }: InlineCategoryCreateProp
       return
     }
     try {
-      const response = await api[itemCategoryResource.key].create({ name })
+      const response = await api[itemCategoryResource.key].create({
+        name,
+        description: "",
+        isActive: true,
+      })
       const created = unwrapApiData<{ id: string; name: string }>(response)
       if (created.id && created.name) {
         form.reset({ name: "" })

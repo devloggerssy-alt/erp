@@ -1,6 +1,6 @@
 import { describe, expectTypeOf, it } from "vitest"
-import { unitResource } from "@devloggers/api-contracts"
-import type { ApiResponse } from "@devloggers/api-contracts"
+import { accountResource, unitResource } from "@devloggers/api-contracts"
+import type { ApiRequestBody, ApiResponse } from "@devloggers/api-contracts"
 import { UnitsClient } from "../clients/units.client"
 import { ApiClient } from "./client"
 import type { CrudListDataItem } from "./crud-client"
@@ -14,37 +14,42 @@ describe("CrudClient — pinned response types (characterization, not red/green 
         expectTypeOf<ListItem>().toHaveProperty("nameI18n")
     })
 
-    it("show() resolves the real Unit response envelope, not any", () => {
-        type ShowResponse = ApiResponse<typeof unitResource.routes.show, "get">
-        expectTypeOf<ShowResponse>().not.toBeAny()
+    it("show() resolves the exact Unit response envelope", () => {
+        const client = new UnitsClient(new ApiClient("http://localhost"))
+        type Show = Awaited<ReturnType<typeof client.show>>
+        expectTypeOf<Show>().toEqualTypeOf<ApiResponse<typeof unitResource.routes.show, "get">>()
     })
 
-    it("create()/update() request bodies are typed from the resource, not any", () => {
+    it("create()/update() request bodies derive from the route's generated operation type", () => {
         const client = new UnitsClient(new ApiClient("http://localhost"))
-        expectTypeOf(client.create).parameter(0).not.toBeAny()
-        expectTypeOf(client.update).parameter(1).not.toBeAny()
+        type CreateBody = ApiRequestBody<typeof unitResource.routes.create, "post">
+        type UpdateBody = ApiRequestBody<typeof unitResource.routes.update, "patch">
+
+        expectTypeOf(client.create).parameter(0).toEqualTypeOf<CreateBody>()
+        expectTypeOf(client.update).parameter(1).toEqualTypeOf<UpdateBody>()
+        // Concrete, not a loose stand-in: the generated body has real fields, and an
+        // unrelated shape is not accepted.
+        expectTypeOf<CreateBody>().toHaveProperty("abbreviation")
+        expectTypeOf<{ bogus: number }>().not.toMatchTypeOf<CreateBody>()
     })
 })
 
 describe("AccountsClient — balances/tree/ledger must not leak unknown/any", () => {
     const client = new AccountsClient(new ApiClient("http://localhost"))
 
-    it("balances() resolves a real response, not any/unknown", () => {
+    it("balances() resolves the exact generated response", () => {
         type Balances = Awaited<ReturnType<typeof client.balances>>
-        expectTypeOf<Balances>().not.toBeAny()
-        expectTypeOf<Balances>().not.toBeUnknown()
+        expectTypeOf<Balances>().toEqualTypeOf<ApiResponse<typeof accountResource.routes.balances, "get">>()
     })
 
-    it("tree() resolves a real response, not any/unknown", () => {
+    it("tree() resolves the exact generated response", () => {
         type Tree = Awaited<ReturnType<typeof client.tree>>
-        expectTypeOf<Tree>().not.toBeAny()
-        expectTypeOf<Tree>().not.toBeUnknown()
+        expectTypeOf<Tree>().toEqualTypeOf<ApiResponse<typeof accountResource.routes.tree, "get">>()
     })
 
-    it("ledger() resolves a real response, not any/unknown", () => {
+    it("ledger() resolves the exact generated response", () => {
         type Ledger = Awaited<ReturnType<typeof client.ledger>>
-        expectTypeOf<Ledger>().not.toBeAny()
-        expectTypeOf<Ledger>().not.toBeUnknown()
+        expectTypeOf<Ledger>().toEqualTypeOf<ApiResponse<typeof accountResource.routes.ledger, "get">>()
     })
 })
 
