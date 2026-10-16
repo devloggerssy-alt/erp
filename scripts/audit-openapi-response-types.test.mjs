@@ -116,6 +116,44 @@ test('every expense success response is typed in the committed contract', () => 
   assert.deepEqual(expenseGaps, []);
 });
 
+test('a concrete text/event-stream body is a typed response, not a gap', () => {
+  const stream = `
+export interface paths {
+    "/chat": {
+        post: operations["Chat.stream"];
+    };
+}
+
+export interface operations {
+    "Chat.stream": {
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/event-stream": string;
+                };
+            };
+        };
+    };
+}
+`;
+  const result = auditOpenApiResponseTypes(stream);
+
+  assert.equal(result.typed, 1);
+  assert.equal(result.untyped, 0);
+});
+
+test('AI chat, audit, files and tag-assignment success responses are typed in the generated contract', () => {
+  const typesPath = resolve(dirname(fileURLToPath(import.meta.url)), '../packages/api-contracts/types/index.ts');
+  const { untypedOps } = auditOpenApiResponseTypes(readFileSync(typesPath, 'utf8'));
+  const gaps = untypedOps.filter((op) =>
+    /\/ai\/|\/audit-logs|\/files\/|\/tag-assignments/.test(op),
+  );
+  assert.deepEqual(gaps, []);
+});
+
 test('POST /auth/logout success response is typed', () => {
   const typesPath = resolve(dirname(fileURLToPath(import.meta.url)), '../packages/api-contracts/types/index.ts');
   const result = auditOpenApiResponseTypes(readFileSync(typesPath, 'utf8'));

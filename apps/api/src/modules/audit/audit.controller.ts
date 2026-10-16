@@ -1,11 +1,12 @@
 import { Controller, Get, Query, UseGuards } from '@nestjs/common';
-import { ApiTags, ApiBearerAuth, ApiQuery, ApiOperation, ApiOkResponse } from '@nestjs/swagger';
+import { ApiTags, ApiBearerAuth, ApiQuery, ApiOperation } from '@nestjs/swagger';
 import { AuditService } from './audit.service';
+import { AuditLogResponseDto } from './dto/audit-log.dto';
 import { JwtAuthGuard, PermissionsGuard } from '../identity/auth/guards';
 import { CurrentUser, RequestUser } from '../identity/auth/decorators';
 import { RequirePermission } from '@devloggers/backend-core';
 import { ApiResponseBuilder } from '../../common/api/api-response-builder';
-import { ApiStandardErrors } from '../../common/decorators/api-swagger.decorators';
+import { ApiOkResponsePaginated, ApiStandardErrors } from '../../common/decorators/api-swagger.decorators';
 
 @ApiTags('Audit')
 @Controller('audit-logs')
@@ -21,26 +22,7 @@ export class AuditController {
     @ApiQuery({ name: 'entityId', required: false, description: 'Filter by specific entity ID' })
     @ApiQuery({ name: 'page', required: false })
     @ApiQuery({ name: 'limit', required: false })
-    @ApiOkResponse({
-        description: 'Paginated list of audit logs',
-        schema: {
-            example: {
-                message: 'Audit logs',
-                data: [
-                    {
-                        id: '...',
-                        entityType: 'INVOICE',
-                        entityId: '00000000-0000-4000-ae00-000000000001',
-                        action: 'UPDATE',
-                        changes: { status: { from: 'DRAFT', to: 'POSTED' } },
-                        userId: '00000000-0000-4000-a100-000000000001',
-                        createdAt: '2026-04-14T12:00:00.000Z',
-                    },
-                ],
-                meta: { pagination: { total: 100, page: 1, limit: 50, totalPages: 2 } },
-            },
-        },
-    })
+    @ApiOkResponsePaginated(AuditLogResponseDto, { description: 'Paginated list of audit logs' })
     @ApiStandardErrors()
     async findAll(
         @CurrentUser() user: RequestUser,

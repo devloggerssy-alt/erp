@@ -4,16 +4,17 @@ import {
     ApiBearerAuth,
     ApiBody,
     ApiConsumes,
-    ApiOkResponse,
     ApiOperation,
     ApiProperty,
     ApiTags,
 } from '@nestjs/swagger';
 import multer from 'multer';
 import { FilesService } from './files.service';
+import { FileResponseDto } from './dto/file-response.dto';
 import { JwtAuthGuard } from '@/modules/identity/auth/guards';
 import { CurrentUser, RequestUser } from '@/modules/identity/auth/decorators';
 import { ApiResponseBuilder } from '../../common/api/api-response-builder';
+import { ApiCreatedResponseStandard } from '../../common/decorators/api-swagger.decorators';
 import { FILE_SIZE_LIMITS } from './storage/s3.utils';
 
 class UploadAvatarDto {
@@ -40,7 +41,7 @@ export class AvatarController {
     })
     @ApiConsumes('multipart/form-data')
     @ApiBody({ type: UploadAvatarDto })
-    @ApiOkResponse({ description: 'Avatar file metadata record' })
+    @ApiCreatedResponseStandard(FileResponseDto, { description: 'Avatar file metadata record' })
     @UseInterceptors(FileInterceptor('file', { storage: multer.memoryStorage(), limits: { fileSize: FILE_SIZE_LIMITS.IMAGE } }))
     async uploadAvatar(@CurrentUser() user: RequestUser, @UploadedFile() file: Express.Multer.File) {
         const uploaded = await this.filesService.uploadAvatar(file, user.tenantId, user.id);

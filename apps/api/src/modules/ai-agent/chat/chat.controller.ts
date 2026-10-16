@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Headers, Param, Post, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Headers, HttpCode, HttpStatus, Param, Post, Res, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiBody, ApiOkResponse, ApiOperation, ApiProduces, ApiTags } from '@nestjs/swagger';
 import type { Response } from 'express';
 import { RequirePermission } from '@devloggers/backend-core';
@@ -31,6 +31,7 @@ export class ChatController {
     }
 
     @Post('conversations/:id/chat')
+    @HttpCode(HttpStatus.OK)
     @RequirePermission('ai.use')
     @ApiOperation({
         summary: 'Send a message or approval decisions to the AI agent',

@@ -29,11 +29,12 @@ export function ItemTagsSection({ itemId, disabled }: ItemTagsSectionProps) {
 
     const assignmentsKey = ["tag-assignments", "item", itemId]
 
-    const { data: assignments = [] } = useQuery({
+    const { data: assignmentsResponse } = useQuery({
         queryKey: assignmentsKey,
         queryFn: () => api["tag-assignments"].list({ entityType: "item", entityId: itemId }),
         enabled: !!itemId,
     })
+    const assignments = assignmentsResponse?.data ?? []
 
     const { data: tagsResponse } = useQuery({
         queryKey: ["tags", "module-items"],

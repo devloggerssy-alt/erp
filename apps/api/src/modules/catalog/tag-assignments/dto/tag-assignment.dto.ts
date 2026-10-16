@@ -1,5 +1,5 @@
 import { IsString, IsIn, IsUUID } from 'class-validator';
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class CreateTagAssignmentDto {
   @ApiProperty({ example: '018e1234-abcd-7000-a001-000000000001', description: 'Tag ID' })
@@ -22,37 +22,36 @@ export class CreateTagAssignmentDto {
   entityId: string = '';
 }
 
-export class TagAssignmentResponseDto {
-  @ApiProperty()
+export class TagSummaryDto {
+  @ApiProperty({ type: 'string' })
   id: string = '';
 
-  @ApiProperty()
+  @ApiProperty({ type: 'string' })
+  name: string = '';
+
+  @ApiPropertyOptional({ type: 'string', nullable: true })
+  color: string | null = null;
+
+  @ApiProperty({ type: 'string' })
+  module: string = '';
+}
+
+export class TagAssignmentResponseDto {
+  @ApiProperty({ type: 'string' })
+  id: string = '';
+
+  @ApiProperty({ type: 'string' })
   tagId: string = '';
 
-  @ApiProperty()
+  @ApiProperty({ type: 'string' })
   entityType: string = '';
 
-  @ApiProperty()
+  @ApiProperty({ type: 'string' })
   entityId: string = '';
 
-  @ApiProperty({
-    type: 'object',
-    description: 'The tag details',
-    additionalProperties: false,
-    properties: {
-      id: { type: 'string' },
-      name: { type: 'string' },
-      color: { type: 'string', nullable: true },
-      module: { type: 'string' },
-    },
-  })
-  tag: {
-    id: string;
-    name: string;
-    color: string | null;
-    module: string;
-  } = { id: '', name: '', color: null, module: '' };
+  @ApiProperty({ type: () => TagSummaryDto, description: 'The tag details' })
+  tag: TagSummaryDto = new TagSummaryDto();
 
-  @ApiProperty()
+  @ApiProperty({ type: 'string', format: 'date-time' })
   createdAt: string = '';
 }

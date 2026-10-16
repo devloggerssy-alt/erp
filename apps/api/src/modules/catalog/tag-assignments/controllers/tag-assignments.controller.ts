@@ -14,8 +14,6 @@ import {
   ApiTags,
   ApiBearerAuth,
   ApiOperation,
-  ApiOkResponse,
-  ApiCreatedResponse,
   ApiNoContentResponse,
   ApiParam,
   ApiQuery,
@@ -24,6 +22,11 @@ import { TagAssignmentsService } from '../services/tag-assignments.service';
 import { CreateTagAssignmentDto, TagAssignmentResponseDto } from '../dto';
 import { JwtAuthGuard, PermissionsGuard } from '@/modules/identity/auth/guards';
 import { CurrentUser, RequestUser, RequirePermission } from '@devloggers/backend-core';
+import { ApiResponseBuilder } from '@/common/api/api-response-builder';
+import {
+  ApiCreatedResponseStandard,
+  ApiOkResponseStandard,
+} from '@/common/decorators/api-swagger.decorators';
 
 @ApiTags('Catalog / Tag Assignments')
 @Controller('tag-assignments')
@@ -37,24 +40,26 @@ export class TagAssignmentsController {
   @ApiOperation({ summary: 'List tag assignments for an entity' })
   @ApiQuery({ name: 'entityType', required: true, example: 'item' })
   @ApiQuery({ name: 'entityId', required: true })
-  @ApiOkResponse({ type: [TagAssignmentResponseDto] })
+  @ApiOkResponseStandard(TagAssignmentResponseDto, { isArray: true, description: 'Tag assignments for the entity' })
   async list(
     @CurrentUser() user: RequestUser,
     @Query('entityType') entityType: string,
     @Query('entityId') entityId: string,
   ) {
-    return this.tagAssignmentsService.list(user.tenantId, entityType, entityId);
+    const assignments = await this.tagAssignmentsService.list(user.tenantId, entityType, entityId);
+    return ApiResponseBuilder.success(assignments, 'Tag assignments');
   }
 
   @Post()
   @RequirePermission('tagAssignments.create')
   @ApiOperation({ summary: 'Assign a tag to an entity' })
-  @ApiCreatedResponse({ type: TagAssignmentResponseDto })
+  @ApiCreatedResponseStandard(TagAssignmentResponseDto, { description: 'Tag assigned' })
   async assign(
     @CurrentUser() user: RequestUser,
     @Body() dto: CreateTagAssignmentDto,
   ) {
-    return this.tagAssignmentsService.assign(user.tenantId, dto);
+    const assignment = await this.tagAssignmentsService.assign(user.tenantId, dto);
+    return ApiResponseBuilder.success(assignment, 'Tag assigned');
   }
 
   @Delete(':id')

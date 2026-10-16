@@ -16,7 +16,6 @@ import {
     ApiBody,
     ApiConsumes,
     ApiNoContentResponse,
-    ApiOkResponse,
     ApiOperation,
     ApiProperty,
     ApiPropertyOptional,
@@ -24,9 +23,12 @@ import {
 } from '@nestjs/swagger';
 import multer from 'multer';
 import { FilesService } from './files.service';
+import { FileResponseDto } from './dto/file-response.dto';
 import { JwtAuthGuard, PermissionsGuard } from '@/modules/identity/auth/guards';
 import { CurrentUser, RequestUser } from '@/modules/identity/auth/decorators';
 import { RequirePermission } from '@devloggers/backend-core';
+import { ApiResponseBuilder } from '../../common/api/api-response-builder';
+import { ApiCreatedResponseStandard } from '../../common/decorators/api-swagger.decorators';
 
 class UploadFileDto {
     @ApiProperty({ type: 'string', format: 'binary', description: 'File to upload' })
@@ -48,14 +50,15 @@ export class FilesController {
     @ApiOperation({ summary: 'Upload a file', description: 'Upload a file to local or S3 storage and persist its metadata.' })
     @ApiConsumes('multipart/form-data')
     @ApiBody({ type: UploadFileDto })
-    @ApiOkResponse({ description: 'File metadata record' })
+    @ApiCreatedResponseStandard(FileResponseDto, { description: 'File metadata record' })
     @UseInterceptors(FileInterceptor('file', { storage: multer.memoryStorage() }))
-    uploadFile(
+    async uploadFile(
         @CurrentUser() user: RequestUser,
         @UploadedFile() file: Express.Multer.File,
         @Body('folder') folder?: string,
     ) {
-        return this.filesService.upload(file, folder ?? 'general', user.tenantId);
+        const uploaded = await this.filesService.upload(file, folder ?? 'general', user.tenantId);
+        return ApiResponseBuilder.success(uploaded, 'File uploaded');
     }
 
     @Delete(':id')
