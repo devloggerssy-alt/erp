@@ -10,16 +10,6 @@ export interface CreateStockMovementDto {
     notes?: string;
 }
 
-export interface PostOpeningBalanceDto {
-    fiscalPeriodId: string;
-    warehouseId: string;
-    items: {
-        itemId: string;
-        quantity: number;
-        unitCost: number;
-    }[];
-}
-
 export interface StockBalanceResponse {
     warehouseId: string;
     itemId: string;

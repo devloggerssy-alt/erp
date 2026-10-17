@@ -64,6 +64,10 @@ jobs:
           git diff --exit-code apps/api/openapi.yaml packages/api-contracts/types/index.ts
           node scripts/audit-openapi-response-types.mjs
 
+      # The contracts package must re-export generated shapes, never mirror them.
+      - name: Check contracts re-export generated shapes
+        run: node scripts/check-contract-mirrors.mjs
+
       # The audit classifies intended no-content responses apart from real gaps.
       # Prove that classification with a unit test before trusting the ratchet.
       - name: Test — guardrail scripts

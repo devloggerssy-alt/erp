@@ -49,9 +49,10 @@ export const categoriesFormConfig: ResourceFormConfig<CategoryFormValues, Create
     mapToFormValues: mapCategoryToFormValues,
     toCreate: (values) => ({
         name: values.name.trim(),
-        description: values.description?.trim() || undefined,
+        description: values.description?.trim() ?? "",
         imageUrl: values.imageUrl || null,
         parentId: values.parent?.id || undefined,
+        isActive: values.isActive ?? true,
     }),
     toUpdate: (values) => ({
         name: values.name.trim(),

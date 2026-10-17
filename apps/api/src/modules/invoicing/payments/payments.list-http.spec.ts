@@ -1,4 +1,4 @@
-import { ExecutionContext, INestApplication, ValidationPipe } from '@nestjs/common';
+import { ExecutionContext, ValidationPipe } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import type { NestExpressApplication } from '@nestjs/platform-express';
 import request from 'supertest';
@@ -14,7 +14,7 @@ import { JwtAuthGuard, PermissionsGuard } from '../../identity/auth/guards';
  * being silently ignored.
  */
 describe('GET /payments — list filters', () => {
-    let app: INestApplication;
+    let app: NestExpressApplication;
     const service = {
         list: jest.fn().mockResolvedValue({ data: [], total: 0 }),
     };

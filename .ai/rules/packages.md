@@ -23,11 +23,32 @@ Both `api` and `dashboard` depend on `api-contracts`.
 | Package | Role |
 |---------|------|
 | `@devloggers/db-prisma` | Prisma schema, migrations, seed, Nest `PrismaModule` |
-| `@devloggers/api-contracts` | Resource definitions + shared DTOs (source of truth) |
+| `@devloggers/api-contracts` | Resource + route definitions, enum catalog, re-exports of generated shapes |
 | `@devloggers/api-client` | Typed HTTP clients (`CrudClient`) |
 | `@devloggers/backend-core` | CRUD bases, API response builder, query utils |
 | `@devloggers/ui` | Shared UI components |
 | `@devloggers/eslint-config`, `@devloggers/typescript-config` | Tooling |
+
+## One source per shape
+
+The runtime shape lives with the API; the compile-time surface is generated and
+re-exported through contracts. Concretely:
+
+- **Request/response shapes** are the NestJS DTO classes and controllers in
+  `apps/api`. Their class-validator and Swagger decorators are the single
+  definition.
+- **`packages/api-contracts/types/index.ts` is generated** from that API — never
+  edit it by hand.
+- **`@devloggers/api-contracts` re-exports the generated shapes** (see
+  `src/dto/generated-schemas.ts`) so consumers import a named type, not a copy.
+  The contracts package keeps resource/route definitions, the Prisma-derived enum
+  catalog, and genuinely contracts-only types (e.g. route keys, filter types).
+- **Never hand-write an interface that mirrors a generated component.** Add or
+  change it on the API side and regenerate, then re-export it. Enum values come
+  from the Prisma seam (`.ai/rules/database.md`), not re-declared here.
+- `scripts/check-contract-mirrors.mjs` fails CI when a declaration in
+  `packages/api-contracts/src` re-declares a generated component.
+
 
 ## OpenAPI type generation
 
@@ -61,7 +82,7 @@ Run `pnpm generate` when:
 - TypeScript errors reference missing or incorrect API response/request types
 
 ## Rules
-- Add routes/DTOs in **api-contracts first** — never duplicate in API or dashboard
+- Resource/route definitions live in **api-contracts**; request/response **DTO classes live with the API** — never duplicate a shape in API or dashboard
 - New CRUD client: extend `CrudClient`, register in `api.ts` factory
 - No domain logic in `backend-core` — infrastructure only
 - **Never** patch type errors with `as any`, inline type definitions, or local

@@ -45,7 +45,7 @@ export const warehousesFormConfig: ResourceFormConfig<WarehouseFormValues, Creat
     }),
     toUpdate: (values) => ({
         name: { ar: values.name.ar.trim(), en: values.name.en?.trim() || undefined },
-        address: values.address?.trim() || null,
+        address: values.address?.trim() || undefined,
         isActive: values.isActive ?? true,
     }),
 }

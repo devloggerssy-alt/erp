@@ -6,7 +6,7 @@ import type {
   ApiRequestBody,
   ImportResultDto,
   BulkResult,
-  BulkUpdateItem,
+  BulkUpdateEntry,
 } from "@devloggers/api-contracts"
 import { ApiClient } from "./client"
 import { unwrapApiData } from "../utils/unwrap-api-data"
@@ -133,7 +133,7 @@ export class CrudClient<R extends CrudResource> implements ICrudClient {
    * Returns `{ total, succeeded, failed, errors }`.
    */
   async bulkUpdate(
-    items: BulkUpdateItem<ApiRequestBody<NonNullable<R["routes"]["update"]>, "patch">>[],
+    items: BulkUpdateEntry<ApiRequestBody<NonNullable<R["routes"]["update"]>, "patch">>[],
   ): Promise<BulkResult> {
     // Same tradeoff as bulkDelete above: falling back to `list`'s path (reinterpreted
     // as PATCH) only satisfies the compiler, not the server — a resource without real
