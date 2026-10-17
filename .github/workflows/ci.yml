@@ -85,6 +85,14 @@ jobs:
           pnpm --filter @devloggers/api-client typecheck
           pnpm --filter @devloggers/ui check-types
 
+      # ── D10 — the dashboard typecheck is blocking ───────────────────────────
+      # Promoted from the advisory job once the dashboard's three real type
+      # errors were fixed. The build no longer ignores type errors either
+      # (apps/dashboard/next.config.mjs), so a type regression fails CI and the
+      # production build.
+      - name: Typecheck — apps/dashboard (blocking)
+        run: pnpm --filter @devloggers/dashboard typecheck
+
       - name: Lint — apps/api
         run: pnpm --filter @devloggers/api lint:ci
 
@@ -110,7 +118,10 @@ jobs:
       - name: Test — api-contracts
         run: pnpm --filter @devloggers/api-contracts test
 
-      - name: Test — api-client
+      # `vitest run` executes the api-client type-test suite too
+      # (vitest.config.ts enables `typecheck` over `src/**/*.type-test.ts`),
+      # so this step is the blocking gate for the client's pinned types.
+      - name: Test — api-client (runtime + type-tests)
         run: pnpm --filter @devloggers/api-client test
 
       - name: Build — apps/api
@@ -165,13 +176,6 @@ jobs:
       - name: Lint — dashboard (61 errors, pre-existing)
         continue-on-error: true
         run: pnpm --filter @devloggers/dashboard lint
-
-      # 0 errors as of Phase 4 (Client & Dashboard Type Safety) — kept here
-      # as advisory rather than promoted to guardrails since this job's
-      # scope wasn't otherwise revisited. Owner: unassigned.
-      - name: Typecheck — dashboard (0 errors as of Phase 4)
-        continue-on-error: true
-        run: pnpm --filter @devloggers/dashboard typecheck
 
       - name: eslint-disable inventory (repo-wide)
         continue-on-error: true
