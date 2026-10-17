@@ -145,6 +145,38 @@ export interface operations {
   assert.equal(result.untyped, 0);
 });
 
+test('report and dashboard success responses are typed in the committed contract', () => {
+  const typesPath = resolve(
+    dirname(fileURLToPath(import.meta.url)),
+    '../packages/api-contracts/types/index.ts',
+  );
+  const { typedOps, untypedOps } = auditOpenApiResponseTypes(readFileSync(typesPath, 'utf8'));
+  const gaps = untypedOps.filter((op) => /\/reports\/|\/dashboard\//.test(op));
+  assert.deepEqual(gaps, []);
+
+  // Guard against the endpoints disappearing from the contract entirely: an
+  // absent operation is neither typed nor untyped, so the gap check alone
+  // would pass vacuously.
+  const expected = [
+    'Reports.stockBalance',
+    'Reports.salesSummary',
+    'Reports.purchaseSummary',
+    'Reports.customerStatement',
+    'Reports.supplierStatement',
+    'Reports.profitSummary',
+    'Dashboard.summary',
+    'Dashboard.chartData',
+    'Dashboard.expenseBreakdown',
+    'Dashboard.topItems',
+  ];
+  for (const operationId of expected) {
+    assert.ok(
+      typedOps.some((op) => op.endsWith(`[${operationId}]`)),
+      `${operationId} has no typed success response`,
+    );
+  }
+});
+
 test('AI chat, audit, files and tag-assignment success responses are typed in the generated contract', () => {
   const typesPath = resolve(dirname(fileURLToPath(import.meta.url)), '../packages/api-contracts/types/index.ts');
   const { untypedOps } = auditOpenApiResponseTypes(readFileSync(typesPath, 'utf8'));

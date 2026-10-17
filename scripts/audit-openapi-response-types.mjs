@@ -44,7 +44,7 @@ function indentOf(line) {
 
 /**
  * @param {string} source generated OpenAPI TypeScript
- * @returns {{ total2xx: number, typed: number, noContent: number, untyped: number, untypedOps: string[] }}
+ * @returns {{ total2xx: number, typed: number, noContent: number, untyped: number, untypedOps: string[], typedOps: string[] }}
  */
 export function auditOpenApiResponseTypes(source) {
   const lines = source.split('\n');
@@ -101,6 +101,7 @@ export function auditOpenApiResponseTypes(source) {
   let typed = 0;
   let noContent = 0;
   const untypedOps = [];
+  const typedOps = [];
 
   for (const [opId, responses] of responsesByOp) {
     const op = opMap.get(opId) ?? { method: '?', path: '?' };
@@ -113,6 +114,7 @@ export function auditOpenApiResponseTypes(source) {
         untypedOps.push(`${op.method} ${op.path} → ${status} [${opId}]`);
       } else if (JSON_CONTENT_RE.test(block) || STREAM_CONTENT_RE.test(block)) {
         typed++;
+        typedOps.push(`${op.method} ${op.path} → ${status} [${opId}]`);
       } else if (status === '204' || operationHasBody) {
         // Bodyless 204, or a redundant empty response beside a documented body.
         noContent++;
@@ -123,7 +125,7 @@ export function auditOpenApiResponseTypes(source) {
     }
   }
 
-  return { total2xx, typed, noContent, untyped: untypedOps.length, untypedOps };
+  return { total2xx, typed, noContent, untyped: untypedOps.length, untypedOps, typedOps };
 }
 
 function readRatchet() {

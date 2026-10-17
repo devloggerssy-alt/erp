@@ -13,28 +13,26 @@ import { StatCard } from "../shared/stat-card"
 import { ReportTable } from "../shared/report-table"
 import type { StockBalanceReportItem } from "@devloggers/api-client"
 
-type Warehouse = { id: string; name: string; code: string }
-
 export function StockReportPage() {
     const t = useTranslations("business.resources.reports.stock")
     const api = useApi()
     const [warehouseId, setWarehouseId] = useState<string | undefined>()
 
-    const { data: warehouses = [] } = useQuery<Warehouse[]>({
+    const { data: warehouses = [] } = useQuery({
         queryKey: ["warehouses", "list-for-filter"],
         queryFn: async () => {
             const res = await api.warehouses.list({ limit: 200 })
-            return (res.data ?? []) as Warehouse[]
+            return res.data ?? []
         },
     })
 
-    const { data = [], isLoading } = useQuery<StockBalanceReportItem[]>({
+    const { data = [], isLoading } = useQuery({
         queryKey: ["reports", "stock-balance", warehouseId],
         queryFn: () => api.reports.stockBalance(warehouseId),
     })
 
     const totalItems = data.length
-    const totalQty = data.reduce((s, r) => s + (r.quantity ?? 0), 0)
+    const totalQty = data.reduce((s, r) => s + r.quantity, 0)
     const outOfStock = data.filter((r) => r.quantity <= 0).length
 
     const columns = [

@@ -14,7 +14,6 @@ import { Skeleton } from "@/shared/components/ui/skeleton"
 import { useTranslations } from "next-intl"
 import { useQuery } from "@tanstack/react-query"
 import { useApi } from "@/shared/useApi"
-import type { StockBalanceReportItem } from "@devloggers/api-client"
 
 export function DashboardLowStock() {
     const t = useTranslations("business.dashboard.lowStock")
@@ -25,8 +24,8 @@ export function DashboardLowStock() {
         queryFn: () => api.reports.stockBalance(),
     })
 
-    const lowItems = (Array.isArray(stockData) ? stockData : [])
-        .filter((item: StockBalanceReportItem) => Number(item.quantity) <= 0)
+    const lowItems = (stockData ?? [])
+        .filter((item) => item.quantity <= 0)
         .slice(0, 5)
 
     return (
@@ -44,14 +43,14 @@ export function DashboardLowStock() {
                         ? Array.from({ length: 4 }).map((_, i) => (
                               <Skeleton key={i} className="h-10 w-full" />
                           ))
-                        : lowItems.map((item: StockBalanceReportItem) => (
+                        : lowItems.map((item) => (
                               <div
                                   key={`${item.itemId}-${item.warehouseId}`}
                                   className="flex items-center justify-between border-b pb-3 last:border-0 last:pb-0"
                               >
                                   <div className="space-y-0.5 min-w-0">
                                       <p className="text-sm font-medium truncate">
-                                          {item.itemName ?? item.itemCode}
+                                          {item.itemName || item.itemCode}
                                       </p>
                                       <p className="text-xs text-muted-foreground">
                                           {item.warehouseName}
