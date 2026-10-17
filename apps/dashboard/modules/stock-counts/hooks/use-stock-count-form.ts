@@ -5,7 +5,7 @@ import { useTranslations } from "next-intl"
 import { useQueryClient } from "@tanstack/react-query"
 import { toast } from "sonner"
 import type { UseFormReturn } from "react-hook-form"
-import type { StockCountsClient } from "@devloggers/api-client"
+import type { CrudShowResponse, StockCountsClient } from "@devloggers/api-client"
 import { useApi } from "@/shared/useApi"
 import { useResourceForm } from "@/shared/hooks/use-resource-form"
 import { useFormMutation } from "@/shared/hooks/use-form-mutation"
@@ -27,8 +27,6 @@ export type StockCountFormController = {
     submit: (mode: StockCountSubmitMode) => void
 }
 
-type CreatedStockCount = { data?: { id?: string } }
-
 /**
  * Drives the stock-count create form. Stock counts have no edit path, so this
  * only ever creates. "Save as draft" creates in DRAFT status; "Save & post"
@@ -47,7 +45,7 @@ export function useStockCountForm({
     onSuccess?: () => void
 }): StockCountFormController {
     const api = useApi()
-    const client = api["stock-counts"] as StockCountsClient
+    const client = api["stock-counts"]
     const t = useTranslations("business.resources.stockCounts")
     const tf = useTranslations("system.resourceForm")
     const queryClient = useQueryClient()
@@ -57,7 +55,7 @@ export function useStockCountForm({
         schema: stockCountFormSchema,
         defaultValues: DEFAULT_STOCK_COUNT_FORM_VALUES,
         resourceId,
-        initialize: (id) => client.show(id),
+        initialize: (id): Promise<CrudShowResponse<StockCountsClient>> => client.show(id),
         initialData,
         queryKey: [client.key, "show", resourceId],
         mapToFormValues: mapStockCountToFormValues,
@@ -69,11 +67,11 @@ export function useStockCountForm({
         mutationFn: (values: StockCountFormValues) => {
             const shouldPost = modeRef.current === "post"
             const promise = (async () => {
-                const created = (await client.create(
+                const created = await client.create(
                     stockCountsFormConfig.toCreate(values),
-                )) as CreatedStockCount
+                )
                 if (shouldPost) {
-                    const id = created?.data?.id
+                    const id = created.data?.id
                     if (!id) throw new Error("Created stock count is missing an id")
                     await client.post(id)
                 }

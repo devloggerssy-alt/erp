@@ -1,10 +1,17 @@
 import { stockLedgerResource } from "@devloggers/api-contracts"
 import type { ApiQueryParams } from "@devloggers/api-contracts"
 import { ApiClient } from "../infra/client"
-import type { ICrudClient } from "../infra/crud-client"
+import { unsupportedOperation, type ICrudClient } from "../infra/crud-client"
 
 type MovementQuery = ApiQueryParams<typeof stockLedgerResource.routes.movements, "get">
 
+/**
+ * Read-only stock ledger. The API exposes a single movements route
+ * (`/stock-ledger/movements`) and no detail/create/update/delete; those
+ * operations reject with `never` rather than erasing to `unknown`. `list` is
+ * typed from the route's generated response, so `ResourceItem<StockMovementsClient>`
+ * resolves the real movement fields (including `referenceId`).
+ */
 export class StockMovementsClient implements ICrudClient {
     key = stockLedgerResource.key
 
@@ -21,19 +28,19 @@ export class StockMovementsClient implements ICrudClient {
         }
     }
 
-    show(_id: string): Promise<{ data?: never }> {
-        return Promise.resolve({})
+    show(_id: string): Promise<never> {
+        return unsupportedOperation(this.key, "show")
     }
 
-    create(_body: unknown): Promise<unknown> {
-        return Promise.resolve({})
+    create(_body: unknown): Promise<never> {
+        return unsupportedOperation(this.key, "create")
     }
 
-    update(_id: string, _body: unknown): Promise<unknown> {
-        return Promise.resolve({})
+    update(_id: string, _body: unknown): Promise<never> {
+        return unsupportedOperation(this.key, "update")
     }
 
-    destroy(_id: string): Promise<unknown> {
-        return Promise.resolve({})
+    destroy(_id: string): Promise<never> {
+        return unsupportedOperation(this.key, "destroy")
     }
 }

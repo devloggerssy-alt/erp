@@ -30,6 +30,18 @@ export interface ICrudClient {
   destroy(id: string): Promise<unknown>
 }
 
+/**
+ * The honest answer for a resource client whose API does not expose an
+ * operation. Read-only / action-only resources still have to satisfy
+ * `ICrudClient`, but resolving an unsupported call to a fake empty body hides
+ * a programming error and forces the return type to `unknown`. Rejecting keeps
+ * the return type `never`, so `ResourceItem<T>` and action callers never see a
+ * meaningless `unknown` from a method the server has no route for.
+ */
+export function unsupportedOperation(key: string, operation: string): Promise<never> {
+  return Promise.reject(new Error(`Resource "${key}" does not support ${operation}`))
+}
+
 export class CrudClient<R extends CrudResource> implements ICrudClient {
   constructor(
     protected apiClient: ApiClient,

@@ -9,6 +9,8 @@ import { useApi } from "@/shared/useApi"
 import { useResourceForm } from "@/shared/hooks/use-resource-form"
 import { useFormMutation } from "@/shared/hooks/use-form-mutation"
 import { useApplyFormDefaults } from "@/shared/hooks/use-form-defaults"
+import { narrowEnum } from "@/shared/lib/narrow-enum"
+import type { CrudShowResponse, PaymentsClient } from "@devloggers/api-client"
 import {
     DEFAULT_PAYMENT_FORM_VALUES,
     mapPaymentToFormValues,
@@ -18,13 +20,14 @@ import {
     type PaymentFormValues,
 } from "../payments.config"
 
-type PaymentStatus = "DRAFT" | "POSTED" | "CANCELLED"
+const PAYMENT_STATUSES = ["DRAFT", "POSTED", "CANCELLED"] as const
+type PaymentStatus = (typeof PAYMENT_STATUSES)[number]
 
-interface CachedPaymentEntry {
-    data?: { status?: PaymentStatus; number?: string }
-    status?: PaymentStatus
-    number?: string
-}
+/** The generated response types `status` as `string`; narrow it to the domain union. */
+const asPaymentStatus = narrowEnum(PAYMENT_STATUSES)
+
+// The cache holds `api.payments.show()`'s generated envelope, so its type derives from the client.
+type CachedPaymentEntry = CrudShowResponse<PaymentsClient>
 
 export type UsePaymentFormOptions = {
     paymentId: string | null
@@ -79,8 +82,8 @@ export function usePaymentForm({
         ? queryClient.getQueryData<CachedPaymentEntry>([api.payments.key, "show", paymentId])
         : undefined
 
-    const status: PaymentStatus | undefined = cached?.data?.status ?? cached?.status
-    const paymentNumber: string | undefined = cached?.data?.number ?? cached?.number
+    const status = asPaymentStatus(cached?.data?.status)
+    const paymentNumber: string | undefined = cached?.data?.number
     const isReadOnly = status === "POSTED" || status === "CANCELLED"
 
     const submitModeRef = useRef<"draft" | "complete">("draft")

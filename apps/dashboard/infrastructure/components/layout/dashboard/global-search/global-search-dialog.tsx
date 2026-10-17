@@ -21,6 +21,7 @@ import {
     CommandLoading,
 } from "@/shared/components/ui/command"
 import { useAuthStore } from "@/shared/stores/auth-store"
+import type { CrudListDataItem, PaymentsClient } from "@devloggers/api-client"
 import { useGlobalSearch } from "./use-global-search"
 import { getSearchablePages } from "./static-pages"
 
@@ -29,21 +30,9 @@ export type GlobalSearchDialogProps = {
     onOpenChange: (open: boolean) => void
 }
 
-// NOTE (kept intentionally — do not remove without fixing the root cause):
-// `PaymentsClient.list()` returns `BaseCrudItem[]` (just `{ id: string }`), not the real
-// `PaymentResponseDto` shape, because `PaymentsClient` hand-implements `ICrudClient` instead of
-// extending `CrudClient<typeof paymentResource>`. See the identical note in
-// apps/dashboard/modules/payments/components/payments-columns.tsx.
-type PaymentRow = {
-    id: string
-    number: string
-    partyName?: string
-}
-
-function asPaymentRow(item: { id: string }): PaymentRow {
-    // eslint-disable-next-line no-restricted-syntax -- see NOTE above: list() erases to BaseCrudItem
-    return item as unknown as PaymentRow
-}
+// The row type derives from the client: `PaymentsClient.list()` resolves the generated
+// `PaymentResponseDto`, so no local mirror or cast is needed.
+type PaymentRow = CrudListDataItem<PaymentsClient>
 
 export function GlobalSearchDialog({ open, onOpenChange }: GlobalSearchDialogProps) {
     const t = useTranslations()
@@ -52,7 +41,8 @@ export function GlobalSearchDialog({ open, onOpenChange }: GlobalSearchDialogPro
 
     const [query, setQuery] = useState("")
     const permissions = useAuthStore((state) => state.user?.permissions)
-    const { granted, remoteEnabled, items, invoices, parties, payments, isFetching } = useGlobalSearch(query)
+    const { granted, remoteEnabled, items, invoices, parties, payments: paymentResults, isFetching } = useGlobalSearch(query)
+    const payments: PaymentRow[] = paymentResults
 
     const normalizedQuery = query.trim().toLowerCase()
 
@@ -182,7 +172,7 @@ export function GlobalSearchDialog({ open, onOpenChange }: GlobalSearchDialogPro
 
                     {remoteEnabled && granted.has("payments.view") && payments.length > 0 && (
                         <CommandGroup heading={t("system.header.searchGroups.payments")}>
-                            {payments.map(asPaymentRow).map((payment) => (
+                            {payments.map((payment) => (
                                 <CommandItem
                                     key={payment.id}
                                     value={`payment-${payment.id}`}

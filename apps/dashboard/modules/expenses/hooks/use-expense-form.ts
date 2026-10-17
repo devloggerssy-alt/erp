@@ -11,6 +11,7 @@ import { useResourceForm } from "@/shared/hooks/use-resource-form"
 import { useFormMutation } from "@/shared/hooks/use-form-mutation"
 import { useApplyFormDefaults } from "@/shared/hooks/use-form-defaults"
 import type { ExpenseStatus } from "@devloggers/api-contracts"
+import type { CrudShowResponse, ExpensesClient } from "@devloggers/api-client"
 import {
     DEFAULT_EXPENSE_FORM_VALUES,
     DEFAULT_EXPENSE_ITEM,
@@ -25,11 +26,9 @@ import {
 
 // ── Types ──────────────────────────────────────────────────────────────────────
 
-interface CachedExpenseEntry {
-    data?: { status?: ExpenseStatus; number?: string }
-    status?: ExpenseStatus
-    number?: string
-}
+// Derived from the client: `api.expenses.show()` resolves the generated
+// `ExpenseResponseDto` envelope, so no local cache-entry mirror is needed.
+type CachedExpenseEntry = CrudShowResponse<ExpensesClient>
 
 export type UseExpenseFormOptions = {
     expenseId: string | null
@@ -95,8 +94,8 @@ export function useExpenseForm({
         ? queryClient.getQueryData<CachedExpenseEntry>([api.expenses.key, "show", expenseId])
         : undefined
 
-    const status: ExpenseStatus | undefined = cached?.data?.status ?? cached?.status
-    const expenseNumber: string | undefined = cached?.data?.number ?? cached?.number
+    const status: ExpenseStatus | undefined = cached?.data?.status
+    const expenseNumber: string | undefined = cached?.data?.number
     const isReadOnly = status === "POSTED" || status === "CANCELLED"
 
     const watchedItems = useWatch({

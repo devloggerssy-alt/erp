@@ -19,21 +19,13 @@ export function useOpeningStock() {
   const { data: warehouses, isLoading: isLoadingWarehouses } = useQuery({
     queryKey: ["opening-stock-warehouses"],
     queryFn: () => api[warehouseResource.key].list(),
-    select: (res) =>
-      (res?.data ?? []) as Array<{ id: string; name: string; code: string }>,
+    select: (res) => res?.data ?? [],
   })
 
   const { data: items, isLoading: isLoadingItems } = useQuery({
     queryKey: ["opening-stock-items"],
     queryFn: () => api[itemResource.key].list({ limit: 1000 }),
-    select: (res) =>
-      (res?.data ?? []) as Array<{
-        id: string
-        code: string
-        name: string
-        categoryName?: string
-        isActive: boolean
-      }>,
+    select: (res) => res?.data ?? [],
   })
 
   const { data: stockBalances } = useQuery({
@@ -42,25 +34,15 @@ export function useOpeningStock() {
       api[inventoryResource.key].list({ warehouseId: selectedWarehouseId }),
     enabled: !!selectedWarehouseId,
     select: (res) => {
-      const items = (res?.data ?? []) as Array<{
-        itemId: string
-        quantity: number
-      }>
-      return new Map(items.map((b) => [b.itemId, b.quantity]))
+      const balances = res?.data ?? []
+      return new Map(balances.map((b) => [b.itemId, b.quantity]))
     },
   })
 
   const { data: periods, isLoading: isLoadingPeriods } = useQuery({
     queryKey: ["opening-stock-periods"],
     queryFn: () => api[fiscalPeriodResource.key].list(),
-    select: (res) => {
-      const items = (res?.data ?? []) as Array<{
-        id: string
-        name: string
-        status: string
-      }>
-      return items.filter((p) => p.status === "OPEN")
-    },
+    select: (res) => (res?.data ?? []).filter((p) => p.status === "OPEN"),
   })
 
   const rows: OpeningStockRow[] = useMemo(() => {
@@ -72,7 +54,7 @@ export function useOpeningStock() {
         itemId: item.id,
         code: item.code,
         name: item.name,
-        category: item.categoryName ?? "",
+        category: item.category?.name ?? "",
         currentQty: stockBalances?.get(item.id) ?? 0,
         openingQty: 0,
         unitCost: 0,

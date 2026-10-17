@@ -60,8 +60,8 @@ export function createStockMovementsColumns(
             accessorKey: "referenceType",
             header: ({ column }) => <ColumnHeader column={column} title={t("reference")} />,
             cell: ({ row }) => {
-                const refType = row.getValue("referenceType") as string | null
-                const refId = (row.original as { referenceId?: string | null }).referenceId
+                const refType = row.original.referenceType
+                const refId = row.original.referenceId
                 if (!refType) return "—"
                 return refId ? `${refType} / ${refId.slice(0, 8)}…` : refType
             },

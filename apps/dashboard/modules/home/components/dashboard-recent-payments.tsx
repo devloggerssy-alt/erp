@@ -16,28 +16,12 @@ import {
 import { Badge } from "@/shared/components/ui/badge"
 import { Skeleton } from "@/shared/components/ui/skeleton"
 import { useTranslations } from "next-intl"
-import type { BaseCrudItem } from "@devloggers/api-client"
+import type { CrudListDataItem, PaymentsClient } from "@devloggers/api-client"
 import { useDashboardMovements } from "../hooks"
 
-// NOTE (kept intentionally — do not remove without fixing the root cause):
-// `PaymentsClient.list()` returns `BaseCrudItem[]` (just `{ id: string }`), not the real
-// `PaymentResponseDto` shape, because `PaymentsClient` hand-implements `ICrudClient` instead of
-// extending `CrudClient<typeof paymentResource>`. See the identical, more detailed note in
-// apps/dashboard/modules/payments/components/payments-columns.tsx. Verified against the real
-// (flat) `PaymentResponseDto`.
-type PaymentRow = {
-    id: string
-    date: string
-    number: string
-    type: string
-    cashboxName?: string
-    amount: number
-}
-
-function asRow(item: BaseCrudItem): PaymentRow {
-    // eslint-disable-next-line no-restricted-syntax -- see NOTE above: list() erases to BaseCrudItem
-    return item as unknown as PaymentRow
-}
+// The row type derives from the client: `PaymentsClient.list()` resolves the generated
+// `PaymentResponseDto`, so no local mirror or cast is needed.
+type PaymentRow = CrudListDataItem<PaymentsClient>
 
 const TYPE_VARIANT: Record<string, "default" | "destructive" | "secondary"> = {
     RECEIPT: "default",
@@ -49,7 +33,7 @@ export function DashboardRecentPayments() {
     const t = useTranslations("business.dashboard.recentPayments")
     const { data, isLoading } = useDashboardMovements()
 
-    const payments = data?.data ?? []
+    const payments: PaymentRow[] = data?.data ?? []
 
     return (
         <Card>
@@ -75,7 +59,7 @@ export function DashboardRecentPayments() {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {payments.map(asRow).map((payment) => (
+                            {payments.map((payment) => (
                                 <TableRow key={payment.id}>
                                     <TableCell className="text-sm text-muted-foreground">
                                         {format(new Date(payment.date), "MMM d, yyyy")}

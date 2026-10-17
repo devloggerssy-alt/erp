@@ -10,7 +10,9 @@ import { useApi } from "@/shared/useApi"
 import { useResourceForm } from "@/shared/hooks/use-resource-form"
 import { useFormMutation } from "@/shared/hooks/use-form-mutation"
 import { useApplyFormDefaults } from "@/shared/hooks/use-form-defaults"
+import { narrowEnum } from "@/shared/lib/narrow-enum"
 import type { InvoiceStatus, InvoicePaidStatus } from "@devloggers/api-contracts"
+import { type CrudShowResponse, type InvoicesClient } from "@devloggers/api-client"
 import {
     DEFAULT_INVOICE_FORM_VALUES,
     DEFAULT_INVOICE_LINE,
@@ -71,24 +73,14 @@ export type InvoiceFormController = {
     initialTypeCode:string | null
  }
 
-// Cache entry shape — InvoicesClient.show() returns any internally, so we
-// define what we expect to find and pass it as a type parameter to getQueryData.
-interface CachedInvoiceEntry {
-    data?: {
-        status?: InvoiceStatus
-        number?: string
-        amountPaid?: number
-        balanceDue?: number
-        paidStatus?: InvoicePaidStatus
-        payments?: InvoicePaymentItem[]
-    }
-    status?: InvoiceStatus
-    number?: string
-    amountPaid?: number
-    balanceDue?: number
-    paidStatus?: InvoicePaidStatus
-    payments?: InvoicePaymentItem[]
-}
+// Cache entry shape — `api.invoices.show()` resolves the generated
+// `InvoiceResponseDto` envelope, so the cache type derives from the client.
+// The generated response types `status` as `string`; narrow it to the domain
+// union for the form UI.
+type CachedInvoiceEntry = CrudShowResponse<InvoicesClient>
+
+const INVOICE_STATUSES = ["DRAFT", "POSTED", "CANCELLED"] as const
+const asInvoiceStatus = narrowEnum(INVOICE_STATUSES)
 
 // ── Hook ───────────────────────────────────────────────────────────────────────
 
@@ -142,12 +134,12 @@ export function useInvoiceForm({
         ? queryClient.getQueryData<CachedInvoiceEntry>([api.invoices.key, "show", invoiceId])
         : undefined
 
-    const status: InvoiceStatus | undefined = cached?.data?.status ?? cached?.status
-    const invoiceNumber: string | undefined = cached?.data?.number ?? cached?.number
-    const amountPaid: number | undefined = cached?.data?.amountPaid ?? cached?.amountPaid
-    const balanceDue: number | undefined = cached?.data?.balanceDue ?? cached?.balanceDue
-    const paidStatus: InvoicePaidStatus | undefined = cached?.data?.paidStatus ?? cached?.paidStatus
-    const payments: InvoicePaymentItem[] | undefined = cached?.data?.payments ?? cached?.payments
+    const status = asInvoiceStatus(cached?.data?.status)
+    const invoiceNumber: string | undefined = cached?.data?.number
+    const amountPaid: number | undefined = cached?.data?.amountPaid
+    const balanceDue: number | undefined = cached?.data?.balanceDue
+    const paidStatus: InvoicePaidStatus | undefined = cached?.data?.paidStatus
+    const payments: InvoicePaymentItem[] | undefined = cached?.data?.payments
     const isReadOnly = status === "POSTED" || status === "CANCELLED"
 
     // ── Live totals ────────────────────────────────────────────────────────────
