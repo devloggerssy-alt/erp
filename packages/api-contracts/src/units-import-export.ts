@@ -5,8 +5,6 @@ export const UNITS_IMPORT_COLUMNS = {
     isActive: 'is_active',
 } as const;
 
-export const UNITS_BASE_COLUMN_KEYS = Object.values(UNITS_IMPORT_COLUMNS);
-
 export const UNITS_EXPORT_MAX_ROWS = 10_000;
 
 export const UNITS_INSTRUCTIONS = [

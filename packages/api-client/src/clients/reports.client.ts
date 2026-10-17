@@ -10,20 +10,13 @@ type ReportData<Route extends typeof reportResource.routes[keyof typeof reportRe
 
 export type StockBalanceReportItem = ApiComponents["schemas"]["StockBalanceReportItemDto"]
 export type InvoiceReportItem = ApiComponents["schemas"]["InvoiceReportItemDto"]
-export type SalesSummaryResponse = ApiComponents["schemas"]["SalesSummaryResponseDto"]
-export type PurchaseSummaryResponse = ApiComponents["schemas"]["PurchaseSummaryResponseDto"]
-export type PartyStatementParty = ApiComponents["schemas"]["PartyStatementPartyDto"]
 export type PartyStatementPayment = ApiComponents["schemas"]["PartyStatementPaymentDto"]
-export type PartyStatementResponse = ApiComponents["schemas"]["PartyStatementResponseDto"]
-export type ProfitSummaryResponse = ApiComponents["schemas"]["ProfitSummaryResponseDto"]
 
 export type DateRangeFilter = { from?: string; to?: string }
-export type SalesSummaryFilter = DateRangeFilter & { partyId?: string }
-export type PurchaseSummaryFilter = DateRangeFilter & { partyId?: string }
 
-const EMPTY_SALES: SalesSummaryResponse = { invoices: [], totalSales: 0, count: 0 }
-const EMPTY_PURCHASES: PurchaseSummaryResponse = { invoices: [], totalPurchases: 0, count: 0 }
-const EMPTY_STATEMENT: PartyStatementResponse = {
+const EMPTY_SALES: ApiComponents["schemas"]["SalesSummaryResponseDto"] = { invoices: [], totalSales: 0, count: 0 }
+const EMPTY_PURCHASES: ApiComponents["schemas"]["PurchaseSummaryResponseDto"] = { invoices: [], totalPurchases: 0, count: 0 }
+const EMPTY_STATEMENT: ApiComponents["schemas"]["PartyStatementResponseDto"] = {
     party: null,
     invoices: [],
     payments: [],
@@ -31,7 +24,7 @@ const EMPTY_STATEMENT: PartyStatementResponse = {
     totalPaid: 0,
     balance: 0,
 }
-const EMPTY_PROFIT: ProfitSummaryResponse = {
+const EMPTY_PROFIT: ApiComponents["schemas"]["ProfitSummaryResponseDto"] = {
     totalSales: 0,
     totalPurchases: 0,
     totalExpenses: 0,
@@ -62,7 +55,7 @@ export class ReportsClient {
         return res.data ?? []
     }
 
-    async salesSummary(filters?: SalesSummaryFilter): Promise<ReportData<typeof reportResource.routes.salesSummary>> {
+    async salesSummary(filters?: DateRangeFilter & { partyId?: string }): Promise<ReportData<typeof reportResource.routes.salesSummary>> {
         const query = definedQuery(filters)
         const res = await this.apiClient.get(
             reportResource.routes.salesSummary,
@@ -71,7 +64,7 @@ export class ReportsClient {
         return res.data ?? EMPTY_SALES
     }
 
-    async purchaseSummary(filters?: PurchaseSummaryFilter): Promise<ReportData<typeof reportResource.routes.purchaseSummary>> {
+    async purchaseSummary(filters?: DateRangeFilter & { partyId?: string }): Promise<ReportData<typeof reportResource.routes.purchaseSummary>> {
         const query = definedQuery(filters)
         const res = await this.apiClient.get(
             reportResource.routes.purchaseSummary,

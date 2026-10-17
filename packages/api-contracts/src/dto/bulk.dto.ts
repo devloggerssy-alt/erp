@@ -14,11 +14,3 @@ export type BulkResult = {
 
 /** A single bulk-update item: `id` (required) + any subset of the resource's update DTO fields. */
 export type BulkUpdateEntry<TUpdateDto> = { id: string } & Partial<TUpdateDto>;
-
-export interface BulkDeleteResultDto extends BulkResult {}
-
-export interface BulkUpdateResultDto extends BulkResult {}
-
-export interface BulkUpdateBodyDto<TUpdateDto> {
-    items: BulkUpdateEntry<TUpdateDto>[];
-}

@@ -16,8 +16,6 @@ export const ITEMS_IMPORT_COLUMNS = {
     galleryUrls: 'gallery_urls',
 } as const;
 
-export const ITEMS_BASE_COLUMN_KEYS = Object.values(ITEMS_IMPORT_COLUMNS);
-
 export const ITEMS_CUSTOM_FIELD_PREFIX = 'cf:';
 
 export const ITEMS_EXPORT_MAX_ROWS = 10_000;

@@ -17,7 +17,6 @@ packages/api-contracts/
 │   │   ├── ApiResponse.ts    # Response type helpers
 │   │   ├── ApiError.ts      # Error type helpers
 │   │   ├── ApiMeta.ts       # Pagination meta types
-│   │   ├── ApiQueryOptions.ts # Query parameter types
 │   │   └── index.ts
 │   ├── resources/
 │   │   ├── base/

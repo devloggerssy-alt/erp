@@ -10,8 +10,3 @@ export type {
   Cursor,
   Pagination as PaginationMeta,
 } from '@devloggers/api-contracts';
-
-import type { ApiSuccessResponse } from '@devloggers/api-contracts';
-
-/** Convenience alias for a successful envelope. */
-export type ApiResponse<T = unknown> = ApiSuccessResponse<T>;
