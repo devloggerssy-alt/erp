@@ -80,6 +80,10 @@ test('ignores non-generated names, bare re-exports and other declarations', () =
     assert.deepEqual(findMirrors(source, components), []);
 });
 
+test('extracts nothing when the schemas block is missing', () => {
+    assert.equal(extractGeneratedComponentNames('export interface paths {}').size, 0);
+});
+
 test('reports every mirror in a file with its line number', () => {
     const source = [
         `export interface CreatePartyDto { name: string }`,

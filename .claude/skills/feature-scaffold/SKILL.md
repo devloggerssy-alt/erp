@@ -50,10 +50,11 @@ Run: `pnpm --filter @devloggers/db-prisma db:migrate:dev`
 
 ```
 src/resources/<entity>.resource.ts   ← defineCrudResource
-src/dto/<entity>.dto.ts              ← Create, Update, Response DTOs (Zod)
 src/resources/index.ts               ← register in resources map
-src/dto/index.ts                     ← export DTOs
 ```
+
+DTO classes live with the API (step 3); `src/dto/generated-schemas.ts`
+re-exports the generated components for consumers.
 
 ### 3. NestJS API (`apps/api`)
 

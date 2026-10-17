@@ -21,8 +21,10 @@ Copy [checklist.md](checklist.md) and mark items as you go.
 
 ### 2. API contracts
 - `packages/api-contracts/src/resources/<entity>.resource.ts` — `defineCrudResource`
-- `packages/api-contracts/src/dto/<entity>.dto.ts`
-- Register in `src/resources/index.ts` (`resources` map) and `src/dto/index.ts`
+- Register in `src/resources/index.ts` (`resources` map)
+- Request/response shapes are **not** hand-written here: the NestJS DTO classes
+  (step 3) are the source, and `src/dto/generated-schemas.ts` re-exports the
+  generated components. See `.ai/rules/packages.md`.
 
 **Skill:** `api-contracts`
 

@@ -78,15 +78,14 @@ Every new CRUD entity copies **units** end-to-end:
 
 ```
 packages/db-prisma/src/schema/unit.prisma
-packages/api-contracts/src/resources/unit.resource.ts
-packages/api-contracts/src/dto/unit.dto.ts
-apps/api/src/modules/catalog/units/          ← 4-layer NestJS
+packages/api-contracts/src/resources/unit.resource.ts        ← route/contract definition
+apps/api/src/modules/catalog/units/          ← 4-layer NestJS (+ DTO classes = shape source)
 packages/api-client/src/clients/units.client.ts
 apps/dashboard/modules/units/                ← generateResource pattern
 apps/dashboard/app/.../catalog/units/page.tsx ← thin route
 ```
 
-**Data flow:** `Prisma model` → `api-contracts resource + DTO` → `NestJS module` → `api-client CrudClient` → `dashboard module (generateResource)`
+**Data flow:** `Prisma model` → `api-contracts resource` → `NestJS module (DTO classes)` → `generated OpenAPI types re-exported by api-contracts` → `api-client CrudClient` → `dashboard module (generateResource)`
 
 ---
 

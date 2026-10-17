@@ -103,4 +103,3 @@ export type UpdatePosSettingDto = components['schemas']['UpdatePosSettingDto']
 
 // ── Bulk operations ──
 export type BulkDeleteBodyDto = components['schemas']['BulkDeleteBodyDto']
-export type BulkUpdateItem = components['schemas']['BulkUpdateItem']

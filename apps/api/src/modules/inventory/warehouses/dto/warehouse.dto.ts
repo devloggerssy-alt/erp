@@ -27,10 +27,10 @@ export class UpdateWarehouseDto {
     @Type(() => LocalizedStringDto)
     name?: LocalizedStringDto;
 
-    @ApiPropertyOptional({ example: 'Damascus Industrial Zone, Building 5' })
+    @ApiPropertyOptional({ example: 'Damascus Industrial Zone, Building 5', nullable: true })
     @IsOptional()
     @IsString()
-    address?: string;
+    address?: string | null;
 
     @ApiPropertyOptional({ example: true })
     @IsOptional()
