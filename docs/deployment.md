@@ -133,7 +133,6 @@ pnpm check-types
 | `pnpm start` | Serve production build |
 | `pnpm typecheck` | `tsc --noEmit` |
 | `pnpm test:unit` | Vitest unit tests |
-| `pnpm test:e2e` | Cypress E2E tests |
 
 ### Database (`packages/db-prisma`)
 

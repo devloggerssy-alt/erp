@@ -22,7 +22,7 @@ function buildPrismaStub() {
 
     const prisma = new Proxy(known, {
         get(target, prop: string) {
-            if (prop in target) return (target as Record<string, unknown>)[prop];
+            if (prop in target) return target[prop];
             return {
                 findMany: jest.fn((args: { where: unknown }) => {
                     callOrder.push(prop);

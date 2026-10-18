@@ -138,4 +138,4 @@ After any mutation, the dashboard invalidates the entire resource query cache (a
 | **Multi-currency exchange rates** | Low | Currency model exists; exchange rate tracking not implemented |
 | **Inventory transfer between warehouses** | Low | TRANSFER_IN/OUT movement types defined; UI not observed |
 | **Cashier/POS module** | Low | Route `/cashier` in nav; page may be planned |
-| **E2E test coverage** | Medium | Cypress configured; test suite scope unclear |
+| **E2E test coverage** | Medium | None — the inherited Cypress suite was non-functional and has been removed; no e2e runner configured |

@@ -99,7 +99,6 @@
 | **Prettier** | Code formatting |
 | **Vitest** | Dashboard unit tests |
 | **Jest** | API unit tests |
-| **Cypress** | Dashboard E2E tests |
 
 ---
 

@@ -73,11 +73,14 @@ rows, balances and GL intents — high value. Needs: targeted unit tests asserti
 zero-variance skips, average-cost valuation without a balance, and the opening
 GL intent.
 
-### 11. Dashboard tests do not run in CI
-Per `docs/reviews/2026-10-17-full-stack-audit.md`, `apps/dashboard` Vitest and
-Cypress never run in CI. The deleted customer Cypress specs also targeted a
-non-existent `/sales/customers` route. Needs: wire `test:unit`/`test:e2e` into CI
-and port any e2e coverage to the real `/parties/customers` form.
+### 11. No e2e runner, and dashboard tests do not run in CI
+The Cypress suite was non-functional (inherited login helper that hit the wrong
+host/path/response shape, plus English assertions against the `ar` default
+locale) and has been removed entirely — `cypress` dependency, scripts, config
+and `cypress/**` are gone. `apps/dashboard` Vitest also does not run in CI.
+Needs: adopt an e2e runner (Playwright recommended), boot API + dashboard from
+the runner, use a seeded test tenant + `storageState` auth, and wire both unit
+and e2e into `.github/workflows/ci.yml`.
 
 ### 12. CI “Golden masters present” step is stale
 `.github/workflows/ci.yml` checks for
@@ -95,6 +98,9 @@ golden master or drop the step.
 | `apps/dashboard/cypress/e2e/customers/customer-form.cy.ts` | dead (wrong route/fields/endpoints) |
 | `apps/dashboard/cypress/e2e/customers/customer-form-integration.cy.ts` | dead + duplicate |
 | `apps/dashboard/cypress/fixtures/customers.json` | fixture only used by the two specs above |
+| `apps/dashboard/cypress/e2e/settings.cy.ts` | non-functional (broken login helper + `ar` default locale) |
+| `apps/dashboard/cypress/e2e/chart-of-accounts.cy.ts` | non-functional (same root causes) |
+| `apps/dashboard/cypress/support/*`, `cypress.config.ts`, `cypress/tsconfig.json` | Cypress runner config for the specs above |
 | `apps/dashboard/modules/items/items.config.test.ts` | tautology (re-tested `z.enum`) — see gap 1 |
 | `apps/api/.../posting/policies/invoice-cancelled.policy.spec.ts` | tautology (constant) — see gap 8 |
 | `apps/api/.../invoicing/bank-accounts/bank-accounts.ai-tools.spec.ts` | config restatement — see gap 9 |

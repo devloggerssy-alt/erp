@@ -48,7 +48,7 @@ export class AuthUserDto {
 
 export class LogoutResponseDto {
     @ApiProperty({ type: 'string', example: 'success' })
-    status: 'success' = 'success';
+    status = 'success' as const;
 
     @ApiProperty({ type: 'string', example: 'Logged out' })
     message: string = '';
