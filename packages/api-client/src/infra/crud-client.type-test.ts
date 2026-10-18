@@ -6,7 +6,7 @@ import { ApiClient } from "./client"
 import type { CrudListDataItem } from "./crud-client"
 import { AccountsClient } from "../clients/account.client"
 
-describe("CrudClient — pinned response types (characterization, not red/green TDD)", () => {
+describe("CrudClient — response type contract", () => {
     it("list() item shape resolves the real Unit fields, not any/unknown", () => {
         type ListItem = CrudListDataItem<UnitsClient>
         expectTypeOf<ListItem>().not.toBeAny()

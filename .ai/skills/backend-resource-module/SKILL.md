@@ -137,7 +137,7 @@ The concrete hazard: defaulting `CreatePaymentDto.type` would let an omitted `ty
 become a RECEIPT — and `payment-journal.ts` branches on that value to choose the debit/credit
 direction, so the cash would post to the wrong side of the ledger.
 
-Pinned by `apps/api/src/common/__tests__/dto-validation-semantics.spec.ts`. See
+Not yet enforced against real DTOs — see `docs/test-coverage-gaps.md`. See
 `docs/superpowers/specs/2026-08-20-erp-roadmap/00-open-issues.md` (DTO validation).
 
 ```typescript

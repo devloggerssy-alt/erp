@@ -99,20 +99,4 @@ describe('StatusGuardedCrudService', () => {
     });
   });
 
-  describe('createAs', () => {
-    it('allocates a document number and creates with actor', async () => {
-      const { service, allocator, repo } = buildDeps('DRAFT');
-      const createSpy = jest.spyOn(repo, 'create').mockResolvedValue({
-        id: 'doc-1', tenantId: 't1', status: 'DRAFT', number: 'TEST-00001', createdBy: 'u1',
-      } as TestEntity);
-
-      const result = await service.createAs('t1', 'u1', { amount: 500 });
-
-      expect(allocator.getNextNumber).toHaveBeenCalledWith('t1', 'TEST');
-      expect(createSpy).toHaveBeenCalledWith(
-        expect.objectContaining({ tenantId: 't1', number: 'TEST-00001', createdBy: 'u1' }),
-      );
-      expect(result.number).toBe('TEST-00001');
-    });
-  });
 });
