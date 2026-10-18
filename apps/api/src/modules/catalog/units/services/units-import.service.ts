@@ -11,6 +11,7 @@ import {
 } from '@devloggers/backend-core';
 import { UnitsService } from './units.service';
 import { CreateUnitDto, UpdateUnitDto } from '../dto';
+import { toLocalizedString } from '@/common/i18n/localized-string';
 
 type UnitsImportContext = {
     existingByName: Map<string, string>;
@@ -41,7 +42,7 @@ export class UnitsImportService extends CrudImportServiceBase<
             existingByName: new Map(
                 units.map((unit) => {
                     const resolvedName = typeof unit.name === 'object' && unit.name
-                        ? ((unit.name as any).en || (unit.name as any).ar || '')
+                        ? toLocalizedString(unit.name)?.en || toLocalizedString(unit.name)?.ar || ''
                         : String(unit.name);
                     return [normalizeLookupKey(resolvedName), unit.id] as [string, string];
                 }),

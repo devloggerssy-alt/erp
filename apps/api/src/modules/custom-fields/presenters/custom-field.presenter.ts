@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CrudPresenter } from '@devloggers/backend-core';
 import type { CustomField } from '@devloggers/db-prisma';
-import { LocalizedStringDto } from '@devloggers/backend-core';
+import { toLocalizedString } from '@/common/i18n/localized-string';
 import { CustomFieldResponseDto } from '../dto';
 
 @Injectable()
@@ -10,11 +10,11 @@ export class CustomFieldPresenter extends CrudPresenter<CustomField, CustomField
         return {
             id: entity.id,
             module: entity.module,
-            name: entity.name as unknown as LocalizedStringDto,
-            label: entity.label as unknown as LocalizedStringDto,
+            name: toLocalizedString(entity.name) ?? { ar: '' },
+            label: toLocalizedString(entity.label) ?? { ar: '' },
             type: entity.type,
             defaultValue: entity.defaultValue ?? null,
-            placeholder: (entity.placeholder as unknown as LocalizedStringDto | null) ?? null,
+            placeholder: toLocalizedString(entity.placeholder) ?? null,
             options: entity.options ?? [],
             isRequired: entity.isRequired,
             showInList: entity.showInList,

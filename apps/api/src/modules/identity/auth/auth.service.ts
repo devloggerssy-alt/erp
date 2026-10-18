@@ -5,7 +5,8 @@ import * as bcrypt from 'bcryptjs';
 import { JwtPayload } from './strategies/jwt.strategy';
 import { RegisterDto } from './dto';
 import { TenantsService } from '../tenants/tenants.service';
-import type { LocalizedString } from '@devloggers/api-contracts';
+import type { Prisma } from '@devloggers/db-prisma';
+import { toLocalizedString } from '@/common/i18n/localized-string';
 
 @Injectable()
 export class AuthService {
@@ -52,13 +53,13 @@ export class AuthService {
         return user;
     }
 
-    private resolveRoleName(name: unknown): string {
+    private resolveRoleName(name: Prisma.JsonValue | null | undefined): string {
         if (typeof name === 'string') {
             return name;
         }
 
-        const localized = name as LocalizedString;
-        return localized.en ?? localized.ar;
+        const localized = toLocalizedString(name);
+        return localized?.en ?? localized?.ar ?? '';
     }
 
     private buildPermissions(user: {
@@ -80,7 +81,7 @@ export class AuthService {
         fullName: string;
         phone: string | null;
         avatarUrl: string | null;
-        userRoles: Array<{ role: { name: unknown; rolePermissions: Array<{ permission: { key: string } }> } }>;
+        userRoles: Array<{ role: { name: Prisma.JsonValue; rolePermissions: Array<{ permission: { key: string } }> } }>;
         tenant: {
             id: string;
             name: string;

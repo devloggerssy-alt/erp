@@ -1,7 +1,7 @@
 import { Injectable, ConflictException } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { CrudService, LocaleResolverService } from '@devloggers/backend-core';
-import type { LocalizedString } from '@devloggers/api-contracts';
+import { toLocalizedString } from '@/common/i18n/localized-string';
 import type { ChartOfAccount } from '@devloggers/db-prisma';
 import { AccountsRepository } from '../repositories/accounts.repository';
 import { AccountPresenter } from '../presenters/account.presenter';
@@ -28,7 +28,7 @@ export class AccountsService extends CrudService<
     async getTree(tenantId: string) {
         const accounts = await this.accountsRepository.findAllForBalances(tenantId);
         return accounts.map((a) => {
-            const name = a.name as unknown as LocalizedString;
+            const name = toLocalizedString(a.name) ?? { ar: '' };
             return {
                 id: a.id,
                 code: a.code,

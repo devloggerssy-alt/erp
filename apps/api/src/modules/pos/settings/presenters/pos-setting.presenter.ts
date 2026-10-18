@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { LocaleResolverService } from '@devloggers/backend-core';
-import type { LocalizedString } from '@devloggers/api-contracts';
+import { toLocalizedString } from '@/common/i18n/localized-string';
 import type { PosSettingWithRelations } from '../repositories/pos-settings.repository';
 import { PosSettingResponseDto } from '../dto';
 
@@ -14,11 +14,11 @@ export class PosSettingPresenter {
             defaultPartyId: entity.defaultPartyId,
             defaultPartyName: entity.defaultParty.name,
             invoiceTypeId: entity.invoiceTypeId,
-            invoiceTypeName: this.locale.resolve(entity.invoiceType.name as unknown as LocalizedString),
+            invoiceTypeName: this.locale.resolve(toLocalizedString(entity.invoiceType.name)),
             cashboxId: entity.cashboxId,
-            cashboxName: this.locale.resolve(entity.cashbox.name as unknown as LocalizedString),
+            cashboxName: this.locale.resolve(toLocalizedString(entity.cashbox.name)),
             warehouseId: entity.warehouseId,
-            warehouseName: this.locale.resolve(entity.warehouse.name as unknown as LocalizedString),
+            warehouseName: this.locale.resolve(toLocalizedString(entity.warehouse.name)),
             updatedAt: entity.updatedAt.toISOString(),
         };
     }
