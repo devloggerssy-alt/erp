@@ -7,6 +7,7 @@ import { PaymentsService } from '../payments/payments.service';
 import { CreatePaymentDto, PaymentTypeEnum } from '../payments/dto';
 import { computeInvoicePaidState } from './presenters/invoice.presenter';
 import { computeInvoiceTotals } from './invoice-totals';
+import { INVOICE_DETAIL_INCLUDE, INVOICE_LINES_INCLUDE, INVOICE_LIST_INCLUDE } from './invoice-includes';
 
 @Injectable()
 export class InvoicesService {
@@ -58,14 +59,7 @@ export class InvoicesService {
         const [data, total] = await Promise.all([
             this.prisma.invoice.findMany({
                 where,
-                include: {
-                    invoiceType: { select: { code: true, name: true, direction: true } },
-                    party: { select: { name: true, code: true } },
-                    warehouse: { select: { name: true, code: true } },
-                    currency: { select: { code: true, symbol: true } },
-                    paymentAllocations: { select: { amount: true } },
-                    _count: { select: { lines: true } },
-                },
+                include: INVOICE_LIST_INCLUDE,
                 orderBy: { createdAt: 'desc' },
                 skip,
                 take: limit,
@@ -79,24 +73,7 @@ export class InvoicesService {
     async findById(tenantId: string, id: string) {
         const invoice = await this.prisma.invoice.findFirst({
             where: { id, tenantId },
-            include: {
-                invoiceType: true,
-                party: true,
-                warehouse: true,
-                currency: true,
-                fiscalPeriod: true,
-                lines: {
-                    include: {
-                        item: { select: { name: true, code: true } },
-                        unit: { select: { name: true, abbreviation: true } },
-                    },
-                    orderBy: { sortOrder: 'asc' },
-                },
-                paymentAllocations: {
-                    include: { payment: { select: { number: true, date: true } } },
-                    orderBy: { createdAt: 'asc' },
-                },
-            },
+            include: INVOICE_DETAIL_INCLUDE,
         });
 
         if (!invoice) {
@@ -183,10 +160,7 @@ export class InvoicesService {
                     create: totals.lines,
                 },
             },
-            include: {
-                lines: true,
-                invoiceType: true,
-            },
+            include: INVOICE_LINES_INCLUDE,
         });
 
         // Complete + opening payment are both best-effort follow-ups: the invoice row
@@ -281,10 +255,7 @@ export class InvoicesService {
         return this.prisma.invoice.update({
             where: { id },
             data: updateData,
-            include: {
-                lines: true,
-                invoiceType: true,
-            },
+            include: INVOICE_LINES_INCLUDE,
         });
     }
 

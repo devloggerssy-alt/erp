@@ -9,6 +9,7 @@ import {
 } from '../../inventory';
 import { AccountingPostingFacade, type InvoicePostedIntent, type InvoiceCancelledIntent } from '../../accounting/posting';
 import { assertFiscalPeriodOpen } from '../../accounting/accounts/utils/assert-period-open';
+import { INVOICE_LINES_INCLUDE } from './invoice-includes';
 
 /**
  * The exact `include` shape `postSalesInvoice` loads before posting, and the
@@ -106,7 +107,7 @@ export class InvoicePostingService {
             return tx.invoice.update({
                 where: { id: invoiceId },
                 data: { status: 'POSTED', postedAt: new Date(), postedBy: userId },
-                include: { invoiceType: true, lines: true },
+                include: INVOICE_LINES_INCLUDE,
             });
         });
     }
@@ -197,7 +198,7 @@ export class InvoicePostingService {
         return tx.invoice.update({
             where: { id: invoice.id },
             data: { status: 'POSTED', postedAt: new Date(), postedBy: userId },
-            include: { invoiceType: true, lines: true },
+            include: INVOICE_LINES_INCLUDE,
         });
     }
 
@@ -259,7 +260,7 @@ export class InvoicePostingService {
             return tx.invoice.update({
                 where: { id: invoiceId },
                 data: { status: 'CANCELLED', cancelledAt: new Date(), cancelledBy: userId },
-                include: { invoiceType: true, lines: true },
+                include: INVOICE_LINES_INCLUDE,
             });
         });
     }
