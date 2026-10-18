@@ -14,7 +14,7 @@ import type {
     InvoiceSummaryRow,
     PartyStatementInvoiceRow,
     StockBalanceRow,
-} from '../report-queries';
+} from '../repositories/reports.repository';
 
 type InvoiceRow = InvoiceSummaryRow | PartyStatementInvoiceRow;
 

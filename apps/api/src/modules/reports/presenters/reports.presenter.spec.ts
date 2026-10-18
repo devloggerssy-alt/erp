@@ -1,5 +1,5 @@
 import { ReportsPresenter, type PartyStatementInput } from './reports.presenter';
-import type { DashboardCashboxRow, InvoiceSummaryRow, StockBalanceRow } from '../report-queries';
+import type { DashboardCashboxRow, InvoiceSummaryRow, StockBalanceRow } from '../repositories/reports.repository';
 
 function makePresenter(locale: 'en' | 'ar' = 'en'): ReportsPresenter {
     return new ReportsPresenter({
