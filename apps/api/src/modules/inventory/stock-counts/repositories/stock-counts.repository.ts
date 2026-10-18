@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@devloggers/db-prisma/nest';
+import { STOCK_COUNT_DETAIL_INCLUDE, STOCK_COUNT_LIST_INCLUDE } from '../stock-count-includes';
 
 @Injectable()
 export class StockCountsRepository {
@@ -9,10 +10,7 @@ export class StockCountsRepository {
         const [data, total] = await Promise.all([
             this.prisma.stockCount.findMany({
                 where: { tenantId },
-                include: {
-                    warehouse: { select: { name: true, code: true } },
-                    _count: { select: { lines: true } },
-                },
+                include: STOCK_COUNT_LIST_INCLUDE,
                 orderBy: { createdAt: 'desc' },
                 skip: (page - 1) * limit,
                 take: limit,
@@ -25,11 +23,7 @@ export class StockCountsRepository {
     async findById(tenantId: string, id: string) {
         return this.prisma.stockCount.findFirst({
             where: { id, tenantId },
-            include: {
-                warehouse: true,
-                lines: { include: { item: { select: { name: true, code: true } } } },
-                fiscalPeriod: { select: { status: true } },
-            },
+            include: STOCK_COUNT_DETAIL_INCLUDE,
         });
     }
 }

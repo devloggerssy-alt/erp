@@ -6,6 +6,7 @@ import { DocumentSequencesService } from '../../accounting/document-sequences/se
 import { AccountingPostingFacade, type StockCountAdjustedIntent } from '../../accounting/posting';
 import { StockCountsRepository } from './repositories/stock-counts.repository';
 import { StockCountPresenter } from './presenters/stock-count.presenter';
+import { STOCK_COUNT_LINES_INCLUDE } from './stock-count-includes';
 import { StockCountCreatedEvent, StockCountPostedEvent } from './events/stock-count.events';
 import { assertFiscalPeriodOpen } from '../../accounting/accounts/utils/assert-period-open';
 
@@ -78,7 +79,7 @@ export class StockCountsService {
                 createdBy: userId,
                 lines: { create: processedLines },
             },
-            include: { lines: true, warehouse: true },
+            include: STOCK_COUNT_LINES_INCLUDE,
         });
 
         this.eventEmitter.emit(StockCountCreatedEvent.NAME, new StockCountCreatedEvent(tenantId, 'stock-count', created as any));
@@ -133,7 +134,7 @@ export class StockCountsService {
             const updated = await tx.stockCount.update({
                 where: { id },
                 data: { status: 'POSTED', postedAt: new Date(), postedBy: userId },
-                include: { lines: true, warehouse: true },
+                include: STOCK_COUNT_LINES_INCLUDE,
             });
             this.eventEmitter.emit(StockCountPostedEvent.NAME, new StockCountPostedEvent(tenantId, 'stock-count', updated as any, stockCount as any));
             return this.stockCountPresenter.toDetailResponse(updated);
