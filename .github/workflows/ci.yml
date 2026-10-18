@@ -96,9 +96,13 @@ jobs:
       - name: Lint — apps/api
         run: pnpm --filter @devloggers/api lint:ci
 
-      # ── 5.2.3 — prove the boundary / deletion lint rules still fire ─────────
-      - name: Architecture lint rules fire
-        run: pnpm --filter @devloggers/api lint:architecture
+      # ── 8.1.2 — domain boundaries are the manifest vs. the real import graph ──
+      - name: Domain manifest matches the import graph
+        run: pnpm --filter @devloggers/api lint:manifest
+
+      # ── 5.3.4 — prove the custom deletion lint rules still fire ─────────────
+      - name: Custom eslint rules fire
+        run: pnpm --filter @devloggers/api lint:rules
 
       - name: Lint — packages
         run: |

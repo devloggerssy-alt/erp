@@ -233,7 +233,8 @@ pnpm --filter @devloggers/api-client build
 Architecture rules for the API:
 
 ```bash
-pnpm --filter @devloggers/api lint:architecture
+pnpm --filter @devloggers/api lint:manifest   # domain boundaries vs. the real import graph
+pnpm --filter @devloggers/api lint:rules      # custom eslint rules still fire
 ```
 
 UI changes also need a pass in the browser: create, edit, and the empty and error states on every route that shares the data you changed. Check a desktop width and a narrow width when layout moved.

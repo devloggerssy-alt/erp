@@ -11,8 +11,7 @@
  *
  * `identity` is the shared auth kernel (JwtAuthGuard + @CurrentUser) and is
  * deliberately omitted from every `dependsOn` list: every domain may import
- * it, exactly as `eslint/domain-boundaries.mjs` always allows. The drift
- * script ignores import edges targeting it.
+ * it. The drift script ignores import edges targeting it.
  */
 
 export const SHARED_KERNEL = 'identity' as const;

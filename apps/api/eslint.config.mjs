@@ -3,7 +3,6 @@ import eslint from '@eslint/js';
 import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
-import { domainBoundaryConfigs } from './eslint/domain-boundaries.mjs';
 
 export default tseslint.config(
   {
@@ -113,7 +112,7 @@ export default tseslint.config(
       ],
     },
   },
-  // Domain boundaries (Phase 1 accounting rule, generalized in Phase 5.2) —
-  // see eslint/domain-boundaries.mjs for the table and why it is per-importer.
-  ...domainBoundaryConfigs(),
+  // Domain boundaries are enforced by `src/domain/manifest.ts` + the drift
+  // script (`pnpm --filter @devloggers/api lint:manifest`), which checks the
+  // real import graph. No path-based duplication lives here.
 );

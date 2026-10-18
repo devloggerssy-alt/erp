@@ -115,9 +115,9 @@ A backend task is **not complete** until:
 around a type mismatch that stems from stale or incorrect generated types. Fix the decorator,
 regenerate, rebuild.
 
-## Domain boundaries (lint-enforced)
+## Domain boundaries (manifest-enforced)
 
-Each directory under `apps/api/src/modules/` is a domain. **Outside a domain, import only its public entry point.** Deep imports are `no-restricted-imports` errors, configured in `apps/api/eslint/domain-boundaries.mjs` and proven by `pnpm --filter @devloggers/api lint:architecture` (CI). Inside a domain, use relative imports and never import your own barrel (that creates module cycles).
+Each directory under `apps/api/src/modules/` is a domain. **Outside a domain, import only its public entry point.** The dependency direction is machine-checked by `apps/api/src/domain/manifest.ts`: `pnpm --filter @devloggers/api lint:manifest` (CI) reads the real import graph and fails when a cross-domain edge is missing from `dependsOn`, a controller route is undeclared, or a `provides` name is not exported by a barrel. The choice of entry point (barrel or documented sub-barrel such as `accounting/posting` vs. a deep file) is convention, reviewed with the diff. Inside a domain, use relative imports and never import your own barrel (that creates module cycles).
 
 | Domain | Public entry point(s) | Exposes |
 |---|---|---|
@@ -151,10 +151,10 @@ reports   ───► invoicing
 ai-agent  ───► audit (AuditWriter)
 ```
 
-`src/app.module.ts` is the composition root and is exempt. **Adding an edge** means: export the symbol from the target's `index.ts`, add it to the table above, and add a probe case to `apps/api/scripts/check-architecture-rules.mjs`. **Adding a domain** folder fails `lint:architecture` until it has a `DOMAIN_RESTRICTIONS` entry.
+`src/app.module.ts` is the composition root and is exempt. **Adding an edge** means: export the symbol from the target's `index.ts`, add the target to your domain's `dependsOn` in `src/domain/manifest.ts`, and update the table above. **Adding a domain** folder fails `lint:manifest` until it has a manifest entry.
 
 The graph is machine-checked (Phase 8.1.2): `apps/api/src/domain/manifest.ts` declares each domain's
-`dependsOn` / `provides` / `routes`; `pnpm --filter @devloggers/api lint:architecture` fails when the
+`dependsOn` / `provides` / `routes`; `pnpm --filter @devloggers/api lint:manifest` fails when the
 manifest drifts from the production import graph, controller routes or barrel exports. `identity` is the
 shared auth kernel and is omitted from `dependsOn`.
 

@@ -5,10 +5,10 @@ import { CHART_OF_ACCOUNTS_TEMPLATE } from './chart-of-accounts-template';
 
 /**
  * Narrow, non-GL-policy facade over AccountsService — exposed outside the
- * accounting domain (accounts/bootstrap is not in the accounts GL-internal
- * re-ban list, see eslint/domain-boundaries.mjs) so identity/business-setup
- * can bootstrap a default CoA without reaching into accounts/services
- * (JournalPostingService lives there and must stay domain-internal).
+ * accounting domain via `accounts/bootstrap` (declared in the domain manifest)
+ * so identity/business-setup can bootstrap a default CoA without reaching into
+ * `accounts/services` (JournalPostingService lives there and must stay
+ * domain-internal).
  */
 @Injectable()
 export class ChartOfAccountsBootstrapService {
