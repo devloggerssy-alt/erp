@@ -1,7 +1,7 @@
 # Core Development Roadmap
 
 > **Type:** Roadmap / tracking document — *not* an implementation ticket.
-> **Last updated:** 2026-10-18
+> **Last updated:** 2026-10-19
 > **Owner:** Core team
 
 This document tracks the **Core Development Priorities** of the ERP, ordered by
@@ -42,35 +42,32 @@ exist.
 ## Dependency Overview
 
 ```
-Tenant
+Tenant (legal entity)
   │
-  └── Organization
-        │
-        └── Branch / Business Location
-              │
-              ├── Party
-              │     ├── Contacts
-              │     └── Addresses
-              │
-              ├── Catalog
-              │     └── Items / Services
-              │           └── Units
-              │
-              ├── Pricing
-              │
-              ├── Tax
-              │
-              ├── Currency
-              │     └── Exchange Rates
-              │
-              ├── Inventory
-              │     └── Reservations
-              │
-              └── Commercial Documents
-                    ├── Invoices
-                    ├── Returns
-                    ├── Credit Notes
-                    └── Debit Notes
+  ├── Branch / Business Location
+  │     ├── Warehouse (may serve several branches)
+  │     └── Cashbox
+  │
+  └── Shared master data (tenant-level, used by every branch)
+        ├── Party
+        │     ├── Contacts
+        │     └── Addresses
+        ├── Catalog
+        │     └── Items / Services
+        │           └── Units
+        ├── Pricing
+        ├── Tax
+        └── Currency
+              └── Exchange Rates
+
+Branch-stamped operations
+  ├── Inventory
+  │     └── Reservations
+  └── Commercial Documents
+        ├── Invoices
+        ├── Returns
+        ├── Credit Notes
+        └── Debit Notes
 ```
 
 ---
@@ -82,20 +79,25 @@ Tenant
 
 - [ ] **Phase 1 complete**
 
-## 1. Organization & Branches
+## 1. Branches & Business Locations
 
 **Priority:** Critical
 
-Introduce the concepts of organizations, branches, and operational locations,
-with warehouses, cash registers, and invoices associated with a branch where
-appropriate.
+Introduce **Branch** as the operational division of a tenant — the unit every
+business operation is attributed to — and attach warehouses and cashboxes to it.
+The branch/warehouse relationship is many-to-many: a branch may have zero
+warehouses, and one warehouse may serve several branches.
 
-- [ ] Organization / Branch
-- [ ] Business Location
+Design is settled: ADR-0005 … ADR-0008 and `CONTEXT.md`.
+
+- [ ] `Branch` model + `BranchWarehouse` join + backfill (one `MAIN` branch per tenant)
+- [ ] Branch assignment on the warehouse form (≥ 1 branch per warehouse)
+- [ ] `branchId` stamped on operational records, defaulted from a `defaultBranchId` setting
 - [ ] Identify the branch responsible for each business operation
 
-**Dependency:** This is the foundation for multi-branch operations. Its
-relationship with **Tenant** must be defined before expanding further.
+**Dependency:** This is the foundation for multi-branch operations. `Tenant` is the
+legal entity; there is **no** separate Organization level (ADR-0005). Master data
+stays tenant-shared (ADR-0006).
 
 ## 2. Party Relationships & Contacts
 
@@ -262,8 +264,10 @@ once **all** of its items are complete.
 
 ### Phase 1 — Establish the Commercial Foundation
 
-- [ ] **1. Organization & Branches** — design spec approved
-      - Spec: _TBD_ · Plan: _TBD_ · Issue: _TBD_
+- [~] **1. Branches & Business Locations** — design spec approved 2026-10-19
+      - Spec: #29 · Plan: #30 → #31 → #32, #33, #34 · Issue: #30 (first slice)
+      - Design: ADR-0005 … ADR-0008 · Glossary: `CONTEXT.md`
+      - Slices: #30 branch CRUD · #31 default branch · #32 invoices · #33 payments/expenses/cashboxes · #34 POS
 - [ ] **2. Party Relationships & Contacts** — design spec approved
       - Spec: _TBD_ · Plan: _TBD_ · Issue: _TBD_
 - [ ] **3. Catalog & Units Completion** — design spec approved
@@ -291,4 +295,5 @@ once **all** of its items are complete.
 
 | Date | Change |
 |------|--------|
+| 2026-10-19 | Phase 1.1 design agreed: no Organization level (ADR-0005), branch scopes operations only (ADR-0006), warehouses shared across branches (ADR-0007), numbering stays tenant-level (ADR-0008). Item renamed to **Branches & Business Locations**; dependency diagram redrawn. |
 | 2026-10-18 | Initial roadmap created from Core Development Priorities (Phase 1–3, 8 items). |
