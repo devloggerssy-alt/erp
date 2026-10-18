@@ -21,10 +21,10 @@ erp/
 ├── scripts/                      Utility scripts (e.g. OpenAPI type generation)
 ├── reference/                    Reference files / specs
 ├── docs/                         Documentation (this directory)
-│   ├── ai-engineering.md         AI workflow onboarding (rules, skills, superpowers)
-│   └── superpowers/              Spec-driven development (specs, plans, templates)
+│   ├── ai-engineering.md         AI workflow onboarding (rules, skills, issue tracker)
+│   └── agents/                   Issue tracker, triage labels, domain docs
 ├── .ai/                          Canonical AI rules & skills (portable)
-├── .cursor/                      Cursor AI config (tiered rules, superpowers plugin)
+├── .cursor/                      Cursor AI config (tiered rules, plugin config)
 ├── .claude/                      Claude Code config (settings, skills, team README)
 ├── CLAUDE.md                     Claude project memory (@ imports rules + skills)
 ├── apps/api/CLAUDE.md            Path-scoped API context for Claude

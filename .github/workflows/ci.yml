@@ -1,7 +1,6 @@
 name: CI
 
 # Phase 0.3 — the guardrail gate for the architecture refactor.
-# Spec: docs/superpowers/specs/2026-07-25-architecture-refactor/phase-0-guardrails.md
 #
 # Two jobs, deliberately:
 #

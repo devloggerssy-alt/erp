@@ -8,7 +8,7 @@ Turborepo + **pnpm** monorepo. Full agent guide: @AGENTS.md
 
 @docs/ai-engineering.md
 
-@docs/superpowers/README.md
+@docs/agents/issue-tracker.md
 
 ---
 

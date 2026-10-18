@@ -12,7 +12,7 @@ disable-model-invocation: true
 Orchestrates a disciplined development cycle for the Sanad ERP monorepo.
 Do not skip steps unless the user explicitly overrides.
 
-## 1. Context orientation (using-superpowers + erp-project-map)
+## 1. Context orientation (erp-project-map)
 
 Before writing code or finalizing a design:
 
@@ -24,18 +24,16 @@ Before writing code or finalizing a design:
 
 ## 2. Relentless design stress-testing (brainstorming)
 
-Explore project context (files, `docs/superpowers/specs/`, recent changes):
+Explore project context (files, open GitHub issues, recent changes):
 
 - **Grill the user:** One clarification question at a time when requirements are unclear.
 - **Codebase first:** If the answer is in the repo, explore — don't ask.
 - **Propose recommendations** with each question, based on ERP patterns.
 - Present **2–3 approaches** with trade-offs; recommend one.
-- Write approved non-trivial designs to:
-  `docs/superpowers/specs/YYYY-MM-DD-<topic>-design.md`
-  (use `docs/superpowers/templates/spec-template.md`)
-- For large work, also create:
-  `docs/superpowers/plans/YYYY-MM-DD-<topic>.md`
-  (use `docs/superpowers/templates/plan-template.md`)
+- Write approved non-trivial designs as a **GitHub issue**
+  (see `docs/agents/issue-tracker.md`)
+- For large work, also publish a **plan** as a GitHub issue
+  (child issues or a checkbox task list on the spec issue)
 - **HARD-GATE:** No implementation code until design is explicitly approved.
 
 ## 3. Implementation

@@ -11,8 +11,8 @@ This project treats AI assistance as **software engineering infrastructure**, no
 
 1. **Rules** — persistent constraints (what must always be true)
 2. **Skills** — repeatable workflows (how to do multi-step tasks)
-3. **Specs** — approved designs before non-trivial code (`docs/superpowers/`)
-4. **Plugins** — Superpowers for brainstorming, planning, debugging, verification
+3. **Specs** — approved designs before non-trivial code (tracked as GitHub issues)
+4. **Tracker** — GitHub issues hold specs, plans, and triage labels
 
 The goal: **drop a spec file + minimal context → agent produces correct, reviewable code** across all layers.
 
@@ -24,7 +24,7 @@ The goal: **drop a spec file + minimal context → agent produces correct, revie
 erp/
 ├── AGENTS.md                    ← Agent entry point (start here)
 ├── CLAUDE.md                    ← Thin adapter → AGENTS.md + key skills
-├── opencode.json                ← OpenCode: skills path + superpowers plugin
+├── opencode.json                ← OpenCode: skills path + plugin config
 │
 ├── .ai/                         ← CANONICAL (portable across AI tools)
 │   ├── rules/                   ← monorepo, api, dashboard, database, packages, code-quality
@@ -32,7 +32,7 @@ erp/
 │   └── docs/                    ← forms-architecture.md, deep dives
 │
 ├── .cursor/                     ← CURSOR-SPECIFIC
-│   ├── settings.json            ← superpowers plugin enabled
+│   ├── settings.json            ← Cursor plugin config
 │   ├── rules/                   ← tiered .mdc (global, api, dashboard, core, …)
 │   └── skills/                  ← mirror of .ai/skills/ for Cursor discovery
 │
@@ -50,11 +50,7 @@ erp/
 │
 └── docs/
     ├── ai-engineering.md        ← this file
-    ├── superpowers/             ← spec-driven development
-    │   ├── README.md
-    │   ├── templates/
-    │   ├── specs/               ← approved designs
-    │   └── plans/               ← implementation task lists
+    ├── agents/                  ← issue tracker, triage labels, domain docs
     ├── overview.md              ← product + architecture
     ├── architecture.md
     └── code-patterns.md
@@ -67,8 +63,8 @@ erp/
 | Add a rule that works everywhere | `.ai/rules/<name>.md` |
 | Cursor glob-based auto-load | `.cursor/rules/<tier>/<name>.mdc` |
 | Add a workflow skill | `.ai/skills/<name>/SKILL.md` + mirror in `.cursor/skills/` |
-| Write a feature design | `docs/superpowers/specs/` |
-| Break down large work | `docs/superpowers/plans/` |
+| Write a feature design | GitHub issue (`docs/agents/issue-tracker.md`) |
+| Break down large work | GitHub issue (child issues / task list) |
 
 ---
 
@@ -95,28 +91,28 @@ apps/dashboard/app/.../catalog/units/page.tsx ← thin route
 
 ```
 User: "Add export to units list"
-Agent: reads erp-project-map → finds modules/units/ → checks docs/superpowers/ for prior specs
+Agent: reads erp-project-map → finds modules/units/ → checks open GitHub issues for prior specs
 ```
 
 Skills: `erp-project-map`, `caveman` (full cycle)
 
-### 2. Brainstorm & design (Superpowers)
+### 2. Brainstorm & design
 
 For non-trivial work:
 
-1. Invoke **`/caveman`** or superpowers **brainstorming**
+1. Invoke **`/caveman`**
 2. Ask clarifying questions **one at a time**
 3. Propose 2–3 approaches with trade-offs
-4. Copy `docs/superpowers/templates/spec-template.md`
-5. Save approved design to `docs/superpowers/specs/YYYY-MM-DD-<topic>-design.md`
+4. Draft the spec as a GitHub issue (`gh issue create`)
+5. Publish the approved design as a GitHub issue
 6. **Do not code** until user approves
 
 ### 3. Plan (large features)
 
-1. Copy `docs/superpowers/templates/plan-template.md`
-2. Save to `docs/superpowers/plans/YYYY-MM-DD-<topic>.md`
-3. Checkbox tasks per file/layer
-4. Execute with superpowers **executing-plans** or **subagent-driven-development**
+1. Break the spec into checkbox tasks per file/layer
+2. Track them as child GitHub issues or a task list on the spec issue
+3. Link each task back to its source spec issue
+4. Execute with the `implement` / `implement-parallel` skills
 
 ### 4. Implement
 
@@ -193,7 +189,7 @@ Defined in `.cursor/rules/core-rules/rule-creation-guidelines-agent.mdc`:
 
 Refresh / rollback: `.ai/skills/_imports/README.md`
 
-### Superpowers plugin (external)
+### Tool integration
 
 | Tool | Config | Skills discovery |
 |------|--------|------------------|
@@ -203,20 +199,14 @@ Refresh / rollback: `.ai/skills/_imports/README.md`
 
 **Claude Code setup:** see [`.claude/README.md`](../.claude/README.md)
 
-- `brainstorming` — design before code
-- `writing-plans` / `executing-plans` — plan lifecycle
-- `verification-before-completion` — evidence gates
-- `systematic-debugging` — structured debugging
-- `subagent-driven-development` — parallel tasks
-
 ---
 
 ## Adding a new page or component (cheat sheet)
 
 ### New CRUD catalog page (e.g. "Brands")
 
-1. Check `docs/superpowers/specs/` for existing design
-2. If none: write spec from template → get approval
+1. Check open GitHub issues for an existing design
+2. If none: write the spec as a GitHub issue → get approval
 3. Run `add-crud-feature` checklist layer by layer
 4. Reference: `modules/units/`
 5. Add nav in `config/navGroups.tsx`
@@ -255,7 +245,7 @@ Minimum effective context:
 Add CSV export to the units list page.
 
 ## Spec
-docs/superpowers/specs/2026-07-06-units-export-design.md (approved)
+#123 — units CSV export (approved)
 
 ## Constraints
 - Reuse existing import-export utilities in backend-core
@@ -272,12 +262,11 @@ This ERP repo adopts the same **software engineering** ideas from Matrix Fronten
 
 | Pattern | Matrix Frontend | ERP |
 |---------|-----------------|-----|
-| Spec-driven dev | `docs/superpowers/specs/` | Same structure |
-| Plans with checkboxes | `docs/superpowers/plans/` | Same structure |
+| Spec-driven dev | GitHub issues | Same structure |
+| Plans with checkboxes | GitHub issues | Same structure |
 | Tiered `.cursor/rules/` | `global-rules/`, `component-rules/`, … | `global-rules/`, `api-rules/`, … |
 | Orchestration skill | `caveman` | `caveman` (ERP-adapted) |
 | Feature scaffold | `feature-scaffold` | `feature-scaffold` (full-stack monorepo) |
-| Superpowers plugin | `.cursor/settings.json` | Same |
 
 Key difference: ERP is a **Turborepo monorepo** with Prisma + NestJS + shared contracts — not a single React app. The golden slice spans 5 packages, not one `src/app/` folder.
 
@@ -299,7 +288,7 @@ pnpm generate:dev                                 # OpenAPI → api-client types
 
 ## Further reading
 
-- [Superpowers README](./superpowers/README.md) — spec workflow details
+- [Issue tracker](./agents/issue-tracker.md) — where specs and issues live
 - [AGENTS.md](../AGENTS.md) — agent quick start
 - [Overview](./overview.md) — product domains
 - [Architecture](./architecture.md) — system design

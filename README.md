@@ -55,7 +55,7 @@ The dashboard `predev` hook calls an API script named `generate`, while the publ
 Read [CONTRIBUTING.md](CONTRIBUTING.md) before you open a pull request. Short version:
 
 1. Look for an existing issue, or open one, before you write a large change.
-2. Non-trivial features need an approved design in `docs/superpowers/specs/` before code.
+2. Non-trivial features need an approved design (GitHub issue) before code.
 3. Keep the change small and on the existing pattern for that layer.
 4. Run the checks for the packages you touched, and paste the commands in the pull request.
 5. Keep secrets out of the diff. `apps/api/.env.development` is loaded by the API and is not gitignored.
@@ -69,7 +69,7 @@ Good first contributions: a reproduced bug with a failing test, a missing Arabic
 | Product and architecture  | [docs/overview.md](docs/overview.md)                     |
 | File map                  | [docs/file-structure.md](docs/file-structure.md)         |
 | Environment and scripts   | [docs/deployment.md](docs/deployment.md)                 |
-| Spec-driven workflow      | [docs/superpowers/README.md](docs/superpowers/README.md) |
+| Spec / issue workflow     | [docs/agents/issue-tracker.md](docs/agents/issue-tracker.md) |
 | Decisions                 | [docs/adr/](docs/adr/)                                   |
 | Domain rules (accounting) | [.ai/rules/domain.md](.ai/rules/domain.md)               |
 

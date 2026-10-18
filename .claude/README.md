@@ -7,8 +7,7 @@ Cursor teammates use `.cursor/`; Claude teammates use `.claude/` + root `CLAUDE.
 
 1. Install [Claude Code](https://code.claude.com/docs/en/overview)
 2. Open this repo and run Claude Code from the project root
-3. When prompted, **install and trust** project plugins:
-   - `superpowers@claude-plugins-official` — brainstorming, plans, verification
+3. When prompted, **install and trust** the project plugin:
    - `typescript-lsp@claude-plugins-official` — TypeScript intelligence
 4. Sync skills (after pulling skill updates):
    ```bash
@@ -23,7 +22,7 @@ Cursor teammates use `.cursor/`; Claude teammates use `.claude/` + root `CLAUDE.
 | Claude extras | `.claude/CLAUDE.md` | Workflow, commands, team conventions |
 | Path rules | `apps/api/CLAUDE.md`, `apps/dashboard/CLAUDE.md`, … | Auto-load when cwd is under that path |
 | Skills | `.claude/skills/*/SKILL.md` | Invocable via `/skill-name` (synced from `.ai/skills/`) |
-| Plugins | `.claude/settings.json` → `enabledPlugins` | Superpowers + TypeScript LSP |
+| Plugins | `.claude/settings.json` → `enabledPlugins` | TypeScript LSP |
 | Permissions | `.claude/settings.json` → `permissions` | Allow `pnpm`, deny `.env` reads |
 
 ## Canonical source
@@ -35,7 +34,7 @@ Cursor teammates use `.cursor/`; Claude teammates use `.claude/` + root `CLAUDE.
 | Rule | `.ai/rules/<name>.md` | Update matching `CLAUDE.md` @ import if needed |
 | Skill | `.ai/skills/<name>/SKILL.md` | Run `node scripts/sync-claude-artifacts.mjs` |
 | Plugin | `.claude/settings.json` | Commit — team gets on next pull |
-| Spec / plan | `docs/superpowers/` | No sync needed |
+| Spec / plan | GitHub issues (`docs/agents/issue-tracker.md`) | No sync needed |
 
 ## Common workflows
 
@@ -47,7 +46,7 @@ Cursor teammates use `.cursor/`; Claude teammates use `.claude/` + root `CLAUDE.
 
 Or manually:
 
-1. Copy `docs/superpowers/templates/spec-template.md` → `docs/superpowers/specs/`
+1. Draft the design spec as a GitHub issue (see `docs/agents/issue-tracker.md`)
 2. Get design approval
 3. Use skills: `add-crud-feature`, `feature-scaffold`
 
@@ -63,16 +62,6 @@ Or manually:
 /plugin
 ```
 
-## Superpowers plugin skills (external)
-
-When superpowers is enabled, these load from the official marketplace:
-
-- `brainstorming` — design before code
-- `writing-plans` / `executing-plans` — plan lifecycle
-- `verification-before-completion` — evidence before "done"
-- `systematic-debugging` — structured debugging
-- `subagent-driven-development` — parallel task execution
-
 ## Local overrides (not committed)
 
 Create `.claude/settings.local.json` for personal permission tweaks.
@@ -81,5 +70,5 @@ Create `CLAUDE.local.md` for personal preferences.
 ## Related docs
 
 - [docs/ai-engineering.md](../docs/ai-engineering.md) — full AI workflow
-- [docs/superpowers/README.md](../docs/superpowers/README.md) — spec-driven development
+- [docs/agents/issue-tracker.md](../docs/agents/issue-tracker.md) — where specs and issues live
 - [AGENTS.md](../AGENTS.md) — agent entry point (all tools)

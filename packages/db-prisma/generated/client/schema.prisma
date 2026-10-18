@@ -1172,8 +1172,7 @@ enum SetupTaskStatus {
 }
 
 // ─── SetupTask ──────────────────────────────────────────────────────────────
-// One row per (tenant, task type). Drives the Business Setup dependency engine
-// (docs/superpowers/specs/2026-08-20-erp-roadmap/phase-06-business-setup-orchestration.md).
+// One row per (tenant, task type). Drives the Business Setup dependency engine.
 model SetupTask {
   id           String          @id @default(uuid())
   tenantId     String          @map("tenant_id")

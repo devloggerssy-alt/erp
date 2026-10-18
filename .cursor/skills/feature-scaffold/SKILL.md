@@ -115,7 +115,7 @@ messages/en.json, ar.json, tr.json             ← feature + system.* keys
 
 ## After scaffold
 
-1. Write spec if non-trivial: `docs/superpowers/specs/YYYY-MM-DD-<topic>-design.md`
+1. Write spec if non-trivial: GitHub issue (see `docs/agents/issue-tracker.md`)
 2. Run builds:
    ```bash
    pnpm turbo run build --filter=@devloggers/api

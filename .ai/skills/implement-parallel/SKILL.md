@@ -17,7 +17,7 @@ Use when:
 
 Do NOT use when:
 - Single issue — use `/implement` single-track / `caveman` instead
-- Non-trivial feature without approved spec — write spec to `docs/superpowers/specs/` first per `monorepo.md`, then come back
+- Non-trivial feature without approved spec — write the spec as a GitHub issue first per `monorepo.md`, then come back
 
 ## Rules always loaded
 

@@ -19,9 +19,9 @@ Search open issues before you start. If nothing fits, open an issue that states 
 ## Before you write code
 
 1. Read [docs/overview.md](docs/overview.md) so the domain names match the code.
-2. For anything larger than a local bugfix, copy [docs/superpowers/templates/spec-template.md](docs/superpowers/templates/spec-template.md) to `docs/superpowers/specs/YYYY-MM-DD-<topic>-design.md`.
+2. For anything larger than a local bugfix, write the design spec as a GitHub issue (see [docs/agents/issue-tracker.md](docs/agents/issue-tracker.md)).
 3. Wait until a maintainer approves that spec. Implementation of non-trivial work starts after approval.
-4. Cross-stack work also gets a plan from [docs/superpowers/templates/plan-template.md](docs/superpowers/templates/plan-template.md), saved under `docs/superpowers/plans/`.
+4. Cross-stack work also gets a plan — child issues or a checkbox task list on the spec issue.
 
 Record lasting technical decisions in `docs/adr/`, numbered after the latest file there.
 
@@ -123,7 +123,7 @@ packages/api-contracts/   shared resources and DTOs
 packages/api-client/      typed HTTP clients
 packages/i18n/            ar / en / tr messages
 packages/backend-core/    shared NestJS CRUD infrastructure
-docs/superpowers/specs/   approved designs
+docs/agents/              issue tracker, triage labels, domain docs
 docs/adr/                 architecture decisions
 ```
 

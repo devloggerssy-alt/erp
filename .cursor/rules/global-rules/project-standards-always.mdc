@@ -22,7 +22,7 @@ alwaysApply: true
 2. **Full-stack flow:** Prisma → api-contracts → NestJS module → api-client → dashboard module.
 3. **Golden reference:** copy the **units** vertical slice for new CRUD entities.
 4. **DB changes:** Prisma migrations only; idempotent seeds.
-5. **Spec-first:** non-trivial features need `docs/superpowers/specs/` before code.
+5. **Spec-first:** non-trivial features need an approved spec (GitHub issue) before code.
 
 ## Path-scoped rules (auto-loaded by glob)
 
@@ -57,5 +57,5 @@ pnpm turbo run build
 
 - Agent guide: `AGENTS.md`
 - AI engineering workflow: `docs/ai-engineering.md`
-- Spec-driven dev: `docs/superpowers/README.md`
+- Specs / issues: `docs/agents/issue-tracker.md`
 - Product context: `docs/overview.md`, `PRODUCT.md`

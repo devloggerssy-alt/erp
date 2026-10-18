@@ -1,9 +1,7 @@
 # ERP
 
 Multi-tenant ERP. This glossary fixes the vocabulary for tenant-configured
-defaults and generated master-data codes
-(`docs/superpowers/specs/2026-09-22-form-defaults-auto-codes-design.md`) and for
-the user profile (`docs/superpowers/specs/2026-10-08-user-profile-design.md`).
+defaults and generated master-data codes, and for the user profile.
 
 ## Language
 
@@ -17,6 +15,11 @@ _Avoid_: form prefill, initial data, seeds
 The warehouse a tenant designates via settings to pre-fill warehouse fields on
 creation forms.
 _Avoid_: main warehouse, primary warehouse
+
+**Default branch**:
+The branch a tenant designates via settings to pre-fill branch fields on creation
+forms.
+_Avoid_: current branch, active branch
 
 **Default base unit**:
 The unit a tenant designates via settings to pre-fill the base-unit field on
@@ -52,3 +55,29 @@ _Avoid_: confirmation, consent
 The outcome the agent assigns to one tool call the model proposed: run it, hold
 it for an approval decision, or reject it as unknown, not permitted, or denied.
 _Avoid_: tool-call plan, tool routing
+
+### Organization & branches
+
+**Tenant**:
+The isolation boundary that owns all data of one company — its legal identity
+(legal name, tax number), base currency, users, roles, and settings. The Tenant
+*is* the legal entity; there is no separate Organization level.
+_Avoid_: Company, organization, org, account, business
+
+**Branch**:
+A tenant-defined operational division of the business that business operations
+are attributed to. A Branch may have zero or more warehouses and cashboxes, and
+a warehouse may serve more than one Branch. It carries no legal or tax identity —
+the Tenant remains the invoicing and tax-registered entity.
+_Avoid_: Location, site, store, office
+
+**Shared master data**:
+Tenant-level records usable by every branch — parties, items, units, price lists,
+chart of accounts. Branches never own copies of them; branch reporting is driven
+by the branch stamped on operational records.
+_Avoid_: branch data, per-branch master data
+
+**Business Location**:
+Human-readable synonym for **Branch**, used in UI copy and documentation. The
+schema and code always say Branch.
+_Avoid_: facility, point of sale

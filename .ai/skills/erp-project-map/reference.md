@@ -22,7 +22,7 @@ erp/
 │   ├── skills/              # ERP workflows + _imports/ (28 upstream skills)
 │   └── docs/                # forms-architecture.md
 ├── .cursor/                 # Cursor-specific AI config
-│   ├── settings.json        # superpowers plugin enabled
+│   ├── settings.json        # Cursor plugin config
 │   ├── rules/               # tiered .mdc (global-rules/, api-rules/, core-rules/, …)
 │   └── skills/              # mirrors .ai/skills/ for Cursor discovery
 ├── .claude/                 # Claude Code team config
@@ -37,7 +37,7 @@ erp/
 ├── packages/db-prisma/CLAUDE.md
 ├── docs/
 │   ├── ai-engineering.md    # AI onboarding (humans + agents)
-│   └── superpowers/         # spec-driven dev: specs/, plans/, templates/
+│   └── agents/              # issue tracker, triage labels, domain docs
 ├── reference/               # Product/docs reference material
 ├── turbo.json
 ├── pnpm-workspace.yaml

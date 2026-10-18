@@ -2,7 +2,7 @@
 
 Turborepo + **pnpm** monorepo for an ERP system.
 
-> **New here?** Read [docs/ai-engineering.md](docs/ai-engineering.md) for the full AI workflow, then [docs/superpowers/README.md](docs/superpowers/README.md) for spec-driven development.
+> **New here?** Read [docs/ai-engineering.md](docs/ai-engineering.md) for the full AI workflow and how specs and plans are tracked.
 
 ## Stack
 
@@ -20,7 +20,7 @@ Turborepo + **pnpm** monorepo for an ERP system.
 1. Load **`.ai/rules/monorepo.md`** — applies always.
 2. Load **`.ai/rules/code-quality.md`** — applies always (surgical changes + verify-before-complete + lint gates).
 3. Load the **path-scoped rule** from `.ai/rules/` that matches the files you're editing.
-4. For **non-trivial features**: check `docs/superpowers/specs/` → write or follow a design spec before coding.
+4. For **non-trivial features**: check open GitHub issues → write or follow a design spec before coding.
 5. For **full disciplined cycles**: use skill **`caveman`** (`/caveman`) — orient → brainstorm → spec → implement → review.
 6. For **where things live**, use skill **`erp-project-map`** (`.ai/skills/erp-project-map/`).
 7. For a **new CRUD entity end-to-end**, use skills **`add-crud-feature`** + **`feature-scaffold`**.
@@ -30,11 +30,8 @@ Turborepo + **pnpm** monorepo for an ERP system.
 11. For **Business or Domain related logic**, always follow **`./ai/rules/domain.md`** instructions
 ## Spec-driven development
 
-| Artifact | Location | When |
-|----------|----------|------|
-| Design spec | `docs/superpowers/specs/YYYY-MM-DD-<topic>-design.md` | Non-trivial features (required before code) |
-| Implementation plan | `docs/superpowers/plans/YYYY-MM-DD-<topic>.md` | Large cross-stack work |
-| Templates | `docs/superpowers/templates/` | Copy to start new spec/plan |
+Design specs and implementation plans are tracked as **GitHub issues** (see
+`docs/agents/issue-tracker.md`). Use the `gh` CLI to create, read, and update them.
 
 **HARD-GATE:** No implementation until the design spec is explicitly approved.
 
@@ -66,7 +63,7 @@ Cursor tiered rules: `.cursor/rules/` (see `global-rules/project-standards-alway
 | `dashboard-form` | Dashboard CRUD forms (config + form component + controller hook) |
 | `frontend-resource-pattern` | Compound resource architecture + data-view |
 
-## Plugins (Superpowers)
+## Tool integration
 
 | Tool | Config | Skills |
 |------|--------|--------|
@@ -77,11 +74,9 @@ Cursor tiered rules: `.cursor/rules/` (see `global-rules/project-standards-alway
 ### Claude Code teammates
 
 1. Read [`.claude/README.md`](.claude/README.md) for first-time setup
-2. Trust project plugins when prompted (`superpowers`, `typescript-lsp`)
+2. Trust project plugins when prompted (`typescript-lsp`)
 3. After pulling skill changes: `pnpm sync:claude`
 4. Path-scoped context: `apps/api/CLAUDE.md`, `apps/dashboard/CLAUDE.md`, `packages/CLAUDE.md`, `packages/db-prisma/CLAUDE.md`
-
-Superpowers provides: `brainstorming`, `writing-plans`, `executing-plans`, `verification-before-completion`, `systematic-debugging`, and more.
 
 ## Imported skills (`.ai/skills/_imports/`)
 

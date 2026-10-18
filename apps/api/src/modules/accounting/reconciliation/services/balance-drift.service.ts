@@ -16,7 +16,7 @@ import {
 
 /**
  * Phase 0.2 — compares denormalized balance caches against their ledger source
- * of truth. See docs/superpowers/specs/2026-08-20-erp-roadmap/drift-baselines.md
+ * of truth.
  */
 
 /** Decimal(18,4) — compare at the precision the column actually stores. */

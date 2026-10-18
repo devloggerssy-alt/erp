@@ -34,7 +34,7 @@ pnpm --filter @devloggers/db-prisma db:seed
 Copy the **units** feature end-to-end when adding CRUD entities.
 
 ## Spec-driven development
-Non-trivial work: approved spec in `docs/superpowers/specs/` before code. See `docs/superpowers/README.md`.
+Non-trivial work: approved spec (GitHub issue) before code. See `docs/agents/issue-tracker.md`.
 
 ## Skills
 - Full cycle: `caveman` (`/caveman`)

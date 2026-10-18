@@ -26,10 +26,8 @@ Copy the **units** feature end-to-end when adding CRUD entities.
 
 ## Spec-driven development
 Non-trivial features require an approved design before implementation:
-- Specs: `docs/superpowers/specs/YYYY-MM-DD-<topic>-design.md`
-- Plans: `docs/superpowers/plans/YYYY-MM-DD-<topic>.md`
-- Templates: `docs/superpowers/templates/`
-- Workflow: `docs/superpowers/README.md`, skill **`caveman`**
+- Specs & plans: **GitHub issues** (`gh issue create`; see `docs/agents/issue-tracker.md`)
+- Workflow: skill **`caveman`**
 
 ## AI engineering docs
 - Onboarding: `docs/ai-engineering.md`
