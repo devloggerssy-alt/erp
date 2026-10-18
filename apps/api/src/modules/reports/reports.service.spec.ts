@@ -1,4 +1,5 @@
 import { ReportsService } from './reports.service';
+import { ReportsRepository } from './repositories/reports.repository';
 import { ReportsPresenter } from './presenters/reports.presenter';
 
 type Rate = { exchangeRate: number };
@@ -61,7 +62,7 @@ function makeService(stub: PrismaStub = {}): ReportsService {
         resolve: (field: { en?: string; ar?: string } | null | undefined, fallback = '') =>
             field?.en ?? field?.ar ?? fallback,
     } as never);
-    return new ReportsService(prisma as never, presenter);
+    return new ReportsService(new ReportsRepository(prisma as never), presenter);
 }
 
 describe('ReportsService.getDashboardExpenseBreakdown', () => {

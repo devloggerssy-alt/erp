@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CrudPresenter, LocaleResolverService } from '@devloggers/backend-core';
 import type { ChartOfAccount } from '@devloggers/db-prisma';
-import type { LocalizedString } from '@devloggers/api-contracts';
+import { toLocalizedString } from '@/common/i18n/localized-string';
 import { ChartOfAccountResponseDto } from '../dto';
 import type { AccountDetail, AccountListItem } from '../repositories/accounts.repository';
 
@@ -15,8 +15,8 @@ export class AccountPresenter extends CrudPresenter<AccountEntity, ChartOfAccoun
 
     toResponse(entity: AccountEntity): ChartOfAccountResponseDto {
         const parent = 'parent' in entity ? entity.parent : undefined;
-        const name = entity.name as unknown as LocalizedString;
-        const parentName = parent?.name as LocalizedString | undefined;
+        const name = toLocalizedString(entity.name) ?? { ar: '' };
+        const parentName = toLocalizedString(parent?.name);
         return {
             id: entity.id,
             code: entity.code,

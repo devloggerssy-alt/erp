@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { LocaleResolverService } from '@devloggers/backend-core';
-import type { LocalizedString } from '@devloggers/api-contracts';
+import { toLocalizedString } from '@/common/i18n/localized-string';
 import { InvoiceResponseDto, InvoiceLineResponseDto, InvoicePaymentResponseDto, InvoicePaidStatus } from '../dto/invoice.dto';
 import type { InvoiceDetail, InvoiceListItem, InvoiceWithLines } from '../invoice-includes';
 
@@ -62,7 +62,7 @@ export class InvoicePresenter {
             invoiceTypeId: entity.invoiceTypeId,
             // invoiceType.name is a LocalizedString ({ ar, en }) — resolve to the request locale.
             invoiceTypeName: entity.invoiceType?.name
-                ? this.locale.resolve(entity.invoiceType.name as LocalizedString)
+                ? this.locale.resolve(toLocalizedString(entity.invoiceType.name))
                 : undefined,
             invoiceTypeDirection: entity.invoiceType?.direction,
             date: entity.date instanceof Date ? entity.date.toISOString() : String(entity.date),
@@ -75,14 +75,14 @@ export class InvoicePresenter {
             warehouseId: entity.warehouseId ?? null,
             // warehouse.name is a LocalizedString ({ ar, en }) — resolve to the request locale.
             warehouseName: warehouse?.name
-                ? this.locale.resolve(warehouse.name as LocalizedString)
+                ? this.locale.resolve(toLocalizedString(warehouse.name))
                 : undefined,
             fiscalPeriodId: entity.fiscalPeriodId,
             currencyId: entity.currencyId,
             currencyCode: currency?.code,
             // currency.symbol is a LocalizedString ({ ar, en }) — resolve to the request locale.
             currencySymbol: currency?.symbol
-                ? this.locale.resolve(currency.symbol as LocalizedString)
+                ? this.locale.resolve(toLocalizedString(currency.symbol))
                 : undefined,
             exchangeRate: toNum(entity.exchangeRate),
             status: entity.status,

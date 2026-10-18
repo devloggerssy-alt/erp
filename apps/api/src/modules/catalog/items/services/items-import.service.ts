@@ -22,6 +22,7 @@ import {
 } from '@devloggers/backend-core';
 import { ItemsService } from './items.service';
 import { CreateItemDto as CreateItemApiDto, UpdateItemDto as UpdateItemApiDto } from '../dto';
+import { toLocalizedString } from '@/common/i18n/localized-string';
 
 type LookupEntry = { id: string; name: string };
 
@@ -210,7 +211,7 @@ export class ItemsImportService extends CrudImportServiceBase<
         const unitMap = new Map<string, LookupEntry>();
         for (const row of units) {
             const resolvedName = typeof row.name === 'object' && row.name
-                ? ((row.name as any).en || (row.name as any).ar || '')
+                ? toLocalizedString(row.name)?.en || toLocalizedString(row.name)?.ar || ''
                 : String(row.name);
             const entry = { id: row.id, name: resolvedName };
             unitMap.set(normalizeLookupKey(resolvedName), entry);

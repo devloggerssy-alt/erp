@@ -1,14 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '@devloggers/db-prisma/nest';
 import type { Prisma } from '@devloggers/db-prisma';
 import { computeInvoicePaidState } from '../invoicing';
 import { ReportsPresenter } from './presenters/reports.presenter';
-import {
-    DASHBOARD_CASHBOX_SELECT,
-    INVOICE_SUMMARY_INCLUDE,
-    PARTY_STATEMENT_INVOICE_INCLUDE,
-    STOCK_BALANCE_REPORT_INCLUDE,
-} from './report-queries';
+import { ReportsRepository } from './repositories/reports.repository';
 
 type LockedRate = { exchangeRate: Prisma.Decimal };
 
@@ -21,54 +15,24 @@ function toBase(amount: Prisma.Decimal, rate: LockedRate): number {
 @Injectable()
 export class ReportsService {
     constructor(
-        private readonly prisma: PrismaService,
+        private readonly repository: ReportsRepository,
         private readonly presenter: ReportsPresenter,
     ) {}
 
     async getStockBalance(tenantId: string, warehouseId?: string) {
-        const where: any = { tenantId };
-        if (warehouseId) where.warehouseId = warehouseId;
-        const rows = await this.prisma.stockBalance.findMany({
-            where,
-            include: STOCK_BALANCE_REPORT_INCLUDE,
-            orderBy: [{ warehouse: { code: 'asc' } }, { item: { code: 'asc' } }],
-        });
+        const rows = await this.repository.findStockBalances(tenantId, warehouseId);
         return this.presenter.toStockBalance(rows);
     }
 
     async getSalesSummary(tenantId: string, filters: { from?: string; to?: string; partyId?: string }) {
-        const where: any = { tenantId, status: 'POSTED', invoiceType: { direction: 'SALE' } };
-        if (filters.partyId) where.partyId = filters.partyId;
-        if (filters.from || filters.to) {
-            where.date = {};
-            if (filters.from) where.date.gte = new Date(filters.from);
-            if (filters.to) where.date.lte = new Date(filters.to);
-        }
-
-        const invoices = await this.prisma.invoice.findMany({
-            where,
-            include: INVOICE_SUMMARY_INCLUDE,
-            orderBy: { date: 'desc' },
-        });
+        const invoices = await this.repository.findInvoicesByDirection('SALE', tenantId, filters);
 
         const totalSales = invoices.reduce((s, i) => s + toBase(i.total, i), 0);
         return { invoices: this.presenter.toInvoiceSummary(invoices), totalSales, count: invoices.length };
     }
 
     async getPurchaseSummary(tenantId: string, filters: { from?: string; to?: string; partyId?: string }) {
-        const where: any = { tenantId, status: 'POSTED', invoiceType: { direction: 'PURCHASE' } };
-        if (filters.partyId) where.partyId = filters.partyId;
-        if (filters.from || filters.to) {
-            where.date = {};
-            if (filters.from) where.date.gte = new Date(filters.from);
-            if (filters.to) where.date.lte = new Date(filters.to);
-        }
-
-        const invoices = await this.prisma.invoice.findMany({
-            where,
-            include: INVOICE_SUMMARY_INCLUDE,
-            orderBy: { date: 'desc' },
-        });
+        const invoices = await this.repository.findInvoicesByDirection('PURCHASE', tenantId, filters);
 
         const totalPurchases = invoices.reduce((s, i) => s + toBase(i.total, i), 0);
         return { invoices: this.presenter.toInvoiceSummary(invoices), totalPurchases, count: invoices.length };
@@ -76,16 +40,9 @@ export class ReportsService {
 
     async getPartyStatement(tenantId: string, partyId: string) {
         const [party, invoices, payments] = await Promise.all([
-            this.prisma.party.findFirst({ where: { id: partyId, tenantId } }),
-            this.prisma.invoice.findMany({
-                where: { tenantId, partyId, status: 'POSTED' },
-                include: PARTY_STATEMENT_INVOICE_INCLUDE,
-                orderBy: { date: 'asc' },
-            }),
-            this.prisma.payment.findMany({
-                where: { tenantId, partyId, status: 'POSTED' },
-                orderBy: { date: 'asc' },
-            }),
+            this.repository.findParty(tenantId, partyId),
+            this.repository.findPartyStatementInvoices(tenantId, partyId),
+            this.repository.findPartyStatementPayments(tenantId, partyId),
         ]);
 
         const totalInvoiced = invoices.reduce((s, i) => s + Number(i.total), 0);
@@ -109,25 +66,10 @@ export class ReportsService {
     }
 
     async getProfitSummary(tenantId: string, filters: { from?: string; to?: string }) {
-        const dateFilter: any = {};
-        if (filters.from) dateFilter.gte = new Date(filters.from);
-        if (filters.to) dateFilter.lte = new Date(filters.to);
-        const hasDateFilter = Object.keys(dateFilter).length > 0;
-
-        const saleWhere: any = { tenantId, status: 'POSTED', invoiceType: { direction: 'SALE' } };
-        const purchaseWhere: any = { tenantId, status: 'POSTED', invoiceType: { direction: 'PURCHASE' } };
-        const expenseWhere: any = { tenantId, status: 'POSTED' };
-
-        if (hasDateFilter) {
-            saleWhere.date = dateFilter;
-            purchaseWhere.date = dateFilter;
-            expenseWhere.date = dateFilter;
-        }
-
         const [salesInvoices, purchaseInvoices, expenses] = await Promise.all([
-            this.prisma.invoice.findMany({ where: saleWhere, select: { total: true, exchangeRate: true } }),
-            this.prisma.invoice.findMany({ where: purchaseWhere, select: { total: true, exchangeRate: true } }),
-            this.prisma.expense.findMany({ where: expenseWhere, select: { totalAmount: true, exchangeRate: true } }),
+            this.repository.findInvoiceTotals('SALE', tenantId, filters),
+            this.repository.findInvoiceTotals('PURCHASE', tenantId, filters),
+            this.repository.findExpenseTotals(tenantId, filters),
         ]);
 
         const totalSales = salesInvoices.reduce((s, i) => s + toBase(i.total, i), 0);
@@ -145,32 +87,20 @@ export class ReportsService {
 
         const from = filters?.from ? new Date(filters.from) : startOfMonth;
         const to = filters?.to ? new Date(filters.to) : today;
-        const dateFilter = { gte: from, lte: to };
+        const range = { from: from.toISOString(), to: to.toISOString() };
 
         const [
             salesInvoices, purchaseInvoices, expenses,
             cashboxes, lowStockCount,
             partiesCount, itemsCount,
         ] = await Promise.all([
-            this.prisma.invoice.findMany({
-                where: { tenantId, status: 'POSTED', invoiceType: { direction: 'SALE' }, date: dateFilter },
-                select: { total: true, exchangeRate: true },
-            }),
-            this.prisma.invoice.findMany({
-                where: { tenantId, status: 'POSTED', invoiceType: { direction: 'PURCHASE' }, date: dateFilter },
-                select: { total: true, exchangeRate: true },
-            }),
-            this.prisma.expense.findMany({
-                where: { tenantId, status: 'POSTED', date: dateFilter },
-                select: { totalAmount: true, exchangeRate: true },
-            }),
-            this.prisma.cashbox.findMany({
-                where: { tenantId, isActive: true },
-                select: DASHBOARD_CASHBOX_SELECT,
-            }),
-            this.prisma.stockBalance.count({ where: { tenantId, quantity: { lte: 0 } } }),
-            this.prisma.party.count({ where: { tenantId, isActive: true } }),
-            this.prisma.item.count({ where: { tenantId, isActive: true } }),
+            this.repository.findInvoiceTotals('SALE', tenantId, range),
+            this.repository.findInvoiceTotals('PURCHASE', tenantId, range),
+            this.repository.findExpenseTotals(tenantId, range),
+            this.repository.findActiveCashboxes(tenantId),
+            this.repository.countLowStockBalances(tenantId),
+            this.repository.countActiveParties(tenantId),
+            this.repository.countActiveItems(tenantId),
         ]);
 
         const totalSales = salesInvoices.reduce((s, i) => s + toBase(i.total, i), 0);
@@ -200,18 +130,11 @@ export class ReportsService {
         const cap = new Date(from);
         cap.setDate(cap.getDate() + 90);
         const cappedTo = to > cap ? cap : to;
+        const range = { from: from.toISOString(), to: cappedTo.toISOString() };
 
         const [salesInvoices, purchaseInvoices] = await Promise.all([
-            this.prisma.invoice.findMany({
-                where: { tenantId, status: 'POSTED', invoiceType: { direction: 'SALE' }, date: { gte: from, lte: cappedTo } },
-                select: { date: true, total: true, exchangeRate: true },
-                orderBy: { date: 'asc' },
-            }),
-            this.prisma.invoice.findMany({
-                where: { tenantId, status: 'POSTED', invoiceType: { direction: 'PURCHASE' }, date: { gte: from, lte: cappedTo } },
-                select: { date: true, total: true, exchangeRate: true },
-                orderBy: { date: 'asc' },
-            }),
+            this.repository.findDailyInvoiceTotals('SALE', tenantId, range),
+            this.repository.findDailyInvoiceTotals('PURCHASE', tenantId, range),
         ]);
 
         const map = new Map<string, { sales: number; purchases: number }>();
@@ -240,11 +163,9 @@ export class ReportsService {
         const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
         const from = filters?.from ? new Date(filters.from) : startOfMonth;
         const to = filters?.to ? new Date(filters.to) : today;
+        const range = { from: from.toISOString(), to: to.toISOString() };
 
-        const expenseItems = await this.prisma.expenseItem.findMany({
-            where: { tenantId, expense: { status: 'POSTED', date: { gte: from, lte: to } } },
-            select: { accountId: true, amount: true, expense: { select: { exchangeRate: true } } },
-        });
+        const expenseItems = await this.repository.findPostedExpenseItems(tenantId, range);
 
         const totalByAccount = new Map<string, number>();
         for (const item of expenseItems) {
@@ -263,10 +184,7 @@ export class ReportsService {
         const top = grouped.slice(0, TOP_N);
         const rest = grouped.slice(TOP_N);
 
-        const accounts = await this.prisma.chartOfAccount.findMany({
-            where: { id: { in: top.map((g) => g.accountId) } },
-            select: { id: true, name: true },
-        });
+        const accounts = await this.repository.findAccountNames(top.map((g) => g.accountId));
         const accountById = new Map(accounts.map((a) => [a.id, a.name]));
 
         const result = top.map((g) => ({
@@ -292,15 +210,10 @@ export class ReportsService {
         const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
         const from = filters?.from ? new Date(filters.from) : startOfMonth;
         const to = filters?.to ? new Date(filters.to) : today;
+        const range = { from: from.toISOString(), to: to.toISOString() };
         const limit = filters?.limit ?? 5;
 
-        const lines = await this.prisma.invoiceLine.findMany({
-            where: {
-                tenantId,
-                invoice: { status: 'POSTED', invoiceType: { direction: 'SALE' }, date: { gte: from, lte: to } },
-            },
-            select: { itemId: true, quantity: true, total: true, invoice: { select: { exchangeRate: true } } },
-        });
+        const lines = await this.repository.findPostedSalesLines(tenantId, range);
 
         const totalsByItem = new Map<string, { quantity: number; revenue: number }>();
         for (const line of lines) {
@@ -318,10 +231,7 @@ export class ReportsService {
             return [];
         }
 
-        const items = await this.prisma.item.findMany({
-            where: { id: { in: grouped.map(([itemId]) => itemId) } },
-            select: { id: true, name: true, code: true },
-        });
+        const items = await this.repository.findItemsByIds(grouped.map(([itemId]) => itemId));
         const itemById = new Map(items.map((i) => [i.id, i]));
 
         return grouped.map(([itemId, totals]) => {

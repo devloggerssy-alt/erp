@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { LocaleResolverService } from '@devloggers/backend-core';
-import type { LocalizedString } from '@devloggers/api-contracts';
+import { toLocalizedString } from '@/common/i18n/localized-string';
 import { AccountsRepository } from '../repositories/accounts.repository';
 import { getAccountBalanceDelta } from '../utils/account-normal-side';
 import { rollUpBalances } from '../utils/roll-up-balances';
@@ -31,7 +31,7 @@ export class AccountBalancesService {
     const rolled = rollUpBalances(own);
 
     return accounts.map((a) => {
-      const name = a.name as unknown as LocalizedString;
+      const name = toLocalizedString(a.name) ?? { ar: '' };
       const ownBalance = ownById.get(a.id) ?? 0;
       return {
         id: a.id,
