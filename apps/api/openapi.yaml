@@ -1964,7 +1964,11 @@ paths:
             type: string
       responses:
         '200':
-          description: ''
+          description: Account restored
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiMessageResponseDto'
         '401':
           description: JWT token is missing, expired, or invalid
           content:
@@ -2056,7 +2060,11 @@ paths:
             type: string
       responses:
         '201':
-          description: ''
+          description: Account converted to group
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiMessageResponseDto'
         '401':
           description: JWT token is missing, expired, or invalid
           content:
@@ -3651,23 +3659,13 @@ paths:
           content:
             application/json:
               schema:
-                example:
-                  message: Journal entries
-                  data:
-                    - id: ...
-                      referenceType: INVOICE
-                      referenceId: ...
-                      date: '2026-04-14'
-                      lines:
-                        - accountId: ...
-                          debit: 600000
-                          credit: 0
-                  meta:
-                    pagination:
-                      total: 10
-                      page: 1
-                      limit: 50
-                      totalPages: 1
+                allOf:
+                  - $ref: '#/components/schemas/ApiSuccessResponseDto'
+                  - properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/JournalEntryResponseDto'
         '401':
           description: JWT token is missing, expired, or invalid
           content:
@@ -3762,22 +3760,11 @@ paths:
           content:
             application/json:
               schema:
-                example:
-                  message: Journal entry details
-                  data:
-                    id: ...
-                    referenceType: INVOICE
-                    referenceId: ...
-                    date: '2026-04-14'
-                    lines:
-                      - accountId: ...
-                        accountName: Inventory
-                        debit: 600000
-                        credit: 0
-                      - accountId: ...
-                        accountName: Accounts Payable
-                        debit: 0
-                        credit: 600000
+                allOf:
+                  - $ref: '#/components/schemas/ApiSuccessResponseDto'
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/JournalEntryResponseDto'
         '401':
           description: JWT token is missing, expired, or invalid
           content:
@@ -8414,7 +8401,91 @@ paths:
             type: string
       responses:
         '200':
-          description: ''
+          description: Custom fields for the module
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiSuccessResponseDto'
+                  - properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/CustomFieldResponseDto'
+        '401':
+          description: JWT token is missing, expired, or invalid
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Unauthorized
+                  data: null
+                  error:
+                    code: UNAUTHORIZED
+                    message: JWT token is missing, expired, or invalid
+        '403':
+          description: Insufficient permissions to perform this action
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Forbidden
+                  data: null
+                  error:
+                    code: FORBIDDEN
+                    message: Insufficient permissions to perform this action
+        '404':
+          description: The requested resource was not found
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Not found
+                  data: null
+                  error:
+                    code: NOT_FOUND
+                    message: The requested resource was not found
+        '422':
+          description: Request body validation failed
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Validation failed
+                  data: null
+                  error:
+                    code: VALIDATION_ERROR
+                    message: Validation failed
+                    details:
+                      - field: email
+                        message: email must be a valid email address
+                        code: isEmail
+        '500':
+          description: An unexpected internal server error occurred
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Internal server error
+                  data: null
+                  error:
+                    code: INTERNAL_ERROR
+                    message: Internal server error
       security:
         - JWT-auth: []
       summary: List all custom fields for a module (non-paginated)
@@ -14191,10 +14262,7 @@ paths:
           content:
             application/json:
               schema:
-                example:
-                  status: success
-                  message: Password updated
-                  data: null
+                $ref: '#/components/schemas/ApiMessageResponseDto'
         '401':
           description: JWT token is missing, expired, or invalid
           content:
@@ -15734,7 +15802,12 @@ paths:
       parameters: []
       responses:
         '200':
-          description: ''
+          description: Gzip-compressed JSON backup, sent as a file attachment
+          content:
+            application/gzip:
+              schema:
+                type: string
+                format: binary
         '401':
           description: JWT token is missing, expired, or invalid
           content:
@@ -25955,6 +26028,27 @@ components:
         - type
         - parentId
         - isActive
+    ApiMessageResponseDto:
+      type: object
+      properties:
+        status:
+          type: object
+          default: success
+          example: success
+        message:
+          type: string
+          default: ''
+          example: Account restored
+        data:
+          default: null
+          type: object
+          nullable: true
+          example: null
+          description: Always null — the action returns no payload
+      required:
+        - status
+        - message
+        - data
     ChartOfAccountResponseDto:
       type: object
       properties:
@@ -26829,6 +26923,206 @@ components:
         - newFindings
         - correlationId
         - createdAt
+    JournalEntryLineAccountDto:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 00000000-0000-4000-a601-000000000001
+          description: Present on the detail response only
+        code:
+          type: string
+          default: ''
+          example: '1110'
+        name:
+          $ref: '#/components/schemas/LocalizedStringDto'
+        type:
+          type: string
+          enum:
+            - ASSET
+            - LIABILITY
+            - EQUITY
+            - REVENUE
+            - EXPENSE
+          example: ASSET
+      required:
+        - code
+        - name
+    JournalEntryLineDto:
+      type: object
+      properties:
+        id:
+          type: string
+          default: ''
+          example: 00000000-0000-4000-b100-000000000001
+        tenantId:
+          type: string
+          default: ''
+          example: 00000000-0000-4000-a000-000000000001
+        journalEntryId:
+          type: string
+          default: ''
+          example: 00000000-0000-4000-b000-000000000001
+        accountId:
+          type: string
+          default: ''
+          example: 00000000-0000-4000-a601-000000000001
+        partyId:
+          type: string
+          nullable: true
+          example: null
+        cashboxId:
+          type: string
+          nullable: true
+          example: null
+        bankAccountId:
+          type: string
+          nullable: true
+          example: null
+        currencyId:
+          type: string
+          nullable: true
+          example: null
+        amount:
+          type: number
+          default: 0
+          example: 600000
+          description: Transaction-currency amount
+        exchangeRate:
+          type: number
+          default: 1
+          example: 1
+        debit:
+          type: number
+          default: 0
+          example: 600000
+        credit:
+          type: number
+          default: 0
+          example: 0
+        description:
+          type: string
+          nullable: true
+          example: null
+        sortOrder:
+          type: number
+          default: 0
+          example: 0
+        account:
+          default:
+            code: ''
+          allOf:
+            - $ref: '#/components/schemas/JournalEntryLineAccountDto'
+      required:
+        - id
+        - tenantId
+        - journalEntryId
+        - accountId
+        - amount
+        - exchangeRate
+        - debit
+        - credit
+        - sortOrder
+        - account
+    JournalEntryResponseDto:
+      type: object
+      properties:
+        id:
+          type: string
+          default: ''
+          example: 00000000-0000-4000-b000-000000000001
+        tenantId:
+          type: string
+          default: ''
+          example: 00000000-0000-4000-a000-000000000001
+        number:
+          type: string
+          default: ''
+          example: JE-00001
+        date:
+          type: string
+          default: ''
+          example: '2026-04-14T00:00:00.000Z'
+        fiscalPeriodId:
+          type: string
+          default: ''
+          example: 00000000-0000-4000-a900-000000000001
+        referenceType:
+          type: string
+          nullable: true
+          enum:
+            - INVOICE
+            - INVOICE_CANCELLATION
+            - PAYMENT
+            - PAYMENT_CANCELLATION
+            - EXPENSE
+            - EXPENSE_CANCELLATION
+            - OPENING_BALANCE
+            - OPENING_BALANCE_CANCELLATION
+            - STOCK_COUNT
+            - STOCK_COUNT_CANCELLATION
+          example: INVOICE
+        referenceId:
+          type: string
+          nullable: true
+          example: null
+        description:
+          type: string
+          nullable: true
+          example: Sales invoice posting
+        status:
+          type: string
+          default: POSTED
+          enum:
+            - DRAFT
+            - POSTED
+          example: POSTED
+        exchangeRate:
+          type: number
+          default: 1
+          example: 1
+          description: Exchange rate to tenant base currency, locked at posting time
+        postedAt:
+          type: string
+          nullable: true
+          example: '2026-04-14T10:00:00.000Z'
+        reversalOfId:
+          type: string
+          nullable: true
+          example: null
+        reversalDate:
+          type: string
+          nullable: true
+          example: null
+        createdBy:
+          type: string
+          default: ''
+          example: 00000000-0000-4000-a200-000000000001
+        createdAt:
+          type: string
+          default: ''
+          example: '2026-04-14T10:00:00.000Z'
+        updatedAt:
+          type: string
+          default: ''
+          example: '2026-04-14T10:00:00.000Z'
+        lines:
+          default: []
+          type: array
+          items:
+            $ref: '#/components/schemas/JournalEntryLineDto'
+      required:
+        - id
+        - tenantId
+        - number
+        - date
+        - fiscalPeriodId
+        - status
+        - exchangeRate
+        - createdBy
+        - createdAt
+        - updatedAt
+        - lines
     OpeningBalanceSessionStatus:
       type: string
       enum:

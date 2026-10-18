@@ -1,11 +1,12 @@
 import { Controller, Get, Patch, Post, Param, UseGuards } from '@nestjs/common';
-import { ApiTags, ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
+import { ApiTags, ApiBearerAuth, ApiOperation, ApiOkResponse, ApiCreatedResponse } from '@nestjs/swagger';
 import { createCrudController, type CrudOpenApi, RequirePermission } from '@devloggers/backend-core';
 import { AccountsService } from '../services/accounts.service';
 import { CreateChartOfAccountDto, UpdateChartOfAccountDto, ChartOfAccountResponseDto, ChartOfAccountTreeDto } from '../dto';
 import { JwtAuthGuard, PermissionsGuard } from '@/modules/identity/auth/guards';
 import { CurrentUser, type RequestUser } from '@/modules/identity/auth/decorators';
 import { ApiResponseBuilder } from '@/common/api/api-response-builder';
+import { ApiMessageResponseDto } from '@/common/api/message-response.dto';
 import { ApiStandardErrors, ApiOkResponseStandard } from '@/common/decorators/api-swagger.decorators';
 
 // ── OpenAPI config ────────────────────────────────────────────────────────────
@@ -98,6 +99,7 @@ export class AccountsController extends AccountsCrudBase {
         summary: 'Restore an archived account',
         description: 'Nulls deletedAt. The account becomes visible again.',
     })
+    @ApiOkResponse({ type: ApiMessageResponseDto, description: 'Account restored' })
     @ApiStandardErrors()
     async restore(@CurrentUser() user: RequestUser, @Param('id') id: string) {
         await this.accountsService.restore(user.tenantId, id);
@@ -110,6 +112,7 @@ export class AccountsController extends AccountsCrudBase {
         summary: 'Convert a leaf account to a group account',
         description: 'Sets isPostable=false. Fails if the account has journal entries.',
     })
+    @ApiCreatedResponse({ type: ApiMessageResponseDto, description: 'Account converted to group' })
     @ApiStandardErrors()
     async convertToGroup(@CurrentUser() user: RequestUser, @Param('id') id: string) {
         await this.accountsService.convertToGroup(user.tenantId, id);

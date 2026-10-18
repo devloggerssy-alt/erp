@@ -145,6 +145,44 @@ export interface operations {
   assert.equal(result.untyped, 0);
 });
 
+test('a concrete binary body (file download) is a typed response, not a gap', () => {
+  const download = `
+export interface paths {
+    "/settings/danger/export-database": {
+        get: operations["DatabaseBackup.exportDatabase"];
+    };
+}
+
+export interface operations {
+    "DatabaseBackup.exportDatabase": {
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/gzip": string;
+                };
+            };
+        };
+    };
+}
+`;
+  const result = auditOpenApiResponseTypes(download);
+
+  assert.equal(result.typed, 1);
+  assert.equal(result.untyped, 0);
+});
+
+test('the committed contract has no untyped success responses', () => {
+  const typesPath = resolve(
+    dirname(fileURLToPath(import.meta.url)),
+    '../packages/api-contracts/types/index.ts',
+  );
+  const { untypedOps } = auditOpenApiResponseTypes(readFileSync(typesPath, 'utf8'));
+  assert.deepEqual(untypedOps, []);
+});
+
 test('report and dashboard success responses are typed in the committed contract', () => {
   const typesPath = resolve(
     dirname(fileURLToPath(import.meta.url)),

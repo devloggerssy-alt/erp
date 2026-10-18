@@ -6,6 +6,7 @@ import { JwtAuthGuard } from '../guards';
 import { CurrentUser, RequestUser } from '../decorators';
 import { ApiStandardErrors } from '../../../../common/decorators/api-swagger.decorators';
 import { ApiResponseBuilder } from '../../../../common/api/api-response-builder';
+import { ApiMessageResponseDto } from '../../../../common/api/message-response.dto';
 
 /**
  * Self-service password change. JWT-only on purpose: every signed-in user may
@@ -25,12 +26,7 @@ export class ChangePasswordController {
         summary: 'Change current user password',
         description: 'Verifies the current password and stores a new hash. Existing sessions stay valid until token expiry.',
     })
-    @ApiOkResponse({
-        description: 'Password updated',
-        schema: {
-            example: { status: 'success', message: 'Password updated', data: null },
-        },
-    })
+    @ApiOkResponse({ type: ApiMessageResponseDto, description: 'Password updated' })
     @ApiStandardErrors()
     async changePassword(@CurrentUser() user: RequestUser, @Body() dto: ChangePasswordDto) {
         await this.changePasswordService.changePassword(user.id, dto.currentPassword, dto.newPassword);

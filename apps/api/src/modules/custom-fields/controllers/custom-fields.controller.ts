@@ -6,6 +6,8 @@ import { createCrudController, type CrudOpenApi } from '@devloggers/backend-core
 import { JwtAuthGuard, PermissionsGuard } from '@/modules/identity/auth/guards';
 import { CurrentUser, type RequestUser, RequirePermission } from '@devloggers/backend-core';
 import { customFieldModules } from '@devloggers/api-contracts';
+import { ApiResponseBuilder } from '@/common/api/api-response-builder';
+import { ApiStandardErrors, ApiOkResponseStandard } from '@/common/decorators/api-swagger.decorators';
 
 const CUSTOM_FIELDS_OPENAPI = {
     list: {
@@ -66,11 +68,13 @@ export class CustomFieldsController extends CustomFieldsCrudBase {
     @RequirePermission('customFields.view')
     @ApiOperation({ summary: 'List all custom fields for a module (non-paginated)' })
     @ApiQuery({ name: 'module', enum: Object.values(customFieldModules) })
+    @ApiOkResponseStandard(CustomFieldResponseDto, { isArray: true, description: 'Custom fields for the module' })
+    @ApiStandardErrors()
     async listByModule(
         @CurrentUser() user: RequestUser,
         @Query('module') module: string,
     ) {
         const data = await this.customFieldsService.listByModule(user.tenantId, module);
-        return { data };
+        return ApiResponseBuilder.success(data, 'Custom fields for module');
     }
 }

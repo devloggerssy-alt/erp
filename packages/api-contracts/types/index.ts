@@ -3173,6 +3173,24 @@ export interface components {
              */
             isActive: boolean;
         };
+        ApiMessageResponseDto: {
+            /**
+             * @default success
+             * @example success
+             */
+            status: Record<string, never>;
+            /**
+             * @default
+             * @example Account restored
+             */
+            message: string;
+            /**
+             * @description Always null — the action returns no payload
+             * @default null
+             * @example null
+             */
+            data: Record<string, never> | null;
+        };
         ChartOfAccountResponseDto: {
             /**
              * @default
@@ -3886,6 +3904,159 @@ export interface components {
              * @example 2026-09-17T03:00:01.000Z
              */
             createdAt: string;
+        };
+        JournalEntryLineAccountDto: {
+            /**
+             * @description Present on the detail response only
+             * @example 00000000-0000-4000-a601-000000000001
+             */
+            id?: string;
+            /**
+             * @default
+             * @example 1110
+             */
+            code: string;
+            name: components["schemas"]["LocalizedStringDto"];
+            /**
+             * @example ASSET
+             * @enum {string}
+             */
+            type?: "ASSET" | "LIABILITY" | "EQUITY" | "REVENUE" | "EXPENSE";
+        };
+        JournalEntryLineDto: {
+            /**
+             * @default
+             * @example 00000000-0000-4000-b100-000000000001
+             */
+            id: string;
+            /**
+             * @default
+             * @example 00000000-0000-4000-a000-000000000001
+             */
+            tenantId: string;
+            /**
+             * @default
+             * @example 00000000-0000-4000-b000-000000000001
+             */
+            journalEntryId: string;
+            /**
+             * @default
+             * @example 00000000-0000-4000-a601-000000000001
+             */
+            accountId: string;
+            /** @example null */
+            partyId?: string | null;
+            /** @example null */
+            cashboxId?: string | null;
+            /** @example null */
+            bankAccountId?: string | null;
+            /** @example null */
+            currencyId?: string | null;
+            /**
+             * @description Transaction-currency amount
+             * @default 0
+             * @example 600000
+             */
+            amount: number;
+            /**
+             * @default 1
+             * @example 1
+             */
+            exchangeRate: number;
+            /**
+             * @default 0
+             * @example 600000
+             */
+            debit: number;
+            /**
+             * @default 0
+             * @example 0
+             */
+            credit: number;
+            /** @example null */
+            description?: string | null;
+            /**
+             * @default 0
+             * @example 0
+             */
+            sortOrder: number;
+            /**
+             * @default {
+             *       "code": ""
+             *     }
+             */
+            account: components["schemas"]["JournalEntryLineAccountDto"];
+        };
+        JournalEntryResponseDto: {
+            /**
+             * @default
+             * @example 00000000-0000-4000-b000-000000000001
+             */
+            id: string;
+            /**
+             * @default
+             * @example 00000000-0000-4000-a000-000000000001
+             */
+            tenantId: string;
+            /**
+             * @default
+             * @example JE-00001
+             */
+            number: string;
+            /**
+             * @default
+             * @example 2026-04-14T00:00:00.000Z
+             */
+            date: string;
+            /**
+             * @default
+             * @example 00000000-0000-4000-a900-000000000001
+             */
+            fiscalPeriodId: string;
+            /**
+             * @example INVOICE
+             * @enum {string|null}
+             */
+            referenceType?: "INVOICE" | "INVOICE_CANCELLATION" | "PAYMENT" | "PAYMENT_CANCELLATION" | "EXPENSE" | "EXPENSE_CANCELLATION" | "OPENING_BALANCE" | "OPENING_BALANCE_CANCELLATION" | "STOCK_COUNT" | "STOCK_COUNT_CANCELLATION" | null;
+            /** @example null */
+            referenceId?: string | null;
+            /** @example Sales invoice posting */
+            description?: string | null;
+            /**
+             * @default POSTED
+             * @example POSTED
+             * @enum {string}
+             */
+            status: "DRAFT" | "POSTED";
+            /**
+             * @description Exchange rate to tenant base currency, locked at posting time
+             * @default 1
+             * @example 1
+             */
+            exchangeRate: number;
+            /** @example 2026-04-14T10:00:00.000Z */
+            postedAt?: string | null;
+            /** @example null */
+            reversalOfId?: string | null;
+            /** @example null */
+            reversalDate?: string | null;
+            /**
+             * @default
+             * @example 00000000-0000-4000-a200-000000000001
+             */
+            createdBy: string;
+            /**
+             * @default
+             * @example 2026-04-14T10:00:00.000Z
+             */
+            createdAt: string;
+            /**
+             * @default
+             * @example 2026-04-14T10:00:00.000Z
+             */
+            updatedAt: string;
+            /** @default [] */
+            lines: components["schemas"]["JournalEntryLineDto"][];
         };
         /** @enum {string} */
         OpeningBalanceSessionStatus: "DRAFT" | "VALIDATED" | "REVIEWED" | "POSTED" | "LOCKED";
@@ -9705,11 +9876,14 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Account restored */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "application/json": components["schemas"]["ApiMessageResponseDto"];
+                };
             };
             /** @description JWT token is missing, expired, or invalid */
             401: {
@@ -9769,11 +9943,14 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Account converted to group */
             201: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "application/json": components["schemas"]["ApiMessageResponseDto"];
+                };
             };
             /** @description JWT token is missing, expired, or invalid */
             401: {
@@ -10878,7 +11055,9 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["JournalEntryResponseDto"][];
+                    };
                 };
             };
             /** @description JWT token is missing, expired, or invalid */
@@ -10945,7 +11124,9 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["JournalEntryResponseDto"];
+                    };
                 };
             };
             /** @description JWT token is missing, expired, or invalid */
@@ -14249,11 +14430,61 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Custom fields for the module */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["CustomFieldResponseDto"][];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
             };
         };
     };
@@ -18423,7 +18654,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ApiMessageResponseDto"];
                 };
             };
             /** @description JWT token is missing, expired, or invalid */
@@ -19502,11 +19733,14 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Gzip-compressed JSON backup, sent as a file attachment */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "application/gzip": string;
+                };
             };
             /** @description JWT token is missing, expired, or invalid */
             401: {

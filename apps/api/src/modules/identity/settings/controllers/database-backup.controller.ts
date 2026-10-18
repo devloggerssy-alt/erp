@@ -1,6 +1,6 @@
 import { Body, Controller, Post, Get, StreamableFile, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiTags, ApiBearerAuth, ApiOperation, ApiBody, ApiConsumes } from '@nestjs/swagger';
+import { ApiTags, ApiBearerAuth, ApiOperation, ApiBody, ApiConsumes, ApiOkResponse } from '@nestjs/swagger';
 import multer from 'multer';
 import { DatabaseExportService } from '../services/database-export.service';
 import { DatabaseImportService } from '../services/database-import.service';
@@ -29,6 +29,10 @@ export class DatabaseBackupController {
             'Downloads every tenant-scoped record (accounting, invoicing, inventory, catalog, parties, ' +
             'users/roles, settings) as a gzip-compressed JSON backup. File attachments are not included — ' +
             'only their metadata rows.',
+    })
+    @ApiOkResponse({
+        description: 'Gzip-compressed JSON backup, sent as a file attachment',
+        content: { 'application/gzip': { schema: { type: 'string', format: 'binary' } } },
     })
     @ApiStandardErrors()
     exportDatabase(@CurrentUser() user: RequestUser): Promise<StreamableFile> {

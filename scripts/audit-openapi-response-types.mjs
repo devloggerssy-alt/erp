@@ -5,8 +5,9 @@
  * Reads the generated contract (`packages/api-contracts/types/index.ts`) and
  * classifies every 2xx response:
  *
- *   - typed      — declares a concrete JSON schema, or a concrete `text/event-stream`
- *                  body (an SSE stream such as the AI chat).
+ *   - typed      — declares a concrete JSON schema, a concrete `text/event-stream`
+ *                  body (an SSE stream such as the AI chat), or a concrete binary
+ *                  body (a file download such as the database export).
  *   - untyped    — declares a JSON body typed as `unknown`, OR declares no body
  *                  at all when the operation has no other success response to
  *                  carry one. These are real gaps and count toward the ratchet.
@@ -32,6 +33,12 @@ const NEVER_RE = /content\??:\s*never/;
 const UNKNOWN_RE = /"application\/json":\s*unknown/;
 const JSON_CONTENT_RE = /"application\/json"\s*:/;
 const STREAM_CONTENT_RE = /"text\/event-stream":\s*string/;
+/**
+ * A concrete binary body — file downloads documented with
+ * `content: { 'application/gzip': { schema: { type: 'string', format: 'binary' } } }`.
+ * Like `text/event-stream`, this is a declared shape, not a typing gap.
+ */
+const BINARY_CONTENT_RE = /"application\/(?:gzip|octet-stream|zip|pdf)":\s*string/;
 
 /** Operation IDs are declared as `    "<id>": {` in the `operations` interface. */
 const OPERATION_RE = /^\s{4}"([^"]+)":\s*\{/;
@@ -112,7 +119,7 @@ export function auditOpenApiResponseTypes(source) {
 
       if (UNKNOWN_RE.test(block)) {
         untypedOps.push(`${op.method} ${op.path} → ${status} [${opId}]`);
-      } else if (JSON_CONTENT_RE.test(block) || STREAM_CONTENT_RE.test(block)) {
+      } else if (JSON_CONTENT_RE.test(block) || STREAM_CONTENT_RE.test(block) || BINARY_CONTENT_RE.test(block)) {
         typed++;
         typedOps.push(`${op.method} ${op.path} → ${status} [${opId}]`);
       } else if (status === '204' || operationHasBody) {
