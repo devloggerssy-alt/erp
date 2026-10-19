@@ -19,6 +19,8 @@ export interface BranchReferenceCounts {
     warehouses: number;
     cashboxes: number;
     documents: number;
+    invoices: number;
+    journalEntries: number;
 }
 
 /** Settings-registry key holding the tenant's default branch id (see api-contracts). */
@@ -118,12 +120,14 @@ export class BranchesRepository extends CrudRepository<Branch, Prisma.BranchDele
 
     /** References that make a branch undeletable (deactivate instead). */
     async countReferences(tenantId: string, branchId: string): Promise<BranchReferenceCounts> {
-        const [warehouses, cashboxes, documents] = await Promise.all([
+        const [warehouses, cashboxes, documents, invoices, journalEntries] = await Promise.all([
             this.prisma.branchWarehouse.count({ where: { tenantId, branchId } }),
             this.prisma.cashbox.count({ where: { tenantId, branchId } }),
             this.prisma.documentSequence.count({ where: { tenantId, branchId } }),
+            this.prisma.invoice.count({ where: { tenantId, branchId } }),
+            this.prisma.journalEntry.count({ where: { tenantId, branchId } }),
         ]);
-        return { warehouses, cashboxes, documents };
+        return { warehouses, cashboxes, documents, invoices, journalEntries };
     }
 
     /** Tenant display data used to seed a default `MAIN` branch for a new tenant. */

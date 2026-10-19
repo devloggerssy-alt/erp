@@ -90,6 +90,9 @@ export class JournalEntryResponseDto {
     @ApiPropertyOptional({ type: 'string', nullable: true, example: null })
     referenceId?: string | null;
 
+    @ApiPropertyOptional({ type: 'string', nullable: true, example: '00000000-0000-4000-ab01-000000000001', description: 'Branch of the source document, derived at posting time' })
+    branchId?: string | null;
+
     @ApiPropertyOptional({ type: 'string', nullable: true, example: 'Sales invoice posting' })
     description?: string | null;
 

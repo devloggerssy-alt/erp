@@ -97,7 +97,7 @@ export class CreateInvoiceDto {
     @IsString()
     warehouseId?: string;
 
-    @ApiProperty({ example: '00000000-0000-4000-ab01-000000000001', description: 'Branch ID the invoice is attributed to (must be linked to the warehouse when one is set)' })
+    @ApiProperty({ type: 'string', example: '00000000-0000-4000-ab01-000000000001', description: 'Branch ID the invoice is attributed to (must be linked to the warehouse when one is set)' })
     @IsString()
     @IsNotEmpty()
     branchId!: string;
@@ -168,7 +168,7 @@ export class UpdateInvoiceDto {
     @IsString()
     warehouseId?: string;
 
-    @ApiPropertyOptional({ example: '00000000-0000-4000-ab01-000000000001', description: 'Branch ID (must be linked to the warehouse when one is set)' })
+    @ApiPropertyOptional({ type: 'string', example: '00000000-0000-4000-ab01-000000000001', description: 'Branch ID (must be linked to the warehouse when one is set)' })
     @IsOptional()
     @IsString()
     branchId?: string;

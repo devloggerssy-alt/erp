@@ -54,7 +54,7 @@ export class InvoicesController {
     @ApiQuery({ name: 'page', required: false })
     @ApiQuery({ name: 'limit', required: false })
     @ApiFilterQuery(INVOICE_FILTER_SCHEMA)
-    @ApiOkResponsePaginated(InvoiceResponseDto, { description: 'Paginated list of invoices' })
+    @ApiOkResponsePaginated(InvoiceResponseDto, { description: 'Paginated list of invoices', filterSchema: INVOICE_FILTER_SCHEMA })
     @ApiStandardErrors()
     async findAll(
         @CurrentUser() user: RequestUser,
@@ -86,15 +86,15 @@ export class InvoicesController {
 
         const data = this.presenter.toListResponseList(result.data);
 
-        return ApiResponseBuilder.success(data, 'Invoices list', {
-            pagination: {
-                total: result.total,
-                page: result.page,
-                limit: result.limit,
-                totalPages: Math.ceil(result.total / result.limit),
-            },
-            filterOptions: ApiResponseBuilder.buildListFilterOptions(INVOICE_FILTER_SCHEMA),
-        });
+        return ApiResponseBuilder.success(
+            data,
+            'Invoices list',
+            ApiResponseBuilder.buildPaginationMeta(
+                { page: result.page, limit: result.limit },
+                result.total,
+                INVOICE_FILTER_SCHEMA,
+            ),
+        );
     }
 
     @Get(':id')

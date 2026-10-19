@@ -21370,6 +21370,32 @@ paths:
                         type: array
                         items:
                           $ref: '#/components/schemas/InvoiceResponseDto'
+                      meta:
+                        type: object
+                        properties:
+                          pagination:
+                            type: object
+                            properties:
+                              total:
+                                type: number
+                                example: 0
+                              page:
+                                type: number
+                                example: 1
+                              limit:
+                                type: number
+                                example: 10
+                              totalPages:
+                                type: number
+                                example: 0
+                          filterOptions:
+                            type: array
+                            example:
+                              - field: branchId
+                                type: id
+                                operators:
+                                  - $eq
+                                foreignResourceKey: branches
         '401':
           description: JWT token is missing, expired, or invalid
           content:
@@ -27874,6 +27900,11 @@ components:
           type: string
           nullable: true
           example: null
+        branchId:
+          type: string
+          nullable: true
+          example: 00000000-0000-4000-ab01-000000000001
+          description: Branch of the source document, derived at posting time
         description:
           type: string
           nullable: true

@@ -92,7 +92,9 @@ export class BranchesService extends CrudService<
 
     protected override async beforeDelete(tenantId: string, id: string): Promise<void> {
         const refs = await this.branchesRepository.countReferences(tenantId, id);
-        if (refs.warehouses + refs.cashboxes + refs.documents > 0) {
+        const total =
+            refs.warehouses + refs.cashboxes + refs.documents + refs.invoices + refs.journalEntries;
+        if (total > 0) {
             throw new ConflictException(
                 'Cannot delete a branch that warehouses, cashboxes or documents refer to. Deactivate it instead.',
             );

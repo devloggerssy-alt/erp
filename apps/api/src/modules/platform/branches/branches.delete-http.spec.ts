@@ -60,7 +60,7 @@ describe('DELETE /branches — delete guard', () => {
 
     it('returns 409 and deletes nothing when a warehouse, cashbox or document refers to the branch', async () => {
         repository.findByIdOrFail.mockResolvedValue({ id: 'b1', tenantId: 't1' });
-        repository.countReferences.mockResolvedValue({ warehouses: 1, cashboxes: 1, documents: 1 });
+        repository.countReferences.mockResolvedValue({ warehouses: 1, cashboxes: 1, documents: 1, invoices: 0, journalEntries: 0 });
 
         await request(app.getHttpServer()).delete('/branches/b1').expect(409);
 
@@ -69,7 +69,7 @@ describe('DELETE /branches — delete guard', () => {
 
     it('deletes an unreferenced branch with 204', async () => {
         repository.findByIdOrFail.mockResolvedValue({ id: 'b1', tenantId: 't1' });
-        repository.countReferences.mockResolvedValue({ warehouses: 0, cashboxes: 0, documents: 0 });
+        repository.countReferences.mockResolvedValue({ warehouses: 0, cashboxes: 0, documents: 0, invoices: 0, journalEntries: 0 });
 
         await request(app.getHttpServer()).delete('/branches/b1').expect(204);
 

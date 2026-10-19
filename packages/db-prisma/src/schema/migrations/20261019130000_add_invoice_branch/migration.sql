@@ -17,8 +17,10 @@ ALTER TABLE "invoices" ADD CONSTRAINT "invoices_branch_id_fkey" FOREIGN KEY ("br
 ALTER TABLE "journal_entries" ADD CONSTRAINT "journal_entries_branch_id_fkey" FOREIGN KEY ("branch_id") REFERENCES "branches"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- ─────────────────────────────────────────────────────────────────────────────
--- Backfill (Phase 1.1, #32): pre-existing invoices and journal entries land
--- under the tenant's MAIN branch created by the #30 backfill.
+-- Backfill (Phase 1.1, #32): pre-existing invoices land under the tenant's MAIN
+-- branch created by the #30 backfill, and so do the journal entries they posted.
+-- Journal entries whose source document is a payment/expense stay null — those
+-- documents are attributed in #33/#34.
 --
 -- Idempotent by construction: only NULL branch columns are stamped, and a
 -- tenant without a MAIN branch is left untouched. Re-running changes nothing.
@@ -35,4 +37,5 @@ SET "branch_id" = b."id"
 FROM "branches" b
 WHERE b."tenant_id" = je."tenant_id"
   AND b."code" = 'MAIN'
-  AND je."branch_id" IS NULL;
+  AND je."branch_id" IS NULL
+  AND je."reference_type" IN ('INVOICE', 'INVOICE_CANCELLATION');

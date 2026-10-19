@@ -4071,6 +4071,11 @@ export interface components {
             referenceType?: "INVOICE" | "INVOICE_CANCELLATION" | "PAYMENT" | "PAYMENT_CANCELLATION" | "EXPENSE" | "EXPENSE_CANCELLATION" | "OPENING_BALANCE" | "OPENING_BALANCE_CANCELLATION" | "STOCK_COUNT" | "STOCK_COUNT_CANCELLATION" | null;
             /** @example null */
             referenceId?: string | null;
+            /**
+             * @description Branch of the source document, derived at posting time
+             * @example 00000000-0000-4000-ab01-000000000001
+             */
+            branchId?: string | null;
             /** @example Sales invoice posting */
             description?: string | null;
             /**
@@ -23894,6 +23899,31 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
                         data?: components["schemas"]["InvoiceResponseDto"][];
+                        meta?: {
+                            pagination?: {
+                                /** @example 0 */
+                                total?: number;
+                                /** @example 1 */
+                                page?: number;
+                                /** @example 10 */
+                                limit?: number;
+                                /** @example 0 */
+                                totalPages?: number;
+                            };
+                            /**
+                             * @example [
+                             *       {
+                             *         "field": "branchId",
+                             *         "type": "id",
+                             *         "operators": [
+                             *           "$eq"
+                             *         ],
+                             *         "foreignResourceKey": "branches"
+                             *       }
+                             *     ]
+                             */
+                            filterOptions?: unknown[];
+                        };
                     };
                 };
             };

@@ -1,7 +1,8 @@
-import { ExecutionContext } from '@nestjs/common';
+import { ExecutionContext, ValidationPipe } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import type { NestExpressApplication } from '@nestjs/platform-express';
 import request from 'supertest';
+import { validationExceptionFactory } from '@devloggers/backend-core';
 import { JwtAuthGuard, PermissionsGuard } from '@/modules/identity/auth/guards';
 import { InvoicesController } from './invoices.controller';
 import { InvoicesService } from './invoices.service';
@@ -89,6 +90,15 @@ describe('invoices — branch attribution over HTTP', () => {
 
         app = moduleRef.createNestApplication<NestExpressApplication>();
         app.set('query parser', 'extended');
+        app.useGlobalPipes(
+            new ValidationPipe({
+                whitelist: true,
+                forbidNonWhitelisted: true,
+                transform: true,
+                transformOptions: { enableImplicitConversion: true },
+                exceptionFactory: validationExceptionFactory,
+            }),
+        );
         await app.init();
     });
 
@@ -104,6 +114,14 @@ describe('invoices — branch attribution over HTTP', () => {
         );
     });
 
+    it('requires a branch (422 when omitted)', async () => {
+        const { branchId: _omitted, ...withoutBranch } = createBody;
+
+        await request(app.getHttpServer()).post('/invoices').send(withoutBranch).expect(422);
+
+        expect(prisma.invoice.create).not.toHaveBeenCalled();
+    });
+
     it('refuses a warehouse that is not linked to the invoice branch', async () => {
         prisma.branchWarehouse.findFirst.mockResolvedValue(null);
 
@@ -117,6 +135,10 @@ describe('invoices — branch attribution over HTTP', () => {
 
         await request(app.getHttpServer()).post('/invoices').send(createBody).expect(404);
 
+        expect(prisma.branch.findFirst).toHaveBeenCalledWith({
+            where: { id: 'b1', tenantId: 't1' },
+            select: { id: true },
+        });
         expect(prisma.invoice.create).not.toHaveBeenCalled();
     });
 
