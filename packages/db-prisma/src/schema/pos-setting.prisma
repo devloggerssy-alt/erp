@@ -8,6 +8,9 @@ model PosSetting {
     invoiceTypeId  String   @map("invoice_type_id")
     cashboxId      String   @map("cashbox_id")
     warehouseId    String   @map("warehouse_id")
+    /// Branch the terminal sells on behalf of. Nullable in the database for
+    /// backfill safety; required at the API boundary (Phase 1.1, #34).
+    branchId       String?  @map("branch_id")
     createdAt      DateTime @default(now()) @map("created_at")
     updatedAt      DateTime @updatedAt @map("updated_at")
 
@@ -16,6 +19,8 @@ model PosSetting {
     invoiceType  InvoiceType @relation(fields: [invoiceTypeId], references: [id], onDelete: Restrict)
     cashbox      Cashbox     @relation(fields: [cashboxId], references: [id], onDelete: Restrict)
     warehouse    Warehouse   @relation(fields: [warehouseId], references: [id], onDelete: Restrict)
+    branch       Branch?     @relation(fields: [branchId], references: [id], onDelete: Restrict)
 
+    @@index([tenantId, branchId])
     @@map("pos_settings")
 }

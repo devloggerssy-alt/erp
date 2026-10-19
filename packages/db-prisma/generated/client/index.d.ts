@@ -6505,6 +6505,7 @@ export namespace Prisma {
     payments: number
     expenses: number
     bankAccounts: number
+    posSettings: number
   }
 
   export type BranchCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6516,6 +6517,7 @@ export namespace Prisma {
     payments?: boolean | BranchCountOutputTypeCountPaymentsArgs
     expenses?: boolean | BranchCountOutputTypeCountExpensesArgs
     bankAccounts?: boolean | BranchCountOutputTypeCountBankAccountsArgs
+    posSettings?: boolean | BranchCountOutputTypeCountPosSettingsArgs
   }
 
   // Custom InputTypes
@@ -6583,6 +6585,13 @@ export namespace Prisma {
    */
   export type BranchCountOutputTypeCountBankAccountsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: BankAccountWhereInput
+  }
+
+  /**
+   * BranchCountOutputType without action
+   */
+  export type BranchCountOutputTypeCountPosSettingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PosSettingWhereInput
   }
 
 
@@ -19388,6 +19397,7 @@ export namespace Prisma {
     payments?: boolean | Branch$paymentsArgs<ExtArgs>
     expenses?: boolean | Branch$expensesArgs<ExtArgs>
     bankAccounts?: boolean | Branch$bankAccountsArgs<ExtArgs>
+    posSettings?: boolean | Branch$posSettingsArgs<ExtArgs>
     _count?: boolean | BranchCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["branch"]>
 
@@ -19443,6 +19453,7 @@ export namespace Prisma {
     payments?: boolean | Branch$paymentsArgs<ExtArgs>
     expenses?: boolean | Branch$expensesArgs<ExtArgs>
     bankAccounts?: boolean | Branch$bankAccountsArgs<ExtArgs>
+    posSettings?: boolean | Branch$posSettingsArgs<ExtArgs>
     _count?: boolean | BranchCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type BranchIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -19464,6 +19475,7 @@ export namespace Prisma {
       payments: Prisma.$PaymentPayload<ExtArgs>[]
       expenses: Prisma.$ExpensePayload<ExtArgs>[]
       bankAccounts: Prisma.$BankAccountPayload<ExtArgs>[]
+      posSettings: Prisma.$PosSettingPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -19879,6 +19891,7 @@ export namespace Prisma {
     payments<T extends Branch$paymentsArgs<ExtArgs> = {}>(args?: Subset<T, Branch$paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     expenses<T extends Branch$expensesArgs<ExtArgs> = {}>(args?: Subset<T, Branch$expensesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExpensePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     bankAccounts<T extends Branch$bankAccountsArgs<ExtArgs> = {}>(args?: Subset<T, Branch$bankAccountsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BankAccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    posSettings<T extends Branch$posSettingsArgs<ExtArgs> = {}>(args?: Subset<T, Branch$posSettingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PosSettingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -20508,6 +20521,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: BankAccountScalarFieldEnum | BankAccountScalarFieldEnum[]
+  }
+
+  /**
+   * Branch.posSettings
+   */
+  export type Branch$posSettingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PosSetting
+     */
+    select?: PosSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PosSetting
+     */
+    omit?: PosSettingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PosSettingInclude<ExtArgs> | null
+    where?: PosSettingWhereInput
+    orderBy?: PosSettingOrderByWithRelationInput | PosSettingOrderByWithRelationInput[]
+    cursor?: PosSettingWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PosSettingScalarFieldEnum | PosSettingScalarFieldEnum[]
   }
 
   /**
@@ -56378,6 +56415,7 @@ export namespace Prisma {
     invoiceTypeId: string | null
     cashboxId: string | null
     warehouseId: string | null
+    branchId: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -56389,6 +56427,7 @@ export namespace Prisma {
     invoiceTypeId: string | null
     cashboxId: string | null
     warehouseId: string | null
+    branchId: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -56400,6 +56439,7 @@ export namespace Prisma {
     invoiceTypeId: number
     cashboxId: number
     warehouseId: number
+    branchId: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -56413,6 +56453,7 @@ export namespace Prisma {
     invoiceTypeId?: true
     cashboxId?: true
     warehouseId?: true
+    branchId?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -56424,6 +56465,7 @@ export namespace Prisma {
     invoiceTypeId?: true
     cashboxId?: true
     warehouseId?: true
+    branchId?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -56435,6 +56477,7 @@ export namespace Prisma {
     invoiceTypeId?: true
     cashboxId?: true
     warehouseId?: true
+    branchId?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -56519,6 +56562,7 @@ export namespace Prisma {
     invoiceTypeId: string
     cashboxId: string
     warehouseId: string
+    branchId: string | null
     createdAt: Date
     updatedAt: Date
     _count: PosSettingCountAggregateOutputType | null
@@ -56547,6 +56591,7 @@ export namespace Prisma {
     invoiceTypeId?: boolean
     cashboxId?: boolean
     warehouseId?: boolean
+    branchId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
@@ -56554,6 +56599,7 @@ export namespace Prisma {
     invoiceType?: boolean | InvoiceTypeDefaultArgs<ExtArgs>
     cashbox?: boolean | CashboxDefaultArgs<ExtArgs>
     warehouse?: boolean | WarehouseDefaultArgs<ExtArgs>
+    branch?: boolean | PosSetting$branchArgs<ExtArgs>
   }, ExtArgs["result"]["posSetting"]>
 
   export type PosSettingSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -56563,6 +56609,7 @@ export namespace Prisma {
     invoiceTypeId?: boolean
     cashboxId?: boolean
     warehouseId?: boolean
+    branchId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
@@ -56570,6 +56617,7 @@ export namespace Prisma {
     invoiceType?: boolean | InvoiceTypeDefaultArgs<ExtArgs>
     cashbox?: boolean | CashboxDefaultArgs<ExtArgs>
     warehouse?: boolean | WarehouseDefaultArgs<ExtArgs>
+    branch?: boolean | PosSetting$branchArgs<ExtArgs>
   }, ExtArgs["result"]["posSetting"]>
 
   export type PosSettingSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -56579,6 +56627,7 @@ export namespace Prisma {
     invoiceTypeId?: boolean
     cashboxId?: boolean
     warehouseId?: boolean
+    branchId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
@@ -56586,6 +56635,7 @@ export namespace Prisma {
     invoiceType?: boolean | InvoiceTypeDefaultArgs<ExtArgs>
     cashbox?: boolean | CashboxDefaultArgs<ExtArgs>
     warehouse?: boolean | WarehouseDefaultArgs<ExtArgs>
+    branch?: boolean | PosSetting$branchArgs<ExtArgs>
   }, ExtArgs["result"]["posSetting"]>
 
   export type PosSettingSelectScalar = {
@@ -56595,17 +56645,19 @@ export namespace Prisma {
     invoiceTypeId?: boolean
     cashboxId?: boolean
     warehouseId?: boolean
+    branchId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type PosSettingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "defaultPartyId" | "invoiceTypeId" | "cashboxId" | "warehouseId" | "createdAt" | "updatedAt", ExtArgs["result"]["posSetting"]>
+  export type PosSettingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "defaultPartyId" | "invoiceTypeId" | "cashboxId" | "warehouseId" | "branchId" | "createdAt" | "updatedAt", ExtArgs["result"]["posSetting"]>
   export type PosSettingInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     defaultParty?: boolean | PartyDefaultArgs<ExtArgs>
     invoiceType?: boolean | InvoiceTypeDefaultArgs<ExtArgs>
     cashbox?: boolean | CashboxDefaultArgs<ExtArgs>
     warehouse?: boolean | WarehouseDefaultArgs<ExtArgs>
+    branch?: boolean | PosSetting$branchArgs<ExtArgs>
   }
   export type PosSettingIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
@@ -56613,6 +56665,7 @@ export namespace Prisma {
     invoiceType?: boolean | InvoiceTypeDefaultArgs<ExtArgs>
     cashbox?: boolean | CashboxDefaultArgs<ExtArgs>
     warehouse?: boolean | WarehouseDefaultArgs<ExtArgs>
+    branch?: boolean | PosSetting$branchArgs<ExtArgs>
   }
   export type PosSettingIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
@@ -56620,6 +56673,7 @@ export namespace Prisma {
     invoiceType?: boolean | InvoiceTypeDefaultArgs<ExtArgs>
     cashbox?: boolean | CashboxDefaultArgs<ExtArgs>
     warehouse?: boolean | WarehouseDefaultArgs<ExtArgs>
+    branch?: boolean | PosSetting$branchArgs<ExtArgs>
   }
 
   export type $PosSettingPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -56630,6 +56684,7 @@ export namespace Prisma {
       invoiceType: Prisma.$InvoiceTypePayload<ExtArgs>
       cashbox: Prisma.$CashboxPayload<ExtArgs>
       warehouse: Prisma.$WarehousePayload<ExtArgs>
+      branch: Prisma.$BranchPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -56638,6 +56693,11 @@ export namespace Prisma {
       invoiceTypeId: string
       cashboxId: string
       warehouseId: string
+      /**
+       * Branch the terminal sells on behalf of. Nullable in the database for
+       * backfill safety; required at the API boundary (Phase 1.1, #34).
+       */
+      branchId: string | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["posSetting"]>
@@ -57039,6 +57099,7 @@ export namespace Prisma {
     invoiceType<T extends InvoiceTypeDefaultArgs<ExtArgs> = {}>(args?: Subset<T, InvoiceTypeDefaultArgs<ExtArgs>>): Prisma__InvoiceTypeClient<$Result.GetResult<Prisma.$InvoiceTypePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     cashbox<T extends CashboxDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CashboxDefaultArgs<ExtArgs>>): Prisma__CashboxClient<$Result.GetResult<Prisma.$CashboxPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     warehouse<T extends WarehouseDefaultArgs<ExtArgs> = {}>(args?: Subset<T, WarehouseDefaultArgs<ExtArgs>>): Prisma__WarehouseClient<$Result.GetResult<Prisma.$WarehousePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    branch<T extends PosSetting$branchArgs<ExtArgs> = {}>(args?: Subset<T, PosSetting$branchArgs<ExtArgs>>): Prisma__BranchClient<$Result.GetResult<Prisma.$BranchPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -57074,6 +57135,7 @@ export namespace Prisma {
     readonly invoiceTypeId: FieldRef<"PosSetting", 'String'>
     readonly cashboxId: FieldRef<"PosSetting", 'String'>
     readonly warehouseId: FieldRef<"PosSetting", 'String'>
+    readonly branchId: FieldRef<"PosSetting", 'String'>
     readonly createdAt: FieldRef<"PosSetting", 'DateTime'>
     readonly updatedAt: FieldRef<"PosSetting", 'DateTime'>
   }
@@ -57474,6 +57536,25 @@ export namespace Prisma {
      * Limit how many PosSettings to delete.
      */
     limit?: number
+  }
+
+  /**
+   * PosSetting.branch
+   */
+  export type PosSetting$branchArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Branch
+     */
+    select?: BranchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Branch
+     */
+    omit?: BranchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BranchInclude<ExtArgs> | null
+    where?: BranchWhereInput
   }
 
   /**
@@ -77824,6 +77905,7 @@ export namespace Prisma {
     invoiceTypeId: 'invoiceTypeId',
     cashboxId: 'cashboxId',
     warehouseId: 'warehouseId',
+    branchId: 'branchId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -79451,6 +79533,7 @@ export namespace Prisma {
     payments?: PaymentListRelationFilter
     expenses?: ExpenseListRelationFilter
     bankAccounts?: BankAccountListRelationFilter
+    posSettings?: PosSettingListRelationFilter
   }
 
   export type BranchOrderByWithRelationInput = {
@@ -79473,6 +79556,7 @@ export namespace Prisma {
     payments?: PaymentOrderByRelationAggregateInput
     expenses?: ExpenseOrderByRelationAggregateInput
     bankAccounts?: BankAccountOrderByRelationAggregateInput
+    posSettings?: PosSettingOrderByRelationAggregateInput
   }
 
   export type BranchWhereUniqueInput = Prisma.AtLeast<{
@@ -79499,6 +79583,7 @@ export namespace Prisma {
     payments?: PaymentListRelationFilter
     expenses?: ExpenseListRelationFilter
     bankAccounts?: BankAccountListRelationFilter
+    posSettings?: PosSettingListRelationFilter
   }, "id" | "tenantId_code">
 
   export type BranchOrderByWithAggregationInput = {
@@ -82340,6 +82425,7 @@ export namespace Prisma {
     invoiceTypeId?: StringFilter<"PosSetting"> | string
     cashboxId?: StringFilter<"PosSetting"> | string
     warehouseId?: StringFilter<"PosSetting"> | string
+    branchId?: StringNullableFilter<"PosSetting"> | string | null
     createdAt?: DateTimeFilter<"PosSetting"> | Date | string
     updatedAt?: DateTimeFilter<"PosSetting"> | Date | string
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
@@ -82347,6 +82433,7 @@ export namespace Prisma {
     invoiceType?: XOR<InvoiceTypeScalarRelationFilter, InvoiceTypeWhereInput>
     cashbox?: XOR<CashboxScalarRelationFilter, CashboxWhereInput>
     warehouse?: XOR<WarehouseScalarRelationFilter, WarehouseWhereInput>
+    branch?: XOR<BranchNullableScalarRelationFilter, BranchWhereInput> | null
   }
 
   export type PosSettingOrderByWithRelationInput = {
@@ -82356,6 +82443,7 @@ export namespace Prisma {
     invoiceTypeId?: SortOrder
     cashboxId?: SortOrder
     warehouseId?: SortOrder
+    branchId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     tenant?: TenantOrderByWithRelationInput
@@ -82363,6 +82451,7 @@ export namespace Prisma {
     invoiceType?: InvoiceTypeOrderByWithRelationInput
     cashbox?: CashboxOrderByWithRelationInput
     warehouse?: WarehouseOrderByWithRelationInput
+    branch?: BranchOrderByWithRelationInput
   }
 
   export type PosSettingWhereUniqueInput = Prisma.AtLeast<{
@@ -82375,6 +82464,7 @@ export namespace Prisma {
     invoiceTypeId?: StringFilter<"PosSetting"> | string
     cashboxId?: StringFilter<"PosSetting"> | string
     warehouseId?: StringFilter<"PosSetting"> | string
+    branchId?: StringNullableFilter<"PosSetting"> | string | null
     createdAt?: DateTimeFilter<"PosSetting"> | Date | string
     updatedAt?: DateTimeFilter<"PosSetting"> | Date | string
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
@@ -82382,6 +82472,7 @@ export namespace Prisma {
     invoiceType?: XOR<InvoiceTypeScalarRelationFilter, InvoiceTypeWhereInput>
     cashbox?: XOR<CashboxScalarRelationFilter, CashboxWhereInput>
     warehouse?: XOR<WarehouseScalarRelationFilter, WarehouseWhereInput>
+    branch?: XOR<BranchNullableScalarRelationFilter, BranchWhereInput> | null
   }, "id" | "tenantId">
 
   export type PosSettingOrderByWithAggregationInput = {
@@ -82391,6 +82482,7 @@ export namespace Prisma {
     invoiceTypeId?: SortOrder
     cashboxId?: SortOrder
     warehouseId?: SortOrder
+    branchId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: PosSettingCountOrderByAggregateInput
@@ -82408,6 +82500,7 @@ export namespace Prisma {
     invoiceTypeId?: StringWithAggregatesFilter<"PosSetting"> | string
     cashboxId?: StringWithAggregatesFilter<"PosSetting"> | string
     warehouseId?: StringWithAggregatesFilter<"PosSetting"> | string
+    branchId?: StringNullableWithAggregatesFilter<"PosSetting"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"PosSetting"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"PosSetting"> | Date | string
   }
@@ -84821,6 +84914,7 @@ export namespace Prisma {
     payments?: PaymentCreateNestedManyWithoutBranchInput
     expenses?: ExpenseCreateNestedManyWithoutBranchInput
     bankAccounts?: BankAccountCreateNestedManyWithoutBranchInput
+    posSettings?: PosSettingCreateNestedManyWithoutBranchInput
   }
 
   export type BranchUncheckedCreateInput = {
@@ -84842,6 +84936,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedCreateNestedManyWithoutBranchInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutBranchInput
     bankAccounts?: BankAccountUncheckedCreateNestedManyWithoutBranchInput
+    posSettings?: PosSettingUncheckedCreateNestedManyWithoutBranchInput
   }
 
   export type BranchUpdateInput = {
@@ -84863,6 +84958,7 @@ export namespace Prisma {
     payments?: PaymentUpdateManyWithoutBranchNestedInput
     expenses?: ExpenseUpdateManyWithoutBranchNestedInput
     bankAccounts?: BankAccountUpdateManyWithoutBranchNestedInput
+    posSettings?: PosSettingUpdateManyWithoutBranchNestedInput
   }
 
   export type BranchUncheckedUpdateInput = {
@@ -84884,6 +84980,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedUpdateManyWithoutBranchNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutBranchNestedInput
     bankAccounts?: BankAccountUncheckedUpdateManyWithoutBranchNestedInput
+    posSettings?: PosSettingUncheckedUpdateManyWithoutBranchNestedInput
   }
 
   export type BranchCreateManyInput = {
@@ -87873,6 +87970,7 @@ export namespace Prisma {
     invoiceType: InvoiceTypeCreateNestedOneWithoutPosSettingsInput
     cashbox: CashboxCreateNestedOneWithoutPosSettingsInput
     warehouse: WarehouseCreateNestedOneWithoutPosSettingsInput
+    branch?: BranchCreateNestedOneWithoutPosSettingsInput
   }
 
   export type PosSettingUncheckedCreateInput = {
@@ -87882,6 +87980,7 @@ export namespace Prisma {
     invoiceTypeId: string
     cashboxId: string
     warehouseId: string
+    branchId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -87895,6 +87994,7 @@ export namespace Prisma {
     invoiceType?: InvoiceTypeUpdateOneRequiredWithoutPosSettingsNestedInput
     cashbox?: CashboxUpdateOneRequiredWithoutPosSettingsNestedInput
     warehouse?: WarehouseUpdateOneRequiredWithoutPosSettingsNestedInput
+    branch?: BranchUpdateOneWithoutPosSettingsNestedInput
   }
 
   export type PosSettingUncheckedUpdateInput = {
@@ -87904,6 +88004,7 @@ export namespace Prisma {
     invoiceTypeId?: StringFieldUpdateOperationsInput | string
     cashboxId?: StringFieldUpdateOperationsInput | string
     warehouseId?: StringFieldUpdateOperationsInput | string
+    branchId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -87915,6 +88016,7 @@ export namespace Prisma {
     invoiceTypeId: string
     cashboxId: string
     warehouseId: string
+    branchId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -87932,6 +88034,7 @@ export namespace Prisma {
     invoiceTypeId?: StringFieldUpdateOperationsInput | string
     cashboxId?: StringFieldUpdateOperationsInput | string
     warehouseId?: StringFieldUpdateOperationsInput | string
+    branchId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -90486,6 +90589,12 @@ export namespace Prisma {
     none?: BankAccountWhereInput
   }
 
+  export type PosSettingListRelationFilter = {
+    every?: PosSettingWhereInput
+    some?: PosSettingWhereInput
+    none?: PosSettingWhereInput
+  }
+
   export type BranchWarehouseOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -90511,6 +90620,10 @@ export namespace Prisma {
   }
 
   export type BankAccountOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type PosSettingOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -90638,16 +90751,6 @@ export namespace Prisma {
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-  }
-
-  export type PosSettingListRelationFilter = {
-    every?: PosSettingWhereInput
-    some?: PosSettingWhereInput
-    none?: PosSettingWhereInput
-  }
-
-  export type PosSettingOrderByRelationAggregateInput = {
-    _count?: SortOrder
   }
 
   export type CashboxTenantIdCodeCompoundUniqueInput = {
@@ -92539,6 +92642,7 @@ export namespace Prisma {
     invoiceTypeId?: SortOrder
     cashboxId?: SortOrder
     warehouseId?: SortOrder
+    branchId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -92550,6 +92654,7 @@ export namespace Prisma {
     invoiceTypeId?: SortOrder
     cashboxId?: SortOrder
     warehouseId?: SortOrder
+    branchId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -92561,6 +92666,7 @@ export namespace Prisma {
     invoiceTypeId?: SortOrder
     cashboxId?: SortOrder
     warehouseId?: SortOrder
+    branchId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -94858,6 +94964,13 @@ export namespace Prisma {
     connect?: BankAccountWhereUniqueInput | BankAccountWhereUniqueInput[]
   }
 
+  export type PosSettingCreateNestedManyWithoutBranchInput = {
+    create?: XOR<PosSettingCreateWithoutBranchInput, PosSettingUncheckedCreateWithoutBranchInput> | PosSettingCreateWithoutBranchInput[] | PosSettingUncheckedCreateWithoutBranchInput[]
+    connectOrCreate?: PosSettingCreateOrConnectWithoutBranchInput | PosSettingCreateOrConnectWithoutBranchInput[]
+    createMany?: PosSettingCreateManyBranchInputEnvelope
+    connect?: PosSettingWhereUniqueInput | PosSettingWhereUniqueInput[]
+  }
+
   export type BranchWarehouseUncheckedCreateNestedManyWithoutBranchInput = {
     create?: XOR<BranchWarehouseCreateWithoutBranchInput, BranchWarehouseUncheckedCreateWithoutBranchInput> | BranchWarehouseCreateWithoutBranchInput[] | BranchWarehouseUncheckedCreateWithoutBranchInput[]
     connectOrCreate?: BranchWarehouseCreateOrConnectWithoutBranchInput | BranchWarehouseCreateOrConnectWithoutBranchInput[]
@@ -94912,6 +95025,13 @@ export namespace Prisma {
     connectOrCreate?: BankAccountCreateOrConnectWithoutBranchInput | BankAccountCreateOrConnectWithoutBranchInput[]
     createMany?: BankAccountCreateManyBranchInputEnvelope
     connect?: BankAccountWhereUniqueInput | BankAccountWhereUniqueInput[]
+  }
+
+  export type PosSettingUncheckedCreateNestedManyWithoutBranchInput = {
+    create?: XOR<PosSettingCreateWithoutBranchInput, PosSettingUncheckedCreateWithoutBranchInput> | PosSettingCreateWithoutBranchInput[] | PosSettingUncheckedCreateWithoutBranchInput[]
+    connectOrCreate?: PosSettingCreateOrConnectWithoutBranchInput | PosSettingCreateOrConnectWithoutBranchInput[]
+    createMany?: PosSettingCreateManyBranchInputEnvelope
+    connect?: PosSettingWhereUniqueInput | PosSettingWhereUniqueInput[]
   }
 
   export type TenantUpdateOneRequiredWithoutBranchesNestedInput = {
@@ -95034,6 +95154,20 @@ export namespace Prisma {
     deleteMany?: BankAccountScalarWhereInput | BankAccountScalarWhereInput[]
   }
 
+  export type PosSettingUpdateManyWithoutBranchNestedInput = {
+    create?: XOR<PosSettingCreateWithoutBranchInput, PosSettingUncheckedCreateWithoutBranchInput> | PosSettingCreateWithoutBranchInput[] | PosSettingUncheckedCreateWithoutBranchInput[]
+    connectOrCreate?: PosSettingCreateOrConnectWithoutBranchInput | PosSettingCreateOrConnectWithoutBranchInput[]
+    upsert?: PosSettingUpsertWithWhereUniqueWithoutBranchInput | PosSettingUpsertWithWhereUniqueWithoutBranchInput[]
+    createMany?: PosSettingCreateManyBranchInputEnvelope
+    set?: PosSettingWhereUniqueInput | PosSettingWhereUniqueInput[]
+    disconnect?: PosSettingWhereUniqueInput | PosSettingWhereUniqueInput[]
+    delete?: PosSettingWhereUniqueInput | PosSettingWhereUniqueInput[]
+    connect?: PosSettingWhereUniqueInput | PosSettingWhereUniqueInput[]
+    update?: PosSettingUpdateWithWhereUniqueWithoutBranchInput | PosSettingUpdateWithWhereUniqueWithoutBranchInput[]
+    updateMany?: PosSettingUpdateManyWithWhereWithoutBranchInput | PosSettingUpdateManyWithWhereWithoutBranchInput[]
+    deleteMany?: PosSettingScalarWhereInput | PosSettingScalarWhereInput[]
+  }
+
   export type BranchWarehouseUncheckedUpdateManyWithoutBranchNestedInput = {
     create?: XOR<BranchWarehouseCreateWithoutBranchInput, BranchWarehouseUncheckedCreateWithoutBranchInput> | BranchWarehouseCreateWithoutBranchInput[] | BranchWarehouseUncheckedCreateWithoutBranchInput[]
     connectOrCreate?: BranchWarehouseCreateOrConnectWithoutBranchInput | BranchWarehouseCreateOrConnectWithoutBranchInput[]
@@ -95144,6 +95278,20 @@ export namespace Prisma {
     update?: BankAccountUpdateWithWhereUniqueWithoutBranchInput | BankAccountUpdateWithWhereUniqueWithoutBranchInput[]
     updateMany?: BankAccountUpdateManyWithWhereWithoutBranchInput | BankAccountUpdateManyWithWhereWithoutBranchInput[]
     deleteMany?: BankAccountScalarWhereInput | BankAccountScalarWhereInput[]
+  }
+
+  export type PosSettingUncheckedUpdateManyWithoutBranchNestedInput = {
+    create?: XOR<PosSettingCreateWithoutBranchInput, PosSettingUncheckedCreateWithoutBranchInput> | PosSettingCreateWithoutBranchInput[] | PosSettingUncheckedCreateWithoutBranchInput[]
+    connectOrCreate?: PosSettingCreateOrConnectWithoutBranchInput | PosSettingCreateOrConnectWithoutBranchInput[]
+    upsert?: PosSettingUpsertWithWhereUniqueWithoutBranchInput | PosSettingUpsertWithWhereUniqueWithoutBranchInput[]
+    createMany?: PosSettingCreateManyBranchInputEnvelope
+    set?: PosSettingWhereUniqueInput | PosSettingWhereUniqueInput[]
+    disconnect?: PosSettingWhereUniqueInput | PosSettingWhereUniqueInput[]
+    delete?: PosSettingWhereUniqueInput | PosSettingWhereUniqueInput[]
+    connect?: PosSettingWhereUniqueInput | PosSettingWhereUniqueInput[]
+    update?: PosSettingUpdateWithWhereUniqueWithoutBranchInput | PosSettingUpdateWithWhereUniqueWithoutBranchInput[]
+    updateMany?: PosSettingUpdateManyWithWhereWithoutBranchInput | PosSettingUpdateManyWithWhereWithoutBranchInput[]
+    deleteMany?: PosSettingScalarWhereInput | PosSettingScalarWhereInput[]
   }
 
   export type TenantCreateNestedOneWithoutBranchWarehousesInput = {
@@ -98450,6 +98598,12 @@ export namespace Prisma {
     connect?: WarehouseWhereUniqueInput
   }
 
+  export type BranchCreateNestedOneWithoutPosSettingsInput = {
+    create?: XOR<BranchCreateWithoutPosSettingsInput, BranchUncheckedCreateWithoutPosSettingsInput>
+    connectOrCreate?: BranchCreateOrConnectWithoutPosSettingsInput
+    connect?: BranchWhereUniqueInput
+  }
+
   export type TenantUpdateOneRequiredWithoutPosSettingNestedInput = {
     create?: XOR<TenantCreateWithoutPosSettingInput, TenantUncheckedCreateWithoutPosSettingInput>
     connectOrCreate?: TenantCreateOrConnectWithoutPosSettingInput
@@ -98488,6 +98642,16 @@ export namespace Prisma {
     upsert?: WarehouseUpsertWithoutPosSettingsInput
     connect?: WarehouseWhereUniqueInput
     update?: XOR<XOR<WarehouseUpdateToOneWithWhereWithoutPosSettingsInput, WarehouseUpdateWithoutPosSettingsInput>, WarehouseUncheckedUpdateWithoutPosSettingsInput>
+  }
+
+  export type BranchUpdateOneWithoutPosSettingsNestedInput = {
+    create?: XOR<BranchCreateWithoutPosSettingsInput, BranchUncheckedCreateWithoutPosSettingsInput>
+    connectOrCreate?: BranchCreateOrConnectWithoutPosSettingsInput
+    upsert?: BranchUpsertWithoutPosSettingsInput
+    disconnect?: BranchWhereInput | boolean
+    delete?: BranchWhereInput | boolean
+    connect?: BranchWhereUniqueInput
+    update?: XOR<XOR<BranchUpdateToOneWithWhereWithoutPosSettingsInput, BranchUpdateWithoutPosSettingsInput>, BranchUncheckedUpdateWithoutPosSettingsInput>
   }
 
   export type TenantCreateNestedOneWithoutReconciliationRunsInput = {
@@ -103430,6 +103594,7 @@ export namespace Prisma {
     payments?: PaymentCreateNestedManyWithoutBranchInput
     expenses?: ExpenseCreateNestedManyWithoutBranchInput
     bankAccounts?: BankAccountCreateNestedManyWithoutBranchInput
+    posSettings?: PosSettingCreateNestedManyWithoutBranchInput
   }
 
   export type BranchUncheckedCreateWithoutJournalEntriesInput = {
@@ -103450,6 +103615,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedCreateNestedManyWithoutBranchInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutBranchInput
     bankAccounts?: BankAccountUncheckedCreateNestedManyWithoutBranchInput
+    posSettings?: PosSettingUncheckedCreateNestedManyWithoutBranchInput
   }
 
   export type BranchCreateOrConnectWithoutJournalEntriesInput = {
@@ -103803,6 +103969,7 @@ export namespace Prisma {
     payments?: PaymentUpdateManyWithoutBranchNestedInput
     expenses?: ExpenseUpdateManyWithoutBranchNestedInput
     bankAccounts?: BankAccountUpdateManyWithoutBranchNestedInput
+    posSettings?: PosSettingUpdateManyWithoutBranchNestedInput
   }
 
   export type BranchUncheckedUpdateWithoutJournalEntriesInput = {
@@ -103823,6 +103990,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedUpdateManyWithoutBranchNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutBranchNestedInput
     bankAccounts?: BankAccountUncheckedUpdateManyWithoutBranchNestedInput
+    posSettings?: PosSettingUncheckedUpdateManyWithoutBranchNestedInput
   }
 
   export type JournalEntryUpsertWithoutReversedByInput = {
@@ -105595,6 +105763,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryCreateNestedManyWithoutBranchInput
     payments?: PaymentCreateNestedManyWithoutBranchInput
     expenses?: ExpenseCreateNestedManyWithoutBranchInput
+    posSettings?: PosSettingCreateNestedManyWithoutBranchInput
   }
 
   export type BranchUncheckedCreateWithoutBankAccountsInput = {
@@ -105615,6 +105784,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedCreateNestedManyWithoutBranchInput
     payments?: PaymentUncheckedCreateNestedManyWithoutBranchInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutBranchInput
+    posSettings?: PosSettingUncheckedCreateNestedManyWithoutBranchInput
   }
 
   export type BranchCreateOrConnectWithoutBankAccountsInput = {
@@ -105915,6 +106085,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUpdateManyWithoutBranchNestedInput
     payments?: PaymentUpdateManyWithoutBranchNestedInput
     expenses?: ExpenseUpdateManyWithoutBranchNestedInput
+    posSettings?: PosSettingUpdateManyWithoutBranchNestedInput
   }
 
   export type BranchUncheckedUpdateWithoutBankAccountsInput = {
@@ -105935,6 +106106,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedUpdateManyWithoutBranchNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutBranchNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutBranchNestedInput
+    posSettings?: PosSettingUncheckedUpdateManyWithoutBranchNestedInput
   }
 
   export type JournalLineUpsertWithWhereUniqueWithoutBankAccountInput = {
@@ -106478,6 +106650,38 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type PosSettingCreateWithoutBranchInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutPosSettingInput
+    defaultParty: PartyCreateNestedOneWithoutPosSettingsInput
+    invoiceType: InvoiceTypeCreateNestedOneWithoutPosSettingsInput
+    cashbox: CashboxCreateNestedOneWithoutPosSettingsInput
+    warehouse: WarehouseCreateNestedOneWithoutPosSettingsInput
+  }
+
+  export type PosSettingUncheckedCreateWithoutBranchInput = {
+    id?: string
+    tenantId: string
+    defaultPartyId: string
+    invoiceTypeId: string
+    cashboxId: string
+    warehouseId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PosSettingCreateOrConnectWithoutBranchInput = {
+    where: PosSettingWhereUniqueInput
+    create: XOR<PosSettingCreateWithoutBranchInput, PosSettingUncheckedCreateWithoutBranchInput>
+  }
+
+  export type PosSettingCreateManyBranchInputEnvelope = {
+    data: PosSettingCreateManyBranchInput | PosSettingCreateManyBranchInput[]
+    skipDuplicates?: boolean
+  }
+
   export type TenantUpsertWithoutBranchesInput = {
     update: XOR<TenantUpdateWithoutBranchesInput, TenantUncheckedUpdateWithoutBranchesInput>
     create: XOR<TenantCreateWithoutBranchesInput, TenantUncheckedCreateWithoutBranchesInput>
@@ -106884,6 +107088,37 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"BankAccount"> | Date | string
   }
 
+  export type PosSettingUpsertWithWhereUniqueWithoutBranchInput = {
+    where: PosSettingWhereUniqueInput
+    update: XOR<PosSettingUpdateWithoutBranchInput, PosSettingUncheckedUpdateWithoutBranchInput>
+    create: XOR<PosSettingCreateWithoutBranchInput, PosSettingUncheckedCreateWithoutBranchInput>
+  }
+
+  export type PosSettingUpdateWithWhereUniqueWithoutBranchInput = {
+    where: PosSettingWhereUniqueInput
+    data: XOR<PosSettingUpdateWithoutBranchInput, PosSettingUncheckedUpdateWithoutBranchInput>
+  }
+
+  export type PosSettingUpdateManyWithWhereWithoutBranchInput = {
+    where: PosSettingScalarWhereInput
+    data: XOR<PosSettingUpdateManyMutationInput, PosSettingUncheckedUpdateManyWithoutBranchInput>
+  }
+
+  export type PosSettingScalarWhereInput = {
+    AND?: PosSettingScalarWhereInput | PosSettingScalarWhereInput[]
+    OR?: PosSettingScalarWhereInput[]
+    NOT?: PosSettingScalarWhereInput | PosSettingScalarWhereInput[]
+    id?: StringFilter<"PosSetting"> | string
+    tenantId?: StringFilter<"PosSetting"> | string
+    defaultPartyId?: StringFilter<"PosSetting"> | string
+    invoiceTypeId?: StringFilter<"PosSetting"> | string
+    cashboxId?: StringFilter<"PosSetting"> | string
+    warehouseId?: StringFilter<"PosSetting"> | string
+    branchId?: StringNullableFilter<"PosSetting"> | string | null
+    createdAt?: DateTimeFilter<"PosSetting"> | Date | string
+    updatedAt?: DateTimeFilter<"PosSetting"> | Date | string
+  }
+
   export type TenantCreateWithoutBranchWarehousesInput = {
     id?: string
     name: string
@@ -107027,6 +107262,7 @@ export namespace Prisma {
     payments?: PaymentCreateNestedManyWithoutBranchInput
     expenses?: ExpenseCreateNestedManyWithoutBranchInput
     bankAccounts?: BankAccountCreateNestedManyWithoutBranchInput
+    posSettings?: PosSettingCreateNestedManyWithoutBranchInput
   }
 
   export type BranchUncheckedCreateWithoutWarehousesInput = {
@@ -107047,6 +107283,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedCreateNestedManyWithoutBranchInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutBranchInput
     bankAccounts?: BankAccountUncheckedCreateNestedManyWithoutBranchInput
+    posSettings?: PosSettingUncheckedCreateNestedManyWithoutBranchInput
   }
 
   export type BranchCreateOrConnectWithoutWarehousesInput = {
@@ -107253,6 +107490,7 @@ export namespace Prisma {
     payments?: PaymentUpdateManyWithoutBranchNestedInput
     expenses?: ExpenseUpdateManyWithoutBranchNestedInput
     bankAccounts?: BankAccountUpdateManyWithoutBranchNestedInput
+    posSettings?: PosSettingUpdateManyWithoutBranchNestedInput
   }
 
   export type BranchUncheckedUpdateWithoutWarehousesInput = {
@@ -107273,6 +107511,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedUpdateManyWithoutBranchNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutBranchNestedInput
     bankAccounts?: BankAccountUncheckedUpdateManyWithoutBranchNestedInput
+    posSettings?: PosSettingUncheckedUpdateManyWithoutBranchNestedInput
   }
 
   export type WarehouseUpsertWithoutBranchesInput = {
@@ -107868,6 +108107,7 @@ export namespace Prisma {
     payments?: PaymentCreateNestedManyWithoutBranchInput
     expenses?: ExpenseCreateNestedManyWithoutBranchInput
     bankAccounts?: BankAccountCreateNestedManyWithoutBranchInput
+    posSettings?: PosSettingCreateNestedManyWithoutBranchInput
   }
 
   export type BranchUncheckedCreateWithoutCashboxesInput = {
@@ -107888,6 +108128,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedCreateNestedManyWithoutBranchInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutBranchInput
     bankAccounts?: BankAccountUncheckedCreateNestedManyWithoutBranchInput
+    posSettings?: PosSettingUncheckedCreateNestedManyWithoutBranchInput
   }
 
   export type BranchCreateOrConnectWithoutCashboxesInput = {
@@ -108105,6 +108346,7 @@ export namespace Prisma {
     defaultParty: PartyCreateNestedOneWithoutPosSettingsInput
     invoiceType: InvoiceTypeCreateNestedOneWithoutPosSettingsInput
     warehouse: WarehouseCreateNestedOneWithoutPosSettingsInput
+    branch?: BranchCreateNestedOneWithoutPosSettingsInput
   }
 
   export type PosSettingUncheckedCreateWithoutCashboxInput = {
@@ -108113,6 +108355,7 @@ export namespace Prisma {
     defaultPartyId: string
     invoiceTypeId: string
     warehouseId: string
+    branchId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -108336,6 +108579,7 @@ export namespace Prisma {
     payments?: PaymentUpdateManyWithoutBranchNestedInput
     expenses?: ExpenseUpdateManyWithoutBranchNestedInput
     bankAccounts?: BankAccountUpdateManyWithoutBranchNestedInput
+    posSettings?: PosSettingUpdateManyWithoutBranchNestedInput
   }
 
   export type BranchUncheckedUpdateWithoutCashboxesInput = {
@@ -108356,6 +108600,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedUpdateManyWithoutBranchNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutBranchNestedInput
     bankAccounts?: BankAccountUncheckedUpdateManyWithoutBranchNestedInput
+    posSettings?: PosSettingUncheckedUpdateManyWithoutBranchNestedInput
   }
 
   export type ExpenseUpsertWithWhereUniqueWithoutCashboxInput = {
@@ -108436,20 +108681,6 @@ export namespace Prisma {
   export type PosSettingUpdateManyWithWhereWithoutCashboxInput = {
     where: PosSettingScalarWhereInput
     data: XOR<PosSettingUpdateManyMutationInput, PosSettingUncheckedUpdateManyWithoutCashboxInput>
-  }
-
-  export type PosSettingScalarWhereInput = {
-    AND?: PosSettingScalarWhereInput | PosSettingScalarWhereInput[]
-    OR?: PosSettingScalarWhereInput[]
-    NOT?: PosSettingScalarWhereInput | PosSettingScalarWhereInput[]
-    id?: StringFilter<"PosSetting"> | string
-    tenantId?: StringFilter<"PosSetting"> | string
-    defaultPartyId?: StringFilter<"PosSetting"> | string
-    invoiceTypeId?: StringFilter<"PosSetting"> | string
-    cashboxId?: StringFilter<"PosSetting"> | string
-    warehouseId?: StringFilter<"PosSetting"> | string
-    createdAt?: DateTimeFilter<"PosSetting"> | Date | string
-    updatedAt?: DateTimeFilter<"PosSetting"> | Date | string
   }
 
   export type TenantCreateWithoutPaymentsInput = {
@@ -108679,6 +108910,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryCreateNestedManyWithoutBranchInput
     expenses?: ExpenseCreateNestedManyWithoutBranchInput
     bankAccounts?: BankAccountCreateNestedManyWithoutBranchInput
+    posSettings?: PosSettingCreateNestedManyWithoutBranchInput
   }
 
   export type BranchUncheckedCreateWithoutPaymentsInput = {
@@ -108699,6 +108931,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedCreateNestedManyWithoutBranchInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutBranchInput
     bankAccounts?: BankAccountUncheckedCreateNestedManyWithoutBranchInput
+    posSettings?: PosSettingUncheckedCreateNestedManyWithoutBranchInput
   }
 
   export type BranchCreateOrConnectWithoutPaymentsInput = {
@@ -109070,6 +109303,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUpdateManyWithoutBranchNestedInput
     expenses?: ExpenseUpdateManyWithoutBranchNestedInput
     bankAccounts?: BankAccountUpdateManyWithoutBranchNestedInput
+    posSettings?: PosSettingUpdateManyWithoutBranchNestedInput
   }
 
   export type BranchUncheckedUpdateWithoutPaymentsInput = {
@@ -109090,6 +109324,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedUpdateManyWithoutBranchNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutBranchNestedInput
     bankAccounts?: BankAccountUncheckedUpdateManyWithoutBranchNestedInput
+    posSettings?: PosSettingUncheckedUpdateManyWithoutBranchNestedInput
   }
 
   export type CurrencyUpsertWithoutPaymentsInput = {
@@ -111339,6 +111574,7 @@ export namespace Prisma {
     payments?: PaymentCreateNestedManyWithoutBranchInput
     expenses?: ExpenseCreateNestedManyWithoutBranchInput
     bankAccounts?: BankAccountCreateNestedManyWithoutBranchInput
+    posSettings?: PosSettingCreateNestedManyWithoutBranchInput
   }
 
   export type BranchUncheckedCreateWithoutDocumentSequencesInput = {
@@ -111359,6 +111595,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedCreateNestedManyWithoutBranchInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutBranchInput
     bankAccounts?: BankAccountUncheckedCreateNestedManyWithoutBranchInput
+    posSettings?: PosSettingUncheckedCreateNestedManyWithoutBranchInput
   }
 
   export type BranchCreateOrConnectWithoutDocumentSequencesInput = {
@@ -111656,6 +111893,7 @@ export namespace Prisma {
     payments?: PaymentUpdateManyWithoutBranchNestedInput
     expenses?: ExpenseUpdateManyWithoutBranchNestedInput
     bankAccounts?: BankAccountUpdateManyWithoutBranchNestedInput
+    posSettings?: PosSettingUpdateManyWithoutBranchNestedInput
   }
 
   export type BranchUncheckedUpdateWithoutDocumentSequencesInput = {
@@ -111676,6 +111914,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedUpdateManyWithoutBranchNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutBranchNestedInput
     bankAccounts?: BankAccountUncheckedUpdateManyWithoutBranchNestedInput
+    posSettings?: PosSettingUncheckedUpdateManyWithoutBranchNestedInput
   }
 
   export type TenantUpsertWithWhereUniqueWithoutDefaultSalesSequenceInput = {
@@ -111876,6 +112115,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryCreateNestedManyWithoutBranchInput
     payments?: PaymentCreateNestedManyWithoutBranchInput
     bankAccounts?: BankAccountCreateNestedManyWithoutBranchInput
+    posSettings?: PosSettingCreateNestedManyWithoutBranchInput
   }
 
   export type BranchUncheckedCreateWithoutExpensesInput = {
@@ -111896,6 +112136,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedCreateNestedManyWithoutBranchInput
     payments?: PaymentUncheckedCreateNestedManyWithoutBranchInput
     bankAccounts?: BankAccountUncheckedCreateNestedManyWithoutBranchInput
+    posSettings?: PosSettingUncheckedCreateNestedManyWithoutBranchInput
   }
 
   export type BranchCreateOrConnectWithoutExpensesInput = {
@@ -112220,6 +112461,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUpdateManyWithoutBranchNestedInput
     payments?: PaymentUpdateManyWithoutBranchNestedInput
     bankAccounts?: BankAccountUpdateManyWithoutBranchNestedInput
+    posSettings?: PosSettingUpdateManyWithoutBranchNestedInput
   }
 
   export type BranchUncheckedUpdateWithoutExpensesInput = {
@@ -112240,6 +112482,7 @@ export namespace Prisma {
     journalEntries?: JournalEntryUncheckedUpdateManyWithoutBranchNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutBranchNestedInput
     bankAccounts?: BankAccountUncheckedUpdateManyWithoutBranchNestedInput
+    posSettings?: PosSettingUncheckedUpdateManyWithoutBranchNestedInput
   }
 
   export type CurrencyUpsertWithoutExpensesInput = {
@@ -115388,6 +115631,7 @@ export namespace Prisma {
     defaultParty: PartyCreateNestedOneWithoutPosSettingsInput
     cashbox: CashboxCreateNestedOneWithoutPosSettingsInput
     warehouse: WarehouseCreateNestedOneWithoutPosSettingsInput
+    branch?: BranchCreateNestedOneWithoutPosSettingsInput
   }
 
   export type PosSettingUncheckedCreateWithoutInvoiceTypeInput = {
@@ -115396,6 +115640,7 @@ export namespace Prisma {
     defaultPartyId: string
     cashboxId: string
     warehouseId: string
+    branchId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -115831,6 +116076,7 @@ export namespace Prisma {
     payments?: PaymentCreateNestedManyWithoutBranchInput
     expenses?: ExpenseCreateNestedManyWithoutBranchInput
     bankAccounts?: BankAccountCreateNestedManyWithoutBranchInput
+    posSettings?: PosSettingCreateNestedManyWithoutBranchInput
   }
 
   export type BranchUncheckedCreateWithoutInvoicesInput = {
@@ -115851,6 +116097,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedCreateNestedManyWithoutBranchInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutBranchInput
     bankAccounts?: BankAccountUncheckedCreateNestedManyWithoutBranchInput
+    posSettings?: PosSettingUncheckedCreateNestedManyWithoutBranchInput
   }
 
   export type BranchCreateOrConnectWithoutInvoicesInput = {
@@ -116301,6 +116548,7 @@ export namespace Prisma {
     payments?: PaymentUpdateManyWithoutBranchNestedInput
     expenses?: ExpenseUpdateManyWithoutBranchNestedInput
     bankAccounts?: BankAccountUpdateManyWithoutBranchNestedInput
+    posSettings?: PosSettingUpdateManyWithoutBranchNestedInput
   }
 
   export type BranchUncheckedUpdateWithoutInvoicesInput = {
@@ -116321,6 +116569,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedUpdateManyWithoutBranchNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutBranchNestedInput
     bankAccounts?: BankAccountUncheckedUpdateManyWithoutBranchNestedInput
+    posSettings?: PosSettingUncheckedUpdateManyWithoutBranchNestedInput
   }
 
   export type FiscalPeriodUpsertWithoutInvoicesInput = {
@@ -121072,6 +121321,7 @@ export namespace Prisma {
     invoiceType: InvoiceTypeCreateNestedOneWithoutPosSettingsInput
     cashbox: CashboxCreateNestedOneWithoutPosSettingsInput
     warehouse: WarehouseCreateNestedOneWithoutPosSettingsInput
+    branch?: BranchCreateNestedOneWithoutPosSettingsInput
   }
 
   export type PosSettingUncheckedCreateWithoutDefaultPartyInput = {
@@ -121080,6 +121330,7 @@ export namespace Prisma {
     invoiceTypeId: string
     cashboxId: string
     warehouseId: string
+    branchId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -121890,6 +122141,53 @@ export namespace Prisma {
     create: XOR<WarehouseCreateWithoutPosSettingsInput, WarehouseUncheckedCreateWithoutPosSettingsInput>
   }
 
+  export type BranchCreateWithoutPosSettingsInput = {
+    id?: string
+    code: string
+    name: JsonNullValueInput | InputJsonValue
+    address?: string | null
+    phone?: string | null
+    email?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutBranchesInput
+    warehouses?: BranchWarehouseCreateNestedManyWithoutBranchInput
+    cashboxes?: CashboxCreateNestedManyWithoutBranchInput
+    documentSequences?: DocumentSequenceCreateNestedManyWithoutBranchInput
+    invoices?: InvoiceCreateNestedManyWithoutBranchInput
+    journalEntries?: JournalEntryCreateNestedManyWithoutBranchInput
+    payments?: PaymentCreateNestedManyWithoutBranchInput
+    expenses?: ExpenseCreateNestedManyWithoutBranchInput
+    bankAccounts?: BankAccountCreateNestedManyWithoutBranchInput
+  }
+
+  export type BranchUncheckedCreateWithoutPosSettingsInput = {
+    id?: string
+    tenantId: string
+    code: string
+    name: JsonNullValueInput | InputJsonValue
+    address?: string | null
+    phone?: string | null
+    email?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    warehouses?: BranchWarehouseUncheckedCreateNestedManyWithoutBranchInput
+    cashboxes?: CashboxUncheckedCreateNestedManyWithoutBranchInput
+    documentSequences?: DocumentSequenceUncheckedCreateNestedManyWithoutBranchInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutBranchInput
+    journalEntries?: JournalEntryUncheckedCreateNestedManyWithoutBranchInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutBranchInput
+    expenses?: ExpenseUncheckedCreateNestedManyWithoutBranchInput
+    bankAccounts?: BankAccountUncheckedCreateNestedManyWithoutBranchInput
+  }
+
+  export type BranchCreateOrConnectWithoutPosSettingsInput = {
+    where: BranchWhereUniqueInput
+    create: XOR<BranchCreateWithoutPosSettingsInput, BranchUncheckedCreateWithoutPosSettingsInput>
+  }
+
   export type TenantUpsertWithoutPosSettingInput = {
     update: XOR<TenantUpdateWithoutPosSettingInput, TenantUncheckedUpdateWithoutPosSettingInput>
     create: XOR<TenantCreateWithoutPosSettingInput, TenantUncheckedCreateWithoutPosSettingInput>
@@ -122197,6 +122495,59 @@ export namespace Prisma {
     stockMovements?: StockMovementUncheckedUpdateManyWithoutWarehouseNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutWarehouseNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutWarehouseNestedInput
+  }
+
+  export type BranchUpsertWithoutPosSettingsInput = {
+    update: XOR<BranchUpdateWithoutPosSettingsInput, BranchUncheckedUpdateWithoutPosSettingsInput>
+    create: XOR<BranchCreateWithoutPosSettingsInput, BranchUncheckedCreateWithoutPosSettingsInput>
+    where?: BranchWhereInput
+  }
+
+  export type BranchUpdateToOneWithWhereWithoutPosSettingsInput = {
+    where?: BranchWhereInput
+    data: XOR<BranchUpdateWithoutPosSettingsInput, BranchUncheckedUpdateWithoutPosSettingsInput>
+  }
+
+  export type BranchUpdateWithoutPosSettingsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutBranchesNestedInput
+    warehouses?: BranchWarehouseUpdateManyWithoutBranchNestedInput
+    cashboxes?: CashboxUpdateManyWithoutBranchNestedInput
+    documentSequences?: DocumentSequenceUpdateManyWithoutBranchNestedInput
+    invoices?: InvoiceUpdateManyWithoutBranchNestedInput
+    journalEntries?: JournalEntryUpdateManyWithoutBranchNestedInput
+    payments?: PaymentUpdateManyWithoutBranchNestedInput
+    expenses?: ExpenseUpdateManyWithoutBranchNestedInput
+    bankAccounts?: BankAccountUpdateManyWithoutBranchNestedInput
+  }
+
+  export type BranchUncheckedUpdateWithoutPosSettingsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    warehouses?: BranchWarehouseUncheckedUpdateManyWithoutBranchNestedInput
+    cashboxes?: CashboxUncheckedUpdateManyWithoutBranchNestedInput
+    documentSequences?: DocumentSequenceUncheckedUpdateManyWithoutBranchNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutBranchNestedInput
+    journalEntries?: JournalEntryUncheckedUpdateManyWithoutBranchNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutBranchNestedInput
+    expenses?: ExpenseUncheckedUpdateManyWithoutBranchNestedInput
+    bankAccounts?: BankAccountUncheckedUpdateManyWithoutBranchNestedInput
   }
 
   export type TenantCreateWithoutReconciliationRunsInput = {
@@ -124943,6 +125294,7 @@ export namespace Prisma {
     payments?: PaymentCreateNestedManyWithoutBranchInput
     expenses?: ExpenseCreateNestedManyWithoutBranchInput
     bankAccounts?: BankAccountCreateNestedManyWithoutBranchInput
+    posSettings?: PosSettingCreateNestedManyWithoutBranchInput
   }
 
   export type BranchUncheckedCreateWithoutTenantInput = {
@@ -124963,6 +125315,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedCreateNestedManyWithoutBranchInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutBranchInput
     bankAccounts?: BankAccountUncheckedCreateNestedManyWithoutBranchInput
+    posSettings?: PosSettingUncheckedCreateNestedManyWithoutBranchInput
   }
 
   export type BranchCreateOrConnectWithoutTenantInput = {
@@ -126112,6 +126465,7 @@ export namespace Prisma {
     invoiceType: InvoiceTypeCreateNestedOneWithoutPosSettingsInput
     cashbox: CashboxCreateNestedOneWithoutPosSettingsInput
     warehouse: WarehouseCreateNestedOneWithoutPosSettingsInput
+    branch?: BranchCreateNestedOneWithoutPosSettingsInput
   }
 
   export type PosSettingUncheckedCreateWithoutTenantInput = {
@@ -126120,6 +126474,7 @@ export namespace Prisma {
     invoiceTypeId: string
     cashboxId: string
     warehouseId: string
+    branchId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -127106,6 +127461,7 @@ export namespace Prisma {
     invoiceType?: InvoiceTypeUpdateOneRequiredWithoutPosSettingsNestedInput
     cashbox?: CashboxUpdateOneRequiredWithoutPosSettingsNestedInput
     warehouse?: WarehouseUpdateOneRequiredWithoutPosSettingsNestedInput
+    branch?: BranchUpdateOneWithoutPosSettingsNestedInput
   }
 
   export type PosSettingUncheckedUpdateWithoutTenantInput = {
@@ -127114,6 +127470,7 @@ export namespace Prisma {
     invoiceTypeId?: StringFieldUpdateOperationsInput | string
     cashboxId?: StringFieldUpdateOperationsInput | string
     warehouseId?: StringFieldUpdateOperationsInput | string
+    branchId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -128649,6 +129006,7 @@ export namespace Prisma {
     defaultParty: PartyCreateNestedOneWithoutPosSettingsInput
     invoiceType: InvoiceTypeCreateNestedOneWithoutPosSettingsInput
     cashbox: CashboxCreateNestedOneWithoutPosSettingsInput
+    branch?: BranchCreateNestedOneWithoutPosSettingsInput
   }
 
   export type PosSettingUncheckedCreateWithoutWarehouseInput = {
@@ -128657,6 +129015,7 @@ export namespace Prisma {
     defaultPartyId: string
     invoiceTypeId: string
     cashboxId: string
+    branchId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -130722,6 +131081,17 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type PosSettingCreateManyBranchInput = {
+    id?: string
+    tenantId: string
+    defaultPartyId: string
+    invoiceTypeId: string
+    cashboxId: string
+    warehouseId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type BranchWarehouseUpdateWithoutBranchInput = {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -131164,6 +131534,39 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type PosSettingUpdateWithoutBranchInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutPosSettingNestedInput
+    defaultParty?: PartyUpdateOneRequiredWithoutPosSettingsNestedInput
+    invoiceType?: InvoiceTypeUpdateOneRequiredWithoutPosSettingsNestedInput
+    cashbox?: CashboxUpdateOneRequiredWithoutPosSettingsNestedInput
+    warehouse?: WarehouseUpdateOneRequiredWithoutPosSettingsNestedInput
+  }
+
+  export type PosSettingUncheckedUpdateWithoutBranchInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    defaultPartyId?: StringFieldUpdateOperationsInput | string
+    invoiceTypeId?: StringFieldUpdateOperationsInput | string
+    cashboxId?: StringFieldUpdateOperationsInput | string
+    warehouseId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PosSettingUncheckedUpdateManyWithoutBranchInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    defaultPartyId?: StringFieldUpdateOperationsInput | string
+    invoiceTypeId?: StringFieldUpdateOperationsInput | string
+    cashboxId?: StringFieldUpdateOperationsInput | string
+    warehouseId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type ItemCreateManyBrandInput = {
     id?: string
     tenantId: string
@@ -131345,6 +131748,7 @@ export namespace Prisma {
     defaultPartyId: string
     invoiceTypeId: string
     warehouseId: string
+    branchId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -131598,6 +132002,7 @@ export namespace Prisma {
     defaultParty?: PartyUpdateOneRequiredWithoutPosSettingsNestedInput
     invoiceType?: InvoiceTypeUpdateOneRequiredWithoutPosSettingsNestedInput
     warehouse?: WarehouseUpdateOneRequiredWithoutPosSettingsNestedInput
+    branch?: BranchUpdateOneWithoutPosSettingsNestedInput
   }
 
   export type PosSettingUncheckedUpdateWithoutCashboxInput = {
@@ -131606,6 +132011,7 @@ export namespace Prisma {
     defaultPartyId?: StringFieldUpdateOperationsInput | string
     invoiceTypeId?: StringFieldUpdateOperationsInput | string
     warehouseId?: StringFieldUpdateOperationsInput | string
+    branchId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -131616,6 +132022,7 @@ export namespace Prisma {
     defaultPartyId?: StringFieldUpdateOperationsInput | string
     invoiceTypeId?: StringFieldUpdateOperationsInput | string
     warehouseId?: StringFieldUpdateOperationsInput | string
+    branchId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -133288,6 +133695,7 @@ export namespace Prisma {
     defaultPartyId: string
     cashboxId: string
     warehouseId: string
+    branchId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -133388,6 +133796,7 @@ export namespace Prisma {
     defaultParty?: PartyUpdateOneRequiredWithoutPosSettingsNestedInput
     cashbox?: CashboxUpdateOneRequiredWithoutPosSettingsNestedInput
     warehouse?: WarehouseUpdateOneRequiredWithoutPosSettingsNestedInput
+    branch?: BranchUpdateOneWithoutPosSettingsNestedInput
   }
 
   export type PosSettingUncheckedUpdateWithoutInvoiceTypeInput = {
@@ -133396,6 +133805,7 @@ export namespace Prisma {
     defaultPartyId?: StringFieldUpdateOperationsInput | string
     cashboxId?: StringFieldUpdateOperationsInput | string
     warehouseId?: StringFieldUpdateOperationsInput | string
+    branchId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -133406,6 +133816,7 @@ export namespace Prisma {
     defaultPartyId?: StringFieldUpdateOperationsInput | string
     cashboxId?: StringFieldUpdateOperationsInput | string
     warehouseId?: StringFieldUpdateOperationsInput | string
+    branchId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -134153,6 +134564,7 @@ export namespace Prisma {
     invoiceTypeId: string
     cashboxId: string
     warehouseId: string
+    branchId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -134426,6 +134838,7 @@ export namespace Prisma {
     invoiceType?: InvoiceTypeUpdateOneRequiredWithoutPosSettingsNestedInput
     cashbox?: CashboxUpdateOneRequiredWithoutPosSettingsNestedInput
     warehouse?: WarehouseUpdateOneRequiredWithoutPosSettingsNestedInput
+    branch?: BranchUpdateOneWithoutPosSettingsNestedInput
   }
 
   export type PosSettingUncheckedUpdateWithoutDefaultPartyInput = {
@@ -134434,6 +134847,7 @@ export namespace Prisma {
     invoiceTypeId?: StringFieldUpdateOperationsInput | string
     cashboxId?: StringFieldUpdateOperationsInput | string
     warehouseId?: StringFieldUpdateOperationsInput | string
+    branchId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -134444,6 +134858,7 @@ export namespace Prisma {
     invoiceTypeId?: StringFieldUpdateOperationsInput | string
     cashboxId?: StringFieldUpdateOperationsInput | string
     warehouseId?: StringFieldUpdateOperationsInput | string
+    branchId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -135452,6 +135867,7 @@ export namespace Prisma {
     payments?: PaymentUpdateManyWithoutBranchNestedInput
     expenses?: ExpenseUpdateManyWithoutBranchNestedInput
     bankAccounts?: BankAccountUpdateManyWithoutBranchNestedInput
+    posSettings?: PosSettingUpdateManyWithoutBranchNestedInput
   }
 
   export type BranchUncheckedUpdateWithoutTenantInput = {
@@ -135472,6 +135888,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedUpdateManyWithoutBranchNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutBranchNestedInput
     bankAccounts?: BankAccountUncheckedUpdateManyWithoutBranchNestedInput
+    posSettings?: PosSettingUncheckedUpdateManyWithoutBranchNestedInput
   }
 
   export type BranchUncheckedUpdateManyWithoutTenantInput = {
@@ -136914,6 +137331,7 @@ export namespace Prisma {
     defaultPartyId: string
     invoiceTypeId: string
     cashboxId: string
+    branchId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -137184,6 +137602,7 @@ export namespace Prisma {
     defaultParty?: PartyUpdateOneRequiredWithoutPosSettingsNestedInput
     invoiceType?: InvoiceTypeUpdateOneRequiredWithoutPosSettingsNestedInput
     cashbox?: CashboxUpdateOneRequiredWithoutPosSettingsNestedInput
+    branch?: BranchUpdateOneWithoutPosSettingsNestedInput
   }
 
   export type PosSettingUncheckedUpdateWithoutWarehouseInput = {
@@ -137192,6 +137611,7 @@ export namespace Prisma {
     defaultPartyId?: StringFieldUpdateOperationsInput | string
     invoiceTypeId?: StringFieldUpdateOperationsInput | string
     cashboxId?: StringFieldUpdateOperationsInput | string
+    branchId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -137202,6 +137622,7 @@ export namespace Prisma {
     defaultPartyId?: StringFieldUpdateOperationsInput | string
     invoiceTypeId?: StringFieldUpdateOperationsInput | string
     cashboxId?: StringFieldUpdateOperationsInput | string
+    branchId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

@@ -23,6 +23,7 @@ model Branch {
     payments          Payment[]
     expenses          Expense[]
     bankAccounts      BankAccount[]
+    posSettings       PosSetting[]
 
     @@unique([tenantId, code])
     @@index([tenantId])

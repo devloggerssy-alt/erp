@@ -14,7 +14,7 @@ function build(overrides: Record<string, unknown> = {}) {
                 listWarehouseIdsForBranch: jest.fn().mockResolvedValue([]),
                 countOtherBranchesForWarehouse: jest.fn().mockResolvedValue(1),
                 replaceBranchWarehouses: jest.fn().mockResolvedValue(undefined),
-                countReferences: jest.fn().mockResolvedValue({ warehouses: 0, cashboxes: 0, documents: 0, invoices: 0, journalEntries: 0, payments: 0, expenses: 0, bankAccounts: 0 }),
+                countReferences: jest.fn().mockResolvedValue({ warehouses: 0, cashboxes: 0, documents: 0, invoices: 0, journalEntries: 0, payments: 0, expenses: 0, bankAccounts: 0, posSettings: 0 }),
                 getTenantDefaults: jest.fn().mockResolvedValue(null),
                 getDefaultBranchId: jest.fn().mockResolvedValue(null),
                 ...overrides,
@@ -104,7 +104,7 @@ describe('BranchesService.delete — references', () => {
         it('refuses deleting a branch a warehouse, cashbox or document refers to', async () => {
                 const { service, repository } = build({
                         findByIdOrFail: jest.fn().mockResolvedValue({ id: 'b1', tenantId: 't1' }),
-                        countReferences: jest.fn().mockResolvedValue({ warehouses: 1, cashboxes: 0, documents: 0, invoices: 0, journalEntries: 0, payments: 0, expenses: 0, bankAccounts: 0 }),
+                        countReferences: jest.fn().mockResolvedValue({ warehouses: 1, cashboxes: 0, documents: 0, invoices: 0, journalEntries: 0, payments: 0, expenses: 0, bankAccounts: 0, posSettings: 0 }),
                 });
 
                 await expect(service.delete('t1', 'b1')).rejects.toThrow(ConflictException);
@@ -114,7 +114,17 @@ describe('BranchesService.delete — references', () => {
         it('refuses deleting a branch a payment or expense refers to', async () => {
                 const { service, repository } = build({
                         findByIdOrFail: jest.fn().mockResolvedValue({ id: 'b1', tenantId: 't1' }),
-                        countReferences: jest.fn().mockResolvedValue({ warehouses: 0, cashboxes: 0, documents: 0, invoices: 0, journalEntries: 0, payments: 1, expenses: 1, bankAccounts: 0 }),
+                        countReferences: jest.fn().mockResolvedValue({ warehouses: 0, cashboxes: 0, documents: 0, invoices: 0, journalEntries: 0, payments: 1, expenses: 1, bankAccounts: 0, posSettings: 0 }),
+                });
+
+                await expect(service.delete('t1', 'b1')).rejects.toThrow(ConflictException);
+                expect(repository.delete).not.toHaveBeenCalled();
+        });
+
+        it('refuses deleting the branch a POS terminal sells for', async () => {
+                const { service, repository } = build({
+                        findByIdOrFail: jest.fn().mockResolvedValue({ id: 'b1', tenantId: 't1' }),
+                        countReferences: jest.fn().mockResolvedValue({ warehouses: 0, cashboxes: 0, documents: 0, invoices: 0, journalEntries: 0, payments: 0, expenses: 0, bankAccounts: 0, posSettings: 1 }),
                 });
 
                 await expect(service.delete('t1', 'b1')).rejects.toThrow(ConflictException);

@@ -672,6 +672,7 @@ exports.Prisma.PosSettingScalarFieldEnum = {
   invoiceTypeId: 'invoiceTypeId',
   cashboxId: 'cashboxId',
   warehouseId: 'warehouseId',
+  branchId: 'branchId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };

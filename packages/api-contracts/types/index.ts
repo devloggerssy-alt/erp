@@ -2592,7 +2592,7 @@ export interface paths {
         head?: never;
         /**
          * Update POS settings
-         * @description Change the till cashbox or issuing warehouse.
+         * @description Change the till cashbox, issuing warehouse or branch the terminal sells for.
          */
         patch: operations["PosSettings.update"];
         trace?: never;
@@ -8372,6 +8372,15 @@ export interface components {
              */
             warehouseName: string;
             /**
+             * @default null
+             * @example 00000000-0000-4000-b100-000000000001
+             */
+            branchId: string | null;
+            /** @example MAIN */
+            branchCode?: string;
+            /** @example Main Branch */
+            branchName?: string;
+            /**
              * @default
              * @example 2026-09-25T10:00:00.000Z
              */
@@ -8388,6 +8397,11 @@ export interface components {
              * @example 00000000-0000-4000-ab00-000000000001
              */
             warehouseId?: string;
+            /**
+             * @description Branch the terminal sells on behalf of
+             * @example 00000000-0000-4000-b100-000000000001
+             */
+            branchId?: string;
         };
         PosCheckoutResponseDto: {
             /**

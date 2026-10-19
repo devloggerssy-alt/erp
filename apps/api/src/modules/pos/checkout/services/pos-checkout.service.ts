@@ -15,6 +15,9 @@ export class PosCheckoutService {
         if (!setting) {
             throw new BadRequestException('POS is not set up for this tenant. An admin must provision it first.');
         }
+        if (!setting.branchId) {
+            throw new BadRequestException('POS settings must have a branch assigned.');
+        }
 
         const result = await this.checkoutFacade.checkout({
             tenantId,
@@ -24,6 +27,7 @@ export class PosCheckoutService {
             partyId: dto.partyId ?? setting.defaultPartyId,
             warehouseId: setting.warehouseId,
             cashboxId: setting.cashboxId,
+            branchId: setting.branchId,
             lines: dto.lines,
             notes: dto.notes,
             minimumTender: dto.tendered,

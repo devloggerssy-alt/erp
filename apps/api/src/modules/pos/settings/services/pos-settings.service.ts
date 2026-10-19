@@ -1,5 +1,4 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
-import { PrismaService } from '@devloggers/db-prisma/nest';
 import { PartiesService, PartyTypeEnum } from '../../../parties';
 import { InvoiceTypesService, InvoiceDirectionEnum } from '../../../invoicing';
 import type { UpdatePosSettingDto } from '../dto';
@@ -9,7 +8,6 @@ import { PosSettingsRepository, type PosSettingWithRelations } from '../reposito
 export class PosSettingsService {
     constructor(
         private readonly repo: PosSettingsRepository,
-        private readonly prisma: PrismaService,
         private readonly partiesService: PartiesService,
         private readonly invoiceTypesService: InvoiceTypesService,
     ) {}
@@ -24,21 +22,52 @@ export class PosSettingsService {
             throw new BadRequestException('POS is not set up for this tenant yet. Run provisioning first.');
         }
 
-        if (dto.cashboxId) {
-            const cashbox = await this.prisma.cashbox.findFirst({ where: { id: dto.cashboxId, tenantId, isActive: true } });
-            if (!cashbox) throw new BadRequestException('Cashbox not found or inactive');
+        const branchId = dto.branchId ?? existing.branchId;
+        if (!branchId) {
+            throw new BadRequestException('POS settings must have a branch assigned');
         }
-        if (dto.warehouseId) {
-            const warehouse = await this.prisma.warehouse.findFirst({ where: { id: dto.warehouseId, tenantId, isActive: true } });
-            if (!warehouse) throw new BadRequestException('Warehouse not found or inactive');
-        }
+        const cashboxId = dto.cashboxId ?? existing.cashboxId;
+        const warehouseId = dto.warehouseId ?? existing.warehouseId;
+
+        await this.assertBranchAssignable(tenantId, branchId, cashboxId, warehouseId);
 
         return this.repo.upsert(tenantId, {
             defaultPartyId: existing.defaultPartyId,
             invoiceTypeId: existing.invoiceTypeId,
-            cashboxId: dto.cashboxId ?? existing.cashboxId,
-            warehouseId: dto.warehouseId ?? existing.warehouseId,
+            cashboxId,
+            warehouseId,
+            branchId,
         });
+    }
+
+    /**
+     * The terminal's branch, cashbox and warehouse must describe one location:
+     * the branch exists, the till cashbox belongs to it, and the issuing
+     * warehouse is linked to it.
+     */
+    private async assertBranchAssignable(
+        tenantId: string,
+        branchId: string,
+        cashboxId: string,
+        warehouseId: string,
+    ): Promise<void> {
+        if (!(await this.repo.findActiveBranch(tenantId, branchId))) {
+            throw new BadRequestException('Branch not found or inactive');
+        }
+
+        const cashbox = await this.repo.findActiveCashbox(tenantId, cashboxId);
+        if (!cashbox) throw new BadRequestException('Cashbox not found or inactive');
+        if (cashbox.branchId !== branchId) {
+            throw new BadRequestException('The selected cashbox does not belong to the POS branch');
+        }
+
+        if (!(await this.repo.findActiveWarehouse(tenantId, warehouseId))) {
+            throw new BadRequestException('Warehouse not found or inactive');
+        }
+
+        if (!(await this.repo.warehouseIsLinkedToBranch(tenantId, branchId, warehouseId))) {
+            throw new BadRequestException('The selected warehouse is not linked to the POS branch');
+        }
     }
 
     /** Idempotent: safe to call repeatedly. Creates the walk-in party and POS invoice type on first run. */
@@ -65,22 +94,33 @@ export class PosSettingsService {
                 affectsStock: true,
             });
 
-        const cashbox = await this.prisma.cashbox.findFirst({ where: { tenantId, isActive: true }, orderBy: { createdAt: 'asc' } });
+        const cashbox = await this.repo.findFirstActiveCashbox(tenantId);
         if (!cashbox) throw new BadRequestException('Create at least one active cashbox before setting up POS.');
+        if (!cashbox.branchId) {
+            throw new BadRequestException('Assign a branch to the till cashbox before setting up POS.');
+        }
 
-        // code breaks createdAt ties. Seeded warehouses share one timestamp, and
-        // an unordered tie was binding the till to the empty showroom.
-        const warehouse = await this.prisma.warehouse.findFirst({
-            where: { tenantId, isActive: true },
-            orderBy: [{ createdAt: 'asc' }, { code: 'asc' }],
-        });
-        if (!warehouse) throw new BadRequestException('Create at least one active warehouse before setting up POS.');
+        if (!(await this.repo.findActiveBranch(tenantId, cashbox.branchId))) {
+            throw new BadRequestException(
+                'The till cashbox branch is inactive. Assign the cashbox to an active branch before setting up POS.',
+            );
+        }
+
+        // Only warehouses linked to the till branch are eligible — POS settings
+        // must describe one location.
+        const warehouse = await this.repo.findFirstActiveWarehouseForBranch(tenantId, cashbox.branchId);
+        if (!warehouse) {
+            throw new BadRequestException(
+                'Create at least one active warehouse linked to the till branch before setting up POS.',
+            );
+        }
 
         return this.repo.upsert(tenantId, {
             defaultPartyId: walkInParty.id,
             invoiceTypeId: posInvoiceType.id,
             cashboxId: cashbox.id,
             warehouseId: warehouse.id,
+            branchId: cashbox.branchId,
         });
     }
 }

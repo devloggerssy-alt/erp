@@ -19,6 +19,7 @@ function deps() {
         currency: { findFirst: jest.fn().mockResolvedValue({ id: 'cur-1', isBase: true }) },
         fiscalPeriod: { findFirst: jest.fn().mockResolvedValue({ id: 'fp-1', status: 'OPEN' }) },
         cashbox: { findFirst: jest.fn().mockResolvedValue({ id: 'cbx-1', branchId: 'b1' }) },
+        branchWarehouse: { findFirst: jest.fn().mockResolvedValue({ id: 'link-1' }) },
         $transaction: jest.fn((cb: any) => cb(tx)),
     } as any;
     const docSeq = { getNextNumberInTx: jest.fn().mockResolvedValueOnce('SAL-00001').mockResolvedValueOnce('REC-00001') } as any;
@@ -37,6 +38,7 @@ function deps() {
 const intent: SalesCheckoutIntent = {
     tenantId: 't1', userId: 'u1', clientRequestId: 'req-1',
     invoiceTypeId: 'itype-1', partyId: 'party-1', warehouseId: 'wh-1', cashboxId: 'cbx-1',
+    branchId: 'b1',
     lines: [{ itemId: 'item-1', unitId: 'unit-1', quantity: 2, unitPrice: 100 }],
 };
 
@@ -107,6 +109,22 @@ describe('SalesCheckoutFacade.checkout', () => {
         prisma.cashbox.findFirst.mockResolvedValue({ id: 'cbx-1', branchId: null });
 
         await expect(facade.checkout(intent)).rejects.toThrow(/must belong to a branch/);
+        expect(prisma.$transaction).not.toHaveBeenCalled();
+    });
+
+    it('rejects a cashbox that belongs to another branch than the terminal', async () => {
+        const { facade, prisma } = deps();
+        prisma.cashbox.findFirst.mockResolvedValue({ id: 'cbx-1', branchId: 'b2' });
+
+        await expect(facade.checkout(intent)).rejects.toThrow(/does not belong to the branch configured/);
+        expect(prisma.$transaction).not.toHaveBeenCalled();
+    });
+
+    it('rejects a warehouse that is not linked to the terminal branch', async () => {
+        const { facade, prisma } = deps();
+        prisma.branchWarehouse.findFirst.mockResolvedValue(null);
+
+        await expect(facade.checkout(intent)).rejects.toThrow(/warehouse.*not linked/);
         expect(prisma.$transaction).not.toHaveBeenCalled();
     });
 });

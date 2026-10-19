@@ -32,6 +32,7 @@ const baseInput: PostInput = {
     referenceId: 'inv-1',
     description: 'Sale',
     exchangeRate: 1,
+    branchId: 'b1',
     userId: 'u-1',
     lines: [
         { accountId: 'acc-1', debit: 100, credit: 0, description: null, sortOrder: 0 },
@@ -46,6 +47,9 @@ describe('JournalPostingService.post', () => {
         const result = await svc.post(tx, baseInput);
         expect(result.id).toBe('je-1');
         expect(tx.journalEntry.create).toHaveBeenCalledTimes(1);
+        expect(tx.journalEntry.create).toHaveBeenCalledWith(
+            expect.objectContaining({ data: expect.objectContaining({ branchId: 'b1' }) }),
+        );
     });
 
     it('throws BadRequestException when fiscal period is not OPEN', async () => {

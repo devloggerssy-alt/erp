@@ -59,7 +59,12 @@ export class SalesCheckoutFacade {
         });
         if (!fiscalPeriod) throw new BadRequestException("No open fiscal period covers today's date");
 
-        // The till's branch is the branch of the sale — never chosen by the cashier.
+        // The terminal's branch comes from POS settings — never chosen by the cashier.
+        const branchId = intent.branchId;
+        if (!branchId) {
+            throw new BadRequestException('The point of sale must be configured with a branch');
+        }
+
         const cashbox = await this.prisma.cashbox.findFirst({
             where: { id: intent.cashboxId, tenantId },
             select: { id: true, branchId: true },
@@ -70,7 +75,21 @@ export class SalesCheckoutFacade {
                 'The cashbox used at the point of sale must belong to a branch',
             );
         }
-        const branchId = cashbox.branchId;
+        if (cashbox.branchId !== branchId) {
+            throw new BadRequestException(
+                'The cashbox does not belong to the branch configured for this terminal',
+            );
+        }
+
+        const warehouseLink = await this.prisma.branchWarehouse.findFirst({
+            where: { tenantId, branchId, warehouseId: intent.warehouseId },
+            select: { id: true },
+        });
+        if (!warehouseLink) {
+            throw new BadRequestException(
+                'The warehouse used at the point of sale is not linked to the branch configured for this terminal',
+            );
+        }
 
         const lines: InvoiceLineDto[] = intent.lines.map((line) => ({
             itemId: line.itemId,

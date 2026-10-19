@@ -15,6 +15,8 @@ export interface SalesCheckoutIntent {
     partyId: string;
     warehouseId: string;
     cashboxId: string;
+    /** Branch the terminal sells on behalf of (from POS settings). */
+    branchId: string;
     lines: SalesCheckoutLine[];
     notes?: string | null;
     /** When set, checkout fails (400, no writes) if the computed total exceeds it. */

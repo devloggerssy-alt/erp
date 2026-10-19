@@ -22,10 +22,20 @@ describe('PosCheckoutService.checkout', () => {
         await expect(service.checkout('t1', 'u1', dto)).rejects.toThrow(BadRequestException);
     });
 
+    it('rejects checkout when POS settings have no branch', async () => {
+        const { service, settings, checkoutFacade } = deps();
+        settings.get.mockResolvedValue({
+            defaultPartyId: 'party-walkin', invoiceTypeId: 'itype-pos', cashboxId: 'cbx-1', warehouseId: 'wh-1', branchId: null,
+        });
+
+        await expect(service.checkout('t1', 'u1', dto)).rejects.toThrow(/branch/);
+        expect(checkoutFacade.checkout).not.toHaveBeenCalled();
+    });
+
     it('defaults to the tenant walk-in party when partyId is omitted', async () => {
         const { service, settings, checkoutFacade } = deps();
         settings.get.mockResolvedValue({
-            defaultPartyId: 'party-walkin', invoiceTypeId: 'itype-pos', cashboxId: 'cbx-1', warehouseId: 'wh-1',
+            defaultPartyId: 'party-walkin', invoiceTypeId: 'itype-pos', cashboxId: 'cbx-1', warehouseId: 'wh-1', branchId: 'b1',
         });
         checkoutFacade.checkout.mockResolvedValue({
             invoiceId: 'inv-1', invoiceNumber: 'SAL-00001', paymentId: 'pay-1', paymentNumber: 'REC-00001',
@@ -35,7 +45,8 @@ describe('PosCheckoutService.checkout', () => {
         const result = await service.checkout('t1', 'u1', dto);
 
         expect(checkoutFacade.checkout).toHaveBeenCalledWith(expect.objectContaining({
-            partyId: 'party-walkin', invoiceTypeId: 'itype-pos', cashboxId: 'cbx-1', warehouseId: 'wh-1', minimumTender: 150,
+            partyId: 'party-walkin', invoiceTypeId: 'itype-pos', cashboxId: 'cbx-1', warehouseId: 'wh-1',
+            branchId: 'b1', minimumTender: 150,
         }));
         expect(result.change).toBe(50);
         expect(result.tendered).toBe(150);
@@ -44,7 +55,7 @@ describe('PosCheckoutService.checkout', () => {
     it('uses the named customer when partyId is provided', async () => {
         const { service, settings, checkoutFacade } = deps();
         settings.get.mockResolvedValue({
-            defaultPartyId: 'party-walkin', invoiceTypeId: 'itype-pos', cashboxId: 'cbx-1', warehouseId: 'wh-1',
+            defaultPartyId: 'party-walkin', invoiceTypeId: 'itype-pos', cashboxId: 'cbx-1', warehouseId: 'wh-1', branchId: 'b1',
         });
         checkoutFacade.checkout.mockResolvedValue({
             invoiceId: 'inv-1', invoiceNumber: 'SAL-00001', paymentId: 'pay-1', paymentNumber: 'REC-00001',

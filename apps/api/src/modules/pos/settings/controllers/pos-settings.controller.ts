@@ -31,7 +31,7 @@ export class PosSettingsController {
 
     @Patch()
     @RequirePermission('pos.manage')
-    @ApiOperation({ summary: 'Update POS settings', description: 'Change the till cashbox or issuing warehouse.' })
+    @ApiOperation({ summary: 'Update POS settings', description: 'Change the till cashbox, issuing warehouse or branch the terminal sells for.' })
     @ApiOkResponseStandard(PosSettingResponseDto, { description: 'Updated POS settings' })
     @ApiStandardErrors()
     async update(@CurrentUser() user: RequestUser, @Body() dto: UpdatePosSettingDto) {

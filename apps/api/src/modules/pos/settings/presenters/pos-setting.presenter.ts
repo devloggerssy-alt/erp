@@ -19,6 +19,11 @@ export class PosSettingPresenter {
             cashboxName: this.locale.resolve(toLocalizedString(entity.cashbox.name)),
             warehouseId: entity.warehouseId,
             warehouseName: this.locale.resolve(toLocalizedString(entity.warehouse.name)),
+            branchId: entity.branchId ?? null,
+            branchCode: entity.branch?.code,
+            branchName: entity.branch
+                ? this.locale.resolve(toLocalizedString(entity.branch.name))
+                : undefined,
             updatedAt: entity.updatedAt.toISOString(),
         };
     }

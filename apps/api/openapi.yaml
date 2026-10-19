@@ -24913,7 +24913,9 @@ paths:
       tags:
         - POS / Settings
     patch:
-      description: Change the till cashbox or issuing warehouse.
+      description: >-
+        Change the till cashbox, issuing warehouse or branch the terminal sells
+        for.
       operationId: PosSettings.update
       parameters: []
       requestBody:
@@ -33540,6 +33542,17 @@ components:
           type: string
           default: ''
           example: Main Warehouse
+        branchId:
+          type: string
+          nullable: true
+          default: null
+          example: 00000000-0000-4000-b100-000000000001
+        branchCode:
+          type: string
+          example: MAIN
+        branchName:
+          type: string
+          example: Main Branch
         updatedAt:
           type: string
           default: ''
@@ -33566,6 +33579,10 @@ components:
           type: string
           example: 00000000-0000-4000-ab00-000000000001
           description: Warehouse POS sales issue stock from
+        branchId:
+          type: string
+          example: 00000000-0000-4000-b100-000000000001
+          description: Branch the terminal sells on behalf of
     PosCheckoutResponseDto:
       type: object
       properties:
