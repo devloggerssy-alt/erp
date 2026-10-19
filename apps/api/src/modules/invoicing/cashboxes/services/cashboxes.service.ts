@@ -1,4 +1,4 @@
-import { Injectable, ConflictException } from '@nestjs/common';
+import { Injectable, ConflictException, BadRequestException } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { CrudService } from '@devloggers/backend-core';
 import { resources } from '@devloggers/api-contracts';
@@ -22,6 +22,8 @@ export class CashboxesService extends CrudService<Cashbox, CashboxResponseDto, C
     }
 
     protected override async beforeCreate(tenantId: string, dto: CreateCashboxDto): Promise<void> {
+        await this.assertBranch(tenantId, dto.branchId);
+
         const code = dto.code?.trim();
         if (code) {
             if (await this.cashboxesRepository.isCodeTaken(tenantId, code)) {
@@ -40,6 +42,22 @@ export class CashboxesService extends CrudService<Cashbox, CashboxResponseDto, C
             throw new ConflictException(
                 'Cannot delete a cashbox that has journal entries. Deactivate it instead.',
             );
+        }
+    }
+
+    protected override async beforeUpdate(
+        tenantId: string,
+        _id: string,
+        dto: UpdateCashboxDto,
+    ): Promise<void> {
+        if (dto.branchId !== undefined) {
+            await this.assertBranch(tenantId, dto.branchId);
+        }
+    }
+
+    private async assertBranch(tenantId: string, branchId: string): Promise<void> {
+        if (!(await this.cashboxesRepository.branchExists(tenantId, branchId))) {
+            throw new BadRequestException('Branch not found');
         }
     }
 }

@@ -12,6 +12,7 @@ export const paymentFormSchema = z.object({
     type: z.enum(["RECEIPT", "PAYMENT", "ADJUSTMENT"]),
     date: z.string().min(1, "Date is required"),
     cashbox: relational,
+    branch: relational,
     party: relational,
     currency: relational,
     fiscalPeriod: relational,
@@ -21,6 +22,7 @@ export const paymentFormSchema = z.object({
 }).superRefine((data, ctx) => {
     const required = [
         ["cashbox", "Cashbox is required"],
+        ["branch", "Branch is required"],
         ["currency", "Currency is required"],
         ["fiscalPeriod", "Fiscal period is required"],
     ] as const
@@ -37,6 +39,7 @@ export const DEFAULT_PAYMENT_FORM_VALUES: PaymentFormValues = {
     type: "RECEIPT",
     date: new Date().toISOString().split("T")[0]!,
     cashbox: null,
+    branch: null,
     party: null,
     currency: null,
     fiscalPeriod: null,
@@ -49,6 +52,7 @@ interface PaymentApiData {
     type?: PaymentType
     date?: string
     cashboxId?: string
+    branchId?: string | null
     partyId?: string
     currencyId?: string
     fiscalPeriodId?: string
@@ -65,6 +69,7 @@ export function mapPaymentToFormValues(data: unknown): PaymentFormValues {
             ? new Date(resolved.date).toISOString().split("T")[0]!
             : new Date().toISOString().split("T")[0]!,
         cashbox: resolved.cashboxId ? { id: resolved.cashboxId } : null,
+        branch: resolved.branchId ? { id: resolved.branchId } : null,
         party: resolved.partyId ? { id: resolved.partyId } : null,
         currency: resolved.currencyId ? { id: resolved.currencyId } : null,
         fiscalPeriod: resolved.fiscalPeriodId ? { id: resolved.fiscalPeriodId } : null,
@@ -79,6 +84,7 @@ export function toCreatePaymentDto(values: PaymentFormValues, options?: { comple
         type: values.type,
         date: values.date,
         cashboxId: values.cashbox?.id ?? "",
+        branchId: values.branch?.id ?? "",
         partyId: values.party?.id || undefined,
         currencyId: values.currency?.id ?? "",
         fiscalPeriodId: values.fiscalPeriod?.id ?? "",
@@ -93,6 +99,7 @@ export function toUpdatePaymentDto(values: PaymentFormValues): UpdatePaymentDto 
     return {
         date: values.date,
         cashboxId: values.cashbox?.id ?? "",
+        branchId: values.branch?.id || undefined,
         partyId: values.party?.id || undefined,
         amount: values.amount,
         notes: values.notes || undefined,

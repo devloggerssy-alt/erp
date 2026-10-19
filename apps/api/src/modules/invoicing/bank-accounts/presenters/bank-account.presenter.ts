@@ -20,6 +20,7 @@ export class BankAccountPresenter extends CrudPresenter<BankAccount, BankAccount
             currencyId: entity.currencyId,
             accountNumber: entity.accountNumber ?? null,
             bankName: entity.bankName ?? null,
+            branchId: entity.branchId ?? null,
             balance: entity.balance as unknown as string,
             isActive: entity.isActive,
             createdAt: entity.createdAt.toISOString(),

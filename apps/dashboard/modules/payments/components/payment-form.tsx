@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl"
 import { useWatch } from "react-hook-form"
 import type {
     CashboxesClient,
+    BranchesClient,
     CurrenciesClient,
     FiscalPeriodsClient,
     PartiesClient,
@@ -18,6 +19,16 @@ export function PaymentForm({ ctrl }: { ctrl: PaymentFormController }) {
     const t = useTranslations("business.resources.payments")
     const disabled = ctrl.isReadOnly || ctrl.isBusy
     const currencyId = useWatch({ control: ctrl.form.control, name: "currency", compute: (c) => c?.id })
+    const cashbox = useWatch({ control: ctrl.form.control, name: "cashbox" })
+
+    // Keep the branch in step with the chosen till: a payment must be attributed
+    // to the branch the cashbox belongs to.
+    useEffect(() => {
+        const branchId = (cashbox as { branchId?: unknown } | null)?.branchId
+        if (typeof branchId === "string" && branchId) {
+            ctrl.form.setValue("branch", { id: branchId }, { shouldDirty: false })
+        }
+    }, [cashbox]) // eslint-disable-line react-hooks/exhaustive-deps
 
     // Reset the cashbox when currency changes so a cashbox in the previous
     // currency can't linger selected. Skip the first undefined → value transition
@@ -59,6 +70,15 @@ export function PaymentForm({ ctrl }: { ctrl: PaymentFormController }) {
                     getLabel={(it) => `${it.code} — ${it.name}`}
                     getValue={(it) => it}
                     extraQuery={currencyId ? { filters: { currencyId: { $eq: currencyId } } } : undefined}
+                    required
+                    disabled={disabled}
+                />
+                <RhfResourceSelect<PaymentFormValues, "branch", BranchesClient, PaymentRelationalField>
+                    name="branch"
+                    label={t("branch")}
+                    client={(api) => api.branches}
+                    getLabel={(it) => `${it.code} — ${it.name}`}
+                    getValue={(it) => it}
                     required
                     disabled={disabled}
                 />

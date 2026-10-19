@@ -12,6 +12,7 @@ export const bankAccountFormSchema = z.object({
     code: z.string().trim().optional(),
     name: localizedStringSchema,
     currency: relational,
+    branch: relational,
     accountNumber: z.string().trim().optional().nullable(),
     bankName: z.string().trim().optional().nullable(),
     isActive: z.boolean().optional(),
@@ -27,6 +28,7 @@ export const DEFAULT_BANK_ACCOUNT_FORM_VALUES: BankAccountFormValues = {
     code: "",
     name: { ar: "", en: "" },
     currency: null,
+    branch: null,
     accountNumber: "",
     bankName: "",
     isActive: true,
@@ -38,6 +40,7 @@ export function mapBankAccountToFormValues(data: unknown): BankAccountFormValues
         name?: string
         nameI18n?: { ar?: string; en?: string } | null
         currencyId?: string
+        branchId?: string | null
         accountNumber?: string | null
         bankName?: string | null
         isActive?: boolean
@@ -50,6 +53,7 @@ export function mapBankAccountToFormValues(data: unknown): BankAccountFormValues
             en: resolved.nameI18n?.en ?? "",
         },
         currency: resolved.currencyId ? { id: resolved.currencyId } : null,
+        branch: resolved.branchId ? { id: resolved.branchId } : null,
         accountNumber: resolved.accountNumber ?? "",
         bankName: resolved.bankName ?? "",
         isActive: resolved.isActive ?? true,
@@ -65,11 +69,13 @@ export const bankAccountsFormConfig: ResourceFormConfig<BankAccountFormValues, C
         code: values.code?.trim() || undefined,
         name: { ar: values.name.ar.trim(), en: values.name.en?.trim() || undefined },
         currencyId: values.currency?.id ?? "",
+        branchId: values.branch?.id || undefined,
         accountNumber: values.accountNumber?.trim() || null,
         bankName: values.bankName?.trim() || null,
     }),
     toUpdate: (values) => ({
         name: { ar: values.name.ar.trim(), en: values.name.en?.trim() || undefined },
+        branchId: values.branch?.id ?? null,
         accountNumber: values.accountNumber?.trim() || null,
         bankName: values.bankName?.trim() || null,
         isActive: values.isActive ?? true,

@@ -12,10 +12,14 @@ export const cashboxFormSchema = z.object({
     code: z.string().trim().optional(),
     name: localizedStringSchema,
     currency: relational,
+    branch: relational,
     isActive: z.boolean().optional(),
 }).superRefine((data, ctx) => {
     if (!data.currency) {
         ctx.addIssue({ code: "custom", path: ["currency"], message: "Currency is required" })
+    }
+    if (!data.branch) {
+        ctx.addIssue({ code: "custom", path: ["branch"], message: "Branch is required" })
     }
 })
 
@@ -25,6 +29,7 @@ export const DEFAULT_CASHBOX_FORM_VALUES: CashboxFormValues = {
     code: "",
     name: { ar: "", en: "" },
     currency: null,
+    branch: null,
     isActive: true,
 }
 
@@ -34,6 +39,7 @@ export function mapCashboxToFormValues(data: unknown): CashboxFormValues {
         name?: string
         nameI18n?: { ar?: string; en?: string } | null
         currencyId?: string
+        branchId?: string | null
         isActive?: boolean
     }>(data)
 
@@ -44,6 +50,7 @@ export function mapCashboxToFormValues(data: unknown): CashboxFormValues {
             en: resolved.nameI18n?.en ?? "",
         },
         currency: resolved.currencyId ? { id: resolved.currencyId } : null,
+        branch: resolved.branchId ? { id: resolved.branchId } : null,
         isActive: resolved.isActive ?? true,
     }
 }
@@ -51,15 +58,17 @@ export function mapCashboxToFormValues(data: unknown): CashboxFormValues {
 export const cashboxesFormConfig: ResourceFormConfig<CashboxFormValues, CreateCashboxDto, UpdateCashboxDto> = {
     schema: cashboxFormSchema,
     defaultValues: DEFAULT_CASHBOX_FORM_VALUES,
-    defaults: { currency: "currency" },
+    defaults: { currency: "currency", branch: "branch" },
     mapToFormValues: mapCashboxToFormValues,
     toCreate: (values) => ({
         code: values.code?.trim() || undefined,
         name: { ar: values.name.ar.trim(), en: values.name.en?.trim() || undefined },
         currencyId: values.currency?.id ?? "",
+        branchId: values.branch?.id ?? "",
     }),
     toUpdate: (values) => ({
         name: { ar: values.name.ar.trim(), en: values.name.en?.trim() || undefined },
+        branchId: values.branch?.id || undefined,
         isActive: values.isActive ?? true,
     }),
 }

@@ -18,6 +18,11 @@ export class CreateCashboxDto {
     @IsString()
     @IsNotEmpty()
     currencyId: string = '';
+
+    @ApiProperty({ type: 'string', example: '00000000-0000-4000-ab01-000000000001', description: 'Branch the cashbox belongs to' })
+    @IsString()
+    @IsNotEmpty()
+    branchId: string = '';
 }
 
 export class UpdateCashboxDto {
@@ -26,6 +31,11 @@ export class UpdateCashboxDto {
     @ValidateNested()
     @Type(() => LocalizedStringDto)
     name?: LocalizedStringDto;
+
+    @ApiPropertyOptional({ type: 'string', example: '00000000-0000-4000-ab01-000000000001', description: 'Branch the cashbox belongs to' })
+    @IsOptional()
+    @IsString()
+    branchId?: string;
 
     @ApiPropertyOptional({ example: true })
     @IsOptional()
@@ -48,6 +58,9 @@ export class CashboxResponseDto {
 
     @ApiProperty({ example: '00000000-0000-4000-a300-000000000001' })
     currencyId: string = '';
+
+    @ApiPropertyOptional({ type: 'string', nullable: true, example: '00000000-0000-4000-ab01-000000000001' })
+    branchId: string | null = null;
 
     @ApiProperty({ example: true })
     isActive: boolean = true;

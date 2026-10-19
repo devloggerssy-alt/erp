@@ -270,6 +270,8 @@ model BankAccount {
   currencyId    String   @map("currency_id")
   accountNumber String?  @map("account_number")
   bankName      String?  @map("bank_name")
+  /// Optional branch reference — a company-level account is legitimate.
+  branchId      String?  @map("branch_id")
   balance       Decimal  @default(0) @db.Decimal(18, 4)
   isActive      Boolean  @default(true) @map("is_active")
   createdAt     DateTime @default(now()) @map("created_at")
@@ -277,12 +279,14 @@ model BankAccount {
 
   tenant                     Tenant                      @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   currency                   Currency                    @relation(fields: [currencyId], references: [id])
+  branch                     Branch?                     @relation(fields: [branchId], references: [id], onDelete: Restrict)
   journalLines               JournalLine[]
   openingBalanceSessionLines OpeningBalanceSessionLine[]
 
   @@unique([tenantId, code])
   @@index([tenantId])
   @@index([tenantId, currencyId])
+  @@index([tenantId, branchId])
   @@map("bank_accounts")
 }
 
@@ -308,6 +312,9 @@ model Branch {
   documentSequences DocumentSequence[]
   invoices          Invoice[]
   journalEntries    JournalEntry[]
+  payments          Payment[]
+  expenses          Expense[]
+  bankAccounts      BankAccount[]
 
   @@unique([tenantId, code])
   @@index([tenantId])
@@ -404,6 +411,9 @@ model Payment {
   date              DateTime
   cashboxId         String        @map("cashbox_id")
   partyId           String?       @map("party_id")
+  /// Branch the payment is attributed to. Nullable in the DB for backfill
+  /// safety; required at the API boundary (Phase 1.1, #33).
+  branchId          String?       @map("branch_id")
   currencyId        String        @map("currency_id")
   /// Exchange rate of the payment currency to tenant base currency, locked at posting time.
   exchangeRate      Decimal       @default(1) @map("exchange_rate") @db.Decimal(18, 6)
@@ -424,6 +434,7 @@ model Payment {
   tenant       Tenant              @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   cashbox      Cashbox             @relation(fields: [cashboxId], references: [id])
   party        Party?              @relation(fields: [partyId], references: [id])
+  branch       Branch?             @relation(fields: [branchId], references: [id], onDelete: Restrict)
   currency     Currency            @relation(fields: [currencyId], references: [id])
   fiscalPeriod FiscalPeriod        @relation(fields: [fiscalPeriodId], references: [id])
   allocations  PaymentAllocation[]
@@ -431,6 +442,7 @@ model Payment {
   @@unique([tenantId, number])
   @@index([tenantId])
   @@index([tenantId, status])
+  @@index([tenantId, branchId])
   @@map("payments")
 }
 
@@ -605,6 +617,9 @@ model Expense {
   number         String
   date           DateTime
   cashboxId      String        @map("cashbox_id")
+  /// Branch the expense is attributed to. Nullable in the DB for backfill
+  /// safety; required at the API boundary (Phase 1.1, #33).
+  branchId       String?       @map("branch_id")
   currencyId     String        @map("currency_id")
   /// Exchange rate of the expense currency to tenant base currency, locked at posting time.
   exchangeRate   Decimal       @default(1) @map("exchange_rate") @db.Decimal(18, 6)
@@ -623,6 +638,7 @@ model Expense {
 
   tenant       Tenant        @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   cashbox      Cashbox       @relation(fields: [cashboxId], references: [id])
+  branch       Branch?       @relation(fields: [branchId], references: [id], onDelete: Restrict)
   currency     Currency      @relation(fields: [currencyId], references: [id])
   fiscalPeriod FiscalPeriod  @relation(fields: [fiscalPeriodId], references: [id])
   items        ExpenseItem[]
@@ -630,6 +646,7 @@ model Expense {
   @@unique([tenantId, number])
   @@index([tenantId])
   @@index([tenantId, status])
+  @@index([tenantId, branchId])
   @@map("expenses")
 }
 

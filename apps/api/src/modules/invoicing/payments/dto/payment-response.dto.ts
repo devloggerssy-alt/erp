@@ -17,6 +17,9 @@ export class PaymentResponseDto {
   @ApiProperty() cashboxId: string = '';
   @ApiPropertyOptional() cashboxName?: string;
   @ApiPropertyOptional() cashboxCode?: string;
+  @ApiPropertyOptional({ type: 'string', nullable: true }) branchId: string | null = null;
+  @ApiPropertyOptional() branchCode?: string;
+  @ApiPropertyOptional() branchName?: string;
   @ApiPropertyOptional({ type: 'string', nullable: true }) partyId: string | null = null;
   @ApiPropertyOptional() partyName?: string;
   @ApiProperty() currencyId: string = '';

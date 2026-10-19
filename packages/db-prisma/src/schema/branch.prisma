@@ -20,6 +20,9 @@ model Branch {
     documentSequences DocumentSequence[]
     invoices          Invoice[]
     journalEntries    JournalEntry[]
+    payments          Payment[]
+    expenses          Expense[]
+    bankAccounts      BankAccount[]
 
     @@unique([tenantId, code])
     @@index([tenantId])

@@ -44,7 +44,47 @@ export class PaymentsService extends StatusGuardedCrudService<Payment, PaymentRe
     return this.paymentPresenter.toResponse(entity);
   }
 
+  protected override async beforeUpdate(
+    tenantId: string,
+    id: string,
+    dto: UpdatePaymentDto,
+    existing: Payment,
+  ): Promise<void> {
+    await super.beforeUpdate(tenantId, id, dto, existing);
+    if (dto.branchId === undefined && dto.cashboxId === undefined) return;
+
+    const branchId = dto.branchId ?? existing.branchId;
+    const cashboxId = dto.cashboxId ?? existing.cashboxId;
+    if (!branchId) {
+      throw new BadRequestException('Payment must have a branch assigned');
+    }
+    await this.assertBranchMatchesCashbox(tenantId, branchId, cashboxId);
+  }
+
+  /**
+   * The branch must belong to the tenant and the cashbox must belong to that
+   * branch — a till cannot take a payment attributed to another location.
+   */
+  private async assertBranchMatchesCashbox(tenantId: string, branchId: string, cashboxId: string): Promise<void> {
+    const branch = await this.prisma.branch.findFirst({
+      where: { id: branchId, tenantId },
+      select: { id: true },
+    });
+    if (!branch) throw new NotFoundException('Branch not found');
+
+    const cashbox = await this.prisma.cashbox.findFirst({
+      where: { id: cashboxId, tenantId },
+      select: { id: true, branchId: true },
+    });
+    if (!cashbox) throw new NotFoundException('Cashbox not found');
+    if (cashbox.branchId !== branchId) {
+      throw new BadRequestException('The selected cashbox does not belong to the payment branch');
+    }
+  }
+
   async createAs(tenantId: string, userId: string, dto: CreatePaymentDto): Promise<PaymentResponseDto> {
+    await this.assertBranchMatchesCashbox(tenantId, dto.branchId, dto.cashboxId);
+
     const docType = dto.type === 'RECEIPT' ? 'RECEIPT'
       : dto.type === 'PAYMENT' ? 'PAYMENT'
       : 'PAYMENT_ADJUSTMENT';
@@ -59,6 +99,7 @@ export class PaymentsService extends StatusGuardedCrudService<Payment, PaymentRe
         date: new Date(dto.date),
         cashboxId: dto.cashboxId,
         partyId: dto.partyId,
+        branchId: dto.branchId,
         currencyId: dto.currencyId,
         fiscalPeriodId: dto.fiscalPeriodId,
         amount: dto.amount,
@@ -104,6 +145,7 @@ export class PaymentsService extends StatusGuardedCrudService<Payment, PaymentRe
       amount,
       cashboxId: payment.cashboxId,
       currencyId: payment.currencyId,
+      branchId: payment.branchId ?? undefined,
     };
 
     await this.prisma.$transaction((tx) => this.postInTx(tx, id, payment.cashboxId, balanceDelta, userId, intent));

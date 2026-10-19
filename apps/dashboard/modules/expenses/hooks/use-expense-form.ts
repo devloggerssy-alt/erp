@@ -82,6 +82,7 @@ export function useExpenseForm({
             fiscalPeriod: "fiscalPeriod",
             currency: "currency",
             cashbox: "cashbox",
+            branch: "branch",
         },
     })
 

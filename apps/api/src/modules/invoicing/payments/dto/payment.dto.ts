@@ -20,6 +20,10 @@ export class CreatePaymentDto {
     @IsString() @IsNotEmpty()
     cashboxId!: string;
 
+    @ApiProperty({ type: 'string', example: '00000000-0000-4000-ab01-000000000001', description: 'Branch the payment is attributed to (must match the cashbox branch)' })
+    @IsString() @IsNotEmpty()
+    branchId!: string;
+
     @ApiPropertyOptional({ example: '00000000-0000-4000-aa00-000000000001', description: 'Party ID (Ahmad Al-Hassan)' })
     @IsOptional() @IsString()
     partyId?: string;
@@ -55,6 +59,9 @@ export class UpdatePaymentDto {
 
     @ApiPropertyOptional({ example: '00000000-0000-4000-ac00-000000000001', description: 'Cashbox ID' })
     @IsOptional() @IsString() cashboxId?: string;
+
+    @ApiPropertyOptional({ type: 'string', example: '00000000-0000-4000-ab01-000000000001', description: 'Branch (must match the cashbox branch)' })
+    @IsOptional() @IsString() branchId?: string;
 
     @ApiPropertyOptional({ example: '00000000-0000-4000-aa00-000000000001', description: 'Party ID' })
     @IsOptional() @IsString() partyId?: string;

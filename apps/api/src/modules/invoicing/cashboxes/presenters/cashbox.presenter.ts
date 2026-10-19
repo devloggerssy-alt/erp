@@ -19,6 +19,7 @@ export class CashboxPresenter extends CrudPresenter<Cashbox, CashboxResponseDto>
             nameI18n: name,
             balance: String(entity.balance),
             currencyId: entity.currencyId,
+            branchId: entity.branchId ?? null,
             isActive: entity.isActive,
             createdAt: entity.createdAt.toISOString(),
             updatedAt: entity.updatedAt.toISOString(),

@@ -24,4 +24,10 @@ export class BankAccountsRepository extends CrudRepository<BankAccount, Prisma.B
     async countLedgerReferences(tenantId: string, id: string): Promise<number> {
         return this.prisma.journalLine.count({ where: { tenantId, bankAccountId: id } });
     }
+
+    /** Whether the branch exists and belongs to the tenant. */
+    async branchExists(tenantId: string, branchId: string): Promise<boolean> {
+        const count = await this.prisma.branch.count({ where: { id: branchId, tenantId } });
+        return count > 0;
+    }
 }

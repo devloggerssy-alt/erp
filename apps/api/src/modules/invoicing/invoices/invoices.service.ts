@@ -95,7 +95,7 @@ export class InvoicesService {
     private async recordInvoicePayment(
         tenantId: string,
         userId: string,
-        invoice: { id: string; partyId: string; currencyId: string; fiscalPeriodId: string; exchangeRate: unknown },
+        invoice: { id: string; partyId: string; currencyId: string; fiscalPeriodId: string; exchangeRate: unknown; branchId: string | null },
         direction: 'PURCHASE' | 'SALE',
         dto: { cashboxId: string; amount: number; date: string; exchangeRate?: number },
         complete: boolean,
@@ -104,6 +104,7 @@ export class InvoicesService {
             type: direction === 'PURCHASE' ? PaymentTypeEnum.PAYMENT : PaymentTypeEnum.RECEIPT,
             date: dto.date,
             cashboxId: dto.cashboxId,
+            branchId: invoice.branchId ?? '',
             partyId: invoice.partyId,
             currencyId: invoice.currencyId,
             fiscalPeriodId: invoice.fiscalPeriodId,
@@ -203,6 +204,7 @@ export class InvoicesService {
                         currencyId: dto.currencyId,
                         fiscalPeriodId: dto.fiscalPeriodId,
                         exchangeRate: dto.exchangeRate ?? 1,
+                        branchId: dto.branchId,
                     },
                     invoiceType.direction,
                     {
@@ -300,6 +302,7 @@ export class InvoicesService {
                 currencyId: invoice.currencyId,
                 fiscalPeriodId: invoice.fiscalPeriodId,
                 exchangeRate: invoice.exchangeRate,
+                branchId: invoice.branchId,
             },
             invoice.invoiceType.direction,
             {

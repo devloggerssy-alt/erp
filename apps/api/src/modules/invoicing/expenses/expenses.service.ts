@@ -50,7 +50,35 @@ export class ExpensesService {
         return expense;
     }
 
+    /**
+     * The branch must belong to the tenant and the cashbox must belong to that
+     * branch — an expense cannot be attributed to a location whose till it did
+     * not come from.
+     */
+    private async assertBranchMatchesCashbox(
+        tenantId: string,
+        branchId: string,
+        cashboxId: string,
+    ): Promise<void> {
+        const branch = await this.prisma.branch.findFirst({
+            where: { id: branchId, tenantId },
+            select: { id: true },
+        });
+        if (!branch) throw new NotFoundException('Branch not found');
+
+        const cashbox = await this.prisma.cashbox.findFirst({
+            where: { id: cashboxId, tenantId },
+            select: { id: true, branchId: true },
+        });
+        if (!cashbox) throw new NotFoundException('Cashbox not found');
+        if (cashbox.branchId !== branchId) {
+            throw new BadRequestException('The selected cashbox does not belong to the expense branch');
+        }
+    }
+
     async create(tenantId: string, userId: string, dto: CreateExpenseDto) {
+        await this.assertBranchMatchesCashbox(tenantId, dto.branchId, dto.cashboxId);
+
         const number = await this.docSeqService.getNextNumber(tenantId, 'EXPENSE');
         const totalAmount = dto.items.reduce((s, it) => s + it.amount, 0);
 
@@ -60,6 +88,7 @@ export class ExpensesService {
                 number,
                 date: new Date(dto.date),
                 cashboxId: dto.cashboxId,
+                branchId: dto.branchId,
                 currencyId: dto.currencyId,
                 fiscalPeriodId: dto.fiscalPeriodId,
                 totalAmount,
@@ -76,9 +105,19 @@ export class ExpensesService {
         const expense = await this.findById(tenantId, id);
         if (expense.status !== 'DRAFT') throw new BadRequestException('Only draft expenses can be edited');
 
+        if (dto.branchId !== undefined || dto.cashboxId !== undefined) {
+            const branchId = dto.branchId ?? expense.branchId;
+            const cashboxId = dto.cashboxId ?? expense.cashboxId;
+            if (!branchId) {
+                throw new BadRequestException('Expense must have a branch assigned');
+            }
+            await this.assertBranchMatchesCashbox(tenantId, branchId, cashboxId);
+        }
+
         const data: any = {};
         if (dto.date) data.date = new Date(dto.date);
         if (dto.cashboxId) data.cashboxId = dto.cashboxId;
+        if (dto.branchId) data.branchId = dto.branchId;
         if (dto.currencyId) data.currencyId = dto.currencyId;
         if (dto.fiscalPeriodId) data.fiscalPeriodId = dto.fiscalPeriodId;
         if (dto.notes !== undefined) data.notes = dto.notes;
@@ -135,6 +174,7 @@ export class ExpensesService {
             referenceId: expense.id,
             description: `Expense ${expense.number}`,
             cashboxId: expense.cashboxId,
+            branchId: expense.branchId ?? undefined,
             currencyId: expense.currencyId,
             totalAmount,
             items: expense.items.map((it) => ({

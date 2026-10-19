@@ -6,12 +6,14 @@ import type { Payment, Prisma } from '@devloggers/db-prisma';
 const PAYMENT_LIST_INCLUDE = {
   cashbox: { select: { name: true, code: true } },
   party: { select: { name: true } },
+  branch: { select: { code: true, name: true } },
   currency: { select: { code: true, symbol: true } },
 } satisfies Prisma.PaymentInclude;
 
 const PAYMENT_DETAIL_INCLUDE = {
   cashbox: true,
   party: { select: { name: true, receivableAccountId: true, payableAccountId: true } },
+  branch: true,
   currency: true,
   fiscalPeriod: { select: { status: true } },
   allocations: { include: { invoice: { select: { number: true, total: true } } } },

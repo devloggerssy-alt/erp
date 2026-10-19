@@ -788,6 +788,7 @@
       "codeAuto": "Auto (e.g. CSH-0001)",
       "name": "Name",
       "currency": "Currency",
+      "branch": "Branch",
       "active": "Active"
     },
     "bankAccounts": {
@@ -803,6 +804,7 @@
       "accountNumberPlaceholder": "e.g. 1234567890",
       "bankName": "Bank Name",
       "bankNamePlaceholder": "e.g. Commercial Bank",
+      "branch": "Branch (optional)",
       "active": "Active"
     },
     "expenses": {
@@ -812,6 +814,7 @@
       "number": "Number",
       "date": "Date",
       "cashbox": "Cashbox",
+      "branch": "Branch",
       "currency": "Currency",
       "fiscalPeriod": "Fiscal Period",
       "exchangeRate": "Exchange Rate",
@@ -849,6 +852,7 @@
       "type": "Type",
       "date": "Date",
       "cashbox": "Cashbox",
+      "branch": "Branch",
       "party": "Party",
       "currency": "Currency",
       "fiscalPeriod": "Fiscal Period",

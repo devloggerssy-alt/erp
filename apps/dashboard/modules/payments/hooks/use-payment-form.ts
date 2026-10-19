@@ -75,6 +75,7 @@ export function usePaymentForm({
             fiscalPeriod: "fiscalPeriod",
             currency: "currency",
             cashbox: "cashbox",
+            branch: "branch",
         },
     })
 

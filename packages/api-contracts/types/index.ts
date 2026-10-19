@@ -7162,6 +7162,11 @@ export interface components {
              */
             currencyId: string;
             /**
+             * @default null
+             * @example 00000000-0000-4000-ab01-000000000001
+             */
+            branchId: string | null;
+            /**
              * @default true
              * @example true
              */
@@ -7201,9 +7206,20 @@ export interface components {
              * @example 00000000-0000-4000-a300-000000000001
              */
             currencyId: string;
+            /**
+             * @description Branch the cashbox belongs to
+             * @default
+             * @example 00000000-0000-4000-ab01-000000000001
+             */
+            branchId: string;
         };
         UpdateCashboxDto: {
             name?: components["schemas"]["LocalizedStringDto"];
+            /**
+             * @description Branch the cashbox belongs to
+             * @example 00000000-0000-4000-ab01-000000000001
+             */
+            branchId?: string;
             /** @example true */
             isActive?: boolean;
         };
@@ -7244,6 +7260,11 @@ export interface components {
              * @example Commercial Bank
              */
             bankName: string | null;
+            /**
+             * @default null
+             * @example 00000000-0000-4000-ab01-000000000001
+             */
+            branchId: string | null;
             /**
              * @default true
              * @example true
@@ -7288,6 +7309,11 @@ export interface components {
              * @example Commercial Bank
              */
             bankName?: string | null;
+            /**
+             * @description Optional branch; omit for a company-level account
+             * @example 00000000-0000-4000-ab01-000000000001
+             */
+            branchId?: string | null;
         };
         UpdateBankAccountDto: {
             name?: components["schemas"]["LocalizedStringDto"];
@@ -7295,6 +7321,11 @@ export interface components {
             accountNumber?: string | null;
             /** @example Commercial Bank */
             bankName?: string | null;
+            /**
+             * @description Optional branch; omit for a company-level account
+             * @example 00000000-0000-4000-ab01-000000000001
+             */
+            branchId?: string | null;
             /** @example true */
             isActive?: boolean;
         };
@@ -7891,6 +7922,10 @@ export interface components {
             cashboxName?: string;
             cashboxCode?: string;
             /** @default null */
+            branchId: string | null;
+            branchCode?: string;
+            branchName?: string;
+            /** @default null */
             partyId: string | null;
             partyName?: string;
             /** @default  */
@@ -7936,6 +7971,11 @@ export interface components {
              * @example 00000000-0000-4000-ac00-000000000001
              */
             cashboxId: string;
+            /**
+             * @description Branch the payment is attributed to (must match the cashbox branch)
+             * @example 00000000-0000-4000-ab01-000000000001
+             */
+            branchId: string;
             /**
              * @description Party ID (Ahmad Al-Hassan)
              * @example 00000000-0000-4000-aa00-000000000001
@@ -7990,6 +8030,11 @@ export interface components {
              */
             cashboxId?: string;
             /**
+             * @description Branch (must match the cashbox branch)
+             * @example 00000000-0000-4000-ab01-000000000001
+             */
+            branchId?: string;
+            /**
              * @description Party ID
              * @example 00000000-0000-4000-aa00-000000000001
              */
@@ -8040,6 +8085,11 @@ export interface components {
             date: string;
             /** @default  */
             cashboxId: string;
+            /**
+             * @default null
+             * @example 00000000-0000-4000-ab01-000000000001
+             */
+            branchId: string | null;
             /** @default  */
             currencyId: string;
             /** @default  */
@@ -8112,6 +8162,11 @@ export interface components {
              */
             cashboxId: string;
             /**
+             * @description Branch the expense is attributed to (must match the cashbox branch)
+             * @example 00000000-0000-4000-ab01-000000000001
+             */
+            branchId: string;
+            /**
              * @description Currency ID
              * @example 00000000-0000-4000-a300-000000000001
              */
@@ -8135,6 +8190,11 @@ export interface components {
             date?: string;
             /** @example 00000000-0000-4000-ac00-000000000001 */
             cashboxId?: string;
+            /**
+             * @description Branch (must match the cashbox branch)
+             * @example 00000000-0000-4000-ab01-000000000001
+             */
+            branchId?: string;
             /** @example 00000000-0000-4000-a300-000000000001 */
             currencyId?: string;
             /** @example 00000000-0000-4000-a400-000000000001 */

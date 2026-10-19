@@ -21,6 +21,9 @@ export interface BranchReferenceCounts {
     documents: number;
     invoices: number;
     journalEntries: number;
+    payments: number;
+    expenses: number;
+    bankAccounts: number;
 }
 
 /** Settings-registry key holding the tenant's default branch id (see api-contracts). */
@@ -120,14 +123,18 @@ export class BranchesRepository extends CrudRepository<Branch, Prisma.BranchDele
 
     /** References that make a branch undeletable (deactivate instead). */
     async countReferences(tenantId: string, branchId: string): Promise<BranchReferenceCounts> {
-        const [warehouses, cashboxes, documents, invoices, journalEntries] = await Promise.all([
-            this.prisma.branchWarehouse.count({ where: { tenantId, branchId } }),
-            this.prisma.cashbox.count({ where: { tenantId, branchId } }),
-            this.prisma.documentSequence.count({ where: { tenantId, branchId } }),
-            this.prisma.invoice.count({ where: { tenantId, branchId } }),
-            this.prisma.journalEntry.count({ where: { tenantId, branchId } }),
-        ]);
-        return { warehouses, cashboxes, documents, invoices, journalEntries };
+        const [warehouses, cashboxes, documents, invoices, journalEntries, payments, expenses, bankAccounts] =
+            await Promise.all([
+                this.prisma.branchWarehouse.count({ where: { tenantId, branchId } }),
+                this.prisma.cashbox.count({ where: { tenantId, branchId } }),
+                this.prisma.documentSequence.count({ where: { tenantId, branchId } }),
+                this.prisma.invoice.count({ where: { tenantId, branchId } }),
+                this.prisma.journalEntry.count({ where: { tenantId, branchId } }),
+                this.prisma.payment.count({ where: { tenantId, branchId } }),
+                this.prisma.expense.count({ where: { tenantId, branchId } }),
+                this.prisma.bankAccount.count({ where: { tenantId, branchId } }),
+            ]);
+        return { warehouses, cashboxes, documents, invoices, journalEntries, payments, expenses, bankAccounts };
     }
 
     /** Tenant display data used to seed a default `MAIN` branch for a new tenant. */

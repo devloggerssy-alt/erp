@@ -9,6 +9,8 @@ model BankAccount {
     currencyId    String   @map("currency_id")
     accountNumber String?  @map("account_number")
     bankName      String?  @map("bank_name")
+    /// Optional branch reference — a company-level account is legitimate.
+    branchId      String?  @map("branch_id")
     balance       Decimal  @default(0) @db.Decimal(18, 4)
     isActive      Boolean  @default(true) @map("is_active")
     createdAt     DateTime @default(now()) @map("created_at")
@@ -16,11 +18,13 @@ model BankAccount {
 
     tenant       Tenant        @relation(fields: [tenantId], references: [id], onDelete: Cascade)
     currency     Currency      @relation(fields: [currencyId], references: [id])
+    branch       Branch?       @relation(fields: [branchId], references: [id], onDelete: Restrict)
     journalLines JournalLine[]
     openingBalanceSessionLines OpeningBalanceSessionLine[]
 
     @@unique([tenantId, code])
     @@index([tenantId])
     @@index([tenantId, currencyId])
+    @@index([tenantId, branchId])
     @@map("bank_accounts")
 }

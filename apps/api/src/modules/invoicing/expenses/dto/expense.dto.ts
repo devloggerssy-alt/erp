@@ -34,6 +34,10 @@ export class CreateExpenseDto {
     @IsString() @IsNotEmpty()
     cashboxId!: string;
 
+    @ApiProperty({ type: 'string', example: '00000000-0000-4000-ab01-000000000001', description: 'Branch the expense is attributed to (must match the cashbox branch)' })
+    @IsString() @IsNotEmpty()
+    branchId!: string;
+
     @ApiProperty({ example: '00000000-0000-4000-a300-000000000001', description: 'Currency ID' })
     @IsString() @IsNotEmpty()
     currencyId!: string;
@@ -63,6 +67,9 @@ export class UpdateExpenseDto {
 
     @ApiPropertyOptional({ example: '00000000-0000-4000-ac00-000000000001' })
     @IsOptional() @IsString() cashboxId?: string;
+
+    @ApiPropertyOptional({ type: 'string', example: '00000000-0000-4000-ab01-000000000001', description: 'Branch (must match the cashbox branch)' })
+    @IsOptional() @IsString() branchId?: string;
 
     @ApiPropertyOptional({ example: '00000000-0000-4000-a300-000000000001' })
     @IsOptional() @IsString() currencyId?: string;
@@ -118,6 +125,9 @@ export class ExpenseResponseDto {
 
     @ApiProperty({ type: 'string' })
     cashboxId: string = '';
+
+    @ApiPropertyOptional({ type: 'string', nullable: true, example: '00000000-0000-4000-ab01-000000000001' })
+    branchId: string | null = null;
 
     @ApiProperty({ type: 'string' })
     currencyId: string = '';

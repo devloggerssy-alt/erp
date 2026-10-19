@@ -9,6 +9,7 @@ type LoadedForList = Prisma.PaymentGetPayload<{
   include: {
     cashbox: { select: { name: true; code: true } };
     party: { select: { name: true } };
+    branch: { select: { code: true; name: true } };
     currency: { select: { code: true; symbol: true } };
   };
 }>;
@@ -16,6 +17,7 @@ type LoadedForDetail = Prisma.PaymentGetPayload<{
   include: {
     cashbox: true;
     party: { select: { name: true; receivableAccountId: true; payableAccountId: true } };
+    branch: true;
     currency: true;
     fiscalPeriod: { select: { status: true } };
     allocations: { include: { invoice: { select: { number: true; total: true } } } };

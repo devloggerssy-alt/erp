@@ -1,7 +1,7 @@
 "use client"
 
 import { useTranslations } from "next-intl"
-import type { BankAccountsClient, CurrenciesClient } from "@devloggers/api-client"
+import type { BankAccountsClient, BranchesClient, CurrenciesClient } from "@devloggers/api-client"
 import {
     ResourceFormShell,
     RhfCheckboxField,
@@ -49,6 +49,14 @@ export function BankAccountsForm({ resourceId, initialData, onSuccess, paramKey 
                 getValue={(it) => it}
                 required
                 disabled={ctrl.isBusy || ctrl.isEditing}
+            />
+            <RhfResourceSelect<BankAccountFormValues, "branch", BranchesClient, BankAccountRelationalField>
+                name="branch"
+                label={t("branch")}
+                client={(api) => api.branches}
+                getLabel={(it) => `${it.code} — ${it.name}`}
+                getValue={(it) => it}
+                disabled={ctrl.isBusy}
             />
             <RhfTextField name="accountNumber" label={t("accountNumber")} placeholder={t("accountNumberPlaceholder")} disabled={ctrl.isBusy} />
             <RhfTextField name="bankName" label={t("bankName")} placeholder={t("bankNamePlaceholder")} disabled={ctrl.isBusy} />

@@ -31979,6 +31979,11 @@ components:
           type: string
           default: ''
           example: 00000000-0000-4000-a300-000000000001
+        branchId:
+          type: string
+          nullable: true
+          default: null
+          example: 00000000-0000-4000-ab01-000000000001
         isActive:
           type: boolean
           default: true
@@ -32023,14 +32028,24 @@ components:
           default: ''
           example: 00000000-0000-4000-a300-000000000001
           description: Currency ID
+        branchId:
+          type: string
+          default: ''
+          example: 00000000-0000-4000-ab01-000000000001
+          description: Branch the cashbox belongs to
       required:
         - name
         - currencyId
+        - branchId
     UpdateCashboxDto:
       type: object
       properties:
         name:
           $ref: '#/components/schemas/LocalizedStringDto'
+        branchId:
+          type: string
+          example: 00000000-0000-4000-ab01-000000000001
+          description: Branch the cashbox belongs to
         isActive:
           type: boolean
           example: true
@@ -32068,6 +32083,11 @@ components:
           nullable: true
           default: null
           example: Commercial Bank
+        branchId:
+          type: string
+          nullable: true
+          default: null
+          example: 00000000-0000-4000-ab01-000000000001
         isActive:
           type: boolean
           default: true
@@ -32119,6 +32139,11 @@ components:
           nullable: true
           example: Commercial Bank
           description: Bank name
+        branchId:
+          type: string
+          nullable: true
+          example: 00000000-0000-4000-ab01-000000000001
+          description: Optional branch; omit for a company-level account
       required:
         - name
         - currencyId
@@ -32135,6 +32160,11 @@ components:
           type: string
           nullable: true
           example: Commercial Bank
+        branchId:
+          type: string
+          nullable: true
+          example: 00000000-0000-4000-ab01-000000000001
+          description: Optional branch; omit for a company-level account
         isActive:
           type: boolean
           example: true
@@ -32912,6 +32942,14 @@ components:
           type: string
         cashboxCode:
           type: string
+        branchId:
+          type: string
+          nullable: true
+          default: null
+        branchCode:
+          type: string
+        branchName:
+          type: string
         partyId:
           type: string
           nullable: true
@@ -32996,6 +33034,10 @@ components:
           type: string
           example: 00000000-0000-4000-ac00-000000000001
           description: Cashbox ID (Main Cash SYP)
+        branchId:
+          type: string
+          example: 00000000-0000-4000-ab01-000000000001
+          description: Branch the payment is attributed to (must match the cashbox branch)
         partyId:
           type: string
           example: 00000000-0000-4000-aa00-000000000001
@@ -33031,6 +33073,7 @@ components:
         - type
         - date
         - cashboxId
+        - branchId
         - currencyId
         - fiscalPeriodId
         - amount
@@ -33059,6 +33102,10 @@ components:
           type: string
           example: 00000000-0000-4000-ac00-000000000001
           description: Cashbox ID
+        branchId:
+          type: string
+          example: 00000000-0000-4000-ab01-000000000001
+          description: Branch (must match the cashbox branch)
         partyId:
           type: string
           example: 00000000-0000-4000-aa00-000000000001
@@ -33132,6 +33179,11 @@ components:
         cashboxId:
           type: string
           default: ''
+        branchId:
+          type: string
+          nullable: true
+          default: null
+          example: 00000000-0000-4000-ab01-000000000001
         currencyId:
           type: string
           default: ''
@@ -33225,6 +33277,10 @@ components:
           type: string
           example: 00000000-0000-4000-ac00-000000000001
           description: Cashbox ID (must have a linked account)
+        branchId:
+          type: string
+          example: 00000000-0000-4000-ab01-000000000001
+          description: Branch the expense is attributed to (must match the cashbox branch)
         currencyId:
           type: string
           example: 00000000-0000-4000-a300-000000000001
@@ -33249,6 +33305,7 @@ components:
       required:
         - date
         - cashboxId
+        - branchId
         - currencyId
         - fiscalPeriodId
         - items
@@ -33261,6 +33318,10 @@ components:
         cashboxId:
           type: string
           example: 00000000-0000-4000-ac00-000000000001
+        branchId:
+          type: string
+          example: 00000000-0000-4000-ab01-000000000001
+          description: Branch (must match the cashbox branch)
         currencyId:
           type: string
           example: 00000000-0000-4000-a300-000000000001

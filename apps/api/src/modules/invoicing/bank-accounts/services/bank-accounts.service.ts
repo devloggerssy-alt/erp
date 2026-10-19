@@ -1,4 +1,4 @@
-import { Injectable, ConflictException } from '@nestjs/common';
+import { Injectable, ConflictException, BadRequestException } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { CrudService } from '@devloggers/backend-core';
 import { resources } from '@devloggers/api-contracts';
@@ -22,6 +22,8 @@ export class BankAccountsService extends CrudService<BankAccount, BankAccountRes
     }
 
     protected override async beforeCreate(tenantId: string, dto: CreateBankAccountDto): Promise<void> {
+        await this.assertBranch(tenantId, dto.branchId);
+
         const code = dto.code?.trim();
         if (code) {
             if (await this.bankAccountsRepository.isCodeTaken(tenantId, code)) {
@@ -35,8 +37,11 @@ export class BankAccountsService extends CrudService<BankAccount, BankAccountRes
         );
     }
 
-    protected override async beforeUpdate(_tenantId: string, _id: string, _dto: UpdateBankAccountDto): Promise<void> {
+    protected override async beforeUpdate(tenantId: string, _id: string, dto: UpdateBankAccountDto): Promise<void> {
         // No unique check on update since code is immutable after creation (not in UpdateBankAccountDto)
+        if (dto.branchId !== undefined) {
+            await this.assertBranch(tenantId, dto.branchId);
+        }
     }
 
     protected override async beforeDelete(tenantId: string, id: string): Promise<void> {
@@ -44,6 +49,14 @@ export class BankAccountsService extends CrudService<BankAccount, BankAccountRes
             throw new ConflictException(
                 'Cannot delete a bank account that has journal entries. Deactivate it instead.',
             );
+        }
+    }
+
+    /** A branch reference is optional, but when present it must be in the tenant. */
+    private async assertBranch(tenantId: string, branchId: string | null | undefined): Promise<void> {
+        if (!branchId) return;
+        if (!(await this.bankAccountsRepository.branchExists(tenantId, branchId))) {
+            throw new BadRequestException('Branch not found');
         }
     }
 }

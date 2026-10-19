@@ -10,7 +10,11 @@ function buildDeps() {
     const prisma = {
         payment: { findFirst: jest.fn(), create: jest.fn() },
         invoice: { findFirst: jest.fn() },
-        cashbox: { findUnique: jest.fn().mockResolvedValue({ linkedAccountId: 'cashbox-acct' }) },
+        cashbox: {
+            findUnique: jest.fn().mockResolvedValue({ linkedAccountId: 'cashbox-acct' }),
+            findFirst: jest.fn().mockResolvedValue({ id: 'cash-1', branchId: 'branch-1' }),
+        },
+        branch: { findFirst: jest.fn().mockResolvedValue({ id: 'branch-1' }) },
         journalEntry: { findFirst: jest.fn().mockResolvedValue({ id: 'je-orig' }) },
         paymentAllocation: { aggregate: jest.fn().mockResolvedValue({ _sum: { amount: 0 } }) },
         $transaction: jest.fn((cb: any) => cb(tx)),
@@ -97,6 +101,7 @@ describe('PaymentsService.createAs', () => {
             type: 'RECEIPT',
             date: '2026-04-14',
             cashboxId: 'cash-1',
+            branchId: 'branch-1',
             currencyId: 'cur-1',
             fiscalPeriodId: 'fp-1',
             amount: 500,
@@ -117,6 +122,7 @@ describe('PaymentsService.createAs', () => {
             type: 'RECEIPT',
             date: '2026-04-14',
             cashboxId: 'cash-1',
+            branchId: 'branch-1',
             currencyId: 'cur-1',
             fiscalPeriodId: 'fp-1',
             amount: 500,

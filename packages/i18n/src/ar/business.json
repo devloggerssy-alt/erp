@@ -789,6 +789,7 @@
       "codeAuto": "تلقائي (مثال: CSH-0001)",
       "name": "الاسم",
       "currency": "العملة",
+      "branch": "الفرع",
       "active": "نشط"
     },
     "bankAccounts": {
@@ -804,6 +805,7 @@
       "accountNumberPlaceholder": "مثال: 1234567890",
       "bankName": "اسم البنك",
       "bankNamePlaceholder": "مثال: البنك التجاري",
+      "branch": "الفرع (اختياري)",
       "active": "نشط"
     },
     "expenses": {
@@ -813,6 +815,7 @@
       "number": "الرقم",
       "date": "التاريخ",
       "cashbox": "الصندوق",
+      "branch": "الفرع",
       "currency": "العملة",
       "fiscalPeriod": "الفترة المالية",
       "exchangeRate": "سعر الصرف",
@@ -850,6 +853,7 @@
       "type": "النوع",
       "date": "التاريخ",
       "cashbox": "الصندوق",
+      "branch": "الفرع",
       "party": "الطرف",
       "currency": "العملة",
       "fiscalPeriod": "الفترة المالية",

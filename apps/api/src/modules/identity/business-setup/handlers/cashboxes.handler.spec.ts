@@ -13,8 +13,8 @@ describe('CashboxesTaskHandler', () => {
     it('creates every cashbox whose code does not already exist', async () => {
         const { handler, cashboxesService } = build(['CASH-USD']);
         const result = await handler.execute('t1', 'u1', [
-            { code: 'CASH-USD', name: { ar: 'صندوق دولار', en: 'USD Cash' }, currencyId: 'usd' },
-            { code: 'CASH-EUR', name: { ar: 'صندوق يورو', en: 'EUR Cash' }, currencyId: 'eur' },
+            { code: 'CASH-USD', name: { ar: 'صندوق دولار', en: 'USD Cash' }, currencyId: 'usd', branchId: 'b1' },
+            { code: 'CASH-EUR', name: { ar: 'صندوق يورو', en: 'EUR Cash' }, currencyId: 'eur', branchId: 'b1' },
         ]);
         expect(cashboxesService.create).toHaveBeenCalledTimes(1);
         expect(result).toEqual({ completed: true, details: { created: 1 } });
@@ -22,9 +22,9 @@ describe('CashboxesTaskHandler', () => {
 
     it('is idempotent on repeated execution with the same payload', async () => {
         const { handler, cashboxesService } = build([]);
-        await handler.execute('t1', 'u1', [{ code: 'CASH-USD', name: { ar: 'ص', en: 'C' }, currencyId: 'usd' }]);
+        await handler.execute('t1', 'u1', [{ code: 'CASH-USD', name: { ar: 'ص', en: 'C' }, currencyId: 'usd', branchId: 'b1' }]);
         cashboxesService.list.mockResolvedValue({ data: [{ code: 'CASH-USD' }], total: 1 });
-        const result = await handler.execute('t1', 'u1', [{ code: 'CASH-USD', name: { ar: 'ص', en: 'C' }, currencyId: 'usd' }]);
+        const result = await handler.execute('t1', 'u1', [{ code: 'CASH-USD', name: { ar: 'ص', en: 'C' }, currencyId: 'usd', branchId: 'b1' }]);
         expect(result.details).toEqual({ created: 0 });
     });
 

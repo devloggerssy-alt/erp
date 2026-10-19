@@ -32,6 +32,7 @@ export type ExpenseItemFormValues = z.infer<typeof expenseItemSchema>
 export const expenseFormSchema = z.object({
     date: z.string().min(1, "Date is required"),
     cashbox: relational,
+    branch: relational,
     currency: relational,
     fiscalPeriod: relational,
     exchangeRate: z.coerce.number().gt(0).default(1),
@@ -40,6 +41,7 @@ export const expenseFormSchema = z.object({
 }).superRefine((data, ctx) => {
     const required = [
         ["cashbox", "Cashbox is required"],
+        ["branch", "Branch is required"],
         ["currency", "Currency is required"],
         ["fiscalPeriod", "Fiscal period is required"],
     ] as const
@@ -64,6 +66,7 @@ export const DEFAULT_EXPENSE_ITEM: ExpenseItemFormValues = {
 export const DEFAULT_EXPENSE_FORM_VALUES: ExpenseFormValues = {
     date: new Date().toISOString().split("T")[0]!,
     cashbox: null,
+    branch: null,
     currency: null,
     fiscalPeriod: null,
     exchangeRate: 1,
@@ -76,6 +79,7 @@ export const DEFAULT_EXPENSE_FORM_VALUES: ExpenseFormValues = {
 interface ExpenseApiData {
     date?: string
     cashboxId?: string
+    branchId?: string | null
     currencyId?: string
     fiscalPeriodId?: string
     exchangeRate?: number | string
@@ -96,6 +100,7 @@ export function mapExpenseToFormValues(data: unknown): ExpenseFormValues {
             ? new Date(resolved.date).toISOString().split("T")[0]!
             : new Date().toISOString().split("T")[0]!,
         cashbox: resolved.cashboxId ? { id: resolved.cashboxId } : null,
+        branch: resolved.branchId ? { id: resolved.branchId } : null,
         currency: resolved.currencyId ? { id: resolved.currencyId } : null,
         fiscalPeriod: resolved.fiscalPeriodId ? { id: resolved.fiscalPeriodId } : null,
         exchangeRate: Number(resolved.exchangeRate) || 1,
@@ -118,6 +123,7 @@ export function toCreateExpenseDto(values: ExpenseFormValues): CreateExpenseBody
     return {
         date: values.date,
         cashboxId: values.cashbox?.id ?? "",
+        branchId: values.branch?.id ?? "",
         currencyId: values.currency?.id ?? "",
         fiscalPeriodId: values.fiscalPeriod?.id ?? "",
         exchangeRate: values.exchangeRate,
@@ -136,6 +142,7 @@ export function toUpdateExpenseDto(values: ExpenseFormValues): UpdateExpenseBody
     return {
         date: values.date,
         cashboxId: values.cashbox?.id ?? "",
+        branchId: values.branch?.id || undefined,
         currencyId: values.currency?.id ?? "",
         fiscalPeriodId: values.fiscalPeriod?.id ?? "",
         notes: values.notes || undefined,

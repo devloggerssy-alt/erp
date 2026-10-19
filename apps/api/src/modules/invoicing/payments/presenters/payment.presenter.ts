@@ -17,6 +17,7 @@ export class PaymentPresenter extends CrudPresenter<PaymentEntity, PaymentRespon
   toResponse(entity: PaymentEntity): PaymentResponseDto {
     const cashbox = 'cashbox' in entity ? entity.cashbox : undefined;
     const party = 'party' in entity ? entity.party : undefined;
+    const branch = 'branch' in entity ? entity.branch : undefined;
     const currency = 'currency' in entity ? entity.currency : undefined;
     const allocations = 'allocations' in entity ? entity.allocations : undefined;
 
@@ -31,6 +32,11 @@ export class PaymentPresenter extends CrudPresenter<PaymentEntity, PaymentRespon
     const cashboxName = toLocalizedString(cashbox?.name);
     dto.cashboxName = cashboxName ? this.locale.resolve(cashboxName) : undefined;
     dto.cashboxCode = cashbox?.code;
+    dto.branchId = entity.branchId ?? null;
+    dto.branchCode = branch?.code;
+    // branch.name is a LocalizedString ({ ar, en }) — resolve to the request locale.
+    const branchName = toLocalizedString(branch?.name);
+    dto.branchName = branchName ? this.locale.resolve(branchName) : undefined;
     dto.partyId = entity.partyId ?? null;
     dto.partyName = party?.name;
     dto.currencyId = entity.currencyId;

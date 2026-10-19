@@ -2,9 +2,11 @@
 
 import { useTranslations } from "next-intl"
 import { useWatch } from "react-hook-form"
+import { useEffect } from "react"
 import { PlusIcon } from "lucide-react"
 import type {
     CashboxesClient,
+    BranchesClient,
     CurrenciesClient,
     FiscalPeriodsClient,
 } from "@devloggers/api-client"
@@ -25,6 +27,16 @@ function ExpenseHeaderFields({ ctrl }: { ctrl: ExpenseFormController }) {
         name: "currency",
         compute: (c) => c?.id,
     })
+    const cashbox = useWatch({ control: ctrl.form.control, name: "cashbox" })
+
+    // Keep the branch in step with the chosen till: an expense must be
+    // attributed to the branch the cashbox belongs to.
+    useEffect(() => {
+        const branchId = (cashbox as { branchId?: unknown } | null)?.branchId
+        if (typeof branchId === "string" && branchId) {
+            ctrl.form.setValue("branch", { id: branchId }, { shouldDirty: false })
+        }
+    }, [cashbox]) // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <div className="space-y-4">
@@ -38,6 +50,15 @@ function ExpenseHeaderFields({ ctrl }: { ctrl: ExpenseFormController }) {
                 name="cashbox"
                 label={t("cashbox")}
                 client={(api) => api.cashboxes}
+                getLabel={(it) => `${it.code} — ${it.name}`}
+                getValue={(it) => it}
+                required
+                disabled={disabled}
+            />
+            <RhfResourceSelect<ExpenseFormValues, "branch", BranchesClient, ExpenseRelationalField>
+                name="branch"
+                label={t("branch")}
+                client={(api) => api.branches}
                 getLabel={(it) => `${it.code} — ${it.name}`}
                 getValue={(it) => it}
                 required

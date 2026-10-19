@@ -28,6 +28,11 @@ export class CreateBankAccountDto {
     @IsOptional()
     @IsString()
     bankName?: string | null;
+
+    @ApiPropertyOptional({ type: 'string', nullable: true, example: '00000000-0000-4000-ab01-000000000001', description: 'Optional branch; omit for a company-level account' })
+    @IsOptional()
+    @IsString()
+    branchId?: string | null;
 }
 
 export class UpdateBankAccountDto {
@@ -46,6 +51,11 @@ export class UpdateBankAccountDto {
     @IsOptional()
     @IsString()
     bankName?: string | null;
+
+    @ApiPropertyOptional({ type: 'string', nullable: true, example: '00000000-0000-4000-ab01-000000000001', description: 'Optional branch; omit for a company-level account' })
+    @IsOptional()
+    @IsString()
+    branchId?: string | null;
 
     @ApiPropertyOptional({ example: true })
     @IsOptional()
@@ -74,6 +84,9 @@ export class BankAccountResponseDto {
 
     @ApiPropertyOptional({ type: 'string', nullable: true, example: 'Commercial Bank' })
     bankName: string | null = null;
+
+    @ApiPropertyOptional({ type: 'string', nullable: true, example: '00000000-0000-4000-ab01-000000000001' })
+    branchId: string | null = null;
 
     @ApiProperty({ example: true })
     isActive: boolean = true;
