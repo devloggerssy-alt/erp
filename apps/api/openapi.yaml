@@ -30988,6 +30988,12 @@ components:
           type: string
           default: ''
           example: Main Cashbox
+        branchId:
+          type: string
+          nullable: true
+          default: null
+          example: 00000000-0000-4000-ab01-000000000001
+          description: Branch the default cashbox belongs to
       required:
         - id
         - code

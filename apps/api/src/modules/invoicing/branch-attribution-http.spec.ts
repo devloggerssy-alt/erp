@@ -148,8 +148,15 @@ describe('cashboxes / payments / expenses — branch attribution', () => {
         );
     });
 
-    it('POST /payments refuses a cashbox that belongs to another branch', async () => {
-        prisma.cashbox.findFirst.mockResolvedValue({ id: 'cb1', branchId: 'b2' });
+    it('POST /payments requires a branch (422 when omitted)', async () => {
+        const { branchId: _omitted, ...withoutBranch } = paymentBody;
+
+        await request(app.getHttpServer()).post('/payments').send(withoutBranch).expect(422);
+
+        expect(prisma.payment.create).not.toHaveBeenCalled();
+    });
+
+    it('POST /payments refuses a cashbox that belongs to another branch', async () => {        prisma.cashbox.findFirst.mockResolvedValue({ id: 'cb1', branchId: 'b2' });
 
         await request(app.getHttpServer()).post('/payments').send(paymentBody).expect(400);
 
@@ -162,6 +169,14 @@ describe('cashboxes / payments / expenses — branch attribution', () => {
         expect(prisma.payment.create).toHaveBeenCalledWith(
             expect.objectContaining({ data: expect.objectContaining({ branchId: 'b1' }) }),
         );
+    });
+
+    it('POST /expenses requires a branch (422 when omitted)', async () => {
+        const { branchId: _omitted, ...withoutBranch } = expenseBody;
+
+        await request(app.getHttpServer()).post('/expenses').send(withoutBranch).expect(422);
+
+        expect(prisma.expense.create).not.toHaveBeenCalled();
     });
 
     it('POST /expenses refuses a cashbox that belongs to another branch', async () => {

@@ -47,11 +47,20 @@ export class CashboxesService extends CrudService<Cashbox, CashboxResponseDto, C
 
     protected override async beforeUpdate(
         tenantId: string,
-        _id: string,
+        id: string,
         dto: UpdateCashboxDto,
+        existing: Cashbox,
     ): Promise<void> {
         if (dto.branchId !== undefined) {
             await this.assertBranch(tenantId, dto.branchId);
+            if (dto.branchId !== existing.branchId) {
+                const usage = await this.cashboxesRepository.countUsageReferences(tenantId, id);
+                if (usage > 0) {
+                    throw new ConflictException(
+                        'Cannot move a cashbox to another branch while payments or expenses use it.',
+                    );
+                }
+            }
         }
     }
 

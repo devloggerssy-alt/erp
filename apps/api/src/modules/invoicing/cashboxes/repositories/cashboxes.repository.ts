@@ -30,4 +30,13 @@ export class CashboxesRepository extends CrudRepository<Cashbox, Prisma.CashboxD
         const count = await this.prisma.branch.count({ where: { id: branchId, tenantId } });
         return count > 0;
     }
+
+    /** Payments/expenses that already carry this cashbox's branch attribution. */
+    async countUsageReferences(tenantId: string, id: string): Promise<number> {
+        const [payments, expenses] = await Promise.all([
+            this.prisma.payment.count({ where: { tenantId, cashboxId: id } }),
+            this.prisma.expense.count({ where: { tenantId, cashboxId: id } }),
+        ]);
+        return payments + expenses;
+    }
 }

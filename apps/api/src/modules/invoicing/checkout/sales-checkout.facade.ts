@@ -59,6 +59,19 @@ export class SalesCheckoutFacade {
         });
         if (!fiscalPeriod) throw new BadRequestException("No open fiscal period covers today's date");
 
+        // The till's branch is the branch of the sale — never chosen by the cashier.
+        const cashbox = await this.prisma.cashbox.findFirst({
+            where: { id: intent.cashboxId, tenantId },
+            select: { id: true, branchId: true },
+        });
+        if (!cashbox) throw new NotFoundException('Cashbox not found');
+        if (!cashbox.branchId) {
+            throw new BadRequestException(
+                'The cashbox used at the point of sale must belong to a branch',
+            );
+        }
+        const branchId = cashbox.branchId;
+
         const lines: InvoiceLineDto[] = intent.lines.map((line) => ({
             itemId: line.itemId,
             unitId: line.unitId,
@@ -85,6 +98,7 @@ export class SalesCheckoutFacade {
                     date: now,
                     partyId: intent.partyId,
                     warehouseId: intent.warehouseId,
+                    branchId,
                     fiscalPeriodId: fiscalPeriod.id,
                     currencyId: currency.id,
                     exchangeRate: 1,
@@ -115,6 +129,7 @@ export class SalesCheckoutFacade {
                     date: now,
                     cashboxId: intent.cashboxId,
                     partyId: intent.partyId,
+                    branchId,
                     currencyId: currency.id,
                     exchangeRate: 1,
                     fiscalPeriodId: fiscalPeriod.id,
@@ -137,6 +152,7 @@ export class SalesCheckoutFacade {
                 description: `Payment ${payment.number}`,
                 type: 'RECEIPT',
                 partyId: payment.partyId,
+                branchId,
                 amount: totals.total,
                 cashboxId: intent.cashboxId,
                 currencyId: currency.id,

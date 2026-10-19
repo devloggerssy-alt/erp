@@ -103,7 +103,7 @@ export class BranchesService extends CrudService<
             refs.bankAccounts;
         if (total > 0) {
             throw new ConflictException(
-                'Cannot delete a branch that warehouses, cashboxes or documents refer to. Deactivate it instead.',
+                'Cannot delete a branch that warehouses, cashboxes, documents, payments, expenses or bank accounts refer to. Deactivate it instead.',
             );
         }
     }

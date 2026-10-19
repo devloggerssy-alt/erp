@@ -92,6 +92,8 @@ export class FormDefaultCashboxDto {
     code: string = '';
     @ApiProperty({ type: 'string', example: 'Main Cashbox' })
     name: string = '';
+    @ApiPropertyOptional({ type: 'string', nullable: true, example: '00000000-0000-4000-ab01-000000000001', description: 'Branch the default cashbox belongs to' })
+    branchId: string | null = null;
 }
 
 export class FormDefaultWarehouseDto {

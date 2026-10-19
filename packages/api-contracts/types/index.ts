@@ -6373,6 +6373,12 @@ export interface components {
              * @example Main Cashbox
              */
             name: string;
+            /**
+             * @description Branch the default cashbox belongs to
+             * @default null
+             * @example 00000000-0000-4000-ab01-000000000001
+             */
+            branchId: string | null;
         };
         FormDefaultWarehouseDto: {
             /**

@@ -69,7 +69,7 @@ export class SettingsService {
             tenant?.baseCurrencyId
                 ? this.prisma.cashbox.findFirst({
                       where: { tenantId, currencyId: tenant.baseCurrencyId, isActive: true },
-                      select: { id: true, code: true, name: true },
+                      select: { id: true, code: true, name: true, branchId: true },
                       orderBy: { createdAt: 'asc' },
                   })
                 : Promise.resolve(null),
@@ -131,7 +131,7 @@ export class SettingsService {
             : null;
 
         const cashbox = cashboxRow
-            ? { id: cashboxRow.id, code: cashboxRow.code, name: this.locale.resolve(toLocalizedString(cashboxRow.name)) }
+            ? { id: cashboxRow.id, code: cashboxRow.code, name: this.locale.resolve(toLocalizedString(cashboxRow.name)), branchId: cashboxRow.branchId ?? null }
             : null;
 
         const warehouse = warehouseRow

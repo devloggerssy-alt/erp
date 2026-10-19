@@ -7,7 +7,7 @@ function deps() {
         invoice: {
             create: jest.fn().mockResolvedValue({
                 id: 'inv-1', number: 'SAL-00001', tenantId: 't1', date: new Date('2026-09-25'),
-                warehouseId: 'wh-1', partyId: 'party-1', fiscalPeriodId: 'fp-1', currencyId: 'cur-1',
+                warehouseId: 'wh-1', branchId: 'b1', partyId: 'party-1', fiscalPeriodId: 'fp-1', currencyId: 'cur-1',
                 invoiceType: { affectsStock: true }, lines: [], fiscalPeriod: { status: 'OPEN' },
             }),
         },
@@ -18,6 +18,7 @@ function deps() {
         invoiceType: { findFirst: jest.fn().mockResolvedValue({ id: 'itype-1', direction: 'SALE' }) },
         currency: { findFirst: jest.fn().mockResolvedValue({ id: 'cur-1', isBase: true }) },
         fiscalPeriod: { findFirst: jest.fn().mockResolvedValue({ id: 'fp-1', status: 'OPEN' }) },
+        cashbox: { findFirst: jest.fn().mockResolvedValue({ id: 'cbx-1', branchId: 'b1' }) },
         $transaction: jest.fn((cb: any) => cb(tx)),
     } as any;
     const docSeq = { getNextNumberInTx: jest.fn().mockResolvedValueOnce('SAL-00001').mockResolvedValueOnce('REC-00001') } as any;
@@ -47,13 +48,13 @@ describe('SalesCheckoutFacade.checkout', () => {
 
         expect(prisma.$transaction).toHaveBeenCalledTimes(1);
         expect(tx.invoice.create).toHaveBeenCalledWith(expect.objectContaining({
-            data: expect.objectContaining({ tenantId: 't1', clientRequestId: 'req-1', total: 200 }),
+            data: expect.objectContaining({ tenantId: 't1', clientRequestId: 'req-1', total: 200, branchId: 'b1' }),
         }));
         expect(invoicePosting.postSalesInvoiceInTx).toHaveBeenCalledWith(tx, 't1', expect.objectContaining({ id: 'inv-1' }), 'u1');
         expect(tx.payment.create).toHaveBeenCalledWith(expect.objectContaining({
-            data: expect.objectContaining({ type: 'RECEIPT', amount: 200, unallocatedAmount: 200 }),
+            data: expect.objectContaining({ type: 'RECEIPT', amount: 200, unallocatedAmount: 200, branchId: 'b1' }),
         }));
-        expect(payments.postInTx).toHaveBeenCalledWith(tx, 'pay-1', 'cbx-1', 200, 'u1', expect.objectContaining({ kind: 'PAYMENT_RECORDED' }));
+        expect(payments.postInTx).toHaveBeenCalledWith(tx, 'pay-1', 'cbx-1', 200, 'u1', expect.objectContaining({ kind: 'PAYMENT_RECORDED', branchId: 'b1' }));
         expect(payments.allocateInTx).toHaveBeenCalledWith(tx, 't1', 'pay-1', 'inv-1', 200);
         expect(result).toEqual({
             invoiceId: 'inv-1', invoiceNumber: 'SAL-00001',
@@ -98,6 +99,14 @@ describe('SalesCheckoutFacade.checkout', () => {
         prisma.fiscalPeriod.findFirst.mockResolvedValue(null);
 
         await expect(facade.checkout(intent)).rejects.toThrow(BadRequestException);
+        expect(prisma.$transaction).not.toHaveBeenCalled();
+    });
+
+    it('rejects a cashbox that does not belong to any branch', async () => {
+        const { facade, prisma } = deps();
+        prisma.cashbox.findFirst.mockResolvedValue({ id: 'cbx-1', branchId: null });
+
+        await expect(facade.checkout(intent)).rejects.toThrow(/must belong to a branch/);
         expect(prisma.$transaction).not.toHaveBeenCalled();
     });
 });
