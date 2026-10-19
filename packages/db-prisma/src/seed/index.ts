@@ -92,14 +92,16 @@ async function main() {
         console.log('  → Creating warehouses...')
         await seedWarehouses(prisma, tenantId)
 
-        console.log('  → Creating default branch...')
-        await seedBranches(prisma, tenantId)
-
         console.log('  → Creating cashboxes...')
         await seedCashboxes(prisma, tenantId)
 
         console.log('  → Creating bank accounts...')
         await seedBankAccounts(prisma, tenantId)
+
+        // After warehouses/cashboxes/document sequences exist, so the default
+        // branch can link and stamp them (mirrors the Phase 1.1 backfill).
+        console.log('  → Creating default branch...')
+        await seedBranches(prisma, tenantId)
 
         console.log('  → Creating invoice types...')
         await seedInvoiceTypes(prisma, tenantId)

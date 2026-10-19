@@ -5321,7 +5321,7 @@ export interface components {
             /** @example true */
             isActive?: boolean;
             /**
-             * @description Replaces the branch's linked warehouses when provided. Removing a warehouse's last branch is refused.
+             * @description Replaces the branch's linked warehouses when provided. Removing a warehouse's last branch is refused; a branch may have zero warehouses.
              * @example [
              *       "00000000-0000-4000-c100-000000000001"
              *     ]

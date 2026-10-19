@@ -29583,12 +29583,12 @@ components:
           example: true
         warehouseIds:
           uniqueItems: true
-          minItems: 1
           example:
             - 00000000-0000-4000-c100-000000000001
           description: >-
             Replaces the branch's linked warehouses when provided. Removing a
-            warehouse's last branch is refused.
+            warehouse's last branch is refused; a branch may have zero
+            warehouses.
           type: array
           items:
             type: string
