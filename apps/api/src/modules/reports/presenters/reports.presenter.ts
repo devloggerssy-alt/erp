@@ -14,7 +14,7 @@ import type {
     InvoiceSummaryRow,
     PartyStatementInvoiceRow,
     StockBalanceRow,
-} from '../report-queries';
+} from '../repositories/reports.repository';
 
 type InvoiceRow = InvoiceSummaryRow | PartyStatementInvoiceRow;
 
@@ -28,10 +28,9 @@ export interface PartyStatementInput {
 }
 
 function readLocalized(value: Prisma.JsonValue): LocalizedString {
-    if (!value || typeof value !== 'object' || Array.isArray(value)) return { ar: '' };
-    const ar = 'ar' in value && typeof value.ar === 'string' ? value.ar : '';
-    const en = 'en' in value && typeof value.en === 'string' ? value.en : undefined;
-    return en ? { ar, en } : { ar };
+    // Shared JSON guard; dashboard widgets need a concrete object, so keep the
+    // historical `{ ar: '' }` fallback for malformed/empty columns.
+    return toLocalizedString(value) ?? { ar: '' };
 }
 
 @Injectable()

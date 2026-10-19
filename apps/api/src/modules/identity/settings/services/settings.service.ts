@@ -13,6 +13,7 @@ import {
 } from '@devloggers/api-contracts';
 import { LocaleResolverService } from '@devloggers/backend-core';
 import { PrismaService } from '@devloggers/db-prisma/nest';
+import { toLocalizedString } from '@/common/i18n/localized-string';
 import { TenantSettingsRepository } from '../repositories/tenant-settings.repository';
 import type { FormDefaultsResponseDto } from '../dto/settings.dto';
 
@@ -115,24 +116,24 @@ export class SettingsService {
         const accountById = new Map(accountRows.map((row) => [row.id, row]));
 
         const currency = currencyRow
-            ? { id: currencyRow.id, code: currencyRow.code, name: this.locale.resolve(currencyRow.name as never) }
+            ? { id: currencyRow.id, code: currencyRow.code, name: this.locale.resolve(toLocalizedString(currencyRow.name)) }
             : null;
 
         const cashbox = cashboxRow
-            ? { id: cashboxRow.id, code: cashboxRow.code, name: this.locale.resolve(cashboxRow.name as never) }
+            ? { id: cashboxRow.id, code: cashboxRow.code, name: this.locale.resolve(toLocalizedString(cashboxRow.name)) }
             : null;
 
         const warehouse = warehouseRow
-            ? { id: warehouseRow.id, code: warehouseRow.code, name: this.locale.resolve(warehouseRow.name as never) }
+            ? { id: warehouseRow.id, code: warehouseRow.code, name: this.locale.resolve(toLocalizedString(warehouseRow.name)) }
             : null;
 
         const unit = unitRow
-            ? { id: unitRow.id, name: this.locale.resolve(unitRow.name as never), abbreviation: unitRow.abbreviation }
+            ? { id: unitRow.id, name: this.locale.resolve(toLocalizedString(unitRow.name)), abbreviation: unitRow.abbreviation }
             : null;
 
         const toAccountDefault = (id: string | null | undefined) => {
             const row = id ? accountById.get(id) : undefined;
-            return row ? { id: row.id, code: row.code, name: this.locale.resolve(row.name as never) } : null;
+            return row ? { id: row.id, code: row.code, name: this.locale.resolve(toLocalizedString(row.name)) } : null;
         };
         const receivableAccount = toAccountDefault(financialSetting?.defaultReceivableAccountId);
         const payableAccount = toAccountDefault(financialSetting?.defaultPayableAccountId);

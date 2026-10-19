@@ -1,15 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import type { Prisma } from '@devloggers/db-prisma';
+import { toLocalizedString } from '@/common/i18n/localized-string';
 import { StockMovementResponseDto } from '../dto/stock-ledger.dto';
 import type { StockMovementWithRelations } from '../repositories/stock-ledger.repository';
 
 function resolveName(name: Prisma.JsonValue | string | null | undefined): string | null {
     if (!name) return null;
     if (typeof name === 'string') return name;
-    if (typeof name === 'object' && !Array.isArray(name)) {
-        return ((name as any).en as string) || ((name as any).ar as string) || null;
-    }
-    return null;
+    const localized = toLocalizedString(name);
+    return localized?.en || localized?.ar || null;
 }
 
 @Injectable()

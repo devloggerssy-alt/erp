@@ -1,14 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import type { Prisma } from '@devloggers/db-prisma';
+import { toLocalizedString } from '@/common/i18n/localized-string';
 import { BalanceResponseDto } from '../dto/inventory.dto';
 import type { StockBalanceWithRelations } from '../repositories/inventory.repository';
 
 function resolveName(name: Prisma.JsonValue | string): string {
     if (typeof name === 'string') return name;
-    if (name && typeof name === 'object' && !Array.isArray(name)) {
-        return ((name as any).en as string) || ((name as any).ar as string) || '';
-    }
-    return '';
+    const localized = toLocalizedString(name);
+    return localized?.en || localized?.ar || '';
 }
 
 @Injectable()

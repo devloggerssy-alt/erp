@@ -3,12 +3,13 @@ import { LocaleResolverService } from '@devloggers/backend-core';
 import { ReportsController } from './reports.controller';
 import { DashboardController } from './dashboard.controller';
 import { ReportsService } from './reports.service';
+import { ReportsRepository } from './repositories/reports.repository';
 import { ReportsPresenter } from './presenters/reports.presenter';
 import { ReportsAiTools } from './reports.ai-tools';
 
 @Module({
     controllers: [ReportsController, DashboardController],
-    providers: [ReportsService, ReportsPresenter, LocaleResolverService, ReportsAiTools],
+    providers: [ReportsService, ReportsRepository, ReportsPresenter, LocaleResolverService, ReportsAiTools],
     exports: [ReportsService],
 })
 export class ReportsModule {}

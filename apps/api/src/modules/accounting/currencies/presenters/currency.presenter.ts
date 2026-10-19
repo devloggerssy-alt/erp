@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CrudPresenter, LocaleResolverService } from '@devloggers/backend-core';
 import type { Currency } from '@devloggers/db-prisma';
-import type { LocalizedString } from '@devloggers/api-contracts';
+import { toLocalizedString } from '@/common/i18n/localized-string';
 import { CurrencyResponseDto } from '../dto';
 
 @Injectable()
@@ -11,15 +11,15 @@ export class CurrencyPresenter extends CrudPresenter<Currency, CurrencyResponseD
     }
 
     toResponse(entity: Currency): CurrencyResponseDto {
-        const name = entity.name as unknown as LocalizedString;
-        const symbol = entity.symbol as unknown as LocalizedString | null;
+        const name = toLocalizedString(entity.name) ?? { ar: '' };
+        const symbol = toLocalizedString(entity.symbol);
         return {
             id: entity.id,
             code: entity.code,
             name: this.locale.resolve(name),
             nameI18n: name,
             symbol: symbol ? this.locale.resolve(symbol) : null,
-            symbolI18n: symbol,
+            symbolI18n: symbol ?? null,
             isBase: entity.isBase,
             isActive: entity.isActive,
             createdAt: entity.createdAt.toISOString(),
