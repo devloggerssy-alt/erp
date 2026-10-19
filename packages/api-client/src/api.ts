@@ -3,6 +3,7 @@ import { UnitsClient } from "./clients/units.client"
 import { ApiClient, type ApiClientOptions } from "./infra/client"
 import { CategoriesClient } from "./clients/categories.client"
 import { WarehousesClient } from "./clients/warehouses.client"
+import { BranchesClient } from "./clients/branches.client"
 import { PartiesClient } from "./clients/parties.client"
 import { AccountsClient } from "./clients/account.client"
 import { CurrenciesClient } from "./clients/currencies.client"
@@ -33,7 +34,7 @@ import { InventoryOpeningBalancesClient } from "./clients/inventory-opening-bala
 import { OpeningBalanceSessionsClient } from "./clients/opening-balance-sessions.client"
 import { BusinessSetupClient } from "./clients/business-setup.client"
 import { AiAgentClient } from "./clients/ai-agent.client"
-import { authResource, itemCategoryResource, itemResource, unitResource, warehouseResource, partyResource, accountResource, currencyResource, fiscalPeriodResource, documentSequenceResource, roleResource, userResource, tenantResource, invoiceTypeResource, invoiceResource, customFieldResource, expenseResource, paymentResource, tagResource, tagAssignmentResource, itemRelationResource, catalogEntityResource, itemCatalogEntityResource, brandResource, inventoryResource, stockLedgerResource, stockCountResource, cashboxResource, bankAccountResource, financialSettingResource, reportResource, openingBalanceSessionResource, businessSetupResource, aiResource, posResource } from "@devloggers/api-contracts"
+import { authResource, itemCategoryResource, itemResource, unitResource, warehouseResource, partyResource, accountResource, currencyResource, fiscalPeriodResource, documentSequenceResource, roleResource, userResource, tenantResource, invoiceTypeResource, invoiceResource, customFieldResource, expenseResource, paymentResource, tagResource, tagAssignmentResource, itemRelationResource, catalogEntityResource, itemCatalogEntityResource, brandResource, inventoryResource, stockLedgerResource, stockCountResource, cashboxResource, bankAccountResource, financialSettingResource, reportResource, openingBalanceSessionResource, businessSetupResource, aiResource, posResource, branchResource } from "@devloggers/api-contracts"
 import { CustomFieldsClient } from "./clients/custom-fields.client"
 import { DashboardClient } from "./clients/dashboard.client"
 import { OnboardingClient } from "./clients/onboarding.client"
@@ -49,6 +50,7 @@ export function createApi(options?: ApiClientOptions, baseUrl = 'http://localhos
         [itemResource.key]: new ItemsClient(client),
         [customFieldResource.key]: new CustomFieldsClient(client),
         [warehouseResource.key]: new WarehousesClient(client),
+        [branchResource.key]: new BranchesClient(client),
         [partyResource.key]: new PartiesClient(client),
         [accountResource.key]: new AccountsClient(client),
         [currencyResource.key]: new CurrenciesClient(client),

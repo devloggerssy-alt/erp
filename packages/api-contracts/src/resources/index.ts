@@ -14,6 +14,7 @@ import { itemResource } from './item.resource'
 import { customFieldResource } from './custom-field.resource'
 import { partyResource } from './party.resource'
 import { warehouseResource } from './warehouse.resource'
+import { branchResource } from './branch.resource'
 import { inventoryResource } from './inventory.resource'
 import { stockLedgerResource } from './stock-ledger.resource'
 import { invoiceTypeResource } from './invoice-type.resource'
@@ -53,6 +54,7 @@ export * from './item.resource'
 export * from './custom-field.resource'
 export * from './party.resource'
 export * from './warehouse.resource'
+export * from './branch.resource'
 export * from './inventory.resource'
 export * from './stock-ledger.resource'
 export * from './invoice-type.resource'
@@ -95,6 +97,7 @@ export const resources = {
   customFields: customFieldResource,
   parties: partyResource,
   warehouses: warehouseResource,
+  branches: branchResource,
   inventory: inventoryResource,
   stockLedger: stockLedgerResource,
   invoiceTypes: invoiceTypeResource,

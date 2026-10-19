@@ -41,6 +41,7 @@
       "itemCatalogEntities": "Ürün katalog varlıkları",
       "brands": "Markalar",
       "warehouses": "Depolar",
+      "branches": "Şubeler",
       "inventory": "Stok bakiyeleri",
       "stockLedger": "Stok hareketleri",
       "stockCounts": "Stok sayımları",
@@ -133,6 +134,7 @@
     "saveFailed": "Kaydetme başarısız",
     "groups": {
       "company": "Şirket",
+      "structure": "İş yapısı",
       "preferences": "Tercihler",
       "access": "Erişim kontrolü",
       "systemData": "Sistem verileri",
@@ -151,6 +153,9 @@
     },
     "documentSequences": {
       "navLabel": "Belge sıraları"
+    },
+    "branches": {
+      "navLabel": "Şubeler"
     },
     "profile": {
       "navLabel": "Şirket profili",
@@ -466,7 +471,31 @@
       "namePlaceholder": "örn. Ana Depo",
       "address": "Adres",
       "addressPlaceholder": "Depo konumu",
+      "branches": "Şubeler",
+      "branchesPlaceholder": "Şube seçin...",
+      "branchesDescription": "En az bir şube gereklidir. Bir depo birden fazla şubeye hizmet edebilir.",
       "active": "Aktif"
+    },
+    "branches": {
+      "title": "Şubeler",
+      "addAction": "Şube Ekle",
+      "entity": "Şube",
+      "code": "Kod",
+      "codePlaceholder": "örn. MAIN",
+      "codeAuto": "Otomatik (örn. BR-0001)",
+      "name": "Ad",
+      "namePlaceholderAr": "مثال: الفرع الرئيسي",
+      "namePlaceholderEn": "örn. Ana Şube",
+      "address": "Adres",
+      "addressPlaceholder": "Şube konumu",
+      "phone": "Telefon",
+      "phonePlaceholder": "örn. +90-212-1234567",
+      "email": "E-posta",
+      "emailPlaceholder": "örn. main@acme.com",
+      "active": "Aktif",
+      "warehouses": "Bağlı depolar",
+      "noWarehouses": "Bu şubeye henüz bağlı depo yok.",
+      "warehousesHint": "Depolar depo formundan atanır."
     },
     "customers": {
       "title": "Müşteriler",

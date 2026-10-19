@@ -3,6 +3,17 @@ import { PrismaService } from '@devloggers/db-prisma/nest';
 import { CrudRepository } from '@devloggers/backend-core';
 import type { Prisma, Warehouse } from '@devloggers/db-prisma';
 
+const WAREHOUSE_DETAIL_INCLUDE = {
+    branches: {
+        include: { branch: { select: { id: true, code: true, name: true } } },
+        orderBy: { createdAt: 'asc' },
+    },
+} satisfies Prisma.WarehouseInclude;
+
+export type WarehouseWithBranches = Prisma.WarehouseGetPayload<{
+    include: typeof WAREHOUSE_DETAIL_INCLUDE;
+}>;
+
 @Injectable()
 export class WarehousesRepository extends CrudRepository<Warehouse, Prisma.WarehouseDelegate> {
     constructor(private readonly prisma: PrismaService) {
@@ -18,5 +29,12 @@ export class WarehousesRepository extends CrudRepository<Warehouse, Prisma.Wareh
             },
         });
         return count > 0;
+    }
+
+    async findByIdWithBranches(tenantId: string, id: string): Promise<WarehouseWithBranches | null> {
+        return this.prisma.warehouse.findFirst({
+            where: { id, tenantId },
+            include: WAREHOUSE_DETAIL_INCLUDE,
+        });
     }
 }

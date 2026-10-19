@@ -246,6 +246,27 @@ exports.Prisma.BankAccountScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.BranchScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  code: 'code',
+  name: 'name',
+  address: 'address',
+  phone: 'phone',
+  email: 'email',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.BranchWarehouseScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  branchId: 'branchId',
+  warehouseId: 'warehouseId',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.BrandScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
@@ -262,6 +283,7 @@ exports.Prisma.CashboxScalarFieldEnum = {
   code: 'code',
   name: 'name',
   currencyId: 'currencyId',
+  branchId: 'branchId',
   balance: 'balance',
   isActive: 'isActive',
   createdAt: 'createdAt',
@@ -366,6 +388,7 @@ exports.Prisma.DocumentSequenceScalarFieldEnum = {
   prefix: 'prefix',
   nextNumber: 'nextNumber',
   padding: 'padding',
+  branchId: 'branchId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -1047,6 +1070,8 @@ exports.Prisma.ModelName = {
   AiCheckpointWrite: 'AiCheckpointWrite',
   AuditLog: 'AuditLog',
   BankAccount: 'BankAccount',
+  Branch: 'Branch',
+  BranchWarehouse: 'BranchWarehouse',
   Brand: 'Brand',
   Cashbox: 'Cashbox',
   Payment: 'Payment',

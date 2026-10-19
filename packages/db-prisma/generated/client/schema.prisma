@@ -281,6 +281,52 @@ model BankAccount {
   @@map("bank_accounts")
 }
 
+// ─── Branch ───────────────────────────────────────────────────────────────────
+/// Operational division of a Tenant ("Business Location" in the UI). Carries an
+/// operational identity only — no legal name or tax registration; the Tenant is
+/// the legal entity. See docs/adr/0005 and docs/adr/0007.
+model Branch {
+  id        String   @id @default(uuid())
+  tenantId  String   @map("tenant_id")
+  code      String
+  name      Json     @db.JsonB // LocalizedString: { ar: string; en?: string }
+  address   String?
+  phone     String?
+  email     String?
+  isActive  Boolean  @default(true) @map("is_active")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  tenant            Tenant             @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  warehouses        BranchWarehouse[]
+  cashboxes         Cashbox[]
+  documentSequences DocumentSequence[]
+
+  @@unique([tenantId, code])
+  @@index([tenantId])
+  @@map("branches")
+}
+
+// ─── Branch ⇄ Warehouse ───────────────────────────────────────────────────────
+/// Many-to-many: a warehouse must belong to at least one branch; a branch may
+/// have zero warehouses. Enforced at the API boundary, not by the schema.
+model BranchWarehouse {
+  id          String   @id @default(uuid())
+  tenantId    String   @map("tenant_id")
+  branchId    String   @map("branch_id")
+  warehouseId String   @map("warehouse_id")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  tenant    Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  branch    Branch    @relation(fields: [branchId], references: [id], onDelete: Cascade)
+  warehouse Warehouse @relation(fields: [warehouseId], references: [id], onDelete: Cascade)
+
+  @@unique([branchId, warehouseId])
+  @@index([tenantId])
+  @@index([warehouseId])
+  @@map("branch_warehouses")
+}
+
 // ─── Brand ────────────────────────────────────────────────────────────────────
 model Brand {
   id        String   @id @default(uuid())
@@ -320,6 +366,9 @@ model Cashbox {
   code       String
   name       Json     @db.JsonB // LocalizedString: { ar: string; en?: string }
   currencyId String   @map("currency_id")
+  /// Nullable in the database; required at the API boundary (Phase 1.1 backfill
+  /// safety). See docs/adr/0007.
+  branchId   String?  @map("branch_id")
   balance    Decimal  @default(0) @db.Decimal(18, 4)
   isActive   Boolean  @default(true) @map("is_active")
   createdAt  DateTime @default(now()) @map("created_at")
@@ -327,6 +376,7 @@ model Cashbox {
 
   tenant                     Tenant                      @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   currency                   Currency                    @relation(fields: [currencyId], references: [id])
+  branch                     Branch?                     @relation(fields: [branchId], references: [id], onDelete: Restrict)
   expenses                   Expense[]
   payments                   Payment[]
   journalLines               JournalLine[]
@@ -519,10 +569,14 @@ model DocumentSequence {
   prefix       String // e.g. "PUR", "SAL", "PAY"
   nextNumber   Int      @default(1) @map("next_number")
   padding      Int      @default(5) // zero-pad length, e.g. 5 → 00001
+  /// Optional branch reference — the deliberate seam for future per-branch
+  /// numbering (docs/adr/0008). Numbering stays tenant-level in Phase 1.1.
+  branchId     String?  @map("branch_id")
   createdAt    DateTime @default(now()) @map("created_at")
   updatedAt    DateTime @updatedAt @map("updated_at")
 
   tenant                 Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  branch                 Branch?  @relation(fields: [branchId], references: [id], onDelete: Restrict)
   defaultSalesForTenants Tenant[] @relation("TenantDefaultSalesSequence")
 
   @@unique([tenantId, documentType])
@@ -1391,6 +1445,8 @@ model Tenant {
   units                      Unit[]
   items                      Item[]
   parties                    Party[]
+  branches                   Branch[]
+  branchWarehouses           BranchWarehouse[]
   warehouses                 Warehouse[]
   cashboxes                  Cashbox[]
   bankAccounts               BankAccount[]
@@ -1507,7 +1563,8 @@ model Warehouse {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  tenant         Tenant          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  tenant         Tenant            @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  branches       BranchWarehouse[]
   warehouseItems WarehouseItem[]
   stockBalances  StockBalance[]
   stockMovements StockMovement[]

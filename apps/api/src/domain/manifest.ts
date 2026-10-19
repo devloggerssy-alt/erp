@@ -122,7 +122,7 @@ export const DOMAIN_MANIFESTS: readonly DomainManifest[] = Object.freeze([
     },
     {
         key: 'identity',
-        dependsOn: ['accounting', 'catalog', 'invoicing'],
+        dependsOn: ['accounting', 'catalog', 'invoicing', 'platform'],
         provides: ['JwtAuthGuard', 'CurrentUser'],
         routes: ['auth', 'users', 'tenants', 'roles', 'onboarding', 'business-setup', 'settings', 'settings/danger'],
         optional: false,
@@ -179,12 +179,12 @@ export const DOMAIN_MANIFESTS: readonly DomainManifest[] = Object.freeze([
     {
         key: 'platform',
         dependsOn: [],
-        provides: ['CodeSequencesModule', 'CodeSequencesService'],
-        routes: [],
+        provides: ['CodeSequencesModule', 'CodeSequencesService', 'BranchesModule', 'BranchesService'],
+        routes: ['branches'],
         optional: false,
         rationale:
-            'Master-data code allocation is shared infrastructure: inventory, catalog and invoicing mint ' +
-            'warehouse/item/cashbox/bank-account codes through it, so it cannot be disabled while they run.',
+            'Master-data code allocation and tenant-structure (branches) are shared infrastructure: inventory, catalog and invoicing mint ' +
+            'warehouse/item/cashbox/bank-account codes through it, warehouses link to branches, and onboarding seeds a default branch, so it cannot be disabled while they run.',
     },
     {
         key: 'reports',

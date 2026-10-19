@@ -1,4 +1,12 @@
-import { IsString, IsOptional, IsBoolean, ValidateNested } from 'class-validator';
+import {
+    ArrayMinSize,
+    ArrayUnique,
+    IsArray,
+    IsBoolean,
+    IsOptional,
+    IsString,
+    ValidateNested,
+} from 'class-validator';
 import { Type } from 'class-transformer';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { LocalizedStringDto } from '@devloggers/backend-core';
@@ -18,6 +26,17 @@ export class CreateWarehouseDto {
     @IsOptional()
     @IsString()
     address?: string;
+
+    @ApiProperty({
+        type: [String],
+        example: ['00000000-0000-4000-e100-000000000001'],
+        description: 'Branches this warehouse serves — at least one is required',
+    })
+    @IsArray()
+    @ArrayMinSize(1)
+    @ArrayUnique()
+    @IsString({ each: true })
+    branchIds: string[] = [];
 }
 
 export class UpdateWarehouseDto {
@@ -36,6 +55,29 @@ export class UpdateWarehouseDto {
     @IsOptional()
     @IsBoolean()
     isActive?: boolean;
+
+    @ApiPropertyOptional({
+        type: [String],
+        example: ['00000000-0000-4000-e100-000000000001'],
+        description: 'Replaces the branches this warehouse serves — at least one is required when provided',
+    })
+    @IsOptional()
+    @IsArray()
+    @ArrayMinSize(1)
+    @ArrayUnique()
+    @IsString({ each: true })
+    branchIds?: string[];
+}
+
+export class WarehouseBranchRefDto {
+    @ApiProperty({ example: '00000000-0000-4000-e100-000000000001' })
+    id: string = '';
+
+    @ApiProperty({ example: 'MAIN' })
+    code: string = '';
+
+    @ApiProperty({ example: 'Main Branch' })
+    name: string = '';
 }
 
 export class WarehouseResponseDto {
@@ -56,6 +98,9 @@ export class WarehouseResponseDto {
 
     @ApiProperty({ example: true })
     isActive: boolean = true;
+
+    @ApiProperty({ type: () => WarehouseBranchRefDto, isArray: true })
+    branches: WarehouseBranchRefDto[] = [];
 
     @ApiProperty({ example: '2025-01-01T00:00:00.000Z' })
     createdAt: string = '';

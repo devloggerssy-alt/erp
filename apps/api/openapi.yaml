@@ -10158,6 +10158,785 @@ paths:
       summary: Delete a warehouse
       tags:
         - Inventory / Warehouses
+  /branches:
+    get:
+      description: >-
+        Returns a paginated, filterable list of business locations belonging to
+        the authenticated tenant.
+      operationId: Branches.list
+      parameters:
+        - name: page
+          required: false
+          in: query
+          description: Page number (1-based)
+          schema:
+            default: 1
+            example: 1
+            type: number
+        - name: limit
+          required: false
+          in: query
+          description: Number of items per page
+          schema:
+            default: 10
+            example: 10
+            type: number
+        - name: sortField
+          required: false
+          in: query
+          description: Field name to sort by
+          schema:
+            example: createdAt
+            type: string
+        - name: sortOrder
+          required: false
+          in: query
+          schema:
+            default: asc
+            example: asc
+            type: string
+            enum:
+              - asc
+              - desc
+        - name: search
+          required: false
+          in: query
+          description: Full-text search keyword
+          schema:
+            example: ''
+            type: string
+        - name: searchIn
+          required: false
+          in: query
+          description: Comma-separated field names to search within (e.g. name,symbol)
+          schema:
+            example: ''
+            type: string
+        - name: filters
+          required: false
+          in: query
+          style: deepObject
+          explode: true
+          description: >-
+            Structured filters. Example:
+            filters[code][$like]=sample-code&filters[name][$like]=sample-name&filters[address][$like]=sample-address&filters[phone][$like]=sample-phone&filters[email][$like]=sample-email&filters[isActive][$eq]=true
+          schema:
+            type: object
+            properties:
+              code:
+                type: object
+                description: Filter on `code` (string)
+                properties:
+                  $eq:
+                    type: string
+                  $like:
+                    type: string
+                    example: sample-code
+                  $in:
+                    type: array
+                    items:
+                      type: string
+                  $isNull:
+                    type: boolean
+                    enum:
+                      - true
+                example:
+                  $like: sample-code
+              name:
+                type: object
+                description: Filter on `name` (string)
+                properties:
+                  $eq:
+                    type: string
+                  $like:
+                    type: string
+                    example: sample-name
+                example:
+                  $like: sample-name
+              address:
+                type: object
+                description: Filter on `address` (string)
+                properties:
+                  $eq:
+                    type: string
+                  $like:
+                    type: string
+                    example: sample-address
+                  $in:
+                    type: array
+                    items:
+                      type: string
+                  $isNull:
+                    type: boolean
+                    enum:
+                      - true
+                example:
+                  $like: sample-address
+              phone:
+                type: object
+                description: Filter on `phone` (string)
+                properties:
+                  $eq:
+                    type: string
+                  $like:
+                    type: string
+                    example: sample-phone
+                  $in:
+                    type: array
+                    items:
+                      type: string
+                  $isNull:
+                    type: boolean
+                    enum:
+                      - true
+                example:
+                  $like: sample-phone
+              email:
+                type: object
+                description: Filter on `email` (string)
+                properties:
+                  $eq:
+                    type: string
+                  $like:
+                    type: string
+                    example: sample-email
+                  $in:
+                    type: array
+                    items:
+                      type: string
+                  $isNull:
+                    type: boolean
+                    enum:
+                      - true
+                example:
+                  $like: sample-email
+              isActive:
+                type: object
+                description: Filter on `isActive` (boolean)
+                properties:
+                  $eq:
+                    type: boolean
+                    example: true
+                  $isNull:
+                    type: boolean
+                    enum:
+                      - true
+                example:
+                  $eq: true
+            example:
+              code:
+                $like: sample-code
+              name:
+                $like: sample-name
+              address:
+                $like: sample-address
+              phone:
+                $like: sample-phone
+              email:
+                $like: sample-email
+              isActive:
+                $eq: true
+      responses:
+        '200':
+          description: Paginated list of branches
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiSuccessResponseDto'
+                  - properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/BranchResponseDto'
+                      meta:
+                        type: object
+                        properties:
+                          pagination:
+                            type: object
+                            properties:
+                              total:
+                                type: number
+                                example: 0
+                              page:
+                                type: number
+                                example: 1
+                              limit:
+                                type: number
+                                example: 10
+                              totalPages:
+                                type: number
+                                example: 0
+                          filterOptions:
+                            type: array
+                            example:
+                              - field: code
+                                type: string
+                                operators:
+                                  - $eq
+                                  - $like
+                                  - $in
+                                  - $isNull
+                              - field: name
+                                type: string
+                                localized: true
+                                operators:
+                                  - $eq
+                                  - $like
+                              - field: address
+                                type: string
+                                operators:
+                                  - $eq
+                                  - $like
+                                  - $in
+                                  - $isNull
+                              - field: phone
+                                type: string
+                                operators:
+                                  - $eq
+                                  - $like
+                                  - $in
+                                  - $isNull
+                              - field: email
+                                type: string
+                                operators:
+                                  - $eq
+                                  - $like
+                                  - $in
+                                  - $isNull
+                              - field: isActive
+                                type: boolean
+                                operators:
+                                  - $eq
+                                  - $isNull
+        '401':
+          description: JWT token is missing, expired, or invalid
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Unauthorized
+                  data: null
+                  error:
+                    code: UNAUTHORIZED
+                    message: JWT token is missing, expired, or invalid
+        '403':
+          description: Insufficient permissions to perform this action
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Forbidden
+                  data: null
+                  error:
+                    code: FORBIDDEN
+                    message: Insufficient permissions to perform this action
+        '404':
+          description: The requested resource was not found
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Not found
+                  data: null
+                  error:
+                    code: NOT_FOUND
+                    message: The requested resource was not found
+        '422':
+          description: Request body validation failed
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Validation failed
+                  data: null
+                  error:
+                    code: VALIDATION_ERROR
+                    message: Validation failed
+                    details:
+                      - field: email
+                        message: email must be a valid email address
+                        code: isEmail
+        '500':
+          description: An unexpected internal server error occurred
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Internal server error
+                  data: null
+                  error:
+                    code: INTERNAL_ERROR
+                    message: Internal server error
+      security:
+        - JWT-auth: []
+      summary: List branches
+      tags:
+        - Platform / Branches
+    post:
+      description: >-
+        Creates a business location. The code is minted automatically when left
+        blank and must be unique within the tenant.
+      operationId: Branches.create
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateBranchDto'
+      responses:
+        '201':
+          description: Branch created successfully
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiSuccessResponseDto'
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/BranchResponseDto'
+        '401':
+          description: JWT token is missing, expired, or invalid
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Unauthorized
+                  data: null
+                  error:
+                    code: UNAUTHORIZED
+                    message: JWT token is missing, expired, or invalid
+        '403':
+          description: Insufficient permissions to perform this action
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Forbidden
+                  data: null
+                  error:
+                    code: FORBIDDEN
+                    message: Insufficient permissions to perform this action
+        '404':
+          description: The requested resource was not found
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Not found
+                  data: null
+                  error:
+                    code: NOT_FOUND
+                    message: The requested resource was not found
+        '422':
+          description: Request body validation failed
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Validation failed
+                  data: null
+                  error:
+                    code: VALIDATION_ERROR
+                    message: Validation failed
+                    details:
+                      - field: email
+                        message: email must be a valid email address
+                        code: isEmail
+        '500':
+          description: An unexpected internal server error occurred
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Internal server error
+                  data: null
+                  error:
+                    code: INTERNAL_ERROR
+                    message: Internal server error
+      security:
+        - JWT-auth: []
+      summary: Create a branch
+      tags:
+        - Platform / Branches
+    delete:
+      operationId: Branches.bulkDelete
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BulkDeleteBodyDto'
+      responses:
+        '200':
+          description: Bulk delete result ({ total, succeeded, failed, errors })
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BulkResultResponseDto'
+      security:
+        - JWT-auth: []
+      summary: Bulk delete by ids
+      tags:
+        - Platform / Branches
+    patch:
+      operationId: Branches.bulkUpdate
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BulkUpdateBody'
+      responses:
+        '200':
+          description: Bulk partial-update result ({ total, succeeded, failed, errors })
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BulkResultResponseDto'
+      security:
+        - JWT-auth: []
+      summary: Bulk partial update
+      tags:
+        - Platform / Branches
+  /branches/{id}:
+    get:
+      operationId: Branches.show
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: Branch UUID
+          schema:
+            example: 018e1234-abcd-7000-a001-000000000001
+            type: string
+      responses:
+        '200':
+          description: Branch details including its linked warehouses
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiSuccessResponseDto'
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/BranchResponseDto'
+        '401':
+          description: JWT token is missing, expired, or invalid
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Unauthorized
+                  data: null
+                  error:
+                    code: UNAUTHORIZED
+                    message: JWT token is missing, expired, or invalid
+        '403':
+          description: Insufficient permissions to perform this action
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Forbidden
+                  data: null
+                  error:
+                    code: FORBIDDEN
+                    message: Insufficient permissions to perform this action
+        '404':
+          description: The requested resource was not found
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Not found
+                  data: null
+                  error:
+                    code: NOT_FOUND
+                    message: The requested resource was not found
+        '422':
+          description: Request body validation failed
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Validation failed
+                  data: null
+                  error:
+                    code: VALIDATION_ERROR
+                    message: Validation failed
+                    details:
+                      - field: email
+                        message: email must be a valid email address
+                        code: isEmail
+        '500':
+          description: An unexpected internal server error occurred
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Internal server error
+                  data: null
+                  error:
+                    code: INTERNAL_ERROR
+                    message: Internal server error
+      security:
+        - JWT-auth: []
+      summary: Get a branch by ID
+      tags:
+        - Platform / Branches
+    patch:
+      description: >-
+        Partial update — only provided fields are changed. Removing the last
+        branch from a warehouse is refused.
+      operationId: Branches.update
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: Branch UUID
+          schema:
+            example: 018e1234-abcd-7000-a001-000000000001
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateBranchDto'
+      responses:
+        '200':
+          description: Updated branch
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiSuccessResponseDto'
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/BranchResponseDto'
+        '401':
+          description: JWT token is missing, expired, or invalid
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Unauthorized
+                  data: null
+                  error:
+                    code: UNAUTHORIZED
+                    message: JWT token is missing, expired, or invalid
+        '403':
+          description: Insufficient permissions to perform this action
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Forbidden
+                  data: null
+                  error:
+                    code: FORBIDDEN
+                    message: Insufficient permissions to perform this action
+        '404':
+          description: The requested resource was not found
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Not found
+                  data: null
+                  error:
+                    code: NOT_FOUND
+                    message: The requested resource was not found
+        '422':
+          description: Request body validation failed
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Validation failed
+                  data: null
+                  error:
+                    code: VALIDATION_ERROR
+                    message: Validation failed
+                    details:
+                      - field: email
+                        message: email must be a valid email address
+                        code: isEmail
+        '500':
+          description: An unexpected internal server error occurred
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Internal server error
+                  data: null
+                  error:
+                    code: INTERNAL_ERROR
+                    message: Internal server error
+      security:
+        - JWT-auth: []
+      summary: Update a branch
+      tags:
+        - Platform / Branches
+    delete:
+      description: >-
+        Hard-deletes a branch with no references. Warehouses, cashboxes or
+        documents that refer to it refuse the delete — deactivate instead.
+      operationId: Branches.delete
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: Branch UUID
+          schema:
+            example: 018e1234-abcd-7000-a001-000000000001
+            type: string
+      responses:
+        '204':
+          description: Branch deleted successfully
+        '401':
+          description: JWT token is missing, expired, or invalid
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Unauthorized
+                  data: null
+                  error:
+                    code: UNAUTHORIZED
+                    message: JWT token is missing, expired, or invalid
+        '403':
+          description: Insufficient permissions to perform this action
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Forbidden
+                  data: null
+                  error:
+                    code: FORBIDDEN
+                    message: Insufficient permissions to perform this action
+        '404':
+          description: The requested resource was not found
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Not found
+                  data: null
+                  error:
+                    code: NOT_FOUND
+                    message: The requested resource was not found
+        '422':
+          description: Request body validation failed
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Validation failed
+                  data: null
+                  error:
+                    code: VALIDATION_ERROR
+                    message: Validation failed
+                    details:
+                      - field: email
+                        message: email must be a valid email address
+                        code: isEmail
+        '500':
+          description: An unexpected internal server error occurred
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiErrorResponseDto'
+                example:
+                  status: error
+                  message: Internal server error
+                  data: null
+                  error:
+                    code: INTERNAL_ERROR
+                    message: Internal server error
+      security:
+        - JWT-auth: []
+      summary: Delete a branch
+      tags:
+        - Platform / Branches
   /tags:
     get:
       description: Returns a paginated list of tags for the tenant, filterable by module.
@@ -25558,7 +26337,7 @@ components:
         foreignResourceKey:
           type: string
           example: >-
-            auth|tenants|users|roles|currencies|fiscal-periods|document-sequences|units|item-categories|items|custom-fields|parties|warehouses|inventory|stock-ledger|invoice-types|invoices|cashboxes|payments|expenses|accounting|chart-of-accounts|stock-counts|reports|dashboard|ai|audit-logs|tags|tag-assignments|item-relations|catalog-entities|item-catalog-entities|brands|bank-accounts|financial-settings|opening-balance-sessions|business-setup|pos
+            auth|tenants|users|roles|currencies|fiscal-periods|document-sequences|units|item-categories|items|custom-fields|parties|warehouses|branches|inventory|stock-ledger|invoice-types|invoices|cashboxes|payments|expenses|accounting|chart-of-accounts|stock-counts|reports|dashboard|ai|audit-logs|tags|tag-assignments|item-relations|catalog-entities|item-catalog-entities|brands|bank-accounts|financial-settings|opening-balance-sessions|business-setup|pos
       required:
         - field
         - type
@@ -28535,6 +29314,25 @@ components:
         - warehouseId
         - fiscalPeriodId
         - items
+    WarehouseBranchRefDto:
+      type: object
+      properties:
+        id:
+          type: string
+          default: ''
+          example: 00000000-0000-4000-e100-000000000001
+        code:
+          type: string
+          default: ''
+          example: MAIN
+        name:
+          type: string
+          default: ''
+          example: Main Branch
+      required:
+        - id
+        - code
+        - name
     WarehouseResponseDto:
       type: object
       properties:
@@ -28564,6 +29362,11 @@ components:
           type: boolean
           default: true
           example: true
+        branches:
+          default: []
+          type: array
+          items:
+            $ref: '#/components/schemas/WarehouseBranchRefDto'
         createdAt:
           type: string
           default: ''
@@ -28579,6 +29382,7 @@ components:
         - nameI18n
         - address
         - isActive
+        - branches
         - createdAt
         - updatedAt
     CreateWarehouseDto:
@@ -28597,8 +29401,19 @@ components:
         address:
           type: string
           example: Damascus Industrial Zone
+        branchIds:
+          default: []
+          uniqueItems: true
+          minItems: 1
+          example:
+            - 00000000-0000-4000-e100-000000000001
+          description: Branches this warehouse serves — at least one is required
+          type: array
+          items:
+            type: string
       required:
         - name
+        - branchIds
     UpdateWarehouseDto:
       type: object
       properties:
@@ -28611,6 +29426,172 @@ components:
         isActive:
           type: boolean
           example: true
+        branchIds:
+          uniqueItems: true
+          minItems: 1
+          example:
+            - 00000000-0000-4000-e100-000000000001
+          description: >-
+            Replaces the branches this warehouse serves — at least one is
+            required when provided
+          type: array
+          items:
+            type: string
+    BranchWarehouseRefDto:
+      type: object
+      properties:
+        id:
+          type: string
+          default: ''
+          example: 00000000-0000-4000-c100-000000000001
+        code:
+          type: string
+          default: ''
+          example: WH-MAIN
+        name:
+          type: string
+          default: ''
+          example: Main Warehouse
+      required:
+        - id
+        - code
+        - name
+    BranchResponseDto:
+      type: object
+      properties:
+        id:
+          type: string
+          default: ''
+          example: 00000000-0000-4000-e100-000000000001
+        code:
+          type: string
+          default: ''
+          example: MAIN
+        name:
+          type: string
+          default: ''
+          example: Main Branch
+        nameI18n:
+          default:
+            ar: ''
+          allOf:
+            - $ref: '#/components/schemas/LocalizedStringDto'
+        address:
+          type: string
+          nullable: true
+          default: null
+          example: Damascus, Syria
+        phone:
+          type: string
+          nullable: true
+          default: null
+          example: +963-11-1234567
+        email:
+          type: string
+          nullable: true
+          default: null
+          example: main@acme.com
+        isActive:
+          type: boolean
+          default: true
+          example: true
+        warehouses:
+          default: []
+          type: array
+          items:
+            $ref: '#/components/schemas/BranchWarehouseRefDto'
+        createdAt:
+          type: string
+          default: ''
+          example: '2025-01-01T00:00:00.000Z'
+        updatedAt:
+          type: string
+          default: ''
+          example: '2025-01-01T00:00:00.000Z'
+      required:
+        - id
+        - code
+        - name
+        - nameI18n
+        - address
+        - phone
+        - email
+        - isActive
+        - warehouses
+        - createdAt
+        - updatedAt
+    CreateBranchDto:
+      type: object
+      properties:
+        code:
+          type: string
+          example: MAIN
+          description: >-
+            Unique branch code within the tenant; auto-generated (BR-0001) when
+            omitted
+        name:
+          default:
+            ar: ''
+          description: Branch display name
+          allOf:
+            - $ref: '#/components/schemas/LocalizedStringDto'
+        address:
+          type: string
+          nullable: true
+          example: Damascus, Syria
+        phone:
+          type: string
+          nullable: true
+          example: +963-11-1234567
+        email:
+          type: string
+          nullable: true
+          format: email
+          example: main@acme.com
+        warehouseIds:
+          uniqueItems: true
+          example:
+            - 00000000-0000-4000-c100-000000000001
+          description: >-
+            Warehouses to link to this branch. A branch may have zero
+            warehouses.
+          type: array
+          items:
+            type: string
+      required:
+        - name
+    UpdateBranchDto:
+      type: object
+      properties:
+        name:
+          $ref: '#/components/schemas/LocalizedStringDto'
+        address:
+          type: string
+          nullable: true
+          example: Damascus, Syria
+        phone:
+          type: string
+          nullable: true
+          example: +963-11-1234567
+        email:
+          type: string
+          nullable: true
+          format: email
+          example: main@acme.com
+        isActive:
+          type: boolean
+          example: true
+        warehouseIds:
+          uniqueItems: true
+          minItems: 1
+          example:
+            - 00000000-0000-4000-c100-000000000001
+          description: >-
+            Replaces the branch's linked warehouses when provided. Removing a
+            warehouse's last branch is refused.
+          type: array
+          items:
+            type: string
     TagResponseDto:
       type: object
       properties:

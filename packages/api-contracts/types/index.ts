@@ -1041,6 +1041,57 @@ export interface paths {
         patch: operations["Warehouses.update"];
         trace?: never;
     };
+    "/branches": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List branches
+         * @description Returns a paginated, filterable list of business locations belonging to the authenticated tenant.
+         */
+        get: operations["Branches.list"];
+        put?: never;
+        /**
+         * Create a branch
+         * @description Creates a business location. The code is minted automatically when left blank and must be unique within the tenant.
+         */
+        post: operations["Branches.create"];
+        /** Bulk delete by ids */
+        delete: operations["Branches.bulkDelete"];
+        options?: never;
+        head?: never;
+        /** Bulk partial update */
+        patch: operations["Branches.bulkUpdate"];
+        trace?: never;
+    };
+    "/branches/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get a branch by ID */
+        get: operations["Branches.show"];
+        put?: never;
+        post?: never;
+        /**
+         * Delete a branch
+         * @description Hard-deletes a branch with no references. Warehouses, cashboxes or documents that refer to it refuse the delete — deactivate instead.
+         */
+        delete: operations["Branches.delete"];
+        options?: never;
+        head?: never;
+        /**
+         * Update a branch
+         * @description Partial update — only provided fields are changed. Removing the last branch from a warehouse is refused.
+         */
+        patch: operations["Branches.update"];
+        trace?: never;
+    };
     "/tags": {
         parameters: {
             query?: never;
@@ -2824,7 +2875,7 @@ export interface components {
              *     ]
              */
             enumValues?: string[];
-            /** @example auth|tenants|users|roles|currencies|fiscal-periods|document-sequences|units|item-categories|items|custom-fields|parties|warehouses|inventory|stock-ledger|invoice-types|invoices|cashboxes|payments|expenses|accounting|chart-of-accounts|stock-counts|reports|dashboard|ai|audit-logs|tags|tag-assignments|item-relations|catalog-entities|item-catalog-entities|brands|bank-accounts|financial-settings|opening-balance-sessions|business-setup|pos */
+            /** @example auth|tenants|users|roles|currencies|fiscal-periods|document-sequences|units|item-categories|items|custom-fields|parties|warehouses|branches|inventory|stock-ledger|invoice-types|invoices|cashboxes|payments|expenses|accounting|chart-of-accounts|stock-counts|reports|dashboard|ai|audit-logs|tags|tag-assignments|item-relations|catalog-entities|item-catalog-entities|brands|bank-accounts|financial-settings|opening-balance-sessions|business-setup|pos */
             foreignResourceKey?: string;
         };
         ApiMetaDto: {
@@ -5054,6 +5105,23 @@ export interface components {
              */
             items: components["schemas"]["OpeningBalanceItemDto"][];
         };
+        WarehouseBranchRefDto: {
+            /**
+             * @default
+             * @example 00000000-0000-4000-e100-000000000001
+             */
+            id: string;
+            /**
+             * @default
+             * @example MAIN
+             */
+            code: string;
+            /**
+             * @default
+             * @example Main Branch
+             */
+            name: string;
+        };
         WarehouseResponseDto: {
             /**
              * @default
@@ -5086,6 +5154,8 @@ export interface components {
              * @example true
              */
             isActive: boolean;
+            /** @default [] */
+            branches: components["schemas"]["WarehouseBranchRefDto"][];
             /**
              * @default
              * @example 2025-01-01T00:00:00.000Z
@@ -5112,6 +5182,14 @@ export interface components {
             name: components["schemas"]["LocalizedStringDto"];
             /** @example Damascus Industrial Zone */
             address?: string;
+            /**
+             * @description Branches this warehouse serves — at least one is required
+             * @default []
+             * @example [
+             *       "00000000-0000-4000-e100-000000000001"
+             *     ]
+             */
+            branchIds: string[];
         };
         UpdateWarehouseDto: {
             name?: components["schemas"]["LocalizedStringDto"];
@@ -5119,6 +5197,136 @@ export interface components {
             address?: string | null;
             /** @example true */
             isActive?: boolean;
+            /**
+             * @description Replaces the branches this warehouse serves — at least one is required when provided
+             * @example [
+             *       "00000000-0000-4000-e100-000000000001"
+             *     ]
+             */
+            branchIds?: string[];
+        };
+        BranchWarehouseRefDto: {
+            /**
+             * @default
+             * @example 00000000-0000-4000-c100-000000000001
+             */
+            id: string;
+            /**
+             * @default
+             * @example WH-MAIN
+             */
+            code: string;
+            /**
+             * @default
+             * @example Main Warehouse
+             */
+            name: string;
+        };
+        BranchResponseDto: {
+            /**
+             * @default
+             * @example 00000000-0000-4000-e100-000000000001
+             */
+            id: string;
+            /**
+             * @default
+             * @example MAIN
+             */
+            code: string;
+            /**
+             * @default
+             * @example Main Branch
+             */
+            name: string;
+            /**
+             * @default {
+             *       "ar": ""
+             *     }
+             */
+            nameI18n: components["schemas"]["LocalizedStringDto"];
+            /**
+             * @default null
+             * @example Damascus, Syria
+             */
+            address: string | null;
+            /**
+             * @default null
+             * @example +963-11-1234567
+             */
+            phone: string | null;
+            /**
+             * @default null
+             * @example main@acme.com
+             */
+            email: string | null;
+            /**
+             * @default true
+             * @example true
+             */
+            isActive: boolean;
+            /** @default [] */
+            warehouses: components["schemas"]["BranchWarehouseRefDto"][];
+            /**
+             * @default
+             * @example 2025-01-01T00:00:00.000Z
+             */
+            createdAt: string;
+            /**
+             * @default
+             * @example 2025-01-01T00:00:00.000Z
+             */
+            updatedAt: string;
+        };
+        CreateBranchDto: {
+            /**
+             * @description Unique branch code within the tenant; auto-generated (BR-0001) when omitted
+             * @example MAIN
+             */
+            code?: string;
+            /**
+             * @description Branch display name
+             * @default {
+             *       "ar": ""
+             *     }
+             */
+            name: components["schemas"]["LocalizedStringDto"];
+            /** @example Damascus, Syria */
+            address?: string | null;
+            /** @example +963-11-1234567 */
+            phone?: string | null;
+            /**
+             * Format: email
+             * @example main@acme.com
+             */
+            email?: string | null;
+            /**
+             * @description Warehouses to link to this branch. A branch may have zero warehouses.
+             * @example [
+             *       "00000000-0000-4000-c100-000000000001"
+             *     ]
+             */
+            warehouseIds?: string[];
+        };
+        UpdateBranchDto: {
+            name?: components["schemas"]["LocalizedStringDto"];
+            /** @example Damascus, Syria */
+            address?: string | null;
+            /** @example +963-11-1234567 */
+            phone?: string | null;
+            /**
+             * Format: email
+             * @example main@acme.com
+             */
+            email?: string | null;
+            /** @example true */
+            isActive?: boolean;
+            /**
+             * @description Replaces the branch's linked warehouses when provided. Removing a warehouse's last branch is refused.
+             * @example [
+             *       "00000000-0000-4000-c100-000000000001"
+             *     ]
+             */
+            warehouseIds?: string[];
         };
         TagResponseDto: {
             /**
@@ -15639,6 +15847,570 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
                         data?: components["schemas"]["WarehouseResponseDto"];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    "Branches.list": {
+        parameters: {
+            query?: {
+                /** @description Page number (1-based) */
+                page?: number;
+                /** @description Number of items per page */
+                limit?: number;
+                /** @description Field name to sort by */
+                sortField?: string;
+                sortOrder?: "asc" | "desc";
+                /** @description Full-text search keyword */
+                search?: string;
+                /** @description Comma-separated field names to search within (e.g. name,symbol) */
+                searchIn?: string;
+                /** @description Structured filters. Example: filters[code][$like]=sample-code&filters[name][$like]=sample-name&filters[address][$like]=sample-address&filters[phone][$like]=sample-phone&filters[email][$like]=sample-email&filters[isActive][$eq]=true */
+                filters?: {
+                    /**
+                     * @description Filter on `code` (string)
+                     * @example {
+                     *       "$like": "sample-code"
+                     *     }
+                     */
+                    code?: {
+                        $eq?: string;
+                        /** @example sample-code */
+                        $like?: string;
+                        $in?: string[];
+                        /** @enum {boolean} */
+                        $isNull?: true;
+                    };
+                    /**
+                     * @description Filter on `name` (string)
+                     * @example {
+                     *       "$like": "sample-name"
+                     *     }
+                     */
+                    name?: {
+                        $eq?: string;
+                        /** @example sample-name */
+                        $like?: string;
+                    };
+                    /**
+                     * @description Filter on `address` (string)
+                     * @example {
+                     *       "$like": "sample-address"
+                     *     }
+                     */
+                    address?: {
+                        $eq?: string;
+                        /** @example sample-address */
+                        $like?: string;
+                        $in?: string[];
+                        /** @enum {boolean} */
+                        $isNull?: true;
+                    };
+                    /**
+                     * @description Filter on `phone` (string)
+                     * @example {
+                     *       "$like": "sample-phone"
+                     *     }
+                     */
+                    phone?: {
+                        $eq?: string;
+                        /** @example sample-phone */
+                        $like?: string;
+                        $in?: string[];
+                        /** @enum {boolean} */
+                        $isNull?: true;
+                    };
+                    /**
+                     * @description Filter on `email` (string)
+                     * @example {
+                     *       "$like": "sample-email"
+                     *     }
+                     */
+                    email?: {
+                        $eq?: string;
+                        /** @example sample-email */
+                        $like?: string;
+                        $in?: string[];
+                        /** @enum {boolean} */
+                        $isNull?: true;
+                    };
+                    /**
+                     * @description Filter on `isActive` (boolean)
+                     * @example {
+                     *       "$eq": true
+                     *     }
+                     */
+                    isActive?: {
+                        /** @example true */
+                        $eq?: boolean;
+                        /** @enum {boolean} */
+                        $isNull?: true;
+                    };
+                };
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Paginated list of branches */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["BranchResponseDto"][];
+                        meta?: {
+                            pagination?: {
+                                /** @example 0 */
+                                total?: number;
+                                /** @example 1 */
+                                page?: number;
+                                /** @example 10 */
+                                limit?: number;
+                                /** @example 0 */
+                                totalPages?: number;
+                            };
+                            /**
+                             * @example [
+                             *       {
+                             *         "field": "code",
+                             *         "type": "string",
+                             *         "operators": [
+                             *           "$eq",
+                             *           "$like",
+                             *           "$in",
+                             *           "$isNull"
+                             *         ]
+                             *       },
+                             *       {
+                             *         "field": "name",
+                             *         "type": "string",
+                             *         "localized": true,
+                             *         "operators": [
+                             *           "$eq",
+                             *           "$like"
+                             *         ]
+                             *       },
+                             *       {
+                             *         "field": "address",
+                             *         "type": "string",
+                             *         "operators": [
+                             *           "$eq",
+                             *           "$like",
+                             *           "$in",
+                             *           "$isNull"
+                             *         ]
+                             *       },
+                             *       {
+                             *         "field": "phone",
+                             *         "type": "string",
+                             *         "operators": [
+                             *           "$eq",
+                             *           "$like",
+                             *           "$in",
+                             *           "$isNull"
+                             *         ]
+                             *       },
+                             *       {
+                             *         "field": "email",
+                             *         "type": "string",
+                             *         "operators": [
+                             *           "$eq",
+                             *           "$like",
+                             *           "$in",
+                             *           "$isNull"
+                             *         ]
+                             *       },
+                             *       {
+                             *         "field": "isActive",
+                             *         "type": "boolean",
+                             *         "operators": [
+                             *           "$eq",
+                             *           "$isNull"
+                             *         ]
+                             *       }
+                             *     ]
+                             */
+                            filterOptions?: unknown[];
+                        };
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    "Branches.create": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateBranchDto"];
+            };
+        };
+        responses: {
+            /** @description Branch created successfully */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["BranchResponseDto"];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    "Branches.bulkDelete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BulkDeleteBodyDto"];
+            };
+        };
+        responses: {
+            /** @description Bulk delete result ({ total, succeeded, failed, errors }) */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BulkResultResponseDto"];
+                };
+            };
+        };
+    };
+    "Branches.bulkUpdate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BulkUpdateBody"];
+            };
+        };
+        responses: {
+            /** @description Bulk partial-update result ({ total, succeeded, failed, errors }) */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BulkResultResponseDto"];
+                };
+            };
+        };
+    };
+    "Branches.show": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Branch UUID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Branch details including its linked warehouses */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["BranchResponseDto"];
+                    };
+                };
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    "Branches.delete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Branch UUID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Branch deleted successfully */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description JWT token is missing, expired, or invalid */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            /** @description Insufficient permissions to perform this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            /** @description The requested resource was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            /** @description Request body validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            /** @description An unexpected internal server error occurred */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    "Branches.update": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Branch UUID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateBranchDto"];
+            };
+        };
+        responses: {
+            /** @description Updated branch */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiSuccessResponseDto"] & {
+                        data?: components["schemas"]["BranchResponseDto"];
                     };
                 };
             };

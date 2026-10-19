@@ -33,6 +33,8 @@ model Tenant {
     units             Unit[]
     items             Item[]
     parties           Party[]
+    branches          Branch[]
+    branchWarehouses  BranchWarehouse[]
     warehouses        Warehouse[]
     cashboxes         Cashbox[]
     bankAccounts      BankAccount[]

@@ -19,6 +19,9 @@ model Cashbox {
     code       String
     name       Json     @db.JsonB // LocalizedString: { ar: string; en?: string }
     currencyId String   @map("currency_id")
+    /// Nullable in the database; required at the API boundary (Phase 1.1 backfill
+    /// safety). See docs/adr/0007.
+    branchId   String?  @map("branch_id")
     balance    Decimal  @default(0) @db.Decimal(18, 4)
     isActive   Boolean  @default(true) @map("is_active")
     createdAt  DateTime @default(now()) @map("created_at")
@@ -26,6 +29,7 @@ model Cashbox {
 
     tenant   Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
     currency Currency  @relation(fields: [currencyId], references: [id])
+    branch   Branch?   @relation(fields: [branchId], references: [id], onDelete: Restrict)
     expenses        Expense[]
     payments Payment[]
     journalLines JournalLine[]

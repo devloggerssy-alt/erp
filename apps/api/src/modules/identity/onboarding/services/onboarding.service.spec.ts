@@ -9,6 +9,7 @@ function buildDeps() {
     } as any;
     const unitsService = { createDefaults: jest.fn().mockResolvedValue(7) } as any;
     const invoiceTypesService = { createDefaults: jest.fn().mockResolvedValue(5) } as any;
+    const branchesService = { createDefault: jest.fn().mockResolvedValue(true) } as any;
 
     const service = new OnboardingService(
         prisma,
@@ -20,23 +21,28 @@ function buildDeps() {
         {} as any,
         unitsService,
         invoiceTypesService,
+        branchesService,
     );
 
-    return { service, prisma, unitsService, invoiceTypesService };
+    return { service, prisma, unitsService, invoiceTypesService, branchesService };
 }
 
 describe('OnboardingService.complete', () => {
-    it('bootstraps default units and invoice types before marking onboarding complete', async () => {
-        const { service, prisma, unitsService, invoiceTypesService } = buildDeps();
+    it('bootstraps default units, invoice types and the MAIN branch before marking onboarding complete', async () => {
+        const { service, prisma, unitsService, invoiceTypesService, branchesService } = buildDeps();
 
         await service.complete('tenant-1');
 
         expect(unitsService.createDefaults).toHaveBeenCalledWith('tenant-1');
         expect(invoiceTypesService.createDefaults).toHaveBeenCalledWith('tenant-1');
+        expect(branchesService.createDefault).toHaveBeenCalledWith('tenant-1');
         expect(unitsService.createDefaults.mock.invocationCallOrder[0]).toBeLessThan(
             prisma.tenant.update.mock.invocationCallOrder[0],
         );
         expect(invoiceTypesService.createDefaults.mock.invocationCallOrder[0]).toBeLessThan(
+            prisma.tenant.update.mock.invocationCallOrder[0],
+        );
+        expect(branchesService.createDefault.mock.invocationCallOrder[0]).toBeLessThan(
             prisma.tenant.update.mock.invocationCallOrder[0],
         );
         expect(prisma.tenant.update).toHaveBeenCalledWith({

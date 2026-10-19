@@ -15,6 +15,7 @@ export const PERMISSION_CATALOG = {
   itemCatalogEntities: ['view', 'create', 'update', 'delete'],
   brands: ['view', 'create', 'update', 'delete'],
   warehouses: ['view', 'create', 'update', 'delete'],
+  branches: ['view', 'create', 'update', 'delete'],
   inventory: ['view'],
   stockLedger: ['view'],
   stockCounts: ['view', 'create', 'post'],
@@ -91,7 +92,7 @@ export const PERMISSION_GROUPS = {
     'itemCatalogEntities',
     'brands',
   ],
-  inventory: ['warehouses', 'inventory', 'stockLedger', 'stockCounts'],
+  inventory: ['warehouses', 'branches', 'inventory', 'stockLedger', 'stockCounts'],
   commercial: [
     'parties',
     'invoiceTypes',

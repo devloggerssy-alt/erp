@@ -7,6 +7,7 @@ const RESOURCE_CLIENT_RESOLVERS: Record<string, (api: ApiInstance) => ICrudClien
     units: (api) => api.units,
     "item-categories": (api) => api["item-categories"],
     warehouses: (api) => api.warehouses,
+    branches: (api) => api.branches,
 }
 
 export function resolveResourceClient(

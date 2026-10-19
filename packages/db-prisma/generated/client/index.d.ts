@@ -63,6 +63,19 @@ export type AuditLog = $Result.DefaultSelection<Prisma.$AuditLogPayload>
  */
 export type BankAccount = $Result.DefaultSelection<Prisma.$BankAccountPayload>
 /**
+ * Model Branch
+ * Operational division of a Tenant ("Business Location" in the UI). Carries an
+ * operational identity only — no legal name or tax registration; the Tenant is
+ * the legal entity. See docs/adr/0005 and docs/adr/0007.
+ */
+export type Branch = $Result.DefaultSelection<Prisma.$BranchPayload>
+/**
+ * Model BranchWarehouse
+ * Many-to-many: a warehouse must belong to at least one branch; a branch may
+ * have zero warehouses. Enforced at the API boundary, not by the schema.
+ */
+export type BranchWarehouse = $Result.DefaultSelection<Prisma.$BranchWarehousePayload>
+/**
  * Model Brand
  * 
  */
@@ -831,6 +844,26 @@ export class PrismaClient<
     * ```
     */
   get bankAccount(): Prisma.BankAccountDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.branch`: Exposes CRUD operations for the **Branch** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Branches
+    * const branches = await prisma.branch.findMany()
+    * ```
+    */
+  get branch(): Prisma.BranchDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.branchWarehouse`: Exposes CRUD operations for the **BranchWarehouse** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more BranchWarehouses
+    * const branchWarehouses = await prisma.branchWarehouse.findMany()
+    * ```
+    */
+  get branchWarehouse(): Prisma.BranchWarehouseDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.brand`: Exposes CRUD operations for the **Brand** model.
@@ -1724,6 +1757,8 @@ export namespace Prisma {
     AiCheckpointWrite: 'AiCheckpointWrite',
     AuditLog: 'AuditLog',
     BankAccount: 'BankAccount',
+    Branch: 'Branch',
+    BranchWarehouse: 'BranchWarehouse',
     Brand: 'Brand',
     Cashbox: 'Cashbox',
     Payment: 'Payment',
@@ -1784,7 +1819,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "chartOfAccount" | "journalEntry" | "journalLine" | "aiConversation" | "aiMessage" | "aiCheckpoint" | "aiCheckpointWrite" | "auditLog" | "bankAccount" | "brand" | "cashbox" | "payment" | "paymentAllocation" | "catalogEntity" | "codeSequence" | "currency" | "customField" | "customFieldValue" | "documentSequence" | "expense" | "expenseItem" | "file" | "financialSetting" | "fiscalPeriod" | "invoiceType" | "invoice" | "invoiceLine" | "itemCatalogEntity" | "itemCategory" | "itemRelation" | "item" | "openingBalanceSession" | "openingBalanceSessionLine" | "outboxEvent" | "party" | "permission" | "rolePermission" | "posSetting" | "reconciliationRun" | "setupTask" | "stockCount" | "stockCountLine" | "stockBalance" | "stockMovement" | "tagAssignment" | "tag" | "tenantSetting" | "tenant" | "unit" | "appUser" | "role" | "userRole" | "warehouse" | "warehouseItem"
+      modelProps: "chartOfAccount" | "journalEntry" | "journalLine" | "aiConversation" | "aiMessage" | "aiCheckpoint" | "aiCheckpointWrite" | "auditLog" | "bankAccount" | "branch" | "branchWarehouse" | "brand" | "cashbox" | "payment" | "paymentAllocation" | "catalogEntity" | "codeSequence" | "currency" | "customField" | "customFieldValue" | "documentSequence" | "expense" | "expenseItem" | "file" | "financialSetting" | "fiscalPeriod" | "invoiceType" | "invoice" | "invoiceLine" | "itemCatalogEntity" | "itemCategory" | "itemRelation" | "item" | "openingBalanceSession" | "openingBalanceSessionLine" | "outboxEvent" | "party" | "permission" | "rolePermission" | "posSetting" | "reconciliationRun" | "setupTask" | "stockCount" | "stockCountLine" | "stockBalance" | "stockMovement" | "tagAssignment" | "tag" | "tenantSetting" | "tenant" | "unit" | "appUser" | "role" | "userRole" | "warehouse" | "warehouseItem"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2451,6 +2486,154 @@ export namespace Prisma {
           count: {
             args: Prisma.BankAccountCountArgs<ExtArgs>
             result: $Utils.Optional<BankAccountCountAggregateOutputType> | number
+          }
+        }
+      }
+      Branch: {
+        payload: Prisma.$BranchPayload<ExtArgs>
+        fields: Prisma.BranchFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.BranchFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BranchPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.BranchFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BranchPayload>
+          }
+          findFirst: {
+            args: Prisma.BranchFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BranchPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.BranchFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BranchPayload>
+          }
+          findMany: {
+            args: Prisma.BranchFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BranchPayload>[]
+          }
+          create: {
+            args: Prisma.BranchCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BranchPayload>
+          }
+          createMany: {
+            args: Prisma.BranchCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.BranchCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BranchPayload>[]
+          }
+          delete: {
+            args: Prisma.BranchDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BranchPayload>
+          }
+          update: {
+            args: Prisma.BranchUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BranchPayload>
+          }
+          deleteMany: {
+            args: Prisma.BranchDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.BranchUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.BranchUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BranchPayload>[]
+          }
+          upsert: {
+            args: Prisma.BranchUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BranchPayload>
+          }
+          aggregate: {
+            args: Prisma.BranchAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateBranch>
+          }
+          groupBy: {
+            args: Prisma.BranchGroupByArgs<ExtArgs>
+            result: $Utils.Optional<BranchGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.BranchCountArgs<ExtArgs>
+            result: $Utils.Optional<BranchCountAggregateOutputType> | number
+          }
+        }
+      }
+      BranchWarehouse: {
+        payload: Prisma.$BranchWarehousePayload<ExtArgs>
+        fields: Prisma.BranchWarehouseFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.BranchWarehouseFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BranchWarehousePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.BranchWarehouseFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BranchWarehousePayload>
+          }
+          findFirst: {
+            args: Prisma.BranchWarehouseFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BranchWarehousePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.BranchWarehouseFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BranchWarehousePayload>
+          }
+          findMany: {
+            args: Prisma.BranchWarehouseFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BranchWarehousePayload>[]
+          }
+          create: {
+            args: Prisma.BranchWarehouseCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BranchWarehousePayload>
+          }
+          createMany: {
+            args: Prisma.BranchWarehouseCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.BranchWarehouseCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BranchWarehousePayload>[]
+          }
+          delete: {
+            args: Prisma.BranchWarehouseDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BranchWarehousePayload>
+          }
+          update: {
+            args: Prisma.BranchWarehouseUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BranchWarehousePayload>
+          }
+          deleteMany: {
+            args: Prisma.BranchWarehouseDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.BranchWarehouseUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.BranchWarehouseUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BranchWarehousePayload>[]
+          }
+          upsert: {
+            args: Prisma.BranchWarehouseUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BranchWarehousePayload>
+          }
+          aggregate: {
+            args: Prisma.BranchWarehouseAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateBranchWarehouse>
+          }
+          groupBy: {
+            args: Prisma.BranchWarehouseGroupByArgs<ExtArgs>
+            result: $Utils.Optional<BranchWarehouseGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.BranchWarehouseCountArgs<ExtArgs>
+            result: $Utils.Optional<BranchWarehouseCountAggregateOutputType> | number
           }
         }
       }
@@ -5901,6 +6084,8 @@ export namespace Prisma {
     aiCheckpointWrite?: AiCheckpointWriteOmit
     auditLog?: AuditLogOmit
     bankAccount?: BankAccountOmit
+    branch?: BranchOmit
+    branchWarehouse?: BranchWarehouseOmit
     brand?: BrandOmit
     cashbox?: CashboxOmit
     payment?: PaymentOmit
@@ -6304,6 +6489,55 @@ export namespace Prisma {
    */
   export type BankAccountCountOutputTypeCountOpeningBalanceSessionLinesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: OpeningBalanceSessionLineWhereInput
+  }
+
+
+  /**
+   * Count Type BranchCountOutputType
+   */
+
+  export type BranchCountOutputType = {
+    warehouses: number
+    cashboxes: number
+    documentSequences: number
+  }
+
+  export type BranchCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    warehouses?: boolean | BranchCountOutputTypeCountWarehousesArgs
+    cashboxes?: boolean | BranchCountOutputTypeCountCashboxesArgs
+    documentSequences?: boolean | BranchCountOutputTypeCountDocumentSequencesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * BranchCountOutputType without action
+   */
+  export type BranchCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BranchCountOutputType
+     */
+    select?: BranchCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * BranchCountOutputType without action
+   */
+  export type BranchCountOutputTypeCountWarehousesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BranchWarehouseWhereInput
+  }
+
+  /**
+   * BranchCountOutputType without action
+   */
+  export type BranchCountOutputTypeCountCashboxesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CashboxWhereInput
+  }
+
+  /**
+   * BranchCountOutputType without action
+   */
+  export type BranchCountOutputTypeCountDocumentSequencesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DocumentSequenceWhereInput
   }
 
 
@@ -7168,6 +7402,8 @@ export namespace Prisma {
     units: number
     items: number
     parties: number
+    branches: number
+    branchWarehouses: number
     warehouses: number
     cashboxes: number
     bankAccounts: number
@@ -7205,6 +7441,8 @@ export namespace Prisma {
     units?: boolean | TenantCountOutputTypeCountUnitsArgs
     items?: boolean | TenantCountOutputTypeCountItemsArgs
     parties?: boolean | TenantCountOutputTypeCountPartiesArgs
+    branches?: boolean | TenantCountOutputTypeCountBranchesArgs
+    branchWarehouses?: boolean | TenantCountOutputTypeCountBranchWarehousesArgs
     warehouses?: boolean | TenantCountOutputTypeCountWarehousesArgs
     cashboxes?: boolean | TenantCountOutputTypeCountCashboxesArgs
     bankAccounts?: boolean | TenantCountOutputTypeCountBankAccountsArgs
@@ -7310,6 +7548,20 @@ export namespace Prisma {
    */
   export type TenantCountOutputTypeCountPartiesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: PartyWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountBranchesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BranchWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountBranchWarehousesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BranchWarehouseWhereInput
   }
 
   /**
@@ -7597,6 +7849,7 @@ export namespace Prisma {
    */
 
   export type WarehouseCountOutputType = {
+    branches: number
     warehouseItems: number
     stockBalances: number
     stockMovements: number
@@ -7606,6 +7859,7 @@ export namespace Prisma {
   }
 
   export type WarehouseCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    branches?: boolean | WarehouseCountOutputTypeCountBranchesArgs
     warehouseItems?: boolean | WarehouseCountOutputTypeCountWarehouseItemsArgs
     stockBalances?: boolean | WarehouseCountOutputTypeCountStockBalancesArgs
     stockMovements?: boolean | WarehouseCountOutputTypeCountStockMovementsArgs
@@ -7623,6 +7877,13 @@ export namespace Prisma {
      * Select specific fields to fetch from the WarehouseCountOutputType
      */
     select?: WarehouseCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * WarehouseCountOutputType without action
+   */
+  export type WarehouseCountOutputTypeCountBranchesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BranchWarehouseWhereInput
   }
 
   /**
@@ -18787,6 +19048,2295 @@ export namespace Prisma {
 
 
   /**
+   * Model Branch
+   */
+
+  export type AggregateBranch = {
+    _count: BranchCountAggregateOutputType | null
+    _min: BranchMinAggregateOutputType | null
+    _max: BranchMaxAggregateOutputType | null
+  }
+
+  export type BranchMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    code: string | null
+    address: string | null
+    phone: string | null
+    email: string | null
+    isActive: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type BranchMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    code: string | null
+    address: string | null
+    phone: string | null
+    email: string | null
+    isActive: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type BranchCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    code: number
+    name: number
+    address: number
+    phone: number
+    email: number
+    isActive: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type BranchMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    code?: true
+    address?: true
+    phone?: true
+    email?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type BranchMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    code?: true
+    address?: true
+    phone?: true
+    email?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type BranchCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    code?: true
+    name?: true
+    address?: true
+    phone?: true
+    email?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type BranchAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Branch to aggregate.
+     */
+    where?: BranchWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Branches to fetch.
+     */
+    orderBy?: BranchOrderByWithRelationInput | BranchOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: BranchWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Branches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Branches.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Branches
+    **/
+    _count?: true | BranchCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: BranchMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: BranchMaxAggregateInputType
+  }
+
+  export type GetBranchAggregateType<T extends BranchAggregateArgs> = {
+        [P in keyof T & keyof AggregateBranch]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateBranch[P]>
+      : GetScalarType<T[P], AggregateBranch[P]>
+  }
+
+
+
+
+  export type BranchGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BranchWhereInput
+    orderBy?: BranchOrderByWithAggregationInput | BranchOrderByWithAggregationInput[]
+    by: BranchScalarFieldEnum[] | BranchScalarFieldEnum
+    having?: BranchScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: BranchCountAggregateInputType | true
+    _min?: BranchMinAggregateInputType
+    _max?: BranchMaxAggregateInputType
+  }
+
+  export type BranchGroupByOutputType = {
+    id: string
+    tenantId: string
+    code: string
+    name: JsonValue
+    address: string | null
+    phone: string | null
+    email: string | null
+    isActive: boolean
+    createdAt: Date
+    updatedAt: Date
+    _count: BranchCountAggregateOutputType | null
+    _min: BranchMinAggregateOutputType | null
+    _max: BranchMaxAggregateOutputType | null
+  }
+
+  type GetBranchGroupByPayload<T extends BranchGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<BranchGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof BranchGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], BranchGroupByOutputType[P]>
+            : GetScalarType<T[P], BranchGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type BranchSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    code?: boolean
+    name?: boolean
+    address?: boolean
+    phone?: boolean
+    email?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    warehouses?: boolean | Branch$warehousesArgs<ExtArgs>
+    cashboxes?: boolean | Branch$cashboxesArgs<ExtArgs>
+    documentSequences?: boolean | Branch$documentSequencesArgs<ExtArgs>
+    _count?: boolean | BranchCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["branch"]>
+
+  export type BranchSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    code?: boolean
+    name?: boolean
+    address?: boolean
+    phone?: boolean
+    email?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["branch"]>
+
+  export type BranchSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    code?: boolean
+    name?: boolean
+    address?: boolean
+    phone?: boolean
+    email?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["branch"]>
+
+  export type BranchSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    code?: boolean
+    name?: boolean
+    address?: boolean
+    phone?: boolean
+    email?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type BranchOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "code" | "name" | "address" | "phone" | "email" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["branch"]>
+  export type BranchInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    warehouses?: boolean | Branch$warehousesArgs<ExtArgs>
+    cashboxes?: boolean | Branch$cashboxesArgs<ExtArgs>
+    documentSequences?: boolean | Branch$documentSequencesArgs<ExtArgs>
+    _count?: boolean | BranchCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type BranchIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type BranchIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+
+  export type $BranchPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Branch"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+      warehouses: Prisma.$BranchWarehousePayload<ExtArgs>[]
+      cashboxes: Prisma.$CashboxPayload<ExtArgs>[]
+      documentSequences: Prisma.$DocumentSequencePayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      code: string
+      name: Prisma.JsonValue
+      address: string | null
+      phone: string | null
+      email: string | null
+      isActive: boolean
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["branch"]>
+    composites: {}
+  }
+
+  type BranchGetPayload<S extends boolean | null | undefined | BranchDefaultArgs> = $Result.GetResult<Prisma.$BranchPayload, S>
+
+  type BranchCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<BranchFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: BranchCountAggregateInputType | true
+    }
+
+  export interface BranchDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Branch'], meta: { name: 'Branch' } }
+    /**
+     * Find zero or one Branch that matches the filter.
+     * @param {BranchFindUniqueArgs} args - Arguments to find a Branch
+     * @example
+     * // Get one Branch
+     * const branch = await prisma.branch.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends BranchFindUniqueArgs>(args: SelectSubset<T, BranchFindUniqueArgs<ExtArgs>>): Prisma__BranchClient<$Result.GetResult<Prisma.$BranchPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Branch that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {BranchFindUniqueOrThrowArgs} args - Arguments to find a Branch
+     * @example
+     * // Get one Branch
+     * const branch = await prisma.branch.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends BranchFindUniqueOrThrowArgs>(args: SelectSubset<T, BranchFindUniqueOrThrowArgs<ExtArgs>>): Prisma__BranchClient<$Result.GetResult<Prisma.$BranchPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Branch that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BranchFindFirstArgs} args - Arguments to find a Branch
+     * @example
+     * // Get one Branch
+     * const branch = await prisma.branch.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends BranchFindFirstArgs>(args?: SelectSubset<T, BranchFindFirstArgs<ExtArgs>>): Prisma__BranchClient<$Result.GetResult<Prisma.$BranchPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Branch that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BranchFindFirstOrThrowArgs} args - Arguments to find a Branch
+     * @example
+     * // Get one Branch
+     * const branch = await prisma.branch.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends BranchFindFirstOrThrowArgs>(args?: SelectSubset<T, BranchFindFirstOrThrowArgs<ExtArgs>>): Prisma__BranchClient<$Result.GetResult<Prisma.$BranchPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Branches that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BranchFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Branches
+     * const branches = await prisma.branch.findMany()
+     * 
+     * // Get first 10 Branches
+     * const branches = await prisma.branch.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const branchWithIdOnly = await prisma.branch.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends BranchFindManyArgs>(args?: SelectSubset<T, BranchFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BranchPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Branch.
+     * @param {BranchCreateArgs} args - Arguments to create a Branch.
+     * @example
+     * // Create one Branch
+     * const Branch = await prisma.branch.create({
+     *   data: {
+     *     // ... data to create a Branch
+     *   }
+     * })
+     * 
+     */
+    create<T extends BranchCreateArgs>(args: SelectSubset<T, BranchCreateArgs<ExtArgs>>): Prisma__BranchClient<$Result.GetResult<Prisma.$BranchPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Branches.
+     * @param {BranchCreateManyArgs} args - Arguments to create many Branches.
+     * @example
+     * // Create many Branches
+     * const branch = await prisma.branch.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends BranchCreateManyArgs>(args?: SelectSubset<T, BranchCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Branches and returns the data saved in the database.
+     * @param {BranchCreateManyAndReturnArgs} args - Arguments to create many Branches.
+     * @example
+     * // Create many Branches
+     * const branch = await prisma.branch.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Branches and only return the `id`
+     * const branchWithIdOnly = await prisma.branch.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends BranchCreateManyAndReturnArgs>(args?: SelectSubset<T, BranchCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BranchPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Branch.
+     * @param {BranchDeleteArgs} args - Arguments to delete one Branch.
+     * @example
+     * // Delete one Branch
+     * const Branch = await prisma.branch.delete({
+     *   where: {
+     *     // ... filter to delete one Branch
+     *   }
+     * })
+     * 
+     */
+    delete<T extends BranchDeleteArgs>(args: SelectSubset<T, BranchDeleteArgs<ExtArgs>>): Prisma__BranchClient<$Result.GetResult<Prisma.$BranchPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Branch.
+     * @param {BranchUpdateArgs} args - Arguments to update one Branch.
+     * @example
+     * // Update one Branch
+     * const branch = await prisma.branch.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends BranchUpdateArgs>(args: SelectSubset<T, BranchUpdateArgs<ExtArgs>>): Prisma__BranchClient<$Result.GetResult<Prisma.$BranchPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Branches.
+     * @param {BranchDeleteManyArgs} args - Arguments to filter Branches to delete.
+     * @example
+     * // Delete a few Branches
+     * const { count } = await prisma.branch.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends BranchDeleteManyArgs>(args?: SelectSubset<T, BranchDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Branches.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BranchUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Branches
+     * const branch = await prisma.branch.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends BranchUpdateManyArgs>(args: SelectSubset<T, BranchUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Branches and returns the data updated in the database.
+     * @param {BranchUpdateManyAndReturnArgs} args - Arguments to update many Branches.
+     * @example
+     * // Update many Branches
+     * const branch = await prisma.branch.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Branches and only return the `id`
+     * const branchWithIdOnly = await prisma.branch.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends BranchUpdateManyAndReturnArgs>(args: SelectSubset<T, BranchUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BranchPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Branch.
+     * @param {BranchUpsertArgs} args - Arguments to update or create a Branch.
+     * @example
+     * // Update or create a Branch
+     * const branch = await prisma.branch.upsert({
+     *   create: {
+     *     // ... data to create a Branch
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Branch we want to update
+     *   }
+     * })
+     */
+    upsert<T extends BranchUpsertArgs>(args: SelectSubset<T, BranchUpsertArgs<ExtArgs>>): Prisma__BranchClient<$Result.GetResult<Prisma.$BranchPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Branches.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BranchCountArgs} args - Arguments to filter Branches to count.
+     * @example
+     * // Count the number of Branches
+     * const count = await prisma.branch.count({
+     *   where: {
+     *     // ... the filter for the Branches we want to count
+     *   }
+     * })
+    **/
+    count<T extends BranchCountArgs>(
+      args?: Subset<T, BranchCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], BranchCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Branch.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BranchAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends BranchAggregateArgs>(args: Subset<T, BranchAggregateArgs>): Prisma.PrismaPromise<GetBranchAggregateType<T>>
+
+    /**
+     * Group by Branch.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BranchGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends BranchGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: BranchGroupByArgs['orderBy'] }
+        : { orderBy?: BranchGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, BranchGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBranchGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Branch model
+   */
+  readonly fields: BranchFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Branch.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__BranchClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    warehouses<T extends Branch$warehousesArgs<ExtArgs> = {}>(args?: Subset<T, Branch$warehousesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BranchWarehousePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    cashboxes<T extends Branch$cashboxesArgs<ExtArgs> = {}>(args?: Subset<T, Branch$cashboxesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CashboxPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    documentSequences<T extends Branch$documentSequencesArgs<ExtArgs> = {}>(args?: Subset<T, Branch$documentSequencesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DocumentSequencePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Branch model
+   */
+  interface BranchFieldRefs {
+    readonly id: FieldRef<"Branch", 'String'>
+    readonly tenantId: FieldRef<"Branch", 'String'>
+    readonly code: FieldRef<"Branch", 'String'>
+    readonly name: FieldRef<"Branch", 'Json'>
+    readonly address: FieldRef<"Branch", 'String'>
+    readonly phone: FieldRef<"Branch", 'String'>
+    readonly email: FieldRef<"Branch", 'String'>
+    readonly isActive: FieldRef<"Branch", 'Boolean'>
+    readonly createdAt: FieldRef<"Branch", 'DateTime'>
+    readonly updatedAt: FieldRef<"Branch", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Branch findUnique
+   */
+  export type BranchFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Branch
+     */
+    select?: BranchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Branch
+     */
+    omit?: BranchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BranchInclude<ExtArgs> | null
+    /**
+     * Filter, which Branch to fetch.
+     */
+    where: BranchWhereUniqueInput
+  }
+
+  /**
+   * Branch findUniqueOrThrow
+   */
+  export type BranchFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Branch
+     */
+    select?: BranchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Branch
+     */
+    omit?: BranchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BranchInclude<ExtArgs> | null
+    /**
+     * Filter, which Branch to fetch.
+     */
+    where: BranchWhereUniqueInput
+  }
+
+  /**
+   * Branch findFirst
+   */
+  export type BranchFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Branch
+     */
+    select?: BranchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Branch
+     */
+    omit?: BranchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BranchInclude<ExtArgs> | null
+    /**
+     * Filter, which Branch to fetch.
+     */
+    where?: BranchWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Branches to fetch.
+     */
+    orderBy?: BranchOrderByWithRelationInput | BranchOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Branches.
+     */
+    cursor?: BranchWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Branches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Branches.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Branches.
+     */
+    distinct?: BranchScalarFieldEnum | BranchScalarFieldEnum[]
+  }
+
+  /**
+   * Branch findFirstOrThrow
+   */
+  export type BranchFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Branch
+     */
+    select?: BranchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Branch
+     */
+    omit?: BranchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BranchInclude<ExtArgs> | null
+    /**
+     * Filter, which Branch to fetch.
+     */
+    where?: BranchWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Branches to fetch.
+     */
+    orderBy?: BranchOrderByWithRelationInput | BranchOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Branches.
+     */
+    cursor?: BranchWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Branches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Branches.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Branches.
+     */
+    distinct?: BranchScalarFieldEnum | BranchScalarFieldEnum[]
+  }
+
+  /**
+   * Branch findMany
+   */
+  export type BranchFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Branch
+     */
+    select?: BranchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Branch
+     */
+    omit?: BranchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BranchInclude<ExtArgs> | null
+    /**
+     * Filter, which Branches to fetch.
+     */
+    where?: BranchWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Branches to fetch.
+     */
+    orderBy?: BranchOrderByWithRelationInput | BranchOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Branches.
+     */
+    cursor?: BranchWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Branches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Branches.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Branches.
+     */
+    distinct?: BranchScalarFieldEnum | BranchScalarFieldEnum[]
+  }
+
+  /**
+   * Branch create
+   */
+  export type BranchCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Branch
+     */
+    select?: BranchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Branch
+     */
+    omit?: BranchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BranchInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Branch.
+     */
+    data: XOR<BranchCreateInput, BranchUncheckedCreateInput>
+  }
+
+  /**
+   * Branch createMany
+   */
+  export type BranchCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Branches.
+     */
+    data: BranchCreateManyInput | BranchCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Branch createManyAndReturn
+   */
+  export type BranchCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Branch
+     */
+    select?: BranchSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Branch
+     */
+    omit?: BranchOmit<ExtArgs> | null
+    /**
+     * The data used to create many Branches.
+     */
+    data: BranchCreateManyInput | BranchCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BranchIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Branch update
+   */
+  export type BranchUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Branch
+     */
+    select?: BranchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Branch
+     */
+    omit?: BranchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BranchInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Branch.
+     */
+    data: XOR<BranchUpdateInput, BranchUncheckedUpdateInput>
+    /**
+     * Choose, which Branch to update.
+     */
+    where: BranchWhereUniqueInput
+  }
+
+  /**
+   * Branch updateMany
+   */
+  export type BranchUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Branches.
+     */
+    data: XOR<BranchUpdateManyMutationInput, BranchUncheckedUpdateManyInput>
+    /**
+     * Filter which Branches to update
+     */
+    where?: BranchWhereInput
+    /**
+     * Limit how many Branches to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Branch updateManyAndReturn
+   */
+  export type BranchUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Branch
+     */
+    select?: BranchSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Branch
+     */
+    omit?: BranchOmit<ExtArgs> | null
+    /**
+     * The data used to update Branches.
+     */
+    data: XOR<BranchUpdateManyMutationInput, BranchUncheckedUpdateManyInput>
+    /**
+     * Filter which Branches to update
+     */
+    where?: BranchWhereInput
+    /**
+     * Limit how many Branches to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BranchIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Branch upsert
+   */
+  export type BranchUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Branch
+     */
+    select?: BranchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Branch
+     */
+    omit?: BranchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BranchInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Branch to update in case it exists.
+     */
+    where: BranchWhereUniqueInput
+    /**
+     * In case the Branch found by the `where` argument doesn't exist, create a new Branch with this data.
+     */
+    create: XOR<BranchCreateInput, BranchUncheckedCreateInput>
+    /**
+     * In case the Branch was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<BranchUpdateInput, BranchUncheckedUpdateInput>
+  }
+
+  /**
+   * Branch delete
+   */
+  export type BranchDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Branch
+     */
+    select?: BranchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Branch
+     */
+    omit?: BranchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BranchInclude<ExtArgs> | null
+    /**
+     * Filter which Branch to delete.
+     */
+    where: BranchWhereUniqueInput
+  }
+
+  /**
+   * Branch deleteMany
+   */
+  export type BranchDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Branches to delete
+     */
+    where?: BranchWhereInput
+    /**
+     * Limit how many Branches to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Branch.warehouses
+   */
+  export type Branch$warehousesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BranchWarehouse
+     */
+    select?: BranchWarehouseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BranchWarehouse
+     */
+    omit?: BranchWarehouseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BranchWarehouseInclude<ExtArgs> | null
+    where?: BranchWarehouseWhereInput
+    orderBy?: BranchWarehouseOrderByWithRelationInput | BranchWarehouseOrderByWithRelationInput[]
+    cursor?: BranchWarehouseWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BranchWarehouseScalarFieldEnum | BranchWarehouseScalarFieldEnum[]
+  }
+
+  /**
+   * Branch.cashboxes
+   */
+  export type Branch$cashboxesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Cashbox
+     */
+    select?: CashboxSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Cashbox
+     */
+    omit?: CashboxOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CashboxInclude<ExtArgs> | null
+    where?: CashboxWhereInput
+    orderBy?: CashboxOrderByWithRelationInput | CashboxOrderByWithRelationInput[]
+    cursor?: CashboxWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CashboxScalarFieldEnum | CashboxScalarFieldEnum[]
+  }
+
+  /**
+   * Branch.documentSequences
+   */
+  export type Branch$documentSequencesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentSequence
+     */
+    select?: DocumentSequenceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentSequence
+     */
+    omit?: DocumentSequenceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentSequenceInclude<ExtArgs> | null
+    where?: DocumentSequenceWhereInput
+    orderBy?: DocumentSequenceOrderByWithRelationInput | DocumentSequenceOrderByWithRelationInput[]
+    cursor?: DocumentSequenceWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DocumentSequenceScalarFieldEnum | DocumentSequenceScalarFieldEnum[]
+  }
+
+  /**
+   * Branch without action
+   */
+  export type BranchDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Branch
+     */
+    select?: BranchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Branch
+     */
+    omit?: BranchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BranchInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model BranchWarehouse
+   */
+
+  export type AggregateBranchWarehouse = {
+    _count: BranchWarehouseCountAggregateOutputType | null
+    _min: BranchWarehouseMinAggregateOutputType | null
+    _max: BranchWarehouseMaxAggregateOutputType | null
+  }
+
+  export type BranchWarehouseMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    branchId: string | null
+    warehouseId: string | null
+    createdAt: Date | null
+  }
+
+  export type BranchWarehouseMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    branchId: string | null
+    warehouseId: string | null
+    createdAt: Date | null
+  }
+
+  export type BranchWarehouseCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    branchId: number
+    warehouseId: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type BranchWarehouseMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    branchId?: true
+    warehouseId?: true
+    createdAt?: true
+  }
+
+  export type BranchWarehouseMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    branchId?: true
+    warehouseId?: true
+    createdAt?: true
+  }
+
+  export type BranchWarehouseCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    branchId?: true
+    warehouseId?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type BranchWarehouseAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BranchWarehouse to aggregate.
+     */
+    where?: BranchWarehouseWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BranchWarehouses to fetch.
+     */
+    orderBy?: BranchWarehouseOrderByWithRelationInput | BranchWarehouseOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: BranchWarehouseWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BranchWarehouses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BranchWarehouses.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned BranchWarehouses
+    **/
+    _count?: true | BranchWarehouseCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: BranchWarehouseMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: BranchWarehouseMaxAggregateInputType
+  }
+
+  export type GetBranchWarehouseAggregateType<T extends BranchWarehouseAggregateArgs> = {
+        [P in keyof T & keyof AggregateBranchWarehouse]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateBranchWarehouse[P]>
+      : GetScalarType<T[P], AggregateBranchWarehouse[P]>
+  }
+
+
+
+
+  export type BranchWarehouseGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BranchWarehouseWhereInput
+    orderBy?: BranchWarehouseOrderByWithAggregationInput | BranchWarehouseOrderByWithAggregationInput[]
+    by: BranchWarehouseScalarFieldEnum[] | BranchWarehouseScalarFieldEnum
+    having?: BranchWarehouseScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: BranchWarehouseCountAggregateInputType | true
+    _min?: BranchWarehouseMinAggregateInputType
+    _max?: BranchWarehouseMaxAggregateInputType
+  }
+
+  export type BranchWarehouseGroupByOutputType = {
+    id: string
+    tenantId: string
+    branchId: string
+    warehouseId: string
+    createdAt: Date
+    _count: BranchWarehouseCountAggregateOutputType | null
+    _min: BranchWarehouseMinAggregateOutputType | null
+    _max: BranchWarehouseMaxAggregateOutputType | null
+  }
+
+  type GetBranchWarehouseGroupByPayload<T extends BranchWarehouseGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<BranchWarehouseGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof BranchWarehouseGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], BranchWarehouseGroupByOutputType[P]>
+            : GetScalarType<T[P], BranchWarehouseGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type BranchWarehouseSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    branchId?: boolean
+    warehouseId?: boolean
+    createdAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    branch?: boolean | BranchDefaultArgs<ExtArgs>
+    warehouse?: boolean | WarehouseDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["branchWarehouse"]>
+
+  export type BranchWarehouseSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    branchId?: boolean
+    warehouseId?: boolean
+    createdAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    branch?: boolean | BranchDefaultArgs<ExtArgs>
+    warehouse?: boolean | WarehouseDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["branchWarehouse"]>
+
+  export type BranchWarehouseSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    branchId?: boolean
+    warehouseId?: boolean
+    createdAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    branch?: boolean | BranchDefaultArgs<ExtArgs>
+    warehouse?: boolean | WarehouseDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["branchWarehouse"]>
+
+  export type BranchWarehouseSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    branchId?: boolean
+    warehouseId?: boolean
+    createdAt?: boolean
+  }
+
+  export type BranchWarehouseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "branchId" | "warehouseId" | "createdAt", ExtArgs["result"]["branchWarehouse"]>
+  export type BranchWarehouseInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    branch?: boolean | BranchDefaultArgs<ExtArgs>
+    warehouse?: boolean | WarehouseDefaultArgs<ExtArgs>
+  }
+  export type BranchWarehouseIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    branch?: boolean | BranchDefaultArgs<ExtArgs>
+    warehouse?: boolean | WarehouseDefaultArgs<ExtArgs>
+  }
+  export type BranchWarehouseIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    branch?: boolean | BranchDefaultArgs<ExtArgs>
+    warehouse?: boolean | WarehouseDefaultArgs<ExtArgs>
+  }
+
+  export type $BranchWarehousePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "BranchWarehouse"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+      branch: Prisma.$BranchPayload<ExtArgs>
+      warehouse: Prisma.$WarehousePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      branchId: string
+      warehouseId: string
+      createdAt: Date
+    }, ExtArgs["result"]["branchWarehouse"]>
+    composites: {}
+  }
+
+  type BranchWarehouseGetPayload<S extends boolean | null | undefined | BranchWarehouseDefaultArgs> = $Result.GetResult<Prisma.$BranchWarehousePayload, S>
+
+  type BranchWarehouseCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<BranchWarehouseFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: BranchWarehouseCountAggregateInputType | true
+    }
+
+  export interface BranchWarehouseDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['BranchWarehouse'], meta: { name: 'BranchWarehouse' } }
+    /**
+     * Find zero or one BranchWarehouse that matches the filter.
+     * @param {BranchWarehouseFindUniqueArgs} args - Arguments to find a BranchWarehouse
+     * @example
+     * // Get one BranchWarehouse
+     * const branchWarehouse = await prisma.branchWarehouse.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends BranchWarehouseFindUniqueArgs>(args: SelectSubset<T, BranchWarehouseFindUniqueArgs<ExtArgs>>): Prisma__BranchWarehouseClient<$Result.GetResult<Prisma.$BranchWarehousePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one BranchWarehouse that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {BranchWarehouseFindUniqueOrThrowArgs} args - Arguments to find a BranchWarehouse
+     * @example
+     * // Get one BranchWarehouse
+     * const branchWarehouse = await prisma.branchWarehouse.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends BranchWarehouseFindUniqueOrThrowArgs>(args: SelectSubset<T, BranchWarehouseFindUniqueOrThrowArgs<ExtArgs>>): Prisma__BranchWarehouseClient<$Result.GetResult<Prisma.$BranchWarehousePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first BranchWarehouse that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BranchWarehouseFindFirstArgs} args - Arguments to find a BranchWarehouse
+     * @example
+     * // Get one BranchWarehouse
+     * const branchWarehouse = await prisma.branchWarehouse.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends BranchWarehouseFindFirstArgs>(args?: SelectSubset<T, BranchWarehouseFindFirstArgs<ExtArgs>>): Prisma__BranchWarehouseClient<$Result.GetResult<Prisma.$BranchWarehousePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first BranchWarehouse that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BranchWarehouseFindFirstOrThrowArgs} args - Arguments to find a BranchWarehouse
+     * @example
+     * // Get one BranchWarehouse
+     * const branchWarehouse = await prisma.branchWarehouse.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends BranchWarehouseFindFirstOrThrowArgs>(args?: SelectSubset<T, BranchWarehouseFindFirstOrThrowArgs<ExtArgs>>): Prisma__BranchWarehouseClient<$Result.GetResult<Prisma.$BranchWarehousePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more BranchWarehouses that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BranchWarehouseFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all BranchWarehouses
+     * const branchWarehouses = await prisma.branchWarehouse.findMany()
+     * 
+     * // Get first 10 BranchWarehouses
+     * const branchWarehouses = await prisma.branchWarehouse.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const branchWarehouseWithIdOnly = await prisma.branchWarehouse.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends BranchWarehouseFindManyArgs>(args?: SelectSubset<T, BranchWarehouseFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BranchWarehousePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a BranchWarehouse.
+     * @param {BranchWarehouseCreateArgs} args - Arguments to create a BranchWarehouse.
+     * @example
+     * // Create one BranchWarehouse
+     * const BranchWarehouse = await prisma.branchWarehouse.create({
+     *   data: {
+     *     // ... data to create a BranchWarehouse
+     *   }
+     * })
+     * 
+     */
+    create<T extends BranchWarehouseCreateArgs>(args: SelectSubset<T, BranchWarehouseCreateArgs<ExtArgs>>): Prisma__BranchWarehouseClient<$Result.GetResult<Prisma.$BranchWarehousePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many BranchWarehouses.
+     * @param {BranchWarehouseCreateManyArgs} args - Arguments to create many BranchWarehouses.
+     * @example
+     * // Create many BranchWarehouses
+     * const branchWarehouse = await prisma.branchWarehouse.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends BranchWarehouseCreateManyArgs>(args?: SelectSubset<T, BranchWarehouseCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many BranchWarehouses and returns the data saved in the database.
+     * @param {BranchWarehouseCreateManyAndReturnArgs} args - Arguments to create many BranchWarehouses.
+     * @example
+     * // Create many BranchWarehouses
+     * const branchWarehouse = await prisma.branchWarehouse.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many BranchWarehouses and only return the `id`
+     * const branchWarehouseWithIdOnly = await prisma.branchWarehouse.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends BranchWarehouseCreateManyAndReturnArgs>(args?: SelectSubset<T, BranchWarehouseCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BranchWarehousePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a BranchWarehouse.
+     * @param {BranchWarehouseDeleteArgs} args - Arguments to delete one BranchWarehouse.
+     * @example
+     * // Delete one BranchWarehouse
+     * const BranchWarehouse = await prisma.branchWarehouse.delete({
+     *   where: {
+     *     // ... filter to delete one BranchWarehouse
+     *   }
+     * })
+     * 
+     */
+    delete<T extends BranchWarehouseDeleteArgs>(args: SelectSubset<T, BranchWarehouseDeleteArgs<ExtArgs>>): Prisma__BranchWarehouseClient<$Result.GetResult<Prisma.$BranchWarehousePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one BranchWarehouse.
+     * @param {BranchWarehouseUpdateArgs} args - Arguments to update one BranchWarehouse.
+     * @example
+     * // Update one BranchWarehouse
+     * const branchWarehouse = await prisma.branchWarehouse.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends BranchWarehouseUpdateArgs>(args: SelectSubset<T, BranchWarehouseUpdateArgs<ExtArgs>>): Prisma__BranchWarehouseClient<$Result.GetResult<Prisma.$BranchWarehousePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more BranchWarehouses.
+     * @param {BranchWarehouseDeleteManyArgs} args - Arguments to filter BranchWarehouses to delete.
+     * @example
+     * // Delete a few BranchWarehouses
+     * const { count } = await prisma.branchWarehouse.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends BranchWarehouseDeleteManyArgs>(args?: SelectSubset<T, BranchWarehouseDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more BranchWarehouses.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BranchWarehouseUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many BranchWarehouses
+     * const branchWarehouse = await prisma.branchWarehouse.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends BranchWarehouseUpdateManyArgs>(args: SelectSubset<T, BranchWarehouseUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more BranchWarehouses and returns the data updated in the database.
+     * @param {BranchWarehouseUpdateManyAndReturnArgs} args - Arguments to update many BranchWarehouses.
+     * @example
+     * // Update many BranchWarehouses
+     * const branchWarehouse = await prisma.branchWarehouse.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more BranchWarehouses and only return the `id`
+     * const branchWarehouseWithIdOnly = await prisma.branchWarehouse.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends BranchWarehouseUpdateManyAndReturnArgs>(args: SelectSubset<T, BranchWarehouseUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BranchWarehousePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one BranchWarehouse.
+     * @param {BranchWarehouseUpsertArgs} args - Arguments to update or create a BranchWarehouse.
+     * @example
+     * // Update or create a BranchWarehouse
+     * const branchWarehouse = await prisma.branchWarehouse.upsert({
+     *   create: {
+     *     // ... data to create a BranchWarehouse
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the BranchWarehouse we want to update
+     *   }
+     * })
+     */
+    upsert<T extends BranchWarehouseUpsertArgs>(args: SelectSubset<T, BranchWarehouseUpsertArgs<ExtArgs>>): Prisma__BranchWarehouseClient<$Result.GetResult<Prisma.$BranchWarehousePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of BranchWarehouses.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BranchWarehouseCountArgs} args - Arguments to filter BranchWarehouses to count.
+     * @example
+     * // Count the number of BranchWarehouses
+     * const count = await prisma.branchWarehouse.count({
+     *   where: {
+     *     // ... the filter for the BranchWarehouses we want to count
+     *   }
+     * })
+    **/
+    count<T extends BranchWarehouseCountArgs>(
+      args?: Subset<T, BranchWarehouseCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], BranchWarehouseCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a BranchWarehouse.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BranchWarehouseAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends BranchWarehouseAggregateArgs>(args: Subset<T, BranchWarehouseAggregateArgs>): Prisma.PrismaPromise<GetBranchWarehouseAggregateType<T>>
+
+    /**
+     * Group by BranchWarehouse.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BranchWarehouseGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends BranchWarehouseGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: BranchWarehouseGroupByArgs['orderBy'] }
+        : { orderBy?: BranchWarehouseGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, BranchWarehouseGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBranchWarehouseGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the BranchWarehouse model
+   */
+  readonly fields: BranchWarehouseFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for BranchWarehouse.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__BranchWarehouseClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    branch<T extends BranchDefaultArgs<ExtArgs> = {}>(args?: Subset<T, BranchDefaultArgs<ExtArgs>>): Prisma__BranchClient<$Result.GetResult<Prisma.$BranchPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    warehouse<T extends WarehouseDefaultArgs<ExtArgs> = {}>(args?: Subset<T, WarehouseDefaultArgs<ExtArgs>>): Prisma__WarehouseClient<$Result.GetResult<Prisma.$WarehousePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the BranchWarehouse model
+   */
+  interface BranchWarehouseFieldRefs {
+    readonly id: FieldRef<"BranchWarehouse", 'String'>
+    readonly tenantId: FieldRef<"BranchWarehouse", 'String'>
+    readonly branchId: FieldRef<"BranchWarehouse", 'String'>
+    readonly warehouseId: FieldRef<"BranchWarehouse", 'String'>
+    readonly createdAt: FieldRef<"BranchWarehouse", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * BranchWarehouse findUnique
+   */
+  export type BranchWarehouseFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BranchWarehouse
+     */
+    select?: BranchWarehouseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BranchWarehouse
+     */
+    omit?: BranchWarehouseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BranchWarehouseInclude<ExtArgs> | null
+    /**
+     * Filter, which BranchWarehouse to fetch.
+     */
+    where: BranchWarehouseWhereUniqueInput
+  }
+
+  /**
+   * BranchWarehouse findUniqueOrThrow
+   */
+  export type BranchWarehouseFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BranchWarehouse
+     */
+    select?: BranchWarehouseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BranchWarehouse
+     */
+    omit?: BranchWarehouseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BranchWarehouseInclude<ExtArgs> | null
+    /**
+     * Filter, which BranchWarehouse to fetch.
+     */
+    where: BranchWarehouseWhereUniqueInput
+  }
+
+  /**
+   * BranchWarehouse findFirst
+   */
+  export type BranchWarehouseFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BranchWarehouse
+     */
+    select?: BranchWarehouseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BranchWarehouse
+     */
+    omit?: BranchWarehouseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BranchWarehouseInclude<ExtArgs> | null
+    /**
+     * Filter, which BranchWarehouse to fetch.
+     */
+    where?: BranchWarehouseWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BranchWarehouses to fetch.
+     */
+    orderBy?: BranchWarehouseOrderByWithRelationInput | BranchWarehouseOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BranchWarehouses.
+     */
+    cursor?: BranchWarehouseWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BranchWarehouses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BranchWarehouses.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BranchWarehouses.
+     */
+    distinct?: BranchWarehouseScalarFieldEnum | BranchWarehouseScalarFieldEnum[]
+  }
+
+  /**
+   * BranchWarehouse findFirstOrThrow
+   */
+  export type BranchWarehouseFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BranchWarehouse
+     */
+    select?: BranchWarehouseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BranchWarehouse
+     */
+    omit?: BranchWarehouseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BranchWarehouseInclude<ExtArgs> | null
+    /**
+     * Filter, which BranchWarehouse to fetch.
+     */
+    where?: BranchWarehouseWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BranchWarehouses to fetch.
+     */
+    orderBy?: BranchWarehouseOrderByWithRelationInput | BranchWarehouseOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BranchWarehouses.
+     */
+    cursor?: BranchWarehouseWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BranchWarehouses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BranchWarehouses.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BranchWarehouses.
+     */
+    distinct?: BranchWarehouseScalarFieldEnum | BranchWarehouseScalarFieldEnum[]
+  }
+
+  /**
+   * BranchWarehouse findMany
+   */
+  export type BranchWarehouseFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BranchWarehouse
+     */
+    select?: BranchWarehouseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BranchWarehouse
+     */
+    omit?: BranchWarehouseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BranchWarehouseInclude<ExtArgs> | null
+    /**
+     * Filter, which BranchWarehouses to fetch.
+     */
+    where?: BranchWarehouseWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BranchWarehouses to fetch.
+     */
+    orderBy?: BranchWarehouseOrderByWithRelationInput | BranchWarehouseOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing BranchWarehouses.
+     */
+    cursor?: BranchWarehouseWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BranchWarehouses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BranchWarehouses.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BranchWarehouses.
+     */
+    distinct?: BranchWarehouseScalarFieldEnum | BranchWarehouseScalarFieldEnum[]
+  }
+
+  /**
+   * BranchWarehouse create
+   */
+  export type BranchWarehouseCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BranchWarehouse
+     */
+    select?: BranchWarehouseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BranchWarehouse
+     */
+    omit?: BranchWarehouseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BranchWarehouseInclude<ExtArgs> | null
+    /**
+     * The data needed to create a BranchWarehouse.
+     */
+    data: XOR<BranchWarehouseCreateInput, BranchWarehouseUncheckedCreateInput>
+  }
+
+  /**
+   * BranchWarehouse createMany
+   */
+  export type BranchWarehouseCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many BranchWarehouses.
+     */
+    data: BranchWarehouseCreateManyInput | BranchWarehouseCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * BranchWarehouse createManyAndReturn
+   */
+  export type BranchWarehouseCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BranchWarehouse
+     */
+    select?: BranchWarehouseSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the BranchWarehouse
+     */
+    omit?: BranchWarehouseOmit<ExtArgs> | null
+    /**
+     * The data used to create many BranchWarehouses.
+     */
+    data: BranchWarehouseCreateManyInput | BranchWarehouseCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BranchWarehouseIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * BranchWarehouse update
+   */
+  export type BranchWarehouseUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BranchWarehouse
+     */
+    select?: BranchWarehouseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BranchWarehouse
+     */
+    omit?: BranchWarehouseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BranchWarehouseInclude<ExtArgs> | null
+    /**
+     * The data needed to update a BranchWarehouse.
+     */
+    data: XOR<BranchWarehouseUpdateInput, BranchWarehouseUncheckedUpdateInput>
+    /**
+     * Choose, which BranchWarehouse to update.
+     */
+    where: BranchWarehouseWhereUniqueInput
+  }
+
+  /**
+   * BranchWarehouse updateMany
+   */
+  export type BranchWarehouseUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update BranchWarehouses.
+     */
+    data: XOR<BranchWarehouseUpdateManyMutationInput, BranchWarehouseUncheckedUpdateManyInput>
+    /**
+     * Filter which BranchWarehouses to update
+     */
+    where?: BranchWarehouseWhereInput
+    /**
+     * Limit how many BranchWarehouses to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * BranchWarehouse updateManyAndReturn
+   */
+  export type BranchWarehouseUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BranchWarehouse
+     */
+    select?: BranchWarehouseSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the BranchWarehouse
+     */
+    omit?: BranchWarehouseOmit<ExtArgs> | null
+    /**
+     * The data used to update BranchWarehouses.
+     */
+    data: XOR<BranchWarehouseUpdateManyMutationInput, BranchWarehouseUncheckedUpdateManyInput>
+    /**
+     * Filter which BranchWarehouses to update
+     */
+    where?: BranchWarehouseWhereInput
+    /**
+     * Limit how many BranchWarehouses to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BranchWarehouseIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * BranchWarehouse upsert
+   */
+  export type BranchWarehouseUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BranchWarehouse
+     */
+    select?: BranchWarehouseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BranchWarehouse
+     */
+    omit?: BranchWarehouseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BranchWarehouseInclude<ExtArgs> | null
+    /**
+     * The filter to search for the BranchWarehouse to update in case it exists.
+     */
+    where: BranchWarehouseWhereUniqueInput
+    /**
+     * In case the BranchWarehouse found by the `where` argument doesn't exist, create a new BranchWarehouse with this data.
+     */
+    create: XOR<BranchWarehouseCreateInput, BranchWarehouseUncheckedCreateInput>
+    /**
+     * In case the BranchWarehouse was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<BranchWarehouseUpdateInput, BranchWarehouseUncheckedUpdateInput>
+  }
+
+  /**
+   * BranchWarehouse delete
+   */
+  export type BranchWarehouseDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BranchWarehouse
+     */
+    select?: BranchWarehouseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BranchWarehouse
+     */
+    omit?: BranchWarehouseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BranchWarehouseInclude<ExtArgs> | null
+    /**
+     * Filter which BranchWarehouse to delete.
+     */
+    where: BranchWarehouseWhereUniqueInput
+  }
+
+  /**
+   * BranchWarehouse deleteMany
+   */
+  export type BranchWarehouseDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BranchWarehouses to delete
+     */
+    where?: BranchWarehouseWhereInput
+    /**
+     * Limit how many BranchWarehouses to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * BranchWarehouse without action
+   */
+  export type BranchWarehouseDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BranchWarehouse
+     */
+    select?: BranchWarehouseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BranchWarehouse
+     */
+    omit?: BranchWarehouseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BranchWarehouseInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model Brand
    */
 
@@ -19930,6 +22480,7 @@ export namespace Prisma {
     tenantId: string | null
     code: string | null
     currencyId: string | null
+    branchId: string | null
     balance: Decimal | null
     isActive: boolean | null
     createdAt: Date | null
@@ -19941,6 +22492,7 @@ export namespace Prisma {
     tenantId: string | null
     code: string | null
     currencyId: string | null
+    branchId: string | null
     balance: Decimal | null
     isActive: boolean | null
     createdAt: Date | null
@@ -19953,6 +22505,7 @@ export namespace Prisma {
     code: number
     name: number
     currencyId: number
+    branchId: number
     balance: number
     isActive: number
     createdAt: number
@@ -19974,6 +22527,7 @@ export namespace Prisma {
     tenantId?: true
     code?: true
     currencyId?: true
+    branchId?: true
     balance?: true
     isActive?: true
     createdAt?: true
@@ -19985,6 +22539,7 @@ export namespace Prisma {
     tenantId?: true
     code?: true
     currencyId?: true
+    branchId?: true
     balance?: true
     isActive?: true
     createdAt?: true
@@ -19997,6 +22552,7 @@ export namespace Prisma {
     code?: true
     name?: true
     currencyId?: true
+    branchId?: true
     balance?: true
     isActive?: true
     createdAt?: true
@@ -20096,6 +22652,7 @@ export namespace Prisma {
     code: string
     name: JsonValue
     currencyId: string
+    branchId: string | null
     balance: Decimal
     isActive: boolean
     createdAt: Date
@@ -20127,12 +22684,14 @@ export namespace Prisma {
     code?: boolean
     name?: boolean
     currencyId?: boolean
+    branchId?: boolean
     balance?: boolean
     isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     currency?: boolean | CurrencyDefaultArgs<ExtArgs>
+    branch?: boolean | Cashbox$branchArgs<ExtArgs>
     expenses?: boolean | Cashbox$expensesArgs<ExtArgs>
     payments?: boolean | Cashbox$paymentsArgs<ExtArgs>
     journalLines?: boolean | Cashbox$journalLinesArgs<ExtArgs>
@@ -20147,12 +22706,14 @@ export namespace Prisma {
     code?: boolean
     name?: boolean
     currencyId?: boolean
+    branchId?: boolean
     balance?: boolean
     isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     currency?: boolean | CurrencyDefaultArgs<ExtArgs>
+    branch?: boolean | Cashbox$branchArgs<ExtArgs>
   }, ExtArgs["result"]["cashbox"]>
 
   export type CashboxSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -20161,12 +22722,14 @@ export namespace Prisma {
     code?: boolean
     name?: boolean
     currencyId?: boolean
+    branchId?: boolean
     balance?: boolean
     isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     currency?: boolean | CurrencyDefaultArgs<ExtArgs>
+    branch?: boolean | Cashbox$branchArgs<ExtArgs>
   }, ExtArgs["result"]["cashbox"]>
 
   export type CashboxSelectScalar = {
@@ -20175,16 +22738,18 @@ export namespace Prisma {
     code?: boolean
     name?: boolean
     currencyId?: boolean
+    branchId?: boolean
     balance?: boolean
     isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type CashboxOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "code" | "name" | "currencyId" | "balance" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["cashbox"]>
+  export type CashboxOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "code" | "name" | "currencyId" | "branchId" | "balance" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["cashbox"]>
   export type CashboxInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     currency?: boolean | CurrencyDefaultArgs<ExtArgs>
+    branch?: boolean | Cashbox$branchArgs<ExtArgs>
     expenses?: boolean | Cashbox$expensesArgs<ExtArgs>
     payments?: boolean | Cashbox$paymentsArgs<ExtArgs>
     journalLines?: boolean | Cashbox$journalLinesArgs<ExtArgs>
@@ -20195,10 +22760,12 @@ export namespace Prisma {
   export type CashboxIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     currency?: boolean | CurrencyDefaultArgs<ExtArgs>
+    branch?: boolean | Cashbox$branchArgs<ExtArgs>
   }
   export type CashboxIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     currency?: boolean | CurrencyDefaultArgs<ExtArgs>
+    branch?: boolean | Cashbox$branchArgs<ExtArgs>
   }
 
   export type $CashboxPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -20206,6 +22773,7 @@ export namespace Prisma {
     objects: {
       tenant: Prisma.$TenantPayload<ExtArgs>
       currency: Prisma.$CurrencyPayload<ExtArgs>
+      branch: Prisma.$BranchPayload<ExtArgs> | null
       expenses: Prisma.$ExpensePayload<ExtArgs>[]
       payments: Prisma.$PaymentPayload<ExtArgs>[]
       journalLines: Prisma.$JournalLinePayload<ExtArgs>[]
@@ -20218,6 +22786,11 @@ export namespace Prisma {
       code: string
       name: Prisma.JsonValue
       currencyId: string
+      /**
+       * Nullable in the database; required at the API boundary (Phase 1.1 backfill
+       * safety). See docs/adr/0007.
+       */
+      branchId: string | null
       balance: Prisma.Decimal
       isActive: boolean
       createdAt: Date
@@ -20618,6 +23191,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     currency<T extends CurrencyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CurrencyDefaultArgs<ExtArgs>>): Prisma__CurrencyClient<$Result.GetResult<Prisma.$CurrencyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    branch<T extends Cashbox$branchArgs<ExtArgs> = {}>(args?: Subset<T, Cashbox$branchArgs<ExtArgs>>): Prisma__BranchClient<$Result.GetResult<Prisma.$BranchPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     expenses<T extends Cashbox$expensesArgs<ExtArgs> = {}>(args?: Subset<T, Cashbox$expensesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExpensePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     payments<T extends Cashbox$paymentsArgs<ExtArgs> = {}>(args?: Subset<T, Cashbox$paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     journalLines<T extends Cashbox$journalLinesArgs<ExtArgs> = {}>(args?: Subset<T, Cashbox$journalLinesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$JournalLinePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -20657,6 +23231,7 @@ export namespace Prisma {
     readonly code: FieldRef<"Cashbox", 'String'>
     readonly name: FieldRef<"Cashbox", 'Json'>
     readonly currencyId: FieldRef<"Cashbox", 'String'>
+    readonly branchId: FieldRef<"Cashbox", 'String'>
     readonly balance: FieldRef<"Cashbox", 'Decimal'>
     readonly isActive: FieldRef<"Cashbox", 'Boolean'>
     readonly createdAt: FieldRef<"Cashbox", 'DateTime'>
@@ -21059,6 +23634,25 @@ export namespace Prisma {
      * Limit how many Cashboxes to delete.
      */
     limit?: number
+  }
+
+  /**
+   * Cashbox.branch
+   */
+  export type Cashbox$branchArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Branch
+     */
+    select?: BranchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Branch
+     */
+    omit?: BranchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BranchInclude<ExtArgs> | null
+    where?: BranchWhereInput
   }
 
   /**
@@ -29626,6 +32220,7 @@ export namespace Prisma {
     prefix: string | null
     nextNumber: number | null
     padding: number | null
+    branchId: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -29637,6 +32232,7 @@ export namespace Prisma {
     prefix: string | null
     nextNumber: number | null
     padding: number | null
+    branchId: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -29648,6 +32244,7 @@ export namespace Prisma {
     prefix: number
     nextNumber: number
     padding: number
+    branchId: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -29671,6 +32268,7 @@ export namespace Prisma {
     prefix?: true
     nextNumber?: true
     padding?: true
+    branchId?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -29682,6 +32280,7 @@ export namespace Prisma {
     prefix?: true
     nextNumber?: true
     padding?: true
+    branchId?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -29693,6 +32292,7 @@ export namespace Prisma {
     prefix?: true
     nextNumber?: true
     padding?: true
+    branchId?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -29791,6 +32391,7 @@ export namespace Prisma {
     prefix: string
     nextNumber: number
     padding: number
+    branchId: string | null
     createdAt: Date
     updatedAt: Date
     _count: DocumentSequenceCountAggregateOutputType | null
@@ -29821,9 +32422,11 @@ export namespace Prisma {
     prefix?: boolean
     nextNumber?: boolean
     padding?: boolean
+    branchId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    branch?: boolean | DocumentSequence$branchArgs<ExtArgs>
     defaultSalesForTenants?: boolean | DocumentSequence$defaultSalesForTenantsArgs<ExtArgs>
     _count?: boolean | DocumentSequenceCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["documentSequence"]>
@@ -29835,9 +32438,11 @@ export namespace Prisma {
     prefix?: boolean
     nextNumber?: boolean
     padding?: boolean
+    branchId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    branch?: boolean | DocumentSequence$branchArgs<ExtArgs>
   }, ExtArgs["result"]["documentSequence"]>
 
   export type DocumentSequenceSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -29847,9 +32452,11 @@ export namespace Prisma {
     prefix?: boolean
     nextNumber?: boolean
     padding?: boolean
+    branchId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    branch?: boolean | DocumentSequence$branchArgs<ExtArgs>
   }, ExtArgs["result"]["documentSequence"]>
 
   export type DocumentSequenceSelectScalar = {
@@ -29859,27 +32466,32 @@ export namespace Prisma {
     prefix?: boolean
     nextNumber?: boolean
     padding?: boolean
+    branchId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type DocumentSequenceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "documentType" | "prefix" | "nextNumber" | "padding" | "createdAt" | "updatedAt", ExtArgs["result"]["documentSequence"]>
+  export type DocumentSequenceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "documentType" | "prefix" | "nextNumber" | "padding" | "branchId" | "createdAt" | "updatedAt", ExtArgs["result"]["documentSequence"]>
   export type DocumentSequenceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    branch?: boolean | DocumentSequence$branchArgs<ExtArgs>
     defaultSalesForTenants?: boolean | DocumentSequence$defaultSalesForTenantsArgs<ExtArgs>
     _count?: boolean | DocumentSequenceCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type DocumentSequenceIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    branch?: boolean | DocumentSequence$branchArgs<ExtArgs>
   }
   export type DocumentSequenceIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    branch?: boolean | DocumentSequence$branchArgs<ExtArgs>
   }
 
   export type $DocumentSequencePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "DocumentSequence"
     objects: {
       tenant: Prisma.$TenantPayload<ExtArgs>
+      branch: Prisma.$BranchPayload<ExtArgs> | null
       defaultSalesForTenants: Prisma.$TenantPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -29889,6 +32501,11 @@ export namespace Prisma {
       prefix: string
       nextNumber: number
       padding: number
+      /**
+       * Optional branch reference — the deliberate seam for future per-branch
+       * numbering (docs/adr/0008). Numbering stays tenant-level in Phase 1.1.
+       */
+      branchId: string | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["documentSequence"]>
@@ -30286,6 +32903,7 @@ export namespace Prisma {
   export interface Prisma__DocumentSequenceClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    branch<T extends DocumentSequence$branchArgs<ExtArgs> = {}>(args?: Subset<T, DocumentSequence$branchArgs<ExtArgs>>): Prisma__BranchClient<$Result.GetResult<Prisma.$BranchPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     defaultSalesForTenants<T extends DocumentSequence$defaultSalesForTenantsArgs<ExtArgs> = {}>(args?: Subset<T, DocumentSequence$defaultSalesForTenantsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -30322,6 +32940,7 @@ export namespace Prisma {
     readonly prefix: FieldRef<"DocumentSequence", 'String'>
     readonly nextNumber: FieldRef<"DocumentSequence", 'Int'>
     readonly padding: FieldRef<"DocumentSequence", 'Int'>
+    readonly branchId: FieldRef<"DocumentSequence", 'String'>
     readonly createdAt: FieldRef<"DocumentSequence", 'DateTime'>
     readonly updatedAt: FieldRef<"DocumentSequence", 'DateTime'>
   }
@@ -30722,6 +33341,25 @@ export namespace Prisma {
      * Limit how many DocumentSequences to delete.
      */
     limit?: number
+  }
+
+  /**
+   * DocumentSequence.branch
+   */
+  export type DocumentSequence$branchArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Branch
+     */
+    select?: BranchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Branch
+     */
+    omit?: BranchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BranchInclude<ExtArgs> | null
+    where?: BranchWhereInput
   }
 
   /**
@@ -65078,6 +67716,8 @@ export namespace Prisma {
     units?: boolean | Tenant$unitsArgs<ExtArgs>
     items?: boolean | Tenant$itemsArgs<ExtArgs>
     parties?: boolean | Tenant$partiesArgs<ExtArgs>
+    branches?: boolean | Tenant$branchesArgs<ExtArgs>
+    branchWarehouses?: boolean | Tenant$branchWarehousesArgs<ExtArgs>
     warehouses?: boolean | Tenant$warehousesArgs<ExtArgs>
     cashboxes?: boolean | Tenant$cashboxesArgs<ExtArgs>
     bankAccounts?: boolean | Tenant$bankAccountsArgs<ExtArgs>
@@ -65194,6 +67834,8 @@ export namespace Prisma {
     units?: boolean | Tenant$unitsArgs<ExtArgs>
     items?: boolean | Tenant$itemsArgs<ExtArgs>
     parties?: boolean | Tenant$partiesArgs<ExtArgs>
+    branches?: boolean | Tenant$branchesArgs<ExtArgs>
+    branchWarehouses?: boolean | Tenant$branchWarehousesArgs<ExtArgs>
     warehouses?: boolean | Tenant$warehousesArgs<ExtArgs>
     cashboxes?: boolean | Tenant$cashboxesArgs<ExtArgs>
     bankAccounts?: boolean | Tenant$bankAccountsArgs<ExtArgs>
@@ -65246,6 +67888,8 @@ export namespace Prisma {
       units: Prisma.$UnitPayload<ExtArgs>[]
       items: Prisma.$ItemPayload<ExtArgs>[]
       parties: Prisma.$PartyPayload<ExtArgs>[]
+      branches: Prisma.$BranchPayload<ExtArgs>[]
+      branchWarehouses: Prisma.$BranchWarehousePayload<ExtArgs>[]
       warehouses: Prisma.$WarehousePayload<ExtArgs>[]
       cashboxes: Prisma.$CashboxPayload<ExtArgs>[]
       bankAccounts: Prisma.$BankAccountPayload<ExtArgs>[]
@@ -65700,6 +68344,8 @@ export namespace Prisma {
     units<T extends Tenant$unitsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$unitsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UnitPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     items<T extends Tenant$itemsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$itemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     parties<T extends Tenant$partiesArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$partiesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PartyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    branches<T extends Tenant$branchesArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$branchesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BranchPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    branchWarehouses<T extends Tenant$branchWarehousesArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$branchWarehousesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BranchWarehousePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     warehouses<T extends Tenant$warehousesArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$warehousesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WarehousePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     cashboxes<T extends Tenant$cashboxesArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$cashboxesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CashboxPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     bankAccounts<T extends Tenant$bankAccountsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$bankAccountsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BankAccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -66415,6 +69061,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: PartyScalarFieldEnum | PartyScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.branches
+   */
+  export type Tenant$branchesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Branch
+     */
+    select?: BranchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Branch
+     */
+    omit?: BranchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BranchInclude<ExtArgs> | null
+    where?: BranchWhereInput
+    orderBy?: BranchOrderByWithRelationInput | BranchOrderByWithRelationInput[]
+    cursor?: BranchWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BranchScalarFieldEnum | BranchScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.branchWarehouses
+   */
+  export type Tenant$branchWarehousesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BranchWarehouse
+     */
+    select?: BranchWarehouseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BranchWarehouse
+     */
+    omit?: BranchWarehouseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BranchWarehouseInclude<ExtArgs> | null
+    where?: BranchWarehouseWhereInput
+    orderBy?: BranchWarehouseOrderByWithRelationInput | BranchWarehouseOrderByWithRelationInput[]
+    cursor?: BranchWarehouseWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BranchWarehouseScalarFieldEnum | BranchWarehouseScalarFieldEnum[]
   }
 
   /**
@@ -71784,6 +74478,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    branches?: boolean | Warehouse$branchesArgs<ExtArgs>
     warehouseItems?: boolean | Warehouse$warehouseItemsArgs<ExtArgs>
     stockBalances?: boolean | Warehouse$stockBalancesArgs<ExtArgs>
     stockMovements?: boolean | Warehouse$stockMovementsArgs<ExtArgs>
@@ -71831,6 +74526,7 @@ export namespace Prisma {
   export type WarehouseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "code" | "name" | "address" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["warehouse"]>
   export type WarehouseInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    branches?: boolean | Warehouse$branchesArgs<ExtArgs>
     warehouseItems?: boolean | Warehouse$warehouseItemsArgs<ExtArgs>
     stockBalances?: boolean | Warehouse$stockBalancesArgs<ExtArgs>
     stockMovements?: boolean | Warehouse$stockMovementsArgs<ExtArgs>
@@ -71850,6 +74546,7 @@ export namespace Prisma {
     name: "Warehouse"
     objects: {
       tenant: Prisma.$TenantPayload<ExtArgs>
+      branches: Prisma.$BranchWarehousePayload<ExtArgs>[]
       warehouseItems: Prisma.$WarehouseItemPayload<ExtArgs>[]
       stockBalances: Prisma.$StockBalancePayload<ExtArgs>[]
       stockMovements: Prisma.$StockMovementPayload<ExtArgs>[]
@@ -72261,6 +74958,7 @@ export namespace Prisma {
   export interface Prisma__WarehouseClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    branches<T extends Warehouse$branchesArgs<ExtArgs> = {}>(args?: Subset<T, Warehouse$branchesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BranchWarehousePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     warehouseItems<T extends Warehouse$warehouseItemsArgs<ExtArgs> = {}>(args?: Subset<T, Warehouse$warehouseItemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WarehouseItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     stockBalances<T extends Warehouse$stockBalancesArgs<ExtArgs> = {}>(args?: Subset<T, Warehouse$stockBalancesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StockBalancePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     stockMovements<T extends Warehouse$stockMovementsArgs<ExtArgs> = {}>(args?: Subset<T, Warehouse$stockMovementsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StockMovementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -72702,6 +75400,30 @@ export namespace Prisma {
      * Limit how many Warehouses to delete.
      */
     limit?: number
+  }
+
+  /**
+   * Warehouse.branches
+   */
+  export type Warehouse$branchesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BranchWarehouse
+     */
+    select?: BranchWarehouseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BranchWarehouse
+     */
+    omit?: BranchWarehouseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BranchWarehouseInclude<ExtArgs> | null
+    where?: BranchWarehouseWhereInput
+    orderBy?: BranchWarehouseOrderByWithRelationInput | BranchWarehouseOrderByWithRelationInput[]
+    cursor?: BranchWarehouseWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BranchWarehouseScalarFieldEnum | BranchWarehouseScalarFieldEnum[]
   }
 
   /**
@@ -74182,6 +76904,33 @@ export namespace Prisma {
   export type BankAccountScalarFieldEnum = (typeof BankAccountScalarFieldEnum)[keyof typeof BankAccountScalarFieldEnum]
 
 
+  export const BranchScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    code: 'code',
+    name: 'name',
+    address: 'address',
+    phone: 'phone',
+    email: 'email',
+    isActive: 'isActive',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type BranchScalarFieldEnum = (typeof BranchScalarFieldEnum)[keyof typeof BranchScalarFieldEnum]
+
+
+  export const BranchWarehouseScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    branchId: 'branchId',
+    warehouseId: 'warehouseId',
+    createdAt: 'createdAt'
+  };
+
+  export type BranchWarehouseScalarFieldEnum = (typeof BranchWarehouseScalarFieldEnum)[keyof typeof BranchWarehouseScalarFieldEnum]
+
+
   export const BrandScalarFieldEnum: {
     id: 'id',
     tenantId: 'tenantId',
@@ -74201,6 +76950,7 @@ export namespace Prisma {
     code: 'code',
     name: 'name',
     currencyId: 'currencyId',
+    branchId: 'branchId',
     balance: 'balance',
     isActive: 'isActive',
     createdAt: 'createdAt',
@@ -74329,6 +77079,7 @@ export namespace Prisma {
     prefix: 'prefix',
     nextNumber: 'nextNumber',
     padding: 'padding',
+    branchId: 'branchId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -76252,6 +79003,158 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"BankAccount"> | Date | string
   }
 
+  export type BranchWhereInput = {
+    AND?: BranchWhereInput | BranchWhereInput[]
+    OR?: BranchWhereInput[]
+    NOT?: BranchWhereInput | BranchWhereInput[]
+    id?: StringFilter<"Branch"> | string
+    tenantId?: StringFilter<"Branch"> | string
+    code?: StringFilter<"Branch"> | string
+    name?: JsonFilter<"Branch">
+    address?: StringNullableFilter<"Branch"> | string | null
+    phone?: StringNullableFilter<"Branch"> | string | null
+    email?: StringNullableFilter<"Branch"> | string | null
+    isActive?: BoolFilter<"Branch"> | boolean
+    createdAt?: DateTimeFilter<"Branch"> | Date | string
+    updatedAt?: DateTimeFilter<"Branch"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    warehouses?: BranchWarehouseListRelationFilter
+    cashboxes?: CashboxListRelationFilter
+    documentSequences?: DocumentSequenceListRelationFilter
+  }
+
+  export type BranchOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    code?: SortOrder
+    name?: SortOrder
+    address?: SortOrderInput | SortOrder
+    phone?: SortOrderInput | SortOrder
+    email?: SortOrderInput | SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+    warehouses?: BranchWarehouseOrderByRelationAggregateInput
+    cashboxes?: CashboxOrderByRelationAggregateInput
+    documentSequences?: DocumentSequenceOrderByRelationAggregateInput
+  }
+
+  export type BranchWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tenantId_code?: BranchTenantIdCodeCompoundUniqueInput
+    AND?: BranchWhereInput | BranchWhereInput[]
+    OR?: BranchWhereInput[]
+    NOT?: BranchWhereInput | BranchWhereInput[]
+    tenantId?: StringFilter<"Branch"> | string
+    code?: StringFilter<"Branch"> | string
+    name?: JsonFilter<"Branch">
+    address?: StringNullableFilter<"Branch"> | string | null
+    phone?: StringNullableFilter<"Branch"> | string | null
+    email?: StringNullableFilter<"Branch"> | string | null
+    isActive?: BoolFilter<"Branch"> | boolean
+    createdAt?: DateTimeFilter<"Branch"> | Date | string
+    updatedAt?: DateTimeFilter<"Branch"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    warehouses?: BranchWarehouseListRelationFilter
+    cashboxes?: CashboxListRelationFilter
+    documentSequences?: DocumentSequenceListRelationFilter
+  }, "id" | "tenantId_code">
+
+  export type BranchOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    code?: SortOrder
+    name?: SortOrder
+    address?: SortOrderInput | SortOrder
+    phone?: SortOrderInput | SortOrder
+    email?: SortOrderInput | SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: BranchCountOrderByAggregateInput
+    _max?: BranchMaxOrderByAggregateInput
+    _min?: BranchMinOrderByAggregateInput
+  }
+
+  export type BranchScalarWhereWithAggregatesInput = {
+    AND?: BranchScalarWhereWithAggregatesInput | BranchScalarWhereWithAggregatesInput[]
+    OR?: BranchScalarWhereWithAggregatesInput[]
+    NOT?: BranchScalarWhereWithAggregatesInput | BranchScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Branch"> | string
+    tenantId?: StringWithAggregatesFilter<"Branch"> | string
+    code?: StringWithAggregatesFilter<"Branch"> | string
+    name?: JsonWithAggregatesFilter<"Branch">
+    address?: StringNullableWithAggregatesFilter<"Branch"> | string | null
+    phone?: StringNullableWithAggregatesFilter<"Branch"> | string | null
+    email?: StringNullableWithAggregatesFilter<"Branch"> | string | null
+    isActive?: BoolWithAggregatesFilter<"Branch"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"Branch"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Branch"> | Date | string
+  }
+
+  export type BranchWarehouseWhereInput = {
+    AND?: BranchWarehouseWhereInput | BranchWarehouseWhereInput[]
+    OR?: BranchWarehouseWhereInput[]
+    NOT?: BranchWarehouseWhereInput | BranchWarehouseWhereInput[]
+    id?: StringFilter<"BranchWarehouse"> | string
+    tenantId?: StringFilter<"BranchWarehouse"> | string
+    branchId?: StringFilter<"BranchWarehouse"> | string
+    warehouseId?: StringFilter<"BranchWarehouse"> | string
+    createdAt?: DateTimeFilter<"BranchWarehouse"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    branch?: XOR<BranchScalarRelationFilter, BranchWhereInput>
+    warehouse?: XOR<WarehouseScalarRelationFilter, WarehouseWhereInput>
+  }
+
+  export type BranchWarehouseOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    branchId?: SortOrder
+    warehouseId?: SortOrder
+    createdAt?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+    branch?: BranchOrderByWithRelationInput
+    warehouse?: WarehouseOrderByWithRelationInput
+  }
+
+  export type BranchWarehouseWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    branchId_warehouseId?: BranchWarehouseBranchIdWarehouseIdCompoundUniqueInput
+    AND?: BranchWarehouseWhereInput | BranchWarehouseWhereInput[]
+    OR?: BranchWarehouseWhereInput[]
+    NOT?: BranchWarehouseWhereInput | BranchWarehouseWhereInput[]
+    tenantId?: StringFilter<"BranchWarehouse"> | string
+    branchId?: StringFilter<"BranchWarehouse"> | string
+    warehouseId?: StringFilter<"BranchWarehouse"> | string
+    createdAt?: DateTimeFilter<"BranchWarehouse"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    branch?: XOR<BranchScalarRelationFilter, BranchWhereInput>
+    warehouse?: XOR<WarehouseScalarRelationFilter, WarehouseWhereInput>
+  }, "id" | "branchId_warehouseId">
+
+  export type BranchWarehouseOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    branchId?: SortOrder
+    warehouseId?: SortOrder
+    createdAt?: SortOrder
+    _count?: BranchWarehouseCountOrderByAggregateInput
+    _max?: BranchWarehouseMaxOrderByAggregateInput
+    _min?: BranchWarehouseMinOrderByAggregateInput
+  }
+
+  export type BranchWarehouseScalarWhereWithAggregatesInput = {
+    AND?: BranchWarehouseScalarWhereWithAggregatesInput | BranchWarehouseScalarWhereWithAggregatesInput[]
+    OR?: BranchWarehouseScalarWhereWithAggregatesInput[]
+    NOT?: BranchWarehouseScalarWhereWithAggregatesInput | BranchWarehouseScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"BranchWarehouse"> | string
+    tenantId?: StringWithAggregatesFilter<"BranchWarehouse"> | string
+    branchId?: StringWithAggregatesFilter<"BranchWarehouse"> | string
+    warehouseId?: StringWithAggregatesFilter<"BranchWarehouse"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"BranchWarehouse"> | Date | string
+  }
+
   export type BrandWhereInput = {
     AND?: BrandWhereInput | BrandWhereInput[]
     OR?: BrandWhereInput[]
@@ -76330,12 +79233,14 @@ export namespace Prisma {
     code?: StringFilter<"Cashbox"> | string
     name?: JsonFilter<"Cashbox">
     currencyId?: StringFilter<"Cashbox"> | string
+    branchId?: StringNullableFilter<"Cashbox"> | string | null
     balance?: DecimalFilter<"Cashbox"> | Decimal | DecimalJsLike | number | string
     isActive?: BoolFilter<"Cashbox"> | boolean
     createdAt?: DateTimeFilter<"Cashbox"> | Date | string
     updatedAt?: DateTimeFilter<"Cashbox"> | Date | string
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
     currency?: XOR<CurrencyScalarRelationFilter, CurrencyWhereInput>
+    branch?: XOR<BranchNullableScalarRelationFilter, BranchWhereInput> | null
     expenses?: ExpenseListRelationFilter
     payments?: PaymentListRelationFilter
     journalLines?: JournalLineListRelationFilter
@@ -76349,12 +79254,14 @@ export namespace Prisma {
     code?: SortOrder
     name?: SortOrder
     currencyId?: SortOrder
+    branchId?: SortOrderInput | SortOrder
     balance?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     tenant?: TenantOrderByWithRelationInput
     currency?: CurrencyOrderByWithRelationInput
+    branch?: BranchOrderByWithRelationInput
     expenses?: ExpenseOrderByRelationAggregateInput
     payments?: PaymentOrderByRelationAggregateInput
     journalLines?: JournalLineOrderByRelationAggregateInput
@@ -76372,12 +79279,14 @@ export namespace Prisma {
     code?: StringFilter<"Cashbox"> | string
     name?: JsonFilter<"Cashbox">
     currencyId?: StringFilter<"Cashbox"> | string
+    branchId?: StringNullableFilter<"Cashbox"> | string | null
     balance?: DecimalFilter<"Cashbox"> | Decimal | DecimalJsLike | number | string
     isActive?: BoolFilter<"Cashbox"> | boolean
     createdAt?: DateTimeFilter<"Cashbox"> | Date | string
     updatedAt?: DateTimeFilter<"Cashbox"> | Date | string
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
     currency?: XOR<CurrencyScalarRelationFilter, CurrencyWhereInput>
+    branch?: XOR<BranchNullableScalarRelationFilter, BranchWhereInput> | null
     expenses?: ExpenseListRelationFilter
     payments?: PaymentListRelationFilter
     journalLines?: JournalLineListRelationFilter
@@ -76391,6 +79300,7 @@ export namespace Prisma {
     code?: SortOrder
     name?: SortOrder
     currencyId?: SortOrder
+    branchId?: SortOrderInput | SortOrder
     balance?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
@@ -76411,6 +79321,7 @@ export namespace Prisma {
     code?: StringWithAggregatesFilter<"Cashbox"> | string
     name?: JsonWithAggregatesFilter<"Cashbox">
     currencyId?: StringWithAggregatesFilter<"Cashbox"> | string
+    branchId?: StringNullableWithAggregatesFilter<"Cashbox"> | string | null
     balance?: DecimalWithAggregatesFilter<"Cashbox"> | Decimal | DecimalJsLike | number | string
     isActive?: BoolWithAggregatesFilter<"Cashbox"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"Cashbox"> | Date | string
@@ -77048,9 +79959,11 @@ export namespace Prisma {
     prefix?: StringFilter<"DocumentSequence"> | string
     nextNumber?: IntFilter<"DocumentSequence"> | number
     padding?: IntFilter<"DocumentSequence"> | number
+    branchId?: StringNullableFilter<"DocumentSequence"> | string | null
     createdAt?: DateTimeFilter<"DocumentSequence"> | Date | string
     updatedAt?: DateTimeFilter<"DocumentSequence"> | Date | string
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    branch?: XOR<BranchNullableScalarRelationFilter, BranchWhereInput> | null
     defaultSalesForTenants?: TenantListRelationFilter
   }
 
@@ -77061,9 +79974,11 @@ export namespace Prisma {
     prefix?: SortOrder
     nextNumber?: SortOrder
     padding?: SortOrder
+    branchId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     tenant?: TenantOrderByWithRelationInput
+    branch?: BranchOrderByWithRelationInput
     defaultSalesForTenants?: TenantOrderByRelationAggregateInput
   }
 
@@ -77078,9 +79993,11 @@ export namespace Prisma {
     prefix?: StringFilter<"DocumentSequence"> | string
     nextNumber?: IntFilter<"DocumentSequence"> | number
     padding?: IntFilter<"DocumentSequence"> | number
+    branchId?: StringNullableFilter<"DocumentSequence"> | string | null
     createdAt?: DateTimeFilter<"DocumentSequence"> | Date | string
     updatedAt?: DateTimeFilter<"DocumentSequence"> | Date | string
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    branch?: XOR<BranchNullableScalarRelationFilter, BranchWhereInput> | null
     defaultSalesForTenants?: TenantListRelationFilter
   }, "id" | "tenantId_documentType">
 
@@ -77091,6 +80008,7 @@ export namespace Prisma {
     prefix?: SortOrder
     nextNumber?: SortOrder
     padding?: SortOrder
+    branchId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: DocumentSequenceCountOrderByAggregateInput
@@ -77110,6 +80028,7 @@ export namespace Prisma {
     prefix?: StringWithAggregatesFilter<"DocumentSequence"> | string
     nextNumber?: IntWithAggregatesFilter<"DocumentSequence"> | number
     padding?: IntWithAggregatesFilter<"DocumentSequence"> | number
+    branchId?: StringNullableWithAggregatesFilter<"DocumentSequence"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"DocumentSequence"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"DocumentSequence"> | Date | string
   }
@@ -79786,6 +82705,8 @@ export namespace Prisma {
     units?: UnitListRelationFilter
     items?: ItemListRelationFilter
     parties?: PartyListRelationFilter
+    branches?: BranchListRelationFilter
+    branchWarehouses?: BranchWarehouseListRelationFilter
     warehouses?: WarehouseListRelationFilter
     cashboxes?: CashboxListRelationFilter
     bankAccounts?: BankAccountListRelationFilter
@@ -79847,6 +82768,8 @@ export namespace Prisma {
     units?: UnitOrderByRelationAggregateInput
     items?: ItemOrderByRelationAggregateInput
     parties?: PartyOrderByRelationAggregateInput
+    branches?: BranchOrderByRelationAggregateInput
+    branchWarehouses?: BranchWarehouseOrderByRelationAggregateInput
     warehouses?: WarehouseOrderByRelationAggregateInput
     cashboxes?: CashboxOrderByRelationAggregateInput
     bankAccounts?: BankAccountOrderByRelationAggregateInput
@@ -79911,6 +82834,8 @@ export namespace Prisma {
     units?: UnitListRelationFilter
     items?: ItemListRelationFilter
     parties?: PartyListRelationFilter
+    branches?: BranchListRelationFilter
+    branchWarehouses?: BranchWarehouseListRelationFilter
     warehouses?: WarehouseListRelationFilter
     cashboxes?: CashboxListRelationFilter
     bankAccounts?: BankAccountListRelationFilter
@@ -80293,6 +83218,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Warehouse"> | Date | string
     updatedAt?: DateTimeFilter<"Warehouse"> | Date | string
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    branches?: BranchWarehouseListRelationFilter
     warehouseItems?: WarehouseItemListRelationFilter
     stockBalances?: StockBalanceListRelationFilter
     stockMovements?: StockMovementListRelationFilter
@@ -80311,6 +83237,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     tenant?: TenantOrderByWithRelationInput
+    branches?: BranchWarehouseOrderByRelationAggregateInput
     warehouseItems?: WarehouseItemOrderByRelationAggregateInput
     stockBalances?: StockBalanceOrderByRelationAggregateInput
     stockMovements?: StockMovementOrderByRelationAggregateInput
@@ -80333,6 +83260,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Warehouse"> | Date | string
     updatedAt?: DateTimeFilter<"Warehouse"> | Date | string
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    branches?: BranchWarehouseListRelationFilter
     warehouseItems?: WarehouseItemListRelationFilter
     stockBalances?: StockBalanceListRelationFilter
     stockMovements?: StockMovementListRelationFilter
@@ -81398,6 +84326,161 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type BranchCreateInput = {
+    id?: string
+    code: string
+    name: JsonNullValueInput | InputJsonValue
+    address?: string | null
+    phone?: string | null
+    email?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutBranchesInput
+    warehouses?: BranchWarehouseCreateNestedManyWithoutBranchInput
+    cashboxes?: CashboxCreateNestedManyWithoutBranchInput
+    documentSequences?: DocumentSequenceCreateNestedManyWithoutBranchInput
+  }
+
+  export type BranchUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    code: string
+    name: JsonNullValueInput | InputJsonValue
+    address?: string | null
+    phone?: string | null
+    email?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    warehouses?: BranchWarehouseUncheckedCreateNestedManyWithoutBranchInput
+    cashboxes?: CashboxUncheckedCreateNestedManyWithoutBranchInput
+    documentSequences?: DocumentSequenceUncheckedCreateNestedManyWithoutBranchInput
+  }
+
+  export type BranchUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutBranchesNestedInput
+    warehouses?: BranchWarehouseUpdateManyWithoutBranchNestedInput
+    cashboxes?: CashboxUpdateManyWithoutBranchNestedInput
+    documentSequences?: DocumentSequenceUpdateManyWithoutBranchNestedInput
+  }
+
+  export type BranchUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    warehouses?: BranchWarehouseUncheckedUpdateManyWithoutBranchNestedInput
+    cashboxes?: CashboxUncheckedUpdateManyWithoutBranchNestedInput
+    documentSequences?: DocumentSequenceUncheckedUpdateManyWithoutBranchNestedInput
+  }
+
+  export type BranchCreateManyInput = {
+    id?: string
+    tenantId: string
+    code: string
+    name: JsonNullValueInput | InputJsonValue
+    address?: string | null
+    phone?: string | null
+    email?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BranchUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BranchUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BranchWarehouseCreateInput = {
+    id?: string
+    createdAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutBranchWarehousesInput
+    branch: BranchCreateNestedOneWithoutWarehousesInput
+    warehouse: WarehouseCreateNestedOneWithoutBranchesInput
+  }
+
+  export type BranchWarehouseUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    branchId: string
+    warehouseId: string
+    createdAt?: Date | string
+  }
+
+  export type BranchWarehouseUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutBranchWarehousesNestedInput
+    branch?: BranchUpdateOneRequiredWithoutWarehousesNestedInput
+    warehouse?: WarehouseUpdateOneRequiredWithoutBranchesNestedInput
+  }
+
+  export type BranchWarehouseUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    branchId?: StringFieldUpdateOperationsInput | string
+    warehouseId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BranchWarehouseCreateManyInput = {
+    id?: string
+    tenantId: string
+    branchId: string
+    warehouseId: string
+    createdAt?: Date | string
+  }
+
+  export type BranchWarehouseUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BranchWarehouseUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    branchId?: StringFieldUpdateOperationsInput | string
+    warehouseId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type BrandCreateInput = {
     id?: string
     name: string
@@ -81481,6 +84564,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     tenant: TenantCreateNestedOneWithoutCashboxesInput
     currency: CurrencyCreateNestedOneWithoutCashboxesInput
+    branch?: BranchCreateNestedOneWithoutCashboxesInput
     expenses?: ExpenseCreateNestedManyWithoutCashboxInput
     payments?: PaymentCreateNestedManyWithoutCashboxInput
     journalLines?: JournalLineCreateNestedManyWithoutCashboxInput
@@ -81494,6 +84578,7 @@ export namespace Prisma {
     code: string
     name: JsonNullValueInput | InputJsonValue
     currencyId: string
+    branchId?: string | null
     balance?: Decimal | DecimalJsLike | number | string
     isActive?: boolean
     createdAt?: Date | string
@@ -81515,6 +84600,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: TenantUpdateOneRequiredWithoutCashboxesNestedInput
     currency?: CurrencyUpdateOneRequiredWithoutCashboxesNestedInput
+    branch?: BranchUpdateOneWithoutCashboxesNestedInput
     expenses?: ExpenseUpdateManyWithoutCashboxNestedInput
     payments?: PaymentUpdateManyWithoutCashboxNestedInput
     journalLines?: JournalLineUpdateManyWithoutCashboxNestedInput
@@ -81528,6 +84614,7 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     name?: JsonNullValueInput | InputJsonValue
     currencyId?: StringFieldUpdateOperationsInput | string
+    branchId?: NullableStringFieldUpdateOperationsInput | string | null
     balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -81545,6 +84632,7 @@ export namespace Prisma {
     code: string
     name: JsonNullValueInput | InputJsonValue
     currencyId: string
+    branchId?: string | null
     balance?: Decimal | DecimalJsLike | number | string
     isActive?: boolean
     createdAt?: Date | string
@@ -81567,6 +84655,7 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     name?: JsonNullValueInput | InputJsonValue
     currencyId?: StringFieldUpdateOperationsInput | string
+    branchId?: NullableStringFieldUpdateOperationsInput | string | null
     balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -82255,6 +85344,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     tenant: TenantCreateNestedOneWithoutDocumentSequencesInput
+    branch?: BranchCreateNestedOneWithoutDocumentSequencesInput
     defaultSalesForTenants?: TenantCreateNestedManyWithoutDefaultSalesSequenceInput
   }
 
@@ -82265,6 +85355,7 @@ export namespace Prisma {
     prefix: string
     nextNumber?: number
     padding?: number
+    branchId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     defaultSalesForTenants?: TenantUncheckedCreateNestedManyWithoutDefaultSalesSequenceInput
@@ -82279,6 +85370,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: TenantUpdateOneRequiredWithoutDocumentSequencesNestedInput
+    branch?: BranchUpdateOneWithoutDocumentSequencesNestedInput
     defaultSalesForTenants?: TenantUpdateManyWithoutDefaultSalesSequenceNestedInput
   }
 
@@ -82289,6 +85381,7 @@ export namespace Prisma {
     prefix?: StringFieldUpdateOperationsInput | string
     nextNumber?: IntFieldUpdateOperationsInput | number
     padding?: IntFieldUpdateOperationsInput | number
+    branchId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     defaultSalesForTenants?: TenantUncheckedUpdateManyWithoutDefaultSalesSequenceNestedInput
@@ -82301,6 +85394,7 @@ export namespace Prisma {
     prefix: string
     nextNumber?: number
     padding?: number
+    branchId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -82322,6 +85416,7 @@ export namespace Prisma {
     prefix?: StringFieldUpdateOperationsInput | string
     nextNumber?: IntFieldUpdateOperationsInput | number
     padding?: IntFieldUpdateOperationsInput | number
+    branchId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -85119,6 +88214,8 @@ export namespace Prisma {
     units?: UnitCreateNestedManyWithoutTenantInput
     items?: ItemCreateNestedManyWithoutTenantInput
     parties?: PartyCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountCreateNestedManyWithoutTenantInput
@@ -85180,6 +88277,8 @@ export namespace Prisma {
     units?: UnitUncheckedCreateNestedManyWithoutTenantInput
     items?: ItemUncheckedCreateNestedManyWithoutTenantInput
     parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseUncheckedCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxUncheckedCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountUncheckedCreateNestedManyWithoutTenantInput
@@ -85237,6 +88336,8 @@ export namespace Prisma {
     units?: UnitUpdateManyWithoutTenantNestedInput
     items?: ItemUpdateManyWithoutTenantNestedInput
     parties?: PartyUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUpdateManyWithoutTenantNestedInput
@@ -85298,6 +88399,8 @@ export namespace Prisma {
     units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
     items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
     parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUncheckedUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUncheckedUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUncheckedUpdateManyWithoutTenantNestedInput
@@ -85704,6 +88807,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     tenant: TenantCreateNestedOneWithoutWarehousesInput
+    branches?: BranchWarehouseCreateNestedManyWithoutWarehouseInput
     warehouseItems?: WarehouseItemCreateNestedManyWithoutWarehouseInput
     stockBalances?: StockBalanceCreateNestedManyWithoutWarehouseInput
     stockMovements?: StockMovementCreateNestedManyWithoutWarehouseInput
@@ -85721,6 +88825,7 @@ export namespace Prisma {
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    branches?: BranchWarehouseUncheckedCreateNestedManyWithoutWarehouseInput
     warehouseItems?: WarehouseItemUncheckedCreateNestedManyWithoutWarehouseInput
     stockBalances?: StockBalanceUncheckedCreateNestedManyWithoutWarehouseInput
     stockMovements?: StockMovementUncheckedCreateNestedManyWithoutWarehouseInput
@@ -85738,6 +88843,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: TenantUpdateOneRequiredWithoutWarehousesNestedInput
+    branches?: BranchWarehouseUpdateManyWithoutWarehouseNestedInput
     warehouseItems?: WarehouseItemUpdateManyWithoutWarehouseNestedInput
     stockBalances?: StockBalanceUpdateManyWithoutWarehouseNestedInput
     stockMovements?: StockMovementUpdateManyWithoutWarehouseNestedInput
@@ -85755,6 +88861,7 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    branches?: BranchWarehouseUncheckedUpdateManyWithoutWarehouseNestedInput
     warehouseItems?: WarehouseItemUncheckedUpdateManyWithoutWarehouseNestedInput
     stockBalances?: StockBalanceUncheckedUpdateManyWithoutWarehouseNestedInput
     stockMovements?: StockMovementUncheckedUpdateManyWithoutWarehouseNestedInput
@@ -86812,6 +89919,117 @@ export namespace Prisma {
     balance?: SortOrder
   }
 
+  export type BranchWarehouseListRelationFilter = {
+    every?: BranchWarehouseWhereInput
+    some?: BranchWarehouseWhereInput
+    none?: BranchWarehouseWhereInput
+  }
+
+  export type CashboxListRelationFilter = {
+    every?: CashboxWhereInput
+    some?: CashboxWhereInput
+    none?: CashboxWhereInput
+  }
+
+  export type DocumentSequenceListRelationFilter = {
+    every?: DocumentSequenceWhereInput
+    some?: DocumentSequenceWhereInput
+    none?: DocumentSequenceWhereInput
+  }
+
+  export type BranchWarehouseOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type CashboxOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type DocumentSequenceOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type BranchTenantIdCodeCompoundUniqueInput = {
+    tenantId: string
+    code: string
+  }
+
+  export type BranchCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    code?: SortOrder
+    name?: SortOrder
+    address?: SortOrder
+    phone?: SortOrder
+    email?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BranchMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    code?: SortOrder
+    address?: SortOrder
+    phone?: SortOrder
+    email?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BranchMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    code?: SortOrder
+    address?: SortOrder
+    phone?: SortOrder
+    email?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BranchScalarRelationFilter = {
+    is?: BranchWhereInput
+    isNot?: BranchWhereInput
+  }
+
+  export type WarehouseScalarRelationFilter = {
+    is?: WarehouseWhereInput
+    isNot?: WarehouseWhereInput
+  }
+
+  export type BranchWarehouseBranchIdWarehouseIdCompoundUniqueInput = {
+    branchId: string
+    warehouseId: string
+  }
+
+  export type BranchWarehouseCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    branchId?: SortOrder
+    warehouseId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type BranchWarehouseMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    branchId?: SortOrder
+    warehouseId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type BranchWarehouseMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    branchId?: SortOrder
+    warehouseId?: SortOrder
+    createdAt?: SortOrder
+  }
+
   export type ItemListRelationFilter = {
     every?: ItemWhereInput
     some?: ItemWhereInput
@@ -86857,6 +90075,11 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
+  export type BranchNullableScalarRelationFilter = {
+    is?: BranchWhereInput | null
+    isNot?: BranchWhereInput | null
+  }
+
   export type ExpenseListRelationFilter = {
     every?: ExpenseWhereInput
     some?: ExpenseWhereInput
@@ -86898,6 +90121,7 @@ export namespace Prisma {
     code?: SortOrder
     name?: SortOrder
     currencyId?: SortOrder
+    branchId?: SortOrder
     balance?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
@@ -86913,6 +90137,7 @@ export namespace Prisma {
     tenantId?: SortOrder
     code?: SortOrder
     currencyId?: SortOrder
+    branchId?: SortOrder
     balance?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
@@ -86924,6 +90149,7 @@ export namespace Prisma {
     tenantId?: SortOrder
     code?: SortOrder
     currencyId?: SortOrder
+    branchId?: SortOrder
     balance?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
@@ -87221,12 +90447,6 @@ export namespace Prisma {
     nextValue?: SortOrder
   }
 
-  export type CashboxListRelationFilter = {
-    every?: CashboxWhereInput
-    some?: CashboxWhereInput
-    none?: CashboxWhereInput
-  }
-
   export type BankAccountListRelationFilter = {
     every?: BankAccountWhereInput
     some?: BankAccountWhereInput
@@ -87243,10 +90463,6 @@ export namespace Prisma {
     every?: TenantWhereInput
     some?: TenantWhereInput
     none?: TenantWhereInput
-  }
-
-  export type CashboxOrderByRelationAggregateInput = {
-    _count?: SortOrder
   }
 
   export type BankAccountOrderByRelationAggregateInput = {
@@ -87420,6 +90636,7 @@ export namespace Prisma {
     prefix?: SortOrder
     nextNumber?: SortOrder
     padding?: SortOrder
+    branchId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -87436,6 +90653,7 @@ export namespace Prisma {
     prefix?: SortOrder
     nextNumber?: SortOrder
     padding?: SortOrder
+    branchId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -87447,6 +90665,7 @@ export namespace Prisma {
     prefix?: SortOrder
     nextNumber?: SortOrder
     padding?: SortOrder
+    branchId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -88784,11 +92003,6 @@ export namespace Prisma {
     createdAt?: SortOrder
   }
 
-  export type WarehouseScalarRelationFilter = {
-    is?: WarehouseWhereInput
-    isNot?: WarehouseWhereInput
-  }
-
   export type PosSettingCountOrderByAggregateInput = {
     id?: SortOrder
     tenantId?: SortOrder
@@ -89331,12 +92545,6 @@ export namespace Prisma {
     none?: FiscalPeriodWhereInput
   }
 
-  export type DocumentSequenceListRelationFilter = {
-    every?: DocumentSequenceWhereInput
-    some?: DocumentSequenceWhereInput
-    none?: DocumentSequenceWhereInput
-  }
-
   export type CodeSequenceListRelationFilter = {
     every?: CodeSequenceWhereInput
     some?: CodeSequenceWhereInput
@@ -89347,6 +92555,12 @@ export namespace Prisma {
     every?: UnitWhereInput
     some?: UnitWhereInput
     none?: UnitWhereInput
+  }
+
+  export type BranchListRelationFilter = {
+    every?: BranchWhereInput
+    some?: BranchWhereInput
+    none?: BranchWhereInput
   }
 
   export type WarehouseListRelationFilter = {
@@ -89440,15 +92654,15 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
-  export type DocumentSequenceOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
   export type CodeSequenceOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
   export type UnitOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type BranchOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -91021,6 +94235,188 @@ export namespace Prisma {
     deleteMany?: OpeningBalanceSessionLineScalarWhereInput | OpeningBalanceSessionLineScalarWhereInput[]
   }
 
+  export type TenantCreateNestedOneWithoutBranchesInput = {
+    create?: XOR<TenantCreateWithoutBranchesInput, TenantUncheckedCreateWithoutBranchesInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutBranchesInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type BranchWarehouseCreateNestedManyWithoutBranchInput = {
+    create?: XOR<BranchWarehouseCreateWithoutBranchInput, BranchWarehouseUncheckedCreateWithoutBranchInput> | BranchWarehouseCreateWithoutBranchInput[] | BranchWarehouseUncheckedCreateWithoutBranchInput[]
+    connectOrCreate?: BranchWarehouseCreateOrConnectWithoutBranchInput | BranchWarehouseCreateOrConnectWithoutBranchInput[]
+    createMany?: BranchWarehouseCreateManyBranchInputEnvelope
+    connect?: BranchWarehouseWhereUniqueInput | BranchWarehouseWhereUniqueInput[]
+  }
+
+  export type CashboxCreateNestedManyWithoutBranchInput = {
+    create?: XOR<CashboxCreateWithoutBranchInput, CashboxUncheckedCreateWithoutBranchInput> | CashboxCreateWithoutBranchInput[] | CashboxUncheckedCreateWithoutBranchInput[]
+    connectOrCreate?: CashboxCreateOrConnectWithoutBranchInput | CashboxCreateOrConnectWithoutBranchInput[]
+    createMany?: CashboxCreateManyBranchInputEnvelope
+    connect?: CashboxWhereUniqueInput | CashboxWhereUniqueInput[]
+  }
+
+  export type DocumentSequenceCreateNestedManyWithoutBranchInput = {
+    create?: XOR<DocumentSequenceCreateWithoutBranchInput, DocumentSequenceUncheckedCreateWithoutBranchInput> | DocumentSequenceCreateWithoutBranchInput[] | DocumentSequenceUncheckedCreateWithoutBranchInput[]
+    connectOrCreate?: DocumentSequenceCreateOrConnectWithoutBranchInput | DocumentSequenceCreateOrConnectWithoutBranchInput[]
+    createMany?: DocumentSequenceCreateManyBranchInputEnvelope
+    connect?: DocumentSequenceWhereUniqueInput | DocumentSequenceWhereUniqueInput[]
+  }
+
+  export type BranchWarehouseUncheckedCreateNestedManyWithoutBranchInput = {
+    create?: XOR<BranchWarehouseCreateWithoutBranchInput, BranchWarehouseUncheckedCreateWithoutBranchInput> | BranchWarehouseCreateWithoutBranchInput[] | BranchWarehouseUncheckedCreateWithoutBranchInput[]
+    connectOrCreate?: BranchWarehouseCreateOrConnectWithoutBranchInput | BranchWarehouseCreateOrConnectWithoutBranchInput[]
+    createMany?: BranchWarehouseCreateManyBranchInputEnvelope
+    connect?: BranchWarehouseWhereUniqueInput | BranchWarehouseWhereUniqueInput[]
+  }
+
+  export type CashboxUncheckedCreateNestedManyWithoutBranchInput = {
+    create?: XOR<CashboxCreateWithoutBranchInput, CashboxUncheckedCreateWithoutBranchInput> | CashboxCreateWithoutBranchInput[] | CashboxUncheckedCreateWithoutBranchInput[]
+    connectOrCreate?: CashboxCreateOrConnectWithoutBranchInput | CashboxCreateOrConnectWithoutBranchInput[]
+    createMany?: CashboxCreateManyBranchInputEnvelope
+    connect?: CashboxWhereUniqueInput | CashboxWhereUniqueInput[]
+  }
+
+  export type DocumentSequenceUncheckedCreateNestedManyWithoutBranchInput = {
+    create?: XOR<DocumentSequenceCreateWithoutBranchInput, DocumentSequenceUncheckedCreateWithoutBranchInput> | DocumentSequenceCreateWithoutBranchInput[] | DocumentSequenceUncheckedCreateWithoutBranchInput[]
+    connectOrCreate?: DocumentSequenceCreateOrConnectWithoutBranchInput | DocumentSequenceCreateOrConnectWithoutBranchInput[]
+    createMany?: DocumentSequenceCreateManyBranchInputEnvelope
+    connect?: DocumentSequenceWhereUniqueInput | DocumentSequenceWhereUniqueInput[]
+  }
+
+  export type TenantUpdateOneRequiredWithoutBranchesNestedInput = {
+    create?: XOR<TenantCreateWithoutBranchesInput, TenantUncheckedCreateWithoutBranchesInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutBranchesInput
+    upsert?: TenantUpsertWithoutBranchesInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutBranchesInput, TenantUpdateWithoutBranchesInput>, TenantUncheckedUpdateWithoutBranchesInput>
+  }
+
+  export type BranchWarehouseUpdateManyWithoutBranchNestedInput = {
+    create?: XOR<BranchWarehouseCreateWithoutBranchInput, BranchWarehouseUncheckedCreateWithoutBranchInput> | BranchWarehouseCreateWithoutBranchInput[] | BranchWarehouseUncheckedCreateWithoutBranchInput[]
+    connectOrCreate?: BranchWarehouseCreateOrConnectWithoutBranchInput | BranchWarehouseCreateOrConnectWithoutBranchInput[]
+    upsert?: BranchWarehouseUpsertWithWhereUniqueWithoutBranchInput | BranchWarehouseUpsertWithWhereUniqueWithoutBranchInput[]
+    createMany?: BranchWarehouseCreateManyBranchInputEnvelope
+    set?: BranchWarehouseWhereUniqueInput | BranchWarehouseWhereUniqueInput[]
+    disconnect?: BranchWarehouseWhereUniqueInput | BranchWarehouseWhereUniqueInput[]
+    delete?: BranchWarehouseWhereUniqueInput | BranchWarehouseWhereUniqueInput[]
+    connect?: BranchWarehouseWhereUniqueInput | BranchWarehouseWhereUniqueInput[]
+    update?: BranchWarehouseUpdateWithWhereUniqueWithoutBranchInput | BranchWarehouseUpdateWithWhereUniqueWithoutBranchInput[]
+    updateMany?: BranchWarehouseUpdateManyWithWhereWithoutBranchInput | BranchWarehouseUpdateManyWithWhereWithoutBranchInput[]
+    deleteMany?: BranchWarehouseScalarWhereInput | BranchWarehouseScalarWhereInput[]
+  }
+
+  export type CashboxUpdateManyWithoutBranchNestedInput = {
+    create?: XOR<CashboxCreateWithoutBranchInput, CashboxUncheckedCreateWithoutBranchInput> | CashboxCreateWithoutBranchInput[] | CashboxUncheckedCreateWithoutBranchInput[]
+    connectOrCreate?: CashboxCreateOrConnectWithoutBranchInput | CashboxCreateOrConnectWithoutBranchInput[]
+    upsert?: CashboxUpsertWithWhereUniqueWithoutBranchInput | CashboxUpsertWithWhereUniqueWithoutBranchInput[]
+    createMany?: CashboxCreateManyBranchInputEnvelope
+    set?: CashboxWhereUniqueInput | CashboxWhereUniqueInput[]
+    disconnect?: CashboxWhereUniqueInput | CashboxWhereUniqueInput[]
+    delete?: CashboxWhereUniqueInput | CashboxWhereUniqueInput[]
+    connect?: CashboxWhereUniqueInput | CashboxWhereUniqueInput[]
+    update?: CashboxUpdateWithWhereUniqueWithoutBranchInput | CashboxUpdateWithWhereUniqueWithoutBranchInput[]
+    updateMany?: CashboxUpdateManyWithWhereWithoutBranchInput | CashboxUpdateManyWithWhereWithoutBranchInput[]
+    deleteMany?: CashboxScalarWhereInput | CashboxScalarWhereInput[]
+  }
+
+  export type DocumentSequenceUpdateManyWithoutBranchNestedInput = {
+    create?: XOR<DocumentSequenceCreateWithoutBranchInput, DocumentSequenceUncheckedCreateWithoutBranchInput> | DocumentSequenceCreateWithoutBranchInput[] | DocumentSequenceUncheckedCreateWithoutBranchInput[]
+    connectOrCreate?: DocumentSequenceCreateOrConnectWithoutBranchInput | DocumentSequenceCreateOrConnectWithoutBranchInput[]
+    upsert?: DocumentSequenceUpsertWithWhereUniqueWithoutBranchInput | DocumentSequenceUpsertWithWhereUniqueWithoutBranchInput[]
+    createMany?: DocumentSequenceCreateManyBranchInputEnvelope
+    set?: DocumentSequenceWhereUniqueInput | DocumentSequenceWhereUniqueInput[]
+    disconnect?: DocumentSequenceWhereUniqueInput | DocumentSequenceWhereUniqueInput[]
+    delete?: DocumentSequenceWhereUniqueInput | DocumentSequenceWhereUniqueInput[]
+    connect?: DocumentSequenceWhereUniqueInput | DocumentSequenceWhereUniqueInput[]
+    update?: DocumentSequenceUpdateWithWhereUniqueWithoutBranchInput | DocumentSequenceUpdateWithWhereUniqueWithoutBranchInput[]
+    updateMany?: DocumentSequenceUpdateManyWithWhereWithoutBranchInput | DocumentSequenceUpdateManyWithWhereWithoutBranchInput[]
+    deleteMany?: DocumentSequenceScalarWhereInput | DocumentSequenceScalarWhereInput[]
+  }
+
+  export type BranchWarehouseUncheckedUpdateManyWithoutBranchNestedInput = {
+    create?: XOR<BranchWarehouseCreateWithoutBranchInput, BranchWarehouseUncheckedCreateWithoutBranchInput> | BranchWarehouseCreateWithoutBranchInput[] | BranchWarehouseUncheckedCreateWithoutBranchInput[]
+    connectOrCreate?: BranchWarehouseCreateOrConnectWithoutBranchInput | BranchWarehouseCreateOrConnectWithoutBranchInput[]
+    upsert?: BranchWarehouseUpsertWithWhereUniqueWithoutBranchInput | BranchWarehouseUpsertWithWhereUniqueWithoutBranchInput[]
+    createMany?: BranchWarehouseCreateManyBranchInputEnvelope
+    set?: BranchWarehouseWhereUniqueInput | BranchWarehouseWhereUniqueInput[]
+    disconnect?: BranchWarehouseWhereUniqueInput | BranchWarehouseWhereUniqueInput[]
+    delete?: BranchWarehouseWhereUniqueInput | BranchWarehouseWhereUniqueInput[]
+    connect?: BranchWarehouseWhereUniqueInput | BranchWarehouseWhereUniqueInput[]
+    update?: BranchWarehouseUpdateWithWhereUniqueWithoutBranchInput | BranchWarehouseUpdateWithWhereUniqueWithoutBranchInput[]
+    updateMany?: BranchWarehouseUpdateManyWithWhereWithoutBranchInput | BranchWarehouseUpdateManyWithWhereWithoutBranchInput[]
+    deleteMany?: BranchWarehouseScalarWhereInput | BranchWarehouseScalarWhereInput[]
+  }
+
+  export type CashboxUncheckedUpdateManyWithoutBranchNestedInput = {
+    create?: XOR<CashboxCreateWithoutBranchInput, CashboxUncheckedCreateWithoutBranchInput> | CashboxCreateWithoutBranchInput[] | CashboxUncheckedCreateWithoutBranchInput[]
+    connectOrCreate?: CashboxCreateOrConnectWithoutBranchInput | CashboxCreateOrConnectWithoutBranchInput[]
+    upsert?: CashboxUpsertWithWhereUniqueWithoutBranchInput | CashboxUpsertWithWhereUniqueWithoutBranchInput[]
+    createMany?: CashboxCreateManyBranchInputEnvelope
+    set?: CashboxWhereUniqueInput | CashboxWhereUniqueInput[]
+    disconnect?: CashboxWhereUniqueInput | CashboxWhereUniqueInput[]
+    delete?: CashboxWhereUniqueInput | CashboxWhereUniqueInput[]
+    connect?: CashboxWhereUniqueInput | CashboxWhereUniqueInput[]
+    update?: CashboxUpdateWithWhereUniqueWithoutBranchInput | CashboxUpdateWithWhereUniqueWithoutBranchInput[]
+    updateMany?: CashboxUpdateManyWithWhereWithoutBranchInput | CashboxUpdateManyWithWhereWithoutBranchInput[]
+    deleteMany?: CashboxScalarWhereInput | CashboxScalarWhereInput[]
+  }
+
+  export type DocumentSequenceUncheckedUpdateManyWithoutBranchNestedInput = {
+    create?: XOR<DocumentSequenceCreateWithoutBranchInput, DocumentSequenceUncheckedCreateWithoutBranchInput> | DocumentSequenceCreateWithoutBranchInput[] | DocumentSequenceUncheckedCreateWithoutBranchInput[]
+    connectOrCreate?: DocumentSequenceCreateOrConnectWithoutBranchInput | DocumentSequenceCreateOrConnectWithoutBranchInput[]
+    upsert?: DocumentSequenceUpsertWithWhereUniqueWithoutBranchInput | DocumentSequenceUpsertWithWhereUniqueWithoutBranchInput[]
+    createMany?: DocumentSequenceCreateManyBranchInputEnvelope
+    set?: DocumentSequenceWhereUniqueInput | DocumentSequenceWhereUniqueInput[]
+    disconnect?: DocumentSequenceWhereUniqueInput | DocumentSequenceWhereUniqueInput[]
+    delete?: DocumentSequenceWhereUniqueInput | DocumentSequenceWhereUniqueInput[]
+    connect?: DocumentSequenceWhereUniqueInput | DocumentSequenceWhereUniqueInput[]
+    update?: DocumentSequenceUpdateWithWhereUniqueWithoutBranchInput | DocumentSequenceUpdateWithWhereUniqueWithoutBranchInput[]
+    updateMany?: DocumentSequenceUpdateManyWithWhereWithoutBranchInput | DocumentSequenceUpdateManyWithWhereWithoutBranchInput[]
+    deleteMany?: DocumentSequenceScalarWhereInput | DocumentSequenceScalarWhereInput[]
+  }
+
+  export type TenantCreateNestedOneWithoutBranchWarehousesInput = {
+    create?: XOR<TenantCreateWithoutBranchWarehousesInput, TenantUncheckedCreateWithoutBranchWarehousesInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutBranchWarehousesInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type BranchCreateNestedOneWithoutWarehousesInput = {
+    create?: XOR<BranchCreateWithoutWarehousesInput, BranchUncheckedCreateWithoutWarehousesInput>
+    connectOrCreate?: BranchCreateOrConnectWithoutWarehousesInput
+    connect?: BranchWhereUniqueInput
+  }
+
+  export type WarehouseCreateNestedOneWithoutBranchesInput = {
+    create?: XOR<WarehouseCreateWithoutBranchesInput, WarehouseUncheckedCreateWithoutBranchesInput>
+    connectOrCreate?: WarehouseCreateOrConnectWithoutBranchesInput
+    connect?: WarehouseWhereUniqueInput
+  }
+
+  export type TenantUpdateOneRequiredWithoutBranchWarehousesNestedInput = {
+    create?: XOR<TenantCreateWithoutBranchWarehousesInput, TenantUncheckedCreateWithoutBranchWarehousesInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutBranchWarehousesInput
+    upsert?: TenantUpsertWithoutBranchWarehousesInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutBranchWarehousesInput, TenantUpdateWithoutBranchWarehousesInput>, TenantUncheckedUpdateWithoutBranchWarehousesInput>
+  }
+
+  export type BranchUpdateOneRequiredWithoutWarehousesNestedInput = {
+    create?: XOR<BranchCreateWithoutWarehousesInput, BranchUncheckedCreateWithoutWarehousesInput>
+    connectOrCreate?: BranchCreateOrConnectWithoutWarehousesInput
+    upsert?: BranchUpsertWithoutWarehousesInput
+    connect?: BranchWhereUniqueInput
+    update?: XOR<XOR<BranchUpdateToOneWithWhereWithoutWarehousesInput, BranchUpdateWithoutWarehousesInput>, BranchUncheckedUpdateWithoutWarehousesInput>
+  }
+
+  export type WarehouseUpdateOneRequiredWithoutBranchesNestedInput = {
+    create?: XOR<WarehouseCreateWithoutBranchesInput, WarehouseUncheckedCreateWithoutBranchesInput>
+    connectOrCreate?: WarehouseCreateOrConnectWithoutBranchesInput
+    upsert?: WarehouseUpsertWithoutBranchesInput
+    connect?: WarehouseWhereUniqueInput
+    update?: XOR<XOR<WarehouseUpdateToOneWithWhereWithoutBranchesInput, WarehouseUpdateWithoutBranchesInput>, WarehouseUncheckedUpdateWithoutBranchesInput>
+  }
+
   export type TenantCreateNestedOneWithoutBrandsInput = {
     create?: XOR<TenantCreateWithoutBrandsInput, TenantUncheckedCreateWithoutBrandsInput>
     connectOrCreate?: TenantCreateOrConnectWithoutBrandsInput
@@ -91087,6 +94483,12 @@ export namespace Prisma {
     create?: XOR<CurrencyCreateWithoutCashboxesInput, CurrencyUncheckedCreateWithoutCashboxesInput>
     connectOrCreate?: CurrencyCreateOrConnectWithoutCashboxesInput
     connect?: CurrencyWhereUniqueInput
+  }
+
+  export type BranchCreateNestedOneWithoutCashboxesInput = {
+    create?: XOR<BranchCreateWithoutCashboxesInput, BranchUncheckedCreateWithoutCashboxesInput>
+    connectOrCreate?: BranchCreateOrConnectWithoutCashboxesInput
+    connect?: BranchWhereUniqueInput
   }
 
   export type ExpenseCreateNestedManyWithoutCashboxInput = {
@@ -91173,6 +94575,16 @@ export namespace Prisma {
     upsert?: CurrencyUpsertWithoutCashboxesInput
     connect?: CurrencyWhereUniqueInput
     update?: XOR<XOR<CurrencyUpdateToOneWithWhereWithoutCashboxesInput, CurrencyUpdateWithoutCashboxesInput>, CurrencyUncheckedUpdateWithoutCashboxesInput>
+  }
+
+  export type BranchUpdateOneWithoutCashboxesNestedInput = {
+    create?: XOR<BranchCreateWithoutCashboxesInput, BranchUncheckedCreateWithoutCashboxesInput>
+    connectOrCreate?: BranchCreateOrConnectWithoutCashboxesInput
+    upsert?: BranchUpsertWithoutCashboxesInput
+    disconnect?: BranchWhereInput | boolean
+    delete?: BranchWhereInput | boolean
+    connect?: BranchWhereUniqueInput
+    update?: XOR<XOR<BranchUpdateToOneWithWhereWithoutCashboxesInput, BranchUpdateWithoutCashboxesInput>, BranchUncheckedUpdateWithoutCashboxesInput>
   }
 
   export type ExpenseUpdateManyWithoutCashboxNestedInput = {
@@ -92018,6 +95430,12 @@ export namespace Prisma {
     connect?: TenantWhereUniqueInput
   }
 
+  export type BranchCreateNestedOneWithoutDocumentSequencesInput = {
+    create?: XOR<BranchCreateWithoutDocumentSequencesInput, BranchUncheckedCreateWithoutDocumentSequencesInput>
+    connectOrCreate?: BranchCreateOrConnectWithoutDocumentSequencesInput
+    connect?: BranchWhereUniqueInput
+  }
+
   export type TenantCreateNestedManyWithoutDefaultSalesSequenceInput = {
     create?: XOR<TenantCreateWithoutDefaultSalesSequenceInput, TenantUncheckedCreateWithoutDefaultSalesSequenceInput> | TenantCreateWithoutDefaultSalesSequenceInput[] | TenantUncheckedCreateWithoutDefaultSalesSequenceInput[]
     connectOrCreate?: TenantCreateOrConnectWithoutDefaultSalesSequenceInput | TenantCreateOrConnectWithoutDefaultSalesSequenceInput[]
@@ -92038,6 +95456,16 @@ export namespace Prisma {
     upsert?: TenantUpsertWithoutDocumentSequencesInput
     connect?: TenantWhereUniqueInput
     update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutDocumentSequencesInput, TenantUpdateWithoutDocumentSequencesInput>, TenantUncheckedUpdateWithoutDocumentSequencesInput>
+  }
+
+  export type BranchUpdateOneWithoutDocumentSequencesNestedInput = {
+    create?: XOR<BranchCreateWithoutDocumentSequencesInput, BranchUncheckedCreateWithoutDocumentSequencesInput>
+    connectOrCreate?: BranchCreateOrConnectWithoutDocumentSequencesInput
+    upsert?: BranchUpsertWithoutDocumentSequencesInput
+    disconnect?: BranchWhereInput | boolean
+    delete?: BranchWhereInput | boolean
+    connect?: BranchWhereUniqueInput
+    update?: XOR<XOR<BranchUpdateToOneWithWhereWithoutDocumentSequencesInput, BranchUpdateWithoutDocumentSequencesInput>, BranchUncheckedUpdateWithoutDocumentSequencesInput>
   }
 
   export type TenantUpdateManyWithoutDefaultSalesSequenceNestedInput = {
@@ -94632,6 +98060,20 @@ export namespace Prisma {
     connect?: PartyWhereUniqueInput | PartyWhereUniqueInput[]
   }
 
+  export type BranchCreateNestedManyWithoutTenantInput = {
+    create?: XOR<BranchCreateWithoutTenantInput, BranchUncheckedCreateWithoutTenantInput> | BranchCreateWithoutTenantInput[] | BranchUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: BranchCreateOrConnectWithoutTenantInput | BranchCreateOrConnectWithoutTenantInput[]
+    createMany?: BranchCreateManyTenantInputEnvelope
+    connect?: BranchWhereUniqueInput | BranchWhereUniqueInput[]
+  }
+
+  export type BranchWarehouseCreateNestedManyWithoutTenantInput = {
+    create?: XOR<BranchWarehouseCreateWithoutTenantInput, BranchWarehouseUncheckedCreateWithoutTenantInput> | BranchWarehouseCreateWithoutTenantInput[] | BranchWarehouseUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: BranchWarehouseCreateOrConnectWithoutTenantInput | BranchWarehouseCreateOrConnectWithoutTenantInput[]
+    createMany?: BranchWarehouseCreateManyTenantInputEnvelope
+    connect?: BranchWarehouseWhereUniqueInput | BranchWarehouseWhereUniqueInput[]
+  }
+
   export type WarehouseCreateNestedManyWithoutTenantInput = {
     create?: XOR<WarehouseCreateWithoutTenantInput, WarehouseUncheckedCreateWithoutTenantInput> | WarehouseCreateWithoutTenantInput[] | WarehouseUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: WarehouseCreateOrConnectWithoutTenantInput | WarehouseCreateOrConnectWithoutTenantInput[]
@@ -94892,6 +98334,20 @@ export namespace Prisma {
     connectOrCreate?: PartyCreateOrConnectWithoutTenantInput | PartyCreateOrConnectWithoutTenantInput[]
     createMany?: PartyCreateManyTenantInputEnvelope
     connect?: PartyWhereUniqueInput | PartyWhereUniqueInput[]
+  }
+
+  export type BranchUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<BranchCreateWithoutTenantInput, BranchUncheckedCreateWithoutTenantInput> | BranchCreateWithoutTenantInput[] | BranchUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: BranchCreateOrConnectWithoutTenantInput | BranchCreateOrConnectWithoutTenantInput[]
+    createMany?: BranchCreateManyTenantInputEnvelope
+    connect?: BranchWhereUniqueInput | BranchWhereUniqueInput[]
+  }
+
+  export type BranchWarehouseUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<BranchWarehouseCreateWithoutTenantInput, BranchWarehouseUncheckedCreateWithoutTenantInput> | BranchWarehouseCreateWithoutTenantInput[] | BranchWarehouseUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: BranchWarehouseCreateOrConnectWithoutTenantInput | BranchWarehouseCreateOrConnectWithoutTenantInput[]
+    createMany?: BranchWarehouseCreateManyTenantInputEnvelope
+    connect?: BranchWarehouseWhereUniqueInput | BranchWarehouseWhereUniqueInput[]
   }
 
   export type WarehouseUncheckedCreateNestedManyWithoutTenantInput = {
@@ -95212,6 +98668,34 @@ export namespace Prisma {
     update?: PartyUpdateWithWhereUniqueWithoutTenantInput | PartyUpdateWithWhereUniqueWithoutTenantInput[]
     updateMany?: PartyUpdateManyWithWhereWithoutTenantInput | PartyUpdateManyWithWhereWithoutTenantInput[]
     deleteMany?: PartyScalarWhereInput | PartyScalarWhereInput[]
+  }
+
+  export type BranchUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<BranchCreateWithoutTenantInput, BranchUncheckedCreateWithoutTenantInput> | BranchCreateWithoutTenantInput[] | BranchUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: BranchCreateOrConnectWithoutTenantInput | BranchCreateOrConnectWithoutTenantInput[]
+    upsert?: BranchUpsertWithWhereUniqueWithoutTenantInput | BranchUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: BranchCreateManyTenantInputEnvelope
+    set?: BranchWhereUniqueInput | BranchWhereUniqueInput[]
+    disconnect?: BranchWhereUniqueInput | BranchWhereUniqueInput[]
+    delete?: BranchWhereUniqueInput | BranchWhereUniqueInput[]
+    connect?: BranchWhereUniqueInput | BranchWhereUniqueInput[]
+    update?: BranchUpdateWithWhereUniqueWithoutTenantInput | BranchUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: BranchUpdateManyWithWhereWithoutTenantInput | BranchUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: BranchScalarWhereInput | BranchScalarWhereInput[]
+  }
+
+  export type BranchWarehouseUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<BranchWarehouseCreateWithoutTenantInput, BranchWarehouseUncheckedCreateWithoutTenantInput> | BranchWarehouseCreateWithoutTenantInput[] | BranchWarehouseUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: BranchWarehouseCreateOrConnectWithoutTenantInput | BranchWarehouseCreateOrConnectWithoutTenantInput[]
+    upsert?: BranchWarehouseUpsertWithWhereUniqueWithoutTenantInput | BranchWarehouseUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: BranchWarehouseCreateManyTenantInputEnvelope
+    set?: BranchWarehouseWhereUniqueInput | BranchWarehouseWhereUniqueInput[]
+    disconnect?: BranchWarehouseWhereUniqueInput | BranchWarehouseWhereUniqueInput[]
+    delete?: BranchWarehouseWhereUniqueInput | BranchWarehouseWhereUniqueInput[]
+    connect?: BranchWarehouseWhereUniqueInput | BranchWarehouseWhereUniqueInput[]
+    update?: BranchWarehouseUpdateWithWhereUniqueWithoutTenantInput | BranchWarehouseUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: BranchWarehouseUpdateManyWithWhereWithoutTenantInput | BranchWarehouseUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: BranchWarehouseScalarWhereInput | BranchWarehouseScalarWhereInput[]
   }
 
   export type WarehouseUpdateManyWithoutTenantNestedInput = {
@@ -95728,6 +99212,34 @@ export namespace Prisma {
     update?: PartyUpdateWithWhereUniqueWithoutTenantInput | PartyUpdateWithWhereUniqueWithoutTenantInput[]
     updateMany?: PartyUpdateManyWithWhereWithoutTenantInput | PartyUpdateManyWithWhereWithoutTenantInput[]
     deleteMany?: PartyScalarWhereInput | PartyScalarWhereInput[]
+  }
+
+  export type BranchUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<BranchCreateWithoutTenantInput, BranchUncheckedCreateWithoutTenantInput> | BranchCreateWithoutTenantInput[] | BranchUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: BranchCreateOrConnectWithoutTenantInput | BranchCreateOrConnectWithoutTenantInput[]
+    upsert?: BranchUpsertWithWhereUniqueWithoutTenantInput | BranchUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: BranchCreateManyTenantInputEnvelope
+    set?: BranchWhereUniqueInput | BranchWhereUniqueInput[]
+    disconnect?: BranchWhereUniqueInput | BranchWhereUniqueInput[]
+    delete?: BranchWhereUniqueInput | BranchWhereUniqueInput[]
+    connect?: BranchWhereUniqueInput | BranchWhereUniqueInput[]
+    update?: BranchUpdateWithWhereUniqueWithoutTenantInput | BranchUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: BranchUpdateManyWithWhereWithoutTenantInput | BranchUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: BranchScalarWhereInput | BranchScalarWhereInput[]
+  }
+
+  export type BranchWarehouseUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<BranchWarehouseCreateWithoutTenantInput, BranchWarehouseUncheckedCreateWithoutTenantInput> | BranchWarehouseCreateWithoutTenantInput[] | BranchWarehouseUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: BranchWarehouseCreateOrConnectWithoutTenantInput | BranchWarehouseCreateOrConnectWithoutTenantInput[]
+    upsert?: BranchWarehouseUpsertWithWhereUniqueWithoutTenantInput | BranchWarehouseUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: BranchWarehouseCreateManyTenantInputEnvelope
+    set?: BranchWarehouseWhereUniqueInput | BranchWarehouseWhereUniqueInput[]
+    disconnect?: BranchWarehouseWhereUniqueInput | BranchWarehouseWhereUniqueInput[]
+    delete?: BranchWarehouseWhereUniqueInput | BranchWarehouseWhereUniqueInput[]
+    connect?: BranchWarehouseWhereUniqueInput | BranchWarehouseWhereUniqueInput[]
+    update?: BranchWarehouseUpdateWithWhereUniqueWithoutTenantInput | BranchWarehouseUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: BranchWarehouseUpdateManyWithWhereWithoutTenantInput | BranchWarehouseUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: BranchWarehouseScalarWhereInput | BranchWarehouseScalarWhereInput[]
   }
 
   export type WarehouseUncheckedUpdateManyWithoutTenantNestedInput = {
@@ -96372,6 +99884,13 @@ export namespace Prisma {
     connect?: TenantWhereUniqueInput
   }
 
+  export type BranchWarehouseCreateNestedManyWithoutWarehouseInput = {
+    create?: XOR<BranchWarehouseCreateWithoutWarehouseInput, BranchWarehouseUncheckedCreateWithoutWarehouseInput> | BranchWarehouseCreateWithoutWarehouseInput[] | BranchWarehouseUncheckedCreateWithoutWarehouseInput[]
+    connectOrCreate?: BranchWarehouseCreateOrConnectWithoutWarehouseInput | BranchWarehouseCreateOrConnectWithoutWarehouseInput[]
+    createMany?: BranchWarehouseCreateManyWarehouseInputEnvelope
+    connect?: BranchWarehouseWhereUniqueInput | BranchWarehouseWhereUniqueInput[]
+  }
+
   export type WarehouseItemCreateNestedManyWithoutWarehouseInput = {
     create?: XOR<WarehouseItemCreateWithoutWarehouseInput, WarehouseItemUncheckedCreateWithoutWarehouseInput> | WarehouseItemCreateWithoutWarehouseInput[] | WarehouseItemUncheckedCreateWithoutWarehouseInput[]
     connectOrCreate?: WarehouseItemCreateOrConnectWithoutWarehouseInput | WarehouseItemCreateOrConnectWithoutWarehouseInput[]
@@ -96412,6 +99931,13 @@ export namespace Prisma {
     connectOrCreate?: PosSettingCreateOrConnectWithoutWarehouseInput | PosSettingCreateOrConnectWithoutWarehouseInput[]
     createMany?: PosSettingCreateManyWarehouseInputEnvelope
     connect?: PosSettingWhereUniqueInput | PosSettingWhereUniqueInput[]
+  }
+
+  export type BranchWarehouseUncheckedCreateNestedManyWithoutWarehouseInput = {
+    create?: XOR<BranchWarehouseCreateWithoutWarehouseInput, BranchWarehouseUncheckedCreateWithoutWarehouseInput> | BranchWarehouseCreateWithoutWarehouseInput[] | BranchWarehouseUncheckedCreateWithoutWarehouseInput[]
+    connectOrCreate?: BranchWarehouseCreateOrConnectWithoutWarehouseInput | BranchWarehouseCreateOrConnectWithoutWarehouseInput[]
+    createMany?: BranchWarehouseCreateManyWarehouseInputEnvelope
+    connect?: BranchWarehouseWhereUniqueInput | BranchWarehouseWhereUniqueInput[]
   }
 
   export type WarehouseItemUncheckedCreateNestedManyWithoutWarehouseInput = {
@@ -96462,6 +99988,20 @@ export namespace Prisma {
     upsert?: TenantUpsertWithoutWarehousesInput
     connect?: TenantWhereUniqueInput
     update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutWarehousesInput, TenantUpdateWithoutWarehousesInput>, TenantUncheckedUpdateWithoutWarehousesInput>
+  }
+
+  export type BranchWarehouseUpdateManyWithoutWarehouseNestedInput = {
+    create?: XOR<BranchWarehouseCreateWithoutWarehouseInput, BranchWarehouseUncheckedCreateWithoutWarehouseInput> | BranchWarehouseCreateWithoutWarehouseInput[] | BranchWarehouseUncheckedCreateWithoutWarehouseInput[]
+    connectOrCreate?: BranchWarehouseCreateOrConnectWithoutWarehouseInput | BranchWarehouseCreateOrConnectWithoutWarehouseInput[]
+    upsert?: BranchWarehouseUpsertWithWhereUniqueWithoutWarehouseInput | BranchWarehouseUpsertWithWhereUniqueWithoutWarehouseInput[]
+    createMany?: BranchWarehouseCreateManyWarehouseInputEnvelope
+    set?: BranchWarehouseWhereUniqueInput | BranchWarehouseWhereUniqueInput[]
+    disconnect?: BranchWarehouseWhereUniqueInput | BranchWarehouseWhereUniqueInput[]
+    delete?: BranchWarehouseWhereUniqueInput | BranchWarehouseWhereUniqueInput[]
+    connect?: BranchWarehouseWhereUniqueInput | BranchWarehouseWhereUniqueInput[]
+    update?: BranchWarehouseUpdateWithWhereUniqueWithoutWarehouseInput | BranchWarehouseUpdateWithWhereUniqueWithoutWarehouseInput[]
+    updateMany?: BranchWarehouseUpdateManyWithWhereWithoutWarehouseInput | BranchWarehouseUpdateManyWithWhereWithoutWarehouseInput[]
+    deleteMany?: BranchWarehouseScalarWhereInput | BranchWarehouseScalarWhereInput[]
   }
 
   export type WarehouseItemUpdateManyWithoutWarehouseNestedInput = {
@@ -96546,6 +100086,20 @@ export namespace Prisma {
     update?: PosSettingUpdateWithWhereUniqueWithoutWarehouseInput | PosSettingUpdateWithWhereUniqueWithoutWarehouseInput[]
     updateMany?: PosSettingUpdateManyWithWhereWithoutWarehouseInput | PosSettingUpdateManyWithWhereWithoutWarehouseInput[]
     deleteMany?: PosSettingScalarWhereInput | PosSettingScalarWhereInput[]
+  }
+
+  export type BranchWarehouseUncheckedUpdateManyWithoutWarehouseNestedInput = {
+    create?: XOR<BranchWarehouseCreateWithoutWarehouseInput, BranchWarehouseUncheckedCreateWithoutWarehouseInput> | BranchWarehouseCreateWithoutWarehouseInput[] | BranchWarehouseUncheckedCreateWithoutWarehouseInput[]
+    connectOrCreate?: BranchWarehouseCreateOrConnectWithoutWarehouseInput | BranchWarehouseCreateOrConnectWithoutWarehouseInput[]
+    upsert?: BranchWarehouseUpsertWithWhereUniqueWithoutWarehouseInput | BranchWarehouseUpsertWithWhereUniqueWithoutWarehouseInput[]
+    createMany?: BranchWarehouseCreateManyWarehouseInputEnvelope
+    set?: BranchWarehouseWhereUniqueInput | BranchWarehouseWhereUniqueInput[]
+    disconnect?: BranchWarehouseWhereUniqueInput | BranchWarehouseWhereUniqueInput[]
+    delete?: BranchWarehouseWhereUniqueInput | BranchWarehouseWhereUniqueInput[]
+    connect?: BranchWarehouseWhereUniqueInput | BranchWarehouseWhereUniqueInput[]
+    update?: BranchWarehouseUpdateWithWhereUniqueWithoutWarehouseInput | BranchWarehouseUpdateWithWhereUniqueWithoutWarehouseInput[]
+    updateMany?: BranchWarehouseUpdateManyWithWhereWithoutWarehouseInput | BranchWarehouseUpdateManyWithWhereWithoutWarehouseInput[]
+    deleteMany?: BranchWarehouseScalarWhereInput | BranchWarehouseScalarWhereInput[]
   }
 
   export type WarehouseItemUncheckedUpdateManyWithoutWarehouseNestedInput = {
@@ -97354,6 +100908,8 @@ export namespace Prisma {
     units?: UnitCreateNestedManyWithoutTenantInput
     items?: ItemCreateNestedManyWithoutTenantInput
     parties?: PartyCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountCreateNestedManyWithoutTenantInput
@@ -97414,6 +100970,8 @@ export namespace Prisma {
     units?: UnitUncheckedCreateNestedManyWithoutTenantInput
     items?: ItemUncheckedCreateNestedManyWithoutTenantInput
     parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseUncheckedCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxUncheckedCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountUncheckedCreateNestedManyWithoutTenantInput
@@ -98323,6 +101881,8 @@ export namespace Prisma {
     units?: UnitUpdateManyWithoutTenantNestedInput
     items?: ItemUpdateManyWithoutTenantNestedInput
     parties?: PartyUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUpdateManyWithoutTenantNestedInput
@@ -98383,6 +101943,8 @@ export namespace Prisma {
     units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
     items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
     parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUncheckedUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUncheckedUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUncheckedUpdateManyWithoutTenantNestedInput
@@ -98896,6 +102458,8 @@ export namespace Prisma {
     units?: UnitCreateNestedManyWithoutTenantInput
     items?: ItemCreateNestedManyWithoutTenantInput
     parties?: PartyCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountCreateNestedManyWithoutTenantInput
@@ -98956,6 +102520,8 @@ export namespace Prisma {
     units?: UnitUncheckedCreateNestedManyWithoutTenantInput
     items?: ItemUncheckedCreateNestedManyWithoutTenantInput
     parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseUncheckedCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxUncheckedCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountUncheckedCreateNestedManyWithoutTenantInput
@@ -99204,6 +102770,8 @@ export namespace Prisma {
     units?: UnitUpdateManyWithoutTenantNestedInput
     items?: ItemUpdateManyWithoutTenantNestedInput
     parties?: PartyUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUpdateManyWithoutTenantNestedInput
@@ -99264,6 +102832,8 @@ export namespace Prisma {
     units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
     items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
     parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUncheckedUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUncheckedUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUncheckedUpdateManyWithoutTenantNestedInput
@@ -99608,6 +103178,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     tenant: TenantCreateNestedOneWithoutCashboxesInput
     currency: CurrencyCreateNestedOneWithoutCashboxesInput
+    branch?: BranchCreateNestedOneWithoutCashboxesInput
     expenses?: ExpenseCreateNestedManyWithoutCashboxInput
     payments?: PaymentCreateNestedManyWithoutCashboxInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutCashboxInput
@@ -99620,6 +103191,7 @@ export namespace Prisma {
     code: string
     name: JsonNullValueInput | InputJsonValue
     currencyId: string
+    branchId?: string | null
     balance?: Decimal | DecimalJsLike | number | string
     isActive?: boolean
     createdAt?: Date | string
@@ -99909,6 +103481,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: TenantUpdateOneRequiredWithoutCashboxesNestedInput
     currency?: CurrencyUpdateOneRequiredWithoutCashboxesNestedInput
+    branch?: BranchUpdateOneWithoutCashboxesNestedInput
     expenses?: ExpenseUpdateManyWithoutCashboxNestedInput
     payments?: PaymentUpdateManyWithoutCashboxNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutCashboxNestedInput
@@ -99921,6 +103494,7 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     name?: JsonNullValueInput | InputJsonValue
     currencyId?: StringFieldUpdateOperationsInput | string
+    branchId?: NullableStringFieldUpdateOperationsInput | string | null
     balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -100050,6 +103624,8 @@ export namespace Prisma {
     units?: UnitCreateNestedManyWithoutTenantInput
     items?: ItemCreateNestedManyWithoutTenantInput
     parties?: PartyCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountCreateNestedManyWithoutTenantInput
@@ -100110,6 +103686,8 @@ export namespace Prisma {
     units?: UnitUncheckedCreateNestedManyWithoutTenantInput
     items?: ItemUncheckedCreateNestedManyWithoutTenantInput
     parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseUncheckedCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxUncheckedCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountUncheckedCreateNestedManyWithoutTenantInput
@@ -100212,6 +103790,8 @@ export namespace Prisma {
     units?: UnitUpdateManyWithoutTenantNestedInput
     items?: ItemUpdateManyWithoutTenantNestedInput
     parties?: PartyUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUpdateManyWithoutTenantNestedInput
@@ -100272,6 +103852,8 @@ export namespace Prisma {
     units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
     items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
     parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUncheckedUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUncheckedUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUncheckedUpdateManyWithoutTenantNestedInput
@@ -100358,6 +103940,8 @@ export namespace Prisma {
     units?: UnitCreateNestedManyWithoutTenantInput
     items?: ItemCreateNestedManyWithoutTenantInput
     parties?: PartyCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountCreateNestedManyWithoutTenantInput
@@ -100418,6 +104002,8 @@ export namespace Prisma {
     units?: UnitUncheckedCreateNestedManyWithoutTenantInput
     items?: ItemUncheckedCreateNestedManyWithoutTenantInput
     parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseUncheckedCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxUncheckedCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountUncheckedCreateNestedManyWithoutTenantInput
@@ -100515,6 +104101,8 @@ export namespace Prisma {
     units?: UnitUpdateManyWithoutTenantNestedInput
     items?: ItemUpdateManyWithoutTenantNestedInput
     parties?: PartyUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUpdateManyWithoutTenantNestedInput
@@ -100575,6 +104163,8 @@ export namespace Prisma {
     units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
     items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
     parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUncheckedUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUncheckedUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUncheckedUpdateManyWithoutTenantNestedInput
@@ -100662,6 +104252,8 @@ export namespace Prisma {
     units?: UnitCreateNestedManyWithoutTenantInput
     items?: ItemCreateNestedManyWithoutTenantInput
     parties?: PartyCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountCreateNestedManyWithoutTenantInput
@@ -100722,6 +104314,8 @@ export namespace Prisma {
     units?: UnitUncheckedCreateNestedManyWithoutTenantInput
     items?: ItemUncheckedCreateNestedManyWithoutTenantInput
     parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseUncheckedCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxUncheckedCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountUncheckedCreateNestedManyWithoutTenantInput
@@ -100794,6 +104388,8 @@ export namespace Prisma {
     units?: UnitUpdateManyWithoutTenantNestedInput
     items?: ItemUpdateManyWithoutTenantNestedInput
     parties?: PartyUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUpdateManyWithoutTenantNestedInput
@@ -100854,6 +104450,8 @@ export namespace Prisma {
     units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
     items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
     parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUncheckedUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUncheckedUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUncheckedUpdateManyWithoutTenantNestedInput
@@ -100910,6 +104508,8 @@ export namespace Prisma {
     units?: UnitCreateNestedManyWithoutTenantInput
     items?: ItemCreateNestedManyWithoutTenantInput
     parties?: PartyCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxCreateNestedManyWithoutTenantInput
     invoiceTypes?: InvoiceTypeCreateNestedManyWithoutTenantInput
@@ -100970,6 +104570,8 @@ export namespace Prisma {
     units?: UnitUncheckedCreateNestedManyWithoutTenantInput
     items?: ItemUncheckedCreateNestedManyWithoutTenantInput
     parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseUncheckedCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxUncheckedCreateNestedManyWithoutTenantInput
     invoiceTypes?: InvoiceTypeUncheckedCreateNestedManyWithoutTenantInput
@@ -101169,6 +104771,8 @@ export namespace Prisma {
     units?: UnitUpdateManyWithoutTenantNestedInput
     items?: ItemUpdateManyWithoutTenantNestedInput
     parties?: PartyUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUpdateManyWithoutTenantNestedInput
     invoiceTypes?: InvoiceTypeUpdateManyWithoutTenantNestedInput
@@ -101229,6 +104833,8 @@ export namespace Prisma {
     units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
     items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
     parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUncheckedUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUncheckedUpdateManyWithoutTenantNestedInput
     invoiceTypes?: InvoiceTypeUncheckedUpdateManyWithoutTenantNestedInput
@@ -101337,6 +104943,870 @@ export namespace Prisma {
     data: XOR<OpeningBalanceSessionLineUpdateManyMutationInput, OpeningBalanceSessionLineUncheckedUpdateManyWithoutBankAccountInput>
   }
 
+  export type TenantCreateWithoutBranchesInput = {
+    id?: string
+    name: string
+    slug: string
+    address?: string | null
+    phone?: string | null
+    email?: string | null
+    logo?: string | null
+    legalName?: string | null
+    taxNumber?: string | null
+    website?: string | null
+    isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: AppUserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    currencies?: CurrencyCreateNestedManyWithoutTenantInput
+    fiscalPeriods?: FiscalPeriodCreateNestedManyWithoutTenantInput
+    documentSequences?: DocumentSequenceCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceCreateNestedManyWithoutTenantInput
+    itemCategories?: ItemCategoryCreateNestedManyWithoutTenantInput
+    units?: UnitCreateNestedManyWithoutTenantInput
+    items?: ItemCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    cashboxes?: CashboxCreateNestedManyWithoutTenantInput
+    bankAccounts?: BankAccountCreateNestedManyWithoutTenantInput
+    invoiceTypes?: InvoiceTypeCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    chartOfAccounts?: ChartOfAccountCreateNestedManyWithoutTenantInput
+    journalEntries?: JournalEntryCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountCreateNestedManyWithoutTenantInput
+    auditLogs?: AuditLogCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    aiConversations?: AiConversationCreateNestedManyWithoutTenantInput
+    aiMessages?: AiMessageCreateNestedManyWithoutTenantInput
+    baseCurrency?: CurrencyCreateNestedOneWithoutBaseForTenantsInput
+    defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
+    settings?: TenantSettingCreateNestedManyWithoutTenantInput
+    financialSetting?: FinancialSettingCreateNestedOneWithoutTenantInput
+    expenses?: ExpenseCreateNestedManyWithoutTenantInput
+    tags?: TagCreateNestedManyWithoutTenantInput
+    itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
+    catalogEntities?: CatalogEntityCreateNestedManyWithoutTenantInput
+    itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutTenantInput
+    brands?: BrandCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingCreateNestedOneWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutBranchesInput = {
+    id?: string
+    name: string
+    slug: string
+    address?: string | null
+    phone?: string | null
+    email?: string | null
+    logo?: string | null
+    legalName?: string | null
+    taxNumber?: string | null
+    website?: string | null
+    baseCurrencyId?: string | null
+    defaultSalesSequenceId?: string | null
+    isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    currencies?: CurrencyUncheckedCreateNestedManyWithoutTenantInput
+    fiscalPeriods?: FiscalPeriodUncheckedCreateNestedManyWithoutTenantInput
+    documentSequences?: DocumentSequenceUncheckedCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceUncheckedCreateNestedManyWithoutTenantInput
+    itemCategories?: ItemCategoryUncheckedCreateNestedManyWithoutTenantInput
+    units?: UnitUncheckedCreateNestedManyWithoutTenantInput
+    items?: ItemUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    cashboxes?: CashboxUncheckedCreateNestedManyWithoutTenantInput
+    bankAccounts?: BankAccountUncheckedCreateNestedManyWithoutTenantInput
+    invoiceTypes?: InvoiceTypeUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    chartOfAccounts?: ChartOfAccountUncheckedCreateNestedManyWithoutTenantInput
+    journalEntries?: JournalEntryUncheckedCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    aiConversations?: AiConversationUncheckedCreateNestedManyWithoutTenantInput
+    aiMessages?: AiMessageUncheckedCreateNestedManyWithoutTenantInput
+    settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
+    financialSetting?: FinancialSettingUncheckedCreateNestedOneWithoutTenantInput
+    expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
+    tags?: TagUncheckedCreateNestedManyWithoutTenantInput
+    itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
+    catalogEntities?: CatalogEntityUncheckedCreateNestedManyWithoutTenantInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutTenantInput
+    brands?: BrandUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskUncheckedCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingUncheckedCreateNestedOneWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutBranchesInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutBranchesInput, TenantUncheckedCreateWithoutBranchesInput>
+  }
+
+  export type BranchWarehouseCreateWithoutBranchInput = {
+    id?: string
+    createdAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutBranchWarehousesInput
+    warehouse: WarehouseCreateNestedOneWithoutBranchesInput
+  }
+
+  export type BranchWarehouseUncheckedCreateWithoutBranchInput = {
+    id?: string
+    tenantId: string
+    warehouseId: string
+    createdAt?: Date | string
+  }
+
+  export type BranchWarehouseCreateOrConnectWithoutBranchInput = {
+    where: BranchWarehouseWhereUniqueInput
+    create: XOR<BranchWarehouseCreateWithoutBranchInput, BranchWarehouseUncheckedCreateWithoutBranchInput>
+  }
+
+  export type BranchWarehouseCreateManyBranchInputEnvelope = {
+    data: BranchWarehouseCreateManyBranchInput | BranchWarehouseCreateManyBranchInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CashboxCreateWithoutBranchInput = {
+    id?: string
+    code: string
+    name: JsonNullValueInput | InputJsonValue
+    balance?: Decimal | DecimalJsLike | number | string
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutCashboxesInput
+    currency: CurrencyCreateNestedOneWithoutCashboxesInput
+    expenses?: ExpenseCreateNestedManyWithoutCashboxInput
+    payments?: PaymentCreateNestedManyWithoutCashboxInput
+    journalLines?: JournalLineCreateNestedManyWithoutCashboxInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutCashboxInput
+    posSettings?: PosSettingCreateNestedManyWithoutCashboxInput
+  }
+
+  export type CashboxUncheckedCreateWithoutBranchInput = {
+    id?: string
+    tenantId: string
+    code: string
+    name: JsonNullValueInput | InputJsonValue
+    currencyId: string
+    balance?: Decimal | DecimalJsLike | number | string
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    expenses?: ExpenseUncheckedCreateNestedManyWithoutCashboxInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutCashboxInput
+    journalLines?: JournalLineUncheckedCreateNestedManyWithoutCashboxInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutCashboxInput
+    posSettings?: PosSettingUncheckedCreateNestedManyWithoutCashboxInput
+  }
+
+  export type CashboxCreateOrConnectWithoutBranchInput = {
+    where: CashboxWhereUniqueInput
+    create: XOR<CashboxCreateWithoutBranchInput, CashboxUncheckedCreateWithoutBranchInput>
+  }
+
+  export type CashboxCreateManyBranchInputEnvelope = {
+    data: CashboxCreateManyBranchInput | CashboxCreateManyBranchInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type DocumentSequenceCreateWithoutBranchInput = {
+    id?: string
+    documentType: string
+    prefix: string
+    nextNumber?: number
+    padding?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutDocumentSequencesInput
+    defaultSalesForTenants?: TenantCreateNestedManyWithoutDefaultSalesSequenceInput
+  }
+
+  export type DocumentSequenceUncheckedCreateWithoutBranchInput = {
+    id?: string
+    tenantId: string
+    documentType: string
+    prefix: string
+    nextNumber?: number
+    padding?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    defaultSalesForTenants?: TenantUncheckedCreateNestedManyWithoutDefaultSalesSequenceInput
+  }
+
+  export type DocumentSequenceCreateOrConnectWithoutBranchInput = {
+    where: DocumentSequenceWhereUniqueInput
+    create: XOR<DocumentSequenceCreateWithoutBranchInput, DocumentSequenceUncheckedCreateWithoutBranchInput>
+  }
+
+  export type DocumentSequenceCreateManyBranchInputEnvelope = {
+    data: DocumentSequenceCreateManyBranchInput | DocumentSequenceCreateManyBranchInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TenantUpsertWithoutBranchesInput = {
+    update: XOR<TenantUpdateWithoutBranchesInput, TenantUncheckedUpdateWithoutBranchesInput>
+    create: XOR<TenantCreateWithoutBranchesInput, TenantUncheckedCreateWithoutBranchesInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutBranchesInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutBranchesInput, TenantUncheckedUpdateWithoutBranchesInput>
+  }
+
+  export type TenantUpdateWithoutBranchesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: AppUserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    currencies?: CurrencyUpdateManyWithoutTenantNestedInput
+    fiscalPeriods?: FiscalPeriodUpdateManyWithoutTenantNestedInput
+    documentSequences?: DocumentSequenceUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUpdateManyWithoutTenantNestedInput
+    itemCategories?: ItemCategoryUpdateManyWithoutTenantNestedInput
+    units?: UnitUpdateManyWithoutTenantNestedInput
+    items?: ItemUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    cashboxes?: CashboxUpdateManyWithoutTenantNestedInput
+    bankAccounts?: BankAccountUpdateManyWithoutTenantNestedInput
+    invoiceTypes?: InvoiceTypeUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    chartOfAccounts?: ChartOfAccountUpdateManyWithoutTenantNestedInput
+    journalEntries?: JournalEntryUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    aiConversations?: AiConversationUpdateManyWithoutTenantNestedInput
+    aiMessages?: AiMessageUpdateManyWithoutTenantNestedInput
+    baseCurrency?: CurrencyUpdateOneWithoutBaseForTenantsNestedInput
+    defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
+    settings?: TenantSettingUpdateManyWithoutTenantNestedInput
+    financialSetting?: FinancialSettingUpdateOneWithoutTenantNestedInput
+    expenses?: ExpenseUpdateManyWithoutTenantNestedInput
+    tags?: TagUpdateManyWithoutTenantNestedInput
+    itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
+    catalogEntities?: CatalogEntityUpdateManyWithoutTenantNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutTenantNestedInput
+    brands?: BrandUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUpdateOneWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutBranchesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    baseCurrencyId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultSalesSequenceId?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    currencies?: CurrencyUncheckedUpdateManyWithoutTenantNestedInput
+    fiscalPeriods?: FiscalPeriodUncheckedUpdateManyWithoutTenantNestedInput
+    documentSequences?: DocumentSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    itemCategories?: ItemCategoryUncheckedUpdateManyWithoutTenantNestedInput
+    units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
+    items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    cashboxes?: CashboxUncheckedUpdateManyWithoutTenantNestedInput
+    bankAccounts?: BankAccountUncheckedUpdateManyWithoutTenantNestedInput
+    invoiceTypes?: InvoiceTypeUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    chartOfAccounts?: ChartOfAccountUncheckedUpdateManyWithoutTenantNestedInput
+    journalEntries?: JournalEntryUncheckedUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    aiConversations?: AiConversationUncheckedUpdateManyWithoutTenantNestedInput
+    aiMessages?: AiMessageUncheckedUpdateManyWithoutTenantNestedInput
+    settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
+    financialSetting?: FinancialSettingUncheckedUpdateOneWithoutTenantNestedInput
+    expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
+    tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
+    itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
+    catalogEntities?: CatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
+    brands?: BrandUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUncheckedUpdateOneWithoutTenantNestedInput
+  }
+
+  export type BranchWarehouseUpsertWithWhereUniqueWithoutBranchInput = {
+    where: BranchWarehouseWhereUniqueInput
+    update: XOR<BranchWarehouseUpdateWithoutBranchInput, BranchWarehouseUncheckedUpdateWithoutBranchInput>
+    create: XOR<BranchWarehouseCreateWithoutBranchInput, BranchWarehouseUncheckedCreateWithoutBranchInput>
+  }
+
+  export type BranchWarehouseUpdateWithWhereUniqueWithoutBranchInput = {
+    where: BranchWarehouseWhereUniqueInput
+    data: XOR<BranchWarehouseUpdateWithoutBranchInput, BranchWarehouseUncheckedUpdateWithoutBranchInput>
+  }
+
+  export type BranchWarehouseUpdateManyWithWhereWithoutBranchInput = {
+    where: BranchWarehouseScalarWhereInput
+    data: XOR<BranchWarehouseUpdateManyMutationInput, BranchWarehouseUncheckedUpdateManyWithoutBranchInput>
+  }
+
+  export type BranchWarehouseScalarWhereInput = {
+    AND?: BranchWarehouseScalarWhereInput | BranchWarehouseScalarWhereInput[]
+    OR?: BranchWarehouseScalarWhereInput[]
+    NOT?: BranchWarehouseScalarWhereInput | BranchWarehouseScalarWhereInput[]
+    id?: StringFilter<"BranchWarehouse"> | string
+    tenantId?: StringFilter<"BranchWarehouse"> | string
+    branchId?: StringFilter<"BranchWarehouse"> | string
+    warehouseId?: StringFilter<"BranchWarehouse"> | string
+    createdAt?: DateTimeFilter<"BranchWarehouse"> | Date | string
+  }
+
+  export type CashboxUpsertWithWhereUniqueWithoutBranchInput = {
+    where: CashboxWhereUniqueInput
+    update: XOR<CashboxUpdateWithoutBranchInput, CashboxUncheckedUpdateWithoutBranchInput>
+    create: XOR<CashboxCreateWithoutBranchInput, CashboxUncheckedCreateWithoutBranchInput>
+  }
+
+  export type CashboxUpdateWithWhereUniqueWithoutBranchInput = {
+    where: CashboxWhereUniqueInput
+    data: XOR<CashboxUpdateWithoutBranchInput, CashboxUncheckedUpdateWithoutBranchInput>
+  }
+
+  export type CashboxUpdateManyWithWhereWithoutBranchInput = {
+    where: CashboxScalarWhereInput
+    data: XOR<CashboxUpdateManyMutationInput, CashboxUncheckedUpdateManyWithoutBranchInput>
+  }
+
+  export type CashboxScalarWhereInput = {
+    AND?: CashboxScalarWhereInput | CashboxScalarWhereInput[]
+    OR?: CashboxScalarWhereInput[]
+    NOT?: CashboxScalarWhereInput | CashboxScalarWhereInput[]
+    id?: StringFilter<"Cashbox"> | string
+    tenantId?: StringFilter<"Cashbox"> | string
+    code?: StringFilter<"Cashbox"> | string
+    name?: JsonFilter<"Cashbox">
+    currencyId?: StringFilter<"Cashbox"> | string
+    branchId?: StringNullableFilter<"Cashbox"> | string | null
+    balance?: DecimalFilter<"Cashbox"> | Decimal | DecimalJsLike | number | string
+    isActive?: BoolFilter<"Cashbox"> | boolean
+    createdAt?: DateTimeFilter<"Cashbox"> | Date | string
+    updatedAt?: DateTimeFilter<"Cashbox"> | Date | string
+  }
+
+  export type DocumentSequenceUpsertWithWhereUniqueWithoutBranchInput = {
+    where: DocumentSequenceWhereUniqueInput
+    update: XOR<DocumentSequenceUpdateWithoutBranchInput, DocumentSequenceUncheckedUpdateWithoutBranchInput>
+    create: XOR<DocumentSequenceCreateWithoutBranchInput, DocumentSequenceUncheckedCreateWithoutBranchInput>
+  }
+
+  export type DocumentSequenceUpdateWithWhereUniqueWithoutBranchInput = {
+    where: DocumentSequenceWhereUniqueInput
+    data: XOR<DocumentSequenceUpdateWithoutBranchInput, DocumentSequenceUncheckedUpdateWithoutBranchInput>
+  }
+
+  export type DocumentSequenceUpdateManyWithWhereWithoutBranchInput = {
+    where: DocumentSequenceScalarWhereInput
+    data: XOR<DocumentSequenceUpdateManyMutationInput, DocumentSequenceUncheckedUpdateManyWithoutBranchInput>
+  }
+
+  export type DocumentSequenceScalarWhereInput = {
+    AND?: DocumentSequenceScalarWhereInput | DocumentSequenceScalarWhereInput[]
+    OR?: DocumentSequenceScalarWhereInput[]
+    NOT?: DocumentSequenceScalarWhereInput | DocumentSequenceScalarWhereInput[]
+    id?: StringFilter<"DocumentSequence"> | string
+    tenantId?: StringFilter<"DocumentSequence"> | string
+    documentType?: StringFilter<"DocumentSequence"> | string
+    prefix?: StringFilter<"DocumentSequence"> | string
+    nextNumber?: IntFilter<"DocumentSequence"> | number
+    padding?: IntFilter<"DocumentSequence"> | number
+    branchId?: StringNullableFilter<"DocumentSequence"> | string | null
+    createdAt?: DateTimeFilter<"DocumentSequence"> | Date | string
+    updatedAt?: DateTimeFilter<"DocumentSequence"> | Date | string
+  }
+
+  export type TenantCreateWithoutBranchWarehousesInput = {
+    id?: string
+    name: string
+    slug: string
+    address?: string | null
+    phone?: string | null
+    email?: string | null
+    logo?: string | null
+    legalName?: string | null
+    taxNumber?: string | null
+    website?: string | null
+    isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: AppUserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    currencies?: CurrencyCreateNestedManyWithoutTenantInput
+    fiscalPeriods?: FiscalPeriodCreateNestedManyWithoutTenantInput
+    documentSequences?: DocumentSequenceCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceCreateNestedManyWithoutTenantInput
+    itemCategories?: ItemCategoryCreateNestedManyWithoutTenantInput
+    units?: UnitCreateNestedManyWithoutTenantInput
+    items?: ItemCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    cashboxes?: CashboxCreateNestedManyWithoutTenantInput
+    bankAccounts?: BankAccountCreateNestedManyWithoutTenantInput
+    invoiceTypes?: InvoiceTypeCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    chartOfAccounts?: ChartOfAccountCreateNestedManyWithoutTenantInput
+    journalEntries?: JournalEntryCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountCreateNestedManyWithoutTenantInput
+    auditLogs?: AuditLogCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    aiConversations?: AiConversationCreateNestedManyWithoutTenantInput
+    aiMessages?: AiMessageCreateNestedManyWithoutTenantInput
+    baseCurrency?: CurrencyCreateNestedOneWithoutBaseForTenantsInput
+    defaultSalesSequence?: DocumentSequenceCreateNestedOneWithoutDefaultSalesForTenantsInput
+    settings?: TenantSettingCreateNestedManyWithoutTenantInput
+    financialSetting?: FinancialSettingCreateNestedOneWithoutTenantInput
+    expenses?: ExpenseCreateNestedManyWithoutTenantInput
+    tags?: TagCreateNestedManyWithoutTenantInput
+    itemRelations?: ItemRelationCreateNestedManyWithoutTenantInput
+    catalogEntities?: CatalogEntityCreateNestedManyWithoutTenantInput
+    itemCatalogEntities?: ItemCatalogEntityCreateNestedManyWithoutTenantInput
+    brands?: BrandCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingCreateNestedOneWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutBranchWarehousesInput = {
+    id?: string
+    name: string
+    slug: string
+    address?: string | null
+    phone?: string | null
+    email?: string | null
+    logo?: string | null
+    legalName?: string | null
+    taxNumber?: string | null
+    website?: string | null
+    baseCurrencyId?: string | null
+    defaultSalesSequenceId?: string | null
+    isActive?: boolean
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: AppUserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    currencies?: CurrencyUncheckedCreateNestedManyWithoutTenantInput
+    fiscalPeriods?: FiscalPeriodUncheckedCreateNestedManyWithoutTenantInput
+    documentSequences?: DocumentSequenceUncheckedCreateNestedManyWithoutTenantInput
+    codeSequences?: CodeSequenceUncheckedCreateNestedManyWithoutTenantInput
+    itemCategories?: ItemCategoryUncheckedCreateNestedManyWithoutTenantInput
+    units?: UnitUncheckedCreateNestedManyWithoutTenantInput
+    items?: ItemUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    cashboxes?: CashboxUncheckedCreateNestedManyWithoutTenantInput
+    bankAccounts?: BankAccountUncheckedCreateNestedManyWithoutTenantInput
+    invoiceTypes?: InvoiceTypeUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    chartOfAccounts?: ChartOfAccountUncheckedCreateNestedManyWithoutTenantInput
+    journalEntries?: JournalEntryUncheckedCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTenantInput
+    reconciliationRuns?: ReconciliationRunUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    aiConversations?: AiConversationUncheckedCreateNestedManyWithoutTenantInput
+    aiMessages?: AiMessageUncheckedCreateNestedManyWithoutTenantInput
+    settings?: TenantSettingUncheckedCreateNestedManyWithoutTenantInput
+    financialSetting?: FinancialSettingUncheckedCreateNestedOneWithoutTenantInput
+    expenses?: ExpenseUncheckedCreateNestedManyWithoutTenantInput
+    tags?: TagUncheckedCreateNestedManyWithoutTenantInput
+    itemRelations?: ItemRelationUncheckedCreateNestedManyWithoutTenantInput
+    catalogEntities?: CatalogEntityUncheckedCreateNestedManyWithoutTenantInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedCreateNestedManyWithoutTenantInput
+    brands?: BrandUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedCreateNestedManyWithoutTenantInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedCreateNestedManyWithoutTenantInput
+    setupTasks?: SetupTaskUncheckedCreateNestedManyWithoutTenantInput
+    posSetting?: PosSettingUncheckedCreateNestedOneWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutBranchWarehousesInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutBranchWarehousesInput, TenantUncheckedCreateWithoutBranchWarehousesInput>
+  }
+
+  export type BranchCreateWithoutWarehousesInput = {
+    id?: string
+    code: string
+    name: JsonNullValueInput | InputJsonValue
+    address?: string | null
+    phone?: string | null
+    email?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutBranchesInput
+    cashboxes?: CashboxCreateNestedManyWithoutBranchInput
+    documentSequences?: DocumentSequenceCreateNestedManyWithoutBranchInput
+  }
+
+  export type BranchUncheckedCreateWithoutWarehousesInput = {
+    id?: string
+    tenantId: string
+    code: string
+    name: JsonNullValueInput | InputJsonValue
+    address?: string | null
+    phone?: string | null
+    email?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    cashboxes?: CashboxUncheckedCreateNestedManyWithoutBranchInput
+    documentSequences?: DocumentSequenceUncheckedCreateNestedManyWithoutBranchInput
+  }
+
+  export type BranchCreateOrConnectWithoutWarehousesInput = {
+    where: BranchWhereUniqueInput
+    create: XOR<BranchCreateWithoutWarehousesInput, BranchUncheckedCreateWithoutWarehousesInput>
+  }
+
+  export type WarehouseCreateWithoutBranchesInput = {
+    id?: string
+    code: string
+    name: JsonNullValueInput | InputJsonValue
+    address?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutWarehousesInput
+    warehouseItems?: WarehouseItemCreateNestedManyWithoutWarehouseInput
+    stockBalances?: StockBalanceCreateNestedManyWithoutWarehouseInput
+    stockMovements?: StockMovementCreateNestedManyWithoutWarehouseInput
+    invoices?: InvoiceCreateNestedManyWithoutWarehouseInput
+    stockCounts?: StockCountCreateNestedManyWithoutWarehouseInput
+    posSettings?: PosSettingCreateNestedManyWithoutWarehouseInput
+  }
+
+  export type WarehouseUncheckedCreateWithoutBranchesInput = {
+    id?: string
+    tenantId: string
+    code: string
+    name: JsonNullValueInput | InputJsonValue
+    address?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    warehouseItems?: WarehouseItemUncheckedCreateNestedManyWithoutWarehouseInput
+    stockBalances?: StockBalanceUncheckedCreateNestedManyWithoutWarehouseInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutWarehouseInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutWarehouseInput
+    stockCounts?: StockCountUncheckedCreateNestedManyWithoutWarehouseInput
+    posSettings?: PosSettingUncheckedCreateNestedManyWithoutWarehouseInput
+  }
+
+  export type WarehouseCreateOrConnectWithoutBranchesInput = {
+    where: WarehouseWhereUniqueInput
+    create: XOR<WarehouseCreateWithoutBranchesInput, WarehouseUncheckedCreateWithoutBranchesInput>
+  }
+
+  export type TenantUpsertWithoutBranchWarehousesInput = {
+    update: XOR<TenantUpdateWithoutBranchWarehousesInput, TenantUncheckedUpdateWithoutBranchWarehousesInput>
+    create: XOR<TenantCreateWithoutBranchWarehousesInput, TenantUncheckedCreateWithoutBranchWarehousesInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutBranchWarehousesInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutBranchWarehousesInput, TenantUncheckedUpdateWithoutBranchWarehousesInput>
+  }
+
+  export type TenantUpdateWithoutBranchWarehousesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: AppUserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    currencies?: CurrencyUpdateManyWithoutTenantNestedInput
+    fiscalPeriods?: FiscalPeriodUpdateManyWithoutTenantNestedInput
+    documentSequences?: DocumentSequenceUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUpdateManyWithoutTenantNestedInput
+    itemCategories?: ItemCategoryUpdateManyWithoutTenantNestedInput
+    units?: UnitUpdateManyWithoutTenantNestedInput
+    items?: ItemUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    cashboxes?: CashboxUpdateManyWithoutTenantNestedInput
+    bankAccounts?: BankAccountUpdateManyWithoutTenantNestedInput
+    invoiceTypes?: InvoiceTypeUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    chartOfAccounts?: ChartOfAccountUpdateManyWithoutTenantNestedInput
+    journalEntries?: JournalEntryUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    aiConversations?: AiConversationUpdateManyWithoutTenantNestedInput
+    aiMessages?: AiMessageUpdateManyWithoutTenantNestedInput
+    baseCurrency?: CurrencyUpdateOneWithoutBaseForTenantsNestedInput
+    defaultSalesSequence?: DocumentSequenceUpdateOneWithoutDefaultSalesForTenantsNestedInput
+    settings?: TenantSettingUpdateManyWithoutTenantNestedInput
+    financialSetting?: FinancialSettingUpdateOneWithoutTenantNestedInput
+    expenses?: ExpenseUpdateManyWithoutTenantNestedInput
+    tags?: TagUpdateManyWithoutTenantNestedInput
+    itemRelations?: ItemRelationUpdateManyWithoutTenantNestedInput
+    catalogEntities?: CatalogEntityUpdateManyWithoutTenantNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUpdateManyWithoutTenantNestedInput
+    brands?: BrandUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUpdateOneWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutBranchWarehousesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    legalName?: NullableStringFieldUpdateOperationsInput | string | null
+    taxNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    baseCurrencyId?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultSalesSequenceId?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    businessSetupProfile?: NullableJsonNullValueInput | InputJsonValue
+    businessSetupCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationalReadiness?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: AppUserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    currencies?: CurrencyUncheckedUpdateManyWithoutTenantNestedInput
+    fiscalPeriods?: FiscalPeriodUncheckedUpdateManyWithoutTenantNestedInput
+    documentSequences?: DocumentSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    codeSequences?: CodeSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    itemCategories?: ItemCategoryUncheckedUpdateManyWithoutTenantNestedInput
+    units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
+    items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    cashboxes?: CashboxUncheckedUpdateManyWithoutTenantNestedInput
+    bankAccounts?: BankAccountUncheckedUpdateManyWithoutTenantNestedInput
+    invoiceTypes?: InvoiceTypeUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    chartOfAccounts?: ChartOfAccountUncheckedUpdateManyWithoutTenantNestedInput
+    journalEntries?: JournalEntryUncheckedUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutTenantNestedInput
+    reconciliationRuns?: ReconciliationRunUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    aiConversations?: AiConversationUncheckedUpdateManyWithoutTenantNestedInput
+    aiMessages?: AiMessageUncheckedUpdateManyWithoutTenantNestedInput
+    settings?: TenantSettingUncheckedUpdateManyWithoutTenantNestedInput
+    financialSetting?: FinancialSettingUncheckedUpdateOneWithoutTenantNestedInput
+    expenses?: ExpenseUncheckedUpdateManyWithoutTenantNestedInput
+    tags?: TagUncheckedUpdateManyWithoutTenantNestedInput
+    itemRelations?: ItemRelationUncheckedUpdateManyWithoutTenantNestedInput
+    catalogEntities?: CatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
+    itemCatalogEntities?: ItemCatalogEntityUncheckedUpdateManyWithoutTenantNestedInput
+    brands?: BrandUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessions?: OpeningBalanceSessionUncheckedUpdateManyWithoutTenantNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
+    setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
+    posSetting?: PosSettingUncheckedUpdateOneWithoutTenantNestedInput
+  }
+
+  export type BranchUpsertWithoutWarehousesInput = {
+    update: XOR<BranchUpdateWithoutWarehousesInput, BranchUncheckedUpdateWithoutWarehousesInput>
+    create: XOR<BranchCreateWithoutWarehousesInput, BranchUncheckedCreateWithoutWarehousesInput>
+    where?: BranchWhereInput
+  }
+
+  export type BranchUpdateToOneWithWhereWithoutWarehousesInput = {
+    where?: BranchWhereInput
+    data: XOR<BranchUpdateWithoutWarehousesInput, BranchUncheckedUpdateWithoutWarehousesInput>
+  }
+
+  export type BranchUpdateWithoutWarehousesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutBranchesNestedInput
+    cashboxes?: CashboxUpdateManyWithoutBranchNestedInput
+    documentSequences?: DocumentSequenceUpdateManyWithoutBranchNestedInput
+  }
+
+  export type BranchUncheckedUpdateWithoutWarehousesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    cashboxes?: CashboxUncheckedUpdateManyWithoutBranchNestedInput
+    documentSequences?: DocumentSequenceUncheckedUpdateManyWithoutBranchNestedInput
+  }
+
+  export type WarehouseUpsertWithoutBranchesInput = {
+    update: XOR<WarehouseUpdateWithoutBranchesInput, WarehouseUncheckedUpdateWithoutBranchesInput>
+    create: XOR<WarehouseCreateWithoutBranchesInput, WarehouseUncheckedCreateWithoutBranchesInput>
+    where?: WarehouseWhereInput
+  }
+
+  export type WarehouseUpdateToOneWithWhereWithoutBranchesInput = {
+    where?: WarehouseWhereInput
+    data: XOR<WarehouseUpdateWithoutBranchesInput, WarehouseUncheckedUpdateWithoutBranchesInput>
+  }
+
+  export type WarehouseUpdateWithoutBranchesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutWarehousesNestedInput
+    warehouseItems?: WarehouseItemUpdateManyWithoutWarehouseNestedInput
+    stockBalances?: StockBalanceUpdateManyWithoutWarehouseNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutWarehouseNestedInput
+    invoices?: InvoiceUpdateManyWithoutWarehouseNestedInput
+    stockCounts?: StockCountUpdateManyWithoutWarehouseNestedInput
+    posSettings?: PosSettingUpdateManyWithoutWarehouseNestedInput
+  }
+
+  export type WarehouseUncheckedUpdateWithoutBranchesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    warehouseItems?: WarehouseItemUncheckedUpdateManyWithoutWarehouseNestedInput
+    stockBalances?: StockBalanceUncheckedUpdateManyWithoutWarehouseNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutWarehouseNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutWarehouseNestedInput
+    stockCounts?: StockCountUncheckedUpdateManyWithoutWarehouseNestedInput
+    posSettings?: PosSettingUncheckedUpdateManyWithoutWarehouseNestedInput
+  }
+
   export type TenantCreateWithoutBrandsInput = {
     id?: string
     name: string
@@ -101366,6 +105836,8 @@ export namespace Prisma {
     units?: UnitCreateNestedManyWithoutTenantInput
     items?: ItemCreateNestedManyWithoutTenantInput
     parties?: PartyCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountCreateNestedManyWithoutTenantInput
@@ -101426,6 +105898,8 @@ export namespace Prisma {
     units?: UnitUncheckedCreateNestedManyWithoutTenantInput
     items?: ItemUncheckedCreateNestedManyWithoutTenantInput
     parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseUncheckedCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxUncheckedCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountUncheckedCreateNestedManyWithoutTenantInput
@@ -101564,6 +106038,8 @@ export namespace Prisma {
     units?: UnitUpdateManyWithoutTenantNestedInput
     items?: ItemUpdateManyWithoutTenantNestedInput
     parties?: PartyUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUpdateManyWithoutTenantNestedInput
@@ -101624,6 +106100,8 @@ export namespace Prisma {
     units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
     items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
     parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUncheckedUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUncheckedUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUncheckedUpdateManyWithoutTenantNestedInput
@@ -101720,6 +106198,8 @@ export namespace Prisma {
     units?: UnitCreateNestedManyWithoutTenantInput
     items?: ItemCreateNestedManyWithoutTenantInput
     parties?: PartyCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountCreateNestedManyWithoutTenantInput
     invoiceTypes?: InvoiceTypeCreateNestedManyWithoutTenantInput
@@ -101780,6 +106260,8 @@ export namespace Prisma {
     units?: UnitUncheckedCreateNestedManyWithoutTenantInput
     items?: ItemUncheckedCreateNestedManyWithoutTenantInput
     parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseUncheckedCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountUncheckedCreateNestedManyWithoutTenantInput
     invoiceTypes?: InvoiceTypeUncheckedCreateNestedManyWithoutTenantInput
@@ -101853,6 +106335,41 @@ export namespace Prisma {
   export type CurrencyCreateOrConnectWithoutCashboxesInput = {
     where: CurrencyWhereUniqueInput
     create: XOR<CurrencyCreateWithoutCashboxesInput, CurrencyUncheckedCreateWithoutCashboxesInput>
+  }
+
+  export type BranchCreateWithoutCashboxesInput = {
+    id?: string
+    code: string
+    name: JsonNullValueInput | InputJsonValue
+    address?: string | null
+    phone?: string | null
+    email?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutBranchesInput
+    warehouses?: BranchWarehouseCreateNestedManyWithoutBranchInput
+    documentSequences?: DocumentSequenceCreateNestedManyWithoutBranchInput
+  }
+
+  export type BranchUncheckedCreateWithoutCashboxesInput = {
+    id?: string
+    tenantId: string
+    code: string
+    name: JsonNullValueInput | InputJsonValue
+    address?: string | null
+    phone?: string | null
+    email?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    warehouses?: BranchWarehouseUncheckedCreateNestedManyWithoutBranchInput
+    documentSequences?: DocumentSequenceUncheckedCreateNestedManyWithoutBranchInput
+  }
+
+  export type BranchCreateOrConnectWithoutCashboxesInput = {
+    where: BranchWhereUniqueInput
+    create: XOR<BranchCreateWithoutCashboxesInput, BranchUncheckedCreateWithoutCashboxesInput>
   }
 
   export type ExpenseCreateWithoutCashboxInput = {
@@ -102123,6 +106640,8 @@ export namespace Prisma {
     units?: UnitUpdateManyWithoutTenantNestedInput
     items?: ItemUpdateManyWithoutTenantNestedInput
     parties?: PartyUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUpdateManyWithoutTenantNestedInput
     invoiceTypes?: InvoiceTypeUpdateManyWithoutTenantNestedInput
@@ -102183,6 +106702,8 @@ export namespace Prisma {
     units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
     items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
     parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUncheckedUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUncheckedUpdateManyWithoutTenantNestedInput
     invoiceTypes?: InvoiceTypeUncheckedUpdateManyWithoutTenantNestedInput
@@ -102257,6 +106778,47 @@ export namespace Prisma {
     baseForTenants?: TenantUncheckedUpdateManyWithoutBaseCurrencyNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutCurrencyNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutCurrencyNestedInput
+  }
+
+  export type BranchUpsertWithoutCashboxesInput = {
+    update: XOR<BranchUpdateWithoutCashboxesInput, BranchUncheckedUpdateWithoutCashboxesInput>
+    create: XOR<BranchCreateWithoutCashboxesInput, BranchUncheckedCreateWithoutCashboxesInput>
+    where?: BranchWhereInput
+  }
+
+  export type BranchUpdateToOneWithWhereWithoutCashboxesInput = {
+    where?: BranchWhereInput
+    data: XOR<BranchUpdateWithoutCashboxesInput, BranchUncheckedUpdateWithoutCashboxesInput>
+  }
+
+  export type BranchUpdateWithoutCashboxesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutBranchesNestedInput
+    warehouses?: BranchWarehouseUpdateManyWithoutBranchNestedInput
+    documentSequences?: DocumentSequenceUpdateManyWithoutBranchNestedInput
+  }
+
+  export type BranchUncheckedUpdateWithoutCashboxesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    warehouses?: BranchWarehouseUncheckedUpdateManyWithoutBranchNestedInput
+    documentSequences?: DocumentSequenceUncheckedUpdateManyWithoutBranchNestedInput
   }
 
   export type ExpenseUpsertWithWhereUniqueWithoutCashboxInput = {
@@ -102435,6 +106997,8 @@ export namespace Prisma {
     units?: UnitCreateNestedManyWithoutTenantInput
     items?: ItemCreateNestedManyWithoutTenantInput
     parties?: PartyCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountCreateNestedManyWithoutTenantInput
@@ -102495,6 +107059,8 @@ export namespace Prisma {
     units?: UnitUncheckedCreateNestedManyWithoutTenantInput
     items?: ItemUncheckedCreateNestedManyWithoutTenantInput
     parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseUncheckedCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxUncheckedCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountUncheckedCreateNestedManyWithoutTenantInput
@@ -102537,6 +107103,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     tenant: TenantCreateNestedOneWithoutCashboxesInput
     currency: CurrencyCreateNestedOneWithoutCashboxesInput
+    branch?: BranchCreateNestedOneWithoutCashboxesInput
     expenses?: ExpenseCreateNestedManyWithoutCashboxInput
     journalLines?: JournalLineCreateNestedManyWithoutCashboxInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutCashboxInput
@@ -102549,6 +107116,7 @@ export namespace Prisma {
     code: string
     name: JsonNullValueInput | InputJsonValue
     currencyId: string
+    branchId?: string | null
     balance?: Decimal | DecimalJsLike | number | string
     isActive?: boolean
     createdAt?: Date | string
@@ -102757,6 +107325,8 @@ export namespace Prisma {
     units?: UnitUpdateManyWithoutTenantNestedInput
     items?: ItemUpdateManyWithoutTenantNestedInput
     parties?: PartyUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUpdateManyWithoutTenantNestedInput
@@ -102817,6 +107387,8 @@ export namespace Prisma {
     units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
     items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
     parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUncheckedUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUncheckedUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUncheckedUpdateManyWithoutTenantNestedInput
@@ -102865,6 +107437,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: TenantUpdateOneRequiredWithoutCashboxesNestedInput
     currency?: CurrencyUpdateOneRequiredWithoutCashboxesNestedInput
+    branch?: BranchUpdateOneWithoutCashboxesNestedInput
     expenses?: ExpenseUpdateManyWithoutCashboxNestedInput
     journalLines?: JournalLineUpdateManyWithoutCashboxNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutCashboxNestedInput
@@ -102877,6 +107450,7 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     name?: JsonNullValueInput | InputJsonValue
     currencyId?: StringFieldUpdateOperationsInput | string
+    branchId?: NullableStringFieldUpdateOperationsInput | string | null
     balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -103337,6 +107911,8 @@ export namespace Prisma {
     units?: UnitCreateNestedManyWithoutTenantInput
     items?: ItemCreateNestedManyWithoutTenantInput
     parties?: PartyCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountCreateNestedManyWithoutTenantInput
@@ -103397,6 +107973,8 @@ export namespace Prisma {
     units?: UnitUncheckedCreateNestedManyWithoutTenantInput
     items?: ItemUncheckedCreateNestedManyWithoutTenantInput
     parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseUncheckedCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxUncheckedCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountUncheckedCreateNestedManyWithoutTenantInput
@@ -103560,6 +108138,8 @@ export namespace Prisma {
     units?: UnitUpdateManyWithoutTenantNestedInput
     items?: ItemUpdateManyWithoutTenantNestedInput
     parties?: PartyUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUpdateManyWithoutTenantNestedInput
@@ -103620,6 +108200,8 @@ export namespace Prisma {
     units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
     items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
     parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUncheckedUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUncheckedUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUncheckedUpdateManyWithoutTenantNestedInput
@@ -103770,6 +108352,8 @@ export namespace Prisma {
     units?: UnitCreateNestedManyWithoutTenantInput
     items?: ItemCreateNestedManyWithoutTenantInput
     parties?: PartyCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountCreateNestedManyWithoutTenantInput
@@ -103830,6 +108414,8 @@ export namespace Prisma {
     units?: UnitUncheckedCreateNestedManyWithoutTenantInput
     items?: ItemUncheckedCreateNestedManyWithoutTenantInput
     parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseUncheckedCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxUncheckedCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountUncheckedCreateNestedManyWithoutTenantInput
@@ -103902,6 +108488,8 @@ export namespace Prisma {
     units?: UnitUpdateManyWithoutTenantNestedInput
     items?: ItemUpdateManyWithoutTenantNestedInput
     parties?: PartyUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUpdateManyWithoutTenantNestedInput
@@ -103962,6 +108550,8 @@ export namespace Prisma {
     units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
     items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
     parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUncheckedUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUncheckedUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUncheckedUpdateManyWithoutTenantNestedInput
@@ -104018,6 +108608,8 @@ export namespace Prisma {
     units?: UnitCreateNestedManyWithoutTenantInput
     items?: ItemCreateNestedManyWithoutTenantInput
     parties?: PartyCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountCreateNestedManyWithoutTenantInput
@@ -104078,6 +108670,8 @@ export namespace Prisma {
     units?: UnitUncheckedCreateNestedManyWithoutTenantInput
     items?: ItemUncheckedCreateNestedManyWithoutTenantInput
     parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseUncheckedCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxUncheckedCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountUncheckedCreateNestedManyWithoutTenantInput
@@ -104120,6 +108714,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     tenant: TenantCreateNestedOneWithoutCashboxesInput
+    branch?: BranchCreateNestedOneWithoutCashboxesInput
     expenses?: ExpenseCreateNestedManyWithoutCashboxInput
     payments?: PaymentCreateNestedManyWithoutCashboxInput
     journalLines?: JournalLineCreateNestedManyWithoutCashboxInput
@@ -104132,6 +108727,7 @@ export namespace Prisma {
     tenantId: string
     code: string
     name: JsonNullValueInput | InputJsonValue
+    branchId?: string | null
     balance?: Decimal | DecimalJsLike | number | string
     isActive?: boolean
     createdAt?: Date | string
@@ -104392,6 +108988,8 @@ export namespace Prisma {
     units?: UnitCreateNestedManyWithoutTenantInput
     items?: ItemCreateNestedManyWithoutTenantInput
     parties?: PartyCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountCreateNestedManyWithoutTenantInput
@@ -104451,6 +109049,8 @@ export namespace Prisma {
     units?: UnitUncheckedCreateNestedManyWithoutTenantInput
     items?: ItemUncheckedCreateNestedManyWithoutTenantInput
     parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseUncheckedCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxUncheckedCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountUncheckedCreateNestedManyWithoutTenantInput
@@ -104624,6 +109224,8 @@ export namespace Prisma {
     units?: UnitUpdateManyWithoutTenantNestedInput
     items?: ItemUpdateManyWithoutTenantNestedInput
     parties?: PartyUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUpdateManyWithoutTenantNestedInput
@@ -104684,6 +109286,8 @@ export namespace Prisma {
     units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
     items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
     parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUncheckedUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUncheckedUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUncheckedUpdateManyWithoutTenantNestedInput
@@ -104726,21 +109330,6 @@ export namespace Prisma {
   export type CashboxUpdateManyWithWhereWithoutCurrencyInput = {
     where: CashboxScalarWhereInput
     data: XOR<CashboxUpdateManyMutationInput, CashboxUncheckedUpdateManyWithoutCurrencyInput>
-  }
-
-  export type CashboxScalarWhereInput = {
-    AND?: CashboxScalarWhereInput | CashboxScalarWhereInput[]
-    OR?: CashboxScalarWhereInput[]
-    NOT?: CashboxScalarWhereInput | CashboxScalarWhereInput[]
-    id?: StringFilter<"Cashbox"> | string
-    tenantId?: StringFilter<"Cashbox"> | string
-    code?: StringFilter<"Cashbox"> | string
-    name?: JsonFilter<"Cashbox">
-    currencyId?: StringFilter<"Cashbox"> | string
-    balance?: DecimalFilter<"Cashbox"> | Decimal | DecimalJsLike | number | string
-    isActive?: BoolFilter<"Cashbox"> | boolean
-    createdAt?: DateTimeFilter<"Cashbox"> | Date | string
-    updatedAt?: DateTimeFilter<"Cashbox"> | Date | string
   }
 
   export type BankAccountUpsertWithWhereUniqueWithoutCurrencyInput = {
@@ -105087,6 +109676,8 @@ export namespace Prisma {
     units?: UnitCreateNestedManyWithoutTenantInput
     items?: ItemCreateNestedManyWithoutTenantInput
     parties?: PartyCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountCreateNestedManyWithoutTenantInput
@@ -105147,6 +109738,8 @@ export namespace Prisma {
     units?: UnitUncheckedCreateNestedManyWithoutTenantInput
     items?: ItemUncheckedCreateNestedManyWithoutTenantInput
     parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseUncheckedCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxUncheckedCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountUncheckedCreateNestedManyWithoutTenantInput
@@ -105180,6 +109773,41 @@ export namespace Prisma {
     create: XOR<TenantCreateWithoutDocumentSequencesInput, TenantUncheckedCreateWithoutDocumentSequencesInput>
   }
 
+  export type BranchCreateWithoutDocumentSequencesInput = {
+    id?: string
+    code: string
+    name: JsonNullValueInput | InputJsonValue
+    address?: string | null
+    phone?: string | null
+    email?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutBranchesInput
+    warehouses?: BranchWarehouseCreateNestedManyWithoutBranchInput
+    cashboxes?: CashboxCreateNestedManyWithoutBranchInput
+  }
+
+  export type BranchUncheckedCreateWithoutDocumentSequencesInput = {
+    id?: string
+    tenantId: string
+    code: string
+    name: JsonNullValueInput | InputJsonValue
+    address?: string | null
+    phone?: string | null
+    email?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    warehouses?: BranchWarehouseUncheckedCreateNestedManyWithoutBranchInput
+    cashboxes?: CashboxUncheckedCreateNestedManyWithoutBranchInput
+  }
+
+  export type BranchCreateOrConnectWithoutDocumentSequencesInput = {
+    where: BranchWhereUniqueInput
+    create: XOR<BranchCreateWithoutDocumentSequencesInput, BranchUncheckedCreateWithoutDocumentSequencesInput>
+  }
+
   export type TenantCreateWithoutDefaultSalesSequenceInput = {
     id?: string
     name: string
@@ -105209,6 +109837,8 @@ export namespace Prisma {
     units?: UnitCreateNestedManyWithoutTenantInput
     items?: ItemCreateNestedManyWithoutTenantInput
     parties?: PartyCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountCreateNestedManyWithoutTenantInput
@@ -105268,6 +109898,8 @@ export namespace Prisma {
     units?: UnitUncheckedCreateNestedManyWithoutTenantInput
     items?: ItemUncheckedCreateNestedManyWithoutTenantInput
     parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseUncheckedCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxUncheckedCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountUncheckedCreateNestedManyWithoutTenantInput
@@ -105345,6 +109977,8 @@ export namespace Prisma {
     units?: UnitUpdateManyWithoutTenantNestedInput
     items?: ItemUpdateManyWithoutTenantNestedInput
     parties?: PartyUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUpdateManyWithoutTenantNestedInput
@@ -105405,6 +110039,8 @@ export namespace Prisma {
     units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
     items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
     parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUncheckedUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUncheckedUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUncheckedUpdateManyWithoutTenantNestedInput
@@ -105431,6 +110067,47 @@ export namespace Prisma {
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
     posSetting?: PosSettingUncheckedUpdateOneWithoutTenantNestedInput
+  }
+
+  export type BranchUpsertWithoutDocumentSequencesInput = {
+    update: XOR<BranchUpdateWithoutDocumentSequencesInput, BranchUncheckedUpdateWithoutDocumentSequencesInput>
+    create: XOR<BranchCreateWithoutDocumentSequencesInput, BranchUncheckedCreateWithoutDocumentSequencesInput>
+    where?: BranchWhereInput
+  }
+
+  export type BranchUpdateToOneWithWhereWithoutDocumentSequencesInput = {
+    where?: BranchWhereInput
+    data: XOR<BranchUpdateWithoutDocumentSequencesInput, BranchUncheckedUpdateWithoutDocumentSequencesInput>
+  }
+
+  export type BranchUpdateWithoutDocumentSequencesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutBranchesNestedInput
+    warehouses?: BranchWarehouseUpdateManyWithoutBranchNestedInput
+    cashboxes?: CashboxUpdateManyWithoutBranchNestedInput
+  }
+
+  export type BranchUncheckedUpdateWithoutDocumentSequencesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    warehouses?: BranchWarehouseUncheckedUpdateManyWithoutBranchNestedInput
+    cashboxes?: CashboxUncheckedUpdateManyWithoutBranchNestedInput
   }
 
   export type TenantUpsertWithWhereUniqueWithoutDefaultSalesSequenceInput = {
@@ -105478,6 +110155,8 @@ export namespace Prisma {
     units?: UnitCreateNestedManyWithoutTenantInput
     items?: ItemCreateNestedManyWithoutTenantInput
     parties?: PartyCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountCreateNestedManyWithoutTenantInput
@@ -105538,6 +110217,8 @@ export namespace Prisma {
     units?: UnitUncheckedCreateNestedManyWithoutTenantInput
     items?: ItemUncheckedCreateNestedManyWithoutTenantInput
     parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseUncheckedCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxUncheckedCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountUncheckedCreateNestedManyWithoutTenantInput
@@ -105580,6 +110261,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     tenant: TenantCreateNestedOneWithoutCashboxesInput
     currency: CurrencyCreateNestedOneWithoutCashboxesInput
+    branch?: BranchCreateNestedOneWithoutCashboxesInput
     payments?: PaymentCreateNestedManyWithoutCashboxInput
     journalLines?: JournalLineCreateNestedManyWithoutCashboxInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineCreateNestedManyWithoutCashboxInput
@@ -105592,6 +110274,7 @@ export namespace Prisma {
     code: string
     name: JsonNullValueInput | InputJsonValue
     currencyId: string
+    branchId?: string | null
     balance?: Decimal | DecimalJsLike | number | string
     isActive?: boolean
     createdAt?: Date | string
@@ -105759,6 +110442,8 @@ export namespace Prisma {
     units?: UnitUpdateManyWithoutTenantNestedInput
     items?: ItemUpdateManyWithoutTenantNestedInput
     parties?: PartyUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUpdateManyWithoutTenantNestedInput
@@ -105819,6 +110504,8 @@ export namespace Prisma {
     units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
     items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
     parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUncheckedUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUncheckedUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUncheckedUpdateManyWithoutTenantNestedInput
@@ -105867,6 +110554,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: TenantUpdateOneRequiredWithoutCashboxesNestedInput
     currency?: CurrencyUpdateOneRequiredWithoutCashboxesNestedInput
+    branch?: BranchUpdateOneWithoutCashboxesNestedInput
     payments?: PaymentUpdateManyWithoutCashboxNestedInput
     journalLines?: JournalLineUpdateManyWithoutCashboxNestedInput
     openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutCashboxNestedInput
@@ -105879,6 +110567,7 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     name?: JsonNullValueInput | InputJsonValue
     currencyId?: StringFieldUpdateOperationsInput | string
+    branchId?: NullableStringFieldUpdateOperationsInput | string | null
     balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -106272,6 +110961,8 @@ export namespace Prisma {
     units?: UnitCreateNestedManyWithoutTenantInput
     items?: ItemCreateNestedManyWithoutTenantInput
     parties?: PartyCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountCreateNestedManyWithoutTenantInput
@@ -106332,6 +111023,8 @@ export namespace Prisma {
     units?: UnitUncheckedCreateNestedManyWithoutTenantInput
     items?: ItemUncheckedCreateNestedManyWithoutTenantInput
     parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseUncheckedCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxUncheckedCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountUncheckedCreateNestedManyWithoutTenantInput
@@ -107141,6 +111834,8 @@ export namespace Prisma {
     units?: UnitUpdateManyWithoutTenantNestedInput
     items?: ItemUpdateManyWithoutTenantNestedInput
     parties?: PartyUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUpdateManyWithoutTenantNestedInput
@@ -107201,6 +111896,8 @@ export namespace Prisma {
     units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
     items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
     parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUncheckedUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUncheckedUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUncheckedUpdateManyWithoutTenantNestedInput
@@ -108059,6 +112756,8 @@ export namespace Prisma {
     units?: UnitCreateNestedManyWithoutTenantInput
     items?: ItemCreateNestedManyWithoutTenantInput
     parties?: PartyCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountCreateNestedManyWithoutTenantInput
@@ -108119,6 +112818,8 @@ export namespace Prisma {
     units?: UnitUncheckedCreateNestedManyWithoutTenantInput
     items?: ItemUncheckedCreateNestedManyWithoutTenantInput
     parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseUncheckedCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxUncheckedCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountUncheckedCreateNestedManyWithoutTenantInput
@@ -108547,6 +113248,8 @@ export namespace Prisma {
     units?: UnitUpdateManyWithoutTenantNestedInput
     items?: ItemUpdateManyWithoutTenantNestedInput
     parties?: PartyUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUpdateManyWithoutTenantNestedInput
@@ -108607,6 +113310,8 @@ export namespace Prisma {
     units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
     items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
     parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUncheckedUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUncheckedUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUncheckedUpdateManyWithoutTenantNestedInput
@@ -108833,6 +113538,8 @@ export namespace Prisma {
     units?: UnitCreateNestedManyWithoutTenantInput
     items?: ItemCreateNestedManyWithoutTenantInput
     parties?: PartyCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountCreateNestedManyWithoutTenantInput
@@ -108893,6 +113600,8 @@ export namespace Prisma {
     units?: UnitUncheckedCreateNestedManyWithoutTenantInput
     items?: ItemUncheckedCreateNestedManyWithoutTenantInput
     parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseUncheckedCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxUncheckedCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountUncheckedCreateNestedManyWithoutTenantInput
@@ -109063,6 +113772,8 @@ export namespace Prisma {
     units?: UnitUpdateManyWithoutTenantNestedInput
     items?: ItemUpdateManyWithoutTenantNestedInput
     parties?: PartyUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUpdateManyWithoutTenantNestedInput
@@ -109123,6 +113834,8 @@ export namespace Prisma {
     units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
     items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
     parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUncheckedUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUncheckedUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUncheckedUpdateManyWithoutTenantNestedInput
@@ -109211,6 +113924,8 @@ export namespace Prisma {
     units?: UnitCreateNestedManyWithoutTenantInput
     items?: ItemCreateNestedManyWithoutTenantInput
     parties?: PartyCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountCreateNestedManyWithoutTenantInput
@@ -109271,6 +113986,8 @@ export namespace Prisma {
     units?: UnitUncheckedCreateNestedManyWithoutTenantInput
     items?: ItemUncheckedCreateNestedManyWithoutTenantInput
     parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseUncheckedCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxUncheckedCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountUncheckedCreateNestedManyWithoutTenantInput
@@ -109388,6 +114105,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     tenant: TenantCreateNestedOneWithoutWarehousesInput
+    branches?: BranchWarehouseCreateNestedManyWithoutWarehouseInput
     warehouseItems?: WarehouseItemCreateNestedManyWithoutWarehouseInput
     stockBalances?: StockBalanceCreateNestedManyWithoutWarehouseInput
     stockMovements?: StockMovementCreateNestedManyWithoutWarehouseInput
@@ -109404,6 +114122,7 @@ export namespace Prisma {
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    branches?: BranchWarehouseUncheckedCreateNestedManyWithoutWarehouseInput
     warehouseItems?: WarehouseItemUncheckedCreateNestedManyWithoutWarehouseInput
     stockBalances?: StockBalanceUncheckedCreateNestedManyWithoutWarehouseInput
     stockMovements?: StockMovementUncheckedCreateNestedManyWithoutWarehouseInput
@@ -109606,6 +114325,8 @@ export namespace Prisma {
     units?: UnitUpdateManyWithoutTenantNestedInput
     items?: ItemUpdateManyWithoutTenantNestedInput
     parties?: PartyUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUpdateManyWithoutTenantNestedInput
@@ -109666,6 +114387,8 @@ export namespace Prisma {
     units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
     items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
     parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUncheckedUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUncheckedUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUncheckedUpdateManyWithoutTenantNestedInput
@@ -109801,6 +114524,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: TenantUpdateOneRequiredWithoutWarehousesNestedInput
+    branches?: BranchWarehouseUpdateManyWithoutWarehouseNestedInput
     warehouseItems?: WarehouseItemUpdateManyWithoutWarehouseNestedInput
     stockBalances?: StockBalanceUpdateManyWithoutWarehouseNestedInput
     stockMovements?: StockMovementUpdateManyWithoutWarehouseNestedInput
@@ -109817,6 +114541,7 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    branches?: BranchWarehouseUncheckedUpdateManyWithoutWarehouseNestedInput
     warehouseItems?: WarehouseItemUncheckedUpdateManyWithoutWarehouseNestedInput
     stockBalances?: StockBalanceUncheckedUpdateManyWithoutWarehouseNestedInput
     stockMovements?: StockMovementUncheckedUpdateManyWithoutWarehouseNestedInput
@@ -110319,6 +115044,8 @@ export namespace Prisma {
     units?: UnitCreateNestedManyWithoutTenantInput
     items?: ItemCreateNestedManyWithoutTenantInput
     parties?: PartyCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountCreateNestedManyWithoutTenantInput
@@ -110379,6 +115106,8 @@ export namespace Prisma {
     units?: UnitUncheckedCreateNestedManyWithoutTenantInput
     items?: ItemUncheckedCreateNestedManyWithoutTenantInput
     parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseUncheckedCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxUncheckedCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountUncheckedCreateNestedManyWithoutTenantInput
@@ -110543,6 +115272,8 @@ export namespace Prisma {
     units?: UnitUpdateManyWithoutTenantNestedInput
     items?: ItemUpdateManyWithoutTenantNestedInput
     parties?: PartyUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUpdateManyWithoutTenantNestedInput
@@ -110603,6 +115334,8 @@ export namespace Prisma {
     units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
     items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
     parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUncheckedUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUncheckedUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUncheckedUpdateManyWithoutTenantNestedInput
@@ -110762,6 +115495,8 @@ export namespace Prisma {
     units?: UnitCreateNestedManyWithoutTenantInput
     items?: ItemCreateNestedManyWithoutTenantInput
     parties?: PartyCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountCreateNestedManyWithoutTenantInput
@@ -110822,6 +115557,8 @@ export namespace Prisma {
     units?: UnitUncheckedCreateNestedManyWithoutTenantInput
     items?: ItemUncheckedCreateNestedManyWithoutTenantInput
     parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseUncheckedCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxUncheckedCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountUncheckedCreateNestedManyWithoutTenantInput
@@ -111027,6 +115764,8 @@ export namespace Prisma {
     units?: UnitUpdateManyWithoutTenantNestedInput
     items?: ItemUpdateManyWithoutTenantNestedInput
     parties?: PartyUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUpdateManyWithoutTenantNestedInput
@@ -111087,6 +115826,8 @@ export namespace Prisma {
     units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
     items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
     parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUncheckedUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUncheckedUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUncheckedUpdateManyWithoutTenantNestedInput
@@ -111228,6 +115969,8 @@ export namespace Prisma {
     units?: UnitCreateNestedManyWithoutTenantInput
     items?: ItemCreateNestedManyWithoutTenantInput
     parties?: PartyCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountCreateNestedManyWithoutTenantInput
@@ -111288,6 +116031,8 @@ export namespace Prisma {
     units?: UnitUncheckedCreateNestedManyWithoutTenantInput
     items?: ItemUncheckedCreateNestedManyWithoutTenantInput
     parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseUncheckedCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxUncheckedCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountUncheckedCreateNestedManyWithoutTenantInput
@@ -111482,6 +116227,8 @@ export namespace Prisma {
     units?: UnitUpdateManyWithoutTenantNestedInput
     items?: ItemUpdateManyWithoutTenantNestedInput
     parties?: PartyUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUpdateManyWithoutTenantNestedInput
@@ -111542,6 +116289,8 @@ export namespace Prisma {
     units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
     items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
     parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUncheckedUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUncheckedUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUncheckedUpdateManyWithoutTenantNestedInput
@@ -111731,6 +116480,8 @@ export namespace Prisma {
     itemCategories?: ItemCategoryCreateNestedManyWithoutTenantInput
     units?: UnitCreateNestedManyWithoutTenantInput
     parties?: PartyCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountCreateNestedManyWithoutTenantInput
@@ -111791,6 +116542,8 @@ export namespace Prisma {
     itemCategories?: ItemCategoryUncheckedCreateNestedManyWithoutTenantInput
     units?: UnitUncheckedCreateNestedManyWithoutTenantInput
     parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseUncheckedCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxUncheckedCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountUncheckedCreateNestedManyWithoutTenantInput
@@ -112200,6 +116953,8 @@ export namespace Prisma {
     itemCategories?: ItemCategoryUpdateManyWithoutTenantNestedInput
     units?: UnitUpdateManyWithoutTenantNestedInput
     parties?: PartyUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUpdateManyWithoutTenantNestedInput
@@ -112260,6 +117015,8 @@ export namespace Prisma {
     itemCategories?: ItemCategoryUncheckedUpdateManyWithoutTenantNestedInput
     units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
     parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUncheckedUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUncheckedUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUncheckedUpdateManyWithoutTenantNestedInput
@@ -112601,6 +117358,8 @@ export namespace Prisma {
     units?: UnitCreateNestedManyWithoutTenantInput
     items?: ItemCreateNestedManyWithoutTenantInput
     parties?: PartyCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountCreateNestedManyWithoutTenantInput
@@ -112661,6 +117420,8 @@ export namespace Prisma {
     units?: UnitUncheckedCreateNestedManyWithoutTenantInput
     items?: ItemUncheckedCreateNestedManyWithoutTenantInput
     parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseUncheckedCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxUncheckedCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountUncheckedCreateNestedManyWithoutTenantInput
@@ -112814,6 +117575,8 @@ export namespace Prisma {
     units?: UnitUpdateManyWithoutTenantNestedInput
     items?: ItemUpdateManyWithoutTenantNestedInput
     parties?: PartyUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUpdateManyWithoutTenantNestedInput
@@ -112874,6 +117637,8 @@ export namespace Prisma {
     units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
     items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
     parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUncheckedUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUncheckedUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUncheckedUpdateManyWithoutTenantNestedInput
@@ -113028,6 +117793,8 @@ export namespace Prisma {
     units?: UnitCreateNestedManyWithoutTenantInput
     items?: ItemCreateNestedManyWithoutTenantInput
     parties?: PartyCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountCreateNestedManyWithoutTenantInput
@@ -113088,6 +117855,8 @@ export namespace Prisma {
     units?: UnitUncheckedCreateNestedManyWithoutTenantInput
     items?: ItemUncheckedCreateNestedManyWithoutTenantInput
     parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseUncheckedCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxUncheckedCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountUncheckedCreateNestedManyWithoutTenantInput
@@ -113175,6 +117944,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     tenant: TenantCreateNestedOneWithoutCashboxesInput
     currency: CurrencyCreateNestedOneWithoutCashboxesInput
+    branch?: BranchCreateNestedOneWithoutCashboxesInput
     expenses?: ExpenseCreateNestedManyWithoutCashboxInput
     payments?: PaymentCreateNestedManyWithoutCashboxInput
     journalLines?: JournalLineCreateNestedManyWithoutCashboxInput
@@ -113187,6 +117957,7 @@ export namespace Prisma {
     code: string
     name: JsonNullValueInput | InputJsonValue
     currencyId: string
+    branchId?: string | null
     balance?: Decimal | DecimalJsLike | number | string
     isActive?: boolean
     createdAt?: Date | string
@@ -113430,6 +118201,8 @@ export namespace Prisma {
     units?: UnitUpdateManyWithoutTenantNestedInput
     items?: ItemUpdateManyWithoutTenantNestedInput
     parties?: PartyUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUpdateManyWithoutTenantNestedInput
@@ -113490,6 +118263,8 @@ export namespace Prisma {
     units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
     items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
     parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUncheckedUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUncheckedUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUncheckedUpdateManyWithoutTenantNestedInput
@@ -113589,6 +118364,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: TenantUpdateOneRequiredWithoutCashboxesNestedInput
     currency?: CurrencyUpdateOneRequiredWithoutCashboxesNestedInput
+    branch?: BranchUpdateOneWithoutCashboxesNestedInput
     expenses?: ExpenseUpdateManyWithoutCashboxNestedInput
     payments?: PaymentUpdateManyWithoutCashboxNestedInput
     journalLines?: JournalLineUpdateManyWithoutCashboxNestedInput
@@ -113601,6 +118377,7 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     name?: JsonNullValueInput | InputJsonValue
     currencyId?: StringFieldUpdateOperationsInput | string
+    branchId?: NullableStringFieldUpdateOperationsInput | string | null
     balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -113803,6 +118580,8 @@ export namespace Prisma {
     units?: UnitCreateNestedManyWithoutTenantInput
     items?: ItemCreateNestedManyWithoutTenantInput
     parties?: PartyCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountCreateNestedManyWithoutTenantInput
@@ -113863,6 +118642,8 @@ export namespace Prisma {
     units?: UnitUncheckedCreateNestedManyWithoutTenantInput
     items?: ItemUncheckedCreateNestedManyWithoutTenantInput
     parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseUncheckedCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxUncheckedCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountUncheckedCreateNestedManyWithoutTenantInput
@@ -113935,6 +118716,8 @@ export namespace Prisma {
     units?: UnitUpdateManyWithoutTenantNestedInput
     items?: ItemUpdateManyWithoutTenantNestedInput
     parties?: PartyUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUpdateManyWithoutTenantNestedInput
@@ -113995,6 +118778,8 @@ export namespace Prisma {
     units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
     items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
     parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUncheckedUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUncheckedUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUncheckedUpdateManyWithoutTenantNestedInput
@@ -114050,6 +118835,8 @@ export namespace Prisma {
     itemCategories?: ItemCategoryCreateNestedManyWithoutTenantInput
     units?: UnitCreateNestedManyWithoutTenantInput
     items?: ItemCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountCreateNestedManyWithoutTenantInput
@@ -114110,6 +118897,8 @@ export namespace Prisma {
     itemCategories?: ItemCategoryUncheckedCreateNestedManyWithoutTenantInput
     units?: UnitUncheckedCreateNestedManyWithoutTenantInput
     items?: ItemUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseUncheckedCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxUncheckedCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountUncheckedCreateNestedManyWithoutTenantInput
@@ -114558,6 +119347,8 @@ export namespace Prisma {
     itemCategories?: ItemCategoryUpdateManyWithoutTenantNestedInput
     units?: UnitUpdateManyWithoutTenantNestedInput
     items?: ItemUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUpdateManyWithoutTenantNestedInput
@@ -114618,6 +119409,8 @@ export namespace Prisma {
     itemCategories?: ItemCategoryUncheckedUpdateManyWithoutTenantNestedInput
     units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
     items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUncheckedUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUncheckedUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUncheckedUpdateManyWithoutTenantNestedInput
@@ -115061,6 +119854,8 @@ export namespace Prisma {
     units?: UnitCreateNestedManyWithoutTenantInput
     items?: ItemCreateNestedManyWithoutTenantInput
     parties?: PartyCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountCreateNestedManyWithoutTenantInput
@@ -115121,6 +119916,8 @@ export namespace Prisma {
     units?: UnitUncheckedCreateNestedManyWithoutTenantInput
     items?: ItemUncheckedCreateNestedManyWithoutTenantInput
     parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseUncheckedCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxUncheckedCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountUncheckedCreateNestedManyWithoutTenantInput
@@ -115239,6 +120036,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     tenant: TenantCreateNestedOneWithoutCashboxesInput
     currency: CurrencyCreateNestedOneWithoutCashboxesInput
+    branch?: BranchCreateNestedOneWithoutCashboxesInput
     expenses?: ExpenseCreateNestedManyWithoutCashboxInput
     payments?: PaymentCreateNestedManyWithoutCashboxInput
     journalLines?: JournalLineCreateNestedManyWithoutCashboxInput
@@ -115251,6 +120049,7 @@ export namespace Prisma {
     code: string
     name: JsonNullValueInput | InputJsonValue
     currencyId: string
+    branchId?: string | null
     balance?: Decimal | DecimalJsLike | number | string
     isActive?: boolean
     createdAt?: Date | string
@@ -115275,6 +120074,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     tenant: TenantCreateNestedOneWithoutWarehousesInput
+    branches?: BranchWarehouseCreateNestedManyWithoutWarehouseInput
     warehouseItems?: WarehouseItemCreateNestedManyWithoutWarehouseInput
     stockBalances?: StockBalanceCreateNestedManyWithoutWarehouseInput
     stockMovements?: StockMovementCreateNestedManyWithoutWarehouseInput
@@ -115291,6 +120091,7 @@ export namespace Prisma {
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    branches?: BranchWarehouseUncheckedCreateNestedManyWithoutWarehouseInput
     warehouseItems?: WarehouseItemUncheckedCreateNestedManyWithoutWarehouseInput
     stockBalances?: StockBalanceUncheckedCreateNestedManyWithoutWarehouseInput
     stockMovements?: StockMovementUncheckedCreateNestedManyWithoutWarehouseInput
@@ -115343,6 +120144,8 @@ export namespace Prisma {
     units?: UnitUpdateManyWithoutTenantNestedInput
     items?: ItemUpdateManyWithoutTenantNestedInput
     parties?: PartyUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUpdateManyWithoutTenantNestedInput
@@ -115403,6 +120206,8 @@ export namespace Prisma {
     units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
     items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
     parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUncheckedUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUncheckedUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUncheckedUpdateManyWithoutTenantNestedInput
@@ -115539,6 +120344,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: TenantUpdateOneRequiredWithoutCashboxesNestedInput
     currency?: CurrencyUpdateOneRequiredWithoutCashboxesNestedInput
+    branch?: BranchUpdateOneWithoutCashboxesNestedInput
     expenses?: ExpenseUpdateManyWithoutCashboxNestedInput
     payments?: PaymentUpdateManyWithoutCashboxNestedInput
     journalLines?: JournalLineUpdateManyWithoutCashboxNestedInput
@@ -115551,6 +120357,7 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     name?: JsonNullValueInput | InputJsonValue
     currencyId?: StringFieldUpdateOperationsInput | string
+    branchId?: NullableStringFieldUpdateOperationsInput | string | null
     balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -115581,6 +120388,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: TenantUpdateOneRequiredWithoutWarehousesNestedInput
+    branches?: BranchWarehouseUpdateManyWithoutWarehouseNestedInput
     warehouseItems?: WarehouseItemUpdateManyWithoutWarehouseNestedInput
     stockBalances?: StockBalanceUpdateManyWithoutWarehouseNestedInput
     stockMovements?: StockMovementUpdateManyWithoutWarehouseNestedInput
@@ -115597,6 +120405,7 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    branches?: BranchWarehouseUncheckedUpdateManyWithoutWarehouseNestedInput
     warehouseItems?: WarehouseItemUncheckedUpdateManyWithoutWarehouseNestedInput
     stockBalances?: StockBalanceUncheckedUpdateManyWithoutWarehouseNestedInput
     stockMovements?: StockMovementUncheckedUpdateManyWithoutWarehouseNestedInput
@@ -115633,6 +120442,8 @@ export namespace Prisma {
     units?: UnitCreateNestedManyWithoutTenantInput
     items?: ItemCreateNestedManyWithoutTenantInput
     parties?: PartyCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountCreateNestedManyWithoutTenantInput
@@ -115693,6 +120504,8 @@ export namespace Prisma {
     units?: UnitUncheckedCreateNestedManyWithoutTenantInput
     items?: ItemUncheckedCreateNestedManyWithoutTenantInput
     parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseUncheckedCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxUncheckedCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountUncheckedCreateNestedManyWithoutTenantInput
@@ -115765,6 +120578,8 @@ export namespace Prisma {
     units?: UnitUpdateManyWithoutTenantNestedInput
     items?: ItemUpdateManyWithoutTenantNestedInput
     parties?: PartyUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUpdateManyWithoutTenantNestedInput
@@ -115825,6 +120640,8 @@ export namespace Prisma {
     units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
     items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
     parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUncheckedUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUncheckedUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUncheckedUpdateManyWithoutTenantNestedInput
@@ -115881,6 +120698,8 @@ export namespace Prisma {
     units?: UnitCreateNestedManyWithoutTenantInput
     items?: ItemCreateNestedManyWithoutTenantInput
     parties?: PartyCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountCreateNestedManyWithoutTenantInput
@@ -115941,6 +120760,8 @@ export namespace Prisma {
     units?: UnitUncheckedCreateNestedManyWithoutTenantInput
     items?: ItemUncheckedCreateNestedManyWithoutTenantInput
     parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseUncheckedCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxUncheckedCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountUncheckedCreateNestedManyWithoutTenantInput
@@ -116013,6 +120834,8 @@ export namespace Prisma {
     units?: UnitUpdateManyWithoutTenantNestedInput
     items?: ItemUpdateManyWithoutTenantNestedInput
     parties?: PartyUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUpdateManyWithoutTenantNestedInput
@@ -116073,6 +120896,8 @@ export namespace Prisma {
     units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
     items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
     parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUncheckedUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUncheckedUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUncheckedUpdateManyWithoutTenantNestedInput
@@ -116129,6 +120954,8 @@ export namespace Prisma {
     units?: UnitCreateNestedManyWithoutTenantInput
     items?: ItemCreateNestedManyWithoutTenantInput
     parties?: PartyCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountCreateNestedManyWithoutTenantInput
@@ -116189,6 +121016,8 @@ export namespace Prisma {
     units?: UnitUncheckedCreateNestedManyWithoutTenantInput
     items?: ItemUncheckedCreateNestedManyWithoutTenantInput
     parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseUncheckedCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxUncheckedCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountUncheckedCreateNestedManyWithoutTenantInput
@@ -116230,6 +121059,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     tenant: TenantCreateNestedOneWithoutWarehousesInput
+    branches?: BranchWarehouseCreateNestedManyWithoutWarehouseInput
     warehouseItems?: WarehouseItemCreateNestedManyWithoutWarehouseInput
     stockBalances?: StockBalanceCreateNestedManyWithoutWarehouseInput
     stockMovements?: StockMovementCreateNestedManyWithoutWarehouseInput
@@ -116246,6 +121076,7 @@ export namespace Prisma {
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    branches?: BranchWarehouseUncheckedCreateNestedManyWithoutWarehouseInput
     warehouseItems?: WarehouseItemUncheckedCreateNestedManyWithoutWarehouseInput
     stockBalances?: StockBalanceUncheckedCreateNestedManyWithoutWarehouseInput
     stockMovements?: StockMovementUncheckedCreateNestedManyWithoutWarehouseInput
@@ -116367,6 +121198,8 @@ export namespace Prisma {
     units?: UnitUpdateManyWithoutTenantNestedInput
     items?: ItemUpdateManyWithoutTenantNestedInput
     parties?: PartyUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUpdateManyWithoutTenantNestedInput
@@ -116427,6 +121260,8 @@ export namespace Prisma {
     units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
     items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
     parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUncheckedUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUncheckedUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUncheckedUpdateManyWithoutTenantNestedInput
@@ -116474,6 +121309,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: TenantUpdateOneRequiredWithoutWarehousesNestedInput
+    branches?: BranchWarehouseUpdateManyWithoutWarehouseNestedInput
     warehouseItems?: WarehouseItemUpdateManyWithoutWarehouseNestedInput
     stockBalances?: StockBalanceUpdateManyWithoutWarehouseNestedInput
     stockMovements?: StockMovementUpdateManyWithoutWarehouseNestedInput
@@ -116490,6 +121326,7 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    branches?: BranchWarehouseUncheckedUpdateManyWithoutWarehouseNestedInput
     warehouseItems?: WarehouseItemUncheckedUpdateManyWithoutWarehouseNestedInput
     stockBalances?: StockBalanceUncheckedUpdateManyWithoutWarehouseNestedInput
     stockMovements?: StockMovementUncheckedUpdateManyWithoutWarehouseNestedInput
@@ -116775,6 +121612,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     tenant: TenantCreateNestedOneWithoutWarehousesInput
+    branches?: BranchWarehouseCreateNestedManyWithoutWarehouseInput
     warehouseItems?: WarehouseItemCreateNestedManyWithoutWarehouseInput
     stockMovements?: StockMovementCreateNestedManyWithoutWarehouseInput
     invoices?: InvoiceCreateNestedManyWithoutWarehouseInput
@@ -116791,6 +121629,7 @@ export namespace Prisma {
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    branches?: BranchWarehouseUncheckedCreateNestedManyWithoutWarehouseInput
     warehouseItems?: WarehouseItemUncheckedCreateNestedManyWithoutWarehouseInput
     stockMovements?: StockMovementUncheckedCreateNestedManyWithoutWarehouseInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutWarehouseInput
@@ -116884,6 +121723,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: TenantUpdateOneRequiredWithoutWarehousesNestedInput
+    branches?: BranchWarehouseUpdateManyWithoutWarehouseNestedInput
     warehouseItems?: WarehouseItemUpdateManyWithoutWarehouseNestedInput
     stockMovements?: StockMovementUpdateManyWithoutWarehouseNestedInput
     invoices?: InvoiceUpdateManyWithoutWarehouseNestedInput
@@ -116900,6 +121740,7 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    branches?: BranchWarehouseUncheckedUpdateManyWithoutWarehouseNestedInput
     warehouseItems?: WarehouseItemUncheckedUpdateManyWithoutWarehouseNestedInput
     stockMovements?: StockMovementUncheckedUpdateManyWithoutWarehouseNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutWarehouseNestedInput
@@ -116983,6 +121824,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     tenant: TenantCreateNestedOneWithoutWarehousesInput
+    branches?: BranchWarehouseCreateNestedManyWithoutWarehouseInput
     warehouseItems?: WarehouseItemCreateNestedManyWithoutWarehouseInput
     stockBalances?: StockBalanceCreateNestedManyWithoutWarehouseInput
     invoices?: InvoiceCreateNestedManyWithoutWarehouseInput
@@ -116999,6 +121841,7 @@ export namespace Prisma {
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    branches?: BranchWarehouseUncheckedCreateNestedManyWithoutWarehouseInput
     warehouseItems?: WarehouseItemUncheckedCreateNestedManyWithoutWarehouseInput
     stockBalances?: StockBalanceUncheckedCreateNestedManyWithoutWarehouseInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutWarehouseInput
@@ -117131,6 +121974,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: TenantUpdateOneRequiredWithoutWarehousesNestedInput
+    branches?: BranchWarehouseUpdateManyWithoutWarehouseNestedInput
     warehouseItems?: WarehouseItemUpdateManyWithoutWarehouseNestedInput
     stockBalances?: StockBalanceUpdateManyWithoutWarehouseNestedInput
     invoices?: InvoiceUpdateManyWithoutWarehouseNestedInput
@@ -117147,6 +121991,7 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    branches?: BranchWarehouseUncheckedUpdateManyWithoutWarehouseNestedInput
     warehouseItems?: WarehouseItemUncheckedUpdateManyWithoutWarehouseNestedInput
     stockBalances?: StockBalanceUncheckedUpdateManyWithoutWarehouseNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutWarehouseNestedInput
@@ -117351,6 +122196,8 @@ export namespace Prisma {
     units?: UnitCreateNestedManyWithoutTenantInput
     items?: ItemCreateNestedManyWithoutTenantInput
     parties?: PartyCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountCreateNestedManyWithoutTenantInput
@@ -117411,6 +122258,8 @@ export namespace Prisma {
     units?: UnitUncheckedCreateNestedManyWithoutTenantInput
     items?: ItemUncheckedCreateNestedManyWithoutTenantInput
     parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseUncheckedCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxUncheckedCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountUncheckedCreateNestedManyWithoutTenantInput
@@ -117509,6 +122358,8 @@ export namespace Prisma {
     units?: UnitUpdateManyWithoutTenantNestedInput
     items?: ItemUpdateManyWithoutTenantNestedInput
     parties?: PartyUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUpdateManyWithoutTenantNestedInput
@@ -117569,6 +122420,8 @@ export namespace Prisma {
     units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
     items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
     parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUncheckedUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUncheckedUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUncheckedUpdateManyWithoutTenantNestedInput
@@ -117653,6 +122506,8 @@ export namespace Prisma {
     units?: UnitCreateNestedManyWithoutTenantInput
     items?: ItemCreateNestedManyWithoutTenantInput
     parties?: PartyCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountCreateNestedManyWithoutTenantInput
@@ -117713,6 +122568,8 @@ export namespace Prisma {
     units?: UnitUncheckedCreateNestedManyWithoutTenantInput
     items?: ItemUncheckedCreateNestedManyWithoutTenantInput
     parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseUncheckedCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxUncheckedCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountUncheckedCreateNestedManyWithoutTenantInput
@@ -117785,6 +122642,8 @@ export namespace Prisma {
     units?: UnitUpdateManyWithoutTenantNestedInput
     items?: ItemUpdateManyWithoutTenantNestedInput
     parties?: PartyUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUpdateManyWithoutTenantNestedInput
@@ -117845,6 +122704,8 @@ export namespace Prisma {
     units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
     items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
     parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUncheckedUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUncheckedUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUncheckedUpdateManyWithoutTenantNestedInput
@@ -118042,6 +122903,7 @@ export namespace Prisma {
     padding?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    branch?: BranchCreateNestedOneWithoutDocumentSequencesInput
     defaultSalesForTenants?: TenantCreateNestedManyWithoutDefaultSalesSequenceInput
   }
 
@@ -118051,6 +122913,7 @@ export namespace Prisma {
     prefix: string
     nextNumber?: number
     padding?: number
+    branchId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     defaultSalesForTenants?: TenantUncheckedCreateNestedManyWithoutDefaultSalesSequenceInput
@@ -118276,6 +123139,70 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type BranchCreateWithoutTenantInput = {
+    id?: string
+    code: string
+    name: JsonNullValueInput | InputJsonValue
+    address?: string | null
+    phone?: string | null
+    email?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    warehouses?: BranchWarehouseCreateNestedManyWithoutBranchInput
+    cashboxes?: CashboxCreateNestedManyWithoutBranchInput
+    documentSequences?: DocumentSequenceCreateNestedManyWithoutBranchInput
+  }
+
+  export type BranchUncheckedCreateWithoutTenantInput = {
+    id?: string
+    code: string
+    name: JsonNullValueInput | InputJsonValue
+    address?: string | null
+    phone?: string | null
+    email?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    warehouses?: BranchWarehouseUncheckedCreateNestedManyWithoutBranchInput
+    cashboxes?: CashboxUncheckedCreateNestedManyWithoutBranchInput
+    documentSequences?: DocumentSequenceUncheckedCreateNestedManyWithoutBranchInput
+  }
+
+  export type BranchCreateOrConnectWithoutTenantInput = {
+    where: BranchWhereUniqueInput
+    create: XOR<BranchCreateWithoutTenantInput, BranchUncheckedCreateWithoutTenantInput>
+  }
+
+  export type BranchCreateManyTenantInputEnvelope = {
+    data: BranchCreateManyTenantInput | BranchCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type BranchWarehouseCreateWithoutTenantInput = {
+    id?: string
+    createdAt?: Date | string
+    branch: BranchCreateNestedOneWithoutWarehousesInput
+    warehouse: WarehouseCreateNestedOneWithoutBranchesInput
+  }
+
+  export type BranchWarehouseUncheckedCreateWithoutTenantInput = {
+    id?: string
+    branchId: string
+    warehouseId: string
+    createdAt?: Date | string
+  }
+
+  export type BranchWarehouseCreateOrConnectWithoutTenantInput = {
+    where: BranchWarehouseWhereUniqueInput
+    create: XOR<BranchWarehouseCreateWithoutTenantInput, BranchWarehouseUncheckedCreateWithoutTenantInput>
+  }
+
+  export type BranchWarehouseCreateManyTenantInputEnvelope = {
+    data: BranchWarehouseCreateManyTenantInput | BranchWarehouseCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
   export type WarehouseCreateWithoutTenantInput = {
     id?: string
     code: string
@@ -118284,6 +123211,7 @@ export namespace Prisma {
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    branches?: BranchWarehouseCreateNestedManyWithoutWarehouseInput
     warehouseItems?: WarehouseItemCreateNestedManyWithoutWarehouseInput
     stockBalances?: StockBalanceCreateNestedManyWithoutWarehouseInput
     stockMovements?: StockMovementCreateNestedManyWithoutWarehouseInput
@@ -118300,6 +123228,7 @@ export namespace Prisma {
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    branches?: BranchWarehouseUncheckedCreateNestedManyWithoutWarehouseInput
     warehouseItems?: WarehouseItemUncheckedCreateNestedManyWithoutWarehouseInput
     stockBalances?: StockBalanceUncheckedCreateNestedManyWithoutWarehouseInput
     stockMovements?: StockMovementUncheckedCreateNestedManyWithoutWarehouseInput
@@ -118327,6 +123256,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     currency: CurrencyCreateNestedOneWithoutCashboxesInput
+    branch?: BranchCreateNestedOneWithoutCashboxesInput
     expenses?: ExpenseCreateNestedManyWithoutCashboxInput
     payments?: PaymentCreateNestedManyWithoutCashboxInput
     journalLines?: JournalLineCreateNestedManyWithoutCashboxInput
@@ -118339,6 +123269,7 @@ export namespace Prisma {
     code: string
     name: JsonNullValueInput | InputJsonValue
     currencyId: string
+    branchId?: string | null
     balance?: Decimal | DecimalJsLike | number | string
     isActive?: boolean
     createdAt?: Date | string
@@ -118956,6 +123887,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     tenant: TenantCreateNestedOneWithoutDocumentSequencesInput
+    branch?: BranchCreateNestedOneWithoutDocumentSequencesInput
   }
 
   export type DocumentSequenceUncheckedCreateWithoutDefaultSalesForTenantsInput = {
@@ -118965,6 +123897,7 @@ export namespace Prisma {
     prefix: string
     nextNumber?: number
     padding?: number
+    branchId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -119529,20 +124462,6 @@ export namespace Prisma {
     data: XOR<DocumentSequenceUpdateManyMutationInput, DocumentSequenceUncheckedUpdateManyWithoutTenantInput>
   }
 
-  export type DocumentSequenceScalarWhereInput = {
-    AND?: DocumentSequenceScalarWhereInput | DocumentSequenceScalarWhereInput[]
-    OR?: DocumentSequenceScalarWhereInput[]
-    NOT?: DocumentSequenceScalarWhereInput | DocumentSequenceScalarWhereInput[]
-    id?: StringFilter<"DocumentSequence"> | string
-    tenantId?: StringFilter<"DocumentSequence"> | string
-    documentType?: StringFilter<"DocumentSequence"> | string
-    prefix?: StringFilter<"DocumentSequence"> | string
-    nextNumber?: IntFilter<"DocumentSequence"> | number
-    padding?: IntFilter<"DocumentSequence"> | number
-    createdAt?: DateTimeFilter<"DocumentSequence"> | Date | string
-    updatedAt?: DateTimeFilter<"DocumentSequence"> | Date | string
-  }
-
   export type CodeSequenceUpsertWithWhereUniqueWithoutTenantInput = {
     where: CodeSequenceWhereUniqueInput
     update: XOR<CodeSequenceUpdateWithoutTenantInput, CodeSequenceUncheckedUpdateWithoutTenantInput>
@@ -119646,6 +124565,54 @@ export namespace Prisma {
   export type PartyUpdateManyWithWhereWithoutTenantInput = {
     where: PartyScalarWhereInput
     data: XOR<PartyUpdateManyMutationInput, PartyUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type BranchUpsertWithWhereUniqueWithoutTenantInput = {
+    where: BranchWhereUniqueInput
+    update: XOR<BranchUpdateWithoutTenantInput, BranchUncheckedUpdateWithoutTenantInput>
+    create: XOR<BranchCreateWithoutTenantInput, BranchUncheckedCreateWithoutTenantInput>
+  }
+
+  export type BranchUpdateWithWhereUniqueWithoutTenantInput = {
+    where: BranchWhereUniqueInput
+    data: XOR<BranchUpdateWithoutTenantInput, BranchUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type BranchUpdateManyWithWhereWithoutTenantInput = {
+    where: BranchScalarWhereInput
+    data: XOR<BranchUpdateManyMutationInput, BranchUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type BranchScalarWhereInput = {
+    AND?: BranchScalarWhereInput | BranchScalarWhereInput[]
+    OR?: BranchScalarWhereInput[]
+    NOT?: BranchScalarWhereInput | BranchScalarWhereInput[]
+    id?: StringFilter<"Branch"> | string
+    tenantId?: StringFilter<"Branch"> | string
+    code?: StringFilter<"Branch"> | string
+    name?: JsonFilter<"Branch">
+    address?: StringNullableFilter<"Branch"> | string | null
+    phone?: StringNullableFilter<"Branch"> | string | null
+    email?: StringNullableFilter<"Branch"> | string | null
+    isActive?: BoolFilter<"Branch"> | boolean
+    createdAt?: DateTimeFilter<"Branch"> | Date | string
+    updatedAt?: DateTimeFilter<"Branch"> | Date | string
+  }
+
+  export type BranchWarehouseUpsertWithWhereUniqueWithoutTenantInput = {
+    where: BranchWarehouseWhereUniqueInput
+    update: XOR<BranchWarehouseUpdateWithoutTenantInput, BranchWarehouseUncheckedUpdateWithoutTenantInput>
+    create: XOR<BranchWarehouseCreateWithoutTenantInput, BranchWarehouseUncheckedCreateWithoutTenantInput>
+  }
+
+  export type BranchWarehouseUpdateWithWhereUniqueWithoutTenantInput = {
+    where: BranchWarehouseWhereUniqueInput
+    data: XOR<BranchWarehouseUpdateWithoutTenantInput, BranchWarehouseUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type BranchWarehouseUpdateManyWithWhereWithoutTenantInput = {
+    where: BranchWarehouseScalarWhereInput
+    data: XOR<BranchWarehouseUpdateManyMutationInput, BranchWarehouseUncheckedUpdateManyWithoutTenantInput>
   }
 
   export type WarehouseUpsertWithWhereUniqueWithoutTenantInput = {
@@ -120038,6 +125005,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: TenantUpdateOneRequiredWithoutDocumentSequencesNestedInput
+    branch?: BranchUpdateOneWithoutDocumentSequencesNestedInput
   }
 
   export type DocumentSequenceUncheckedUpdateWithoutDefaultSalesForTenantsInput = {
@@ -120047,6 +125015,7 @@ export namespace Prisma {
     prefix?: StringFieldUpdateOperationsInput | string
     nextNumber?: IntFieldUpdateOperationsInput | number
     padding?: IntFieldUpdateOperationsInput | number
+    branchId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -120371,6 +125340,8 @@ export namespace Prisma {
     itemCategories?: ItemCategoryCreateNestedManyWithoutTenantInput
     items?: ItemCreateNestedManyWithoutTenantInput
     parties?: PartyCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountCreateNestedManyWithoutTenantInput
@@ -120431,6 +125402,8 @@ export namespace Prisma {
     itemCategories?: ItemCategoryUncheckedCreateNestedManyWithoutTenantInput
     items?: ItemUncheckedCreateNestedManyWithoutTenantInput
     parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseUncheckedCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxUncheckedCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountUncheckedCreateNestedManyWithoutTenantInput
@@ -120611,6 +125584,8 @@ export namespace Prisma {
     itemCategories?: ItemCategoryUpdateManyWithoutTenantNestedInput
     items?: ItemUpdateManyWithoutTenantNestedInput
     parties?: PartyUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUpdateManyWithoutTenantNestedInput
@@ -120671,6 +125646,8 @@ export namespace Prisma {
     itemCategories?: ItemCategoryUncheckedUpdateManyWithoutTenantNestedInput
     items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
     parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUncheckedUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUncheckedUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUncheckedUpdateManyWithoutTenantNestedInput
@@ -120759,6 +125736,8 @@ export namespace Prisma {
     units?: UnitCreateNestedManyWithoutTenantInput
     items?: ItemCreateNestedManyWithoutTenantInput
     parties?: PartyCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountCreateNestedManyWithoutTenantInput
@@ -120819,6 +125798,8 @@ export namespace Prisma {
     units?: UnitUncheckedCreateNestedManyWithoutTenantInput
     items?: ItemUncheckedCreateNestedManyWithoutTenantInput
     parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseUncheckedCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxUncheckedCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountUncheckedCreateNestedManyWithoutTenantInput
@@ -120913,6 +125894,8 @@ export namespace Prisma {
     units?: UnitUpdateManyWithoutTenantNestedInput
     items?: ItemUpdateManyWithoutTenantNestedInput
     parties?: PartyUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUpdateManyWithoutTenantNestedInput
@@ -120973,6 +125956,8 @@ export namespace Prisma {
     units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
     items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
     parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUncheckedUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUncheckedUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUncheckedUpdateManyWithoutTenantNestedInput
@@ -121055,6 +126040,8 @@ export namespace Prisma {
     units?: UnitCreateNestedManyWithoutTenantInput
     items?: ItemCreateNestedManyWithoutTenantInput
     parties?: PartyCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountCreateNestedManyWithoutTenantInput
@@ -121115,6 +126102,8 @@ export namespace Prisma {
     units?: UnitUncheckedCreateNestedManyWithoutTenantInput
     items?: ItemUncheckedCreateNestedManyWithoutTenantInput
     parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseUncheckedCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxUncheckedCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountUncheckedCreateNestedManyWithoutTenantInput
@@ -121231,6 +126220,8 @@ export namespace Prisma {
     units?: UnitUpdateManyWithoutTenantNestedInput
     items?: ItemUpdateManyWithoutTenantNestedInput
     parties?: PartyUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUpdateManyWithoutTenantNestedInput
@@ -121291,6 +126282,8 @@ export namespace Prisma {
     units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
     items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
     parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUncheckedUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUncheckedUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUncheckedUpdateManyWithoutTenantNestedInput
@@ -121512,6 +126505,8 @@ export namespace Prisma {
     units?: UnitCreateNestedManyWithoutTenantInput
     items?: ItemCreateNestedManyWithoutTenantInput
     parties?: PartyCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountCreateNestedManyWithoutTenantInput
     invoiceTypes?: InvoiceTypeCreateNestedManyWithoutTenantInput
@@ -121572,6 +126567,8 @@ export namespace Prisma {
     units?: UnitUncheckedCreateNestedManyWithoutTenantInput
     items?: ItemUncheckedCreateNestedManyWithoutTenantInput
     parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    branchWarehouses?: BranchWarehouseUncheckedCreateNestedManyWithoutTenantInput
     cashboxes?: CashboxUncheckedCreateNestedManyWithoutTenantInput
     bankAccounts?: BankAccountUncheckedCreateNestedManyWithoutTenantInput
     invoiceTypes?: InvoiceTypeUncheckedCreateNestedManyWithoutTenantInput
@@ -121602,6 +126599,30 @@ export namespace Prisma {
   export type TenantCreateOrConnectWithoutWarehousesInput = {
     where: TenantWhereUniqueInput
     create: XOR<TenantCreateWithoutWarehousesInput, TenantUncheckedCreateWithoutWarehousesInput>
+  }
+
+  export type BranchWarehouseCreateWithoutWarehouseInput = {
+    id?: string
+    createdAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutBranchWarehousesInput
+    branch: BranchCreateNestedOneWithoutWarehousesInput
+  }
+
+  export type BranchWarehouseUncheckedCreateWithoutWarehouseInput = {
+    id?: string
+    tenantId: string
+    branchId: string
+    createdAt?: Date | string
+  }
+
+  export type BranchWarehouseCreateOrConnectWithoutWarehouseInput = {
+    where: BranchWarehouseWhereUniqueInput
+    create: XOR<BranchWarehouseCreateWithoutWarehouseInput, BranchWarehouseUncheckedCreateWithoutWarehouseInput>
+  }
+
+  export type BranchWarehouseCreateManyWarehouseInputEnvelope = {
+    data: BranchWarehouseCreateManyWarehouseInput | BranchWarehouseCreateManyWarehouseInput[]
+    skipDuplicates?: boolean
   }
 
   export type WarehouseItemCreateWithoutWarehouseInput = {
@@ -121882,6 +126903,8 @@ export namespace Prisma {
     units?: UnitUpdateManyWithoutTenantNestedInput
     items?: ItemUpdateManyWithoutTenantNestedInput
     parties?: PartyUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUpdateManyWithoutTenantNestedInput
     invoiceTypes?: InvoiceTypeUpdateManyWithoutTenantNestedInput
@@ -121942,6 +126965,8 @@ export namespace Prisma {
     units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
     items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
     parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUncheckedUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUncheckedUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUncheckedUpdateManyWithoutTenantNestedInput
     invoiceTypes?: InvoiceTypeUncheckedUpdateManyWithoutTenantNestedInput
@@ -121967,6 +126992,22 @@ export namespace Prisma {
     openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutTenantNestedInput
     setupTasks?: SetupTaskUncheckedUpdateManyWithoutTenantNestedInput
     posSetting?: PosSettingUncheckedUpdateOneWithoutTenantNestedInput
+  }
+
+  export type BranchWarehouseUpsertWithWhereUniqueWithoutWarehouseInput = {
+    where: BranchWarehouseWhereUniqueInput
+    update: XOR<BranchWarehouseUpdateWithoutWarehouseInput, BranchWarehouseUncheckedUpdateWithoutWarehouseInput>
+    create: XOR<BranchWarehouseCreateWithoutWarehouseInput, BranchWarehouseUncheckedCreateWithoutWarehouseInput>
+  }
+
+  export type BranchWarehouseUpdateWithWhereUniqueWithoutWarehouseInput = {
+    where: BranchWarehouseWhereUniqueInput
+    data: XOR<BranchWarehouseUpdateWithoutWarehouseInput, BranchWarehouseUncheckedUpdateWithoutWarehouseInput>
+  }
+
+  export type BranchWarehouseUpdateManyWithWhereWithoutWarehouseInput = {
+    where: BranchWarehouseScalarWhereInput
+    data: XOR<BranchWarehouseUpdateManyMutationInput, BranchWarehouseUncheckedUpdateManyWithoutWarehouseInput>
   }
 
   export type WarehouseItemUpsertWithWhereUniqueWithoutWarehouseInput = {
@@ -122074,6 +127115,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     tenant: TenantCreateNestedOneWithoutWarehousesInput
+    branches?: BranchWarehouseCreateNestedManyWithoutWarehouseInput
     stockBalances?: StockBalanceCreateNestedManyWithoutWarehouseInput
     stockMovements?: StockMovementCreateNestedManyWithoutWarehouseInput
     invoices?: InvoiceCreateNestedManyWithoutWarehouseInput
@@ -122090,6 +127132,7 @@ export namespace Prisma {
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    branches?: BranchWarehouseUncheckedCreateNestedManyWithoutWarehouseInput
     stockBalances?: StockBalanceUncheckedCreateNestedManyWithoutWarehouseInput
     stockMovements?: StockMovementUncheckedCreateNestedManyWithoutWarehouseInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutWarehouseInput
@@ -122183,6 +127226,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: TenantUpdateOneRequiredWithoutWarehousesNestedInput
+    branches?: BranchWarehouseUpdateManyWithoutWarehouseNestedInput
     stockBalances?: StockBalanceUpdateManyWithoutWarehouseNestedInput
     stockMovements?: StockMovementUpdateManyWithoutWarehouseNestedInput
     invoices?: InvoiceUpdateManyWithoutWarehouseNestedInput
@@ -122199,6 +127243,7 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    branches?: BranchWarehouseUncheckedUpdateManyWithoutWarehouseNestedInput
     stockBalances?: StockBalanceUncheckedUpdateManyWithoutWarehouseNestedInput
     stockMovements?: StockMovementUncheckedUpdateManyWithoutWarehouseNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutWarehouseNestedInput
@@ -123727,6 +128772,138 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type BranchWarehouseCreateManyBranchInput = {
+    id?: string
+    tenantId: string
+    warehouseId: string
+    createdAt?: Date | string
+  }
+
+  export type CashboxCreateManyBranchInput = {
+    id?: string
+    tenantId: string
+    code: string
+    name: JsonNullValueInput | InputJsonValue
+    currencyId: string
+    balance?: Decimal | DecimalJsLike | number | string
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DocumentSequenceCreateManyBranchInput = {
+    id?: string
+    tenantId: string
+    documentType: string
+    prefix: string
+    nextNumber?: number
+    padding?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BranchWarehouseUpdateWithoutBranchInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutBranchWarehousesNestedInput
+    warehouse?: WarehouseUpdateOneRequiredWithoutBranchesNestedInput
+  }
+
+  export type BranchWarehouseUncheckedUpdateWithoutBranchInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    warehouseId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BranchWarehouseUncheckedUpdateManyWithoutBranchInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    warehouseId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CashboxUpdateWithoutBranchInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
+    balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutCashboxesNestedInput
+    currency?: CurrencyUpdateOneRequiredWithoutCashboxesNestedInput
+    expenses?: ExpenseUpdateManyWithoutCashboxNestedInput
+    payments?: PaymentUpdateManyWithoutCashboxNestedInput
+    journalLines?: JournalLineUpdateManyWithoutCashboxNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUpdateManyWithoutCashboxNestedInput
+    posSettings?: PosSettingUpdateManyWithoutCashboxNestedInput
+  }
+
+  export type CashboxUncheckedUpdateWithoutBranchInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
+    currencyId?: StringFieldUpdateOperationsInput | string
+    balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expenses?: ExpenseUncheckedUpdateManyWithoutCashboxNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutCashboxNestedInput
+    journalLines?: JournalLineUncheckedUpdateManyWithoutCashboxNestedInput
+    openingBalanceSessionLines?: OpeningBalanceSessionLineUncheckedUpdateManyWithoutCashboxNestedInput
+    posSettings?: PosSettingUncheckedUpdateManyWithoutCashboxNestedInput
+  }
+
+  export type CashboxUncheckedUpdateManyWithoutBranchInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
+    currencyId?: StringFieldUpdateOperationsInput | string
+    balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DocumentSequenceUpdateWithoutBranchInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    documentType?: StringFieldUpdateOperationsInput | string
+    prefix?: StringFieldUpdateOperationsInput | string
+    nextNumber?: IntFieldUpdateOperationsInput | number
+    padding?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutDocumentSequencesNestedInput
+    defaultSalesForTenants?: TenantUpdateManyWithoutDefaultSalesSequenceNestedInput
+  }
+
+  export type DocumentSequenceUncheckedUpdateWithoutBranchInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    documentType?: StringFieldUpdateOperationsInput | string
+    prefix?: StringFieldUpdateOperationsInput | string
+    nextNumber?: IntFieldUpdateOperationsInput | number
+    padding?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    defaultSalesForTenants?: TenantUncheckedUpdateManyWithoutDefaultSalesSequenceNestedInput
+  }
+
+  export type DocumentSequenceUncheckedUpdateManyWithoutBranchInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    documentType?: StringFieldUpdateOperationsInput | string
+    prefix?: StringFieldUpdateOperationsInput | string
+    nextNumber?: IntFieldUpdateOperationsInput | number
+    padding?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type ItemCreateManyBrandInput = {
     id?: string
     tenantId: string
@@ -124288,6 +129465,7 @@ export namespace Prisma {
     tenantId: string
     code: string
     name: JsonNullValueInput | InputJsonValue
+    branchId?: string | null
     balance?: Decimal | DecimalJsLike | number | string
     isActive?: boolean
     createdAt?: Date | string
@@ -124442,6 +129620,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: TenantUpdateOneRequiredWithoutCashboxesNestedInput
+    branch?: BranchUpdateOneWithoutCashboxesNestedInput
     expenses?: ExpenseUpdateManyWithoutCashboxNestedInput
     payments?: PaymentUpdateManyWithoutCashboxNestedInput
     journalLines?: JournalLineUpdateManyWithoutCashboxNestedInput
@@ -124454,6 +129633,7 @@ export namespace Prisma {
     tenantId?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
     name?: JsonNullValueInput | InputJsonValue
+    branchId?: NullableStringFieldUpdateOperationsInput | string | null
     balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -124470,6 +129650,7 @@ export namespace Prisma {
     tenantId?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
     name?: JsonNullValueInput | InputJsonValue
+    branchId?: NullableStringFieldUpdateOperationsInput | string | null
     balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -124755,6 +129936,8 @@ export namespace Prisma {
     units?: UnitUpdateManyWithoutTenantNestedInput
     items?: ItemUpdateManyWithoutTenantNestedInput
     parties?: PartyUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUpdateManyWithoutTenantNestedInput
@@ -124814,6 +129997,8 @@ export namespace Prisma {
     units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
     items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
     parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUncheckedUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUncheckedUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUncheckedUpdateManyWithoutTenantNestedInput
@@ -125060,6 +130245,8 @@ export namespace Prisma {
     units?: UnitUpdateManyWithoutTenantNestedInput
     items?: ItemUpdateManyWithoutTenantNestedInput
     parties?: PartyUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUpdateManyWithoutTenantNestedInput
@@ -125119,6 +130306,8 @@ export namespace Prisma {
     units?: UnitUncheckedUpdateManyWithoutTenantNestedInput
     items?: ItemUncheckedUpdateManyWithoutTenantNestedInput
     parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    branchWarehouses?: BranchWarehouseUncheckedUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
     cashboxes?: CashboxUncheckedUpdateManyWithoutTenantNestedInput
     bankAccounts?: BankAccountUncheckedUpdateManyWithoutTenantNestedInput
@@ -127092,6 +132281,7 @@ export namespace Prisma {
     prefix: string
     nextNumber?: number
     padding?: number
+    branchId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -127159,6 +132349,25 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type BranchCreateManyTenantInput = {
+    id?: string
+    code: string
+    name: JsonNullValueInput | InputJsonValue
+    address?: string | null
+    phone?: string | null
+    email?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BranchWarehouseCreateManyTenantInput = {
+    id?: string
+    branchId: string
+    warehouseId: string
+    createdAt?: Date | string
+  }
+
   export type WarehouseCreateManyTenantInput = {
     id?: string
     code: string
@@ -127174,6 +132383,7 @@ export namespace Prisma {
     code: string
     name: JsonNullValueInput | InputJsonValue
     currencyId: string
+    branchId?: string | null
     balance?: Decimal | DecimalJsLike | number | string
     isActive?: boolean
     createdAt?: Date | string
@@ -127657,6 +132867,7 @@ export namespace Prisma {
     padding?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    branch?: BranchUpdateOneWithoutDocumentSequencesNestedInput
     defaultSalesForTenants?: TenantUpdateManyWithoutDefaultSalesSequenceNestedInput
   }
 
@@ -127666,6 +132877,7 @@ export namespace Prisma {
     prefix?: StringFieldUpdateOperationsInput | string
     nextNumber?: IntFieldUpdateOperationsInput | number
     padding?: IntFieldUpdateOperationsInput | number
+    branchId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     defaultSalesForTenants?: TenantUncheckedUpdateManyWithoutDefaultSalesSequenceNestedInput
@@ -127677,6 +132889,7 @@ export namespace Prisma {
     prefix?: StringFieldUpdateOperationsInput | string
     nextNumber?: IntFieldUpdateOperationsInput | number
     padding?: IntFieldUpdateOperationsInput | number
+    branchId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -127904,6 +133117,69 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type BranchUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    warehouses?: BranchWarehouseUpdateManyWithoutBranchNestedInput
+    cashboxes?: CashboxUpdateManyWithoutBranchNestedInput
+    documentSequences?: DocumentSequenceUpdateManyWithoutBranchNestedInput
+  }
+
+  export type BranchUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    warehouses?: BranchWarehouseUncheckedUpdateManyWithoutBranchNestedInput
+    cashboxes?: CashboxUncheckedUpdateManyWithoutBranchNestedInput
+    documentSequences?: DocumentSequenceUncheckedUpdateManyWithoutBranchNestedInput
+  }
+
+  export type BranchUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: JsonNullValueInput | InputJsonValue
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BranchWarehouseUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    branch?: BranchUpdateOneRequiredWithoutWarehousesNestedInput
+    warehouse?: WarehouseUpdateOneRequiredWithoutBranchesNestedInput
+  }
+
+  export type BranchWarehouseUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    branchId?: StringFieldUpdateOperationsInput | string
+    warehouseId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BranchWarehouseUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    branchId?: StringFieldUpdateOperationsInput | string
+    warehouseId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type WarehouseUpdateWithoutTenantInput = {
     id?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
@@ -127912,6 +133188,7 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    branches?: BranchWarehouseUpdateManyWithoutWarehouseNestedInput
     warehouseItems?: WarehouseItemUpdateManyWithoutWarehouseNestedInput
     stockBalances?: StockBalanceUpdateManyWithoutWarehouseNestedInput
     stockMovements?: StockMovementUpdateManyWithoutWarehouseNestedInput
@@ -127928,6 +133205,7 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    branches?: BranchWarehouseUncheckedUpdateManyWithoutWarehouseNestedInput
     warehouseItems?: WarehouseItemUncheckedUpdateManyWithoutWarehouseNestedInput
     stockBalances?: StockBalanceUncheckedUpdateManyWithoutWarehouseNestedInput
     stockMovements?: StockMovementUncheckedUpdateManyWithoutWarehouseNestedInput
@@ -127955,6 +133233,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     currency?: CurrencyUpdateOneRequiredWithoutCashboxesNestedInput
+    branch?: BranchUpdateOneWithoutCashboxesNestedInput
     expenses?: ExpenseUpdateManyWithoutCashboxNestedInput
     payments?: PaymentUpdateManyWithoutCashboxNestedInput
     journalLines?: JournalLineUpdateManyWithoutCashboxNestedInput
@@ -127967,6 +133246,7 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     name?: JsonNullValueInput | InputJsonValue
     currencyId?: StringFieldUpdateOperationsInput | string
+    branchId?: NullableStringFieldUpdateOperationsInput | string | null
     balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -127983,6 +133263,7 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     name?: JsonNullValueInput | InputJsonValue
     currencyId?: StringFieldUpdateOperationsInput | string
+    branchId?: NullableStringFieldUpdateOperationsInput | string | null
     balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -129201,6 +134482,13 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type BranchWarehouseCreateManyWarehouseInput = {
+    id?: string
+    tenantId: string
+    branchId: string
+    createdAt?: Date | string
+  }
+
   export type WarehouseItemCreateManyWarehouseInput = {
     id?: string
     tenantId: string
@@ -129285,6 +134573,27 @@ export namespace Prisma {
     cashboxId: string
     createdAt?: Date | string
     updatedAt?: Date | string
+  }
+
+  export type BranchWarehouseUpdateWithoutWarehouseInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutBranchWarehousesNestedInput
+    branch?: BranchUpdateOneRequiredWithoutWarehousesNestedInput
+  }
+
+  export type BranchWarehouseUncheckedUpdateWithoutWarehouseInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    branchId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BranchWarehouseUncheckedUpdateManyWithoutWarehouseInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    branchId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type WarehouseItemUpdateWithoutWarehouseInput = {

@@ -127,7 +127,7 @@ Each directory under `apps/api/src/modules/` is a domain. **Outside a domain, im
 | `invoicing` | `invoicing` | `computeInvoicePaidState`, `CashboxesModule`/`CashboxesService`/`CreateCashboxDto`, `BankAccountsModule`/`BankAccountsService`/`CreateBankAccountDto`, `InvoiceTypesModule`/`InvoiceTypesService` |
 | `custom-fields` | `custom-fields` | `CustomFieldsModule`, `CustomFieldValuesService`, `CustomFieldsRepository` |
 | `catalog` | `catalog` | `UnitsModule`, `UnitsService` |
-| `platform` | `platform` | `CodeSequencesModule`, `CodeSequencesService` (master-data code allocation) |
+| `platform` | `platform` | `CodeSequencesModule`, `CodeSequencesService` (master-data code allocation); `BranchesModule`/`BranchesService` (tenant-structure branches) |
 | `parties`, `reports`, `files`, `audit`, `ai-agent` | — (no consumers yet) | add an `index.ts` before another domain depends on it |
 
 `ai-agent` discovers tools via `@AiToolProvider()` classes registered in each domain's own module (contract in `@devloggers/backend-core`), so it has no import edges to the domains whose tools it runs.
@@ -147,6 +147,7 @@ identity  ───► accounting (document-sequences, financial-settings, fisca
 identity  ───► accounting (currencies, opening-balances, reconciliation, accounts/bootstrap)
 identity  ───► catalog (UnitsModule/UnitsService)   # onboarding default units
 identity  ───► invoicing (CashboxesModule/Service, BankAccountsModule/Service)   # business-setup
+identity  ───► platform (BranchesModule/BranchesService)   # onboarding default branch
 reports   ───► invoicing
 ai-agent  ───► audit (AuditWriter)
 ```

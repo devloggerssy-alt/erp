@@ -19,6 +19,7 @@ import { InvoicingModule } from '../modules/invoicing/invoicing.module';
 import { PartiesModule } from '../modules/parties/parties.module';
 import { PosModule } from '../modules/pos/pos.module';
 import { CodeSequencesModule } from '../modules/platform/code-sequences/code-sequences.module';
+import { BranchesModule } from '../modules/platform/branches/branches.module';
 import { ReportsModule } from '../modules/reports/reports.module';
 import { resolveEnabledDomains, type DomainKey } from './manifest';
 
@@ -37,7 +38,7 @@ export const DOMAIN_MODULES: Record<DomainKey, Type<unknown>[]> = {
     inventory: [InventoryModule, StockLedgerModule, StockCountsModule],
     invoicing: [InvoicingModule],
     parties: [PartiesModule],
-    platform: [CodeSequencesModule],
+    platform: [CodeSequencesModule, BranchesModule],
     pos: [PosModule],
     reports: [ReportsModule],
 };

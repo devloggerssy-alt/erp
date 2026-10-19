@@ -6,6 +6,7 @@ import { SETTINGS_NAV_GROUPS, SETTINGS_NAV_ITEMS } from "./settings-navigation"
 // invisible from the other (the drift this config exists to prevent).
 const EXPECTED_HREFS = [
   "/settings/company",
+  "/settings/branches",
   "/settings/localization",
   "/settings/financial",
   "/settings/defaults",

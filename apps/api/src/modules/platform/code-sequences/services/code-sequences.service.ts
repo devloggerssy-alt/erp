@@ -2,13 +2,14 @@ import { ConflictException, Injectable } from '@nestjs/common';
 import { CodeSequencesRepository } from '../repositories/code-sequences.repository';
 
 /** Master-data entities whose codes are system-generated when omitted. */
-export type CodeSequenceEntity = 'warehouse' | 'cashbox' | 'item' | 'bank_account';
+export type CodeSequenceEntity = 'warehouse' | 'cashbox' | 'item' | 'bank_account' | 'branch';
 
 const CODE_FORMATS: Record<CodeSequenceEntity, { prefix: string; padding: number }> = {
     warehouse: { prefix: 'WH', padding: 4 },
     cashbox: { prefix: 'CSH', padding: 4 },
     item: { prefix: 'ITM', padding: 4 },
     bank_account: { prefix: 'BA', padding: 4 },
+    branch: { prefix: 'BR', padding: 4 },
 };
 
 @Injectable()

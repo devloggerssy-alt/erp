@@ -1,6 +1,7 @@
 import type { LucideIcon } from "lucide-react"
 import {
   BookOpen,
+  Building,
   Building2,
   Calendar,
   Coins,
@@ -42,6 +43,12 @@ export const SETTINGS_NAV_GROUPS: SettingsNavGroupDef[] = [
     groupKey: "company",
     items: [
       { href: "/settings/company", labelKey: "profile.navLabel", permission: "settings.manage", icon: Building2 },
+    ],
+  },
+  {
+    groupKey: "structure",
+    items: [
+      { href: "/settings/branches", labelKey: "branches.navLabel", permission: "branches.view", icon: Building },
     ],
   },
   {

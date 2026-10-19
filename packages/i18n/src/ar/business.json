@@ -41,6 +41,7 @@
       "itemCatalogEntities": "كيانات كتالوج الأصناف",
       "brands": "العلامات التجارية",
       "warehouses": "المستودعات",
+      "branches": "الفروع",
       "inventory": "أرصدة المخزون",
       "stockLedger": "حركات المخزون",
       "stockCounts": "جرد المخزون",
@@ -133,6 +134,7 @@
     "saveFailed": "فشل الحفظ",
     "groups": {
       "company": "",
+      "structure": "هيكل الأعمال",
       "preferences": "التفضيلات",
       "access": "التحكم في الوصول",
       "systemData": "بيانات النظام",
@@ -151,6 +153,9 @@
     },
     "documentSequences": {
       "navLabel": "تسلسلات المستندات"
+    },
+    "branches": {
+      "navLabel": "الفروع"
     },
     "profile": {
       "navLabel": "ملف المؤسسة ",
@@ -470,7 +475,31 @@
       "namePlaceholderEn": "e.g. Main Warehouse",
       "address": "العنوان",
       "addressPlaceholder": "موقع المستودع",
+      "branches": "الفروع",
+      "branchesPlaceholder": "اختر الفروع...",
+      "branchesDescription": "مطلوب فرع واحد على الأقل. قد يخدم المستودع عدة فروع.",
       "active": "نشط"
+    },
+    "branches": {
+      "title": "الفروع",
+      "addAction": "إضافة فرع",
+      "entity": "فرع",
+      "code": "الرمز",
+      "codePlaceholder": "مثال: MAIN",
+      "codeAuto": "تلقائي (مثال: BR-0001)",
+      "name": "الاسم",
+      "namePlaceholderAr": "مثال: الفرع الرئيسي",
+      "namePlaceholderEn": "e.g. Main Branch",
+      "address": "العنوان",
+      "addressPlaceholder": "موقع الفرع",
+      "phone": "الهاتف",
+      "phonePlaceholder": "مثال: 1234567-11-963+",
+      "email": "البريد الإلكتروني",
+      "emailPlaceholder": "e.g. main@acme.com",
+      "active": "نشط",
+      "warehouses": "المستودعات المرتبطة",
+      "noWarehouses": "لا توجد مستودعات مرتبطة بهذا الفرع بعد.",
+      "warehousesHint": "يتم تعيين المستودعات من نموذج المستودع."
     },
     "customers": {
       "title": "العملاء",

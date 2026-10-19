@@ -16,6 +16,7 @@ export const RESOURCE_PERMISSIONS: Record<string, ResourcePermissionSet> = {
     "catalog-entities": { create: "catalogEntities.create", update: "catalogEntities.update", delete: "catalogEntities.delete" },
     "item-catalog-entities": { create: "itemCatalogEntities.create", update: "itemCatalogEntities.update", delete: "itemCatalogEntities.delete" },
     brands: { create: "brands.create", update: "brands.update", delete: "brands.delete" },
+    branches: { create: "branches.create", update: "branches.update", delete: "branches.delete" },
     warehouses: { create: "warehouses.create", update: "warehouses.update", delete: "warehouses.delete" },
     parties: { create: "parties.create", update: "parties.update", delete: "parties.delete" },
     "invoice-types": { create: "invoiceTypes.create", update: "invoiceTypes.update", delete: "invoiceTypes.delete" },

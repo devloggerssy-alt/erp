@@ -41,6 +41,7 @@
       "itemCatalogEntities": "Item catalog entities",
       "brands": "Brands",
       "warehouses": "Warehouses",
+      "branches": "Branches",
       "inventory": "Stock balances",
       "stockLedger": "Stock movements",
       "stockCounts": "Stock counts",
@@ -133,6 +134,7 @@
     "saveFailed": "Save failed",
     "groups": {
       "company": "Company",
+      "structure": "Business structure",
       "preferences": "Preferences",
       "access": "Access control",
       "systemData": "System data",
@@ -151,6 +153,9 @@
     },
     "documentSequences": {
       "navLabel": "Document sequences"
+    },
+    "branches": {
+      "navLabel": "Branches"
     },
     "profile": {
       "navLabel": "Company profile",
@@ -470,7 +475,31 @@
       "namePlaceholderEn": "e.g. Main Warehouse",
       "address": "Address",
       "addressPlaceholder": "Warehouse location",
+      "branches": "Branches",
+      "branchesPlaceholder": "Select branches...",
+      "branchesDescription": "At least one branch is required. A warehouse may serve several branches.",
       "active": "Active"
+    },
+    "branches": {
+      "title": "Branches",
+      "addAction": "Add Branch",
+      "entity": "Branch",
+      "code": "Code",
+      "codePlaceholder": "e.g. MAIN",
+      "codeAuto": "Auto (e.g. BR-0001)",
+      "name": "Name",
+      "namePlaceholderAr": "مثال: الفرع الرئيسي",
+      "namePlaceholderEn": "e.g. Main Branch",
+      "address": "Address",
+      "addressPlaceholder": "Branch location",
+      "phone": "Phone",
+      "phonePlaceholder": "e.g. +963-11-1234567",
+      "email": "Email",
+      "emailPlaceholder": "e.g. main@acme.com",
+      "active": "Active",
+      "warehouses": "Linked warehouses",
+      "noWarehouses": "No warehouses linked to this branch yet.",
+      "warehousesHint": "Warehouses are assigned from the warehouse form."
     },
     "customers": {
       "title": "Customers",

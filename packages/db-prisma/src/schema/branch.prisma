@@ -1,0 +1,45 @@
+// ─── Branch ───────────────────────────────────────────────────────────────────
+/// Operational division of a Tenant ("Business Location" in the UI). Carries an
+/// operational identity only — no legal name or tax registration; the Tenant is
+/// the legal entity. See docs/adr/0005 and docs/adr/0007.
+model Branch {
+    id        String   @id @default(uuid())
+    tenantId  String   @map("tenant_id")
+    code      String
+    name      Json     @db.JsonB // LocalizedString: { ar: string; en?: string }
+    address   String?
+    phone     String?
+    email     String?
+    isActive  Boolean  @default(true) @map("is_active")
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+
+    tenant            Tenant             @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+    warehouses        BranchWarehouse[]
+    cashboxes         Cashbox[]
+    documentSequences DocumentSequence[]
+
+    @@unique([tenantId, code])
+    @@index([tenantId])
+    @@map("branches")
+}
+
+// ─── Branch ⇄ Warehouse ───────────────────────────────────────────────────────
+/// Many-to-many: a warehouse must belong to at least one branch; a branch may
+/// have zero warehouses. Enforced at the API boundary, not by the schema.
+model BranchWarehouse {
+    id          String   @id @default(uuid())
+    tenantId    String   @map("tenant_id")
+    branchId    String   @map("branch_id")
+    warehouseId String   @map("warehouse_id")
+    createdAt   DateTime @default(now()) @map("created_at")
+
+    tenant    Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+    branch    Branch    @relation(fields: [branchId], references: [id], onDelete: Cascade)
+    warehouse Warehouse @relation(fields: [warehouseId], references: [id], onDelete: Cascade)
+
+    @@unique([branchId, warehouseId])
+    @@index([tenantId])
+    @@index([warehouseId])
+    @@map("branch_warehouses")
+}

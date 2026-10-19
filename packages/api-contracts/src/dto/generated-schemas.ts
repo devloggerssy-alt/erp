@@ -68,6 +68,11 @@ export type CreateWarehouseDto = components['schemas']['CreateWarehouseDto']
 export type UpdateWarehouseDto = components['schemas']['UpdateWarehouseDto']
 export type PostOpeningBalanceDto = components['schemas']['PostOpeningBalanceDto']
 
+// ── Platform (tenant structure) ──
+export type CreateBranchDto = components['schemas']['CreateBranchDto']
+export type UpdateBranchDto = components['schemas']['UpdateBranchDto']
+export type BranchResponseDto = components['schemas']['BranchResponseDto']
+
 // ── Invoicing & payments ──
 export type CreateInvoiceTypeDto = components['schemas']['CreateInvoiceTypeDto']
 export type UpdateInvoiceTypeDto = components['schemas']['UpdateInvoiceTypeDto']
