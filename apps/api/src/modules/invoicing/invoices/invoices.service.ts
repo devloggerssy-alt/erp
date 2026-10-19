@@ -24,6 +24,7 @@ export class InvoicesService {
         direction?: string;
         status?: string;
         partyId?: string;
+        branchId?: string;
         search?: string;
         searchIn?: string;
         page?: number;
@@ -36,6 +37,7 @@ export class InvoicesService {
         const where: any = { tenantId };
         if (filters.status) where.status = filters.status;
         if (filters.partyId) where.partyId = filters.partyId;
+        if (filters.branchId) where.branchId = filters.branchId;
         if (filters.direction) {
             where.invoiceType = { direction: filters.direction };
         }
@@ -121,6 +123,8 @@ export class InvoicesService {
             throw new BadRequestException('Invoice must have at least one line');
         }
 
+        await this.assertBranchAssignable(tenantId, dto.branchId, dto.warehouseId);
+
         // Determine document type from invoice type
         const invoiceType = await this.prisma.invoiceType.findFirst({
             where: { id: dto.invoiceTypeId, tenantId },
@@ -147,6 +151,7 @@ export class InvoicesService {
                 dueDate: dto.dueDate ? new Date(dto.dueDate) : null,
                 partyId: dto.partyId,
                 warehouseId: dto.warehouseId,
+                branchId: dto.branchId,
                 fiscalPeriodId: dto.fiscalPeriodId,
                 currencyId: dto.currencyId,
                 exchangeRate: dto.exchangeRate ?? 1,
@@ -239,6 +244,16 @@ export class InvoicesService {
         if (dto.currencyId) updateData.currencyId = dto.currencyId;
         if (dto.notes !== undefined) updateData.notes = dto.notes;
 
+        if (dto.branchId !== undefined || dto.warehouseId !== undefined) {
+            const branchId = dto.branchId ?? existing.branchId;
+            const warehouseId = dto.warehouseId !== undefined ? dto.warehouseId : existing.warehouseId;
+            if (!branchId) {
+                throw new BadRequestException('Invoice must have a branch assigned');
+            }
+            await this.assertBranchAssignable(tenantId, branchId, warehouseId);
+        }
+        if (dto.branchId !== undefined) updateData.branchId = dto.branchId;
+
         if (dto.lines && dto.lines.length > 0) {
             // Delete existing lines and recreate
             await this.prisma.invoiceLine.deleteMany({ where: { invoiceId: id } });
@@ -297,6 +312,34 @@ export class InvoicesService {
         );
 
         return this.findById(tenantId, invoiceId);
+    }
+
+    /**
+     * Refuses a branch that is not in the tenant, and a warehouse that is not
+     * linked to the invoice's branch. A missing warehouse is allowed — only a
+     * warehouse that is set must belong to the branch.
+     */
+    private async assertBranchAssignable(
+        tenantId: string,
+        branchId: string,
+        warehouseId: string | null | undefined,
+    ): Promise<void> {
+        const branch = await this.prisma.branch.findFirst({
+            where: { id: branchId, tenantId },
+            select: { id: true },
+        });
+        if (!branch) {
+            throw new NotFoundException('Branch not found');
+        }
+        if (!warehouseId) return;
+
+        const link = await this.prisma.branchWarehouse.findFirst({
+            where: { tenantId, branchId, warehouseId },
+            select: { id: true },
+        });
+        if (!link) {
+            throw new BadRequestException('The selected warehouse is not linked to the invoice branch');
+        }
     }
 
     async delete(tenantId: string, id: string): Promise<void> {

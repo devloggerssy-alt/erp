@@ -51,6 +51,7 @@ export class InvoicePresenter {
         const party = 'party' in entity ? entity.party : undefined;
         const partyContact = party && isDetailedParty(party) ? party : undefined;
         const warehouse = 'warehouse' in entity ? entity.warehouse : undefined;
+        const branch = 'branch' in entity ? entity.branch : undefined;
         const currency = 'currency' in entity ? entity.currency : undefined;
         const allocations = 'paymentAllocations' in entity ? entity.paymentAllocations : undefined;
 
@@ -76,6 +77,12 @@ export class InvoicePresenter {
             // warehouse.name is a LocalizedString ({ ar, en }) — resolve to the request locale.
             warehouseName: warehouse?.name
                 ? this.locale.resolve(toLocalizedString(warehouse.name))
+                : undefined,
+            branchId: entity.branchId ?? null,
+            branchCode: branch?.code,
+            // branch.name is a LocalizedString ({ ar, en }) — resolve to the request locale.
+            branchName: branch?.name
+                ? this.locale.resolve(toLocalizedString(branch.name))
                 : undefined,
             fiscalPeriodId: entity.fiscalPeriodId,
             currencyId: entity.currencyId,

@@ -20,7 +20,7 @@ describe('InvoicePostingService — perpetual', () => {
     it('purchase: reports a PURCHASE_RECEIPT at net unit cost and capitalizes stock lines', async () => {
         const { svc, prisma, tx, movements, postingFacade } = deps();
         prisma.invoice.findFirst.mockResolvedValue({
-            id: 'inv', status: 'DRAFT', warehouseId: 'w1', fiscalPeriodId: 'fp', date: new Date(), number: 'P1',
+            id: 'inv', status: 'DRAFT', warehouseId: 'w1', branchId: 'b1', fiscalPeriodId: 'fp', date: new Date(), number: 'P1',
             exchangeRate: 1, subtotal: 600, discountAmount: 0, taxAmount: 0, total: 600, partyId: 'p1',
             invoiceType: { direction: 'PURCHASE', affectsStock: true }, lines: [stockLine],
             fiscalPeriod: { status: 'OPEN' },
@@ -32,6 +32,7 @@ describe('InvoicePostingService — perpetual', () => {
         }));
         const [, intent] = (postingFacade.record as jest.Mock).mock.calls[0];
         expect(intent.inventoryAmount).toBe(600);
+        expect(intent.branchId).toBe('b1');
     });
 
     it('purchase: capitalizes stock at NET-of-discount cost so GL debit equals ledger cost', async () => {
@@ -52,7 +53,7 @@ describe('InvoicePostingService — perpetual', () => {
     it('sale: cogsTotal is the magnitude of the SALE_ISSUE valueDelta, no rate applied', async () => {
         const { svc, prisma, movements, postingFacade } = deps(-6);
         prisma.invoice.findFirst.mockResolvedValue({
-            id: 'inv', status: 'DRAFT', warehouseId: 'w1', fiscalPeriodId: 'fp', date: new Date(), number: 'S1',
+            id: 'inv', status: 'DRAFT', warehouseId: 'w1', branchId: 'b1', fiscalPeriodId: 'fp', date: new Date(), number: 'S1',
             exchangeRate: 1, subtotal: 1000, discountAmount: 0, taxAmount: 0, total: 1000, partyId: 'p1',
             invoiceType: { direction: 'SALE', affectsStock: true }, lines: [{ ...stockLine, quantity: 2, unitPrice: 500, total: 1000 }],
             fiscalPeriod: { status: 'OPEN' },
@@ -63,6 +64,7 @@ describe('InvoicePostingService — perpetual', () => {
         }));
         const [, intent] = (postingFacade.record as jest.Mock).mock.calls[0];
         expect(intent.cogsTotal).toBe(6);
+        expect(intent.branchId).toBe('b1');
     });
 
     it('rejects posting to a CLOSED period', async () => {

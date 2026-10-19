@@ -695,6 +695,7 @@
       "dueDate": "Due Date",
       "invoiceType": "Invoice Type",
       "warehouse": "Warehouse",
+      "branch": "Branch",
       "fiscalPeriod": "Fiscal Period",
       "currency": "Currency",
       "exchangeRate": "Exchange Rate",

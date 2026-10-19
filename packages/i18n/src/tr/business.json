@@ -691,6 +691,7 @@
       "dueDate": "Vade Tarihi",
       "invoiceType": "Fatura Türü",
       "warehouse": "Depo",
+      "branch": "Şube",
       "fiscalPeriod": "Mali Dönem",
       "currency": "Para Birimi",
       "exchangeRate": "Döviz Kuru",

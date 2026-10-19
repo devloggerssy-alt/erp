@@ -17,7 +17,7 @@ import { InvoicePresenter } from './presenters/invoice.presenter';
 import { CreateInvoiceDto, UpdateInvoiceDto, AddInvoicePaymentDto, InvoiceResponseDto } from './dto';
 import { JwtAuthGuard, PermissionsGuard } from '../../identity/auth/guards';
 import { CurrentUser, RequestUser } from '../../identity/auth/decorators';
-import { RequirePermission } from '@devloggers/backend-core';
+import { RequirePermission, ApiFilterQuery, type FilterSchema, type ParsedFilters } from '@devloggers/backend-core';
 import { ApiResponseBuilder } from '../../../common/api/api-response-builder';
 import {
     ApiStandardErrors,
@@ -25,6 +25,11 @@ import {
     ApiOkResponsePaginated,
     ApiCreatedResponseStandard,
 } from '../../../common/decorators/api-swagger.decorators';
+
+/** Filterable fields exposed to the dashboard list (meta.filterOptions). */
+export const INVOICE_FILTER_SCHEMA: FilterSchema = [
+    { field: 'branchId', type: 'id', operators: ['$eq'], foreignResourceKey: 'branches' },
+];
 
 @ApiTags('Invoices')
 @Controller('invoices')
@@ -43,10 +48,12 @@ export class InvoicesController {
     @ApiQuery({ name: 'direction', required: false, enum: ['PURCHASE', 'SALE'] })
     @ApiQuery({ name: 'status', required: false, enum: ['DRAFT', 'POSTED', 'CANCELLED'] })
     @ApiQuery({ name: 'partyId', required: false })
+    @ApiQuery({ name: 'branchId', required: false, description: 'Filter to one branch (also available as filters[branchId][$eq])' })
     @ApiQuery({ name: 'search', required: false, description: 'Free-text search value' })
     @ApiQuery({ name: 'searchIn', required: false, description: 'Comma-separated fields: number, partyName' })
     @ApiQuery({ name: 'page', required: false })
     @ApiQuery({ name: 'limit', required: false })
+    @ApiFilterQuery(INVOICE_FILTER_SCHEMA)
     @ApiOkResponsePaginated(InvoiceResponseDto, { description: 'Paginated list of invoices' })
     @ApiStandardErrors()
     async findAll(
@@ -54,15 +61,23 @@ export class InvoicesController {
         @Query('direction') direction?: string,
         @Query('status') status?: string,
         @Query('partyId') partyId?: string,
+        @Query('branchId') branchId?: string,
+        @Query('filters') filters?: ParsedFilters,
         @Query('search') search?: string,
         @Query('searchIn') searchIn?: string,
         @Query('page') page?: number,
         @Query('limit') limit?: number,
     ) {
+        const branchCondition = filters?.branchId;
+        const filteredBranchId =
+            branchId ??
+            (branchCondition && '$eq' in branchCondition ? String(branchCondition.$eq) : undefined);
+
         const result = await this.invoicesService.findAll(user.tenantId, {
             direction,
             status,
             partyId,
+            branchId: filteredBranchId,
             search,
             searchIn,
             page: page ? Number(page) : 1,
@@ -78,6 +93,7 @@ export class InvoicesController {
                 limit: result.limit,
                 totalPages: Math.ceil(result.total / result.limit),
             },
+            filterOptions: ApiResponseBuilder.buildListFilterOptions(INVOICE_FILTER_SCHEMA),
         });
     }
 

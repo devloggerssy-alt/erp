@@ -5,6 +5,7 @@ import { PlusIcon } from "lucide-react"
 import type {
     InvoiceTypesClient,
     WarehousesClient,
+    BranchesClient,
     FiscalPeriodsClient,
     CurrenciesClient,
     CashboxesClient,
@@ -83,6 +84,15 @@ function InvoiceHeaderFields({
             </div>
             <InvoicePartySelect label={partyTitle} partyTypes={PARTY_TYPES_BY_DIRECTION[direction]} disabled={disabled} />
 
+            <RhfResourceSelect<InvoiceFormValues, "branch", BranchesClient, InvoiceRelationalField>
+                name="branch"
+                label={t("branch")}
+                client={(api) => api.branches}
+                getLabel={(it) => `${it.code} — ${it.name}`}
+                getValue={(it) => it}
+                required
+                disabled={disabled}
+            />
             <RhfResourceSelect<InvoiceFormValues, "warehouse", WarehousesClient, InvoiceRelationalField>
                 name="warehouse"
                 label={t("warehouse")}

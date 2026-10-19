@@ -6,6 +6,8 @@ function buildDeps() {
     const prisma = {
         invoiceType: { findFirst: jest.fn() },
         invoice: { create: jest.fn(), findFirst: jest.fn() },
+        branch: { findFirst: jest.fn().mockResolvedValue({ id: 'branch-1' }) },
+        branchWarehouse: { findFirst: jest.fn().mockResolvedValue({ id: 'link-1' }) },
     } as any;
     const documentSequencesService = { getNextNumber: jest.fn().mockResolvedValue('SINV-00001') } as any;
     const postingService = { postPurchaseInvoice: jest.fn(), postSalesInvoice: jest.fn() } as any;
@@ -19,6 +21,7 @@ const baseDto: CreateInvoiceDto = {
     invoiceTypeId: 'type-1',
     date: '2026-04-14',
     partyId: 'party-1',
+    branchId: 'branch-1',
     fiscalPeriodId: 'fp-1',
     currencyId: 'cur-1',
     lines: [{ itemId: 'item-1', unitId: 'unit-1', quantity: 1, unitPrice: 1000 }],

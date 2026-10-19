@@ -28,6 +28,8 @@ export interface PostInput {
     description: string;
     exchangeRate: number;
     userId: string;
+    /** Branch derived from the source document; null when the document has none. */
+    branchId?: string | null;
     lines: PostingJournalLine[];
     reversalOfId?: string;
     reversalDate?: Date;
@@ -102,6 +104,7 @@ export class JournalPostingService {
                 description: input.description,
                 status: 'POSTED',
                 exchangeRate: input.exchangeRate,
+                branchId: input.branchId ?? null,
                 postedAt: new Date(),
                 createdBy: input.userId,
                 reversalOfId: input.reversalOfId,
@@ -164,6 +167,7 @@ export class JournalPostingService {
             description: input.description,
             exchangeRate: input.exchangeRate,
             userId: input.userId,
+            branchId: original.branchId ?? null,
             lines: reversedLines,
             reversalOfId: original.id,
             reversalDate: input.reversalDate,

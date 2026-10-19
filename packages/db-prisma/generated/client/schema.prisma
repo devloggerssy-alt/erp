@@ -78,6 +78,9 @@ model JournalEntry {
   number         String
   date           DateTime
   fiscalPeriodId String             @map("fiscal_period_id")
+  /// Branch derived from the source document at posting time, never chosen by
+  /// a human. Nullable in the DB for backfill safety + pre-#32 documents.
+  branchId       String?            @map("branch_id")
   referenceType  ReferenceType?     @map("reference_type")
   referenceId    String?            @map("reference_id")
   description    String?
@@ -93,12 +96,14 @@ model JournalEntry {
 
   tenant       Tenant         @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   fiscalPeriod FiscalPeriod   @relation(fields: [fiscalPeriodId], references: [id])
+  branch       Branch?        @relation(fields: [branchId], references: [id], onDelete: Restrict)
   reversalOf   JournalEntry?  @relation("JournalReversals", fields: [reversalOfId], references: [id])
   reversedBy   JournalEntry[] @relation("JournalReversals")
   lines        JournalLine[]
 
   @@unique([tenantId, number])
   @@index([tenantId])
+  @@index([tenantId, branchId])
   @@index([referenceType, referenceId])
   @@map("journal_entries")
 }
@@ -301,6 +306,8 @@ model Branch {
   warehouses        BranchWarehouse[]
   cashboxes         Cashbox[]
   documentSequences DocumentSequence[]
+  invoices          Invoice[]
+  journalEntries    JournalEntry[]
 
   @@unique([tenantId, code])
   @@index([tenantId])
@@ -775,6 +782,9 @@ model Invoice {
   dueDate         DateTime?     @map("due_date")
   partyId         String        @map("party_id")
   warehouseId     String?       @map("warehouse_id")
+  /// Branch the invoice is attributed to. Nullable in the DB for backfill
+  /// safety; required at the API boundary (Phase 1.1, #32).
+  branchId        String?       @map("branch_id")
   fiscalPeriodId  String        @map("fiscal_period_id")
   currencyId      String        @map("currency_id")
   /// Exchange rate of the invoice currency to tenant base currency, locked at posting time.
@@ -801,6 +811,7 @@ model Invoice {
   invoiceType        InvoiceType         @relation(fields: [invoiceTypeId], references: [id])
   party              Party               @relation(fields: [partyId], references: [id])
   warehouse          Warehouse?          @relation(fields: [warehouseId], references: [id])
+  branch             Branch?             @relation(fields: [branchId], references: [id], onDelete: Restrict)
   fiscalPeriod       FiscalPeriod        @relation(fields: [fiscalPeriodId], references: [id])
   currency           Currency            @relation(fields: [currencyId], references: [id])
   lines              InvoiceLine[]
@@ -810,6 +821,7 @@ model Invoice {
   @@unique([tenantId, clientRequestId])
   @@index([tenantId])
   @@index([tenantId, status])
+  @@index([tenantId, branchId])
   @@map("invoices")
 }
 

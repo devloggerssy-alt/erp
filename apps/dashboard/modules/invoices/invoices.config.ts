@@ -77,6 +77,7 @@ export const invoiceFormSchema = z.object({
     dueDate: z.string().optional(),
     party: relational,
     warehouse: optionalRelational,
+    branch: relational,
     fiscalPeriod: relational,
     currency: relational,
     exchangeRate: z.coerce.number().gt(0).default(1),
@@ -89,6 +90,7 @@ export const invoiceFormSchema = z.object({
     const required = [
         ["invoiceType", "Invoice type is required"],
         ["party", "Party is required"],
+        ["branch", "Branch is required"],
         ["fiscalPeriod", "Fiscal period is required"],
         ["currency", "Currency is required"],
     ] as const
@@ -123,6 +125,7 @@ export const DEFAULT_INVOICE_FORM_VALUES: InvoiceFormValues = {
     dueDate: "",
     party: null,
     warehouse: null,
+    branch: null,
     fiscalPeriod: null,
     currency: null,
     exchangeRate: 1,
@@ -166,6 +169,7 @@ export function mapInvoiceToFormValues(data: unknown): InvoiceFormValues {
         dueDate: resolved?.dueDate ? new Date(resolved.dueDate).toISOString().split("T")[0]! : "",
         party: resolved?.partyId ? { id: resolved.partyId } : null,
         warehouse: resolved?.warehouseId ? { id: resolved.warehouseId } : null,
+        branch: resolved?.branchId ? { id: resolved.branchId } : null,
         fiscalPeriod: resolved?.fiscalPeriodId ? { id: resolved.fiscalPeriodId } : null,
         currency: resolved?.currencyId ? { id: resolved.currencyId } : null,
         exchangeRate: Number(resolved?.exchangeRate) || 1,
@@ -187,6 +191,7 @@ export function toCreateInvoiceDto(values: InvoiceFormValues, options?: { comple
         dueDate: values.dueDate || undefined,
         partyId: values.party?.id ?? "",
         warehouseId: values.warehouse?.id || undefined,
+        branchId: values.branch?.id ?? "",
         fiscalPeriodId: values.fiscalPeriod?.id ?? "",
         currencyId: values.currency?.id ?? "",
         exchangeRate: values.exchangeRate,
@@ -218,6 +223,7 @@ export function toUpdateInvoiceDto(values: InvoiceFormValues): UpdateInvoiceBody
         dueDate: values.dueDate || undefined,
         partyId: values.party?.id ?? "",
         warehouseId: values.warehouse?.id || undefined,
+        branchId: values.branch?.id || undefined,
         currencyId: values.currency?.id ?? "",
         notes: values.notes || undefined,
         lines: values.lines.map((line, index) => ({

@@ -21306,6 +21306,12 @@ paths:
           in: query
           schema:
             type: string
+        - name: branchId
+          required: false
+          in: query
+          description: Filter to one branch (also available as filters[branchId][$eq])
+          schema:
+            type: string
         - name: search
           required: false
           in: query
@@ -21328,6 +21334,29 @@ paths:
           in: query
           schema:
             type: number
+        - name: filters
+          required: false
+          in: query
+          style: deepObject
+          explode: true
+          description: >-
+            Structured filters. Example:
+            filters[branchId][$eq]=018e1234-abcd-7000-a001-000000000001
+          schema:
+            type: object
+            properties:
+              branchId:
+                type: object
+                description: Filter on `branchId` (id)
+                properties:
+                  $eq:
+                    type: string
+                    example: 018e1234-abcd-7000-a001-000000000001
+                example:
+                  $eq: 018e1234-abcd-7000-a001-000000000001
+            example:
+              branchId:
+                $eq: 018e1234-abcd-7000-a001-000000000001
       responses:
         '200':
           description: Paginated list of invoices
@@ -32477,6 +32506,17 @@ components:
         warehouseName:
           type: string
           example: Main Warehouse
+        branchId:
+          type: string
+          nullable: true
+          default: null
+          example: 00000000-0000-4000-ab01-000000000001
+        branchCode:
+          type: string
+          example: MAIN
+        branchName:
+          type: string
+          example: Main Branch
         fiscalPeriodId:
           type: string
           default: ''
@@ -32659,6 +32699,12 @@ components:
           type: string
           example: 00000000-0000-4000-ab00-000000000001
           description: Warehouse ID (Main Warehouse)
+        branchId:
+          type: string
+          example: 00000000-0000-4000-ab01-000000000001
+          description: >-
+            Branch ID the invoice is attributed to (must be linked to the
+            warehouse when one is set)
         fiscalPeriodId:
           type: string
           example: 00000000-0000-4000-a400-000000000001
@@ -32712,6 +32758,7 @@ components:
         - invoiceTypeId
         - date
         - partyId
+        - branchId
         - fiscalPeriodId
         - currencyId
         - lines
@@ -32732,6 +32779,10 @@ components:
           type: string
           example: 00000000-0000-4000-ab00-000000000001
           description: Warehouse ID
+        branchId:
+          type: string
+          example: 00000000-0000-4000-ab01-000000000001
+          description: Branch ID (must be linked to the warehouse when one is set)
         currencyId:
           type: string
           example: 00000000-0000-4000-a300-000000000001

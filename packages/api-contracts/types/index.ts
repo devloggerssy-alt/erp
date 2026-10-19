@@ -7586,6 +7586,15 @@ export interface components {
             warehouseId: string | null;
             /** @example Main Warehouse */
             warehouseName?: string;
+            /**
+             * @default null
+             * @example 00000000-0000-4000-ab01-000000000001
+             */
+            branchId: string | null;
+            /** @example MAIN */
+            branchCode?: string;
+            /** @example Main Branch */
+            branchName?: string;
             /** @default  */
             fiscalPeriodId: string;
             /** @default  */
@@ -7728,6 +7737,11 @@ export interface components {
              */
             warehouseId?: string;
             /**
+             * @description Branch ID the invoice is attributed to (must be linked to the warehouse when one is set)
+             * @example 00000000-0000-4000-ab01-000000000001
+             */
+            branchId: string;
+            /**
              * @description Fiscal period ID (2026)
              * @example 00000000-0000-4000-a400-000000000001
              */
@@ -7792,6 +7806,11 @@ export interface components {
              * @example 00000000-0000-4000-ab00-000000000001
              */
             warehouseId?: string;
+            /**
+             * @description Branch ID (must be linked to the warehouse when one is set)
+             * @example 00000000-0000-4000-ab01-000000000001
+             */
+            branchId?: string;
             /**
              * @description Currency ID
              * @example 00000000-0000-4000-a300-000000000001
@@ -23839,12 +23858,27 @@ export interface operations {
                 direction?: "PURCHASE" | "SALE";
                 status?: "DRAFT" | "POSTED" | "CANCELLED";
                 partyId?: string;
+                /** @description Filter to one branch (also available as filters[branchId][$eq]) */
+                branchId?: string;
                 /** @description Free-text search value */
                 search?: string;
                 /** @description Comma-separated fields: number, partyName */
                 searchIn?: string;
                 page?: number;
                 limit?: number;
+                /** @description Structured filters. Example: filters[branchId][$eq]=018e1234-abcd-7000-a001-000000000001 */
+                filters?: {
+                    /**
+                     * @description Filter on `branchId` (id)
+                     * @example {
+                     *       "$eq": "018e1234-abcd-7000-a001-000000000001"
+                     *     }
+                     */
+                    branchId?: {
+                        /** @example 018e1234-abcd-7000-a001-000000000001 */
+                        $eq?: string;
+                    };
+                };
             };
             header?: never;
             path?: never;

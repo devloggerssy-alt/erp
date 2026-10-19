@@ -117,6 +117,7 @@ export function useInvoiceForm({
             fiscalPeriod: "fiscalPeriod",
             currency: "currency",
             warehouse: "warehouse",
+            branch: "branch",
             openingPaymentCashbox: "cashbox",
         },
     })

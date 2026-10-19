@@ -87,6 +87,7 @@ export class AccountingPostingFacade {
             description: intent.description,
             exchangeRate: intent.exchangeRate,
             userId: intent.userId,
+            branchId: intent.branchId ?? null,
             lines,
         });
 

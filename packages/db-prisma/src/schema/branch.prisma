@@ -18,6 +18,8 @@ model Branch {
     warehouses        BranchWarehouse[]
     cashboxes         Cashbox[]
     documentSequences DocumentSequence[]
+    invoices          Invoice[]
+    journalEntries    JournalEntry[]
 
     @@unique([tenantId, code])
     @@index([tenantId])

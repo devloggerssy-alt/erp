@@ -19,6 +19,8 @@ export interface PostingIntentBase {
     exchangeRate: number;
     /** The id of the domain entity this posting is about (invoice id, payment id, …). */
     referenceId: string;
+    /** Branch the source document is attributed to; stamped on the journal entry. */
+    branchId?: string;
     description: string;
 }
 

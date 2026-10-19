@@ -696,6 +696,7 @@
       "dueDate": "تاريخ الاستحقاق",
       "invoiceType": "نوع الفاتورة",
       "warehouse": "المستودع",
+      "branch": "الفرع",
       "fiscalPeriod": "الفترة المالية",
       "currency": "العملة",
       "exchangeRate": "سعر الصرف",

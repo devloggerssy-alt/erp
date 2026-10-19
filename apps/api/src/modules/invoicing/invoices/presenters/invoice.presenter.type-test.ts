@@ -9,6 +9,7 @@ type InvoiceListItem = Prisma.InvoiceGetPayload<{
     invoiceType: { select: { code: true; name: true; direction: true } };
     party: { select: { name: true; code: true } };
     warehouse: { select: { name: true; code: true } };
+    branch: { select: { code: true; name: true } };
     currency: { select: { code: true; symbol: true } };
     paymentAllocations: { select: { amount: true } };
     _count: { select: { lines: true } };
@@ -19,6 +20,7 @@ type InvoiceDetail = Prisma.InvoiceGetPayload<{
     invoiceType: true;
     party: true;
     warehouse: true;
+    branch: true;
     currency: true;
     fiscalPeriod: true;
     lines: {

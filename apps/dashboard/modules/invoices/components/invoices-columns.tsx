@@ -184,6 +184,14 @@ export function createInvoicesColumns(
             },
         },
         {
+            accessorKey: "branchName",
+            header: ({ column }) => <ColumnHeader column={column} title={t("branch")} />,
+            cell: ({ row }) => {
+                const name = row.original.branchName
+                return name ? <span>{name}</span> : <span className="text-muted-foreground">—</span>
+            },
+        },
+        {
             accessorKey: "date",
             header: ({ column }) => <ColumnHeader column={column} title={t("date")} />,
             cell: ({ row }) => {

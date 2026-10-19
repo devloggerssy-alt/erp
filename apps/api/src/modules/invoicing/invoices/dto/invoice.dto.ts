@@ -97,6 +97,11 @@ export class CreateInvoiceDto {
     @IsString()
     warehouseId?: string;
 
+    @ApiProperty({ example: '00000000-0000-4000-ab01-000000000001', description: 'Branch ID the invoice is attributed to (must be linked to the warehouse when one is set)' })
+    @IsString()
+    @IsNotEmpty()
+    branchId!: string;
+
     @ApiProperty({ example: '00000000-0000-4000-a400-000000000001', description: 'Fiscal period ID (2026)' })
     @IsString()
     @IsNotEmpty()
@@ -162,6 +167,11 @@ export class UpdateInvoiceDto {
     @IsOptional()
     @IsString()
     warehouseId?: string;
+
+    @ApiPropertyOptional({ example: '00000000-0000-4000-ab01-000000000001', description: 'Branch ID (must be linked to the warehouse when one is set)' })
+    @IsOptional()
+    @IsString()
+    branchId?: string;
 
     @ApiPropertyOptional({ example: '00000000-0000-4000-a300-000000000001', description: 'Currency ID' })
     @IsOptional()
@@ -276,6 +286,11 @@ export class InvoiceResponseDto {
 
     @ApiPropertyOptional({ type: 'string', nullable: true }) warehouseId: string | null = null;
     @ApiPropertyOptional({ type: 'string', example: 'Main Warehouse' }) warehouseName?: string;
+
+    @ApiPropertyOptional({ type: 'string', nullable: true, example: '00000000-0000-4000-ab01-000000000001' })
+    branchId: string | null = null;
+    @ApiPropertyOptional({ type: 'string', example: 'MAIN' }) branchCode?: string;
+    @ApiPropertyOptional({ type: 'string', example: 'Main Branch' }) branchName?: string;
 
     @ApiProperty({ type: 'string' }) fiscalPeriodId: string = '';
     @ApiProperty({ type: 'string' }) currencyId: string = '';

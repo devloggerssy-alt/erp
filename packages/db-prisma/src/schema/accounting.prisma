@@ -78,6 +78,9 @@ model JournalEntry {
     number         String
     date           DateTime
     fiscalPeriodId String             @map("fiscal_period_id")
+    /// Branch derived from the source document at posting time, never chosen by
+    /// a human. Nullable in the DB for backfill safety + pre-#32 documents.
+    branchId       String?            @map("branch_id")
     referenceType  ReferenceType?     @map("reference_type")
     referenceId    String?            @map("reference_id")
     description    String?
@@ -93,12 +96,14 @@ model JournalEntry {
 
     tenant       Tenant       @relation(fields: [tenantId], references: [id], onDelete: Cascade)
     fiscalPeriod FiscalPeriod @relation(fields: [fiscalPeriodId], references: [id])
+    branch       Branch?      @relation(fields: [branchId], references: [id], onDelete: Restrict)
     reversalOf   JournalEntry?  @relation("JournalReversals", fields: [reversalOfId], references: [id])
     reversedBy   JournalEntry[] @relation("JournalReversals")
     lines        JournalLine[]
 
     @@unique([tenantId, number])
     @@index([tenantId])
+    @@index([tenantId, branchId])
     @@index([referenceType, referenceId])
     @@map("journal_entries")
 }
