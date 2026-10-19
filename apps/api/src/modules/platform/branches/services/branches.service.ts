@@ -99,6 +99,23 @@ export class BranchesService extends CrudService<
         }
     }
 
+    /** Refuses deactivating the branch currently set as the tenant's default. */
+    protected override async beforeUpdate(
+        tenantId: string,
+        id: string,
+        dto: UpdateBranchDto,
+        existing: Branch,
+    ): Promise<void> {
+        if (dto.isActive !== false || !existing.isActive) return;
+
+        const defaultBranchId = await this.branchesRepository.getDefaultBranchId(tenantId);
+        if (defaultBranchId === id) {
+            throw new ConflictException(
+                'Cannot deactivate the default branch. Select another default branch first.',
+            );
+        }
+    }
+
     // ── Consumed by the inventory (warehouse) domain ─────────────────────────────
 
     /** Refuses branch ids that are empty or do not belong to the tenant. */

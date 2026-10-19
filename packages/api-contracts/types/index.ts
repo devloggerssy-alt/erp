@@ -6247,6 +6247,12 @@ export interface components {
              * @example 00000000-0000-4000-a700-000000000005
              */
             defaultUnitId: string | null;
+            /**
+             * @description Branch pre-filled on creation forms, or null
+             * @default null
+             * @example 00000000-0000-4000-ab01-000000000001
+             */
+            defaultBranchId: string | null;
         };
         SettingsResponseDto: {
             /**
@@ -6279,7 +6285,8 @@ export interface components {
             /**
              * @default {
              *       "defaultWarehouseId": null,
-             *       "defaultUnitId": null
+             *       "defaultUnitId": null,
+             *       "defaultBranchId": null
              *     }
              */
             defaults: components["schemas"]["DefaultsSettingsDto"];
@@ -6313,6 +6320,8 @@ export interface components {
             defaultWarehouseId?: string | null;
             /** @example 00000000-0000-4000-a700-000000000005 */
             defaultUnitId?: string | null;
+            /** @example 00000000-0000-4000-ab01-000000000001 */
+            defaultBranchId?: string | null;
         };
         FormDefaultFiscalPeriodDto: {
             /**
@@ -6394,6 +6403,23 @@ export interface components {
              */
             abbreviation: string;
         };
+        FormDefaultBranchDto: {
+            /**
+             * @default
+             * @example 00000000-0000-4000-ab01-000000000001
+             */
+            id: string;
+            /**
+             * @default
+             * @example MAIN
+             */
+            code: string;
+            /**
+             * @default
+             * @example Main Branch
+             */
+            name: string;
+        };
         FormDefaultAccountDto: {
             /**
              * @default
@@ -6437,6 +6463,11 @@ export interface components {
              * @default null
              */
             unit: components["schemas"]["FormDefaultUnitDto"] | null;
+            /**
+             * @description Tenant default branch, or first active branch, or null (a deleted reference degrades to empty)
+             * @default null
+             */
+            branch: components["schemas"]["FormDefaultBranchDto"] | null;
             /**
              * @description FinancialSetting.defaultReceivableAccountId, or null if not configured
              * @default null

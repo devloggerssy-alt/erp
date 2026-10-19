@@ -215,6 +215,8 @@
       "failed": "Varsayılanlar kaydedilemedi",
       "defaultWarehouse": "Varsayılan depo",
       "defaultWarehousePlaceholder": "İlk aktif depo",
+      "defaultBranch": "Varsayılan şube",
+      "defaultBranchPlaceholder": "İlk aktif şube",
       "defaultUnit": "Varsayılan temel birim",
       "defaultUnitPlaceholder": "İlk aktif birim"
     },

@@ -26,12 +26,21 @@ export function DefaultsForm() {
       api.tenants.updateSettings({
         defaultWarehouseId: values.defaultWarehouseId || null,
         defaultUnitId: values.defaultUnitId || null,
+        defaultBranchId: values.defaultBranchId || null,
       }),
     messages: { saving: t("saving"), saved: t("saved"), failed: t("failed") },
   })
 
   return (
     <SettingsSectionCard ctrl={ctrl} title={t("title")} description={t("description")}>
+      <RhfResourceSelect
+        name="defaultBranchId"
+        label={t("defaultBranch")}
+        placeholder={t("defaultBranchPlaceholder")}
+        client={(api) => api.branches}
+        getLabel={(it) => `${it.code} — ${it.name}`}
+        disabled={ctrl.isBusy}
+      />
       <RhfResourceSelect
         name="defaultWarehouseId"
         label={t("defaultWarehouse")}

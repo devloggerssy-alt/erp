@@ -131,12 +131,14 @@ export function mapSettingsToDocumentsValues(data: unknown): DocumentsFormValues
 export const defaultsSchema = z.object({
   defaultWarehouseId: z.string().optional(),
   defaultUnitId: z.string().optional(),
+  defaultBranchId: z.string().optional(),
 })
 export type DefaultsFormValues = z.infer<typeof defaultsSchema>
 
 export const DEFAULT_DEFAULTS_VALUES: DefaultsFormValues = {
   defaultWarehouseId: (registryDefaults.defaultWarehouseId as string | null) ?? "",
   defaultUnitId: (registryDefaults.defaultUnitId as string | null) ?? "",
+  defaultBranchId: (registryDefaults.defaultBranchId as string | null) ?? "",
 }
 
 export function mapSettingsToDefaultsValues(data: unknown): DefaultsFormValues {
@@ -144,5 +146,6 @@ export function mapSettingsToDefaultsValues(data: unknown): DefaultsFormValues {
   return {
     defaultWarehouseId: (g.defaultWarehouseId as string) ?? "",
     defaultUnitId: (g.defaultUnitId as string) ?? "",
+    defaultBranchId: (g.defaultBranchId as string) ?? "",
   }
 }

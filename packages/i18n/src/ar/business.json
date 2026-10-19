@@ -215,6 +215,8 @@
       "failed": "تعذّر حفظ الافتراضيات",
       "defaultWarehouse": "المستودع الافتراضي",
       "defaultWarehousePlaceholder": "أول مستودع نشط",
+      "defaultBranch": "الفرع الافتراضي",
+      "defaultBranchPlaceholder": "أول فرع نشط",
       "defaultUnit": "وحدة القياس الأساسية الافتراضية",
       "defaultUnitPlaceholder": "أول وحدة نشطة"
     },

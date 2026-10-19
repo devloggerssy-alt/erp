@@ -3,7 +3,7 @@ import { z } from "zod"
 export type SettingCategory = "localization" | "financial" | "documents" | "defaults"
 
 /** Entity types whose ids may be stored as reference-typed settings values. */
-export type SettingReference = "warehouse" | "unit"
+export type SettingReference = "warehouse" | "unit" | "branch"
 
 export interface SettingDef {
   category: SettingCategory
@@ -65,6 +65,12 @@ export const settingsRegistry = {
     schema: z.string().uuid().nullable(),
     default: null,
     ref: "unit",
+  },
+  defaultBranchId: {
+    category: "defaults",
+    schema: z.string().uuid().nullable(),
+    default: null,
+    ref: "branch",
   },
 } as const satisfies Record<string, SettingDef>
 

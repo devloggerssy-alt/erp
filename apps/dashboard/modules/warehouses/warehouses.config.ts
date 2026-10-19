@@ -58,6 +58,7 @@ export const warehousesFormConfig: ResourceFormConfig<WarehouseFormValues, Creat
     schema: warehouseFormSchema,
     defaultValues: DEFAULT_WAREHOUSE_FORM_VALUES,
     mapToFormValues: mapWarehouseToFormValues,
+    defaults: { branches: "branch" },
     toCreate: (values) => ({
         code: values.code?.trim() || undefined,
         name: { ar: values.name.ar.trim(), en: values.name.en?.trim() || undefined },

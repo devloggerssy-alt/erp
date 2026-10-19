@@ -32,12 +32,14 @@ describe("settings registry helpers", () => {
     expect(grouped.financial.defaultTaxRate).toBe(0)
     expect(grouped.documents.showLogoOnDocuments).toBe(true)
     expect(grouped.defaults.defaultWarehouseId).toBeNull()
+    expect(grouped.defaults.defaultBranchId).toBeNull()
     expect("timezone" in grouped.financial).toBe(false)
   })
 
   it("getSettingRef returns the reference target only for id-valued keys", () => {
     expect(getSettingRef("defaultWarehouseId")).toBe("warehouse")
     expect(getSettingRef("defaultUnitId")).toBe("unit")
+    expect(getSettingRef("defaultBranchId")).toBe("branch")
     expect(getSettingRef("timezone")).toBeUndefined()
     expect(getSettingRef("ghost")).toBeUndefined()
   })

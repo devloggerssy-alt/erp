@@ -53,6 +53,7 @@ export class SettingsService {
         const flat = mergeWithDefaults(settingRows);
         const defaultWarehouseId = flat.defaultWarehouseId as string | null;
         const defaultUnitId = flat.defaultUnitId as string | null;
+        const defaultBranchId = flat.defaultBranchId as string | null;
 
         const fiscalPeriod = fiscalPeriodRow
             ? { id: fiscalPeriodRow.id, name: fiscalPeriodRow.name }
@@ -102,6 +103,21 @@ export class SettingsService {
                 orderBy: { createdAt: 'asc' },
             }));
 
+        // A default branch deleted since it was saved no longer resolves; this
+        // degrades to the first active branch (or null) instead of erroring.
+        const branchRow =
+            (defaultBranchId
+                ? await this.prisma.branch.findFirst({
+                      where: { id: defaultBranchId, tenantId, isActive: true },
+                      select: { id: true, code: true, name: true },
+                  })
+                : null) ??
+            (await this.prisma.branch.findFirst({
+                where: { tenantId, isActive: true },
+                select: { id: true, code: true, name: true },
+                orderBy: { createdAt: 'asc' },
+            }));
+
         // No fallback to "first active account" here, unlike warehouse/unit: an
         // arbitrary account could be the wrong type (not AR/AP) or non-postable,
         // so this stays null until the tenant explicitly configures it.
@@ -131,6 +147,10 @@ export class SettingsService {
             ? { id: unitRow.id, name: this.locale.resolve(toLocalizedString(unitRow.name)), abbreviation: unitRow.abbreviation }
             : null;
 
+        const branch = branchRow
+            ? { id: branchRow.id, code: branchRow.code, name: this.locale.resolve(toLocalizedString(branchRow.name)) }
+            : null;
+
         const toAccountDefault = (id: string | null | undefined) => {
             const row = id ? accountById.get(id) : undefined;
             return row ? { id: row.id, code: row.code, name: this.locale.resolve(toLocalizedString(row.name)) } : null;
@@ -138,7 +158,7 @@ export class SettingsService {
         const receivableAccount = toAccountDefault(financialSetting?.defaultReceivableAccountId);
         const payableAccount = toAccountDefault(financialSetting?.defaultPayableAccountId);
 
-        return { fiscalPeriod, currency, cashbox, warehouse, unit, receivableAccount, payableAccount };
+        return { fiscalPeriod, currency, cashbox, warehouse, unit, branch, receivableAccount, payableAccount };
     }
 
     async update(tenantId: string, patch: Record<string, unknown>): Promise<GroupedSettings> {
@@ -196,6 +216,13 @@ export class SettingsService {
             case 'unit':
                 return (
                     (await this.prisma.unit.findFirst({
+                        where: { id, tenantId },
+                        select: { id: true },
+                    })) !== null
+                );
+            case 'branch':
+                return (
+                    (await this.prisma.branch.findFirst({
                         where: { id, tenantId },
                         select: { id: true },
                     })) !== null

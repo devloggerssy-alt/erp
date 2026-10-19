@@ -20,6 +20,9 @@ export interface BranchReferenceCounts {
     documents: number;
 }
 
+/** Settings-registry key holding the tenant's default branch id (see api-contracts). */
+const DEFAULT_BRANCH_SETTING_KEY = 'defaultBranchId';
+
 @Injectable()
 export class BranchesRepository extends CrudRepository<Branch, Prisma.BranchDelegate> {
     constructor(private readonly prisma: PrismaService) {
@@ -130,5 +133,14 @@ export class BranchesRepository extends CrudRepository<Branch, Prisma.BranchDele
             where: { id: tenantId },
             select: { name: true, address: true, phone: true },
         });
+    }
+
+    /** The id stored in the `defaultBranchId` settings-registry row, or null. */
+    async getDefaultBranchId(tenantId: string): Promise<string | null> {
+        const row = await this.prisma.tenantSetting.findFirst({
+            where: { tenantId, key: DEFAULT_BRANCH_SETTING_KEY },
+            select: { value: true },
+        });
+        return typeof row?.value === 'string' ? row.value : null;
     }
 }

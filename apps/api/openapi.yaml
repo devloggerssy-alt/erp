@@ -30776,6 +30776,12 @@ components:
           default: null
           example: 00000000-0000-4000-a700-000000000005
           description: Base unit pre-filled on item creation forms, or null
+        defaultBranchId:
+          type: string
+          nullable: true
+          default: null
+          example: 00000000-0000-4000-ab01-000000000001
+          description: Branch pre-filled on creation forms, or null
     SettingsResponseDto:
       type: object
       properties:
@@ -30807,6 +30813,7 @@ components:
           default:
             defaultWarehouseId: null
             defaultUnitId: null
+            defaultBranchId: null
           allOf:
             - $ref: '#/components/schemas/DefaultsSettingsDto'
       required:
@@ -30869,6 +30876,10 @@ components:
           type: string
           nullable: true
           example: 00000000-0000-4000-a700-000000000005
+        defaultBranchId:
+          type: string
+          nullable: true
+          example: 00000000-0000-4000-ab01-000000000001
     FormDefaultFiscalPeriodDto:
       type: object
       properties:
@@ -30959,6 +30970,25 @@ components:
         - id
         - name
         - abbreviation
+    FormDefaultBranchDto:
+      type: object
+      properties:
+        id:
+          type: string
+          default: ''
+          example: 00000000-0000-4000-ab01-000000000001
+        code:
+          type: string
+          default: ''
+          example: MAIN
+        name:
+          type: string
+          default: ''
+          example: Main Branch
+      required:
+        - id
+        - code
+        - name
     FormDefaultAccountDto:
       type: object
       properties:
@@ -31011,6 +31041,14 @@ components:
           description: Tenant default base unit, or first active unit, or null
           allOf:
             - $ref: '#/components/schemas/FormDefaultUnitDto'
+        branch:
+          nullable: true
+          default: null
+          description: >-
+            Tenant default branch, or first active branch, or null (a deleted
+            reference degrades to empty)
+          allOf:
+            - $ref: '#/components/schemas/FormDefaultBranchDto'
         receivableAccount:
           nullable: true
           default: null

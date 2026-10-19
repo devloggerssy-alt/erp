@@ -48,6 +48,9 @@ export class DefaultsSettingsDto {
 
     @ApiPropertyOptional({ type: 'string', nullable: true, example: '00000000-0000-4000-a700-000000000005', description: 'Base unit pre-filled on item creation forms, or null' })
     defaultUnitId: string | null = null;
+
+    @ApiPropertyOptional({ type: 'string', nullable: true, example: '00000000-0000-4000-ab01-000000000001', description: 'Branch pre-filled on creation forms, or null' })
+    defaultBranchId: string | null = null;
 }
 
 export class SettingsResponseDto {
@@ -109,6 +112,15 @@ export class FormDefaultUnitDto {
     abbreviation: string = '';
 }
 
+export class FormDefaultBranchDto {
+    @ApiProperty({ type: 'string', example: '00000000-0000-4000-ab01-000000000001' })
+    id: string = '';
+    @ApiProperty({ type: 'string', example: 'MAIN' })
+    code: string = '';
+    @ApiProperty({ type: 'string', example: 'Main Branch' })
+    name: string = '';
+}
+
 export class FormDefaultAccountDto {
     @ApiProperty({ type: 'string', example: '00000000-0000-4000-a600-000000000004' })
     id: string = '';
@@ -133,6 +145,9 @@ export class FormDefaultsResponseDto {
 
     @ApiPropertyOptional({ type: () => FormDefaultUnitDto, nullable: true, description: 'Tenant default base unit, or first active unit, or null' })
     unit: FormDefaultUnitDto | null = null;
+
+    @ApiPropertyOptional({ type: () => FormDefaultBranchDto, nullable: true, description: 'Tenant default branch, or first active branch, or null (a deleted reference degrades to empty)' })
+    branch: FormDefaultBranchDto | null = null;
 
     @ApiPropertyOptional({ type: () => FormDefaultAccountDto, nullable: true, description: 'FinancialSetting.defaultReceivableAccountId, or null if not configured' })
     receivableAccount: FormDefaultAccountDto | null = null;
@@ -187,4 +202,7 @@ export class UpdateSettingsDto {
 
     @ApiPropertyOptional({ type: 'string', nullable: true, example: '00000000-0000-4000-a700-000000000005' })
     defaultUnitId?: string | null;
+
+    @ApiPropertyOptional({ type: 'string', nullable: true, example: '00000000-0000-4000-ab01-000000000001' })
+    defaultBranchId?: string | null;
 }

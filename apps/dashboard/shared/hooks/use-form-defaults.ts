@@ -8,7 +8,15 @@ import { useApi } from "@/shared/useApi"
 import { unwrapApiData } from "./unwrap-api-data"
 
 /** Relational values the API can pre-fill on creation forms. */
-export type FormDefaultKey = "fiscalPeriod" | "currency" | "warehouse" | "unit" | "cashbox" | "receivableAccount" | "payableAccount"
+export type FormDefaultKey =
+    | "fiscalPeriod"
+    | "currency"
+    | "warehouse"
+    | "unit"
+    | "branch"
+    | "cashbox"
+    | "receivableAccount"
+    | "payableAccount"
 
 export type FormDefaults = {
     fiscalPeriod?: { id: string; name: string } | null
@@ -16,6 +24,7 @@ export type FormDefaults = {
     cashbox?: { id: string; code: string; name: string } | null
     warehouse?: { id: string; code: string; name: string } | null
     unit?: { id: string; name: string; abbreviation: string } | null
+    branch?: { id: string; code: string; name: string } | null
     receivableAccount?: { id: string; code: string; name: string } | null
     payableAccount?: { id: string; code: string; name: string } | null
 }
@@ -62,8 +71,11 @@ export function useApplyFormDefaults<TValues extends FieldValues>({
         for (const [field, key] of Object.entries(map) as Array<[Path<TValues>, FormDefaultKey]>) {
             const value = defaults[key]
             if (!value) continue
-            if (!isEmptyValue(form.getValues(field))) continue
-            form.setValue(field, value as PathValue<TValues, typeof field>, { shouldDirty: false })
+            const current = form.getValues(field)
+            if (!isEmptyValue(current)) continue
+            // Multi-selects hold their default(s) as an array; single selects as the object.
+            const next = Array.isArray(current) ? [value] : value
+            form.setValue(field, next as PathValue<TValues, typeof field>, { shouldDirty: false })
         }
     }, [enabled, defaults, form]) // eslint-disable-line react-hooks/exhaustive-deps
 }

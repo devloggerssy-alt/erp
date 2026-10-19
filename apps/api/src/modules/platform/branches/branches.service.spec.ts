@@ -16,6 +16,7 @@ function build(overrides: Record<string, unknown> = {}) {
                 replaceBranchWarehouses: jest.fn().mockResolvedValue(undefined),
                 countReferences: jest.fn().mockResolvedValue({ warehouses: 0, cashboxes: 0, documents: 0 }),
                 getTenantDefaults: jest.fn().mockResolvedValue(null),
+                getDefaultBranchId: jest.fn().mockResolvedValue(null),
                 ...overrides,
         };
         const presenter = {
@@ -143,5 +144,32 @@ describe('BranchesService.createDefault', () => {
 
                 expect(created).toBe(false);
                 expect(repository.create).not.toHaveBeenCalled();
+        });
+});
+
+describe('BranchesService — deactivating the default branch', () => {
+        it('refuses deactivating the branch currently set as the tenant default', async () => {
+                const { service, repository } = build({
+                        findByIdOrFail: jest.fn().mockResolvedValue({ id: 'b1', tenantId: 't1', isActive: true }),
+                        getDefaultBranchId: jest.fn().mockResolvedValue('b1'),
+                });
+
+                await expect(service.update('t1', 'b1', { isActive: false } as never)).rejects.toThrow(
+                        ConflictException,
+                );
+                expect(repository.update).not.toHaveBeenCalled();
+        });
+
+        it('allows deactivating a branch that is not the default', async () => {
+                const { service, repository } = build({
+                        findByIdOrFail: jest.fn().mockResolvedValue({ id: 'b1', tenantId: 't1', isActive: true }),
+                        getDefaultBranchId: jest.fn().mockResolvedValue('b2'),
+                        update: jest.fn().mockResolvedValue({ id: 'b1', tenantId: 't1', isActive: false }),
+                        findByIdWithWarehouses: jest.fn().mockResolvedValue({ id: 'b1', tenantId: 't1', isActive: false }),
+                });
+
+                await service.update('t1', 'b1', { isActive: false } as never);
+
+                expect(repository.update).toHaveBeenCalled();
         });
 });
