@@ -86,6 +86,9 @@ describe('settings endpoints — default branch', () => {
                 ]),
             }),
         );
+        expect(prisma.branch.findFirst).toHaveBeenCalledWith(
+            expect.objectContaining({ where: expect.objectContaining({ id: BRANCH_ID, tenantId: 't1' }) }),
+        );
         expect(repository.upsertMany).not.toHaveBeenCalled();
     });
 
@@ -116,12 +119,13 @@ describe('settings endpoints — default branch', () => {
         expect(res.body.data.branch).toEqual({ id: BRANCH_ID, code: 'MAIN', name: 'Main Branch' });
     });
 
-    it('GET /settings/defaults degrades a deleted branch reference to empty', async () => {
+    it('GET /settings/defaults degrades a deleted branch reference to empty without falling back', async () => {
         repository.findAll.mockResolvedValue([{ key: 'defaultBranchId', value: BRANCH_ID }]);
         prisma.branch.findFirst.mockResolvedValue(null);
 
         const res = await request(app.getHttpServer()).get('/settings/defaults').expect(200);
 
         expect(res.body.data.branch).toBeNull();
+        expect(prisma.branch.findFirst).toHaveBeenCalledTimes(1);
     });
 });

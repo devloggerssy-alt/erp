@@ -216,7 +216,7 @@
       "defaultWarehouse": "Default warehouse",
       "defaultWarehousePlaceholder": "First active warehouse",
       "defaultBranch": "Default branch",
-      "defaultBranchPlaceholder": "First active branch",
+      "defaultBranchPlaceholder": "Select a branch...",
       "defaultUnit": "Default base unit",
       "defaultUnitPlaceholder": "First active unit"
     },

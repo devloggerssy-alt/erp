@@ -6464,7 +6464,7 @@ export interface components {
              */
             unit: components["schemas"]["FormDefaultUnitDto"] | null;
             /**
-             * @description Tenant default branch, or first active branch, or null (a deleted reference degrades to empty)
+             * @description Tenant default branch, or null when unset or its reference was deleted
              * @default null
              */
             branch: components["schemas"]["FormDefaultBranchDto"] | null;

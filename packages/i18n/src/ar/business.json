@@ -216,7 +216,7 @@
       "defaultWarehouse": "المستودع الافتراضي",
       "defaultWarehousePlaceholder": "أول مستودع نشط",
       "defaultBranch": "الفرع الافتراضي",
-      "defaultBranchPlaceholder": "أول فرع نشط",
+      "defaultBranchPlaceholder": "اختر فرعاً...",
       "defaultUnit": "وحدة القياس الأساسية الافتراضية",
       "defaultUnitPlaceholder": "أول وحدة نشطة"
     },

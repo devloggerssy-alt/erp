@@ -146,7 +146,7 @@ export class FormDefaultsResponseDto {
     @ApiPropertyOptional({ type: () => FormDefaultUnitDto, nullable: true, description: 'Tenant default base unit, or first active unit, or null' })
     unit: FormDefaultUnitDto | null = null;
 
-    @ApiPropertyOptional({ type: () => FormDefaultBranchDto, nullable: true, description: 'Tenant default branch, or first active branch, or null (a deleted reference degrades to empty)' })
+    @ApiPropertyOptional({ type: () => FormDefaultBranchDto, nullable: true, description: 'Tenant default branch, or null when unset or its reference was deleted' })
     branch: FormDefaultBranchDto | null = null;
 
     @ApiPropertyOptional({ type: () => FormDefaultAccountDto, nullable: true, description: 'FinancialSetting.defaultReceivableAccountId, or null if not configured' })

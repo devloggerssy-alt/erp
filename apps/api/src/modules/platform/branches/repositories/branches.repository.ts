@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@devloggers/db-prisma/nest';
 import { CrudRepository } from '@devloggers/backend-core';
+import type { SettingKey } from '@devloggers/api-contracts';
 import type { Branch, Prisma } from '@devloggers/db-prisma';
 
 const BRANCH_DETAIL_INCLUDE = {
@@ -21,7 +22,7 @@ export interface BranchReferenceCounts {
 }
 
 /** Settings-registry key holding the tenant's default branch id (see api-contracts). */
-const DEFAULT_BRANCH_SETTING_KEY = 'defaultBranchId';
+const DEFAULT_BRANCH_SETTING_KEY: SettingKey = 'defaultBranchId';
 
 @Injectable()
 export class BranchesRepository extends CrudRepository<Branch, Prisma.BranchDelegate> {
@@ -137,8 +138,8 @@ export class BranchesRepository extends CrudRepository<Branch, Prisma.BranchDele
 
     /** The id stored in the `defaultBranchId` settings-registry row, or null. */
     async getDefaultBranchId(tenantId: string): Promise<string | null> {
-        const row = await this.prisma.tenantSetting.findFirst({
-            where: { tenantId, key: DEFAULT_BRANCH_SETTING_KEY },
+        const row = await this.prisma.tenantSetting.findUnique({
+            where: { tenantId_key: { tenantId, key: DEFAULT_BRANCH_SETTING_KEY } },
             select: { value: true },
         });
         return typeof row?.value === 'string' ? row.value : null;

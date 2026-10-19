@@ -216,7 +216,7 @@
       "defaultWarehouse": "Varsayılan depo",
       "defaultWarehousePlaceholder": "İlk aktif depo",
       "defaultBranch": "Varsayılan şube",
-      "defaultBranchPlaceholder": "İlk aktif şube",
+      "defaultBranchPlaceholder": "Şube seçin...",
       "defaultUnit": "Varsayılan temel birim",
       "defaultUnitPlaceholder": "İlk aktif birim"
     },

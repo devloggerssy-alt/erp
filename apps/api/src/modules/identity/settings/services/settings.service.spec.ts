@@ -65,6 +65,9 @@ describe('SettingsService — default branch reference', () => {
 
         await service.update('t1', { defaultBranchId: BRANCH_ID });
 
+        expect(prisma.branch.findFirst).toHaveBeenCalledWith(
+            expect.objectContaining({ where: expect.objectContaining({ id: BRANCH_ID, tenantId: 't1' }) }),
+        );
         expect(repository.upsertMany).toHaveBeenCalledWith(
             't1',
             [expect.objectContaining({ key: 'defaultBranchId', value: BRANCH_ID, category: 'defaults' })],
@@ -81,28 +84,23 @@ describe('SettingsService.getDefaults — default branch resolution', () => {
         const defaults = await service.getDefaults('t1');
 
         expect(defaults.branch).toEqual({ id: BRANCH_ID, code: 'MAIN', name: 'Main Branch' });
+        expect(prisma.branch.findFirst).toHaveBeenCalledWith(
+            expect.objectContaining({
+                where: expect.objectContaining({ id: BRANCH_ID, tenantId: 't1', isActive: true }),
+            }),
+        );
     });
 
-    it('degrades a reference to a deleted branch to empty instead of erroring', async () => {
+    it('degrades a reference to a deleted branch to empty instead of erroring (no silent fallback)', async () => {
         const { service, repository, prisma } = build();
         repository.findAll.mockResolvedValue([{ key: 'defaultBranchId', value: BRANCH_ID }]);
-        // explicit lookup misses (deleted); no other active branch to fall back to
+        // The configured branch was deleted. Even though another active branch
+        // could exist, the reference resolves to empty — never to a different branch.
         prisma.branch.findFirst.mockResolvedValue(null);
 
         const defaults = await service.getDefaults('t1');
 
         expect(defaults.branch).toBeNull();
-    });
-
-    it('falls back to the first active branch when the configured one is gone', async () => {
-        const { service, repository, prisma } = build();
-        repository.findAll.mockResolvedValue([{ key: 'defaultBranchId', value: BRANCH_ID }]);
-        prisma.branch.findFirst
-            .mockResolvedValueOnce(null)
-            .mockResolvedValueOnce({ id: 'b2', code: 'BR-0002', name: { ar: 'فرع' } });
-
-        const defaults = await service.getDefaults('t1');
-
-        expect(defaults.branch).toEqual({ id: 'b2', code: 'BR-0002', name: 'فرع' });
+        expect(prisma.branch.findFirst).toHaveBeenCalledTimes(1);
     });
 });

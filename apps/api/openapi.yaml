@@ -31045,8 +31045,8 @@ components:
           nullable: true
           default: null
           description: >-
-            Tenant default branch, or first active branch, or null (a deleted
-            reference degrades to empty)
+            Tenant default branch, or null when unset or its reference was
+            deleted
           allOf:
             - $ref: '#/components/schemas/FormDefaultBranchDto'
         receivableAccount:

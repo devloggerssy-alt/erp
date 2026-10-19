@@ -3,31 +3,14 @@
 import { useEffect } from "react"
 import { useQuery } from "@tanstack/react-query"
 import type { FieldValues, Path, PathValue, UseFormReturn } from "react-hook-form"
-import { tenantResource } from "@devloggers/api-contracts"
+import { tenantResource, type ApiComponents } from "@devloggers/api-contracts"
 import { useApi } from "@/shared/useApi"
 import { unwrapApiData } from "./unwrap-api-data"
 
-/** Relational values the API can pre-fill on creation forms. */
-export type FormDefaultKey =
-    | "fiscalPeriod"
-    | "currency"
-    | "warehouse"
-    | "unit"
-    | "branch"
-    | "cashbox"
-    | "receivableAccount"
-    | "payableAccount"
+/** Relational values the API can pre-fill on creation forms (generated shape). */
+type FormDefaults = ApiComponents["schemas"]["FormDefaultsResponseDto"]
 
-export type FormDefaults = {
-    fiscalPeriod?: { id: string; name: string } | null
-    currency?: { id: string; code: string; name: string } | null
-    cashbox?: { id: string; code: string; name: string } | null
-    warehouse?: { id: string; code: string; name: string } | null
-    unit?: { id: string; name: string; abbreviation: string } | null
-    branch?: { id: string; code: string; name: string } | null
-    receivableAccount?: { id: string; code: string; name: string } | null
-    payableAccount?: { id: string; code: string; name: string } | null
-}
+export type FormDefaultKey = keyof FormDefaults
 
 /** Declarative opt-in: form field name → default value to pre-fill it from. */
 export type FormDefaultsMap<TValues extends FieldValues> = Partial<
@@ -46,6 +29,7 @@ export function useFormDefaultsQuery() {
 
 function isEmptyValue(value: unknown): boolean {
     if (value == null) return true
+    if (Array.isArray(value)) return value.length === 0
     if (typeof value === "object") return !(value as { id?: string }).id
     return value === ""
 }

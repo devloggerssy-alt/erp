@@ -103,20 +103,15 @@ export class SettingsService {
                 orderBy: { createdAt: 'asc' },
             }));
 
-        // A default branch deleted since it was saved no longer resolves; this
-        // degrades to the first active branch (or null) instead of erroring.
-        const branchRow =
-            (defaultBranchId
-                ? await this.prisma.branch.findFirst({
-                      where: { id: defaultBranchId, tenantId, isActive: true },
-                      select: { id: true, code: true, name: true },
-                  })
-                : null) ??
-            (await this.prisma.branch.findFirst({
-                where: { tenantId, isActive: true },
-                select: { id: true, code: true, name: true },
-                orderBy: { createdAt: 'asc' },
-            }));
+        // ADR-0001: a reference-typed setting resolves its id, and a deleted (or
+        // inactive) reference degrades to null rather than erroring — no fallback
+        // to "first active branch", which would silently point forms elsewhere.
+        const branchRow = defaultBranchId
+            ? await this.prisma.branch.findFirst({
+                  where: { id: defaultBranchId, tenantId, isActive: true },
+                  select: { id: true, code: true, name: true },
+              })
+            : null;
 
         // No fallback to "first active account" here, unlike warehouse/unit: an
         // arbitrary account could be the wrong type (not AR/AP) or non-postable,
