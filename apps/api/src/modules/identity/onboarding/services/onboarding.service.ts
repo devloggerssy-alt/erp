@@ -160,7 +160,12 @@ export class OnboardingService {
         await this.assertNotCompleted(tenantId);
         await this.unitsService.createDefaults(tenantId);
         await this.invoiceTypesService.createDefaults(tenantId);
-        await this.branchesService.createDefault(tenantId);
+        const defaultBranchId = await this.branchesService.createDefault(tenantId);
+        if (defaultBranchId) {
+            // The branch created for a new tenant is also the default one, so
+            // creation forms pre-fill it from `/settings/defaults`.
+            await this.settingsService.update(tenantId, { defaultBranchId });
+        }
         await this.prisma.tenant.update({
             where: { id: tenantId },
             data: { onboardingCompletedAt: new Date(), onboardingStep: 6 },

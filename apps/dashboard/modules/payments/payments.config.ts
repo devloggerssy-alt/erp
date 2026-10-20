@@ -10,21 +10,21 @@ const relational = z.object({ id: z.string() }).passthrough().nullable()
 
 export const paymentFormSchema = z.object({
     type: z.enum(["RECEIPT", "PAYMENT", "ADJUSTMENT"]),
-    date: z.string().min(1, "Date is required"),
+    date: z.string().min(1, "validation.dateRequired"),
     cashbox: relational,
     branch: relational,
     party: relational,
     currency: relational,
     fiscalPeriod: relational,
-    amount: z.coerce.number().min(0.01, "Amount must be > 0"),
+    amount: z.coerce.number().min(0.01, "validation.amountPositive"),
     exchangeRate: z.coerce.number().gt(0).default(1),
     notes: z.string().optional(),
 }).superRefine((data, ctx) => {
     const required = [
-        ["cashbox", "Cashbox is required"],
-        ["branch", "Branch is required"],
-        ["currency", "Currency is required"],
-        ["fiscalPeriod", "Fiscal period is required"],
+        ["cashbox", "validation.cashboxRequired"],
+        ["branch", "validation.branchRequired"],
+        ["currency", "validation.currencyRequired"],
+        ["fiscalPeriod", "validation.fiscalPeriodRequired"],
     ] as const
     for (const [key, msg] of required) {
         if (!data[key]) {

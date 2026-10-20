@@ -1,7 +1,7 @@
 import { Injectable, ConflictException, BadRequestException } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { CrudService } from '@devloggers/backend-core';
-import { resources } from '@devloggers/api-contracts';
+import { BusinessErrorCode, resources } from '@devloggers/api-contracts';
 import type { Cashbox } from '@devloggers/db-prisma';
 import { CodeSequencesService } from '@/modules/platform';
 import { CashboxesRepository } from '../repositories/cashboxes.repository';
@@ -66,7 +66,10 @@ export class CashboxesService extends CrudService<Cashbox, CashboxResponseDto, C
 
     private async assertBranch(tenantId: string, branchId: string): Promise<void> {
         if (!(await this.cashboxesRepository.branchExists(tenantId, branchId))) {
-            throw new BadRequestException('Branch not found');
+            throw new BadRequestException({
+                code: BusinessErrorCode.BRANCH_NOT_FOUND,
+                message: 'Branch not found',
+            });
         }
     }
 }

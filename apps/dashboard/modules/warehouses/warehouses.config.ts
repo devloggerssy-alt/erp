@@ -9,7 +9,7 @@ type WarehouseResponse = ApiComponents["schemas"]["WarehouseResponseDto"]
 export type WarehouseBranchField = { id: string }
 
 const localizedStringSchema = z.object({
-    ar: z.string().trim().min(1, "Arabic name is required"),
+    ar: z.string().trim().min(1, "validation.arabicNameRequired"),
     en: z.string().trim().optional(),
 })
 
@@ -28,7 +28,7 @@ export const warehouseFormSchema = z
             ctx.addIssue({
                 code: "custom",
                 path: ["branches"],
-                message: "At least one branch is required",
+                message: "validation.warehouseBranchRequired",
             })
         }
     })

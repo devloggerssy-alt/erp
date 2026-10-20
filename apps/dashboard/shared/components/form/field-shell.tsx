@@ -1,4 +1,5 @@
 import type { FieldShellProps } from "./types"
+import { useFieldErrorMessage } from "@/shared/hooks/use-field-error-message"
 import {
   Field,
   FieldLabel,
@@ -13,8 +14,10 @@ export function FieldShell({
   required,
   children,
 }: FieldShellProps) {
+  const message = useFieldErrorMessage(error)
+
   return (
-    <Field dir="auto" data-invalid={!!error || undefined}>
+    <Field dir="auto" data-invalid={!!message || undefined}>
       {label && (
         <FieldLabel>
           {label}
@@ -23,7 +26,7 @@ export function FieldShell({
       )}
       {children}
       {description && <FieldDescription>{description}</FieldDescription>}
-      {error && <FieldError>{error}</FieldError>}
+      {message && <FieldError>{message}</FieldError>}
     </Field>
   )
 }

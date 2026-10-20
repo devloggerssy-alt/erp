@@ -16,10 +16,10 @@ export const cashboxFormSchema = z.object({
     isActive: z.boolean().optional(),
 }).superRefine((data, ctx) => {
     if (!data.currency) {
-        ctx.addIssue({ code: "custom", path: ["currency"], message: "Currency is required" })
+        ctx.addIssue({ code: "custom", path: ["currency"], message: "validation.currencyRequired" })
     }
     if (!data.branch) {
-        ctx.addIssue({ code: "custom", path: ["branch"], message: "Branch is required" })
+        ctx.addIssue({ code: "custom", path: ["branch"], message: "validation.branchRequired" })
     }
 })
 

@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { CrudService } from '@devloggers/backend-core';
-import { resources } from '@devloggers/api-contracts';
+import { BusinessErrorCode, resources } from '@devloggers/api-contracts';
 import type { Branch } from '@devloggers/db-prisma';
 import { CodeSequencesService } from '../../code-sequences/services/code-sequences.service';
 import { BranchesRepository } from '../repositories/branches.repository';
@@ -80,7 +80,10 @@ export class BranchesService extends CrudService<
         const code = dto.code?.trim();
         if (code) {
             if (await this.branchesRepository.isCodeTaken(tenantId, code)) {
-                throw new ConflictException(`A branch with code "${code}" already exists`);
+                throw new ConflictException({
+                    code: BusinessErrorCode.BRANCH_CODE_TAKEN,
+                    message: `A branch with code "${code}" already exists`,
+                });
             }
             dto.code = code;
             return;
@@ -103,9 +106,11 @@ export class BranchesService extends CrudService<
             refs.bankAccounts +
             refs.posSettings;
         if (total > 0) {
-            throw new ConflictException(
-                'Cannot delete a branch that warehouses, cashboxes, documents, payments, expenses, bank accounts or POS settings refer to. Deactivate it instead.',
-            );
+            throw new ConflictException({
+                code: BusinessErrorCode.BRANCH_IN_USE,
+                message:
+                    'Cannot delete a branch that warehouses, cashboxes, documents, payments, expenses, bank accounts or POS settings refer to. Deactivate it instead.',
+            });
         }
     }
 
@@ -120,9 +125,10 @@ export class BranchesService extends CrudService<
 
         const defaultBranchId = await this.branchesRepository.getDefaultBranchId(tenantId);
         if (defaultBranchId === id) {
-            throw new ConflictException(
-                'Cannot deactivate the default branch. Select another default branch first.',
-            );
+            throw new ConflictException({
+                code: BusinessErrorCode.BRANCH_DEFAULT_DEACTIVATE,
+                message: 'Cannot deactivate the default branch. Select another default branch first.',
+            });
         }
     }
 
@@ -131,11 +137,17 @@ export class BranchesService extends CrudService<
     /** Refuses branch ids that are empty or do not belong to the tenant. */
     async assertBranchesBelongToTenant(tenantId: string, branchIds: string[]): Promise<void> {
         if (branchIds.length === 0) {
-            throw new BadRequestException('A warehouse must belong to at least one branch');
+            throw new BadRequestException({
+                code: BusinessErrorCode.WAREHOUSE_BRANCH_REQUIRED,
+                message: 'A warehouse must belong to at least one branch',
+            });
         }
         const owned = await this.branchesRepository.countOwnedBranches(tenantId, branchIds);
         if (owned !== branchIds.length) {
-            throw new BadRequestException('One or more branches do not belong to this tenant');
+            throw new BadRequestException({
+                code: BusinessErrorCode.BRANCH_NOT_OWNED,
+                message: 'One or more branches do not belong to this tenant',
+            });
         }
     }
 
@@ -150,21 +162,22 @@ export class BranchesService extends CrudService<
 
     /**
      * Idempotently creates the tenant's default `MAIN` branch, named after the
-     * tenant. Returns false when the tenant already has a branch.
+     * tenant. Returns the new branch id, or null when the tenant already has a
+     * branch.
      */
-    async createDefault(tenantId: string): Promise<boolean> {
+    async createDefault(tenantId: string): Promise<string | null> {
         const existing = await this.branchesRepository.findMany(tenantId, { take: 1 });
-        if (existing.total > 0) return false;
+        if (existing.total > 0) return null;
 
         const tenant = await this.branchesRepository.getTenantDefaults(tenantId);
-        await this.branchesRepository.create({
+        const created = await this.branchesRepository.create({
             tenantId,
             code: 'MAIN',
             name: { ar: tenant?.name ?? 'Main' },
             address: tenant?.address ?? null,
             phone: tenant?.phone ?? null,
         });
-        return true;
+        return created.id;
     }
 
     private async assertWarehousesBelongToTenant(
@@ -173,7 +186,10 @@ export class BranchesService extends CrudService<
     ): Promise<void> {
         const owned = await this.branchesRepository.countOwnedWarehouses(tenantId, warehouseIds);
         if (owned !== warehouseIds.length) {
-            throw new BadRequestException('One or more warehouses do not belong to this tenant');
+            throw new BadRequestException({
+                code: BusinessErrorCode.WAREHOUSE_NOT_OWNED,
+                message: 'One or more warehouses do not belong to this tenant',
+            });
         }
     }
 
@@ -197,9 +213,10 @@ export class BranchesService extends CrudService<
                 branchId,
             );
             if (others === 0) {
-                throw new ConflictException(
-                    'Cannot remove the last branch from a warehouse. Assign another branch first.',
-                );
+                throw new ConflictException({
+                    code: BusinessErrorCode.WAREHOUSE_LAST_BRANCH,
+                    message: 'Cannot remove the last branch from a warehouse. Assign another branch first.',
+                });
             }
         }
     }

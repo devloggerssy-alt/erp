@@ -8,7 +8,7 @@ import type { ZodType } from "zod"
 import type { ICrudClient } from "@devloggers/api-client"
 import { useFormDialog } from "@/shared/components/form-dialog"
 import { useApi } from "@/shared/useApi"
-import { toastErrorMessage } from "@/shared/lib/utils"
+import { useApiErrorMessage } from "./use-api-error-message"
 import { useFormMutation } from "./use-form-mutation"
 import { useResourceForm } from "./use-resource-form"
 import { useApplyFormDefaults, type FormDefaultsMap } from "./use-form-defaults"
@@ -88,6 +88,7 @@ export function useResourceFormController<
     const api = useApi()
     const client = getClient(api)
     const t = useTranslations("system.resourceForm")
+    const apiErrorMessage = useApiErrorMessage()
     const { close } = useFormDialog(paramKey)
 
     const { form, isEditing, isInitializing } = useResourceForm<TValues, unknown>({
@@ -117,7 +118,7 @@ export function useResourceFormController<
                 success: isEditing
                     ? t("updated", { entity: entityLabel })
                     : t("created", { entity: entityLabel }),
-                error: (err: unknown) => toastErrorMessage(
+                error: (err: unknown) => apiErrorMessage(
                     err,
                     isEditing
                         ? t("updateFailed", { entity: entityLabel })

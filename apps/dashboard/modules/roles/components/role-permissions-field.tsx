@@ -11,6 +11,7 @@ import {
 } from "@devloggers/api-contracts"
 import { Checkbox } from "@/shared/components/ui/checkbox"
 import { FieldError } from "@/shared/components/ui/field"
+import { useFieldErrorMessage } from "@/shared/hooks/use-field-error-message"
 import type { RoleFormValues } from "../roles.config"
 
 const GROUPS = Object.entries(PERMISSION_GROUPS) as Array<
@@ -23,6 +24,7 @@ export function RolePermissionsField({ disabled }: { disabled?: boolean }) {
         name: "permissionKeys",
         disabled,
     })
+    const errorMessage = useFieldErrorMessage(fieldState.error?.message)
     const selected = new Set(field.value)
 
     const toggle = (permission: PermissionKey, checked: boolean) => {
@@ -63,7 +65,7 @@ export function RolePermissionsField({ disabled }: { disabled?: boolean }) {
                     ))}
                 </div>
             ))}
-            {fieldState.error && <FieldError>{fieldState.error.message}</FieldError>}
+            {errorMessage && <FieldError>{errorMessage}</FieldError>}
         </div>
     )
 }

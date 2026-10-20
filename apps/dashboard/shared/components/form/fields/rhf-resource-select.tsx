@@ -15,6 +15,7 @@ import {
   type ResourceMultiSelectFieldProps,
 } from "../controls/resource-select-field"
 import { Field, FieldLabel, FieldError, FieldDescription } from "@/shared/components/ui/field"
+import { useFieldErrorMessage } from "@/shared/hooks/use-field-error-message"
 import { Button } from "@/shared/components/ui/button"
 import {
   Dialog,
@@ -74,6 +75,7 @@ export function RhfResourceSelect<
     disabled: disabledProp,
   })
   const [isCreateOpen, setIsCreateOpen] = useState(false)
+  const errorMessage = useFieldErrorMessage(error?.message)
 
   const resolvedClient = typeof controlProps.client === "function"
     ? controlProps.client(api)
@@ -120,7 +122,7 @@ export function RhfResourceSelect<
           {...(controlProps as any)}
         />
         {description && <FieldDescription>{description}</FieldDescription>}
-        {error && <FieldError>{error.message}</FieldError>}
+        {errorMessage && <FieldError>{errorMessage}</FieldError>}
 
         <Dialog open={isCreateOpen} onOpenChange={(v) => { if (!v) setIsCreateOpen(false) }}>
           <DialogContent className="min-w-xl">

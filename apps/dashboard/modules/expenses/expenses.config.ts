@@ -15,13 +15,13 @@ const relational = z.object({ id: z.string() }).passthrough().nullable()
 
 export const expenseItemSchema = z.object({
     _account: z.object({ id: z.string() }).passthrough().nullable().optional(),
-    description: z.string().trim().min(1, "Description is required"),
-    amount: z.coerce.number().min(0.01, "Amount must be > 0"),
+    description: z.string().trim().min(1, "validation.descriptionRequired"),
+    amount: z.coerce.number().min(0.01, "validation.amountPositive"),
     notes: z.string().optional(),
     sortOrder: z.number().optional(),
 }).superRefine((data, ctx) => {
     if (!data._account?.id) {
-        ctx.addIssue({ code: "custom", path: ["_account"], message: "Account is required" })
+        ctx.addIssue({ code: "custom", path: ["_account"], message: "validation.accountRequired" })
     }
 })
 
@@ -30,20 +30,20 @@ export type ExpenseItemFormValues = z.infer<typeof expenseItemSchema>
 // ── Form schema ────────────────────────────────────────────────────────────────
 
 export const expenseFormSchema = z.object({
-    date: z.string().min(1, "Date is required"),
+    date: z.string().min(1, "validation.dateRequired"),
     cashbox: relational,
     branch: relational,
     currency: relational,
     fiscalPeriod: relational,
     exchangeRate: z.coerce.number().gt(0).default(1),
     notes: z.string().optional(),
-    items: z.array(expenseItemSchema).min(1, "At least one item is required"),
+    items: z.array(expenseItemSchema).min(1, "validation.itemsRequired"),
 }).superRefine((data, ctx) => {
     const required = [
-        ["cashbox", "Cashbox is required"],
-        ["branch", "Branch is required"],
-        ["currency", "Currency is required"],
-        ["fiscalPeriod", "Fiscal period is required"],
+        ["cashbox", "validation.cashboxRequired"],
+        ["branch", "validation.branchRequired"],
+        ["currency", "validation.currencyRequired"],
+        ["fiscalPeriod", "validation.fiscalPeriodRequired"],
     ] as const
     for (const [key, msg] of required) {
         if (!data[key]) {

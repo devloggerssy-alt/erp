@@ -1,4 +1,5 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
+import { BusinessErrorCode } from '@devloggers/api-contracts';
 import { SalesCheckoutFacade } from '../../../invoicing';
 import { PosSettingsService } from '../../settings/services/pos-settings.service';
 import type { CreatePosCheckoutDto, PosCheckoutResponseDto } from '../dto';
@@ -16,7 +17,10 @@ export class PosCheckoutService {
             throw new BadRequestException('POS is not set up for this tenant. An admin must provision it first.');
         }
         if (!setting.branchId) {
-            throw new BadRequestException('POS settings must have a branch assigned.');
+            throw new BadRequestException({
+                code: BusinessErrorCode.POS_BRANCH_REQUIRED,
+                message: 'POS settings must have a branch assigned.',
+            });
         }
 
         const result = await this.checkoutFacade.checkout({

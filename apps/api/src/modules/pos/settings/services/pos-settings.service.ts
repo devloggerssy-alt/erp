@@ -1,4 +1,5 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
+import { BusinessErrorCode } from '@devloggers/api-contracts';
 import { PartiesService, PartyTypeEnum } from '../../../parties';
 import { InvoiceTypesService, InvoiceDirectionEnum } from '../../../invoicing';
 import type { UpdatePosSettingDto } from '../dto';
@@ -24,7 +25,10 @@ export class PosSettingsService {
 
         const branchId = dto.branchId ?? existing.branchId;
         if (!branchId) {
-            throw new BadRequestException('POS settings must have a branch assigned');
+            throw new BadRequestException({
+                code: BusinessErrorCode.POS_BRANCH_REQUIRED,
+                message: 'POS settings must have a branch assigned',
+            });
         }
         const cashboxId = dto.cashboxId ?? existing.cashboxId;
         const warehouseId = dto.warehouseId ?? existing.warehouseId;
@@ -52,13 +56,19 @@ export class PosSettingsService {
         warehouseId: string,
     ): Promise<void> {
         if (!(await this.repo.findActiveBranch(tenantId, branchId))) {
-            throw new BadRequestException('Branch not found or inactive');
+            throw new BadRequestException({
+                code: BusinessErrorCode.BRANCH_NOT_FOUND,
+                message: 'Branch not found or inactive',
+            });
         }
 
         const cashbox = await this.repo.findActiveCashbox(tenantId, cashboxId);
         if (!cashbox) throw new BadRequestException('Cashbox not found or inactive');
         if (cashbox.branchId !== branchId) {
-            throw new BadRequestException('The selected cashbox does not belong to the POS branch');
+            throw new BadRequestException({
+                code: BusinessErrorCode.POS_CASHBOX_BRANCH_MISMATCH,
+                message: 'The selected cashbox does not belong to the POS branch',
+            });
         }
 
         if (!(await this.repo.findActiveWarehouse(tenantId, warehouseId))) {
@@ -66,7 +76,10 @@ export class PosSettingsService {
         }
 
         if (!(await this.repo.warehouseIsLinkedToBranch(tenantId, branchId, warehouseId))) {
-            throw new BadRequestException('The selected warehouse is not linked to the POS branch');
+            throw new BadRequestException({
+                code: BusinessErrorCode.POS_WAREHOUSE_BRANCH_MISMATCH,
+                message: 'The selected warehouse is not linked to the POS branch',
+            });
         }
     }
 

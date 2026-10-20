@@ -5,7 +5,7 @@ import { useMutation } from "@tanstack/react-query"
 import { toast } from "sonner"
 import { useTranslations } from "next-intl"
 import { useApi } from "@/shared/useApi"
-import { toastErrorMessage } from "@/shared/lib/utils"
+import { useApiErrorMessage } from "@/shared/hooks/use-api-error-message"
 import type { PosCartLine } from "../pos.config"
 
 function newRequestId(): string {
@@ -16,6 +16,7 @@ function newRequestId(): string {
 export function usePosCheckout() {
     const api = useApi()
     const t = useTranslations("business.pos")
+    const apiErrorMessage = useApiErrorMessage()
     const [clientRequestId, setClientRequestId] = useState(newRequestId)
 
     const mutation = useMutation({
@@ -35,7 +36,7 @@ export function usePosCheckout() {
             toast.promise(promise, {
                 loading: t("checkingOut"),
                 success: t("saleCompleted"),
-                error: (err: unknown) => toastErrorMessage(err, t("checkoutFailed")),
+                error: (err: unknown) => apiErrorMessage(err, t("checkoutFailed")),
             })
             return promise
         },

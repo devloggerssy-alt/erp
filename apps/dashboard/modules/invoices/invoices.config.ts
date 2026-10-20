@@ -45,7 +45,7 @@ export const invoiceLineSchema = z.object({
         defaultSellingPrice: z.coerce.number().nullable().optional(),
     }).nullable().optional(),
     _unit: z.object({ id: z.string() }).passthrough().nullable().optional(),
-    itemId: z.string().min(1, "Item is required"),
+    itemId: z.string().min(1, "validation.itemRequired"),
     quantity: z.coerce.number().min(0.0001, "Must be > 0"),
     unitPrice: z.coerce.number().min(0, "Must be ≥ 0"),
     discountPercent: z.coerce.number().min(0).max(100).default(0),
@@ -54,7 +54,7 @@ export const invoiceLineSchema = z.object({
     sortOrder: z.number().optional(),
 }).superRefine((data, ctx) => {
     if (!data._unit?.id) {
-        ctx.addIssue({ code: "custom", path: ["_unit"], message: "Unit is required" })
+        ctx.addIssue({ code: "custom", path: ["_unit"], message: "validation.unitRequired" })
     }
 })
 
@@ -73,7 +73,7 @@ const optionalRelational = relational.optional()
 
 export const invoiceFormSchema = z.object({
     invoiceType: relational,
-    date: z.string().min(1, "Date is required"),
+    date: z.string().min(1, "validation.dateRequired"),
     dueDate: z.string().optional(),
     party: relational,
     warehouse: optionalRelational,
@@ -82,17 +82,17 @@ export const invoiceFormSchema = z.object({
     currency: relational,
     exchangeRate: z.coerce.number().gt(0).default(1),
     notes: z.string().optional(),
-    lines: z.array(invoiceLineSchema).min(1, "At least one line is required"),
+    lines: z.array(invoiceLineSchema).min(1, "validation.lineRequired"),
     openingPayment: z.boolean().default(false),
     openingPaymentCashbox: optionalRelational,
     openingPaymentAmount: z.coerce.number().min(0).optional(),
 }).superRefine((data, ctx) => {
     const required = [
-        ["invoiceType", "Invoice type is required"],
-        ["party", "Party is required"],
-        ["branch", "Branch is required"],
-        ["fiscalPeriod", "Fiscal period is required"],
-        ["currency", "Currency is required"],
+        ["invoiceType", "validation.invoiceTypeRequired"],
+        ["party", "validation.partyRequired"],
+        ["branch", "validation.branchRequired"],
+        ["fiscalPeriod", "validation.fiscalPeriodRequired"],
+        ["currency", "validation.currencyRequired"],
     ] as const
     for (const [key, msg] of required) {
         if (!data[key]) {
@@ -100,7 +100,7 @@ export const invoiceFormSchema = z.object({
         }
     }
     if (data.openingPayment && !data.openingPaymentCashbox?.id) {
-        ctx.addIssue({ code: "custom", path: ["openingPaymentCashbox"], message: "Cashbox is required for opening payment" })
+        ctx.addIssue({ code: "custom", path: ["openingPaymentCashbox"], message: "validation.openingPaymentCashboxRequired" })
     }
 })
 

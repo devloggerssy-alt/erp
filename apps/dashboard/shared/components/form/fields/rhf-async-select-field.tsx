@@ -15,6 +15,7 @@ import {
   type AsyncMultiSelectFieldProps,
 } from "../controls/async-select-field"
 import { Field, FieldLabel, FieldError, FieldDescription } from "@/shared/components/ui/field"
+import { useFieldErrorMessage } from "@/shared/hooks/use-field-error-message"
 import { Button } from "@/shared/components/ui/button"
 import {
   Dialog,
@@ -136,6 +137,7 @@ export function RhfAsyncSelectField<
 
   const { control } = useFormContext<TValues>()
   const { field, fieldState: { error } } = useController({ name, control, disabled })
+  const errorMessage = useFieldErrorMessage(error?.message)
   const { data: options = [], isLoading } = useAsyncOptions(queryKey, source, staleTime)
   const [inputValue, setInputValue] = useState("")
   const [isCreateOpen, setIsCreateOpen] = useState(false)
@@ -189,7 +191,7 @@ export function RhfAsyncSelectField<
           {...controlProps}
         />
         {description && <FieldDescription>{description}</FieldDescription>}
-        {error && <FieldError>{error.message}</FieldError>}
+        {errorMessage && <FieldError>{errorMessage}</FieldError>}
 
         <Dialog open={isCreateOpen} onOpenChange={(v) => { if (!v) setIsCreateOpen(false) }}>
           <DialogContent className="min-w-xl">

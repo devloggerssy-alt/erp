@@ -4,12 +4,13 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { toast } from "sonner"
 import { useTranslations } from "next-intl"
 import { useApi } from "@/shared/useApi"
-import { toastErrorMessage } from "@/shared/lib/utils"
+import { useApiErrorMessage } from "@/shared/hooks/use-api-error-message"
 
 export function usePosSettings() {
     const api = useApi()
     const t = useTranslations("business.pos")
     const queryClient = useQueryClient()
+    const apiErrorMessage = useApiErrorMessage()
 
     const query = useQuery({
         queryKey: ["pos", "settings"],
@@ -22,7 +23,7 @@ export function usePosSettings() {
             toast.promise(promise, {
                 loading: t("provisioning"),
                 success: t("provisioned"),
-                error: (err: unknown) => toastErrorMessage(err, t("provisionFailed")),
+                error: (err: unknown) => apiErrorMessage(err, t("provisionFailed")),
             })
             return promise
         },

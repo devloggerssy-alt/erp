@@ -147,10 +147,11 @@ describe('BranchesService.createDefault', () => {
                 const { service, repository } = build();
                 repository.findMany.mockResolvedValue({ data: [], total: 0 });
                 repository.getTenantDefaults.mockResolvedValue({ name: 'Acme', address: 'Damascus', phone: null });
+                repository.create.mockResolvedValue({ id: 'branch-1', code: 'MAIN' });
 
                 const created = await service.createDefault('t1');
 
-                expect(created).toBe(true);
+                expect(created).toBe('branch-1');
                 expect(repository.create).toHaveBeenCalledWith(
                         expect.objectContaining({ tenantId: 't1', code: 'MAIN', name: { ar: 'Acme' } }),
                 );
@@ -162,7 +163,7 @@ describe('BranchesService.createDefault', () => {
 
                 const created = await service.createDefault('t1');
 
-                expect(created).toBe(false);
+                expect(created).toBeNull();
                 expect(repository.create).not.toHaveBeenCalled();
         });
 });

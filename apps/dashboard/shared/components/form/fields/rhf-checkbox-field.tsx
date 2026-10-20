@@ -5,6 +5,7 @@ import { useFormContext, useController } from "react-hook-form"
 import { CheckboxField, type CheckboxFieldProps } from "../controls/checkbox-field"
 import type { BaseFieldControlProps } from "../types"
 import { FieldError } from "@/shared/components/ui/field"
+import { useFieldErrorMessage } from "@/shared/hooks/use-field-error-message"
 
 type RhfCheckboxFieldProps<
   TValues extends FieldValues,
@@ -33,6 +34,7 @@ export function RhfCheckboxField<
     field,
     fieldState: { error },
   } = useController({ name, control, disabled })
+  const errorMessage = useFieldErrorMessage(error?.message)
 
   return (
     <div className="flex items-center justify-between gap-4 rounded-lg border p-4">
@@ -46,7 +48,7 @@ export function RhfCheckboxField<
         {description && (
           <p className="text-sm text-muted-foreground">{description}</p>
         )}
-        {error && <FieldError>{error.message}</FieldError>}
+        {errorMessage && <FieldError>{errorMessage}</FieldError>}
       </div>
       <CheckboxField
         {...(controlProps as any)}

@@ -9,7 +9,7 @@ type BranchResponse = ApiComponents["schemas"]["BranchResponseDto"]
 export type BranchWarehouseItem = { id: string; code?: string; name?: string }
 
 const localizedStringSchema = z.object({
-    ar: z.string().trim().min(1, "Arabic name is required"),
+    ar: z.string().trim().min(1, "validation.arabicNameRequired"),
     en: z.string().trim().optional(),
 })
 

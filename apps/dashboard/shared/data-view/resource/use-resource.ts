@@ -15,7 +15,7 @@ import {
 } from "@/shared/data-view/table-view"
 import type { ColumnDef } from "@tanstack/react-table"
 import type { ICrudClient } from "@devloggers/api-client"
-import { toastErrorMessage } from "@/shared/lib/utils"
+import { useApiErrorMessage } from "@/shared/hooks/use-api-error-message"
 import { usePermissions } from "@/shared/hooks/use-permissions"
 import { RESOURCE_PERMISSIONS } from "@/config/resource-permissions"
 import type {
@@ -35,6 +35,7 @@ export function useResource<TClient extends ICrudClient>({
 
     const api = useApi()
     const t = useTranslations("system.resource")
+    const apiErrorMessage = useApiErrorMessage()
     const client = getClient(api)
     const { can } = usePermissions()
     const permissionSet = RESOURCE_PERMISSIONS[client.key] ?? {}
@@ -64,7 +65,7 @@ export function useResource<TClient extends ICrudClient>({
             toast.promise(promise, {
                 loading: t("toastDeleting"),
                 success: t("toastDeleted"),
-                error: (err: unknown) => toastErrorMessage(err, t("toastDeleteFailed")),
+                error: (err: unknown) => apiErrorMessage(err, t("toastDeleteFailed")),
             })
             return promise
         },
