@@ -44,11 +44,15 @@ export class MetaToolsProvider implements AiToolSource {
                 description: 'Load all tools of one domain so you can call them on your next step.',
                 input: dtoInput(ToolsLoadInputDto),
                 handler: (ctx, input) => {
-                    const available = this.registry.availableDomains(ctx).includes(input.domain);
+                    const available = this.registry.availableDomains(ctx);
                     return Promise.resolve(
-                        available
+                        available.includes(input.domain)
                             ? { loadedDomain: input.domain }
-                            : { error: `Unknown or unavailable domain "${input.domain}"` },
+                            : {
+                                  error:
+                                      `Unknown or unavailable domain "${input.domain}". ` +
+                                      `Available domains: ${available.join(', ') || 'none'}`,
+                              },
                     );
                 },
             }),

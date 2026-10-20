@@ -8,6 +8,41 @@ function isToolSource(instance: unknown): instance is AiToolSource {
     return instance !== null && typeof instance === 'object' && typeof (instance as { aiTools?: unknown }).aiTools === 'function';
 }
 
+const SEARCH_LIMIT = 25;
+
+/** Filler words a model wraps around real intent ("list all available invoice tools"). */
+const SEARCH_STOP_WORDS = new Set([
+    'a', 'all', 'an', 'and', 'available', 'can', 'do', 'domain', 'domains', 'for', 'i', 'in',
+    'is', 'me', 'of', 'on', 'or', 'please', 'the', 'to', 'tool', 'tools', 'what', 'with', 'you',
+]);
+
+/**
+ * A natural-language query is rarely one substring of a tool description, so match it word by
+ * word. Without this, `tools.search("invoices create list")` returns nothing and the model
+ * concludes every non-always-loaded tool (invoicing, inventory, accounting) is unavailable.
+ */
+function searchTerms(query: string): string[] {
+    return [...new Set(
+        query
+            .toLowerCase()
+            .split(/[^a-z0-9]+/)
+            .filter((term) => term.length > 1 && !SEARCH_STOP_WORDS.has(term)),
+    )];
+}
+
+/** Name beats domain, domain beats description — a tool named `invoices.list` is the best hit. */
+function searchScore(tool: AiTool, terms: readonly string[]): number {
+    const name = tool.name.toLowerCase();
+    const domain = tool.domain.toLowerCase();
+    const description = tool.description.toLowerCase();
+    return terms.reduce((score, term) => {
+        if (name.includes(term)) return score + 3;
+        if (domain.includes(term)) return score + 2;
+        if (description.includes(term)) return score + 1;
+        return score;
+    }, 0);
+}
+
 @Injectable()
 export class AiToolRegistry implements OnApplicationBootstrap {
     private readonly logger = new Logger(AiToolRegistry.name);
@@ -71,11 +106,13 @@ export class AiToolRegistry implements OnApplicationBootstrap {
     }
 
     search(ctx: AiToolContext, query: string): { name: string; domain: string; description: string; risk: AiToolRisk }[] {
-        const needle = query.trim().toLowerCase();
-        return this.permitted(ctx)
-            .filter((tool) => !needle || `${tool.name} ${tool.description}`.toLowerCase().includes(needle))
-            .slice(0, 25)
-            .map(({ name, domain, description, risk }) => ({ name, domain, description, risk }));
+        const terms = searchTerms(query);
+        const matches = this.permitted(ctx).map((tool) => ({ tool, score: searchScore(tool, terms) }));
+        return matches
+            .filter(({ score }) => terms.length === 0 || score > 0)
+            .sort((a, b) => b.score - a.score || a.tool.name.localeCompare(b.tool.name))
+            .slice(0, SEARCH_LIMIT)
+            .map(({ tool: { name, domain, description, risk } }) => ({ name, domain, description, risk }));
     }
 
     availableDomains(ctx: AiToolContext): string[] {

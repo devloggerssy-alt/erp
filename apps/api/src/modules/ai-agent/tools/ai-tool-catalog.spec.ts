@@ -67,6 +67,23 @@ describe('AI tool catalog', () => {
         expect(names).not.toContain('invoices.list');
     });
 
+    it('finds non-loaded tools from a natural-language, multi-term query', () => {
+        const names = registry
+            .search(admin, 'invoices create list update sales purchase invoice records')
+            .map((t) => t.name);
+        expect(names).toContain('invoices.list');
+        expect(names).toContain('invoices.show');
+    });
+
+    it('finds a whole domain when the query is its key', () => {
+        const names = registry.search(admin, 'invoicing').map((t) => t.name);
+        expect(names).toContain('invoices.list');
+    });
+
+    it('returns nothing when no term matches any tool', () => {
+        expect(registry.search(admin, 'quantum flux capacitor')).toEqual([]);
+    });
+
     it('hides tools the user lacks permission for', () => {
         const cashier: AiToolContext = { ...admin, permissions: new Set<string>(['ai.use', 'items.view']) };
         expect(registry.forUser(cashier, registry.availableDomains(cashier)).map((t) => t.name).sort()).toEqual(
