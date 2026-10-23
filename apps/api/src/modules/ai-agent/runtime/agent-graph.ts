@@ -87,7 +87,8 @@ export function buildAgentGraph(deps: AgentGraphDeps) {
             allowPartial: false,
         });
         const history = trimmed.length > 0 ? trimmed : fallbackToCurrentTurn(state.messages);
-        const response = await bound.invoke([new SystemMessage(buildSystemPrompt(ctx)), ...history]);
+        const toolIndex = registry.toolIndex(ctx, state.loadedDomains);
+        const response = await bound.invoke([new SystemMessage(buildSystemPrompt(ctx, new Date(), toolIndex)), ...history]);
         return { messages: [response], decisions: {} };
     };
 

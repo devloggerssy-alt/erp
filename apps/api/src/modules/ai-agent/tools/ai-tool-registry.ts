@@ -8,40 +8,12 @@ function isToolSource(instance: unknown): instance is AiToolSource {
     return instance !== null && typeof instance === 'object' && typeof (instance as { aiTools?: unknown }).aiTools === 'function';
 }
 
-const SEARCH_LIMIT = 25;
-
-/** Filler words a model wraps around real intent ("list all available invoice tools"). */
-const SEARCH_STOP_WORDS = new Set([
-    'a', 'all', 'an', 'and', 'available', 'can', 'do', 'domain', 'domains', 'for', 'i', 'in',
-    'is', 'me', 'of', 'on', 'or', 'please', 'the', 'to', 'tool', 'tools', 'what', 'with', 'you',
-]);
-
-/**
- * A natural-language query is rarely one substring of a tool description, so match it word by
- * word. Without this, `tools.search("invoices create list")` returns nothing and the model
- * concludes every non-always-loaded tool (invoicing, inventory, accounting) is unavailable.
- */
-function searchTerms(query: string): string[] {
-    return [...new Set(
-        query
-            .toLowerCase()
-            .split(/[^a-z0-9]+/)
-            .filter((term) => term.length > 1 && !SEARCH_STOP_WORDS.has(term)),
-    )];
-}
-
-/** Name beats domain, domain beats description — a tool named `invoices.list` is the best hit. */
-function searchScore(tool: AiTool, terms: readonly string[]): number {
-    const name = tool.name.toLowerCase();
-    const domain = tool.domain.toLowerCase();
-    const description = tool.description.toLowerCase();
-    return terms.reduce((score, term) => {
-        if (name.includes(term)) return score + 3;
-        if (domain.includes(term)) return score + 2;
-        if (description.includes(term)) return score + 1;
-        return score;
-    }, 0);
-}
+export type ToolCatalogSummary = { domain: string; tools: string[] };
+export type ToolCatalogEntry = { name: string; description: string; risk: AiToolRisk };
+export type ToolCatalog =
+    | { domains: ToolCatalogSummary[] }
+    | { domain: string; tools: ToolCatalogEntry[] }
+    | { error: string; availableDomains: string[] };
 
 @Injectable()
 export class AiToolRegistry implements OnApplicationBootstrap {
@@ -105,17 +77,46 @@ export class AiToolRegistry implements OnApplicationBootstrap {
         return tool && tool.enabled && ctx.permissions.has(tool.permission) ? tool : undefined;
     }
 
-    search(ctx: AiToolContext, query: string): { name: string; domain: string; description: string; risk: AiToolRisk }[] {
-        const terms = searchTerms(query);
-        const matches = this.permitted(ctx).map((tool) => ({ tool, score: searchScore(tool, terms) }));
-        return matches
-            .filter(({ score }) => terms.length === 0 || score > 0)
-            .sort((a, b) => b.score - a.score || a.tool.name.localeCompare(b.tool.name))
-            .slice(0, SEARCH_LIMIT)
-            .map(({ tool: { name, domain, description, risk } }) => ({ name, domain, description, risk }));
+    /** Deterministic index of every permitted domain and tool, marked by loaded state. */
+    toolIndex(ctx: AiToolContext, loadedDomains: readonly string[]): string {
+        return [...this.byDomain(ctx)]
+            .map(([domain, tools]) => {
+                const loaded = ALWAYS_LOADED_DOMAINS.has(domain) || loadedDomains.includes(domain);
+                return `- ${domain} (${loaded ? 'loaded' : 'not loaded'}): ${tools.map((tool) => tool.name).join(', ')}`;
+            })
+            .join('\n');
+    }
+
+    /** Catalog for `tools.catalog`: every domain and its tool names, or one domain's tool details. */
+    catalog(ctx: AiToolContext, domain?: string): ToolCatalog {
+        const byDomain = this.byDomain(ctx);
+        if (domain === undefined) {
+            return {
+                domains: [...byDomain].map(([key, tools]) => ({
+                    domain: key,
+                    tools: tools.map((tool) => tool.name),
+                })),
+            };
+        }
+        const tools = byDomain.get(domain);
+        return tools
+            ? { domain, tools: tools.map(({ name, description, risk }) => ({ name, description, risk })) }
+            : { error: `Unknown or unavailable domain "${domain}"`, availableDomains: [...byDomain.keys()] };
     }
 
     availableDomains(ctx: AiToolContext): string[] {
-        return [...new Set(this.permitted(ctx).map((tool) => tool.domain))].sort();
+        return [...this.byDomain(ctx).keys()];
+    }
+
+    /** Permitted tools grouped by domain, both sides sorted for a stable prompt. */
+    private byDomain(ctx: AiToolContext): Map<string, AiTool[]> {
+        const byDomain = new Map<string, AiTool[]>();
+        for (const tool of this.permitted(ctx)) {
+            const tools = byDomain.get(tool.domain) ?? [];
+            tools.push(tool);
+            byDomain.set(tool.domain, tools);
+        }
+        for (const tools of byDomain.values()) tools.sort((a, b) => a.name.localeCompare(b.name));
+        return new Map([...byDomain.entries()].sort(([a], [b]) => a.localeCompare(b)));
     }
 }

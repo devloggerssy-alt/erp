@@ -2,7 +2,7 @@ import type { AiToolContext } from '@devloggers/backend-core';
 
 const LANGUAGE_BY_LOCALE: Record<string, string> = { ar: 'Arabic', tr: 'Turkish', en: 'English' };
 
-export function buildSystemPrompt(ctx: AiToolContext, now: Date = new Date()): string {
+export function buildSystemPrompt(ctx: AiToolContext, now: Date = new Date(), toolIndex = ''): string {
     const language = LANGUAGE_BY_LOCALE[ctx.locale.split('-')[0] ?? ctx.locale] ?? 'English';
     return [
         'You are the assistant inside an ERP system (catalog, parties, inventory, invoicing, accounting).',
@@ -12,8 +12,12 @@ export function buildSystemPrompt(ctx: AiToolContext, now: Date = new Date()): s
         'If a tool returns an error, explain it plainly and propose the fix. If the user rejected an action, do not retry it unless asked.',
         'Tools that take an id need a real id: find it first (e.g. customers.list or suppliers.list before reports.party-statement).',
         'Turn relative dates such as "this month" into YYYY-MM-DD dates based on today before calling a tool.',
-        'Invoices, expenses, payments, cashboxes, bank accounts and invoice types are in the invoicing domain; warehouses and stock in inventory; currencies in accounting.',
-        'If you need a capability you do not have, call tools.search, then tools.load with the domain it returns.',
+        'The tool index below lists every domain and tool you may use. Domains marked (loaded) are callable now; ' +
+            'domains marked (not loaded) are NOT callable until you call tools.load(domain). Call tools.catalog(domain) ' +
+            'for descriptions. Never invent a tool name.',
+        toolIndex ? `Tool index:\n${toolIndex}` : '',
         'Keep answers short. Use Markdown tables for lists of records.',
-    ].join('\n');
+    ]
+        .filter((line) => line.length > 0)
+        .join('\n');
 }

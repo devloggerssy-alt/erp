@@ -1,18 +1,22 @@
 import { Injectable } from '@nestjs/common';
-import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString, MaxLength } from 'class-validator';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { IsNotEmpty, IsOptional, IsString, MaxLength } from 'class-validator';
 import { AiToolProvider, defineAiTool, dtoInput, type AiTool, type AiToolSource } from '@devloggers/backend-core';
 import { AiToolRegistry } from './ai-tool-registry';
 
-export class ToolsSearchInputDto {
-    @ApiProperty({ type: 'string', description: 'What you want to do, e.g. "stock count" or "warehouse"' })
+export class ToolsCatalogInputDto {
+    @ApiPropertyOptional({
+        type: 'string',
+        description: 'Domain key from the tool index, e.g. "invoicing". Omit to list every domain and its tool names.',
+    })
+    @IsOptional()
     @IsString()
-    @MaxLength(200)
-    query!: string;
+    @MaxLength(100)
+    domain?: string;
 }
 
 export class ToolsLoadInputDto {
-    @ApiProperty({ type: 'string', description: 'Domain key returned by tools.search, e.g. "inventory"' })
+    @ApiProperty({ type: 'string', description: 'Exact domain key from the tool index, e.g. "invoicing"' })
     @IsString()
     @IsNotEmpty()
     domain!: string;
@@ -26,22 +30,24 @@ export class MetaToolsProvider implements AiToolSource {
     aiTools(): readonly AiTool[] {
         return [
             defineAiTool({
-                name: 'tools.search',
+                name: 'tools.catalog',
                 domain: 'ai-agent',
                 risk: 'read',
                 permission: 'ai.use',
                 description:
-                    'Find tools you are allowed to use that are not loaded yet. Returns name, domain, description, risk. ' +
-                    'Then call tools.load with the domain to use them.',
-                input: dtoInput(ToolsSearchInputDto),
-                handler: (ctx, input) => Promise.resolve({ tools: this.registry.search(ctx, input.query) }),
+                    'List every permitted tool domain and its tool names, or pass one domain to get its full tool ' +
+                    'descriptions and risk. Use the exact domain keys from the tool index, then call tools.load(domain).',
+                input: dtoInput(ToolsCatalogInputDto),
+                handler: (ctx, input) => Promise.resolve(this.registry.catalog(ctx, input.domain)),
             }),
             defineAiTool({
                 name: 'tools.load',
                 domain: 'ai-agent',
                 risk: 'read',
                 permission: 'ai.use',
-                description: 'Load all tools of one domain so you can call them on your next step.',
+                description:
+                    'Enable every tool of one exact domain key so you can call them on your next step. Use a domain ' +
+                    'key from the tool index or tools.catalog; loading an already-loaded domain is harmless.',
                 input: dtoInput(ToolsLoadInputDto),
                 handler: (ctx, input) => {
                     const available = this.registry.availableDomains(ctx);

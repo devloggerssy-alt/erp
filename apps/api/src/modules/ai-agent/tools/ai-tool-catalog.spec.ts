@@ -67,27 +67,45 @@ describe('AI tool catalog', () => {
         expect(names).not.toContain('invoices.list');
     });
 
-    it('finds non-loaded tools from a natural-language, multi-term query', () => {
-        const names = registry
-            .search(admin, 'invoices create list update sales purchase invoice records')
-            .map((t) => t.name);
-        expect(names).toContain('invoices.list');
-        expect(names).toContain('invoices.show');
+    it('builds a deterministic index of every permitted domain and tool', () => {
+        const index = registry.toolIndex(admin, []);
+        expect(index).toContain('- ai-agent (loaded): tools.catalog, tools.load');
+        expect(index).toContain('- invoicing (not loaded):');
+        expect(index).toContain('invoices.list');
+        expect(index).toContain('- reports (loaded):');
     });
 
-    it('finds a whole domain when the query is its key', () => {
-        const names = registry.search(admin, 'invoicing').map((t) => t.name);
-        expect(names).toContain('invoices.list');
+    it('marks a domain loaded after tools.load adds it', () => {
+        expect(registry.toolIndex(admin, ['invoicing'])).toContain('- invoicing (loaded):');
     });
 
-    it('returns nothing when no term matches any tool', () => {
-        expect(registry.search(admin, 'quantum flux capacitor')).toEqual([]);
+    it('lists every permitted domain and its tool names', () => {
+        const catalog = registry.catalog(admin);
+        if (!('domains' in catalog)) throw new Error('expected a domain summary');
+        expect(catalog.domains.find((entry) => entry.domain === 'invoicing')?.tools).toContain('invoices.list');
+    });
+
+    it('returns full tool details for one domain', () => {
+        const catalog = registry.catalog(admin, 'invoicing');
+        if (!('tools' in catalog)) throw new Error('expected domain details');
+        expect(catalog.tools.find((tool) => tool.name === 'invoices.list')).toMatchObject({ risk: 'read' });
+        expect(catalog.tools.find((tool) => tool.name === 'invoices.list')?.description).toContain('invoices');
+    });
+
+    it('lists available domains when a catalog domain is unknown', () => {
+        const catalog = registry.catalog(admin, 'nope');
+        if (!('error' in catalog)) throw new Error('expected an error');
+        expect(catalog.error).toContain('nope');
+        expect(catalog.availableDomains).toContain('invoicing');
     });
 
     it('hides tools the user lacks permission for', () => {
         const cashier: AiToolContext = { ...admin, permissions: new Set<string>(['ai.use', 'items.view']) };
         expect(registry.forUser(cashier, registry.availableDomains(cashier)).map((t) => t.name).sort()).toEqual(
-            ['items.list', 'items.show', 'tools.load', 'tools.search'],
+            ['items.list', 'items.show', 'tools.catalog', 'tools.load'],
         );
+        const catalog = registry.catalog(cashier);
+        if (!('domains' in catalog)) throw new Error('expected a domain summary');
+        expect(catalog.domains.map((entry) => entry.domain)).toEqual(['ai-agent', 'catalog']);
     });
 });

@@ -1502,6 +1502,7 @@
       "delete": "Delete",
       "search": "Search",
       "load": "Load",
+      "catalog": "Catalog",
       "balances": "Balances",
       "movements": "Movements",
       "sales-summary": "Sales summary",
